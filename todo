@@ -1,0 +1,4 @@
+Add a layer in front of the server connection layers
+    This will allow us to one day add in load balancers
+Need to determine how we hand out api keys
+Need to add logic to actually authenticate requests with api keys and HMACs
