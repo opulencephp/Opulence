@@ -43,6 +43,7 @@ class UpdateQuery extends QueryBuilders\UpdateQuery
     public function __construct($tableName, $tableAlias, $columnNamesToValues)
     {
         parent::__construct($tableName, $tableAlias, $columnNamesToValues);
+
         $this->augmentingQueryBuilder = new AugmentingQueryBuilder();
         $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);
     }

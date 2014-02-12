@@ -42,6 +42,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
     public function __construct($tableName, $columnNamesToValues)
     {
         parent::__construct($tableName, $columnNamesToValues);
+
         $this->augmentingQueryBuilder = new AugmentingQueryBuilder();
         $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);
     }
