@@ -24,7 +24,7 @@
  *
  * Programmatically builds up a database query
  */
-namespace Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/exceptions/InvalidQueryException.php");
 

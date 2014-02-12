@@ -24,8 +24,8 @@
  *
  * Contains result data from a database query
  */
-namespace Storage\Databases;
-use Storage\Databases\Exceptions;
+namespace RamODev\Storage\Databases;
+use RamODev\Storage\Databases\Exceptions;
 
 require_once(__DIR__ . "/exceptions/DatabaseException.php");
 

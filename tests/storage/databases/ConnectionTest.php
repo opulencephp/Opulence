@@ -24,8 +24,8 @@
  *
  * Tests our server connection
  */
-namespace Storage\Databases;
-use Storage\Databases\PostgreSQL\Servers;
+namespace RamODev\Storage\Databases;
+use RamODev\Storage\Databases\PostgreSQL\Servers;
 
 require_once(__DIR__ . "/../../../storage/databases/Connection.php");
 require_once(__DIR__ . "/../../../storage/databases/postgresql/servers/RDS.php");

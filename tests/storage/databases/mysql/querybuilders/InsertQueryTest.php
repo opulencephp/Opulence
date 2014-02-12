@@ -24,7 +24,7 @@
  *
  * Tests the insert query
  */
-namespace Storage\Databases\MySQL\QueryBuilders;
+namespace RamODev\Storage\Databases\MySQL\QueryBuilders;
 
 require_once(__DIR__ . "/../../../../../storage/databases/mysql/querybuilders/InsertQuery.php");
 

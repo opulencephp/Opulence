@@ -24,8 +24,8 @@
  *
  * Creates API keys
  */
-namespace API\V1\Authentication\Tokens\Factories\APIKey;
-use API\V1\Authentication\Tokens;
+namespace RamODev\V1\Authentication\Tokens\Factories\APIKey;
+use RamODev\API\V1\Authentication\Tokens;
 
 require_once(__DIR__ . "/../../Token.php");
 

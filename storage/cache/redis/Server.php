@@ -24,8 +24,8 @@
  *
  * Defines the skeleton for a cache server
  */
-namespace Storage\Cache\Redis;
-use Storage;
+namespace RamODev\Storage\Cache\Redis;
+use RamODev\Storage;
 
 require_once(__DIR__ . "/../../Server.php");
 

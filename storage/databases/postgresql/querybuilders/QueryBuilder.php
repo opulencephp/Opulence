@@ -24,8 +24,8 @@
  *
  * Programmatically builds up a PostgreSQL query
  */
-namespace Storage\Databases\PostgreSQL\QueryBuilders;
-use Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\PostgreSQL\QueryBuilders;
+use RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/../../querybuilders/QueryBuilder.php");
 require_once(__DIR__ . "/DeleteQuery.php");
@@ -68,7 +68,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
     public function select($expression)
     {
         // This code allows us to pass a variable list of parameters to a class constructor
-        $queryClass = new \ReflectionClass("\\Storage\\Databases\\PostgreSQL\\QueryBuilders\\SelectQuery");
+        $queryClass = new \ReflectionClass("\\RamODev\\Storage\\Databases\\PostgreSQL\\QueryBuilders\\SelectQuery");
 
         return $queryClass->newInstanceArgs(func_get_args());
     }

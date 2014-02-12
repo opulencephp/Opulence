@@ -24,8 +24,8 @@
  *
  * Defines a cache exception
  */
-namespace Storage\Cache\Exceptions;
-use Exceptions;
+namespace RamODev\Storage\Cache\Exceptions;
+use RamODev\Exceptions;
 
 require_once(__DIR__ . "/../../../exceptions/Exception.php");
 

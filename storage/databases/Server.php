@@ -24,8 +24,8 @@
  *
  * Provides a skeleton for database servers to extend
  */
-namespace Storage\Databases;
-use Storage;
+namespace RamODev\Storage\Databases;
+use RamODev\Storage;
 
 require_once(__DIR__ . "/../Server.php");
 

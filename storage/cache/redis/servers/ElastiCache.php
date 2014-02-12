@@ -24,9 +24,9 @@
  *
  * Defines a Redis server
  */
-namespace Storage\Cache\Redis\Servers;
-use Configs;
-use Storage\Cache\Redis;
+namespace RamODev\Storage\Cache\Redis\Servers;
+use RamODev\Configs;
+use RamODev\Storage\Cache\Redis;
 
 require_once(__DIR__ . "/../Server.php");
 require_once(__DIR__ . "/../../../../configs/StorageConfig.php");

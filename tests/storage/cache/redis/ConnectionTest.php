@@ -24,8 +24,8 @@
  *
  * Tests our cache
  */
-namespace Storage\Cache\Redis;
-use Storage\Cache\Redis\Servers;
+namespace RamODev\Storage\Cache\Redis;
+use RamODev\Storage\Cache\Redis\Servers;
 
 require_once(__DIR__ . "/../../../../storage/cache/redis/Connection.php");
 require_once(__DIR__ . "/../../../../storage/cache/redis/servers/ElastiCache.php");
@@ -112,7 +112,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testStartingTransactionWhenThereIsAlreadyATransaction()
     {
-        $this->setExpectedException("Storage\\Cache\\Exceptions\\CacheException");
+        $this->setExpectedException("RamODev\\Storage\\Cache\\Exceptions\\CacheException");
         $this->connection->connect();
         $this->connection->startTransaction();
         $this->connection->startTransaction();

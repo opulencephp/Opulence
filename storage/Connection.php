@@ -24,7 +24,7 @@
  *
  * Defines a connection to a storage device
  */
-namespace Storage;
+namespace RamODev\Storage;
 
 abstract class Connection
 {

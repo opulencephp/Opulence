@@ -24,8 +24,8 @@
  *
  * Defines a specific server
  */
-namespace Storage\Databases\PostgreSQL\Servers;
-use Configs;
+namespace RamODev\Storage\Databases\PostgreSQL\Servers;
+use RamODev\Configs;
 
 require_once(__DIR__ . "/Server.php");
 require_once(__DIR__ . "/../../../../configs/StorageConfig.php");

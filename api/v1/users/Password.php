@@ -24,7 +24,7 @@
  *
  * Defines a user password object
  */
-namespace API\V1\Users;
+namespace RamODev\API\V1\Users;
 
 class Password
 {

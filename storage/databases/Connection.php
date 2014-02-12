@@ -24,10 +24,10 @@
  *
  * Connects to a database server
  */
-namespace Storage\Databases;
-use Exceptions;
-use Storage;
-use Storage\Databases\Exceptions as DatabaseExceptions;
+namespace RamODev\Storage\Databases;
+use RamODev\Exceptions;
+use RamODev\Storage;
+use RamODev\Storage\Databases\Exceptions as DatabaseExceptions;
 
 require_once(__DIR__ . "/exceptions/DatabaseException.php");
 require_once(__DIR__ . "/../Connection.php");

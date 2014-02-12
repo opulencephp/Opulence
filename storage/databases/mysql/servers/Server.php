@@ -24,8 +24,8 @@
  *
  * Defines the base MySQL server object
  */
-namespace Storage\Databases\MySQL\Servers;
-use Storage\Databases;
+namespace RamODev\Storage\Databases\MySQL\Servers;
+use RamODev\Storage\Databases;
 
 require_once(__DIR__ . "/../../Server.php");
 

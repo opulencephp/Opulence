@@ -24,7 +24,7 @@
  *
  * Defines a token used to authenticate a user request
  */
-namespace API\V1\Authentication\Tokens;
+namespace RamODev\API\V1\Authentication\Tokens;
 
 class Token
 {

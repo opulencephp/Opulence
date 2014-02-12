@@ -24,7 +24,7 @@
  *
  * Tests the update query
  */
-namespace Storage\Databases\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\Databases\PostgreSQL\QueryBuilders;
 
 require_once(__DIR__ . "/../../../../../storage/databases/postgresql/querybuilders/UpdateQuery.php");
 

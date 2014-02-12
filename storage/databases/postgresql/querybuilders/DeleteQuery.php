@@ -24,8 +24,8 @@
  *
  * Builds a delete query
  */
-namespace Storage\Databases\PostgreSQL\QueryBuilders;
-use Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\PostgreSQL\QueryBuilders;
+use RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/../../querybuilders/DeleteQuery.php");
 

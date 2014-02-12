@@ -24,7 +24,7 @@
  *
  * Tests the select query
  */
-namespace Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/../../../../storage/databases/postgresql/querybuilders/SelectQuery.php");
 

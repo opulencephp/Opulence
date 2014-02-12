@@ -24,7 +24,7 @@
  *
  * Defines the error log to write exceptions to
  */
-namespace Exceptions;
+namespace RamODev\Exceptions;
 
 class Log
 {

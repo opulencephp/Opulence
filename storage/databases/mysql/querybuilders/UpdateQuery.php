@@ -24,8 +24,8 @@
  *
  * Builds an update query
  */
-namespace Storage\Databases\MySQL\QueryBuilders;
-use Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\MySQL\QueryBuilders;
+use RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/../../querybuilders/UpdateQuery.php");
 

@@ -24,8 +24,8 @@
  *
  * Defines an exception that is thrown when a query builder detects an invalid query
  */
-namespace Storage\Databases\QueryBuilders\Exceptions;
-use Exceptions;
+namespace RamODev\Storage\Databases\QueryBuilders\Exceptions;
+use RamODev\Exceptions;
 
 require_once(__DIR__ . "/../../../../exceptions/Exception.php");
 

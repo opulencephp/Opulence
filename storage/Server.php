@@ -24,7 +24,7 @@
  *
  * Provides a skeleton for storage servers to extend
  */
-namespace Storage;
+namespace RamODev\Storage;
 
 abstract class Server
 {

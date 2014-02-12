@@ -24,7 +24,7 @@
  *
  * Defines a general exception in our application
  */
-namespace Exceptions;
+namespace RamODev\Exceptions;
 
 require_once(__DIR__ . "/Log.php");
 

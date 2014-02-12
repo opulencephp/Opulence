@@ -24,10 +24,10 @@
  *
  * Connects to a Redis server
  */
-namespace Storage\Cache\Redis;
-use Exceptions;
-use Storage;
-use Storage\Cache\Exceptions as CacheExceptions;
+namespace RamODev\Storage\Cache\Redis;
+use RamODev\Exceptions;
+use RamODev\Storage;
+use RamODev\Storage\Cache\Exceptions as CacheExceptions;
 
 require_once(__DIR__ . "/../../Connection.php");
 require_once(__DIR__ . "/../exceptions/CacheException.php");

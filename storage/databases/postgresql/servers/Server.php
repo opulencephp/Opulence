@@ -24,8 +24,8 @@
  *
  * Defines the base PostgreSQL server object
  */
-namespace Storage\Databases\PostgreSQL\Servers;
-use Storage\Databases;
+namespace RamODev\Storage\Databases\PostgreSQL\Servers;
+use RamODev\Storage\Databases;
 
 require_once(__DIR__ . "/../../Server.php");
 

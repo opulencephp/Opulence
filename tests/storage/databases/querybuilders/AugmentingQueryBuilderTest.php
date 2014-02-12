@@ -24,7 +24,7 @@
  *
  * Tests the augmenting query builder
  */
-namespace Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/../../../../storage/databases/querybuilders/AugmentingQueryBuilder.php");
 

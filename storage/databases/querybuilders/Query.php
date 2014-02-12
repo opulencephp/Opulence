@@ -24,8 +24,8 @@
  *
  * Defines common functionality for query classes
  */
-namespace Storage\Databases\QueryBuilders;
-use Storage\Databases\QueryBuilders\Exceptions;
+namespace RamODev\Storage\Databases\QueryBuilders;
+use RamODev\Storage\Databases\QueryBuilders\Exceptions;
 
 abstract class Query
 {

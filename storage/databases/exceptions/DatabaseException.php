@@ -24,8 +24,8 @@
  *
  * Defines a database exception
  */
-namespace Storage\Databases\Exceptions;
-use Exceptions;
+namespace RamODev\Storage\Databases\Exceptions;
+use RamODev\Exceptions;
 
 require_once(__DIR__ . "/../../../exceptions/Exception.php");
 

@@ -24,7 +24,7 @@
  *
  * Builds parts of a query that augment (INSERT/UPDATE)
  */
-namespace Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\QueryBuilders;
 
 class AugmentingQueryBuilder
 {

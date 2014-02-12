@@ -24,7 +24,7 @@
  *
  * Tests the query builder
  */
-namespace Storage\Databases\MySQL\QueryBuilders;
+namespace RamODev\Storage\Databases\MySQL\QueryBuilders;
 
 require_once(__DIR__ . "/../../../../../storage/databases/mysql/querybuilders/QueryBuilder.php");
 
@@ -36,7 +36,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatDeleteReturnsDeleteQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\Storage\\Databases\\MySQL\\QueryBuilders\\DeleteQuery", $queryBuilder->delete("tableName", "tableAlias"));
+        $this->assertInstanceOf("\\RamODev\\Storage\\Databases\\MySQL\\QueryBuilders\\DeleteQuery", $queryBuilder->delete("tableName", "tableAlias"));
     }
 
     /**
@@ -45,7 +45,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatInsertReturnsInsertQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\Storage\\Databases\\MySQL\\QueryBuilders\\InsertQuery", $queryBuilder->insert("tableName", array("columnName" => "columnValue")));
+        $this->assertInstanceOf("\\RamODev\\Storage\\Databases\\MySQL\\QueryBuilders\\InsertQuery", $queryBuilder->insert("tableName", array("columnName" => "columnValue")));
     }
 
     /**
@@ -54,7 +54,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatSelectReturnsSelectQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\Storage\\Databases\\MySQL\\QueryBuilders\\SelectQuery", $queryBuilder->select("tableName", "tableAlias"));
+        $this->assertInstanceOf("\\RamODev\\Storage\\Databases\\MySQL\\QueryBuilders\\SelectQuery", $queryBuilder->select("tableName", "tableAlias"));
     }
 
     /**
@@ -63,6 +63,6 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatUpdateReturnsUpdateQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\Storage\\Databases\\MySQL\\QueryBuilders\\UpdateQuery", $queryBuilder->update("tableName", "tableAlias", array("columnName" => "columnValue")));
+        $this->assertInstanceOf("\\RamODev\\Storage\\Databases\\MySQL\\QueryBuilders\\UpdateQuery", $queryBuilder->update("tableName", "tableAlias", array("columnName" => "columnValue")));
     }
 } 

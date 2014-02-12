@@ -24,7 +24,7 @@
  *
  * Defines the base user class
  */
-namespace API\V1\Users;
+namespace RamODev\API\V1\Users;
 
 require_once(__DIR__ . "/IUser.php");
 

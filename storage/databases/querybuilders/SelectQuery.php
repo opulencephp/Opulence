@@ -24,7 +24,7 @@
  *
  * Builds a select query
  */
-namespace Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\Databases\QueryBuilders;
 
 require_once(__DIR__ . "/Query.php");
 require_once(__DIR__ . "/ConditionalQueryBuilder.php");

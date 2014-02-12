@@ -24,7 +24,7 @@
  *
  * Performs tests for our server class
  */
-namespace Storage\Databases;
+namespace RamODev\Storage\Databases;
 
 require_once(__DIR__ . "/../../../storage/databases/Server.php");
 
@@ -36,7 +36,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingDatabaseName()
     {
         $databaseName = 'dbname';
-        $server = $this->getMockForAbstractClass("Storage\\Databases\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Databases\\Server");
         $server->setDatabaseName($databaseName);
         $this->assertEquals($databaseName, $server->getDatabaseName());
     }
@@ -47,7 +47,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingHost()
     {
         $ip = '127.0.0.1';
-        $server = $this->getMockForAbstractClass("Storage\\Databases\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Databases\\Server");
         $server->setHost($ip);
         $this->assertEquals($ip, $server->getHost());
     }
@@ -58,7 +58,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingDisplayName()
     {
         $displayName = 'nicename';
-        $server = $this->getMockForAbstractClass("Storage\\Databases\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Databases\\Server");
         $server->setDisplayName($displayName);
         $this->assertEquals($displayName, $server->getDisplayName());
     }
@@ -69,7 +69,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingPassword()
     {
         $password = 'bar';
-        $server = $this->getMockForAbstractClass("Storage\\Databases\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Databases\\Server");
         $server->setPassword($password);
         $this->assertEquals($password, $server->getPassword());
     }
@@ -80,7 +80,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingUsername()
     {
         $name = 'foo';
-        $server = $this->getMockForAbstractClass("Storage\\Databases\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Databases\\Server");
         $server->setUsername($name);
         $this->assertEquals($name, $server->getUsername());
     }
