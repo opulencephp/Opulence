@@ -22,7 +22,7 @@
  *
  *
  *
- * Defines an invalid query that was built using a query builder
+ * Defines an exception that is thrown when a query builder detects an invalid query
  */
 namespace Storage\Databases\QueryBuilders\Exceptions;
 use Exceptions;
