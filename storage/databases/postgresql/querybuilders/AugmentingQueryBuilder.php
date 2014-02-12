@@ -38,7 +38,7 @@ class AugmentingQueryBuilder extends QueryBuilders\AugmentingQueryBuilder
      * Adds to a "RETURNING" clause
      *
      * @param string $expression,... A variable list of expressions to add to our "RETURNING" clause
-     * @returns $this
+     * @return $this
      */
     public function addReturning($expression)
     {
@@ -67,7 +67,7 @@ class AugmentingQueryBuilder extends QueryBuilders\AugmentingQueryBuilder
      * Only call this method once per query because it will overwrite an previously-set "RETURNING" expressions
      *
      * @param string $expression,... A variable list of expressions to add to our "RETURNING" clause
-     * @returns $this
+     * @return $this
      */
     public function returning($expression)
     {

@@ -47,7 +47,7 @@ abstract class Connection
     /**
      * Attempts to connect to the server
      *
-     * @returns bool True if we connected successfully, otherwise false
+     * @return bool True if we connected successfully, otherwise false
      */
     abstract public function connect();
 

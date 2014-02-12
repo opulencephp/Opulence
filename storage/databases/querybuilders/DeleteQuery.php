@@ -51,7 +51,7 @@ class DeleteQuery extends Query
      * Adds to a "USING" expression
      *
      * @param string $expression,... A variable list of other tables' names to use in the WHERE condition
-     * @returns $this
+     * @return $this
      */
     public function addUsing($expression)
     {
@@ -64,7 +64,7 @@ class DeleteQuery extends Query
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
      * @param string $condition,... A variable list of conditions to be met
-     * @returns $this
+     * @return $this
      */
     public function andWhere($condition)
     {
@@ -96,7 +96,7 @@ class DeleteQuery extends Query
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
      * @param string $condition,... A variable list of conditions to be met
-     * @returns $this
+     * @return $this
      */
     public function orWhere($condition)
     {
@@ -110,7 +110,7 @@ class DeleteQuery extends Query
      * Only call this method once per query because it will overwrite an previously-set "USING" expressions
      *
      * @param string $expression,... A variable list of other tables' names to use in the WHERE condition
-     * @returns $this
+     * @return $this
      */
     public function using($expression)
     {
@@ -124,7 +124,7 @@ class DeleteQuery extends Query
      * Only call this method once per query because it will overwrite an previously-set "WHERE" expressions
      *
      * @param string $condition,... A variable list of conditions to be met
-     * @returns $this
+     * @return $this
      */
     public function where($condition)
     {

@@ -67,7 +67,7 @@ class UpdateQuery extends Query
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
      * @param string $condition,... A variable list of conditions to be met
-     * @returns $this
+     * @return $this
      */
     public function andWhere($condition)
     {
@@ -100,7 +100,7 @@ class UpdateQuery extends Query
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
      * @param string $condition,... A variable list of conditions to be met
-     * @returns $this
+     * @return $this
      */
     public function orWhere($condition)
     {
@@ -114,7 +114,7 @@ class UpdateQuery extends Query
      * Only call this method once per query because it will overwrite an previously-set "WHERE" expressions
      *
      * @param string $condition,... A variable list of conditions to be met
-     * @returns $this
+     * @return $this
      */
     public function where($condition)
     {

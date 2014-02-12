@@ -65,7 +65,7 @@ class Connection extends Storage\Connection
     /**
      * Executes the transaction
      *
-     * @returns bool True if the transaction executed successfully, otherwise false
+     * @return bool True if the transaction executed successfully, otherwise false
      */
     public function commitTransaction()
     {
@@ -83,7 +83,7 @@ class Connection extends Storage\Connection
     /**
      * Attempts to connect to the server
      *
-     * @returns bool True if we connected successfully, otherwise false
+     * @return bool True if we connected successfully, otherwise false
      */
     public function connect()
     {

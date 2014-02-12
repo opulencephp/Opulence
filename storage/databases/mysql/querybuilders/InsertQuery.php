@@ -38,7 +38,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      * Adds columns to update in the case a row already exists in the table
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an "ON DUPLICATE KEY UPDATE" clause
-     * @returns $this
+     * @return $this
      */
     public function addUpdateColumnValues($columnNamesToValues)
     {
@@ -76,7 +76,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      * Only call this method once per query because it will overwrite an previously-set "ON DUPLICATE KEY UPDATE" expressions
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an "ON DUPLICATE KEY UPDATE" clause
-     * @returns $this
+     * @return $this
      */
     public function update($columnNamesToValues)
     {

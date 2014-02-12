@@ -64,7 +64,7 @@ class QueryResults
      *
      * @param int $row The row number to get data from
      * @param int $col The key/index of the column to get data from
-     * @returns mixed The result at the input row and column
+     * @return mixed The result at the input row and column
      * @throws Exceptions\DatabaseException Thrown if there was no result at the specified row/column
      */
     public function getResult($row, $col = 0)

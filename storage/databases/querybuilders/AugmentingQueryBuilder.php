@@ -35,7 +35,7 @@ class AugmentingQueryBuilder
      * Adds column values to our query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
-     * @returns $this
+     * @return $this
      */
     public function addColumnValues($columnNamesToValues)
     {

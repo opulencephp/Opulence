@@ -57,7 +57,7 @@ abstract class Query
      *
      * @param string $placeholderName The name of the placeholder (what comes after the ":")
      * @param mixed $value The value of the placeholder
-     * @returns $this
+     * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function addNamedPlaceholderValue($placeholderName, $value)
@@ -78,7 +78,7 @@ abstract class Query
      * Note that you cannot use a mix of named and unnamed placeholders in a query
      *
      * @param array $placeholderNamesToValues The mapping of placeholder names to their respective values
-     * @returns $this
+     * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function addNamedPlaceholderValues($placeholderNamesToValues)
@@ -96,7 +96,7 @@ abstract class Query
      * Note that you cannot use a mix of named and unnamed placeholders in a query
      *
      * @param mixed $value
-     * @returns $this
+     * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function addUnnamedPlaceholderValue($value)
@@ -117,7 +117,7 @@ abstract class Query
      * Note that you cannot use a mix of named and unnamed placeholders in a query
      *
      * @param array $placeholderValues The list of placeholder values
-     * @returns $this
+     * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function addUnnamedPlaceholderValues($placeholderValues)
