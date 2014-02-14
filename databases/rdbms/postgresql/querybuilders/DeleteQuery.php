@@ -22,32 +22,14 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Builds a delete query
  */
 namespace RamODev\Databases\RDBMS\PostgreSQL\QueryBuilders;
+use RamODev\Databases\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../databases/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../../querybuilders/DeleteQuery.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class DeleteQuery extends QueryBuilders\DeleteQuery
 {
-    /**
-     * Tests adding to a "RETURNING" clause
-     */
-    public function testAddReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
-    }
-
-    /**
-     * Tests adding a "RETURNING" clause
-     */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
-    }
+    // Don't do anything
 } 

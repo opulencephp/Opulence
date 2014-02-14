@@ -22,32 +22,39 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Defines a database
  */
-namespace RamODev\Databases\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Databases;
 
-require_once(__DIR__ . "/../../../../../databases/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
-
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class Database
 {
+    /** @var Server The server we're connecting to */
+    protected $server = null;
+
     /**
-     * Tests adding to a "RETURNING" clause
+     * @param Server $server The storage server to connect to
      */
-    public function testAddReturning()
+    public function __construct(Server $server)
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
+        $this->server = $server;
     }
 
     /**
-     * Tests adding a "RETURNING" clause
+     * Closes the connection
      */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
-    }
+    abstract public function close();
+
+    /**
+     * Attempts to connect to the server
+     *
+     * @return bool True if we connected successfully, otherwise false
+     */
+    abstract public function connect();
+
+    /**
+     * Gets whether or not we're connected
+     *
+     * @return bool Whether or not we're connected
+     */
+    abstract public function isConnected();
 } 

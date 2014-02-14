@@ -22,32 +22,46 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Provides a skeleton for storage servers to extend
  */
-namespace RamODev\Databases\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Databases;
 
-require_once(__DIR__ . "/../../../../../databases/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
-
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class Server
 {
+    /** @var string The host of this server */
+    protected $host = "";
+    /** @var string The "nice" name of the server (ie English, readable name) */
+    protected $displayName = "";
+
     /**
-     * Tests adding to a "RETURNING" clause
+     * @return string
      */
-    public function testAddReturning()
+    public function getDisplayName()
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
+        return $this->displayName;
     }
 
     /**
-     * Tests adding a "RETURNING" clause
+     * @return string
      */
-    public function testReturning()
+    public function getHost()
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
+        return $this->host;
+    }
+
+    /**
+     * @param string $displayName
+     */
+    public function setDisplayName($displayName)
+    {
+        $this->displayName = $displayName;
+    }
+
+    /**
+     * @param string $ip
+     */
+    public function setHost($ip)
+    {
+        $this->host = $ip;
     }
 } 

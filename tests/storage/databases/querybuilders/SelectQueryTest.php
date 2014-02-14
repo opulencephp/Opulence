@@ -24,9 +24,9 @@
  *
  * Tests the select query
  */
-namespace RamODev\Storage\RDBMS\QueryBuilders;
+namespace RamODev\Databases\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../storage/rdbms/postgresql/querybuilders/SelectQuery.php");
+require_once(__DIR__ . "/../../../../databases/rdbms/postgresql/querybuilders/SelectQuery.php");
 
 class SelectQueryTest extends \PHPUnit_Framework_TestCase
 {

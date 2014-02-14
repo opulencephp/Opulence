@@ -24,11 +24,11 @@
  *
  * Tests our cache
  */
-namespace RamODev\Storage\NoSQL\Redis;
-use RamODev\Storage\NoSQL\Redis\Servers;
+namespace RamODev\Databases\NoSQL\Redis;
+use RamODev\Databases\NoSQL\Redis\Servers;
 
-require_once(__DIR__ . "/../../../../storage/nosql/redis/Database.php");
-require_once(__DIR__ . "/../../../../storage/nosql/redis/servers/ElastiCache.php");
+require_once(__DIR__ . "/../../../../databases/nosql/redis/Database.php");
+require_once(__DIR__ . "/../../../../databases/nosql/redis/servers/ElastiCache.php");
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -75,6 +75,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingServer()
     {
-        $this->assertInstanceOf("\\RamODev\\Storage\\NoSQL\\Redis\\Server", $this->connection->getServer());
+        $this->assertInstanceOf("\\RamODev\\Databases\\NoSQL\\Redis\\Server", $this->connection->getServer());
     }
 }

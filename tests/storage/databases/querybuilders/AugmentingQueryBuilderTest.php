@@ -24,9 +24,9 @@
  *
  * Tests the augmenting query builder
  */
-namespace RamODev\Storage\RDBMS\QueryBuilders;
+namespace RamODev\Databases\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../storage/rdbms/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../../../../databases/rdbms/querybuilders/AugmentingQueryBuilder.php");
 
 class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {

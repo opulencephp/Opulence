@@ -22,32 +22,14 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Builds an update query
  */
-namespace RamODev\Databases\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Databases\RDBMS\MySQL\QueryBuilders;
+use RamODev\Databases\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../databases/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../../querybuilders/UpdateQuery.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class UpdateQuery extends QueryBuilders\UpdateQuery
 {
-    /**
-     * Tests adding to a "RETURNING" clause
-     */
-    public function testAddReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
-    }
-
-    /**
-     * Tests adding a "RETURNING" clause
-     */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
-    }
+    // Don't do anything
 } 

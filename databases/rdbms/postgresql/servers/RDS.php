@@ -22,32 +22,19 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Defines a specific server
  */
-namespace RamODev\Databases\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Databases\RDBMS\PostgreSQL\Servers;
+use RamODev\Configs;
 
-require_once(__DIR__ . "/../../../../../databases/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/Server.php");
+require_once(__DIR__ . "/../../../../configs/StorageConfig.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class RDS extends Server
 {
-    /**
-     * Tests adding to a "RETURNING" clause
-     */
-    public function testAddReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
-    }
-
-    /**
-     * Tests adding a "RETURNING" clause
-     */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
-    }
+    protected $host = Configs\StorageConfig::RDS_HOST;
+    protected $username = Configs\StorageConfig::RDS_USERNAME;
+    protected $password = Configs\StorageConfig::RDS_PASSWORD;
+    protected $databaseName = "dave";
+    protected $displayName = "AWS Development";
 } 

@@ -24,11 +24,11 @@
  *
  * Tests our server connection
  */
-namespace RamODev\Storage\RDBMS;
-use RamODev\Storage\RDBMS\PostgreSQL\Servers;
+namespace RamODev\Databases\RDBMS;
+use RamODev\Databases\RDBMS\PostgreSQL\Servers;
 
-require_once(__DIR__ . "/../../../storage/rdbms/Database.php");
-require_once(__DIR__ . "/../../../storage/rdbms/postgresql/servers/RDS.php");
+require_once(__DIR__ . "/../../../databases/rdbms/Database.php");
+require_once(__DIR__ . "/../../../databases/rdbms/postgresql/servers/RDS.php");
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
