@@ -22,7 +22,7 @@
  *
  *
  *
- * Tests our server connection
+ * Tests our database connection
  */
 namespace RamODev\Databases\RDBMS;
 use RamODev\Databases\RDBMS\PostgreSQL\Servers;
@@ -30,12 +30,12 @@ use RamODev\Databases\RDBMS\PostgreSQL\Servers;
 require_once(__DIR__ . "/../../../databases/rdbms/Database.php");
 require_once(__DIR__ . "/../../../databases/rdbms/postgresql/servers/RDS.php");
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Server A database server to connect to */
     private $server = null;
-    /** @var Database The connection we're using */
-    private $connection = null;
+    /** @var Database The database we're connecting to */
+    private $database = null;
 
     /**
      * Sets up our tests
@@ -43,7 +43,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->server = new Servers\RDS();
-        $this->connection = new Database($this->server);
+        $this->database = new Database($this->server);
     }
 
     /**
@@ -51,7 +51,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->connection->close();
+        $this->database->close();
     }
 
     /**
@@ -59,8 +59,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadSelect()
     {
-        $this->connection->connect();
-        $results = $this->connection->query("SELECT id FROM table_that_doesnt_exist WHERE id = :id", array("id" => 1));
+        $this->database->connect();
+        $results = $this->database->query("SELECT id FROM table_that_doesnt_exist WHERE id = :id", array("id" => 1));
         $this->assertFalse($results->hasResults());
     }
 
@@ -69,8 +69,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testClosingUnopenedConnection()
     {
-        $this->connection->close();
-        $this->assertFalse($this->connection->isConnected());
+        $this->database->close();
+        $this->assertFalse($this->database->isConnected());
     }
 
     /**
@@ -78,12 +78,12 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCommittingTransaction()
     {
-        $this->connection->connect();
-        $this->connection->startTransaction();
-        $countBefore = $this->connection->query("SELECT COUNT(*) FROM test")->getResult(0);
-        $this->connection->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
-        $this->connection->commitTransaction();
-        $this->assertEquals($this->connection->query("SELECT COUNT(*) FROM test")->getResult(0), $countBefore + 1);
+        $this->database->connect();
+        $this->database->startTransaction();
+        $countBefore = $this->database->query("SELECT COUNT(*) FROM test")->getResult(0);
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $this->database->commitTransaction();
+        $this->assertEquals($this->database->query("SELECT COUNT(*) FROM test")->getResult(0), $countBefore + 1);
     }
 
     /**
@@ -91,8 +91,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testConnecting()
     {
-        $this->connection->connect();
-        $this->assertTrue($this->connection->isConnected());
+        $this->database->connect();
+        $this->assertTrue($this->database->isConnected());
     }
 
     /**
@@ -100,9 +100,9 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testDisconnecting()
     {
-        $this->connection->connect();
-        $this->connection->close();
-        $this->assertFalse($this->connection->isConnected());
+        $this->database->connect();
+        $this->database->close();
+        $this->assertFalse($this->database->isConnected());
     }
 
     /**
@@ -110,8 +110,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyParameterQuery()
     {
-        $this->connection->connect();
-        $results = $this->connection->query("SELECT COUNT(*) FROM test");
+        $this->database->connect();
+        $results = $this->database->query("SELECT COUNT(*) FROM test");
         $this->assertTrue($results->hasResults());
     }
 
@@ -120,7 +120,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServer()
     {
-        $this->assertEquals($this->server, $this->connection->getServer());
+        $this->assertEquals($this->server, $this->database->getServer());
     }
 
     /**
@@ -128,12 +128,12 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingLastInsertID()
     {
-        $this->connection->connect();
-        $this->connection->startTransaction();
-        $prevID = $this->connection->query("SELECT MAX(id) FROM test")->getResult(0);
-        $this->connection->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
-        $lastInsertID = $this->connection->getLastInsertID("test_id_seq");
-        $this->connection->commitTransaction();
+        $this->database->connect();
+        $this->database->startTransaction();
+        $prevID = $this->database->query("SELECT MAX(id) FROM test")->getResult(0);
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $lastInsertID = $this->database->getLastInsertID("test_id_seq");
+        $this->database->commitTransaction();
         $this->assertEquals($prevID + 1, $lastInsertID);
     }
 
@@ -142,8 +142,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGoodSelect()
     {
-        $this->connection->connect();
-        $results = $this->connection->query("SELECT name FROM test WHERE id = :id", array("id" => 1));
+        $this->database->connect();
+        $results = $this->database->query("SELECT name FROM test WHERE id = :id", array("id" => 1));
         $this->assertEquals("Dave", $results->getResult(0, "name"));
     }
 
@@ -152,10 +152,10 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsInTransaction()
     {
-        $this->connection->connect();
-        $this->connection->startTransaction();
-        $this->assertTrue($this->connection->isInTransaction());
-        $this->connection->commitTransaction();
+        $this->database->connect();
+        $this->database->startTransaction();
+        $this->assertTrue($this->database->isInTransaction());
+        $this->database->commitTransaction();
     }
 
     /**
@@ -163,12 +163,12 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testRollingBackTransaction()
     {
-        $this->connection->connect();
-        $this->connection->startTransaction();
-        $countBefore = $this->connection->query("SELECT COUNT(*) FROM test")->getResult(0);
-        $this->connection->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
-        $this->connection->rollBackTransaction();
-        $this->assertEquals($this->connection->query("SELECT COUNT(*) FROM test")->getResult(0), $countBefore);
+        $this->database->connect();
+        $this->database->startTransaction();
+        $countBefore = $this->database->query("SELECT COUNT(*) FROM test")->getResult(0);
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $this->database->rollBackTransaction();
+        $this->assertEquals($this->database->query("SELECT COUNT(*) FROM test")->getResult(0), $countBefore);
     }
 }
  

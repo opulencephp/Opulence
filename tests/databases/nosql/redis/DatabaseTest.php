@@ -22,7 +22,7 @@
  *
  *
  *
- * Tests our cache
+ * Tests our Redis connection
  */
 namespace RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\NoSQL\Redis\Servers;
@@ -30,10 +30,10 @@ use RamODev\Databases\NoSQL\Redis\Servers;
 require_once(__DIR__ . "/../../../../databases/nosql/redis/Database.php");
 require_once(__DIR__ . "/../../../../databases/nosql/redis/servers/ElastiCache.php");
 
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Database The connection we're using */
-    private $connection = null;
+    private $database = null;
 
     /**
      * Sets up our test
@@ -41,7 +41,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $server = new Servers\ElastiCache();
-        $this->connection = new Database($server);
+        $this->database = new Database($server);
     }
 
     /**
@@ -49,9 +49,9 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testClosingConnection()
     {
-        $this->connection->connect();
-        $this->connection->close();
-        $this->assertFalse($this->connection->isConnected());
+        $this->database->connect();
+        $this->database->close();
+        $this->assertFalse($this->database->isConnected());
     }
 
     /**
@@ -59,7 +59,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testConnection()
     {
-        $this->assertTrue($this->connection->connect());
+        $this->assertTrue($this->database->connect());
     }
 
     /**
@@ -67,7 +67,7 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRedis()
     {
-        $this->assertInstanceOf("\\Redis", $this->connection->getRedis());
+        $this->assertInstanceOf("\\Redis", $this->database->getRedis());
     }
 
     /**
@@ -75,6 +75,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingServer()
     {
-        $this->assertInstanceOf("\\RamODev\\Databases\\NoSQL\\Redis\\Server", $this->connection->getServer());
+        $this->assertInstanceOf("\\RamODev\\Databases\\NoSQL\\Redis\\Server", $this->database->getServer());
     }
 }
