@@ -22,14 +22,14 @@
  *
  *
  *
- * Defines a database exception
+ * Defines a relational database exception
  */
 namespace RamODev\Storage\RDBMS\Exceptions;
 use RamODev\Exceptions;
 
 require_once(__DIR__ . "/../../../exceptions/Exception.php");
 
-class DatabaseException extends Exceptions\Exception
+class RDBMSException extends Exceptions\Exception
 {
     // Don't do anything
 }

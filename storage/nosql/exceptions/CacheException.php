@@ -22,7 +22,7 @@
  *
  *
  *
- * Defines a cache exception
+ * Defines a cache database exception
  */
 namespace RamODev\Storage\NoSQL\Exceptions;
 use RamODev\Exceptions;
