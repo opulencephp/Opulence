@@ -22,32 +22,17 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Defines a Redis server
  */
-namespace RamODev\Storage\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\NoSQL\Redis\Servers;
+use RamODev\Configs;
+use RamODev\Storage\NoSQL\Redis;
 
-require_once(__DIR__ . "/../../../../../storage/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../Server.php");
+require_once(__DIR__ . "/../../../../configs/StorageConfig.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class ElastiCache extends Redis\Server
 {
-    /**
-     * Tests adding to a "RETURNING" clause
-     */
-    public function testAddReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
-    }
-
-    /**
-     * Tests adding a "RETURNING" clause
-     */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
-    }
-} 
+    /** @var string The host of this server */
+    protected $host = Configs\StorageConfig::ELASTICACHE_HOST;
+}

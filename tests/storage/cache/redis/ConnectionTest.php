@@ -24,17 +24,15 @@
  *
  * Tests our cache
  */
-namespace RamODev\Storage\Cache\Redis;
-use RamODev\Storage\Cache\Redis\Servers;
+namespace RamODev\Storage\NoSQL\Redis;
+use RamODev\Storage\NoSQL\Redis\Servers;
 
-require_once(__DIR__ . "/../../../../storage/cache/redis/Connection.php");
-require_once(__DIR__ . "/../../../../storage/cache/redis/servers/ElastiCache.php");
+require_once(__DIR__ . "/../../../../storage/nosql/redis/Database.php");
+require_once(__DIR__ . "/../../../../storage/nosql/redis/servers/ElastiCache.php");
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Server A database server to connect to */
-    private $server = null;
-    /** @var Connection The connection we're using */
+    /** @var Database The connection we're using */
     private $connection = null;
 
     /**
@@ -42,112 +40,41 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->server = new Servers\ElastiCache();
-        $this->connection = new Connection($this->server);
+        $server = new Servers\ElastiCache();
+        $this->connection = new Database($server);
     }
 
     /**
-     * Tests committing a transaction
+     * Tests closing the connection
      */
-    public function testCommittingTransaction()
-    {
-        $value = "test";
-        $this->connection->connect();
-        $this->connection->delete(get_called_class());
-        $this->connection->startTransaction();
-        $this->connection->write($value, get_called_class());
-        $this->connection->commitTransaction();
-        $this->assertEquals($value, $this->connection->read(get_called_class()));
-    }
-
-    /**
-     * Tests flushing the cache
-     */
-    public function testFlushingCache()
-    {
-        $key1 = "test1";
-        $key2 = "test2";
-        $this->connection->connect();
-        $this->connection->write("blah1", $key1);
-        $this->connection->write("blah2", $key2);
-        $this->connection->flush();
-        $this->assertFalse($this->connection->read($key1));
-        $this->assertFalse($this->connection->read($key2));
-    }
-
-    /**
-     * Tests checking that we're connected after making a connection
-     */
-    public function testIsConnected()
-    {
-        $this->assertTrue($this->connection->connect() && $this->connection->isConnected());
-    }
-
-    /**
-     * Tests reading a key in cache that doesn't exist
-     */
-    public function testReadingKeyThatDoesntExist()
-    {
-        $key = get_called_class();
-        $this->connection->connect();
-        $this->connection->delete($key);
-        $this->assertFalse($this->connection->read($key));
-    }
-
-    /**
-     * Tests rolling back a transaction
-     */
-    public function testRollingBackTransaction()
+    public function testClosingConnection()
     {
         $this->connection->connect();
-        $this->connection->delete(get_called_class());
-        $this->connection->startTransaction();
-        $this->connection->write("test", get_called_class());
-        $this->connection->rollBackTransaction();
-        $this->assertFalse($this->connection->read(get_called_class()));
+        $this->connection->close();
+        $this->assertFalse($this->connection->isConnected());
     }
 
     /**
-     * Tests starting a transaction when one has already been started
+     * Tests the connection
      */
-    public function testStartingTransactionWhenThereIsAlreadyATransaction()
+    public function testConnection()
     {
-        $this->setExpectedException("RamODev\\Storage\\Cache\\Exceptions\\CacheException");
-        $this->connection->connect();
-        $this->connection->startTransaction();
-        $this->connection->startTransaction();
+        $this->assertTrue($this->connection->connect());
     }
 
     /**
-     * Tests reading an object to cache
+     * Tests getting Redis
      */
-    public function testWritingObject()
+    public function testGettingRedis()
     {
-        $object = new \stdClass();
-        $object->data = "blah";
-        $this->connection->connect();
-        $this->connection->write($object, get_called_class());
-        $this->assertEquals($object, $this->connection->read(get_called_class()));
+        $this->assertInstanceOf("\\Redis", $this->connection->getRedis());
     }
 
     /**
-     * Tests writing a string to cache
+     * Tests getting the server
      */
-    public function testWritingString()
+    public function testGettingServer()
     {
-        $value = "test";
-        $this->connection->connect();
-        $this->connection->write($value, get_called_class());
-        $this->assertEquals($value, $this->connection->read(get_called_class()));
-    }
-
-    /**
-     * Tests writing to a cache that we're not connected to
-     */
-    public function testWritingToDisconnectedCache()
-    {
-        $value = "test";
-        $this->connection->write($value, get_called_class());
-        $this->assertFalse($this->connection->read(get_called_class()));
+        $this->assertInstanceOf("\\RamODev\\Storage\\NoSQL\\Redis\\Server", $this->connection->getServer());
     }
 }

@@ -22,32 +22,33 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Builds parts of a query that augment (INSERT/UPDATE)
  */
-namespace RamODev\Storage\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../storage/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
-
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class AugmentingQueryBuilder
 {
+    /** @var array The mapping of column names to their respective values */
+    protected $columnNamesToValues = array();
+
     /**
-     * Tests adding to a "RETURNING" clause
+     * Adds column values to our query
+     *
+     * @param array $columnNamesToValues The mapping of column names to their respective values
+     * @return $this
      */
-    public function testAddReturning()
+    public function addColumnValues($columnNamesToValues)
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
+        $this->columnNamesToValues = array_merge($this->columnNamesToValues, $columnNamesToValues);
+
+        return $this;
     }
 
     /**
-     * Tests adding a "RETURNING" clause
+     * @return array
      */
-    public function testReturning()
+    public function getColumnNamesToValues()
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
+        return $this->columnNamesToValues;
     }
 } 

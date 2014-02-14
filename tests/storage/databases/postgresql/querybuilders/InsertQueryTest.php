@@ -24,9 +24,9 @@
  *
  * Tests the insert query
  */
-namespace RamODev\Storage\Databases\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\RDBMS\PostgreSQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../storage/databases/postgresql/querybuilders/InsertQuery.php");
+require_once(__DIR__ . "/../../../../../storage/rdbms/postgresql/querybuilders/InsertQuery.php");
 
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
 {

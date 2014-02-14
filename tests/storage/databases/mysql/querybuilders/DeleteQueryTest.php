@@ -24,9 +24,9 @@
  *
  * Tests the delete query
  */
-namespace RamODev\Storage\Databases\MySQL\QueryBuilders;
+namespace RamODev\Storage\RDBMS\MySQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../storage/databases/mysql/querybuilders/DeleteQuery.php");
+require_once(__DIR__ . "/../../../../../storage/rdbms/mysql/querybuilders/DeleteQuery.php");
 
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 {

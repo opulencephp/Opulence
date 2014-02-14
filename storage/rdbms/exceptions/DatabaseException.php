@@ -22,32 +22,14 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Defines a database exception
  */
-namespace RamODev\Storage\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\RDBMS\Exceptions;
+use RamODev\Exceptions;
 
-require_once(__DIR__ . "/../../../../../storage/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../../../exceptions/Exception.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class DatabaseException extends Exceptions\Exception
 {
-    /**
-     * Tests adding to a "RETURNING" clause
-     */
-    public function testAddReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
-    }
-
-    /**
-     * Tests adding a "RETURNING" clause
-     */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
-    }
-} 
+    // Don't do anything
+}

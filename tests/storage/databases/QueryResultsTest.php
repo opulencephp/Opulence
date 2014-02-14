@@ -24,17 +24,17 @@
  *
  * Tests our query results
  */
-namespace RamODev\Storage\Databases;
-use RamODev\Storage\Databases\PostgreSQL\Servers;
+namespace RamODev\Storage\RDBMS;
+use RamODev\Storage\RDBMS\PostgreSQL\Servers;
 
-require_once(__DIR__ . "/../../../storage/databases/Connection.php");
-require_once(__DIR__ . "/../../../storage/databases/postgresql/servers/RDS.php");
+require_once(__DIR__ . "/../../../storage/rdbms/Database.php");
+require_once(__DIR__ . "/../../../storage/rdbms/postgresql/servers/RDS.php");
 
 class QueryResultsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Server A database server to connect to */
     private $server = null;
-    /** @var Connection The server connection to use */
+    /** @var Database The server connection to use */
     private $connection = null;
 
     /**
@@ -43,7 +43,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->server = new Servers\RDS();
-        $this->connection = new Connection($this->server);
+        $this->connection = new Database($this->server);
         $this->connection->connect();
     }
 

@@ -24,9 +24,9 @@
  *
  * Tests our query class
  */
-namespace RamODev\Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../storage/databases/querybuilders/Query.php");
+require_once(__DIR__ . "/../../../../storage/rdbms/querybuilders/Query.php");
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -38,7 +38,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->query = $this->getMockForAbstractClass("\\RamODev\\Storage\\Databases\\QueryBuilders\\Query");
+        $this->query = $this->getMockForAbstractClass("\\RamODev\\Storage\\RDBMS\\QueryBuilders\\Query");
     }
 
     /**
@@ -55,7 +55,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder()
     {
-        $this->setExpectedException("RamODev\\Storage\\Databases\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RamODev\\Storage\\RDBMS\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addUnnamedPlaceholderValue("dave")
             ->addNamedPlaceholderValue("id", 18175);
     }
@@ -74,7 +74,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder()
     {
-        $this->setExpectedException("RamODev\\Storage\\Databases\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RamODev\\Storage\\RDBMS\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addNamedPlaceholderValue("id", 18175)
             ->addUnnamedPlaceholderValue("dave");
     }

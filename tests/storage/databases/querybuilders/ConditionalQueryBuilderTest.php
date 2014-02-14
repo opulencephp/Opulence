@@ -24,9 +24,9 @@
  *
  * Tests the conditional query builder
  */
-namespace RamODev\Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../storage/databases/querybuilders/ConditionalQueryBuilder.php");
+require_once(__DIR__ . "/../../../../storage/rdbms/querybuilders/ConditionalQueryBuilder.php");
 
 class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {

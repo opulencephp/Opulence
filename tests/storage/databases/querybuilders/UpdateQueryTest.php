@@ -24,9 +24,9 @@
  *
  * Tests the update query
  */
-namespace RamODev\Storage\Databases\QueryBuilders;
+namespace RamODev\Storage\RDBMS\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../storage/databases/postgresql/querybuilders/UpdateQuery.php");
+require_once(__DIR__ . "/../../../../storage/rdbms/postgresql/querybuilders/UpdateQuery.php");
 
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase
 {

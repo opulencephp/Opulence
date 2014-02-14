@@ -22,32 +22,22 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Defines the base MySQL server object
  */
-namespace RamODev\Storage\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\RDBMS\MySQL\Servers;
+use RamODev\Storage\RDBMS;
 
-require_once(__DIR__ . "/../../../../../storage/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../../Server.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class Server extends Databases\Server
 {
     /**
-     * Tests adding to a "RETURNING" clause
+     * Gets the connection string
+     *
+     * @return string The string we can use to connect with
      */
-    public function testAddReturning()
+    public function getConnectionString()
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
-    }
-
-    /**
-     * Tests adding a "RETURNING" clause
-     */
-    public function testReturning()
-    {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
+        return "mysql: unix_socket=/data/mysql/mysql.sock;host=" . $this->host . ";dbname=" . $this->databaseName . ";";
     }
 } 

@@ -22,32 +22,49 @@
  *
  *
  *
- * Tests the augmenting query builder
+ * Defines the skeleton for a cache server
  */
-namespace RamODev\Storage\RDBMS\PostgreSQL\QueryBuilders;
+namespace RamODev\Storage\NoSQL\Redis;
+use RamODev\Storage;
 
-require_once(__DIR__ . "/../../../../../storage/rdbms/postgresql/querybuilders/AugmentingQueryBuilder.php");
+require_once(__DIR__ . "/../../Server.php");
 
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+abstract class Server extends Storage\Server
 {
+    /** @var int The port this server listens on */
+    protected $port = 6379;
+    /** @var int The default lifetime for items on this server */
+    protected $lifetime = 86400;
+
     /**
-     * Tests adding to a "RETURNING" clause
+     * @return int
      */
-    public function testAddReturning()
+    public function getLifetime()
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id")
-            ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
+        return $this->lifetime;
     }
 
     /**
-     * Tests adding a "RETURNING" clause
+     * @return int
      */
-    public function testReturning()
+    public function getPort()
     {
-        $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
+        return $this->port;
     }
-} 
+
+    /**
+     * @param int $lifetime
+     */
+    public function setLifetime($lifetime)
+    {
+        $this->lifetime = $lifetime;
+    }
+
+    /**
+     * @param int $port
+     */
+    public function setPort($port)
+    {
+        $this->port = $port;
+    }
+}

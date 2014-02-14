@@ -24,9 +24,9 @@
  *
  * Tests our cache server
  */
-namespace RamODev\Storage\Cache\Redis;
+namespace RamODev\Storage\NoSQL\Redis;
 
-require_once(__DIR__ . "/../../../../storage/cache/redis/Server.php");
+require_once(__DIR__ . "/../../../../storage/nosql/redis/Server.php");
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingHost()
     {
         $ip = '127.0.0.1';
-        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Cache\\Redis\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\NoSQL\\Redis\\Server");
         $server->setHost($ip);
 
         $this->assertEquals($ip, $server->getHost());
@@ -48,7 +48,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingLifetime()
     {
         $lifetime = 12345;
-        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Cache\\Redis\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\NoSQL\\Redis\\Server");
         $server->setLifetime($lifetime);
 
         $this->assertEquals($lifetime, $server->getLifetime());
@@ -60,7 +60,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingDisplayName()
     {
         $displayName = 'nicename';
-        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Cache\\Redis\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\NoSQL\\Redis\\Server");
         $server->setDisplayName($displayName);
 
         $this->assertEquals($displayName, $server->getDisplayName());
@@ -72,7 +72,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingPort()
     {
         $port = 11211;
-        $server = $this->getMockForAbstractClass("RamODev\\Storage\\Cache\\Redis\\Server");
+        $server = $this->getMockForAbstractClass("RamODev\\Storage\\NoSQL\\Redis\\Server");
         $server->setPort($port);
 
         $this->assertEquals($port, $server->getPort());
