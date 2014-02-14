@@ -135,17 +135,18 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->addNamedPlaceholderValue("notAllowedName", "dave")
             ->andWhere("u.id <> 9")
             ->orWhere("u.name = :allowedName")
-            ->addNamedPlaceholderValue("allowedName", "brian")
             ->groupBy("u.id", "u.name", "e.email")
             ->addGroupBy("p.password")
-            ->having("count(*) > 1")
+            ->having("count(*) > :minCount")
             ->andHaving("count(*) < 5")
             ->orHaving("count(*) = 2")
+            ->addNamedPlaceholderValues(array("allowedName" => "brian", "minCount" => 1))
             ->orderBy("u.id DESC")
             ->addOrderBy("u.name ASC")
             ->limit(2)
             ->offset(1);
-        $this->assertEquals("SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > 1) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1", $query->getSQL());
+        $this->assertEquals("SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1", $query->getSQL());
+        $this->assertEquals(array("notAllowedName" => "dave", "allowedName" => "brian", "minCount" => 1), $query->getParameters());
     }
 
     /**
