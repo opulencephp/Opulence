@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a general exception in our application
+ * Defines a general exception in the application
  */
 namespace RamODev\Exceptions;
 

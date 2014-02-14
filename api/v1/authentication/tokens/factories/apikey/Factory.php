@@ -11,12 +11,12 @@ require_once(__DIR__ . "/../../Token.php");
 
 class Factory
 {
-    /** The number of characters to include in our key */
+    /** The number of characters to include in the key */
     const NUM_CHARS = 32;
     /** The lifetime, in seconds, of the key */
     const LIFETIME = 86400;
 
-    /**These are the characters that comprise our key */
+    /**These are the characters that comprise the key */
     private static $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**

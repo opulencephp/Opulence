@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests our query results
+ * Tests the query results
  */
 namespace RamODev\Databases\RDBMS;
 use RamODev\Databases\RDBMS\PostgreSQL\Servers;
@@ -18,7 +18,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
     private $connection = null;
 
     /**
-     * Sets up our tests
+     * Sets up the tests
      */
     public function setUp()
     {

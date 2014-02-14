@@ -26,7 +26,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Adds column values to our query
+     * Adds column values to the query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return $this

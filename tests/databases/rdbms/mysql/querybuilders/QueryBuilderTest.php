@@ -11,7 +11,7 @@ require_once(__DIR__ . "/../../../../../databases/rdbms/mysql/querybuilders/Quer
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests that our query builder returns a DeleteQuery when we call delete()
+     * Tests that the query builder returns a DeleteQuery when we call delete()
      */
     public function testThatDeleteReturnsDeleteQueryBuilder()
     {
@@ -20,7 +20,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that our query builder returns a InsertQuery when we call insert()
+     * Tests that the query builder returns a InsertQuery when we call insert()
      */
     public function testThatInsertReturnsInsertQueryBuilder()
     {
@@ -29,7 +29,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that our query builder returns a SelectQuery when we call select()
+     * Tests that the query builder returns a SelectQuery when we call select()
      */
     public function testThatSelectReturnsSelectQueryBuilder()
     {
@@ -38,7 +38,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that our query builder returns a UpdateQuery when we call update()
+     * Tests that the query builder returns a UpdateQuery when we call update()
      */
     public function testThatUpdateReturnsUpdateQueryBuilder()
     {

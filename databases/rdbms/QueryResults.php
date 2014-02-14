@@ -40,12 +40,12 @@ class QueryResults
     }
 
     /**
-     * Gets the result at the specified row/column in our results
+     * Gets the result at the specified row/column in the results
      *
      * @param int $row The row number to get data from
      * @param int $col The key/index of the column to get data from
      * @return mixed The result at the input row and column
-     * @throws Exceptions\DatabaseException Thrown if there was no result at the specified row/column
+     * @throws Exceptions\RDBMSException Thrown if there was no result at the specified row/column
      */
     public function getResult($row, $col = 0)
     {
@@ -61,7 +61,7 @@ class QueryResults
 
         if(!array_key_exists($row, $this->results) || !array_key_exists($col, $this->results[$row]))
         {
-            throw new Exceptions\DatabaseException("No result for row " . $row . " and column \"" . $col . "\"");
+            throw new Exceptions\RDBMSException("No result for row " . $row . " and column \"" . $col . "\"");
         }
 
         return $this->results[$row][$col];

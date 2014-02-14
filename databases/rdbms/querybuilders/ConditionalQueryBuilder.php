@@ -19,7 +19,7 @@ class ConditionalQueryBuilder
      * @param array $clauseConditions The list of conditions that already belong to the clause
      * @param string $operation Either "AND" or "OR", indicating how this condition is being added to the list of conditions
      * @param string $condition,... A variable list of conditions to be met
-     * @return array The input array with our condition added
+     * @return array The input array with the condition added
      */
     public function addConditionToClause($clauseConditions, $operation, $condition)
     {

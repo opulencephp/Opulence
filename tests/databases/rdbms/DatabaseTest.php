@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests our database connection
+ * Tests the database connection
  */
 namespace RamODev\Databases\RDBMS;
 use RamODev\Databases\RDBMS\PostgreSQL\Servers;
@@ -18,7 +18,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     private $database = null;
 
     /**
-     * Sets up our tests
+     * Sets up the tests
      */
     public function setUp()
     {

@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests our query class
+ * Tests the query class
  */
 namespace RamODev\Databases\RDBMS\QueryBuilders;
 
@@ -14,7 +14,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     private $query = null;
 
     /**
-     * Sets up our test
+     * Sets up the test
      */
     public function setUp()
     {

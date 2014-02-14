@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests our Redis connection
+ * Tests the Redis connection
  */
 namespace RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\NoSQL\Redis\Servers;
@@ -16,7 +16,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     private $database = null;
 
     /**
-     * Sets up our test
+     * Sets up the test
      */
     public function setUp()
     {

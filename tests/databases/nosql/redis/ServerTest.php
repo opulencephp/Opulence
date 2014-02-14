@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests our cache server
+ * Tests the Redis server
  */
 namespace RamODev\Databases\NoSQL\Redis;
 

@@ -30,7 +30,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
     /**
      * Adds to a "RETURNING" clause
      *
-     * @param string $expression,... A variable list of expressions to add to our "RETURNING" clause
+     * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return $this
      */
     public function addReturning($expression)
@@ -57,7 +57,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      * Starts a "RETURNING" clause
      * Only call this method once per query because it will overwrite an previously-set "RETURNING" expressions
      *
-     * @param string $expression,... A variable list of expressions to add to our "RETURNING" clause
+     * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return $this
      */
     public function returning($expression)

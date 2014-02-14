@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Performs tests for our server class
+ * Tests the RDBMS server
  */
 namespace RamODev\Databases\RDBMS;
 

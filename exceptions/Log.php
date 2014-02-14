@@ -9,9 +9,9 @@ namespace RamODev\Exceptions;
 class Log
 {
     /**
-     * Writes a message to our logs
+     * Writes a message to the logs
      *
-     * @param Exception|string $message The message or exception to write to our log
+     * @param Exception|string $message The message or exception to write to the log
      */
     public static function write($message)
     {

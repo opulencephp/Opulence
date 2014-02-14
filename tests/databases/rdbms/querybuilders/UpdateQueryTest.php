@@ -32,7 +32,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests all our methods in a single, complicated query
+     * Tests all the methods in a single, complicated query
      */
     public function testEverything()
     {

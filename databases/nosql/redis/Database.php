@@ -7,7 +7,7 @@
 namespace RamODev\Databases\NoSQL\Redis;
 use RamODev\Exceptions;
 use RamODev\Databases;
-use RamODev\Databases\NoSQL\Exceptions as CacheExceptions;
+use RamODev\Databases\NoSQL\Exceptions as NoSQLExceptions;
 
 require_once(__DIR__ . "/../../Database.php");
 require_once(__DIR__ . "/../exceptions/NoSQLException.php");

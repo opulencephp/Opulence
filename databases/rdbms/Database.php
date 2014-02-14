@@ -7,7 +7,7 @@
 namespace RamODev\Databases\RDBMS;
 use RamODev\Exceptions;
 use RamODev\Databases;
-use RamODev\Databases\RDBMS\Exceptions as DatabaseExceptions;
+use RamODev\Databases\RDBMS\Exceptions as RDBMSExceptions;
 
 require_once(__DIR__ . "/exceptions/RDBMSException.php");
 require_once(__DIR__ . "/../Database.php");
@@ -17,9 +17,9 @@ class Database extends Databases\Database
 {
     /** @var Server The server we're connecting to */
     protected $server = null;
-    /** @var \PDO|bool The connection to our database */
+    /** @var \PDO|bool The connection to the database */
     protected $connection = false;
-    /** @var \PDOStatement|bool The prepared statement that will execute our query */
+    /** @var \PDOStatement|bool The prepared statement that will execute the query */
     protected $preparedStatement = false;
 
     /**
@@ -110,9 +110,9 @@ class Database extends Databases\Database
      * Executes a query with a prepared statement
      *
      * @param string $query The query to execute
-     * @param array $params The parameters to bind to our query
+     * @param array $params The parameters to bind to the query
      * @return QueryResults A query results object
-     * @throws DatabaseExceptions\DatabaseException Thrown if the query couldn't be executed
+     * @throws RDBMSExceptions\RDBMSException Thrown if the query couldn't be executed
      */
     public function query($query, $params = array())
     {
@@ -129,7 +129,7 @@ class Database extends Databases\Database
 
         if($this->preparedStatement === false)
         {
-            throw new DatabaseExceptions\DatabaseException("Could not run query \"" . $query . "\" with parameters " . var_export($params));
+            throw new RDBMSExceptions\RDBMSException("Could not run query \"" . $query . "\" with parameters " . var_export($params));
         }
 
         return new QueryResults($this);

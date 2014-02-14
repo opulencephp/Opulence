@@ -33,7 +33,7 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests all our methods in a single, complicated query
+     * Tests all the methods in a single, complicated query
      */
     public function testEverything()
     {
@@ -45,7 +45,7 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests our INSERT/UPDATE ability
+     * Tests the INSERT/UPDATE ability
      */
     public function testInsertUpdate()
     {

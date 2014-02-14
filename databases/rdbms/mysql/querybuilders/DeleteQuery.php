@@ -32,9 +32,9 @@ class DeleteQuery extends QueryBuilders\DeleteQuery
     }
 
     /**
-     * Limits the number of rows returned by our query
+     * Limits the number of rows returned by the query
      *
-     * @param int $numRows The number of rows to limit in our results
+     * @param int $numRows The number of rows to limit in the results
      * @return $this
      */
     public function limit($numRows)

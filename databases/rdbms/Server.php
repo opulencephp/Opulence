@@ -15,7 +15,7 @@ abstract class Server extends Databases\Server
     protected $username = "";
     /** @var string The password to log in to the server */
     protected $password = "";
-    /** @var string The name of the database to connect to on our server */
+    /** @var string The name of the database to connect to on the server */
     protected $databaseName = "";
 
     /**

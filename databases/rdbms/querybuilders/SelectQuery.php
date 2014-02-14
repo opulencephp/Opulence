@@ -123,7 +123,7 @@ class SelectQuery extends Query
      */
     public function getSQL()
     {
-        // Build our selector
+        // Build the selector
         $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
 
         // Add any joins
@@ -146,7 +146,7 @@ class SelectQuery extends Query
         // Add any groupings' conditions
         $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("HAVING", $this->havingConditions);
 
-        // Order our query
+        // Order the query
         if(count($this->orderBy) > 0)
         {
             $sql .= " ORDER BY " . implode(", ", $this->orderBy);
@@ -198,7 +198,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Adds a inner join to our query
+     * Adds a inner join to the query
      *
      * @param string $tableName The name of the table we're joining
      * @param string $tableAlias The alias of the table name
@@ -213,7 +213,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Adds a join to our query
+     * Adds a join to the query
      * This is the same thing as an inner join
      *
      * @param string $tableName The name of the table we're joining
@@ -227,7 +227,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Adds a left join to our query
+     * Adds a left join to the query
      *
      * @param string $tableName The name of the table we're joining
      * @param string $tableAlias The alias of the table name
@@ -242,9 +242,9 @@ class SelectQuery extends Query
     }
 
     /**
-     * Limits the number of rows returned by our query
+     * Limits the number of rows returned by the query
      *
-     * @param int $numRows The number of rows to limit in our results
+     * @param int $numRows The number of rows to limit in the results
      * @return $this
      */
     public function limit($numRows)
@@ -257,7 +257,7 @@ class SelectQuery extends Query
     /**
      * Skips the input number of rows before returning rows
      *
-     * @param int $numRows The number of rows to skip in our results
+     * @param int $numRows The number of rows to skip in the results
      * @return $this
      */
     public function offset($numRows)
@@ -308,7 +308,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Adds a right join to our query
+     * Adds a right join to the query
      *
      * @param string $tableName The name of the table we're joining
      * @param string $tableAlias The alias of the table name
