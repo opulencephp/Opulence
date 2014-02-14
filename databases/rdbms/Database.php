@@ -29,7 +29,7 @@ use RamODev\Exceptions;
 use RamODev\Databases;
 use RamODev\Databases\RDBMS\Exceptions as DatabaseExceptions;
 
-require_once(__DIR__ . "/exceptions/DatabaseException.php");
+require_once(__DIR__ . "/exceptions/RDBMSException.php");
 require_once(__DIR__ . "/../Database.php");
 require_once(__DIR__ . "/QueryResults.php");
 

@@ -30,7 +30,7 @@ use RamODev\Databases;
 use RamODev\Databases\NoSQL\Exceptions as CacheExceptions;
 
 require_once(__DIR__ . "/../../Database.php");
-require_once(__DIR__ . "/../exceptions/CacheException.php");
+require_once(__DIR__ . "/../exceptions/NoSQLException.php");
 
 class Database extends Databases\Database
 {

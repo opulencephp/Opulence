@@ -27,7 +27,7 @@
 namespace RamODev\Databases\RDBMS;
 use RamODev\Databases\RDBMS\Exceptions;
 
-require_once(__DIR__ . "/exceptions/DatabaseException.php");
+require_once(__DIR__ . "/exceptions/RDBMSException.php");
 
 class QueryResults
 {
