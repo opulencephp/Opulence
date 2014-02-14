@@ -23,6 +23,7 @@ class DeleteQuery extends QueryBuilders\DeleteQuery
     {
         $sql = parent::getSQL();
 
+        // Add a limit
         if($this->limit !== -1)
         {
             $sql .= " LIMIT " . $this->limit;

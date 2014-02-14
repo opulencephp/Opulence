@@ -36,6 +36,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
     {
         $sql = parent::getSQL();
 
+        // Add a potential "UPDATE"
         if(count($this->duplicateKeyUpdateColumnNamesToValues) > 0)
         {
             $sql .= " ON DUPLICATE KEY UPDATE";

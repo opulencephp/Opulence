@@ -135,6 +135,7 @@ class SelectQuery extends Query
             }
         }
 
+        // Add any conditions
         $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
 
         // Add groupings

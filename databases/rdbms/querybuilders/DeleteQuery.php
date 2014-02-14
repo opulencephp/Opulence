@@ -67,6 +67,7 @@ class DeleteQuery extends Query
             $sql .= " USING " . implode(", ", $this->usingExpressions);
         }
 
+        // Add any conditions
         $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;

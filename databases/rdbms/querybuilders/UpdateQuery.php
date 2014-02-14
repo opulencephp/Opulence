@@ -71,6 +71,7 @@ class UpdateQuery extends Query
         }
 
         $sql = trim($sql, ",");
+        // Add any conditions
         $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;
