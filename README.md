@@ -1,6 +1,3 @@
-rest-api
-========
-
 # About
 These tools are PHP wrappers for relational database (RDBMS) and NoSQL database interaction.  Specifically, connecting to and querying MySQL, PostgreSQL, and Redis databases has been simplified and made more customizable.  Sometimes you need to programmatically generate/piece together SQL queries.  Rather than concatenating strings together, you can use **Query Builders** to do the heavy lifting.  The following is an example of a simple PostgreSQL query using one:
 
