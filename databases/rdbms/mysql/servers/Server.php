@@ -9,7 +9,7 @@ use RamODev\Databases\RDBMS;
 
 require_once(__DIR__ . "/../../Server.php");
 
-abstract class Server extends Databases\Server
+abstract class Server extends RDBMS\Server
 {
     /**
      * Gets the connection string
