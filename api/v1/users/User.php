@@ -8,41 +8,37 @@ namespace RamODev\API\V1\Users;
 
 require_once(__DIR__ . "/IUser.php");
 
-abstract class User implements IUser
+class User implements IUser
 {
     /** @var int The ID of the user */
     protected $id = -1;
+    /** @var string The username of the user (for now, it'll be the same as the username) */
+    protected $username = "";
     /** @var string The email of the user */
     protected $email = "";
     /** @var string The first name of the user */
     protected $firstName = "";
     /** @var string The last name of the user */
     protected $lastName = "";
-    /** @var Password The password of the user */
-    protected $password = null;
+    /** @var string The hashed password of the user */
+    protected $hashedPassword = null;
 
     /**
      * @param int $id The ID of this user
+     * @param string $username The username of the user
      * @param string $email The email address of this user
      * @param string $firstName The first name of this user
      * @param string $lastName The last name of this user
-     * @param Password $password The password object belonging to this user
+     * @param string $hashedPassword The hashed password of this user
      */
-    public function __construct($id, $email, $firstName, $lastName, Password $password)
+    public function __construct($id, $username, $hashedPassword, $email, $firstName, $lastName)
     {
         $this->id = $id;
+        $this->username = $username;
+        $this->hashedPassword = $hashedPassword;
         $this->email = $email;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
-        $this->password = $password;
-    }
-
-    /**
-     * @param string $email
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
     }
 
     /**
@@ -54,14 +50,6 @@ abstract class User implements IUser
     }
 
     /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName)
-    {
-        $this->firstName = $firstName;
-    }
-
-    /**
      * @return string
      */
     public function getFirstName()
@@ -70,11 +58,11 @@ abstract class User implements IUser
     }
 
     /**
-     * @param int $id
+     * @return string
      */
-    public function setId($id)
+    public function getHashedPassword()
     {
-        $this->id = $id;
+        return $this->hashedPassword;
     }
 
     /**
@@ -86,14 +74,6 @@ abstract class User implements IUser
     }
 
     /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName)
-    {
-        $this->lastName = $lastName;
-    }
-
-    /**
      * @return string
      */
     public function getLastName()
@@ -102,18 +82,58 @@ abstract class User implements IUser
     }
 
     /**
-     * @param Password $password
+     * @return string
      */
-    public function setPassword($password)
+    public function getUsername()
     {
-        $this->password = $password;
+        return $this->username;
     }
 
     /**
-     * @return Password
+     * @param string $email
      */
-    public function getPassword()
+    public function setEmail($email)
     {
-        return $this->password;
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $firstName
+     */
+    public function setFirstName($firstName)
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setHashedPassword($password)
+    {
+        $this->hashedPassword = $password;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setID($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $lastName
+     */
+    public function setLastName($lastName)
+    {
+        $this->lastName = $lastName;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
     }
 } 

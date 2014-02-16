@@ -1,0 +1,147 @@
+<?php
+/**
+ * Copyright (C) 2014 David Young
+ *
+ * Tests the user object
+ */
+namespace RamODev\API\V1\Users;
+
+require_once(__DIR__ . "/../../../../api/v1/users/User.php");
+
+class UserTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var User The user object we're going to clone for our tests */
+    private $protypicalUser = null;
+
+    /**
+     * Sets up the test
+     */
+    public function setUp()
+    {
+        $this->protypicalUser = new User(18175, "foo@bar.com", "fakepassword", "foo@bar.com", "David", "Young");
+    }
+
+    /**
+     * Test getting the email
+     */
+    public function testGettingEmail()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals("foo@bar.com", $user->getEmail());
+    }
+
+    /**
+     * Test getting the first name
+     */
+    public function testGettingFirstName()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals("David", $user->getFirstName());
+    }
+
+    /**
+     * Test getting the ID
+     */
+    public function testGettingID()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals(18175, $user->getID());
+    }
+
+    /**
+     * Test getting the last name
+     */
+    public function testGettingLastName()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals("Young", $user->getLastName());
+    }
+
+    /**
+     * Test getting the password
+     */
+    public function testGettingPassword()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals("fakepassword", $user->getHashedPassword());
+    }
+
+    /**
+     * Test getting the username
+     */
+    public function testGettingUsername()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals("foo@bar.com", $user->getUsername());
+    }
+
+    /**
+     * Test setting the email
+     */
+    public function testSettingEmail()
+    {
+        $user = $this->getClonedUser();
+        $user->setEmail("bar@foo.com");
+        $this->assertEquals("bar@foo.com", $user->getEmail());
+    }
+
+    /**
+     * Test setting the first name
+     */
+    public function testSettingFirstName()
+    {
+        $user = $this->getClonedUser();
+        $user->setFirstName("Brian");
+        $this->assertEquals("Brian", $user->getFirstName());
+    }
+
+    /**
+     * Test setting the ID
+     */
+    public function testSettingID()
+    {
+        $user = $this->getClonedUser();
+        $user->setID(12345);
+        $this->assertEquals(12345, $user->getID());
+    }
+
+    /**
+     * Test setting the last name
+     */
+    public function testSettingLastName()
+    {
+        $user = $this->getClonedUser();
+        $user->setLastName("Banjo");
+        $this->assertEquals("Banjo", $user->getLastName());
+    }
+
+    /**
+     * Test setting the password
+     */
+    public function testSettingPassword()
+    {
+        $user = $this->getClonedUser();
+        $user->setHashedPassword("newfakepassword");
+        $this->assertEquals("newfakepassword", $user->getHashedPassword());
+    }
+
+    /**
+     * Test setting the username
+     */
+    public function testSettingUsername()
+    {
+        $user = $this->getClonedUser();
+        $user->setUsername("bar@foo.com");
+        $this->assertEquals("bar@foo.com", $user->getUsername());
+    }
+
+    /**
+     * Clones the protypical user and returns it
+     *
+     * @return User The user object to use for testing
+     */
+    private function getClonedUser()
+    {
+        return clone $this->protypicalUser;
+    }
+} 
