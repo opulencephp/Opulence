@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines the base user class
+ * Defines a user
  */
 namespace RamODev\API\V1\Users;
 
@@ -14,14 +14,14 @@ class User implements IUser
     protected $id = -1;
     /** @var string The username of the user (for now, it'll be the same as the username) */
     protected $username = "";
+    /** @var string The hashed password of the user */
+    protected $hashedPassword = "";
     /** @var string The email of the user */
     protected $email = "";
     /** @var string The first name of the user */
     protected $firstName = "";
     /** @var string The last name of the user */
     protected $lastName = "";
-    /** @var string The hashed password of the user */
-    protected $hashedPassword = null;
 
     /**
      * @param int $id The ID of this user
