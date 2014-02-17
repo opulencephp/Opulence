@@ -4,7 +4,7 @@ These tools are PHP wrappers for relational database (RDBMS) and NoSQL database 
 ```
 <?php
 namespace RamODev;
-use RamODev\Databases\RDBMS\PostgreSQL\QueryBuilders;
+use RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
 
 require_once(PATH_TO_POSTGRESQL_QUERY_BUILDER_CLASS);
 

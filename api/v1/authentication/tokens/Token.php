@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a token used to authenticate a user request
+ * Defines a token used to authenticate a request
  */
 namespace RamODev\API\V1\Authentication\Tokens;
 
