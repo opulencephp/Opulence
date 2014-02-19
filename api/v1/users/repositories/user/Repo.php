@@ -14,7 +14,7 @@ use RamODev\Repositories;
 require_once(__DIR__ . "/../../../../../repositories/Repo.php");
 require_once(__DIR__ . "/../../User.php");
 require_once(__DIR__ . "/IUserRepo.php");
-require_once(__DIR__ . "/NoSQLRepo.php");
+require_once(__DIR__ . "/RedisRepo.php");
 require_once(__DIR__ . "/SQLRepo.php");
 require_once(__DIR__ . "/UserDataTypes.php");
 
@@ -24,7 +24,7 @@ class Repo extends Repositories\Repo implements IUserRepo
     private $userFactory = null;
 
     /**
-     * @param Redis\Database $redisDatabase The NoSQL database used in the repo
+     * @param Redis\Database $redisDatabase The Redis database used in the repo
      * @param SQL\Database $sqlDatabase The relational database used in the repo
      * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
      */
@@ -113,24 +113,24 @@ class Repo extends Repositories\Repo implements IUserRepo
     }
 
     /**
-     * Stores a user object that wasn't initially found in the NoSQL repo
+     * Stores a user object that wasn't initially found in the Redis repo
      *
-     * @param Users\IUser $user The user to store in the NoSQL repo
+     * @param Users\IUser $user The user to store in the Redis repo
      */
-    protected function addDataToNoSQLRepo(&$user)
+    protected function addDataToNoRedisRepo(&$user)
     {
-        $this->noSQLRepo->create($user);
+        $this->redisRepo->create($user);
     }
 
     /**
-     * Gets a NoSQL repo to use in this repo
+     * Gets a Redis repo to use in this repo
      *
-     * @param Redis\Database $redisDatabase The NoSQL database used in the repo
-     * @return NoSQLRepo The NoSQL repo to use
+     * @param Redis\Database $redisDatabase The Redis database used in the repo
+     * @return RedisRepo The Redis repo to use
      */
-    protected function getNoSQLRepo(Redis\Database $redisDatabase)
+    protected function getRedisRepo(Redis\Database $redisDatabase)
     {
-        return new NoSQLRepo($redisDatabase, $this->userFactory);
+        return new RedisRepo($redisDatabase, $this->userFactory);
     }
 
     /**

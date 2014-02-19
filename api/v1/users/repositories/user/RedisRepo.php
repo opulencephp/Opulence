@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Provides methods for retrieving user data from a NoSQL database
+ * Provides methods for retrieving user data from a Redis database
  */
 namespace RamODev\API\V1\Users\Repositories\User;
 use RamODev\API\V1\Users;
@@ -10,9 +10,9 @@ use RamODev\API\V1\Users\Factories;
 use RamODev\Databases\NoSQL\Redis;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../repositories/NoSQLRepo.php");
+require_once(__DIR__ . "/../../../../../repositories/RedisRepo.php");
 
-class NoSQLRepo extends Repositories\NoSQLRepo implements IUserRepo
+class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */
     private $userFactory = null;
