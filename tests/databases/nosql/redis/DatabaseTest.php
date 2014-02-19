@@ -47,7 +47,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRedis()
     {
-        $this->assertInstanceOf("\\Redis", $this->database->getRedis());
+        $this->assertInstanceOf("\\Redis", $this->database->getPHPRedis());
     }
 
     /**

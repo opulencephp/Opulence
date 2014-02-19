@@ -16,6 +16,7 @@ require_once(__DIR__ . "/../../User.php");
 require_once(__DIR__ . "/IUserRepo.php");
 require_once(__DIR__ . "/NoSQLRepo.php");
 require_once(__DIR__ . "/SQLRepo.php");
+require_once(__DIR__ . "/UserDataTypes.php");
 
 class Repo extends Repositories\Repo implements IUserRepo
 {
@@ -42,7 +43,7 @@ class Repo extends Repositories\Repo implements IUserRepo
      */
     public function create(Users\IUser &$user)
     {
-        return $this->set(__FUNCTION__, array($user));
+        return $this->set(__FUNCTION__, array(&$user));
     }
 
     /**
@@ -108,7 +109,7 @@ class Repo extends Repositories\Repo implements IUserRepo
      */
     public function update(Users\IUser &$user)
     {
-        return $this->set(__FUNCTION__, array($user));
+        return $this->set(__FUNCTION__, array(&$user));
     }
 
     /**
@@ -129,7 +130,7 @@ class Repo extends Repositories\Repo implements IUserRepo
      */
     protected function getNoSQLRepo(Redis\Database $redisDatabase)
     {
-        return new NoSQLRepo($redisDatabase);
+        return new NoSQLRepo($redisDatabase, $this->userFactory);
     }
 
     /**

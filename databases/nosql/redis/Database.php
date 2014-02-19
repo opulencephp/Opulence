@@ -60,7 +60,7 @@ class Database extends Databases\Database
     /**
      * @return \Redis
      */
-    public function getRedis()
+    public function getPHPRedis()
     {
         return $this->redis;
     }

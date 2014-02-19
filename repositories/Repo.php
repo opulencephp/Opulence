@@ -8,6 +8,8 @@ namespace RamODev\Repositories;
 use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 
+require_once(__DIR__ . "/ActionTypes.php");
+
 abstract class Repo
 {
     /** @var NoSQLRepo The cache repository to use for temporary storage */
@@ -97,6 +99,7 @@ abstract class Repo
      */
     protected function set($funcName, $funcArgs)
     {
-        return call_user_func_array(array($this->noSQLRepo, $funcName), $funcArgs) && call_user_func_array(array($this->sqlRepo, $funcName), $funcArgs);
+        // We update the SQL repo first in the case that it sets an SQL row ID to the object
+        return call_user_func_array(array($this->sqlRepo, $funcName), $funcArgs) && call_user_func_array(array($this->noSQLRepo, $funcName), $funcArgs);
     }
 } 

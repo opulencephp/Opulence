@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Creates a token
+ * Creates a cryptographic token
  */
 namespace RamODev\V1\Cryptography\Factories\Token;
 use RamODev\API\V1\Cryptography;
@@ -35,9 +35,9 @@ class Factory
 
         $hashedTokenString = hash("sha256", $tokenString);
         // Set the expiration to some time far in the future
-        $expiration = new \DateTime("now", new \DateTimeZone("UTC"));
+        $expiration = new \DateTime(null, new \DateTimeZone("UTC"));
         $expiration->setTimestamp(time() + self::LIFETIME);
 
-        return new Tokens\Token($hashedTokenString, $expiration);
+        return new Cryptography\Token($hashedTokenString, $expiration);
     }
 } 

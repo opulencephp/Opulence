@@ -8,17 +8,20 @@ namespace RamODev\API\V1\Users\Repositories\User;
 use RamODev\API\V1\Users;
 use RamODev\API\V1\Users\Factories;
 use RamODev\Databases\SQL;
-use RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
-use RamODev\Databases\SQL\Exceptions;
+use RamODev\Databases\SQL\Exceptions as SQLExceptions;
+use RamODev\Databases\SQL\QueryBuilders as GenericQueryBuilders;
+use RamODev\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
+use RamODev\Exceptions;
 use RamODev\Repositories;
 
 require_once(__DIR__ . "/../../../../../repositories/SQLRepo.php");
+require_once(__DIR__ . "/../../../../../databases/sql/postgresql/querybuilders/QueryBuilder.php");
 
 class SQLRepo extends Repositories\SQLRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */
     private $userFactory = null;
-    /** @var QueryBuilders\SelectQuery The select query used across get methods */
+    /** @var PostgreSQLQueryBuilders\SelectQuery The select query used across get methods */
     private $getQuery = null;
 
     /**
@@ -40,7 +43,35 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
      */
     public function create(Users\IUser &$user)
     {
+        $this->sqlDatabase->startTransaction();
 
+        try
+        {
+            $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+
+            // Add the user to the users table
+            $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
+            $insertResult = $this->sqlDatabase->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
+
+            // We'll take this opportunity to update the user's ID
+            $user->setID((int)$insertResult->getServerConnection()->getLastInsertID("users.users_id_seq"));
+
+            // Add the user's data to the user data table
+            $userDataInsertQuery = $queryBuilder->insert("users.userdata", array("userid" => $user->getID()));
+            $this->set($user, $userDataInsertQuery);
+            $this->log($user, Repositories\ActionTypes::ADDED);
+            $this->sqlDatabase->commitTransaction();
+
+            return true;
+        }
+        catch(SQLExceptions\SQLException $ex)
+        {
+            Exceptions\Log::write("Failed to update user: " . $ex);
+            $this->sqlDatabase->rollBackTransaction();
+            $user->setID(-1);
+        }
+
+        return false;
     }
 
     /**
@@ -51,6 +82,8 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
     public function getAll()
     {
         $this->buildGetQuery();
+
+        return $this->get(false);
     }
 
     /**
@@ -65,7 +98,7 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
         $this->getQuery->andWhere("LOWER(email) = :email")
             ->addNamedPlaceholderValue("email", strtolower($email));
 
-        return $this->get();
+        return $this->get(true);
     }
 
     /**
@@ -77,6 +110,10 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
     public function getByID($id)
     {
         $this->buildGetQuery();
+        $this->getQuery->andWhere("id = :id")
+            ->addNamedPlaceholderValue("id", $id);
+
+        return $this->get(true);
     }
 
     /**
@@ -88,6 +125,10 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
     public function getByUsername($username)
     {
         $this->buildGetQuery();
+        $this->getQuery->andWhere("LOWER(username) = :username")
+            ->addNamedPlaceholderValue("username", strtolower($username));
+
+        return $this->get(true);
     }
 
     /**
@@ -100,6 +141,11 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
     public function getByUsernameAndPassword($username, $hashedPassword)
     {
         $this->buildGetQuery();
+        $this->getQuery->andWhere("LOWER(username) = :username")
+            ->andWhere("password = :password")
+            ->addNamedPlaceholderValues(array("username" => strtolower($username), "password" => $hashedPassword));
+
+        return $this->get(true);
     }
 
     /**
@@ -110,16 +156,34 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
      */
     public function update(Users\IUser &$user)
     {
+        $this->sqlDatabase->startTransaction();
 
+        try
+        {
+            $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+            $updateQuery = $queryBuilder->update("users.userdata", "", array())
+                ->where("userid = ?");
+            $this->set($user, $updateQuery);
+            $this->log($user, Repositories\ActionTypes::UPDATED);
+            $this->sqlDatabase->commitTransaction();
+
+            return true;
+        }
+        catch(SQLExceptions\SQLException $ex)
+        {
+            Exceptions\Log::write("Failed to update user: " . $ex);
+            $this->sqlDatabase->rollBackTransaction();
+        }
+
+        return false;
     }
 
     /**
      * Builds the basic get query that's common to all get methods
      */
-    protected function buildGetQuery()
+    private function buildGetQuery()
     {
-        require_once(__DIR__ . "/../../../../../databases/sql/postgresql/querybuilders/QueryBuilder.php");
-        $queryBuilder = new QueryBuilders\QueryBuilder();
+        $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
         $this->getQuery = $queryBuilder->select("id", "username", "password", "email", "datecreated", "firstname", "lastname")
             ->from("users.usersview");
     }
@@ -127,13 +191,14 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
     /**
      * Runs the get query and returns results, if there are any
      *
+     * @param bool $expectSingleResult True if we're expecting a single result, otherwise false and we're expecting an array of results
      * @return array|Users\IUser|bool The list of users or the individual user returned by the query if successful, otherwise false
      */
-    protected function get()
+    private function get($expectSingleResult)
     {
         $results = $this->sqlDatabase->query($this->getQuery->getSQL(), $this->getQuery->getParameters());
 
-        if($results->getNumResults() == 0)
+        if($results->getNumResults() == 0 || ($expectSingleResult && $results->getNumResults() > 1))
         {
             return false;
         }
@@ -153,6 +218,62 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
             $users[] = $this->userFactory->createUser($id, $username, $password, $email, $dateCreated, $firstName, $lastName);
         }
 
-        return $users;
+        if($expectSingleResult)
+        {
+            // At this point, we know there's only one result, like we expected, so return it
+            return $users[0];
+        }
+        else
+        {
+            return $users;
+        }
+    }
+
+    /**
+     * Logs changes in the appropriate table
+     *
+     * @param Users\IUser $user The user whose changes we must log
+     * @param int $actionTypeID The ID of the type of action we've taken on the user
+     * @throws SQLExceptions\SQLException Thrown if any of the queries fails
+     */
+    private function log(Users\IUser &$user, $actionTypeID)
+    {
+        $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+        $insertQuery = $queryBuilder->insert("users.userdatalog", array("userid" => $user->getID(), "actiontypeid" => $actionTypeID));
+        $this->set($user, $insertQuery);
+    }
+
+    /**
+     * Executes the input query for the user's various attributes
+     *
+     * @param Users\IUser $user The user whose data we are changing
+     * @param GenericQueryBuilders\Query $query The query we'll run
+     */
+    private function set(Users\IUser $user, GenericQueryBuilders\Query $query)
+    {
+        /**
+         * Each item in the array contains the array of placeholder names to their respective values
+         * We can loop through them, update the query with their values, and then execute them
+         */
+        $placeholders = array(
+            array("userdatatypeid" => UserDataTypes::EMAIL, "value" => $user->getEmail()),
+            array("userdatatypeid" => UserDataTypes::PASSWORD, "value" => $user->getHashedPassword()),
+            array("userdatatypeid" => UserDataTypes::FIRST_NAME, "value" => $user->getFirstName()),
+            array("userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName())
+        );
+
+        // Run the query
+        for($placeholdersIter = 0;$placeholdersIter < count($placeholders);$placeholdersIter++)
+        {
+            if($placeholdersIter > 0)
+            {
+                // We need to remove the previous placeholders
+                $query->removeUnnamedPlaceHolder(count($query->getParameters()) - 1);
+                $query->removeUnnamedPlaceHolder(count($query->getParameters()) - 1);
+            }
+
+            $query->addColumnValues($placeholders[$placeholdersIter]);
+            $this->sqlDatabase->query($query->getSQL(), $query->getParameters());
+        }
     }
 } 

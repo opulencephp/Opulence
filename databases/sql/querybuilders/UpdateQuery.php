@@ -37,8 +37,11 @@ class UpdateQuery extends Query
      */
     public function addColumnValues($columnNamesToValues)
     {
-        $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
-        $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);
+        if(count($columnNamesToValues) > 0)
+        {
+            $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
+            $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);
+        }
 
         return $this;
     }

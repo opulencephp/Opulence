@@ -121,6 +121,46 @@ abstract class Query
     }
 
     /**
+     * Removes a named placeholder from the query
+     *
+     * @param string $placeholderName The name of the placeholder to remove
+     * @return $this
+     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     */
+    public function removeNamedPlaceHolder($placeholderName)
+    {
+        if($this->usingUnnamedPlaceholders === true)
+        {
+            throw new Exceptions\InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+        }
+
+        unset($this->parameters[$placeholderName]);
+
+        return $this;
+    }
+
+    /**
+     * Removes an unnamed placeholder from the query
+     *
+     * @param int $placeholderIndex The index of the placeholder in the parameters to remove
+     * @return $this
+     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     */
+    public function removeUnnamedPlaceHolder($placeholderIndex)
+    {
+        if($this->usingUnnamedPlaceholders === false)
+        {
+            throw new Exceptions\InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+        }
+
+        unset($this->parameters[$placeholderIndex]);
+        // Re-index the array
+        $this->parameters = array_values($this->parameters);
+
+        return $this;
+    }
+
+    /**
      * Sets the table we're querying
      *
      * @param string $tableName The name of the table we're querying
