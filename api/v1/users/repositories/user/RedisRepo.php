@@ -29,22 +29,14 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     }
 
     /**
-     * Creates a user in the repository
+     * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
      * @return bool True if successful, otherwise false
      */
-    public function create(Users\IUser &$user)
+    public function add(Users\IUser &$user)
     {
-        // Store the user's data as a hash
-        $userKey = "users:" . $user->getID();
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "id", $user->getID());
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "password", $user->getHashedPassword());
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "username", $user->getUsername());
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "email", $user->getEmail());
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "lastname", $user->getLastName());
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "firstname", $user->getFirstName());
-        $this->redisDatabase->getPHPRedis()->hSetNx($userKey, "datecreated", $user->getDateCreated()->getTimestamp());
+        $this->createHashFromUser($user);
 
         // Add to the user to the users' set
         $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getID());
@@ -77,14 +69,14 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 
         foreach($userIDs as $userID)
         {
-            $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID);
+            $user = $this->createUserFromID($userID);
 
-            if($userHash == array())
+            if($user === false)
             {
                 return false;
             }
 
-            $users[] = $this->createUserFromHash($userHash);
+            $users[] = $user;
         }
 
         return $users;
@@ -105,14 +97,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID);
-
-        if($userHash == array())
-        {
-            return false;
-        }
-
-        return $this->createUserFromHash($userHash);
+        return $this->createUserFromID($userID);
     }
 
     /**
@@ -123,14 +108,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByID($id)
     {
-        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $id);
-
-        if($userHash == array())
-        {
-            return false;
-        }
-
-        return $this->createUserFromHash($userHash);
+        return $this->createUserFromID($id);
     }
 
     /**
@@ -148,14 +126,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID);
-
-        if($userHash == array())
-        {
-            return false;
-        }
-
-        return $this->createUserFromHash($userHash);
+        return $this->createUserFromID($userID);
     }
 
     /**
@@ -182,14 +153,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userIDFromUsername);
-
-        if($userHash == array())
-        {
-            return false;
-        }
-
-        return $this->createUserFromHash($userHash);
+        return $this->createUserFromID($userIDFromUsername);
     }
 
     /**
@@ -200,37 +164,43 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function update(Users\IUser &$user)
     {
-        // Store the user's data as a hash
-        $userKey = "users:" . $user->getID();
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "id", $user->getID());
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "password", $user->getHashedPassword());
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "username", $user->getUsername());
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "email", $user->getEmail());
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "lastname", $user->getLastName());
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "firstname", $user->getFirstName());
-        $this->redisDatabase->getPHPRedis()->hSet($userKey, "datecreated", $user->getDateCreated()->getTimestamp());
-
-        // Add to the user to the users' set
-        $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getID());
-
-        // Create the email index
-        $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getID());
-
-        // Create the username index
-        $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getID());
-
-        // Create the password index
-        $this->redisDatabase->getPHPRedis()->set("users:password:" . $user->getHashedPassword(), $user->getID());
+        $this->add($user);
     }
 
     /**
-     * Creates a user object from a Redis hash
+     * Creates and stores a hash of a user object in cache
      *
-     * @param array $userHash The Redis hash containing the user's data
-     * @return Users\IUser The user object from the input hash
+     * @param Users\IUser $user The user object from which we're creating a hash
+     * @return bool True if successful, otherwise false
      */
-    private function createUserFromHash(array $userHash)
+    private function createHashFromUser(Users\IUser $user)
     {
+        $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getID(), array(
+            "id" => $user->getID(),
+            "password" => $user->getHashedPassword(),
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail(),
+            "lastname" => $user->getLastName(),
+            "firstname" => $user->getFirstName(),
+            "datecreated" => $user->getDateCreated()->getTimestamp()
+        ));
+    }
+
+    /**
+     * Creates a user object from cache using an ID
+     *
+     * @param int $userID The ID of the user to create
+     * @return Users\IUser|bool The user object if successful, otherwise false
+     */
+    private function createUserFromID($userID)
+    {
+        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID);
+
+        if($userHash == array())
+        {
+            return false;
+        }
+
         // Convert from a Unix timestamp
         $dateCreated = new \DateTime(null, new \DateTimeZone("UTC"));
         $dateCreated->setTimestamp($userHash["datecreated"]);

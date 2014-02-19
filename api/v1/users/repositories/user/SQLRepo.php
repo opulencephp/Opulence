@@ -36,12 +36,12 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
     }
 
     /**
-     * Creates a user in the repository
+     * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
      * @return bool True if successful, otherwise false
      */
-    public function create(Users\IUser &$user)
+    public function add(Users\IUser &$user)
     {
         $this->sqlDatabase->startTransaction();
 

@@ -41,7 +41,7 @@ class Repo extends Repositories\Repo implements IUserRepo
      * @param Users\IUser $user The user to store in the repository
      * @return bool True if successful, otherwise false
      */
-    public function create(Users\IUser &$user)
+    public function add(Users\IUser &$user)
     {
         return $this->set(__FUNCTION__, array(&$user));
     }
