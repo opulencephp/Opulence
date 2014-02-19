@@ -1,3 +1,4 @@
+Figure out why user repo is taking longer than anticipated
 Add a layer in front of the server connection layers
     This will allow us to one day add in load balancers
 Need to determine how we hand out api keys
