@@ -6,15 +6,34 @@
  */
 namespace RamODev\API\V1\Users\Repositories\User;
 use RamODev\API\V1\Users;
+use RamODev\API\V1\Users\Factories;
+use RamODev\Databases\NoSQL\Redis;
+use RamODev\Databases\SQL;
 use RamODev\Repositories;
 
 require_once(__DIR__ . "/../../../../../repositories/Repo.php");
+require_once(__DIR__ . "/../../User.php");
 require_once(__DIR__ . "/IUserRepo.php");
 require_once(__DIR__ . "/NoSQLRepo.php");
 require_once(__DIR__ . "/SQLRepo.php");
 
 class Repo extends Repositories\Repo implements IUserRepo
 {
+    /** @var Factories\IUserFactory The user factory to use when creating user objects */
+    private $userFactory = null;
+
+    /**
+     * @param Redis\Database $redisDatabase The NoSQL database used in the repo
+     * @param SQL\Database $sqlDatabase The relational database used in the repo
+     * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
+     */
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory)
+    {
+        $this->userFactory = $userFactory;
+
+        parent::__construct($redisDatabase, $sqlDatabase);
+    }
+
     /**
      * Creates a user in the repository
      *
@@ -100,5 +119,27 @@ class Repo extends Repositories\Repo implements IUserRepo
     protected function addDataToNoSQLRepo(&$user)
     {
         $this->noSQLRepo->create($user);
+    }
+
+    /**
+     * Gets a NoSQL repo to use in this repo
+     *
+     * @param Redis\Database $redisDatabase The NoSQL database used in the repo
+     * @return NoSQLRepo The NoSQL repo to use
+     */
+    protected function getNoSQLRepo(Redis\Database $redisDatabase)
+    {
+        return new NoSQLRepo($redisDatabase);
+    }
+
+    /**
+     * Gets a SQL repo to use in this repo
+     *
+     * @param SQL\Database $sqlDatabase The SQL database used in the repo
+     * @return SQLRepo The SQL repo to use
+     */
+    protected function getSQLRepo(SQL\Database $sqlDatabase)
+    {
+        return new SQLRepo($sqlDatabase, $this->userFactory);
     }
 } 

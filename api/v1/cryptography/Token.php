@@ -4,7 +4,7 @@
  *
  * Defines a token used to authenticate a request
  */
-namespace RamODev\API\V1\Authentication\Tokens;
+namespace RamODev\API\V1\Cryptography;
 
 class Token
 {

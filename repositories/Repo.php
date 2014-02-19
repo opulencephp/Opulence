@@ -21,8 +21,8 @@ abstract class Repo
      */
     public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase)
     {
-        $this->noSQLRepo = $redisDatabase;
-        $this->sqlRepo = $sqlDatabase;
+        $this->noSQLRepo = $this->getNoSQLRepo($redisDatabase);
+        $this->sqlRepo = $this->getSQLRepo($sqlDatabase);
     }
 
     /**
@@ -32,6 +32,22 @@ abstract class Repo
      * @param mixed $data The data to write to the NoSQL repository
      */
     abstract protected function addDataToNoSQLRepo(&$data);
+
+    /**
+     * Gets a NoSQL repo to use in this repo
+     *
+     * @param Redis\Database $redisDatabase The NoSQL database used in the repo
+     * @return NoSQLRepo The NoSQL repo to use
+     */
+    abstract protected function getNoSQLRepo(Redis\Database $redisDatabase);
+
+    /**
+     * Gets a SQL repo to use in this repo
+     *
+     * @param SQL\Database $sqlDatabase The SQL database used in the repo
+     * @return SQLRepo The SQL repo to use
+     */
+    abstract protected function getSQLRepo(SQL\Database $sqlDatabase);
 
     /**
      * Attempts to retrieve data from the NoSQL repo before resorting to a SQL database
@@ -45,10 +61,12 @@ abstract class Repo
         // Always attempt to retrieve from the NoSQL repo first
         $data = call_user_func_array(array($this->noSQLRepo, $funcName), $funcArgs);
 
+        // If we have to go off to the SQL repo
         if($data === false)
         {
             $data = call_user_func_array(array($this->sqlRepo, $funcName), $funcArgs);
 
+            // Try to store the data back to the NoSQL repo
             if($data === false)
             {
                 return false;

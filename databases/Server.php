@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Provides a skeleton for storage servers to extend
+ * Provides a skeleton for database servers to extend
  */
 namespace RamODev\Databases;
 

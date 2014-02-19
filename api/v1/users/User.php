@@ -22,23 +22,35 @@ class User implements IUser
     protected $firstName = "";
     /** @var string The last name of the user */
     protected $lastName = "";
+    /** @var \DateTime The date this user was created */
+    protected $dateCreated = null;
 
     /**
      * @param int $id The ID of this user
      * @param string $username The username of the user
      * @param string $hashedPassword The hashed password of this user
      * @param string $email The email address of this user
+     * @param \DateTime $dateCreated The date this user was created
      * @param string $firstName The first name of this user
      * @param string $lastName The last name of this user
      */
-    public function __construct($id, $username, $hashedPassword, $email, $firstName, $lastName)
+    public function __construct($id, $username, $hashedPassword, $email, $dateCreated, $firstName, $lastName)
     {
         $this->id = $id;
         $this->username = $username;
         $this->hashedPassword = $hashedPassword;
         $this->email = $email;
+        $this->dateCreated = $dateCreated;
         $this->firstName = $firstName;
         $this->lastName = $lastName;
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
     }
 
     /**
@@ -127,13 +139,5 @@ class User implements IUser
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
-    }
-
-    /**
-     * @param string $username
-     */
-    public function setUsername($username)
-    {
-        $this->username = $username;
     }
 } 

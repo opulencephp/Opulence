@@ -9,6 +9,11 @@ namespace RamODev\API\V1\Users;
 interface IUser
 {
     /**
+     * @return \DateTime
+     */
+    public function getDateCreated();
+
+    /**
      * @return string
      */
     public function getEmail();
@@ -62,9 +67,4 @@ interface IUser
      * @param string $lastName
      */
     public function setLastName($lastName);
-
-    /**
-     * @param string $username
-     */
-    public function setUsername($username);
 } 

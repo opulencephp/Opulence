@@ -12,7 +12,7 @@ abstract class Database
     protected $server = null;
 
     /**
-     * @param Server $server The storage server to connect to
+     * @param Server $server The database server to connect to
      */
     public function __construct(Server $server)
     {

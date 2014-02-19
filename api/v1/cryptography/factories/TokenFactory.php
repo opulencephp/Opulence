@@ -2,12 +2,10 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Creates API keys
+ * Creates a token
  */
-namespace RamODev\V1\Tokens\Factories\APIKey;
-use RamODev\API\V1\Authentication\Tokens;
-
-require_once(__DIR__ . "/../../Token.php");
+namespace RamODev\V1\Cryptography\Factories\Token;
+use RamODev\API\V1\Cryptography;
 
 class Factory
 {
@@ -20,11 +18,11 @@ class Factory
     private static $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
-     * Generates an API key
+     * Generates a cryptographic token
      *
-     * @return Tokens\Token A new API key
+     * @return Cryptography\Token A new token
      */
-    public function createAPIKey()
+    public function createCryptographicToken()
     {
         // Start with the current timestamp to minimize chance of key collision
         $tokenString = time();
