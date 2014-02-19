@@ -116,6 +116,11 @@ class Database extends Databases\Database
      */
     public function query($query, $params = array())
     {
+        if(!$this->isConnected())
+        {
+            $this->connect();
+        }
+
         $this->preparedStatement = $this->connection->prepare($query);
 
         if(count($params) > 0)
@@ -148,6 +153,12 @@ class Database extends Databases\Database
      */
     public function startTransaction()
     {
+        // There's a chance we haven't connected if we haven't yet queried but have started a transaction
+        if(!$this->isConnected())
+        {
+            $this->connect();
+        }
+
         $this->connection->beginTransaction();
     }
 } 

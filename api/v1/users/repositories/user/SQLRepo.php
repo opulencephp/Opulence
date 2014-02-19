@@ -259,7 +259,8 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
             array("userdatatypeid" => UserDataTypes::EMAIL, "value" => $user->getEmail()),
             array("userdatatypeid" => UserDataTypes::PASSWORD, "value" => $user->getHashedPassword()),
             array("userdatatypeid" => UserDataTypes::FIRST_NAME, "value" => $user->getFirstName()),
-            array("userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName())
+            array("userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName()),
+            array("userdatatypeid" => UserDataTypes::DATE_CREATED, "value" => $user->getDateCreated()->format("Y-m-d H:i:s"))
         );
 
         // Run the query
