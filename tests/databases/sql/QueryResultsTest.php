@@ -12,10 +12,10 @@ require_once(__DIR__ . "/../../../databases/sql/postgresql/servers/RDS.php");
 
 class QueryResultsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Server A database server to connect to */
+    /** @var Server A server to connect to */
     private $server = null;
-    /** @var Database The server connection to use */
-    private $connection = null;
+    /** @var Database The database to use */
+    private $database = null;
 
     /**
      * Sets up the tests
@@ -23,8 +23,8 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->server = new Servers\RDS();
-        $this->connection = new Database($this->server);
-        $this->connection->connect();
+        $this->database = new Database($this->server);
+        $this->database->connect();
     }
 
     /**
@@ -32,7 +32,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->connection->close();
+        $this->database->close();
     }
 
     /**
@@ -40,7 +40,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForResults()
     {
-        $results = $this->connection->query("SELECT name FROM test");
+        $results = $this->database->query("SELECT name FROM test");
         $this->assertTrue($results->hasResults());
     }
 
@@ -49,7 +49,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNumResults()
     {
-        $results = $this->connection->query("SELECT name FROM test");
+        $results = $this->database->query("SELECT name FROM test");
         $this->assertGreaterThan(0, $results->getNumResults());
     }
 
@@ -58,7 +58,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRowForQueryThatDoesNotReturnData()
     {
-        $results = $this->connection->query("SELECT id FROM table_that_doesnt_exist");
+        $results = $this->database->query("SELECT id FROM table_that_doesnt_exist");
         $hasResults = false;
 
         while($row = $results->getRow())
@@ -74,7 +74,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRowForQueryThatDoesReturnData()
     {
-        $results = $this->connection->query("SELECT id FROM test");
+        $results = $this->database->query("SELECT id FROM test");
         $hasResults = false;
 
         while($row = $results->getRow())
@@ -90,7 +90,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRowWithColumnSpecified()
     {
-        $results = $this->connection->query("SELECT name FROM test");
+        $results = $this->database->query("SELECT name FROM test");
         $this->assertNotEmpty($results->getResult(0, "name"));
     }
 
@@ -99,17 +99,17 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRowWithNoColumnSpecified()
     {
-        $results = $this->connection->query("SELECT name FROM test");
+        $results = $this->database->query("SELECT name FROM test");
         $this->assertNotEmpty($results->getResult(0));
     }
 
     /**
-     * Tests getting the server connection
+     * Tests getting the statement
      */
-    public function testGettingServerConnection()
+    public function testGettingStatement()
     {
-        $results = $this->connection->query("SELECT COUNT(*) FROM test");
-        $this->assertEquals($this->connection, $results->getServerConnection());
+        $results = $this->database->query("SELECT COUNT(*) FROM test");
+        $this->assertInstanceOf("\\PDOStatement", $results->getStatement());
     }
 }
  

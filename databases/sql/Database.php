@@ -137,7 +137,7 @@ class Database extends Databases\Database
             throw new SQLExceptions\SQLException("Could not run query \"" . $query . "\" with parameters " . var_export($params));
         }
 
-        return new QueryResults($this);
+        return new QueryResults($this->preparedStatement);
     }
 
     /**

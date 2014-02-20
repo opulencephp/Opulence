@@ -11,8 +11,8 @@ require_once(__DIR__ . "/exceptions/SQLException.php");
 
 class QueryResults
 {
-    /** @var Database The server connection that performed the query */
-    private $serverConnection = null;
+    /** @var \PDOStatement The statement that performed the query */
+    private $statement = null;
     /**
      * The results array, which will be left unfilled until we actually try and use the results
      * This will save us a computationally-expensive lookup
@@ -22,11 +22,11 @@ class QueryResults
     private $results = null;
 
     /**
-     * @param Database $serverConnection The server connection that performed the query
+     * @param \PDOStatement $statement The PDO statement that performed the query
      */
-    public function __construct(Database $serverConnection)
+    public function __construct(\PDOStatement $statement)
     {
-        $this->serverConnection = $serverConnection;
+        $this->statement = $statement;
     }
 
     /**
@@ -36,7 +36,7 @@ class QueryResults
      */
     public function getNumResults()
     {
-        return $this->serverConnection->getPreparedStatement()->rowCount();
+        return $this->statement->rowCount();
     }
 
     /**
@@ -55,8 +55,8 @@ class QueryResults
          */
         if($this->results == null)
         {
-            $this->serverConnection->getPreparedStatement()->setFetchMode(\PDO::FETCH_BOTH);
-            $this->results = $this->serverConnection->getPreparedStatement()->fetchAll();
+            $this->statement->setFetchMode(\PDO::FETCH_BOTH);
+            $this->results = $this->statement->fetchAll();
         }
 
         if(!array_key_exists($row, $this->results) || !array_key_exists($col, $this->results[$row]))
@@ -74,17 +74,17 @@ class QueryResults
      */
     public function getRow()
     {
-        $this->serverConnection->getPreparedStatement()->setFetchMode(\PDO::FETCH_ASSOC);
+        $this->statement->setFetchMode(\PDO::FETCH_ASSOC);
 
-        return $this->serverConnection->getPreparedStatement()->fetch();
+        return $this->statement->fetch();
     }
 
     /**
-     * @return Database
+     * @return \PDOStatement
      */
-    public function getServerConnection()
+    public function getStatement()
     {
-        return $this->serverConnection;
+        return $this->statement;
     }
 
     /**
@@ -104,6 +104,6 @@ class QueryResults
      */
     public function isSuccessful()
     {
-        return $this->serverConnection->getPreparedStatement() !== false;
+        return $this->statement !== false;
     }
 } 
