@@ -117,7 +117,7 @@ class Repo extends Repositories\Repo implements IUserRepo
      *
      * @param Users\IUser $user The user to store in the Redis repo
      */
-    protected function addDataToNoRedisRepo(&$user)
+    protected function addDataToRedisRepo(&$user)
     {
         $this->redisRepo->create($user);
     }

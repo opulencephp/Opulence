@@ -33,7 +33,7 @@ abstract class Repo
      *
      * @param mixed $data The data to write to the Redis repository
      */
-    abstract protected function addDataToNoRedisRepo(&$data);
+    abstract protected function addDataToRedisRepo(&$data);
 
     /**
      * Gets a Redis repo to use in this repo
@@ -77,12 +77,12 @@ abstract class Repo
             {
                 foreach($data as $datum)
                 {
-                    $this->addDataToNoRedisRepo($datum);
+                    $this->addDataToRedisRepo($datum);
                 }
             }
             else
             {
-                $this->addDataToNoRedisRepo($data);
+                $this->addDataToRedisRepo($data);
             }
         }
 
