@@ -8,6 +8,8 @@ namespace RamODev\Repositories;
 use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 
+require_once(__DIR__ . "/RedisRepo.php");
+require_once(__DIR__ . "/SQLRepo.php");
 require_once(__DIR__ . "/ActionTypes.php");
 
 abstract class Repo

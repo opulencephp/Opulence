@@ -10,8 +10,6 @@ use RamODev\API\V1\Users\Factories;
 use RamODev\Databases\NoSQL\Redis;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../repositories/RedisRepo.php");
-
 class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */

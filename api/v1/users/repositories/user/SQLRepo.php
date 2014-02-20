@@ -14,7 +14,6 @@ use RamODev\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
 use RamODev\Exceptions;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../repositories/SQLRepo.php");
 require_once(__DIR__ . "/../../../../../databases/sql/postgresql/querybuilders/QueryBuilder.php");
 
 class SQLRepo extends Repositories\SQLRepo implements IUserRepo
