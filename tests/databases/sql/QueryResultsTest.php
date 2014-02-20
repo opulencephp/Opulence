@@ -102,14 +102,5 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
         $results = $this->database->query("SELECT name FROM test");
         $this->assertNotEmpty($results->getResult(0));
     }
-
-    /**
-     * Tests getting the statement
-     */
-    public function testGettingStatement()
-    {
-        $results = $this->database->query("SELECT COUNT(*) FROM test");
-        $this->assertInstanceOf("\\PDOStatement", $results->getStatement());
-    }
 }
  

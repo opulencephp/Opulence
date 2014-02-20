@@ -50,10 +50,10 @@ class SQLRepo extends Repositories\SQLRepo implements IUserRepo
 
             // Add the user to the users table
             $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
-            $insertResult = $this->sqlDatabase->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
+            $this->sqlDatabase->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
 
             // We'll take this opportunity to update the user's ID
-            $user->setID((int)$insertResult->getStatement()->getLastInsertID("users.users_id_seq"));
+            $user->setID((int)$this->sqlDatabase->getLastInsertID("users.users_id_seq"));
 
             // Add the user's data to the user data table
             $userDataInsertQuery = $queryBuilder->insert("users.userdata", array("userid" => $user->getID()));

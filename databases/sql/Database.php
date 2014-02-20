@@ -17,17 +17,17 @@ class Database extends Databases\Database
 {
     /** @var Server The server we're connecting to */
     protected $server = null;
-    /** @var \PDO|bool The connection to the database */
-    protected $connection = false;
-    /** @var \PDOStatement|bool The prepared statement that will execute the query */
-    protected $preparedStatement = false;
+    /** @var \PDO|bool The PDO connection to the database */
+    protected $pdoConnection = false;
+    /** @var \PDOStatement|bool The PDO prepared statement that will execute the query */
+    protected $pdoStatement = false;
 
     /**
      * Closes the connection
      */
     public function close()
     {
-        $this->connection = false;
+        $this->pdoConnection = false;
     }
 
     /**
@@ -35,7 +35,7 @@ class Database extends Databases\Database
      */
     public function commitTransaction()
     {
-        $this->connection->commit();
+        $this->pdoConnection->commit();
     }
 
     /**
@@ -47,7 +47,7 @@ class Database extends Databases\Database
     {
         try
         {
-            $this->connection = new \PDO($this->server->getConnectionString(), $this->server->getUsername(), $this->server->getPassword());
+            $this->pdoConnection = new \PDO($this->server->getConnectionString(), $this->server->getUsername(), $this->server->getPassword());
 
             return true;
         }
@@ -60,22 +60,14 @@ class Database extends Databases\Database
     }
 
     /**
-     * Gets the ID of the last insert performed
+     * Gets the last insert ID
      *
-     * @param string $idSequenceName The sequence name for the ID column (note: NOT THE COLUMN NAME)
+     * @param string $idSequenceName The name of the sequence (not the column) that contains the insert id
      * @return int The ID of the last insert
      */
     public function getLastInsertID($idSequenceName)
     {
-        return $this->connection->lastInsertId($idSequenceName);
-    }
-
-    /**
-     * @return \PDOStatement The prepared statement that executes the query
-     */
-    public function getPreparedStatement()
-    {
-        return $this->preparedStatement;
+        return $this->pdoConnection->lastInsertID($idSequenceName);
     }
 
     /**
@@ -93,7 +85,7 @@ class Database extends Databases\Database
      */
     public function isConnected()
     {
-        return $this->connection !== false;
+        return $this->pdoConnection !== false;
     }
 
     /**
@@ -103,7 +95,7 @@ class Database extends Databases\Database
      */
     public function isInTransaction()
     {
-        return $this->connection->inTransaction();
+        return $this->pdoConnection->inTransaction();
     }
 
     /**
@@ -121,23 +113,23 @@ class Database extends Databases\Database
             $this->connect();
         }
 
-        $this->preparedStatement = $this->connection->prepare($query);
+        $this->pdoStatement = $this->pdoConnection->prepare($query);
 
         if(count($params) > 0)
         {
-            $this->preparedStatement->execute($params);
+            $this->pdoStatement->execute($params);
         }
         else
         {
-            $this->preparedStatement->execute();
+            $this->pdoStatement->execute();
         }
 
-        if($this->preparedStatement === false)
+        if($this->pdoStatement === false)
         {
             throw new SQLExceptions\SQLException("Could not run query \"" . $query . "\" with parameters " . var_export($params));
         }
 
-        return new QueryResults($this->preparedStatement);
+        return new QueryResults($this->pdoConnection, $this->pdoStatement);
     }
 
     /**
@@ -145,7 +137,7 @@ class Database extends Databases\Database
      */
     public function rollBackTransaction()
     {
-        $this->connection->rollBack();
+        $this->pdoConnection->rollBack();
     }
 
     /**
@@ -159,6 +151,6 @@ class Database extends Databases\Database
             $this->connect();
         }
 
-        $this->connection->beginTransaction();
+        $this->pdoConnection->beginTransaction();
     }
 } 

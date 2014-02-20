@@ -11,8 +11,10 @@ require_once(__DIR__ . "/exceptions/SQLException.php");
 
 class QueryResults
 {
+    /** @var \PDO The PDO connection used during the query */
+    private $pdoConnection = null;
     /** @var \PDOStatement The statement that performed the query */
-    private $statement = null;
+    private $pdoStatement = null;
     /**
      * The results array, which will be left unfilled until we actually try and use the results
      * This will save us a computationally-expensive lookup
@@ -22,11 +24,13 @@ class QueryResults
     private $results = null;
 
     /**
-     * @param \PDOStatement $statement The PDO statement that performed the query
+     * @param \PDO $pdoConnection The PDO connection used during the query
+     * @param \PDOStatement $pdoStatement The PDO statement that performed the query
      */
-    public function __construct(\PDOStatement $statement)
+    public function __construct(\PDO $pdoConnection, \PDOStatement $pdoStatement)
     {
-        $this->statement = $statement;
+        $this->pdoConnection = $pdoConnection;
+        $this->pdoStatement = $pdoStatement;
     }
 
     /**
@@ -36,7 +40,7 @@ class QueryResults
      */
     public function getNumResults()
     {
-        return $this->statement->rowCount();
+        return $this->pdoStatement->rowCount();
     }
 
     /**
@@ -55,8 +59,8 @@ class QueryResults
          */
         if($this->results == null)
         {
-            $this->statement->setFetchMode(\PDO::FETCH_BOTH);
-            $this->results = $this->statement->fetchAll();
+            $this->pdoStatement->setFetchMode(\PDO::FETCH_BOTH);
+            $this->results = $this->pdoStatement->fetchAll();
         }
 
         if(!array_key_exists($row, $this->results) || !array_key_exists($col, $this->results[$row]))
@@ -74,17 +78,9 @@ class QueryResults
      */
     public function getRow()
     {
-        $this->statement->setFetchMode(\PDO::FETCH_ASSOC);
+        $this->pdoStatement->setFetchMode(\PDO::FETCH_ASSOC);
 
-        return $this->statement->fetch();
-    }
-
-    /**
-     * @return \PDOStatement
-     */
-    public function getStatement()
-    {
-        return $this->statement;
+        return $this->pdoStatement->fetch();
     }
 
     /**
@@ -104,6 +100,6 @@ class QueryResults
      */
     public function isSuccessful()
     {
-        return $this->statement !== false;
+        return $this->pdoStatement !== false;
     }
 } 
