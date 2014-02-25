@@ -59,6 +59,8 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
+        // Cast all the IDs to int
+        $userIDs = array_map("intval", $userIDs);
         $users = array();
 
         foreach($userIDs as $userID)
@@ -91,7 +93,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        return $this->createUserFromID($userID);
+        return $this->createUserFromID((int)$userID);
     }
 
     /**
@@ -120,7 +122,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        return $this->createUserFromID($userID);
+        return $this->createUserFromID((int)$userID);
     }
 
     /**
@@ -142,12 +144,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         $userIDFromPassword = $this->redisDatabase->getPHPRedis()->get("users:password:" . $hashedPassword);
 
         // Make sure the user ID from the username matches that of the password
-        if($userIDFromPassword === false || $userIDFromUsername !== $userIDFromPassword)
+        if($userIDFromPassword === false || $userIDFromUsername != $userIDFromPassword)
         {
             return false;
         }
 
-        return $this->createUserFromID($userIDFromUsername);
+        return $this->createUserFromID((int)$userIDFromUsername);
     }
 
     /**
@@ -199,6 +201,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         $dateCreated = new \DateTime(null, new \DateTimeZone("UTC"));
         $dateCreated->setTimestamp($userHash["datecreated"]);
 
-        return $this->userFactory->createUser($userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], $dateCreated, $userHash["firstName"], $userHash["lastName"]);
+        return $this->userFactory->createUser((int)$userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], $dateCreated, $userHash["firstName"], $userHash["lastName"]);
     }
 } 

@@ -36,7 +36,7 @@ abstract class RedisWithPostgreSQLBackupRepo
      * @param mixed $data The data to write to the Redis repository
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    abstract protected function addDataToRedisRepo(&$data, $funcArgs);
+    abstract protected function addDataToRedisRepo(&$data, $funcArgs = array());
 
     /**
      * Gets a SQL repo to use in this repo

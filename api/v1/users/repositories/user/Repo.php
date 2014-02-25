@@ -118,7 +118,7 @@ class RedisWithPostgreSQLBackupRepo extends Repositories\RedisWithPostgreSQLBack
      * @param Users\IUser $user The user to store in the Redis repo
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$user, $funcArgs)
+    protected function addDataToRedisRepo(&$user, $funcArgs = array())
     {
         $this->redisRepo->add($user);
     }

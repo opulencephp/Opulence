@@ -74,7 +74,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      * @param Cryptography\Token $token The token to store in the Redis repo
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$token, $funcArgs)
+    protected function addDataToRedisRepo(&$token, $funcArgs = array())
     {
         $this->redisRepo->add($token, func_get_arg(1));
     }
