@@ -16,7 +16,7 @@ use RamODev\Repositories;
 
 require_once(__DIR__ . "/../../../../../databases/sql/postgresql/querybuilders/QueryBuilder.php");
 
-class SQLRepo extends Repositories\SQLRepo implements IUserRepo
+class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */
     private $userFactory = null;

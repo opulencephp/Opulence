@@ -11,14 +11,14 @@ use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../repositories/Repo.php");
+require_once(__DIR__ . "/../../../../../repositories/CacheWithPostgreSQLBackupRepo.php");
 require_once(__DIR__ . "/../../User.php");
 require_once(__DIR__ . "/IUserRepo.php");
 require_once(__DIR__ . "/RedisRepo.php");
-require_once(__DIR__ . "/SQLRepo.php");
+require_once(__DIR__ . "/PostgreSQLRepo.php");
 require_once(__DIR__ . "/UserDataTypes.php");
 
-class Repo extends Repositories\Repo implements IUserRepo
+class CacheWithPostgreSQLBackupRepo extends Repositories\CacheWithPostgreSQLBackupRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */
     private $userFactory = null;
@@ -116,10 +116,22 @@ class Repo extends Repositories\Repo implements IUserRepo
      * Stores a user object that wasn't initially found in the Redis repo
      *
      * @param Users\IUser $user The user to store in the Redis repo
+     * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$user)
+    protected function addDataToRedisRepo(&$user, $funcArgs)
     {
         $this->redisRepo->create($user);
+    }
+
+    /**
+     * Gets a SQL repo to use in this repo
+     *
+     * @param SQL\Database $sqlDatabase The SQL database used in the repo
+     * @return PostgreSQLRepo The SQL repo to use
+     */
+    protected function getPostgreSQLRepo(SQL\Database $sqlDatabase)
+    {
+        return new PostgreSQLRepo($sqlDatabase, $this->userFactory);
     }
 
     /**
@@ -131,16 +143,5 @@ class Repo extends Repositories\Repo implements IUserRepo
     protected function getRedisRepo(Redis\Database $redisDatabase)
     {
         return new RedisRepo($redisDatabase, $this->userFactory);
-    }
-
-    /**
-     * Gets a SQL repo to use in this repo
-     *
-     * @param SQL\Database $sqlDatabase The SQL database used in the repo
-     * @return SQLRepo The SQL repo to use
-     */
-    protected function getSQLRepo(SQL\Database $sqlDatabase)
-    {
-        return new SQLRepo($sqlDatabase, $this->userFactory);
     }
 } 

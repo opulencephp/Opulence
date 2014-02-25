@@ -2,12 +2,12 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a repository that uses a relational database as a storage method
+ * Defines a repository that uses a PostgreSQL database as a storage method
  */
 namespace RamODev\Repositories;
 use RamODev\Databases\SQL;
 
-class SQLRepo
+class PostgreSQLRepo
 {
     /** @var SQL\Database The relational database to use for queries */
     protected $sqlDatabase = null;
