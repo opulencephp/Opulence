@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Provides methods for retrieving user data from a SQL database
+ * Provides methods for retrieving user data from a PostgreSQL database
  */
 namespace RamODev\API\V1\Users\Repositories\User;
 use RamODev\API\V1\Users;

@@ -4,10 +4,13 @@
  *
  * Creates a cryptographic token
  */
-namespace RamODev\V1\Cryptography\Factories\Token;
+namespace RamODev\API\V1\Cryptography\Factories;
 use RamODev\API\V1\Cryptography;
+use RamODev\Configs;
 
-class Factory
+require_once(__DIR__ . "/../../../../configs/AuthenticationConfig.php");
+
+class TokenFactory
 {
     /** The number of characters to include in the key */
     const NUM_CHARS = 32;
@@ -20,9 +23,10 @@ class Factory
     /**
      * Generates a cryptographic token
      *
+     * @param string $publicKey The secret key to use to create the token
      * @return Cryptography\Token A new token
      */
-    public function createCryptographicToken()
+    public function createCryptographicToken($publicKey)
     {
         // Start with the current timestamp to minimize chance of key collision
         $tokenString = time();
@@ -38,6 +42,6 @@ class Factory
         $expiration = new \DateTime(null, new \DateTimeZone("UTC"));
         $expiration->setTimestamp(time() + self::LIFETIME);
 
-        return new Cryptography\Token($hashedTokenString, $expiration);
+        return new Cryptography\Token($hashedTokenString, $expiration, hash_hmac("sha256", Configs\AuthenticationConfig::TOKEN_PRIVATE_KEY . $hashedTokenString . $expiration->getTimestamp(), $publicKey));
     }
 } 

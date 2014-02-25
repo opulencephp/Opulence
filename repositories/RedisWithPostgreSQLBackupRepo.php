@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines the skeleton for repository classes that use cache with a PostgreSQL backup
+ * Defines the skeleton for repository classes that use Redis with a PostgreSQL backup
  */
 namespace RamODev\Repositories;
 use RamODev\Databases\NoSQL\Redis;
@@ -12,7 +12,7 @@ require_once(__DIR__ . "/RedisRepo.php");
 require_once(__DIR__ . "/PostgreSQLRepo.php");
 require_once(__DIR__ . "/ActionTypes.php");
 
-abstract class CacheWithPostgreSQLBackupRepo
+abstract class RedisWithPostgreSQLBackupRepo
 {
     /** @var RedisRepo The Redis repository to use for temporary storage */
     protected $redisRepo = null;

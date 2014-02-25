@@ -12,15 +12,19 @@ class Token
     private $tokenString = "";
     /** @var \DateTime The expiration of this token */
     private $expiration = null;
+    /** @var string The HMAC of the token string and expiration */
+    private $hmac = "";
 
     /**
      * @param string $tokenString The token string
      * @param \DateTime $expiration The expiration time for this token
+     * @param string $hmac The HMAC of the token string and expiration
      */
-    public function __construct($tokenString, \DateTime $expiration)
+    public function __construct($tokenString, \DateTime $expiration, $hmac)
     {
         $this->tokenString = $tokenString;
         $this->expiration = $expiration;
+        $this->hmac = $hmac;
     }
 
     /**
@@ -34,24 +38,16 @@ class Token
     /**
      * @return string
      */
+    public function getHMAC()
+    {
+        return $this->hmac;
+    }
+
+    /**
+     * @return string
+     */
     public function getTokenString()
     {
         return $this->tokenString;
-    }
-
-    /**
-     * @param \DateTime $expiration
-     */
-    public function setExpiration($expiration)
-    {
-        $this->expiration = $expiration;
-    }
-
-    /**
-     * @param string $tokenString
-     */
-    public function setTokenString($tokenString)
-    {
-        $this->tokenString = $tokenString;
     }
 } 

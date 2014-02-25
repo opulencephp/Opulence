@@ -1,5 +1,9 @@
-Database connection is slow
-    See if we can only connect when we really want to (might go hand in hand with next item)
+Implement SQLRepo for Tokens
+Find way to pass in private user key to Token repos
+Create method in TokenFactory that just instantiates a token with necessarily GENERATING a new one
+    Afterwards, create tests for token factory
+Implement Credentials concrete class
+Implement credentials validator
 Add a layer in front of the server connection layers
     This will allow us to one day add in load balancers
 Need to determine how we hand out api keys

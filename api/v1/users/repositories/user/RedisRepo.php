@@ -35,16 +35,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     public function add(Users\IUser &$user)
     {
         $this->createHashFromUser($user);
-
         // Add to the user to the users' set
         $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getID());
-
         // Create the email index
         $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getID());
-
         // Create the username index
         $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getID());
-
         // Create the password index
         $this->redisDatabase->getPHPRedis()->set("users:password:" . $user->getHashedPassword(), $user->getID());
     }
@@ -178,9 +174,9 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             "password" => $user->getHashedPassword(),
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
-            "lastname" => $user->getLastName(),
-            "firstname" => $user->getFirstName(),
-            "datecreated" => $user->getDateCreated()->getTimestamp()
+            "lastName" => $user->getLastName(),
+            "firstName" => $user->getFirstName(),
+            "dateCreated" => $user->getDateCreated()->getTimestamp()
         ));
     }
 
@@ -203,6 +199,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         $dateCreated = new \DateTime(null, new \DateTimeZone("UTC"));
         $dateCreated->setTimestamp($userHash["datecreated"]);
 
-        return $this->userFactory->createUser($userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], $dateCreated, $userHash["firstname"], $userHash["lastname"]);
+        return $this->userFactory->createUser($userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], $dateCreated, $userHash["firstName"], $userHash["lastName"]);
     }
 } 
