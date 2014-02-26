@@ -34,7 +34,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function add(Users\IUser &$user)
     {
-        $this->createHashFromUser($user);
+        $this->storeHashOfUser($user);
         // Add to the user to the users' set
         $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getID());
         // Create the email index
@@ -164,12 +164,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     }
 
     /**
-     * Creates and stores a hash of a user object in cache
+     * Stores a hash of a user object in cache
      *
      * @param Users\IUser $user The user object from which we're creating a hash
      * @return bool True if successful, otherwise false
      */
-    private function createHashFromUser(Users\IUser $user)
+    private function storeHashOfUser(Users\IUser $user)
     {
         $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getID(), array(
             "id" => $user->getID(),
@@ -197,10 +197,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        // Convert from a Unix timestamp
-        $dateCreated = new \DateTime(null, new \DateTimeZone("UTC"));
-        $dateCreated->setTimestamp($userHash["datecreated"]);
-
-        return $this->userFactory->createUser((int)$userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], $dateCreated, $userHash["firstName"], $userHash["lastName"]);
+        return $this->userFactory->createUser((int)$userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], \DateTime::createFromFormat("U", $userHash["dateCreated"], new \DateTimeZone("UTC")), $userHash["firstName"], $userHash["lastName"]);
     }
 } 

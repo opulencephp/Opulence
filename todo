@@ -1,7 +1,8 @@
+Think more about Tokens class
+    As is, it is useful for things like validating an authentication token, but doesn't offer methods useful for storage to repositories (HMAC is meant for verification, not storage in repos)
 Implement SQLRepo for Tokens
+    This will involve hashing the token before storing it - I need to write code to do this
 Find way to pass in private user key to Token repos
-Create method in TokenFactory that just instantiates a token with necessarily GENERATING a new one
-    Afterwards, create tests for token factory
 Implement Credentials concrete class
 Implement credentials validator
 Add a layer in front of the server connection layers

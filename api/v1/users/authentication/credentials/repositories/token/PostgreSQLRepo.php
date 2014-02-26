@@ -54,11 +54,12 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
      *
      * @param string $tokenString The token to match
      * @param \DateTime $expiration The expiration time to match
-     * @param string $hmac The HMAC to match
+     * @param string $salt The unique salt to use in the HMAC
+     * @param string $secretKey The secret key to use in the HMAC
      * @param int $userID The ID of the user whose token we want
      * @return Cryptography\Token|bool The token for the user if successful, otherwise false
      */
-    public function getByTokenDataAndUserID($tokenString, $expiration, $hmac, $userID)
+    public function getByTokenDataAndUserID($tokenString, $expiration, $salt, $secretKey, $userID)
     {
         // Todo: Implement
     }

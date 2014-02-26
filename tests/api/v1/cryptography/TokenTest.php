@@ -16,15 +16,17 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     private $tokenString = "foo";
     /** @var string The formatted time to use for the expiration */
     private $expirationTimestamp = "1776-07-04 12:34:56";
-    /** @var string The HMAC to use */
-    private $hmac = "bar";
+    /** @var string The salt to use */
+    private $salt = "pepper";
+    /** @var string The secret key to use */
+    private $secretKey = "bar";
 
     /**
      * Sets up our tests
      */
     public function setUp()
     {
-        $this->token = new Token($this->tokenString, new \DateTime($this->expirationTimestamp, new \DateTimeZone("UTC")), $this->hmac);
+        $this->token = new Token($this->tokenString, new \DateTime($this->expirationTimestamp, new \DateTimeZone("UTC")), $this->salt, $this->secretKey);
     }
 
     /**
@@ -36,18 +38,47 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the HMAC
+     * Tests getting the salt
      */
-    public function testGettingHMAC()
+    public function testGettingSalt()
     {
-        $this->assertEquals($this->hmac, $this->token->getHMAC());
+        $this->assertEquals($this->salt, $this->token->getSalt());
     }
 
     /**
-     * Tests getting the token
+     * Tests getting the secret key
      */
-    public function testGettingToken()
+    public function testGettingSecretKey()
+    {
+        $this->assertEquals($this->secretKey, $this->token->getSecretKey());
+    }
+
+    /**
+     * Tests getting the token string
+     */
+    public function testGettingTokenString()
     {
         $this->assertEquals($this->tokenString, $this->token->getTokenString());
+    }
+
+    /**
+     * Tests validating an HMAC
+     */
+    public function testHMACIsValid()
+    {
+        // We grab the token's HMAC, then pass it into the validation method
+        $reflectionObject = new \ReflectionObject($this->token);
+        $property = $reflectionObject->getProperty("hmac");
+        $property->setAccessible(true);
+        $hmac = $property->getValue($this->token);
+        $this->assertTrue($this->token->hmacIsValid($hmac));
+    }
+
+    /**
+     * Tests seeing if the token is expired
+     */
+    public function testIsExpired()
+    {
+        $this->assertTrue($this->token->isExpired());
     }
 } 

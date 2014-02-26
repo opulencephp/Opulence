@@ -36,12 +36,19 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
     {
         // Add this token
         $this->redisDatabase->getPHPRedis()->hMset($this->getTokenHashKey($token->getTokenString(), $userID),
-            array("tokenString" => $token->getTokenString(), "expiration" => $token->getExpiration()->getTimestamp(), "hmac" => $token->getHMAC())
+            array(
+                "tokenString" => $token->getTokenString(),
+                "expiration" => $token->getExpiration()->getTimestamp(),
+                "salt" => $token->getSalt(),
+                "secretKey" => $token->getSecretKey()
+            )
         );
         // Create an index
         $this->redisDatabase->getPHPRedis()->zAdd($this->getTokenListKey($userID), $token->getExpiration()->getTimestamp(), $token->getTokenString());
         // Remove old tokens
         $this->redisDatabase->getPHPRedis()->zRemRangeByScore($this->getTokenListKey($userID), 0, time());
+
+        return true;
     }
 
     /**
@@ -55,6 +62,8 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
     {
         $this->redisDatabase->getPHPRedis()->del($this->getTokenHashKey($token->getTokenString(), $userID));
         $this->redisDatabase->getPHPRedis()->zRem($this->getTokenListKey($userID), $token->getTokenString());
+
+        return true;
     }
 
     /**
@@ -62,23 +71,21 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      *
      * @param string $tokenString The token to match
      * @param \DateTime $expiration The expiration time to match
-     * @param string $hmac The HMAC to match
+     * @param string $salt The unique salt to use in the HMAC
+     * @param string $secretKey The secret key to use in the HMAC
      * @param int $userID The ID of the user whose token we want
      * @return Cryptography\Token|bool The token for the user if successful, otherwise false
      */
-    public function getByTokenDataAndUserID($tokenString, $expiration, $hmac, $userID)
+    public function getByTokenDataAndUserID($tokenString, $expiration, $salt, $secretKey, $userID)
     {
         $tokenHash = $this->redisDatabase->getPHPRedis()->hGetAll($this->getTokenHashKey($tokenString, $userID));
 
-        if($tokenHash == array() || $tokenHash["tokenString"] != $tokenString || $tokenHash["expiration"] != $expiration->getTimestamp() || $tokenHash["hmac"] != $hmac)
+        if($tokenHash == array() || $tokenHash["tokenString"] != $tokenString || $tokenHash["expiration"] != $expiration->getTimestamp() || $tokenHash["salt"] != $salt || $tokenHash["secretKey"] != $secretKey)
         {
             return false;
         }
 
-        $expiration = new \DateTime(null, new \DateTimeZone("UTC"));
-        $expiration->setTimestamp($tokenHash["expiration"]);
-
-        return new Cryptography\Token($tokenHash["tokenString"], $expiration, $tokenHash["hmac"]);
+        return $this->tokenFactory->createToken($tokenHash["tokenString"], \DateTime::createFromFormat("U", $tokenHash["expiration"]), $tokenHash["salt"], $tokenHash["secretKey"]);
     }
 
     /**

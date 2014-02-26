@@ -8,8 +8,6 @@ namespace RamODev\API\V1\Cryptography\Factories;
 use RamODev\API\V1\Cryptography;
 use RamODev\Configs;
 
-require_once(__DIR__ . "/../../../../configs/AuthenticationConfig.php");
-
 class TokenFactory
 {
     /** The number of characters to include in the key */
@@ -21,12 +19,27 @@ class TokenFactory
     private static $chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     /**
-     * Generates a cryptographic token
+     * Creates a token object
      *
-     * @param string $publicKey The secret key to use to create the token
-     * @return Cryptography\Token A new token
+     * @param string $tokenString The token string
+     * @param \DateTime $expiration The expiration time for this token
+     * @param string $salt The unique salt to use in the HMAC
+     * @param string $secretKey The secret key to use in the HMAC
+     * @return Cryptography\Token A token object
      */
-    public function createCryptographicToken($publicKey)
+    public function createToken($tokenString, \DateTime $expiration, $salt, $secretKey)
+    {
+        return new Cryptography\Token($tokenString, $expiration, $salt, $secretKey);
+    }
+
+    /**
+     * Generates a new cryptographic token
+     *
+     * @param string $salt The unique salt to use in the HMAC
+     * @param string $secretKey The secret key to use to create the token
+     * @return Cryptography\Token A new token object
+     */
+    public function generateNewToken($salt, $secretKey)
     {
         // Start with the current timestamp to minimize chance of key collision
         $tokenString = time();
@@ -38,10 +51,8 @@ class TokenFactory
         }
 
         $hashedTokenString = hash("sha256", $tokenString);
-        // Set the expiration to some time far in the future
-        $expiration = new \DateTime(null, new \DateTimeZone("UTC"));
-        $expiration->setTimestamp(time() + self::LIFETIME);
+        $expiration = new \DateTime("+" . self::LIFETIME . " seconds", new \DateTimeZone("UTC"));
 
-        return new Cryptography\Token($hashedTokenString, $expiration, hash_hmac("sha256", Configs\AuthenticationConfig::TOKEN_PRIVATE_KEY . $hashedTokenString . $expiration->getTimestamp(), $publicKey));
+        return new Cryptography\Token($hashedTokenString, $expiration, $salt, $secretKey);
     }
 } 
