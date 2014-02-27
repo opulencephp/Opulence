@@ -102,6 +102,16 @@ class RedisWithPostgreSQLBackupRepo extends Repositories\RedisWithPostgreSQLBack
     }
 
     /**
+     * Synchronizes the Redis repository with the PostgreSQL repository
+     *
+     * @return bool True if successful, otherwise false
+     */
+    public function sync()
+    {
+        // Todo: implement
+    }
+
+    /**
      * Updates a user in the repository
      *
      * @param Users\IUser $user The user to update in the repository

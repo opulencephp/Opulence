@@ -70,6 +70,16 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     }
 
     /**
+     * Synchronizes the Redis repository with the PostgreSQL repository
+     *
+     * @return bool True if successful, otherwise false
+     */
+    public function sync()
+    {
+        // Todo: implement
+    }
+
+    /**
      * Stores a user object that wasn't initially found in the Redis repo
      *
      * @param Cryptography\Token $token The token to store in the Redis repo

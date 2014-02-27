@@ -8,11 +8,12 @@ namespace RamODev\Repositories;
 use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 
+require_once(__DIR__ . "/IRedisWithSQLBackupRepo.php");
 require_once(__DIR__ . "/RedisRepo.php");
 require_once(__DIR__ . "/PostgreSQLRepo.php");
 require_once(__DIR__ . "/ActionTypes.php");
 
-abstract class RedisWithPostgreSQLBackupRepo
+abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
 {
     /** @var RedisRepo The Redis repository to use for temporary storage */
     protected $redisRepo = null;
@@ -28,6 +29,13 @@ abstract class RedisWithPostgreSQLBackupRepo
         $this->redisRepo = $this->getRedisRepo($redisDatabase);
         $this->postgreSQLRepo = $this->getPostgreSQLRepo($sqlDatabase);
     }
+
+    /**
+     * Synchronizes the Redis repository with the SQL repository
+     *
+     * @return bool True if successful, otherwise false
+     */
+    abstract public function sync();
 
     /**
      * In the case we're getting data and didn't find it in the Redis repo, we need a way to store it there for future use
