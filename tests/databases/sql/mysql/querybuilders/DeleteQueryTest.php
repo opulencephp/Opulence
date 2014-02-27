@@ -21,6 +21,16 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the limit clause with a named placeholder
+     */
+    public function testLimitWithNamedPlaceholder()
+    {
+        $query = new DeleteQuery("users");
+        $query->limit(":limit");
+        $this->assertEquals("DELETE FROM users LIMIT :limit", $query->getSQL());
+    }
+
+    /**
      * Tests all the methods in a single, complicated query
      */
     public function testEverything()

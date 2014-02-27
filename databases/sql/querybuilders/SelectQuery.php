@@ -21,9 +21,9 @@ class SelectQuery extends Query
     protected $groupByClauses = array();
     /** @var array The list of having conditions */
     protected $havingConditions = array();
-    /** @var int $limit The number of rows to limit to */
+    /** @var int|string $limit The number of rows to limit to */
     protected $limit = -1;
-    /** @var int $offset The number of rows to offset by */
+    /** @var int|string $offset The number of rows to offset by */
     protected $offset = -1;
     /** @var array The list of expressions to order by */
     protected $orderBy = array();
@@ -245,12 +245,12 @@ class SelectQuery extends Query
     /**
      * Limits the number of rows returned by the query
      *
-     * @param int $numRows The number of rows to limit in the results
+     * @param int|string $numRows The number of rows to limit in the results or the name of the placeholder value that will contain the number of rows
      * @return $this
      */
     public function limit($numRows)
     {
-        $this->limit = (int)$numRows;
+        $this->limit = $numRows;
 
         return $this;
     }
@@ -258,12 +258,12 @@ class SelectQuery extends Query
     /**
      * Skips the input number of rows before returning rows
      *
-     * @param int $numRows The number of rows to skip in the results
+     * @param int|string $numRows The number of rows to skip in the results or the name of the placeholder value that will contain the number of rows
      * @return $this
      */
     public function offset($numRows)
     {
-        $this->offset = (int)$numRows;
+        $this->offset = $numRows;
 
         return $this;
     }

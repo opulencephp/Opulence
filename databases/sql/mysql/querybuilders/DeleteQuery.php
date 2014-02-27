@@ -11,7 +11,7 @@ require_once(__DIR__ . "/../../querybuilders/DeleteQuery.php");
 
 class DeleteQuery extends QueryBuilders\DeleteQuery
 {
-    /** @var int $limit The number of rows to limit to */
+    /** @var int|string $limit The number of rows to limit to */
     protected $limit = -1;
 
     /**
@@ -35,12 +35,12 @@ class DeleteQuery extends QueryBuilders\DeleteQuery
     /**
      * Limits the number of rows returned by the query
      *
-     * @param int $numRows The number of rows to limit in the results
+     * @param int|string $numRows The number of rows to limit in the results or the named placeholder value that will contain the number of rows
      * @return $this
      */
     public function limit($numRows)
     {
-        $this->limit = (int)$numRows;
+        $this->limit = $numRows;
 
         return $this;
     }

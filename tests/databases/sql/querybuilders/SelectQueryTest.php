@@ -197,6 +197,17 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests adding a "LIMIT" statement with a named placeholder
+     */
+    public function testLimitWithNamedPlaceholder()
+    {
+        $query = new SelectQuery("id", "name");
+        $query->from("users")
+            ->limit(":limit");
+        $this->assertEquals("SELECT id, name FROM users LIMIT :limit", $query->getSQL());
+    }
+
+    /**
      * Tests adding multiple "JOIN" statements
      */
     public function testMultipleJoins()
@@ -217,6 +228,17 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->offset(5);
         $this->assertEquals("SELECT id, name FROM users OFFSET 5", $query->getSQL());
+    }
+
+    /**
+     * Tests adding a "OFFSET" statement with a named placeholder
+     */
+    public function testOffsetWithNamedPlaceholder()
+    {
+        $query = new SelectQuery("id", "name");
+        $query->from("users")
+            ->offset(":offset");
+        $this->assertEquals("SELECT id, name FROM users OFFSET :offset", $query->getSQL());
     }
 
     /**
