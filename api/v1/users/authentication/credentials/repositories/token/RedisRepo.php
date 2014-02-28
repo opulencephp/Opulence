@@ -73,7 +73,10 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function flush()
     {
-        return $this->deleteKeyPatterns();
+        return $this->deleteKeyPatterns(array(
+            "users:*:authentication:tokens:*",
+            "users:*:authentication:tokens"
+        ));
     }
 
     /**
@@ -107,9 +110,6 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     private function getTokenHashKey($tokenString, $userID)
     {
-        // Register the key pattern
-        $this->addKeyPattern("users:*:authentication:tokens:*");
-
         return "users:$userID:authentication:tokens:$tokenString";
     }
 
@@ -121,9 +121,6 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     private function getTokenListKey($userID)
     {
-        // Register the key pattern
-        $this->addKeyPattern("users:*:authentication:tokens");
-
         return "users:$userID:authentication:tokens";
     }
 } 

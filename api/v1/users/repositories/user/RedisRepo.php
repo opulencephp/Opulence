@@ -43,8 +43,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getID());
         // Create the password index
         $this->redisDatabase->getPHPRedis()->set("users:password:" . $user->getHashedPassword(), $user->getID());
-
-        $this->addKeyPattern(array("users", "users:email:*", "users:username:*", "users:password:*"));
     }
 
     /**
@@ -54,7 +52,13 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function flush()
     {
-        return $this->deleteKeyPatterns();
+        return $this->deleteKeyPatterns(array(
+            "users",
+            "users:*",
+            "users:email:*",
+            "users:username:*",
+            "users:password:*"
+        ));
     }
 
     /**
@@ -201,8 +205,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     private function storeHashOfUser(Users\IUser $user)
     {
-        $this->addKeyPattern("users:*");
-
         return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getID(), array(
             "id" => $user->getID(),
             "password" => $user->getHashedPassword(),
