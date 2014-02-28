@@ -52,8 +52,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function flush()
     {
-        return $this->deleteKeyPatterns(array(
-            "users",
+        return $this->deleteKeys(array("users")) && $this->deleteKeyPatterns(array(
             "users:*",
             "users:email:*",
             "users:username:*",

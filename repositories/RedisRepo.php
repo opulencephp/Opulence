@@ -29,6 +29,7 @@ abstract class RedisRepo
 
     /**
      * Deletes all the keys that match the input patterns
+     * If you know the specific key to delete, call deleteKeys() instead because this method is computationally expensive
      *
      * @param array|string The key pattern or list of key patterns to delete
      * @return bool True if successful, otherwise false
@@ -46,6 +47,29 @@ abstract class RedisRepo
                 for j, key in ipairs(redis.call('keys', keyPattern)) do
                     redis.call('del', key)
                 end
+            end";
+        $this->redisDatabase->getPHPRedis()->eval($lua);
+
+        return $this->redisDatabase->getPHPRedis()->getLastError() === null;
+    }
+
+    /**
+     * Deletes all the keys
+     * This differs from deleteKeyPatterns() because this matches specific keys, not patterns
+     *
+     * @param array|string The keys or list of keys to delete
+     * @return bool True if successful, otherwise false
+     */
+    protected function deleteKeys($keys)
+    {
+        if(is_string($keys))
+        {
+            $keys = array($keys);
+        }
+
+        $lua = "local keys = {'" . implode("','", $keys) . "'}
+            for j, key in ipairs(keys) do
+                redis.call('del', key)
             end";
         $this->redisDatabase->getPHPRedis()->eval($lua);
 
