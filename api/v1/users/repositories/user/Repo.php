@@ -108,7 +108,7 @@ class RedisWithPostgreSQLBackupRepo extends Repositories\RedisWithPostgreSQLBack
      */
     public function sync()
     {
-        // Todo: implement
+        return $this->redisRepo->flush() && $this->getAll() !== false;
     }
 
     /**

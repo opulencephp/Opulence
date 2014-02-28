@@ -52,7 +52,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function flush()
     {
-        return $this->deleteKeys(array("users")) && $this->deleteKeyPatterns(array(
+        return $this->redisDatabase->getPHPRedis()->del(array("users")) && $this->redisDatabase->deleteKeyPatterns(array(
             "users:*",
             "users:email:*",
             "users:username:*",
@@ -193,7 +193,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        return $this->userFactory->createUser((int)$userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], \DateTime::createFromFormat("U", $userHash["dateCreated"], new \DateTimeZone("UTC")), $userHash["firstName"], $userHash["lastName"]);
+        return $this->userFactory->createUser((int)$userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], \DateTime::createFromFormat("U", $userHash["datecreated"], new \DateTimeZone("UTC")), $userHash["firstname"], $userHash["lastname"]);
     }
 
     /**
@@ -209,9 +209,9 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             "password" => $user->getHashedPassword(),
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
-            "lastName" => $user->getLastName(),
-            "firstName" => $user->getFirstName(),
-            "dateCreated" => $user->getDateCreated()->getTimestamp()
+            "lastname" => $user->getLastName(),
+            "firstname" => $user->getFirstName(),
+            "datecreated" => $user->getDateCreated()->getTimestamp()
         ));
     }
 } 

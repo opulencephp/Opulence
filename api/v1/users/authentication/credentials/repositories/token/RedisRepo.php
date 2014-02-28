@@ -37,10 +37,10 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
         // Add this token
         $this->redisDatabase->getPHPRedis()->hMset($this->getTokenHashKey($token->getTokenString(), $userID),
             array(
-                "tokenString" => $token->getTokenString(),
+                "tokenstring" => $token->getTokenString(),
                 "expiration" => $token->getExpiration()->getTimestamp(),
                 "salt" => $token->getSalt(),
-                "secretKey" => $token->getSecretKey()
+                "secretkey" => $token->getSecretKey()
             )
         );
         // Create an index
@@ -73,7 +73,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function flush()
     {
-        return $this->deleteKeyPatterns(array(
+        return $this->redisDatabase->deleteKeyPatterns(array(
             "users:*:authentication:tokens:*",
             "users:*:authentication:tokens"
         ));
