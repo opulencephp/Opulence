@@ -7,7 +7,7 @@
 namespace RamODev\Repositories;
 use RamODev\Databases\NoSQL\Redis;
 
-class RedisRepo
+abstract class RedisRepo
 {
     /** @var Redis\Database The Redis database to use for queries */
     protected $redisDatabase = null;
@@ -26,6 +26,13 @@ class RedisRepo
     {
         $this->redisDatabase = $redisDatabase;
     }
+
+    /**
+     * Flushes items in this repo
+     *
+     * @return bool True if successful, otherwise false
+     */
+    abstract public function flush();
 
     /**
      * Adds a key pattern(s) to the list

@@ -43,6 +43,18 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getID());
         // Create the password index
         $this->redisDatabase->getPHPRedis()->set("users:password:" . $user->getHashedPassword(), $user->getID());
+
+        $this->addKeyPattern(array("users", "users:email:*", "users:username:*", "users:password:*"));
+    }
+
+    /**
+     * Flushes items in this repo
+     *
+     * @return bool True if successful, otherwise false
+     */
+    public function flush()
+    {
+        return $this->deleteKeyPatterns();
     }
 
     /**
@@ -164,25 +176,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     }
 
     /**
-     * Stores a hash of a user object in cache
-     *
-     * @param Users\IUser $user The user object from which we're creating a hash
-     * @return bool True if successful, otherwise false
-     */
-    private function storeHashOfUser(Users\IUser $user)
-    {
-        $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getID(), array(
-            "id" => $user->getID(),
-            "password" => $user->getHashedPassword(),
-            "username" => $user->getUsername(),
-            "email" => $user->getEmail(),
-            "lastName" => $user->getLastName(),
-            "firstName" => $user->getFirstName(),
-            "dateCreated" => $user->getDateCreated()->getTimestamp()
-        ));
-    }
-
-    /**
      * Creates a user object from cache using an ID
      *
      * @param int $userID The ID of the user to create
@@ -198,5 +191,26 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         }
 
         return $this->userFactory->createUser((int)$userHash["id"], $userHash["username"], $userHash["password"], $userHash["email"], \DateTime::createFromFormat("U", $userHash["dateCreated"], new \DateTimeZone("UTC")), $userHash["firstName"], $userHash["lastName"]);
+    }
+
+    /**
+     * Stores a hash of a user object in cache
+     *
+     * @param Users\IUser $user The user object from which we're creating a hash
+     * @return bool True if successful, otherwise false
+     */
+    private function storeHashOfUser(Users\IUser $user)
+    {
+        $this->addKeyPattern("users:*");
+
+        return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getID(), array(
+            "id" => $user->getID(),
+            "password" => $user->getHashedPassword(),
+            "username" => $user->getUsername(),
+            "email" => $user->getEmail(),
+            "lastName" => $user->getLastName(),
+            "firstName" => $user->getFirstName(),
+            "dateCreated" => $user->getDateCreated()->getTimestamp()
+        ));
     }
 } 

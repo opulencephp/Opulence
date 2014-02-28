@@ -67,6 +67,16 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
     }
 
     /**
+     * Flushes items in this repo
+     *
+     * @return bool True if successful, otherwise false
+     */
+    public function flush()
+    {
+        return $this->deleteKeyPatterns();
+    }
+
+    /**
      * Gets the token for the input user
      *
      * @param string $tokenString The token to match
@@ -97,6 +107,9 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     private function getTokenHashKey($tokenString, $userID)
     {
+        // Register the key pattern
+        $this->addKeyPattern("users:*:authentication:tokens:*");
+
         return "users:$userID:authentication:tokens:$tokenString";
     }
 
@@ -108,6 +121,9 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     private function getTokenListKey($userID)
     {
+        // Register the key pattern
+        $this->addKeyPattern("users:*:authentication:tokens");
+
         return "users:$userID:authentication:tokens";
     }
 } 
