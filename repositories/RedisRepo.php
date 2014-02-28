@@ -28,11 +28,11 @@ class RedisRepo
     }
 
     /**
-     * Adds key patterns to the list
+     * Adds a key pattern(s) to the list
      *
      * @param string|array $keyPatterns The key pattern or list of key patterns to add
      */
-    protected function addKeyPatterns($keyPatterns)
+    protected function addKeyPattern($keyPatterns)
     {
         // The key patterns must be an array, so create one if necessary
         if(is_string($keyPatterns))
