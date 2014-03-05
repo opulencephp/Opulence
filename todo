@@ -1,3 +1,12 @@
+Write tests for router class
+    Obviously, we'll then need to write methods
+    Allow regexes to be passed into router
+        Look to Klein and Slim and good references
+    Need to add support for different types of users getting routed to different templates
+    Need to consider where router object would go (probably the Website object??)
+    Need to reconsider having Request as a separate class from Page
+        They really are both responses to an HTTP request, but each serves up different kinds of content
+            Composition would probably be better-suited than inheritance because an AJAX request response isn't really the same thing as an HTTP page request response
 Think more about Tokens class
     As is, it is useful for things like validating an authentication token, but doesn't offer methods useful for storage to repositories (HMAC is meant for verification, not storage in repos)
 Implement SQLRepo for Tokens

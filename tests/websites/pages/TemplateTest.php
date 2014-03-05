@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the page template class
+ * Tests the template class
  */
-namespace RamODev\Website\Pages;
+namespace RamODev\Websites\Pages;
 
-class PageTemplateTest extends \PHPUnit_Framework_TestCase
+class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /** The path to the test template */
     const TEMPLATE_PATH = "/templates/Test.html";
@@ -16,12 +16,12 @@ class PageTemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingMultipleTag()
     {
-        $page = new PageTemplate();
-        $page->setTags(array("foo" => "bar", "abc" => "xyz"));
-        $reflectionObject = new \ReflectionObject($page);
+        $template = new Template();
+        $template->setTags(array("foo" => "bar", "abc" => "xyz"));
+        $reflectionObject = new \ReflectionObject($template);
         $property = $reflectionObject->getProperty("tags");
         $property->setAccessible(true);
-        $tags = $property->getValue($page);
+        $tags = $property->getValue($template);
         $this->assertEquals(array("%%foo%%" => "bar", "%%abc%%" => "xyz"), $tags);
     }
 
@@ -30,12 +30,12 @@ class PageTemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingSingleTag()
     {
-        $page = new PageTemplate();
-        $page->setTag("foo", "bar");
-        $reflectionObject = new \ReflectionObject($page);
+        $template = new Template();
+        $template->setTag("foo", "bar");
+        $reflectionObject = new \ReflectionObject($template);
         $property = $reflectionObject->getProperty("tags");
         $property->setAccessible(true);
-        $tags = $property->getValue($page);
+        $tags = $property->getValue($template);
         $this->assertEquals(array("%%foo%%" => "bar"), $tags);
     }
 
@@ -44,12 +44,12 @@ class PageTemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTemplatePath()
     {
-        $page = new PageTemplate();
-        $page->setTemplatePath("foo");
-        $reflectionObject = new \ReflectionObject($page);
+        $template = new Template();
+        $template->setTemplatePath("foo");
+        $reflectionObject = new \ReflectionObject($template);
         $property = $reflectionObject->getProperty("templatePath");
         $property->setAccessible(true);
-        $templatePath = $property->getValue($page);
+        $templatePath = $property->getValue($template);
         $this->assertEquals("foo", $templatePath);
     }
 
@@ -58,10 +58,10 @@ class PageTemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingHTML()
     {
-        $page = new PageTemplate();
-        $page->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
-        $page->setTag("foo", "Hello");
-        $page->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $page->getHTML());
+        $template = new Template();
+        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $this->assertEquals("Hello, world!", $template->getHTML());
     }
 } 

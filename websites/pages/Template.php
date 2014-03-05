@@ -2,16 +2,16 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a website page
+ * Defines a website template
  */
-namespace RamODev\Website\Pages;
+namespace RamODev\Websites\Pages;
 
-class PageTemplate
+class Template
 {
     /** The string used to denote the beginning and end of a tag name in a template */
     const TAG_PLACEHOLDER_BOOKEND = "%%";
 
-    /** @var string The path to the page template */
+    /** @var string The path to the template */
     protected $templatePath = "";
     /** @var array The keyed array of tag (placeholder) names to their values */
     protected $tags = array();
@@ -30,6 +30,7 @@ class PageTemplate
 
     /**
      * Sets the value for a tag in the template
+     * If the value was previously set for this tag, it'll be overwritten
      *
      * @param string $name The name of the tag to replace
      * @param mixed $value The value with which to replace the tag name
