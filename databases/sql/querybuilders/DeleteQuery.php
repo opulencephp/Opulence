@@ -6,9 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/Query.php");
-require_once(__DIR__ . "/ConditionalQueryBuilder.php");
-
 class DeleteQuery extends Query
 {
     /** @var array The list of table expressions, allowing columns from other table to appear in the WHERE condition */

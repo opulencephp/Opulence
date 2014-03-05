@@ -7,12 +7,6 @@
 namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
 use RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../querybuilders/QueryBuilder.php");
-require_once(__DIR__ . "/DeleteQuery.php");
-require_once(__DIR__ . "/InsertQuery.php");
-require_once(__DIR__ . "/SelectQuery.php");
-require_once(__DIR__ . "/UpdateQuery.php");
-
 class QueryBuilder extends QueryBuilders\QueryBuilder
 {
     /**

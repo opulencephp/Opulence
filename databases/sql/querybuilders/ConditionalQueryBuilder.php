@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/Query.php");
-
 class ConditionalQueryBuilder
 {
     /** @var array The list of WHERE expressions */

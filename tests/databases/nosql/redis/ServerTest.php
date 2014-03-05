@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\NoSQL\Redis;
 
-require_once(__DIR__ . "/../../../../databases/nosql/redis/Server.php");
-
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
     /**

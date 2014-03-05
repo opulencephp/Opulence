@@ -7,8 +7,6 @@
 namespace RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases;
 
-require_once(__DIR__ . "/../../Server.php");
-
 abstract class Server extends Databases\Server
 {
     /** @var int The port this server listens on */

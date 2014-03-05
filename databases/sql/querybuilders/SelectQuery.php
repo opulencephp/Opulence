@@ -6,9 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/Query.php");
-require_once(__DIR__ . "/ConditionalQueryBuilder.php");
-
 class SelectQuery extends Query
 {
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */

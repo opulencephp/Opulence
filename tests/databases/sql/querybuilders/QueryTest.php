@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../databases/sql/querybuilders/Query.php");
-
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Query The query object stub */

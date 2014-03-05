@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL;
 use RamODev\Databases;
 
-require_once(__DIR__ . "/../Server.php");
-
 abstract class Server extends Databases\Server
 {
     /** @var string The username to log in to the server */

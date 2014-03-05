@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL\MySQL\Servers;
 use RamODev\Databases\SQL;
 
-require_once(__DIR__ . "/../../Server.php");
-
 abstract class Server extends SQL\Server
 {
     /**

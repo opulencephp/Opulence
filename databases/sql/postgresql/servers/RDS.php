@@ -7,9 +7,6 @@
 namespace RamODev\Databases\SQL\PostgreSQL\Servers;
 use RamODev\Configs;
 
-require_once(__DIR__ . "/Server.php");
-require_once(__DIR__ . "/../../../../configs/DatabaseConfig.php");
-
 class RDS extends Server
 {
     protected $host = Configs\DatabaseConfig::RDS_HOST;

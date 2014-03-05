@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL;
 use RamODev\Databases\SQL\Exceptions;
 
-require_once(__DIR__ . "/exceptions/SQLException.php");
-
 class QueryResults
 {
     /** @var \PDO The PDO connection used during the query */

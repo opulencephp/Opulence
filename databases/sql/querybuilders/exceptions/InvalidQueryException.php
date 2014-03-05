@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL\QueryBuilders\Exceptions;
 use RamODev\Exceptions;
 
-require_once(__DIR__ . "/../../../../exceptions/Exception.php");
-
 class InvalidQueryException extends Exceptions\Exception
 {
     // Do nothing

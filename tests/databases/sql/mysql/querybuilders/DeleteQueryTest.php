@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../databases/sql/mysql/querybuilders/DeleteQuery.php");
-
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**

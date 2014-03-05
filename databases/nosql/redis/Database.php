@@ -9,9 +9,6 @@ use RamODev\Exceptions;
 use RamODev\Databases;
 use RamODev\Databases\NoSQL\Exceptions as NoSQLExceptions;
 
-require_once(__DIR__ . "/../../Database.php");
-require_once(__DIR__ . "/../exceptions/NoSQLException.php");
-
 class Database extends Databases\Database
 {
     /** @var Server The server we're connecting to */

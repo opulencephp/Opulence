@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL\Exceptions;
 use RamODev\Exceptions;
 
-require_once(__DIR__ . "/../../../exceptions/Exception.php");
-
 class SQLException extends Exceptions\Exception
 {
     // Don't do anything

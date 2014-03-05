@@ -7,9 +7,6 @@
 namespace RamODev\API\V1\Users\Factories;
 use RamODev\API\V1\Users;
 
-require_once(__DIR__ . "/../User.php");
-require_once(__DIR__ . "/IUserFactory.php");
-
 class UserFactory implements IUserFactory
 {
     /**

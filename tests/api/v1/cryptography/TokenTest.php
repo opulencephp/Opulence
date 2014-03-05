@@ -6,8 +6,6 @@
  */
 namespace RamODev\API\V1\Cryptography;
 
-require_once(__DIR__ . "/../../../../api/v1/cryptography/Token.php");
-
 class TokenTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Token The token to test */

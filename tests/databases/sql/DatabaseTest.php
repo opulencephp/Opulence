@@ -7,9 +7,6 @@
 namespace RamODev\Databases\SQL;
 use RamODev\Databases\SQL\PostgreSQL\Servers;
 
-require_once(__DIR__ . "/../../../databases/sql/Database.php");
-require_once(__DIR__ . "/../../../databases/sql/postgresql/servers/RDS.php");
-
 class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Server A database server to connect to */

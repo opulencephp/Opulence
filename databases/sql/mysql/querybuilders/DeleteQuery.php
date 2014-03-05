@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
 use RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../querybuilders/DeleteQuery.php");
-
 class DeleteQuery extends QueryBuilders\DeleteQuery
 {
     /** @var int|string $limit The number of rows to limit to */

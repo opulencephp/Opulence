@@ -7,9 +7,6 @@
 namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
 use RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../querybuilders/UpdateQuery.php");
-require_once(__DIR__ . "/AugmentingQueryBuilder.php");
-
 class UpdateQuery extends QueryBuilders\UpdateQuery
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */

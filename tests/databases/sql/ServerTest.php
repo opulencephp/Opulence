@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL;
 
-require_once(__DIR__ . "/../../../databases/sql/Server.php");
-
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
     /**

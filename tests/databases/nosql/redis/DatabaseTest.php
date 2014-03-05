@@ -7,9 +7,6 @@
 namespace RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\NoSQL\Redis\Servers;
 
-require_once(__DIR__ . "/../../../../databases/nosql/redis/Database.php");
-require_once(__DIR__ . "/../../../../databases/nosql/redis/servers/ElastiCache.php");
-
 class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Database The connection we're using */

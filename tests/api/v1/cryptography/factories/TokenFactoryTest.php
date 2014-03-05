@@ -6,8 +6,6 @@
  */
 namespace RamODev\API\V1\Cryptography\Factories;
 
-require_once(__DIR__ . "/../../../../../api/v1/cryptography/factories/TokenFactory.php");
-
 class TokenFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**

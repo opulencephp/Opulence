@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
 use RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../querybuilders/InsertQuery.php");
-
 class InsertQuery extends QueryBuilders\InsertQuery
 {
     /** @var array The list of column names to values in case of a "ON DUPLICATE KEY UPDATE" clause */

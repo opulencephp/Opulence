@@ -8,11 +8,6 @@ namespace RamODev\Repositories;
 use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 
-require_once(__DIR__ . "/IRedisWithSQLBackupRepo.php");
-require_once(__DIR__ . "/RedisRepo.php");
-require_once(__DIR__ . "/PostgreSQLRepo.php");
-require_once(__DIR__ . "/ActionTypes.php");
-
 abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
 {
     /** @var RedisRepo The Redis repository to use for temporary storage */

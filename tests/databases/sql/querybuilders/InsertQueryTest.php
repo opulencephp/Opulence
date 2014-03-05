@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../databases/sql/postgresql/querybuilders/InsertQuery.php");
-
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**

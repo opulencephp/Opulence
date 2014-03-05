@@ -7,8 +7,6 @@
 namespace RamODev\API\V1\Cryptography;
 use RamODev\Configs;
 
-require_once(__DIR__ . "/../../../configs/AuthenticationConfig.php");
-
 class Token
 {
     /** The hashing algorithm to use */

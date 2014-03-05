@@ -6,9 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/Query.php");
-require_once(__DIR__ . "/ConditionalQueryBuilder.php");
-
 class UpdateQuery extends Query
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */

@@ -7,8 +7,6 @@
 namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
 use RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../querybuilders/AugmentingQueryBuilder.php");
-
 class AugmentingQueryBuilder extends QueryBuilders\AugmentingQueryBuilder
 {
     /** @var array The list of columns whose value we want to return */

@@ -7,9 +7,6 @@
 namespace RamODev\API\V1\Users\Authentication\Credentials;
 use RamODev\API\V1\Users\Authentication\Credentials\Exceptions;
 
-require_once(__DIR__ . "/ICredentialsValidator.php");
-require_once(__DIR__ . "/Exceptions/TamperedCredentialsException.php");
-
 class CredentialsValidator implements ICredentialsValidator
 {
     /** @var Repositories\Credentials\IAuthTokenRepo The credentials repository */

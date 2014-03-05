@@ -7,8 +7,6 @@
 namespace RamODev\API\V1\Users\Factories;
 use RamODev\API\V1\Users;
 
-require_once(__DIR__ . "/../../../../../api/v1/users/factories/UserFactory.php");
-
 class UserFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UserFactory The user factory to test */

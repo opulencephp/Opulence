@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
 
-require_once(__DIR__ . "/../../../../../databases/sql/postgresql/querybuilders/UpdateQuery.php");
-
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**

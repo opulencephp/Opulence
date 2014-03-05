@@ -11,14 +11,7 @@ use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../repositories/RedisWithPostgreSQLBackupRepo.php");
-require_once(__DIR__ . "/../../User.php");
-require_once(__DIR__ . "/IUserRepo.php");
-require_once(__DIR__ . "/RedisRepo.php");
-require_once(__DIR__ . "/PostgreSQLRepo.php");
-require_once(__DIR__ . "/UserDataTypes.php");
-
-class RedisWithPostgreSQLBackupRepo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
+class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */
     private $userFactory = null;

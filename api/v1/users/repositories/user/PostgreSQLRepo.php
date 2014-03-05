@@ -14,8 +14,6 @@ use RamODev\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
 use RamODev\Exceptions;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../databases/sql/postgresql/querybuilders/QueryBuilder.php");
-
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */

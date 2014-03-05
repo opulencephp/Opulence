@@ -6,8 +6,6 @@ These tools are PHP wrappers for relational database (RDBMS) and NoSQL database 
 namespace RamODev;
 use RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
 
-require_once(PATH_TO_POSTGRESQL_QUERY_BUILDER_CLASS);
-
 $queryBuilder = new QueryBuilders\QueryBuilder();
 $selectQuery = $queryBuilder->select("id", "name", "email")
     ->from("users")

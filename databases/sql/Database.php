@@ -9,10 +9,6 @@ use RamODev\Exceptions;
 use RamODev\Databases;
 use RamODev\Databases\SQL\Exceptions as SQLExceptions;
 
-require_once(__DIR__ . "/exceptions/SQLException.php");
-require_once(__DIR__ . "/../Database.php");
-require_once(__DIR__ . "/QueryResults.php");
-
 class Database extends Databases\Database
 {
     /** @var Server The server we're connecting to */

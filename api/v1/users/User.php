@@ -6,8 +6,6 @@
  */
 namespace RamODev\API\V1\Users;
 
-require_once(__DIR__ . "/IUser.php");
-
 class User implements IUser
 {
     /** @var int The ID of the user */

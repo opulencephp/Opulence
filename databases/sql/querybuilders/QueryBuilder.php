@@ -6,8 +6,6 @@
  */
 namespace RamODev\Databases\SQL\QueryBuilders;
 
-require_once(__DIR__ . "/exceptions/InvalidQueryException.php");
-
 abstract class QueryBuilder
 {
     /**

@@ -6,8 +6,6 @@
  */
 namespace RamODev\Exceptions;
 
-require_once(__DIR__ . "/Log.php");
-
 class Exception extends \Exception
 {
     /**

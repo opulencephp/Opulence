@@ -10,9 +10,6 @@ use RamODev\Databases\NoSQL\Redis;
 use RamODev\Databases\SQL;
 use RamODev\Repositories;
 
-require_once(__DIR__ . "/../../../../../../../repositories/RedisWithPostgreSQLBackupRepo.php");
-require_once(__DIR__ . "/../../../../../cryptography/Token.php");
-
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenRepo
 {
     /** @var Cryptography\Factories\TokenFactory The factory to generate tokens */
