@@ -12,6 +12,39 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH = "/templates/Test.html";
 
     /**
+     * Tests getting the HTML by setting the template path in the constructor
+     */
+    public function testGettingHTMLBySpecifyingTemplatePathInConstructor()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $this->assertEquals("Hello, world!", $template->getHTML());
+    }
+
+    /**
+     * Tests getting the HTML
+     */
+    public function testGettingHTML()
+    {
+        $template = new Template();
+        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $this->assertEquals("Hello, world!", $template->getHTML());
+    }
+
+    /**
+     * Tests getting the HTML for a template whose tags we didn't set
+     */
+    public function testGettingHTMLForTemplateWithUnsetTags()
+    {
+        $template = new Template();
+        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
+        $this->assertEquals(", !", $template->getHTML());
+    }
+
+    /**
      * Tests setting multiple tags in a template
      */
     public function testSettingMultipleTag()
@@ -51,17 +84,5 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $templatePath = $property->getValue($template);
         $this->assertEquals("foo", $templatePath);
-    }
-
-    /**
-     * Tests getting the HTML
-     */
-    public function testGettingHTML()
-    {
-        $template = new Template();
-        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
-        $template->setTag("foo", "Hello");
-        $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getHTML());
     }
 } 

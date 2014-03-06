@@ -17,15 +17,28 @@ class Template
     protected $tags = array();
 
     /**
+     * @param string $templatePath The path to the template to use
+     */
+    public function __construct($templatePath = "")
+    {
+        $this->setTemplatePath($templatePath);
+    }
+
+    /**
      * @return string
      */
     public function getHTML()
     {
+        // Get the template's output
         ob_start();
         require_once($this->templatePath);
 
         // Replace the tags with their values
-        return str_replace(array_keys($this->tags), array_values($this->tags), ob_get_clean());
+        $taggedTemplate = str_replace(array_keys($this->tags), array_values($this->tags), ob_get_clean());
+        // Remove any left-over, unset tags
+        $taggedTemplate = preg_replace("/" . self::TAG_PLACEHOLDER_BOOKEND . ".*" . self::TAG_PLACEHOLDER_BOOKEND . "/u", "", $taggedTemplate);
+
+        return $taggedTemplate;
     }
 
     /**
