@@ -9,5 +9,5 @@ use RamODev\Exceptions;
 
 class InvalidQueryException extends Exceptions\Exception
 {
-    // Do nothing
+    // Don't do anything
 } 

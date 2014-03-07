@@ -36,7 +36,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function add(Cryptography\Token $token, $userID)
     {
-        return $this->set(__FUNCTION__, array($userID, $token));
+        return $this->write(__FUNCTION__, array($userID, $token));
     }
 
     /**
@@ -48,7 +48,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function deauthorize(Cryptography\Token $token, $userID)
     {
-        return $this->set(__FUNCTION__, array($userID, $token));
+        return $this->write(__FUNCTION__, array($userID, $token));
     }
 
     /**
@@ -63,7 +63,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getByTokenDataAndUserID($tokenString, $expiration, $salt, $secretKey, $userID)
     {
-        return $this->get(__FUNCTION__, array($userID, $tokenString, $expiration, $salt, $secretKey));
+        return $this->query(__FUNCTION__, array($userID, $tokenString, $expiration, $salt, $secretKey));
     }
 
     /**

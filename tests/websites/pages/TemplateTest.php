@@ -46,7 +46,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setting multiple tags in a template
      */
-    public function testSettingMultipleTag()
+    public function testSettingMultipleTags()
     {
         $template = new Template();
         $template->setTags(array("foo" => "bar", "abc" => "xyz"));

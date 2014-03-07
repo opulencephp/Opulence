@@ -80,7 +80,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     {
         $this->buildGetQuery();
 
-        return $this->get(false);
+        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", false);
     }
 
     /**
@@ -95,7 +95,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $this->getQuery->andWhere("LOWER(email) = :email")
             ->addNamedPlaceholderValue("email", strtolower($email));
 
-        return $this->get(true);
+        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -110,7 +110,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $this->getQuery->andWhere("id = :id")
             ->addNamedPlaceholderValue("id", $id);
 
-        return $this->get(true);
+        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -125,7 +125,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $this->getQuery->andWhere("LOWER(username) = :username")
             ->addNamedPlaceholderValue("username", strtolower($username));
 
-        return $this->get(true);
+        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -142,7 +142,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             ->andWhere("password = :password")
             ->addNamedPlaceholderValues(array("username" => strtolower($username), "password" => $hashedPassword));
 
-        return $this->get(true);
+        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -176,34 +176,18 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     }
 
     /**
-     * Builds the basic get query that's common to all get methods
-     */
-    private function buildGetQuery()
-    {
-        $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
-        $this->getQuery = $queryBuilder->select("id", "username", "password", "email", "datecreated", "firstname", "lastname")
-            ->from("users.usersview");
-    }
-
-    /**
-     * Runs the get query and returns results, if there are any
+     * Creates a list of user objects from the database results
      *
-     * @param bool $expectSingleResult True if we're expecting a single result, otherwise false and we're expecting an array of results
-     * @return array|Users\IUser|bool The list of users or the individual user returned by the query if successful, otherwise false
+     * @param array $rows The rows of results from the query
+     * @return array The list of user objects
      */
-    private function get($expectSingleResult)
+    protected function createUsersFromRows($rows)
     {
-        $results = $this->sqlDatabase->query($this->getQuery->getSQL(), $this->getQuery->getParameters());
-
-        if($results->getNumResults() == 0 || ($expectSingleResult && $results->getNumResults() > 1))
-        {
-            return false;
-        }
-
         $users = array();
 
-        while($row = $results->getRow())
+        for($rowIter = 0;$rowIter < count($rows);$rowIter++)
         {
+            $row = $rows[$rowIter];
             $id = $row["id"];
             $username = $row["username"];
             $password = $row["password"];
@@ -215,15 +199,17 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             $users[] = $this->userFactory->createUser($id, $username, $password, $email, $dateCreated, $firstName, $lastName);
         }
 
-        if($expectSingleResult)
-        {
-            // At this point, we know there's only one result, like we expected, so return it
-            return $users[0];
-        }
-        else
-        {
-            return $users;
-        }
+        return $users;
+    }
+
+    /**
+     * Builds the basic get query that's common to all get methods
+     */
+    private function buildGetQuery()
+    {
+        $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+        $this->getQuery = $queryBuilder->select("id", "username", "password", "email", "datecreated", "firstname", "lastname")
+            ->from("users.usersview");
     }
 
     /**

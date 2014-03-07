@@ -36,7 +36,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function add(Users\IUser &$user)
     {
-        return $this->set(__FUNCTION__, array(&$user));
+        return $this->write(__FUNCTION__, array(&$user));
     }
 
     /**
@@ -46,7 +46,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getAll()
     {
-        return $this->get(__FUNCTION__);
+        return $this->query(__FUNCTION__);
     }
 
     /**
@@ -57,7 +57,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByEmail($email)
     {
-        return $this->get(__FUNCTION__, array($email));
+        return $this->query(__FUNCTION__, array($email));
     }
 
     /**
@@ -68,7 +68,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByID($id)
     {
-        return $this->get(__FUNCTION__, array($id));
+        return $this->query(__FUNCTION__, array($id));
     }
 
     /**
@@ -79,7 +79,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByUsername($username)
     {
-        return $this->get(__FUNCTION__, array($username));
+        return $this->query(__FUNCTION__, array($username));
     }
 
     /**
@@ -91,7 +91,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByUsernameAndPassword($username, $hashedPassword)
     {
-        return $this->get(__FUNCTION__, array($username, $hashedPassword));
+        return $this->query(__FUNCTION__, array($username, $hashedPassword));
     }
 
     /**
@@ -112,7 +112,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function update(Users\IUser &$user)
     {
-        return $this->set(__FUNCTION__, array(&$user));
+        return $this->write(__FUNCTION__, array(&$user));
     }
 
     /**

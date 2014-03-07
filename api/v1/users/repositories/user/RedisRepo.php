@@ -41,8 +41,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getID());
         // Create the username index
         $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getID());
-        // Create the password index
-        $this->redisDatabase->getPHPRedis()->set("users:password:" . $user->getHashedPassword(), $user->getID());
     }
 
     /**
@@ -55,8 +53,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         return $this->redisDatabase->getPHPRedis()->del(array("users")) !== false && $this->redisDatabase->deleteKeyPatterns(array(
             "users:*",
             "users:email:*",
-            "users:username:*",
-            "users:password:*"
+            "users:username:*"
         ));
     }
 
@@ -67,30 +64,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getAll()
     {
-        $userIDs = $this->redisDatabase->getPHPRedis()->sMembers("users");
-
-        if($userIDs == array())
-        {
-            return false;
-        }
-
-        // Cast all the IDs to int
-        $userIDs = array_map("intval", $userIDs);
-        $users = array();
-
-        foreach($userIDs as $userID)
-        {
-            $user = $this->createUserFromID($userID);
-
-            if($user === false)
-            {
-                return false;
-            }
-
-            $users[] = $user;
-        }
-
-        return $users;
+        return $this->query("users", "createUserFromID", false);
     }
 
     /**
@@ -101,14 +75,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByEmail($email)
     {
-        $userID = $this->redisDatabase->getPHPRedis()->get("users:email:" . strtolower($email));
-
-        if($userID === false)
-        {
-            return false;
-        }
-
-        return $this->createUserFromID((int)$userID);
+        return $this->query("users:email:" . strtolower($email), "createUserFromID", true);
     }
 
     /**
@@ -130,14 +97,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByUsername($username)
     {
-        $userID = $this->redisDatabase->getPHPRedis()->get("users:username:" . strtolower($username));
-
-        if($userID === false)
-        {
-            return false;
-        }
-
-        return $this->createUserFromID((int)$userID);
+        return $this->query("users:username:" . strtolower($username), "createUserFromID", true);
     }
 
     /**
@@ -149,22 +109,15 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByUsernameAndPassword($username, $hashedPassword)
     {
-        $userIDFromUsername = $this->redisDatabase->getPHPRedis()->get("users:username:" . strtolower($username));
+        $userFromUsername = $this->getByUsername($username);
+        $passwordInStorage = $this->redisDatabase->getPHPRedis()->hGet("users:" . $userFromUsername->getID(), "password");
 
-        if($userIDFromUsername === false)
+        if($passwordInStorage !== $hashedPassword)
         {
             return false;
         }
 
-        $userIDFromPassword = $this->redisDatabase->getPHPRedis()->get("users:password:" . $hashedPassword);
-
-        // Make sure the user ID from the username matches that of the password
-        if($userIDFromPassword === false || $userIDFromUsername != $userIDFromPassword)
-        {
-            return false;
-        }
-
-        return $this->createUserFromID((int)$userIDFromUsername);
+        return $userFromUsername;
     }
 
     /**
@@ -181,11 +134,13 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     /**
      * Creates a user object from cache using an ID
      *
-     * @param int $userID The ID of the user to create
+     * @param int|string $userID The ID of the user to create
      * @return Users\IUser|bool The user object if successful, otherwise false
      */
-    private function createUserFromID($userID)
+    protected function createUserFromID($userID)
     {
+        // Cast to int just in case it is still in string-form, which is how Redis stores most data
+        $userID = (int)$userID;
         $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID);
 
         if($userHash == array())

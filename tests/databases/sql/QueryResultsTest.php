@@ -42,6 +42,24 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting all the rows for a query that doesn't return data
+     */
+    public function testGettingAllRowsForQueryThatDoesNotReturnData()
+    {
+        $results = $this->database->query("SELECT id FROM test");
+        $this->assertGreaterThan(0, count($results->getAllRows()));
+    }
+
+    /**
+     * Tests getting all the rows for a query that does return data
+     */
+    public function testGettingAllRowsForQueryThatDoesReturnData()
+    {
+        $results = $this->database->query("SELECT id FROM table_that_doesnt_exist");
+        $this->assertEquals(0, count($results->getAllRows()));
+    }
+
+    /**
      * Tests getting the number of rows in the results
      */
     public function testGettingNumResults()

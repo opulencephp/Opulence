@@ -26,4 +26,62 @@ abstract class RedisRepo
      * @return bool True if successful, otherwise false
      */
     abstract public function flush();
+
+    /**
+     * Performs the query for object(s) and returns any results
+     * This assumes that the keys for all the objects are stored in a set
+     *
+     * @param string $keyOfIndexOfObjectKeys The key of the index that contains all the objects we're searching for
+     * @param string $objectFromHashFuncName The name of the (protected or public) method to run, which creates an object from a Redis hash
+     * @param bool $expectSingleResult True if we're expecting a single result, otherwise false and we're expecting an array of results
+     * @return array|mixed|bool The list of objects or an individual object if successful, otherwise false
+     */
+    protected function query($keyOfIndexOfObjectKeys, $objectFromHashFuncName, $expectSingleResult)
+    {
+        if($expectSingleResult)
+        {
+            $objectKeys = $this->redisDatabase->getPHPRedis()->get($keyOfIndexOfObjectKeys);
+
+            if($objectKeys === false)
+            {
+                return false;
+            }
+
+            // To be compatible with the rest of this method, we'll convert the key to an array containing that key
+            $objectKeys = array($objectKeys);
+        }
+        else
+        {
+            $objectKeys = $this->redisDatabase->getPHPRedis()->sMembers($keyOfIndexOfObjectKeys);
+
+            if(count($objectKeys) == 0)
+            {
+                return false;
+            }
+        }
+
+        $objects = array();
+
+        // Create and store the object associated with each key
+        foreach($objectKeys as $objectKey)
+        {
+            $object = call_user_func_array(array($this, $objectFromHashFuncName), array($objectKey));
+
+            if($object === array())
+            {
+                return false;
+            }
+
+            $objects[] = $object;
+        }
+
+        if($expectSingleResult)
+        {
+            return $objects[0];
+        }
+        else
+        {
+            return $objects;
+        }
+    }
 } 

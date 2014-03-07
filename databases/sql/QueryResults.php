@@ -32,6 +32,16 @@ class QueryResults
     }
 
     /**
+     * Gets all rows in the results
+     *
+     * @return array|bool The array of results if successful, otherwise false
+     */
+    public function getAllRows()
+    {
+        return $this->pdoStatement->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    /**
      * Gets the number of rows in the results
      *
      * @return int The number of rows in the results
