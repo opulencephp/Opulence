@@ -29,14 +29,11 @@ class Template
      */
     public function getHTML()
     {
-        // Get the template's output
-        ob_start();
-        require_once($this->templatePath);
-
+        $untaggedTemplate = file_get_contents($this->templatePath);
         // Replace the tags with their values
-        $taggedTemplate = str_replace(array_keys($this->tags), array_values($this->tags), ob_get_clean());
+        $taggedTemplate = str_replace(array_keys($this->tags), array_values($this->tags), $untaggedTemplate);
         // Remove any left-over, unset tags
-        $taggedTemplate = preg_replace("/" . self::TAG_PLACEHOLDER_BOOKEND . ".*" . self::TAG_PLACEHOLDER_BOOKEND . "/u", "", $taggedTemplate);
+        $taggedTemplate = preg_replace("/" . self::TAG_PLACEHOLDER_BOOKEND . "((?!%%).)*" . self::TAG_PLACEHOLDER_BOOKEND . "/u", "", $taggedTemplate);
 
         return $taggedTemplate;
     }

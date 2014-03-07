@@ -27,8 +27,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingHTML()
     {
-        $template = new Template();
-        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $this->assertEquals("Hello, world!", $template->getHTML());
