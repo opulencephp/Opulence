@@ -8,8 +8,8 @@ namespace RamODev\Configs;
 
 class PHPConfig
 {
-    /** The path to our root directory */
-    const ROOT_DIR = "/var/www/html";
+    /** The relative path to our root HTML directory */
+    const PATH_TO_ROOT_HTML_DIR = "..";
     /** The root namespace */
     const ROOT_NAMESPACE = "RamODev";
 
@@ -36,7 +36,7 @@ class PHPConfig
             $className = array_pop($explodedFullyQualifiedClassName);
             $explodedPath = array_map("strtolower", $explodedFullyQualifiedClassName);
 
-            require_once(self::ROOT_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
+            require_once(__DIR__ . "/" . self::PATH_TO_ROOT_HTML_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
         }
         else
         {
