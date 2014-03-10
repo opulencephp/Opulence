@@ -65,7 +65,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      * @param array $setFuncArgs The array of function arguments to pass into the data set functions in the case of a Redis repo miss
      * @return mixed|bool The data from the repository if it was found, otherwise false
      */
-    protected function query($funcName, $getFuncArgs = array(), $setFuncArgs = array())
+    protected function read($funcName, $getFuncArgs = array(), $setFuncArgs = array())
     {
         // Always attempt to retrieve from the Redis repo first
         $data = call_user_func_array(array($this->redisRepo, $funcName), $getFuncArgs);

@@ -63,7 +63,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getByTokenDataAndUserID($tokenString, $expiration, $salt, $secretKey, $userID)
     {
-        return $this->query(__FUNCTION__, array($userID, $tokenString, $expiration, $salt, $secretKey));
+        return $this->read(__FUNCTION__, array($userID, $tokenString, $expiration, $salt, $secretKey));
     }
 
     /**
