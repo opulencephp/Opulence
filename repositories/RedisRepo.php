@@ -28,19 +28,19 @@ abstract class RedisRepo
     abstract public function flush();
 
     /**
-     * Performs the query for object(s) and returns any results
+     * Performs the read query for object(s) and returns any results
      * This assumes that the keys for all the objects are stored in a set
      *
-     * @param string $keyOfIndexOfObjectKeys The key of the index that contains all the objects we're searching for
+     * @param string $keyOfObjectKeyIndex The key of the index that contains all the objects we're searching for
      * @param string $objectFromHashFuncName The name of the (protected or public) method to run, which creates an object from a Redis hash
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false and we're expecting an array of results
      * @return array|mixed|bool The list of objects or an individual object if successful, otherwise false
      */
-    protected function query($keyOfIndexOfObjectKeys, $objectFromHashFuncName, $expectSingleResult)
+    protected function read($keyOfObjectKeyIndex, $objectFromHashFuncName, $expectSingleResult)
     {
         if($expectSingleResult)
         {
-            $objectKeys = $this->redisDatabase->getPHPRedis()->get($keyOfIndexOfObjectKeys);
+            $objectKeys = $this->redisDatabase->getPHPRedis()->get($keyOfObjectKeyIndex);
 
             if($objectKeys === false)
             {
@@ -52,7 +52,7 @@ abstract class RedisRepo
         }
         else
         {
-            $objectKeys = $this->redisDatabase->getPHPRedis()->sMembers($keyOfIndexOfObjectKeys);
+            $objectKeys = $this->redisDatabase->getPHPRedis()->sMembers($keyOfObjectKeyIndex);
 
             if(count($objectKeys) == 0)
             {

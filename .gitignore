@@ -1,2 +1,3 @@
 .idea
-configs
+configs/AuthenticationConfig.php
+configs/DatabaseConfig.php

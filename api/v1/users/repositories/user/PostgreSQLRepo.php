@@ -55,7 +55,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 
             // Add the user's data to the user data table
             $userDataInsertQuery = $queryBuilder->insert("users.userdata", array("userid" => $user->getID()));
-            $this->set($user, $userDataInsertQuery);
+            $this->write($user, $userDataInsertQuery);
             $this->log($user, Repositories\ActionTypes::ADDED);
             $this->sqlDatabase->commitTransaction();
 
@@ -80,7 +80,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     {
         $this->buildGetQuery();
 
-        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", false);
+        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", false);
     }
 
     /**
@@ -95,7 +95,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $this->getQuery->andWhere("LOWER(email) = :email")
             ->addNamedPlaceholderValue("email", strtolower($email));
 
-        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -110,7 +110,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $this->getQuery->andWhere("id = :id")
             ->addNamedPlaceholderValue("id", $id);
 
-        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -125,7 +125,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $this->getQuery->andWhere("LOWER(username) = :username")
             ->addNamedPlaceholderValue("username", strtolower($username));
 
-        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -142,7 +142,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             ->andWhere("password = :password")
             ->addNamedPlaceholderValues(array("username" => strtolower($username), "password" => $hashedPassword));
 
-        return $this->query($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
     }
 
     /**
@@ -160,7 +160,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
             $updateQuery = $queryBuilder->update("users.userdata", "", array())
                 ->where("userid = ?");
-            $this->set($user, $updateQuery);
+            $this->write($user, $updateQuery);
             $this->log($user, Repositories\ActionTypes::UPDATED);
             $this->sqlDatabase->commitTransaction();
 
@@ -223,7 +223,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     {
         $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
         $insertQuery = $queryBuilder->insert("users.userdatalog", array("userid" => $user->getID(), "actiontypeid" => $actionTypeID));
-        $this->set($user, $insertQuery);
+        $this->write($user, $insertQuery);
     }
 
     /**
@@ -232,7 +232,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * @param Users\IUser $user The user whose data we are changing
      * @param GenericQueryBuilders\Query $query The query we'll run
      */
-    private function set(Users\IUser $user, GenericQueryBuilders\Query $query)
+    private function write(Users\IUser $user, GenericQueryBuilders\Query $query)
     {
         /**
          * Each item in the array contains the array of placeholder names to their respective values

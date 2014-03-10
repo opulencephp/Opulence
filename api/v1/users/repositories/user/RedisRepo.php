@@ -64,7 +64,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getAll()
     {
-        return $this->query("users", "createUserFromID", false);
+        return $this->read("users", "createUserFromID", false);
     }
 
     /**
@@ -75,7 +75,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByEmail($email)
     {
-        return $this->query("users:email:" . strtolower($email), "createUserFromID", true);
+        return $this->read("users:email:" . strtolower($email), "createUserFromID", true);
     }
 
     /**
@@ -97,7 +97,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByUsername($username)
     {
-        return $this->query("users:username:" . strtolower($username), "createUserFromID", true);
+        return $this->read("users:username:" . strtolower($username), "createUserFromID", true);
     }
 
     /**

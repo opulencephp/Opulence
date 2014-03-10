@@ -22,7 +22,7 @@ class PostgreSQLRepo
     }
 
     /**
-     * Performs the query for object(s) and returns any results
+     * Performs the read query for object(s) and returns any results
      *
      * @param string $sql The SQL query to run
      * @param array $sqlParameters The list of SQL parameters
@@ -31,7 +31,7 @@ class PostgreSQLRepo
      * @return array|mixed|bool The list of objects or an individual object if successful, otherwise false
      * @throws Exceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
-    protected function query($sql, $sqlParameters, $objectsFromRowsFuncName, $expectSingleResult)
+    protected function read($sql, $sqlParameters, $objectsFromRowsFuncName, $expectSingleResult)
     {
         try
         {
