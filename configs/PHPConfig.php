@@ -1,15 +1,15 @@
 <?php
 /**
  * Copyright (C) 2014 David Young
- * 
+ *
  * Defines PHP configuration settings
  */
 namespace RamODev\Configs;
 
 class PHPConfig
 {
-    /** The relative path to our root HTML directory */
-    const PATH_TO_ROOT_HTML_DIR = "..";
+    /** The relative path to the root RamODev directory */
+    const RELATIVE_PATH_TO_RAMODEV_ROOT_DIR = "..";
     /** The root namespace */
     const ROOT_NAMESPACE = "RamODev";
 
@@ -36,7 +36,7 @@ class PHPConfig
             $className = array_pop($explodedFullyQualifiedClassName);
             $explodedPath = array_map("strtolower", $explodedFullyQualifiedClassName);
 
-            require_once(__DIR__ . "/" . self::PATH_TO_ROOT_HTML_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
+            require_once(__DIR__ . "/" . self::RELATIVE_PATH_TO_RAMODEV_ROOT_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
         }
         else
         {
