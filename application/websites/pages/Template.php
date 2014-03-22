@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a website template
+ * Defines methods common to all website page templates
  */
 namespace RamODev\Websites\Pages;
 
@@ -27,7 +27,7 @@ class Template
     /**
      * @return string
      */
-    public function getHTML()
+    public function getOutput()
     {
         $untaggedTemplate = file_get_contents($this->templatePath);
         // Replace the tags with their values

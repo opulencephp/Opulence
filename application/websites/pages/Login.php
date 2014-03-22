@@ -6,16 +6,18 @@
  */
 namespace RamODev\Websites\Pages;
 
-class Login extends Template
+class Login extends Generic
 {
     public function __construct()
     {
-        parent::__construct(__DIR__ . "/templates/Generic.html");
+        parent::__construct();
 
         $formPagelet = new Template(__DIR__ . "/pagelets/templates/LoginForm.html");
+        $this->setTitle("Log In");
+        $this->setMetaDescription("Log in to your account");
+        $this->addMetaKeywords(array("Log in", "my account"));
         $this->setTags(array(
-            "pageTitle" => "Log In",
-            "bodyContent" => $formPagelet->getHTML()
+            "bodyContent" => $formPagelet->getOutput()
         ));
     }
 } 

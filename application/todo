@@ -1,7 +1,7 @@
 Write tests for router class
     Obviously, we'll then need to write methods
     Allow regexes to be passed into router
-        Look to Klein and Slim and good references
+        Look to Klein and Slim as good references
     Need to add support for different types of users getting routed to different templates
     Need to consider where router object would go (probably the Website object??)
     Need to reconsider having Request as a separate class from Page

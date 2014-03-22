@@ -1,2 +1,2 @@
-<phpunit bootstrap="/var/www/html/configs/PHPConfig.php">
+<phpunit bootstrap="/var/www/html/application/configs/PHPConfig.php">
 </phpunit>

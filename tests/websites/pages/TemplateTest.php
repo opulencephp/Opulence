@@ -12,35 +12,35 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH = "/templates/Test.html";
 
     /**
-     * Tests getting the HTML by setting the template path in the constructor
+     * Tests getting the output
      */
-    public function testGettingHTMLBySpecifyingTemplatePathInConstructor()
+    public function testGettingOutput()
     {
         $template = new Template(__DIR__ . self::TEMPLATE_PATH);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getHTML());
+        $this->assertEquals("Hello, world!", $template->getOutput());
     }
 
     /**
-     * Tests getting the HTML
+     * Tests getting the output for a template whose tags we didn't set
      */
-    public function testGettingHTML()
-    {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH);
-        $template->setTag("foo", "Hello");
-        $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getHTML());
-    }
-
-    /**
-     * Tests getting the HTML for a template whose tags we didn't set
-     */
-    public function testGettingHTMLForTemplateWithUnsetTags()
+    public function testGettingOutputForTemplateWithUnsetTags()
     {
         $template = new Template();
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
-        $this->assertEquals(", !", $template->getHTML());
+        $this->assertEquals(", !", $template->getOutput());
+    }
+
+    /**
+     * Tests getting the output by setting the template path in the constructor
+     */
+    public function testGettingOutputLBySpecifyingTemplatePathInConstructor()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $this->assertEquals("Hello, world!", $template->getOutput());
     }
 
     /**

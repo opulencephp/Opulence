@@ -9,8 +9,8 @@ use RamODev\API\V1\Users;
 use RamODev\API\V1\Users\Factories;
 use RamODev\Databases\SQL;
 use RamODev\Databases\SQL\Exceptions as SQLExceptions;
-use RamODev\Databases\SQL\QueryBuilders as GenericQueryBuilders;
 use RamODev\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
+use RamODev\Databases\SQL\QueryBuilders as GenericQueryBuilders;
 use RamODev\Exceptions;
 use RamODev\Repositories;
 
