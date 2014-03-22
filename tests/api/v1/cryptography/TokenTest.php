@@ -4,7 +4,7 @@
  *
  * Test the token
  */
-namespace RamODev\API\V1\Cryptography;
+namespace RamODev\Application\API\V1\Cryptography;
 
 class TokenTest extends \PHPUnit_Framework_TestCase
 {

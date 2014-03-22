@@ -4,7 +4,7 @@
  *
  * Defines the interface for Redis repositories with SQL database backups
  */
-namespace RamODev\Repositories;
+namespace RamODev\Application\Repositories;
 
 interface IRedisWithSQLBackupRepo
 {

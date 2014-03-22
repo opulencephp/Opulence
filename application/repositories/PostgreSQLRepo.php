@@ -4,9 +4,9 @@
  *
  * Defines a repository that uses a PostgreSQL database as a storage method
  */
-namespace RamODev\Repositories;
-use RamODev\Databases\SQL;
-use RamODev\Exceptions;
+namespace RamODev\Application\Repositories;
+use RamODev\Application\Databases\SQL;
+use RamODev\Application\Exceptions;
 
 class PostgreSQLRepo
 {

@@ -4,7 +4,7 @@
  *
  * Tests the query builder
  */
-namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\PostgreSQL\QueryBuilders;
 
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatDeleteReturnsDeleteQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\RamODev\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\DeleteQuery", $queryBuilder->delete("tableName", "tableAlias"));
+        $this->assertInstanceOf("\\RamODev\\Application\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\DeleteQuery", $queryBuilder->delete("tableName", "tableAlias"));
     }
 
     /**
@@ -23,7 +23,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatInsertReturnsInsertQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\RamODev\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\InsertQuery", $queryBuilder->insert("tableName", array("columnName" => "columnValue")));
+        $this->assertInstanceOf("\\RamODev\\Application\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\InsertQuery", $queryBuilder->insert("tableName", array("columnName" => "columnValue")));
     }
 
     /**
@@ -32,7 +32,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatSelectReturnsSelectQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\RamODev\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\SelectQuery", $queryBuilder->select("tableName", "tableAlias"));
+        $this->assertInstanceOf("\\RamODev\\Application\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\SelectQuery", $queryBuilder->select("tableName", "tableAlias"));
     }
 
     /**
@@ -41,6 +41,6 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatUpdateReturnsUpdateQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("\\RamODev\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\UpdateQuery", $queryBuilder->update("tableName", "tableAlias", array("columnName" => "columnValue")));
+        $this->assertInstanceOf("\\RamODev\\Application\\Databases\\SQL\\PostgreSQL\\QueryBuilders\\UpdateQuery", $queryBuilder->update("tableName", "tableAlias", array("columnName" => "columnValue")));
     }
 } 

@@ -4,7 +4,7 @@
  *
  * Builds an update query
  */
-namespace RamODev\Databases\SQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\QueryBuilders;
 
 class UpdateQuery extends Query
 {

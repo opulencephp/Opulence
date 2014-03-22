@@ -4,7 +4,7 @@
  *
  * Tests the insert query
  */
-namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\MySQL\QueryBuilders;
 
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
 {

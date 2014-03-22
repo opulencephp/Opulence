@@ -4,8 +4,8 @@
  *
  * Defines the base PostgreSQL server object
  */
-namespace RamODev\Databases\SQL\PostgreSQL\Servers;
-use RamODev\Databases\SQL;
+namespace RamODev\Application\Databases\SQL\PostgreSQL\Servers;
+use RamODev\Application\Databases\SQL;
 
 abstract class Server extends SQL\Server
 {

@@ -4,8 +4,8 @@
  *
  * Adds PostgreSQL-specific functionality for augmenting queries
  */
-namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
-use RamODev\Databases\SQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\PostgreSQL\QueryBuilders;
+use RamODev\Application\Databases\SQL\QueryBuilders;
 
 class AugmentingQueryBuilder extends QueryBuilders\AugmentingQueryBuilder
 {

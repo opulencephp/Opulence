@@ -4,8 +4,8 @@
  *
  * Defines the user repository interface
  */
-namespace RamODev\API\V1\Users\Repositories\User;
-use RamODev\API\V1\Users;
+namespace RamODev\Application\API\V1\Users\Repositories\User;
+use RamODev\Application\API\V1\Users;
 
 interface IUserRepo
 {

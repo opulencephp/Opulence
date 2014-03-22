@@ -4,8 +4,8 @@
  *
  * Defines a repository that uses a Redis database as a storage method
  */
-namespace RamODev\Repositories;
-use RamODev\Databases\NoSQL\Redis;
+namespace RamODev\Application\Repositories;
+use RamODev\Application\Databases\NoSQL\Redis;
 
 abstract class RedisRepo
 {

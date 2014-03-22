@@ -4,7 +4,7 @@
  *
  * Programmatically builds up a database query
  */
-namespace RamODev\Databases\SQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\QueryBuilders;
 
 abstract class QueryBuilder
 {

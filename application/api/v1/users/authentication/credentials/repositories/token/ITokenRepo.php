@@ -4,8 +4,8 @@
  *
  * Defines the token repository interface
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials\Repositories\Token;
-use RamODev\API\V1\Cryptography;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials\Repositories\Token;
+use RamODev\Application\API\V1\Cryptography;
 
 interface ITokenRepo
 {

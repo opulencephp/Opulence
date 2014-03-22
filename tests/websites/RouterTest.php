@@ -4,7 +4,7 @@
  *
  * Tests the router
  */
-namespace RamODev\Websites;
+namespace RamODev\Application\Websites;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {

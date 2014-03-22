@@ -4,9 +4,9 @@
  *
  * Defines the skeleton for repository classes that use Redis with a PostgreSQL backup
  */
-namespace RamODev\Repositories;
-use RamODev\Databases\NoSQL\Redis;
-use RamODev\Databases\SQL;
+namespace RamODev\Application\Repositories;
+use RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Databases\SQL;
 
 abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
 {

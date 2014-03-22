@@ -4,10 +4,10 @@
  *
  * Defines the PostgreSQL repository for tokens
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials\Repositories\Token;
-use RamODev\API\V1\Cryptography;
-use RamODev\Databases\SQL;
-use RamODev\Repositories;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials\Repositories\Token;
+use RamODev\Application\API\V1\Cryptography;
+use RamODev\Application\Databases\SQL;
+use RamODev\Application\Repositories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
 {

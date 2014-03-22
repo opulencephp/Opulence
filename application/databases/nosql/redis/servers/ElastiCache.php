@@ -4,9 +4,9 @@
  *
  * Defines a Redis server
  */
-namespace RamODev\Databases\NoSQL\Redis\Servers;
-use RamODev\Configs;
-use RamODev\Databases\NoSQL\Redis;
+namespace RamODev\Application\Databases\NoSQL\Redis\Servers;
+use RamODev\Application\Configs;
+use RamODev\Application\Databases\NoSQL\Redis;
 
 class ElastiCache extends Redis\Server
 {

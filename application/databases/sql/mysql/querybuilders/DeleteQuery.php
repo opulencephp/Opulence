@@ -4,8 +4,8 @@
  *
  * Builds a delete query
  */
-namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
-use RamODev\Databases\SQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\MySQL\QueryBuilders;
+use RamODev\Application\Databases\SQL\QueryBuilders;
 
 class DeleteQuery extends QueryBuilders\DeleteQuery
 {

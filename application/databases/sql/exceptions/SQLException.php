@@ -4,8 +4,8 @@
  *
  * Defines a relational database exception
  */
-namespace RamODev\Databases\SQL\Exceptions;
-use RamODev\Exceptions;
+namespace RamODev\Application\Databases\SQL\Exceptions;
+use RamODev\Application\Exceptions;
 
 class SQLException extends Exceptions\Exception
 {

@@ -4,7 +4,7 @@
  *
  * Tests the augmenting query builder
  */
-namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\PostgreSQL\QueryBuilders;
 
 class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {

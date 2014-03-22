@@ -4,7 +4,7 @@
  *
  * Defines a response to a client-side request
  */
-namespace RamODev\Websites\Requests;
+namespace RamODev\Application\Websites\Requests;
 
 class Request
 {

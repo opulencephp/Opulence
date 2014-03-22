@@ -4,10 +4,10 @@
  *
  * Defines a Redis database
  */
-namespace RamODev\Databases\NoSQL\Redis;
-use RamODev\Exceptions;
-use RamODev\Databases;
-use RamODev\Databases\NoSQL\Exceptions as NoSQLExceptions;
+namespace RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Exceptions;
+use RamODev\Application\Databases;
+use RamODev\Application\Databases\NoSQL\Exceptions as NoSQLExceptions;
 
 class Database extends Databases\Database
 {
@@ -89,7 +89,7 @@ class Database extends Databases\Database
     }
 
     /**
-     * @return \RamODev\Databases\NoSQL\Redis\Server
+     * @return \RamODev\Application\Databases\NoSQL\Redis\Server
      */
     public function getServer()
     {

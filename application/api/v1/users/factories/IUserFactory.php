@@ -4,8 +4,8 @@
  *
  * Defines the user factory interface
  */
-namespace RamODev\API\V1\Users\Factories;
-use RamODev\API\V1\Users;
+namespace RamODev\Application\API\V1\Users\Factories;
+use RamODev\Application\API\V1\Users;
 
 interface IUserFactory
 {

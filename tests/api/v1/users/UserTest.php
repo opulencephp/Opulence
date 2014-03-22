@@ -4,7 +4,7 @@
  *
  * Tests the user object
  */
-namespace RamODev\API\V1\Users;
+namespace RamODev\Application\API\V1\Users;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {

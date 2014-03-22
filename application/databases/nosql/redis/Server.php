@@ -4,8 +4,8 @@
  *
  * Defines the skeleton for a cache server
  */
-namespace RamODev\Databases\NoSQL\Redis;
-use RamODev\Databases;
+namespace RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Databases;
 
 abstract class Server extends Databases\Server
 {

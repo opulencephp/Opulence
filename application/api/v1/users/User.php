@@ -4,7 +4,7 @@
  *
  * Defines a user
  */
-namespace RamODev\API\V1\Users;
+namespace RamODev\Application\API\V1\Users;
 
 class User implements IUser
 {

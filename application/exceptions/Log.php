@@ -4,7 +4,7 @@
  *
  * Defines the error log to write exceptions to
  */
-namespace RamODev\Exceptions;
+namespace RamODev\Application\Exceptions;
 
 class Log
 {

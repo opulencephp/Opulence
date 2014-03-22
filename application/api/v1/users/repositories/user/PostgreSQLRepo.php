@@ -4,15 +4,15 @@
  *
  * Provides methods for retrieving user data from a PostgreSQL database
  */
-namespace RamODev\API\V1\Users\Repositories\User;
-use RamODev\API\V1\Users;
-use RamODev\API\V1\Users\Factories;
-use RamODev\Databases\SQL;
-use RamODev\Databases\SQL\Exceptions as SQLExceptions;
-use RamODev\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
-use RamODev\Databases\SQL\QueryBuilders as GenericQueryBuilders;
-use RamODev\Exceptions;
-use RamODev\Repositories;
+namespace RamODev\Application\API\V1\Users\Repositories\User;
+use RamODev\Application\API\V1\Users;
+use RamODev\Application\API\V1\Users\Factories;
+use RamODev\Application\Databases\SQL;
+use RamODev\Application\Databases\SQL\Exceptions as SQLExceptions;
+use RamODev\Application\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
+use RamODev\Application\Databases\SQL\QueryBuilders as GenericQueryBuilders;
+use RamODev\Application\Exceptions;
+use RamODev\Application\Repositories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {

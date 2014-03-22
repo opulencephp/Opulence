@@ -4,9 +4,9 @@
  *
  * Creates a cryptographic token
  */
-namespace RamODev\API\V1\Cryptography\Factories;
-use RamODev\API\V1\Cryptography;
-use RamODev\Configs;
+namespace RamODev\Application\API\V1\Cryptography\Factories;
+use RamODev\Application\API\V1\Cryptography;
+use RamODev\Application\Configs;
 
 class TokenFactory
 {

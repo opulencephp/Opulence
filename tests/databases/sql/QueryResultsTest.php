@@ -4,8 +4,8 @@
  *
  * Tests the query results
  */
-namespace RamODev\Databases\SQL;
-use RamODev\Databases\SQL\PostgreSQL\Servers;
+namespace RamODev\Application\Databases\SQL;
+use RamODev\Application\Databases\SQL\PostgreSQL\Servers;
 
 class QueryResultsTest extends \PHPUnit_Framework_TestCase
 {

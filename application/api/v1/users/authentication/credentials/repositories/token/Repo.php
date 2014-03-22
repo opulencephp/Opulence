@@ -4,11 +4,11 @@
  *
  * Defines the authentication token repository
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials\Repositories\Token;
-use RamODev\API\V1\Cryptography;
-use RamODev\Databases\NoSQL\Redis;
-use RamODev\Databases\SQL;
-use RamODev\Repositories;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials\Repositories\Token;
+use RamODev\Application\API\V1\Cryptography;
+use RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Databases\SQL;
+use RamODev\Application\Repositories;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenRepo
 {

@@ -4,8 +4,8 @@
  *
  * Tests the Redis connection
  */
-namespace RamODev\Databases\NoSQL\Redis;
-use RamODev\Databases\NoSQL\Redis\Servers;
+namespace RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Databases\NoSQL\Redis\Servers;
 
 class DatabaseTest extends \PHPUnit_Framework_TestCase
 {
@@ -52,6 +52,6 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingServer()
     {
-        $this->assertInstanceOf("\\RamODev\\Databases\\NoSQL\\Redis\\Server", $this->database->getServer());
+        $this->assertInstanceOf("\\RamODev\\Application\\Databases\\NoSQL\\Redis\\Server", $this->database->getServer());
     }
 }

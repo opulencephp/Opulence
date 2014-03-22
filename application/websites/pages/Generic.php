@@ -4,7 +4,7 @@
  *
  * Defines a generic page template
  */
-namespace RamODev\Websites\Pages;
+namespace RamODev\Application\Websites\Pages;
 
 class Generic extends Template
 {

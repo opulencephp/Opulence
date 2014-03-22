@@ -4,7 +4,7 @@
  *
  * Defines the different user data types
  */
-namespace RamODev\API\V1\Users\Repositories\User;
+namespace RamODev\Application\API\V1\Users\Repositories\User;
 
 class UserDataTypes
 {

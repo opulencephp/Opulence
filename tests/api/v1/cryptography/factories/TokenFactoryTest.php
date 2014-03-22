@@ -4,7 +4,7 @@
  *
  * Tests the token factory
  */
-namespace RamODev\API\V1\Cryptography\Factories;
+namespace RamODev\Application\API\V1\Cryptography\Factories;
 
 class TokenFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreatingToken()
     {
         $tokenFactory = new TokenFactory();
-        $this->assertInstanceOf("RamODev\\API\\V1\\Cryptography\\Token", $tokenFactory->createToken("foo", new \DateTime("now", new \DateTimeZone("UTC")), "pepper", "bar"));
+        $this->assertInstanceOf("RamODev\\Application\\API\\V1\\Cryptography\\Token", $tokenFactory->createToken("foo", new \DateTime("now", new \DateTimeZone("UTC")), "pepper", "bar"));
     }
 
     /**
@@ -23,6 +23,6 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGeneratingNewToken()
     {
         $tokenFactory = new TokenFactory();
-        $this->assertInstanceOf("RamODev\\API\\V1\\Cryptography\\Token", $tokenFactory->generateNewToken("pepper", "foo"));
+        $this->assertInstanceOf("RamODev\\Application\\API\\V1\\Cryptography\\Token", $tokenFactory->generateNewToken("pepper", "foo"));
     }
 } 

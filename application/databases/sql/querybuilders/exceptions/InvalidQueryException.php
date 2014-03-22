@@ -4,8 +4,8 @@
  *
  * Defines an exception that is thrown when a query builder detects an invalid query
  */
-namespace RamODev\Databases\SQL\QueryBuilders\Exceptions;
-use RamODev\Exceptions;
+namespace RamODev\Application\Databases\SQL\QueryBuilders\Exceptions;
+use RamODev\Application\Exceptions;
 
 class InvalidQueryException extends Exceptions\Exception
 {

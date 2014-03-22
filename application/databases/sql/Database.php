@@ -4,10 +4,10 @@
  *
  * Defines a relational database
  */
-namespace RamODev\Databases\SQL;
-use RamODev\Exceptions;
-use RamODev\Databases;
-use RamODev\Databases\SQL\Exceptions as SQLExceptions;
+namespace RamODev\Application\Databases\SQL;
+use RamODev\Application\Exceptions;
+use RamODev\Application\Databases;
+use RamODev\Application\Databases\SQL\Exceptions as SQLExceptions;
 
 class Database extends Databases\Database
 {

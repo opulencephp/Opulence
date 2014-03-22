@@ -4,8 +4,8 @@
  *
  * Provides methods for validating credentials
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials;
-use RamODev\API\V1\Users\Authentication\Credentials\Exceptions;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials;
+use RamODev\Application\API\V1\Users\Authentication\Credentials\Exceptions;
 
 class CredentialsValidator implements ICredentialsValidator
 {

@@ -4,7 +4,7 @@
  *
  * Tests the update query
  */
-namespace RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\PostgreSQL\QueryBuilders;
 
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase
 {

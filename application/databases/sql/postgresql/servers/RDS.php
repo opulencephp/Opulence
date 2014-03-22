@@ -4,8 +4,8 @@
  *
  * Defines a specific server
  */
-namespace RamODev\Databases\SQL\PostgreSQL\Servers;
-use RamODev\Configs;
+namespace RamODev\Application\Databases\SQL\PostgreSQL\Servers;
+use RamODev\Application\Configs;
 
 class RDS extends Server
 {

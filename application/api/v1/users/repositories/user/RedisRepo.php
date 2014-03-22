@@ -4,11 +4,11 @@
  *
  * Provides methods for retrieving user data from a Redis database
  */
-namespace RamODev\API\V1\Users\Repositories\User;
-use RamODev\API\V1\Users;
-use RamODev\API\V1\Users\Factories;
-use RamODev\Databases\NoSQL\Redis;
-use RamODev\Repositories;
+namespace RamODev\Application\API\V1\Users\Repositories\User;
+use RamODev\Application\API\V1\Users;
+use RamODev\Application\API\V1\Users\Factories;
+use RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Repositories;
 
 class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 {

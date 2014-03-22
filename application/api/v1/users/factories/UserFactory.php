@@ -4,8 +4,8 @@
  *
  * Creates user objects
  */
-namespace RamODev\API\V1\Users\Factories;
-use RamODev\API\V1\Users;
+namespace RamODev\Application\API\V1\Users\Factories;
+use RamODev\Application\API\V1\Users;
 
 class UserFactory implements IUserFactory
 {

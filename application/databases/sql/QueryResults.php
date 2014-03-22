@@ -4,8 +4,8 @@
  *
  * Contains result data from a database query
  */
-namespace RamODev\Databases\SQL;
-use RamODev\Databases\SQL\Exceptions;
+namespace RamODev\Application\Databases\SQL;
+use RamODev\Application\Databases\SQL\Exceptions;
 
 class QueryResults
 {

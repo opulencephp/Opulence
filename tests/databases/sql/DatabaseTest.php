@@ -4,8 +4,8 @@
  *
  * Tests the database connection
  */
-namespace RamODev\Databases\SQL;
-use RamODev\Databases\SQL\PostgreSQL\Servers;
+namespace RamODev\Application\Databases\SQL;
+use RamODev\Application\Databases\SQL\PostgreSQL\Servers;
 
 class DatabaseTest extends \PHPUnit_Framework_TestCase
 {

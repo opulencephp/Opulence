@@ -4,8 +4,8 @@
  *
  * Defines the base MySQL server object
  */
-namespace RamODev\Databases\SQL\MySQL\Servers;
-use RamODev\Databases\SQL;
+namespace RamODev\Application\Databases\SQL\MySQL\Servers;
+use RamODev\Application\Databases\SQL;
 
 abstract class Server extends SQL\Server
 {

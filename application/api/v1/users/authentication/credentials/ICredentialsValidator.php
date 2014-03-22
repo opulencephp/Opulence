@@ -4,7 +4,7 @@
  *
  * Defines the credentials validator interface
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials;
 
 interface ICredentialsValidator
 {

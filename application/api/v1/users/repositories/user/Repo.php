@@ -4,12 +4,12 @@
  *
  * Provides methods for retrieving user data from the repository
  */
-namespace RamODev\API\V1\Users\Repositories\User;
-use RamODev\API\V1\Users;
-use RamODev\API\V1\Users\Factories;
-use RamODev\Databases\NoSQL\Redis;
-use RamODev\Databases\SQL;
-use RamODev\Repositories;
+namespace RamODev\Application\API\V1\Users\Repositories\User;
+use RamODev\Application\API\V1\Users;
+use RamODev\Application\API\V1\Users\Factories;
+use RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Databases\SQL;
+use RamODev\Application\Repositories;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {

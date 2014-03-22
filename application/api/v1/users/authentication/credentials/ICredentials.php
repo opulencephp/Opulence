@@ -4,7 +4,7 @@
  *
  * Defines the interface for credentials to implement
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials;
 
 interface ICredentials
 {

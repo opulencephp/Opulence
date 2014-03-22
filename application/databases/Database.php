@@ -4,7 +4,7 @@
  *
  * Defines a database
  */
-namespace RamODev\Databases;
+namespace RamODev\Application\Databases;
 
 abstract class Database
 {

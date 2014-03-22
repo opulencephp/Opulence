@@ -4,7 +4,7 @@
  *
  * Builds a delete query
  */
-namespace RamODev\Databases\SQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\QueryBuilders;
 
 class DeleteQuery extends Query
 {

@@ -4,7 +4,7 @@
  *
  * Defines the login page
  */
-namespace RamODev\Websites\Pages;
+namespace RamODev\Application\Websites\Pages;
 
 class Login extends Generic
 {

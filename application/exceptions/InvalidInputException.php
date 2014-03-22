@@ -4,7 +4,7 @@
  *
  * Defines an exception that is thrown in the case of invalid input
  */
-namespace RamODev\Exceptions;
+namespace RamODev\Application\Exceptions;
 
 class InvalidInputException extends Exception
 {

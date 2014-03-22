@@ -4,8 +4,8 @@
  *
  * Programmatically builds up a PostgreSQL query
  */
-namespace RamODev\Databases\SQL\MySQL\QueryBuilders;
-use RamODev\Databases\SQL\QueryBuilders;
+namespace RamODev\Application\Databases\SQL\MySQL\QueryBuilders;
+use RamODev\Application\Databases\SQL\QueryBuilders;
 
 class QueryBuilder extends QueryBuilders\QueryBuilder
 {
@@ -42,7 +42,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
     public function select($expression)
     {
         // This code allows us to pass a variable list of parameters to a class constructor
-        $queryClass = new \ReflectionClass("\\RamODev\\Databases\\SQL\\MySQL\\QueryBuilders\\SelectQuery");
+        $queryClass = new \ReflectionClass("\\RamODev\\Application\\Databases\\SQL\\MySQL\\QueryBuilders\\SelectQuery");
 
         return $queryClass->newInstanceArgs(func_get_args());
     }

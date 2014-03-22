@@ -4,7 +4,7 @@
  *
  * Defines the user interface
  */
-namespace RamODev\API\V1\Users;
+namespace RamODev\Application\API\V1\Users;
 
 interface IUser
 {

@@ -4,10 +4,10 @@
  *
  * Defines the Redis repository for tokens
  */
-namespace RamODev\API\V1\Users\Authentication\Credentials\Repositories\Token;
-use RamODev\API\V1\Cryptography;
-use RamODev\Databases\NoSQL\Redis;
-use RamODev\Repositories;
+namespace RamODev\Application\API\V1\Users\Authentication\Credentials\Repositories\Token;
+use RamODev\Application\API\V1\Cryptography;
+use RamODev\Application\Databases\NoSQL\Redis;
+use RamODev\Application\Repositories;
 
 class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
 {
