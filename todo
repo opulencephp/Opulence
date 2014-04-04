@@ -1,7 +1,5 @@
 Really need to take a look at DBUnit for this stuff because this is only going to get harder and harder to write tests for
 Write code to try authenticating input credentials
-Think more about Tokens class
-    As is, it is useful for things like validating an authentication token, but doesn't offer methods useful for storage to repositories (HMAC is meant for verification, not storage in repos)
 Implement Credentials concrete class
 Implement credentials validator
 Add a layer in front of the server connection layers
