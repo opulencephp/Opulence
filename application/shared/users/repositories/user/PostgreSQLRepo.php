@@ -5,14 +5,14 @@
  * Provides methods for retrieving user data from a PostgreSQL database
  */
 namespace RamODev\Application\Shared\Users\Repositories\User;
-use RamODev\Application\Shared\Users;
-use RamODev\Application\Shared\Users\Factories;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Databases\SQL\Exceptions as SQLExceptions;
 use RamODev\Application\Shared\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
 use RamODev\Application\Shared\Databases\SQL\QueryBuilders as GenericQueryBuilders;
 use RamODev\Application\Shared\Exceptions;
 use RamODev\Application\Shared\Repositories;
+use RamODev\Application\Shared\Users;
+use RamODev\Application\Shared\Users\Factories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {
