@@ -1,0 +1,41 @@
+<?php
+/**
+ * Copyright (C) 2014 David Young
+ *
+ * Defines the token repository interface
+ */
+namespace RamODev\Application\Users\Authentication\Credentials\Repositories\Token;
+use RamODev\Application\Cryptography;
+
+interface ITokenRepo
+{
+    /**
+     * Adds a token to the repo
+     *
+     * @param Cryptography\Token $token The token to store
+     * @param int $userID The ID of the user whose token we're storing
+     * @return bool True if successful, otherwise false
+     */
+    public function add(Cryptography\Token $token, $userID);
+
+    /**
+     * Deauthorizes the input token for the input user
+     *
+     * @param Cryptography\Token $token The token to deauthorize
+     * @param int $userID The ID of the user whose token we're deauthorizing
+     * @return bool True if successful, otherwise false
+     */
+    public function deauthorize(Cryptography\Token $token, $userID);
+
+    /**
+     * Gets the token for the input user
+     *
+     * @param string $tokenString The token to match
+     * @param \DateTime $expiration The expiration time to match
+     * @param string $salt The unique salt to use in the HMAC
+     * @param string $secretKey The secret key to use in the HMAC
+     * @param int $userID The ID of the user whose token we want
+     * @return Cryptography\Token|bool The token for the user if successful, otherwise false
+     */
+    public function getByTokenDataAndUserID($tokenString, $expiration, $salt, $secretKey, $userID);
+} 

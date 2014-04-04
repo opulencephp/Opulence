@@ -4,7 +4,7 @@ These tools are PHP wrappers for relational database (RDBMS) and NoSQL database 
 ```
 <?php
 namespace RamODev;
-use RamODev\Databases\SQL\PostgreSQL\QueryBuilders;
+use RamODev\Application\Databases\SQL\PostgreSQL\QueryBuilders;
 
 $queryBuilder = new QueryBuilders\QueryBuilder();
 $selectQuery = $queryBuilder->select("id", "name", "email")
