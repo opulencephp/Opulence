@@ -1,3 +1,4 @@
 .idea
 application/tba/configs/AuthenticationConfig.php
 application/tba/configs/DatabaseConfig.php
+phpunit.phar

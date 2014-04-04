@@ -5,6 +5,7 @@
  * Builds an insert query
  */
 namespace RamODev\Application\Shared\Databases\SQL\QueryBuilders;
+use RamODev\Application\Shared\Databases\SQL\QueryBuilders\Exceptions;
 
 class InsertQuery extends Query
 {
@@ -14,6 +15,7 @@ class InsertQuery extends Query
     /**
      * @param string $tableName The name of the table we're inserting into
      * @param array $columnNamesToValues The mapping of column names to their respective values
+     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
     public function __construct($tableName, $columnNamesToValues)
     {
@@ -27,6 +29,7 @@ class InsertQuery extends Query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return $this
+     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
     public function addColumnValues($columnNamesToValues)
     {

@@ -7,9 +7,9 @@
 namespace RamODev\Application\Shared\Users\Repositories\User;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Databases\SQL\Exceptions as SQLExceptions;
-use RamODev\Application\Shared\Databases\SQL\PostgreSQL\QueryBuilders as PostgreSQLQueryBuilders;
-use RamODev\Application\Shared\Databases\SQL\QueryBuilders as GenericQueryBuilders;
-use RamODev\Application\Shared\Exceptions;
+use RamODev\Application\Shared\Databases\SQL\PostgreSQL\QueryBuilders;
+use RamODev\Application\Shared\Databases\SQL\QueryBuilders\Exceptions as QueryBuilderExceptions;
+use RamODev\Application\Shared\Exceptions as SharedExceptions;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users;
 use RamODev\Application\Shared\Users\Factories;
@@ -18,7 +18,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The user factory to use when creating user objects */
     private $userFactory = null;
-    /** @var PostgreSQLQueryBuilders\SelectQuery The select query used across get methods */
+    /** @var QueryBuilders\SelectQuery The select query used across get methods */
     private $getQuery = null;
 
     /**
@@ -46,7 +46,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         try
         {
             // Add the user to the users table
-            $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+            $queryBuilder = new QueryBuilders\QueryBuilder();
             $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
             $this->sqlDatabase->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
 
@@ -76,7 +76,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         }
         catch(SQLExceptions\SQLException $ex)
         {
-            Exceptions\Log::write("Failed to update user: " . $ex);
+            SharedExceptions\Log::write("Failed to update user: " . $ex);
             $this->sqlDatabase->rollBackTransaction();
             $user->setID(-1);
         }
@@ -88,6 +88,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * Gets all the users in the repository
      *
      * @return array|bool The array of users if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function getAll()
     {
@@ -101,14 +102,24 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      *
      * @param string $email The email we're searching for
      * @return Users\IUser|bool The user that has the input email if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function getByEmail($email)
     {
-        $this->buildGetQuery();
-        $this->getQuery->andWhere("LOWER(email) = :email")
-            ->addNamedPlaceholderValue("email", strtolower($email));
+        try
+        {
+            $this->buildGetQuery();
+            $this->getQuery->andWhere("LOWER(email) = :email")
+                ->addNamedPlaceholderValue("email", strtolower($email));
 
-        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+            return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        }
+        catch(QueryBuilderExceptions\InvalidQueryException $ex)
+        {
+            SharedExceptions\Log::write("Invalid query: " . $ex);
+        }
+
+        return false;
     }
 
     /**
@@ -116,14 +127,24 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      *
      * @param int $id The ID of the user we're searching for
      * @return Users\IUser|bool The user with the input ID if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function getByID($id)
     {
-        $this->buildGetQuery();
-        $this->getQuery->andWhere("id = :id")
-            ->addNamedPlaceholderValue("id", $id);
+        try
+        {
+            $this->buildGetQuery();
+            $this->getQuery->andWhere("id = :id")
+                ->addNamedPlaceholderValue("id", $id);
 
-        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+            return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        }
+        catch(QueryBuilderExceptions\InvalidQueryException $ex)
+        {
+            SharedExceptions\Log::write("Invalid query: " . $ex);
+        }
+
+        return false;
     }
 
     /**
@@ -131,14 +152,24 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      *
      * @param string $username The username to search for
      * @return Users\IUser|bool The user with the input username if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function getByUsername($username)
     {
-        $this->buildGetQuery();
-        $this->getQuery->andWhere("LOWER(username) = :username")
-            ->addNamedPlaceholderValue("username", strtolower($username));
+        try
+        {
+            $this->buildGetQuery();
+            $this->getQuery->andWhere("LOWER(username) = :username")
+                ->addNamedPlaceholderValue("username", strtolower($username));
 
-        return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+            return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), "createUsersFromRows", true);
+        }
+        catch(QueryBuilderExceptions\InvalidQueryException $ex)
+        {
+            SharedExceptions\Log::write("Invalid query: " . $ex);
+        }
+
+        return false;
     }
 
     /**
@@ -147,6 +178,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * @param string $username The username to search for
      * @param string $password The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function getByUsernameAndPassword($username, $password)
     {
@@ -166,6 +198,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * @param Users\IUser $user The user to update in the repository
      * @param string $email The new email address
      * @return bool True if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function updateEmail(Users\IUser &$user, $email)
     {
@@ -178,6 +211,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * @param Users\IUser $user The user to update in the repository
      * @param string $password The unhashed new password
      * @return bool True if successful, otherwise false
+     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
     public function updatePassword(Users\IUser &$user, $password)
     {
@@ -216,7 +250,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      */
     private function buildGetQuery()
     {
-        $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+        $queryBuilder = new QueryBuilders\QueryBuilder();
         $this->getQuery = $queryBuilder->select("id", "username", "password", "email", "datecreated", "firstname", "lastname")
             ->from("users.usersview");
     }
@@ -232,7 +266,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      */
     private function log($userID, $userDataTypeID, $value, $actionTypeID)
     {
-        $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+        $queryBuilder = new QueryBuilders\QueryBuilder();
         $insertQuery = $queryBuilder->insert("users.userdatalog", array(
             "userid" => $userID,
             "userdatatypeid" => $userDataTypeID,
@@ -256,7 +290,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 
         try
         {
-            $queryBuilder = new PostgreSQLQueryBuilders\QueryBuilder();
+            $queryBuilder = new QueryBuilders\QueryBuilder();
             $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeID, "value" => $value))
                 ->where("userid = ?")
                 ->addUnnamedPlaceholderValue($userID);
@@ -268,7 +302,12 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         }
         catch(SQLExceptions\SQLException $ex)
         {
-            Exceptions\Log::write("Failed to update user: " . $ex);
+            SharedExceptions\Log::write("Failed to update user: " . $ex);
+            $this->sqlDatabase->rollBackTransaction();
+        }
+        catch(QueryBuilderExceptions\InvalidQueryException $ex)
+        {
+            SharedExceptions\Log::write("Invalid query: " . $ex);
             $this->sqlDatabase->rollBackTransaction();
         }
 

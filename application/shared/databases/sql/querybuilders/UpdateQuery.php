@@ -17,6 +17,7 @@ class UpdateQuery extends Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The alias of the table we're querying
      * @param array $columnNamesToValues The mapping of column names to their respective values
+     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
     public function __construct($tableName, $tableAlias, $columnNamesToValues)
     {
@@ -31,6 +32,7 @@ class UpdateQuery extends Query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return $this
+     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
     public function addColumnValues($columnNamesToValues)
     {

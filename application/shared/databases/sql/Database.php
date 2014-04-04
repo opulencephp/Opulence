@@ -130,6 +130,8 @@ class Database extends Databases\Database
 
     /**
      * Rolls back a transaction
+     *
+     * @throws \PDOException Thrown if no transaction is active
      */
     public function rollBackTransaction()
     {
@@ -138,6 +140,8 @@ class Database extends Databases\Database
 
     /**
      * Starts a transaction
+     *
+     * @throws \PDOException Thrown if we're already in a transaction
      */
     public function startTransaction()
     {
