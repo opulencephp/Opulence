@@ -1,3 +1,5 @@
+See what $this->pdoStatement returns when in a transaction with a bad query
+    I don't think it's returning false like it should
 Really need to take a look at DBUnit for this stuff because this is only going to get harder and harder to write tests for
 Write code to try authenticating input credentials
 Implement Credentials concrete class

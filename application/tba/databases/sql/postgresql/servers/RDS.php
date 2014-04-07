@@ -13,6 +13,6 @@ class RDS extends PostgreSQL\Server
     protected $host = Configs\DatabaseConfig::RDS_HOST;
     protected $username = Configs\DatabaseConfig::RDS_USERNAME;
     protected $password = Configs\DatabaseConfig::RDS_PASSWORD;
-    protected $databaseName = "dave";
+    protected $databaseName = Configs\DatabaseConfig::RDS_DATABASE_NAME;
     protected $displayName = "AWS Development";
 } 

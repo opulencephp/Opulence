@@ -23,3 +23,4 @@ This software is licensed under the MIT license.  Please read the LICENSE for mo
 * PHP 5.4 or higher
 * PDO with MySQL and PGSQL drivers
 * PHPRedis
+* PHPUnit
