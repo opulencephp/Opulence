@@ -6,7 +6,7 @@
  */
 namespace RamODev\Application\Shared\Websites;
 
-class RouterTest extends \PHPUnit_Framework_TestCase
+/*class RouterTest extends \PHPUnit_Framework_TestCase
 {
 
-} 
+} */

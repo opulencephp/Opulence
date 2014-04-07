@@ -122,7 +122,7 @@ class Database extends Databases\Database
 
         if($isSuccessful === false)
         {
-            throw new SQLExceptions\SQLException("Could not run query \"" . $query . "\" with parameters " . var_export($params));
+            throw new SQLExceptions\SQLException("Could not run query \"" . $query . "\" with parameters " . print_r($params, true) . ".  PDO error: " . print_r($this->pdoStatement->errorInfo(), true));
         }
 
         return new QueryResults($this->pdoConnection, $this->pdoStatement);

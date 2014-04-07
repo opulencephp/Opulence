@@ -17,6 +17,6 @@ class Exception extends \Exception
     {
         $explodedClassName = explode("\\", get_called_class());
 
-        return end($explodedClassName) . ": " . $this->message . ": Stack Trace: " . var_export($this->getTraceAsString(), true);
+        return end($explodedClassName) . ": " . $this->message . ": Stack Trace: " . print_r($this->getTraceAsString(), true);
     }
 } 
