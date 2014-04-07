@@ -36,9 +36,9 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadSelect()
     {
+        $this->setExpectedException("RamODev\\Application\\Shared\\Databases\\SQL\\Exceptions\\SQLException");
         $this->database->connect();
-        $results = $this->database->query("SELECT id FROM table_that_doesnt_exist WHERE id = :id", array("id" => 1));
-        $this->assertFalse($results->hasResults());
+        $this->database->query("SELECT id FROM table_that_doesnt_exist WHERE id = :id", array("id" => 1));
     }
 
     /**

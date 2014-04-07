@@ -113,14 +113,14 @@ class Database extends Databases\Database
 
         if(count($params) > 0)
         {
-            $this->pdoStatement->execute($params);
+            $isSuccessful = $this->pdoStatement->execute($params);
         }
         else
         {
-            $this->pdoStatement->execute();
+            $isSuccessful = $this->pdoStatement->execute();
         }
 
-        if($this->pdoStatement === false)
+        if($isSuccessful === false)
         {
             throw new SQLExceptions\SQLException("Could not run query \"" . $query . "\" with parameters " . var_export($params));
         }

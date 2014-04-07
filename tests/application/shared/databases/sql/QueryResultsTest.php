@@ -55,7 +55,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAllRowsForQueryThatDoesReturnData()
     {
-        $results = $this->database->query("SELECT id FROM table_that_doesnt_exist");
+        $results = $this->database->query("SELECT id FROM test WHERE id < 0");
         $this->assertEquals(0, count($results->getAllRows()));
     }
 
@@ -73,7 +73,7 @@ class QueryResultsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRowForQueryThatDoesNotReturnData()
     {
-        $results = $this->database->query("SELECT id FROM table_that_doesnt_exist");
+        $results = $this->database->query("SELECT id FROM test WHERE id < 0");
         $hasResults = false;
 
         while($row = $results->getRow())
