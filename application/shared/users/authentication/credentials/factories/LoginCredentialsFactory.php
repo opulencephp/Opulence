@@ -16,7 +16,7 @@ class LoginCredentialsFactory implements ILoginCredentialsFactory
      * @param \DateTime $expiration The expiration time
      * @return Credentials\LoginCredentials
      */
-    public function create($userID, \DateTime $expiration)
+    public function createLoginCredentials($userID, \DateTime $expiration)
     {
         return new Credentials\LoginCredentials($userID, "", $expiration);
     }

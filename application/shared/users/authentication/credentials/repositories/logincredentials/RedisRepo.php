@@ -105,7 +105,7 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
             return false;
         }
 
-        $credentials = $this->loginCredentialsFactory->create(
+        $credentials = $this->loginCredentialsFactory->createLoginCredentials(
             (int)$credentialsHash["userid"],
             \DateTime::createFromFormat("U", $credentialsHash["expiration"], new \DateTimeZone("UTC"))
         );

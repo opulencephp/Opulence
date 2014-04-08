@@ -16,5 +16,5 @@ interface ILoginCredentialsFactory
      * @param \DateTime $expiration The expiration time
      * @return Credentials\ILoginCredentials
      */
-    public function create($userID, \DateTime $expiration);
+    public function createLoginCredentials($userID, \DateTime $expiration);
 } 

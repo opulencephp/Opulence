@@ -39,7 +39,7 @@ class LoginCredentialsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the hasehd token
+     * Tests setting the hashed token
      */
     public function testSettingHashedToken()
     {
