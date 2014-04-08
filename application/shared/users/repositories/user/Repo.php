@@ -5,7 +5,6 @@
  * Provides methods for retrieving user data from the repository
  */
 namespace RamODev\Application\Shared\Users\Repositories\User;
-use RamODev\Application\Shared\Configs;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Repositories;
@@ -14,17 +13,25 @@ use RamODev\Application\Shared\Users\Factories;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {
-    /** @var Factories\IUserFactory The user factory to use when creating user objects */
+    /** @var Factories\IUserFactory The factory to use when creating user objects */
     private $userFactory = null;
+    /** @var string The pepper to use before hashing a password */
+    private $passwordPepper = "";
+    /** @var int The cost of the hash algorithm used to store passwords */
+    private $hashCost = 11;
 
     /**
      * @param Redis\Database $redisDatabase The Redis database used in the repo
      * @param SQL\Database $sqlDatabase The relational database used in the repo
      * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
+     * @param string @passwordPepper The pepper to use before hashing a password
+     * @param int $hashCost The cost of the hash algorithm used to store passwords
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory)
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory, $tokenPepper, $hashCost)
     {
         $this->userFactory = $userFactory;
+        $this->passwordPepper = $tokenPepper;
+        $this->hashCost = $hashCost;
 
         parent::__construct($redisDatabase, $sqlDatabase);
     }
@@ -40,10 +47,10 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     {
         if(!empty($password))
         {
-            $this->setHashedPassword($user, $password);
+            $user->setHashedPassword($this->getHashedPassword($password));
         }
 
-        return $this->write(__FUNCTION__, array(&$user, $password));
+        return $this->write(__FUNCTION__, array(&$user, $user->getHashedPassword()));
     }
 
     /**
@@ -102,7 +109,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
          * To prevent a person that has gained access to the database from having the ability to reverse-engineer salted hashes stored there,
          * we pepper the password in our code.
          */
-        return $this->read(__FUNCTION__, array($username, $this->pepperPassword($password)));
+        return $this->read(__FUNCTION__, array($username, $this->getHashedPassword($password)));
     }
 
     /**
@@ -138,7 +145,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function updatePassword(Users\IUser &$user, $password)
     {
-        $this->setHashedPassword($user, $password);
+        $user->setHashedPassword($password);
 
         return $this->write(__FUNCTION__, array(&$user, $password));
     }
@@ -177,24 +184,13 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     }
 
     /**
-     * Peppers the password before any attempts are made to salt/hash it
+     * Gets the hash of a password, which is suitable for storage
      *
-     * @param string $password The password to pepper
-     * @return string The peppered password
+     * @param string $password The unhashed password to hash
+     * @return string The hashed password
      */
-    private function pepperPassword($password)
+    private function getHashedPassword($password)
     {
-        return $password . Configs\AuthenticationConfig::PASSWORD_PEPPER;
-    }
-
-    /**
-     * Hashes a password and stores it to the user object
-     *
-     * @param Users\IUser $user The user object whose password we're updating
-     * @param string $password The unhashed password to hash and store
-     */
-    private function setHashedPassword(Users\IUser &$user, $password)
-    {
-        $user->setHashedPassword(password_hash($this->pepperPassword($password), PASSWORD_BCRYPT, array("cost" => Configs\AuthenticationConfig::HASH_COST)));
+        return password_hash($password . $this->passwordPepper, PASSWORD_BCRYPT, array("cost" => $this->hashCost));
     }
 } 

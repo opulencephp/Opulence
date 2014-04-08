@@ -17,7 +17,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 
     /**
      * @param Redis\Database $redisDatabase The database to use for queries
-     * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
+     * @param Factories\IUserFactory $userFactory The factory to use when creating user objects
      */
     public function __construct(Redis\Database $redisDatabase, Factories\IUserFactory $userFactory)
     {

@@ -1,9 +1,10 @@
-See what $this->pdoStatement returns when in a transaction with a bad query
-    I don't think it's returning false like it should
+Need to implement PostgreSQLRepo for credentials, which also involves building table structure
+Need to build classes to store credentials clientside (eg cookies/JSON)
+    Where should these classes be instantiated/used?
+Build Session class to try making calls to login/logout
+    Make sure everything in Redis/PostgreSQL is being set correctly
+Need to build classes that instantiate our repos/factories
 Really need to take a look at DBUnit for this stuff because this is only going to get harder and harder to write tests for
-Write code to try authenticating input credentials
-Implement Credentials concrete class
-Implement credentials validator
 Add a layer in front of the server connection layers
     This will allow us to one day add in load balancers
 Need to determine how we hand out api keys
