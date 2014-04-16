@@ -53,7 +53,7 @@ class UpdateQuery extends QueryBuilders\UpdateQuery
 
     /**
      * Starts a "RETURNING" clause
-     * Only call this method once per query because it will overwrite an previously-set "RETURNING" expressions
+     * Only call this method once per query because it will overwrite any previously-set "RETURNING" expressions
      *
      * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return $this

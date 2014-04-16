@@ -14,20 +14,13 @@ class TokenFactory implements ITokenFactory
     const MAX_ASCII_VALUE = 126;
 
     /**
-     * Creates a token string for use with authentication
+     * Creates a cryptographically-strong token string for use with authentication
      *
      * @param int $length The desired length of the token
-     * @return string
+     * @return string The token string
      */
     public function createToken($length)
     {
-        $token = "";
-
-        for($charIter = 0;$charIter < $length;$charIter++)
-        {
-            $token .= chr(rand(self::MIN_ASCII_VALUE, self::MAX_ASCII_VALUE));
-        }
-
-        return $token;
+        return bin2hex(openssl_random_pseudo_bytes($length));
     }
 } 

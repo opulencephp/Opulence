@@ -52,7 +52,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
 
     /**
      * Allows a user to "UPDATE" rather than "INSERT" in the case a row already exists in the table
-     * Only call this method once per query because it will overwrite an previously-set "ON DUPLICATE KEY UPDATE" expressions
+     * Only call this method once per query because it will overwrite any previously-set "ON DUPLICATE KEY UPDATE" expressions
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an "ON DUPLICATE KEY UPDATE" clause
      * @return $this

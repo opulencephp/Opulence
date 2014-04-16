@@ -167,7 +167,7 @@ class SelectQuery extends Query
 
     /**
      * Starts a "GROUP BY" clause
-     * Only call this method once per query because it will overwrite an previously-set "GROUP BY" expressions
+     * Only call this method once per query because it will overwrite any previously-set "GROUP BY" expressions
      *
      * @param string $expression,... A variable list of expressions of what to group by
      * @return $this
@@ -181,7 +181,7 @@ class SelectQuery extends Query
 
     /**
      * Starts a "HAVING" condition
-     * Only call this method once per query because it will overwrite an previously-set "HAVING" expressions
+     * Only call this method once per query because it will overwrite any previously-set "HAVING" expressions
      *
      * @param string $condition,... A variable list of conditions to be met
      * @return $this
@@ -293,7 +293,7 @@ class SelectQuery extends Query
 
     /**
      * Starts an "ORDER BY" clause
-     * Only call this method once per query because it will overwrite an previously-set "ORDER BY" expressions
+     * Only call this method once per query because it will overwrite any previously-set "ORDER BY" expressions
      *
      * @param string $expression,... A variable list of expressions to order by
      * @return $this
@@ -322,7 +322,7 @@ class SelectQuery extends Query
 
     /**
      * Starts a "WHERE" condition
-     * Only call this method once per query because it will overwrite an previously-set "WHERE" expressions
+     * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
      * @param string $condition,... A variable list of conditions to be met
      * @return $this

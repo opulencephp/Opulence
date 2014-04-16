@@ -9,10 +9,10 @@ namespace RamODev\Application\Shared\Users\Authentication\Tokens\Factories;
 interface ITokenFactory
 {
     /**
-     * Creates a token string for use with authentication
+     * Creates a cryptographically-strong token string for use with authentication
      *
      * @param int $length The desired length of the token
-     * @return string
+     * @return string The token string
      */
     public function createToken($length);
 } 

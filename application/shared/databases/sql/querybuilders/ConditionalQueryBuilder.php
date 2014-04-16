@@ -95,7 +95,7 @@ class ConditionalQueryBuilder
 
     /**
      * Starts a "WHERE" condition
-     * Only call this method once per query because it will overwrite an previously-set "WHERE" expressions
+     * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
      * @param string $condition,... A variable list of conditions to be met
      * @return $this

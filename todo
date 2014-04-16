@@ -1,3 +1,6 @@
+Tokens need to be a class with ID, hashed string, and expiration
+    The ID would make them easy to lookup in the database
+    So, credentials would look something like: {userID: 123, tokenID: 321, token: "foobar"}
 Need to implement PostgreSQLRepo for credentials, which also involves building table structure
 Need to build classes to store credentials clientside (eg cookies/JSON)
     Where should these classes be instantiated/used?

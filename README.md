@@ -20,7 +20,7 @@ echo var_dump($selectQuery->getParameters());
 # License
 This software is licensed under the MIT license.  Please read the LICENSE for more information.
 # Requirements
-* PHP 5.4 or higher
+* PHP 5.5 or higher with OpenSSL enabled
 * PDO with MySQL and PGSQL drivers
 * PHPRedis
 * PHPUnit
