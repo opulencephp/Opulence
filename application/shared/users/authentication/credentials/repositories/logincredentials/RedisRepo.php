@@ -36,27 +36,27 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
     public function add(Credentials\ILoginCredentials $credentials, $token = "")
     {
         // Store the credentials as a hash
-        $this->redisDatabase->getPHPRedis()->hMset("users:" . $credentials->getUserID() . ":authentication:logincredentials:" . $credentials->getHashedToken(),
+        $this->redisDatabase->getPHPRedis()->hMset("users:" . $credentials->getUserId() . ":authentication:logincredentials:" . $credentials->getHashedToken(),
             array(
-                "userid" => $credentials->getUserID(),
+                "userid" => $credentials->getUserId(),
                 "hashedtoken" => $credentials->getHashedToken(),
                 "expiration" => $credentials->getExpiration()->getTimestamp()
             ));
 
         // Add these credentials to a list for this user
         $this->redisDatabase->getPHPRedis()->zAdd(
-            "users:" . $credentials->getUserID() . ":authentication:logincredentials",
+            "users:" . $credentials->getUserId() . ":authentication:logincredentials",
             $credentials->getExpiration()->getTimestamp(),
             $credentials->getHashedToken()
         );
 
         // Wipe out any expired credentials, but first get a list of all the tokens
-        $expiredTokens = $this->redisDatabase->getPHPRedis()->zRangeByScore("users:" . $credentials->getUserID() . ":authentication:logincredentials", "-inf", time());
-        $this->redisDatabase->getPHPRedis()->zRemRangeByScore("users:" . $credentials->getUserID() . ":authentication:logincredentials", "-inf", time());
+        $expiredTokens = $this->redisDatabase->getPHPRedis()->zRangeByScore("users:" . $credentials->getUserId() . ":authentication:logincredentials", "-inf", time());
+        $this->redisDatabase->getPHPRedis()->zRemRangeByScore("users:" . $credentials->getUserId() . ":authentication:logincredentials", "-inf", time());
 
         foreach($expiredTokens as $expiredToken)
         {
-            $this->deauthorize($credentials->getUserID(), $expiredToken);
+            $this->deauthorize($credentials->getUserId(), $expiredToken);
         }
 
         return true;
@@ -65,15 +65,15 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param int $userID The ID of the user whose credentials these are
+     * @param int $userId The Id of the user whose credentials these are
      * @param string $hashedToken The hashed token
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize($userID, $hashedToken)
+    public function deauthorize($userId, $hashedToken)
     {
-        $this->redisDatabase->getPHPRedis()->del("users:" . $userID . ":authentication:logincredentials:" . $hashedToken);
+        $this->redisDatabase->getPHPRedis()->del("users:" . $userId . ":authentication:logincredentials:" . $hashedToken);
 
-        return $this->redisDatabase->getPHPRedis()->zRem("users:" . $userID . ":authentication:logincredentials", $hashedToken) !== 0;
+        return $this->redisDatabase->getPHPRedis()->zRem("users:" . $userId . ":authentication:logincredentials", $hashedToken) !== 0;
     }
 
     /**
@@ -92,13 +92,13 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
     /**
      * Gets the login credentials that match the parameters
      *
-     * @param int $userID The ID of the user whose credentials we are searching for
+     * @param int $userId The Id of the user whose credentials we are searching for
      * @param string $hashedToken The hashed authentication token we are searching for
      * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIDAndToken($userID, $hashedToken)
+    public function getByUserIdAndToken($userId, $hashedToken)
     {
-        $credentialsHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID . ":authentication:logincredentials:" . $hashedToken);
+        $credentialsHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userId . ":authentication:logincredentials:" . $hashedToken);
 
         if($credentialsHash === array())
         {
@@ -114,7 +114,7 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
         // Make sure this hasn't expired
         if($credentials->getExpiration()->getTimestamp() < time())
         {
-            $this->deauthorize($userID, $hashedToken);
+            $this->deauthorize($userId, $hashedToken);
 
             return false;
         }

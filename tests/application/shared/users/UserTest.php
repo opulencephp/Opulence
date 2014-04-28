@@ -47,12 +47,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getting the ID
+     * Test getting the Id
      */
-    public function testGettingID()
+    public function testGettingId()
     {
         $user = $this->getClonedUser();
-        $this->assertEquals(18175, $user->getID());
+        $this->assertEquals(18175, $user->getId());
     }
 
     /**
@@ -103,13 +103,13 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test setting the ID
+     * Test setting the Id
      */
-    public function testSettingID()
+    public function testSettingId()
     {
         $user = $this->getClonedUser();
-        $user->setID(12345);
-        $this->assertEquals(12345, $user->getID());
+        $user->setId(12345);
+        $this->assertEquals(12345, $user->getId());
     }
 
     /**

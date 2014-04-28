@@ -29,13 +29,13 @@ class LoginCredentialsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the user ID from the credentials
+     * Tests getting the user Id from the credentials
      */
-    public function testGettingUserID()
+    public function testGettingUserId()
     {
-        $userID = 24;
-        $credentials = new LoginCredentials($userID, "foo", new \DateTime("now", new \DateTimeZone("utc")));
-        $this->assertEquals($userID, $credentials->getUserID());
+        $userId = 24;
+        $credentials = new LoginCredentials($userId, "foo", new \DateTime("now", new \DateTimeZone("utc")));
+        $this->assertEquals($userId, $credentials->getUserId());
     }
 
     /**

@@ -24,8 +24,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholder()
     {
-        $this->query->addNamedPlaceholderValue("userID", 18175);
-        $this->assertEquals(array("userID" => 18175), $this->query->getParameters());
+        $this->query->addNamedPlaceholderValue("userId", 18175);
+        $this->assertEquals(array("userId" => 18175), $this->query->getParameters());
     }
 
     /**
@@ -70,6 +70,16 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests removing a named placeholder when using unnamed placeholders
+     */
+    public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
+    {
+        $this->setExpectedException("RamODev\\Application\\Shared\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->query->addUnnamedPlaceholderValue("foo");
+        $this->query->removeNamedPlaceHolder("bar");
+    }
+
+    /**
      * Tests removing an unnamed placeholder
      */
     public function testRemovingUnnamedPlaceholder()
@@ -80,16 +90,6 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ->addUnnamedPlaceholderValue("xyz");
         $this->query->removeUnnamedPlaceHolder(1);
         $this->assertFalse(in_array("bar", $this->query->getParameters()));
-    }
-
-    /**
-     * Tests removing a named placeholder when using unnamed placeholders
-     */
-    public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
-    {
-        $this->setExpectedException("RamODev\\Application\\Shared\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
-        $this->query->addUnnamedPlaceholderValue("foo");
-        $this->query->removeNamedPlaceHolder("bar");
     }
 
     /**

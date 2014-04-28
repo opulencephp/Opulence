@@ -50,8 +50,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
             $this->sqlDatabase->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
 
-            // We'll take this opportunity to set the user's actually ID
-            $user->setID((int)$this->sqlDatabase->getLastInsertID("users.users_id_seq"));
+            // We'll take this opportunity to set the user's actually Id
+            $user->setId((int)$this->sqlDatabase->getLastInsertId("users.users_id_seq"));
 
             // Build up the insert queries to store all the user's data
             $userDataColumnMappings = array(
@@ -65,9 +65,9 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             // Execute queries to insert the user data
             foreach($userDataColumnMappings as $userDataColumnMapping)
             {
-                $userDataInsertQuery = $queryBuilder->insert("users.userdata", array_merge(array("userid" => $user->getID()), $userDataColumnMapping));
+                $userDataInsertQuery = $queryBuilder->insert("users.userdata", array_merge(array("userid" => $user->getId()), $userDataColumnMapping));
                 $this->sqlDatabase->query($userDataInsertQuery->getSQL(), $userDataInsertQuery->getParameters());
-                $this->log($user->getID(), $userDataColumnMapping["userdatatypeid"], $userDataColumnMapping["value"], Repositories\ActionTypes::ADDED);
+                $this->log($user->getId(), $userDataColumnMapping["userdatatypeid"], $userDataColumnMapping["value"], Repositories\ActionTypes::ADDED);
             }
 
             $this->sqlDatabase->commitTransaction();
@@ -78,7 +78,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         {
             SharedExceptions\Log::write("Failed to update user: " . $ex);
             $this->sqlDatabase->rollBackTransaction();
-            $user->setID(-1);
+            $user->setId(-1);
         }
 
         return false;
@@ -123,13 +123,13 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     }
 
     /**
-     * Gets the user with the input ID
+     * Gets the user with the input Id
      *
-     * @param int $id The ID of the user we're searching for
-     * @return Users\IUser|bool The user with the input ID if successful, otherwise false
+     * @param int $id The Id of the user we're searching for
+     * @return Users\IUser|bool The user with the input Id if successful, otherwise false
      * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
-    public function getByID($id)
+    public function getById($id)
     {
         try
         {
@@ -202,7 +202,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      */
     public function updateEmail(Users\IUser &$user, $email)
     {
-        return $this->update($user->getID(), UserDataTypes::EMAIL, $email);
+        return $this->update($user->getId(), UserDataTypes::EMAIL, $email);
     }
 
     /**
@@ -215,7 +215,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      */
     public function updatePassword(Users\IUser &$user, $password)
     {
-        return $this->update($user->getID(), UserDataTypes::PASSWORD, $password);
+        return $this->update($user->getId(), UserDataTypes::PASSWORD, $password);
     }
 
     /**
@@ -258,20 +258,20 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     /**
      * Logs changes in the appropriate table
      *
-     * @param int $userID The ID of the user whose changes we must log
-     * @param int $userDataTypeID The ID of the data type whose value we're logging
+     * @param int $userId The Id of the user whose changes we must log
+     * @param int $userDataTypeId The Id of the data type whose value we're logging
      * @param mixed $value The new value of the user data
-     * @param int $actionTypeID The ID of the type of action we've taken on the user
+     * @param int $actionTypeId The Id of the type of action we've taken on the user
      * @throws SQLExceptions\SQLException Thrown if any of the queries fails
      */
-    private function log($userID, $userDataTypeID, $value, $actionTypeID)
+    private function log($userId, $userDataTypeId, $value, $actionTypeId)
     {
         $queryBuilder = new QueryBuilders\QueryBuilder();
         $insertQuery = $queryBuilder->insert("users.userdatalog", array(
-            "userid" => $userID,
-            "userdatatypeid" => $userDataTypeID,
+            "userid" => $userId,
+            "userdatatypeid" => $userDataTypeId,
             "value" => $value,
-            "actiontypeid" => $actionTypeID
+            "actiontypeid" => $actionTypeId
         ));
         $this->sqlDatabase->query($insertQuery->getSQL(), $insertQuery->getParameters());
     }
@@ -279,23 +279,23 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     /**
      * Updates user data in the database
      *
-     * @param int $userID The ID of the user whose changes we are changing
-     * @param int $userDataTypeID The ID of the data type whose value we're changing
+     * @param int $userId The Id of the user whose changes we are changing
+     * @param int $userDataTypeId The Id of the data type whose value we're changing
      * @param mixed $value The new value of the user data
      * @return bool True if successful, otherwise false
      */
-    private function update($userID, $userDataTypeID, $value)
+    private function update($userId, $userDataTypeId, $value)
     {
         $this->sqlDatabase->startTransaction();
 
         try
         {
             $queryBuilder = new QueryBuilders\QueryBuilder();
-            $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeID, "value" => $value))
+            $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeId, "value" => $value))
                 ->where("userid = ?")
-                ->addUnnamedPlaceholderValue($userID);
+                ->addUnnamedPlaceholderValue($userId);
             $this->sqlDatabase->query($updateQuery->getSQL(), $updateQuery->getParameters());
-            $this->log($userID, $userDataTypeID, $value, Repositories\ActionTypes::UPDATED);
+            $this->log($userId, $userDataTypeId, $value, Repositories\ActionTypes::UPDATED);
             $this->sqlDatabase->commitTransaction();
 
             return true;

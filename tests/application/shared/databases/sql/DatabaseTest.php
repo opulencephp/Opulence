@@ -101,17 +101,17 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the last insert ID
+     * Tests getting the last insert Id
      */
-    public function testGettingLastInsertID()
+    public function testGettingLastInsertId()
     {
         $this->database->connect();
         $this->database->startTransaction();
-        $prevID = $this->database->query("SELECT MAX(id) FROM test")->getResult(0);
+        $prevId = $this->database->query("SELECT MAX(id) FROM test")->getResult(0);
         $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
-        $lastInsertID = $this->database->getLastInsertID("test_id_seq");
+        $lastInsertId = $this->database->getLastInsertId("test_id_seq");
         $this->database->commitTransaction();
-        $this->assertEquals($prevID + 1, $lastInsertID);
+        $this->assertEquals($prevId + 1, $lastInsertId);
     }
 
     /**

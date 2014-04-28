@@ -106,7 +106,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      */
     protected function write($funcName, $funcArgs)
     {
-        // We update the SQL repo first in the case that it sets an SQL row ID to the object
+        // We update the SQL repo first in the case that it sets an SQL row Id to the object
         return call_user_func_array(array($this->postgreSQLRepo, $funcName), $funcArgs) && call_user_func_array(array($this->redisRepo, $funcName), $funcArgs);
     }
 } 

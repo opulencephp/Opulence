@@ -34,12 +34,12 @@ interface IUserRepo
     public function getByEmail($email);
 
     /**
-     * Gets the user with the input ID
+     * Gets the user with the input Id
      *
-     * @param int $id The ID of the user we're searching for
-     * @return Users\IUser|bool The user with the input ID if successful, otherwise false
+     * @param int $id The Id of the user we're searching for
+     * @return Users\IUser|bool The user with the input Id if successful, otherwise false
      */
-    public function getByID($id);
+    public function getById($id);
 
     /**
      * Gets the user with the input username

@@ -37,11 +37,11 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     {
         $this->storeHashOfUser($user);
         // Add to the user to the users' set
-        $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getID());
+        $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getId());
         // Create the email index
-        $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getID());
+        $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getId());
         // Create the username index
-        $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getID());
+        $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getId());
     }
 
     /**
@@ -65,7 +65,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getAll()
     {
-        return $this->read("users", "createUserFromID", false);
+        return $this->read("users", "createUserFromId", false);
     }
 
     /**
@@ -76,18 +76,18 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByEmail($email)
     {
-        return $this->read("users:email:" . strtolower($email), "createUserFromID", true);
+        return $this->read("users:email:" . strtolower($email), "createUserFromId", true);
     }
 
     /**
-     * Gets the user with the input ID
+     * Gets the user with the input Id
      *
-     * @param int $id The ID of the user we're searching for
-     * @return Users\IUser|bool The user with the input ID if successful, otherwise false
+     * @param int $id The Id of the user we're searching for
+     * @return Users\IUser|bool The user with the input Id if successful, otherwise false
      */
-    public function getByID($id)
+    public function getById($id)
     {
-        return $this->createUserFromID($id);
+        return $this->createUserFromId($id);
     }
 
     /**
@@ -98,7 +98,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function getByUsername($username)
     {
-        return $this->read("users:username:" . strtolower($username), "createUserFromID", true);
+        return $this->read("users:username:" . strtolower($username), "createUserFromId", true);
     }
 
     /**
@@ -129,7 +129,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function updateEmail(Users\IUser &$user, $email)
     {
-        return $this->update($user->getID(), "email", $email);
+        return $this->update($user->getId(), "email", $email);
     }
 
     /**
@@ -141,20 +141,20 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function updatePassword(Users\IUser &$user, $password)
     {
-        return $this->update($user->getID(), "password", $password);
+        return $this->update($user->getId(), "password", $password);
     }
 
     /**
-     * Creates a user object from cache using an ID
+     * Creates a user object from cache using an Id
      *
-     * @param int|string $userID The ID of the user to create
+     * @param int|string $userId The Id of the user to create
      * @return Users\IUser|bool The user object if successful, otherwise false
      */
-    protected function createUserFromID($userID)
+    protected function createUserFromId($userId)
     {
         // Cast to int just in case it is still in string-form, which is how Redis stores most data
-        $userID = (int)$userID;
-        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userID);
+        $userId = (int)$userId;
+        $userHash = $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $userId);
 
         if($userHash == array())
         {
@@ -180,8 +180,8 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     private function storeHashOfUser(Users\IUser $user)
     {
-        return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getID(), array(
-            "id" => $user->getID(),
+        return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getId(), array(
+            "id" => $user->getId(),
             "password" => $user->getHashedPassword(),
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
@@ -194,13 +194,13 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     /**
      * Updates a hash value for a user object in cache
      *
-     * @param int $userID The ID of the user we are updating
+     * @param int $userId The Id of the user we are updating
      * @param string $hashKey They key of the hash property we're updating
      * @param mixed $value The value to write to the hash key
      * @return bool True if successful, otherwise false
      */
-    private function update($userID, $hashKey, $value)
+    private function update($userId, $hashKey, $value)
     {
-        return $this->redisDatabase->getPHPRedis()->hSet("users:" . $userID, $hashKey, $value) !== false;
+        return $this->redisDatabase->getPHPRedis()->hSet("users:" . $userId, $hashKey, $value) !== false;
     }
 } 

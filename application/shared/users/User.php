@@ -8,7 +8,7 @@ namespace RamODev\Application\Shared\Users;
 
 class User implements IUser
 {
-    /** @var int The ID of the user */
+    /** @var int The Id of the user */
     protected $id = -1;
     /** @var string The username of the user (for now, it'll be the same as the username) */
     protected $username = "";
@@ -24,7 +24,7 @@ class User implements IUser
     protected $dateCreated = null;
 
     /**
-     * @param int $id The ID of this user
+     * @param int $id The Id of this user
      * @param string $username The username of the user
      * @param string $hashedPassword The hashed password of this user
      * @param string $email The email address of this user
@@ -34,7 +34,7 @@ class User implements IUser
      */
     public function __construct($id, $username, $hashedPassword, $email, $dateCreated, $firstName, $lastName)
     {
-        $this->setID($id);
+        $this->setId($id);
         $this->username = $username;
         $this->setHashedPassword($hashedPassword);
         $this->setEmail($email);
@@ -78,7 +78,7 @@ class User implements IUser
     /**
      * @return int
      */
-    public function getID()
+    public function getId()
     {
         return $this->id;
     }
@@ -126,7 +126,7 @@ class User implements IUser
     /**
      * @param int $id
      */
-    public function setID($id)
+    public function setId($id)
     {
         $this->id = $id;
     }

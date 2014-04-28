@@ -31,7 +31,7 @@ interface IUser
     /**
      * @return int
      */
-    public function getID();
+    public function getId();
 
     /**
      * @return string
@@ -61,7 +61,7 @@ interface IUser
     /**
      * @param int $id
      */
-    public function setID($id);
+    public function setId($id);
 
     /**
      * @param string $lastName

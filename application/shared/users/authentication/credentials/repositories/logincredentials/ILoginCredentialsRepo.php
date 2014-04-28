@@ -21,18 +21,18 @@ interface ILoginCredentialsRepo
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param int $userID The ID of the user whose credentials these are
+     * @param int $userId The Id of the user whose credentials these are
      * @param string $hashedToken The hashed token
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize($userID, $hashedToken);
+    public function deauthorize($userId, $hashedToken);
 
     /**
      * Gets the login credentials that match the parameters
      *
-     * @param int $userID The ID of the user whose credentials we are searching for
+     * @param int $userId The Id of the user whose credentials we are searching for
      * @param string $hashedToken The hashed authentication token we are searching for
      * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIDAndToken($userID, $hashedToken);
+    public function getByUserIdAndToken($userId, $hashedToken);
 } 

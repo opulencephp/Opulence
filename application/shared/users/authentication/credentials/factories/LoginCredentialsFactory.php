@@ -12,12 +12,12 @@ class LoginCredentialsFactory implements ILoginCredentialsFactory
     /**
      * Creates credentials for the input user
      *
-     * @param int $userID The ID of the user whose credentials these are
+     * @param int $userId The Id of the user whose credentials these are
      * @param \DateTime $expiration The expiration time
      * @return Credentials\LoginCredentials
      */
-    public function createLoginCredentials($userID, \DateTime $expiration)
+    public function createLoginCredentials($userId, \DateTime $expiration)
     {
-        return new Credentials\LoginCredentials($userID, "", $expiration);
+        return new Credentials\LoginCredentials($userId, "", $expiration);
     }
 } 

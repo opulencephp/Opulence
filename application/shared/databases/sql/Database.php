@@ -56,12 +56,12 @@ class Database extends Databases\Database
     }
 
     /**
-     * Gets the last insert ID
+     * Gets the last insert Id
      *
      * @param string $idSequenceName The name of the sequence (not the column) that contains the insert id
-     * @return int The ID of the last insert
+     * @return int The Id of the last insert
      */
-    public function getLastInsertID($idSequenceName)
+    public function getLastInsertId($idSequenceName)
     {
         return $this->pdoConnection->lastInsertID($idSequenceName);
     }
