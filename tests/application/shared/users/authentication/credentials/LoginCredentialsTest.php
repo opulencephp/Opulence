@@ -5,27 +5,19 @@
  * Tests the login credentials
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials;
+use RamODev\Application\Shared\Cryptography;
 
 class LoginCredentialsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests getting the expiration from the credentials
+     * Tests getting the token
      */
-    public function testGettingExpiration()
+    public function testGettingLoginToken()
     {
-        $expiration = new \DateTime("now", new \DateTimeZone("utc"));
-        $credentials = new LoginCredentials(24, "foo", $expiration);
-        $this->assertEquals($expiration, $credentials->getExpiration());
-    }
-
-    /**
-     * Tests getting the hashed token from the credentials
-     */
-    public function testGettingHashedToken()
-    {
-        $hashedToken = "foo";
-        $credentials = new LoginCredentials(24, $hashedToken, new \DateTime("now", new \DateTimeZone("utc")));
-        $this->assertEquals($hashedToken, $credentials->getHashedToken());
+        $token = new Cryptography\Token(1, "foo", new \DateTime("now", new \DateTimeZone("utc")),
+            new \DateTime("now", new \DateTimeZone("utc")));
+        $credentials = new LoginCredentials(24, $token);
+        $this->assertEquals($token, $credentials->getLoginToken());
     }
 
     /**
@@ -34,18 +26,23 @@ class LoginCredentialsTest extends \PHPUnit_Framework_TestCase
     public function testGettingUserId()
     {
         $userId = 24;
-        $credentials = new LoginCredentials($userId, "foo", new \DateTime("now", new \DateTimeZone("utc")));
+        $token = new Cryptography\Token(1, "foo", new \DateTime("now", new \DateTimeZone("utc")),
+            new \DateTime("now", new \DateTimeZone("utc")));
+        $credentials = new LoginCredentials($userId, $token);
         $this->assertEquals($userId, $credentials->getUserId());
     }
 
     /**
-     * Tests setting the hashed token
+     * Tests setting the login token
      */
-    public function testSettingHashedToken()
+    public function testSettingLoginToken()
     {
-        $hashedToken = "foo";
-        $credentials = new LoginCredentials(24, "", new \DateTime("now", new \DateTimeZone("utc")));
-        $credentials->setHashedToken($hashedToken);
-        $this->assertEquals($hashedToken, $credentials->getHashedToken());
+        $oldToken = new Cryptography\Token(1, "foo", new \DateTime("now", new \DateTimeZone("utc")),
+            new \DateTime("now", new \DateTimeZone("utc")));
+        $newToken = new Cryptography\Token(2, "bar", new \DateTime("now", new \DateTimeZone("utc")),
+            new \DateTime("now", new \DateTimeZone("utc")));
+        $credentials = new LoginCredentials(24, $oldToken);
+        $credentials->setLoginToken($newToken);
+        $this->assertEquals($newToken, $credentials->getLoginToken());
     }
 } 

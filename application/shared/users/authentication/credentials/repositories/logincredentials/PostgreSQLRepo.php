@@ -42,11 +42,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param int $userId The Id of the user whose credentials these are
-     * @param string $hashedToken The hashed token
+     * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize($userId, $hashedToken)
+    public function deauthorize(Credentials\ILoginCredentials $credentials)
     {
         // TODO: Implement
         return false;

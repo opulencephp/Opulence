@@ -62,10 +62,11 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      *
      * @param string $funcName The name of the method we want to call on our sub-repo classes
      * @param array $getFuncArgs The array of function arguments to pass in to our data retrieval functions
+     * @param bool $addDataToRedisOnMiss True if we want to add data from the database to cache in case of a cache miss
      * @param array $setFuncArgs The array of function arguments to pass into the data set functions in the case of a Redis repo miss
      * @return mixed|bool The data from the repository if it was found, otherwise false
      */
-    protected function read($funcName, $getFuncArgs = array(), $setFuncArgs = array())
+    protected function read($funcName, $getFuncArgs = array(), $addDataToRedisOnMiss = true, $setFuncArgs = array())
     {
         // Always attempt to retrieve from the Redis repo first
         $data = call_user_func_array(array($this->redisRepo, $funcName), $getFuncArgs);
@@ -80,16 +81,20 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
             {
                 return false;
             }
-            elseif(is_array($data))
+
+            if($addDataToRedisOnMiss)
             {
-                foreach($data as $datum)
+                if(is_array($data))
                 {
-                    call_user_func_array(array($this, "addDataToRedisRepo"), array_merge(array(&$datum), $setFuncArgs));
+                    foreach($data as $datum)
+                    {
+                        call_user_func_array(array($this, "addDataToRedisRepo"), array_merge(array(&$datum), $setFuncArgs));
+                    }
                 }
-            }
-            else
-            {
-                call_user_func_array(array($this, "addDataToRedisRepo"), array_merge(array(&$data), $setFuncArgs));
+                else
+                {
+                    call_user_func_array(array($this, "addDataToRedisRepo"), array_merge(array(&$data), $setFuncArgs));
+                }
             }
         }
 

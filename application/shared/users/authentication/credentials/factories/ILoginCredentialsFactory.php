@@ -13,8 +13,9 @@ interface ILoginCredentialsFactory
      * Creates credentials for the input user
      *
      * @param int $userId The Id of the user whose credentials these are
-     * @param \DateTime $expiration The expiration time
+     * @param \DateTime $validFrom The valid-from time
+     * @param \DateTime $validTo The valid-to time
      * @return Credentials\ILoginCredentials
      */
-    public function createLoginCredentials($userId, \DateTime $expiration);
+    public function createLoginCredentials($userId, \DateTime $validFrom, \DateTime $validTo);
 } 

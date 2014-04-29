@@ -13,8 +13,6 @@ use RamODev\Application\Shared\Users\Authentication\Credentials\Factories;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginCredentialsRepo
 {
-    /** @var Factories\ILoginCredentialsFactory The factory to use to create login credentials */
-    private $loginCredentialsFactory = null;
     /** @var string The pepper to use before hashing a token */
     private $tokenPepper = "";
     /** @var int The cost of the hash algorithm used to store tokens */
@@ -23,13 +21,11 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
     /**
      * @param Redis\Database $redisDatabase The Redis database used in the repo
      * @param SQL\Database $sqlDatabase The relational database used in the repo
-     * @param Factories\ILoginCredentialsFactory $loginCredentialsFactory The factory to use to create login credentials
      * @param string @passwordPepper The pepper to use before hashing a token
      * @param int $hashCost The cost of the hash algorithm used to store tokens
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\ILoginCredentialsFactory $loginCredentialsFactory, $tokenPepper, $hashCost)
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, $tokenPepper, $hashCost)
     {
-        $this->loginCredentialsFactory = $loginCredentialsFactory;
         $this->tokenPepper = $tokenPepper;
         $this->hashCost = $hashCost;
 
@@ -40,29 +36,22 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      * Adds credentials to the repo
      *
      * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
-     * @param string $token The unhashed token
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\ILoginCredentials $credentials, $token = "")
+    public function add(Credentials\ILoginCredentials $credentials)
     {
-        if(!empty($token))
-        {
-            $credentials->setHashedToken($this->getHashedToken($token));
-        }
-
         return $this->write(__FUNCTION__, array($credentials));
     }
 
     /**
-     * Deletes the input credentials from the repo
+     * Deauthorizes the input credentials from the repo
      *
-     * @param int $userId The Id of the user whose credentials these are
-     * @param string $hashedToken The hashed token
+     * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize($userId, $hashedToken)
+    public function deauthorize(Credentials\ILoginCredentials $credentials)
     {
-        $this->write(__FUNCTION__, array($userId, $hashedToken));
+        $this->write(__FUNCTION__, array($credentials));
     }
 
     /**
@@ -108,7 +97,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      */
     protected function getPostgreSQLRepo(SQL\Database $sqlDatabase)
     {
-        return new PostgreSQLRepo($sqlDatabase, $this->loginCredentialsFactory);
+        return new PostgreSQLRepo($sqlDatabase);
     }
 
     /**
@@ -119,7 +108,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      */
     protected function getRedisRepo(Redis\Database $redisDatabase)
     {
-        return new RedisRepo($redisDatabase, $this->loginCredentialsFactory);
+        return new RedisRepo($redisDatabase);
     }
 
     /**

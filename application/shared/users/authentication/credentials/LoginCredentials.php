@@ -5,44 +5,31 @@
  * Defines a user's login credentials
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials;
+use RamODev\Application\Shared\Cryptography;
 
 class LoginCredentials implements ILoginCredentials
 {
     /** @var int The Id of the user whose credentials these are */
     private $userId = -1;
-    /** @var string The hashed authentication token */
-    private $hashedToken = "";
-    /** @var \DateTime The expiration of these credentials */
-    private $expiration = null;
+    /** @var Cryptography\Token The login token */
+    private $loginToken = null;
 
     /**
      * @param int $userId The Id of the user whose credentials these are
-     * @param string $hashedToken The hashed authentication token
-     * @param \DateTime $expiration The expiration of these credentials
+     * @param Cryptography\Token $loginToken The login token
      */
-    public function __construct($userId, $hashedToken, \DateTime $expiration)
+    public function __construct($userId, Cryptography\Token $loginToken)
     {
         $this->userId = $userId;
-        $this->hashedToken = $hashedToken;
-        $this->expiration = $expiration;
+        $this->loginToken = $loginToken;
     }
 
     /**
-     * @return \DateTime
+     * @return Cryptography\Token
      */
-    public function getExpiration()
+    public function getLoginToken()
     {
-        return $this->expiration;
-    }
-
-    /**
-     * Gets the hashed authentication token
-     *
-     * @return string The hashed authentication token
-     */
-    public function getHashedToken()
-    {
-        return $this->hashedToken;
+        return $this->loginToken;
     }
 
     /**
@@ -54,10 +41,10 @@ class LoginCredentials implements ILoginCredentials
     }
 
     /**
-     * @param string $hashedToken
+     * @param Cryptography\Token $token
      */
-    public function setHashedToken($hashedToken)
+    public function setLoginToken(Cryptography\Token $token)
     {
-        $this->hashedToken = $hashedToken;
+        $this->loginToken = $token;
     }
 } 

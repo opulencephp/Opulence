@@ -125,7 +125,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     /**
      * Gets the user with the input Id
      *
-     * @param int $id The Id of the user we're searching for
+     * @param int $id The database Id of the user we're searching for
      * @return Users\IUser|bool The user with the input Id if successful, otherwise false
      * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */

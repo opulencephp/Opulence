@@ -10,7 +10,7 @@ use RamODev\Application\Shared\Users;
 interface IUserFactory
 {
     /**
-     * @param int $id The Id of this user
+     * @param int $id The database Id of this user
      * @param string $username The username of the user
      * @param string $hashedPassword The hashed password of this user
      * @param string $email The email address of this user

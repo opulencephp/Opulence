@@ -1,6 +1,6 @@
-Tokens need to be a class with Id, hashed string, and expiration
-    The Id would make them easy to lookup in the database
-    So, credentials would look something like: {userId: 123, tokenId: 321, token: "foobar"}
+Need to add password_hash methods to RedisRepo and PostgreSQLRepo to allow hashing in those repos
+    Need to check that the token value in the Redis repo matches the hash
+    Update ILoginCredentialsRepo
 Need to implement PostgreSQLRepo for credentials, which also involves building table structure
 Need to build classes to store credentials clientside (eg cookies/JSON)
     Where should these classes be instantiated/used?

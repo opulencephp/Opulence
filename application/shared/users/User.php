@@ -8,7 +8,7 @@ namespace RamODev\Application\Shared\Users;
 
 class User implements IUser
 {
-    /** @var int The Id of the user */
+    /** @var int The database Id of the user */
     protected $id = -1;
     /** @var string The username of the user (for now, it'll be the same as the username) */
     protected $username = "";
@@ -24,7 +24,7 @@ class User implements IUser
     protected $dateCreated = null;
 
     /**
-     * @param int $id The Id of this user
+     * @param int $id The database Id of this user
      * @param string $username The username of the user
      * @param string $hashedPassword The hashed password of this user
      * @param string $email The email address of this user

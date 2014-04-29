@@ -2,9 +2,10 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines the interface for login credentials repos to implement
+ * Defines the interface for login credential repos to implement
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
+use RamODev\Application\Shared\Cryptography;
 use RamODev\Application\Shared\Users\Authentication\Credentials;
 
 interface ILoginCredentialsRepo
@@ -13,19 +14,17 @@ interface ILoginCredentialsRepo
      * Adds credentials to the repo
      *
      * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
-     * @param string $token The unhashed token
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\ILoginCredentials $credentials, $token = "");
+    public function add(Credentials\ILoginCredentials $credentials);
 
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param int $userId The Id of the user whose credentials these are
-     * @param string $hashedToken The hashed token
+     * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize($userId, $hashedToken);
+    public function deauthorize(Credentials\ILoginCredentials $credentials);
 
     /**
      * Gets the login credentials that match the parameters
