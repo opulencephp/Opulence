@@ -12,8 +12,6 @@ class User implements IUser
     protected $id = -1;
     /** @var string The username of the user (for now, it'll be the same as the username) */
     protected $username = "";
-    /** @var string The hashed password of the user */
-    protected $hashedPassword = "";
     /** @var string The email of the user */
     protected $email = "";
     /** @var string The first name of the user */
@@ -26,17 +24,15 @@ class User implements IUser
     /**
      * @param int $id The database Id of this user
      * @param string $username The username of the user
-     * @param string $hashedPassword The hashed password of this user
      * @param string $email The email address of this user
      * @param \DateTime $dateCreated The date this user was created
      * @param string $firstName The first name of this user
      * @param string $lastName The last name of this user
      */
-    public function __construct($id, $username, $hashedPassword, $email, $dateCreated, $firstName, $lastName)
+    public function __construct($id, $username, $email, \DateTime $dateCreated, $firstName, $lastName)
     {
         $this->setId($id);
         $this->username = $username;
-        $this->setHashedPassword($hashedPassword);
         $this->setEmail($email);
         $this->dateCreated = $dateCreated;
         $this->setFirstName($firstName);
@@ -65,14 +61,6 @@ class User implements IUser
     public function getFirstName()
     {
         return $this->firstName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHashedPassword()
-    {
-        return $this->hashedPassword;
     }
 
     /**
@@ -113,14 +101,6 @@ class User implements IUser
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
-    }
-
-    /**
-     * @param string $password
-     */
-    public function setHashedPassword($password)
-    {
-        $this->hashedPassword = $password;
     }
 
     /**

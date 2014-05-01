@@ -12,15 +12,14 @@ class UserFactory implements IUserFactory
     /**
      * @param int $id The database Id of this user
      * @param string $username The username of the user
-     * @param string $hashedPassword The hashed password of this user
      * @param string $email The email address of this user
      * @param \DateTime $dateCreated The date this user was created
      * @param string $firstName The first name of this user
      * @param string $lastName The last name of this user
      * @return Users\User A user object
      */
-    public function createUser($id, $username, $hashedPassword, $email, $dateCreated, $firstName, $lastName)
+    public function createUser($id, $username, $email, \DateTime $dateCreated, $firstName, $lastName)
     {
-        return new Users\User($id, $username, $hashedPassword, $email, $dateCreated, $firstName, $lastName);
+        return new Users\User($id, $username, $email, $dateCreated, $firstName, $lastName);
     }
 } 

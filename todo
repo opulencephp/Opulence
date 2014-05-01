@@ -1,6 +1,6 @@
-Need to add password_hash methods to RedisRepo and PostgreSQLRepo to allow hashing in those repos
-    Need to check that the token value in the Redis repo matches the hash
-    Update ILoginCredentialsRepo
+Issue is that in UserRepo, I can keep the password separate from the user object, but it doesn't make as much sense
+    to do the same with Credentials (or maybe it does, not sure, so think about it)
+    If we pass in the hashed token as a second parameter to LoginCredentialsRepo like UserRepo, it should be easy to finish it
 Need to implement PostgreSQLRepo for credentials, which also involves building table structure
 Need to build classes to store credentials clientside (eg cookies/JSON)
     Where should these classes be instantiated/used?

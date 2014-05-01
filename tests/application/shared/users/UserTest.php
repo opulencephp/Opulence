@@ -16,7 +16,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->protypicalUser = new User(18175, "foo@bar.com", "fakepassword", "foo@bar.com", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young");
+        $this->protypicalUser = new User(18175, "foo@bar.com", "foo@bar.com", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young");
     }
 
     /**
@@ -62,15 +62,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $user = $this->getClonedUser();
         $this->assertEquals("Young", $user->getLastName());
-    }
-
-    /**
-     * Test getting the password
-     */
-    public function testGettingPassword()
-    {
-        $user = $this->getClonedUser();
-        $this->assertEquals("fakepassword", $user->getHashedPassword());
     }
 
     /**
@@ -120,16 +111,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user = $this->getClonedUser();
         $user->setLastName("Banjo");
         $this->assertEquals("Banjo", $user->getLastName());
-    }
-
-    /**
-     * Test setting the password
-     */
-    public function testSettingPassword()
-    {
-        $user = $this->getClonedUser();
-        $user->setHashedPassword("newfakepassword");
-        $this->assertEquals("newfakepassword", $user->getHashedPassword());
     }
 
     /**

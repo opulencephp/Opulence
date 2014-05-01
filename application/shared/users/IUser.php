@@ -24,11 +24,6 @@ interface IUser
     public function getFirstName();
 
     /**
-     * @return string
-     */
-    public function getHashedPassword();
-
-    /**
      * @return int
      */
     public function getId();
@@ -52,11 +47,6 @@ interface IUser
      * @param string $firstName
      */
     public function setFirstName($firstName);
-
-    /**
-     * @param string $password
-     */
-    public function setHashedPassword($password);
 
     /**
      * @param int $id

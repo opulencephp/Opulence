@@ -10,28 +10,21 @@ use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users;
 use RamODev\Application\Shared\Users\Factories;
+use RamODev\Application\TBA\Configs;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {
     /** @var Factories\IUserFactory The factory to use when creating user objects */
     private $userFactory = null;
-    /** @var string The pepper to use before hashing a password */
-    private $passwordPepper = "";
-    /** @var int The cost of the hash algorithm used to store passwords */
-    private $hashCost = 11;
 
     /**
      * @param Redis\Database $redisDatabase The Redis database used in the repo
      * @param SQL\Database $sqlDatabase The relational database used in the repo
      * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
-     * @param string @passwordPepper The pepper to use before hashing a password
-     * @param int $hashCost The cost of the hash algorithm used to store passwords
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory, $tokenPepper, $hashCost)
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory)
     {
         $this->userFactory = $userFactory;
-        $this->passwordPepper = $tokenPepper;
-        $this->hashCost = $hashCost;
 
         parent::__construct($redisDatabase, $sqlDatabase);
     }
@@ -43,14 +36,9 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * @param string $password The unhashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $password = "")
+    public function add(Users\IUser &$user, $password)
     {
-        if(!empty($password))
-        {
-            $user->setHashedPassword($this->getHashedPassword($password));
-        }
-
-        return $this->write(__FUNCTION__, array(&$user, $user->getHashedPassword()));
+        return $this->write(__FUNCTION__, array(&$user, $this->getHashedPassword($password)));
     }
 
     /**
@@ -100,16 +88,16 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * Gets the user with the input username and hashed password
      *
      * @param string $username The username to search for
-     * @param string $password The unhashed password to search for
+     * @param string $unhashedPassword The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
      */
-    public function getByUsernameAndPassword($username, $password)
+    public function getByUsernameAndPassword($username, $unhashedPassword)
     {
         /**
-         * To prevent a person that has gained access to the database from having the ability to reverse-engineer salted hashes stored there,
-         * we pepper the password in our code.
+         * To prevent a person that has gained access to the database from having the ability to reverse-engineer
+         * salted hashes stored there, we pepper the password in our code
          */
-        return $this->read(__FUNCTION__, array($username, $this->getHashedPassword($password)));
+        return $this->read(__FUNCTION__, array($username, $unhashedPassword . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER));
     }
 
     /**
@@ -140,14 +128,12 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * Updates a user's password in the repository
      *
      * @param Users\IUser $user The user to update in the repository
-     * @param string $password The unhashed new password
+     * @param string $unhashedPassword The unhashed new password
      * @return bool True if successful, otherwise false
      */
-    public function updatePassword(Users\IUser &$user, $password)
+    public function updatePassword(Users\IUser &$user, $unhashedPassword)
     {
-        $user->setHashedPassword($password);
-
-        return $this->write(__FUNCTION__, array(&$user, $password));
+        return $this->write(__FUNCTION__, array(&$user, $this->getHashedPassword($unhashedPassword)));
     }
 
     /**
@@ -191,6 +177,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     private function getHashedPassword($password)
     {
-        return password_hash($password . $this->passwordPepper, PASSWORD_BCRYPT, array("cost" => $this->hashCost));
+        return password_hash($password . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER, PASSWORD_BCRYPT,
+            array("cost" => Configs\AuthenticationConfig::HASH_COST));
     }
 } 

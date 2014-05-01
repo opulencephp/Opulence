@@ -13,10 +13,10 @@ interface IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @param string $password The unhashed password
+     * @param string $password The user's password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $password = "");
+    public function add(Users\IUser &$user, $password);
 
     /**
      * Gets all the users in the repository
@@ -53,10 +53,10 @@ interface IUserRepo
      * Gets the user with the input username and hashed password
      *
      * @param string $username The username to search for
-     * @param string $password The unhashed password to search for
+     * @param string $unhashedPassword The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
      */
-    public function getByUsernameAndPassword($username, $password);
+    public function getByUsernameAndPassword($username, $unhashedPassword);
 
     /**
      * Updates a user's email address in the repository

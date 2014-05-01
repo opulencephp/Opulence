@@ -13,24 +13,10 @@ use RamODev\Application\Shared\Users\Authentication\Credentials\Factories;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginCredentialsRepo
 {
+    /** The cost of the hash algorithm used to store tokens */
+    const HASH_COST = 11;
     /** @var string The pepper to use before hashing a token */
     private $tokenPepper = "";
-    /** @var int The cost of the hash algorithm used to store tokens */
-    private $hashCost = 11;
-
-    /**
-     * @param Redis\Database $redisDatabase The Redis database used in the repo
-     * @param SQL\Database $sqlDatabase The relational database used in the repo
-     * @param string @passwordPepper The pepper to use before hashing a token
-     * @param int $hashCost The cost of the hash algorithm used to store tokens
-     */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, $tokenPepper, $hashCost)
-    {
-        $this->tokenPepper = $tokenPepper;
-        $this->hashCost = $hashCost;
-
-        parent::__construct($redisDatabase, $sqlDatabase);
-    }
 
     /**
      * Adds credentials to the repo
@@ -58,12 +44,13 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      * Gets the login credentials that match the parameters
      *
      * @param int $userId The Id of the user whose credentials we are searching for
-     * @param string $unhashedToken The unhashed authentication token we are searching for
-     * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
+     * @param int $loginTokenId The Id of the login token we're searching for
+     * @param string $loginTokenValue The hashed login token we are searching for
+     * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIdAndToken($userId, $unhashedToken)
+    public function getByUserIdAndToken($userId, $loginTokenId, $loginTokenValue)
     {
-        return $this->read(__FUNCTION__, array($userId, $this->getHashedToken($unhashedToken)));
+        return $this->read(__FUNCTION__, array($userId, $this->getHashedToken($userId, $loginTokenId, $loginTokenValue)));
     }
 
     /**
@@ -119,6 +106,6 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      */
     private function getHashedToken($token)
     {
-        return password_hash($token . $this->tokenPepper, PASSWORD_BCRYPT, array("cost" => $this->hashCost));
+        return password_hash($token . $this->tokenPepper, PASSWORD_BCRYPT, array("cost" => self::HASH_COST));
     }
 } 

@@ -30,8 +30,9 @@ interface ILoginCredentialsRepo
      * Gets the login credentials that match the parameters
      *
      * @param int $userId The Id of the user whose credentials we are searching for
-     * @param string $hashedToken The hashed authentication token we are searching for
+     * @param int $loginTokenId The Id of the login token we're searching for
+     * @param string $loginTokenValue The hashed login token we are searching for
      * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIdAndToken($userId, $hashedToken);
+    public function getByUserIdAndToken($userId, $loginTokenId, $loginTokenValue);
 } 

@@ -30,12 +30,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @param string $password The unhashed password
+     * @param string $password The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $password = "")
+    public function add(Users\IUser &$user, $password)
     {
-        $this->storeHashOfUser($user);
+        $this->storeHashOfUser($user, $password);
         // Add to the user to the users' set
         $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getId());
         // Create the email index
@@ -105,14 +105,21 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * Gets the user with the input username and hashed password
      *
      * @param string $username The username to search for
-     * @param string $password The unhashed password to search for
+     * @param string $unhashedPassword The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
      */
-    public function getByUsernameAndPassword($username, $password)
+    public function getByUsernameAndPassword($username, $unhashedPassword)
     {
         $userFromUsername = $this->getByUsername($username);
 
-        if($userFromUsername === false || !password_verify($password, $userFromUsername->getHashedPassword()))
+        if($userFromUsername === false)
+        {
+            return false;
+        }
+
+        $hashedPassword = $this->redisDatabase->getPHPRedis()->hGet("users:" . $userFromUsername->getId(), "password");
+
+        if($hashedPassword === false || !password_verify($unhashedPassword, $hashedPassword))
         {
             return false;
         }
@@ -164,7 +171,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         return $this->userFactory->createUser(
             (int)$userHash["id"],
             $userHash["username"],
-            $userHash["password"],
             $userHash["email"],
             \DateTime::createFromFormat("U", $userHash["datecreated"], new \DateTimeZone("UTC")),
             $userHash["firstname"],
@@ -176,13 +182,14 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * Stores a hash of a user object in cache
      *
      * @param Users\IUser $user The user object from which we're creating a hash
+     * @param string $password The hashed password
      * @return bool True if successful, otherwise false
      */
-    private function storeHashOfUser(Users\IUser $user)
+    private function storeHashOfUser(Users\IUser $user, $password)
     {
         return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getId(), array(
             "id" => $user->getId(),
-            "password" => $user->getHashedPassword(),
+            "password" => $password,
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
             "lastname" => $user->getLastName(),
