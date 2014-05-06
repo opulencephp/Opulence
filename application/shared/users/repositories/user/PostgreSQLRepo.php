@@ -200,6 +200,34 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     }
 
     /**
+     * Gets a user's hashed password from the repo
+     *
+     * @param int $userId The ID of the user whose password we are searching for
+     * @return string|bool The hashed password if successful, otherwise false
+     */
+    public function getHashedPassword($userId)
+    {
+        try
+        {
+            $results = $this->sqlDatabase->query("SELECT password FROM users.usersview WHERE id = :userId",
+                array("userId" => $userId));
+
+            if(!$results->hasResults())
+            {
+                return false;
+            }
+
+            return $results->getResult(0, "password");
+        }
+        catch(SQLExceptions\SQLException $ex)
+        {
+            SharedExceptions\Log::write("Unable to query user password: " . $ex);
+        }
+
+        return false;
+    }
+
+    /**
      * Updates a user's email address in the repository
      *
      * @param Users\IUser $user The user to update in the repository
@@ -258,34 +286,6 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         $queryBuilder = new QueryBuilders\QueryBuilder();
         $this->getQuery = $queryBuilder->select("id", "username", "email", "datecreated", "firstname", "lastname")
             ->from("users.usersview");
-    }
-
-    /**
-     * Gets the hashed password for a user
-     *
-     * @param int $userId The Id of the user whose password we're retrieving
-     * @return string|bool The hashed user password if found, otherwise false
-     */
-    private function getHashedPassword($userId)
-    {
-        try
-        {
-            $results = $this->sqlDatabase->query("SELECT password FROM users.usersview WHERE id = :userId",
-                array("userId" => $userId));
-
-            if(!$results->hasResults())
-            {
-                return false;
-            }
-
-            return $results->getResult(0, "password");
-        }
-        catch(SQLExceptions\SQLException $ex)
-        {
-            SharedExceptions\Log::write("Unable to query user password: " . $ex);
-        }
-
-        return false;
     }
 
     /**

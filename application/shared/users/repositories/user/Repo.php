@@ -38,7 +38,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function add(Users\IUser &$user, $password)
     {
-        return $this->write(__FUNCTION__, array(&$user, $this->getHashedPassword($password)));
+        return $this->write(__FUNCTION__, array(&$user, $this->hashPassword($password)));
     }
 
     /**
@@ -101,6 +101,17 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     }
 
     /**
+     * Gets a user's hashed password from the repo
+     *
+     * @param int $userId The Id of the user whose password we are searching for
+     * @return string|bool The hashed password if successful, otherwise false
+     */
+    public function getHashedPassword($userId)
+    {
+        return $this->read(__FUNCTION__, array($userId), false);
+    }
+
+    /**
      * Synchronizes the Redis repository with the PostgreSQL repository
      *
      * @return bool True if successful, otherwise false
@@ -133,7 +144,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function updatePassword(Users\IUser &$user, $unhashedPassword)
     {
-        return $this->write(__FUNCTION__, array(&$user, $this->getHashedPassword($unhashedPassword)));
+        return $this->write(__FUNCTION__, array(&$user, $this->hashPassword($unhashedPassword)));
     }
 
     /**
@@ -144,7 +155,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     protected function addDataToRedisRepo(&$user, $funcArgs = array())
     {
-        $this->redisRepo->add($user, $funcArgs);
+        $this->redisRepo->add($user, $this->getHashedPassword($user->getId()));
     }
 
     /**
@@ -175,9 +186,9 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * @param string $password The unhashed password to hash
      * @return string The hashed password
      */
-    private function getHashedPassword($password)
+    private function hashPassword($password)
     {
         return password_hash($password . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER, PASSWORD_BCRYPT,
-            array("cost" => Configs\AuthenticationConfig::HASH_COST));
+            array("cost" => Configs\AuthenticationConfig::USER_PASSWORD_HASH_COST));
     }
 } 

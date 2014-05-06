@@ -59,6 +59,14 @@ interface IUserRepo
     public function getByUsernameAndPassword($username, $unhashedPassword);
 
     /**
+     * Gets a user's hashed password from the repo
+     *
+     * @param int $userId The Id of the user whose password we are searching for
+     * @return string|bool The hashed password if successful, otherwise false
+     */
+    public function getHashedPassword($userId);
+
+    /**
      * Updates a user's email address in the repository
      *
      * @param Users\IUser $user The user to update in the repository

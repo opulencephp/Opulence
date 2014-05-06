@@ -117,7 +117,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        $hashedPassword = $this->redisDatabase->getPHPRedis()->hGet("users:" . $userFromUsername->getId(), "password");
+        $hashedPassword = $this->getHashedPassword($userFromUsername->getId());
 
         if($hashedPassword === false || !password_verify($unhashedPassword, $hashedPassword))
         {
@@ -125,6 +125,17 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
         }
 
         return $userFromUsername;
+    }
+
+    /**
+     * Gets a user's hashed password from the repo
+     *
+     * @param int $userId The Id of the user whose password we are searching for
+     * @return string|bool The hashed password if successful, otherwise false
+     */
+    public function getHashedPassword($userId)
+    {
+        return $this->redisDatabase->getPHPRedis()->hGet("users:" . $userId, "password");
     }
 
     /**
