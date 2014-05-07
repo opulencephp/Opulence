@@ -15,7 +15,7 @@ interface ILoginCredentials extends ICredentials
     public function getLoginToken();
 
     /**
-     * @param Cryptography\Token $token
+     * @param Cryptography\Token $loginToken
      */
-    public function setLoginToken(Cryptography\Token $token);
+    public function setLoginToken(Cryptography\Token $loginToken);
 } 

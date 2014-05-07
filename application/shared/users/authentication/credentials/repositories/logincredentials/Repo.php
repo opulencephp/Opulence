@@ -5,39 +5,66 @@
  * Provides methods for retrieving login credentials from the repository
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
+use RamODev\Application\Shared\Cryptography\Repositories\Token;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users\Authentication\Credentials;
 use RamODev\Application\Shared\Users\Authentication\Credentials\Factories;
+use RamODev\Application\TBA\Configs;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginCredentialsRepo
 {
-    /** The cost of the hash algorithm used to store tokens */
-    const HASH_COST = 11;
-    /** @var string The pepper to use before hashing a token */
-    private $tokenPepper = "";
+    /** @var Token\ITokenRepo The token repo */
+    private $tokenRepo = null;
+
+    /**
+     * @param Redis\Database $redisDatabase The Redis database used in the repo
+     * @param SQL\Database $sqlDatabase The relational database used in the repo
+     * @param Token\ITokenRepo $tokenRepo The token repo
+     */
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Token\ITokenRepo $tokenRepo)
+    {
+        $this->tokenRepo = $tokenRepo;
+
+        parent::__construct($redisDatabase, $sqlDatabase);
+    }
 
     /**
      * Adds credentials to the repo
      *
      * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
+     * @param string $hashedLoginTokenValue The hashed login token value
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\ILoginCredentials $credentials)
+    public function add(Credentials\ILoginCredentials $credentials, $hashedLoginTokenValue)
     {
-        return $this->write(__FUNCTION__, array($credentials));
+        /**
+         * When we add the login token to the repo, its ID will be set
+         * So, we grab it from the credentials, add it to the repo, then re-add it to the credentials
+         */
+        $loginToken = $credentials->getLoginToken();
+
+        if($this->tokenRepo->add($loginToken, $hashedLoginTokenValue) === false)
+        {
+            return false;
+        }
+
+        $credentials->setLoginToken($loginToken);
+
+        return $this->write(__FUNCTION__, array($credentials, $hashedLoginTokenValue));
     }
 
     /**
      * Deauthorizes the input credentials from the repo
      *
      * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
+     * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Credentials\ILoginCredentials $credentials)
+    public function deauthorize(Credentials\ILoginCredentials $credentials, $unhashedLoginTokenValue)
     {
-        $this->write(__FUNCTION__, array($credentials));
+        return $this->write(__FUNCTION__, array($credentials, $unhashedLoginTokenValue));
     }
 
     /**
@@ -45,12 +72,12 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      *
      * @param int $userId The Id of the user whose credentials we are searching for
      * @param int $loginTokenId The Id of the login token we're searching for
-     * @param string $loginTokenValue The hashed login token we are searching for
+     * @param string $unhashedLoginTokenValue The hashed login token we are searching for
      * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIdAndToken($userId, $loginTokenId, $loginTokenValue)
+    public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {
-        return $this->read(__FUNCTION__, array($userId, $this->getHashedToken($userId, $loginTokenId, $loginTokenValue)));
+        return $this->read(__FUNCTION__, array($userId, $loginTokenId, $unhashedLoginTokenValue));
     }
 
     /**
@@ -68,12 +95,12 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      * In the case we're getting data and didn't find it in the Redis repo, we need a way to store it there for future use
      * The contents of this method should call the appropriate method to store data in the Redis repo
      *
-     * @param mixed $data The data to write to the Redis repository
+     * @param Credentials\LoginCredentials $credentials The data to write to the Redis repository
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$data, $funcArgs = array())
+    protected function addDataToRedisRepo(&$credentials, $funcArgs = array())
     {
-        $this->redisRepo->add($data);
+        $this->redisRepo->add($credentials, $this->tokenRepo->getHashedValue($credentials->getLoginToken()->getId()));
     }
 
     /**
@@ -84,7 +111,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      */
     protected function getPostgreSQLRepo(SQL\Database $sqlDatabase)
     {
-        return new PostgreSQLRepo($sqlDatabase);
+        return new PostgreSQLRepo($sqlDatabase, $this->tokenRepo);
     }
 
     /**
@@ -95,17 +122,6 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      */
     protected function getRedisRepo(Redis\Database $redisDatabase)
     {
-        return new RedisRepo($redisDatabase);
-    }
-
-    /**
-     * Gets the hash of a token, which is suitable for storage
-     *
-     * @param string $token The unhashed token to hash
-     * @return string The hashed token
-     */
-    private function getHashedToken($token)
-    {
-        return password_hash($token . $this->tokenPepper, PASSWORD_BCRYPT, array("cost" => self::HASH_COST));
+        return new RedisRepo($redisDatabase, $this->tokenRepo);
     }
 } 

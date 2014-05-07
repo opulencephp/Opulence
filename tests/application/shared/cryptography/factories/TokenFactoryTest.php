@@ -11,13 +11,12 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests creating an even-length token and checking its length
      */
-    public function testEvenTokenLength()
+    public function testEvenRandomStringLength()
     {
         $tokenFactory = new TokenFactory();
         $tokenLength = 64;
-        $token = $tokenFactory->createToken($tokenLength, new \DateTime("now", new \DateTimeZone("utc")),
-            new \DateTime("now", new \DateTimeZone("utc")));
-        $this->assertEquals($tokenLength, strlen($token->getValue()));
+        $randomString = $tokenFactory->createRandomString($tokenLength);
+        $this->assertEquals($tokenLength, strlen($randomString));
     }
 
     /**
@@ -27,7 +26,7 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $tokenFactory = new TokenFactory();
         $this->assertInstanceOf("RamODev\\Application\\Shared\\Cryptography\\Token",
-            $tokenFactory->createToken(64, new \DateTime("now", new \DateTimeZone("utc")), new \DateTime("now",
+            $tokenFactory->createToken(new \DateTime("now", new \DateTimeZone("utc")), new \DateTime("now",
                 new \DateTimeZone("utc"))));
     }
 
@@ -38,8 +37,7 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $tokenFactory = new TokenFactory();
         $tokenLength = 63;
-        $token = $tokenFactory->createToken($tokenLength, new \DateTime("now", new \DateTimeZone("utc")),
-            new \DateTime("now", new \DateTimeZone("utc")));
-        $this->assertEquals($tokenLength, strlen($token->getValue()));
+        $randomString = $tokenFactory->createRandomString($tokenLength);
+        $this->assertEquals($tokenLength, strlen($randomString));
     }
 } 

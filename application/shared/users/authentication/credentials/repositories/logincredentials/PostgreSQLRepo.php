@@ -5,37 +5,52 @@
  * Provides methods for retrieving login credentials from a PostgreSQL database
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
+use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token;
 use RamODev\Application\Shared\Databases\SQL;
+use RamODev\Application\Shared\Exceptions\Log;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users\Authentication\Credentials;
 use RamODev\Application\Shared\Users\Authentication\Credentials\Factories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCredentialsRepo
 {
-    /** @var Factories\ILoginCredentialsFactory The factory to use when creating login credentials */
-    private $loginCredentialsFactory = null;
+    /** @var Token\ITokenRepo The token repo */
+    private $tokenRepo = null;
 
     /**
      * @param SQL\Database $sqlDatabase The database to use for queries
-     * @param Factories\ILoginCredentialsFactory $loginCredentialsFactory The factory to use when creating login credentials
+     * @param Token\ITokenRepo $tokenRepo The token repo
      */
-    public function __construct(SQL\Database $sqlDatabase, Factories\ILoginCredentialsFactory $loginCredentialsFactory)
+    public function __construct(SQL\Database $sqlDatabase, Token\ITokenRepo $tokenRepo)
     {
         parent::__construct($sqlDatabase);
 
-        $this->loginCredentialsFactory = $loginCredentialsFactory;
+        $this->tokenRepo = $tokenRepo;
     }
 
     /**
      * Adds credentials to the repo
      *
      * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
-     * @param string $token The unhashed token
+     * @param string $hashedLoginTokenValue The hashed login token value
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\ILoginCredentials $credentials, $token = "")
+    public function add(Credentials\ILoginCredentials $credentials, $hashedLoginTokenValue)
     {
-        // TODO: Implement
+        try
+        {
+            $this->sqlDatabase->query("INSERT INTO authentication.logintokens (userid, tokenid)
+            VALUES (:userId, :loginTokenId)",
+                array("userId" => $credentials->getUserId(), "loginTokenId" => $credentials->getLoginToken()->getId()));
+
+            return true;
+        }
+        catch(SQL\Exceptions\SQLException $ex)
+        {
+            Log::write("Failed to add credentials: " . $ex);
+        }
+
         return false;
     }
 
@@ -43,12 +58,12 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
      * Deauthorizes the input credentials from the repo
      *
      * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
+     * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Credentials\ILoginCredentials $credentials)
+    public function deauthorize(Credentials\ILoginCredentials $credentials, $unhashedLoginTokenValue)
     {
-        // TODO: Implement
-        return false;
+        return $this->tokenRepo->deauthorize($credentials->getLoginToken(), $unhashedLoginTokenValue);
     }
 
     /**
@@ -56,12 +71,36 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
      *
      * @param int $userId The Id of the user whose credentials we are searching for
      * @param int $loginTokenId The Id of the login token we're searching for
-     * @param string $loginTokenValue The hashed login token we are searching for
+     * @param string $unhashedLoginTokenValue The unhashed login token we are searching for
      * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIdAndToken($userId, $loginTokenId, $loginTokenValue)
+    public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {
-        // TODO: Implement
+        $loginToken = $this->tokenRepo->getByIdAndUnhashedValue($loginTokenId, $unhashedLoginTokenValue);
+
+        if($loginToken === false)
+        {
+            return false;
+        }
+
+        try
+        {
+            $results = $this->sqlDatabase->query("SELECT count(*) AS thecount FROM authentication.logintokens
+            WHERE userid = :userId AND tokenid = :loginTokenId",
+                array("userId" => $userId, "loginTokenId" => $loginTokenId));
+
+            if(!$results->hasResults() || $results->getResult(0, "thecount") != 1)
+            {
+                return false;
+            }
+
+            return new Credentials\LoginCredentials($userId, $loginToken);
+        }
+        catch(SQL\Exceptions\SQLException $ex)
+        {
+            Log::write("Failed to get credentials: " . $ex);
+        }
+
         return false;
     }
 } 

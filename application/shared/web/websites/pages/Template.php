@@ -4,7 +4,7 @@
  *
  * Defines methods common to all website page templates
  */
-namespace RamODev\Application\Shared\Websites\Pages;
+namespace RamODev\Application\Shared\Web\Websites\Pages;
 
 class Template
 {

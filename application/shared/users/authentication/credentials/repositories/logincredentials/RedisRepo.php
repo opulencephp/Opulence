@@ -6,6 +6,7 @@
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
 use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users\Authentication\Credentials;
@@ -13,43 +14,31 @@ use RamODev\Application\Shared\Users\Authentication\Credentials\Factories;
 
 class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
 {
+    /** @var Token\ITokenRepo The token repo */
+    private $tokenRepo = null;
+
+    /**
+     * @param Redis\Database $redisDatabase The database to use for queries
+     * @param Token\ITokenRepo $tokenRepo The token repo
+     */
+    public function __construct(Redis\Database $redisDatabase, Token\ITokenRepo $tokenRepo)
+    {
+        parent::__construct($redisDatabase);
+
+        $this->tokenRepo = $tokenRepo;
+    }
+
     /**
      * Adds credentials to the repo
      *
-     * @param Credentials\LoginCredentials $credentials The credentials to add to the repo
+     * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
+     * @param string $hashedLoginTokenValue The hashed login token value
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\LoginCredentials $credentials)
+    public function add(Credentials\ILoginCredentials $credentials, $hashedLoginTokenValue)
     {
-        // Store the credentials as a hash
-        $this->redisDatabase->getPHPRedis()->hMset(
-            "users:" . $credentials->getUserId() . ":authentication:login:" . $credentials->getLoginToken()->getId(),
-            array(
-                "value" => $credentials->getLoginToken()->getValue(),
-                "validfrom" => $credentials->getLoginToken()->getValidFrom()->getTimestamp(),
-                "validto" => $credentials->getLoginToken()->getValidTo()->getTimestamp()
-            ));
-
-        // Add these credentials to a list for this user
-        $this->redisDatabase->getPHPRedis()->zAdd(
-            "users:" . $credentials->getUserId() . ":authentication:login",
-            $credentials->getLoginToken()->getValidTo()->getTimestamp(),
-            $credentials->getLoginToken()->getValue()
-        );
-
-        // Wipe out any expired credentials, but first get a list of all the tokens
-        $expiredTokenIds = $this->redisDatabase->getPHPRedis()
-            ->zRangeByScore("users:" . $credentials->getUserId() . ":authentication:login", "-inf", time());
-        $this->redisDatabase->getPHPRedis()
-            ->zRemRangeByScore("users:" . $credentials->getUserId() . ":authentication:login", "-inf", time());
-
-        foreach($expiredTokenIds as $expiredTokenId)
-        {
-            if(!$this->deauthorize($this->createCredentialsFromLoginTokenId($credentials->getUserId(), $expiredTokenId)))
-            {
-                return false;
-            }
-        }
+        $this->redisDatabase->getPHPRedis()->sAdd("users:" . $credentials->getUserId() . ":authentication:login",
+            $credentials->getLoginToken()->getId());
 
         return true;
     }
@@ -57,16 +46,15 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
+     * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
+     * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Credentials\LoginCredentials $credentials)
+    public function deauthorize(Credentials\ILoginCredentials $credentials, $unhashedLoginTokenValue)
     {
-        $this->redisDatabase->getPHPRedis()->del(
-            "users:" . $credentials->getUserId() . ":authentication:login:" . $credentials->getLoginToken()->getId());
-
-        return $this->redisDatabase->getPHPRedis()->zRem("users:" . $credentials->getUserId() . ":authentication:login",
-            $credentials->getLoginToken()->getId()) !== 0;
+        return $this->tokenRepo->deauthorize($credentials->getLoginToken(), $unhashedLoginTokenValue)
+        && $this->redisDatabase->getPHPRedis()->sRem("users:" . $credentials->getUserId() . ":authentication:login",
+            $credentials->getLoginToken()->getId()) !== false;
     }
 
     /**
@@ -76,63 +64,30 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
      */
     public function flush()
     {
-        return $this->redisDatabase->deleteKeyPatterns(array(
-            "users:*:authentication:login",
-            "users:*:authentication:login:*"
-        ));
+        return $this->redisDatabase->deleteKeyPatterns(array("users:*:authentication:login"));
     }
 
     /**
      * Gets the login credentials that match the parameters
      *
      * @param int $userId The Id of the user whose credentials we are searching for
-     * @param int $loginTokenId The Id of the login token we are searching for
-     * @param string $loginTokenValue The hashed authentication token we are searching for
-     * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
+     * @param int $loginTokenId The Id of the login token we're searching for
+     * @param string $unhashedLoginTokenValue The unhashed login token we are searching for
+     * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
      */
-    public function getByUserIdAndLoginToken($userId, $loginTokenId, $loginTokenValue)
+    public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {
-        $credentials = $this->createCredentialsFromLoginTokenId($userId, $loginTokenId);
+        $loginToken = $this->tokenRepo->getByIdAndUnhashedValue($loginTokenId, $unhashedLoginTokenValue);
 
-        if(!$credentials || $credentials->getLoginToken()->getValue() !== $loginTokenValue)
+        if($loginToken === false)
         {
             return false;
         }
 
-        // Make sure this hasn't expired
-        if($credentials->getLoginToken()->getValidTo()->getTimestamp() < time())
-        {
-            $this->deauthorize($credentials);
-
-            return false;
-        }
-
-        return $credentials;
-    }
-
-    /**
-     * Creates credentials from a login token ID
-     *
-     * @param int $userId The Id of the user whose login token we're creating
-     * @param int $loginTokenId The Id of the login token
-     * @return Credentials\LoginCredentials|bool The credentials if successful, otherwise false
-     */
-    protected function createCredentialsFromLoginTokenId($userId, $loginTokenId)
-    {
-        $loginTokenHash = $this->redisDatabase->getPHPRedis()
-            ->hGetAll("users:" . $userId . ":authentication:login:" . $loginTokenId);
-
-        if($loginTokenHash === array())
+        if(!$this->redisDatabase->getPHPRedis()->sIsMember("users:" . $userId . ":authentication:login", $loginTokenId))
         {
             return false;
         }
-
-        $loginToken = new Cryptography\Token(
-            $loginTokenId,
-            $loginTokenHash["value"],
-            \DateTime::createFromFormat("U", $loginTokenHash["validfrom"], new \DateTimeZone("UTC")),
-            \DateTime::createFromFormat("U", $loginTokenHash["validto"], new \DateTimeZone("UTC"))
-        );
 
         return new Credentials\LoginCredentials($userId, $loginToken);
     }

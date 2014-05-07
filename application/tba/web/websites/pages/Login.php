@@ -4,8 +4,8 @@
  *
  * Defines the login page
  */
-namespace RamODev\Application\TBA\Websites\Pages;
-use RamODev\Application\Shared\Websites\Pages;
+namespace RamODev\Application\TBA\Web\Websites\Pages;
+use RamODev\Application\Shared\Web\Websites\Pages;
 
 class Login extends Pages\Generic
 {

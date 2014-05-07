@@ -4,7 +4,7 @@
  *
  * Defines a generic page template
  */
-namespace RamODev\Application\Shared\Websites\Pages;
+namespace RamODev\Application\Shared\Web\Websites\Pages;
 
 class Generic extends Template
 {
@@ -287,6 +287,38 @@ class Generic extends Template
     }
 
     /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $faviconPath
+     */
+    public function setFaviconPath($faviconPath)
+    {
+        $this->faviconPath = $faviconPath;
+    }
+
+    /**
+     * @param string $metaDescription
+     */
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+    }
+
+    /**
      * Returns HTML that can be used to link to CSS
      *
      * @param array $filePaths The list of CSS file paths
@@ -295,17 +327,6 @@ class Generic extends Template
     private function getHTMLForCSSFilePaths($filePaths)
     {
         return '<link type="text/css" rel="stylesheet" href="' . implode('"><link type="text/css" rel="stylesheet" href="', $filePaths) . '">';
-    }
-
-    /**
-     * Returns HTML that can be used to link to JavaScript
-     *
-     * @param array $filePaths The list of JavaScript file paths
-     * @return string The HTML that will link to CSS JavaScript
-     */
-    private function getHTMLForJavaScriptFilePaths($filePaths)
-    {
-        return '<script type="text/javascript" src="' . implode('"></script><script type="text/javascript" src="', $filePaths) . '"></script>';
     }
 
     /**
@@ -331,34 +352,13 @@ class Generic extends Template
     }
 
     /**
-     * @return string
+     * Returns HTML that can be used to link to JavaScript
+     *
+     * @param array $filePaths The list of JavaScript file paths
+     * @return string The HTML that will link to CSS JavaScript
      */
-    public function getTitle()
+    private function getHTMLForJavaScriptFilePaths($filePaths)
     {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @param string $faviconPath
-     */
-    public function setFaviconPath($faviconPath)
-    {
-        $this->faviconPath = $faviconPath;
-    }
-
-    /**
-     * @param string $metaDescription
-     */
-    public function setMetaDescription($metaDescription)
-    {
-        $this->metaDescription = $metaDescription;
+        return '<script type="text/javascript" src="' . implode('"></script><script type="text/javascript" src="', $filePaths) . '"></script>';
     }
 } 

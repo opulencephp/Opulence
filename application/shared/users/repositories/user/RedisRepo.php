@@ -30,12 +30,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @param string $password The hashed password
+     * @param string $hashedPassword The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $password)
+    public function add(Users\IUser &$user, $hashedPassword)
     {
-        $this->storeHashOfUser($user, $password);
+        $this->storeHashOfUser($user, $hashedPassword);
         // Add to the user to the users' set
         $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getId());
         // Create the email index
@@ -51,7 +51,8 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function flush()
     {
-        return $this->redisDatabase->getPHPRedis()->del(array("users")) !== false && $this->redisDatabase->deleteKeyPatterns(array(
+        return $this->redisDatabase->getPHPRedis()->del(array("users")) !== false
+        && $this->redisDatabase->deleteKeyPatterns(array(
             "users:*",
             "users:email:*",
             "users:username:*"
@@ -119,7 +120,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 
         $hashedPassword = $this->getHashedPassword($userFromUsername->getId());
 
-        if($hashedPassword === false || !password_verify($unhashedPassword, $hashedPassword))
+        if($unhashedPassword === false || !password_verify($unhashedPassword, $hashedPassword))
         {
             return false;
         }
@@ -130,12 +131,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     /**
      * Gets a user's hashed password from the repo
      *
-     * @param int $userId The Id of the user whose password we are searching for
+     * @param int $id The Id of the user whose password we are searching for
      * @return string|bool The hashed password if successful, otherwise false
      */
-    public function getHashedPassword($userId)
+    public function getHashedPassword($id)
     {
-        return $this->redisDatabase->getPHPRedis()->hGet("users:" . $userId, "password");
+        return $this->redisDatabase->getPHPRedis()->hGet("users:" . $id, "password");
     }
 
     /**
@@ -154,12 +155,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * Updates a user's password in the repository
      *
      * @param Users\IUser $user The user to update in the repository
-     * @param string $password The unhashed new password
+     * @param string $hashedPassword The hashed new password
      * @return bool True if successful, otherwise false
      */
-    public function updatePassword(Users\IUser &$user, $password)
+    public function updatePassword(Users\IUser &$user, $hashedPassword)
     {
-        return $this->update($user->getId(), "password", $password);
+        return $this->update($user->getId(), "password", $hashedPassword);
     }
 
     /**

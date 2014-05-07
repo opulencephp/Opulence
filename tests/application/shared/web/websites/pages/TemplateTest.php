@@ -4,7 +4,7 @@
  *
  * Tests the template class
  */
-namespace RamODev\Application\Shared\Websites\Pages;
+namespace RamODev\Application\Shared\Web\Websites\Pages;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {

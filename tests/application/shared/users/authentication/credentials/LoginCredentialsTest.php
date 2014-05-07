@@ -10,14 +10,14 @@ use RamODev\Application\Shared\Cryptography;
 class LoginCredentialsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests getting the token
+     * Tests getting the login token
      */
     public function testGettingLoginToken()
     {
-        $token = new Cryptography\Token(1, "foo", new \DateTime("now", new \DateTimeZone("utc")),
-            new \DateTime("now", new \DateTimeZone("utc")));
-        $credentials = new LoginCredentials(24, $token);
-        $this->assertEquals($token, $credentials->getLoginToken());
+        $now = new \DateTime("now", new \DateTimeZone("UTC"));
+        $loginToken = new Cryptography\Token(1, $now, $now);
+        $credentials = new LoginCredentials(24, $loginToken);
+        $this->assertEquals($loginToken, $credentials->getLoginToken());
     }
 
     /**
@@ -37,12 +37,11 @@ class LoginCredentialsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingLoginToken()
     {
-        $oldToken = new Cryptography\Token(1, "foo", new \DateTime("now", new \DateTimeZone("utc")),
-            new \DateTime("now", new \DateTimeZone("utc")));
-        $newToken = new Cryptography\Token(2, "bar", new \DateTime("now", new \DateTimeZone("utc")),
-            new \DateTime("now", new \DateTimeZone("utc")));
-        $credentials = new LoginCredentials(24, $oldToken);
-        $credentials->setLoginToken($newToken);
-        $this->assertEquals($newToken, $credentials->getLoginToken());
+        $now = new \DateTime("now", new \DateTimeZone("UTC"));
+        $oldLoginToken = new Cryptography\Token(1, $now, $now);
+        $newLoginToken = new Cryptography\Token(2, $now, $now);
+        $credentials = new LoginCredentials(24, $oldLoginToken);
+        $credentials->setLoginToken($newLoginToken);
+        $this->assertEquals($newLoginToken, $credentials->getLoginToken());
     }
 } 

@@ -4,7 +4,7 @@
  *
  * Displays the login page
  */
-use RamODev\Application\TBA\Websites\Pages;
+use RamODev\Application\TBA\Web\Websites\Pages;
 
 require_once(__DIR__ . "/../../application/shared/configs/PHPConfig.php");
 

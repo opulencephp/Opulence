@@ -33,12 +33,12 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @param string $password The unhashed password
+     * @param string $hashedPassword The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $password)
+    public function add(Users\IUser &$user, $hashedPassword)
     {
-        return $this->write(__FUNCTION__, array(&$user, $this->hashPassword($password)));
+        return $this->write(__FUNCTION__, array(&$user, $hashedPassword));
     }
 
     /**
@@ -103,12 +103,24 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     /**
      * Gets a user's hashed password from the repo
      *
-     * @param int $userId The Id of the user whose password we are searching for
+     * @param int $id The Id of the user whose password we are searching for
      * @return string|bool The hashed password if successful, otherwise false
      */
-    public function getHashedPassword($userId)
+    public function getHashedPassword($id)
     {
-        return $this->read(__FUNCTION__, array($userId), false);
+        return $this->read(__FUNCTION__, array($id), false);
+    }
+
+    /**
+     * Gets the hash of a password, which is suitable for storage
+     *
+     * @param string $unhashedPassword The unhashed password to hash
+     * @return string The hashed password
+     */
+    public function hashPassword($unhashedPassword)
+    {
+        return password_hash($unhashedPassword . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER, PASSWORD_BCRYPT,
+            array("cost" => Configs\AuthenticationConfig::USER_PASSWORD_HASH_COST));
     }
 
     /**
@@ -139,12 +151,12 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * Updates a user's password in the repository
      *
      * @param Users\IUser $user The user to update in the repository
-     * @param string $unhashedPassword The unhashed new password
+     * @param string $hashedHashedPassword The hashed new password
      * @return bool True if successful, otherwise false
      */
-    public function updatePassword(Users\IUser &$user, $unhashedPassword)
+    public function updatePassword(Users\IUser &$user, $hashedHashedPassword)
     {
-        return $this->write(__FUNCTION__, array(&$user, $this->hashPassword($unhashedPassword)));
+        return $this->write(__FUNCTION__, array(&$user, $hashedHashedPassword));
     }
 
     /**
@@ -178,17 +190,5 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     protected function getRedisRepo(Redis\Database $redisDatabase)
     {
         return new RedisRepo($redisDatabase, $this->userFactory);
-    }
-
-    /**
-     * Gets the hash of a password, which is suitable for storage
-     *
-     * @param string $password The unhashed password to hash
-     * @return string The hashed password
-     */
-    private function hashPassword($password)
-    {
-        return password_hash($password . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER, PASSWORD_BCRYPT,
-            array("cost" => Configs\AuthenticationConfig::USER_PASSWORD_HASH_COST));
     }
 } 

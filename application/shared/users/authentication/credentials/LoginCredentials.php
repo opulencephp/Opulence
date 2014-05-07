@@ -41,10 +41,10 @@ class LoginCredentials implements ILoginCredentials
     }
 
     /**
-     * @param Cryptography\Token $token
+     * @param Cryptography\Token $loginToken
      */
-    public function setLoginToken(Cryptography\Token $token)
+    public function setLoginToken(Cryptography\Token $loginToken)
     {
-        $this->loginToken = $token;
+        $this->loginToken = $loginToken;
     }
 } 

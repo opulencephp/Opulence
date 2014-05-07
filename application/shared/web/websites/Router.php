@@ -4,7 +4,7 @@
  *
  * Provides methods for routing a request to the appropriate file/template
  */
-namespace RamODev\Application\Shared\Websites;
+namespace RamODev\Application\Shared\Web\Websites;
 
 class Router
 {

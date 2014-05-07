@@ -36,10 +36,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @param string $password The hashed password
+     * @param string $hashedPassword The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $password)
+    public function add(Users\IUser &$user, $hashedPassword)
     {
         $this->sqlDatabase->startTransaction();
 
@@ -56,7 +56,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             // Build up the insert queries to store all the user's data
             $userDataColumnMappings = array(
                 array("userdatatypeid" => UserDataTypes::EMAIL, "value" => $user->getEmail()),
-                array("userdatatypeid" => UserDataTypes::PASSWORD, "value" => $password),
+                array("userdatatypeid" => UserDataTypes::PASSWORD, "value" => $hashedPassword),
                 array("userdatatypeid" => UserDataTypes::FIRST_NAME, "value" => $user->getFirstName()),
                 array("userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName()),
                 array("userdatatypeid" => UserDataTypes::DATE_CREATED, "value" => $user->getDateCreated()->format("Y-m-d H:i:s"))
@@ -189,9 +189,9 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             return false;
         }
 
-        $hashedPassword = $this->getHashedPassword($user->getId());
+        $unhashedPassword = $this->getHashedPassword($user->getId());
 
-        if($hashedPassword === false || !password_verify($unhashedPassword, $hashedPassword))
+        if($unhashedPassword === false || !password_verify($unhashedPassword, $unhashedPassword))
         {
             return false;
         }
@@ -202,15 +202,15 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     /**
      * Gets a user's hashed password from the repo
      *
-     * @param int $userId The ID of the user whose password we are searching for
+     * @param int $id The ID of the user whose password we are searching for
      * @return string|bool The hashed password if successful, otherwise false
      */
-    public function getHashedPassword($userId)
+    public function getHashedPassword($id)
     {
         try
         {
             $results = $this->sqlDatabase->query("SELECT password FROM users.usersview WHERE id = :userId",
-                array("userId" => $userId));
+                array("userId" => $id));
 
             if(!$results->hasResults())
             {
@@ -244,13 +244,13 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * Updates a user's password in the repository
      *
      * @param Users\IUser $user The user to update in the repository
-     * @param string $password The hashed new password
+     * @param string $hashedPassword The hashed new password
      * @return bool True if successful, otherwise false
      * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
      */
-    public function updatePassword(Users\IUser &$user, $password)
+    public function updatePassword(Users\IUser &$user, $hashedPassword)
     {
-        return $this->update($user->getId(), UserDataTypes::PASSWORD, $password);
+        return $this->update($user->getId(), UserDataTypes::PASSWORD, $hashedPassword);
     }
 
     /**

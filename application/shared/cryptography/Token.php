@@ -10,8 +10,6 @@ class Token
 {
     /** @var int The database Id of this token */
     private $id = -1;
-    /** @var string The cryptographic hash value */
-    private $value = "";
     /** @var \DateTime The valid-from date */
     private $validFrom = null;
     /** @var \DateTime The valid-to date */
@@ -19,14 +17,12 @@ class Token
 
     /**
      * @param int $id The database Id of this token
-     * @param string $value The cryptographic hash value
      * @param \DateTime $validFrom The valid-from date
      * @param \DateTime $validTo The valid-to date
      */
-    public function __construct($id, $value, $validFrom, $validTo)
+    public function __construct($id, $validFrom, $validTo)
     {
         $this->id = $id;
-        $this->value = $value;
         $this->validFrom = $validFrom;
         $this->validTo = $validTo;
     }
@@ -62,13 +58,15 @@ class Token
     }
 
     /**
-     * Gets the cryptographic hash value
+     * Gets whether or not this token is expired
      *
-     * @return string The value of the token
+     * @return bool True if the token is expired, otherwise false
      */
-    public function getValue()
+    public function isExpired()
     {
-        return $this->value;
+        $now = new \DateTime("now", new \DateTimeZone("UTC"));
+
+        return $now < $this->validFrom || $this->validTo <= $now;
     }
 
     /**
