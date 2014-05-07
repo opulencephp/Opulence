@@ -143,7 +143,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
         $tokenId = (int)$tokenId;
         $tokenHash = $this->redisDatabase->getPHPRedis()->hGetAll("tokens:" . $tokenId);
 
-        if($tokenHash == array())
+        if($tokenHash === array())
         {
             return false;
         }

@@ -9,14 +9,14 @@ namespace RamODev\Application\Shared\Users;
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var User The user object we're going to clone for our tests */
-    private $protypicalUser = null;
+    private $prototypicalUser = null;
 
     /**
      * Sets up the test
      */
     public function setUp()
     {
-        $this->protypicalUser = new User(18175, "foo@bar.com", "foo@bar.com", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young");
+        $this->prototypicalUser = new User(18175, "foo@bar.com", "foo@bar.com", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young");
     }
 
     /**
@@ -114,12 +114,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Clones the protypical user and returns it
+     * Clones the prototypical user and returns it
      *
      * @return User The user object to use for testing
      */
     private function getClonedUser()
     {
-        return clone $this->protypicalUser;
+        return clone $this->prototypicalUser;
     }
 } 

@@ -7,7 +7,7 @@
 namespace RamODev\Application\Shared\Users\Authentication\Credentials;
 use RamODev\Application\Shared\Cryptography;
 
-class LoginCredentials implements ILoginCredentials
+class LoginCredentials implements ICredentials
 {
     /** @var int The Id of the user whose credentials these are */
     private $userId = -1;

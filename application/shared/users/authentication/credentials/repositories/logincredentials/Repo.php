@@ -33,11 +33,11 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
     /**
      * Adds credentials to the repo
      *
-     * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
+     * @param Credentials\LoginCredentials $credentials The credentials to add to the repo
      * @param string $hashedLoginTokenValue The hashed login token value
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\ILoginCredentials $credentials, $hashedLoginTokenValue)
+    public function add(Credentials\LoginCredentials $credentials, $hashedLoginTokenValue)
     {
         /**
          * When we add the login token to the repo, its ID will be set
@@ -58,13 +58,15 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
+     * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
      * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Credentials\ILoginCredentials $credentials, $unhashedLoginTokenValue)
+    public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
     {
-        return $this->write(__FUNCTION__, array($credentials, $unhashedLoginTokenValue));
+        // We deauthorize the token here instead of in the child repos so that it doesn't get called twice
+        return $this->tokenRepo->deauthorize($credentials->getLoginToken(), $unhashedLoginTokenValue)
+        && $this->write(__FUNCTION__, array($credentials, $unhashedLoginTokenValue));
     }
 
     /**
@@ -73,7 +75,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      * @param int $userId The Id of the user whose credentials we are searching for
      * @param int $loginTokenId The Id of the login token we're searching for
      * @param string $unhashedLoginTokenValue The hashed login token we are searching for
-     * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
+     * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
      */
     public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {

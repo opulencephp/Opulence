@@ -53,6 +53,19 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests creating an even-length token and checking its length
+     */
+    public function testEvenRandomStringLength()
+    {
+        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
+        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $token = new Token(1, $validFrom, $validTo);
+        $tokenLength = 64;
+        $randomString = $token->generateRandomString($tokenLength);
+        $this->assertEquals($tokenLength, strlen($randomString));
+    }
+
+    /**
      * Tests getting the Id
      */
     public function testGettingId()
@@ -80,6 +93,19 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $validToDate = new \DateTime("1970-01-01 01:00:00", new \DateTimeZone("UTC"));
         $token = new Token(1, new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), $validToDate);
         $this->assertEquals($validToDate, $token->getValidTo());
+    }
+
+    /**
+     * Tests creating an odd-length token and checking its length
+     */
+    public function testOddTokenLength()
+    {
+        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
+        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $token = new Token(1, $validFrom, $validTo);
+        $tokenLength = 63;
+        $randomString = $token->generateRandomString($tokenLength);
+        $this->assertEquals($tokenLength, strlen($randomString));
     }
 
     /**

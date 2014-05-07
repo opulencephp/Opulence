@@ -15,6 +15,8 @@ class Database extends Databases\Database
     protected $server = null;
     /** @var \Redis The Redis object we use to cache items */
     private $redis = null;
+    /** @var bool Whether or not we're connected */
+    private $isConnected = false;
 
     /**
      * @param Server $server The server we're connecting to
@@ -31,9 +33,10 @@ class Database extends Databases\Database
      */
     public function close()
     {
-        if($this->isConnected())
+        if($this->isConnected)
         {
             $this->redis->close();
+            $this->isConnected = false;
         }
     }
 
@@ -44,14 +47,14 @@ class Database extends Databases\Database
      */
     public function connect()
     {
-        $this->redis->connect($this->server->getHost(), $this->server->getPort());
+        $this->isConnected = $this->redis->connect($this->server->getHost(), $this->server->getPort());
 
-        if(!$this->isConnected())
+        if(!$this->isConnected)
         {
             Exceptions\Log::write("Unable to connect to cache on host " . $this->server->getHost());
         }
 
-        return $this->isConnected();
+        return $this->isConnected;
     }
 
     /**
@@ -89,7 +92,7 @@ class Database extends Databases\Database
     }
 
     /**
-     * @return \RamODev\Application\Databases\NoSQL\Redis\Server
+     * @return Server
      */
     public function getServer()
     {
@@ -103,6 +106,6 @@ class Database extends Databases\Database
      */
     public function isConnected()
     {
-        return $this->redis->isConnected();
+        return $this->isConnected;
     }
 }

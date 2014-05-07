@@ -13,20 +13,20 @@ interface ILoginCredentialsRepo
     /**
      * Adds credentials to the repo
      *
-     * @param Credentials\ILoginCredentials $credentials The credentials to add to the repo
+     * @param Credentials\LoginCredentials $credentials The credentials to add to the repo
      * @param string $hashedLoginTokenValue The hashed login token value
      * @return bool True if successful, otherwise false
      */
-    public function add(Credentials\ILoginCredentials $credentials, $hashedLoginTokenValue);
+    public function add(Credentials\LoginCredentials $credentials, $hashedLoginTokenValue);
 
     /**
      * Deauthorizes the input credentials from the repo
      *
-     * @param Credentials\ILoginCredentials $credentials The credentials to deauthorize
+     * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
      * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Credentials\ILoginCredentials $credentials, $unhashedLoginTokenValue);
+    public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue);
 
     /**
      * Gets the login credentials that match the parameters
@@ -34,7 +34,7 @@ interface ILoginCredentialsRepo
      * @param int $userId The Id of the user whose credentials we are searching for
      * @param int $loginTokenId The Id of the login token we're searching for
      * @param string $unhashedLoginTokenValue The unhashed login token we are searching for
-     * @return Credentials\ILoginCredentials|bool The login credentials if successful, otherwise false
+     * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
      */
     public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue);
 } 

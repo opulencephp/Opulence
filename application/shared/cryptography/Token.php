@@ -28,6 +28,26 @@ class Token
     }
 
     /**
+     * Creates a cryptographically-strong random string
+     *
+     * @param int $length The desired length of the string
+     * @return string The random string
+     */
+    public function generateRandomString($length)
+    {
+        // N bytes becomes 2N characters in bin2hex(), hence the division by 2
+        $string = bin2hex(openssl_random_pseudo_bytes(ceil($length / 2)));
+
+        if($length % 2 == 1)
+        {
+            // Slice off one character to make it the appropriate odd length
+            $string = substr($string, 1);
+        }
+
+        return $string;
+    }
+
+    /**
      * Gets the database Id of the token
      *
      * @return int The database Id
