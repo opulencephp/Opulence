@@ -7,7 +7,7 @@
 namespace RamODev\Application\Shared\Users\Factories;
 use RamODev\Application\Shared\Users;
 
-class UserFactory implements IUserFactory
+class UserFactory
 {
     /**
      * @param int $id The database Id of this user

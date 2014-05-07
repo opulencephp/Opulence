@@ -12,14 +12,14 @@ use RamODev\Application\Shared\Users\Factories;
 
 class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 {
-    /** @var Factories\IUserFactory The user factory to use when creating user objects */
+    /** @var Factories\UserFactory The user factory to use when creating user objects */
     private $userFactory = null;
 
     /**
      * @param Redis\Database $redisDatabase The database to use for queries
-     * @param Factories\IUserFactory $userFactory The factory to use when creating user objects
+     * @param Factories\UserFactory $userFactory The factory to use when creating user objects
      */
-    public function __construct(Redis\Database $redisDatabase, Factories\IUserFactory $userFactory)
+    public function __construct(Redis\Database $redisDatabase, Factories\UserFactory $userFactory)
     {
         parent::__construct($redisDatabase);
 

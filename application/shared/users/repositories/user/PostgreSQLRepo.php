@@ -16,16 +16,16 @@ use RamODev\Application\Shared\Users\Factories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {
-    /** @var Factories\IUserFactory The user factory to use when creating user objects */
+    /** @var Factories\UserFactory The user factory to use when creating user objects */
     private $userFactory = null;
     /** @var QueryBuilders\SelectQuery The select query used across get methods */
     private $getQuery = null;
 
     /**
      * @param SQL\Database $sqlDatabase The database to use for queries
-     * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
+     * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
      */
-    public function __construct(SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory)
+    public function __construct(SQL\Database $sqlDatabase, Factories\UserFactory $userFactory)
     {
         parent::__construct($sqlDatabase);
 

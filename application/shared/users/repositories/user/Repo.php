@@ -14,15 +14,15 @@ use RamODev\Application\TBA\Configs;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {
-    /** @var Factories\IUserFactory The factory to use when creating user objects */
+    /** @var Factories\UserFactory The factory to use when creating user objects */
     private $userFactory = null;
 
     /**
      * @param Redis\Database $redisDatabase The Redis database used in the repo
      * @param SQL\Database $sqlDatabase The relational database used in the repo
-     * @param Factories\IUserFactory $userFactory The user factory to use when creating user objects
+     * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\IUserFactory $userFactory)
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\UserFactory $userFactory)
     {
         $this->userFactory = $userFactory;
 
