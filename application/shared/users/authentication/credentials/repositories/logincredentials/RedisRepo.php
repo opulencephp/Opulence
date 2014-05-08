@@ -7,6 +7,7 @@
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
 use RamODev\Application\Shared\Cryptography;
 use RamODev\Application\Shared\Cryptography\Repositories\Token;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users\Authentication\Credentials;
@@ -49,6 +50,7 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
      * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
      * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
     {
@@ -74,6 +76,7 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
      * @param int $loginTokenId The Id of the login token we're searching for
      * @param string $unhashedLoginTokenValue The unhashed login token we are searching for
      * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {

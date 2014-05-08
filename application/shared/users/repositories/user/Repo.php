@@ -5,26 +5,33 @@
  * Provides methods for retrieving user data from the repository
  */
 namespace RamODev\Application\Shared\Users\Repositories\User;
+use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users;
+use RamODev\Application\Shared\Users\Authentication\Repositories\PasswordToken;
 use RamODev\Application\Shared\Users\Factories;
-use RamODev\Application\TBA\Configs;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {
     /** @var Factories\UserFactory The factory to use when creating user objects */
     private $userFactory = null;
+    /** @var PasswordToken\IPasswordTokenRepo The password token repo */
+    private $passwordTokenRepo = null;
 
     /**
      * @param Redis\Database $redisDatabase The Redis database used in the repo
      * @param SQL\Database $sqlDatabase The relational database used in the repo
      * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
+     * @param PasswordToken\IPasswordTokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase, Factories\UserFactory $userFactory)
+    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase,
+                                Factories\UserFactory $userFactory, PasswordToken\IPasswordTokenRepo $passwordTokenRepo)
     {
         $this->userFactory = $userFactory;
+        $this->passwordTokenRepo = $passwordTokenRepo;
 
         parent::__construct($redisDatabase, $sqlDatabase);
     }
@@ -33,12 +40,15 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
+     * @param Cryptography\Token $passwordToken The password token
      * @param string $hashedPassword The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $hashedPassword)
+    public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword)
     {
-        return $this->write(__FUNCTION__, array(&$user, $hashedPassword));
+        // Order here matters because we're counting on Ids getting set before being used in the next method
+        return $this->write(__FUNCTION__, array(&$user, &$passwordToken, $hashedPassword))
+        && $this->passwordTokenRepo->add($user->getId(), $passwordToken, $hashedPassword);
     }
 
     /**
@@ -90,37 +100,11 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * @param string $username The username to search for
      * @param string $unhashedPassword The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUsernameAndPassword($username, $unhashedPassword)
     {
-        /**
-         * To prevent a person that has gained access to the database from having the ability to reverse-engineer
-         * salted hashes stored there, we pepper the password in our code
-         */
-        return $this->read(__FUNCTION__, array($username, $unhashedPassword . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER));
-    }
-
-    /**
-     * Gets a user's hashed password from the repo
-     *
-     * @param int $id The Id of the user whose password we are searching for
-     * @return string|bool The hashed password if successful, otherwise false
-     */
-    public function getHashedPassword($id)
-    {
-        return $this->read(__FUNCTION__, array($id), false);
-    }
-
-    /**
-     * Gets the hash of a password, which is suitable for storage
-     *
-     * @param string $unhashedPassword The unhashed password to hash
-     * @return string The hashed password
-     */
-    public function hashPassword($unhashedPassword)
-    {
-        return password_hash($unhashedPassword . Configs\AuthenticationConfig::USER_PASSWORD_PEPPER, PASSWORD_BCRYPT,
-            array("cost" => Configs\AuthenticationConfig::USER_PASSWORD_HASH_COST));
+        return $this->read(__FUNCTION__, array($username, $unhashedPassword));
     }
 
     /**
@@ -148,18 +132,6 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     }
 
     /**
-     * Updates a user's password in the repository
-     *
-     * @param Users\IUser $user The user to update in the repository
-     * @param string $hashedHashedPassword The hashed new password
-     * @return bool True if successful, otherwise false
-     */
-    public function updatePassword(Users\IUser &$user, $hashedHashedPassword)
-    {
-        return $this->write(__FUNCTION__, array(&$user, $hashedHashedPassword));
-    }
-
-    /**
      * Stores a user object that wasn't initially found in the Redis repo
      *
      * @param Users\IUser $user The user to store in the Redis repo
@@ -167,7 +139,13 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     protected function addDataToRedisRepo(&$user, $funcArgs = array())
     {
-        $this->redisRepo->add($user, $this->getHashedPassword($user->getId()));
+        $passwordToken = $this->passwordTokenRepo->getByUserId($user->getId());
+
+        if($passwordToken !== false)
+        {
+            $this->redisRepo->add($user, $passwordToken,
+                $this->passwordTokenRepo->getHashedValue($passwordToken->getId()));
+        }
     }
 
     /**
@@ -178,7 +156,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     protected function getPostgreSQLRepo(SQL\Database $sqlDatabase)
     {
-        return new PostgreSQLRepo($sqlDatabase, $this->userFactory);
+        return new PostgreSQLRepo($sqlDatabase, $this->userFactory, $this->passwordTokenRepo);
     }
 
     /**
@@ -189,6 +167,6 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     protected function getRedisRepo(Redis\Database $redisDatabase)
     {
-        return new RedisRepo($redisDatabase, $this->userFactory);
+        return new RedisRepo($redisDatabase, $this->userFactory, $this->passwordTokenRepo);
     }
 } 

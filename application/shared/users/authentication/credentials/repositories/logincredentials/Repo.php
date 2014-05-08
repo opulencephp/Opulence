@@ -6,6 +6,7 @@
  */
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
 use RamODev\Application\Shared\Cryptography\Repositories\Token;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Repositories;
@@ -61,6 +62,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
      * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
     {
@@ -76,6 +78,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      * @param int $loginTokenId The Id of the login token we're searching for
      * @param string $unhashedLoginTokenValue The hashed login token we are searching for
      * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {
@@ -102,7 +105,12 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
      */
     protected function addDataToRedisRepo(&$credentials, $funcArgs = array())
     {
-        $this->redisRepo->add($credentials, $this->tokenRepo->getHashedValue($credentials->getLoginToken()->getId()));
+        $hashedLoginTokenValue = $this->tokenRepo->getHashedValue($credentials->getLoginToken()->getId());
+
+        if($hashedLoginTokenValue !== false)
+        {
+            $this->redisRepo->add($credentials, $hashedLoginTokenValue);
+        }
     }
 
     /**

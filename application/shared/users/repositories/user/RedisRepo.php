@@ -5,43 +5,54 @@
  * Provides methods for retrieving user data from a Redis database
  */
 namespace RamODev\Application\Shared\Users\Repositories\User;
+use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users;
+use RamODev\Application\Shared\Users\Authentication\Repositories\PasswordToken;
 use RamODev\Application\Shared\Users\Factories;
 
 class RedisRepo extends Repositories\RedisRepo implements IUserRepo
 {
     /** @var Factories\UserFactory The user factory to use when creating user objects */
     private $userFactory = null;
+    /** @var PasswordToken\IPasswordTokenRepo The password token repo */
+    private $passwordTokenRepo = null;
 
     /**
      * @param Redis\Database $redisDatabase The database to use for queries
      * @param Factories\UserFactory $userFactory The factory to use when creating user objects
+     * @param PasswordToken\IPasswordTokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(Redis\Database $redisDatabase, Factories\UserFactory $userFactory)
+    public function __construct(Redis\Database $redisDatabase, Factories\UserFactory $userFactory,
+                                PasswordToken\IPasswordTokenRepo $passwordTokenRepo)
     {
         parent::__construct($redisDatabase);
 
         $this->userFactory = $userFactory;
+        $this->passwordTokenRepo = $passwordTokenRepo;
     }
 
     /**
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
+     * @param Cryptography\Token $passwordToken The password token
      * @param string $hashedPassword The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $hashedPassword)
+    public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword)
     {
-        $this->storeHashOfUser($user, $hashedPassword);
+        $this->storeHashOfUser($user);
         // Add to the user to the users' set
         $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getId());
         // Create the email index
         $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getId());
         // Create the username index
         $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getId());
+
+        return true;
     }
 
     /**
@@ -108,6 +119,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * @param string $username The username to search for
      * @param string $unhashedPassword The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUsernameAndPassword($username, $unhashedPassword)
     {
@@ -118,25 +130,15 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
             return false;
         }
 
-        $hashedPassword = $this->getHashedPassword($userFromUsername->getId());
+        $passwordToken = $this->passwordTokenRepo
+            ->getByUserIdAndUnhashedPassword($userFromUsername->getId(), $unhashedPassword);
 
-        if($unhashedPassword === false || !password_verify($unhashedPassword, $hashedPassword))
+        if($passwordToken === false)
         {
             return false;
         }
 
         return $userFromUsername;
-    }
-
-    /**
-     * Gets a user's hashed password from the repo
-     *
-     * @param int $id The Id of the user whose password we are searching for
-     * @return string|bool The hashed password if successful, otherwise false
-     */
-    public function getHashedPassword($id)
-    {
-        return $this->redisDatabase->getPHPRedis()->hGet("users:" . $id, "password");
     }
 
     /**
@@ -149,18 +151,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     public function updateEmail(Users\IUser &$user, $email)
     {
         return $this->update($user->getId(), "email", $email);
-    }
-
-    /**
-     * Updates a user's password in the repository
-     *
-     * @param Users\IUser $user The user to update in the repository
-     * @param string $hashedPassword The hashed new password
-     * @return bool True if successful, otherwise false
-     */
-    public function updatePassword(Users\IUser &$user, $hashedPassword)
-    {
-        return $this->update($user->getId(), "password", $hashedPassword);
     }
 
     /**
@@ -194,14 +184,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      * Stores a hash of a user object in cache
      *
      * @param Users\IUser $user The user object from which we're creating a hash
-     * @param string $password The hashed password
      * @return bool True if successful, otherwise false
      */
-    private function storeHashOfUser(Users\IUser $user, $password)
+    private function storeHashOfUser(Users\IUser $user)
     {
         return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getId(), array(
             "id" => $user->getId(),
-            "password" => $password,
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
             "lastname" => $user->getLastName(),

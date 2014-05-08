@@ -6,6 +6,7 @@
  */
 namespace RamODev\Application\Shared\Cryptography\Repositories\Token;
 use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Databases\SQL\Exceptions\SQLException;
 use RamODev\Application\Shared\Databases\SQL\PostgreSQL\QueryBuilders;
@@ -53,7 +54,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
                 "validFrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
                 "validTo" => $token->getValidTo()->format("Y-m-d H:i:s"),
             ));
-            $token->setId($this->sqlDatabase->getLastInsertId("authentication.tokens_id_seq"));
+            $token->setId((int)$this->sqlDatabase->getLastInsertId("authentication.tokens_id_seq"));
             $this->log($token->getId(), Repositories\ActionTypes::ADDED);
             $this->sqlDatabase->commitTransaction();
 
@@ -76,15 +77,21 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
      * @param string $unhashedValue The unhashed value of the token, which is used to verify we're deauthorizing the
      *      correct token
      * @return bool True if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function deauthorize(Cryptography\Token $token, $unhashedValue)
     {
         // As an added layer of security, we verify that the user is trying to deauthorize a valid token
         $hashedValue = $this->getHashedValue($token->getId());
 
-        if($hashedValue === false || !password_verify($unhashedValue, $hashedValue))
+        if($hashedValue === false)
         {
             return false;
+        }
+
+        if(!password_verify($unhashedValue, $hashedValue))
+        {
+            throw new IncorrectHashException("Incorrect hash");
         }
 
         $this->sqlDatabase->startTransaction();
@@ -92,8 +99,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         try
         {
             $this->sqlDatabase->query("UPDATE authentication.tokens SET validto = :validTo WHERE id = :id",
-                array("validTo" => date("Y-m-d H:i:s", 0), "id" => $token->getId()));
+                array("validTo" => \DateTime::createFromFormat("U", 0, new \DateTimeZone("UTC"))->format("Y-m-d H:i:s"), "id" => $token->getId()));
             $this->log($token->getId(), Repositories\ActionTypes::DELETED);
+
+            $this->sqlDatabase->commitTransaction();
 
             return true;
         }
@@ -139,6 +148,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
      * @param int $id The Id of the token we're looking for
      * @param string $unhashedValue The unhashed value we're looking for
      * @return Cryptography\Token|bool The token if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByIdAndUnhashedValue($id, $unhashedValue)
     {
@@ -151,9 +161,14 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
 
         $hashedValue = $this->getHashedValue($tokenFromId->getId());
 
-        if($hashedValue === false || !password_verify($unhashedValue, $hashedValue))
+        if($hashedValue === false)
         {
             return false;
+        }
+
+        if(!password_verify($unhashedValue, $hashedValue))
+        {
+            throw new IncorrectHashException("Incorrect hash");
         }
 
         return $tokenFromId;

@@ -6,6 +6,7 @@
  */
 namespace RamODev\Application\Shared\Cryptography\Repositories\Token;
 use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\NoSQL\Redis;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Repositories;
@@ -51,6 +52,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      * @param string $unhashedValue The unhashed value of the token, which is used to verify we're deauthorizing the
      *      correct token
      * @return bool True if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function deauthorize(Cryptography\Token $token, $unhashedValue)
     {
@@ -84,10 +86,11 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      * @param int $id The Id of the token we're looking for
      * @param string $unhashedValue The unhashed value we're looking for
      * @return Cryptography\Token|bool The token if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByIdAndUnhashedValue($id, $unhashedValue)
     {
-        return $this->read(__FUNCTION__, array($id, $unhashedValue . Configs\AuthenticationConfig::TOKEN_PEPPER));
+        return $this->read(__FUNCTION__, array($id, $this->getPepperedToken($unhashedValue)));
     }
 
     /**
@@ -104,13 +107,14 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     /**
      * Gets the hash of a token, which is suitable for storage
      *
-     * @param string $token The unhashed token to hash
+     * @param string $unhashedValue The unhashed token to hash
+     * @param int $hashAlgorithm The hash algorithm constant to use in password_hash
+     * @param int $cost The cost of the hash to use
      * @return string The hashed token
      */
-    public function hashToken($token)
+    public function hashToken($unhashedValue, $hashAlgorithm, $cost)
     {
-        return password_hash($token . Configs\AuthenticationConfig::TOKEN_PEPPER, PASSWORD_BCRYPT,
-            array("cost" => Configs\AuthenticationConfig::TOKEN_HASH_COST));
+        return password_hash($this->getPepperedToken($unhashedValue), $hashAlgorithm, array("cost" => $cost));
     }
 
     /**
@@ -155,5 +159,16 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     protected function getRedisRepo(Redis\Database $redisDatabase)
     {
         return new RedisRepo($redisDatabase);
+    }
+
+    /**
+     * Appends a pepper to a token and returns it
+     *
+     * @param string $token The token to pepper
+     * @return string The peppered token
+     */
+    private function getPepperedToken($token)
+    {
+        return $token . Configs\AuthenticationConfig::TOKEN_PEPPER;
     }
 } 

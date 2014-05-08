@@ -16,6 +16,4 @@ class UserDataTypes
     const FIRST_NAME = 3;
     /** The user's last name */
     const LAST_NAME = 4;
-    /** The user's password */
-    const PASSWORD = 5;
 } 

@@ -7,6 +7,7 @@
 namespace RamODev\Application\Shared\Users\Authentication\Credentials\Repositories\LoginCredentials;
 use RamODev\Application\Shared\Cryptography;
 use RamODev\Application\Shared\Cryptography\Repositories\Token;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Exceptions\Log;
 use RamODev\Application\Shared\Repositories;
@@ -41,8 +42,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
         try
         {
             $this->sqlDatabase->query("INSERT INTO authentication.logintokens (userid, tokenid)
-            VALUES (:userId, :loginTokenId)",
-                array("userId" => $credentials->getUserId(), "loginTokenId" => $credentials->getLoginToken()->getId()));
+            VALUES (:userId, :tokenId)",
+                array("userId" => $credentials->getUserId(), "tokenId" => $credentials->getLoginToken()->getId()));
 
             return true;
         }
@@ -60,6 +61,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
      * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
      * @param string $unhashedLoginTokenValue The unhashed token value
      * @return bool True if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
     {
@@ -74,6 +76,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
      * @param int $loginTokenId The Id of the login token we're searching for
      * @param string $unhashedLoginTokenValue The unhashed login token we are searching for
      * @return Credentials\LoginCredentials|bool The login credentials if successful, otherwise false
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUserIdAndLoginToken($userId, $loginTokenId, $unhashedLoginTokenValue)
     {
@@ -99,7 +102,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
         }
         catch(SQL\Exceptions\SQLException $ex)
         {
-            Log::write("Failed to get credentials: " . $ex);
+            Log::write("Failed to get credentials from user Id and login token: " . $ex);
         }
 
         return false;

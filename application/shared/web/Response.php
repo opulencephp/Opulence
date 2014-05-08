@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines an HTTP request
+ * Defines an HTTP response
  */
 namespace RamODev\Application\Shared\Web;
 

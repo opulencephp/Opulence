@@ -5,6 +5,8 @@
  * Provides methods for retrieving user data from a PostgreSQL database
  */
 namespace RamODev\Application\Shared\Users\Repositories\User;
+use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Databases\SQL;
 use RamODev\Application\Shared\Databases\SQL\Exceptions as SQLExceptions;
 use RamODev\Application\Shared\Databases\SQL\PostgreSQL\QueryBuilders;
@@ -12,34 +14,41 @@ use RamODev\Application\Shared\Databases\SQL\QueryBuilders\Exceptions as QueryBu
 use RamODev\Application\Shared\Exceptions as SharedExceptions;
 use RamODev\Application\Shared\Repositories;
 use RamODev\Application\Shared\Users;
+use RamODev\Application\Shared\Users\Authentication\Repositories\PasswordToken;
 use RamODev\Application\Shared\Users\Factories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {
     /** @var Factories\UserFactory The user factory to use when creating user objects */
     private $userFactory = null;
+    /** @var PasswordToken\IPasswordTokenRepo The password token repo */
+    private $passwordTokenRepo = null;
     /** @var QueryBuilders\SelectQuery The select query used across get methods */
     private $getQuery = null;
 
     /**
      * @param SQL\Database $sqlDatabase The database to use for queries
      * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
+     * @param PasswordToken\IPasswordTokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(SQL\Database $sqlDatabase, Factories\UserFactory $userFactory)
+    public function __construct(SQL\Database $sqlDatabase, Factories\UserFactory $userFactory,
+                                PasswordToken\IPasswordTokenRepo $passwordTokenRepo)
     {
         parent::__construct($sqlDatabase);
 
         $this->userFactory = $userFactory;
+        $this->passwordTokenRepo = $passwordTokenRepo;
     }
 
     /**
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
+     * @param Cryptography\Token $passwordToken The password token
      * @param string $hashedPassword The hashed password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $hashedPassword)
+    public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword)
     {
         $this->sqlDatabase->startTransaction();
 
@@ -56,7 +65,6 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             // Build up the insert queries to store all the user's data
             $userDataColumnMappings = array(
                 array("userdatatypeid" => UserDataTypes::EMAIL, "value" => $user->getEmail()),
-                array("userdatatypeid" => UserDataTypes::PASSWORD, "value" => $hashedPassword),
                 array("userdatatypeid" => UserDataTypes::FIRST_NAME, "value" => $user->getFirstName()),
                 array("userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName()),
                 array("userdatatypeid" => UserDataTypes::DATE_CREATED, "value" => $user->getDateCreated()->format("Y-m-d H:i:s"))
@@ -178,7 +186,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      * @param string $username The username to search for
      * @param string $unhashedPassword The unhashed password to search for
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
-     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
+     * @throws IncorrectHashException Thrown if we're expecting a single result, but we didn't get one
      */
     public function getByUsernameAndPassword($username, $unhashedPassword)
     {
@@ -189,42 +197,14 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             return false;
         }
 
-        $unhashedPassword = $this->getHashedPassword($user->getId());
+        $passwordToken = $this->passwordTokenRepo->getByUserIdAndUnhashedPassword($user->getId(), $unhashedPassword);
 
-        if($unhashedPassword === false || !password_verify($unhashedPassword, $unhashedPassword))
+        if($passwordToken === false)
         {
             return false;
         }
 
         return $user;
-    }
-
-    /**
-     * Gets a user's hashed password from the repo
-     *
-     * @param int $id The ID of the user whose password we are searching for
-     * @return string|bool The hashed password if successful, otherwise false
-     */
-    public function getHashedPassword($id)
-    {
-        try
-        {
-            $results = $this->sqlDatabase->query("SELECT password FROM users.usersview WHERE id = :userId",
-                array("userId" => $id));
-
-            if(!$results->hasResults())
-            {
-                return false;
-            }
-
-            return $results->getResult(0, "password");
-        }
-        catch(SQLExceptions\SQLException $ex)
-        {
-            SharedExceptions\Log::write("Unable to query user password: " . $ex);
-        }
-
-        return false;
     }
 
     /**
@@ -238,19 +218,6 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     public function updateEmail(Users\IUser &$user, $email)
     {
         return $this->update($user->getId(), UserDataTypes::EMAIL, $email);
-    }
-
-    /**
-     * Updates a user's password in the repository
-     *
-     * @param Users\IUser $user The user to update in the repository
-     * @param string $hashedPassword The hashed new password
-     * @return bool True if successful, otherwise false
-     * @throws SharedExceptions\InvalidInputException Thrown if we're expecting a single result, but we didn't get one
-     */
-    public function updatePassword(Users\IUser &$user, $hashedPassword)
-    {
-        return $this->update($user->getId(), UserDataTypes::PASSWORD, $hashedPassword);
     }
 
     /**

@@ -5,6 +5,7 @@
  * Defines the user repository interface
  */
 namespace RamODev\Application\Shared\Users\Repositories\User;
+use RamODev\Application\Shared\Cryptography;
 use RamODev\Application\Shared\Users;
 
 interface IUserRepo
@@ -13,10 +14,11 @@ interface IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
+     * @param Cryptography\Token $passwordToken The password token
      * @param string $hashedPassword The user's password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, $hashedPassword);
+    public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword);
 
     /**
      * Gets all the users in the repository
@@ -59,14 +61,6 @@ interface IUserRepo
     public function getByUsernameAndPassword($username, $unhashedPassword);
 
     /**
-     * Gets a user's hashed password from the repo
-     *
-     * @param int $id The Id of the user whose password we are searching for
-     * @return string|bool The hashed password if successful, otherwise false
-     */
-    public function getHashedPassword($id);
-
-    /**
      * Updates a user's email address in the repository
      *
      * @param Users\IUser $user The user to update in the repository
@@ -74,13 +68,4 @@ interface IUserRepo
      * @return bool True if successful, otherwise false
      */
     public function updateEmail(Users\IUser &$user, $email);
-
-    /**
-     * Updates a user's password in the repository
-     *
-     * @param Users\IUser $user The user to update in the repository
-     * @param string $hashedPassword The hashed new password
-     * @return bool True if successful, otherwise false
-     */
-    public function updatePassword(Users\IUser &$user, $hashedPassword);
 } 
