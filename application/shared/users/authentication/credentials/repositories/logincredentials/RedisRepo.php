@@ -54,8 +54,7 @@ class RedisRepo extends Repositories\RedisRepo implements ILoginCredentialsRepo
      */
     public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
     {
-        return $this->tokenRepo->deauthorize($credentials->getLoginToken(), $unhashedLoginTokenValue)
-        && $this->redisDatabase->getPHPRedis()->sRem("users:" . $credentials->getUserId() . ":authentication:login",
+        return $this->redisDatabase->getPHPRedis()->sRem("users:" . $credentials->getUserId() . ":authentication:login",
             $credentials->getLoginToken()->getId()) !== false;
     }
 

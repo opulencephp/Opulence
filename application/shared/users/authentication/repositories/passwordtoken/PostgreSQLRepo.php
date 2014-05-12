@@ -39,16 +39,34 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IPasswordTok
      */
     public function add($userId, Cryptography\Token &$passwordToken, $hashedPassword)
     {
+        $this->sqlDatabase->startTransaction();
+
         try
         {
-            $this->sqlDatabase->query("INSERT INTO authentication.passwords (userid, tokenid) VALUES (:userId, :tokenId)",
-                array("userId" => $userId, "tokenId" => $passwordToken->getId()));
+            // We either UPDATE or INSERT this password, depending on whether or not one was previously set
+            $checkIfPasswordAlreadySetResults = $this->sqlDatabase
+                ->query("SELECT id FROM authentication.passwords WHERE userid = :userId",
+                    array("userId" => $userId));
+
+            if($checkIfPasswordAlreadySetResults->hasResults())
+            {
+                $this->sqlDatabase->query("UPDATE authentication.passwords SET tokenid = :tokenId WHERE userid = :userId",
+                    array("userId" => $userId, "tokenId" => $passwordToken->getId()));
+            }
+            else
+            {
+                $this->sqlDatabase->query("INSERT INTO authentication.passwords (userid, tokenid) VALUES (:userId, :tokenId)",
+                    array("userId" => $userId, "tokenId" => $passwordToken->getId()));
+            }
+
+            $this->sqlDatabase->commitTransaction();
 
             return true;
         }
         catch(SQL\Exceptions\SQLException $ex)
         {
             Log::write("Failed to add password: " . $ex);
+            $this->sqlDatabase->rollBackTransaction();
         }
 
         return false;
