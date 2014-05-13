@@ -51,6 +51,23 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests committing a nested transaction
+     */
+    public function testCommittingNestedTransaction()
+    {
+        $this->database->connect();
+        $this->database->startTransaction();
+        $this->database->query("SELECT COUNT(*) FROM test");
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $this->database->startTransaction();
+        $countBeforeSecondQuery = $this->database->query("SELECT COUNT(*) FROM test")->getResult(0);
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $this->database->commitTransaction();
+        $this->database->commitTransaction();
+        $this->assertEquals($this->database->query("SELECT COUNT(*) FROM test")->getResult(0), $countBeforeSecondQuery + 1);
+    }
+
+    /**
      * Tests committing a transaction
      */
     public function testCommittingTransaction()
@@ -133,6 +150,22 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
         $this->database->startTransaction();
         $this->assertTrue($this->database->isInTransaction());
         $this->database->commitTransaction();
+    }
+
+    /**
+     * Tests rolling back a nested transaction
+     */
+    public function testRollingBackNestedTransaction()
+    {
+        $this->database->connect();
+        $this->database->startTransaction();
+        $countBeforeFirstQuery = $this->database->query("SELECT COUNT(*) FROM test")->getResult(0);
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $this->database->startTransaction();
+        $this->database->query("SELECT COUNT(*) FROM test");
+        $this->database->query("INSERT INTO test (name) VALUES (:name)", array("name" => "TEST"));
+        $this->database->rollBackTransaction();
+        $this->assertEquals($this->database->query("SELECT COUNT(*) FROM test")->getResult(0), $countBeforeFirstQuery);
     }
 
     /**

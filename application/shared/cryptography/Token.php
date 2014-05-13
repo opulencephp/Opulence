@@ -14,17 +14,29 @@ class Token
     private $validFrom = null;
     /** @var \DateTime The valid-to date */
     private $validTo = null;
+    /** @var bool Whether or not this token is active */
+    private $isActive = false;
 
     /**
      * @param int $id The database Id of this token
      * @param \DateTime $validFrom The valid-from date
      * @param \DateTime $validTo The valid-to date
+     * @param bool $isActive Whether or not this token is active
      */
-    public function __construct($id, $validFrom, $validTo)
+    public function __construct($id, \DateTime $validFrom, \DateTime $validTo, $isActive)
     {
         $this->id = $id;
         $this->validFrom = $validFrom;
         $this->validTo = $validTo;
+        $this->isActive = $isActive;
+    }
+
+    /**
+     * Sets the active flag to false
+     */
+    public function deactivate()
+    {
+        $this->isActive = false;
     }
 
     /**
@@ -78,15 +90,13 @@ class Token
     }
 
     /**
-     * Gets whether or not this token is expired
-     *
-     * @return bool True if the token is expired, otherwise false
+     * @return bool
      */
-    public function isExpired()
+    public function isActive()
     {
         $now = new \DateTime("now", new \DateTimeZone("UTC"));
 
-        return $now < $this->validFrom || $this->validTo <= $now;
+        return $this->isActive && $this->validFrom <= $now && $now < $this->validTo;
     }
 
     /**

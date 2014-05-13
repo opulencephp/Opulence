@@ -8,6 +8,18 @@ namespace RamODev\Application\Shared\Web;
 
 class Response
 {
+    /** HTML content type */
+    const CONTENT_TYPE_HTML = "text/html";
+    /** JSON content type */
+    const CONTENT_TYPE_JSON = "application/json";
+    /** Octet stream content type */
+    const CONTENT_TYPE_OCTET_STREAM = "application/octet-stream";
+    /** PDF content type */
+    const CONTENT_TYPE_PDF = "application/pdf";
+    /** Plain text content type */
+    const CONTENT_TYPE_TEXT = "text/plain";
+    /** XML content type */
+    const CONTENT_TYPE_XML = "text/xml";
     /** Successful response */
     const HTTP_OK = 200;
     /** Request has been fulfilled and a new resource has been created */

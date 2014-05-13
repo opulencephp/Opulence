@@ -56,17 +56,78 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ILoginCreden
     }
 
     /**
-     * Deauthorizes the input credentials from the repo
+     * Deactivates the input credentials from the repo
      *
-     * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
-     * @param string $unhashedLoginTokenValue The unhashed token value
+     * @param Credentials\LoginCredentials $credentials The credentials to deactivate
      * @return bool True if successful, otherwise false
-     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
-    public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
+    public function deactivate(Credentials\LoginCredentials $credentials)
     {
-        // The token is already deauthorized at this point, so there's nothing we do here
+        // The token is already deactivated at this point, so there's nothing to do here
         return true;
+    }
+
+    /**
+     * Deactivates all the login credentials for a user
+     * This is useful in such cases like password changes where we want to deactivate all old sessions
+     *
+     * @param int $userId The Id of the user whose credentials we are deactivating
+     * @return bool True if successful, otherwise false
+     */
+    public function deactivateAllByUserId($userId)
+    {
+        /**
+         * Ordinarily I'd deactivate the tokens in Repo class so that the Redis and PostgreSQL repos don't have to worry
+         * However, for security's sake, I need to deactivate them in a single SQL transaction, and it'd be cleaner to
+         * do that here than elsewhere
+         */
+        $this->sqlDatabase->startTransaction();
+        $loginCredentials = $this->getAllByUserId($userId);
+
+        /** @var Credentials\LoginCredentials $loginCredential */
+        foreach($loginCredentials as $loginCredential)
+        {
+            $this->tokenRepo->deactivate($loginCredential->getLoginToken());
+        }
+
+        $this->sqlDatabase->commitTransaction();
+    }
+
+    /**
+     * Gets a list of all the login credentials for a user
+     *
+     * @param int $userId The Id of the user whose login credentials we want
+     * @return array|bool The list of login credentials if successful, otherwise false
+     */
+    public function getAllByUserId($userId)
+    {
+        try
+        {
+            $loginCredentials = array();
+            $results = $this->sqlDatabase->query("SELECT tokenid FROM authentication.logintokens WHERE userid = :userId",
+                array("userId" => $userId));
+            $rows = $results->getAllRows();
+
+            foreach($rows as $row)
+            {
+                $token = $this->tokenRepo->getById($row["tokenid"]);
+
+                if($token === false)
+                {
+                    return false;
+                }
+
+                $loginCredentials[] = new Credentials\LoginCredentials($userId, $token);
+            }
+
+            return $loginCredentials;
+        }
+        catch(SQL\Exceptions\SQLException $ex)
+        {
+            Log::write("Failed to get all login credentials for user: " . $ex);
+        }
+
+        return false;
     }
 
     /**

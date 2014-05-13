@@ -46,17 +46,16 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     }
 
     /**
-     * Deauthorizes a token from use
+     * Deactivates a token from use
      *
-     * @param Cryptography\Token $token The token to deauthorize
-     * @param string $unhashedValue The unhashed value of the token, which is used to verify we're deauthorizing the
-     *      correct token
+     * @param Cryptography\Token $token The token to deactivate
      * @return bool True if successful, otherwise false
-     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
-    public function deauthorize(Cryptography\Token $token, $unhashedValue)
+    public function deactivate(Cryptography\Token &$token)
     {
-        return $this->write(__FUNCTION__, array($token, $unhashedValue . Configs\AuthenticationConfig::TOKEN_PEPPER));
+        $token->deactivate();
+
+        return $this->write(__FUNCTION__, array(&$token));
     }
 
     /**
@@ -101,7 +100,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getHashedValue($id)
     {
-        return $this->read(__FUNCTION__, array($id));
+        return $this->read(__FUNCTION__, array($id), false);
     }
 
     /**
@@ -131,7 +130,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      * In the case we're getting data and didn't find it in the Redis repo, we need a way to store it there for future use
      * The contents of this method should call the appropriate method to store data in the Redis repo
      *
-     * @param mixed $token The data to write to the Redis repository
+     * @param Cryptography\Token $token The data to write to the Redis repository
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
     protected function addDataToRedisRepo(&$token, $funcArgs = array())

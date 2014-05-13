@@ -61,7 +61,7 @@ class Router
     }
 
     /**
-     * @param mixed $regexesToCallbacks
+     * @param array $regexesToCallbacks
      */
     public function setRegexesToCallbacks($regexesToCallbacks)
     {

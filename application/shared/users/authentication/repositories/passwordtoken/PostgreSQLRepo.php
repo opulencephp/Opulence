@@ -50,13 +50,13 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IPasswordTok
 
             if($checkIfPasswordAlreadySetResults->hasResults())
             {
-                $this->sqlDatabase->query("UPDATE authentication.passwords SET tokenid = :tokenId WHERE userid = :userId",
-                    array("userId" => $userId, "tokenId" => $passwordToken->getId()));
+                $this->updatePassword($userId, $passwordToken);
             }
             else
             {
                 $this->sqlDatabase->query("INSERT INTO authentication.passwords (userid, tokenid) VALUES (:userId, :tokenId)",
                     array("userId" => $userId, "tokenId" => $passwordToken->getId()));
+                $this->log($userId, $passwordToken->getId(), Repositories\ActionTypes::ADDED);
             }
 
             $this->sqlDatabase->commitTransaction();
@@ -162,5 +162,50 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IPasswordTok
     public function getHashedValue($id)
     {
         return $this->tokenRepo->getHashedValue($id);
+    }
+
+    /**
+     * Updates a password token for a user in the repo
+     *
+     * @param int $userId The Id of the user whose password we're updating
+     * @param Cryptography\Token $passwordToken The token containing data about the password
+     * @param string $hashedPassword The hashed password
+     * @return bool True if successful, otherwise false
+     */
+    public function update($userId, Cryptography\Token &$passwordToken, $hashedPassword)
+    {
+        return $this->add($userId, $passwordToken, $hashedPassword);
+    }
+
+    /**
+     * Logs any changes to a password token
+     *
+     * @param int $userId The Id of the user whose password we're logging
+     * @param int $tokenId The Id of the token we're logging
+     * @param int $actionTypeId The Id of the type of action we're taking
+     * @throws SQL\Exceptions\SQLException Thrown if there's an error with the query
+     */
+    private function log($userId, $tokenId, $actionTypeId)
+    {
+        $this->sqlDatabase->query("INSERT INTO authentication.passwordslog (userid, tokenid, actiontypeid)
+        VALUES (:userId, :tokenId, :actionTypeId)", array(
+            "userId" => $userId,
+            "tokenId" => $tokenId,
+            "actionTypeId" => $actionTypeId
+        ));
+    }
+
+    /**
+     * Updates the password for the input user
+     *
+     * @param int $userId The Id of the user whose password we're updating
+     * @param Cryptography\Token $passwordToken The new password token
+     * @throws SQL\Exceptions\SQLException Thrown if there's an error with the query
+     */
+    private function updatePassword($userId, Cryptography\Token &$passwordToken)
+    {
+        $this->sqlDatabase->query("UPDATE authentication.passwords SET tokenid = :tokenId WHERE userid = :userId",
+            array("userId" => $userId, "tokenId" => $passwordToken->getId()));
+        $this->log($userId, $passwordToken->getId(), Repositories\ActionTypes::UPDATED);
     }
 } 

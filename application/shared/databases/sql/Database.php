@@ -17,6 +17,13 @@ class Database extends Databases\Database
     protected $pdoConnection = false;
     /** @var \PDOStatement|bool The PDO prepared statement that will execute the query */
     protected $pdoStatement = false;
+    /**
+     * The number of transactions we're currently in
+     * Useful for nested transactions
+     *
+     * @var int
+     */
+    private $transactionCounter = 0;
 
     /**
      * Closes the connection
@@ -31,7 +38,10 @@ class Database extends Databases\Database
      */
     public function commitTransaction()
     {
-        $this->pdoConnection->commit();
+        if(!--$this->transactionCounter)
+        {
+            $this->pdoConnection->commit();
+        }
     }
 
     /**
@@ -135,7 +145,12 @@ class Database extends Databases\Database
      */
     public function rollBackTransaction()
     {
-        $this->pdoConnection->rollBack();
+        if($this->transactionCounter >= 0)
+        {
+            $this->pdoConnection->rollBack();
+        }
+
+        $this->transactionCounter = 0;
     }
 
     /**
@@ -151,6 +166,9 @@ class Database extends Databases\Database
             $this->connect();
         }
 
-        $this->pdoConnection->beginTransaction();
+        if(!$this->transactionCounter++)
+        {
+            $this->pdoConnection->beginTransaction();
+        }
     }
 } 

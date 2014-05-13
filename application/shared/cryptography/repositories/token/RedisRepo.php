@@ -5,8 +5,8 @@
  * Defines the Redis repo for tokens
  */
 namespace RamODev\Application\Shared\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 use RamODev\Application\Shared\Repositories;
 
 class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
@@ -24,49 +24,28 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
             "id" => $token->getId(),
             "hashedvalue" => $hashedValue,
             "validfrom" => $token->getValidFrom()->getTimestamp(),
-            "validto" => $token->getValidTo()->getTimestamp()
+            "validto" => $token->getValidTo()->getTimestamp(),
+            "isactive" => $token->isActive()
         ));
 
         // Add this to the list of tokens
         $this->redisDatabase->getPHPRedis()->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());
 
-        // Wipe out any expired credentials, but first get a list of all the tokens
-        $expiredTokenIds = $this->redisDatabase->getPHPRedis()->zRangeByScore("tokens", "-inf", time());
+        // Wipe out any expired credentials
         $this->redisDatabase->getPHPRedis()->zRemRangeByScore("tokens", "-inf", time());
-
-        foreach($expiredTokenIds as $expiredTokenId)
-        {
-            $this->redisDatabase->getPHPRedis()->del("tokens:" . $expiredTokenId);
-        }
 
         return true;
     }
 
     /**
-     * Deauthorizes a token from use
+     * Deactivates a token from use
      *
-     * @param Cryptography\Token $token The token to deauthorize
-     * @param string $unhashedValue The unhashed value of the token, which is used to verify we're deauthorizing the
-     *      correct token
+     * @param Cryptography\Token $token The token to deactivate
      * @return bool True if successful, otherwise false
-     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
-    public function deauthorize(Cryptography\Token $token, $unhashedValue)
+    public function deactivate(Cryptography\Token &$token)
     {
-        // As an added layer of security, we verify that the user is trying to deauthorize a valid token
-        $hashedValue = $this->getHashedValue($token->getId());
-
-        if($hashedValue === false)
-        {
-            return false;
-        }
-
-        if(!password_verify($unhashedValue, $hashedValue))
-        {
-            throw new IncorrectHashException("Incorrect hash");
-        }
-
-        return $this->redisDatabase->getPHPRedis()->hSet("tokens:" . $token->getId(), "validto", 0);
+        return $this->redisDatabase->getPHPRedis()->hSet("tokens:" . $token->getId(), "isactive", false) !== false;
     }
 
     /**
@@ -164,7 +143,8 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
         return new Cryptography\Token(
             (int)$tokenHash["id"],
             \DateTime::createFromFormat("U", $tokenHash["validfrom"], new \DateTimeZone("UTC")),
-            \DateTime::createFromFormat("U", $tokenHash["validto"], new \DateTimeZone("UTC"))
+            \DateTime::createFromFormat("U", $tokenHash["validto"], new \DateTimeZone("UTC")),
+            $tokenHash["isactive"]
         );
     }
 } 

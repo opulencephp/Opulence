@@ -1,12 +1,7 @@
 Write tests for Router class
-Need to be able to update a user's password, which would involve deauthorizing all LoginTokens and PasswordTokens
-    Do we consider adding a "deactivated" flag for tokens, or do we just update the "validTo/From" flags?
-    I lean more towards a flag so that the logic for grabbing the most recent N passwords is more straightforward
-    Do we really need tokenslog?  Not sure what good it does if we add "deactivated" flag and useragent/ipaddress to tokens
-Need to be able to deauthorize all LoginTokens and PasswordTokens
 Think about what logic would need to be added to detect that the user entered a recently-changed password so we can remind them
 We are passing a sub repo as its interface, which could be a problem because we're relying on it implementing non-interface methods like hashPassword()
-Need to build classes to store credentials clientside (eg cookies/JSON)
+Need to build classes to store credentials client-side (eg cookies/JSON)
     Where should these classes be instantiated/used?
 Build Session class to try making calls to login/logout
     Make sure everything in Redis/PostgreSQL is being set correctly

@@ -6,6 +6,7 @@
  */
 namespace RamODev\Application\Shared\Cryptography\Repositories\Token;
 use RamODev\Application\Shared\Cryptography;
+use RamODev\Application\Shared\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 
 interface ITokenRepo
 {
@@ -19,14 +20,12 @@ interface ITokenRepo
     public function add(Cryptography\Token &$token, $hashedValue);
 
     /**
-     * Deauthorizes a token from use
+     * Deactivates a token from use
      *
-     * @param Cryptography\Token $token The token to deauthorize
-     * @param string $unhashedValue The unhashed value of the token, which is used to verify we're deauthorizing the
-     *      correct token
+     * @param Cryptography\Token $token The token to deactivate
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Cryptography\Token $token, $unhashedValue);
+    public function deactivate(Cryptography\Token &$token);
 
     /**
      * Gets a list of all the tokens

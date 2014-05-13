@@ -57,18 +57,39 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ILoginC
     }
 
     /**
-     * Deauthorizes the input credentials from the repo
+     * Deactivates the input credentials from the repo
      *
-     * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
-     * @param string $unhashedLoginTokenValue The unhashed token value
+     * @param Credentials\LoginCredentials $credentials The credentials to deactivate
      * @return bool True if successful, otherwise false
-     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
-    public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue)
+    public function deactivate(Credentials\LoginCredentials $credentials)
     {
-        // We deauthorize the token here instead of in the child repos so that it doesn't get called twice
-        return $this->tokenRepo->deauthorize($credentials->getLoginToken(), $unhashedLoginTokenValue)
-        && $this->write(__FUNCTION__, array($credentials, $unhashedLoginTokenValue));
+        // We deactivate the token here instead of in the child repos so that it doesn't get called twice
+        return $this->tokenRepo->deactivate($credentials->getLoginToken())
+        && $this->write(__FUNCTION__, array($credentials));
+    }
+
+    /**
+     * Deactivates all the login credentials for a user
+     * This is useful in such cases like password changes where we want to deactivate all old sessions
+     *
+     * @param int $userId The Id of the user whose credentials we are deactivating
+     * @return bool True if successful, otherwise false
+     */
+    public function deactivateAllByUserId($userId)
+    {
+        return $this->write(__FUNCTION__, array($userId));
+    }
+
+    /**
+     * Gets a list of all the login credentials for a user
+     *
+     * @param int $userId The Id of the user whose login credentials we want
+     * @return array|bool The list of login credentials if successful, otherwise false
+     */
+    public function getAllByUserId($userId)
+    {
+        return $this->read(__FUNCTION__, array($userId));
     }
 
     /**

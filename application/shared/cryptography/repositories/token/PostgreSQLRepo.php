@@ -44,72 +44,46 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
      */
     public function add(Cryptography\Token &$token, $hashedValue)
     {
-        $this->sqlDatabase->startTransaction();
-
         try
         {
-            $this->sqlDatabase->query("INSERT INTO authentication.tokens (token, validfrom, validto) VALUES
-            (:token, :validFrom, :validTo)", array(
+            $this->sqlDatabase->query("INSERT INTO authentication.tokens (token, validfrom, validto, useragent, ipaddress)
+            VALUES (:token, :validFrom, :validTo, :userAgent, :ipAddress)", array(
                 "token" => $hashedValue,
                 "validFrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
                 "validTo" => $token->getValidTo()->format("Y-m-d H:i:s"),
+                "userAgent" => $this->userAgent,
+                "ipAddress" => $this->ipAddress
             ));
             $token->setId((int)$this->sqlDatabase->getLastInsertId("authentication.tokens_id_seq"));
-            $this->log($token->getId(), Repositories\ActionTypes::ADDED);
-            $this->sqlDatabase->commitTransaction();
 
             return true;
         }
         catch(SQLException $ex)
         {
             Log::write("Failed to add token: " . $ex);
-            $this->sqlDatabase->rollBackTransaction();
-            $token->setId(-1);
         }
 
         return false;
     }
 
     /**
-     * Deauthorizes a token from use
+     * Deactivates a token from use
      *
-     * @param Cryptography\Token $token The token to deauthorize
-     * @param string $unhashedValue The unhashed value of the token, which is used to verify we're deauthorizing the
-     *      correct token
+     * @param Cryptography\Token $token The token to deactivate
      * @return bool True if successful, otherwise false
-     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
-    public function deauthorize(Cryptography\Token $token, $unhashedValue)
+    public function deactivate(Cryptography\Token &$token)
     {
-        // As an added layer of security, we verify that the user is trying to deauthorize a valid token
-        $hashedValue = $this->getHashedValue($token->getId());
-
-        if($hashedValue === false)
-        {
-            return false;
-        }
-
-        if(!password_verify($unhashedValue, $hashedValue))
-        {
-            throw new IncorrectHashException("Incorrect hash");
-        }
-
-        $this->sqlDatabase->startTransaction();
-
         try
         {
-            $this->sqlDatabase->query("UPDATE authentication.tokens SET validto = :validTo WHERE id = :id",
-                array("validTo" => \DateTime::createFromFormat("U", 0, new \DateTimeZone("UTC"))->format("Y-m-d H:i:s"), "id" => $token->getId()));
-            $this->log($token->getId(), Repositories\ActionTypes::DELETED);
-
-            $this->sqlDatabase->commitTransaction();
+            $this->sqlDatabase->query("UPDATE authentication.tokens SET isactive = 'f' WHERE id = :id",
+                array("id" => $token->getId()));
 
             return true;
         }
         catch(SQLException $ex)
         {
-            Log::write("Failed to deauthorize token: " . $ex);
-            $this->sqlDatabase->rollBackTransaction();
+            Log::write("Failed to deactivate token: " . $ex);
         }
 
         return false;
@@ -217,8 +191,9 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
             $id = $row["id"];
             $validFrom = new \DateTime($row["validfrom"], new \DateTimeZone("UTC"));
             $validTo = new \DateTime($row["validto"], new \DateTimeZone("UTC"));
+            $isActive = $row["isactive"] == "t";
 
-            $tokens[] = new Cryptography\Token($id, $validFrom, $validTo);
+            $tokens[] = new Cryptography\Token($id, $validFrom, $validTo, $isActive);
         }
 
         return $tokens;
@@ -230,25 +205,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
     private function buildGetQuery()
     {
         $queryBuilders = new QueryBuilders\QueryBuilder();
-        $this->getQuery = $queryBuilders->select("id", "validfrom", "validto")
+        $this->getQuery = $queryBuilders->select("id", "validfrom", "validto", "isactive")
             ->from("authentication.tokens");
-    }
-
-    /**
-     * Logs an event in the tokens log
-     *
-     * @param int $tokenId The Id of the token that has been changed
-     * @param int $actionTypeId The Id of the type of action we've taken on the token
-     * @throws SQLException Thrown if the query failed
-     */
-    private function log($tokenId, $actionTypeId)
-    {
-        $this->sqlDatabase->query("INSERT INTO authentication.tokenslog (tokenid, ipaddress, useragent, actiontypeid) VALUES
-        (:tokenId, :ipAddress, :userAgent, :actionTypeId)", array(
-            "tokenId" => $tokenId,
-            "ipAddress" => $this->ipAddress,
-            "userAgent" => $this->userAgent,
-            "actionTypeId" => $actionTypeId
-        ));
     }
 } 

@@ -13,15 +13,19 @@ class Response
     private $httpResponseCode = Web\Response::HTTP_OK;
     /** @var string The output of the request */
     private $output = "";
+    /** @var string The content-type */
+    private $contentType = "";
 
     /**
      * @param int $httpResponseCode The HTTP response code
      * @param string $output The output of the request
+     * @param string $contentType The content-type
      */
-    public function __construct($httpResponseCode, $output = "")
+    public function __construct($httpResponseCode, $output = "", $contentType = Web\Response::CONTENT_TYPE_TEXT)
     {
         $this->setHTTPResponseCode($httpResponseCode);
         $this->setOutput($output);
+        $this->setContentType($contentType);
     }
 
     /**
@@ -38,6 +42,14 @@ class Response
     public function getOutput()
     {
         return $this->output;
+    }
+
+    /**
+     * @param string $contentType
+     */
+    public function setContentType($contentType)
+    {
+        $this->contentType = $contentType;
     }
 
     /**

@@ -20,13 +20,29 @@ interface ILoginCredentialsRepo
     public function add(Credentials\LoginCredentials $credentials, $hashedLoginTokenValue);
 
     /**
-     * Deauthorizes the input credentials from the repo
+     * Deactivates the input credentials from the repo
      *
-     * @param Credentials\LoginCredentials $credentials The credentials to deauthorize
-     * @param string $unhashedLoginTokenValue The unhashed token value
+     * @param Credentials\LoginCredentials $credentials The credentials to deactivate
      * @return bool True if successful, otherwise false
      */
-    public function deauthorize(Credentials\LoginCredentials $credentials, $unhashedLoginTokenValue);
+    public function deactivate(Credentials\LoginCredentials $credentials);
+
+    /**
+     * Deactivates all the login credentials for a user
+     * This is useful in such cases like password changes where we want to deactivate all old sessions
+     *
+     * @param int $userId The Id of the user whose credentials we are deactivating
+     * @return bool True if successful, otherwise false
+     */
+    public function deactivateAllByUserId($userId);
+
+    /**
+     * Gets a list of all the login credentials for a user
+     *
+     * @param int $userId The Id of the user whose login credentials we want
+     * @return array|bool The list of login credentials if successful, otherwise false
+     */
+    public function getAllByUserId($userId);
 
     /**
      * Gets the login credentials that match the parameters

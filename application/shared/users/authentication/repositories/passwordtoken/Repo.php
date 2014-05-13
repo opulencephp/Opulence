@@ -107,6 +107,19 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IPasswo
     }
 
     /**
+     * Updates a password token for a user in the repo
+     *
+     * @param int $userId The Id of the user whose password we're updating
+     * @param Cryptography\Token $passwordToken The token containing data about the password
+     * @param string $hashedPassword The hashed password
+     * @return bool True if successful, otherwise false
+     */
+    public function update($userId, Cryptography\Token &$passwordToken, $hashedPassword)
+    {
+        return $this->write(__FUNCTION__, array($userId, &$passwordToken, $hashedPassword));
+    }
+
+    /**
      * In the case we're getting data and didn't find it in the Redis repo, we need a way to store it there for future use
      * The contents of this method should call the appropriate method to store data in the Redis repo
      *
@@ -115,11 +128,11 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IPasswo
      */
     protected function addDataToRedisRepo(&$passwordToken, $funcArgs = array())
     {
-        // The first argument will be the user Id
         $hashedPassword = $this->tokenRepo->getHashedValue($passwordToken->getId());
 
         if($hashedPassword !== false)
         {
+            // The first argument will be the user Id
             $this->redisRepo->add($funcArgs[0], $passwordToken, $hashedPassword);
         }
     }

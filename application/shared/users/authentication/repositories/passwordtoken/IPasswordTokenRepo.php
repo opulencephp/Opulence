@@ -43,4 +43,14 @@ interface IPasswordTokenRepo
      * @return string|bool The hashed value if successful, otherwise false
      */
     public function getHashedValue($id);
+
+    /**
+     * Updates a password token for a user in the repo
+     *
+     * @param int $userId The Id of the user whose password we're updating
+     * @param Cryptography\Token $passwordToken The token containing data about the password
+     * @param string $hashedPassword The hashed password
+     * @return bool True if successful, otherwise false
+     */
+    public function update($userId, Cryptography\Token &$passwordToken, $hashedPassword);
 } 
