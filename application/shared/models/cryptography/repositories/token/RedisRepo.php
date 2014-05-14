@@ -20,7 +20,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function add(Cryptography\Token &$token, $hashedValue)
     {
-        $this->redisDatabase->getPHPRedis()->hMset("tokens:" . $token->getId(), array(
+        $this->redis->hMset("tokens:" . $token->getId(), array(
             "id" => $token->getId(),
             "tokentypeid" => $token->getTypeId(),
             "userid" => $token->getUserId(),
@@ -31,12 +31,12 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
         ));
 
         // Add this to the list of tokens
-        $this->redisDatabase->getPHPRedis()->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());
+        $this->redis->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());
         // Add this to a user index
-        $this->redisDatabase->getPHPRedis()
+        $this->redis
             ->sAdd("tokens:types:" . $token->getTypeId() . ":users:" . $token->getUserId(), $token->getId());
         // Wipe out any expired credentials
-        $this->redisDatabase->getPHPRedis()->zRemRangeByScore("tokens", "-inf", time());
+        $this->redis->zRemRangeByScore("tokens", "-inf", time());
 
         return true;
     }
@@ -61,7 +61,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function deactivateAllByUserId($typeId, $userId)
     {
-        $tokenIds = $this->redisDatabase->getPHPRedis()->sMembers("tokens:types:" . $typeId . ":users:" . $userId);
+        $tokenIds = $this->redis->sMembers("tokens:types:" . $typeId . ":users:" . $userId);
         $tokenIds = array_map("intval", $tokenIds);
 
         foreach($tokenIds as $tokenId)
@@ -82,8 +82,8 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function flush()
     {
-        return $this->redisDatabase->getPHPRedis()->del("tokens") !== false
-        && $this->redisDatabase->deleteKeyPatterns("tokens:*");
+        return $this->redis->del("tokens") !== false
+        && $this->redis->deleteKeyPatterns("tokens:*");
     }
 
     /**
@@ -196,7 +196,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function getHashedValue($id)
     {
-        return $this->redisDatabase->getPHPRedis()->hGet("tokens:" . $id, "hashedvalue");
+        return $this->redis->hGet("tokens:" . $id, "hashedvalue");
     }
 
     /**
@@ -207,7 +207,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     protected function getEntityHashById($id)
     {
-        return $this->redisDatabase->getPHPRedis()->hGetAll("tokens:" . $id);
+        return $this->redis->hGetAll("tokens:" . $id);
     }
 
     /**
@@ -236,6 +236,6 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     private function deactivateById($id)
     {
-        return $this->redisDatabase->getPHPRedis()->hSet("tokens:" . $id, "isactive", false) !== false;
+        return $this->redis->hSet("tokens:" . $id, "isactive", false) !== false;
     }
 } 

@@ -11,15 +11,15 @@ use RamODev\Application\Shared\Models\Exceptions;
 
 abstract class PostgreSQLRepo
 {
-    /** @var SQL\Database The relational database to use for queries */
-    protected $sqlDatabase = null;
+    /** @var SQL\SQL The SQL object to use for queries */
+    protected $sql = null;
 
     /**
-     * @param SQL\Database $sqlDatabase The database to use for queries
+     * @param SQL\SQL $sql The SQL object to use for queries
      */
-    public function __construct(SQL\Database $sqlDatabase)
+    public function __construct(SQL\SQL $sql)
     {
-        $this->sqlDatabase = $sqlDatabase;
+        $this->sql = $sql;
     }
 
     /**
@@ -42,15 +42,15 @@ abstract class PostgreSQLRepo
     {
         try
         {
-            $results = $this->sqlDatabase->query($sql, $sqlParameters);
+            $statement = $this->sql->query($sql, $sqlParameters);
 
-            if($expectSingleResult && $results->getNumResults() != 1)
+            if($expectSingleResult && $statement->rowCount() != 1)
             {
                 return false;
             }
 
             $entities = array();
-            $rows = $results->getAllRows();
+            $rows = $statement->fetchAll(\PDO::FETCH_BOTH);
 
             foreach($rows as $row)
             {

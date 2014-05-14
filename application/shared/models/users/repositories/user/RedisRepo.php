@@ -21,14 +21,14 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     private $passwordTokenRepo = null;
 
     /**
-     * @param Redis\Database $redisDatabase The database to use for queries
+     * @param Redis\Redis $redis The Redis object to use for queries
      * @param Factories\UserFactory $userFactory The factory to use when creating user objects
      * @param Token\ITokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(Redis\Database $redisDatabase, Factories\UserFactory $userFactory,
+    public function __construct(Redis\Redis $redis, Factories\UserFactory $userFactory,
                                 Token\ITokenRepo $passwordTokenRepo)
     {
-        parent::__construct($redisDatabase);
+        parent::__construct($redis);
 
         $this->userFactory = $userFactory;
         $this->passwordTokenRepo = $passwordTokenRepo;
@@ -46,11 +46,11 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
     {
         $this->storeHashOfUser($user);
         // Add to the user to the users' set
-        $this->redisDatabase->getPHPRedis()->sAdd("users", $user->getId());
+        $this->redis->sAdd("users", $user->getId());
         // Create the email index
-        $this->redisDatabase->getPHPRedis()->set("users:email:" . strtolower($user->getEmail()), $user->getId());
+        $this->redis->set("users:email:" . strtolower($user->getEmail()), $user->getId());
         // Create the username index
-        $this->redisDatabase->getPHPRedis()->set("users:username:" . strtolower($user->getUsername()), $user->getId());
+        $this->redis->set("users:username:" . strtolower($user->getUsername()), $user->getId());
 
         return true;
     }
@@ -62,8 +62,8 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function flush()
     {
-        return $this->redisDatabase->getPHPRedis()->del(array("users")) !== false
-        && $this->redisDatabase->deleteKeyPatterns(array(
+        return $this->redis->del(array("users")) !== false
+        && $this->redis->deleteKeyPatterns(array(
             "users:*",
             "users:email:*",
             "users:username:*"
@@ -153,7 +153,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     protected function getEntityHashById($id)
     {
-        return $this->redisDatabase->getPHPRedis()->hGetAll("users:" . $id);
+        return $this->redis->hGetAll("users:" . $id);
     }
 
     /**
@@ -182,7 +182,7 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     private function storeHashOfUser(Users\IUser $user)
     {
-        return $this->redisDatabase->getPHPRedis()->hMset("users:" . $user->getId(), array(
+        return $this->redis->hMset("users:" . $user->getId(), array(
             "id" => $user->getId(),
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
@@ -202,6 +202,6 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     private function update($userId, $hashKey, $value)
     {
-        return $this->redisDatabase->getPHPRedis()->hSet("users:" . $userId, $hashKey, $value) !== false;
+        return $this->redis->hSet("users:" . $userId, $hashKey, $value) !== false;
     }
 } 

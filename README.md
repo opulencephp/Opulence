@@ -12,9 +12,9 @@ $selectLongTimeUsersQuery = $queryBuilder->select("id", "name", "email")
     ->addNamedPlaceholderValue("dateJoined" => "2010-01-01");
 
 echo $selectLongTimeUsersQuery->getSQL();
-// "SELECT id, name, email FROM users WHERE active = :active"
+// "SELECT id, name, email FROM users WHERE datejoined < :dateJoined"
 echo var_dump($selectLongTimeUsersQuery->getParameters());
-// array("active" => "t")
+// array("dateJoined" => "2010-01-01")
 ```
 # License
 This software is licensed under the MIT license.  Please read the LICENSE for more information.

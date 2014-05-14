@@ -2,19 +2,16 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a Redis database
+ * Defines a Redis database connection
  */
 namespace RamODev\Application\Shared\Models\Databases\NoSQL\Redis;
-use RamODev\Application\Shared\Models\Exceptions;
-use RamODev\Application\Shared\Models\Databases;
 use RamODev\Application\Shared\Models\Databases\NoSQL\Exceptions as NoSQLExceptions;
+use RamODev\Application\Shared\Models\Exceptions;
 
-class Database extends Databases\Database
+class Redis extends \Redis
 {
     /** @var Server The server we're connecting to */
-    protected $server = null;
-    /** @var \Redis The Redis object we use to cache items */
-    private $redis = null;
+    private $server = null;
     /** @var bool Whether or not we're connected */
     private $isConnected = false;
 
@@ -23,9 +20,7 @@ class Database extends Databases\Database
      */
     public function __construct(Server $server)
     {
-        parent::__construct($server);
-
-        $this->redis = new \Redis();
+        $this->server = $server;
     }
 
     /**
@@ -35,7 +30,7 @@ class Database extends Databases\Database
     {
         if($this->isConnected)
         {
-            $this->redis->close();
+            parent::close();
             $this->isConnected = false;
         }
     }
@@ -47,7 +42,7 @@ class Database extends Databases\Database
      */
     public function connect()
     {
-        $this->isConnected = $this->redis->connect($this->server->getHost(), $this->server->getPort());
+        $this->isConnected = parent::connect($this->server->getHost(), $this->server->getPort());
 
         if(!$this->isConnected)
         {
@@ -78,17 +73,9 @@ class Database extends Databases\Database
                     redis.call('del', key)
                 end
             end";
-        $this->redis->eval($lua);
+        $this->eval($lua);
 
-        return $this->redis->getLastError() === null;
-    }
-
-    /**
-     * @return \Redis
-     */
-    public function getPHPRedis()
-    {
-        return $this->redis;
+        return $this->getLastError() === null;
     }
 
     /**

@@ -10,15 +10,15 @@ use RamODev\Application\Shared\Models\Databases\NoSQL\Redis;
 
 abstract class RedisRepo
 {
-    /** @var Redis\Database The Redis database to use for queries */
-    protected $redisDatabase = null;
+    /** @var Redis\Redis The Redis object to use for queries */
+    protected $redis = null;
 
     /**
-     * @param Redis\Database $redisDatabase The database to use for queries
+     * @param Redis\Redis $redis The Redis object to use for queries
      */
-    public function __construct(Redis\Database $redisDatabase)
+    public function __construct(Redis\Redis $redis)
     {
-        $this->redisDatabase = $redisDatabase;
+        $this->redis = $redis;
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class RedisRepo
     {
         if($expectSingleResult)
         {
-            $entityIds = $this->redisDatabase->getPHPRedis()->get($keyOfEntityIds);
+            $entityIds = $this->redis->get($keyOfEntityIds);
 
             if($entityIds === false)
             {
@@ -86,7 +86,7 @@ abstract class RedisRepo
         }
         else
         {
-            $entityIds = $this->redisDatabase->getPHPRedis()->sMembers($keyOfEntityIds);
+            $entityIds = $this->redis->sMembers($keyOfEntityIds);
 
             if(count($entityIds) == 0)
             {

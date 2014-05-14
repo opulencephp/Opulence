@@ -22,18 +22,18 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     private $passwordTokenRepo = null;
 
     /**
-     * @param Redis\Database $redisDatabase The Redis database used in the repo
-     * @param SQL\Database $sqlDatabase The relational database used in the repo
+     * @param Redis\Redis $redis The Redis object used in the repo
+     * @param SQL\SQL $sql The SQL object used in the repo
      * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
      * @param Token\ITokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase,
-                                Factories\UserFactory $userFactory, Token\ITokenRepo $passwordTokenRepo)
+    public function __construct(Redis\Redis $redis, SQL\SQL $sql, Factories\UserFactory $userFactory,
+                                Token\ITokenRepo $passwordTokenRepo)
     {
         $this->userFactory = $userFactory;
         $this->passwordTokenRepo = $passwordTokenRepo;
 
-        parent::__construct($redisDatabase, $sqlDatabase);
+        parent::__construct($redis, $sql);
     }
 
     /**
@@ -159,22 +159,22 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     /**
      * Gets a SQL repo to use in this repo
      *
-     * @param SQL\Database $sqlDatabase The SQL database used in the repo
+     * @param SQL\SQL $sql The SQL object connection used in the repo
      * @return PostgreSQLRepo The SQL repo to use
      */
-    protected function getPostgreSQLRepo(SQL\Database $sqlDatabase)
+    protected function getPostgreSQLRepo(SQL\SQL $sql)
     {
-        return new PostgreSQLRepo($sqlDatabase, $this->userFactory, $this->passwordTokenRepo);
+        return new PostgreSQLRepo($sql, $this->userFactory, $this->passwordTokenRepo);
     }
 
     /**
      * Gets a Redis repo to use in this repo
      *
-     * @param Redis\Database $redisDatabase The Redis database used in the repo
+     * @param Redis\Redis $redis The Redis object connection used in the repo
      * @return RedisRepo The Redis repo to use
      */
-    protected function getRedisRepo(Redis\Database $redisDatabase)
+    protected function getRedisRepo(Redis\Redis $redis)
     {
-        return new RedisRepo($redisDatabase, $this->userFactory, $this->passwordTokenRepo);
+        return new RedisRepo($redis, $this->userFactory, $this->passwordTokenRepo);
     }
 } 

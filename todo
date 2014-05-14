@@ -1,4 +1,5 @@
 We are passing a sub repo as its interface, which could be a problem because we're relying on it implementing non-interface methods like hashPassword()
+    Probably need to re-implement sub-repos as DataMappers
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
 See if current Session class would make more sense as an abstract class
@@ -9,11 +10,6 @@ Get rid of "deactivate()" methods because they aren't a good fit for repository 
 Write tests for Router class
 Need to build classes to store credentials client-side (eg cookies/JSON)
     Where should these classes be instantiated/used?
-Build Session class to try making calls to login/logout
-    Make sure everything in Redis/PostgreSQL is being set correctly
 Need to build classes that instantiate our repos/factories
 Really need to take a look at DBUnit for this stuff because this is only going to get harder and harder to write tests for
-Add a layer in front of the server connection layers
-    This will allow us to one day add in load balancers
 Need to determine how we hand out api keys
-Need to add logic to actually authenticate requests with api keys and HMACs

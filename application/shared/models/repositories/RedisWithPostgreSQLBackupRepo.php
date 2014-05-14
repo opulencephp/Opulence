@@ -16,13 +16,13 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     protected $postgreSQLRepo = null;
 
     /**
-     * @param Redis\Database $redisDatabase The Redis database used in the repo
-     * @param SQL\Database $sqlDatabase The relational database used in the repo
+     * @param Redis\Redis $redis The Redis object used in the repo
+     * @param SQL\SQL $sql The SQL object used in the repo
      */
-    public function __construct(Redis\Database $redisDatabase, SQL\Database $sqlDatabase)
+    public function __construct(Redis\Redis $redis, SQL\SQL $sql)
     {
-        $this->redisRepo = $this->getRedisRepo($redisDatabase);
-        $this->postgreSQLRepo = $this->getPostgreSQLRepo($sqlDatabase);
+        $this->redisRepo = $this->getRedisRepo($redis);
+        $this->postgreSQLRepo = $this->getPostgreSQLRepo($sql);
     }
 
     /**
@@ -44,18 +44,18 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     /**
      * Gets a SQL repo to use in this repo
      *
-     * @param SQL\Database $sqlDatabase The SQL database used in the repo
+     * @param SQL\SQL $sql The SQL object used in the repo
      * @return PostgreSQLRepo The SQL repo to use
      */
-    abstract protected function getPostgreSQLRepo(SQL\Database $sqlDatabase);
+    abstract protected function getPostgreSQLRepo(SQL\SQL $sql);
 
     /**
      * Gets a Redis repo to use in this repo
      *
-     * @param Redis\Database $redisDatabase The Redis database used in the repo
+     * @param Redis\Redis $redis The Redis object used in the repo
      * @return RedisRepo The Redis repo to use
      */
-    abstract protected function getRedisRepo(Redis\Database $redisDatabase);
+    abstract protected function getRedisRepo(Redis\Redis $redis);
 
     /**
      * Attempts to retrieve data from the Redis repo before resorting to a SQL database
@@ -112,6 +112,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     protected function write($funcName, $funcArgs)
     {
         // We update the SQL repo first in the case that it sets an SQL row Id to the object
-        return call_user_func_array(array($this->postgreSQLRepo, $funcName), $funcArgs) && call_user_func_array(array($this->redisRepo, $funcName), $funcArgs);
+        return call_user_func_array(array($this->postgreSQLRepo, $funcName), $funcArgs)
+        && call_user_func_array(array($this->redisRepo, $funcName), $funcArgs);
     }
 } 

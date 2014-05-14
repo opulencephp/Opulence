@@ -27,14 +27,13 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     private $getQuery = null;
 
     /**
-     * @param SQL\Database $sqlDatabase The database to use for queries
+     * @param SQL\SQL $sql The SQL object to use for queries
      * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
      * @param Token\ITokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(SQL\Database $sqlDatabase, Factories\UserFactory $userFactory,
-                                Token\ITokenRepo $passwordTokenRepo)
+    public function __construct(SQL\SQL $sql, Factories\UserFactory $userFactory, Token\ITokenRepo $passwordTokenRepo)
     {
-        parent::__construct($sqlDatabase);
+        parent::__construct($sql);
 
         $this->userFactory = $userFactory;
         $this->passwordTokenRepo = $passwordTokenRepo;
@@ -50,17 +49,17 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      */
     public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword)
     {
-        $this->sqlDatabase->startTransaction();
+        $this->sql->beginTransaction();
 
         try
         {
             // Add the user to the users table
             $queryBuilder = new QueryBuilders\QueryBuilder();
             $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
-            $this->sqlDatabase->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
+            $this->sql->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
 
             // We'll take this opportunity to set the user's actually Id
-            $user->setId((int)$this->sqlDatabase->getLastInsertId("users.users_id_seq"));
+            $user->setId((int)$this->sql->lastInsertID("users.users_id_seq"));
 
             // Build up the insert queries to store all the user's data
             $userDataColumnMappings = array(
@@ -74,18 +73,18 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             foreach($userDataColumnMappings as $userDataColumnMapping)
             {
                 $userDataInsertQuery = $queryBuilder->insert("users.userdata", array_merge(array("userid" => $user->getId()), $userDataColumnMapping));
-                $this->sqlDatabase->query($userDataInsertQuery->getSQL(), $userDataInsertQuery->getParameters());
+                $this->sql->query($userDataInsertQuery->getSQL(), $userDataInsertQuery->getParameters());
                 $this->log($user->getId(), $userDataColumnMapping["userdatatypeid"], $userDataColumnMapping["value"], Repositories\ActionTypes::ADDED);
             }
 
-            $this->sqlDatabase->commitTransaction();
+            $this->sql->commit();
 
             return true;
         }
         catch(SQLExceptions\SQLException $ex)
         {
             SharedExceptions\Log::write("Failed to update user: " . $ex);
-            $this->sqlDatabase->rollBackTransaction();
+            $this->sql->rollBack();
             $user->setId(-1);
         }
 
@@ -270,7 +269,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             "value" => $value,
             "actiontypeid" => $actionTypeId
         ));
-        $this->sqlDatabase->query($insertQuery->getSQL(), $insertQuery->getParameters());
+        $this->sql->query($insertQuery->getSQL(), $insertQuery->getParameters());
     }
 
     /**
@@ -283,7 +282,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
      */
     private function update($userId, $userDataTypeId, $value)
     {
-        $this->sqlDatabase->startTransaction();
+        $this->sql->beginTransaction();
 
         try
         {
@@ -291,21 +290,21 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeId, "value" => $value))
                 ->where("userid = ?")
                 ->addUnnamedPlaceholderValue($userId);
-            $this->sqlDatabase->query($updateQuery->getSQL(), $updateQuery->getParameters());
+            $this->sql->query($updateQuery->getSQL(), $updateQuery->getParameters());
             $this->log($userId, $userDataTypeId, $value, Repositories\ActionTypes::UPDATED);
-            $this->sqlDatabase->commitTransaction();
+            $this->sql->commit();
 
             return true;
         }
         catch(SQLExceptions\SQLException $ex)
         {
             SharedExceptions\Log::write("Failed to update user: " . $ex);
-            $this->sqlDatabase->rollBackTransaction();
+            $this->sql->rollBack();
         }
         catch(QueryBuilderExceptions\InvalidQueryException $ex)
         {
             SharedExceptions\Log::write("Invalid query: " . $ex);
-            $this->sqlDatabase->rollBackTransaction();
+            $this->sql->rollBack();
         }
 
         return false;
