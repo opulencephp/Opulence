@@ -6,7 +6,7 @@
  */
 use RamODev\Application\TBA\Views\Pages;
 
-require_once(__DIR__ . "/../../application/shared/models/configs/PHPConfig.php");
+require_once(__DIR__ . "/../../application/shared/models/configs/PHP.php");
 
 $page = new Pages\Login();
 echo $page->getOutput();

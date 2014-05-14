@@ -27,7 +27,7 @@ class QueryResults
      */
     public function __construct(\PDO $pdoConnection, \PDOStatement $pdoStatement)
     {
-        $this->pdoConnection = $pdoConnection;
+        //$this->pdoConnection = $pdoConnection;
         $this->pdoStatement = $pdoStatement;
     }
 

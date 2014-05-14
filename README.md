@@ -3,18 +3,17 @@ These tools are PHP wrappers for relational database (RDBMS) and NoSQL database 
 
 ```
 <?php
-namespace RamODev;
-use RamODev\Application\Shared\Databases\SQL\PostgreSQL\QueryBuilders;
+use RamODev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
 
 $queryBuilder = new QueryBuilders\QueryBuilder();
-$selectQuery = $queryBuilder->select("id", "name", "email")
+$selectLongTimeUsersQuery = $queryBuilder->select("id", "name", "email")
     ->from("users")
-    ->where("active = :active")
-    ->addNamedPlaceholderValue("active" => "t");
+    ->where("datejoined < :dateJoined")
+    ->addNamedPlaceholderValue("dateJoined" => "2010-01-01");
 
-echo $selectQuery->getSQL();
+echo $selectLongTimeUsersQuery->getSQL();
 // "SELECT id, name, email FROM users WHERE active = :active"
-echo var_dump($selectQuery->getParameters());
+echo var_dump($selectLongTimeUsersQuery->getParameters());
 // array("active" => "t")
 ```
 # License

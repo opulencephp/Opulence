@@ -10,9 +10,6 @@ use RamODev\Application\Shared\Models\Users\Authentication\Credentials;
 
 class LoginCredentialsFactory
 {
-    /** The length of the token to use */
-    const TOKEN_LENGTH = 32;
-
     /**
      * Creates credentials for the input user
      *

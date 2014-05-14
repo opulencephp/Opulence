@@ -48,7 +48,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         {
             $this->sqlDatabase
                 ->query("INSERT INTO users.tokens (token, tokentypeid, userid, validfrom, validto, useragent, ipaddress)
-            VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddress)", array(
+VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddress)", array(
                     "token" => $hashedValue,
                     "tokenTypeId" => $token->getTypeId(),
                     "userId" => $token->getUserId(),

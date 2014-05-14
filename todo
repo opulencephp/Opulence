@@ -1,8 +1,12 @@
-Write abstract method for repos to store an object (opposite of loadEntity())
-Research more if it's more appropriate to call (at least parts) of our repos "DataMappers" because of the way they map rows/hashes to objects
-Write tests for Router class
-Re-open the idea of just extending PDO/PHPRedis rather than being composed of them
 We are passing a sub repo as its interface, which could be a problem because we're relying on it implementing non-interface methods like hashPassword()
+Need to write some interfaces around LoginCredentials and its factory to generalize them
+    This will make classes like LoginController and Session able to work with different types of credentials
+See if current Session class would make more sense as an abstract class
+    Also need to add methods for setting things like cookies/JSON response for credentials
+    Need to pass a reference to this object to LoginController
+Need to figure out where to store lifetime settings for login credentials in LoginController
+Get rid of "deactivate()" methods because they aren't a good fit for repository pattern
+Write tests for Router class
 Need to build classes to store credentials client-side (eg cookies/JSON)
     Where should these classes be instantiated/used?
 Build Session class to try making calls to login/logout

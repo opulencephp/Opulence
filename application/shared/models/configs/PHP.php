@@ -6,7 +6,7 @@
  */
 namespace RamODev\Application\Shared\Models\Configs;
 
-class PHPConfig
+class PHP
 {
     /** The relative path to the root RamODev directory */
     const RELATIVE_PATH_TO_RAMODEV_ROOT_DIR = "../../../..";
@@ -45,4 +45,4 @@ class PHPConfig
     }
 }
 
-$phpConfig = new PHPConfig();
+$phpConfig = new PHP();

@@ -38,7 +38,7 @@ abstract class RedisRepo
     {
         $entityHash = $this->getEntityHashById($id);
 
-        if($entityHash === false)
+        if($entityHash === false || $entityHash === array())
         {
             return false;
         }

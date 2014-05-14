@@ -220,6 +220,6 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     private function getPepperedUnhashedValue($unhashedValue)
     {
-        return $unhashedValue . Configs\AuthenticationConfig::TOKEN_PEPPER;
+        return $unhashedValue . Configs\Authentication::TOKEN_PEPPER;
     }
 } 

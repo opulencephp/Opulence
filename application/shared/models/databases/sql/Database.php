@@ -35,6 +35,7 @@ class Database extends Databases\Database
 
     /**
      * Commits the transaction
+     * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
      */
     public function commitTransaction()
     {
@@ -155,6 +156,7 @@ class Database extends Databases\Database
 
     /**
      * Starts a transaction
+     * Nested transactions are permitted
      *
      * @throws \PDOException Thrown if we're already in a transaction
      */
