@@ -4,8 +4,8 @@
  *
  * Defines the user interface
  */
-namespace RamODev\Application\Shared\Models\Users;
-use RamODev\Application\Shared\Models;
+namespace RDev\Application\Shared\Models\Users;
+use RDev\Application\Shared\Models;
 
 interface IUser extends Models\IEntity
 {

@@ -4,13 +4,13 @@
  *
  *
  */
-namespace RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
-use RamODev\Application\Shared\Models\Databases\NoSQL\Redis;
-use RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\Shared\Models\Repositories;
-use RamODev\Application\TBA\Models\Configs;
+namespace RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
+use RDev\Application\Shared\Models\Databases\NoSQL\Redis;
+use RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\Shared\Models\Repositories;
+use RDev\Application\TBA\Models\Configs;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenRepo
 {

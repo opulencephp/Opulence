@@ -4,9 +4,9 @@
  *
  * Defines the interface for token repos to implement
  */
-namespace RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
+namespace RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
 
 interface ITokenRepo
 {

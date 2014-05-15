@@ -4,15 +4,15 @@
  *
  * Provides methods for retrieving user data from the repository
  */
-namespace RamODev\Application\Shared\Models\Users\Repositories\User;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
-use RamODev\Application\Shared\Models\Databases\NoSQL\Redis;
-use RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\Shared\Models\Repositories;
-use RamODev\Application\Shared\Models\Users;
-use RamODev\Application\Shared\Models\Users\Factories;
+namespace RDev\Application\Shared\Models\Users\Repositories\User;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
+use RDev\Application\Shared\Models\Databases\NoSQL\Redis;
+use RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\Shared\Models\Repositories;
+use RDev\Application\Shared\Models\Users;
+use RDev\Application\Shared\Models\Users\Factories;
 
 class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRepo
 {

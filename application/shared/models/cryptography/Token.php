@@ -4,8 +4,8 @@
  *
  * Defines a cryptographic token used for security
  */
-namespace RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models;
+namespace RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models;
 
 class Token implements Models\IEntity
 {

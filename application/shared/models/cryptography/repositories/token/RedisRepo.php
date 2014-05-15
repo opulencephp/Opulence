@@ -4,10 +4,10 @@
  *
  * Defines the Redis repo for tokens
  */
-namespace RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
-use RamODev\Application\Shared\Models\Repositories;
+namespace RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
+use RDev\Application\Shared\Models\Repositories;
 
 class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
 {

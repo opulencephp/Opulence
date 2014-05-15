@@ -4,8 +4,8 @@
  *
  * Creates user objects
  */
-namespace RamODev\Application\Shared\Models\Users\Factories;
-use RamODev\Application\Shared\Models\Users;
+namespace RDev\Application\Shared\Models\Users\Factories;
+use RDev\Application\Shared\Models\Users;
 
 class UserFactory
 {

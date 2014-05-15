@@ -4,7 +4,7 @@
  *
  * Defines different types of tokens
  */
-namespace RamODev\Application\Shared\Models\Cryptography;
+namespace RDev\Application\Shared\Models\Cryptography;
 
 class TokenTypes
 {

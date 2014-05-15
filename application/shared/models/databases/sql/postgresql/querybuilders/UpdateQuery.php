@@ -4,8 +4,8 @@
  *
  * Builds an update query
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
-use RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
+use RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 
 class UpdateQuery extends QueryBuilders\UpdateQuery
 {

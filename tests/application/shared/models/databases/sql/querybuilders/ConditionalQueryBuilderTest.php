@@ -4,7 +4,7 @@
  *
  * Tests the conditional query builder
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 
 class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {

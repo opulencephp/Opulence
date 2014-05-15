@@ -4,8 +4,8 @@
  *
  * Tests the SQL class
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\TBA\Models\Databases\SQL\PostgreSQL\Servers;
+namespace RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\TBA\Models\Databases\SQL\PostgreSQL\Servers;
 
 class DatabaseTest extends \PHPUnit_Framework_TestCase
 {

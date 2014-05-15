@@ -4,8 +4,8 @@
  *
  * Defines the base MySQL server object
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\MySQL;
-use RamODev\Application\Shared\Models\Databases\SQL;
+namespace RDev\Application\Shared\Models\Databases\SQL\MySQL;
+use RDev\Application\Shared\Models\Databases\SQL;
 
 abstract class Server extends SQL\Server
 {

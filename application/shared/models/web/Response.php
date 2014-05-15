@@ -4,7 +4,7 @@
  *
  * Defines an HTTP response
  */
-namespace RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Web;
 
 class Response
 {

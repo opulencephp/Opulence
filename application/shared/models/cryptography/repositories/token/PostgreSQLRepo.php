@@ -4,14 +4,14 @@
  *
  *
  */
-namespace RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
-use RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\Shared\Models\Databases\SQL\Exceptions\SQLException;
-use RamODev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
-use RamODev\Application\Shared\Models\Exceptions\Log;
-use RamODev\Application\Shared\Models\Repositories;
+namespace RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
+use RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\Shared\Models\Databases\SQL\Exceptions\SQLException;
+use RDev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
+use RDev\Application\Shared\Models\Exceptions\Log;
+use RDev\Application\Shared\Models\Repositories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
 {

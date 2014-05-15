@@ -4,7 +4,7 @@
  *
  * Defines the interface for credentials to implement
  */
-namespace RamODev\Application\Shared\Models\Users\Authentication\Credentials;
+namespace RDev\Application\Shared\Models\Users\Authentication\Credentials;
 
 interface ICredentials
 {

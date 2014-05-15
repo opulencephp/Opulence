@@ -4,7 +4,7 @@
  *
  * Defines methods and properties of the HTTP protocol, including things like the request and response
  */
-namespace RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Web;
 
 class HTTP
 {

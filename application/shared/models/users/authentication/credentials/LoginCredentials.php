@@ -4,8 +4,8 @@
  *
  * Defines a user's login credentials
  */
-namespace RamODev\Application\Shared\Models\Users\Authentication\Credentials;
-use RamODev\Application\Shared\Models\Cryptography;
+namespace RDev\Application\Shared\Models\Users\Authentication\Credentials;
+use RDev\Application\Shared\Models\Cryptography;
 
 class LoginCredentials implements ICredentials
 {

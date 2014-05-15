@@ -4,7 +4,7 @@
  *
  * Defines different types of actions we can take with data in a repository
  */
-namespace RamODev\Application\Shared\Models\Repositories;
+namespace RDev\Application\Shared\Models\Repositories;
 
 class ActionTypes
 {

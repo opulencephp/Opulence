@@ -4,9 +4,9 @@
  *
  * Defines the login credentials factory
  */
-namespace RamODev\Application\Shared\Models\Users\Authentication\Credentials\Factories;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Users\Authentication\Credentials;
+namespace RDev\Application\Shared\Models\Users\Authentication\Credentials\Factories;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Users\Authentication\Credentials;
 
 class LoginCredentialsFactory
 {

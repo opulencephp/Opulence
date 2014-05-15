@@ -4,8 +4,8 @@
  *
  * Tests the user factory
  */
-namespace RamODev\Application\Shared\Models\Users\Factories;
-use RamODev\Application\Shared\Models\Users;
+namespace RDev\Application\Shared\Models\Users\Factories;
+use RDev\Application\Shared\Models\Users;
 
 class UserFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +26,6 @@ class UserFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreatingUser()
     {
         $user = $this->userFactory->createUser(1, "foo", "foo@bar.com", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young");
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Users\\User", $user);
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Users\\User", $user);
     }
 } 

@@ -4,8 +4,8 @@
  *
  * Builds an insert query
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
-use RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders\Exceptions;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+use RDev\Application\Shared\Models\Databases\SQL\QueryBuilders\Exceptions;
 
 class InsertQuery extends Query
 {

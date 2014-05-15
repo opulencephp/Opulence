@@ -4,18 +4,18 @@
  *
  * Provides methods for retrieving user data from a PostgreSQL database
  */
-namespace RamODev\Application\Shared\Models\Users\Repositories\User;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
-use RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\Shared\Models\Databases\SQL\Exceptions as SQLExceptions;
-use RamODev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
-use RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders\Exceptions as QueryBuilderExceptions;
-use RamODev\Application\Shared\Models\Exceptions as SharedExceptions;
-use RamODev\Application\Shared\Models\Repositories;
-use RamODev\Application\Shared\Models\Users;
-use RamODev\Application\Shared\Models\Users\Factories;
+namespace RDev\Application\Shared\Models\Users\Repositories\User;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions\IncorrectHashException;
+use RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\Shared\Models\Databases\SQL\Exceptions as SQLExceptions;
+use RDev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
+use RDev\Application\Shared\Models\Databases\SQL\QueryBuilders\Exceptions as QueryBuilderExceptions;
+use RDev\Application\Shared\Models\Exceptions as SharedExceptions;
+use RDev\Application\Shared\Models\Repositories;
+use RDev\Application\Shared\Models\Users;
+use RDev\Application\Shared\Models\Users\Factories;
 
 class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
 {

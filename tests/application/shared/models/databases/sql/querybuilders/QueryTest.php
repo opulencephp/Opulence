@@ -4,7 +4,7 @@
  *
  * Tests the query class
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->query = $this->getMockForAbstractClass("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Query");
+        $this->query = $this->getMockForAbstractClass("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Query");
     }
 
     /**
@@ -33,7 +33,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder()
     {
-        $this->setExpectedException("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addUnnamedPlaceholderValue("dave")
             ->addNamedPlaceholderValue("id", 18175);
     }
@@ -52,7 +52,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder()
     {
-        $this->setExpectedException("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addNamedPlaceholderValue("id", 18175)
             ->addUnnamedPlaceholderValue("dave");
     }
@@ -63,7 +63,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     public function testRemovingNamedPlaceholder()
     {
         $key = "foo";
-        $this->query = $this->getMockForAbstractClass("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Query");
+        $this->query = $this->getMockForAbstractClass("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Query");
         $this->query->addNamedPlaceholderValue($key, "bar");
         $this->query->removeNamedPlaceHolder($key);
         $this->assertFalse(array_key_exists($key, $this->query->getParameters()));
@@ -74,7 +74,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
     {
-        $this->setExpectedException("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addUnnamedPlaceholderValue("foo");
         $this->query->removeNamedPlaceHolder("bar");
     }
@@ -84,7 +84,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingUnnamedPlaceholder()
     {
-        $this->query = $this->getMockForAbstractClass("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Query");
+        $this->query = $this->getMockForAbstractClass("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Query");
         $this->query->addUnnamedPlaceholderValue("foo")
             ->addUnnamedPlaceholderValue("bar")
             ->addUnnamedPlaceholderValue("xyz");
@@ -97,7 +97,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders()
     {
-        $this->setExpectedException("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addNamedPlaceholderValue("foo", "bar");
         $this->query->removeUnnamedPlaceHolder(0);
     }

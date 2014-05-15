@@ -4,7 +4,7 @@
  *
  * Defines the different user data types
  */
-namespace RamODev\Application\Shared\Models\Users\Repositories\User;
+namespace RDev\Application\Shared\Models\Users\Repositories\User;
 
 class UserDataTypes
 {

@@ -4,7 +4,7 @@
  *
  * Displays the login page
  */
-use RamODev\Application\TBA\Views\Pages;
+use RDev\Application\TBA\Views\Pages;
 
 require_once(__DIR__ . "/../../application/shared/models/configs/PHP.php");
 

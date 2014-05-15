@@ -4,9 +4,9 @@
  *
  * Defines a RESTful API URL router
  */
-namespace RamODev\Application\Shared\Models\Web\API;
-use RamODev\Application\Shared\Models\Exceptions\Log;
-use RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Web\API;
+use RDev\Application\Shared\Models\Exceptions\Log;
+use RDev\Application\Shared\Models\Web;
 
 class Router
 {

@@ -4,10 +4,10 @@
  *
  * Defines a session that persists throughout a transaction on a page
  */
-namespace RamODev\Application\Shared\Models\Sessions;
-use RamODev\Application\Shared\Models\Users;
-use RamODev\Application\Shared\Models\Users\Authentication\Credentials;
-use RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Sessions;
+use RDev\Application\Shared\Models\Users;
+use RDev\Application\Shared\Models\Users\Authentication\Credentials;
+use RDev\Application\Shared\Models\Web;
 
 class Session
 {

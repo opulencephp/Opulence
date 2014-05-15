@@ -4,7 +4,7 @@
  *
  * Tests the delete query
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\MySQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\MySQL\QueryBuilders;
 
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 {

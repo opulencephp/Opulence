@@ -4,7 +4,7 @@
  *
  * Tests the user object
  */
-namespace RamODev\Application\Shared\Models\Users;
+namespace RDev\Application\Shared\Models\Users;
 
 class UserTest extends \PHPUnit_Framework_TestCase
 {

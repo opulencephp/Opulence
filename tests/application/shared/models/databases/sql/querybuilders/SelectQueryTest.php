@@ -4,7 +4,7 @@
  *
  * Tests the select query
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 
 class SelectQueryTest extends \PHPUnit_Framework_TestCase
 {

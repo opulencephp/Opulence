@@ -4,10 +4,10 @@
  *
  * Defines a repository that uses a PostgreSQL database as a storage method
  */
-namespace RamODev\Application\Shared\Models\Repositories;
-use RamODev\Application\Shared\Models;
-use RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Repositories;
+use RDev\Application\Shared\Models;
+use RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\Shared\Models\Exceptions;
 
 abstract class PostgreSQLRepo
 {

@@ -4,7 +4,7 @@
  *
  * Defines an exception that is thrown in the case of invalid input
  */
-namespace RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Exceptions;
 
 class InvalidInputException extends Exception
 {

@@ -4,8 +4,8 @@
  *
  * Defines common functionality for query classes
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
-use RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders\Exceptions;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+use RDev\Application\Shared\Models\Databases\SQL\QueryBuilders\Exceptions;
 
 abstract class Query
 {

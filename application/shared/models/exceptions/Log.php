@@ -4,7 +4,7 @@
  *
  * Defines the error log to write exceptions to
  */
-namespace RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Exceptions;
 
 class Log
 {

@@ -4,7 +4,7 @@
  *
  * Tests the query builder
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\MySQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\MySQL\QueryBuilders;
 
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatDeleteReturnsDeleteQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\DeleteQuery", $queryBuilder->delete("tableName", "tableAlias"));
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\DeleteQuery", $queryBuilder->delete("tableName", "tableAlias"));
     }
 
     /**
@@ -23,7 +23,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatInsertReturnsInsertQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\InsertQuery", $queryBuilder->insert("tableName", array("columnName" => "columnValue")));
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\InsertQuery", $queryBuilder->insert("tableName", array("columnName" => "columnValue")));
     }
 
     /**
@@ -32,7 +32,7 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatSelectReturnsSelectQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\SelectQuery", $queryBuilder->select("tableName", "tableAlias"));
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\SelectQuery", $queryBuilder->select("tableName", "tableAlias"));
     }
 
     /**
@@ -41,6 +41,6 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatUpdateReturnsUpdateQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\UpdateQuery", $queryBuilder->update("tableName", "tableAlias", array("columnName" => "columnValue")));
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Databases\\SQL\\MySQL\\QueryBuilders\\UpdateQuery", $queryBuilder->update("tableName", "tableAlias", array("columnName" => "columnValue")));
     }
 } 

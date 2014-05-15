@@ -4,8 +4,8 @@
  *
  * Defines methods common to all website page templates
  */
-namespace RamODev\Application\Shared\Views\Pages;
-use RamODev\Application\Shared\Views;
+namespace RDev\Application\Shared\Views\Pages;
+use RDev\Application\Shared\Views;
 
 class Template implements Views\IView
 {

@@ -4,8 +4,8 @@
  *
  * Provides a skeleton for database servers to extend
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL;
-use RamODev\Application\Shared\Models\Databases;
+namespace RDev\Application\Shared\Models\Databases\SQL;
+use RDev\Application\Shared\Models\Databases;
 
 abstract class Server extends Databases\Server
 {

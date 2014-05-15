@@ -4,14 +4,14 @@
  *
  * Defines PHP configuration settings
  */
-namespace RamODev\Application\Shared\Models\Configs;
+namespace RDev\Application\Shared\Models\Configs;
 
 class PHP
 {
-    /** The relative path to the root RamODev directory */
-    const RELATIVE_PATH_TO_RAMODEV_ROOT_DIR = "../../../..";
+    /** The relative path to the project's root directory */
+    const RELATIVE_PATH_TO_PROJECT_ROOT_DIR = "../../../..";
     /** The root namespace */
-    const ROOT_NAMESPACE = "RamODev";
+    const ROOT_NAMESPACE = "RDev";
 
     public function __construct()
     {
@@ -36,7 +36,7 @@ class PHP
             $className = array_pop($explodedFullyQualifiedClassName);
             $explodedPath = array_map("strtolower", $explodedFullyQualifiedClassName);
 
-            require_once(__DIR__ . "/" . self::RELATIVE_PATH_TO_RAMODEV_ROOT_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
+            require_once(__DIR__ . "/" . self::RELATIVE_PATH_TO_PROJECT_ROOT_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
         }
         else
         {

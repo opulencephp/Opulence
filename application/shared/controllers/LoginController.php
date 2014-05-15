@@ -4,13 +4,13 @@
  *
  *
  */
-namespace RamODev\Application\Shared\Controllers;
-use RamODev\Application\Shared\Models\Cryptography\Repositories\Token;
-use RamODev\Application\Shared\Models\Users\Authentication\Credentials;
-use RamODev\Application\Shared\Models\Users\Authentication\Credentials\Factories;
-use RamODev\Application\Shared\Models\Users\Repositories\User;
-use RamODev\Application\Shared\Models\Web;
-use RamODev\Application\TBA\Models\Configs;
+namespace RDev\Application\Shared\Controllers;
+use RDev\Application\Shared\Models\Cryptography\Repositories\Token;
+use RDev\Application\Shared\Models\Users\Authentication\Credentials;
+use RDev\Application\Shared\Models\Users\Authentication\Credentials\Factories;
+use RDev\Application\Shared\Models\Users\Repositories\User;
+use RDev\Application\Shared\Models\Web;
+use RDev\Application\TBA\Models\Configs;
 
 class LoginController
 {

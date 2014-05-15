@@ -4,7 +4,7 @@
  *
  * Defines a generic page template
  */
-namespace RamODev\Application\Shared\Views\Pages;
+namespace RDev\Application\Shared\Views\Pages;
 
 class Generic extends Template
 {

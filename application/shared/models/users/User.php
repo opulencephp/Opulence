@@ -4,7 +4,7 @@
  *
  * Defines a user
  */
-namespace RamODev\Application\Shared\Models\Users;
+namespace RDev\Application\Shared\Models\Users;
 
 class User implements IUser
 {

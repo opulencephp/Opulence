@@ -4,7 +4,7 @@
  *
  * Defines the interface for entity models to implement
  */
-namespace RamODev\Application\Shared\Models;
+namespace RDev\Application\Shared\Models;
 
 interface IEntity
 {

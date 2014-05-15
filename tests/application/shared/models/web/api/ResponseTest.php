@@ -4,8 +4,8 @@
  *
  * Tests the API response class
  */
-namespace RamODev\Application\Shared\Models\Web\API;
-use RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Web\API;
+use RDev\Application\Shared\Models\Web;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {

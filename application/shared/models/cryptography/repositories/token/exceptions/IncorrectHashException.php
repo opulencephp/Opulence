@@ -4,8 +4,8 @@
  *
  * Defines an incorrect-hash exception
  */
-namespace RamODev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions;
-use RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Cryptography\Repositories\Token\Exceptions;
+use RDev\Application\Shared\Models\Exceptions;
 
 class IncorrectHashException extends Exceptions\Exception
 {

@@ -4,7 +4,7 @@
  *
  * Builds parts of a query that can use a "WHERE" clause
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 
 class ConditionalQueryBuilder
 {

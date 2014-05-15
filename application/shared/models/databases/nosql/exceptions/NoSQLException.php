@@ -4,8 +4,8 @@
  *
  * Defines a NoSQL database exception
  */
-namespace RamODev\Application\Shared\Models\Databases\NoSQL\Exceptions;
-use RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Databases\NoSQL\Exceptions;
+use RDev\Application\Shared\Models\Exceptions;
 
 class NoSQLException extends Exceptions\Exception
 {

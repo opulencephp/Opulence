@@ -4,7 +4,7 @@
  *
  * Tests the HTTP class
  */
-namespace RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Web;
 
 class HTTPTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testGettingRequest()
     {
         $http = new HTTP();
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Web\\Request", $http->getRequest());
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Web\\Request", $http->getRequest());
     }
 
     /**
@@ -23,6 +23,6 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
     public function testGettingResponse()
     {
         $http = new HTTP();
-        $this->assertInstanceOf("RamODev\\Application\\Shared\\Models\\Web\\Response", $http->getResponse());
+        $this->assertInstanceOf("RDev\\Application\\Shared\\Models\\Web\\Response", $http->getResponse());
     }
 } 

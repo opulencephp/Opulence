@@ -4,7 +4,7 @@
  *
  * Defines the interface for views to implement
  */
-namespace RamODev\Application\Shared\Views;
+namespace RDev\Application\Shared\Views;
 
 interface IView
 {

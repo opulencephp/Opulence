@@ -4,8 +4,8 @@
  *
  * Contains data from an API response
  */
-namespace RamODev\Application\Shared\Models\Web\API;
-use RamODev\Application\Shared\Models\Web;
+namespace RDev\Application\Shared\Models\Web\API;
+use RDev\Application\Shared\Models\Web;
 
 class Response
 {

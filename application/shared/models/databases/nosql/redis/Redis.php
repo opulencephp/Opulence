@@ -4,9 +4,9 @@
  *
  * Defines a Redis database connection
  */
-namespace RamODev\Application\Shared\Models\Databases\NoSQL\Redis;
-use RamODev\Application\Shared\Models\Databases\NoSQL\Exceptions as NoSQLExceptions;
-use RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Databases\NoSQL\Redis;
+use RDev\Application\Shared\Models\Databases\NoSQL\Exceptions as NoSQLExceptions;
+use RDev\Application\Shared\Models\Exceptions;
 
 class Redis extends \Redis
 {

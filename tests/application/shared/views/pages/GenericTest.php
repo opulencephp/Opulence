@@ -4,7 +4,7 @@
  *
  * Tests the generic page template
  */
-namespace RamODev\Application\Shared\Views\Pages;
+namespace RDev\Application\Shared\Views\Pages;
 
 class GenericTest extends \PHPUnit_Framework_TestCase
 {

@@ -4,9 +4,9 @@
  *
  * Defines the user repository interface
  */
-namespace RamODev\Application\Shared\Models\Users\Repositories\User;
-use RamODev\Application\Shared\Models\Cryptography;
-use RamODev\Application\Shared\Models\Users;
+namespace RDev\Application\Shared\Models\Users\Repositories\User;
+use RDev\Application\Shared\Models\Cryptography;
+use RDev\Application\Shared\Models\Users;
 
 interface IUserRepo
 {

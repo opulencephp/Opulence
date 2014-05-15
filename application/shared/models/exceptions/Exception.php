@@ -4,7 +4,7 @@
  *
  * Defines a general exception in the application
  */
-namespace RamODev\Application\Shared\Models\Exceptions;
+namespace RDev\Application\Shared\Models\Exceptions;
 
 class Exception extends \Exception
 {

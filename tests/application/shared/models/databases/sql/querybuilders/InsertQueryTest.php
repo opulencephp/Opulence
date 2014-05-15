@@ -4,7 +4,7 @@
  *
  * Tests the insert query
  */
-namespace RamODev\Application\Shared\Models\Databases\SQL\QueryBuilders;
+namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
 {

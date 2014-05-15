@@ -4,7 +4,7 @@
  *
  * Tests the token class
  */
-namespace RamODev\Application\Shared\Models\Cryptography;
+namespace RDev\Application\Shared\Models\Cryptography;
 
 class TokenTest extends \PHPUnit_Framework_TestCase
 {
