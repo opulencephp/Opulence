@@ -17,11 +17,14 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
         $query->where("u.id = :userId")
             ->andWhere("u.name = :name")
             ->orWhere("u.id = 10")
-            ->addNamedPlaceholderValues(array("userId" => 18175))
+            ->addNamedPlaceholderValues(array("userId" => array(18175, \PDO::PARAM_INT)))
             ->addNamedPlaceholderValue("name", "dave")
             ->limit(1);
         $this->assertEquals("DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1", $query->getSQL());
-        $this->assertEquals(array("userId" => 18175, "name" => "dave"), $query->getParameters());
+        $this->assertEquals(array(
+            "userId" => array(18175, \PDO::PARAM_INT),
+            "name" => array("dave", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**

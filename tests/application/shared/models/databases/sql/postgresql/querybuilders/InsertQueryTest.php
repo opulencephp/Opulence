@@ -17,7 +17,9 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $query->returning("id")
             ->addReturning("name");
         $this->assertEquals("INSERT INTO users (name) VALUES (?) RETURNING id, name", $query->getSQL());
-        $this->assertEquals(array("dave"), $query->getParameters());
+        $this->assertEquals(array(
+            array("dave", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -30,7 +32,10 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
             ->returning("id")
             ->addReturning("name");
         $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) RETURNING id, name", $query->getSQL());
-        $this->assertEquals(array("dave", "foo@bar.com"), $query->getParameters());
+        $this->assertEquals(array(
+            array("dave", \PDO::PARAM_STR),
+            array("foo@bar.com", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -41,6 +46,8 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $query = new InsertQuery("users", array("name" => "dave"));
         $query->returning("id", "name");
         $this->assertEquals("INSERT INTO users (name) VALUES (?) RETURNING id, name", $query->getSQL());
-        $this->assertEquals(array("dave"), $query->getParameters());
+        $this->assertEquals(array(
+            array("dave", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 } 

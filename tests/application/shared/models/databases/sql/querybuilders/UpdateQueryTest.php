@@ -16,7 +16,10 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query = new UpdateQuery("users", "", array("name" => "david"));
         $query->addColumnValues(array("email" => "bar@foo.com"));
         $this->assertEquals("UPDATE users SET name = ?, email = ?", $query->getSQL());
-        $this->assertEquals(array("david", "bar@foo.com"), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR),
+            array("bar@foo.com", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -26,7 +29,9 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new UpdateQuery("users", "", array("name" => "david"));
         $this->assertEquals("UPDATE users SET name = ?", $query->getSQL());
-        $this->assertEquals(array("david"), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -39,9 +44,15 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->where("u.id = ?", "emails.userid = u.id", "emails.email = ?")
             ->orWhere("u.name = ?")
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
-            ->addUnnamedPlaceholderValues(array(18175, "foo@bar.com", "dave"));
+            ->addUnnamedPlaceholderValues(array(array(18175, \PDO::PARAM_INT), "foo@bar.com", "dave"));
         $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')", $query->getSQL());
-        $this->assertEquals(array("david", "bar@foo.com", 18175, "foo@bar.com", "dave"), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR),
+            array("bar@foo.com", \PDO::PARAM_STR),
+            array(18175, \PDO::PARAM_INT),
+            array("foo@bar.com", \PDO::PARAM_STR),
+            array("dave", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -51,8 +62,11 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new UpdateQuery("users", "", array("name" => "david"));
         $query->where("id = ?")
-            ->addUnnamedPlaceholderValue(18175);
+            ->addUnnamedPlaceholderValue(18175, \PDO::PARAM_INT);
         $this->assertEquals("UPDATE users SET name = ? WHERE (id = ?)", $query->getSQL());
-        $this->assertEquals(array("david", 18175), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR),
+            array(18175, \PDO::PARAM_INT)
+        ), $query->getParameters());
     }
 } 

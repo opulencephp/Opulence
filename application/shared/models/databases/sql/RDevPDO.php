@@ -2,9 +2,8 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines an extension of the PDO library
- * The reason the PDO interface is duplicated is because we can then control when the parent PDO object is instantiated
- * This prevents an (expensive) database connection from being made unless we call for it
+ * Defines an extension of the PDO library with lazy-connection
+ * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
 namespace RDev\Application\Shared\Models\Databases\SQL;
 use RDev\Application\Shared\Models\Databases\SQL\Exceptions as SQLExceptions;
@@ -12,6 +11,9 @@ use RDev\Application\Shared\Models\Exceptions;
 
 class RDevPDO extends \PDO
 {
+    /** The name of the PDOStatement class to use */
+    const PDO_STATEMENT_CLASS = "RDevPDOStatement";
+
     /** @var Server The server we're connecting to */
     private $server = null;
     /** @var bool Whether or not we're connected */
@@ -135,7 +137,7 @@ class RDevPDO extends \PDO
      *
      * @param string $statement The statement to prepare
      * @param array $driverOptions The driver options to use
-     * @return \PDOStatement|bool The statement if successful, otherwise false
+     * @return RDevPDOStatement|bool The statement if successful, otherwise false
      */
     public function prepare($statement, array $driverOptions = array())
     {
@@ -148,7 +150,7 @@ class RDevPDO extends \PDO
      * Executes an SQL statement, returning a result set as a PDOStatement object
      *
      * @param string $statement The statement to prepare and execute
-     * @return \PDOStatement The statement if successful, otherwise false
+     * @return RDevPDOStatement The statement if successful, otherwise false
      */
     public function query($statement)
     {
@@ -215,7 +217,7 @@ class RDevPDO extends \PDO
         try
         {
             parent::__construct($this->server->getConnectionString(), $this->server->getUsername(), $this->server->getPassword());
-
+            parent::setAttribute(\PDO::ATTR_STATEMENT_CLASS, array(__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, array($this)));
             $this->isConnected = true;
         }
         catch(\Exception $ex)

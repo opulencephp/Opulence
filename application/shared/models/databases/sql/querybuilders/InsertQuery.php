@@ -28,13 +28,31 @@ class InsertQuery extends Query
      * Adds column values to the query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
+     *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
+     *      the PDO constant indicating the type of data the value represents
      * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
     public function addColumnValues(array $columnNamesToValues)
     {
         $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
-        $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);
+
+        // The augmenting query doesn't care about the data type, so get rid of it
+        $columnNamesToValuesWithoutDataTypes = array();
+
+        foreach($columnNamesToValues as $name => $value)
+        {
+            if(is_array($value))
+            {
+                $columnNamesToValuesWithoutDataTypes[$name] = $value[0];
+            }
+            else
+            {
+                $columnNamesToValuesWithoutDataTypes[$name] = $value;
+            }
+        }
+
+        $this->augmentingQueryBuilder->addColumnValues($columnNamesToValuesWithoutDataTypes);
 
         return $this;
     }
@@ -46,7 +64,10 @@ class InsertQuery extends Query
      */
     public function getSQL()
     {
-        $sql = "INSERT INTO " . $this->tableName . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES (" . implode(", ", array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), "?")) . ")";
+        $sql = "INSERT INTO " . $this->tableName
+            . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES ("
+            . implode(", ", array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), "?"))
+            . ")";
 
         return $sql;
     }

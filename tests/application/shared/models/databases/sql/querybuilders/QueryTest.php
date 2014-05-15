@@ -24,8 +24,10 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholder()
     {
-        $this->query->addNamedPlaceholderValue("userId", 18175);
-        $this->assertEquals(array("userId" => 18175), $this->query->getParameters());
+        $this->query->addNamedPlaceholderValue("name", "foo");
+        $this->assertEquals(array(
+            "name" => array("foo", \PDO::PARAM_STR)
+        ), $this->query->getParameters());
     }
 
     /**
@@ -39,12 +41,34 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests adding a named placeholder with data type
+     */
+    public function testAddingNamedPlaceholderWithDataType()
+    {
+        $this->query->addNamedPlaceholderValue("userId", 18175, \PDO::PARAM_INT);
+        $this->assertEquals(array(
+            "userId" => array(18175, \PDO::PARAM_INT)
+        ), $this->query->getParameters());
+    }
+
+    /**
+     * Tests adding an array with the named value with the incorrect number of arguments
+     */
+    public function testAddingNamedPlaceholderWithIncorrectArrayValueCount()
+    {
+        $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->query->addNamedPlaceholderValues(array("foo" => array("bar")));
+    }
+
+    /**
      * Tests adding an unnamed placeholder
      */
     public function testAddingUnnamedPlaceholder()
     {
-        $this->query->addUnnamedPlaceholderValue(18175);
-        $this->assertEquals(array(18175), $this->query->getParameters());
+        $this->query->addUnnamedPlaceholderValue("foo");
+        $this->assertEquals(array(
+            array("foo", \PDO::PARAM_STR)
+        ), $this->query->getParameters());
     }
 
     /**
@@ -55,6 +79,26 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
         $this->query->addNamedPlaceholderValue("id", 18175)
             ->addUnnamedPlaceholderValue("dave");
+    }
+
+    /**
+     * Tests adding an unnamed placeholder with data type
+     */
+    public function testAddingUnnamedPlaceholderWithDataType()
+    {
+        $this->query->addUnnamedPlaceholderValue(18175, \PDO::PARAM_INT);
+        $this->assertEquals(array(
+            array(18175, \PDO::PARAM_INT)
+        ), $this->query->getParameters());
+    }
+
+    /**
+     * Tests adding an array with the unnamed value with the incorrect number of arguments
+     */
+    public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount()
+    {
+        $this->setExpectedException("RDev\\Application\\Shared\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->query->addUnnamedPlaceholderValues(array(array("bar")));
     }
 
     /**
@@ -89,7 +133,19 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             ->addUnnamedPlaceholderValue("bar")
             ->addUnnamedPlaceholderValue("xyz");
         $this->query->removeUnnamedPlaceHolder(1);
-        $this->assertFalse(in_array("bar", $this->query->getParameters()));
+        $parameters = $this->query->getParameters();
+        $fooFound = false;
+
+        foreach($parameters as $parameterData)
+        {
+            if($parameterData[0] == "bar")
+            {
+                $fooFound = true;
+                break;
+            }
+        }
+
+        $this->assertFalse($fooFound);
     }
 
     /**

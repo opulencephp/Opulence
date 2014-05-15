@@ -17,7 +17,9 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query->returning("id")
             ->addReturning("name");
         $this->assertEquals("UPDATE users SET name = ? RETURNING id, name", $query->getSQL());
-        $this->assertEquals(array("david"), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -32,9 +34,15 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
             ->returning("u.id")
             ->addReturning("u.name")
-            ->addUnnamedPlaceholderValues(array(18175, "foo@bar.com", "dave"));
+            ->addUnnamedPlaceholderValues(array(array(18175, \PDO::PARAM_INT), "foo@bar.com", "dave"));
         $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name", $query->getSQL());
-        $this->assertEquals(array("david", "bar@foo.com", 18175, "foo@bar.com", "dave"), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR),
+            array("bar@foo.com", \PDO::PARAM_STR),
+            array(18175, \PDO::PARAM_INT),
+            array("foo@bar.com", \PDO::PARAM_STR),
+            array("dave", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 
     /**
@@ -45,6 +53,8 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query = new UpdateQuery("users", "", array("name" => "david"));
         $query->returning("id");
         $this->assertEquals("UPDATE users SET name = ? RETURNING id", $query->getSQL());
-        $this->assertEquals(array("david"), $query->getParameters());
+        $this->assertEquals(array(
+            array("david", \PDO::PARAM_STR)
+        ), $query->getParameters());
     }
 } 

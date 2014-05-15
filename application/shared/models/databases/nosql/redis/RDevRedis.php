@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a Redis database connection
+ * Defines an extension of the PHPRedis library
  */
 namespace RDev\Application\Shared\Models\Databases\NoSQL\Redis;
 use RDev\Application\Shared\Models\Databases\NoSQL\Exceptions as NoSQLExceptions;

@@ -46,18 +46,19 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
     {
         try
         {
-            $statement = $this->rDevPDO
-                ->prepare("INSERT INTO users.tokens (token, tokentypeid, userid, validfrom, validto, useragent, ipaddress)
-VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddress)");
-            $statement->execute(array(
+            $queryBuilder = new QueryBuilders\QueryBuilder();
+            $insertQuery = $queryBuilder->insert("users.tokens", array(
                 "token" => $hashedValue,
-                "tokenTypeId" => $token->getTypeId(),
-                "userId" => $token->getUserId(),
-                "validFrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
-                "validTo" => $token->getValidTo()->format("Y-m-d H:i:s"),
-                "userAgent" => $this->userAgent,
-                "ipAddress" => $this->ipAddress
+                "tokentypeid" => array($token->getTypeId(), \PDO::PARAM_INT),
+                "userid" => array($token->getUserId(), \PDO::PARAM_INT),
+                "validfrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
+                "validto" => $token->getValidTo()->format("Y-m-d H:i:s"),
+                "useragent" => $this->userAgent,
+                "ipaddress" => $this->ipAddress
             ));
+            $statement = $this->rDevPDO->prepare($insertQuery->getSQL());
+            $statement->bindValues($insertQuery->getParameters());
+            $statement->execute();
             $token->setId((int)$this->rDevPDO->lastInsertID("users.tokens_id_seq"));
 
             return true;
@@ -81,7 +82,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
         try
         {
             $statement = $this->rDevPDO->prepare("UPDATE users.tokens SET isactive = 'f' WHERE id = :id");
-            $statement->execute(array("id" => $token->getId()));
+            $statement->bindValue("id", $token->getId(), \PDO::PARAM_INT);
+            $statement->execute();
 
             return true;
         }
@@ -106,10 +108,11 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
         {
             $statement = $this->rDevPDO
                 ->prepare("UPDATE users.tokens SET isactive = 'f' WHERE tokentypeid = :typeId AND userid = :userId");
-            $statement->execute(array(
-                "typeId" => $typeId,
-                "userId" => $userId
+            $statement->bindValues(array(
+                "typeId" => array($typeId, \PDO::PARAM_INT),
+                "userId" => array($userId, \PDO::PARAM_INT)
             ));
+            $statement->execute();
 
             return true;
         }
@@ -146,8 +149,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
         $this->getQuery->andWhere("tokentypeid = :typeId")
             ->andWhere("userid = :userId")
             ->addNamedPlaceholderValues(array(
-                "typeId" => $typeId,
-                "userId" => $userId
+                "typeId" => array($typeId, \PDO::PARAM_INT),
+                "userId" => array($userId, \PDO::PARAM_INT)
             ));
 
         return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), false);
@@ -163,7 +166,7 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
     {
         $this->buildGetQuery();
         $this->getQuery->andWhere("id = :id")
-            ->addNamedPlaceholderValue("id", $id);
+            ->addNamedPlaceholderValue("id", $id, \PDO::PARAM_INT);
 
         return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), true);
     }
@@ -215,8 +218,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
         $this->getQuery->andWhere("tokentypeid = :typeId")
             ->andWhere("userid = :userId")
             ->addNamedPlaceholderValues(array(
-                "typeId" => $typeId,
-                "userId" => $userId
+                "typeId" => array($typeId, \PDO::PARAM_INT),
+                "userId" => array($userId, \PDO::PARAM_INT)
             ));
 
         return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), true);
@@ -237,8 +240,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
         $this->getQuery->andWhere("userid = :userId")
             ->andWhere("tokentypeid = :typeId")
             ->addNamedPlaceholderValues(array(
-                "userId" => $userId,
-                "typeId" => $typeId
+                "userId" => array($userId, \PDO::PARAM_INT),
+                "typeId" => array($typeId, \PDO::PARAM_INT)
             ));
 
         $tokenFromUserId = $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), true);
@@ -274,7 +277,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
         try
         {
             $statement = $this->rDevPDO->prepare("SELECT token from users.tokens WHERE id = :id");
-            $statement->execute(array("id" => $id));
+            $statement->bindValue("id", $id, \PDO::PARAM_INT);
+            $statement->execute();
 
             if($statement->rowCount() == 0)
             {

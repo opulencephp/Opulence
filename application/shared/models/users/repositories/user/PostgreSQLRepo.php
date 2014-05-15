@@ -75,7 +75,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             {
                 $userDataInsertQuery = $queryBuilder->insert("users.userdata", array_merge(array("userid" => $user->getId()), $userDataColumnMapping));
                 $statement = $this->rDevPDO->prepare($userDataInsertQuery->getSQL());
-                $statement->execute($userDataInsertQuery->getParameters());
+                $statement->bindValues($userDataInsertQuery->getParameters());
+                $statement->execute();
                 $this->log($user->getId(), $userDataColumnMapping["userdatatypeid"], $userDataColumnMapping["value"], Repositories\ActionTypes::ADDED);
             }
 
@@ -144,7 +145,7 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         {
             $this->buildGetQuery();
             $this->getQuery->andWhere("id = :id")
-                ->addNamedPlaceholderValue("id", $id);
+                ->addNamedPlaceholderValue("id", $id, \PDO::PARAM_INT);
 
             return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), true);
         }
@@ -266,13 +267,14 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     {
         $queryBuilder = new QueryBuilders\QueryBuilder();
         $insertQuery = $queryBuilder->insert("users.userdatalog", array(
-            "userid" => $userId,
-            "userdatatypeid" => $userDataTypeId,
+            "userid" => array($userId, \PDO::PARAM_INT),
+            "userdatatypeid" => array($userDataTypeId, \PDO::PARAM_INT),
             "value" => $value,
-            "actiontypeid" => $actionTypeId
+            "actiontypeid" => array($actionTypeId, \PDO::PARAM_INT)
         ));
         $statement = $this->rDevPDO->prepare($insertQuery->getSQL());
-        $statement->execute($insertQuery->getParameters());
+        $statement->bindValues($insertQuery->getParameters());
+        $statement->execute();
     }
 
     /**
@@ -292,9 +294,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             $queryBuilder = new QueryBuilders\QueryBuilder();
             $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeId, "value" => $value))
                 ->where("userid = ?")
-                ->addUnnamedPlaceholderValue($userId);
+                ->addUnnamedPlaceholderValue($userId, \PDO::PARAM_INT);
             $statement = $this->rDevPDO->prepare($updateQuery->getSQL());
-            $statement->execute($updateQuery->getParameters());
+            $statement->bindValues($updateQuery->getParameters());
+            $statement->execute();
             $this->log($userId, $userDataTypeId, $value, Repositories\ActionTypes::UPDATED);
             $this->rDevPDO->commit();
 

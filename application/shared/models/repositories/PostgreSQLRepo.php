@@ -43,7 +43,8 @@ abstract class PostgreSQLRepo
         try
         {
             $statement = $this->rDevPDO->prepare($sql);
-            $statement->execute($sqlParameters);
+            $statement->bindValues($sqlParameters);
+            $statement->execute();
 
             if($expectSingleResult && $statement->rowCount() != 1)
             {

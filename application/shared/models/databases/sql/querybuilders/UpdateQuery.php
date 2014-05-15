@@ -31,6 +31,8 @@ class UpdateQuery extends Query
      * Adds column values to the query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
+     *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
+     *      the PDO constant indicating the type of data the value represents
      * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
@@ -39,7 +41,23 @@ class UpdateQuery extends Query
         if(count($columnNamesToValues) > 0)
         {
             $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
-            $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);
+
+            // The augmenting query doesn't care about the data type, so get rid of it
+            $columnNamesToValuesWithoutDataTypes = array();
+
+            foreach($columnNamesToValues as $name => $value)
+            {
+                if(is_array($value))
+                {
+                    $columnNamesToValuesWithoutDataTypes[$name] = $value[0];
+                }
+                else
+                {
+                    $columnNamesToValuesWithoutDataTypes[$name] = $value;
+                }
+            }
+
+            $this->augmentingQueryBuilder->addColumnValues($columnNamesToValuesWithoutDataTypes);
         }
 
         return $this;
