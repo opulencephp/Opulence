@@ -33,8 +33,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
         // Add this to the list of tokens
         $this->redis->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());
         // Add this to a user index
-        $this->redis
-            ->sAdd("tokens:types:" . $token->getTypeId() . ":users:" . $token->getUserId(), $token->getId());
+        $this->redis->sAdd("tokens:types:" . $token->getTypeId() . ":users:" . $token->getUserId(), $token->getId());
         // Wipe out any expired credentials
         $this->redis->zRemRangeByScore("tokens", "-inf", time());
 
@@ -82,8 +81,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function flush()
     {
-        return $this->redis->del("tokens") !== false
-        && $this->redis->deleteKeyPatterns("tokens:*");
+        return $this->redis->del("tokens") !== false && $this->redis->deleteKeyPatterns("tokens:*");
     }
 
     /**
