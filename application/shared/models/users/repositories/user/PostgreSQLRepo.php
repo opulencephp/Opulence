@@ -56,7 +56,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             // Add the user to the users table
             $queryBuilder = new QueryBuilders\QueryBuilder();
             $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
-            $this->sql->query($userInsertQuery->getSQL(), $userInsertQuery->getParameters());
+            $statement = $this->sql->prepare($userInsertQuery->getSQL());
+            $statement->execute($userInsertQuery->getParameters());
 
             // We'll take this opportunity to set the user's actually Id
             $user->setId((int)$this->sql->lastInsertID("users.users_id_seq"));
@@ -73,7 +74,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             foreach($userDataColumnMappings as $userDataColumnMapping)
             {
                 $userDataInsertQuery = $queryBuilder->insert("users.userdata", array_merge(array("userid" => $user->getId()), $userDataColumnMapping));
-                $this->sql->query($userDataInsertQuery->getSQL(), $userDataInsertQuery->getParameters());
+                $statement = $this->sql->prepare($userDataInsertQuery->getSQL());
+                $statement->execute($userDataInsertQuery->getParameters());
                 $this->log($user->getId(), $userDataColumnMapping["userdatatypeid"], $userDataColumnMapping["value"], Repositories\ActionTypes::ADDED);
             }
 
@@ -269,7 +271,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             "value" => $value,
             "actiontypeid" => $actionTypeId
         ));
-        $this->sql->query($insertQuery->getSQL(), $insertQuery->getParameters());
+        $statement = $this->sql->prepare($insertQuery->getSQL());
+        $statement->execute($insertQuery->getParameters());
     }
 
     /**
@@ -290,7 +293,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
             $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeId, "value" => $value))
                 ->where("userid = ?")
                 ->addUnnamedPlaceholderValue($userId);
-            $this->sql->query($updateQuery->getSQL(), $updateQuery->getParameters());
+            $statement = $this->sql->prepare($updateQuery->getSQL());
+            $statement->execute($updateQuery->getParameters());
             $this->log($userId, $userDataTypeId, $value, Repositories\ActionTypes::UPDATED);
             $this->sql->commit();
 

@@ -46,17 +46,18 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
     {
         try
         {
-            $this->sql
-                ->query("INSERT INTO users.tokens (token, tokentypeid, userid, validfrom, validto, useragent, ipaddress)
-VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddress)", array(
-                    "token" => $hashedValue,
-                    "tokenTypeId" => $token->getTypeId(),
-                    "userId" => $token->getUserId(),
-                    "validFrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
-                    "validTo" => $token->getValidTo()->format("Y-m-d H:i:s"),
-                    "userAgent" => $this->userAgent,
-                    "ipAddress" => $this->ipAddress
-                ));
+            $statement = $this->sql
+                ->prepare("INSERT INTO users.tokens (token, tokentypeid, userid, validfrom, validto, useragent, ipaddress)
+VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddress)");
+            $statement->execute(array(
+                "token" => $hashedValue,
+                "tokenTypeId" => $token->getTypeId(),
+                "userId" => $token->getUserId(),
+                "validFrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
+                "validTo" => $token->getValidTo()->format("Y-m-d H:i:s"),
+                "userAgent" => $this->userAgent,
+                "ipAddress" => $this->ipAddress
+            ));
             $token->setId((int)$this->sql->lastInsertID("users.tokens_id_seq"));
 
             return true;
@@ -79,8 +80,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
     {
         try
         {
-            $this->sql->query("UPDATE users.tokens SET isactive = 'f' WHERE id = :id",
-                array("id" => $token->getId()));
+            $statement = $this->sql->prepare("UPDATE users.tokens SET isactive = 'f' WHERE id = :id");
+            $statement->execute(array("id" => $token->getId()));
 
             return true;
         }
@@ -103,12 +104,12 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
     {
         try
         {
-            $this->sql
-                ->query("UPDATE users.tokens SET isactive = 'f' WHERE tokentypeid = :typeId AND userid = :userId",
-                    array(
-                        "typeId" => $typeId,
-                        "userId" => $userId
-                    ));
+            $statement = $this->sql
+                ->prepare("UPDATE users.tokens SET isactive = 'f' WHERE tokentypeid = :typeId AND userid = :userId");
+            $statement->execute(array(
+                "typeId" => $typeId,
+                "userId" => $userId
+            ));
 
             return true;
         }
@@ -272,7 +273,8 @@ VALUES (:token, :tokenTypeId, :userId, :validFrom, :validTo, :userAgent, :ipAddr
     {
         try
         {
-            $statement = $this->sql->query("SELECT token from users.tokens WHERE id = :id", array("id" => $id));
+            $statement = $this->sql->prepare("SELECT token from users.tokens WHERE id = :id");
+            $statement->execute(array("id" => $id));
 
             if($statement->rowCount() == 0)
             {

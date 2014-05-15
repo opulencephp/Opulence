@@ -42,7 +42,8 @@ abstract class PostgreSQLRepo
     {
         try
         {
-            $statement = $this->sql->query($sql, $sqlParameters);
+            $statement = $this->sql->prepare($sql);
+            $statement->execute($sqlParameters);
 
             if($expectSingleResult && $statement->rowCount() != 1)
             {
