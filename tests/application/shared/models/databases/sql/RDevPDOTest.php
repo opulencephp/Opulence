@@ -2,17 +2,17 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the SQL class
+ * Tests the RDevPDO class
  */
 namespace RDev\Application\Shared\Models\Databases\SQL;
 use RDev\Application\TBA\Models\Databases\SQL\PostgreSQL\Servers;
 
-class DatabaseTest extends \PHPUnit_Framework_TestCase
+class RDevPDOTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Server A database server to connect to */
     private $server = null;
-    /** @var SQL The SQL object we're connecting to */
-    private $sql = null;
+    /** @var RDevPDO The RDevPDO object we're connecting to */
+    private $rDevPDO = null;
 
     /**
      * Sets up the tests
@@ -20,7 +20,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->server = new Servers\RDS();
-        $this->sql = new SQL($this->server);
+        $this->rDevPDO = new RDevPDO($this->server);
     }
 
     /**
@@ -28,7 +28,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->sql = null;
+        $this->rDevPDO = null;
     }
 
     /**
@@ -36,7 +36,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServer()
     {
-        $this->assertEquals($this->server, $this->sql->getServer());
+        $this->assertEquals($this->server, $this->rDevPDO->getServer());
     }
 }
  

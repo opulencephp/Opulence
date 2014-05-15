@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a relational database connection
+ * Defines an extension of the PDO library
  * The reason the PDO interface is duplicated is because we can then control when the parent PDO object is instantiated
  * This prevents an (expensive) database connection from being made unless we call for it
  */
@@ -10,7 +10,7 @@ namespace RDev\Application\Shared\Models\Databases\SQL;
 use RDev\Application\Shared\Models\Databases\SQL\Exceptions as SQLExceptions;
 use RDev\Application\Shared\Models\Exceptions;
 
-class SQL extends \PDO
+class RDevPDO extends \PDO
 {
     /** @var Server The server we're connecting to */
     private $server = null;

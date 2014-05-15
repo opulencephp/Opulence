@@ -20,17 +20,17 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     private $userAgent = "";
 
     /**
-     * @param Redis\Redis $redis The Redis object used in the repo
-     * @param SQL\SQL $sql The SQL object used in the repo
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
      * @param string $ipAddress The IP address of the user that is calling into this repo
      * @param string $userAgent The user agent of the user that is calling into this repo
      */
-    public function __construct(Redis\Redis $redis, SQL\SQL $sql, $ipAddress, $userAgent)
+    public function __construct(Redis\RDevRedis $rDevRedis, SQL\RDevPDO $rDevPDO, $ipAddress, $userAgent)
     {
         $this->ipAddress = $ipAddress;
         $this->userAgent = $userAgent;
 
-        parent::__construct($redis, $sql);
+        parent::__construct($rDevRedis, $rDevPDO);
     }
 
     /**
@@ -191,25 +191,25 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     }
 
     /**
-     * Gets a SQL repo to use in this repo
+     * Gets an SQL repo to use in this repo
      *
-     * @param SQL\SQL $sql The SQL object used in the repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
      * @return PostgreSQLRepo The SQL repo to use
      */
-    protected function getPostgreSQLRepo(SQL\SQL $sql)
+    protected function getPostgreSQLRepo(SQL\RDevPDO $rDevPDO)
     {
-        return new PostgreSQLRepo($sql, $this->ipAddress, $this->userAgent);
+        return new PostgreSQLRepo($rDevPDO, $this->ipAddress, $this->userAgent);
     }
 
     /**
      * Gets a Redis repo to use in this repo
      *
-     * @param Redis\Redis $redis The Redis object used in the repo
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
      * @return RedisRepo The Redis repo to use
      */
-    protected function getRedisRepo(Redis\Redis $redis)
+    protected function getRedisRepo(Redis\RDevRedis $rDevRedis)
     {
-        return new RedisRepo($redis);
+        return new RedisRepo($rDevRedis);
     }
 
     /**

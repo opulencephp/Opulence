@@ -20,7 +20,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function add(Cryptography\Token &$token, $hashedValue)
     {
-        $this->redis->hMset("tokens:" . $token->getId(), array(
+        $this->rDevRedis->hMset("tokens:" . $token->getId(), array(
             "id" => $token->getId(),
             "tokentypeid" => $token->getTypeId(),
             "userid" => $token->getUserId(),
@@ -31,11 +31,11 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
         ));
 
         // Add this to the list of tokens
-        $this->redis->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());
+        $this->rDevRedis->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());
         // Add this to a user index
-        $this->redis->sAdd("tokens:types:" . $token->getTypeId() . ":users:" . $token->getUserId(), $token->getId());
+        $this->rDevRedis->sAdd("tokens:types:" . $token->getTypeId() . ":users:" . $token->getUserId(), $token->getId());
         // Wipe out any expired credentials
-        $this->redis->zRemRangeByScore("tokens", "-inf", time());
+        $this->rDevRedis->zRemRangeByScore("tokens", "-inf", time());
 
         return true;
     }
@@ -60,7 +60,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function deactivateAllByUserId($typeId, $userId)
     {
-        $tokenIds = $this->redis->sMembers("tokens:types:" . $typeId . ":users:" . $userId);
+        $tokenIds = $this->rDevRedis->sMembers("tokens:types:" . $typeId . ":users:" . $userId);
         $tokenIds = array_map("intval", $tokenIds);
 
         foreach($tokenIds as $tokenId)
@@ -81,7 +81,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function flush()
     {
-        return $this->redis->del("tokens") !== false && $this->redis->deleteKeyPatterns("tokens:*");
+        return $this->rDevRedis->del("tokens") !== false && $this->rDevRedis->deleteKeyPatterns("tokens:*");
     }
 
     /**
@@ -194,7 +194,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function getHashedValue($id)
     {
-        return $this->redis->hGet("tokens:" . $id, "hashedvalue");
+        return $this->rDevRedis->hGet("tokens:" . $id, "hashedvalue");
     }
 
     /**
@@ -205,7 +205,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     protected function getEntityHashById($id)
     {
-        return $this->redis->hGetAll("tokens:" . $id);
+        return $this->rDevRedis->hGetAll("tokens:" . $id);
     }
 
     /**
@@ -234,6 +234,6 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     private function deactivateById($id)
     {
-        return $this->redis->hSet("tokens:" . $id, "isactive", false) !== false;
+        return $this->rDevRedis->hSet("tokens:" . $id, "isactive", false) !== false;
     }
 } 

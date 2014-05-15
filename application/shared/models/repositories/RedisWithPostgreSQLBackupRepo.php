@@ -16,13 +16,13 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     protected $postgreSQLRepo = null;
 
     /**
-     * @param Redis\Redis $redis The Redis object used in the repo
-     * @param SQL\SQL $sql The SQL object used in the repo
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
      */
-    public function __construct(Redis\Redis $redis, SQL\SQL $sql)
+    public function __construct(Redis\RDevRedis $rDevRedis, SQL\RDevPDO $rDevPDO)
     {
-        $this->redisRepo = $this->getRedisRepo($redis);
-        $this->postgreSQLRepo = $this->getPostgreSQLRepo($sql);
+        $this->redisRepo = $this->getRedisRepo($rDevRedis);
+        $this->postgreSQLRepo = $this->getPostgreSQLRepo($rDevPDO);
     }
 
     /**
@@ -42,23 +42,23 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     abstract protected function addDataToRedisRepo(&$data, array $funcArgs = array());
 
     /**
-     * Gets a SQL repo to use in this repo
+     * Gets an SQL repo to use in this repo
      *
-     * @param SQL\SQL $sql The SQL object used in the repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
      * @return PostgreSQLRepo The SQL repo to use
      */
-    abstract protected function getPostgreSQLRepo(SQL\SQL $sql);
+    abstract protected function getPostgreSQLRepo(SQL\RDevPDO $rDevPDO);
 
     /**
      * Gets a Redis repo to use in this repo
      *
-     * @param Redis\Redis $redis The Redis object used in the repo
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
      * @return RedisRepo The Redis repo to use
      */
-    abstract protected function getRedisRepo(Redis\Redis $redis);
+    abstract protected function getRedisRepo(Redis\RDevRedis $rDevRedis);
 
     /**
-     * Attempts to retrieve data from the Redis repo before resorting to a SQL database
+     * Attempts to retrieve data from the Redis repo before resorting to an SQL database
      *
      * @param string $funcName The name of the method we want to call on our sub-repo classes
      * @param array $getFuncArgs The array of function arguments to pass in to our data retrieval functions

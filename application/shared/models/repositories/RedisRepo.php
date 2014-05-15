@@ -10,15 +10,15 @@ use RDev\Application\Shared\Models\Databases\NoSQL\Redis;
 
 abstract class RedisRepo
 {
-    /** @var Redis\Redis The Redis object to use for queries */
-    protected $redis = null;
+    /** @var Redis\RDevRedis The RDevRedis object to use for queries */
+    protected $rDevRedis = null;
 
     /**
-     * @param Redis\Redis $redis The Redis object to use for queries
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object to use for queries
      */
-    public function __construct(Redis\Redis $redis)
+    public function __construct(Redis\RDevRedis $rDevRedis)
     {
-        $this->redis = $redis;
+        $this->rDevRedis = $rDevRedis;
     }
 
     /**
@@ -74,7 +74,7 @@ abstract class RedisRepo
     {
         if($expectSingleResult)
         {
-            $entityIds = $this->redis->get($keyOfEntityIds);
+            $entityIds = $this->rDevRedis->get($keyOfEntityIds);
 
             if($entityIds === false)
             {
@@ -86,7 +86,7 @@ abstract class RedisRepo
         }
         else
         {
-            $entityIds = $this->redis->sMembers($keyOfEntityIds);
+            $entityIds = $this->rDevRedis->sMembers($keyOfEntityIds);
 
             if(count($entityIds) == 0)
             {

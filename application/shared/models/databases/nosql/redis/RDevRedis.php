@@ -8,12 +8,10 @@ namespace RDev\Application\Shared\Models\Databases\NoSQL\Redis;
 use RDev\Application\Shared\Models\Databases\NoSQL\Exceptions as NoSQLExceptions;
 use RDev\Application\Shared\Models\Exceptions;
 
-class Redis extends \Redis
+class RDevRedis extends \Redis
 {
     /** @var Server The server we're connecting to */
     private $server = null;
-    /** @var bool Whether or not we're connected */
-    private $isConnected = false;
 
     /**
      * @param Server $server The server we're connecting to
@@ -21,40 +19,20 @@ class Redis extends \Redis
     public function __construct(Server $server)
     {
         $this->server = $server;
+        parent::connect($this->server->getHost(), $this->server->getPort());
     }
 
     /**
      * Closes the connection
      */
-    public function close()
+    public function __destruct()
     {
-        if($this->isConnected)
-        {
-            parent::close();
-            $this->isConnected = false;
-        }
-    }
-
-    /**
-     * Attempts to connect to the server
-     *
-     * @return bool True if we connected successfully, otherwise false
-     */
-    public function connect()
-    {
-        $this->isConnected = parent::connect($this->server->getHost(), $this->server->getPort());
-
-        if(!$this->isConnected)
-        {
-            Exceptions\Log::write("Unable to connect to cache on host " . $this->server->getHost());
-        }
-
-        return $this->isConnected;
+        parent::close();
     }
 
     /**
      * Deletes all the keys that match the input patterns
-     * If you know the specific key(s) to delete, call Redis' delete command instead because this method is computationally expensive
+     * If you know the specific key(s) to delete, call RDevRedis' delete command instead because this method is computationally expensive
      *
      * @param array|string The key pattern or list of key patterns to delete
      * @return bool True if successful, otherwise false
@@ -84,15 +62,5 @@ class Redis extends \Redis
     public function getServer()
     {
         return $this->server;
-    }
-
-    /**
-     * Gets whether or not we're connected
-     *
-     * @return bool True if we're connected, otherwise false
-     */
-    public function isConnected()
-    {
-        return $this->isConnected;
     }
 }

@@ -22,18 +22,18 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     private $passwordTokenRepo = null;
 
     /**
-     * @param Redis\Redis $redis The Redis object used in the repo
-     * @param SQL\SQL $sql The SQL object used in the repo
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
      * @param Factories\UserFactory $userFactory The user factory to use when creating user objects
      * @param Token\ITokenRepo $passwordTokenRepo The password token repo
      */
-    public function __construct(Redis\Redis $redis, SQL\SQL $sql, Factories\UserFactory $userFactory,
+    public function __construct(Redis\RDevRedis $rDevRedis, SQL\RDevPDO $rDevPDO, Factories\UserFactory $userFactory,
                                 Token\ITokenRepo $passwordTokenRepo)
     {
         $this->userFactory = $userFactory;
         $this->passwordTokenRepo = $passwordTokenRepo;
 
-        parent::__construct($redis, $sql);
+        parent::__construct($rDevRedis, $rDevPDO);
     }
 
     /**
@@ -157,24 +157,24 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     }
 
     /**
-     * Gets a SQL repo to use in this repo
+     * Gets an SQL repo to use in this repo
      *
-     * @param SQL\SQL $sql The SQL object connection used in the repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object connection used in the repo
      * @return PostgreSQLRepo The SQL repo to use
      */
-    protected function getPostgreSQLRepo(SQL\SQL $sql)
+    protected function getPostgreSQLRepo(SQL\RDevPDO $rDevPDO)
     {
-        return new PostgreSQLRepo($sql, $this->userFactory, $this->passwordTokenRepo);
+        return new PostgreSQLRepo($rDevPDO, $this->userFactory, $this->passwordTokenRepo);
     }
 
     /**
      * Gets a Redis repo to use in this repo
      *
-     * @param Redis\Redis $redis The Redis object connection used in the repo
-     * @return RedisRepo The Redis repo to use
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object connection used in the repo
+     * @return RedisRepo The RDevRedis repo to use
      */
-    protected function getRedisRepo(Redis\Redis $redis)
+    protected function getRedisRepo(Redis\RDevRedis $rDevRedis)
     {
-        return new RedisRepo($redis, $this->userFactory, $this->passwordTokenRepo);
+        return new RedisRepo($rDevRedis, $this->userFactory, $this->passwordTokenRepo);
     }
 } 

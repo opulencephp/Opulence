@@ -11,15 +11,15 @@ use RDev\Application\Shared\Models\Exceptions;
 
 abstract class PostgreSQLRepo
 {
-    /** @var SQL\SQL The SQL object to use for queries */
-    protected $sql = null;
+    /** @var SQL\RDevPDO The RDevPDO object to use for queries */
+    protected $rDevPDO = null;
 
     /**
-     * @param SQL\SQL $sql The SQL object to use for queries
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object to use for queries
      */
-    public function __construct(SQL\SQL $sql)
+    public function __construct(SQL\RDevPDO $rDevPDO)
     {
-        $this->sql = $sql;
+        $this->rDevPDO = $rDevPDO;
     }
 
     /**
@@ -42,7 +42,7 @@ abstract class PostgreSQLRepo
     {
         try
         {
-            $statement = $this->sql->prepare($sql);
+            $statement = $this->rDevPDO->prepare($sql);
             $statement->execute($sqlParameters);
 
             if($expectSingleResult && $statement->rowCount() != 1)
