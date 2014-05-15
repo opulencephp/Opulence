@@ -38,7 +38,7 @@ abstract class PostgreSQLRepo
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
      * @return array|mixed|bool The list of entities or an individual entity if successful, otherwise false
      */
-    protected function read($sql, $sqlParameters, $expectSingleResult)
+    protected function read($sql, array $sqlParameters, $expectSingleResult)
     {
         try
         {

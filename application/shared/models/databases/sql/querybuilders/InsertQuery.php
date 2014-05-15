@@ -17,7 +17,7 @@ class InsertQuery extends Query
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
-    public function __construct($tableName, $columnNamesToValues)
+    public function __construct($tableName, array $columnNamesToValues)
     {
         $this->tableName = $tableName;
         $this->augmentingQueryBuilder = new AugmentingQueryBuilder();
@@ -31,7 +31,7 @@ class InsertQuery extends Query
      * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
-    public function addColumnValues($columnNamesToValues)
+    public function addColumnValues(array $columnNamesToValues)
     {
         $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
         $this->augmentingQueryBuilder->addColumnValues($columnNamesToValues);

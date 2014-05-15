@@ -39,7 +39,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      * @param mixed $data The data to write to the Redis repository
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    abstract protected function addDataToRedisRepo(&$data, $funcArgs = array());
+    abstract protected function addDataToRedisRepo(&$data, array $funcArgs = array());
 
     /**
      * Gets a SQL repo to use in this repo
@@ -66,7 +66,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      * @param array $setFuncArgs The array of function arguments to pass into the data set functions in the case of a Redis repo miss
      * @return mixed|bool The data from the repository if it was found, otherwise false
      */
-    protected function read($funcName, $getFuncArgs = array(), $addDataToRedisOnMiss = true, $setFuncArgs = array())
+    protected function read($funcName, array $getFuncArgs = array(), $addDataToRedisOnMiss = true, array $setFuncArgs = array())
     {
         // Always attempt to retrieve from the Redis repo first
         $data = call_user_func_array(array($this->redisRepo, $funcName), $getFuncArgs);
@@ -109,7 +109,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      * @param array $funcArgs The array of function arguments to pass in
      * @return bool True if successful, otherwise false
      */
-    protected function write($funcName, $funcArgs)
+    protected function write($funcName, array $funcArgs)
     {
         // We update the SQL repo first in the case that it sets an SQL row Id to the object
         return call_user_func_array(array($this->postgreSQLRepo, $funcName), $funcArgs)

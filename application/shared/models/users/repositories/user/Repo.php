@@ -145,7 +145,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * @param Users\IUser $user The user to store in the Redis repo
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$user, $funcArgs = array())
+    protected function addDataToRedisRepo(&$user, array $funcArgs = array())
     {
         $passwordToken = $this->passwordTokenRepo->getByUserId(Cryptography\TokenTypes::PASSWORD, $user->getId());
 

@@ -22,7 +22,7 @@ class Router
      * @param array $regexesToCallbacks Maps regular expressions to anonymous functions to execute on URL matches
      *      The anonymous function must return an API response object
      */
-    public function __construct($regexesToCallbacks)
+    public function __construct(array $regexesToCallbacks)
     {
         $this->setRegexesToCallbacks($regexesToCallbacks);
     }
@@ -63,7 +63,7 @@ class Router
     /**
      * @param array $regexesToCallbacks
      */
-    public function setRegexesToCallbacks($regexesToCallbacks)
+    public function setRegexesToCallbacks(array $regexesToCallbacks)
     {
         $this->regexesToCallbacks = $regexesToCallbacks;
     }

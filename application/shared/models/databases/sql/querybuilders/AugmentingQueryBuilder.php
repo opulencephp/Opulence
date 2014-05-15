@@ -17,7 +17,7 @@ class AugmentingQueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return $this
      */
-    public function addColumnValues($columnNamesToValues)
+    public function addColumnValues(array $columnNamesToValues)
     {
         $this->columnNamesToValues = array_merge($this->columnNamesToValues, $columnNamesToValues);
 

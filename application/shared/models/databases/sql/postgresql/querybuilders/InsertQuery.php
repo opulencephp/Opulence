@@ -16,7 +16,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      * @param string $tableName The name of the table we're inserting into
      * @param array $columnNamesToValues The mapping of column names to their respective values
      */
-    public function __construct($tableName, $columnNamesToValues)
+    public function __construct($tableName, array $columnNamesToValues)
     {
         parent::__construct($tableName, $columnNamesToValues);
 

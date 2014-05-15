@@ -324,7 +324,7 @@ class Generic extends Template
      * @param array $filePaths The list of CSS file paths
      * @return string The HTML that will link to CSS files
      */
-    private function getHTMLForCSSFilePaths($filePaths)
+    private function getHTMLForCSSFilePaths(array $filePaths)
     {
         return '<link type="text/css" rel="stylesheet" href="' . implode('"><link type="text/css" rel="stylesheet" href="', $filePaths) . '">';
     }
@@ -335,7 +335,7 @@ class Generic extends Template
      * @param array $listOfCSS The list of inline CSS
      * @return string The HTML that will display the inline CSS
      */
-    private function getHTMLForInlineCSS($listOfCSS)
+    private function getHTMLForInlineCSS(array $listOfCSS)
     {
         return '<style type="text/css">' . implode("\n", $listOfCSS) . '</style>';
     }
@@ -346,7 +346,7 @@ class Generic extends Template
      * @param array $listOfJavaScript The list of inline JavaScript
      * @return string The HTML that will display the inline JavaScript
      */
-    private function getHTMLForInlineJavaScript($listOfJavaScript)
+    private function getHTMLForInlineJavaScript(array $listOfJavaScript)
     {
         return '<script type="text/javascript">' . implode("\n", $listOfJavaScript) . '</script>';
     }
@@ -357,7 +357,7 @@ class Generic extends Template
      * @param array $filePaths The list of JavaScript file paths
      * @return string The HTML that will link to CSS JavaScript
      */
-    private function getHTMLForJavaScriptFilePaths($filePaths)
+    private function getHTMLForJavaScriptFilePaths(array $filePaths)
     {
         return '<script type="text/javascript" src="' . implode('"></script><script type="text/javascript" src="', $filePaths) . '"></script>';
     }

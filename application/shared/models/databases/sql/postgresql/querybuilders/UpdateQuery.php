@@ -17,7 +17,7 @@ class UpdateQuery extends QueryBuilders\UpdateQuery
      * @param string $tableAlias The alias of the table we're querying
      * @param array $columnNamesToValues The mapping of column names to their respective values
      */
-    public function __construct($tableName, $tableAlias, $columnNamesToValues)
+    public function __construct($tableName, $tableAlias, array $columnNamesToValues)
     {
         parent::__construct($tableName, $tableAlias, $columnNamesToValues);
 

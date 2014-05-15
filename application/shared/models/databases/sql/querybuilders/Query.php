@@ -61,7 +61,7 @@ abstract class Query
      * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addNamedPlaceholderValues($placeholderNamesToValues)
+    public function addNamedPlaceholderValues(array $placeholderNamesToValues)
     {
         foreach($placeholderNamesToValues as $placeholderName => $value)
         {
@@ -100,7 +100,7 @@ abstract class Query
      * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addUnnamedPlaceholderValues($placeholderValues)
+    public function addUnnamedPlaceholderValues(array $placeholderValues)
     {
         foreach($placeholderValues as $value)
         {

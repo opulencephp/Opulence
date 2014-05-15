@@ -24,7 +24,7 @@ abstract class QueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return InsertQuery The insert query builder
      */
-    abstract public function insert($tableName, $columnNamesToValues);
+    abstract public function insert($tableName, array $columnNamesToValues);
 
     /**
      * Starts a new select query
@@ -42,5 +42,5 @@ abstract class QueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return UpdateQuery The update query builder
      */
-    abstract public function update($tableName, $alias, $columnNamesToValues);
+    abstract public function update($tableName, $alias, array $columnNamesToValues);
 }

@@ -18,7 +18,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an "ON DUPLICATE KEY UPDATE" clause
      * @return $this
      */
-    public function addUpdateColumnValues($columnNamesToValues)
+    public function addUpdateColumnValues(array $columnNamesToValues)
     {
         $this->duplicateKeyUpdateColumnNamesToValues = array_merge($this->duplicateKeyUpdateColumnNamesToValues, $columnNamesToValues);
 
@@ -57,7 +57,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an "ON DUPLICATE KEY UPDATE" clause
      * @return $this
      */
-    public function update($columnNamesToValues)
+    public function update(array $columnNamesToValues)
     {
         $this->duplicateKeyUpdateColumnNamesToValues = $columnNamesToValues;
 

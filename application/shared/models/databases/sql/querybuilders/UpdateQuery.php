@@ -19,7 +19,7 @@ class UpdateQuery extends Query
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
-    public function __construct($tableName, $tableAlias, $columnNamesToValues)
+    public function __construct($tableName, $tableAlias, array $columnNamesToValues)
     {
         $this->setTable($tableName, $tableAlias);
         $this->augmentingQueryBuilder = new AugmentingQueryBuilder();
@@ -34,7 +34,7 @@ class UpdateQuery extends Query
      * @return $this
      * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
      */
-    public function addColumnValues($columnNamesToValues)
+    public function addColumnValues(array $columnNamesToValues)
     {
         if(count($columnNamesToValues) > 0)
         {

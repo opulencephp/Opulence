@@ -28,7 +28,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return InsertQuery The insert query builder
      */
-    public function insert($tableName, $columnNamesToValues)
+    public function insert($tableName, array $columnNamesToValues)
     {
         return new InsertQuery($tableName, $columnNamesToValues);
     }
@@ -55,7 +55,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return UpdateQuery The update query builder
      */
-    public function update($tableName, $alias, $columnNamesToValues)
+    public function update($tableName, $alias, array $columnNamesToValues)
     {
         return new UpdateQuery($tableName, $alias, $columnNamesToValues);
     }

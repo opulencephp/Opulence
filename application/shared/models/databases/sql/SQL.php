@@ -187,37 +187,6 @@ class SQL extends \PDO
     }
 
     /**
-     * Executes a query with a prepared statement
-     *
-     * @param string $query The query to execute
-     * @param array $params The parameters to bind to the query
-     * @return \PDOStatement The resulting PDO statement
-     * @throws SQLExceptions\SQLException Thrown if the query couldn't be executed
-     */
-    /*public function query($query, $params = array())
-    {
-        $this->connect();
-
-        $statement = $this->prepare($query);
-
-        if(count($params) > 0)
-        {
-            $isSuccessful = $statement->execute($params);
-        }
-        else
-        {
-            $isSuccessful = $statement->execute();
-        }
-
-        if($isSuccessful === false)
-        {
-            throw new SQLExceptions\SQLException("Could not run query \"" . $query . "\". PDO error: " . print_r($statement->errorInfo(), true));
-        }
-
-        return $statement;
-    }*/
-
-    /**
      * Sets an attribute
      *
      * @param int $attribute The attribute to set

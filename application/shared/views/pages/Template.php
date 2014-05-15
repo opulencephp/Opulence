@@ -56,7 +56,7 @@ class Template implements Views\IView
      *
      * @param array $namesToValues The mapping of tag names to their respective values
      */
-    public function setTags($namesToValues)
+    public function setTags(array $namesToValues)
     {
         foreach($namesToValues as $name => $value)
         {

@@ -19,7 +19,7 @@ class ConditionalQueryBuilder
      * @param string $condition,... A variable list of conditions to be met
      * @return array The input array with the condition added
      */
-    public function addConditionToClause($clauseConditions, $operation, $condition)
+    public function addConditionToClause(array $clauseConditions, $operation, $condition)
     {
         // This will grab just the list of conditions
         $conditions = array_slice(func_get_args(), 2);
@@ -52,7 +52,7 @@ class ConditionalQueryBuilder
      * @param array $clauseConditions The array of condition data whose SQL we want
      * @return string The SQL that makes up the input clause(s)
      */
-    public function getClauseConditionSQL($conditionType, $clauseConditions)
+    public function getClauseConditionSQL($conditionType, array $clauseConditions)
     {
         if(count($clauseConditions) === 0)
         {
