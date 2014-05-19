@@ -9,7 +9,7 @@ namespace RDev\Application\Shared\Models\Web;
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var array A clone of the $_SERVER array, which we can use to restore original values */
-    private $serverClone = array();
+    private $serverClone = [];
 
     /**
      * Sets up our tests
@@ -25,8 +25,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingIPAddress()
     {
         $defaultIPAddress = "120.138.20.36";
-        $keys = array("HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "REMOTE_ADDR");
+        $keys = ["HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_X_CLUSTER_CLIENT_IP",
+            "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "REMOTE_ADDR"];
 
         // Delete all the keys that might hold an IP address
         foreach($keys as $key)

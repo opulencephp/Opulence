@@ -32,7 +32,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      */
     public function addReturning($expression)
     {
-        call_user_func_array(array($this->augmentingQueryBuilder, "addReturning"), func_get_args());
+        call_user_func_array([$this->augmentingQueryBuilder, "addReturning"], func_get_args());
 
         return $this;
     }
@@ -59,7 +59,7 @@ class InsertQuery extends QueryBuilders\InsertQuery
      */
     public function returning($expression)
     {
-        call_user_func_array(array($this->augmentingQueryBuilder, "returning"), func_get_args());
+        call_user_func_array([$this->augmentingQueryBuilder, "returning"], func_get_args());
 
         return $this;
     }

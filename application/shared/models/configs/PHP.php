@@ -16,7 +16,7 @@ class PHP
     public function __construct()
     {
         // Register our autoloader
-        spl_autoload_register(array($this, "autoload"));
+        spl_autoload_register([$this, "autoload"]);
     }
 
     /**

@@ -39,7 +39,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      * @param mixed $data The data to write to the Redis repository
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    abstract protected function addDataToRedisRepo(&$data, array $funcArgs = array());
+    abstract protected function addDataToRedisRepo(&$data, array $funcArgs = []);
 
     /**
      * Gets an SQL repo to use in this repo
@@ -66,15 +66,15 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      * @param array $setFuncArgs The array of function arguments to pass into the data set functions in the case of a Redis repo miss
      * @return mixed|bool The data from the repository if it was found, otherwise false
      */
-    protected function read($funcName, array $getFuncArgs = array(), $addDataToRedisOnMiss = true, array $setFuncArgs = array())
+    protected function read($funcName, array $getFuncArgs = [], $addDataToRedisOnMiss = true, array $setFuncArgs = [])
     {
         // Always attempt to retrieve from the Redis repo first
-        $data = call_user_func_array(array($this->redisRepo, $funcName), $getFuncArgs);
+        $data = call_user_func_array([$this->redisRepo, $funcName], $getFuncArgs);
 
         // If we have to go off to the SQL repo
         if($data === false)
         {
-            $data = call_user_func_array(array($this->postgreSQLRepo, $funcName), $getFuncArgs);
+            $data = call_user_func_array([$this->postgreSQLRepo, $funcName], $getFuncArgs);
 
             // Try to store the data back to the Redis repo
             if($data === false)
@@ -88,12 +88,12 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
                 {
                     foreach($data as $datum)
                     {
-                        call_user_func_array(array($this, "addDataToRedisRepo"), array_merge(array(&$datum), $setFuncArgs));
+                        call_user_func_array([$this, "addDataToRedisRepo"], array_merge([&$datum], $setFuncArgs));
                     }
                 }
                 else
                 {
-                    call_user_func_array(array($this, "addDataToRedisRepo"), array_merge(array(&$data), $setFuncArgs));
+                    call_user_func_array([$this, "addDataToRedisRepo"], array_merge([&$data], $setFuncArgs));
                 }
             }
         }
@@ -112,7 +112,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     protected function write($funcName, array $funcArgs)
     {
         // We update the SQL repo first in the case that it sets an SQL row Id to the object
-        return call_user_func_array(array($this->postgreSQLRepo, $funcName), $funcArgs)
-        && call_user_func_array(array($this->redisRepo, $funcName), $funcArgs);
+        return call_user_func_array([$this->postgreSQLRepo, $funcName], $funcArgs)
+        && call_user_func_array([$this->redisRepo, $funcName], $funcArgs);
     }
 } 

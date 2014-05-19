@@ -38,7 +38,7 @@ abstract class RedisRepo
     {
         $entityHash = $this->getEntityHashById($id);
 
-        if($entityHash === false || $entityHash === array())
+        if($entityHash === false || $entityHash === [])
         {
             return false;
         }
@@ -82,7 +82,7 @@ abstract class RedisRepo
             }
 
             // To be compatible with the rest of this method, we'll convert the Id to an array containing that Id
-            $entityIds = array($entityIds);
+            $entityIds = [$entityIds];
         }
         else
         {
@@ -94,7 +94,7 @@ abstract class RedisRepo
             }
         }
 
-        $entities = array();
+        $entities = [];
 
         // Create and store the entities associated with each Id
         foreach($entityIds as $entityId)

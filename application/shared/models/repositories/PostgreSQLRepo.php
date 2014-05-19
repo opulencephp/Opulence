@@ -51,7 +51,7 @@ abstract class PostgreSQLRepo
                 return false;
             }
 
-            $entities = array();
+            $entities = [];
             $rows = $statement->fetchAll(\PDO::FETCH_BOTH);
 
             foreach($rows as $row)

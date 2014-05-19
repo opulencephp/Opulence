@@ -41,7 +41,7 @@ class RDevRedis extends \Redis
     {
         if(is_string($keyPatterns))
         {
-            $keyPatterns = array($keyPatterns);
+            $keyPatterns = [$keyPatterns];
         }
 
         // Loops through our key patterns, gets all keys that match them, then deletes each of them

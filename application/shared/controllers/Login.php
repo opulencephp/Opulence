@@ -12,7 +12,7 @@ use RDev\Application\Shared\Models\Users\Repositories\User;
 use RDev\Application\Shared\Models\Web;
 use RDev\Application\TBA\Models\Configs;
 
-class LoginController
+class Login
 {
     /** @var User\IUserRepo The user repo to use for finding users */
     private $userRepo = null;

@@ -38,7 +38,7 @@ class InsertQuery extends Query
         $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
 
         // The augmenting query doesn't care about the data type, so get rid of it
-        $columnNamesToValuesWithoutDataTypes = array();
+        $columnNamesToValuesWithoutDataTypes = [];
 
         foreach($columnNamesToValues as $name => $value)
         {

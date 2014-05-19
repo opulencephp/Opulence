@@ -6,8 +6,9 @@
  */
 namespace RDev\Application\Shared\Models\Web\API;
 use RDev\Application\Shared\Models\Web;
+use RDev\Application\Shared\Views;
 
-class Response
+class Response implements Views\IView
 {
     /** @var int The HTTP response code */
     private $httpResponseCode = Web\Response::HTTP_OK;

@@ -47,7 +47,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword)
     {
         // Order here matters because we're counting on Ids getting set before being used in the next method
-        $userAddedSuccessfully = $this->write(__FUNCTION__, array(&$user, &$passwordToken, $hashedPassword));
+        $userAddedSuccessfully = $this->write(__FUNCTION__, [&$user, &$passwordToken, $hashedPassword]);
 
         if($userAddedSuccessfully === false)
         {
@@ -77,7 +77,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByEmail($email)
     {
-        return $this->read(__FUNCTION__, array($email));
+        return $this->read(__FUNCTION__, [$email]);
     }
 
     /**
@@ -88,7 +88,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getById($id)
     {
-        return $this->read(__FUNCTION__, array($id));
+        return $this->read(__FUNCTION__, [$id]);
     }
 
     /**
@@ -99,7 +99,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByUsername($username)
     {
-        return $this->read(__FUNCTION__, array($username));
+        return $this->read(__FUNCTION__, [$username]);
     }
 
     /**
@@ -112,7 +112,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      */
     public function getByUsernameAndPassword($username, $unhashedPassword)
     {
-        return $this->read(__FUNCTION__, array($username, $unhashedPassword));
+        return $this->read(__FUNCTION__, [$username, $unhashedPassword]);
     }
 
     /**
@@ -136,7 +136,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
     {
         $user->setEmail($email);
 
-        return $this->write(__FUNCTION__, array(&$user, $email));
+        return $this->write(__FUNCTION__, [&$user, $email]);
     }
 
     /**
@@ -145,7 +145,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements IUserRe
      * @param Users\IUser $user The user to store in the Redis repo
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$user, array $funcArgs = array())
+    protected function addDataToRedisRepo(&$user, array $funcArgs = [])
     {
         $passwordToken = $this->passwordTokenRepo->getByUserId(Cryptography\TokenTypes::PASSWORD, $user->getId());
 

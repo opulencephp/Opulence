@@ -13,14 +13,15 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingColumnsToUpdate()
     {
-        $query = new InsertQuery("users", array("name" => "dave", "email" => "foo@bar.com"));
-        $query->update(array("name" => "dave"))
-            ->addUpdateColumnValues(array("email" => "foo@bar.com"));
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?", $query->getSQL());
-        $this->assertEquals(array(
-            array("dave", \PDO::PARAM_STR),
-            array("foo@bar.com", \PDO::PARAM_STR)
-        ), $query->getParameters());
+        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
+        $query->update(["name" => "dave"])
+            ->addUpdateColumnValues(["email" => "foo@bar.com"]);
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
+            $query->getSQL());
+        $this->assertEquals([
+            ["dave", \PDO::PARAM_STR],
+            ["foo@bar.com", \PDO::PARAM_STR]
+        ], $query->getParameters());
     }
 
     /**
@@ -28,12 +29,12 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBasicQuery()
     {
-        $query = new InsertQuery("users", array("name" => "dave", "email" => "foo@bar.com"));
+        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
         $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSQL());
-        $this->assertEquals(array(
-            array("dave", \PDO::PARAM_STR),
-            array("foo@bar.com", \PDO::PARAM_STR)
-        ), $query->getParameters());
+        $this->assertEquals([
+            ["dave", \PDO::PARAM_STR],
+            ["foo@bar.com", \PDO::PARAM_STR]
+        ], $query->getParameters());
     }
 
     /**
@@ -41,14 +42,15 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testEverything()
     {
-        $query = new InsertQuery("users", array("name" => "dave", "email" => "foo@bar.com"));
-        $query->update(array("name" => "dave"))
-            ->addUpdateColumnValues(array("email" => "foo@bar.com"));
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?", $query->getSQL());
-        $this->assertEquals(array(
-            array("dave", \PDO::PARAM_STR),
-            array("foo@bar.com", \PDO::PARAM_STR)
-        ), $query->getParameters());
+        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
+        $query->update(["name" => "dave"])
+            ->addUpdateColumnValues(["email" => "foo@bar.com"]);
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
+            $query->getSQL());
+        $this->assertEquals([
+            ["dave", \PDO::PARAM_STR],
+            ["foo@bar.com", \PDO::PARAM_STR]
+        ], $query->getParameters());
     }
 
     /**
@@ -56,12 +58,13 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testInsertUpdate()
     {
-        $query = new InsertQuery("users", array("name" => "dave", "email" => "foo@bar.com"));
-        $query->update(array("name" => "dave", "email" => "foo@bar.com"));
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?", $query->getSQL());
-        $this->assertEquals(array(
-            array("dave", \PDO::PARAM_STR),
-            array("foo@bar.com", \PDO::PARAM_STR)
-        ), $query->getParameters());
+        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
+        $query->update(["name" => "dave", "email" => "foo@bar.com"]);
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
+            $query->getSQL());
+        $this->assertEquals([
+            ["dave", \PDO::PARAM_STR],
+            ["foo@bar.com", \PDO::PARAM_STR]
+        ], $query->getParameters());
     }
 } 

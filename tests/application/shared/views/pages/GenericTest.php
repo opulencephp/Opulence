@@ -16,7 +16,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $css = "body{font-size: 13px;}";
         $page->addFooterInlineCSS($css);
-        $this->assertEquals(array($css), $page->getFooterInlineCSS());
+        $this->assertEquals([$css], $page->getFooterInlineCSS());
     }
 
     /**
@@ -27,7 +27,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $javaScript = "alert('hi');";
         $page->addFooterInlineJavaScript($javaScript);
-        $this->assertEquals(array($javaScript), $page->getFooterInlineJavaScript());
+        $this->assertEquals([$javaScript], $page->getFooterInlineJavaScript());
     }
 
     /**
@@ -38,7 +38,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $css = "body{font-size: 13px;}";
         $page->addHeaderInlineCSS($css);
-        $this->assertEquals(array($css), $page->getHeaderInlineCSS());
+        $this->assertEquals([$css], $page->getHeaderInlineCSS());
     }
 
     /**
@@ -49,7 +49,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $javaScript = "alert('hi');";
         $page->addHeaderInlineJavaScript($javaScript);
-        $this->assertEquals(array($javaScript), $page->getHeaderInlineJavaScript());
+        $this->assertEquals([$javaScript], $page->getHeaderInlineJavaScript());
     }
 
     /**
@@ -58,7 +58,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleFooterCSSPaths()
     {
         $page = new Generic();
-        $filePaths = array("foo/bar.css", "abc/xyz.css");
+        $filePaths = ["foo/bar.css", "abc/xyz.css"];
         $page->addFooterCSSFilePaths($filePaths);
         $this->assertEquals($filePaths, $page->getFooterCSSFilePaths());
     }
@@ -69,7 +69,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleFooterInlineCSS()
     {
         $page = new Generic();
-        $cssList = array("body{font-size: 13px;}", "img{border: none;}");
+        $cssList = ["body{font-size: 13px;}", "img{border: none;}"];
 
         foreach($cssList as $css)
         {
@@ -85,7 +85,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleFooterInlineJavaScript()
     {
         $page = new Generic();
-        $javaScriptList = array("alert('hi');", "alert('foo');");
+        $javaScriptList = ["alert('hi');", "alert('foo');"];
 
         foreach($javaScriptList as $javaScript)
         {
@@ -101,7 +101,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleFooterJavaScriptPaths()
     {
         $page = new Generic();
-        $filePaths = array("foo/bar.js", "abc/xyz.js");
+        $filePaths = ["foo/bar.js", "abc/xyz.js"];
         $page->addFooterJavaScriptFilePaths($filePaths);
         $this->assertEquals($filePaths, $page->getFooterJavaScriptFilePaths());
     }
@@ -112,7 +112,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleHeaderCSSPaths()
     {
         $page = new Generic();
-        $filePaths = array("foo/bar.css", "abc/xyz.css");
+        $filePaths = ["foo/bar.css", "abc/xyz.css"];
         $page->addHeaderCSSFilePaths($filePaths);
         $this->assertEquals($filePaths, $page->getHeaderCSSFilePaths());
     }
@@ -123,7 +123,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleHeaderInlineCSS()
     {
         $page = new Generic();
-        $cssList = array("body{font-size: 13px;}", "img{border: none;}");
+        $cssList = ["body{font-size: 13px;}", "img{border: none;}"];
 
         foreach($cssList as $css)
         {
@@ -139,7 +139,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleHeaderInlineJavaScript()
     {
         $page = new Generic();
-        $javaScriptList = array("alert('hi');", "alert('foo');");
+        $javaScriptList = ["alert('hi');", "alert('foo');"];
 
         foreach($javaScriptList as $javaScript)
         {
@@ -155,7 +155,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleHeaderJavaScriptPaths()
     {
         $page = new Generic();
-        $filePaths = array("foo/bar.js", "abc/xyz.js");
+        $filePaths = ["foo/bar.js", "abc/xyz.js"];
         $page->addHeaderJavaScriptFilePaths($filePaths);
         $this->assertEquals($filePaths, $page->getHeaderJavaScriptFilePaths());
     }
@@ -168,7 +168,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $filePath = "foo/bar.css";
         $page->addFooterCSSFilePaths($filePath);
-        $this->assertEquals(array($filePath), $page->getFooterCSSFilePaths());
+        $this->assertEquals([$filePath], $page->getFooterCSSFilePaths());
     }
 
     /**
@@ -179,7 +179,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $filePath = "foo/bar.js";
         $page->addFooterJavaScriptFilePaths($filePath);
-        $this->assertEquals(array($filePath), $page->getFooterJavaScriptFilePaths());
+        $this->assertEquals([$filePath], $page->getFooterJavaScriptFilePaths());
     }
 
     /**
@@ -190,7 +190,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $filePath = "foo/bar.css";
         $page->addHeaderCSSFilePaths($filePath);
-        $this->assertEquals(array($filePath), $page->getHeaderCSSFilePaths());
+        $this->assertEquals([$filePath], $page->getHeaderCSSFilePaths());
     }
 
     /**
@@ -201,6 +201,6 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $page = new Generic();
         $filePath = "foo/bar.js";
         $page->addHeaderJavaScriptFilePaths($filePath);
-        $this->assertEquals(array($filePath), $page->getHeaderJavaScriptFilePaths());
+        $this->assertEquals([$filePath], $page->getHeaderJavaScriptFilePaths());
     }
 } 

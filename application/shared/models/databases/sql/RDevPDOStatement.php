@@ -32,7 +32,7 @@ class RDevPDOStatement extends \PDOStatement
         {
             if(!is_array($value))
             {
-                $value = array($value, \PDO::PARAM_STR);
+                $value = [$value, \PDO::PARAM_STR];
             }
 
             // If this is an indexed array, we need to offset the parameter name by 1 because it's 1-indexed

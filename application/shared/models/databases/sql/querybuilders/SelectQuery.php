@@ -11,19 +11,19 @@ class SelectQuery extends Query
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
     protected $conditionalQueryBuilder = null;
     /** @var array The list of select expressions */
-    protected $selectExpressions = array();
+    protected $selectExpressions = [];
     /** @var array The list of join statements */
-    protected $joins = array("inner" => array(), "left" => array(), "right" => array());
+    protected $joins = ["inner" => [], "left" => [], "right" => []];
     /** @var array The list of group by clauses */
-    protected $groupByClauses = array();
+    protected $groupByClauses = [];
     /** @var array The list of having conditions */
-    protected $havingConditions = array();
+    protected $havingConditions = [];
     /** @var int|string $limit The number of rows to limit to */
     protected $limit = -1;
     /** @var int|string $offset The number of rows to offset by */
     protected $offset = -1;
     /** @var array The list of expressions to order by */
-    protected $orderBy = array();
+    protected $orderBy = [];
 
     /**
      * @param string $expression,... A variable list of select expressions
@@ -81,7 +81,8 @@ class SelectQuery extends Query
      */
     public function andHaving($condition)
     {
-        $this->havingConditions = call_user_func_array(array($this->conditionalQueryBuilder, "addConditionToClause"), array_merge(array($this->havingConditions, "AND"), func_get_args()));
+        $this->havingConditions = call_user_func_array([$this->conditionalQueryBuilder, "addConditionToClause"],
+            array_merge([$this->havingConditions, "AND"], func_get_args()));
 
         return $this;
     }
@@ -94,7 +95,7 @@ class SelectQuery extends Query
      */
     public function andWhere($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "andWhere"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], func_get_args());
 
         return $this;
     }
@@ -189,8 +190,9 @@ class SelectQuery extends Query
     public function having($condition)
     {
         // We want to wipe out anything already in the condition list
-        $this->havingConditions = array();
-        $this->havingConditions = call_user_func_array(array($this->conditionalQueryBuilder, "addConditionToClause"), array_merge(array($this->havingConditions, "AND"), func_get_args()));
+        $this->havingConditions = [];
+        $this->havingConditions = call_user_func_array([$this->conditionalQueryBuilder, "addConditionToClause"],
+            array_merge([$this->havingConditions, "AND"], func_get_args()));
 
         return $this;
     }
@@ -205,7 +207,7 @@ class SelectQuery extends Query
      */
     public function innerJoin($tableName, $tableAlias, $condition)
     {
-        $this->joins["inner"][] = array("tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition);
+        $this->joins["inner"][] = ["tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition];
 
         return $this;
     }
@@ -234,7 +236,7 @@ class SelectQuery extends Query
      */
     public function leftJoin($tableName, $tableAlias, $condition)
     {
-        $this->joins["left"][] = array("tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition);
+        $this->joins["left"][] = ["tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition];
 
         return $this;
     }
@@ -273,7 +275,8 @@ class SelectQuery extends Query
      */
     public function orHaving($condition)
     {
-        $this->havingConditions = call_user_func_array(array($this->conditionalQueryBuilder, "addConditionToClause"), array_merge(array($this->havingConditions, "OR"), func_get_args()));
+        $this->havingConditions = call_user_func_array([$this->conditionalQueryBuilder, "addConditionToClause"],
+            array_merge([$this->havingConditions, "OR"], func_get_args()));
 
         return $this;
     }
@@ -286,7 +289,7 @@ class SelectQuery extends Query
      */
     public function orWhere($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "orWhere"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], func_get_args());
 
         return $this;
     }
@@ -315,7 +318,7 @@ class SelectQuery extends Query
      */
     public function rightJoin($tableName, $tableAlias, $condition)
     {
-        $this->joins["right"][] = array("tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition);
+        $this->joins["right"][] = ["tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition];
 
         return $this;
     }
@@ -329,7 +332,7 @@ class SelectQuery extends Query
      */
     public function where($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "where"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "where"], func_get_args());
 
         return $this;
     }

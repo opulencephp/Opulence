@@ -11,27 +11,27 @@ class Generic extends Template
     /** @var string The title of the page */
     protected $title = "";
     /** @var array The meta keywords of the page */
-    protected $metaKeywords = array();
+    protected $metaKeywords = [];
     /** @var string The meta description of the page */
     protected $metaDescription = "";
     /** @var string The path to the favicon */
     protected $faviconPath = "";
     /** @var array The list of header CSS file paths */
-    protected $headerCSSFilePaths = array();
+    protected $headerCSSFilePaths = [];
     /** @var array The list of inline header CSS */
-    protected $headerInlineCSS = array();
+    protected $headerInlineCSS = [];
     /** @var array The list of footer CSS file paths */
-    protected $footerCSSFilePaths = array();
+    protected $footerCSSFilePaths = [];
     /** @var array The list of inline footer CSS */
-    protected $footerInlineCSS = array();
+    protected $footerInlineCSS = [];
     /** @var array The list of header JavaScript file paths */
-    protected $headerJavaScriptFilePaths = array();
+    protected $headerJavaScriptFilePaths = [];
     /** @var array The list of inline header JavaScript */
-    protected $headerInlineJavaScript = array();
+    protected $headerInlineJavaScript = [];
     /** @var array The list of footer JavaScript file paths */
-    protected $footerJavaScriptFilePaths = array();
+    protected $footerJavaScriptFilePaths = [];
     /** @var array The list of inline footer JavaScript */
-    protected $footerInlineJavaScript = array();
+    protected $footerInlineJavaScript = [];
 
     public function __construct()
     {
@@ -47,7 +47,7 @@ class Generic extends Template
     {
         if(is_string($paths))
         {
-            $paths = array($paths);
+            $paths = [$paths];
         }
 
         $this->footerCSSFilePaths = array_merge($this->footerCSSFilePaths, $paths);
@@ -82,7 +82,7 @@ class Generic extends Template
     {
         if(is_string($paths))
         {
-            $paths = array($paths);
+            $paths = [$paths];
         }
 
         $this->footerJavaScriptFilePaths = array_merge($this->footerJavaScriptFilePaths, $paths);
@@ -97,7 +97,7 @@ class Generic extends Template
     {
         if(is_string($paths))
         {
-            $paths = array($paths);
+            $paths = [$paths];
         }
 
         $this->headerCSSFilePaths = array_merge($this->headerCSSFilePaths, $paths);
@@ -132,7 +132,7 @@ class Generic extends Template
     {
         if(is_string($paths))
         {
-            $paths = array($paths);
+            $paths = [$paths];
         }
 
         $this->headerJavaScriptFilePaths = array_merge($this->headerJavaScriptFilePaths, $paths);
@@ -145,7 +145,7 @@ class Generic extends Template
     {
         if(is_string($metaKeywords))
         {
-            $metaKeywords = array($metaKeywords);
+            $metaKeywords = [$metaKeywords];
         }
 
         $this->metaKeywords = $metaKeywords;

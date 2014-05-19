@@ -16,7 +16,7 @@ class Router
      *
      * @var array
      */
-    private $regexesToCallbacks = array();
+    private $regexesToCallbacks = [];
 
     /**
      * @param array $regexesToCallbacks Maps regular expressions to anonymous functions to execute on URL matches
@@ -39,7 +39,7 @@ class Router
         {
             foreach($this->regexesToCallbacks as $regex => $callback)
             {
-                $matches = array();
+                $matches = [];
 
                 if(preg_match("/" . $regex . "/", $path, $matches))
                 {

@@ -139,7 +139,7 @@ class RDevPDO extends \PDO
      * @param array $driverOptions The driver options to use
      * @return RDevPDOStatement|bool The statement if successful, otherwise false
      */
-    public function prepare($statement, array $driverOptions = array())
+    public function prepare($statement, array $driverOptions = [])
     {
         $this->connect();
 
@@ -217,7 +217,7 @@ class RDevPDO extends \PDO
         try
         {
             parent::__construct($this->server->getConnectionString(), $this->server->getUsername(), $this->server->getPassword());
-            parent::setAttribute(\PDO::ATTR_STATEMENT_CLASS, array(__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, array($this)));
+            parent::setAttribute(\PDO::ATTR_STATEMENT_CLASS, [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
             $this->isConnected = true;
         }
         catch(\Exception $ex)

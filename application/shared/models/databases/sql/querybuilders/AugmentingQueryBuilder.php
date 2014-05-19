@@ -9,7 +9,7 @@ namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 class AugmentingQueryBuilder
 {
     /** @var array The mapping of column names to their respective values */
-    protected $columnNamesToValues = array();
+    protected $columnNamesToValues = [];
 
     /**
      * Adds column values to the query

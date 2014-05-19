@@ -62,12 +62,12 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     public function flush()
     {
-        return $this->rDevRedis->del(array("users")) !== false
-        && $this->rDevRedis->deleteKeyPatterns(array(
+        return $this->rDevRedis->del(["users"]) !== false
+        && $this->rDevRedis->deleteKeyPatterns([
             "users:*",
             "users:email:*",
             "users:username:*"
-        ));
+        ]);
     }
 
     /**
@@ -182,14 +182,14 @@ class RedisRepo extends Repositories\RedisRepo implements IUserRepo
      */
     private function storeHashOfUser(Users\IUser $user)
     {
-        return $this->rDevRedis->hMset("users:" . $user->getId(), array(
+        return $this->rDevRedis->hMset("users:" . $user->getId(), [
             "id" => $user->getId(),
             "username" => $user->getUsername(),
             "email" => $user->getEmail(),
             "lastname" => $user->getLastName(),
             "firstname" => $user->getFirstName(),
             "datecreated" => $user->getDateCreated()->getTimestamp()
-        ));
+        ]);
     }
 
     /**

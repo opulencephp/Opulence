@@ -20,7 +20,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
      */
     public function add(Cryptography\Token &$token, $hashedValue)
     {
-        $this->rDevRedis->hMset("tokens:" . $token->getId(), array(
+        $this->rDevRedis->hMset("tokens:" . $token->getId(), [
             "id" => $token->getId(),
             "tokentypeid" => $token->getTypeId(),
             "userid" => $token->getUserId(),
@@ -28,7 +28,7 @@ class RedisRepo extends Repositories\RedisRepo implements ITokenRepo
             "validfrom" => $token->getValidFrom()->getTimestamp(),
             "validto" => $token->getValidTo()->getTimestamp(),
             "isactive" => $token->isActive()
-        ));
+        ]);
 
         // Add this to the list of tokens
         $this->rDevRedis->zAdd("tokens", $token->getValidTo()->getTimestamp(), $token->getId());

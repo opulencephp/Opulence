@@ -14,7 +14,7 @@ abstract class Query
     /** @var string The alias of the table we're querying */
     protected $tableAlias = "";
     /** @var array The list of bound parameters */
-    protected $parameters = array();
+    protected $parameters = [];
     /**
      * True if we're using unnamed placeholders instead of named placeholders
      * False if we're using named placeholders instead of unnamed placeholders
@@ -49,7 +49,7 @@ abstract class Query
         }
 
         $this->usingUnnamedPlaceholders = false;
-        $this->parameters[$placeholderName] = array($value, $dataType);
+        $this->parameters[$placeholderName] = [$value, $dataType];
 
         return $this;
     }
@@ -104,7 +104,7 @@ abstract class Query
         }
 
         $this->usingUnnamedPlaceholders = true;
-        $this->parameters[] = array($value, $dataType);
+        $this->parameters[] = [$value, $dataType];
 
         return $this;
     }

@@ -47,15 +47,15 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         try
         {
             $queryBuilder = new QueryBuilders\QueryBuilder();
-            $insertQuery = $queryBuilder->insert("users.tokens", array(
+            $insertQuery = $queryBuilder->insert("users.tokens", [
                 "token" => $hashedValue,
-                "tokentypeid" => array($token->getTypeId(), \PDO::PARAM_INT),
-                "userid" => array($token->getUserId(), \PDO::PARAM_INT),
+                "tokentypeid" => [$token->getTypeId(), \PDO::PARAM_INT],
+                "userid" => [$token->getUserId(), \PDO::PARAM_INT],
                 "validfrom" => $token->getValidFrom()->format("Y-m-d H:i:s"),
                 "validto" => $token->getValidTo()->format("Y-m-d H:i:s"),
                 "useragent" => $this->userAgent,
                 "ipaddress" => $this->ipAddress
-            ));
+            ]);
             $statement = $this->rDevPDO->prepare($insertQuery->getSQL());
             $statement->bindValues($insertQuery->getParameters());
             $statement->execute();
@@ -108,10 +108,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         {
             $statement = $this->rDevPDO
                 ->prepare("UPDATE users.tokens SET isactive = 'f' WHERE tokentypeid = :typeId AND userid = :userId");
-            $statement->bindValues(array(
-                "typeId" => array($typeId, \PDO::PARAM_INT),
-                "userId" => array($userId, \PDO::PARAM_INT)
-            ));
+            $statement->bindValues([
+                "typeId" => [$typeId, \PDO::PARAM_INT],
+                "userId" => [$userId, \PDO::PARAM_INT]
+            ]);
             $statement->execute();
 
             return true;
@@ -148,10 +148,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         $this->buildGetQuery();
         $this->getQuery->andWhere("tokentypeid = :typeId")
             ->andWhere("userid = :userId")
-            ->addNamedPlaceholderValues(array(
-                "typeId" => array($typeId, \PDO::PARAM_INT),
-                "userId" => array($userId, \PDO::PARAM_INT)
-            ));
+            ->addNamedPlaceholderValues([
+                "typeId" => [$typeId, \PDO::PARAM_INT],
+                "userId" => [$userId, \PDO::PARAM_INT]
+            ]);
 
         return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), false);
     }
@@ -217,10 +217,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         $this->buildGetQuery();
         $this->getQuery->andWhere("tokentypeid = :typeId")
             ->andWhere("userid = :userId")
-            ->addNamedPlaceholderValues(array(
-                "typeId" => array($typeId, \PDO::PARAM_INT),
-                "userId" => array($userId, \PDO::PARAM_INT)
-            ));
+            ->addNamedPlaceholderValues([
+                "typeId" => [$typeId, \PDO::PARAM_INT],
+                "userId" => [$userId, \PDO::PARAM_INT]
+            ]);
 
         return $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), true);
     }
@@ -239,10 +239,10 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements ITokenRepo
         $this->buildGetQuery();
         $this->getQuery->andWhere("userid = :userId")
             ->andWhere("tokentypeid = :typeId")
-            ->addNamedPlaceholderValues(array(
-                "userId" => array($userId, \PDO::PARAM_INT),
-                "typeId" => array($typeId, \PDO::PARAM_INT)
-            ));
+            ->addNamedPlaceholderValues([
+                "userId" => [$userId, \PDO::PARAM_INT],
+                "typeId" => [$typeId, \PDO::PARAM_INT]
+            ]);
 
         $tokenFromUserId = $this->read($this->getQuery->getSQL(), $this->getQuery->getParameters(), true);
 

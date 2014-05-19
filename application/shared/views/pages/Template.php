@@ -15,7 +15,7 @@ class Template implements Views\IView
     /** @var string The path to the template */
     protected $templatePath = "";
     /** @var array The keyed array of tag (placeholder) names to their values */
-    protected $tags = array();
+    protected $tags = [];
 
     /**
      * @param string $templatePath The path to the template to use

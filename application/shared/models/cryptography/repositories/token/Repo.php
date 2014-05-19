@@ -42,7 +42,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function add(Cryptography\Token &$token, $hashedValue)
     {
-        return $this->write(__FUNCTION__, array(&$token, $hashedValue));
+        return $this->write(__FUNCTION__, [&$token, $hashedValue]);
     }
 
     /**
@@ -55,7 +55,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
     {
         $token->deactivate();
 
-        return $this->write(__FUNCTION__, array(&$token));
+        return $this->write(__FUNCTION__, [&$token]);
     }
 
     /**
@@ -67,7 +67,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function deactivateAllByUserId($typeId, $userId)
     {
-        return $this->write(__FUNCTION__, array($typeId, $userId));
+        return $this->write(__FUNCTION__, [$typeId, $userId]);
     }
 
     /**
@@ -89,7 +89,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getAllByUserId($typeId, $userId)
     {
-        return $this->read(__FUNCTION__, array($typeId, $userId));
+        return $this->read(__FUNCTION__, [$typeId, $userId]);
     }
 
     /**
@@ -100,7 +100,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getById($id)
     {
-        return $this->read(__FUNCTION__, array($id));
+        return $this->read(__FUNCTION__, [$id]);
     }
 
     /**
@@ -115,7 +115,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getByIdAndUserIdAndUnhashedValue($id, $typeId, $userId, $unhashedValue)
     {
-        return $this->read(__FUNCTION__, array($id, $typeId, $userId, $this->getPepperedUnhashedValue($unhashedValue)));
+        return $this->read(__FUNCTION__, [$id, $typeId, $userId, $this->getPepperedUnhashedValue($unhashedValue)]);
     }
 
     /**
@@ -127,7 +127,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getByUserId($typeId, $userId)
     {
-        return $this->read(__FUNCTION__, array($typeId, $userId));
+        return $this->read(__FUNCTION__, [$typeId, $userId]);
     }
 
     /**
@@ -141,7 +141,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getByUserIdAndUnhashedValue($typeId, $userId, $unhashedValue)
     {
-        return $this->read(__FUNCTION__, array($typeId, $userId, $this->getPepperedUnhashedValue($unhashedValue)));
+        return $this->read(__FUNCTION__, [$typeId, $userId, $this->getPepperedUnhashedValue($unhashedValue)]);
     }
 
     /**
@@ -152,7 +152,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function getHashedValue($id)
     {
-        return $this->read(__FUNCTION__, array($id), false);
+        return $this->read(__FUNCTION__, [$id], false);
     }
 
     /**
@@ -165,7 +165,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      */
     public function hashToken($unhashedValue, $hashAlgorithm, $cost)
     {
-        return password_hash($this->getPepperedUnhashedValue($unhashedValue), $hashAlgorithm, array("cost" => $cost));
+        return password_hash($this->getPepperedUnhashedValue($unhashedValue), $hashAlgorithm, ["cost" => $cost]);
     }
 
     /**
@@ -185,7 +185,7 @@ class Repo extends Repositories\RedisWithPostgreSQLBackupRepo implements ITokenR
      * @param Cryptography\Token $token The data to write to the Redis repository
      * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
      */
-    protected function addDataToRedisRepo(&$token, array $funcArgs = array())
+    protected function addDataToRedisRepo(&$token, array $funcArgs = [])
     {
         $this->redisRepo->add($token, $this->getHashedValue($token->getId()));
     }

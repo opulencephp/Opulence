@@ -14,9 +14,9 @@ class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testAddingMultipleColumns()
     {
         $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->addColumnValues(array("name" => "dave"));
-        $queryBuilder->addColumnValues(array("email" => "foo@bar.com"));
-        $this->assertEquals(array("name" => "dave", "email" => "foo@bar.com"), $queryBuilder->getColumnNamesToValues());
+        $queryBuilder->addColumnValues(["name" => "dave"]);
+        $queryBuilder->addColumnValues(["email" => "foo@bar.com"]);
+        $this->assertEquals(["name" => "dave", "email" => "foo@bar.com"], $queryBuilder->getColumnNamesToValues());
     }
 
     /**
@@ -25,7 +25,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testAddingSingleColumn()
     {
         $queryBuilder = new AugmentingQueryBuilder();
-        $queryBuilder->addColumnValues(array("name" => "dave"));
-        $this->assertEquals(array("name" => "dave"), $queryBuilder->getColumnNamesToValues());
+        $queryBuilder->addColumnValues(["name" => "dave"]);
+        $this->assertEquals(["name" => "dave"], $queryBuilder->getColumnNamesToValues());
     }
 } 

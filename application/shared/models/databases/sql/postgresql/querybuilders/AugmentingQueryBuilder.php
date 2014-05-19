@@ -10,7 +10,7 @@ use RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 class AugmentingQueryBuilder extends QueryBuilders\AugmentingQueryBuilder
 {
     /** @var array The list of columns whose value we want to return */
-    protected $returningExpressions = array();
+    protected $returningExpressions = [];
 
     /**
      * Adds to a "RETURNING" clause

@@ -43,7 +43,7 @@ class UpdateQuery extends Query
             $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
 
             // The augmenting query doesn't care about the data type, so get rid of it
-            $columnNamesToValuesWithoutDataTypes = array();
+            $columnNamesToValuesWithoutDataTypes = [];
 
             foreach($columnNamesToValues as $name => $value)
             {
@@ -71,7 +71,7 @@ class UpdateQuery extends Query
      */
     public function andWhere($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "andWhere"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], func_get_args());
 
         return $this;
     }
@@ -92,7 +92,8 @@ class UpdateQuery extends Query
 
         $sql = trim($sql, ",");
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
+        $sql .= $this->conditionalQueryBuilder
+            ->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;
     }
@@ -105,7 +106,7 @@ class UpdateQuery extends Query
      */
     public function orWhere($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "orWhere"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], func_get_args());
 
         return $this;
     }
@@ -119,7 +120,7 @@ class UpdateQuery extends Query
      */
     public function where($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "where"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "where"], func_get_args());
 
         return $this;
     }

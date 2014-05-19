@@ -49,12 +49,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testSettingMultipleTags()
     {
         $template = new Template();
-        $template->setTags(array("foo" => "bar", "abc" => "xyz"));
+        $template->setTags(["foo" => "bar", "abc" => "xyz"]);
         $reflectionObject = new \ReflectionObject($template);
         $property = $reflectionObject->getProperty("tags");
         $property->setAccessible(true);
         $tags = $property->getValue($template);
-        $this->assertEquals(array("%%foo%%" => "bar", "%%abc%%" => "xyz"), $tags);
+        $this->assertEquals(["%%foo%%" => "bar", "%%abc%%" => "xyz"], $tags);
     }
 
     /**
@@ -68,7 +68,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property = $reflectionObject->getProperty("tags");
         $property->setAccessible(true);
         $tags = $property->getValue($template);
-        $this->assertEquals(array("%%foo%%" => "bar"), $tags);
+        $this->assertEquals(["%%foo%%" => "bar"], $tags);
     }
 
     /**

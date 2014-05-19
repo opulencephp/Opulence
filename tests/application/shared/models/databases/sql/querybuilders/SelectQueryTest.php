@@ -30,7 +30,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->where("id > 10")
             ->orWhere("name <> 'dave'")
             ->andWhere("name <> 'brian'");
-        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave') AND (name <> 'brian')", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave') AND (name <> 'brian')",
+            $query->getSQL());
     }
 
     /**
@@ -63,7 +64,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->groupBy("name")
             ->having("COUNT(name) > 1")
             ->andHaving("COUNT(name) < 5");
-        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (COUNT(name) < 5)", $query->getSQL());
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (COUNT(name) < 5)",
+            $query->getSQL());
     }
 
     /**
@@ -118,17 +120,17 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->having("count(*) > :minCount")
             ->andHaving("count(*) < 5")
             ->orHaving("count(*) = 2")
-            ->addNamedPlaceholderValues(array("allowedName" => "brian", "minCount" => array(1, \PDO::PARAM_INT)))
+            ->addNamedPlaceholderValues(["allowedName" => "brian", "minCount" => [1, \PDO::PARAM_INT]])
             ->orderBy("u.id DESC")
             ->addOrderBy("u.name ASC")
             ->limit(2)
             ->offset(1);
         $this->assertEquals("SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1", $query->getSQL());
-        $this->assertEquals(array(
-            "notAllowedName" => array("dave", \PDO::PARAM_STR),
-            "allowedName" => array("brian", \PDO::PARAM_STR),
-            "minCount" => array(1, \PDO::PARAM_INT)
-        ), $query->getParameters());
+        $this->assertEquals([
+            "notAllowedName" => ["dave", \PDO::PARAM_STR],
+            "allowedName" => ["brian", \PDO::PARAM_STR],
+            "minCount" => [1, \PDO::PARAM_INT]
+        ], $query->getParameters());
     }
 
     /**
@@ -218,7 +220,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users", "u")
             ->join("log", "l", "l.userid = u.id")
             ->join("emails", "e", "e.userid = u.id");
-        $this->assertEquals("SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id INNER JOIN emails AS e ON e.userid = u.id", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id INNER JOIN emails AS e ON e.userid = u.id",
+            $query->getSQL());
     }
 
     /**
@@ -253,7 +256,8 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->groupBy("name")
             ->having("COUNT(name) > 1")
             ->orHaving("COUNT(name) < 5");
-        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (COUNT(name) < 5)", $query->getSQL());
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (COUNT(name) < 5)",
+            $query->getSQL());
     }
 
     /**

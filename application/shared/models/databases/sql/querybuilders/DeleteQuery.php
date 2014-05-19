@@ -9,7 +9,7 @@ namespace RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 class DeleteQuery extends Query
 {
     /** @var array The list of table expressions, allowing columns from other table to appear in the WHERE condition */
-    protected $usingExpressions = array();
+    protected $usingExpressions = [];
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
     protected $conditionalQueryBuilder = null;
 
@@ -45,7 +45,7 @@ class DeleteQuery extends Query
      */
     public function andWhere($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "andWhere"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], func_get_args());
 
         return $this;
     }
@@ -78,7 +78,7 @@ class DeleteQuery extends Query
      */
     public function orWhere($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "orWhere"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], func_get_args());
 
         return $this;
     }
@@ -106,7 +106,7 @@ class DeleteQuery extends Query
      */
     public function where($condition)
     {
-        call_user_func_array(array($this->conditionalQueryBuilder, "where"), func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "where"], func_get_args());
 
         return $this;
     }

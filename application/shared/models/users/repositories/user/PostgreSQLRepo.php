@@ -55,25 +55,27 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         {
             // Add the user to the users table
             $queryBuilder = new QueryBuilders\QueryBuilder();
-            $userInsertQuery = $queryBuilder->insert("users.users", array("username" => $user->getUsername()));
+            $userInsertQuery = $queryBuilder->insert("users.users", ["username" => $user->getUsername()]);
             $statement = $this->rDevPDO->prepare($userInsertQuery->getSQL());
-            $statement->execute($userInsertQuery->getParameters());
+            $statement->bindValues($userInsertQuery->getParameters());
+            $statement->execute();
 
             // We'll take this opportunity to set the user's actually Id
             $user->setId((int)$this->rDevPDO->lastInsertID("users.users_id_seq"));
 
             // Build up the insert queries to store all the user's data
-            $userDataColumnMappings = array(
-                array("userdatatypeid" => UserDataTypes::EMAIL, "value" => $user->getEmail()),
-                array("userdatatypeid" => UserDataTypes::FIRST_NAME, "value" => $user->getFirstName()),
-                array("userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName()),
-                array("userdatatypeid" => UserDataTypes::DATE_CREATED, "value" => $user->getDateCreated()->format("Y-m-d H:i:s"))
-            );
+            $userDataColumnMappings = [
+                ["userdatatypeid" => UserDataTypes::EMAIL, "value" => $user->getEmail()],
+                ["userdatatypeid" => UserDataTypes::FIRST_NAME, "value" => $user->getFirstName()],
+                ["userdatatypeid" => UserDataTypes::LAST_NAME, "value" => $user->getLastName()],
+                ["userdatatypeid" => UserDataTypes::DATE_CREATED, "value" => $user->getDateCreated()->format("Y-m-d H:i:s")]
+            ];
 
             // Execute queries to insert the user data
             foreach($userDataColumnMappings as $userDataColumnMapping)
             {
-                $userDataInsertQuery = $queryBuilder->insert("users.userdata", array_merge(array("userid" => $user->getId()), $userDataColumnMapping));
+                $userDataInsertQuery = $queryBuilder
+                    ->insert("users.userdata", array_merge(["userid" => $user->getId()], $userDataColumnMapping));
                 $statement = $this->rDevPDO->prepare($userDataInsertQuery->getSQL());
                 $statement->bindValues($userDataInsertQuery->getParameters());
                 $statement->execute();
@@ -266,12 +268,12 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
     private function log($userId, $userDataTypeId, $value, $actionTypeId)
     {
         $queryBuilder = new QueryBuilders\QueryBuilder();
-        $insertQuery = $queryBuilder->insert("users.userdatalog", array(
-            "userid" => array($userId, \PDO::PARAM_INT),
-            "userdatatypeid" => array($userDataTypeId, \PDO::PARAM_INT),
+        $insertQuery = $queryBuilder->insert("users.userdatalog", [
+            "userid" => [$userId, \PDO::PARAM_INT],
+            "userdatatypeid" => [$userDataTypeId, \PDO::PARAM_INT],
             "value" => $value,
-            "actiontypeid" => array($actionTypeId, \PDO::PARAM_INT)
-        ));
+            "actiontypeid" => [$actionTypeId, \PDO::PARAM_INT]
+        ]);
         $statement = $this->rDevPDO->prepare($insertQuery->getSQL());
         $statement->bindValues($insertQuery->getParameters());
         $statement->execute();
@@ -292,7 +294,8 @@ class PostgreSQLRepo extends Repositories\PostgreSQLRepo implements IUserRepo
         try
         {
             $queryBuilder = new QueryBuilders\QueryBuilder();
-            $updateQuery = $queryBuilder->update("users.userdata", "", array("userdatatypeid" => $userDataTypeId, "value" => $value))
+            $updateQuery = $queryBuilder
+                ->update("users.userdata", "", ["userdatatypeid" => $userDataTypeId, "value" => $value])
                 ->where("userid = ?")
                 ->addUnnamedPlaceholderValue($userId, \PDO::PARAM_INT);
             $statement = $this->rDevPDO->prepare($updateQuery->getSQL());

@@ -10,7 +10,7 @@ use RDev\Application\Shared\Models\Databases\SQL\QueryBuilders;
 class InsertQuery extends QueryBuilders\InsertQuery
 {
     /** @var array The list of column names to values in case of a "ON DUPLICATE KEY UPDATE" clause */
-    private $duplicateKeyUpdateColumnNamesToValues = array();
+    private $duplicateKeyUpdateColumnNamesToValues = [];
 
     /**
      * Adds columns to update in the case a row already exists in the table

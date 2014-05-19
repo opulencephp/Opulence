@@ -52,7 +52,7 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
             ->where("u.id = :userId", "emails.userid = u.id", "emails.email = :email")
             ->orWhere("u.name = :name")
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
-            ->addNamedPlaceholderValues(array("userId" => 18175, "email" => "foo@bar.com", "name" => "dave"));
+            ->addNamedPlaceholderValues(["userId" => 18175, "email" => "foo@bar.com", "name" => "dave"]);
         $this->assertEquals("DELETE FROM users AS u USING emails, subscriptions WHERE (u.id = :userId) AND (emails.userid = u.id) AND (emails.email = :email) OR (u.name = :name) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')", $query->getSQL());
     }
 

@@ -13,10 +13,10 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingConditionToEmptyClause()
     {
-        $conditions = array();
+        $conditions = [];
         $queryBuilder = new ConditionalQueryBuilder();
         $conditions = $queryBuilder->addConditionToClause($conditions, "AND", "name = 'dave'");
-        $this->assertEquals(array(array("operation" => "AND", "condition" => "name = 'dave'")), $conditions);
+        $this->assertEquals([["operation" => "AND", "condition" => "name = 'dave'"]], $conditions);
     }
 
     /**
@@ -24,10 +24,13 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingConditionToNonEmptyClause()
     {
-        $conditions = array(array("operation" => "OR", "condition" => "email = 'foo@bar.com'"));
+        $conditions = [["operation" => "OR", "condition" => "email = 'foo@bar.com'"]];
         $queryBuilder = new ConditionalQueryBuilder();
         $conditions = $queryBuilder->addConditionToClause($conditions, "AND", "name = 'dave'");
-        $this->assertEquals(array(array("operation" => "OR", "condition" => "email = 'foo@bar.com'"), array("operation" => "AND", "condition" => "name = 'dave'")), $conditions);
+        $this->assertEquals([
+            ["operation" => "OR", "condition" => "email = 'foo@bar.com'"],
+            ["operation" => "AND", "condition" => "name = 'dave'"]
+        ], $conditions);
     }
 
     /**
@@ -37,7 +40,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->andWhere("name = 'dave'");
-        $this->assertEquals(array(array("operation" => "AND", "condition" => "name = 'dave'")), $queryBuilder->getWhereConditions());
+        $this->assertEquals([["operation" => "AND", "condition" => "name = 'dave'"]], $queryBuilder->getWhereConditions());
     }
 
     /**
@@ -49,7 +52,8 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $queryBuilder->where("name = 'dave'")
             ->orWhere("email = 'foo@bar.com'")
             ->andWhere("awesome = true");
-        $this->assertEquals(" WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)", $queryBuilder->getClauseConditionSQL("WHERE", $queryBuilder->getWhereConditions()));
+        $this->assertEquals(" WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)",
+            $queryBuilder->getClauseConditionSQL("WHERE", $queryBuilder->getWhereConditions()));
     }
 
     /**
@@ -59,7 +63,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->orWhere("name = 'dave'");
-        $this->assertEquals(array(array("operation" => "OR", "condition" => "name = 'dave'")), $queryBuilder->getWhereConditions());
+        $this->assertEquals([["operation" => "OR", "condition" => "name = 'dave'"]], $queryBuilder->getWhereConditions());
     }
 
     /**
@@ -69,6 +73,7 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->where("name = 'dave'");
-        $this->assertEquals(array(array("operation" => "AND", "condition" => "name = 'dave'")), $queryBuilder->getWhereConditions());
+        $this->assertEquals(array(array("operation" => "AND", "condition" => "name = 'dave'")),
+            $queryBuilder->getWhereConditions());
     }
 } 
