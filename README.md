@@ -3,7 +3,7 @@ These tools are PHP wrappers for relational database (RDBMS) and NoSQL database 
 
 ```
 <?php
-use RDev\Application\Shared\Models\Databases\SQL\PostgreSQL\QueryBuilders;
+use RDev\Models\Databases\SQL\PostgreSQL\QueryBuilders;
 
 $queryBuilder = new QueryBuilders\QueryBuilder();
 $selectLongTimeUsersQuery = $queryBuilder->select("id", "name", "email")

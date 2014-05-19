@@ -1,2 +1,2 @@
-<phpunit bootstrap="application/shared/models/configs/PHP.php">
+<phpunit bootstrap="application/rdev/models/configs/PHP.php">
 </phpunit>
