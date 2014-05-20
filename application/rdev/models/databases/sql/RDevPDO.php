@@ -6,7 +6,6 @@
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Exceptions as SQLExceptions;
 use RDev\Models\Exceptions;
 
 class RDevPDO extends \PDO
@@ -217,6 +216,7 @@ class RDevPDO extends \PDO
         try
         {
             parent::__construct($this->server->getConnectionString(), $this->server->getUsername(), $this->server->getPassword());
+            parent::setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             parent::setAttribute(\PDO::ATTR_STATEMENT_CLASS, [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
             $this->isConnected = true;
         }

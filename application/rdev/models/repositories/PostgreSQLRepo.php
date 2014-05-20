@@ -68,7 +68,7 @@ abstract class PostgreSQLRepo
                 return $entities;
             }
         }
-        catch(SQL\Exceptions\SQLException $ex)
+        catch(\PDOException $ex)
         {
             Exceptions\Log::write("Unable to query entities: " . $ex);
         }
