@@ -20,6 +20,8 @@ class User implements IUser
     protected $lastName = "";
     /** @var \DateTime The date this user was created */
     protected $dateCreated = null;
+    /** @var array The list of roles this user has */
+    protected $roles = [];
 
     /**
      * @param int $id The database Id of this user
@@ -28,8 +30,9 @@ class User implements IUser
      * @param \DateTime $dateCreated The date this user was created
      * @param string $firstName The first name of this user
      * @param string $lastName The last name of this user
+     * @param array $roles The list of roles this user has
      */
-    public function __construct($id, $username, $email, \DateTime $dateCreated, $firstName, $lastName)
+    public function __construct($id, $username, $email, \DateTime $dateCreated, $firstName, $lastName, array $roles)
     {
         $this->setId($id);
         $this->username = $username;
@@ -37,6 +40,7 @@ class User implements IUser
         $this->dateCreated = $dateCreated;
         $this->setFirstName($firstName);
         $this->setLastName($lastName);
+        $this->roles = $roles;
     }
 
     /**
@@ -80,11 +84,30 @@ class User implements IUser
     }
 
     /**
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
      * @return string
      */
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * Gets whether or not a user has a particular role
+     *
+     * @param mixed $role The role to search for
+     * @return bool True if the user has the role, otherwise false
+     */
+    public function hasRole($role)
+    {
+        return in_array($role, $this->roles);
     }
 
     /**

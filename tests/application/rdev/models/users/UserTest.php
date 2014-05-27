@@ -16,7 +16,26 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->prototypicalUser = new User(18175, "foo@bar.com", "foo@bar.com", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young");
+        $this->prototypicalUser = new User(18175, "foo@bar.com", "foo@bar.com", new \DateTime("1776-07-04 12:34:56",
+            new \DateTimeZone("UTC")), "David", "Young", [1, 2, 3]);
+    }
+
+    /**
+     * Tests checking for a role that a user doesn't have
+     */
+    public function testCheckingForRoleThatUserDoesntHave()
+    {
+        $user = $this->getClonedUser();
+        $this->assertFalse($user->hasRole(998877));
+    }
+
+    /**
+     * Tests verifying that a user has a role
+     */
+    public function testCheckingForRoleThatUserHas()
+    {
+        $user = $this->getClonedUser();
+        $this->assertTrue($user->hasRole(1));
     }
 
     /**
@@ -62,6 +81,15 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $user = $this->getClonedUser();
         $this->assertEquals("Young", $user->getLastName());
+    }
+
+    /**
+     * Tests getting the user's roles
+     */
+    public function testGettingRoles()
+    {
+        $user = $this->getClonedUser();
+        $this->assertEquals([1, 2, 3], $user->getRoles());
     }
 
     /**

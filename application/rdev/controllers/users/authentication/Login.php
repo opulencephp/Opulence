@@ -5,6 +5,7 @@
  * Defines the login controller
  */
 namespace RDev\Users\Authentication\Controllers;
+use RDev\Models\Cryptography;
 use RDev\Models\Cryptography\Repositories\Token;
 use RDev\Models\Users\Authentication\Credentials;
 use RDev\Models\Users\Authentication\Credentials\Factories;
@@ -54,20 +55,23 @@ class Login
             return false;
         }
 
-        $loginCredentials = $this->loginCredentialsFactory->createLoginCredentials(
+        $tokenValue = Cryptography\Token::generateRandomString(Configs\Authentication::LOGIN_TOKEN_LENGTH);
+        $loginToken = new Cryptography\Token(
+            -1,
+            Cryptography\TokenTypes::LOGIN,
             $user->getId(),
-            new \DateTime("now", new \DateTimeZone("UTC")),
-            new \DateTime("+1 week", new \DateTimeZone("UTC"))
-        );
-        $tokenValue = $loginCredentials->getLoginToken()
-            ->generateRandomString(Configs\Authentication::LOGIN_TOKEN_LENGTH);
-        $this->tokenRepo->add(
-            $loginCredentials->getLoginToken(),
-            $this->tokenRepo->hashToken(
+            Cryptography\Token::generateHashedValue(
                 $tokenValue,
                 Configs\Authentication::LOGIN_TOKEN_HASH_ALGORITHM,
-                Configs\Authentication::LOGIN_TOKEN_HASH_COST
-            ));
+                Configs\Authentication::LOGIN_TOKEN_HASH_COST,
+                Configs\Authentication::TOKEN_PEPPER
+            ),
+            new \DateTime("now", new \DateTimeZone("UTC")),
+            new \DateTime("+1 week", new \DateTimeZone("UTC")),
+            true
+        );
+        $loginCredentials = new Credentials\LoginCredentials($user->getId(), $loginToken);
+        $this->tokenRepo->add($loginCredentials->getLoginToken());
 
         setcookie("userId", $user, time() + 3600, "/", "", false, true);
         setcookie("loginTokenId", $loginCredentials->getLoginToken()->getId(), time() + 3600, "/", "", false, true);

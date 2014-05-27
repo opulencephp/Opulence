@@ -2,13 +2,13 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a repository that uses a Redis database as a storage method
+ * Defines a data mapper that maps domain data to and from Redis
  */
-namespace RDev\Models\Repositories;
+namespace RDev\Models\Repositories\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
 
-abstract class RedisRepo
+abstract class RedisDataMapper
 {
     /** @var Redis\RDevRedis The RDevRedis object to use for queries */
     protected $rDevRedis = null;
@@ -22,11 +22,27 @@ abstract class RedisRepo
     }
 
     /**
-     * Flushes items in this repo
+     * Adds an entity to the database
+     *
+     * @param Models\IEntity $entity The entity to add
+     * @return bool True if successful, otherwise false
+     */
+    abstract public function add(Models\IEntity &$entity);
+
+    /**
+     * Flushes items from Redis that are in this mapper
      *
      * @return bool True if successful, otherwise false
      */
     abstract public function flush();
+
+    /**
+     * Saves any changes made to an entity
+     *
+     * @param Models\IEntity $entity The entity to save
+     * @return bool True if successful, otherwise false
+     */
+    abstract public function save(Models\IEntity &$entity);
 
     /**
      * Gets the entity by Id

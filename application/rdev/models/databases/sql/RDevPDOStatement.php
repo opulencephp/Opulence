@@ -5,7 +5,6 @@
  * Defines an extension of PDOStatement
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Exceptions;
 
 class RDevPDOStatement extends \PDOStatement
 {

@@ -7,13 +7,14 @@
 namespace RDev\Models\Repositories;
 use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\SQL;
+use RDev\Models\Repositories\DataMappers;
 
 abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
 {
-    /** @var RedisRepo The Redis repository to use for temporary storage */
-    protected $redisRepo = null;
-    /** @var PostgreSQLRepo The SQL database repository to use for permanent storage */
-    protected $postgreSQLRepo = null;
+    /** @var DataMappers\RedisDataMapper The Redis mapper to use for temporary storage */
+    protected $redisDataMapper = null;
+    /** @var DataMappers\PostgreSQLDataMapper The SQL database data mapper to use for permanent storage */
+    protected $postgreSQLDataMapper = null;
 
     /**
      * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
@@ -21,8 +22,8 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
      */
     public function __construct(Redis\RDevRedis $rDevRedis, SQL\RDevPDO $rDevPDO)
     {
-        $this->redisRepo = $this->getRedisRepo($rDevRedis);
-        $this->postgreSQLRepo = $this->getPostgreSQLRepo($rDevPDO);
+        $this->redisDataMapper = $this->getRedisDataMapper($rDevRedis);
+        $this->postgreSQLDataMapper = $this->getPostgreSQLDataMapper($rDevPDO);
     }
 
     /**
@@ -33,50 +34,41 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     abstract public function sync();
 
     /**
-     * In the case we're getting data and didn't find it in the Redis repo, we need a way to store it there for future use
-     * The contents of this method should call the appropriate method to store data in the Redis repo
+     * Gets a PostgreSQL data mapper to use in this repo
      *
-     * @param mixed $data The data to write to the Redis repository
-     * @param array $funcArgs The array of function arguments to pass into the method that adds the data to the Redis repo
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the data mapper
+     * @return DataMappers\PostgreSQLDataMapper The PostgreSQL data mapper to use
      */
-    abstract protected function addDataToRedisRepo(&$data, array $funcArgs = []);
+    abstract protected function getPostgreSQLDataMapper(SQL\RDevPDO $rDevPDO);
 
     /**
-     * Gets an SQL repo to use in this repo
+     * Gets a Redis data mapper to use in this repo
      *
-     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
-     * @return PostgreSQLRepo The SQL repo to use
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the data mapper
+     * @return DataMappers\RedisDataMapper The Redis data mapper to use
      */
-    abstract protected function getPostgreSQLRepo(SQL\RDevPDO $rDevPDO);
+    abstract protected function getRedisDataMapper(Redis\RDevRedis $rDevRedis);
 
     /**
-     * Gets a Redis repo to use in this repo
+     * Attempts to retrieve data from the Redis data mapper before resorting to an SQL database
      *
-     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
-     * @return RedisRepo The Redis repo to use
-     */
-    abstract protected function getRedisRepo(Redis\RDevRedis $rDevRedis);
-
-    /**
-     * Attempts to retrieve data from the Redis repo before resorting to an SQL database
-     *
-     * @param string $funcName The name of the method we want to call on our sub-repo classes
+     * @param string $funcName The name of the method we want to call on our data mappers
      * @param array $getFuncArgs The array of function arguments to pass in to our data retrieval functions
      * @param bool $addDataToRedisOnMiss True if we want to add data from the database to cache in case of a cache miss
-     * @param array $setFuncArgs The array of function arguments to pass into the data set functions in the case of a Redis repo miss
+     * @param array $setFuncArgs The array of function arguments to pass into the data set functions in the case of a Redis miss
      * @return mixed|bool The data from the repository if it was found, otherwise false
      */
     protected function read($funcName, array $getFuncArgs = [], $addDataToRedisOnMiss = true, array $setFuncArgs = [])
     {
-        // Always attempt to retrieve from the Redis repo first
-        $data = call_user_func_array([$this->redisRepo, $funcName], $getFuncArgs);
+        // Always attempt to retrieve from Redis first
+        $data = call_user_func_array([$this->redisDataMapper, $funcName], $getFuncArgs);
 
-        // If we have to go off to the SQL repo
+        // If we have to go off to PostgreSQL
         if($data === false)
         {
-            $data = call_user_func_array([$this->postgreSQLRepo, $funcName], $getFuncArgs);
+            $data = call_user_func_array([$this->postgreSQLDataMapper, $funcName], $getFuncArgs);
 
-            // Try to store the data back to the Redis repo
+            // Try to store the data back to Redis
             if($data === false)
             {
                 return false;
@@ -88,12 +80,12 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
                 {
                     foreach($data as $datum)
                     {
-                        call_user_func_array([$this, "addDataToRedisRepo"], array_merge([&$datum], $setFuncArgs));
+                        call_user_func_array([$this->redisDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
                     }
                 }
                 else
                 {
-                    call_user_func_array([$this, "addDataToRedisRepo"], array_merge([&$data], $setFuncArgs));
+                    call_user_func_array([$this->redisDataMapper, "add"], array_merge([&$data], $setFuncArgs));
                 }
             }
         }
@@ -102,17 +94,17 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     }
 
     /**
-     * Attempts to store/change data in the repos
+     * Attempts to store/change data in the repo
      * This method should be called by subclasses to perform CREATE/UPDATE/DELETE-type actions
      *
-     * @param string $funcName The name of the method we want to call on our sub-repo classes
+     * @param string $funcName The name of the method we want to call on our data mappers
      * @param array $funcArgs The array of function arguments to pass in
      * @return bool True if successful, otherwise false
      */
     protected function write($funcName, array $funcArgs)
     {
-        // We update the SQL repo first in the case that it sets an SQL row Id to the object
-        return call_user_func_array([$this->postgreSQLRepo, $funcName], $funcArgs)
-        && call_user_func_array([$this->redisRepo, $funcName], $funcArgs);
+        // We update PostgreSQL first in the case that it sets an SQL row Id to the object
+        return call_user_func_array([$this->postgreSQLDataMapper, $funcName], $funcArgs)
+        && call_user_func_array([$this->redisDataMapper, $funcName], $funcArgs);
     }
 } 

@@ -2,14 +2,14 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a repository that uses a PostgreSQL database as a storage method
+ * Defines a data mapper that maps domain data to and from PostgreSQL
  */
-namespace RDev\Models\Repositories;
+namespace RDev\Models\Repositories\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
 
-abstract class PostgreSQLRepo
+abstract class PostgreSQLDataMapper
 {
     /** @var SQL\RDevPDO The RDevPDO object to use for queries */
     protected $rDevPDO = null;
@@ -23,12 +23,28 @@ abstract class PostgreSQLRepo
     }
 
     /**
+     * Adds an entity to the database
+     *
+     * @param Models\IEntity $entity The entity to add
+     * @return bool True if successful, otherwise false
+     */
+    abstract public function add(Models\IEntity &$entity);
+
+    /**
+     * Saves any changes made to an entity
+     *
+     * @param Models\IEntity $entity The entity to save
+     * @return bool True if successful, otherwise false
+     */
+    abstract public function save(Models\IEntity &$entity);
+
+    /**
      * Loads an entity from a row of data
      *
-     * @param array $row The row of data
+     * @param array $hash The hash of data
      * @return Models\IEntity The entity
      */
-    abstract protected function loadEntity(array $row);
+    abstract protected function loadEntity(array $hash);
 
     /**
      * Performs the read query for entity(ies) and returns any results

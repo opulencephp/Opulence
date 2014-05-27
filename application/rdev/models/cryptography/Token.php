@@ -15,6 +15,8 @@ class Token implements Models\IEntity
     private $typeId = -1;
     /** @var int The Id of the user whose token this is */
     private $userId = -1;
+    /** @var string The hashed value */
+    private $hashedValue = "";
     /** @var \DateTime The valid-from date */
     private $validFrom = null;
     /** @var \DateTime The valid-to date */
@@ -26,26 +28,34 @@ class Token implements Models\IEntity
      * @param int $id The database Id of this token
      * @param int $typeId The type of token this is
      * @param int $userId The Id of the user whose token this is
+     * @param string $hashedValue The hashed value
      * @param \DateTime $validFrom The valid-from date
      * @param \DateTime $validTo The valid-to date
      * @param bool $isActive Whether or not this token is active
      */
-    public function __construct($id, $typeId, $userId, \DateTime $validFrom, \DateTime $validTo, $isActive)
+    public function __construct($id, $typeId, $userId, $hashedValue, \DateTime $validFrom, \DateTime $validTo, $isActive)
     {
         $this->id = $id;
         $this->typeId = $typeId;
         $this->userId = $userId;
+        $this->hashedValue = $hashedValue;
         $this->validFrom = $validFrom;
         $this->validTo = $validTo;
         $this->isActive = $isActive;
     }
 
     /**
-     * Sets the active flag to false
+     * Gets the hash of a token, which is suitable for storage
+     *
+     * @param string $unhashedValue The unhashed token to hash
+     * @param int $hashAlgorithm The hash algorithm constant to use in password_hash
+     * @param int $cost The cost of the hash to use
+     * @param string $pepper The optional pepper to append prior to hashing the value
+     * @return string The hashed token
      */
-    public function deactivate()
+    public static function generateHashedValue($unhashedValue, $hashAlgorithm, $cost, $pepper = "")
     {
-        $this->isActive = false;
+        return password_hash($unhashedValue . $pepper, $hashAlgorithm, ["cost" => $cost]);
     }
 
     /**
@@ -54,7 +64,7 @@ class Token implements Models\IEntity
      * @param int $length The desired length of the string
      * @return string The random string
      */
-    public function generateRandomString($length)
+    public static function generateRandomString($length)
     {
         // N bytes becomes 2N characters in bin2hex(), hence the division by 2
         $string = bin2hex(openssl_random_pseudo_bytes(ceil($length / 2)));
@@ -66,6 +76,22 @@ class Token implements Models\IEntity
         }
 
         return $string;
+    }
+
+    /**
+     * Sets the active flag to false
+     */
+    public function deactivate()
+    {
+        $this->isActive = false;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHashedValue()
+    {
+        return $this->hashedValue;
     }
 
     /**
@@ -140,5 +166,17 @@ class Token implements Models\IEntity
     public function setUserId($userId)
     {
         $this->userId = $userId;
+    }
+
+    /**
+     * Verifies that an unhashed value matches the hashed value
+     *
+     * @param string $unhashedValue The unhashed value to verify
+     * @param string $pepper The optional pepper to use append prior to verifying the value
+     * @return bool True if the unhashed value matches against the hashed value
+     */
+    public function verify($unhashedValue, $pepper = "")
+    {
+        return password_verify($unhashedValue . $pepper, $this->hashedValue);
     }
 } 

@@ -30,9 +30,22 @@ interface IUser extends Models\IEntity
     public function getLastName();
 
     /**
+     * @return array
+     */
+    public function getRoles();
+
+    /**
      * @return string
      */
     public function getUsername();
+
+    /**
+     * Gets whether or not a user has a particular role
+     *
+     * @param mixed $role The role to search for
+     * @return bool True if the user has the role, otherwise false
+     */
+    public function hasRole($role);
 
     /**
      * @param string $email

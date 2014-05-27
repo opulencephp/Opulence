@@ -14,11 +14,9 @@ interface IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @param Cryptography\Token $passwordToken The password token
-     * @param string $hashedPassword The user's password
      * @return bool True if successful, otherwise false
      */
-    public function add(Users\IUser &$user, Cryptography\Token &$passwordToken, $hashedPassword);
+    public function add(Users\IUser &$user);
 
     /**
      * Gets all the users in the repository
@@ -67,5 +65,5 @@ interface IUserRepo
      * @param string $email The new email address
      * @return bool True if successful, otherwise false
      */
-    public function updateEmail(Users\IUser &$user, $email);
+    public function saveEmail(Users\IUser &$user, $email);
 } 

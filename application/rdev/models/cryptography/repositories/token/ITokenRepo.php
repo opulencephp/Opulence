@@ -14,10 +14,9 @@ interface ITokenRepo
      * Adds a token to the repo
      *
      * @param Cryptography\Token $token The token we're adding
-     * @param string $hashedValue The hashed token value
      * @return bool True if successful, otherwise false
      */
-    public function add(Cryptography\Token &$token, $hashedValue);
+    public function add(Cryptography\Token &$token);
 
     /**
      * Deactivates a token from use
@@ -91,12 +90,4 @@ interface ITokenRepo
      * @throws Exceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUserIdAndUnhashedValue($typeId, $userId, $unhashedValue);
-
-    /**
-     * Gets the hashed value for a token
-     *
-     * @param int $id The Id of the hash whose value we're searching for
-     * @return string|bool The hashed value if successful, otherwise false
-     */
-    public function getHashedValue($id);
 } 

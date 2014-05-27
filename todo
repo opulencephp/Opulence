@@ -1,9 +1,3 @@
-Refactor to get rid of shared, subtree-split databases into new repo, clone into application/
-Add user roles to User class
-We are passing a sub repo as its interface, which could be a problem because we're relying on it implementing non-interface methods like hashPassword()
-    Probably need to re-implement sub-repos as DataMappers
-        Issue with this is that we'd still need a wrapper around the DataMappers to do stuff like addDataToRedis()
-        Maybe it's worth just keeping all of this in Repository?
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
 See if current Session class would make more sense as an abstract class
