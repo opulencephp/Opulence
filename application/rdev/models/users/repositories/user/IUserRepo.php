@@ -59,11 +59,10 @@ interface IUserRepo
     public function getByUsernameAndPassword($username, $unhashedPassword);
 
     /**
-     * Updates a user's email address in the repository
+     * Saves a user's properties to the repo
      *
-     * @param Users\IUser $user The user to update in the repository
-     * @param string $email The new email address
+     * @param Users\IUser $user The user to save
      * @return bool True if successful, otherwise false
      */
-    public function saveEmail(Users\IUser &$user, $email);
+    public function save(Users\IUser &$user);
 } 

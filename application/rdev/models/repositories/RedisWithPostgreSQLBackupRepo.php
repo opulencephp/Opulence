@@ -17,8 +17,8 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     protected $postgreSQLDataMapper = null;
 
     /**
-     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the repo
-     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the repo
+     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the Redis data mapper
+     * @param SQL\RDevPDO $rDevPDO The RDevPDO object used in the PostgreSQL data mapper
      */
     public function __construct(Redis\RDevRedis $rDevRedis, SQL\RDevPDO $rDevPDO)
     {
@@ -27,7 +27,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     }
 
     /**
-     * Synchronizes the Redis repository with the SQL repository
+     * Synchronizes the Redis database with the SQL database
      *
      * @return bool True if successful, otherwise false
      */

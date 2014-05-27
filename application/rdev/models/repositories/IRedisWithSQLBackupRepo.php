@@ -9,7 +9,7 @@ namespace RDev\Models\Repositories;
 interface IRedisWithSQLBackupRepo
 {
     /**
-     * Synchronizes the Redis repository with the SQL repository
+     * Synchronizes the Redis database with the SQL database
      *
      * @return bool True if successful, otherwise false
      */
