@@ -38,7 +38,11 @@ class PHP
         }
         else
         {
-            require_once($qualifiedClassName . ".php");
+            // Some classes that are built into PHP may not have a source file we can include, so check for one first
+            if(file_exists($qualifiedClassName . ".php"))
+            {
+                require_once($qualifiedClassName . ".php");
+            }
         }
     }
 }

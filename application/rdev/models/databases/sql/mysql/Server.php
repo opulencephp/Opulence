@@ -10,9 +10,7 @@ use RDev\Models\Databases\SQL;
 abstract class Server extends SQL\Server
 {
     /**
-     * Gets the connection string
-     *
-     * @return string The string we can use to connect with
+     * {@inheritdoc}
      */
     public function getConnectionString()
     {

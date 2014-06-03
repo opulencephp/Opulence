@@ -6,7 +6,8 @@
  */
 namespace RDev\Models\Cryptography\Repositories\Token;
 use RDev\Models\Cryptography;
-use RDev\Models\Cryptography\Repositories\Token\Exceptions;
+use RDev\Models\Cryptography\Repositories\Token\Exceptions as TokenExceptions;
+use RDev\Models\Repositories\Exceptions as RepoExceptions;
 
 interface ITokenRepo
 {
@@ -14,7 +15,7 @@ interface ITokenRepo
      * Adds a token to the repo
      *
      * @param Cryptography\Token $token The token we're adding
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if there was an error adding the token to the repo
      */
     public function add(Cryptography\Token &$token);
 
@@ -22,7 +23,7 @@ interface ITokenRepo
      * Deactivates a token from use
      *
      * @param Cryptography\Token $token The token to deactivate
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if there was an error deactivating the token to the repo
      */
     public function deactivate(Cryptography\Token &$token);
 
@@ -31,7 +32,7 @@ interface ITokenRepo
      *
      * @param int $typeId The Id of the type of token we're deactivating
      * @param int $userId The Id of the user whose tokens we're deactivating
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if there was an error deactivating the tokens for the user
      */
     public function deactivateAllByUserId($typeId, $userId);
 
@@ -67,7 +68,7 @@ interface ITokenRepo
      * @param int $userId The Id of the user whose token we're searching for
      * @param string $unhashedValue The unhashed value we're looking for
      * @return Cryptography\Token|bool The token if successful, otherwise false
-     * @throws Exceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
+     * @throws TokenExceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByIdAndUserIdAndUnhashedValue($id, $typeId, $userId, $unhashedValue);
 
@@ -87,7 +88,7 @@ interface ITokenRepo
      * @param int $userId The Id of the user whose token we're searching for
      * @param string $unhashedValue The unhashed value we're looking for
      * @return Cryptography\Token|bool The token if successful, otherwise false
-     * @throws Exceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
+     * @throws TokenExceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUserIdAndUnhashedValue($typeId, $userId, $unhashedValue);
 
@@ -95,7 +96,7 @@ interface ITokenRepo
      * Saves any changes made to an entity
      *
      * @param Cryptography\Token $token The entity to save
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if there was an error saving the token to the repo
      */
     public function save(Cryptography\Token &$token);
 } 

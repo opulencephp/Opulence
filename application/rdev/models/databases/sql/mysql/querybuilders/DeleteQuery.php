@@ -13,9 +13,7 @@ class DeleteQuery extends QueryBuilders\DeleteQuery
     protected $limit = -1;
 
     /**
-     * Gets the SQL statement as a string
-     *
-     * @return string The SQL statement
+     * {@inheritdoc}
      */
     public function getSQL()
     {

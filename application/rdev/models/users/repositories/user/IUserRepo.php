@@ -5,7 +5,7 @@
  * Defines the user repository interface
  */
 namespace RDev\Models\Users\Repositories\User;
-use RDev\Models\Cryptography;
+use RDev\Models\Repositories\Exceptions as RepoExceptions;
 use RDev\Models\Users;
 
 interface IUserRepo
@@ -14,7 +14,7 @@ interface IUserRepo
      * Adds a user to the repository
      *
      * @param Users\IUser $user The user to store in the repository
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if there was an error adding the user
      */
     public function add(Users\IUser &$user);
 
@@ -62,7 +62,7 @@ interface IUserRepo
      * Saves a user's properties to the repo
      *
      * @param Users\IUser $user The user to save
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if there was an error saving the user
      */
     public function save(Users\IUser &$user);
 } 

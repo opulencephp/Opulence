@@ -10,11 +10,7 @@ use RDev\Models\Databases\SQL\QueryBuilders;
 class QueryBuilder extends QueryBuilders\QueryBuilder
 {
     /**
-     * Starts a new delete query
-     *
-     * @param string $tableName The name of the table we're deleting from
-     * @param string $alias The alias of the table name
-     * @return DeleteQuery The delete query builder
+     * {@inheritdoc}
      */
     public function delete($tableName, $alias = "")
     {
@@ -22,11 +18,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
     }
 
     /**
-     * Starts a new insert query
-     *
-     * @param string $tableName The name of the table we're inserting into
-     * @param array $columnNamesToValues The mapping of column names to their respective values
-     * @return InsertQuery The insert query builder
+     * {@inheritdoc}
      */
     public function insert($tableName, array $columnNamesToValues)
     {
@@ -34,10 +26,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
     }
 
     /**
-     * Starts a new select query
-     *
-     * @param string $expression,... A variable list of select expressions
-     * @return SelectQuery The select query builder
+     * {@inheritdoc}
      */
     public function select($expression)
     {
@@ -48,12 +37,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
     }
 
     /**
-     * Starts a new update query
-     *
-     * @param string $tableName The name of the table we're updating
-     * @param string $alias The alias of the table name
-     * @param array $columnNamesToValues The mapping of column names to their respective values
-     * @return UpdateQuery The update query builder
+     * {@inheritdoc}
      */
     public function update($tableName, $alias, array $columnNamesToValues)
     {

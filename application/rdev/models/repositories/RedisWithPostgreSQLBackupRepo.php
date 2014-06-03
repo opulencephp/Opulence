@@ -29,7 +29,7 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     /**
      * Synchronizes the Redis database with the SQL database
      *
-     * @return bool True if successful, otherwise false
+     * @throws Exceptions\RepoException Thrown if there was an error syncing the data mappers
      */
     abstract public function sync();
 

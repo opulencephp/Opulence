@@ -7,6 +7,7 @@
 namespace RDev\Models\Repositories\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
+use RDev\Models\Repositories\Exceptions;
 
 abstract class RedisDataMapper
 {
@@ -25,14 +26,14 @@ abstract class RedisDataMapper
      * Adds an entity to the database
      *
      * @param Models\IEntity $entity The entity to add
-     * @return bool True if successful, otherwise false
+     * @throws Exceptions\RepoException Thrown if the entity couldn't be added
      */
     abstract public function add(Models\IEntity &$entity);
 
     /**
      * Flushes items from Redis that are in this mapper
      *
-     * @return bool True if successful, otherwise false
+     * @throws Exceptions\RepoException Thrown if Redis couldn't be flushed
      */
     abstract public function flush();
 
@@ -40,7 +41,7 @@ abstract class RedisDataMapper
      * Saves any changes made to an entity
      *
      * @param Models\IEntity $entity The entity to save
-     * @return bool True if successful, otherwise false
+     * @throws Exceptions\RepoException Thrown if the entity couldn't be saved
      */
     abstract public function save(Models\IEntity &$entity);
 

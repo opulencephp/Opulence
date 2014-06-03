@@ -20,15 +20,16 @@ class InsertQuery extends QueryBuilders\InsertQuery
      */
     public function addUpdateColumnValues(array $columnNamesToValues)
     {
-        $this->duplicateKeyUpdateColumnNamesToValues = array_merge($this->duplicateKeyUpdateColumnNamesToValues, $columnNamesToValues);
+        $this->duplicateKeyUpdateColumnNamesToValues = array_merge(
+            $this->duplicateKeyUpdateColumnNamesToValues,
+            $columnNamesToValues
+        );
 
         return $this;
     }
 
     /**
-     * Gets the SQL statement as a string
-     *
-     * @return string The SQL statement
+     * {@inheritdoc}
      */
     public function getSQL()
     {

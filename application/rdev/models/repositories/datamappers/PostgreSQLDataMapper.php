@@ -8,6 +8,7 @@ namespace RDev\Models\Repositories\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
+use RDev\Models\Repositories\Exceptions as RepoExceptions;
 
 abstract class PostgreSQLDataMapper
 {
@@ -26,7 +27,7 @@ abstract class PostgreSQLDataMapper
      * Adds an entity to the database
      *
      * @param Models\IEntity $entity The entity to add
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if the entity couldn't be added
      */
     abstract public function add(Models\IEntity &$entity);
 
@@ -34,7 +35,7 @@ abstract class PostgreSQLDataMapper
      * Saves any changes made to an entity
      *
      * @param Models\IEntity $entity The entity to save
-     * @return bool True if successful, otherwise false
+     * @throws RepoExceptions\RepoException Thrown if the entity couldn't be saved
      */
     abstract public function save(Models\IEntity &$entity);
 

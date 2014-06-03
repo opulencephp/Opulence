@@ -58,9 +58,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Gets the SQL statement as a string
-     *
-     * @return string The SQL statement
+     * {@inheritdoc}
      */
     public function getSQL()
     {
@@ -73,9 +71,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * Sets the table we're querying
-     *
-     * @param string $tableName The name of the table we're querying
+     * {@inheritdoc}
      */
     public function setTable($tableName)
     {

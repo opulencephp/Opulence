@@ -17,9 +17,7 @@ abstract class Server extends Databases\Server
     protected $databaseName = "";
 
     /**
-     * Gets the connection string
-     *
-     * @return string The string we can use to connect with
+     * {@inheritdoc}
      */
     abstract public function getConnectionString();
 

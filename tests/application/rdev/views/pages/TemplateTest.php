@@ -8,18 +8,49 @@ namespace RDev\Views\Pages;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
-    /** The path to the test template */
-    const TEMPLATE_PATH = "/templates/Test.html";
+    /** The path to the test template with default tag placeholders */
+    const TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS = "/templates/TestWithDefaultTagPlaceholders.html";
+    /** The path to the test template with custom tag placeholders */
+    const TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS = "/templates/TestWithCustomTagPlaceholders.html";
 
     /**
-     * Tests getting the output
+     * Tests getting the close tag when we've set it to a custom value
      */
-    public function testGettingOutput()
+    public function testGettingCustomCloseTag()
     {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH);
-        $template->setTag("foo", "Hello");
-        $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getOutput());
+        $template = new Template();
+        $closeTag = "$$";
+        $template->setCloseTagPlaceholder($closeTag);
+        $this->assertEquals($closeTag, $template->getCloseTagPlaceholder());
+    }
+
+    /**
+     * Tests getting the open tag when we've set it to a custom value
+     */
+    public function testGettingCustomOpenTag()
+    {
+        $template = new Template();
+        $openTag = "^^";
+        $template->setOpenTagPlaceholder($openTag);
+        $this->assertEquals($openTag, $template->getOpenTagPlaceholder());
+    }
+
+    /**
+     * Tests getting the close tag when it's set to the default value
+     */
+    public function testGettingDefaultCloseTag()
+    {
+        $template = new Template();
+        $this->assertEquals($template::DEFAULT_CLOSE_TAG_PLACEHOLDER, $template->getCloseTagPlaceholder());
+    }
+
+    /**
+     * Tests getting the open tag when it's set to the default value
+     */
+    public function testGettingDefaultOpenTag()
+    {
+        $template = new Template();
+        $this->assertEquals($template::DEFAULT_OPEN_TAG_PLACEHOLDER, $template->getOpenTagPlaceholder());
     }
 
     /**
@@ -28,7 +59,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGettingOutputForTemplateWithUnsetTags()
     {
         $template = new Template();
-        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH);
+        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $this->assertEquals(", !", $template->getOutput());
     }
 
@@ -37,7 +68,31 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOutputLBySpecifyingTemplatePathInConstructor()
     {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH);
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $this->assertEquals("Hello, world!", $template->getOutput());
+    }
+
+    /**
+     * Tests getting the output with a template that uses custom tag placeholders
+     */
+    public function testGettingOutputOfTemplateWithCustomTagPlaceholders()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
+        $template->setOpenTagPlaceholder("^^");
+        $template->setCloseTagPlaceholder("$$");
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $this->assertEquals("Hello, world!", $template->getOutput());
+    }
+
+    /**
+     * Tests getting the output with a template that uses the default tag placeholders
+     */
+    public function testGettingOutputOfTemplateWithDefaultTagPlaceholders()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $this->assertEquals("Hello, world!", $template->getOutput());
@@ -54,7 +109,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property = $reflectionObject->getProperty("tags");
         $property->setAccessible(true);
         $tags = $property->getValue($template);
-        $this->assertEquals(["%%foo%%" => "bar", "%%abc%%" => "xyz"], $tags);
+        $this->assertEquals(["foo" => "bar", "abc" => "xyz"], $tags);
     }
 
     /**
@@ -68,7 +123,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property = $reflectionObject->getProperty("tags");
         $property->setAccessible(true);
         $tags = $property->getValue($template);
-        $this->assertEquals(["%%foo%%" => "bar"], $tags);
+        $this->assertEquals(["foo" => "bar"], $tags);
     }
 
     /**

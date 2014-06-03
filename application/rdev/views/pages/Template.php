@@ -9,13 +9,19 @@ use RDev\Views;
 
 class Template implements Views\IView
 {
-    /** The string used to denote the beginning and end of a tag name in a template */
-    const TAG_PLACEHOLDER_BOOKEND = "%%";
+    /** The default string used to denote the beginning of a tag name in a template */
+    const DEFAULT_OPEN_TAG_PLACEHOLDER = "{{";
+    /** The default string used to denote the end of a tag name in a template */
+    const DEFAULT_CLOSE_TAG_PLACEHOLDER = "}}";
 
     /** @var string The path to the template */
     protected $templatePath = "";
     /** @var array The keyed array of tag (placeholder) names to their values */
     protected $tags = [];
+    /** @var string The open tag placeholder */
+    private $openTagPlaceholder = self::DEFAULT_OPEN_TAG_PLACEHOLDER;
+    /** @var string The close tag placeholder */
+    private $closeTagPlaceholder = self::DEFAULT_CLOSE_TAG_PLACEHOLDER;
 
     /**
      * @param string $templatePath The path to the template to use
@@ -28,15 +34,56 @@ class Template implements Views\IView
     /**
      * @return string
      */
+    public function getCloseTagPlaceholder()
+    {
+        return $this->closeTagPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getOpenTagPlaceholder()
+    {
+        return $this->openTagPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
     public function getOutput()
     {
         $untaggedTemplate = file_get_contents($this->templatePath);
         // Replace the tags with their values
-        $taggedTemplate = str_replace(array_keys($this->tags), array_values($this->tags), $untaggedTemplate);
+        $callback = function ($tag)
+        {
+            return $this->openTagPlaceholder . $tag . $this->closeTagPlaceholder;
+        };
+        $tagsWithBookends = array_map($callback, array_keys($this->tags));
+        $taggedTemplate = str_replace($tagsWithBookends, array_values($this->tags), $untaggedTemplate);
         // Remove any left-over, unset tags
-        $taggedTemplate = preg_replace("/" . self::TAG_PLACEHOLDER_BOOKEND . "((?!%%).)*" . self::TAG_PLACEHOLDER_BOOKEND . "/u", "", $taggedTemplate);
+        $taggedTemplate = preg_replace("/" .
+            preg_quote($this->openTagPlaceholder, "/") .
+            "((?!" . preg_quote($this->closeTagPlaceholder, "/") . ").)*" .
+            preg_quote($this->closeTagPlaceholder, "/") .
+            "/u", "", $taggedTemplate);
 
         return $taggedTemplate;
+    }
+
+    /**
+     * @param string $closeTagPlaceholder
+     */
+    public function setCloseTagPlaceholder($closeTagPlaceholder)
+    {
+        $this->closeTagPlaceholder = $closeTagPlaceholder;
+    }
+
+    /**
+     * @param string $openTagPlaceholder
+     */
+    public function setOpenTagPlaceholder($openTagPlaceholder)
+    {
+        $this->openTagPlaceholder = $openTagPlaceholder;
     }
 
     /**
@@ -48,7 +95,7 @@ class Template implements Views\IView
      */
     public function setTag($name, $value)
     {
-        $this->tags[self::TAG_PLACEHOLDER_BOOKEND . $name . self::TAG_PLACEHOLDER_BOOKEND] = $value;
+        $this->tags[$name] = $value;
     }
 
     /**

@@ -31,17 +31,6 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the lifetime
-     */
-    public function testSettingLifetime()
-    {
-        $lifetime = 12345;
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\NoSQL\\Redis\\Server");
-        $server->setLifetime($lifetime);
-        $this->assertEquals($lifetime, $server->getLifetime());
-    }
-
-    /**
      * Tests setting the port
      */
     public function testSettingPort()

@@ -34,10 +34,8 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Starts a transaction
      * Nested transactions are permitted
-     *
-     * @throws \PDOException Thrown if we're already in a transaction
+     * {@inheritdoc}
      */
     public function beginTransaction()
     {
@@ -50,8 +48,8 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Commits the transaction
      * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
+     * {@inheritdoc}
      */
     public function commit()
     {
@@ -62,9 +60,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Fetch the SQLSTATE associated with the last operation on the database handle
-     *
-     * @return string|null The error code if there is one, otherwise null
+     * {@inheritdoc}
      */
     public function errorCode()
     {
@@ -74,9 +70,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Fetch extended error information associated with the last operation on the database handle
-     *
-     * @return array An array of error information
+     * @inheritdoc
      */
     public function errorInfo()
     {
@@ -86,10 +80,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Execute an SQL statement and return the number of affected rows
-     *
-     * @param string $statement The statement to execute
-     * @return int The number of rows that were modified or deleted by the SQL statement
+     * {@inheritdoc}
      */
     public function exec($statement)
     {
@@ -99,10 +90,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Retrieve a database connection attribute
-     *
-     * @param int $attribute The attribute whose value we want
-     * @return mixed|null The value if successful, otherwise null
+     * {@inheritdoc}
      */
     public function getAttribute($attribute)
     {
@@ -120,9 +108,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Checks if inside a transaction
-     *
-     * @return bool True if we're in a transaction, otherwise false
+     * {@inheritdoc}
      */
     public function inTransaction()
     {
@@ -132,11 +118,8 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Prepares a statement for execution and returns a statement object
-     *
-     * @param string $statement The statement to prepare
-     * @param array $driverOptions The driver options to use
-     * @return RDevPDOStatement|bool The statement if successful, otherwise false
+     * {@inheritdoc}
+     * @return RDevPDOStatement
      */
     public function prepare($statement, array $driverOptions = [])
     {
@@ -146,10 +129,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Executes an SQL statement, returning a result set as a PDOStatement object
-     *
-     * @param string $statement The statement to prepare and execute
-     * @return RDevPDOStatement The statement if successful, otherwise false
+     * {@inheritdoc}
      */
     public function query($statement)
     {
@@ -159,11 +139,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Quotes a string for use in a query
-     *
-     * @param string $string The string to be quoted
-     * @param int $parameterType Provides a data type hint for drivers that have alternate quoting styles
-     * @return string The quoted string if successful, otherwise false
+     * {@inheritdoc}
      */
     public function quote($string, $parameterType = \PDO::PARAM_STR)
     {
@@ -173,9 +149,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Rolls back a transaction
-     *
-     * @throws \PDOException Thrown if no transaction is active
+     * {@inheritdoc}
      */
     public function rollBack()
     {
@@ -188,11 +162,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * Sets an attribute
-     *
-     * @param int $attribute The attribute to set
-     * @param mixed $value The value to set the attribute to
-     * @return bool True if successful, otherwise false
+     * {@inheritdoc}
      */
     public function setAttribute($attribute, $value)
     {

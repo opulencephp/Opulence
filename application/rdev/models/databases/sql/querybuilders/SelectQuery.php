@@ -115,9 +115,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * Gets the SQL statement as a string
-     *
-     * @return string The SQL statement
+     * {@inheritdoc}
      */
     public function getSQL()
     {

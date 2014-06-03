@@ -216,7 +216,7 @@ class Generic extends Template
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getOutput()
     {

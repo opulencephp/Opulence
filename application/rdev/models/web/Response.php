@@ -38,8 +38,45 @@ class Response
     const HTTP_INTERNAL_SERVER_ERROR = 500;
     /** The server does not support the functionality required to fulfill the request */
     const HTTP_NOT_IMPLEMENTED = 501;
-    /** The server is currently unable to handle the request due to a temporary overloading/maintentance */
+    /** The server is currently unable to handle the request due to a temporary overloading/maintenance */
     const HTTP_SERVICE_UNAVAILABLE = 503;
+
+    /**
+     * Sets a cookie in the response header
+     *
+     * @param string $name The name of the cookie
+     * @param string $value The value of the cookie
+     * @param int $expiration The expiration time as a Unix timestamp
+     * @param string $path The path the cookie is valid on
+     * @param string $domain The domain the cookie is valid on
+     * @param bool $isSecure Whether or not this cookie should only be sent over SSL
+     * @param bool $httpOnly Whether or not this cookie can be accessed exclusively over the HTTP protocol
+     * @return bool True if successful, otherwise false
+     */
+    public function setCookie($name, $value, $expiration, $path, $domain, $isSecure, $httpOnly)
+    {
+        return setcookie($name, $value, $expiration, $path, $domain, $isSecure, $httpOnly);
+    }
+
+    /**
+     * Sets an HTTP response header
+     *
+     * @param string $name The name of the header to set
+     * @param string $value The value of the header
+     * @param bool $shouldReplace Whether or not this should replace a previous similar header
+     * @param int|string $httpResponseCode The HTTP response code
+     */
+    public function setHeader($name, $value, $shouldReplace = true, $httpResponseCode = "")
+    {
+        if(empty($httpResponseCode))
+        {
+            header($name . ": " . $value, $shouldReplace);
+        }
+        else
+        {
+            header($name . ": " . $value, $shouldReplace, $httpResponseCode);
+        }
+    }
 
     /**
      * Sets the location header for a redirect
@@ -49,7 +86,7 @@ class Response
      */
     public function setLocation($url, $exitNow = true)
     {
-        header("Location: " . $url);
+        $this->setHeader("Location", $url);
 
         if($exitNow)
         {
