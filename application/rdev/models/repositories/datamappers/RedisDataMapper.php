@@ -123,9 +123,7 @@ abstract class RedisDataMapper
                 return false;
             }
 
-            $entity = $this->loadEntity($hash);
-
-            $entities[] = $entity;
+            $entities[] = $this->loadEntity($hash);
         }
 
         if($expectSingleResult)
