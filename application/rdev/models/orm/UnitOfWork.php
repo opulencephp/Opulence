@@ -91,6 +91,7 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
+        $this->classNamesToEntities = [];
         $this->entityStates = [];
         $this->objectHashIdsToOriginalData = [];
     }
@@ -274,8 +275,7 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForDeletion as $objectHashId => $entity)
         {
-            /** @var DataMappers\IDataMapper $dataMapper */
-            $dataMapper = $this->dataMappers[get_class($entity)];
+            $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->delete($entity);
             $this->entityStates[$objectHashId] = EntityStates::DELETED;
         }
@@ -300,8 +300,7 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
-            /** @var DataMappers\IDataMapper $dataMapper */
-            $dataMapper = $this->dataMappers[get_class($entity)];
+            $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->add($entity);
             $this->manageEntities($entity);
         }
@@ -315,8 +314,7 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForUpdate as $objectHashId => $entity)
         {
-            /** @var DataMappers\IDataMapper $dataMapper */
-            $dataMapper = $this->dataMappers[get_class($entity)];
+            $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->update($entity);
         }
     }

@@ -4,6 +4,10 @@ Implement UoW
     Need to test out all the methods in UoW
         Probably best to unit test
         Going to need to make sure that all the various property arrays are being set correctly by all the methods
+    Revisit the logic in RedisWithPostgreSQLBackupDataMapper's read()
+        Issue is that we don't want DataMapper to write to cache unless it was somehow triggered by the UoW's commit()
+            In other words, a repo shouldn't be able directly cause a data mapper to write
+        Need to think about how/when we'll write items to cache
     Need to test a getById to see if it can grab an already-managed entity
 Once this is all working, need to create Controller classes to instantiate repos and data mappers
     Then, convert existing repos to use them
