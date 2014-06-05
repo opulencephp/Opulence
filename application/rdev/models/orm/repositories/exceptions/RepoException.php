@@ -4,7 +4,7 @@
  *
  * Defines a repository exception
  */
-namespace RDev\Models\Repositories\Exceptions;
+namespace RDev\Models\ORM\Repositories\Exceptions;
 use RDev\Models\Exceptions;
 
 class RepoException extends Exceptions\Exception

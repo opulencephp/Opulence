@@ -88,6 +88,6 @@ class Login
      */
     public function logOut(Credentials\LoginCredentials $loginCredentials)
     {
-        return $this->tokenRepo->deactivate($loginCredentials->getLoginToken());
+        return $this->tokenRepo->delete($loginCredentials->getLoginToken());
     }
 } 

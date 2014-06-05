@@ -5,7 +5,7 @@
  * Defines the user repository interface
  */
 namespace RDev\Models\Users\Repositories\User;
-use RDev\Models\Repositories\Exceptions as RepoExceptions;
+use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 use RDev\Models\Users;
 
 interface IUserRepo
@@ -64,5 +64,5 @@ interface IUserRepo
      * @param Users\IUser $user The user to save
      * @throws RepoExceptions\RepoException Thrown if there was an error saving the user
      */
-    public function save(Users\IUser &$user);
+    public function update(Users\IUser &$user);
 } 

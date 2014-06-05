@@ -7,7 +7,7 @@
 namespace RDev\Models\Cryptography\Repositories\Token;
 use RDev\Models\Cryptography;
 use RDev\Models\Cryptography\Repositories\Token\Exceptions as TokenExceptions;
-use RDev\Models\Repositories\Exceptions as RepoExceptions;
+use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 
 interface ITokenRepo
 {
@@ -20,14 +20,6 @@ interface ITokenRepo
     public function add(Cryptography\Token &$token);
 
     /**
-     * Deactivates a token from use
-     *
-     * @param Cryptography\Token $token The token to deactivate
-     * @throws RepoExceptions\RepoException Thrown if there was an error deactivating the token to the repo
-     */
-    public function deactivate(Cryptography\Token &$token);
-
-    /**
      * Deactivates all tokens for a user
      *
      * @param int $typeId The Id of the type of token we're deactivating
@@ -35,6 +27,14 @@ interface ITokenRepo
      * @throws RepoExceptions\RepoException Thrown if there was an error deactivating the tokens for the user
      */
     public function deactivateAllByUserId($typeId, $userId);
+
+    /**
+     * Deactivates a token from use
+     *
+     * @param Cryptography\Token $token The token to deactivate
+     * @throws RepoExceptions\RepoException Thrown if there was an error deactivating the token to the repo
+     */
+    public function delete(Cryptography\Token &$token);
 
     /**
      * Gets a list of all the tokens
@@ -98,5 +98,5 @@ interface ITokenRepo
      * @param Cryptography\Token $token The entity to save
      * @throws RepoExceptions\RepoException Thrown if there was an error saving the token to the repo
      */
-    public function save(Cryptography\Token &$token);
+    public function update(Cryptography\Token &$token);
 } 

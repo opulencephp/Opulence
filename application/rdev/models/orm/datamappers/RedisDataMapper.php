@@ -4,12 +4,12 @@
  *
  * Defines a data mapper that maps domain data to and from Redis
  */
-namespace RDev\Models\Repositories\DataMappers;
+namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
-use RDev\Models\Repositories\Exceptions;
+use RDev\Models\ORM\Repositories\Exceptions;
 
-abstract class RedisDataMapper
+abstract class RedisDataMapper implements IDataMapper
 {
     /** @var Redis\RDevRedis The RDevRedis object to use for queries */
     protected $rDevRedis = null;
@@ -31,6 +31,11 @@ abstract class RedisDataMapper
     abstract public function add(Models\IEntity &$entity);
 
     /**
+     * {@inheritdoc}
+     */
+    abstract public function delete(Models\IEntity &$entity);
+
+    /**
      * Flushes items from Redis that are in this mapper
      *
      * @throws Exceptions\RepoException Thrown if Redis couldn't be flushed
@@ -38,18 +43,22 @@ abstract class RedisDataMapper
     abstract public function flush();
 
     /**
-     * Saves any changes made to an entity
-     *
-     * @param Models\IEntity $entity The entity to save
-     * @throws Exceptions\RepoException Thrown if the entity couldn't be saved
+     * {@inheritdoc}
      */
-    abstract public function save(Models\IEntity &$entity);
+    abstract public function getAll();
 
     /**
-     * Gets the entity by Id
-     *
-     * @param int $id The Id of the entity we're searching for
-     * @return Models\IEntity|bool The entity with the Id if successful, otherwise false
+     * {@inheritdoc}
+     */
+    abstract public function loadEntity(array $hash);
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function update(Models\IEntity &$entity);
+
+    /**
+     * {@inheritdoc}
      */
     public function getById($id)
     {
@@ -70,14 +79,6 @@ abstract class RedisDataMapper
      * @return array|bool The entity's hash if successful, otherwise false
      */
     abstract protected function getEntityHashById($id);
-
-    /**
-     * Loads an entity from a hash of data
-     *
-     * @param array $hash The hash of data
-     * @return Models\IEntity The entity
-     */
-    abstract protected function loadEntity(array $hash);
 
     /**
      * Performs the read query for entity(ies) and returns any results

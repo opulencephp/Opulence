@@ -4,10 +4,10 @@
  *
  * Defines the skeleton for repository classes that use Redis with a PostgreSQL backup
  */
-namespace RDev\Models\Repositories;
+namespace RDev\Models\ORM\Repositories;
 use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\SQL;
-use RDev\Models\Repositories\DataMappers;
+use RDev\Models\ORM\DataMappers;
 
 abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
 {

@@ -4,13 +4,13 @@
  *
  * Defines a data mapper that maps domain data to and from PostgreSQL
  */
-namespace RDev\Models\Repositories\DataMappers;
+namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
-use RDev\Models\Repositories\Exceptions as RepoExceptions;
+use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 
-abstract class PostgreSQLDataMapper
+abstract class PostgreSQLDataMapper implements IDataMapper
 {
     /** @var SQL\RDevPDO The RDevPDO object to use for queries */
     protected $rDevPDO = null;
@@ -24,28 +24,34 @@ abstract class PostgreSQLDataMapper
     }
 
     /**
-     * Adds an entity to the database
-     *
-     * @param Models\IEntity $entity The entity to add
-     * @throws RepoExceptions\RepoException Thrown if the entity couldn't be added
+     * {@inheritdoc}
      */
     abstract public function add(Models\IEntity &$entity);
 
     /**
-     * Saves any changes made to an entity
-     *
-     * @param Models\IEntity $entity The entity to save
-     * @throws RepoExceptions\RepoException Thrown if the entity couldn't be saved
+     * {@inheritdoc}
      */
-    abstract public function save(Models\IEntity &$entity);
+    abstract public function delete(Models\IEntity &$entity);
 
     /**
-     * Loads an entity from a row of data
-     *
-     * @param array $hash The hash of data
-     * @return Models\IEntity The entity
+     * {@inheritdoc}
      */
-    abstract protected function loadEntity(array $hash);
+    abstract public function getAll();
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function getById($id);
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function loadEntity(array $hash);
+
+    /**
+     * {@inheritdoc}
+     */
+    abstract public function update(Models\IEntity &$entity);
 
     /**
      * Performs the read query for entity(ies) and returns any results

@@ -1,4 +1,12 @@
 Implement UoW
+    Need to try instantiating a data mapper and injecting it into a Repo
+    Need to test that the references are working in UoW so that checkForUpdates() works correctly
+    Need to test out all the methods in UoW
+        Probably best to unit test
+        Going to need to make sure that all the various property arrays are being set correctly by all the methods
+    Need to test a getById to see if it can grab an already-managed entity
+Once this is all working, need to create Controller classes to instantiate repos and data mappers
+    Then, convert existing repos to use them
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
