@@ -117,7 +117,7 @@ class UnitOfWork
      * Attempts to get a managed entity
      *
      * @param string $className The name of the class the entity belongs to
-     * @param int $id The entity's Id
+     * @param int|string $id The entity's Id
      * @return Models\IEntity|bool The entity if it was found, otherwise false
      */
     public function getManagedEntity($className, $id)

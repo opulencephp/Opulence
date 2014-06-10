@@ -75,7 +75,7 @@ abstract class RedisDataMapper implements IDataMapper
     /**
      * Gets the hash representation of an entity
      *
-     * @param int $id The Id of the entity whose hash we're searching for
+     * @param int|string $id The Id of the entity whose hash we're searching for
      * @return array|bool The entity's hash if successful, otherwise false
      */
     abstract protected function getEntityHashById($id);

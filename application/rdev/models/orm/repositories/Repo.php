@@ -67,7 +67,7 @@ class Repo
     /**
      * Gets the entity with the input Id
      *
-     * @param int $id The Id of the entity we're searching for
+     * @param int|string $id The Id of the entity we're searching for
      * @return Models\IEntity The entity with the input Id
      * @throws DataMappers\Exceptions\DataMapperException Thrown if there was no entity with the input Id
      */
