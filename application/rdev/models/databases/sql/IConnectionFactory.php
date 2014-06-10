@@ -12,7 +12,7 @@ interface IConnectionFactory
      * Creates a database connection
      *
      * @param Server $server The server to connect to
-     * @return IConnection
+     * @return IConnection The database connection
      */
     public function create(Server $server);
 } 

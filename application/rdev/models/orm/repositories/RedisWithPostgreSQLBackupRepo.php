@@ -17,12 +17,12 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     protected $postgreSQLDataMapper = null;
 
     /**
-     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the Redis data mapper
+     * @param Redis\RDevRedis $redis The RDevRedis object used in the Redis data mapper
      * @param SQL\IConnection $databaseConnection The connection object used in the PostgreSQL data mapper
      */
-    public function __construct(Redis\RDevRedis $rDevRedis, SQL\IConnection $databaseConnection)
+    public function __construct(Redis\RDevRedis $redis, SQL\IConnection $databaseConnection)
     {
-        $this->redisDataMapper = $this->getRedisDataMapper($rDevRedis);
+        $this->redisDataMapper = $this->getRedisDataMapper($redis);
         $this->postgreSQLDataMapper = $this->getPostgreSQLDataMapper($databaseConnection);
     }
 
@@ -44,10 +44,10 @@ abstract class RedisWithPostgreSQLBackupRepo implements IRedisWithSQLBackupRepo
     /**
      * Gets a Redis data mapper to use in this repo
      *
-     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the data mapper
+     * @param Redis\RDevRedis $redis The RDevRedis object used in the data mapper
      * @return DataMappers\RedisDataMapper The Redis data mapper to use
      */
-    abstract protected function getRedisDataMapper(Redis\RDevRedis $rDevRedis);
+    abstract protected function getRedisDataMapper(Redis\RDevRedis $redis);
 
     /**
      * Attempts to retrieve data from the Redis data mapper before resorting to an SQL database

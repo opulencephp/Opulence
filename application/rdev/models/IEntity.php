@@ -11,14 +11,14 @@ interface IEntity
     /**
      * Gets the database Id
      *
-     * @return int The database Id
+     * @return int|string The database Id
      */
     public function getId();
 
     /**
      * Sets the database Id of the entity
      *
-     * @param int $id The database Id
+     * @param int|string $id The database Id
      */
     public function setId($id);
 } 

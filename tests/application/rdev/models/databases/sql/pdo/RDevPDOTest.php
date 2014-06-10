@@ -12,7 +12,7 @@ class RDevPDOTest extends \PHPUnit_Framework_TestCase
     /** @var SQL\Server A database server to connect to */
     private $server = null;
     /** @var RDevPDO The RDevPDO object we're connecting to */
-    private $rDevPDO = null;
+    private $pdo = null;
 
     /**
      * Sets up the tests
@@ -20,7 +20,7 @@ class RDevPDOTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $this->rDevPDO = new RDevPDO($this->server);
+        $this->pdo = new RDevPDO($this->server);
     }
 
     /**
@@ -28,7 +28,7 @@ class RDevPDOTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        $this->rDevPDO = null;
+        $this->pdo = null;
     }
 
     /**
@@ -36,7 +36,7 @@ class RDevPDOTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetServer()
     {
-        $this->assertEquals($this->server, $this->rDevPDO->getServer());
+        $this->assertEquals($this->server, $this->pdo->getServer());
     }
 }
  

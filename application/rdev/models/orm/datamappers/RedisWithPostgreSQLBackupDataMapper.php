@@ -17,12 +17,12 @@ abstract class RedisWithPostgreSQLBackupDataMapper implements IDataMapper
     protected $postgreSQLDataMapper = null;
 
     /**
-     * @param Redis\RDevRedis $rDevRedis The RDevRedis object used in the Redis data mapper
+     * @param Redis\RDevRedis $redis The RDevRedis object used in the Redis data mapper
      * @param SQL\ConnectionPool $connectionPool The connection pool used in the PostgreSQL data mapper
      */
-    public function __construct(Redis\RDevRedis $rDevRedis, SQL\ConnectionPool $connectionPool)
+    public function __construct(Redis\RDevRedis $redis, SQL\ConnectionPool $connectionPool)
     {
-        $this->redisDataMapper = $this->getRedisDataMapper($rDevRedis);
+        $this->redisDataMapper = $this->getRedisDataMapper($redis);
         $this->postgreSQLDataMapper = $this->getPostgreSQLDataMapper($connectionPool);
     }
 

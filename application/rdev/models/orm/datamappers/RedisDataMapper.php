@@ -12,14 +12,14 @@ use RDev\Models\ORM\Repositories\Exceptions;
 abstract class RedisDataMapper implements IDataMapper
 {
     /** @var Redis\RDevRedis The RDevRedis object to use for queries */
-    protected $rDevRedis = null;
+    protected $redis = null;
 
     /**
-     * @param Redis\RDevRedis $rDevRedis The RDevRedis object to use for queries
+     * @param Redis\RDevRedis $redis The RDevRedis object to use for queries
      */
-    public function __construct(Redis\RDevRedis $rDevRedis)
+    public function __construct(Redis\RDevRedis $redis)
     {
-        $this->rDevRedis = $rDevRedis;
+        $this->redis = $redis;
     }
 
     /**
@@ -92,7 +92,7 @@ abstract class RedisDataMapper implements IDataMapper
     {
         if($expectSingleResult)
         {
-            $entityIds = $this->rDevRedis->get($keyOfEntityIds);
+            $entityIds = $this->redis->get($keyOfEntityIds);
 
             if($entityIds === false)
             {
@@ -104,7 +104,7 @@ abstract class RedisDataMapper implements IDataMapper
         }
         else
         {
-            $entityIds = $this->rDevRedis->sMembers($keyOfEntityIds);
+            $entityIds = $this->redis->sMembers($keyOfEntityIds);
 
             if(count($entityIds) == 0)
             {

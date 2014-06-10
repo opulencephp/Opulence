@@ -6,7 +6,6 @@
  */
 namespace RDev\Models\Databases\SQL\PDO;
 use RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\IConnection;
 
 class RDevPDOConnectionFactory implements SQL\IConnectionFactory
 {
