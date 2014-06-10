@@ -12,11 +12,11 @@ use RDev\Models\ORM\DataMappers;
 class Repo
 {
     /** @var string The name of the class whose objects this repo is getting */
-    private $className = "";
+    protected $className = "";
     /** @var DataMappers\IDataMapper The data mapper to use in this repo */
-    private $dataMapper = null;
+    protected $dataMapper = null;
     /** @var ORM\UnitOfWork The unit of work to use in this repo */
-    private $unitOfWork = null;
+    protected $unitOfWork = null;
 
     /**
      * @param string $className The name of the class whose objects this repo is getting
