@@ -12,8 +12,8 @@ use RDev\Models\ORM\DataMappers;
 
 class UnitOfWork
 {
-    /** @var SQL\RDevPDO The PDO connection to use in our UoW */
-    private $pdo = null;
+    /** @var SQL\IConnection The connection to use in our unit of work */
+    private $connection = null;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
     /** @var array The list of entities scheduled for insertion */
@@ -27,14 +27,14 @@ class UnitOfWork
     /** @var array The mapping of entities' object hash Ids to their various states */
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
-    private $classNamesToEntities = [];
+    private $managedEntities = [];
 
     /**
-     * @param SQL\RDevPDO $pdo The PDO connection to use in our UoW
+     * @param SQL\IConnection $connection The connection to use in our unit of work
      */
-    public function __construct(SQL\RDevPDO $pdo)
+    public function __construct(SQL\IConnection $connection)
     {
-        $this->pdo = $pdo;
+        $this->connection = $connection;
     }
 
     /**
@@ -43,19 +43,19 @@ class UnitOfWork
     public function commit()
     {
         $this->checkForUpdates();
-        $this->pdo->beginTransaction();
+        $this->connection->beginTransaction();
 
         try
         {
             $this->insert();
             $this->update();
             $this->delete();
-            $this->pdo->commit();
+            $this->connection->commit();
         }
         catch(\Exception $ex)
         {
             Exceptions\Log::write("Failed to commit: " . $ex);
-            $this->pdo->rollBack();
+            $this->connection->rollBack();
         }
 
         // Clear our schedules
@@ -75,7 +75,7 @@ class UnitOfWork
         {
             $className = get_class($entity);
             $objectHashId = $this->getObjectHashId($entity);
-            unset($this->classNamesToEntities[$className][$entity->getId()]);
+            unset($this->managedEntities[$className][$entity->getId()]);
             unset($this->objectHashIdsToOriginalData[$objectHashId]);
             unset($this->scheduledForInsertion[$objectHashId]);
             unset($this->scheduledForUpdate[$objectHashId]);
@@ -91,7 +91,7 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
-        $this->classNamesToEntities = [];
+        $this->managedEntities = [];
         $this->entityStates = [];
         $this->objectHashIdsToOriginalData = [];
     }
@@ -122,14 +122,14 @@ class UnitOfWork
      */
     public function getManagedEntity($className, $id)
     {
-        if(!array_key_exists($className, $this->classNamesToEntities)
-            || !array_key_exists($id, $this->classNamesToEntities[$className])
+        if(!array_key_exists($className, $this->managedEntities)
+            || !array_key_exists($id, $this->managedEntities[$className])
         )
         {
             return false;
         }
 
-        return $this->classNamesToEntities[$className][$id];
+        return $this->managedEntities[$className][$id];
     }
 
     /**
@@ -161,15 +161,15 @@ class UnitOfWork
             $className = get_class($entity);
             $objectHashId = $this->getObjectHashId($entity);
 
-            if(!array_key_exists($className, $this->classNamesToEntities))
+            if(!array_key_exists($className, $this->managedEntities))
             {
-                $this->classNamesToEntities[$className] = [];
+                $this->managedEntities[$className] = [];
             }
 
             // Don't double-manage an entity
-            if(!array_key_exists($entity->getId(), $this->classNamesToEntities[$className]))
+            if(!array_key_exists($entity->getId(), $this->managedEntities[$className]))
             {
-                $this->classNamesToEntities[$className][$entity->getId()] = $entity;
+                $this->managedEntities[$className][$entity->getId()] = $entity;
                 $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::MANAGED;
                 $this->objectHashIdsToOriginalData[$objectHashId] = $entity;
             }
@@ -222,7 +222,7 @@ class UnitOfWork
      */
     private function checkForUpdates()
     {
-        foreach($this->classNamesToEntities as $className => $entities)
+        foreach($this->managedEntities as $className => $entities)
         {
             /** @var Models\IEntity $entity */
             foreach($entities as $entityId => $entity)

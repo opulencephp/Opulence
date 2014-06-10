@@ -12,15 +12,15 @@ use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 
 abstract class PostgreSQLDataMapper implements IDataMapper
 {
-    /** @var SQL\RDevPDO The RDevPDO object to use for queries */
-    protected $rDevPDO = null;
+    /** @var SQL\ConnectionPool The connection pool to use for queries */
+    protected $connectionPool = null;
 
     /**
-     * @param SQL\RDevPDO $rDevPDO The RDevPDO object to use for queries
+     * @param SQL\ConnectionPool $connectionPool The connection pool to use for queries
      */
-    public function __construct(SQL\RDevPDO $rDevPDO)
+    public function __construct(SQL\ConnectionPool $connectionPool)
     {
-        $this->rDevPDO = $rDevPDO;
+        $this->connectionPool = $connectionPool;
     }
 
     /**
@@ -65,7 +65,7 @@ abstract class PostgreSQLDataMapper implements IDataMapper
     {
         try
         {
-            $statement = $this->rDevPDO->prepare($sql);
+            $statement = $this->connectionPool->getReadConnection()->prepare($sql);
             $statement->bindValues($sqlParameters);
             $statement->execute();
 

@@ -91,12 +91,4 @@ interface ITokenRepo
      * @throws TokenExceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByUserIdAndUnhashedValue($typeId, $userId, $unhashedValue);
-
-    /**
-     * Saves any changes made to an entity
-     *
-     * @param Cryptography\Token $token The entity to save
-     * @throws RepoExceptions\RepoException Thrown if there was an error saving the token to the repo
-     */
-    public function update(Cryptography\Token &$token);
 } 

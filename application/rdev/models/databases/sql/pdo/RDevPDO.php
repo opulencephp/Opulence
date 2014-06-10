@@ -5,15 +5,16 @@
  * Defines an extension of the PDO library with lazy-connection
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
-namespace RDev\Models\Databases\SQL;
+namespace RDev\Models\Databases\SQL\PDO;
+use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
 
-class RDevPDO extends \PDO
+class RDevPDO extends \PDO implements SQL\IConnection
 {
     /** The name of the PDOStatement class to use */
     const PDO_STATEMENT_CLASS = "RDevPDOStatement";
 
-    /** @var Server The server we're connecting to */
+    /** @var SQL\Server The server we're connecting to */
     private $server = null;
     /** @var bool Whether or not we're connected */
     private $isConnected = false;
@@ -26,9 +27,9 @@ class RDevPDO extends \PDO
     private $transactionCounter = 0;
 
     /**
-     * @param Server $server The server we're connecting to
+     * @param SQL\Server $server The server we're connecting to
      */
-    public function __construct(Server $server)
+    public function __construct(SQL\Server $server)
     {
         $this->server = $server;
     }
@@ -36,6 +37,8 @@ class RDevPDO extends \PDO
     /**
      * Nested transactions are permitted
      * {@inheritdoc}
+     *
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function beginTransaction()
     {
@@ -50,6 +53,8 @@ class RDevPDO extends \PDO
     /**
      * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
      * {@inheritdoc}
+     *
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function commit()
     {
@@ -61,6 +66,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function errorCode()
     {
@@ -70,7 +76,8 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function errorInfo()
     {
@@ -81,6 +88,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function exec($statement)
     {
@@ -91,6 +99,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function getAttribute($attribute)
     {
@@ -100,7 +109,7 @@ class RDevPDO extends \PDO
     }
 
     /**
-     * @return Server
+     * @return SQL\Server
      */
     public function getServer()
     {
@@ -109,6 +118,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function inTransaction()
     {
@@ -120,6 +130,7 @@ class RDevPDO extends \PDO
     /**
      * {@inheritdoc}
      * @return RDevPDOStatement
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function prepare($statement, array $driverOptions = [])
     {
@@ -130,6 +141,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function query($statement)
     {
@@ -140,6 +152,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function quote($string, $parameterType = \PDO::PARAM_STR)
     {
@@ -150,6 +163,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function rollBack()
     {
@@ -163,6 +177,7 @@ class RDevPDO extends \PDO
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     public function setAttribute($attribute, $value)
     {
@@ -174,28 +189,16 @@ class RDevPDO extends \PDO
     /**
      * Attempts to connect to the server, which is done via lazy-connecting
      *
-     * @return bool True if we connected successfully, otherwise false
+     * @throws \PDOException Thrown if there was an error connecting to the database
      */
     private function connect()
     {
-        if($this->isConnected)
-        {
-            return true;
-        }
-
-        try
+        if(!$this->isConnected)
         {
             parent::__construct($this->server->getConnectionString(), $this->server->getUsername(), $this->server->getPassword());
             parent::setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
             parent::setAttribute(\PDO::ATTR_STATEMENT_CLASS, [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
             $this->isConnected = true;
         }
-        catch(\Exception $ex)
-        {
-            Exceptions\Log::write("Unable to connect to server \"" . $this->server->getDisplayName() . "\" (" . $this->server->getHost() . ")");
-            $this->isConnected = false;
-        }
-
-        return $this->isConnected;
     }
 } 

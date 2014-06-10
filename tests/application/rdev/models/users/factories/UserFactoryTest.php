@@ -26,7 +26,7 @@ class UserFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreatingUser()
     {
         $user = $this->userFactory->createUser(1, "foo", "foo@bar.com",
-            new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young", array(1, 2, 3));
+            new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), "David", "Young", [1, 2, 3]);
         $this->assertInstanceOf("RDev\\Models\\Users\\User", $user);
     }
 } 

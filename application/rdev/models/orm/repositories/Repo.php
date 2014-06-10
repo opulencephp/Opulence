@@ -93,7 +93,7 @@ class Repo
      */
     protected function get($functionName, $args = [])
     {
-        $entities = call_user_func_array(array($this->dataMapper, $functionName), $args);
+        $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
         $this->unitOfWork->manageEntities($entities);
 
         return $entities;

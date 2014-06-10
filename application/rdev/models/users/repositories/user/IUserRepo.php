@@ -57,12 +57,4 @@ interface IUserRepo
      * @return Users\IUser|bool The user with the input username and password if successful, otherwise false
      */
     public function getByUsernameAndPassword($username, $unhashedPassword);
-
-    /**
-     * Saves a user's properties to the repo
-     *
-     * @param Users\IUser $user The user to save
-     * @throws RepoExceptions\RepoException Thrown if there was an error saving the user
-     */
-    public function update(Users\IUser &$user);
 } 

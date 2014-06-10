@@ -4,9 +4,10 @@
  *
  * Defines an extension of PDOStatement
  */
-namespace RDev\Models\Databases\SQL;
+namespace RDev\Models\Databases\SQL\PDO;
+use RDev\Models\Databases\SQL;
 
-class RDevPDOStatement extends \PDOStatement
+class RDevPDOStatement extends \PDOStatement implements SQL\IStatement
 {
     /**
      * We need this because PDO is expecting a private/protected constructor in PDOStatement

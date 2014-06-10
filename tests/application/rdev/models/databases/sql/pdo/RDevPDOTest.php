@@ -4,12 +4,12 @@
  *
  * Tests the RDevPDO class
  */
-namespace RDev\Models\Databases\SQL;
-use TBA\Models\Databases\SQL\PostgreSQL\Servers;
+namespace RDev\Models\Databases\SQL\PDO;
+use RDev\Models\Databases\SQL;
 
 class RDevPDOTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Server A database server to connect to */
+    /** @var SQL\Server A database server to connect to */
     private $server = null;
     /** @var RDevPDO The RDevPDO object we're connecting to */
     private $rDevPDO = null;
@@ -19,7 +19,7 @@ class RDevPDOTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->server = new Servers\RDS();
+        $this->server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
         $this->rDevPDO = new RDevPDO($this->server);
     }
 
