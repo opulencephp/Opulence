@@ -10,31 +10,22 @@ use RDev\Models;
 interface IUser extends Models\IEntity
 {
     /**
-     * @return \DateTime
+     * Gets the date the user was created
+     *
+     * @return \DateTime The date the user was created
      */
     public function getDateCreated();
 
     /**
-     * @return string
-     */
-    public function getEmail();
-
-    /**
-     * @return string
-     */
-    public function getFirstName();
-
-    /**
-     * @return string
-     */
-    public function getLastName();
-
-    /**
+     * Gets the list of this user's roles
+     *
      * @return array
      */
     public function getRoles();
 
     /**
+     * Gets the username
+     *
      * @return string
      */
     public function getUsername();
@@ -48,17 +39,9 @@ interface IUser extends Models\IEntity
     public function hasRole($role);
 
     /**
-     * @param string $email
+     * Sets the username
+     *
+     * @param string $username The username to set
      */
-    public function setEmail($email);
-
-    /**
-     * @param string $firstName
-     */
-    public function setFirstName($firstName);
-
-    /**
-     * @param string $lastName
-     */
-    public function setLastName($lastName);
+    public function setUsername($username);
 } 

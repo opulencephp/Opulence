@@ -16,8 +16,9 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->prototypicalUser = new User(18175, "foo@bar.com", "foo@bar.com", new \DateTime("1776-07-04 12:34:56",
-            new \DateTimeZone("UTC")), "David", "Young", [1, 2, 3]);
+        $this->prototypicalUser = new User(18175, "foo", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")),
+            [1, 2, 3]
+        );
     }
 
     /**
@@ -48,39 +49,12 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getting the email
-     */
-    public function testGettingEmail()
-    {
-        $user = $this->getClonedUser();
-        $this->assertEquals("foo@bar.com", $user->getEmail());
-    }
-
-    /**
-     * Test getting the first name
-     */
-    public function testGettingFirstName()
-    {
-        $user = $this->getClonedUser();
-        $this->assertEquals("David", $user->getFirstName());
-    }
-
-    /**
      * Test getting the Id
      */
     public function testGettingId()
     {
         $user = $this->getClonedUser();
         $this->assertEquals(18175, $user->getId());
-    }
-
-    /**
-     * Test getting the last name
-     */
-    public function testGettingLastName()
-    {
-        $user = $this->getClonedUser();
-        $this->assertEquals("Young", $user->getLastName());
     }
 
     /**
@@ -98,27 +72,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testGettingUsername()
     {
         $user = $this->getClonedUser();
-        $this->assertEquals("foo@bar.com", $user->getUsername());
-    }
-
-    /**
-     * Test setting the email
-     */
-    public function testSettingEmail()
-    {
-        $user = $this->getClonedUser();
-        $user->setEmail("bar@foo.com");
-        $this->assertEquals("bar@foo.com", $user->getEmail());
-    }
-
-    /**
-     * Test setting the first name
-     */
-    public function testSettingFirstName()
-    {
-        $user = $this->getClonedUser();
-        $user->setFirstName("Brian");
-        $this->assertEquals("Brian", $user->getFirstName());
+        $this->assertEquals("foo", $user->getUsername());
     }
 
     /**
@@ -129,16 +83,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $user = $this->getClonedUser();
         $user->setId(12345);
         $this->assertEquals(12345, $user->getId());
-    }
-
-    /**
-     * Test setting the last name
-     */
-    public function testSettingLastName()
-    {
-        $user = $this->getClonedUser();
-        $user->setLastName("Banjo");
-        $this->assertEquals("Banjo", $user->getLastName());
     }
 
     /**

@@ -9,7 +9,7 @@ use RDev\Models;
 use RDev\Models\ORM;
 use RDev\Models\ORM\DataMappers;
 
-class Repo
+class Repo implements IRepo
 {
     /** @var string The name of the class whose objects this repo is getting */
     protected $className = "";
@@ -32,10 +32,7 @@ class Repo
     }
 
     /**
-     * Adds an entity to the repo
-     *
-     * @param Models\IEntity $entity The entity to add
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if the entity couldn't be added
+     * {@inheritdoc}
      */
     public function add(Models\IEntity &$entity)
     {
@@ -43,10 +40,7 @@ class Repo
     }
 
     /**
-     * Deletes an entity from the repo
-     *
-     * @param Models\IEntity $entity The entity to delete
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if the entity couldn't be deleted
+     * {@inheritdoc}
      */
     public function delete(Models\IEntity &$entity)
     {
@@ -54,10 +48,7 @@ class Repo
     }
 
     /**
-     * Gets all the entities
-     *
-     * @return array The list of all the entities of this type
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if there was an error getting the entities
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -65,11 +56,7 @@ class Repo
     }
 
     /**
-     * Gets the entity with the input Id
-     *
-     * @param int|string $id The Id of the entity we're searching for
-     * @return Models\IEntity The entity with the input Id
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if there was no entity with the input Id
+     * {@inheritdoc}
      */
     public function getById($id)
     {
