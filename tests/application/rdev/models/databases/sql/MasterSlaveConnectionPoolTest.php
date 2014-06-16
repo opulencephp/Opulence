@@ -5,7 +5,7 @@
  * Tests the master/slave connection pool
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\PDO;
+use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,11 +14,11 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingSlave()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $slave1 = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $slave1 = new Mocks\Server();
         $slave1->setDatabaseName("slave1");
-        $slave2 = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $slave2 = new Mocks\Server();
         $slave2->setDatabaseName("slave2");
         $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master, [$slave1]);
         $connectionPool->addSlave($slave2);
@@ -30,8 +30,8 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingConnectionWithNoSlaves()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
         $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master);
         $this->assertEquals([], $connectionPool->getSlaves());
     }
@@ -41,9 +41,9 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingConnectionWithSingleSlave()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $slave = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $slave = new Mocks\Server();
         $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master, $slave);
         $this->assertEquals([$slave], $connectionPool->getSlaves());
     }
@@ -53,14 +53,14 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingConnectionWithSlaves()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
         $slaves = [
-            $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server"),
-            $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server")
+            new Mocks\Server(),
+            new Mocks\Server()
         ];
-        $connectionPoolPool = new MasterSlaveConnectionPool($connectionFactory, $master, $slaves);
-        $this->assertEquals($slaves, $connectionPoolPool->getSlaves());
+        $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master, $slaves);
+        $this->assertEquals($slaves, $connectionPool->getSlaves());
     }
 
     /**
@@ -68,10 +68,10 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingMasterAfterSettingInConstructor()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $connectionPoolPool = new MasterSlaveConnectionPool($connectionFactory, $master);
-        $this->assertEquals($master, $connectionPoolPool->getMaster());
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master);
+        $this->assertEquals($master, $connectionPool->getMaster());
     }
 
     /**
@@ -79,11 +79,11 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithNoSlaves()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($master);
-        $connectionPoolPool = new MasterSlaveConnectionPool($connectionFactory, $master);
-        $this->assertEquals($expectedConnection, $connectionPoolPool->getReadConnection());
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($master);
+        $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master);
+        $this->assertEquals($expectedConnection, $connectionPool->getReadConnection());
     }
 
     /**
@@ -91,10 +91,10 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithPreferredServer()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $preferredServer = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($preferredServer);
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $preferredServer = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($preferredServer);
         $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection($preferredServer));
     }
@@ -104,10 +104,10 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithSlaves()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $slave1 = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $slave2 = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $slave1 = new Mocks\Server();
+        $slave2 = new Mocks\Server();
         $expectedServers = [$slave1, $slave2];
         $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master, [$slave1, $slave2]);
         $expectedPDO = $connectionPool->getReadConnection();
@@ -129,11 +129,11 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnectionWithNoSlaves()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($master);
-        $connectionPoolPool = new MasterSlaveConnectionPool($connectionFactory, $master);
-        $this->assertEquals($expectedConnection, $connectionPoolPool->getWriteConnection());
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($master);
+        $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master);
+        $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection());
     }
 
     /**
@@ -141,10 +141,10 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnectionWithPreferredServer()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $preferredServer = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($preferredServer);
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $preferredServer = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($preferredServer);
         $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection($preferredServer));
     }
@@ -154,14 +154,26 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingSlave()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $slave1 = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $slave1 = new Mocks\Server();
         $slave1->setDatabaseName("slave1");
-        $slave2 = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $slave2 = new Mocks\Server();
         $slave2->setDatabaseName("slave2");
-        $connectionPoolPool = new MasterSlaveConnectionPool($connectionFactory, $master, [$slave1, $slave2]);
-        $connectionPoolPool->removeSlave($slave2);
-        $this->assertEquals([$slave1], $connectionPoolPool->getSlaves());
+        $connectionPool = new MasterSlaveConnectionPool($connectionFactory, $master, [$slave1, $slave2]);
+        $connectionPool->removeSlave($slave2);
+        $this->assertEquals([$slave1], $connectionPool->getSlaves());
+    }
+
+    /**
+     * Gets a connection factory to use in the tests
+     *
+     * @return ConnectionFactory The connection factory to use
+     */
+    private function getConnectionFactory()
+    {
+        $driver = new Mocks\Driver();
+
+        return new ConnectionFactory($driver);
     }
 } 

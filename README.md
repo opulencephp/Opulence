@@ -3,9 +3,9 @@ These tools are PHP wrappers for relational database (RDBMS) and NoSQL database 
 
 ```
 <?php
-use RDev\Models\Databases\SQL\PostgreSQL\QueryBuilders;
+use RDev\Models\Databases\SQL\QueryBuilders\PostgreSQL;
 
-$queryBuilder = new QueryBuilders\QueryBuilder();
+$queryBuilder = new PostgreSQL\QueryBuilder();
 $selectLongTimeUsersQuery = $queryBuilder->select("id", "name", "email")
     ->from("users")
     ->where("datejoined < :dateJoined")

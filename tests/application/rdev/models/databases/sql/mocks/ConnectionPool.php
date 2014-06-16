@@ -2,27 +2,17 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a single server implementation of the connection pool, which can be used for basic, non-master/slave setups
+ * Mocks the connection pool class for use in testing
  */
-namespace RDev\Models\Databases\SQL;
+namespace RDev\Tests\Models\Databases\SQL\Mocks;
+use RDev\Models\Databases\SQL;
 
-class SingleServerConnectionPool extends ConnectionPool
+class ConnectionPool extends SQL\ConnectionPool
 {
-    /**
-     * @param ConnectionFactory $connectionFactory The factory to use to create database connections
-     * @param Server $server The server to use
-     */
-    public function __construct(ConnectionFactory $connectionFactory, Server $server)
-    {
-        parent::__construct($connectionFactory);
-
-        $this->setMaster($server);
-    }
-
     /**
      * {@inheritdoc}
      */
-    protected function setReadConnection(Server $preferredServer = null)
+    protected function setReadConnection(SQL\Server $preferredServer = null)
     {
         if($preferredServer !== null)
         {
@@ -43,7 +33,7 @@ class SingleServerConnectionPool extends ConnectionPool
     /**
      * {@inheritdoc}
      */
-    protected function setWriteConnection(Server $preferredServer = null)
+    protected function setWriteConnection(SQL\Server $preferredServer = null)
     {
         if($preferredServer !== null)
         {

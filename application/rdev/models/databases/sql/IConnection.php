@@ -69,11 +69,10 @@ interface IConnection
      * Prepares an SQL statement for execution
      *
      * @param string $statement The SQL statement to execute
-     * @param array $driverOptions The driver configuration to use for this query
      * @return IStatement The statement
      * @throws \PDOException Thrown if there was an error connecting to the database
      */
-    public function prepare($statement, array $driverOptions = []);
+    public function prepare($statement);
 
     /**
      * Executes an SQL statement and gets the statement object

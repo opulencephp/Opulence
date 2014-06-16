@@ -5,7 +5,7 @@
  * Tests the single server connection pool
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\PDO;
+use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,8 +14,8 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingMasterAfterSettingInConstructor()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
         $connectionPoolPool = new MasterSlaveConnectionPool($connectionFactory, $master);
         $this->assertEquals($master, $connectionPoolPool->getMaster());
     }
@@ -25,9 +25,9 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnection()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($master);
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($master);
         $connectionPool = new SingleServerConnectionPool($connectionFactory, $master);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection());
     }
@@ -37,10 +37,10 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithPreferredServer()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $preferredServer = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($preferredServer);
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $preferredServer = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($preferredServer);
         $connectionPool = new SingleServerConnectionPool($connectionFactory, $master);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection($preferredServer));
     }
@@ -50,9 +50,9 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnection()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($master);
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($master);
         $connectionPool = new SingleServerConnectionPool($connectionFactory, $master);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection());
     }
@@ -62,11 +62,23 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnectionWithPreferredServer()
     {
-        $connectionFactory = new PDO\RDevPDOConnectionFactory();
-        $master = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $preferredServer = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $expectedConnection = new PDO\RDevPDO($preferredServer);
+        $connectionFactory = $this->getConnectionFactory();
+        $master = new Mocks\Server();
+        $preferredServer = new Mocks\Server();
+        $expectedConnection = new Mocks\Connection($preferredServer);
         $connectionPool = new SingleServerConnectionPool($connectionFactory, $master);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection($preferredServer));
+    }
+
+    /**
+     * Gets a connection factory to use in the tests
+     *
+     * @return ConnectionFactory The connection factory to use
+     */
+    private function getConnectionFactory()
+    {
+        $driver = new Mocks\Driver();
+
+        return new ConnectionFactory($driver);
     }
 } 

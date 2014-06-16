@@ -7,7 +7,7 @@
 namespace RDev\Models\Databases\SQL;
 use RDev\Models\Databases;
 
-abstract class Server extends Databases\Server
+class Server extends Databases\Server
 {
     /** @var string The username to log in to the server */
     protected $username = "";
@@ -15,11 +15,16 @@ abstract class Server extends Databases\Server
     protected $password = "";
     /** @var string The name of the database to connect to on the server */
     protected $databaseName = "";
+    /** @var string The character set used by this server */
+    protected $charset = "utf8";
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
-    abstract public function getConnectionString();
+    public function getCharset()
+    {
+        return $this->charset;
+    }
 
     /**
      * @return string
@@ -43,6 +48,14 @@ abstract class Server extends Databases\Server
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * @param string $charset
+     */
+    public function setCharset($charset)
+    {
+        $this->charset = $charset;
     }
 
     /**

@@ -9,11 +9,11 @@ namespace RDev\Models\Databases\SQL;
 class MasterSlaveConnectionPool extends ConnectionPool
 {
     /**
-     * @param IConnectionFactory $connectionFactory The factory to use to create database connections
+     * @param ConnectionFactory $connectionFactory The factory to use to create database connections
      * @param Server $master The master server
      * @param Server|Server[] $slaves The list of slave servers
      */
-    public function __construct(IConnectionFactory $connectionFactory, Server $master, $slaves = [])
+    public function __construct(ConnectionFactory $connectionFactory, Server $master, $slaves = [])
     {
         parent::__construct($connectionFactory);
 
@@ -83,6 +83,11 @@ class MasterSlaveConnectionPool extends ConnectionPool
         else
         {
             // We try to only read from the master as a last resort
+            if($this->getMaster() == null)
+            {
+                throw new \RuntimeException("No master specified");
+            }
+
             $this->readConnection = $this->getConnection("master", $this->getMaster());
         }
     }
@@ -98,6 +103,12 @@ class MasterSlaveConnectionPool extends ConnectionPool
         }
         else
         {
+            // We try to only read from the master as a last resort
+            if($this->getMaster() == null)
+            {
+                throw new \RuntimeException("No master specified");
+            }
+
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }

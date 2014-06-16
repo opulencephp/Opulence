@@ -9,6 +9,17 @@ namespace RDev\Models\Databases\SQL;
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests setting the character set
+     */
+    public function testSettingCharset()
+    {
+        $charset = 'foo';
+        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $server->setCharset($charset);
+        $this->assertEquals($charset, $server->getCharset());
+    }
+
+    /**
      * Tests setting the database name
      */
     public function testSettingDatabaseName()

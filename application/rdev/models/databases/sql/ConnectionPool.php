@@ -3,6 +3,7 @@
  * Copyright (C) 2014 David Young
  *
  * Defines a database connection pool
+ * This can handle multiple server setups or simple single server setups
  */
 namespace RDev\Models\Databases\SQL;
 
@@ -19,17 +20,17 @@ abstract class ConnectionPool
         "master" => ["server" => null, "connection" => null],
         "custom" => []
     ];
-    /** @var IConnectionFactory The factory to use to create database connections */
+    /** @var ConnectionFactory The factory to use to create database connections */
     protected $connectionFactory = null;
-    /** @var IConnection|null The connection to use for read queries */
+    /** @var ConnectionFactory|null The connection to use for read queries */
     protected $readConnection = null;
-    /** @var IConnection|null The connection to use for write queries */
+    /** @var ConnectionFactory|null The connection to use for write queries */
     protected $writeConnection = null;
 
     /**
-     * @param IConnectionFactory $connectionFactory The factory to use to create database connections
+     * @param ConnectionFactory $connectionFactory The factory to use to create database connections
      */
-    public function __construct(IConnectionFactory $connectionFactory)
+    public function __construct(ConnectionFactory $connectionFactory)
     {
         $this->setConnectionFactory($connectionFactory);
     }
@@ -47,6 +48,7 @@ abstract class ConnectionPool
      *
      * @param Server $preferredServer The preferred server to use
      * @return IConnection The connection to use for reads
+     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     public function getReadConnection(Server $preferredServer = null)
     {
@@ -68,6 +70,7 @@ abstract class ConnectionPool
      *
      * @param Server $preferredServer The preferred server to use
      * @return IConnection The connection to use for writes
+     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     public function getWriteConnection(Server $preferredServer = null)
     {
@@ -85,9 +88,9 @@ abstract class ConnectionPool
     }
 
     /**
-     * @param IConnectionFactory $connectionFactory
+     * @param ConnectionFactory $connectionFactory
      */
-    public function setConnectionFactory(IConnectionFactory $connectionFactory)
+    public function setConnectionFactory(ConnectionFactory $connectionFactory)
     {
         $this->connectionFactory = $connectionFactory;
     }
@@ -145,24 +148,35 @@ abstract class ConnectionPool
      * @param string $type The type of server we're trying to connect to, eg "master", "custom"
      * @param Server $server The server we want to connect to
      * @return IConnection The connection to the server
+     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     protected function getConnection($type, Server $server)
     {
         switch($type)
         {
             case "master":
+                if($this->config["master"]["server"] == null)
+                {
+                    throw new \RuntimeException("No master specified");
+                }
+
                 if($this->config["master"]["connection"] == null)
                 {
-                    $this->config["master"]["connection"] = $this->connectionFactory->create($server);
+                    $this->config["master"]["connection"] = $this->connectionFactory->connect($server);
                 }
 
                 return $this->config["master"]["connection"];
             default:
                 $serverHashId = spl_object_hash($server);
 
+                if(!isset($this->config[$type][$serverHashId]) || $this->config[$type][$serverHashId]["server"] == null)
+                {
+                    throw new \RuntimeException("Server of type '" . $type . "' not added to connection pool");
+                }
+
                 if($this->config[$type][$serverHashId]["connection"] == null)
                 {
-                    $this->config[$type][$serverHashId]["connection"] = $this->connectionFactory->create($server);
+                    $this->config[$type][$serverHashId]["connection"] = $this->connectionFactory->connect($server);
                 }
 
                 return $this->config[$type][$serverHashId]["connection"];

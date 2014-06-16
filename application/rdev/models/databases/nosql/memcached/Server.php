@@ -9,7 +9,7 @@ use RDev\Models\Databases;
 
 class Server extends Databases\Server
 {
-    /** @var int The port this server listens on */
+    /** {@inheritdoc} */
     protected $port = 11211;
     /** @var int The weight of this server relative to the total weight of all servers in the pool */
     protected $weight = 0;
@@ -17,25 +17,9 @@ class Server extends Databases\Server
     /**
      * @return int
      */
-    public function getPort()
-    {
-        return $this->port;
-    }
-
-    /**
-     * @return int
-     */
     public function getWeight()
     {
         return $this->weight;
-    }
-
-    /**
-     * @param int $port
-     */
-    public function setPort($port)
-    {
-        $this->port = $port;
     }
 
     /**
