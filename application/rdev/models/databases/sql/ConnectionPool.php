@@ -22,9 +22,9 @@ abstract class ConnectionPool
     ];
     /** @var ConnectionFactory The factory to use to create database connections */
     protected $connectionFactory = null;
-    /** @var ConnectionFactory|null The connection to use for read queries */
+    /** @var IConnection|null The connection to use for read queries */
     protected $readConnection = null;
-    /** @var ConnectionFactory|null The connection to use for write queries */
+    /** @var IConnection|null The connection to use for write queries */
     protected $writeConnection = null;
 
     /**
