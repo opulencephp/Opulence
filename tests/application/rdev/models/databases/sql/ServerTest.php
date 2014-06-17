@@ -74,4 +74,3 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($name, $server->getUsername());
     }
 }
- 
