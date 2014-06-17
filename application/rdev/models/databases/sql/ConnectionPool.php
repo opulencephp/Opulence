@@ -107,6 +107,7 @@ abstract class ConnectionPool
      * Sets the connection to use for read queries
      *
      * @param Server $preferredServer The preferred server to connect to
+     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     abstract protected function setReadConnection(Server $preferredServer = null);
 
@@ -114,6 +115,7 @@ abstract class ConnectionPool
      * Sets the connection to use for write queries
      *
      * @param Server $preferredServer The preferred server to connect to
+     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     abstract protected function setWriteConnection(Server $preferredServer = null);
 
