@@ -12,11 +12,14 @@ class SingleServerConnectionPool extends ConnectionPool
      * @param ConnectionFactory $connectionFactory The factory to use to create database connections
      * @param Server $server The server to use
      */
-    public function __construct(ConnectionFactory $connectionFactory, Server $server)
+    public function __construct(ConnectionFactory $connectionFactory, Server $server = null)
     {
         parent::__construct($connectionFactory);
 
-        $this->setMaster($server);
+        if($server !== null)
+        {
+            $this->setMaster($server);
+        }
     }
 
     /**

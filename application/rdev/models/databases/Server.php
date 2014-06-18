@@ -12,16 +12,6 @@ abstract class Server
     protected $host = "";
     /** @var int The port this server listens on */
     protected $port;
-    /** @var string The "nice" name of the server (ie English, readable name) */
-    protected $displayName = "";
-
-    /**
-     * @return string
-     */
-    public function getDisplayName()
-    {
-        return $this->displayName;
-    }
 
     /**
      * @return string
@@ -37,14 +27,6 @@ abstract class Server
     public function getPort()
     {
         return $this->port;
-    }
-
-    /**
-     * @param string $displayName
-     */
-    public function setDisplayName($displayName)
-    {
-        $this->displayName = $displayName;
     }
 
     /**

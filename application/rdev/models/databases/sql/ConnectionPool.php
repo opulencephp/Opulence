@@ -16,12 +16,11 @@ abstract class ConnectionPool
      *
      * @var array
      */
-    protected $config = [
-        "master" => ["server" => null, "connection" => null],
-        "custom" => []
-    ];
+    protected $config = [];
     /** @var ConnectionFactory The factory to use to create database connections */
     protected $connectionFactory = null;
+    /** @var ServerFactory The factory to use to create servers from configs */
+    protected $serverFactory = null;
     /** @var IConnection|null The connection to use for read queries */
     protected $readConnection = null;
     /** @var IConnection|null The connection to use for write queries */
@@ -32,7 +31,9 @@ abstract class ConnectionPool
      */
     public function __construct(ConnectionFactory $connectionFactory)
     {
+        $this->resetConfig();
         $this->setConnectionFactory($connectionFactory);
+        $this->serverFactory = new ServerFactory();
     }
 
     /**
@@ -85,6 +86,24 @@ abstract class ConnectionPool
         }
 
         return $this->writeConnection;
+    }
+
+    /**
+     * Initializes this pool with a custom config array
+     *
+     * @param array $config The configuration array to use to setup the list of servers used by this pool
+     * @throws \RuntimeException Thrown If the configuration was improperly setup
+     */
+    public function initFromConfig(array $config)
+    {
+        $this->resetConfig();
+
+        if(!isset($config["master"]))
+        {
+            throw new \RuntimeException("No master specified");
+        }
+
+        $this->setMaster($this->serverFactory->createFromConfig($config["master"]));
     }
 
     /**
@@ -183,5 +202,26 @@ abstract class ConnectionPool
 
                 return $this->config[$type][$serverHashId]["connection"];
         }
+    }
+
+    /**
+     * Gets the default configuration used by this pool
+     *
+     * @return array The default configuration used by this pool
+     */
+    protected function getDefaultConfig()
+    {
+        return [
+            "master" => ["server" => null, "connection" => null],
+            "custom" => []
+        ];
+    }
+
+    /**
+     * Resets the configuration to its default value
+     */
+    protected function resetConfig()
+    {
+        $this->config = $this->getDefaultConfig();
     }
 } 

@@ -30,6 +30,48 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests initializing the pool with just a master server
+     */
+    public function testInitializingFromConfigWithJustAMaster()
+    {
+        $connectionPool = $this->getConnectionPool();
+        $config = [
+            "master" => [
+                "host" => "127.0.0.1",
+                "username" => "foo",
+                "password" => "bar",
+                "databaseName" => "mydb"
+            ]
+        ];
+        $connectionPool->initFromConfig($config);
+        $this->assertEquals("127.0.0.1", $connectionPool->getMaster()->getHost());
+    }
+
+    /**
+     * Tests initializing the pool with an already-instantiated server
+     */
+    public function testInitializingFromConfigWithServerObject()
+    {
+        $connectionPool = $this->getConnectionPool();
+        $config = [
+            "master" => new Mocks\Server()
+        ];
+        $connectionPool->initFromConfig($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
+    }
+
+    /**
+     * Tests initializing the pool without specifying a master
+     */
+    public function testInitializingFromConfigWithoutMaster()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $connectionPool = $this->getConnectionPool();
+        $config = [];
+        $connectionPool->initFromConfig($config);
+    }
+
+    /**
      * Tests setting the master
      */
     public function testSettingMaster()

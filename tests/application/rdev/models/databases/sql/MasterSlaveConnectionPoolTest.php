@@ -150,6 +150,73 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests initializing the pool with a slave server
+     */
+    public function testInitializingFromConfigWithASlaveServer()
+    {
+        $factory = $this->getConnectionFactory();
+        $connectionPool = new MasterSlaveConnectionPool($factory);
+        $config = [
+            "master" => [
+                "host" => "127.0.0.1",
+                "username" => "foo",
+                "password" => "bar",
+                "databaseName" => "mydb"
+            ],
+            "slaves" => [
+                [
+                    "host" => "8.8.8.8",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool->initFromConfig($config);
+        $this->assertEquals(1, count($connectionPool->getSlaves()));
+        $slaveFound = false;
+
+        /** @var Server $slave */
+        foreach($connectionPool->getSlaves() as $slave)
+        {
+            if($slave->getHost() == "8.8.8.8")
+            {
+                $slaveFound = true;
+            }
+        }
+
+        $this->assertTrue($slaveFound);
+    }
+
+    /**
+     * Tests initializing the pool with a mix of already-instantiated server and configs
+     */
+    public function testInitializingFromConfigWithServerObject()
+    {
+        $factory = $this->getConnectionFactory();
+        $connectionPool = new MasterSlaveConnectionPool($factory);
+        $config = [
+            "master" => new Mocks\Server(),
+            "slaves" => [
+                [
+                    "host" => "8.8.8.8",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool->initFromConfig($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
+
+        /** @var Server $slave */
+        foreach($connectionPool->getSlaves() as $slave)
+        {
+            $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $slave);
+        }
+    }
+
+    /**
      * Tests removing a slave
      */
     public function testRemovingSlave()

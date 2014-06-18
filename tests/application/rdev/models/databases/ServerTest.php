@@ -20,15 +20,6 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the display name
-     */
-    public function testSettingDisplayName()
-    {
-        $this->serverMock->setDisplayName("foo");
-        $this->assertEquals("foo", $this->serverMock->getDisplayName());
-    }
-
-    /**
      * Tests setting the host
      */
     public function testSettingHost()

@@ -13,12 +13,14 @@ class MasterSlaveConnectionPool extends ConnectionPool
      * @param Server $master The master server
      * @param Server|Server[] $slaves The list of slave servers
      */
-    public function __construct(ConnectionFactory $connectionFactory, Server $master, $slaves = [])
+    public function __construct(ConnectionFactory $connectionFactory, Server $master = null, $slaves = [])
     {
         parent::__construct($connectionFactory);
 
-        $this->setMaster($master);
-        $this->config["slaves"] = [];
+        if($master !== null)
+        {
+            $this->setMaster($master);
+        }
 
         if(!is_array($slaves))
         {
@@ -51,6 +53,23 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
+     * {@inheritdoc}
+     * The configuration can also contain an entry for "slaves" => [arrays_of_slave_server_data]
+     */
+    public function initFromConfig(array $config)
+    {
+        parent::initFromConfig($config);
+
+        if(isset($config["slaves"]))
+        {
+            foreach($config["slaves"] as $slaveConfig)
+            {
+                $this->addServer("slaves", $this->serverFactory->createFromConfig($slaveConfig));
+            }
+        }
+    }
+
+    /**
      * Removes the input slave if it is in the list of slaves
      *
      * @param Server $slave The slave to remove
@@ -63,6 +82,18 @@ class MasterSlaveConnectionPool extends ConnectionPool
         {
             unset($this->config["slaves"][$slaveHashId]);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getDefaultConfig()
+    {
+        return [
+            "master" => ["server" => null, "connection" => null],
+            "slaves" => [],
+            "custom" => []
+        ];
     }
 
     /**

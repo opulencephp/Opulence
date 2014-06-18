@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Mocks the PDO for use in testing
+ * Mocks the PDO driver for use in testing
  */
 namespace RDev\Tests\Models\Databases\SQL\PDO\Mocks;
 use RDev\Models\Databases\SQL;
