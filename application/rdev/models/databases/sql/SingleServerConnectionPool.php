@@ -9,20 +9,6 @@ namespace RDev\Models\Databases\SQL;
 class SingleServerConnectionPool extends ConnectionPool
 {
     /**
-     * @param ConnectionFactory $connectionFactory The factory to use to create database connections
-     * @param Server $server The server to use
-     */
-    public function __construct(ConnectionFactory $connectionFactory, Server $server = null)
-    {
-        parent::__construct($connectionFactory);
-
-        if($server !== null)
-        {
-            $this->setMaster($server);
-        }
-    }
-
-    /**
      * {@inheritdoc}
      */
     protected function setReadConnection(Server $preferredServer = null)

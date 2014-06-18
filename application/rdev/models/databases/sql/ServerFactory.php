@@ -17,7 +17,7 @@ class ServerFactory
      *      If an array, it must contain the following keys mapped to their appropriate values:
      *      "host" => server host,
      *      "username" => server username credential,
-     *      "password" => server password credential
+     *      "password" => server password credential,
      *      "databaseName" => name of database on server to use
      *      The following keys are optional:
      *      "port" => server port,

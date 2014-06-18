@@ -9,32 +9,6 @@ namespace RDev\Models\Databases\SQL;
 class MasterSlaveConnectionPool extends ConnectionPool
 {
     /**
-     * @param ConnectionFactory $connectionFactory The factory to use to create database connections
-     * @param Server $master The master server
-     * @param Server|Server[] $slaves The list of slave servers
-     */
-    public function __construct(ConnectionFactory $connectionFactory, Server $master = null, $slaves = [])
-    {
-        parent::__construct($connectionFactory);
-
-        if($master !== null)
-        {
-            $this->setMaster($master);
-        }
-
-        if(!is_array($slaves))
-        {
-            $slaves = [$slaves];
-        }
-
-        /** @var Server $slave */
-        foreach($slaves as $slave)
-        {
-            $this->addSlave($slave);
-        }
-    }
-
-    /**
      * Adds a slave to the list of slaves
      *
      * @param Server $slave The slave to add
@@ -42,6 +16,19 @@ class MasterSlaveConnectionPool extends ConnectionPool
     public function addSlave(Server $slave)
     {
         $this->addServer("slaves", $slave);
+    }
+
+    /**
+     * Adds slaves to the list
+     *
+     * @param Server[] $slaves The slaves to add
+     */
+    public function addSlaves(array $slaves)
+    {
+        foreach($slaves as $slave)
+        {
+            $this->addSlave($slave);
+        }
     }
 
     /**
