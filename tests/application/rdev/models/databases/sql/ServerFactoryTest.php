@@ -17,7 +17,7 @@ class ServerFactoryTest extends \PHPUnit_Framework_TestCase
         $server = new Mocks\Server();
         $config = $server;
         $factory = new ServerFactory();
-        $this->assertInstanceOf("RDev\\Tests\\Models\\Databases\\SQL\\Mocks\\Server", $factory->createFromConfig($config));
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $factory->createFromConfig($config));
     }
 
     /**
