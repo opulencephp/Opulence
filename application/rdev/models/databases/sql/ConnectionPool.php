@@ -37,7 +37,7 @@ abstract class ConnectionPool
     }
 
     /**
-     * @return Server
+     * @return Server|null
      */
     public function getMaster()
     {

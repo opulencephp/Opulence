@@ -10,6 +10,15 @@ use RDev\Tests\Models\Databases\SQL\Mocks;
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests getting the master when it isn't set
+     */
+    public function testGettingMasterWhenItIsNotSet()
+    {
+        $connectionPool = $this->getConnectionPool();
+        $this->assertNull($connectionPool->getMaster());
+    }
+
+    /**
      * Tests getting the read connection without setting a master
      */
     public function testGettingReadConnectionWithoutSettingMaster()

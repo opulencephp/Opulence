@@ -24,7 +24,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking for a role that a user doesn't have
      */
-    public function testCheckingForRoleThatUserDoesntHave()
+    public function testCheckingForRoleThatUserDoesNotHave()
     {
         $user = $this->getClonedUser();
         $this->assertFalse($user->hasRole(998877));
