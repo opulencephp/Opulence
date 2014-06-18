@@ -85,7 +85,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     /**
      * Gets the connection pool object to use in tests
      *
-     * @return ConnectionPool The connection pool object to use in tests
+     * @return Mocks\ConnectionPool The connection pool object to use in tests
      */
     private function getConnectionPool()
     {

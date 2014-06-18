@@ -14,9 +14,8 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingMasterAfterSettingInConstructor()
     {
-        $factory = $this->getConnectionFactory();
+        $connectionPool = $this->getConnectionPool();
         $master = new Mocks\Server();
-        $connectionPool = new SingleServerConnectionPool($factory);
         $connectionPool->setMaster($master);
         $this->assertEquals($master, $connectionPool->getMaster());
     }
@@ -26,10 +25,9 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnection()
     {
-        $factory = $this->getConnectionFactory();
+        $connectionPool = $this->getConnectionPool();
         $master = new Mocks\Server();
         $expectedConnection = new Mocks\Connection($master);
-        $connectionPool = new SingleServerConnectionPool($factory);
         $connectionPool->setMaster($master);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection());
     }
@@ -39,10 +37,9 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithPreferredServer()
     {
-        $factory = $this->getConnectionFactory();
+        $connectionPool = $this->getConnectionPool();
         $preferredServer = new Mocks\Server();
         $expectedConnection = new Mocks\Connection($preferredServer);
-        $connectionPool = new SingleServerConnectionPool($factory);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection($preferredServer));
     }
 
@@ -51,10 +48,9 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnection()
     {
-        $factory = $this->getConnectionFactory();
+        $connectionPool = $this->getConnectionPool();
         $master = new Mocks\Server();
         $expectedConnection = new Mocks\Connection($master);
-        $connectionPool = new SingleServerConnectionPool($factory);
         $connectionPool->setMaster($master);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection());
     }
@@ -64,22 +60,22 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnectionWithPreferredServer()
     {
-        $factory = $this->getConnectionFactory();
+        $connectionPool = $this->getConnectionPool();
         $preferredServer = new Mocks\Server();
         $expectedConnection = new Mocks\Connection($preferredServer);
-        $connectionPool = new SingleServerConnectionPool($factory);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection($preferredServer));
     }
 
     /**
-     * Gets a connection factory to use in the tests
+     * Gets a connection pool to use in the tests
      *
-     * @return ConnectionFactory The connection factory to use
+     * @return SingleServerConnectionPool The connection pool to use
      */
-    private function getConnectionFactory()
+    private function getConnectionPool()
     {
         $driver = new Mocks\Driver();
+        $factory = new ConnectionFactory($driver);
 
-        return new ConnectionFactory($driver);
+        return new SingleServerConnectionPool($factory);
     }
 } 
