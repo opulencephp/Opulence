@@ -5,6 +5,7 @@
  * Tests the connection pool
  */
 namespace RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\PDO\PostgreSQL;
 use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
@@ -48,12 +49,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $config = [
             "driver" => "RDev\\Tests\\Models\\Databases\\SQL\\Mocks\\Driver",
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
@@ -68,12 +64,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $config = [
             "driver" => new Mocks\Driver(),
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
@@ -88,12 +79,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $config = [
             "driver" => "pdo_postgresql",
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
@@ -109,12 +95,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $config = [
             "driver" => "RDev\\Class\\That\\Does\\Not\\Exists",
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
@@ -128,18 +109,43 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $config = [
             "driver" => new Mocks\Driver(),
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
         $master = new Mocks\Server();
         $connectionPool->setMaster($master);
         $this->assertEquals($master, $connectionPool->getMaster());
+    }
+
+    /**
+     * Tests using the MySQL PDO driver
+     */
+    public function testUsingMySQLPDO()
+    {
+        $config = [
+            "driver" => "pdo_mysql",
+            "servers" => [
+                "master" => new Mocks\Server()
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\PDO\\MySQL\\Driver", $connectionPool->getDriver());
+    }
+
+    /**
+     * Tests using the PostgreSQL PDO driver
+     */
+    public function testUsingPostgreSQLPDO()
+    {
+        $config = [
+            "driver" => "pdo_postgresql",
+            "servers" => [
+                "master" => new Mocks\Server()
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver", $connectionPool->getDriver());
     }
 
     /**
@@ -162,18 +168,14 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithJustAMaster()
     {
+        $master = new Mocks\Server();
         $config = [
             "driver" => new Mocks\Driver(),
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
-        $this->assertEquals("127.0.0.1", $connectionPool->getMaster()->getHost());
+        $this->assertEquals($master, $connectionPool->getMaster());
     }
 } 

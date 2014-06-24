@@ -65,12 +65,7 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $config = [
             "driver" => new Mocks\Driver(),
             "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ]
+                "master" => new Mocks\Server()
             ]
         ];
 

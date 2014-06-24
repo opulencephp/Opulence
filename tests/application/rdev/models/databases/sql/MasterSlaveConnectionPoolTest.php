@@ -158,9 +158,59 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests removing a slave
+     */
+    public function testRemovingSlave()
+    {
+        $slave1 = new Mocks\Server();
+        $slave1->setDatabaseName("slave1");
+        $slave2 = new Mocks\Server();
+        $slave2->setDatabaseName("slave2");
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => new Mocks\Server(),
+                "slaves" => [$slave1, $slave2]
+            ]
+        ];
+        $connectionPool = new MasterSlaveConnectionPool($config);
+        $connectionPool->removeSlave($slave2);
+        $this->assertEquals([$slave1], $connectionPool->getSlaves());
+    }
+
+    /**
+     * Tests initializing the pool with a mix of already-instantiated server and configs
+     */
+    public function testWithAServerObject()
+    {
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => new Mocks\Server(),
+                "slaves" => [
+                    [
+                        "host" => "8.8.8.8",
+                        "username" => "foo",
+                        "password" => "bar",
+                        "databaseName" => "mydb"
+                    ]
+                ]
+            ]
+        ];
+        $connectionPool = new MasterSlaveConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
+
+        /** @var Server $slave */
+        foreach($connectionPool->getSlaves() as $slave)
+        {
+            $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $slave);
+        }
+    }
+
+    /**
      * Tests initializing the pool with a slave server
      */
-    public function testInitializingFromConfigWithASlaveServer()
+    public function testWithASlaveServer()
     {
         $config = [
             "driver" => new Mocks\Driver(),
@@ -195,55 +245,5 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertTrue($slaveFound);
-    }
-
-    /**
-     * Tests initializing the pool with a mix of already-instantiated server and configs
-     */
-    public function testInitializingFromConfigWithServerObject()
-    {
-        $config = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server(),
-                "slaves" => [
-                    [
-                        "host" => "8.8.8.8",
-                        "username" => "foo",
-                        "password" => "bar",
-                        "databaseName" => "mydb"
-                    ]
-                ]
-            ]
-        ];
-        $connectionPool = new MasterSlaveConnectionPool($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
-
-        /** @var Server $slave */
-        foreach($connectionPool->getSlaves() as $slave)
-        {
-            $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $slave);
-        }
-    }
-
-    /**
-     * Tests removing a slave
-     */
-    public function testRemovingSlave()
-    {
-        $slave1 = new Mocks\Server();
-        $slave1->setDatabaseName("slave1");
-        $slave2 = new Mocks\Server();
-        $slave2->setDatabaseName("slave2");
-        $config = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server(),
-                "slaves" => [$slave1, $slave2]
-            ]
-        ];
-        $connectionPool = new MasterSlaveConnectionPool($config);
-        $connectionPool->removeSlave($slave2);
-        $this->assertEquals([$slave1], $connectionPool->getSlaves());
     }
 }

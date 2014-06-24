@@ -63,23 +63,6 @@ class MasterSlaveConnectionPool extends ConnectionPool
 
     /**
      * {@inheritdoc}
-     * The server configuration can also contain an entry for "slaves" => [slave server data]
-     */
-    protected function initServersFromConfig(array $config)
-    {
-        parent::initServersFromConfig($config);
-
-        if(isset($config["servers"]["slaves"]))
-        {
-            foreach($config["servers"]["slaves"] as $slaveConfig)
-            {
-                $this->addServer("slaves", $this->serverFactory->createFromConfig($slaveConfig));
-            }
-        }
-    }
-
-    /**
-     * {@inheritdoc}
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -96,6 +79,23 @@ class MasterSlaveConnectionPool extends ConnectionPool
         else
         {
             $this->readConnection = $this->getConnection("master", $this->getMaster());
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     * The server configuration can also contain an entry for "slaves" => [slave server data]
+     */
+    protected function setServers(array $config)
+    {
+        parent::setServers($config);
+
+        if(isset($config["slaves"]))
+        {
+            foreach($config["slaves"] as $slaveConfig)
+            {
+                $this->addServer("slaves", $this->serverFactory->createFromConfig($slaveConfig));
+            }
         }
     }
 
