@@ -13,5 +13,4 @@ class Server extends SQL\Server
     protected $username = "foo";
     protected $password = "bar";
     protected $databaseName = "fakedatabase";
-    protected $displayName = "Server Mock";
 } 

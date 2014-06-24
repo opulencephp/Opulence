@@ -10,17 +10,6 @@ use RDev\Tests\Models\Databases\SQL\Mocks;
 class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests getting the master after setting it in the constructor
-     */
-    public function testGettingMasterAfterSettingInConstructor()
-    {
-        $connectionPool = $this->getConnectionPool();
-        $master = new Mocks\Server();
-        $connectionPool->setMaster($master);
-        $this->assertEquals($master, $connectionPool->getMaster());
-    }
-
-    /**
      * Tests getting the read connection without a preferred server
      */
     public function testGettingReadConnection()
@@ -73,9 +62,18 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     private function getConnectionPool()
     {
-        $driver = new Mocks\Driver();
-        $factory = new ConnectionFactory($driver);
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
 
-        return new SingleServerConnectionPool($factory);
+        return new SingleServerConnectionPool($config);
     }
-} 
+}

@@ -31,17 +31,6 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the display name
-     */
-    public function testSettingDisplayName()
-    {
-        $displayName = 'nicename';
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
-        $server->setDisplayName($displayName);
-        $this->assertEquals($displayName, $server->getDisplayName());
-    }
-
-    /**
      * Tests setting the host
      */
     public function testSettingHost()

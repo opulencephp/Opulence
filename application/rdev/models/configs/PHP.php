@@ -26,10 +26,12 @@ class PHP
      * Automatically loads the input class name's source file
      *
      * @param string $qualifiedClassName The fully-qualified name of the class to load
+     * @throws \RuntimeException Thrown if the file path couldn't be found
      */
     public function autoload($qualifiedClassName)
     {
         $explodedFullyQualifiedClassName = explode("\\", $qualifiedClassName);
+        $filePath = "";
 
         if(count($explodedFullyQualifiedClassName) > 0 && in_array($explodedFullyQualifiedClassName[0], self::$rootNamespaces))
         {
@@ -41,11 +43,11 @@ class PHP
                 // Remove "tests" from the path
                 unset($explodedPath[1]);
                 $explodedPath = array_values($explodedPath);
-                require_once(__DIR__ . "/" . self::RELATIVE_PATH_TO_TEST_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
+                $filePath = __DIR__ . "/" . self::RELATIVE_PATH_TO_TEST_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php";
             }
             else
             {
-                require_once(__DIR__ . "/" . self::RELATIVE_PATH_TO_APPLICATION_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php");
+                $filePath = __DIR__ . "/" . self::RELATIVE_PATH_TO_APPLICATION_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php";
             }
         }
         else
@@ -53,9 +55,16 @@ class PHP
             // Some classes that are built into PHP may not have a source file we can include, so check for one first
             if(file_exists($qualifiedClassName . ".php"))
             {
-                require_once($qualifiedClassName . ".php");
+                $filePath = $qualifiedClassName . ".php";
             }
         }
+
+        if(!file_exists($filePath))
+        {
+            throw new \RuntimeException("Invalid file path: " . $filePath);
+        }
+
+        require_once($filePath);
     }
 }
 

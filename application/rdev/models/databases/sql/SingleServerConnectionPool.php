@@ -19,12 +19,6 @@ class SingleServerConnectionPool extends ConnectionPool
         }
         else
         {
-            // We try to only read from the master as a last resort
-            if($this->getMaster() == null)
-            {
-                throw new \RuntimeException("No master specified");
-            }
-
             $this->readConnection = $this->getConnection("master", $this->getMaster());
         }
     }
@@ -40,12 +34,6 @@ class SingleServerConnectionPool extends ConnectionPool
         }
         else
         {
-            // We try to only read from the master as a last resort
-            if($this->getMaster() == null)
-            {
-                throw new \RuntimeException("No master specified");
-            }
-
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }

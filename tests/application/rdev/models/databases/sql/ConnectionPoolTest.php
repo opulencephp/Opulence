@@ -10,74 +10,114 @@ use RDev\Tests\Models\Databases\SQL\Mocks;
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests getting the master when it isn't set
-     */
-    public function testGettingMasterWhenItIsNotSet()
-    {
-        $connectionPool = $this->getConnectionPool();
-        $this->assertNull($connectionPool->getMaster());
-    }
-
-    /**
-     * Tests getting the read connection without setting a master
-     */
-    public function testGettingReadConnectionWithoutSettingMaster()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $connectionPool = $this->getConnectionPool();
-        $connectionPool->getReadConnection();
-    }
-
-    /**
-     * Tests getting the write connection without setting a master
-     */
-    public function testGettingWriteConnectionWithoutSettingMaster()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $connectionPool = $this->getConnectionPool();
-        $connectionPool->getWriteConnection();
-    }
-
-    /**
-     * Tests initializing the pool with just a master server
-     */
-    public function testInitializingFromConfigWithJustAMaster()
-    {
-        $connectionPool = $this->getConnectionPool();
-        $config = [
-            "master" => [
-                "host" => "127.0.0.1",
-                "username" => "foo",
-                "password" => "bar",
-                "databaseName" => "mydb"
-            ]
-        ];
-        $connectionPool->initFromConfig($config);
-        $this->assertEquals("127.0.0.1", $connectionPool->getMaster()->getHost());
-    }
-
-    /**
-     * Tests initializing the pool with an already-instantiated server
-     */
-    public function testInitializingFromConfigWithServerObject()
-    {
-        $connectionPool = $this->getConnectionPool();
-        $config = [
-            "master" => new Mocks\Server()
-        ];
-        $connectionPool->initFromConfig($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
-    }
-
-    /**
      * Tests initializing the pool without specifying a master
      */
-    public function testInitializingFromConfigWithoutMaster()
+    public function testNotSettingAMaster()
     {
         $this->setExpectedException("\\RuntimeException");
-        $connectionPool = $this->getConnectionPool();
-        $config = [];
-        $connectionPool->initFromConfig($config);
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => []
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+    }
+
+    /**
+     * Tests not setting the driver
+     */
+    public function testNotSettingDriver()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $connectionPool = new Mocks\ConnectionPool(["servers" => []]);
+    }
+
+    /**
+     * Tests not setting the servers
+     */
+    public function testNotSettingServers()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $connectionPool = new Mocks\ConnectionPool(["driver" => new Mocks\Driver()]);
+    }
+
+    /**
+     * Tests setting the driver as a fully-qualified driver class name
+     */
+    public function testSettingDriverWithAFullyQualifiedDriverName()
+    {
+        $config = [
+            "driver" => "RDev\\Tests\\Models\\Databases\\SQL\\Mocks\\Driver",
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\IDriver", $connectionPool->getDriver());
+    }
+
+    /**
+     * Tests setting the driver as an instantiated driver object
+     */
+    public function testSettingDriverWithAnInstantiatedDriverObject()
+    {
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\IDriver", $connectionPool->getDriver());
+    }
+
+    /**
+     * Tests setting the driver as a constant defined in the connection pool
+     */
+    public function testSettingDriverWithConstant()
+    {
+        $config = [
+            "driver" => "pdo_postgresql",
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\IDriver", $connectionPool->getDriver());
+    }
+
+    /**
+     * Tests setting the driver to a non-existent class
+     */
+    public function testSettingDriverWithNonExistentClass()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $config = [
+            "driver" => "RDev\\Class\\That\\Does\\Not\\Exists",
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
     }
 
     /**
@@ -85,22 +125,55 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingMaster()
     {
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
         $master = new Mocks\Server();
-        $connectionPool = $this->getConnectionPool();
         $connectionPool->setMaster($master);
         $this->assertEquals($master, $connectionPool->getMaster());
     }
 
     /**
-     * Gets the connection pool object to use in tests
-     *
-     * @return Mocks\ConnectionPool The connection pool object to use in tests
+     * Tests initializing the pool with an already-instantiated server
      */
-    private function getConnectionPool()
+    public function testUsingServerObject()
     {
-        $driver = new Mocks\Driver();
-        $connectionFactory = new ConnectionFactory($driver);
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => new Mocks\Server()
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
+    }
 
-        return new Mocks\ConnectionPool($connectionFactory);
+    /**
+     * Tests initializing the pool with just a master server
+     */
+    public function testWithJustAMaster()
+    {
+        $config = [
+            "driver" => new Mocks\Driver(),
+            "servers" => [
+                "master" => [
+                    "host" => "127.0.0.1",
+                    "username" => "foo",
+                    "password" => "bar",
+                    "databaseName" => "mydb"
+                ]
+            ]
+        ];
+        $connectionPool = new Mocks\ConnectionPool($config);
+        $this->assertEquals("127.0.0.1", $connectionPool->getMaster()->getHost());
     }
 } 

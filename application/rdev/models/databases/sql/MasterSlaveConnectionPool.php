@@ -8,6 +8,13 @@ namespace RDev\Models\Databases\SQL;
 
 class MasterSlaveConnectionPool extends ConnectionPool
 {
+    /** @inheritdoc} */
+    protected $servers = [
+        "master" => null,
+        "slaves" => [],
+        "custom" => []
+    ];
+
     /**
      * Adds a slave to the list of slaves
      *
@@ -36,24 +43,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      */
     public function getSlaves()
     {
-        return array_column($this->config["slaves"], "server");
-    }
-
-    /**
-     * {@inheritdoc}
-     * The configuration can also contain an entry for "slaves" => [arrays_of_slave_server_data]
-     */
-    public function initFromConfig(array $config)
-    {
-        parent::initFromConfig($config);
-
-        if(isset($config["slaves"]))
-        {
-            foreach($config["slaves"] as $slaveConfig)
-            {
-                $this->addServer("slaves", $this->serverFactory->createFromConfig($slaveConfig));
-            }
-        }
+        return array_column($this->servers["slaves"], "server");
     }
 
     /**
@@ -65,22 +55,27 @@ class MasterSlaveConnectionPool extends ConnectionPool
     {
         $slaveHashId = spl_object_hash($slave);
 
-        if(isset($this->config["slaves"][$slaveHashId]))
+        if(isset($this->servers["slaves"][$slaveHashId]))
         {
-            unset($this->config["slaves"][$slaveHashId]);
+            unset($this->servers["slaves"][$slaveHashId]);
         }
     }
 
     /**
      * {@inheritdoc}
+     * The server configuration can also contain an entry for "slaves" => [slave server data]
      */
-    protected function getDefaultConfig()
+    protected function initServersFromConfig(array $config)
     {
-        return [
-            "master" => ["server" => null, "connection" => null],
-            "slaves" => [],
-            "custom" => []
-        ];
+        parent::initServersFromConfig($config);
+
+        if(isset($config["servers"]["slaves"]))
+        {
+            foreach($config["servers"]["slaves"] as $slaveConfig)
+            {
+                $this->addServer("slaves", $this->serverFactory->createFromConfig($slaveConfig));
+            }
+        }
     }
 
     /**
@@ -92,20 +87,14 @@ class MasterSlaveConnectionPool extends ConnectionPool
         {
             $this->readConnection = $this->getConnection("custom", $preferredServer);
         }
-        elseif(count($this->config["slaves"]) > 0)
+        elseif(count($this->servers["slaves"]) > 0)
         {
             // Randomly pick a slave
-            $selectedSlave = $this->config["slaves"][array_rand($this->config["slaves"])]["server"];
+            $selectedSlave = $this->servers["slaves"][array_rand($this->servers["slaves"])]["server"];
             $this->readConnection = $this->getConnection("slaves", $selectedSlave);
         }
         else
         {
-            // We try to only read from the master as a last resort
-            if($this->getMaster() == null)
-            {
-                throw new \RuntimeException("No master specified");
-            }
-
             $this->readConnection = $this->getConnection("master", $this->getMaster());
         }
     }
@@ -121,12 +110,6 @@ class MasterSlaveConnectionPool extends ConnectionPool
         }
         else
         {
-            // We try to only read from the master as a last resort
-            if($this->getMaster() == null)
-            {
-                throw new \RuntimeException("No master specified");
-            }
-
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }

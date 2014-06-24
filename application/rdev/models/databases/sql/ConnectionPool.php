@@ -9,16 +9,26 @@ namespace RDev\Models\Databases\SQL;
 
 abstract class ConnectionPool
 {
+    /** @var array Maps driver names to their fully-qualified class names */
+    public static $drivers = [
+        "pdo_mysql" => "RDev\\Models\\Databases\\SQL\\PDO\\MySQL\\Driver",
+        "pdo_postgresql" => "RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver",
+    ];
     /**
-     * The configuration that holds data about the master and slave servers as well as any connections made to them
-     * The "custom" key holds a list of any servers that have been passed in as preferred servers when attempting to get
-     * a connection
+     * The configuration that holds data about the driver and servers to use in a database connection
      *
      * @var array
      */
-    protected $config = [];
-    /** @var ConnectionFactory The factory to use to create database connections */
-    protected $connectionFactory = null;
+    protected $servers = [
+        "master" => null,
+        "custom" => []
+    ];
+    /** @var IDriver The driver to use for connections made by this factory */
+    protected $driver = null;
+    /** @var array The list of connection options */
+    protected $connectionOptions = [];
+    /** @var array The list of driver options */
+    protected $driverOptions = [];
     /** @var ServerFactory The factory to use to create servers from configs */
     protected $serverFactory = null;
     /** @var IConnection|null The connection to use for read queries */
@@ -27,13 +37,58 @@ abstract class ConnectionPool
     protected $writeConnection = null;
 
     /**
-     * @param ConnectionFactory $connectionFactory The factory to use to create database connections
+     * @param array $config The configuration array to use to setup the connection pool
+     *      This must contain the following keys:
+     *          "driver" => name of the driver listed in self::$drivers OR
+     *              The fully-qualified name of a custom driver class OR
+     *              An object that extends IDriver
+     *          "servers" => [
+     *              "master" => master server configuration (see ServerFactory for examples of a server configuration)
+     *          ]
+     *      The following options are optional:
+     *          "driverOptions" => settings to use to setup a driver connection,
+     *          "driverOptions" => the driver-specific connection settings
+     * @throws \RuntimeException Thrown if the configuration was invalid
+     * @see ServerFactory
      */
-    public function __construct(ConnectionFactory $connectionFactory)
+    public function __construct(array $config)
     {
-        $this->resetConfig();
-        $this->setConnectionFactory($connectionFactory);
+        if(!$this->validateConfig($config))
+        {
+            throw new \RuntimeException("Invalid connection pool configuration");
+        }
+
+        if($config["driver"] instanceof IDriver)
+        {
+            $this->driver = $config["driver"];
+        }
+        elseif(isset(self::$drivers[$config["driver"]]))
+        {
+            $this->driver = new self::$drivers[$config["driver"]]();
+        }
+        else
+        {
+            // We assume this is a custom driver class
+            if(!class_exists($config["driver"]))
+            {
+                throw new \RuntimeException("Invalid custom driver: " . $config["driver"]);
+            }
+
+            $this->driver = new $config["driver"]();
+        }
+
         $this->serverFactory = new ServerFactory();
+        $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
+        $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
+        $this->initServersFromConfig($config);
+    }
+
+    /**
+     * @return IDriver
+     */
+    public function getDriver()
+    {
+        return $this->driver;
     }
 
     /**
@@ -41,7 +96,7 @@ abstract class ConnectionPool
      */
     public function getMaster()
     {
-        return $this->config["master"]["server"];
+        return $this->servers["master"]["server"];
     }
 
     /**
@@ -89,32 +144,6 @@ abstract class ConnectionPool
     }
 
     /**
-     * Initializes this pool with a custom config array
-     *
-     * @param array $config The configuration array to use to setup the list of servers used by this pool
-     * @throws \RuntimeException Thrown If the configuration was improperly setup
-     */
-    public function initFromConfig(array $config)
-    {
-        $this->resetConfig();
-
-        if(!isset($config["master"]))
-        {
-            throw new \RuntimeException("No master specified");
-        }
-
-        $this->setMaster($this->serverFactory->createFromConfig($config["master"]));
-    }
-
-    /**
-     * @param ConnectionFactory $connectionFactory
-     */
-    public function setConnectionFactory(ConnectionFactory $connectionFactory)
-    {
-        $this->connectionFactory = $connectionFactory;
-    }
-
-    /**
      * @param Server $master
      */
     public function setMaster(Server $master)
@@ -149,18 +178,29 @@ abstract class ConnectionPool
         switch($type)
         {
             case "master":
-                $this->config["master"] = ["server" => $server, "connection" => null];
+                $this->servers["master"] = ["server" => $server, "connection" => null];
                 break;
             default:
                 $serverHashId = spl_object_hash($server);
 
-                if(!isset($this->config[$type][$serverHashId]))
+                if(!isset($this->servers[$type][$serverHashId]))
                 {
-                    $this->config[$type][$serverHashId] = ["server" => $server, "connection" => null];
+                    $this->servers[$type][$serverHashId] = ["server" => $server, "connection" => null];
                 }
 
                 break;
         }
+    }
+
+    /**
+     * Creates a database connection
+     *
+     * @param Server $server The server to connect to
+     * @return IConnection The database connection
+     */
+    protected function connectToServer(Server $server)
+    {
+        return $this->driver->connect($server, $this->connectionOptions, $this->driverOptions);
     }
 
     /**
@@ -176,52 +216,69 @@ abstract class ConnectionPool
         switch($type)
         {
             case "master":
-                if($this->config["master"]["server"] == null)
+                if($this->servers["master"]["server"] == null)
                 {
                     throw new \RuntimeException("No master specified");
                 }
 
-                if($this->config["master"]["connection"] == null)
+                if($this->servers["master"]["connection"] == null)
                 {
-                    $this->config["master"]["connection"] = $this->connectionFactory->connect($server);
+                    $this->servers["master"]["connection"] = $this->connectToServer($server);
                 }
 
-                return $this->config["master"]["connection"];
+                return $this->servers["master"]["connection"];
             default:
                 $serverHashId = spl_object_hash($server);
 
-                if(!isset($this->config[$type][$serverHashId]) || $this->config[$type][$serverHashId]["server"] == null)
+                if(!isset($this->servers[$type][$serverHashId])
+                    || $this->servers[$type][$serverHashId]["server"] == null
+                )
                 {
                     throw new \RuntimeException("Server of type '" . $type . "' not added to connection pool");
                 }
 
-                if($this->config[$type][$serverHashId]["connection"] == null)
+                if($this->servers[$type][$serverHashId]["connection"] == null)
                 {
-                    $this->config[$type][$serverHashId]["connection"] = $this->connectionFactory->connect($server);
+                    $this->servers[$type][$serverHashId]["connection"] = $this->connectToServer($server);
                 }
 
-                return $this->config[$type][$serverHashId]["connection"];
+                return $this->servers[$type][$serverHashId]["connection"];
         }
     }
 
     /**
-     * Gets the default configuration used by this pool
+     * Initializes the server configuration from an array
      *
-     * @return array The default configuration used by this pool
+     * @param array $config The configuration array to use to setup the list of servers used by this pool
      */
-    protected function getDefaultConfig()
+    protected function initServersFromConfig(array $config)
     {
-        return [
-            "master" => ["server" => null, "connection" => null],
-            "custom" => []
-        ];
+        $this->setMaster($this->serverFactory->createFromConfig($config["servers"]["master"]));
     }
 
     /**
-     * Resets the configuration to its default value
+     * Validates the configuration array
+     *
+     * @param array $config The raw configuration passed into the constructor
+     * @return bool True if the configuration is valid, otherwise false
      */
-    protected function resetConfig()
+    protected function validateConfig(array $config)
     {
-        $this->config = $this->getDefaultConfig();
+        $requiredFields = ["driver", "servers"];
+
+        foreach($requiredFields as $requiredField)
+        {
+            if(!isset($config[$requiredField]))
+            {
+                return false;
+            }
+        }
+
+        if(!isset($config["servers"]["master"]))
+        {
+            return false;
+        }
+
+        return true;
     }
 } 
