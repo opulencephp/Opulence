@@ -13,9 +13,10 @@ Connection pools are instantiated with a configuration array.  All connection po
     1. An array of data containing keys of "host", "username", "password", and "databaseName", which should of course be mapped to the appropriate values.
       * You can optionally specify values for "charset" and "port"
     2. An object that extends the Server class
+    
 The following keys are options:
 * "driverOptions"
-  * Settings to use to setup a driver connection, eg "unix_socket" for MySQL Unix sockets
+  * Settings that help setup a driver connection, eg "unix_socket" for MySQL Unix sockets
 * "connectionOptions"
   * The driver-specific connection settings, eg "\PDO::ATTR_PERSISTENT => true"
   
