@@ -11,6 +11,14 @@ use RDev\Tests\Models\Databases\SQL\Mocks;
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests getting the list of driver names
+     */
+    public function testGettingDriverNames()
+    {
+        $this->assertEquals(["pdo_mysql", "pdo_pgsql"], Mocks\ConnectionPool::getDriverNames());
+    }
+
+    /**
      * Tests initializing the pool without specifying a master
      */
     public function testNotSettingAMaster()
@@ -77,7 +85,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     public function testSettingDriverWithConstant()
     {
         $config = [
-            "driver" => "pdo_postgresql",
+            "driver" => "pdo_pgsql",
             "servers" => [
                 "master" => new Mocks\Server()
             ]
@@ -139,7 +147,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     public function testUsingPostgreSQLPDO()
     {
         $config = [
-            "driver" => "pdo_postgresql",
+            "driver" => "pdo_pgsql",
             "servers" => [
                 "master" => new Mocks\Server()
             ]

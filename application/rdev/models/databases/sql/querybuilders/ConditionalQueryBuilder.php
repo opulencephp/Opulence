@@ -66,7 +66,8 @@ class ConditionalQueryBuilder
 
         foreach($clauseConditions as $conditionData)
         {
-            $sql .= ($haveAddedAClause ? " " . strtoupper($conditionData["operation"]) : "") . " (" . $conditionData["condition"] . ")";
+            $sql .= ($haveAddedAClause ? " " . strtoupper($conditionData["operation"]) : "")
+                . " (" . $conditionData["condition"] . ")";
             $haveAddedAClause = true;
         }
 

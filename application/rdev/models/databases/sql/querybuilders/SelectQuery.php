@@ -120,14 +120,16 @@ class SelectQuery extends Query
     public function getSQL()
     {
         // Build the selector
-        $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
+        $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM " . $this->tableName
+            . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
 
         // Add any joins
         foreach($this->joins as $type => $joinsByType)
         {
             foreach($joinsByType as $join)
             {
-                $sql .= " " . strtoupper($type) . " JOIN " . $join["tableName"] . (empty($join["tableAlias"]) ? "" : " AS " . $join["tableAlias"]) . " ON " . $join["condition"];
+                $sql .= " " . strtoupper($type) . " JOIN " . $join["tableName"]
+                    . (empty($join["tableAlias"]) ? "" : " AS " . $join["tableAlias"]) . " ON " . $join["condition"];
             }
         }
 
@@ -242,7 +244,8 @@ class SelectQuery extends Query
     /**
      * Limits the number of rows returned by the query
      *
-     * @param int|string $numRows The number of rows to limit in the results or the name of the placeholder value that will contain the number of rows
+     * @param int|string $numRows The number of rows to limit in the results
+     *      or the name of the placeholder value that will contain the number of rows
      * @return $this
      */
     public function limit($numRows)
@@ -255,7 +258,8 @@ class SelectQuery extends Query
     /**
      * Skips the input number of rows before returning rows
      *
-     * @param int|string $numRows The number of rows to skip in the results or the name of the placeholder value that will contain the number of rows
+     * @param int|string $numRows The number of rows to skip in the results
+     *      or the name of the placeholder value that will contain the number of rows
      * @return $this
      */
     public function offset($numRows)

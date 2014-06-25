@@ -10,9 +10,9 @@ namespace RDev\Models\Databases\SQL;
 abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */
-    public static $drivers = [
+    private static $drivers = [
         "pdo_mysql" => "RDev\\Models\\Databases\\SQL\\PDO\\MySQL\\Driver",
-        "pdo_postgresql" => "RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver",
+        "pdo_pgsql" => "RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver",
     ];
     /**
      * The servers in this pool
@@ -23,7 +23,7 @@ abstract class ConnectionPool
         "master" => null,
         "custom" => []
     ];
-    /** @var IDriver The driver to use for connections made by this factory */
+    /** @var IDriver The driver to use for connections made by this pool */
     protected $driver = null;
     /** @var array The list of connection options */
     protected $connectionOptions = [];
@@ -41,7 +41,7 @@ abstract class ConnectionPool
      *      This must contain the following keys:
      *          "driver" => name of the driver listed in self::$drivers OR
      *              The fully-qualified name of a custom driver class OR
-     *              An object that extends IDriver
+     *              An object that implements IDriver
      *          "servers" => [
      *              "master" => master server (see ServerFactory for examples of a server configuration)
      *          ]
@@ -63,6 +63,16 @@ abstract class ConnectionPool
         $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
         $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
         $this->setServers($config["servers"]);
+    }
+
+    /**
+     * Gets the list of pre-defined driver names available in this class
+     *
+     * @return array The list of driver names
+     */
+    public static function getDriverNames()
+    {
+        return array_keys(self::$drivers);
     }
 
     /**
