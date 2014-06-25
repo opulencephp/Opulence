@@ -60,9 +60,9 @@ abstract class ConnectionPool
 
         $this->serverFactory = new ServerFactory();
         $this->setDriver($config["driver"]);
+        $this->setServers($config["servers"]);
         $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
         $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
-        $this->setServers($config["servers"]);
     }
 
     /**

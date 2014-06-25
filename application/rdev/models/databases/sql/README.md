@@ -1,15 +1,15 @@
 # Connection Pools
-Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a SingleServerConnectionPool.  If you have a master/slave(s) setup, you can use a MasterSlaveConnectionPool.  
+Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.  
 
 ## Creating a Connection Pool
 Connection pools are instantiated with a configuration array.  All connection pools must have the following keys:
 * "driver"
   * The value must be either:
-    1. The name of the driver per the ConnectionPool class driver list
-    2. An object that implements the IDriver interface
-    3. The fully-qualified name of a class that implements the IDriver interface (useful for passing in custom drivers)
+    1. The name of the driver per the **ConnectionPool class** driver list
+    2. An object that implements the **IDriver** interface
+    3. The fully-qualified name of a class that implements the **IDriver** interface (useful for passing in custom drivers)
 * "servers"
-  * The value must be an array of server settings.  Although the implementation of this array is up to the concrete class that implements ConnectionPool, all must have at least have a "master" key.  The value must be one of the following formats:
+  * The value must be an array of server settings.  Although the implementation of this array is up to the concrete class that implements **ConnectionPool**, all must have at least have a "master" key.  The value must be one of the following formats:
     1. An array of data containing keys of "host", "username", "password", and "databaseName", which should of course be mapped to the appropriate values.
       * You can optionally specify values for "charset" and "port"
     2. An object that extends the Server class
@@ -18,7 +18,7 @@ The following keys are options:
 * "driverOptions"
   * Settings that help setup a driver connection, eg "unix_socket" for MySQL Unix sockets
 * "connectionOptions"
-  * The driver-specific connection settings, eg "\PDO::ATTR_PERSISTENT => true"
+  * The driver-specific connection settings, eg `\PDO::ATTR_PERSISTENT => true`
   
 ## Single-Server Connection Pool
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
