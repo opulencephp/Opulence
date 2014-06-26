@@ -1,8 +1,9 @@
 # Object-Relational Mapping
 **RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *DataMappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
-1.  Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
-2.  Changes made to entities retrieved by repositories are automatically scheduled for updating when the unit of work is committed
-3.  Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
+
+1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
+2. Changes made to entities retrieved by repositories are automatically scheduled for updating when the unit of work is committed
+3. Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 
 ## Unit of Work Change Tracking
 Let's take a look at how units of work can manage entities retrieved through repositories:
