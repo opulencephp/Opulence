@@ -71,11 +71,13 @@ class UnitOfWork
      */
     public function detach(Models\IEntity $entity)
     {
-        if($this->isManaged($entity))
+        $entityState = $this->getEntityState($entity);
+
+        if($entityState == EntityStates::ADDED || $entityState == EntityStates::MANAGED)
         {
             $className = get_class($entity);
             $objectHashId = $this->getObjectHashId($entity);
-            $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::DETACHED;
+            $this->entityStates[$objectHashId] = EntityStates::DETACHED;
             unset($this->managedEntities[$className][$entity->getId()]);
             unset($this->objectHashIdsToOriginalData[$objectHashId]);
             unset($this->scheduledForInsertion[$objectHashId]);
@@ -256,6 +258,8 @@ class UnitOfWork
     public function scheduleForInsertion(Models\IEntity $entity)
     {
         $this->scheduledForInsertion[$this->getObjectHashId($entity)] = $entity;
+        $objectHashId = $this->getObjectHashId($entity);
+        $this->entityStates[$objectHashId] = EntityStates::ADDED;
     }
 
     /**

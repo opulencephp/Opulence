@@ -222,6 +222,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->assertEquals(EntityStates::ADDED, $this->unitOfWork->getEntityState($this->entity1));
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
         $method->setAccessible(true);
