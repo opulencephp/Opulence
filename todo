@@ -1,16 +1,7 @@
-Implement UoW
-    Need to try instantiating a data mapper and injecting it into a Repo
-    Need to test that the references are working in UoW so that checkForUpdates() works correctly
-    Need to test out all the methods in UoW
-        Probably best to unit test
-        Going to need to make sure that all the various property arrays are being set correctly by all the methods
-    Revisit the logic in RedisWithPostgreSQLBackupDataMapper's read()
-        Issue is that we don't want DataMapper to write to cache unless it was somehow triggered by the UoW's commit()
-            In other words, a repo shouldn't be able directly cause a data mapper to write
+Revisit the logic in RedisWithPostgreSQLBackupDataMapper's read()
+    Issue is that we don't want DataMapper to write to cache unless it was somehow triggered by the UoW's commit()
+        In other words, a repo shouldn't be able directly cause a data mapper to write
         Need to think about how/when we'll write items to cache
-    Need to test a getById to see if it can grab an already-managed entity
-Once this is all working, need to create Controller classes to instantiate repos and data mappers
-    Then, convert existing repos to use them
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
@@ -18,10 +9,8 @@ See if current Session class would make more sense as an abstract class
     Also need to add methods for setting things like cookies/JSON response for credentials
     Need to pass a reference to this object to LoginController
 Need to figure out where to store lifetime settings for login credentials in LoginController
-Get rid of "deactivate()" methods because they aren't a good fit for repository pattern
 Write tests for Router class
 Need to build classes to store credentials client-side (eg cookies/JSON)
     Where should these classes be instantiated/used?
 Need to build classes that instantiate our repos/factories
-Really need to take a look at DBUnit for this stuff because this is only going to get harder and harder to write tests for
 Need to determine how we hand out api keys
