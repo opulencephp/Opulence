@@ -73,7 +73,13 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->manageEntity($this->entity1);
         $this->entity1->setStringProperty("blah");
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
+        $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
         $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
     }
@@ -90,6 +96,23 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests detaching a managed entity after scheduling it for deletion, insertion, and update
+     */
+    public function testDetachingEntityAfterSchedulingForDeletionInsertionUpdate()
+    {
+        $this->unitOfWork->manageEntity($this->entity1);
+        $this->unitOfWork->scheduleForDeletion($this->entity1);
+        $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->unitOfWork->scheduleForUpdate($this->entity1);
+        $this->unitOfWork->detach($this->entity1);
+        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::DETACHED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityDeletions()));
+        $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityInsertions()));
+        $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityUpdates()));
+    }
+
+    /**
      * Tests disposing the unit of work
      */
     public function testDisposing()
@@ -97,6 +120,10 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->manageEntity($this->entity1);
         $this->unitOfWork->dispose();
         $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::UNMANAGED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertEquals([], $this->unitOfWork->getScheduledEntityDeletions());
+        $this->assertEquals([], $this->unitOfWork->getScheduledEntityInsertions());
+        $this->assertEquals([], $this->unitOfWork->getScheduledEntityUpdates());
     }
 
     /**
@@ -135,14 +162,52 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests inserting and deleting an entity in a single transaction
+     */
+    public function testInsertingAndDeletingEntity()
+    {
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->manageEntity($this->entity1);
+        $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->unitOfWork->scheduleForDeletion($this->entity1);
+        $this->unitOfWork->commit();
+        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->setExpectedException("RDev\\Models\\ORM\\DataMappers\\Exceptions\\DataMapperException");
+        $this->dataMapper->getById($this->entity1->getId());
+    }
+
+    /**
+     * Tests making sure an unchanged managed entity isn't scheduled for update
+     */
+    public function testMakingSureUnchangedEntityIsNotScheduledForUpdate()
+    {
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->manageEntity($this->entity1);
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
+        $this->assertFalse(in_array($this->entity1, $scheduledFoUpdate));
+    }
+
+    /**
      * Tests scheduling a deletion for an entity
      */
     public function testSchedulingDeletionEntity()
     {
         $this->unitOfWork->registerDataMapper(get_class($this->entity1), $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledFoDeletion = $this->unitOfWork->getScheduledEntityDeletions();
         $this->unitOfWork->commit();
+        $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
         $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
         $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
         $this->setExpectedException("RDev\\Models\\ORM\\DataMappers\\Exceptions\\DataMapperException");
@@ -156,10 +221,15 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledFoInsertion = $this->unitOfWork->getScheduledEntityInsertions();
         $expectedId = $this->dataMapper->getCurrId() + 1;
         $this->unitOfWork->commit();
+        $this->assertTrue(in_array($this->entity1, $scheduledFoInsertion));
         $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
         $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
@@ -173,10 +243,15 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
         $this->unitOfWork->scheduleForUpdate($this->entity1);
         $this->entity1->setStringProperty("blah");
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
+        $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
         $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
         $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));

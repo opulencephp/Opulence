@@ -150,6 +150,36 @@ class UnitOfWork
     }
 
     /**
+     * Gets the list of entities that are scheduled for deletion
+     *
+     * @return Models\IEntity[] The list of entities scheduled for deletion
+     */
+    public function getScheduledEntityDeletions()
+    {
+        return array_values($this->scheduledForDeletion);
+    }
+
+    /**
+     * Gets the list of entities that are scheduled for insertion
+     *
+     * @return Models\IEntity[] The list of entities scheduled for insertion
+     */
+    public function getScheduledEntityInsertions()
+    {
+        return array_values($this->scheduledForInsertion);
+    }
+
+    /**
+     * Gets the list of entities that are scheduled for update
+     *
+     * @return Models\IEntity[] The list of entities scheduled for update
+     */
+    public function getScheduledEntityUpdates()
+    {
+        return array_values($this->scheduledForUpdate);
+    }
+
+    /**
      * Gets whether or not an entity is being managed
      *
      * @param Models\IEntity $entity The entity to check
@@ -167,24 +197,9 @@ class UnitOfWork
      */
     public function manageEntities(array $entities)
     {
-        /** @var Models\IEntity $entity */
         foreach($entities as $entity)
         {
-            $className = get_class($entity);
-            $objectHashId = $this->getObjectHashId($entity);
-
-            if(!isset($this->managedEntities[$className]))
-            {
-                $this->managedEntities[$className] = [];
-            }
-
-            // Don't double-manage an entity
-            if(!isset($this->managedEntities[$className][$entity->getId()]))
-            {
-                $this->managedEntities[$className][$entity->getId()] = $entity;
-                $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::MANAGED;
-                $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
-            }
+            $this->manageEntity($entity);
         }
     }
 
@@ -195,7 +210,21 @@ class UnitOfWork
      */
     public function manageEntity(Models\IEntity $entity)
     {
-        $this->manageEntities([$entity]);
+        $className = get_class($entity);
+        $objectHashId = $this->getObjectHashId($entity);
+
+        if(!isset($this->managedEntities[$className]))
+        {
+            $this->managedEntities[$className] = [];
+        }
+
+        // Don't double-manage an entity
+        if(!isset($this->managedEntities[$className][$entity->getId()]))
+        {
+            $this->managedEntities[$className][$entity->getId()] = $entity;
+            $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::MANAGED;
+            $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
+        }
     }
 
     /**
@@ -341,6 +370,7 @@ class UnitOfWork
         {
             $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->update($entity);
+            $this->manageEntity($entity);
         }
     }
 } 

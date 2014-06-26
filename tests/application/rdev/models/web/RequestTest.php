@@ -9,14 +9,22 @@ namespace RDev\Models\Web;
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var array A clone of the $_SERVER array, which we can use to restore original values */
-    private $serverClone = [];
+    private static $serverClone = [];
 
     /**
-     * Sets up our tests
+     * Sets up all of the tests
      */
-    public function setUp()
+    public static function setUpBeforeClass()
     {
-        $this->serverClone = $_SERVER;
+        self::$serverClone = $_SERVER;
+    }
+
+    /**
+     * Does some housekeeping before ending the tests
+     */
+    public function tearDown()
+    {
+        $_SERVER = self::$serverClone;
     }
 
     /**
@@ -42,9 +50,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());
             unset($_SERVER[$key]);
         }
-
-        // Reset our server array for other tests
-        $_SERVER = $this->serverClone;
     }
 
     /**
@@ -56,7 +61,5 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["HTTP_USER_AGENT"] = $fakeUserAgent;
         $request = new Request();
         $this->assertEquals($fakeUserAgent, $request->getUserAgent());
-        // Reset our server array for other tests
-        $_SERVER = $this->serverClone;
     }
 } 
