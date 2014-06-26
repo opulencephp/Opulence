@@ -11,19 +11,19 @@ use RDev\Models\ORM\Repositories;
 use RDev\Models\Users;
 
 // Assume $connection was set previously
+// The repository needs to know the name of the class whose objects it's storing
 $unitOfWork = new ORM\UnitOfWork($connection);
 $dataMapper = new DataMappers\MyDataMapper();
-// Specify the name of the class that this repository will store
 $users = new Repositories\Repo("RDev\\Models\\Users\\User", $dataMapper, $unitOfWork);
 
 // Let's say we know that there's a user with Id of 123 and username of "foo" in the repository
 $someUser = $users->getById(123);
 echo $someUser->getUsername(); // "foo"
+
 // Let's change his username
 $someUser->setUsername("bar");
-
 // Once we're done with our unit of work, just let it know you're ready to commit
-// It'll automatically know what has changed
+// It'll automatically know what has changed and save those changes back to storage
 $unitOfWork->commit();
 
 // To prove that this really worked, let's print the name of the user now
