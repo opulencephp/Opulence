@@ -75,6 +75,7 @@ class UnitOfWork
         {
             $className = get_class($entity);
             $objectHashId = $this->getObjectHashId($entity);
+            $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::DETACHED;
             unset($this->managedEntities[$className][$entity->getId()]);
             unset($this->objectHashIdsToOriginalData[$objectHashId]);
             unset($this->scheduledForInsertion[$objectHashId]);
@@ -105,12 +106,30 @@ class UnitOfWork
      */
     public function getDataMapper($className)
     {
-        if(!array_key_exists($className, $this->dataMappers))
+        if(!isset($this->dataMappers[$className]))
         {
             throw new \RuntimeException("No data mapper for " . $className);
         }
 
         return $this->dataMappers[$className];
+    }
+
+    /**
+     * Gets the entity state for the input entity
+     *
+     * @param Models\IEntity $entity The entity to check
+     * @return int The entity state
+     */
+    public function getEntityState(Models\IEntity $entity)
+    {
+        $objectHashId = $this->getObjectHashId($entity);
+
+        if(!isset($this->entityStates[$objectHashId]))
+        {
+            return EntityStates::UNMANAGED;
+        }
+
+        return $this->entityStates[$objectHashId];
     }
 
     /**
@@ -122,9 +141,7 @@ class UnitOfWork
      */
     public function getManagedEntity($className, $id)
     {
-        if(!array_key_exists($className, $this->managedEntities)
-            || !array_key_exists($id, $this->managedEntities[$className])
-        )
+        if(!isset($this->managedEntities[$className]) || !isset($this->managedEntities[$className][$id]))
         {
             return false;
         }
@@ -140,40 +157,45 @@ class UnitOfWork
      */
     public function isManaged(Models\IEntity $entity)
     {
-        return $this->entityStates[$this->getObjectHashId($entity)] == EntityStates::MANAGED;
+        return $this->getEntityState($entity) == EntityStates::MANAGED;
     }
 
     /**
-     * Adds an entity(ies) to manage
+     * Adds entities to manage
      *
-     * @param Models\IEntity|array $entities The entity(ies) to manage
+     * @param Models\IEntity[] $entities The entities to manage
      */
-    public function manageEntities(Models\IEntity &$entities)
+    public function manageEntities(array $entities)
     {
-        if(!is_array($entities))
-        {
-            $entities = [&$entities];
-        }
-
         /** @var Models\IEntity $entity */
         foreach($entities as $entity)
         {
             $className = get_class($entity);
             $objectHashId = $this->getObjectHashId($entity);
 
-            if(!array_key_exists($className, $this->managedEntities))
+            if(!isset($this->managedEntities[$className]))
             {
                 $this->managedEntities[$className] = [];
             }
 
             // Don't double-manage an entity
-            if(!array_key_exists($entity->getId(), $this->managedEntities[$className]))
+            if(!isset($this->managedEntities[$className][$entity->getId()]))
             {
                 $this->managedEntities[$className][$entity->getId()] = $entity;
                 $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::MANAGED;
-                $this->objectHashIdsToOriginalData[$objectHashId] = $entity;
+                $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
             }
         }
+    }
+
+    /**
+     * Adds an entity to manage
+     *
+     * @param Models\IEntity $entity The entity to manage
+     */
+    public function manageEntity(Models\IEntity $entity)
+    {
+        $this->manageEntities([$entity]);
     }
 
     /**
@@ -240,7 +262,8 @@ class UnitOfWork
                     $currentEntityReflection = new \ReflectionClass($entity);
                     $currentProperties = $currentEntityReflection->getProperties();
                     $currentPropertiesAsHash = [];
-                    $originalEntityReflection = new \ReflectionClass($this->objectHashIdsToOriginalData[$objectHashId]);
+                    $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
+                    $originalEntityReflection = new \ReflectionClass($originalData);
                     $originalProperties = $originalEntityReflection->getProperties();
                     $originalPropertiesAsHash = [];
 
@@ -248,14 +271,14 @@ class UnitOfWork
                     foreach($currentProperties as $currentProperty)
                     {
                         $currentProperty->setAccessible(true);
-                        $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue();
+                        $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue($entity);
                     }
 
                     // Map each property name to its value for the original entity
                     foreach($originalProperties as $originalProperty)
                     {
                         $originalProperty->setAccessible(true);
-                        $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue();
+                        $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
                     }
 
                     if(count(array_diff($currentPropertiesAsHash, $originalPropertiesAsHash)) > 0)
@@ -277,6 +300,8 @@ class UnitOfWork
         {
             $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->delete($entity);
+            // Order here matters
+            $this->detach($entity);
             $this->entityStates[$objectHashId] = EntityStates::DELETED;
         }
     }
@@ -302,7 +327,7 @@ class UnitOfWork
         {
             $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->add($entity);
-            $this->manageEntities($entity);
+            $this->manageEntity($entity);
         }
     }
 

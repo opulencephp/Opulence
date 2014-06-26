@@ -15,7 +15,7 @@ echo $selectLongTimeUsersQuery->getSQL();
 echo var_dump($selectLongTimeUsersQuery->getParameters());
 // array("dateJoined" => "2010-01-01")
 ```
-
+## Database-Specific Query Builders
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
 ```php
 use RDev\Models\Databases\SQL\QueryBuilders\MySQL;

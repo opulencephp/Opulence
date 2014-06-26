@@ -16,4 +16,6 @@ class EntityStates
     const DETACHED = 3;
     /** An entity that will be deleted */
     const DELETED = 4;
+    /** An entity that was never managed */
+    const UNMANAGED = 5;
 } 

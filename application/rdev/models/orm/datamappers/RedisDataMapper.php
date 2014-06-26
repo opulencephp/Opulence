@@ -23,39 +23,11 @@ abstract class RedisDataMapper implements IDataMapper
     }
 
     /**
-     * Adds an entity to the database
-     *
-     * @param Models\IEntity $entity The entity to add
-     * @throws Exceptions\RepoException Thrown if the entity couldn't be added
-     */
-    abstract public function add(Models\IEntity &$entity);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function delete(Models\IEntity &$entity);
-
-    /**
      * Flushes items from Redis that are in this mapper
      *
      * @throws Exceptions\RepoException Thrown if Redis couldn't be flushed
      */
     abstract public function flush();
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getAll();
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function loadEntity(array $hash);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function update(Models\IEntity &$entity);
 
     /**
      * {@inheritdoc}

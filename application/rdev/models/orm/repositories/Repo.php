@@ -81,7 +81,15 @@ class Repo implements IRepo
     protected function get($functionName, $args = [])
     {
         $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
-        $this->unitOfWork->manageEntities($entities);
+
+        if(is_array($entities))
+        {
+            $this->unitOfWork->manageEntities($entities);
+        }
+        elseif($this->unitOfWork instanceof Models\IEntity)
+        {
+            $this->unitOfWork->manageEntity($entities);
+        }
 
         return $entities;
     }

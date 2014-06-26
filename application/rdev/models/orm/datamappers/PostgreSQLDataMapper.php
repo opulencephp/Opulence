@@ -24,36 +24,6 @@ abstract class PostgreSQLDataMapper implements IDataMapper
     }
 
     /**
-     * {@inheritdoc}
-     */
-    abstract public function add(Models\IEntity &$entity);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function delete(Models\IEntity &$entity);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getAll();
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function getById($id);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function loadEntity(array $hash);
-
-    /**
-     * {@inheritdoc}
-     */
-    abstract public function update(Models\IEntity &$entity);
-
-    /**
      * Performs the read query for entity(ies) and returns any results
      *
      * @param string $sql The SQL query to run
