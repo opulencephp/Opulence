@@ -1,4 +1,4 @@
-# About
+# About RDev
 **RDev** is a PHP framework that simplifies complex database interactions, object-relational mapping (ORM), and page templating.  It was written with customization, performance, security, scalability, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested.  However, it is still in development and should not be used in production code.  Hopefully, that will change soon.
 # Table of Contents
 1. [Database Connections](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)

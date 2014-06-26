@@ -1,8 +1,11 @@
 # Object-Relational Mapping
-**RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *DataMappers* which actually interact directly with storage, eg cache and/or a relational database.  Using a *unit of work*, all changes made to entities retrieved by repositories are tracked and automatically marked for update once the transaction is ready to commit.  Similarly, entities added/deleted from a repository are marked for insertion/deletion in the unit of work.  By executing all the write queries at once as opposed to throughout the lifetime of the application, you're guaranteed good performance.
+**RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *DataMappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
+1.  Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
+2.  Changes made to entities retrieved by repositories are automatically scheduled for updating when the unit of work is committed
+3.  Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 
 ## Unit of Work Change Tracking
-If you pull an entity from a repository and make changes to it, wouldn't it be nice to not have to explicitly write it back to the database?  Well, you can do that with the *unit of work*.  Let's take a look:
+Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
 use RDev\Models\Databases\SQL;
 use RDev\Models\ORM;
@@ -11,7 +14,6 @@ use RDev\Models\ORM\Repositories;
 use RDev\Models\Users;
 
 // Assume $connection was set previously
-// The repository needs to know the name of the class whose objects it's storing
 $unitOfWork = new ORM\UnitOfWork($connection);
 $dataMapper = new DataMappers\MyDataMapper();
 $users = new Repositories\Repo("RDev\\Models\\Users\\User", $dataMapper, $unitOfWork);

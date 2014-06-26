@@ -10,10 +10,8 @@ $selectLongTimeUsersQuery = $queryBuilder->select("id", "name", "email")
     ->where("datejoined < :dateJoined")
     ->addNamedPlaceholderValue("dateJoined" => "2010-01-01");
 
-echo $selectLongTimeUsersQuery->getSQL();
-// "SELECT id, name, email FROM users WHERE datejoined < :dateJoined"
-echo var_dump($selectLongTimeUsersQuery->getParameters());
-// array("dateJoined" => "2010-01-01")
+echo $selectLongTimeUsersQuery->getSQL(); // "SELECT id, name, email FROM users WHERE datejoined < :dateJoined"
+echo var_dump($selectLongTimeUsersQuery->getParameters()); // array("dateJoined" => "2010-01-01")
 ```
 ## Database-Specific Query Builders
 MySQL and PostgreSQL have their own query builders, which implement features that are unique to each database.  For example, the MySQL query builder supports a *LIMIT* clause:
@@ -25,8 +23,7 @@ $deleteQuery = $queryBuilder->delete("users")
     ->where("name = 'dave'")
     ->limit(1);
     
-echo $deleteQuery->getSQL();
-// "DELETE FROM users WHERE name = 'dave' LIMIT 1"
+echo $deleteQuery->getSQL(); // "DELETE FROM users WHERE name = 'dave' LIMIT 1"
 ```
 
 Similarly, PostgreSQL's *UPDATE* and *INSERT* query builders support a *RETURNING* clause:
@@ -38,8 +35,7 @@ $updateQuery = $queryBuilder->update("users", "", ["name" => "david"]);
     ->returning("id")
     ->addReturning("name");
 
-echo $updateQuery->getSQL();
-// "UPDATE users SET name = ? RETURNING id, name"
+echo $updateQuery->getSQL(); // "UPDATE users SET name = ? RETURNING id, name"
 ```
 And
 ```php
@@ -50,6 +46,5 @@ $insertQuery = $queryBuilder->insert("users", "", ["name" => "david"]);
     ->returning("id")
     ->addReturning("name");
 
-echo $insertQuery->getSQL();
-// "INSERT INTO users (name) VALUES (?) RETURNING id, name"
+echo $insertQuery->getSQL(); // "INSERT INTO users (name) VALUES (?) RETURNING id, name"
 ```
