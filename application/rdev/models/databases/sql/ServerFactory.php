@@ -15,13 +15,14 @@ class ServerFactory
      *      The reason we allow already-instantiated server objects is in case a user has created classes for his/her
      *      various servers
      *      If an array, it must contain the following keys mapped to their appropriate values:
-     *      "host" => server host,
-     *      "username" => server username credential,
-     *      "password" => server password credential,
-     *      "databaseName" => name of database on server to use
+     *          "host" => server host,
+     *          "username" => server username credential,
+     *          "password" => server password credential,
+     *          "databaseName" => name of database on server to use,
+     *          "system" => system used by the server
      *      The following keys are optional:
-     *      "port" => server port,
-     *      "charset" => character set
+     *          "port" => server port,
+     *          "charset" => character set
      * @return Server The server object created from the config
      * @throws \RuntimeException Thrown if the config isn't valid
      */

@@ -5,12 +5,15 @@
  * Defines an extension of the PHPRedis library
  */
 namespace RDev\Models\Databases\NoSQL\Redis;
+use RDev\Models\Databases\SQL\Systems\TypeMapper;
 use RDev\Models\Exceptions;
 
 class RDevRedis extends \Redis
 {
     /** @var Server The server we're connecting to */
     private $server = null;
+    /** @var TypeMapper The type mapper to use for converting data to/from Redis */
+    private $typeMapper = null;
 
     /**
      * @param Server $server The server we're connecting to
@@ -18,6 +21,7 @@ class RDevRedis extends \Redis
     public function __construct(Server $server)
     {
         $this->server = $server;
+        $this->typeMapper = new TypeMapper();
         parent::connect($this->server->getHost(), $this->server->getPort());
     }
 
@@ -61,5 +65,13 @@ class RDevRedis extends \Redis
     public function getServer()
     {
         return $this->server;
+    }
+
+    /**
+     * @return TypeMapper
+     */
+    public function getTypeMapper()
+    {
+        return $this->typeMapper;
     }
 }

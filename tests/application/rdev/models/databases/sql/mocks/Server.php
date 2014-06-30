@@ -6,6 +6,7 @@
  */
 namespace RDev\Tests\Models\Databases\SQL\Mocks;
 use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Systems;
 
 class Server extends SQL\Server
 {

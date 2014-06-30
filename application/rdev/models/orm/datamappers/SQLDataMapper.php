@@ -2,15 +2,13 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a data mapper that maps domain data to and from PostgreSQL
+ * Defines the base SQL data mapper class
  */
 namespace RDev\Models\ORM\DataMappers;
-use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
-use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 
-abstract class PostgreSQLDataMapper implements IDataMapper
+abstract class SQLDataMapper implements IDataMapper
 {
     /** @var SQL\ConnectionPool The connection pool to use for queries */
     protected $connectionPool = null;

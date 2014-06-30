@@ -6,9 +6,12 @@
  */
 namespace RDev\Tests\Models\Databases\SQL\Mocks;
 use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Systems;
 
 class Connection implements SQL\IConnection
 {
+    /** @var Systems\System The system used by this connection */
+    private $system = null;
     /** @var SQL\Server The server to connect to */
     private $server = null;
     /** @var bool Whether or not we're in a transaction */
@@ -19,6 +22,7 @@ class Connection implements SQL\IConnection
      */
     public function __construct(SQL\Server $server)
     {
+        $this->system = new Systems\System();
         $this->server = $server;
     }
 
@@ -60,6 +64,14 @@ class Connection implements SQL\IConnection
     public function exec($statement)
     {
         return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDatabaseSystem()
+    {
+        return $this->system;
     }
 
     /**

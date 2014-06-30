@@ -6,9 +6,18 @@
  */
 namespace RDev\Models\Databases\SQL\PDO;
 use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Systems;
 
 abstract class Driver implements SQL\IDriver
 {
+    /** @var Systems\System The system this driver uses */
+    protected $system = null;
+
+    public function __construct()
+    {
+        $this->setSystem();
+    }
+
     /**
      * {@inheritdoc}
      * @return Connection The PDO connection
@@ -17,7 +26,7 @@ abstract class Driver implements SQL\IDriver
     {
         $dsn = $this->createDSN($server, $connectionOptions);
 
-        return new Connection($server, $dsn, $driverOptions);
+        return new Connection($this->system, $server, $dsn, $driverOptions);
     }
 
     /**
@@ -28,4 +37,9 @@ abstract class Driver implements SQL\IDriver
      * @return string The DSN to use to connect to PDO
      */
     abstract protected function createDSN(SQL\Server $server, array $options = []);
+
+    /**
+     * Sets the system used by this driver's connections
+     */
+    abstract protected function setSystem();
 } 

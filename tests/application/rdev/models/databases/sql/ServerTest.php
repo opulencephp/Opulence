@@ -5,6 +5,7 @@
  * Tests the relational database server
  */
 namespace RDev\Models\Databases\SQL;
+use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +15,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingCharset()
     {
         $charset = 'foo';
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $server = new Mocks\Server();
         $server->setCharset($charset);
         $this->assertEquals($charset, $server->getCharset());
     }
@@ -25,7 +26,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingDatabaseName()
     {
         $databaseName = 'dbname';
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $server = new Mocks\Server();
         $server->setDatabaseName($databaseName);
         $this->assertEquals($databaseName, $server->getDatabaseName());
     }
@@ -36,7 +37,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingHost()
     {
         $host = '127.0.0.1';
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $server = new Mocks\Server();
         $server->setHost($host);
         $this->assertEquals($host, $server->getHost());
     }
@@ -47,7 +48,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingPassword()
     {
         $password = 'bar';
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $server = new Mocks\Server();
         $server->setPassword($password);
         $this->assertEquals($password, $server->getPassword());
     }
@@ -58,7 +59,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingUsername()
     {
         $name = 'foo';
-        $server = $this->getMockForAbstractClass("RDev\\Models\\Databases\\SQL\\Server");
+        $server = new Mocks\Server();
         $server->setUsername($name);
         $this->assertEquals($name, $server->getUsername());
     }

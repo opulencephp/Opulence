@@ -6,8 +6,8 @@
  */
 namespace RDev\Tests\Models\ORM\DataMappers\Mocks;
 use RDev\Models;
+use RDev\Models\ORM\Exceptions;
 use RDev\Models\ORM\DataMappers;
-use RDev\Models\ORM\DataMappers\Exceptions;
 
 class DataMapper implements DataMappers\IDataMapper
 {
@@ -49,7 +49,7 @@ class DataMapper implements DataMappers\IDataMapper
     {
         if(!isset($this->entities[$id]))
         {
-            throw new Exceptions\DataMapperException("No entity found with Id " . $id);
+            throw new Exceptions\ORMException("No entity found with Id " . $id);
         }
 
         return $this->entities[$id];

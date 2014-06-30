@@ -56,7 +56,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->repo->delete($this->entity1);
         $this->unitOfWork->commit();
-        $this->setExpectedException("RDev\\Models\\ORM\\DataMappers\\Exceptions\\DataMapperException");
+        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
         $this->repo->getById($this->entity1->getId());
     }
 
@@ -98,7 +98,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityThatDoesNotExistById()
     {
-        $this->setExpectedException("RDev\\Models\\ORM\\DataMappers\\Exceptions\\DataMapperException");
+        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
         $this->repo->getById(123);
     }
 

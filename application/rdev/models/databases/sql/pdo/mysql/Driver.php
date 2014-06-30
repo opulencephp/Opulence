@@ -7,6 +7,7 @@
 namespace RDev\Models\Databases\SQL\PDO\MySQL;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\PDO;
+use RDev\Models\Databases\SQL\Systems;
 
 class Driver extends PDO\Driver
 {
@@ -24,5 +25,13 @@ class Driver extends PDO\Driver
         }
 
         return $dsn;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function setSystem()
+    {
+        $this->system = new Systems\MySQL();
     }
 } 

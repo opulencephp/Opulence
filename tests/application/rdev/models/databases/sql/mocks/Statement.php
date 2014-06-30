@@ -28,11 +28,26 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
+    public function closeCursor()
+    {
+        // Do nothing
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function columnCount()
+    {
+        return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function errorCode()
     {
         return "";
     }
-
     /**
      * {@inheritdoc}
      */
@@ -52,8 +67,40 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
+    public function fetch($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE)
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fetchAll($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE)
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fetchColumn($columnNumber = 0)
+    {
+        return "";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function rowCount()
     {
         return 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFetchMode($fetchMode)
+    {
+        return true;
     }
 } 

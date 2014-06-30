@@ -51,6 +51,13 @@ interface IConnection
     public function exec($statement);
 
     /**
+     * Gets the database system used by this connection
+     *
+     * @return Systems\System The database system used by this connection
+     */
+    public function getDatabaseSystem();
+
+    /**
      * Gets the server used in the connection
      *
      * @return Server The server used in the connection

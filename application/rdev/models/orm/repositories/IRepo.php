@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\ORM\Repositories;
 use RDev\Models;
-use RDev\Models\ORM\DataMappers;
+use RDev\Models\ORM\Exceptions;
 
 interface IRepo
 {
@@ -14,7 +14,7 @@ interface IRepo
      * Adds an entity to the repo
      *
      * @param Models\IEntity $entity The entity to add
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if the entity couldn't be added
+     * @throws Exceptions\ORMException Thrown if the entity couldn't be added
      */
     public function add(Models\IEntity &$entity);
 
@@ -22,7 +22,7 @@ interface IRepo
      * Deletes an entity from the repo
      *
      * @param Models\IEntity $entity The entity to delete
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if the entity couldn't be deleted
+     * @throws Exceptions\ORMException Thrown if the entity couldn't be deleted
      */
     public function delete(Models\IEntity &$entity);
 
@@ -30,7 +30,7 @@ interface IRepo
      * Gets all the entities
      *
      * @return array The list of all the entities of this type
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if there was an error getting the entities
+     * @throws Exceptions\ORMException Thrown if there was an error getting the entities
      */
     public function getAll();
 
@@ -39,7 +39,7 @@ interface IRepo
      *
      * @param int|string $id The Id of the entity we're searching for
      * @return Models\IEntity The entity with the input Id
-     * @throws DataMappers\Exceptions\DataMapperException Thrown if there was no entity with the input Id
+     * @throws Exceptions\ORMException Thrown if there was no entity with the input Id
      */
     public function getById($id);
 }

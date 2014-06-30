@@ -85,6 +85,29 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if an entity update is detected after copying its pointer to another variable
+     */
+    public function testCheckingIfEntityUpdateIsDetectedAfterCopyingPointer()
+    {
+        $foo = $this->getInsertedEntity();
+        $bar = $foo;
+        $bar->setStringProperty("bar");
+        $this->unitOfWork->commit();
+        $this->assertEquals($bar, $this->dataMapper->getById($foo->getId()));
+    }
+
+    /**
+     * Tests checking if an entity update is detected after it is returned by a function
+     */
+    public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction()
+    {
+        $foo = $this->getInsertedEntity();
+        $foo->setStringProperty("bar");
+        $this->unitOfWork->commit();
+        $this->assertEquals($foo, $this->dataMapper->getById($foo->getId()));
+    }
+
+    /**
      * Tests detaching a managed entity
      */
     public function testDetachingEntity()
@@ -174,7 +197,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
         $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
-        $this->setExpectedException("RDev\\Models\\ORM\\DataMappers\\Exceptions\\DataMapperException");
+        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -210,7 +233,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
         $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
         $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
-        $this->setExpectedException("RDev\\Models\\ORM\\DataMappers\\Exceptions\\DataMapperException");
+        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -256,5 +279,22 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
         $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
+    }
+
+    /**
+     * Gets the entity after committing it
+     *
+     * @return ORMMocks\Entity The entity from the data mapper
+     * @throws Exceptions\ORMException Thrown if there was an error committing the transaction
+     */
+    private function getInsertedEntity()
+    {
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $foo = new ORMMocks\Entity(18175, "blah");
+        $this->unitOfWork->scheduleForInsertion($foo);
+        $this->unitOfWork->commit();
+
+        return $this->dataMapper->getById($foo->getId());
     }
 }

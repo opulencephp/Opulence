@@ -9,6 +9,7 @@ use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
 use RDev\Models\ORM\DataMappers;
+use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 class UnitOfWork
 {
@@ -39,6 +40,8 @@ class UnitOfWork
 
     /**
      * Commits any entities that have been scheduled for insertion/updating/deletion
+     *
+     * @throws ORMExceptions\ORMException Thrown if there was an error committing the transaction
      */
     public function commit()
     {
@@ -56,7 +59,11 @@ class UnitOfWork
         {
             Exceptions\Log::write("Failed to commit: " . $ex);
             $this->connection->rollBack();
+            $this->postRollback();
+            throw new ORMExceptions\ORMException($ex->getMessage());
         }
+
+        $this->postCommit();
 
         // Clear our schedules
         $this->scheduledForInsertion = [];
@@ -362,6 +369,22 @@ class UnitOfWork
             $dataMapper->add($entity);
             $this->manageEntity($entity);
         }
+    }
+
+    /**
+     * Performs any actions after the commit
+     */
+    private function postCommit()
+    {
+        // TODO: Implement cache commit
+    }
+
+    /**
+     * Performs any actions after a rollback
+     */
+    private function postRollback()
+    {
+        // TODO: Implement cache roll back
     }
 
     /**

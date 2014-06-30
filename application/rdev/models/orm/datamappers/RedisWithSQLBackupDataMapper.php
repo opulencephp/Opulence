@@ -2,37 +2,29 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a data mapper that uses Redis as a cache with PostgreSQL as a backup
+ * Defines a data mapper that uses Redis as a cache with SQL as a backup
  */
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\SQL;
 
-abstract class RedisWithPostgreSQLBackupDataMapper implements IDataMapper
+abstract class RedisWithSQLBackupDataMapper implements IDataMapper
 {
     /** @var RedisDataMapper The Redis mapper to use for temporary storage */
     protected $redisDataMapper = null;
-    /** @var PostgreSQLDataMapper The SQL database data mapper to use for permanent storage */
-    protected $postgreSQLDataMapper = null;
+    /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
+    protected $sqlDataMapper = null;
 
     /**
      * @param Redis\RDevRedis $redis The RDevRedis object used in the Redis data mapper
-     * @param SQL\ConnectionPool $connectionPool The connection pool used in the PostgreSQL data mapper
+     * @param SQL\ConnectionPool $connectionPool The connection pool used in the SQL data mapper
      */
     public function __construct(Redis\RDevRedis $redis, SQL\ConnectionPool $connectionPool)
     {
         $this->redisDataMapper = $this->getRedisDataMapper($redis);
-        $this->postgreSQLDataMapper = $this->getPostgreSQLDataMapper($connectionPool);
+        $this->sqlDataMapper = $this->getSQLDataMapper($connectionPool);
     }
-
-    /**
-     * Gets a PostgreSQL data mapper to use in this repo
-     *
-     * @param SQL\ConnectionPool $connectionPool The connection pool used in the data mapper
-     * @return PostgreSQLDataMapper The PostgreSQL data mapper to use
-     */
-    abstract protected function getPostgreSQLDataMapper(SQL\ConnectionPool $connectionPool);
 
     /**
      * Gets a Redis data mapper to use in this repo
@@ -41,6 +33,14 @@ abstract class RedisWithPostgreSQLBackupDataMapper implements IDataMapper
      * @return RedisDataMapper The Redis data mapper to use
      */
     abstract protected function getRedisDataMapper(Redis\RDevRedis $redis);
+
+    /**
+     * Gets a SQL data mapper to use in this repo
+     *
+     * @param SQL\ConnectionPool $connectionPool The connection pool used in the data mapper
+     * @return SQLDataMapper The SQL data mapper to use
+     */
+    abstract protected function getSQLDataMapper(SQL\ConnectionPool $connectionPool);
 
     /**
      * Attempts to retrieve an entity(ies) from the Redis data mapper before resorting to an SQL database
@@ -56,10 +56,10 @@ abstract class RedisWithPostgreSQLBackupDataMapper implements IDataMapper
         // Always attempt to retrieve from Redis first
         $data = call_user_func_array([$this->redisDataMapper, $funcName], $getFuncArgs);
 
-        // If we have to go off to PostgreSQL
+        // If we have to go off to SQL
         if($data === false)
         {
-            $data = call_user_func_array([$this->postgreSQLDataMapper, $funcName], $getFuncArgs);
+            $data = call_user_func_array([$this->sqlDataMapper, $funcName], $getFuncArgs);
 
             // Try to store the data back to Redis
             if($data === false)
