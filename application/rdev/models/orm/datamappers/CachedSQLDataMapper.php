@@ -2,19 +2,18 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a data mapper that uses Redis as a cache with SQL as a backup
+ * Defines a data mapper that uses cache with SQL as a backup
  */
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
-use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
 use RDev\Models\ORM\Exceptions as ORMExceptions;
 
-abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
+abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 {
-    /** @var RedisDataMapper The Redis mapper to use for temporary storage */
-    protected $redisDataMapper = null;
+    /** @var IDataMapper The cache mapper to use for temporary storage */
+    protected $cacheDataMapper = null;
     /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
     /** @var Models\IEntity[] The list of entities scheduled for insertion */
@@ -25,12 +24,12 @@ abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
     protected $scheduledForCacheDeletion = [];
 
     /**
-     * @param Redis\RDevRedis $redis The RDevRedis object used in the Redis data mapper
+     * @param mixed $cache The cache object used in the cache data mapper
      * @param SQL\ConnectionPool $connectionPool The connection pool used in the SQL data mapper
      */
-    public function __construct(Redis\RDevRedis $redis, SQL\ConnectionPool $connectionPool)
+    public function __construct($cache, SQL\ConnectionPool $connectionPool)
     {
-        $this->redisDataMapper = $this->getRedisDataMapper($redis);
+        $this->cacheDataMapper = $this->getCacheDataMapper($cache);
         $this->sqlDataMapper = $this->getSQLDataMapper($connectionPool);
     }
 
@@ -62,19 +61,19 @@ abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
             // Insert entities
             foreach($this->scheduledForCacheInsertion as $entity)
             {
-                $this->redisDataMapper->add($entity);
+                $this->cacheDataMapper->add($entity);
             }
 
             // Update entities
             foreach($this->scheduledForCacheUpdate as $entity)
             {
-                $this->redisDataMapper->update($entity);
+                $this->cacheDataMapper->update($entity);
             }
 
             // Delete entities
             foreach($this->scheduledForCacheDeletion as $entity)
             {
-                $this->redisDataMapper->delete($entity);
+                $this->cacheDataMapper->delete($entity);
             }
         }
         catch(\Exception $ex)
@@ -99,12 +98,12 @@ abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
     }
 
     /**
-     * Gets a Redis data mapper to use in this repo
+     * Gets a cache data mapper to use in this repo
      *
-     * @param Redis\RDevRedis $redis The RDevRedis object used in the data mapper
-     * @return RedisDataMapper The Redis data mapper to use
+     * @param mixed $cache The cache object used in the data mapper
+     * @return IDataMapper The cache data mapper to use
      */
-    abstract protected function getRedisDataMapper(Redis\RDevRedis $redis);
+    abstract protected function getCacheDataMapper($cache);
 
     /**
      * Gets a SQL data mapper to use in this repo
@@ -115,31 +114,31 @@ abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
     abstract protected function getSQLDataMapper(SQL\ConnectionPool $connectionPool);
 
     /**
-     * Attempts to retrieve an entity(ies) from the Redis data mapper before resorting to an SQL database
+     * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database
      *
      * @param string $funcName The name of the method we want to call on our data mappers
      * @param array $getFuncArgs The array of function arguments to pass in to our entity retrieval functions
-     * @param bool $addDataToRedisOnMiss True if we want to add the entity from the database to cache in case of a cache miss
-     * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a Redis miss
+     * @param bool $addDataToCacheOnMiss True if we want to add the entity from the database to cache in case of a cache miss
+     * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a cache miss
      * @return Models\IEntity|array|bool The entity(ies) if it was found, otherwise false
      */
-    protected function read($funcName, array $getFuncArgs = [], $addDataToRedisOnMiss = true, array $setFuncArgs = [])
+    protected function read($funcName, array $getFuncArgs = [], $addDataToCacheOnMiss = true, array $setFuncArgs = [])
     {
-        // Always attempt to retrieve from Redis first
-        $data = call_user_func_array([$this->redisDataMapper, $funcName], $getFuncArgs);
+        // Always attempt to retrieve from cache first
+        $data = call_user_func_array([$this->cacheDataMapper, $funcName], $getFuncArgs);
 
         // If we have to go off to SQL
         if($data === false)
         {
             $data = call_user_func_array([$this->sqlDataMapper, $funcName], $getFuncArgs);
 
-            // Try to store the data back to Redis
+            // Try to store the data back to cache
             if($data === false)
             {
                 return false;
             }
 
-            if($addDataToRedisOnMiss)
+            if($addDataToCacheOnMiss)
             {
                 if(!is_array($data))
                 {
@@ -148,7 +147,7 @@ abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
 
                 foreach($data as $datum)
                 {
-                    call_user_func_array([$this->redisDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
+                    call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
                 }
             }
         }

@@ -7,7 +7,7 @@
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Models\ORM\Exceptions;
 
-interface ICachedDataMapper extends IDataMapper
+interface ICachedSQLDataMapper extends IDataMapper
 {
     /**
      * Performs any cache actions that have been scheduled

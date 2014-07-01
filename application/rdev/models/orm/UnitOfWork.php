@@ -382,8 +382,8 @@ class UnitOfWork
          */
         foreach($this->dataMappers as $className => $dataMapper)
         {
-            /** @var DataMappers\ICachedDataMapper $dataMapper */
-            if($dataMapper instanceof DataMappers\ICachedDataMapper)
+            /** @var DataMappers\ICachedSQLDataMapper $dataMapper */
+            if($dataMapper instanceof DataMappers\ICachedSQLDataMapper)
             {
                 // Now that the database writes have been committed, we can write to cache
                 $dataMapper->syncCache();

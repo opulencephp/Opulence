@@ -2,20 +2,19 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Mocks the Redis with SQL backup data mapper for use in tests
+ * Mocks the cached SQL data mapper for use in tests
  */
 namespace RDev\Tests\Models\ORM\DataMappers\Mocks;
 use RDev\Models;
-use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\SQL;
 use RDev\Models\ORM\DataMappers;
 use RDev\Models\ORM\Exceptions;
 
-class RedisWithSQLBackupDataMapper extends DataMappers\RedisWithSQLBackupDataMapper
+class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
 {
     public function __construct()
     {
-        $this->redisDataMapper = new DataMapper();
+        $this->cacheDataMapper = new DataMapper();
         $this->sqlDataMapper = new DataMapper();
     }
 
@@ -38,9 +37,9 @@ class RedisWithSQLBackupDataMapper extends DataMappers\RedisWithSQLBackupDataMap
     /**
      * @return DataMapper
      */
-    public function getRedisDataMapperForTests()
+    public function getCacheDataMapperForTests()
     {
-        return $this->redisDataMapper;
+        return $this->cacheDataMapper;
     }
 
     /**
@@ -62,7 +61,7 @@ class RedisWithSQLBackupDataMapper extends DataMappers\RedisWithSQLBackupDataMap
     /**
      * {@inheritdoc}
      */
-    protected function getRedisDataMapper(Redis\RDevRedis $redis)
+    protected function getCacheDataMapper($cache)
     {
         return new DataMapper();
     }

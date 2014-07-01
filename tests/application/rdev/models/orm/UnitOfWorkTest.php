@@ -223,13 +223,13 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testPostCommitOnCachedDataMapper()
     {
         $className = get_class($this->entity1);
-        $dataMapper = new DataMapperMocks\RedisWithSQLBackupDataMapper();
+        $dataMapper = new DataMapperMocks\CachedSQLDataMapper();
         $this->unitOfWork->registerDataMapper($className, $dataMapper);
         $this->unitOfWork->manageEntity($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->commit();
         $this->assertEquals($this->entity1, $dataMapper->getSQLDataMapperForTests()->getById($this->entity1->getId()));
-        $this->assertEquals($this->entity1, $dataMapper->getRedisDataMapperForTests()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $dataMapper->getCacheDataMapperForTests()->getById($this->entity1->getId()));
     }
 
     /**

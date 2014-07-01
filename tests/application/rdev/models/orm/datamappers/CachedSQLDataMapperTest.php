@@ -2,15 +2,15 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the Redis with SQL backup data mapper
+ * Tests the cached SQL data mapper
  */
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Tests\Models\ORM\DataMappers\Mocks as DataMapperMocks;
 use RDev\Tests\Models\ORM\Mocks as ORMMocks;
 
-class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
+class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var DataMapperMocks\RedisWithSQLBackupDataMapper The data mapper to use for tests */
+    /** @var DataMapperMocks\CachedSQLDataMapper The data mapper to use for tests */
     private $dataMapper = null;
     /** @var ORMMocks\Entity The entity to use for tests */
     private $entity = null;
@@ -20,7 +20,7 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->dataMapper = new DataMapperMocks\RedisWithSQLBackupDataMapper();
+        $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper();
         $this->entity = new ORMMocks\Entity(123, "foo");
     }
 
@@ -32,7 +32,7 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->add($this->entity);
         $this->assertEquals($this->entity, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
         $this->dataMapper->syncCache();
-        $this->assertEquals($this->entity, $this->dataMapper->getRedisDataMapperForTests()->getById($this->entity->getId()));
+        $this->assertEquals($this->entity, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId()));
     }
 
     /**
@@ -43,7 +43,7 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->add($this->entity);
         $this->assertEquals($this->entity, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
         $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
-        $this->dataMapper->getRedisDataMapperForTests()->getById($this->entity->getId());
+        $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId());
     }
 
     /**
@@ -55,7 +55,7 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->delete($this->entity);
         $this->dataMapper->syncCache();
         $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
-        $this->dataMapper->getRedisDataMapperForTests()->getById($this->entity->getId());
+        $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId());
     }
 
     /**
@@ -75,12 +75,12 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
     public function testUpdatingEntityAndSynchronizingCache()
     {
         $this->dataMapper->getSQLDataMapperForTests()->add($this->entity);
-        $this->dataMapper->getRedisDataMapperForTests()->add($this->entity);
+        $this->dataMapper->getCacheDataMapperForTests()->add($this->entity);
         $this->entity->setStringProperty("bar");
         $this->dataMapper->update($this->entity);
         $this->dataMapper->syncCache();
         $this->assertEquals($this->entity, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
-        $this->assertEquals($this->entity, $this->dataMapper->getRedisDataMapperForTests()->getById($this->entity->getId()));
+        $this->assertEquals($this->entity, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId()));
     }
 
     /**
@@ -89,7 +89,7 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
     public function testUpdatingEntityWithoutSynchronizingCache()
     {
         $this->dataMapper->getSQLDataMapperForTests()->add($this->entity);
-        $this->dataMapper->getRedisDataMapperForTests()->add($this->entity);
+        $this->dataMapper->getCacheDataMapperForTests()->add($this->entity);
         /**
          * We have to clone the original entity so that when we set a property on it, it doesn't update the object
          * referenced by the mock data mappers
@@ -98,6 +98,6 @@ class RedisWithSQLBackupDataMapperTest extends \PHPUnit_Framework_TestCase
         $entityClone->setStringProperty("bar");
         $this->dataMapper->update($entityClone);
         $this->assertEquals($entityClone, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
-        $this->assertNotEquals($entityClone, $this->dataMapper->getRedisDataMapperForTests()->getById($this->entity->getId()));
+        $this->assertNotEquals($entityClone, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId()));
     }
 } 
