@@ -10,9 +10,9 @@ use RDev\Models\ORM\Exceptions;
 interface ICachedDataMapper extends IDataMapper
 {
     /**
-     * Performs any cache actions that have been scheduled for completion
+     * Performs any cache actions that have been scheduled
      * This is best used when committing an SQL data mapper via a unit of work, and then calling this method after
-     * the commit successfully finished
+     * the commit successfully finishes
      *
      * @throws Exceptions\ORMException Thrown if there was an error synchronizing the cache
      */
