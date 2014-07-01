@@ -4,9 +4,9 @@
  *
  * Defines settings for the MySQL RDBMS
  */
-namespace RDev\Models\Databases\SQL\Systems;
+namespace RDev\Models\Databases\SQL\Providers;
 
-class MySQL extends System
+class MySQL extends Provider
 {
     // Don't do anything
 } 

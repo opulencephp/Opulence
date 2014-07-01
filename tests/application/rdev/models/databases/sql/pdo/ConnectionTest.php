@@ -6,13 +6,13 @@
  */
 namespace RDev\Models\Databases\SQL\PDO;
 use RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Systems;
+use RDev\Models\Databases\SQL\Providers;
 use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Systems\System They system this connection uses */
-    private $system = null;
+    /** @var Providers\Provider They provider this connection uses */
+    private $provider = null;
     /** @var SQL\Server A database server to connect to */
     private $server = null;
     /** @var Connection The Connection object we're connecting to */
@@ -23,9 +23,9 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->system = new Systems\System();
+        $this->provider = new Providers\Provider();
         $this->server = new Mocks\Server();
-        $this->pdo = new Connection($this->system, $this->server, "fakedsn", []);
+        $this->pdo = new Connection($this->provider, $this->server, "fakedsn", []);
     }
 
     /**
@@ -37,11 +37,11 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the database system
+     * Tests getting the database provider
      */
-    public function testGettingDatabaseSystem()
+    public function testGettingDatabaseProvider()
     {
-        $this->assertEquals($this->system, $this->pdo->getDatabaseSystem());
+        $this->assertEquals($this->provider, $this->pdo->getDatabaseProvider());
     }
 
     /**

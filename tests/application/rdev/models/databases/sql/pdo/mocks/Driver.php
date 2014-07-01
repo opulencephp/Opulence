@@ -7,7 +7,7 @@
 namespace RDev\Tests\Models\Databases\SQL\PDO\Mocks;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\PDO;
-use RDev\Models\Databases\SQL\Systems;
+use RDev\Models\Databases\SQL\Providers;
 
 class Driver extends PDO\Driver
 {
@@ -22,8 +22,8 @@ class Driver extends PDO\Driver
     /**
      * {@inheritdoc}
      */
-    protected function setSystem()
+    protected function setProvider()
     {
-        $this->system = new Systems\System();
+        $this->provider = new Providers\Provider();
     }
 } 

@@ -6,7 +6,7 @@
  * A driver is simply any class that can make a database connection
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Systems;
+use RDev\Models\Databases\SQL\Providers;
 
 interface IDriver
 {

@@ -4,9 +4,9 @@
  *
  * Defines settings for the PostgreSQL RDBMS
  */
-namespace RDev\Models\Databases\SQL\Systems;
+namespace RDev\Models\Databases\SQL\Providers;
 
-class PostgreSQL extends System
+class PostgreSQL extends Provider
 {
     /** {@inheritdoc} */
     protected $timestampWithTimeZoneFormat = "Y-m-d H:i:sO";

@@ -7,7 +7,7 @@
  */
 namespace RDev\Models\Databases\SQL\PDO;
 use RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Systems;
+use RDev\Models\Databases\SQL\Providers;
 use RDev\Models\Exceptions;
 
 class Connection extends \PDO implements SQL\IConnection
@@ -15,8 +15,8 @@ class Connection extends \PDO implements SQL\IConnection
     /** The name of the PDOStatement class to use */
     const PDO_STATEMENT_CLASS = "Statement";
 
-    /** @var Systems\System The database system this connection uses */
-    private $system = null;
+    /** @var Providers\Provider The database provider this connection uses */
+    private $provider = null;
     /** @var SQL\Server The server we're connecting to */
     private $server = null;
     /** @var string The Data Name Source to connect with */
@@ -34,14 +34,14 @@ class Connection extends \PDO implements SQL\IConnection
     private $transactionCounter = 0;
 
     /**
-     * @param Systems\System $system The database system this connection uses
+     * @param Providers\Provider $provider The database provider this connection uses
      * @param SQL\Server $server The server we're connecting to
      * @param string $dsn The Data Name Source to connect with
      * @param array $driverOptions The list of driver options to use
      */
-    public function __construct(Systems\System $system, SQL\Server $server, $dsn, array $driverOptions = [])
+    public function __construct(Providers\Provider $provider, SQL\Server $server, $dsn, array $driverOptions = [])
     {
-        $this->system = $system;
+        $this->provider = $provider;
         $this->server = $server;
         $this->dsn = $dsn;
         $this->driverOptions = $driverOptions;
@@ -124,9 +124,9 @@ class Connection extends \PDO implements SQL\IConnection
     /**
      * {@inheritdoc}
      */
-    public function getDatabaseSystem()
+    public function getDatabaseProvider()
     {
-        return $this->system;
+        return $this->provider;
     }
 
     /**

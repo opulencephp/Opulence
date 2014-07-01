@@ -6,16 +6,16 @@
  */
 namespace RDev\Models\Databases\SQL\PDO;
 use RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Systems;
+use RDev\Models\Databases\SQL\Providers;
 
 abstract class Driver implements SQL\IDriver
 {
-    /** @var Systems\System The system this driver uses */
-    protected $system = null;
+    /** @var Providers\Provider The provider this driver uses */
+    protected $provider = null;
 
     public function __construct()
     {
-        $this->setSystem();
+        $this->setProvider();
     }
 
     /**
@@ -26,7 +26,7 @@ abstract class Driver implements SQL\IDriver
     {
         $dsn = $this->createDSN($server, $connectionOptions);
 
-        return new Connection($this->system, $server, $dsn, $driverOptions);
+        return new Connection($this->provider, $server, $dsn, $driverOptions);
     }
 
     /**
@@ -39,7 +39,7 @@ abstract class Driver implements SQL\IDriver
     abstract protected function createDSN(SQL\Server $server, array $options = []);
 
     /**
-     * Sets the system used by this driver's connections
+     * Sets the provider used by this driver's connections
      */
-    abstract protected function setSystem();
+    abstract protected function setProvider();
 } 

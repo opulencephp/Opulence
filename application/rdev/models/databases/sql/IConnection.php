@@ -51,11 +51,11 @@ interface IConnection
     public function exec($statement);
 
     /**
-     * Gets the database system used by this connection
+     * Gets the database provider used by this connection
      *
-     * @return Systems\System The database system used by this connection
+     * @return Providers\Provider The database provider used by this connection
      */
-    public function getDatabaseSystem();
+    public function getDatabaseProvider();
 
     /**
      * Gets the server used in the connection

@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines the base system for RDBMS classes to extend
+ * Defines the base provider for RDBMS providers to extend
  */
-namespace RDev\Models\Databases\SQL\Systems;
+namespace RDev\Models\Databases\SQL\Providers;
 
-class System
+class Provider
 {
     /** @var string The format for date strings */
     protected $dateFormat = "Y-m-d";

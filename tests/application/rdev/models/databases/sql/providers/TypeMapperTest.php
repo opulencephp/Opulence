@@ -4,14 +4,14 @@
  *
  * Tests the type mapper class
  */
-namespace RDev\Models\Databases\SQL\Systems;
+namespace RDev\Models\Databases\SQL\Providers;
 
 class TypeMapperTest extends \PHPUnit_Framework_TestCase
 {
     /** @var TypeMapper The type mapper to use for tests */
     private $typMapper = null;
-    /** @var System The system to use for tests */
-    private $system = null;
+    /** @var Provider The provider to use for tests */
+    private $provider = null;
 
     /**
      * Sets up the tests
@@ -19,7 +19,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->typMapper = new TypeMapper();
-        $this->system = new System();
+        $this->provider = new Provider();
     }
 
     /**
@@ -27,7 +27,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingDateFromNullReturnsNull()
     {
-        $this->assertNull($this->typMapper->fromSQLDate($this->system, null));
+        $this->assertNull($this->typMapper->fromSQLDate($this->provider, null));
     }
 
     /**
@@ -35,8 +35,8 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromSQLDate()
     {
-        $sqlDate = \DateTime::createFromFormat($this->system->getDateFormat(), "now", new \DateTimeZone("UTC"));
-        $this->assertEquals($sqlDate, $this->typMapper->fromSQLDate($this->system, $sqlDate));
+        $sqlDate = \DateTime::createFromFormat($this->provider->getDateFormat(), "now", new \DateTimeZone("UTC"));
+        $this->assertEquals($sqlDate, $this->typMapper->fromSQLDate($this->provider, $sqlDate));
     }
 
     /**
@@ -44,8 +44,8 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromSQLTime()
     {
-        $sqlTime = \DateTime::createFromFormat($this->system->getTimeFormat(), "now", new \DateTimeZone("UTC"));
-        $this->assertEquals($sqlTime, $this->typMapper->fromSQLTime($this->system, $sqlTime));
+        $sqlTime = \DateTime::createFromFormat($this->provider->getTimeFormat(), "now", new \DateTimeZone("UTC"));
+        $this->assertEquals($sqlTime, $this->typMapper->fromSQLTime($this->provider, $sqlTime));
     }
 
     /**
@@ -53,9 +53,9 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromSQLTimeStampWithoutTimeZone()
     {
-        $sqlTimestamp = \DateTime::createFromFormat($this->system->getTimestampWithoutTimeZoneFormat(), "now",
+        $sqlTimestamp = \DateTime::createFromFormat($this->provider->getTimestampWithoutTimeZoneFormat(), "now",
             new \DateTimeZone("UTC"));
-        $this->assertEquals($sqlTimestamp, $this->typMapper->fromSQLTimestampWithOutTimeZone($this->system, $sqlTimestamp));
+        $this->assertEquals($sqlTimestamp, $this->typMapper->fromSQLTimestampWithOutTimeZone($this->provider, $sqlTimestamp));
     }
 
     /**
@@ -63,9 +63,9 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromSQLTimestampWithTimeZone()
     {
-        $sqlTimestamp = \DateTime::createFromFormat($this->system->getTimestampWithTimeZoneFormat(), "now",
+        $sqlTimestamp = \DateTime::createFromFormat($this->provider->getTimestampWithTimeZoneFormat(), "now",
             new \DateTimeZone("UTC"));
-        $this->assertEquals($sqlTimestamp, $this->typMapper->fromSQLTimestampWithTimeZone($this->system, $sqlTimestamp));
+        $this->assertEquals($sqlTimestamp, $this->typMapper->fromSQLTimestampWithTimeZone($this->provider, $sqlTimestamp));
     }
 
     /**
@@ -73,7 +73,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingTimeFromNullReturnsNull()
     {
-        $this->assertNull($this->typMapper->fromSQLTime($this->system, null));
+        $this->assertNull($this->typMapper->fromSQLTime($this->provider, null));
     }
 
     /**
@@ -81,7 +81,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingTimestampWithTimeZoneFromNullReturnsNull()
     {
-        $this->assertNull($this->typMapper->fromSQLTimestampWithTimeZone($this->system, null));
+        $this->assertNull($this->typMapper->fromSQLTimestampWithTimeZone($this->provider, null));
     }
 
     /**
@@ -89,7 +89,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingTimestampWithoutTimeZoneFromNullReturnsNull()
     {
-        $this->assertNull($this->typMapper->fromSQLTimestampWithOutTimeZone($this->system, null));
+        $this->assertNull($this->typMapper->fromSQLTimestampWithOutTimeZone($this->provider, null));
     }
 
     /**
@@ -98,7 +98,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingToSQLDate()
     {
         $date = new \DateTime("now", new \DateTimeZone("UTC"));
-        $this->assertEquals($date->format($this->system->getDateFormat()), $this->typMapper->toSQLDate($this->system, $date));
+        $this->assertEquals($date->format($this->provider->getDateFormat()), $this->typMapper->toSQLDate($this->provider, $date));
     }
 
     /**
@@ -107,7 +107,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingToSQLTime()
     {
         $time = new \DateTime("now", new \DateTimeZone("UTC"));
-        $this->assertEquals($time->format($this->system->getTimeFormat()), $this->typMapper->toSQLTime($this->system, $time));
+        $this->assertEquals($time->format($this->provider->getTimeFormat()), $this->typMapper->toSQLTime($this->provider, $time));
     }
 
     /**
@@ -116,8 +116,8 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingToSQLTimestampWithTimeZone()
     {
         $timestamp = new \DateTime("now", new \DateTimeZone("UTC"));
-        $this->assertEquals($timestamp->format($this->system->getTimestampWithTimeZoneFormat()),
-            $this->typMapper->toSQLTimestampWithTimeZone($this->system, $timestamp));
+        $this->assertEquals($timestamp->format($this->provider->getTimestampWithTimeZoneFormat()),
+            $this->typMapper->toSQLTimestampWithTimeZone($this->provider, $timestamp));
     }
 
     /**
@@ -126,7 +126,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingToSQLTimestampWithoutTimeZone()
     {
         $timestamp = new \DateTime("now", new \DateTimeZone("UTC"));
-        $this->assertEquals($timestamp->format($this->system->getTimestampWithoutTimeZoneFormat()),
-            $this->typMapper->toSQLTimestampWithoutTimeZone($this->system, $timestamp));
+        $this->assertEquals($timestamp->format($this->provider->getTimestampWithoutTimeZoneFormat()),
+            $this->typMapper->toSQLTimestampWithoutTimeZone($this->provider, $timestamp));
     }
 } 

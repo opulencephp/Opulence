@@ -18,8 +18,7 @@ class ServerFactory
      *          "host" => server host,
      *          "username" => server username credential,
      *          "password" => server password credential,
-     *          "databaseName" => name of database on server to use,
-     *          "system" => system used by the server
+     *          "databaseName" => name of database on server to use
      *      The following keys are optional:
      *          "port" => server port,
      *          "charset" => character set

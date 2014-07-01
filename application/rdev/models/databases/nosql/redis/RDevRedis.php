@@ -5,7 +5,7 @@
  * Defines an extension of the PHPRedis library
  */
 namespace RDev\Models\Databases\NoSQL\Redis;
-use RDev\Models\Databases\SQL\Systems\TypeMapper;
+use RDev\Models\Databases\SQL\Providers\TypeMapper;
 use RDev\Models\Exceptions;
 
 class RDevRedis extends \Redis
