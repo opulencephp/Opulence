@@ -7,9 +7,9 @@
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
-use RDev\Models\ORM\Repositories\Exceptions;
+use RDev\Models\ORM\Exceptions as ORMExceptions;
 
-abstract class RedisDataMapper implements IDataMapper
+abstract class RedisDataMapper implements ICacheDataMapper
 {
     /** @var Redis\RDevRedis The RDevRedis object to use for queries */
     protected $redis = null;
@@ -21,13 +21,6 @@ abstract class RedisDataMapper implements IDataMapper
     {
         $this->redis = $redis;
     }
-
-    /**
-     * Flushes items from Redis that are in this mapper
-     *
-     * @throws Exceptions\RepoException Thrown if Redis couldn't be flushed
-     */
-    abstract public function flush();
 
     /**
      * {@inheritdoc}

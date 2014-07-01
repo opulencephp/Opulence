@@ -12,7 +12,7 @@ use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 {
-    /** @var IDataMapper The cache mapper to use for temporary storage */
+    /** @var ICacheDataMapper The cache mapper to use for temporary storage */
     protected $cacheDataMapper = null;
     /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
@@ -101,7 +101,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * Gets a cache data mapper to use in this repo
      *
      * @param mixed $cache The cache object used in the data mapper
-     * @return IDataMapper The cache data mapper to use
+     * @return ICacheDataMapper The cache data mapper to use
      */
     abstract protected function getCacheDataMapper($cache);
 

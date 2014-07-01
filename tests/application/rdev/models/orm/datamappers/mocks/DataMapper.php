@@ -12,7 +12,7 @@ use RDev\Models\ORM\DataMappers;
 class DataMapper implements DataMappers\IDataMapper
 {
     /** @var Models\IEntity[] The list of entities added */
-    private $entities = [];
+    protected $entities = [];
     /** @var int The current Id */
     private $currId = 0;
 

@@ -14,7 +14,7 @@ class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
 {
     public function __construct()
     {
-        $this->cacheDataMapper = new DataMapper();
+        $this->cacheDataMapper = new CacheDataMapper();
         $this->sqlDataMapper = new DataMapper();
     }
 
@@ -63,7 +63,7 @@ class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
      */
     protected function getCacheDataMapper($cache)
     {
-        return new DataMapper();
+        return new CacheDataMapper();
     }
 
     /**
@@ -73,5 +73,4 @@ class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
     {
         return new DataMapper();
     }
-
 } 
