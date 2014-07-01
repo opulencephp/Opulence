@@ -376,7 +376,19 @@ class UnitOfWork
      */
     private function postCommit()
     {
-        // TODO: Implement cache commit
+        /**
+         * @var string $className
+         * @var DataMappers\IDataMapper $dataMapper
+         */
+        foreach($this->dataMappers as $className => $dataMapper)
+        {
+            /** @var DataMappers\ICachedDataMapper $dataMapper */
+            if($dataMapper instanceof DataMappers\ICachedDataMapper)
+            {
+                // Now that the database writes have been committed, we can write to cache
+                $dataMapper->syncCache();
+            }
+        }
     }
 
     /**
@@ -384,7 +396,7 @@ class UnitOfWork
      */
     private function postRollback()
     {
-        // TODO: Implement cache roll back
+        // Left blank simply to provide a hook for extending classes
     }
 
     /**

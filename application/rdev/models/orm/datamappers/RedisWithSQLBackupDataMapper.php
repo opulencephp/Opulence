@@ -8,13 +8,21 @@ namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\SQL;
+use RDev\Models\Exceptions;
+use RDev\Models\ORM\Exceptions as ORMExceptions;
 
-abstract class RedisWithSQLBackupDataMapper implements IDataMapper
+abstract class RedisWithSQLBackupDataMapper implements ICachedDataMapper
 {
     /** @var RedisDataMapper The Redis mapper to use for temporary storage */
     protected $redisDataMapper = null;
     /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
+    /** @var Models\IEntity[] The list of entities scheduled for insertion */
+    protected $scheduledForCacheInsertion = [];
+    /** @var Models\IEntity[] The list of entities scheduled for update */
+    protected $scheduledForCacheUpdate = [];
+    /** @var Models\IEntity[] The list of entities scheduled for deletion */
+    protected $scheduledForCacheDeletion = [];
 
     /**
      * @param Redis\RDevRedis $redis The RDevRedis object used in the Redis data mapper
@@ -24,6 +32,70 @@ abstract class RedisWithSQLBackupDataMapper implements IDataMapper
     {
         $this->redisDataMapper = $this->getRedisDataMapper($redis);
         $this->sqlDataMapper = $this->getSQLDataMapper($connectionPool);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function add(Models\IEntity &$entity)
+    {
+        $this->sqlDataMapper->add($entity);
+        $this->scheduleForCacheInsertion($entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function delete(Models\IEntity &$entity)
+    {
+        $this->sqlDataMapper->delete($entity);
+        $this->scheduleForCacheDeletion($entity);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function syncCache()
+    {
+        try
+        {
+            // Insert entities
+            foreach($this->scheduledForCacheInsertion as $entity)
+            {
+                $this->redisDataMapper->add($entity);
+            }
+
+            // Update entities
+            foreach($this->scheduledForCacheUpdate as $entity)
+            {
+                $this->redisDataMapper->update($entity);
+            }
+
+            // Delete entities
+            foreach($this->scheduledForCacheDeletion as $entity)
+            {
+                $this->redisDataMapper->delete($entity);
+            }
+        }
+        catch(\Exception $ex)
+        {
+            Exceptions\Log::write("Failed to synchronize cache: " . $ex);
+            throw new ORMExceptions\ORMException($ex->getMessage());
+        }
+
+        // Clear our schedules
+        $this->scheduledForCacheInsertion = [];
+        $this->scheduledForCacheUpdate = [];
+        $this->scheduledForCacheDeletion = [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Models\IEntity &$entity)
+    {
+        $this->sqlDataMapper->update($entity);
+        $this->scheduleForCacheUpdate($entity);
     }
 
     /**
@@ -82,5 +154,35 @@ abstract class RedisWithSQLBackupDataMapper implements IDataMapper
         }
 
         return $data;
+    }
+
+    /**
+     * Schedules an entity for deletion from cache
+     *
+     * @param Models\IEntity $entity The entity to schedule
+     */
+    protected function scheduleForCacheDeletion(Models\IEntity $entity)
+    {
+        $this->scheduledForCacheDeletion[] = $entity;
+    }
+
+    /**
+     * Schedules an entity for insertion into cache
+     *
+     * @param Models\IEntity $entity The entity to schedule
+     */
+    protected function scheduleForCacheInsertion(Models\IEntity $entity)
+    {
+        $this->scheduledForCacheInsertion[] = $entity;
+    }
+
+    /**
+     * Schedules an entity for update in cache
+     *
+     * @param Models\IEntity $entity The entity to schedule
+     */
+    protected function scheduleForCacheUpdate(Models\IEntity $entity)
+    {
+        $this->scheduledForCacheUpdate[] = $entity;
     }
 } 
