@@ -42,7 +42,7 @@ class Provider
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getTimestampWithoutTimeZoneFormat()
     {
