@@ -14,11 +14,7 @@ abstract class ConnectionPool
         "pdo_mysql" => "RDev\\Models\\Databases\\SQL\\PDO\\MySQL\\Driver",
         "pdo_pgsql" => "RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver",
     ];
-    /**
-     * The servers in this pool
-     *
-     * @var array
-     */
+    /** @var array The servers in this pool */
     protected $servers = [
         "master" => null,
         "custom" => []
