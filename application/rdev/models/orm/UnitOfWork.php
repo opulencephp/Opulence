@@ -280,6 +280,34 @@ class UnitOfWork
     }
 
     /**
+     * Performs any actions after the commit
+     */
+    protected function postCommit()
+    {
+        /**
+         * @var string $className
+         * @var DataMappers\IDataMapper $dataMapper
+         */
+        foreach($this->dataMappers as $className => $dataMapper)
+        {
+            if($dataMapper instanceof DataMappers\ICachedSQLDataMapper)
+            {
+                // Now that the database writes have been committed, we can write to cache
+                /** @var DataMappers\ICachedSQLDataMapper $dataMapper */
+                $dataMapper->syncCache();
+            }
+        }
+    }
+
+    /**
+     * Performs any actions after a rollback
+     */
+    protected function postRollback()
+    {
+        // Left blank simply to provide a hook for extending classes
+    }
+
+    /**
      * Checks for any changes made to entities, and if any are found, they're scheduled for update
      */
     private function checkForUpdates()
@@ -369,34 +397,6 @@ class UnitOfWork
             $dataMapper->add($entity);
             $this->manageEntity($entity);
         }
-    }
-
-    /**
-     * Performs any actions after the commit
-     */
-    private function postCommit()
-    {
-        /**
-         * @var string $className
-         * @var DataMappers\IDataMapper $dataMapper
-         */
-        foreach($this->dataMappers as $className => $dataMapper)
-        {
-            /** @var DataMappers\ICachedSQLDataMapper $dataMapper */
-            if($dataMapper instanceof DataMappers\ICachedSQLDataMapper)
-            {
-                // Now that the database writes have been committed, we can write to cache
-                $dataMapper->syncCache();
-            }
-        }
-    }
-
-    /**
-     * Performs any actions after a rollback
-     */
-    private function postRollback()
-    {
-        // Left blank simply to provide a hook for extending classes
     }
 
     /**

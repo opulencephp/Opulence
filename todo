@@ -1,7 +1,3 @@
-Revisit the logic in RedisWithPostgreSQLBackupDataMapper's read()
-    Issue is that we don't want DataMapper to write to cache unless it was somehow triggered by the UoW's commit()
-        In other words, a repo shouldn't be able directly cause a data mapper to write
-        Need to think about how/when we'll write items to cache
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
