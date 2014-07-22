@@ -42,20 +42,48 @@ class Response
     const HTTP_SERVICE_UNAVAILABLE = 503;
 
     /**
-     * Sets a cookie in the response header
+     * Deletes a cookie in the response header
      *
-     * @param string $name The name of the cookie
-     * @param string $value The value of the cookie
-     * @param int $expiration The expiration time as a Unix timestamp
+     * @param string $name The name of the cookie to delete
      * @param string $path The path the cookie is valid on
      * @param string $domain The domain the cookie is valid on
      * @param bool $isSecure Whether or not this cookie should only be sent over SSL
      * @param bool $httpOnly Whether or not this cookie can be accessed exclusively over the HTTP protocol
      * @return bool True if successful, otherwise false
      */
-    public function setCookie($name, $value, $expiration, $path, $domain, $isSecure, $httpOnly)
+    public function deleteCookie($name, $path, $domain, $isSecure, $httpOnly)
     {
-        return setcookie($name, $value, $expiration, $path, $domain, $isSecure, $httpOnly);
+        $expiration = \DateTime::createFromFormat("U", time() - 3600, new \DateTimeZone("UTC"));
+
+        return $this->setCookie($name, "", $expiration, $path, $domain, $isSecure, $httpOnly);
+    }
+
+    /**
+     * Sets a cookie in the response header
+     *
+     * @param string $name The name of the cookie
+     * @param string $value The value of the cookie
+     * @param \DateTime $expiration The expiration time as a Unix timestamp
+     * @param string $path The path the cookie is valid on
+     * @param string $domain The domain the cookie is valid on
+     * @param bool $isSecure Whether or not this cookie should only be sent over SSL
+     * @param bool $httpOnly Whether or not this cookie can be accessed exclusively over the HTTP protocol
+     * @return bool True if successful, otherwise false
+     */
+    public function setCookie($name, $value, \DateTime $expiration, $path, $domain, $isSecure, $httpOnly)
+    {
+        return setcookie($name, $value, $expiration->getTimestamp(), $path, $domain, $isSecure, $httpOnly);
+    }
+
+    /**
+     * Sets the expiration time of the page
+     *
+     * @param \DateTime $expiration The expiration time
+     * @throws Exceptions\WebException Thrown if the headers were already sent
+     */
+    public function setExpiration(\DateTime $expiration)
+    {
+        $this->setHeader("Expires", $expiration->format("r"));
     }
 
     /**
@@ -65,9 +93,15 @@ class Response
      * @param string $value The value of the header
      * @param bool $shouldReplace Whether or not this should replace a previous similar header
      * @param int|string $httpResponseCode The HTTP response code
+     * @throws Exceptions\WebException Thrown if the headers were already sent
      */
     public function setHeader($name, $value, $shouldReplace = true, $httpResponseCode = "")
     {
+        if(headers_sent())
+        {
+            throw new Exceptions\WebException("Headers already sent");
+        }
+
         if(empty($httpResponseCode))
         {
             header($name . ": " . $value, $shouldReplace);
@@ -83,6 +117,7 @@ class Response
      *
      * @param string $url The URL to redirect to
      * @param bool $exitNow Whether or not we will exit immediately after sending the header
+     * @throws Exceptions\WebException Thrown if the headers were already sent
      */
     public function setLocation($url, $exitNow = true)
     {
@@ -92,5 +127,21 @@ class Response
         {
             exit;
         }
+    }
+
+    /**
+     * Sets the HTTP response code
+     *
+     * @param int $code The HTTP response code
+     * @throws Exceptions\WebException Thrown if the headers were already sent
+     */
+    public function setResponseCode($code)
+    {
+        if(headers_sent())
+        {
+            throw new Exceptions\WebException("Headers already sent");
+        }
+
+        http_response_code($code);
     }
 } 

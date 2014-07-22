@@ -24,19 +24,19 @@ abstract class Driver implements SQL\IDriver
      */
     public function connect(SQL\Server $server, array $connectionOptions = [], array $driverOptions = [])
     {
-        $dsn = $this->createDSN($server, $connectionOptions);
+        $dsn = $this->getDSN($server, $connectionOptions);
 
         return new Connection($this->provider, $server, $dsn, $driverOptions);
     }
 
     /**
-     * Creates the DSN string to connect to a server through PDO
+     * Gets the DSN string to connect to a server through PDO
      *
      * @param SQL\Server $server The server to connect to
      * @param array $options The list of driver-specific options
      * @return string The DSN to use to connect to PDO
      */
-    abstract protected function createDSN(SQL\Server $server, array $options = []);
+    abstract protected function getDSN(SQL\Server $server, array $options = []);
 
     /**
      * Sets the provider used by this driver's connections

@@ -47,7 +47,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     private function getDSN(Driver $driver, SQL\Server $server, array $connectionOptions = [])
     {
         $class = new \ReflectionClass(get_class($driver));
-        $method = $class->getMethod("createDSN");
+        $method = $class->getMethod("getDSN");
         $method->setAccessible(true);
 
         return $method->invokeArgs($driver, [$server, $connectionOptions, $connectionOptions]);

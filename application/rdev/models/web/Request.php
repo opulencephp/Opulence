@@ -28,11 +28,65 @@ class Request
     }
 
     /**
+     * Gets the value of a post variable
+     *
+     * @param string $name The name of the variable to check
+     * @return mixed|bool The post variable if it was set, otherwise false
+     */
+    public function getPostVar($name)
+    {
+        if(!$this->isPostVarSet($name))
+        {
+            return false;
+        }
+
+        return $_POST[$name];
+    }
+
+    /**
+     * Gets the value of a query string variable
+     *
+     * @param string $name The name of the variable to check
+     * @return mixed|bool The query string variable if it was set, otherwise false
+     */
+    public function getQueryStringVar($name)
+    {
+        if(!$this->isQueryStringVarSet($name))
+        {
+            return false;
+        }
+
+        return $_GET[$name];
+    }
+
+    /**
      * @return string
      */
     public function getUserAgent()
     {
         return $this->userAgent;
+    }
+
+    /**
+     * Gets whether or not a post variable is set to a non-empty value
+     *
+     * @param string $name The name of the variable to check
+     * @return bool True if the post variable has a non-empty value, otherwise false
+     */
+    public function isPostVarSet($name)
+    {
+        return isset($_POST[$name]);
+    }
+
+    /**
+     * Gets whether or not a query string variable is set to a non-empty value
+     *
+     * @param string $name The name of the variable to check
+     * @return bool True if the query string variable has a non-empty value, otherwise false
+     */
+    public function isQueryStringVarSet($name)
+    {
+        return isset($_GET[$name]);
     }
 
     /**

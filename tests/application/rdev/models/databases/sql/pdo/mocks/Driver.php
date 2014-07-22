@@ -14,7 +14,7 @@ class Driver extends PDO\Driver
     /**
      * {@inheritdoc}
      */
-    protected function createDSN(SQL\Server $server, array $options = [])
+    protected function getDSN(SQL\Server $server, array $options = [])
     {
         return "fakedsn";
     }
