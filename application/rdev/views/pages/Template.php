@@ -53,19 +53,30 @@ class Template implements Views\IView
     public function getOutput()
     {
         $untaggedTemplate = file_get_contents($this->templatePath);
-        // Replace the tags with their values
-        $callback = function ($tag)
+
+        // Create the regexes to find tags with bookends
+        $regexCallback = function ($tag)
         {
-            return $this->openTagPlaceholder . $tag . $this->closeTagPlaceholder;
+            return "/(?<!" . preg_quote("\\") . ")" . preg_quote($this->openTagPlaceholder . $tag . $this->closeTagPlaceholder, "/") . "/";
         };
-        $tagsWithBookends = array_map($callback, array_keys($this->tags));
-        $taggedTemplate = str_replace($tagsWithBookends, array_values($this->tags), $untaggedTemplate);
+
+        // Replace the tags with their values
+        $regexes = array_map($regexCallback, array_keys($this->tags));
+        $taggedTemplate = preg_replace($regexes, array_values($this->tags), $untaggedTemplate);
+
         // Remove any left-over, unset tags
         $taggedTemplate = preg_replace("/" .
-            preg_quote($this->openTagPlaceholder, "/") .
+            "(?<!" . preg_quote("\\") . ")" . preg_quote($this->openTagPlaceholder, "/") .
             "((?!" . preg_quote($this->closeTagPlaceholder, "/") . ").)*" .
             preg_quote($this->closeTagPlaceholder, "/") .
             "/u", "", $taggedTemplate);
+
+        // Strip the escape character from strings which weren't meant as tags
+        $taggedTemplate = preg_replace("/" .
+            preg_quote("\\") . "(" . preg_quote($this->openTagPlaceholder, "/") .
+            "((?!" . preg_quote($this->closeTagPlaceholder, "/") . ").)*" .
+            preg_quote($this->closeTagPlaceholder, "/") . ")" .
+            "/u", "$1", $taggedTemplate);
 
         return $taggedTemplate;
     }

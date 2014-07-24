@@ -43,14 +43,6 @@ interface IDataMapper
     public function getById($id);
 
     /**
-     * Loads an entity from a row of data
-     *
-     * @param array $hash The hash of data
-     * @return Models\IEntity The entity
-     */
-    public function loadEntity(array $hash);
-
-    /**
      * Saves any changes made to an entity
      *
      * @param Models\IEntity $entity The entity to save

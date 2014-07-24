@@ -4,9 +4,8 @@
  *
  * Defines the user repository interface
  */
-namespace RDev\Models\Users\Repositories\User;
+namespace RDev\Models\Users\ORM\User;
 use RDev\Models\ORM\Repositories;
-use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 use RDev\Models\Users;
 
 interface IUserRepo extends Repositories\IRepo

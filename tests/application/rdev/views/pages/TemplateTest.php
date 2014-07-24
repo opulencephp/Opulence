@@ -60,7 +60,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $template = new Template();
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
-        $this->assertEquals(", !", $template->getOutput());
+        $this->assertEquals(", ! {{blah}}", $template->getOutput());
     }
 
     /**
@@ -71,7 +71,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getOutput());
+        $this->assertEquals("Hello, world! {{blah}}", $template->getOutput());
     }
 
     /**
@@ -84,7 +84,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setCloseTagPlaceholder("$$");
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getOutput());
+        $this->assertEquals("Hello, world! ^^blah$$", $template->getOutput());
     }
 
     /**
@@ -95,7 +95,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
-        $this->assertEquals("Hello, world!", $template->getOutput());
+        $this->assertEquals("Hello, world! {{blah}}", $template->getOutput());
     }
 
     /**
