@@ -1,0 +1,8 @@
+List of {{listDescription}}:
+<ul><?php
+    foreach($users as $user)
+    {
+        echo "<li>" . $user->getUsername() . "</li>";
+    }
+    ?>
+</ul> <?php echo count($users); ?> items<br><?php echo $coolestGuy; ?> is a pretty cool guy

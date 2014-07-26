@@ -15,3 +15,4 @@ This software is licensed under the MIT license.  Please read the LICENSE for mo
 * PHP 5.5 or higher with OpenSSL enabled
 * PHPRedis
 * PHPUnit
+* mbstring
