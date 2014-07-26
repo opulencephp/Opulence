@@ -80,7 +80,7 @@ echo $template->getOutput(); // "<a href=\"admin.php\">Admin</a>"
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
 #### Template
 ```
-Hello, {{username}}.  \{{I am escaped}}!
+Hello, {{username}}.  \{{I am escaped}}! \{{{Me too}}}!
 ```
 #### Application Code
 ```php
@@ -88,7 +88,7 @@ use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Mr Schwarzenegger");
-echo $template->getOutput(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}!"
+echo $template->getOutput(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me too}}}!"
 ```
 
 ## Custom Tag Placeholders
