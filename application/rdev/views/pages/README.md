@@ -37,7 +37,7 @@ Alternatively, you can output a string literal inside the triple-braces:
 This will output "Dave &amp; Lindsey".  
 
 ## Using PHP in Your Template
-Keeping your view separate from your business logic is important.  However, there are times where it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  With RDev's template system, you can do this:
+Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  With RDev's template system, you can do this:
 #### Template
 ```
 <ul><?php
@@ -55,7 +55,7 @@ $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 echo $template->getOutput(); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
-You can also inject values into variables your template from your application code:
+You can also inject values from your application code into variables in your template:
 #### Template
 ```
 <?php 
@@ -70,7 +70,7 @@ if($isAdministrator)
 use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
-$template->setVar("isAdministrator", $user->isAdministrator());
+$template->setVar("isAdministrator", true);
 echo $template->getOutput(); // "<a href=\"admin.php\">Admin</a>"
 ```
 

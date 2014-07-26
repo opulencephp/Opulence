@@ -7,7 +7,7 @@
 3. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
 
 ##Page Templates
-1. [Page Templates](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views/pages)
+1. [Building a Page Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views/pages)
 
 # About the Author
 I am a professional software developer and flight instructor.  I went to the University of Illinois at Urbana-Champaign and graduated with a degree in Math and Computer Science.  While in college, I obtained my commercial pilot license as well as my flight instructor licenses (CFI/CFII/MEI).  I'm active in [Angel Flight](http://angelflightcentral.org/), a charity organization that offers free flights to seriously ill people, in which I am a volunteer pilot.  When I'm not flying, you can find me playing classical piano, reading books about programming ("[Code Complete](http://www.amazon.com/Code-Complete-Practical-Handbook-Construction/dp/0735619670)" is my favorite) and non-fiction ("[T. rex and the Crater of Doom](http://www.amazon.com/Crater-Doom-Princeton-Science-Library/dp/0691131031)" and Carl Sagan's "[The Demon-Haunted World: Science as a Candle in the Dark](http://www.amazon.com/The-Demon-Haunted-World-Science-Candle/dp/0345409469)" are 2 of my favorites) , writing code, or doing something in the great outdoors.
