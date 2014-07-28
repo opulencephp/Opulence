@@ -40,7 +40,7 @@ class Response implements Views\IView
     /**
      * @return string
      */
-    public function getOutput()
+    public function render()
     {
         return $this->output;
     }

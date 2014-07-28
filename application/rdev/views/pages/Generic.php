@@ -216,9 +216,17 @@ class Generic extends Template
     }
 
     /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function getOutput()
+    public function render()
     {
         if(!empty($this->title))
         {
@@ -283,15 +291,7 @@ class Generic extends Template
             $this->setTag("footerInlineJavaScript", $this->getHTMLForInlineJavaScript($this->footerInlineJavaScript));
         }
 
-        return parent::getOutput();
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
+        return parent::render();
     }
 
     /**

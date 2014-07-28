@@ -57,9 +57,47 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the output for a template with PHP code
+     * Tests rendering by setting the template path in the constructor
      */
-    public function testGettingOutputForTemplateWithPHPCode()
+    public function testRenderingBySpecifyingTemplatePathInConstructor()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $template->setTag("imSafe", "a&b");
+        $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->render());
+    }
+
+    /**
+     * Tests rendering a template that uses custom tag placeholders
+     */
+    public function testRenderingTemplateWithCustomTagPlaceholders()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
+        $template->setOpenTagPlaceholder("^^");
+        $template->setCloseTagPlaceholder("$$");
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $template->setTag("imSafe", "a&b");
+        $this->assertEquals("Hello, world! ^^blah$$. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->render());
+    }
+
+    /**
+     * Tests rendering a template that uses the default tag placeholders
+     */
+    public function testRenderingTemplateWithDefaultTagPlaceholders()
+    {
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $template->setTag("foo", "Hello");
+        $template->setTag("bar", "world");
+        $template->setTag("imSafe", "a&b");
+        $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->render());
+    }
+
+    /**
+     * Tests rendering a template with PHP code
+     */
+    public function testRenderingTemplateWithPHPCode()
     {
         $template = new Template();
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_PHP_CODE);
@@ -71,67 +109,29 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('List of usernames:
 <ul>
     <li>foo</li><li>bar</li>
-</ul> 2 items<br>Dave is a pretty cool guy. I agree.', $template->getOutput());
+</ul> 2 items<br>Dave is a pretty cool guy. I agree.', $template->render());
     }
 
     /**
-     * Tests getting the output for a template whose custom tags we didn't set
+     * Tests rendering a template whose custom tags we didn't set
      */
-    public function testGettingOutputForTemplateWithUnsetCustomTags()
+    public function testRenderingTemplateWithUnsetCustomTags()
     {
         $template = new Template();
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
         $template->setOpenTagPlaceholder("^^");
         $template->setCloseTagPlaceholder("$$");
-        $this->assertEquals(", ! ^^blah$$. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->getOutput());
+        $this->assertEquals(", ! ^^blah$$. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->render());
     }
 
     /**
-     * Tests getting the output for a template whose tags we didn't set
+     * Tests rendering a template whose tags we didn't set
      */
-    public function testGettingOutputForTemplateWithUnsetTags()
+    public function testRenderingTemplateWithUnsetTags()
     {
         $template = new Template();
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
-        $this->assertEquals(", ! {{blah}}. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->getOutput());
-    }
-
-    /**
-     * Tests getting the output by setting the template path in the constructor
-     */
-    public function testGettingOutputLBySpecifyingTemplatePathInConstructor()
-    {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
-        $template->setTag("foo", "Hello");
-        $template->setTag("bar", "world");
-        $template->setTag("imSafe", "a&b");
-        $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->getOutput());
-    }
-
-    /**
-     * Tests getting the output with a template that uses custom tag placeholders
-     */
-    public function testGettingOutputOfTemplateWithCustomTagPlaceholders()
-    {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
-        $template->setOpenTagPlaceholder("^^");
-        $template->setCloseTagPlaceholder("$$");
-        $template->setTag("foo", "Hello");
-        $template->setTag("bar", "world");
-        $template->setTag("imSafe", "a&b");
-        $this->assertEquals("Hello, world! ^^blah$$. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->getOutput());
-    }
-
-    /**
-     * Tests getting the output with a template that uses the default tag placeholders
-     */
-    public function testGettingOutputOfTemplateWithDefaultTagPlaceholders()
-    {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
-        $template->setTag("foo", "Hello");
-        $template->setTag("bar", "world");
-        $template->setTag("imSafe", "a&b");
-        $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->getOutput());
+        $this->assertEquals(", ! {{blah}}. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}.", $template->render());
     }
 
     /**

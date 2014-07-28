@@ -9,9 +9,9 @@ namespace RDev\Views;
 interface IView
 {
     /**
-     * Gets the output of the view
+     * Renders the output of the view
      *
      * @return string The output (eg HTML, text, etc)
      */
-    public function getOutput();
+    public function render();
 } 

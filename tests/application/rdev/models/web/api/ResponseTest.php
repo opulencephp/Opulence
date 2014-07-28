@@ -15,7 +15,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     public function testGettingEmptyOutputResponse()
     {
         $response = new Response(Web\Response::HTTP_BAD_REQUEST);
-        $this->assertEquals("", $response->getOutput());
+        $this->assertEquals("", $response->render());
     }
 
     /**
@@ -35,7 +35,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $output = "foobar";
         $response = new Response(Web\Response::HTTP_BAD_REQUEST, $output);
-        $this->assertEquals($output, $response->getOutput());
+        $this->assertEquals($output, $response->render());
     }
 
     /**
@@ -57,6 +57,6 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $output = "foobar";
         $response = new Response(Web\Response::HTTP_BAD_REQUEST);
         $response->setOutput($output);
-        $this->assertEquals($output, $response->getOutput());
+        $this->assertEquals($output, $response->render());
     }
 } 

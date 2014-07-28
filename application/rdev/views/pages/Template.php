@@ -55,9 +55,9 @@ class Template implements Views\IView
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
-    public function getOutput()
+    public function render()
     {
         return $this->compileTemplate();
     }

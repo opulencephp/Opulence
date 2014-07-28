@@ -10,7 +10,7 @@ use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Beautiful Man");
-echo $template->getOutput(); // "Hello, Beautiful Man"
+echo $template->render(); // "Hello, Beautiful Man"
 ```
 
 ## Cross-Site Scripting
@@ -25,7 +25,7 @@ use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setTag("namesOfCouple", "Dave & Lindsey");
-echo $template->getOutput(); // "Dave &amp; Lindsey"
+echo $template->render(); // "Dave &amp; Lindsey"
 ```
 
 Alternatively, you can output a string literal inside the triple-braces:
@@ -52,7 +52,7 @@ foreach(["foo", "bar"] as $item)
 use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
-echo $template->getOutput(); // "<ul><li>foo</li><li>bar</li></ul>"
+echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
 You can also inject values from your application code into variables in your template:
@@ -71,7 +71,7 @@ use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setVar("isAdministrator", true);
-echo $template->getOutput(); // "<a href=\"admin.php\">Admin</a>"
+echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
 ```
 
 *Note*: PHP code is compiled first, followed by tags.  Therefore, it's possible to use the output of PHP code inside tags in your template.
@@ -88,7 +88,7 @@ use RDev\Views\Pages;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Mr Schwarzenegger");
-echo $template->getOutput(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me too}}}!"
+echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me too}}}!"
 ```
 
 ## Custom Tag Placeholders
@@ -105,5 +105,5 @@ $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setOpenTagPlaceholder("^^");
 $template->setCloseTagPlaceholder("$$");
 $template->setTag("username", "Daft Punk");
-echo $template->getOutput(); // "Hello, Daft Punk"
+echo $template->render(); // "Hello, Daft Punk"
 ```
