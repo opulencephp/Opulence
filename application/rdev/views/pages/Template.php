@@ -195,7 +195,7 @@ class Template implements Views\IView
             return $evaluatedOutput;
         };
 
-        $templateWithEvaluatedPHP = preg_replace_callback("/<\?php\b(((?!\?>).)*)\?>/s", $callback, $template);
+        $templateWithEvaluatedPHP = preg_replace_callback("/<\?php\b(((?!$|\?>).)*)($|\?>)/s", $callback, $template);
 
         return $templateWithEvaluatedPHP;
     }

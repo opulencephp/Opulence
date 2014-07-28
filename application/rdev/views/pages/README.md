@@ -34,7 +34,7 @@ Alternatively, you can output a string literal inside the triple-braces:
 {{{"Dave & Lindsey"}}}
 ```
 
-This will output "Dave &amp; Lindsey".  
+This will output "Dave &amp;amp; Lindsey".  
 
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  With RDev's template system, you can do this:

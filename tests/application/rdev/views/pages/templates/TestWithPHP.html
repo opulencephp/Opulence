@@ -1,8 +1,9 @@
 List of {{listDescription}}:
-<ul><?php
+<ul>
+    <?php
     foreach($users as $user)
     {
         echo "<li>" . $user->getUsername() . "</li>";
     }
     ?>
-</ul> <?php echo count($users); ?> items<br><?php echo $coolestGuy; ?> is a pretty cool guy
+</ul> <?php echo count($users); ?> items<br><?php echo $coolestGuy; ?> is a pretty cool guy. <?php echo "I agree.";

@@ -68,7 +68,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setTag("listDescription", "usernames");
         $template->setVar("users", [$user1, $user2]);
         $template->setVar("coolestGuy", "Dave");
-        $this->assertEquals('List of usernames: <ul><li>foo</li><li>bar</li></ul> 2 items<br>Dave is a pretty cool guy', $template->getOutput());
+        $this->assertEquals('List of usernames:
+<ul>
+    <li>foo</li><li>bar</li>
+</ul> 2 items<br>Dave is a pretty cool guy. I agree.', $template->getOutput());
     }
 
     /**
