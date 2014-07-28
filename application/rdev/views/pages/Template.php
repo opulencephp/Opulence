@@ -29,6 +29,8 @@ class Template implements Views\IView
     private $openTagPlaceholder = self::DEFAULT_OPEN_TAG_PLACEHOLDER;
     /** @var string The close tag placeholder */
     private $closeTagPlaceholder = self::DEFAULT_CLOSE_TAG_PLACEHOLDER;
+    /** @var array The list of custom compile functions */
+    private $customCompileFunctions = [];
 
     /**
      * @param string $templatePath The path to the template to use
@@ -39,11 +41,44 @@ class Template implements Views\IView
     }
 
     /**
+     * Adds a custom function compiler
+     *
+     * @param mixed $functionCompiler The anonymous function to execute to compile custom functions inside tags
+     *      The function must take in one parameter: the template contents
+     *      The function must return the compile template's contents
+     * @throws \RuntimeException Thrown if the input function isn't callable
+     */
+    public function addFunctionCompiler($functionCompiler)
+    {
+        if(!is_callable($functionCompiler))
+        {
+            throw new \RuntimeException("The function compiler isn't callable");
+        }
+
+        $this->customCompileFunctions[] = $functionCompiler;
+    }
+
+    /**
      * @return string
      */
     public function getCloseTagPlaceholder()
     {
         return $this->closeTagPlaceholder;
+    }
+
+    /**
+     * Gets the regular expression to use to match custom functions that appear in the template
+     *
+     * @param string $functionName The name of the function to match
+     * @return string The regular expression that will match the input function
+     */
+    public function getFunctionMatcher($functionName)
+    {
+        return "/" . preg_quote($this->openTagPlaceholder, "/") .
+        preg_quote($functionName, "/") .
+        "\((\\$[^\)]+)\)" .
+        preg_quote($this->closeTagPlaceholder, "/") .
+        "/";
     }
 
     /**
@@ -155,19 +190,19 @@ class Template implements Views\IView
     }
 
     /**
-     * Gets the compiled template
+     * Compiles the custom tags in a template
      *
-     * @return string The compiled template
+     * @param string $template The template's contents
+     * @return string The template with the compiled custom tags
      */
-    protected function compileTemplate()
+    private function compileCustomTags($template)
     {
-        // Order here matters
-        $untaggedTemplate = file_get_contents($this->templatePath);
-        $templateWithCompiledPHP = $this->compilePHP($untaggedTemplate);
-        $safeTaggedTemplate = $this->compileSafeTags($templateWithCompiledPHP);
-        $regularTaggedTemplate = $this->compileRegularTags($safeTaggedTemplate);
+        foreach($this->customCompileFunctions as $compileFunction)
+        {
+            $template = $compileFunction($template);
+        }
 
-        return $regularTaggedTemplate;
+        return $template;
     }
 
     /**
@@ -281,6 +316,23 @@ class Template implements Views\IView
             self::SAFE_CLOSE_TAG_PLACEHOLDER);
 
         return $taggedTemplate;
+    }
+
+    /**
+     * Gets the compiled template
+     *
+     * @return string The compiled template
+     */
+    private function compileTemplate()
+    {
+        // Order here matters
+        $untaggedTemplate = file_get_contents($this->templatePath);
+        $templateWithCompileCustomTags = $this->compileCustomTags($untaggedTemplate);
+        $templateWithCompiledPHP = $this->compilePHP($templateWithCompileCustomTags);
+        $safeTaggedTemplate = $this->compileSafeTags($templateWithCompiledPHP);
+        $regularTaggedTemplate = $this->compileRegularTags($safeTaggedTemplate);
+
+        return $regularTaggedTemplate;
     }
 
     /**
