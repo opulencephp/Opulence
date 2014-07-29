@@ -121,7 +121,7 @@ echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
 It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and add a compiler:
 #### Template
 ```
-A great day is {{myDateFormatter($greatDay)}}
+{{myDateFormatter($greatDay)}} is a great day
 ```
 #### Application Code
 ```php
@@ -132,7 +132,7 @@ $template->addCompiler(function($content) use ($template)
 });
 $greatDay = \DateTime::createFromFormat("m/d/Y", "07/24/1987");
 $template->setVar("greatDay", $greatDay);
-echo $template->render(); // "A great day is 07/24/1987"
+echo $template->render(); // "07/24/1987 is a great day"
 ```
 
 ## Escaping Tags
