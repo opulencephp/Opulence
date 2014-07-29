@@ -41,21 +41,21 @@ class Template implements Views\IView
     }
 
     /**
-     * Adds a custom function compiler
+     * Adds a custom compiler
      *
-     * @param mixed $functionCompiler The anonymous function to execute to compile custom functions inside tags
+     * @param mixed $compiler The anonymous function to execute to compile custom functions inside tags
      *      The function must take in one parameter: the template contents
      *      The function must return the compile template's contents
      * @throws \RuntimeException Thrown if the input function isn't callable
      */
-    public function addFunctionCompiler($functionCompiler)
+    public function addCompiler($compiler)
     {
-        if(!is_callable($functionCompiler))
+        if(!is_callable($compiler))
         {
-            throw new \RuntimeException("The function compiler isn't callable");
+            throw new \RuntimeException("The compiler isn't callable");
         }
 
-        $this->customCompileFunctions[] = $functionCompiler;
+        $this->customCompileFunctions[] = $compiler;
     }
 
     /**

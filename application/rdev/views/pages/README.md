@@ -118,7 +118,7 @@ echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
 *Note*: PHP code is compiled first, followed by tags.  Therefore, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 ## Custom Functions
-It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and add a function compiler:
+It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and add a compiler:
 #### Template
 ```
 A great day is {{myDateFormatter($greatDay)}}
@@ -126,7 +126,7 @@ A great day is {{myDateFormatter($greatDay)}}
 #### Application Code
 ```php
 $template = new Template(PATH_TO_HTML_TEMPLATE);
-$template->addFunctionCompiler(function($content) use ($template)
+$template->addCompiler(function($content) use ($template)
 {
     return preg_replace($template->getFunctionMatcher("myDateFormatter"), "<?php echo $1->format('m/d/Y H:i:s'); ?>", $content);
 });

@@ -23,7 +23,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $template = new Template();
-        $template->addFunctionCompiler("foo");
+        $template->addCompiler("foo");
     }
 
     /**
@@ -75,7 +75,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $template->setTag("imSafe", "a&b");
-        $compilerResult = $this->addFunctionCompiler($template);
+        $compilerResult = $this->addCompiler($template);
         $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.",
             $template->render());
     }
@@ -91,7 +91,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $template->setTag("imSafe", "a&b");
-        $compilerResult = $this->addFunctionCompiler($template);
+        $compilerResult = $this->addCompiler($template);
         $this->assertEquals("Hello, world! ^^blah$$. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.",
             $template->render());
     }
@@ -105,7 +105,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $template->setTag("imSafe", "a&b");
-        $compilerResult = $this->addFunctionCompiler($template);
+        $compilerResult = $this->addCompiler($template);
         $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.",
             $template->render());
     }
@@ -122,7 +122,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setTag("listDescription", "usernames");
         $template->setVar("users", [$user1, $user2]);
         $template->setVar("coolestGuy", "Dave");
-        $compilerResult = $this->addFunctionCompiler($template);
+        $compilerResult = $this->addCompiler($template);
         $this->assertEquals('List of usernames on ' . $compilerResult . ':
 <ul>
     <li>foo</li><li>bar</li>
@@ -138,7 +138,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
         $template->setOpenTagPlaceholder("^^");
         $template->setCloseTagPlaceholder("$$");
-        $compilerResult = $this->addFunctionCompiler($template);
+        $compilerResult = $this->addCompiler($template);
         $this->assertEquals(", ! ^^blah$$. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.", $template->render());
     }
 
@@ -149,7 +149,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $template = new Template();
         $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
-        $compilerResult = $this->addFunctionCompiler($template);
+        $compilerResult = $this->addCompiler($template);
         $this->assertEquals(", ! {{blah}}. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.", $template->render());
     }
 
@@ -246,14 +246,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Adds a function compiler to the template for use in testing
+     * Adds a compiler to the template for use in testing
      *
      * @param Template $template The template to add the compiler to
      * @return string The expected result of the compiler
      */
-    private function addFunctionCompiler(Template &$template)
+    private function addCompiler(Template &$template)
     {
-        $template->addFunctionCompiler(function ($content) use ($template)
+        $template->addCompiler(function ($content) use ($template)
         {
             return preg_replace($template->getFunctionMatcher("date"), "<?php echo $1->format('m/d/Y'); ?>", $content);
         });
