@@ -1,5 +1,16 @@
 # Templates
-**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  Simply create an HTML file with tags and then specify their values:
+**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.
+
+## Table of Contents
+1. [Basic Usage](#basic-usage)
+2. [Nesting Templates](#nesting-templates)
+3. [Cross-Site Scripting](#cross-site-scripting)
+4. [Using PHP in Your Template](#using-php-in-your-template)
+5. [Custom Functions](#custom-functions)
+6. [Escaping Tags](#escaping-tags)
+7. [Custom Tag Placeholders](#custom-tag-placeholders)
+
+## Basic Usage
 #### Template
 ```
 Hello, {{username}}
@@ -35,8 +46,8 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ```php
 use RDev\Views\Pages;
 
-$sidebar = new Pages\Template(PATH_TO_HTML_SIDEBAR_TEMPLATE);
-$page = new Pages\Template(PATH_TO_HTML_PAGE_TEMPLATE);
+$sidebar = new Pages\Template(PATH_TO_SIDEBAR_TEMPLATE);
+$page = new Pages\Template(PATH_TO_PAGE_TEMPLATE);
 $page->setTag("sidebar", $sidebar->render());
 echo $page->render();
 ```
@@ -121,14 +132,14 @@ echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
 It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and add a compiler:
 #### Template
 ```
-{{myDateFormatter($greatDay)}} is a great day
+{{dateFormatter($greatDay)}} is a great day
 ```
 #### Application Code
 ```php
 $template = new Template(PATH_TO_HTML_TEMPLATE);
 $template->addCompiler(function($content) use ($template)
 {
-    return preg_replace($template->getFunctionMatcher("myDateFormatter"), "<?php echo $1->format('m/d/Y H:i:s'); ?>", $content);
+    return preg_replace($template->getFunctionMatcher("dateFormatter"), "<?php echo $1->format('m/d/Y'); ?>", $content);
 });
 $greatDay = \DateTime::createFromFormat("m/d/Y", "07/24/1987");
 $template->setVar("greatDay", $greatDay);
