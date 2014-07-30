@@ -5,7 +5,7 @@
  * Tests the template class
  */
 namespace RDev\Views\Pages;
-use RDev\Tests\Views\Pages\Mocks;
+use RDev\Tests\Models\Mocks;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
@@ -123,10 +123,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $template->setVar("users", [$user1, $user2]);
         $template->setVar("coolestGuy", "Dave");
         $compilerResult = $this->addCompiler($template);
-        $this->assertEquals('List of usernames on ' . $compilerResult . ':
+        $this->assertEquals('TEST List of usernames on ' . $compilerResult . ':
 <ul>
-    <li>foo</li><li>bar</li>
-</ul> 2 items<br>Dave is a pretty cool guy. I agree.', $template->render());
+    <li>foo</li><li>bar</li></ul> 2 items<br>Dave is a pretty cool guy. I agree. Fake closing PHP tag: ?>', $template->render());
     }
 
     /**

@@ -6,6 +6,7 @@
  */
 namespace RDev\Models\ORM;
 use RDev\Models;
+use RDev\Models\ORM\Exceptions as ORMExceptions;
 use RDev\Models\Users;
 use RDev\Tests\Models\Databases\SQL\Mocks as SQLMocks;
 use RDev\Tests\Models\ORM\Mocks as ORMMocks;
@@ -15,7 +16,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
-    /** @var DataMapperMocks\DataMapper The data mapper to use in tests */
+    /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
     /** @var ORMMocks\Entity An entity to use in the tests */
     private $entity1 = null;
@@ -30,7 +31,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $server = new SQLMocks\Server();
         $connection = new SQLMocks\Connection($server);
         $this->unitOfWork = new UnitOfWork($connection);
-        $this->dataMapper = new DataMapperMocks\DataMapper();
+        $this->dataMapper = new DataMapperMocks\SQLDataMapper();
         $this->entity1 = new ORMMocks\Entity(1, "foo");
         $this->entity2 = new ORMMocks\Entity(2, "bar");
     }
@@ -294,6 +295,47 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
         $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
+    }
+
+    /**
+     * Tests to make sure that an entity's Id is being set after it's commited
+     */
+    public function testThatEntityIdIsBeingSetAfterCommit()
+    {
+        $foo = $this->getInsertedEntity();
+        $this->assertEquals(1, $foo->getId());
+    }
+
+    /**
+     * Tests an unsuccessful commit
+     */
+    public function testUnsuccessfulCommit()
+    {
+        $exceptionThrown = false;
+
+        try
+        {
+            $server = new SQLMocks\Server();
+            $connection = new SQLMocks\Connection($server);
+            $connection->setToFailOnPurpose(true);
+            $this->unitOfWork = new UnitOfWork($connection);
+            $this->dataMapper = new DataMapperMocks\SQLDataMapper();
+            $this->entity1 = new ORMMocks\Entity(1, "foo");
+            $this->entity2 = new ORMMocks\Entity(2, "bar");
+            $className = get_class($this->entity1);
+            $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+            $this->unitOfWork->scheduleForInsertion($this->entity1);
+            $this->unitOfWork->scheduleForInsertion($this->entity2);
+            $this->unitOfWork->commit();
+        }
+        catch(ORMExceptions\ORMException $ex)
+        {
+            $exceptionThrown = true;
+        }
+
+        $this->assertTrue($exceptionThrown);
+        $this->assertSame($this->dataMapper->getIdGenerator()->getEmptyValue(), $this->entity1->getId());
+        $this->assertSame($this->dataMapper->getIdGenerator()->getEmptyValue(), $this->entity2->getId());
     }
 
     /**

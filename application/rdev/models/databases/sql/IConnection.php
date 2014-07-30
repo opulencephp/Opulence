@@ -73,6 +73,14 @@ interface IConnection
     public function inTransaction();
 
     /**
+     * Gets the last insert Id
+     *
+     * @param string $sequenceName The name of the sequence whose Id we want
+     * @return string The Id of the last row in the input sequence
+     */
+    public function lastInsertId($sequenceName = null);
+
+    /**
      * Prepares an SQL statement for execution
      *
      * @param string $statement The SQL statement to execute

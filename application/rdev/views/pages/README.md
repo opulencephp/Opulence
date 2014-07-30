@@ -136,6 +136,8 @@ It's possible to add custom functions to your template.  For example, you might 
 ```
 #### Application Code
 ```php
+use RDev\Views\Pages;
+
 $template = new Template(PATH_TO_HTML_TEMPLATE);
 $template->addCompiler(function($content) use ($template)
 {

@@ -57,7 +57,6 @@ class UnitOfWork
         }
         catch(\Exception $ex)
         {
-            Exceptions\Log::write("Failed to commit: " . $ex);
             $this->connection->rollBack();
             $this->postRollback();
             throw new ORMExceptions\ORMException($ex->getMessage());
@@ -110,7 +109,7 @@ class UnitOfWork
      * Gets the data mapper for the input class
      *
      * @param string $className The name of the class whose data mapper we're searching for
-     * @return DataMappers\IDataMapper The data mapper for the input class
+     * @return DataMappers\SQLDataMapper The data mapper for the input class
      * @throws \RuntimeException Thrown if there was no data mapper for the input class name
      */
     public function getDataMapper($className)
@@ -304,7 +303,13 @@ class UnitOfWork
      */
     protected function postRollback()
     {
-        // Left blank simply to provide a hook for extending classes
+        // Unset each of the new entities' Ids
+        /** @var Models\IEntity $entity */
+        foreach($this->scheduledForInsertion as $objectHashId => $entity)
+        {
+            $dataMapper = $this->getDataMapper(get_class($entity));
+            $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
+        }
     }
 
     /**
@@ -395,6 +400,7 @@ class UnitOfWork
         {
             $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->add($entity);
+            $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
             $this->manageEntity($entity);
         }
     }

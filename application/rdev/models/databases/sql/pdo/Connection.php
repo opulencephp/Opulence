@@ -150,6 +150,17 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
+     * @throws \PDOException Thrown if there was an error connecting to the database
+     */
+    public function lastInsertId($sequenceName = null)
+    {
+        $this->connect();
+
+        return parent::lastInsertId($sequenceName);
+    }
+
+    /**
+     * {@inheritdoc}
      * @return Statement
      * @throws \PDOException Thrown if there was an error connecting to the database
      */

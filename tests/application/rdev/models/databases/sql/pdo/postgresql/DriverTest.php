@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the MySQL PDO driver
+ * Tests the pgsql PDO driver
  */
 namespace RDev\Models\Databases\SQL\PDO\PostgreSQL;
 use RDev\Models\Databases\SQL;
@@ -18,7 +18,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $server = new Mocks\Server();
         $driver = new Driver();
         $sslMode = "fakesslmode";
-        $expectedResult = "mysql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $expectedResult = "pgsql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';"
             . "sslmode=" . $sslMode . ";";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ["sslmode" => $sslMode]));
@@ -31,7 +31,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Mocks\Server();
         $driver = new Driver();
-        $expectedResult = "mysql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $expectedResult = "pgsql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
     }

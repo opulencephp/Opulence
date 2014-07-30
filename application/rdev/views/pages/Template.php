@@ -213,26 +213,17 @@ class Template implements Views\IView
      */
     private function compilePHP($template)
     {
-        $callback = function ($matches)
+        // Create local variables for use in eval()
+        foreach($this->vars as $name => $value)
         {
-            // Create local variables for use in eval()
-            foreach($this->vars as $name => $value)
-            {
-                ${$name} = $value;
-            }
+            ${$name} = $value;
+        }
 
-            // Grab the evaluated code
-            $codeWithoutLineBreaks = str_replace(["\r", "\n"], [" ", " "], $matches[1]);
-            ob_start();
-            eval($codeWithoutLineBreaks);
-            $evaluatedOutput = ob_get_clean();
+        ob_start();
+        // A little hack to compile inline PHP
+        eval("?>" . $template);
 
-            return $evaluatedOutput;
-        };
-
-        $templateWithEvaluatedPHP = preg_replace_callback("/<\?php\b(((?!$|\?>).)*)($|\?>)/s", $callback, $template);
-
-        return $templateWithEvaluatedPHP;
+        return ob_get_clean();
     }
 
     /**

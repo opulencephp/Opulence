@@ -8,13 +8,19 @@ namespace RDev\Tests\Models\ORM\DataMappers\Mocks;
 use RDev\Models;
 use RDev\Models\ORM\Exceptions;
 use RDev\Models\ORM\DataMappers;
+use RDev\Models\ORM\Ids;
 
-class DataMapper implements DataMappers\IDataMapper
+class SQLDataMapper extends DataMappers\SQLDataMapper
 {
     /** @var Models\IEntity[] The list of entities added */
     protected $entities = [];
     /** @var int The current Id */
     private $currId = 0;
+
+    public function __construct()
+    {
+        $this->setIdGenerator();
+    }
 
     /**
      * {@inheritdoc}
@@ -66,7 +72,15 @@ class DataMapper implements DataMappers\IDataMapper
     /**
      * {@inheritdoc}
      */
-    public function loadEntity(array $hash)
+    public function update(Models\IEntity &$entity)
+    {
+        $this->entities[$entity->getId()] = $entity;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function loadEntity(array $hash)
     {
         // Don't do anything
     }
@@ -74,8 +88,8 @@ class DataMapper implements DataMappers\IDataMapper
     /**
      * {@inheritdoc}
      */
-    public function update(Models\IEntity &$entity)
+    protected function setIdGenerator()
     {
-        $this->entities[$entity->getId()] = $entity;
+        $this->idGenerator = new Ids\IntSequenceIdGenerator("foo");
     }
 } 

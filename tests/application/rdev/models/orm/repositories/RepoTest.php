@@ -18,7 +18,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
     private $entity2 = null;
     /** @var ORM\UnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
-    /** @var DataMapperMocks\DataMapper The data mapper to use in tests */
+    /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
     /** @var Repo The repository to test */
     private $repo = null;
@@ -31,7 +31,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $server = new SQLMocks\Server();
         $connection = new SQLMocks\Connection($server);
         $this->unitOfWork = new ORM\UnitOfWork($connection);
-        $this->dataMapper = new DataMapperMocks\DataMapper();
+        $this->dataMapper = new DataMapperMocks\SQLDataMapper();
         $this->entity1 = new ORMMocks\Entity(1, "foo");
         $this->entity2 = new ORMMocks\Entity(2, "bar");
         $this->repo = new Repo(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);

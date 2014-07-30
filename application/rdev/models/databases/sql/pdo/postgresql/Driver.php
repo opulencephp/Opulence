@@ -16,7 +16,7 @@ class Driver extends PDO\Driver
      */
     protected function getDSN(SQL\Server $server, array $options = [])
     {
-        $dsn = "mysql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $dsn = "pgsql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
 
         if(isset($options["sslmode"]))

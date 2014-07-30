@@ -4,11 +4,10 @@
  *
  * Defines the interface for token repos to implement
  */
-namespace RDev\Models\Cryptography\Repositories\Token;
+namespace RDev\Models\Cryptography\ORM\Token;
 use RDev\Models\Cryptography;
-use RDev\Models\Cryptography\Repositories\Token\Exceptions as TokenExceptions;
+use RDev\Models\Cryptography\ORM\Token\Exceptions as TokenExceptions;
 use RDev\Models\ORM\Repositories;
-use RDev\Models\ORM\Repositories\Exceptions as RepoExceptions;
 
 interface ITokenRepo extends Repositories\IRepo
 {

@@ -20,6 +20,14 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
+    public function bindValue($parameter, $value, $dataType = \PDO::PARAM_STR)
+    {
+        return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function bindValues(array $values)
     {
         return true;

@@ -46,6 +46,14 @@ abstract class RedisDataMapper implements ICacheDataMapper
     abstract protected function getEntityHashById($id);
 
     /**
+     * Loads an entity from a hash of data
+     *
+     * @param array $hash The hash of data to load the entity from
+     * @return Models\IEntity The entity
+     */
+    abstract protected function loadEntity(array $hash);
+
+    /**
      * Performs the read query for entity(ies) and returns any results
      * This assumes that the Ids for all the entities are stored in a set
      *

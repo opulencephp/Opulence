@@ -16,6 +16,10 @@ class Connection implements SQL\IConnection
     private $server = null;
     /** @var bool Whether or not we're in a transaction */
     private $inTransaction = false;
+    /** @var array The mapping of sequence names to last insert Ids */
+    private $lastInsertIds = [];
+    /** @var bool Whether or not this connection should fail on purpose */
+    private $shouldFailOnPurpose = false;
 
     /**
      * @param SQL\Server $server The server to connect to
@@ -40,6 +44,11 @@ class Connection implements SQL\IConnection
     public function commit()
     {
         $this->inTransaction = false;
+
+        if($this->shouldFailOnPurpose)
+        {
+            throw new \Exception("Commit failed");
+        }
     }
 
     /**
@@ -93,6 +102,21 @@ class Connection implements SQL\IConnection
     /**
      * {@inheritdoc}
      */
+    public function lastInsertId($sequenceName = null)
+    {
+        if(!isset($this->lastInsertIds[$sequenceName]))
+        {
+            $this->lastInsertIds[$sequenceName] = 0;
+        }
+
+        $this->lastInsertIds[$sequenceName]++;
+
+        return "" . $this->lastInsertIds[$sequenceName];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function prepare($statement)
     {
         return new Statement();
@@ -120,5 +144,13 @@ class Connection implements SQL\IConnection
     public function rollBack()
     {
         $this->inTransaction = false;
+    }
+
+    /**
+     * @param boolean $shouldFailOnPurpose
+     */
+    public function setToFailOnPurpose($shouldFailOnPurpose)
+    {
+        $this->shouldFailOnPurpose = $shouldFailOnPurpose;
     }
 } 

@@ -19,6 +19,16 @@ interface IStatement
     public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR);
 
     /**
+     * Binds a value to the statement
+     *
+     * @param mixed $parameter Either the named placeholder, eg ":id", or the 1-indexed position of an unnamed placeholder
+     * @param mixed $value The value of the parameter
+     * @param int $dataType The PDO type indicating the type of data we're binding
+     * @return bool True if successful, otherwise false
+     */
+    public function bindValue($parameter, $value, $dataType = \PDO::PARAM_STR);
+
+    /**
      * Binds a list of values to the statement
      *
      * @param array $values The mapping of parameter name to a value or to an array

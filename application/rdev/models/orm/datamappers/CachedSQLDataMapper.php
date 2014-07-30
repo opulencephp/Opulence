@@ -29,8 +29,8 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      */
     public function __construct($cache, SQL\ConnectionPool $connectionPool)
     {
-        $this->cacheDataMapper = $this->getCacheDataMapper($cache);
-        $this->sqlDataMapper = $this->getSQLDataMapper($connectionPool);
+        $this->setCacheDataMapper($cache);
+        $this->setSQLDataMapper($connectionPool);
     }
 
     /**
@@ -49,6 +49,30 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
+    }
+
+    /**
+     * {$@inheritdoc}
+     */
+    public function getAll()
+    {
+        return $this->read("getAll");
+    }
+
+    /**
+     * {$@inheritdoc}
+     */
+    public function getById($id)
+    {
+        return $this->read("getById", [$id]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getIdGenerator()
+    {
+        return $this->sqlDataMapper->getIdGenerator();
     }
 
     /**
@@ -98,20 +122,18 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * Gets a cache data mapper to use in this repo
+     * Sets the cache data mapper to use in this repo
      *
      * @param mixed $cache The cache object used in the data mapper
-     * @return ICacheDataMapper The cache data mapper to use
      */
-    abstract protected function getCacheDataMapper($cache);
+    abstract protected function setCacheDataMapper($cache);
 
     /**
-     * Gets a SQL data mapper to use in this repo
+     * Sets the SQL data mapper to use in this repo
      *
      * @param SQL\ConnectionPool $connectionPool The connection pool used in the data mapper
-     * @return SQLDataMapper The SQL data mapper to use
      */
-    abstract protected function getSQLDataMapper(SQL\ConnectionPool $connectionPool);
+    abstract protected function setSQLDataMapper(SQL\ConnectionPool $connectionPool);
 
     /**
      * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database

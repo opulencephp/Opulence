@@ -4,9 +4,10 @@
  *
  * Mocks a user object for use in testing
  */
-namespace RDev\Tests\Views\Pages\Mocks;
+namespace RDev\Tests\Models\Mocks;
+use RDev\Models;
 
-class User
+class User implements Models\IEntity
 {
     /** @var int The user Id */
     private $id = -1;
@@ -24,7 +25,7 @@ class User
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -37,5 +38,13 @@ class User
     public function getUsername()
     {
         return $this->username;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 } 

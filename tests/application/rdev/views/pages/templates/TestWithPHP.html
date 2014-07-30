@@ -1,4 +1,4 @@
-List of {{listDescription}} on {{date($today)}}:
+<?php echo "TEST"; ?> List of {{listDescription}} on {{date($today)}}:
 <ul>
     <?php
     foreach($users as $user)
@@ -6,4 +6,5 @@ List of {{listDescription}} on {{date($today)}}:
         echo "<li>" . $user->getUsername() . "</li>";
     }
     ?>
-</ul> <?php echo count($users); ?> items<br><?php echo $coolestGuy; ?> is a pretty cool guy. <?php echo "I agree.";
+</ul> <?php echo count($users); ?> items
+<br><?php echo $coolestGuy; ?> is a pretty cool guy. <?php echo "I agree. Fake closing PHP tag: ?>";
