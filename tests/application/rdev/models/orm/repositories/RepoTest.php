@@ -7,6 +7,7 @@
 namespace RDev\Models\ORM\Repositories;
 use RDev\Models\ORM;
 use RDev\Tests\Models\Databases\SQL\Mocks as SQLMocks;
+use RDev\Tests\Models\Mocks as ModelMocks;
 use RDev\Tests\Models\ORM\DataMappers\Mocks as DataMapperMocks;
 use RDev\Tests\Models\ORM\Mocks as ORMMocks;
 
@@ -32,8 +33,8 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $connection = new SQLMocks\Connection($server);
         $this->unitOfWork = new ORM\UnitOfWork($connection);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-        $this->entity1 = new ORMMocks\Entity(1, "foo");
-        $this->entity2 = new ORMMocks\Entity(2, "bar");
+        $this->entity1 = new ModelMocks\User(1, "foo");
+        $this->entity2 = new ModelMocks\User(2, "bar");
         $this->repo = new Repo(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
     }
 

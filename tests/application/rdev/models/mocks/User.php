@@ -47,4 +47,12 @@ class User implements Models\IEntity
     {
         $this->id = $id;
     }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
 } 

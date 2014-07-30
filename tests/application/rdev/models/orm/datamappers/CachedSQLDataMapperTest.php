@@ -5,14 +5,14 @@
  * Tests the cached SQL data mapper
  */
 namespace RDev\Models\ORM\DataMappers;
+use RDev\Tests\Models\Mocks as ModelMocks;
 use RDev\Tests\Models\ORM\DataMappers\Mocks as DataMapperMocks;
-use RDev\Tests\Models\ORM\Mocks as ORMMocks;
 
 class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
 {
     /** @var DataMapperMocks\CachedSQLDataMapper The data mapper to use for tests */
     private $dataMapper = null;
-    /** @var ORMMocks\Entity The entity to use for tests */
+    /** @var ModelMocks\User The entity to use for tests */
     private $entity = null;
 
     /**
@@ -21,7 +21,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper();
-        $this->entity = new ORMMocks\Entity(123, "foo");
+        $this->entity = new ModelMocks\User(123, "foo");
     }
 
     /**
@@ -76,7 +76,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper->getSQLDataMapperForTests()->add($this->entity);
         $this->dataMapper->getCacheDataMapperForTests()->add($this->entity);
-        $this->entity->setStringProperty("bar");
+        $this->entity->setUsername("bar");
         $this->dataMapper->update($this->entity);
         $this->dataMapper->syncCache();
         $this->assertEquals($this->entity, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
@@ -95,7 +95,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
          * referenced by the mock data mappers
          */
         $entityClone = clone $this->entity;
-        $entityClone->setStringProperty("bar");
+        $entityClone->setUsername("bar");
         $this->dataMapper->update($entityClone);
         $this->assertEquals($entityClone, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
         $this->assertNotEquals($entityClone, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId()));

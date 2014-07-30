@@ -8,8 +8,8 @@ namespace RDev\Models\ORM;
 use RDev\Models;
 use RDev\Models\ORM\Exceptions as ORMExceptions;
 use RDev\Models\Users;
+use RDev\Tests\Models\Mocks as ModelMocks;
 use RDev\Tests\Models\Databases\SQL\Mocks as SQLMocks;
-use RDev\Tests\Models\ORM\Mocks as ORMMocks;
 use RDev\Tests\Models\ORM\DataMappers\Mocks as DataMapperMocks;
 
 class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
@@ -18,9 +18,9 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     private $unitOfWork = null;
     /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
-    /** @var ORMMocks\Entity An entity to use in the tests */
+    /** @var ModelMocks\User An entity to use in the tests */
     private $entity1 = null;
-    /** @var ORMMocks\Entity An entity to use in the tests */
+    /** @var ModelMocks\User An entity to use in the tests */
     private $entity2 = null;
 
     /**
@@ -32,8 +32,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $connection = new SQLMocks\Connection($server);
         $this->unitOfWork = new UnitOfWork($connection);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-        $this->entity1 = new ORMMocks\Entity(1, "foo");
-        $this->entity2 = new ORMMocks\Entity(2, "bar");
+        $this->entity1 = new ModelMocks\User(1, "foo");
+        $this->entity2 = new ModelMocks\User(2, "bar");
     }
 
     /**
@@ -61,7 +61,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfEntityIsManagedAfterMakingChangesToIt()
     {
         $this->unitOfWork->manageEntity($this->entity1);
-        $this->entity1->setStringProperty("blah");
+        $this->entity1->setUsername("blah");
         $this->assertTrue($this->unitOfWork->isManaged($this->entity1));
     }
 
@@ -73,7 +73,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->manageEntity($this->entity1);
-        $this->entity1->setStringProperty("blah");
+        $this->entity1->setUsername("blah");
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
         $method->setAccessible(true);
@@ -92,7 +92,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $foo = $this->getInsertedEntity();
         $bar = $foo;
-        $bar->setStringProperty("bar");
+        $bar->setUsername("bar");
         $this->unitOfWork->commit();
         $this->assertEquals($bar, $this->dataMapper->getById($foo->getId()));
     }
@@ -103,7 +103,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction()
     {
         $foo = $this->getInsertedEntity();
-        $foo->setStringProperty("bar");
+        $foo->setUsername("bar");
         $this->unitOfWork->commit();
         $this->assertEquals($foo, $this->dataMapper->getById($foo->getId()));
     }
@@ -284,7 +284,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForUpdate($this->entity1);
-        $this->entity1->setStringProperty("blah");
+        $this->entity1->setUsername("blah");
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
         $method->setAccessible(true);
@@ -320,8 +320,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $connection->setToFailOnPurpose(true);
             $this->unitOfWork = new UnitOfWork($connection);
             $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-            $this->entity1 = new ORMMocks\Entity(1, "foo");
-            $this->entity2 = new ORMMocks\Entity(2, "bar");
+            $this->entity1 = new ModelMocks\User(1, "foo");
+            $this->entity2 = new ModelMocks\User(2, "bar");
             $className = get_class($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
             $this->unitOfWork->scheduleForInsertion($this->entity1);
@@ -341,14 +341,14 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     /**
      * Gets the entity after committing it
      *
-     * @return ORMMocks\Entity The entity from the data mapper
+     * @return ModelMocks\User The entity from the data mapper
      * @throws Exceptions\ORMException Thrown if there was an error committing the transaction
      */
     private function getInsertedEntity()
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $foo = new ORMMocks\Entity(18175, "blah");
+        $foo = new ModelMocks\User(18175, "blah");
         $this->unitOfWork->scheduleForInsertion($foo);
         $this->unitOfWork->commit();
 
