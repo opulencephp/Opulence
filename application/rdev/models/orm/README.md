@@ -5,6 +5,11 @@
 2. Changes made to entities retrieved by repositories are automatically checked for changes and, if any are found, scheduled for updating when the unit of work is committed
 3. Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 
+## Table of Contents
+1. [Unit of Work Change Tracking](#unit-of-work-change-tracking)
+2. [Aggregate Roots](#aggregate-roots)
+3. [Automatic Caching](#automatic-caching)
+
 ## Unit of Work Change Tracking
 Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
@@ -31,6 +36,25 @@ $unitOfWork->commit();
 
 // To prove that this really worked, let's print the name of the user now
 echo $users->getById(123)->getUsername(); // "bar"
+```
+
+## Aggregate Roots
+Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  You might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild`:
+```php
+use RDev\Models\ORM;
+
+// Let's assume the user and password objects are created, but have not yet been stored by the unit of work
+// Order here matters: aggregate roots should be added before their children
+$unitOfWork->scheduleForInsertion($user);
+$unitOfWork->scheduleForInsertion($password);
+// Pass in the aggregate root, the child, and the function that sets the aggregate root Id in the child
+$unitOfWork->registerAggregateRootChild($user, $password, function($user, $password)
+{
+    // This will be executed after the user is inserted but before the password is inserted
+    $password->setUserId($user->getId());
+});
+$unitOfWork->commit();
+echo $password->getUserId() == $user->getId(); // 1
 ```
 
 ## Automatic Caching
