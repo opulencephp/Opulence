@@ -41,13 +41,12 @@ echo $users->getById(123)->getUsername(); // "bar"
 ## Aggregate Roots
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  You might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild`:
 ```php
-use RDev\Models\ORM;
-
-// Let's assume the user and password objects are created, but have not yet been stored by the unit of work
+// Let's assume the unit of work has already been setup and that the user and password objects are created
 // Order here matters: aggregate roots should be added before their children
 $unitOfWork->scheduleForInsertion($user);
 $unitOfWork->scheduleForInsertion($password);
 // Pass in the aggregate root, the child, and the function that sets the aggregate root Id in the child
+// The first argument of the function you pass in should be the aggregate root, and the second should be the child
 $unitOfWork->registerAggregateRootChild($user, $password, function($user, $password)
 {
     // This will be executed after the user is inserted but before the password is inserted
