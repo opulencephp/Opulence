@@ -17,16 +17,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH_WITH_PHP_CODE = "/templates/TestWithPHP.html";
 
     /**
-     * Tests adding an uncallable function compiler
-     */
-    public function testAddingUncallableFunctionCompiler()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $template = new Template();
-        $template->addCompiler("foo");
-    }
-
-    /**
      * Tests getting the close tag when we've set it to a custom value
      */
     public function testGettingCustomCloseTag()

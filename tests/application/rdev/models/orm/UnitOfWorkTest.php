@@ -32,8 +32,14 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $connection = new SQLMocks\Connection($server);
         $this->unitOfWork = new UnitOfWork($connection);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-        $this->entity1 = new ModelMocks\User(1, "foo");
-        $this->entity2 = new ModelMocks\User(2, "bar");
+        /**
+         * The Ids are purposely unique so that we can identify them as such without having to first insert them to
+         * assign unique Ids
+         * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
+         * set to the Ids
+         */
+        $this->entity1 = new ModelMocks\User(724, "foo");
+        $this->entity2 = new ModelMocks\User(1987, "bar");
     }
 
     /**
@@ -298,7 +304,28 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests to make sure that an entity's Id is being set after it's commited
+     * Tests setting the aggregate root
+     */
+    public function testSettingAggregateRoot()
+    {
+        $originalAggregateRootId = $this->entity1->getId();
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->unitOfWork->scheduleForInsertion($this->entity2);
+        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
+        {
+            /** @var ModelMocks\User $aggregateRoot */
+            /** @var ModelMocks\User $child */
+            $child->setAggregateRootId($aggregateRoot->getId());
+        });
+        $this->unitOfWork->commit();
+        $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
+        $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
+    }
+
+    /**
+     * Tests to make sure that an entity's Id is being set after it's committed
      */
     public function testThatEntityIdIsBeingSetAfterCommit()
     {

@@ -29,6 +29,17 @@ class UnitOfWork
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
     private $managedEntities = [];
+    /**
+     * Maps aggregate root children to their roots as well as functions that can set the child's aggregate root Id
+     * Each entry is an array with the following keys:
+     *      "aggregateRoot" => The aggregate root
+     *      "child" => The entity whose aggregate root Id will be set to the Id of the aggregate root
+     *      "function" => The function to execute that actually sets the aggregate root Id in the child
+     *          Note:  The function MUST have two parameters: first for the aggregate root and a second for the child
+     *
+     * @var array
+     */
+    private $aggregateRootChildren = [];
 
     /**
      * @param SQL\IConnection $connection The connection to use in our unit of work
@@ -68,6 +79,7 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
+        $this->aggregateRootChildren = [];
     }
 
     /**
@@ -89,6 +101,7 @@ class UnitOfWork
             unset($this->scheduledForInsertion[$objectHashId]);
             unset($this->scheduledForUpdate[$objectHashId]);
             unset($this->scheduledForDeletion[$objectHashId]);
+            unset($this->aggregateRootChildren[$objectHashId]);
         }
     }
 
@@ -100,6 +113,7 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
+        $this->aggregateRootChildren = [];
         $this->managedEntities = [];
         $this->entityStates = [];
         $this->objectHashIdsToOriginalData = [];
@@ -236,6 +250,24 @@ class UnitOfWork
     }
 
     /**
+     * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
+     * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
+     *
+     * @param Models\IEntity $aggregateRoot The aggregate root
+     * @param Models\IEntity $child The child of the aggregate root
+     * @param callable $function The function that contains the logic to set the aggregate root Id in the child
+     */
+    public function registerAggregateRootChild(Models\IEntity $aggregateRoot, Models\IEntity $child, callable $function)
+    {
+        $childObjectHashId = $this->getObjectHashId($child);
+        $this->aggregateRootChildren[$childObjectHashId] = [
+            "aggregateRoot" => $aggregateRoot,
+            "child" => $child,
+            "function" => $function
+        ];
+    }
+
+    /**
      * Registers a data mapper for a class
      *
      * @param string $className The name of the class whose data mapper we're registering
@@ -263,8 +295,8 @@ class UnitOfWork
      */
     public function scheduleForInsertion(Models\IEntity $entity)
     {
-        $this->scheduledForInsertion[$this->getObjectHashId($entity)] = $entity;
         $objectHashId = $this->getObjectHashId($entity);
+        $this->scheduledForInsertion[$objectHashId] = $entity;
         $this->entityStates[$objectHashId] = EntityStates::ADDED;
     }
 
@@ -398,6 +430,14 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
+            // If this entity was a child of an aggregate root, then call the function to set the aggregate root Id
+            if(isset($this->aggregateRootChildren[$objectHashId]))
+            {
+                $aggregateRootData = $this->aggregateRootChildren[$objectHashId];
+                $aggregateRoot = $aggregateRootData["aggregateRoot"];
+                $aggregateRootData["function"]($aggregateRoot, $entity);
+            }
+
             $dataMapper = $this->getDataMapper(get_class($entity));
             $dataMapper->add($entity);
             $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
