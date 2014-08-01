@@ -61,7 +61,7 @@ $unitOfWork->commit();
 ```
 
 ## Aggregate Roots
-Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  You might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild`:
+Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild`:
 ```php
 // Let's assume the unit of work has already been setup and that the user and password objects are created
 // Order here matters: aggregate roots should be added before their children
