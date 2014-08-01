@@ -55,9 +55,9 @@ $this->unitOfWork->registerComparisonFunction($className, function($a, $b)
 {
     return $a->getUsername() == $b->getUsername();
 });
+// On commit, the unit of work will run the comparison function, and it will determine that the $user's username has changed
+// So, it will be scheduled for update and committed
 $unitOfWork->commit();
-// On commit, the unit of work ran the comparison function, and it determined the $user's username had changed
-// So, it was scheduled for update and committed
 ```
 
 ## Aggregate Roots
