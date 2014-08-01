@@ -1,4 +1,4 @@
-# Connection Pools
+# Database Connections
 
 ## Table of Contents
 1. [Introduction](#introduction)

@@ -1,17 +1,18 @@
-# Table of Contents
-## About RDev
+# RDev
+## Table of Contents
+### About RDev
 1. [Introduction](#introduction)
 2. [Requirements](#requirements)
 3. [License](#license)
 4. [History](#history)
 5. [About the Author](#about-the-author)
 
-## Databases
+### Databases
 1. [Database Connections](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
 2. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
 3. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
 
-## Page Templates
+### Page Templates
 1. [Building a Page Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views/pages)
 
 ## Introduction
