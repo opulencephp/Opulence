@@ -9,6 +9,18 @@ namespace RDev\Models\Databases\SQL\Providers;
 class TypeMapper
 {
     /**
+     * Converts an SQL boolean to a PHP boolean
+     *
+     * @param Provider $provider The provider to convert from
+     * @param mixed $sqlBoolean The boolean to convert
+     * @return bool The PHP boolean
+     */
+    public function fromSQLBoolean(Provider $provider, $sqlBoolean)
+    {
+        return $provider->getTrueBooleanFormat() === $sqlBoolean;
+    }
+
+    /**
      * Converts an SQL date to a PHP date time
      *
      * @param Provider $provider The provider to convert from
@@ -76,6 +88,25 @@ class TypeMapper
 
         return \DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(),
             $sqlTimestamp, new \DateTimeZone("UTC"));
+    }
+
+    /**
+     * Converts a PHP boolean to an SQL boolean
+     *
+     * @param Provider $provider The provider to convert to
+     * @param bool $boolean The boolean to convert
+     * @return mixed The SQL boolean suitable for database storage
+     */
+    public function toSQLBoolean(Provider $provider, $boolean)
+    {
+        if($boolean)
+        {
+            return $provider->getTrueBooleanFormat();
+        }
+        else
+        {
+            return $provider->getFalseBooleanFormat();
+        }
     }
 
     /**

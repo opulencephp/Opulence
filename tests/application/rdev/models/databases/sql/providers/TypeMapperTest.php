@@ -31,6 +31,15 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests converting from a false SQL boolean
+     */
+    public function testConvertingFromFalseSQLBoolean()
+    {
+        $sqlBoolean = $this->provider->getFalseBooleanFormat();
+        $this->assertSame(false, $this->typMapper->fromSQLBoolean($this->provider, $sqlBoolean));
+    }
+
+    /**
      * Tests converting from an SQL date
      */
     public function testConvertingFromSQLDate()
@@ -69,6 +78,15 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests converting from a true SQL boolean
+     */
+    public function testConvertingFromTrueSQLBoolean()
+    {
+        $sqlBoolean = $this->provider->getTrueBooleanFormat();
+        $this->assertSame(true, $this->typMapper->fromSQLBoolean($this->provider, $sqlBoolean));
+    }
+
+    /**
      * Tests converting from a null time returns null
      */
     public function testConvertingTimeFromNullReturnsNull()
@@ -90,6 +108,14 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingTimestampWithoutTimeZoneFromNullReturnsNull()
     {
         $this->assertNull($this->typMapper->fromSQLTimestampWithOutTimeZone($this->provider, null));
+    }
+
+    /**
+     * Tests converting to a false SQL boolean
+     */
+    public function testConvertingToFalseSQLBoolean()
+    {
+        $this->assertEquals($this->provider->getFalseBooleanFormat(), $this->typMapper->toSQLBoolean($this->provider, false));
     }
 
     /**
@@ -128,5 +154,13 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
         $timestamp = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->assertEquals($timestamp->format($this->provider->getTimestampWithoutTimeZoneFormat()),
             $this->typMapper->toSQLTimestampWithoutTimeZone($this->provider, $timestamp));
+    }
+
+    /**
+     * Tests converting to a true SQL boolean
+     */
+    public function testConvertingToTrueSQLBoolean()
+    {
+        $this->assertEquals($this->provider->getTrueBooleanFormat(), $this->typMapper->toSQLBoolean($this->provider, true));
     }
 } 

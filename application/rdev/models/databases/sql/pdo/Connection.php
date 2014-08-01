@@ -15,6 +15,8 @@ class Connection extends \PDO implements SQL\IConnection
     /** The name of the PDOStatement class to use */
     const PDO_STATEMENT_CLASS = "Statement";
 
+    /** @var Providers\TypeMapper The database type mapper this connection uses */
+    private $typeMapper = null;
     /** @var Providers\Provider The database provider this connection uses */
     private $provider = null;
     /** @var SQL\Server The server we're connecting to */
@@ -41,6 +43,7 @@ class Connection extends \PDO implements SQL\IConnection
      */
     public function __construct(Providers\Provider $provider, SQL\Server $server, $dsn, array $driverOptions = [])
     {
+        $this->typeMapper = new Providers\TypeMapper();
         $this->provider = $provider;
         $this->server = $server;
         $this->dsn = $dsn;
@@ -135,6 +138,14 @@ class Connection extends \PDO implements SQL\IConnection
     public function getServer()
     {
         return $this->server;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTypeMapper()
+    {
+        return $this->typeMapper;
     }
 
     /**

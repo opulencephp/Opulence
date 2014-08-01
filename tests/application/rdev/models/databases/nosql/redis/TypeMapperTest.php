@@ -20,6 +20,14 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests converting from a false Redis boolean
+     */
+    public function testConvertingFromFalseRedisBoolean()
+    {
+        $this->assertSame(false, $this->typeMapper->fromRedisBoolean(0));
+    }
+
+    /**
      * Tests converting from a Redis timestamp
      */
     public function testConvertingFromRedisTimestamp()
@@ -30,11 +38,35 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests converting from a true Redis boolean
+     */
+    public function testConvertingFromTrueRedisBoolean()
+    {
+        $this->assertSame(true, $this->typeMapper->fromRedisBoolean(1));
+    }
+
+    /**
+     * Tests converting to a false Redis boolean
+     */
+    public function testConvertingToFalseRedisBoolean()
+    {
+        $this->assertSame(0, $this->typeMapper->toRedisBoolean(false));
+    }
+
+    /**
      * Tests converting to a Redis timestamp
      */
     public function testConvertingToRedisTimestamp()
     {
         $time = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
+    }
+
+    /**
+     * Tests converting to a true Redis boolean
+     */
+    public function testConvertingToTrueRedisBoolean()
+    {
+        $this->assertSame(1, $this->typeMapper->toRedisBoolean(true));
     }
 } 

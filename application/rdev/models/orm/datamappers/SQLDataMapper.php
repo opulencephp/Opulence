@@ -53,7 +53,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
      * @param string $sql The SQL query to run
      * @param array $sqlParameters The list of SQL parameters
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
-     * @return array|mixed|bool The list of entities or an individual entity if successful, otherwise false
+     * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      */
     protected function read($sql, array $sqlParameters, $expectSingleResult)
     {
@@ -65,7 +65,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
 
             if($expectSingleResult && $statement->rowCount() != 1)
             {
-                return false;
+                return null;
             }
 
             $entities = [];
@@ -90,6 +90,6 @@ abstract class SQLDataMapper implements ISQLDataMapper
             Exceptions\Log::write("Unable to query entities: " . $ex);
         }
 
-        return false;
+        return null;
     }
 } 

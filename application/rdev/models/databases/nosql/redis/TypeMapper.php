@@ -9,6 +9,17 @@ namespace RDev\Models\Databases\NoSQL\Redis;
 class TypeMapper
 {
     /**
+     * Converts a Redis boolean to a PHP boolean
+     *
+     * @param int $boolean The Redis boolean to convert from
+     * @return bool The PHP boolean
+     */
+    public function fromRedisBoolean($boolean)
+    {
+        return $boolean == 1;
+    }
+
+    /**
      * Converts a Redis Unix timestamp to a PHP timestamp
      *
      * @param int $timestamp The Unix timestamp to convert from
@@ -17,6 +28,24 @@ class TypeMapper
     public function fromRedisTimestamp($timestamp)
     {
         return \DateTime::createFromFormat("U", $timestamp, new \DateTimeZone("UTC"));
+    }
+
+    /**
+     * Converts a PHP boolean to a Redis boolean
+     *
+     * @param bool $boolean The PHP boolean to convert
+     * @return int The Redis boolean
+     */
+    public function toRedisBoolean($boolean)
+    {
+        if($boolean)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /**

@@ -8,6 +8,10 @@ namespace RDev\Models\Databases\SQL\Providers;
 
 class Provider
 {
+    /** @var string The format for a true boolean */
+    protected $trueBooleanFormat = "t";
+    /** @var string The format for a false boolean */
+    protected $falseBooleanFormat = "f";
     /** @var string The format for date strings */
     protected $dateFormat = "Y-m-d";
     /** @var string The format for time strings */
@@ -23,6 +27,14 @@ class Provider
     public function getDateFormat()
     {
         return $this->dateFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFalseBooleanFormat()
+    {
+        return $this->falseBooleanFormat;
     }
 
     /**
@@ -47,5 +59,13 @@ class Provider
     public function getTimestampWithoutTimeZoneFormat()
     {
         return $this->timestampWithoutTimeZoneFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTrueBooleanFormat()
+    {
+        return $this->trueBooleanFormat;
     }
 } 

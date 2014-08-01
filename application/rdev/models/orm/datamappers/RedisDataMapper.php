@@ -31,7 +31,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
         if($entityHash === false || $entityHash === [])
         {
-            return false;
+            return null;
         }
 
         return $this->loadEntity($entityHash);
@@ -59,7 +59,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      *
      * @param string $keyOfEntityIds The key that contains the Id(s) of the entities we're searching for
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
-     * @return array|mixed|bool The list of entities or an individual entity if successful, otherwise false
+     * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      */
     protected function read($keyOfEntityIds, $expectSingleResult)
     {
@@ -69,7 +69,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
             if($entityIds === false)
             {
-                return false;
+                return null;
             }
 
             // To be compatible with the rest of this method, we'll convert the Id to an array containing that Id
@@ -81,7 +81,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
             if(count($entityIds) == 0)
             {
-                return false;
+                return null;
             }
         }
 
@@ -94,7 +94,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
             if($hash === false)
             {
-                return false;
+                return null;
             }
 
             $entities[] = $this->loadEntity($hash);

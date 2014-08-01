@@ -45,7 +45,15 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
      */
     public function getAll()
     {
-        return array_values($this->entities);
+        // We clone all the entities so that they get new object hashes
+        $clonedEntities = [];
+
+        foreach(array_values($this->entities) as $entity)
+        {
+            $clonedEntities[] = clone $entity;
+        }
+
+        return $clonedEntities;
     }
 
     /**
@@ -58,7 +66,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
             throw new Exceptions\ORMException("No entity found with Id " . $id);
         }
 
-        return $this->entities[$id];
+        return clone $this->entities[$id];
     }
 
     /**

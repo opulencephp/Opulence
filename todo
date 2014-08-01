@@ -1,8 +1,5 @@
-Figure out what needs to be done in postRollback for registered aggregate root children
+Decide if returning false is really best way on miss in repos
 Make sure that UoW and DMs are using same connection
-Need to see if there's a way for you to add an item to the repo and use it's Id before uow is committed
-    See if we can add a uow::transaction(function()) function that would allow a user to manually do the stuff that's in commit()
-    Might need to write methods to make it easier to insert/delete/update individual entities (right now those methods handle lists of entities)
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials

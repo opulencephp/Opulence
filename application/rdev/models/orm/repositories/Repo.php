@@ -85,9 +85,16 @@ class Repo implements IRepo
 
         if(is_array($entities))
         {
-            $this->unitOfWork->manageEntities($entities);
+            // Passing by reference here is important because that reference may be updated in the unit of work
+            foreach($entities as &$entity)
+            {
+                if($entity instanceof Models\IEntity)
+                {
+                    $this->unitOfWork->manageEntity($entity);
+                }
+            }
         }
-        elseif($this->unitOfWork instanceof Models\IEntity)
+        elseif($entities instanceof Models\IEntity)
         {
             $this->unitOfWork->manageEntity($entities);
         }

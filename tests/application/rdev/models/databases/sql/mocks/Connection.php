@@ -10,6 +10,8 @@ use RDev\Models\Databases\SQL\Providers;
 
 class Connection implements SQL\IConnection
 {
+    /** @var Providers\TypeMapper The type mapper used by this connection */
+    private $typeMapper = null;
     /** @var Providers\Provider The provider used by this connection */
     private $provider = null;
     /** @var SQL\Server The server to connect to */
@@ -26,6 +28,7 @@ class Connection implements SQL\IConnection
      */
     public function __construct(SQL\Server $server)
     {
+        $this->typeMapper = new Providers\TypeMapper();
         $this->provider = new Providers\Provider();
         $this->server = $server;
     }
@@ -89,6 +92,14 @@ class Connection implements SQL\IConnection
     public function getServer()
     {
         return $this->server;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getTypeMapper()
+    {
+        return $this->typeMapper;
     }
 
     /**

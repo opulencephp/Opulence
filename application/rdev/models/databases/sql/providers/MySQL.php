@@ -8,5 +8,8 @@ namespace RDev\Models\Databases\SQL\Providers;
 
 class MySQL extends Provider
 {
-    // Don't do anything
+    /** {@inheritdoc} */
+    protected $trueBooleanFormat = 1;
+    /** {@inheritdoc} */
+    protected $falseBooleanFormat = 0;
 } 

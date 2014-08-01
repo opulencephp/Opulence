@@ -209,7 +209,8 @@ class UnitOfWork
      */
     public function isManaged(Models\IEntity $entity)
     {
-        return $this->getEntityState($entity) == EntityStates::MANAGED;
+        return $this->getEntityState($entity) == EntityStates::MANAGED
+        || isset($this->managedEntities[get_class($entity)][$entity->getId()]);
     }
 
     /**
@@ -230,7 +231,7 @@ class UnitOfWork
      *
      * @param Models\IEntity $entity The entity to manage
      */
-    public function manageEntity(Models\IEntity $entity)
+    public function manageEntity(Models\IEntity &$entity)
     {
         $className = get_class($entity);
         $objectHashId = $this->getObjectHashId($entity);
@@ -240,12 +241,16 @@ class UnitOfWork
             $this->managedEntities[$className] = [];
         }
 
-        // Don't double-manage an entity
-        if(!isset($this->managedEntities[$className][$entity->getId()]))
+        if(isset($this->managedEntities[$className][$entity->getId()]))
         {
-            $this->managedEntities[$className][$entity->getId()] = $entity;
-            $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::MANAGED;
+            // Use the original data from the already-managed entity
+            $entity = $this->getManagedEntity(get_class($entity), $entity->getId());
+        }
+        else
+        {
             $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
+            $this->managedEntities[$className][$entity->getId()] = $entity;
+            $this->entityStates[$objectHashId] = EntityStates::MANAGED;
         }
     }
 
@@ -386,9 +391,23 @@ class UnitOfWork
                         $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
                     }
 
-                    if(count(array_diff($currentPropertiesAsHash, $originalPropertiesAsHash)) > 0)
+                    if(count($originalProperties) != count($currentProperties))
                     {
+                        // Clearly there's a difference here, so update
                         $this->scheduleForUpdate($entity);
+                        continue;
+                    }
+
+                    // Compare all the property values to see if they are identical
+                    foreach($originalPropertiesAsHash as $name => $value)
+                    {
+                        if(!array_key_exists($name, $currentPropertiesAsHash)
+                            || $currentPropertiesAsHash[$name] !== $value
+                        )
+                        {
+                            $this->scheduleForUpdate($entity);
+                            continue 2;
+                        }
                     }
                 }
             }

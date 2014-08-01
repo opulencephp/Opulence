@@ -9,6 +9,17 @@ namespace RDev\Models\Databases\NoSQL\Memcached;
 class TypeMapper
 {
     /**
+     * Converts a Memcached boolean to a PHP boolean
+     *
+     * @param int $boolean The Memcached boolean to convert from
+     * @return bool The PHP boolean
+     */
+    public function fromMemcachedBoolean($boolean)
+    {
+        return $boolean == 1;
+    }
+
+    /**
      * Converts a Memcached Unix timestamp to a PHP timestamp
      *
      * @param int $timestamp The Unix timestamp to convert from
@@ -17,6 +28,24 @@ class TypeMapper
     public function fromMemcachedTimestamp($timestamp)
     {
         return \DateTime::createFromFormat("U", $timestamp, new \DateTimeZone("UTC"));
+    }
+
+    /**
+     * Converts a PHP boolean to a Memcached boolean
+     *
+     * @param bool $boolean The PHP boolean to convert
+     * @return int The Memcached boolean
+     */
+    public function toMemcachedBoolean($boolean)
+    {
+        if($boolean)
+        {
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
     }
 
     /**

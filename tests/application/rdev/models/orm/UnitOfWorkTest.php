@@ -379,6 +379,6 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForInsertion($foo);
         $this->unitOfWork->commit();
 
-        return $this->dataMapper->getById($foo->getId());
+        return $this->unitOfWork->getManagedEntity($className, $foo->getId());
     }
 }

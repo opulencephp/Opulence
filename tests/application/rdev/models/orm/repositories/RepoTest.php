@@ -9,13 +9,12 @@ use RDev\Models\ORM;
 use RDev\Tests\Models\Databases\SQL\Mocks as SQLMocks;
 use RDev\Tests\Models\Mocks as ModelMocks;
 use RDev\Tests\Models\ORM\DataMappers\Mocks as DataMapperMocks;
-use RDev\Tests\Models\ORM\Mocks as ORMMocks;
 
 class RepoTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ORMMocks\Entity An entity to use in the tests */
+    /** @var ModelMocks\User An entity to use in the tests */
     private $entity1 = null;
-    /** @var ORMMocks\Entity An entity to use in the tests */
+    /** @var ModelMocks\User An entity to use in the tests */
     private $entity2 = null;
     /** @var ORM\UnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
@@ -92,6 +91,40 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
+    }
+
+    /**
+     * Tests the repo and unit of work to make sure the same instance of an already-managed entity is returned by getAll
+     */
+    public function testGettingEntityByIdAndThenAllEntities()
+    {
+        $this->repo->add($this->entity1);
+        $this->unitOfWork->commit();
+        /** @var ModelMocks\User $entityFromGetById */
+        $entityFromGetById = $this->repo->getById($this->entity1->getId());
+        /** @var ModelMocks\User[] $allEntities */
+        $allEntities = $this->repo->getAll();
+        /** @var ModelMocks\User $entityFromGetAll */
+        $entityFromGetAll = null;
+
+        foreach($allEntities as $entity)
+        {
+            $entity->setUsername("newUsername");
+
+            if($entity->getId() == $entityFromGetById->getId())
+            {
+                $entityFromGetAll = $entity;
+            }
+        }
+
+        foreach($allEntities as $entity)
+        {
+            if($entity->getId() == $entityFromGetById->getId())
+            {
+                //$this->assertEquals(spl_object_hash($entityFromGetById), spl_object_hash($entity));
+                $this->assertEquals($entityFromGetAll->getUsername(), $entityFromGetById->getUsername());
+            }
+        }
     }
 
     /**

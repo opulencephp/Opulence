@@ -142,7 +142,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * @param array $getFuncArgs The array of function arguments to pass in to our entity retrieval functions
      * @param bool $addDataToCacheOnMiss True if we want to add the entity from the database to cache in case of a cache miss
      * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a cache miss
-     * @return Models\IEntity|array|bool The entity(ies) if it was found, otherwise false
+     * @return Models\IEntity|array|null The entity(ies) if it was found, otherwise null
      */
     protected function read($funcName, array $getFuncArgs = [], $addDataToCacheOnMiss = true, array $setFuncArgs = [])
     {
@@ -150,26 +150,28 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         $data = call_user_func_array([$this->cacheDataMapper, $funcName], $getFuncArgs);
 
         // If we have to go off to SQL
-        if($data === false)
+        if($data === null)
         {
             $data = call_user_func_array([$this->sqlDataMapper, $funcName], $getFuncArgs);
 
             // Try to store the data back to cache
-            if($data === false)
+            if($data === null)
             {
-                return false;
+                return null;
             }
 
             if($addDataToCacheOnMiss)
             {
-                if(!is_array($data))
+                if(is_array($data))
                 {
-                    $data = [$data];
+                    foreach($data as $datum)
+                    {
+                        call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
+                    }
                 }
-
-                foreach($data as $datum)
+                else
                 {
-                    call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
+                    call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$data], $setFuncArgs));
                 }
             }
         }

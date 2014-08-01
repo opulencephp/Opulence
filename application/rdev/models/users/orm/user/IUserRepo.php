@@ -8,6 +8,10 @@ namespace RDev\Models\Users\ORM\User;
 use RDev\Models\ORM\Repositories;
 use RDev\Models\Users;
 
+/**
+ * @method Users\User getById($id)
+ * @method Users\User[] getAll()
+ */
 interface IUserRepo extends Repositories\IRepo
 {
     /**

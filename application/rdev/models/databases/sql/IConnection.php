@@ -65,6 +65,11 @@ interface IConnection
     public function getServer();
 
     /**
+     * @return Providers\TypeMapper
+     */
+    public function getTypeMapper();
+
+    /**
      * Gets whether or not we're in a transaction
      *
      * @return bool True if we're in a transaction, otherwise false
