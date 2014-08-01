@@ -102,7 +102,6 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         }
         catch(\Exception $ex)
         {
-            Exceptions\Log::write("Failed to synchronize cache: " . $ex);
             throw new ORMExceptions\ORMException($ex->getMessage());
         }
 
