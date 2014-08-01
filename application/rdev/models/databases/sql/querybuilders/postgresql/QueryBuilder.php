@@ -27,6 +27,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
 
     /**
      * {@inheritdoc}
+     * @return QueryBuilders\PostgreSQL\SelectQuery
      */
     public function select($expression)
     {
