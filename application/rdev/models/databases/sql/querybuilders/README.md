@@ -9,7 +9,7 @@
 Sometimes you need to programmatically generate/piece together SQL queries.  Rather than concatenating strings together, you can use **Query Builders** to do the heavy lifting.  
 
 ##Basic Usage
-The following is an example of a simple PostgreSQL query using one:
+The following is an example of a simple PostgreSQL query using a query builder:
 
 ```php
 use RDev\Models\Databases\SQL\QueryBuilders\PostgreSQL;
