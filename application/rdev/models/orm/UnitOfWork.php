@@ -40,6 +40,14 @@ class UnitOfWork
      * @var array
      */
     private $aggregateRootChildren = [];
+    /**
+     * The mapping of class names to their comparison functions, which can be used to speed up checking for updates
+     * The functions should accept two instances of the same class, and it should return true if they contain the same
+     * data, otherwise false
+     *
+     * @var array
+     */
+    private $comparisonFunctions = [];
 
     /**
      * @param SQL\IConnection $connection The connection to use in our unit of work
@@ -159,13 +167,13 @@ class UnitOfWork
      *
      * @param string $className The name of the class the entity belongs to
      * @param int|string $id The entity's Id
-     * @return Models\IEntity|bool The entity if it was found, otherwise false
+     * @return Models\IEntity|null The entity if it was found, otherwise null
      */
     public function getManagedEntity($className, $id)
     {
         if(!isset($this->managedEntities[$className]) || !isset($this->managedEntities[$className][$id]))
         {
-            return false;
+            return null;
         }
 
         return $this->managedEntities[$className][$id];
@@ -243,11 +251,12 @@ class UnitOfWork
 
         if(isset($this->managedEntities[$className][$entity->getId()]))
         {
-            // Use the original data from the already-managed entity
+            // Change the reference of the input entity to the one that's already managed
             $entity = $this->getManagedEntity(get_class($entity), $entity->getId());
         }
         else
         {
+            // Manage this entity
             $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
             $this->managedEntities[$className][$entity->getId()] = $entity;
             $this->entityStates[$objectHashId] = EntityStates::MANAGED;
@@ -273,7 +282,21 @@ class UnitOfWork
     }
 
     /**
+     * Registers a comparison function for a class, which speeds up the check for updates
+     * Registering a comparison function for a class will overwrite any previously-set comparison functions for that class
+     *
+     * @param string $className The name of the class whose comparison function we're registering
+     * @param callable $function The function that takes two instances of the same class and returns whether or not
+     *      they're considered identical
+     */
+    public function registerComparisonFunction($className, callable $function)
+    {
+        $this->comparisonFunctions[$className] = $function;
+    }
+
+    /**
      * Registers a data mapper for a class
+     * Registering a data mapper for a class will overwrite any previously-set data mapper for that class
      *
      * @param string $className The name of the class whose data mapper we're registering
      * @param DataMappers\IDataMapper $dataMapper The data mapper for the class
@@ -368,11 +391,23 @@ class UnitOfWork
                     && !isset($this->scheduledForDeletion[$objectHashId])
                 )
                 {
+                    $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
+
+                    // Try using a comparison function to save time, if one is set
+                    if(isset($this->comparisonFunctions[$className]))
+                    {
+                        if(!$this->comparisonFunctions[$className]($originalData, $entity))
+                        {
+                            $this->scheduleForUpdate($entity);
+                        }
+
+                        continue;
+                    }
+
                     // Get all the properties in the original entity and the current one
                     $currentEntityReflection = new \ReflectionClass($entity);
                     $currentProperties = $currentEntityReflection->getProperties();
                     $currentPropertiesAsHash = [];
-                    $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
                     $originalEntityReflection = new \ReflectionClass($originalData);
                     $originalProperties = $originalEntityReflection->getProperties();
                     $originalPropertiesAsHash = [];

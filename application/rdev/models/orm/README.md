@@ -1,15 +1,18 @@
 # Object-Relational Mapping
+
+## Table of Contents
+1. [Introduction](#introduction)
+2. [Unit of Work Change Tracking](#unit-of-work-change-tracking)
+3. [Aggregate Roots](#aggregate-roots)
+4. [Automatic Caching](#automatic-caching)
+
+## Introduction
 **RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *DataMappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
 
 1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
 2. Changes made to entities retrieved by repositories are automatically checked for changes and, if any are found, scheduled for updating when the unit of work is committed
 3. Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 4. Querying for the same object will always give you the same, single instance of that object
-
-## Table of Contents
-1. [Unit of Work Change Tracking](#unit-of-work-change-tracking)
-2. [Aggregate Roots](#aggregate-roots)
-3. [Automatic Caching](#automatic-caching)
 
 ## Unit of Work Change Tracking
 Let's take a look at how units of work can manage entities retrieved through repositories:
@@ -37,6 +40,24 @@ $unitOfWork->commit();
 
 // To prove that this really worked, let's print the name of the user now
 echo $users->getById(123)->getUsername(); // "bar"
+```
+
+### Custom Change Tracking
+Object's updates are tracked using reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction`:
+```php
+// Let's assume the unit of work has already been setup and that the user object is created
+$className = get_class($user);
+$unitOfWork->manageEntity($user);
+$user->setUsername("newUsername");
+// Let's pretend that all we care about in checking if two user objects are identical is comparing their usernames
+// Register a comparison function that takes two user objects and returns whether or not the usernames matched
+$this->unitOfWork->registerComparisonFunction($className, function($a, $b)
+{
+    return $a->getUsername() == $b->getUsername();
+});
+$unitOfWork->commit();
+// On commit, the unit of work ran the comparison function, and it determined the $user's username had changed
+// So, it was scheduled for update and committed
 ```
 
 ## Aggregate Roots

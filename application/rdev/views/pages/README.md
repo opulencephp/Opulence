@@ -1,14 +1,17 @@
 # Templates
-**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.
 
 ## Table of Contents
-1. [Basic Usage](#basic-usage)
-2. [Nesting Templates](#nesting-templates)
-3. [Cross-Site Scripting](#cross-site-scripting)
-4. [Using PHP in Your Template](#using-php-in-your-template)
-5. [Custom Functions](#custom-functions)
-6. [Escaping Tags](#escaping-tags)
-7. [Custom Tag Placeholders](#custom-tag-placeholders)
+1. [Introduction](#introduction)
+2. [Basic Usage](#basic-usage)
+3. [Nesting Templates](#nesting-templates)
+4. [Cross-Site Scripting](#cross-site-scripting)
+5. [Using PHP in Your Template](#using-php-in-your-template)
+6. [Custom Functions](#custom-functions)
+7. [Escaping Tags](#escaping-tags)
+8. [Custom Tag Placeholders](#custom-tag-placeholders)
+
+## Introduction
+**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.
 
 ## Basic Usage
 #### Template

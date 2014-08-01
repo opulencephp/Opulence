@@ -1,10 +1,13 @@
 # Connection Pools
-Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.  
 
 ## Table of Contents
-1. [Creating a Connection Pool](#creating-a-connection-pool)
-2. [Single-Server Connection Pool](#single-server-connection-pool)
-3. [Master-Slave Connection Pool](#master-slave-connection-pool)
+1. [Introduction](#introduction)
+2. [Creating a Connection Pool](#creating-a-connection-pool)
+3. [Single-Server Connection Pool](#single-server-connection-pool)
+4. [Master-Slave Connection Pool](#master-slave-connection-pool)
+
+## Introduction
+Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.  
 
 ## Creating a Connection Pool
 Connection pools are instantiated with a configuration array.  All connection pools must have the following keys:

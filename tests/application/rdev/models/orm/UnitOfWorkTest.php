@@ -115,6 +115,57 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that a comparison function for two instances of a class are considered identical
+     */
+    public function testComparisonFunctionSaysTwoInstancesAreIdentical()
+    {
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entity1->setUsername("not entity 1's username");
+        $this->unitOfWork->registerComparisonFunction($className, function ($a, $b)
+        {
+            /** @var ModelMocks\User $a */
+            /** @var ModelMocks\User $b */
+            return $a->getId() == $b->getId();
+        });
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledForUpdate = $this->unitOfWork->getScheduledEntityUpdates();
+        $this->unitOfWork->commit();
+        $this->assertFalse(in_array($this->entity1, $scheduledForUpdate));
+        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
+    }
+
+    /**
+     * Tests that a comparison function for two instances of a class are not considered identical
+     */
+    public function testComparisonFunctionSaysTwoInstancesAreNotIdentical()
+    {
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entity1->setUsername("not entity 1's username");
+        $this->unitOfWork->registerComparisonFunction($className, function ($a, $b)
+        {
+            /** @var ModelMocks\User $a */
+            /** @var ModelMocks\User $b */
+            return $a->getUsername() == $b->getUsername();
+        });
+        $reflectionClass = new \ReflectionClass($this->unitOfWork);
+        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method->setAccessible(true);
+        $method->invoke($this->unitOfWork);
+        $scheduledForUpdate = $this->unitOfWork->getScheduledEntityUpdates();
+        $this->unitOfWork->commit();
+        $this->assertTrue(in_array($this->entity1, $scheduledForUpdate));
+        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
+        $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
+    }
+
+    /**
      * Tests detaching a managed entity
      */
     public function testDetachingEntity()
@@ -188,7 +239,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityThatIsNotManaged()
     {
-        $this->assertFalse($this->unitOfWork->getManagedEntity(get_class($this->entity1), $this->entity1->getId()));
+        $this->assertNull($this->unitOfWork->getManagedEntity(get_class($this->entity1), $this->entity1->getId()));
     }
 
     /**
