@@ -1,5 +1,3 @@
-Decide if returning false is really best way on miss in repos
-Make sure that UoW and DMs are using same connection
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
