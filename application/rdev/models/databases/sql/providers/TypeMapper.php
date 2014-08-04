@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines a type mapper that can go back and forth between RDBMS types and PHP types
+ * Defines a type mapper that can go back and forth between provider types and PHP types
  */
 namespace RDev\Models\Databases\SQL\Providers;
 
@@ -68,8 +68,8 @@ class TypeMapper
             return null;
         }
 
-        return \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(),
-            $sqlTimestamp, new \DateTimeZone("UTC"));
+        return \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp,
+            new \DateTimeZone("UTC"));
     }
 
     /**

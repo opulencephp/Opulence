@@ -28,7 +28,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
             "driver" => new Mocks\Driver(),
             "servers" => []
         ];
-        $connectionPool = new Mocks\ConnectionPool($config);
+        new Mocks\ConnectionPool($config);
     }
 
     /**
@@ -37,7 +37,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingDriver()
     {
         $this->setExpectedException("\\RuntimeException");
-        $connectionPool = new Mocks\ConnectionPool(["servers" => []]);
+        new Mocks\ConnectionPool(["servers" => []]);
     }
 
     /**
@@ -46,7 +46,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingServers()
     {
         $this->setExpectedException("\\RuntimeException");
-        $connectionPool = new Mocks\ConnectionPool(["driver" => new Mocks\Driver()]);
+        new Mocks\ConnectionPool(["driver" => new Mocks\Driver()]);
     }
 
     /**
@@ -106,7 +106,7 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
                 "master" => new Mocks\Server()
             ]
         ];
-        $connectionPool = new Mocks\ConnectionPool($config);
+        new Mocks\ConnectionPool($config);
     }
 
     /**

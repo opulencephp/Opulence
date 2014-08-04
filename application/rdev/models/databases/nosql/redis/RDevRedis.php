@@ -21,6 +21,7 @@ class RDevRedis extends \Redis
     {
         $this->server = $server;
         $this->typeMapper = new TypeMapper();
+
         parent::connect($this->server->getHost(), $this->server->getPort());
     }
 

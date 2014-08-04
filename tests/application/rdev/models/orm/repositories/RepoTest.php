@@ -144,4 +144,14 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->add($this->entity1);
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
     }
+
+    /**
+     * Tests setting the data mapper
+     */
+    public function testSettingDataMapper()
+    {
+        $dataMapper = new DataMapperMocks\SQLDataMapper();
+        $this->repo->setDataMapper($dataMapper);
+        $this->assertSame($dataMapper, $this->repo->getDataMapper());
+    }
 } 

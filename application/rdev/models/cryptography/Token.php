@@ -79,7 +79,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Sets the active flag to false
+     * Marks this token is inactive
      */
     public function deactivate()
     {
@@ -95,9 +95,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Gets the database Id of the token
-     *
-     * @return int The database Id
+     * @return int
      */
     public function getId()
     {
@@ -121,9 +119,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Gets the valid-from date
-     *
-     * @return \DateTime The valid-from date
+     * @return \DateTime
      */
     public function getValidFrom()
     {
@@ -131,9 +127,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Gets the valid-to date
-     *
-     * @return \DateTime The valid-to date
+     * @return \DateTime
      */
     public function getValidTo()
     {
@@ -151,9 +145,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Sets the database Id for the token
-     *
-     * @param int $id The Id of the token
+     * @param int $id
      */
     public function setId($id)
     {
@@ -172,8 +164,8 @@ class Token implements Models\IEntity
      * Verifies that an unhashed value matches the hashed value
      *
      * @param string $unhashedValue The unhashed value to verify
-     * @param string $pepper The optional pepper to use append prior to verifying the value
-     * @return bool True if the unhashed value matches against the hashed value
+     * @param string $pepper The optional pepper to append prior to verifying the value
+     * @return bool True if the unhashed value matches the hashed value
      */
     public function verify($unhashedValue, $pepper = "")
     {

@@ -27,7 +27,7 @@ class Repo implements IRepo
     public function __construct($className, DataMappers\IDataMapper $dataMapper, ORM\UnitOfWork $unitOfWork)
     {
         $this->className = $className;
-        $this->dataMapper = $dataMapper;
+        $this->setDataMapper($dataMapper);
         $this->unitOfWork = $unitOfWork;
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
     }
@@ -69,6 +69,22 @@ class Repo implements IRepo
         }
 
         return $this->get("getById", [$id]);
+    }
+
+    /**
+     * @return DataMappers\IDataMapper
+     */
+    public function getDataMapper()
+    {
+        return $this->dataMapper;
+    }
+
+    /**
+     * @param DataMappers\IDataMapper $dataMapper
+     */
+    public function setDataMapper($dataMapper)
+    {
+        $this->dataMapper = $dataMapper;
     }
 
     /**

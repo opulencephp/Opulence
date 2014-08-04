@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines settings for the MySQL RDBMS
+ * Defines settings for the MySQL provider
  */
 namespace RDev\Models\Databases\SQL\Providers;
 

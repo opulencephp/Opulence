@@ -29,7 +29,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
     {
         $entityHash = $this->getEntityHashById($id);
 
-        if($entityHash === false || $entityHash === [])
+        if($entityHash === null || $entityHash === [])
         {
             return null;
         }
@@ -41,7 +41,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * Gets the hash representation of an entity
      *
      * @param int|string $id The Id of the entity whose hash we're searching for
-     * @return array|bool The entity's hash if successful, otherwise false
+     * @return array|null The entity's hash if successful, otherwise null
      */
     abstract protected function getEntityHashById($id);
 
@@ -92,7 +92,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
         {
             $hash = $this->getEntityHashById($entityId);
 
-            if($hash === false)
+            if($hash === null)
             {
                 return null;
             }
