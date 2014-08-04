@@ -6,6 +6,7 @@
  */
 namespace RDev\Models\ORM\Repositories;
 use RDev\Models;
+use RDev\Models\ORM\DataMappers;
 use RDev\Models\ORM\Exceptions;
 
 interface IRepo
@@ -42,4 +43,14 @@ interface IRepo
      * @throws Exceptions\ORMException Thrown if there was no entity with the input Id
      */
     public function getById($id);
+
+    /**
+     * @return DataMappers\IDataMapper
+     */
+    public function getDataMapper();
+
+    /**
+     * @param DataMappers\IDataMapper $dataMapper
+     */
+    public function setDataMapper($dataMapper);
 }

@@ -13,8 +13,6 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
 {
     /** @var Models\IEntity[] The list of entities added */
     protected $entities = [];
-    /** @var int The current Id */
-    private $currId = 0;
 
     public function __construct()
     {
@@ -26,8 +24,6 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
      */
     public function add(Models\IEntity &$entity)
     {
-        $this->currId++;
-        $entity->setId($this->currId);
         $this->entities[$entity->getId()] = $entity;
     }
 
@@ -66,14 +62,6 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
         }
 
         return $this->entities[$id];
-    }
-
-    /**
-     * @return int
-     */
-    public function getCurrId()
-    {
-        return $this->currId;
     }
 
     /**

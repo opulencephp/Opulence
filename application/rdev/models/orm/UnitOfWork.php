@@ -65,6 +65,7 @@ class UnitOfWork
     public function commit()
     {
         $this->checkForUpdates();
+        $this->preCommit();
         $this->connection->beginTransaction();
 
         try
@@ -353,7 +354,7 @@ class UnitOfWork
             {
                 // Now that the database writes have been committed, we can write to cache
                 /** @var DataMappers\ICachedSQLDataMapper $dataMapper */
-                $dataMapper->syncCache();
+                $dataMapper->commit();
             }
         }
     }
@@ -370,6 +371,14 @@ class UnitOfWork
             $dataMapper = $this->getDataMapper(get_class($entity));
             $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
         }
+    }
+
+    /**
+     * Performs any actions before a commit
+     */
+    protected function preCommit()
+    {
+        // Leave blank for extending classes to implement
     }
 
     /**

@@ -45,6 +45,42 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
+    public function commit()
+    {
+        try
+        {
+            // Insert entities
+            foreach($this->scheduledForCacheInsertion as $entity)
+            {
+                $this->cacheDataMapper->add($entity);
+            }
+
+            // Update entities
+            foreach($this->scheduledForCacheUpdate as $entity)
+            {
+                $this->cacheDataMapper->update($entity);
+            }
+
+            // Delete entities
+            foreach($this->scheduledForCacheDeletion as $entity)
+            {
+                $this->cacheDataMapper->delete($entity);
+            }
+        }
+        catch(\Exception $ex)
+        {
+            throw new ORMExceptions\ORMException($ex->getMessage());
+        }
+
+        // Clear our schedules
+        $this->scheduledForCacheInsertion = [];
+        $this->scheduledForCacheUpdate = [];
+        $this->scheduledForCacheDeletion = [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function delete(Models\IEntity &$entity)
     {
         $this->sqlDataMapper->delete($entity);
@@ -76,39 +112,14 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * Refreshes the data in cache with the data from the SQL data mapper
+     *
+     * @throws ORMExceptions\ORMException Thrown if there was an error refreshing the cache
      */
-    public function syncCache()
+    public function refreshCache()
     {
-        try
-        {
-            // Insert entities
-            foreach($this->scheduledForCacheInsertion as $entity)
-            {
-                $this->cacheDataMapper->add($entity);
-            }
-
-            // Update entities
-            foreach($this->scheduledForCacheUpdate as $entity)
-            {
-                $this->cacheDataMapper->update($entity);
-            }
-
-            // Delete entities
-            foreach($this->scheduledForCacheDeletion as $entity)
-            {
-                $this->cacheDataMapper->delete($entity);
-            }
-        }
-        catch(\Exception $ex)
-        {
-            throw new ORMExceptions\ORMException($ex->getMessage());
-        }
-
-        // Clear our schedules
-        $this->scheduledForCacheInsertion = [];
-        $this->scheduledForCacheUpdate = [];
-        $this->scheduledForCacheDeletion = [];
+        $this->cacheDataMapper->flush();
+        $this->getAll();
     }
 
     /**
@@ -148,8 +159,12 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         // Always attempt to retrieve from cache first
         $data = call_user_func_array([$this->cacheDataMapper, $funcName], $getFuncArgs);
 
-        // If we have to go off to SQL
-        if($data === null)
+        /**
+         * If an entity wasn't returned or the list of entities was empty, we have no way of knowing if they really
+         * don't exist or if they're just not in cache
+         * So, we must try looking in the SQL data mapper
+         */
+        if($data === null || $data === [])
         {
             $data = call_user_func_array([$this->sqlDataMapper, $funcName], $getFuncArgs);
 

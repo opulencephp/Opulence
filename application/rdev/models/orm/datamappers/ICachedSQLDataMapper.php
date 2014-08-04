@@ -14,7 +14,14 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
      * This is best used when committing an SQL data mapper via a unit of work, and then calling this method after
      * the commit successfully finishes
      *
-     * @throws Exceptions\ORMException Thrown if there was an error synchronizing the cache
+     * @throws Exceptions\ORMException Thrown if there was an error committing to cache
      */
-    public function syncCache();
+    public function commit();
+
+    /**
+     * Refreshes the data in cache with the data from the SQL data mapper
+     *
+     * @throws Exceptions\ORMException Thrown if there was an error refreshing the cache
+     */
+    public function refreshCache();
 } 
