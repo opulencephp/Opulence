@@ -2,9 +2,11 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. [Unit of Work Change Tracking](#unit-of-work-change-tracking)
-3. [Aggregate Roots](#aggregate-roots)
-4. [Automatic Caching](#automatic-caching)
+2. [Repositories](#repositories)
+3. [DataMappers](#datamappers)
+4. [Unit of Work](#unit-of-work)
+5. [Aggregate Roots](#aggregate-roots)
+6. [Automatic Caching](#automatic-caching)
 
 ## Introduction
 **RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *DataMappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
@@ -14,8 +16,24 @@
 3. Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 4. Querying for the same object will always give you the same, single instance of that object
 
-## Unit of Work Change Tracking
-Let's take a look at how units of work can manage entities retrieved through repositories:
+## Repositories
+*Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *DataMappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *DataMapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#datamappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
+
+## DataMappers
+*DataMappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  There are currently 3 types of DataMappers, but you can certainly add your own by implementing `RDev\Models\ORM\DataMappers\IDataMapper`:
+
+1. *SQLDataMapper*
+  * Uses an SQL database as its method of storage
+  * Allows you to write your own SQL queries to read and write to the database
+2. *RedisDataMapper*
+  * Uses Redis as its method of storage
+  * Allows you to write your own methods to read and write data to Redis
+3. *CachedSQLDataMapper*
+  * Uses an *SQLDataMapper* as its primary storage and an *ICacheDataMapper* to read and write from cache
+  * Drastically reduces the number of SQL queries and improves performance through heavy caching  
+
+## Unit of Work
+*Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers. Let's take a look at how units of work can manage entities retrieved through repositories:
 ```php
 use RDev\Models\Databases\SQL;
 use RDev\Models\ORM;
