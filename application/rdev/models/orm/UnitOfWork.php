@@ -102,7 +102,7 @@ class UnitOfWork
 
         if($entityState == EntityStates::ADDED || $entityState == EntityStates::MANAGED)
         {
-            $className = get_class($entity);
+            $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
             $this->entityStates[$objectHashId] = EntityStates::DETACHED;
             unset($this->managedEntities[$className][$entity->getId()]);
@@ -219,7 +219,7 @@ class UnitOfWork
     public function isManaged(Models\IEntity $entity)
     {
         return $this->getEntityState($entity) == EntityStates::MANAGED
-        || isset($this->managedEntities[get_class($entity)][$entity->getId()]);
+        || isset($this->managedEntities[$this->getClassName($entity)][$entity->getId()]);
     }
 
     /**
@@ -242,7 +242,7 @@ class UnitOfWork
      */
     public function manageEntity(Models\IEntity &$entity)
     {
-        $className = get_class($entity);
+        $className = $this->getClassName($entity);
         $objectHashId = $this->getObjectHashId($entity);
 
         if(!isset($this->managedEntities[$className]))
@@ -253,7 +253,7 @@ class UnitOfWork
         if(isset($this->managedEntities[$className][$entity->getId()]))
         {
             // Change the reference of the input entity to the one that's already managed
-            $entity = $this->getManagedEntity(get_class($entity), $entity->getId());
+            $entity = $this->getManagedEntity($this->getClassName($entity), $entity->getId());
         }
         else
         {
@@ -368,7 +368,7 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper(get_class($entity));
+            $dataMapper = $this->getDataMapper($this->getClassName($entity));
             $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
         }
     }
@@ -379,6 +379,70 @@ class UnitOfWork
     protected function preCommit()
     {
         // Leave blank for extending classes to implement
+    }
+
+    /**
+     * Checks to see if an entity has changed using a comparison function
+     *
+     * @param string $objectHashId The object hash Id of the entity
+     * @param Models\IEntity $entity The entity to check for changes
+     * @return bool True if the entity has changed, otherwise false
+     */
+    private function checkEntityForUpdatesWithComparisonFunction($objectHashId, Models\IEntity $entity)
+    {
+        $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
+
+        return !$this->comparisonFunctions[$this->getClassName($entity)]($originalData, $entity);
+    }
+
+    /**
+     * Checks to see if an entity has changed using reflection
+     *
+     * @param string $objectHashId The object hash Id of the entity
+     * @param Models\IEntity $entity The entity to check for changes
+     * @return bool True if the entity has changed, otherwise false
+     */
+    private function checkEntityForUpdatesWithReflection($objectHashId, Models\IEntity $entity)
+    {
+        // Get all the properties in the original entity and the current one
+        $currentEntityReflection = new \ReflectionClass($entity);
+        $currentProperties = $currentEntityReflection->getProperties();
+        $currentPropertiesAsHash = [];
+        $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
+        $originalEntityReflection = new \ReflectionClass($originalData);
+        $originalProperties = $originalEntityReflection->getProperties();
+        $originalPropertiesAsHash = [];
+
+        // Map each property name to its value for the current entity
+        foreach($currentProperties as $currentProperty)
+        {
+            $currentProperty->setAccessible(true);
+            $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue($entity);
+        }
+
+        // Map each property name to its value for the original entity
+        foreach($originalProperties as $originalProperty)
+        {
+            $originalProperty->setAccessible(true);
+            $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
+        }
+
+        if(count($originalProperties) != count($currentProperties))
+        {
+            // Clearly there's a difference here, so update
+            return true;
+        }
+
+        // Compare all the property values to see if they are identical
+        foreach($originalPropertiesAsHash as $name => $value)
+        {
+            if(!array_key_exists($name, $currentPropertiesAsHash) || $currentPropertiesAsHash[$name] !== $value)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -400,58 +464,17 @@ class UnitOfWork
                     && !isset($this->scheduledForDeletion[$objectHashId])
                 )
                 {
-                    $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
-
-                    // Try using a comparison function to save time, if one is set
+                    // If a comparison function was specified, we don't bother using reflection to check for updates
                     if(isset($this->comparisonFunctions[$className]))
                     {
-                        if(!$this->comparisonFunctions[$className]($originalData, $entity))
+                        if($this->checkEntityForUpdatesWithComparisonFunction($objectHashId, $entity))
                         {
                             $this->scheduleForUpdate($entity);
                         }
-
-                        continue;
                     }
-
-                    // Get all the properties in the original entity and the current one
-                    $currentEntityReflection = new \ReflectionClass($entity);
-                    $currentProperties = $currentEntityReflection->getProperties();
-                    $currentPropertiesAsHash = [];
-                    $originalEntityReflection = new \ReflectionClass($originalData);
-                    $originalProperties = $originalEntityReflection->getProperties();
-                    $originalPropertiesAsHash = [];
-
-                    // Map each property name to its value for the current entity
-                    foreach($currentProperties as $currentProperty)
+                    elseif($this->checkEntityForUpdatesWithReflection($objectHashId, $entity))
                     {
-                        $currentProperty->setAccessible(true);
-                        $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue($entity);
-                    }
-
-                    // Map each property name to its value for the original entity
-                    foreach($originalProperties as $originalProperty)
-                    {
-                        $originalProperty->setAccessible(true);
-                        $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
-                    }
-
-                    if(count($originalProperties) != count($currentProperties))
-                    {
-                        // Clearly there's a difference here, so update
                         $this->scheduleForUpdate($entity);
-                        continue;
-                    }
-
-                    // Compare all the property values to see if they are identical
-                    foreach($originalPropertiesAsHash as $name => $value)
-                    {
-                        if(!array_key_exists($name, $currentPropertiesAsHash)
-                            || $currentPropertiesAsHash[$name] !== $value
-                        )
-                        {
-                            $this->scheduleForUpdate($entity);
-                            continue 2;
-                        }
                     }
                 }
             }
@@ -466,12 +489,23 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForDeletion as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper(get_class($entity));
+            $dataMapper = $this->getDataMapper($this->getClassName($entity));
             $dataMapper->delete($entity);
             // Order here matters
             $this->detach($entity);
             $this->entityStates[$objectHashId] = EntityStates::DELETED;
         }
+    }
+
+    /**
+     * Gets the object's class name
+     *
+     * @param mixed $object The object whose class name we want
+     * @return string The object's class name
+     */
+    private function getClassName($object)
+    {
+        return get_class($object);
     }
 
     /**
@@ -501,7 +535,7 @@ class UnitOfWork
                 $aggregateRootData["function"]($aggregateRoot, $entity);
             }
 
-            $dataMapper = $this->getDataMapper(get_class($entity));
+            $dataMapper = $this->getDataMapper($this->getClassName($entity));
             $dataMapper->add($entity);
             $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
             $this->manageEntity($entity);
@@ -516,7 +550,7 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForUpdate as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper(get_class($entity));
+            $dataMapper = $this->getDataMapper($this->getClassName($entity));
             $dataMapper->update($entity);
             $this->manageEntity($entity);
         }
