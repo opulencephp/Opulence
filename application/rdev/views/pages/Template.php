@@ -41,18 +41,6 @@ class Template implements Views\IView
     }
 
     /**
-     * Adds a custom compiler
-     *
-     * @param callable $compiler The anonymous function to execute to compile custom functions inside tags
-     *      The function must take in one parameter: the template contents
-     *      The function must return the compile template's contents
-     */
-    public function addCompiler(callable $compiler)
-    {
-        $this->customCompileFunctions[] = $compiler;
-    }
-
-    /**
      * @return string
      */
     public function getCloseTagPlaceholder()
@@ -81,6 +69,18 @@ class Template implements Views\IView
     public function getOpenTagPlaceholder()
     {
         return $this->openTagPlaceholder;
+    }
+
+    /**
+     * Registers a custom compiler
+     *
+     * @param callable $compiler The anonymous function to execute to compile custom functions inside tags
+     *      The function must take in one parameter: the template contents
+     *      The function must return the compile template's contents
+     */
+    public function registerCompiler(callable $compiler)
+    {
+        $this->customCompileFunctions[] = $compiler;
     }
 
     /**
