@@ -137,13 +137,13 @@ Alternatively, you can keep the config in a separate JSON file:
         },
         "slaves": [
             {
-                "host": "127.0.0.1",
+                "host": "192.128.0.1",
                 "username": "foo",
                 "password": "bar",
                 "databaseName": "mydb"
             },
             {
-                "host": "127.0.0.2",
+                "host": "192.128.0.2",
                 "username": "foo",
                 "password": "bar",
                 "databaseName": "mydb"
