@@ -16,13 +16,14 @@ Connection pools are instantiated with a configuration.  This config can either 
   * The value must be either:
     1. The name of the driver per the **ConnectionPool class** driver list
     2. An object that implements the **IDriver** interface
+      * Valid only if the config is a PHP array
     3. The fully-qualified name of a class that implements the **IDriver** interface (useful for passing in custom drivers)
 * "servers"
   * The value must be an array of server settings.  Although the implementation of this array is up to the concrete class that implements **ConnectionPool**, all must have at least have a "master" key.  The value must be one of the following formats:
     1. An array of data containing keys of "host", "username", "password", and "databaseName", which should of course be mapped to the appropriate values.
       * You can optionally specify values for "charset" and "port"
     2. An object that extends the Server class
-      * This is valid only if the configuration is a PHP array
+      * Valid only if the config is a PHP array
     
 The following keys are options:
 * "driverOptions"
