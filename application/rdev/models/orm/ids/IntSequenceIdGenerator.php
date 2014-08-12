@@ -5,7 +5,6 @@
  * Defines an Id generator that uses an integer sequence to generate Ids
  */
 namespace RDev\Models\ORM\Ids;
-
 use RDev\Models;
 use RDev\Models\Databases\SQL;
 

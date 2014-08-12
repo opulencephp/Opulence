@@ -116,7 +116,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('TEST List of usernames on ' . $compilerResult . ':
 <ul>
     <li>foo</li><li>bar</li></ul> 2 items
-<br>Dave is a pretty cool guy. I agree. Fake closing PHP tag: ?>', $template->render());
+<br>Dave is a pretty cool guy. Alternative syntax works! I agree. Fake closing PHP tag: ?>', $template->render());
     }
 
     /**

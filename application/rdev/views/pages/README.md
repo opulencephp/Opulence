@@ -113,12 +113,9 @@ echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
 You can also inject values from your application code into variables in your template:
 #### Template
 ```
-<?php 
-if($isAdministrator)
-{
-    echo "<a href="admin.php">Admin</a>"; 
-}
-?>
+<?php if($isAdministrator): ?>
+<a href="admin.php">Admin</a>
+<?php endif; ?>
 ```
 #### Application Code
 ```php
