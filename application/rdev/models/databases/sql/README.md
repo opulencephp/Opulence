@@ -5,6 +5,7 @@
 2. [Creating a Connection Pool](#creating-a-connection-pool)
 3. [Single-Server Connection Pool](#single-server-connection-pool)
 4. [Master-Slave Connection Pool](#master-slave-connection-pool)
+5. [Read/Write Connections](#read-write-connections)
 
 ## Introduction
 Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.  
@@ -32,7 +33,7 @@ The following keys are options:
 ## Single-Server Connection Pool
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
-Here's an example of how to setup a single-server connection pool with a PostgreSQL PDO driver:
+### PHP Array Config with PostgreSQL PDO
 ```php
 use RDev\Models\Databases\SQL;
 
@@ -49,7 +50,8 @@ $config = [
 ];
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
-Alternatively, we could have specified instances of a driver and/or a server:
+
+### PHP Array Config with Driver and Server Objects
 ```php
 use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\PDO\PostgreSQL;
@@ -68,7 +70,8 @@ $config = [
 ];
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
-If you'd like to keep your configuration in a separate JSON file, you can do so:
+
+### JSON File Config with PostgreSQL PDO
 ```javascript
 {
     "driver": "pdo_pgsql",
@@ -87,13 +90,11 @@ use RDev\Models\Databases\SQL;
 
 $connectionPool = new SQL\SingleServerConnectionPool(PATH_TO_JSON_FILE);
 ```
-To read from the database, simply use the connection returned by `$connectionPool->getReadConnection();`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
 
 ## Master-Slave Connection Pool
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  The configuration array for a master-slave connection pool accepts an additional entry under "servers" - "slaves", which must map to an array of server data that is identical to the master server settings from above.
 
-Here's an example of how to instantiate a master/slave setup using the MySQL PDO driver:
-
+### PHP Array Config with MySQL PDO Driver
 ```php
 use RDev\Models\Databases\SQL;
 
@@ -124,10 +125,11 @@ $config = [
 ];
 $connectionPool = new SQL\MasterSlaveConnectionPool($config);
 ```
-Alternatively, you can keep the config in a separate JSON file:
+
+### JSON File Config with MySQL PDO Driver
 ```javascript
 {
-    "driver": "pdo_pgsql",
+    "driver": "pdo_mysql",
     "servers": {
         "master": {
             "host": "127.0.0.1",
@@ -157,3 +159,6 @@ use RDev\Models\Databases\SQL;
 
 $connectionPool = new SQL\MasterSlaveConnectionPool(PATH_TO_JSON_FILE);
 ```
+
+## Read/Write Connections
+To read from the database, simply use the connection returned by `$connectionPool->getReadConnection();`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
