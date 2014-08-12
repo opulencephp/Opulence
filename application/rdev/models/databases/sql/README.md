@@ -4,7 +4,12 @@
 1. [Introduction](#introduction)
 2. [Creating a Connection Pool](#creating-a-connection-pool)
 3. [Single-Server Connection Pool](#single-server-connection-pool)
+  1. [PHP Array Config with PostgreSQL PDO](#php-array-config-with-postgresql-pdo)
+  2. [PHP Array Config with Driver and Server Objects](#php-array-config-with-driver-and-server-objects)
+  3. [JSON File Config with PostgreSQL PDO](#json-file-config-with-postgresql-pdo)
 4. [Master-Slave Connection Pool](#master-slave-connection-pool)
+  1. [PHP Array Config with MySQL PDO Driver](#php-array-config-with-mysql-pdo-driver)
+  2. [JSON File Config with MySQL PDO Driver](#json-file-config-with-mysql-pdo-driver)
 5. [Read/Write Connections](#readwrite-connections)
 
 ## Introduction
