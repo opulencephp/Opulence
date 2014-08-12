@@ -138,7 +138,7 @@ It's possible to add custom functions to your template.  For example, you might 
 ```php
 use RDev\Views\Pages;
 
-$template = new Template(PATH_TO_HTML_TEMPLATE);
+$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->registerCompiler(function($content) use ($template)
 {
     return preg_replace($template->getFunctionMatcher("dateFormatter"), "<?php echo $1->format('m/d/Y'); ?>", $content);
