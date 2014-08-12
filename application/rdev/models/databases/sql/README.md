@@ -5,7 +5,7 @@
 2. [Creating a Connection Pool](#creating-a-connection-pool)
 3. [Single-Server Connection Pool](#single-server-connection-pool)
 4. [Master-Slave Connection Pool](#master-slave-connection-pool)
-5. [Read/Write Connections](#read-write-connections)
+5. [Read/Write Connections](#readwrite-connections)
 
 ## Introduction
 Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.  
@@ -33,7 +33,7 @@ The following keys are options:
 ## Single-Server Connection Pool
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
-### PHP Array Config with PostgreSQL PDO
+#### PHP Array Config with PostgreSQL PDO
 ```php
 use RDev\Models\Databases\SQL;
 
@@ -51,7 +51,7 @@ $config = [
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
 
-### PHP Array Config with Driver and Server Objects
+#### PHP Array Config with Driver and Server Objects
 ```php
 use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\PDO\PostgreSQL;
@@ -71,7 +71,7 @@ $config = [
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
 
-### JSON File Config with PostgreSQL PDO
+#### JSON File Config with PostgreSQL PDO
 ```javascript
 {
     "driver": "pdo_pgsql",
@@ -94,7 +94,7 @@ $connectionPool = new SQL\SingleServerConnectionPool(PATH_TO_JSON_FILE);
 ## Master-Slave Connection Pool
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  The configuration array for a master-slave connection pool accepts an additional entry under "servers" - "slaves", which must map to an array of server data that is identical to the master server settings from above.
 
-### PHP Array Config with MySQL PDO Driver
+#### PHP Array Config with MySQL PDO Driver
 ```php
 use RDev\Models\Databases\SQL;
 
@@ -126,7 +126,7 @@ $config = [
 $connectionPool = new SQL\MasterSlaveConnectionPool($config);
 ```
 
-### JSON File Config with MySQL PDO Driver
+#### JSON File Config with MySQL PDO Driver
 ```javascript
 {
     "driver": "pdo_mysql",
