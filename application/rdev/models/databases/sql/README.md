@@ -10,7 +10,7 @@
 Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.  
 
 ## Creating a Connection Pool
-Connection pools are instantiated with a configuration array.  All connection pools must have the following keys:
+Connection pools are instantiated with a configuration.  This config can either be a keyed array or a path to a valid JSON file.  The array/JSON must have the following keys:
 * "driver"
   * The value must be either:
     1. The name of the driver per the **ConnectionPool class** driver list
@@ -21,6 +21,7 @@ Connection pools are instantiated with a configuration array.  All connection po
     1. An array of data containing keys of "host", "username", "password", and "databaseName", which should of course be mapped to the appropriate values.
       * You can optionally specify values for "charset" and "port"
     2. An object that extends the Server class
+      * This is valid only if the configuration is a PHP array
     
 The following keys are options:
 * "driverOptions"
@@ -67,6 +68,25 @@ $config = [
 ];
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
+If you'd like to keep your configuration in a separate JSON file, you can do so:
+```javascript
+{
+    "driver": "pdo_pgsql",
+    "servers": {
+        "master": {
+            "host": "127.0.0.1",
+            "username": "foo",
+            "password": "bar",
+            "databaseName": "mydb"
+        }
+    }
+}
+```
+```php
+use RDev\Models\Databases\SQL;
+
+$connectionPool = new SQL\SingleServerConnectionPool(PATH_TO_JSON_FILE);
+```
 To read from the database, simply use the connection returned by `$connectionPool->getReadConnection();`.  Similarly, `$connectionPool->getWriteConnection()` will return a connection to use for write queries.  These two methods take care of figuring out which server to connect to.  If you want to specify a server to connect to, you can pass it in as a parameter to either of these methods.
 
 ## Master-Slave Connection Pool
@@ -103,4 +123,37 @@ $config = [
     ]
 ];
 $connectionPool = new SQL\MasterSlaveConnectionPool($config);
+```
+Alternatively, you can keep the config in a separate JSON file:
+```javascript
+{
+    "driver": "pdo_pgsql",
+    "servers": {
+        "master": {
+            "host": "127.0.0.1",
+            "username": "foo",
+            "password": "bar",
+            "databaseName": "mydb"
+        },
+        "slaves": [
+            {
+                "host": "127.0.0.1",
+                "username": "foo",
+                "password": "bar",
+                "databaseName": "mydb"
+            },
+            {
+                "host": "127.0.0.2",
+                "username": "foo",
+                "password": "bar",
+                "databaseName": "mydb"
+            }
+        ]
+    }
+}
+```
+```php
+use RDev\Models\Databases\SQL;
+
+$connectionPool = new SQL\MasterSlaveConnectionPool(PATH_TO_JSON_FILE);
 ```

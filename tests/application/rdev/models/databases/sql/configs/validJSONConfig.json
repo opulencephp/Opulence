@@ -1,0 +1,10 @@
+{
+    "driver": "pdo_mysql",
+    "servers": {
+        "master": {"host": "127.0.0.1", "username": "foo", "password": "bar", "databaseName": "mydb"},
+        "slaves": [
+            {"host": "192.128.0.1", "username": "foo", "password": "bar", "databaseName": "mydb"},
+            {"host": "192.128.0.2", "username": "foo", "password": "bar", "databaseName": "mydb"}
+        ]
+    }
+}

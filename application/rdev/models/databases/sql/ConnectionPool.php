@@ -33,7 +33,10 @@ abstract class ConnectionPool
     protected $writeConnection = null;
 
     /**
-     * @param array $config The configuration array to use to setup the connection pool
+     * @param array|string $config The configuration to use to setup the connection pool
+     *      If it's a string, then it must point to a valid JSON file containing the config
+     *          This JSON file should be decodable into the same format defined below for a keyed array
+     *      If it's an array, then it must have the following format
      *      This must contain the following keys:
      *          "driver" => name of the driver listed in self::$drivers OR
      *              The fully-qualified name of a custom driver class OR
@@ -47,18 +50,20 @@ abstract class ConnectionPool
      * @throws \RuntimeException Thrown if the configuration was invalid
      * @see ServerFactory
      */
-    public function __construct(array $config)
+    public function __construct($config)
     {
-        if(!$this->validateConfig($config))
+        $configArray = $this->convertConfigToArray($config);
+
+        if(!$this->validateConfig($configArray))
         {
             throw new \RuntimeException("Invalid connection pool configuration");
         }
 
         $this->serverFactory = new ServerFactory();
-        $this->setDriver($config["driver"]);
-        $this->setServers($config["servers"]);
-        $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
-        $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
+        $this->setDriver($configArray["driver"]);
+        $this->setServers($configArray["servers"]);
+        $this->driverOptions = isset($configArray["driverOptions"]) ? $configArray["driverOptions"] : [];
+        $this->connectionOptions = isset($configArray["connectionOptions"]) ? $configArray["connectionOptions"] : [];
     }
 
     /**
@@ -189,6 +194,43 @@ abstract class ConnectionPool
     protected function connectToServer(Server $server)
     {
         return $this->driver->connect($server, $this->connectionOptions, $this->driverOptions);
+    }
+
+    /**
+     * Converts the input config to a keyed array
+     *
+     * @param array|string $config Either the already-formed array or a string pointing to the location of a config file
+     * @return array The converted config array
+     * @throws \RuntimeException Thrown if the config is not a string or an array or if the config file doesn't exist
+     */
+    protected function convertConfigToArray($config)
+    {
+        if(is_array($config))
+        {
+            return $config;
+        }
+
+        if(!is_string($config))
+        {
+            throw new \RuntimeException("Config is neither a string nor an array");
+        }
+
+        if(!file_exists($config))
+        {
+            throw new \RuntimeException("Invalid config path: " . $config);
+        }
+
+        $configPathInfo = pathinfo($config);
+
+        switch($configPathInfo["extension"])
+        {
+            case "json":
+                $configContents = file_get_contents($config);
+
+                return json_decode($configContents, true);
+            default:
+                throw new \RuntimeException("Invalid config file extension: " . $configPathInfo["extension"]);
+        }
     }
 
     /**
