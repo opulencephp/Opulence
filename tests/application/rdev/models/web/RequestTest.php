@@ -42,7 +42,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request();
         $_GET["foo"] = "bar";
-        $this->assertTrue($request->isQueryStringVarSet("foo"));
+        $this->assertTrue($request->queryStringVarIsSet("foo"));
     }
 
     /**
@@ -52,7 +52,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = new Request();
         $_POST["foo"] = "bar";
-        $this->assertTrue($request->isPostVarSet("foo"));
+        $this->assertTrue($request->postVarIsSet("foo"));
     }
 
     /**
@@ -61,7 +61,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfUnsetGetVarIsNotSet()
     {
         $request = new Request();
-        $this->assertFalse($request->isQueryStringVarSet("foo"));
+        $this->assertFalse($request->queryStringVarIsSet("foo"));
     }
 
     /**
@@ -70,7 +70,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfUnsetPostVarIsNotSet()
     {
         $request = new Request();
-        $this->assertFalse($request->isPostVarSet("foo"));
+        $this->assertFalse($request->postVarIsSet("foo"));
     }
 
     /**

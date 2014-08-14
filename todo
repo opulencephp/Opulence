@@ -1,3 +1,4 @@
+Add something like a connection pool for cache so that we get benefits of config files
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials

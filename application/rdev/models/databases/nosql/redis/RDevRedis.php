@@ -23,6 +23,11 @@ class RDevRedis extends \Redis
         $this->typeMapper = new TypeMapper();
 
         parent::connect($this->server->getHost(), $this->server->getPort());
+
+        if($server->passwordIsSet())
+        {
+            parent::auth($server->getPassword());
+        }
     }
 
     /**

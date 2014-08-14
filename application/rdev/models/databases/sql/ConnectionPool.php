@@ -210,6 +210,7 @@ abstract class ConnectionPool
             return $config;
         }
 
+        // We'll assume from here that the config parameter is really the path to the config file
         if(!is_string($config))
         {
             throw new \RuntimeException("Config is neither a string nor an array");
@@ -225,9 +226,14 @@ abstract class ConnectionPool
         switch($configPathInfo["extension"])
         {
             case "json":
-                $configContents = file_get_contents($config);
+                $decodedJSON = json_decode(file_get_contents($config), true);
 
-                return json_decode($configContents, true);
+                if($decodedJSON === null)
+                {
+                    throw new \RuntimeException("Invalid JSON config file");
+                }
+
+                return $decodedJSON;
             default:
                 throw new \RuntimeException("Invalid config file extension: " . $configPathInfo["extension"]);
         }
@@ -311,6 +317,7 @@ abstract class ConnectionPool
      * Sets the server configuration
      *
      * @param array $config The configuration array to use to setup the list of servers used by this pool
+     * @throws \RuntimeException Thrown if the config isn't valid
      */
     protected function setServers(array $config)
     {

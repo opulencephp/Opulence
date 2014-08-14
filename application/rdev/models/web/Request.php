@@ -35,7 +35,7 @@ class Request
      */
     public function getPostVar($name)
     {
-        if(!$this->isPostVarSet($name))
+        if(!$this->postVarIsSet($name))
         {
             return false;
         }
@@ -51,7 +51,7 @@ class Request
      */
     public function getQueryStringVar($name)
     {
-        if(!$this->isQueryStringVarSet($name))
+        if(!$this->queryStringVarIsSet($name))
         {
             return false;
         }
@@ -73,7 +73,7 @@ class Request
      * @param string $name The name of the variable to check
      * @return bool True if the post variable has a non-empty value, otherwise false
      */
-    public function isPostVarSet($name)
+    public function postVarIsSet($name)
     {
         return isset($_POST[$name]);
     }
@@ -84,7 +84,7 @@ class Request
      * @param string $name The name of the variable to check
      * @return bool True if the query string variable has a non-empty value, otherwise false
      */
-    public function isQueryStringVarSet($name)
+    public function queryStringVarIsSet($name)
     {
         return isset($_GET[$name]);
     }
