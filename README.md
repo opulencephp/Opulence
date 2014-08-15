@@ -8,9 +8,10 @@
 5. [About the Author](#about-the-author)
 
 ### Databases
-1. [Database Connections](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
-2. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
-3. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
+1. [Relational Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
+2. [NoSQL Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/nosql)
+3. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
+4. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
 
 ### Page Templates
 1. [Building a Page Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views/pages)
@@ -20,8 +21,6 @@
 
 ## Requirements
 * PHP 5.5 or higher with OpenSSL enabled
-* PHPRedis
-* PHPUnit
 * mbstring
 
 ## License
