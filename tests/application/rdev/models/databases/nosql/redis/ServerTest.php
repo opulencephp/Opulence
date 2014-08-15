@@ -21,6 +21,26 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the connection timeout
+     */
+    public function testGettingConnectionTimeout()
+    {
+        $server = new Mocks\Server();
+        $server->setConnectionTimeout(123);
+        $this->assertEquals(123, $server->getConnectionTimeout());
+    }
+
+    /**
+     * Tests getting the database index
+     */
+    public function testGettingDatabaseIndex()
+    {
+        $server = new Mocks\Server();
+        $server->setDatabaseIndex(100);
+        $this->assertEquals(100, $server->getDatabaseIndex());
+    }
+
+    /**
      * Tests getting the password
      */
     public function testGettingPassword()

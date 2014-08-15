@@ -13,6 +13,26 @@ abstract class Server extends Databases\Server
     protected $port = 6379;
     /** @var string|null The optional password to use to authenticate the connection */
     protected $password = null;
+    /** @var int The index of the database to select when connected */
+    protected $databaseIndex = 0;
+    /** @var int The connection timeout (in seconds) */
+    protected $connectionTimeout = 0;
+
+    /**
+     * @return int
+     */
+    public function getConnectionTimeout()
+    {
+        return $this->connectionTimeout;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDatabaseIndex()
+    {
+        return $this->databaseIndex;
+    }
 
     /**
      * @return string|null
@@ -30,6 +50,22 @@ abstract class Server extends Databases\Server
     public function passwordIsSet()
     {
         return $this->password !== null;
+    }
+
+    /**
+     * @param int $connectionTimeout
+     */
+    public function setConnectionTimeout($connectionTimeout)
+    {
+        $this->connectionTimeout = $connectionTimeout;
+    }
+
+    /**
+     * @param int $databaseIndex
+     */
+    public function setDatabaseIndex($databaseIndex)
+    {
+        $this->databaseIndex = $databaseIndex;
     }
 
     /**

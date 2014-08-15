@@ -11,13 +11,13 @@ use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 abstract class RedisDataMapper implements ICacheDataMapper
 {
-    /** @var Redis\RDevRedis The RDevRedis object to use for queries */
+    /** @var Redis\IRedis The Redis cache to use for queries */
     protected $redis = null;
 
     /**
-     * @param Redis\RDevRedis $redis The RDevRedis object to use for queries
+     * @param Redis\IRedis $redis The Redis cache to use for queries
      */
-    public function __construct(Redis\RDevRedis $redis)
+    public function __construct(Redis\IRedis $redis)
     {
         $this->redis = $redis;
     }
@@ -46,6 +46,24 @@ abstract class RedisDataMapper implements ICacheDataMapper
     abstract protected function getEntityHashById($id);
 
     /**
+     * Gets the list of members of the set at the given key
+     * We need this to know how to get the set members from the concrete Redis cache object this mapper uses
+     *
+     * @param string $key The key whose members we want
+     * @return array|bool The list of members if successful, otherwise false
+     */
+    abstract protected function getSetMembersFromRedis($key);
+
+    /**
+     * Gets the item at the given key
+     * We need this to know how to get the value from the concrete Redis cache object this mapper uses
+     *
+     * @param string $key The key whose value we want
+     * @return mixed|bool The value of the key
+     */
+    abstract protected function getValueFromRedis($key);
+
+    /**
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
@@ -65,7 +83,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
     {
         if($expectSingleResult)
         {
-            $entityIds = $this->redis->get($keyOfEntityIds);
+            $entityIds = $this->getValueFromRedis($keyOfEntityIds);
 
             if($entityIds === false)
             {
@@ -77,7 +95,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
         }
         else
         {
-            $entityIds = $this->redis->sMembers($keyOfEntityIds);
+            $entityIds = $this->getSetMembersFromRedis($keyOfEntityIds);
 
             if(count($entityIds) == 0)
             {

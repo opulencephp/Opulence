@@ -2,48 +2,19 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines an extension of the PHPRedis library
+ * Defines the trait used by Redis classes
  */
 namespace RDev\Models\Databases\NoSQL\Redis;
-use RDev\Models\Exceptions;
 
-class RDevRedis extends \Redis
+trait TRedis
 {
     /** @var Server The server we're connecting to */
-    private $server = null;
+    protected $server = null;
     /** @var TypeMapper The type mapper to use for converting data to/from Redis */
-    private $typeMapper = null;
+    protected $typeMapper = null;
 
     /**
-     * @param Server $server The server we're connecting to
-     */
-    public function __construct(Server $server)
-    {
-        $this->server = $server;
-        $this->typeMapper = new TypeMapper();
-
-        parent::connect($this->server->getHost(), $this->server->getPort());
-
-        if($server->passwordIsSet())
-        {
-            parent::auth($server->getPassword());
-        }
-    }
-
-    /**
-     * Closes the connection
-     */
-    public function __destruct()
-    {
-        parent::close();
-    }
-
-    /**
-     * Deletes all the keys that match the input patterns
-     * If you know the specific key(s) to delete, call RDevRedis' delete command instead because this method is computationally expensive
-     *
-     * @param array|string The key pattern or list of key patterns to delete
-     * @return bool True if successful, otherwise false
+     * {@inheritdoc}
      */
     public function deleteKeyPatterns($keyPatterns)
     {
@@ -65,7 +36,7 @@ class RDevRedis extends \Redis
     }
 
     /**
-     * @return Server
+     * {@inheritdoc}
      */
     public function getServer()
     {
@@ -73,7 +44,7 @@ class RDevRedis extends \Redis
     }
 
     /**
-     * @return TypeMapper
+     * {@inheritdoc}
      */
     public function getTypeMapper()
     {

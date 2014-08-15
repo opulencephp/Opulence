@@ -43,11 +43,13 @@ class PHP
                 // Remove "tests" from the path
                 unset($explodedPath[1]);
                 $explodedPath = array_values($explodedPath);
-                $filePath = __DIR__ . "/" . self::RELATIVE_PATH_TO_TEST_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php";
+                $filePath = __DIR__ . DIRECTORY_SEPARATOR . self::RELATIVE_PATH_TO_TEST_DIR . DIRECTORY_SEPARATOR .
+                    implode(DIRECTORY_SEPARATOR, $explodedPath) . DIRECTORY_SEPARATOR . $className . ".php";
             }
             else
             {
-                $filePath = __DIR__ . "/" . self::RELATIVE_PATH_TO_APPLICATION_DIR . "/" . implode("/", $explodedPath) . "/" . $className . ".php";
+                $filePath = __DIR__ . DIRECTORY_SEPARATOR . self::RELATIVE_PATH_TO_APPLICATION_DIR . DIRECTORY_SEPARATOR .
+                    implode(DIRECTORY_SEPARATOR, $explodedPath) . DIRECTORY_SEPARATOR . $className . ".php";
             }
         }
         else
