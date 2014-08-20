@@ -27,9 +27,8 @@ class Repo implements IRepo
     public function __construct($className, DataMappers\IDataMapper $dataMapper, ORM\UnitOfWork $unitOfWork)
     {
         $this->className = $className;
-        $this->setDataMapper($dataMapper);
         $this->unitOfWork = $unitOfWork;
-        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->setDataMapper($dataMapper);
     }
 
     /**
@@ -85,6 +84,7 @@ class Repo implements IRepo
     public function setDataMapper($dataMapper)
     {
         $this->dataMapper = $dataMapper;
+        $this->unitOfWork->registerDataMapper($this->className, $this->dataMapper);
     }
 
     /**

@@ -121,7 +121,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         {
             if($entity->getId() == $entityFromGetById->getId())
             {
-                //$this->assertEquals(spl_object_hash($entityFromGetById), spl_object_hash($entity));
+                $this->assertSame($entityFromGetById, $entity);
                 $this->assertEquals($entityFromGetAll->getUsername(), $entityFromGetById->getUsername());
             }
         }
@@ -153,5 +153,8 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $dataMapper = new DataMapperMocks\SQLDataMapper();
         $this->repo->setDataMapper($dataMapper);
         $this->assertSame($dataMapper, $this->repo->getDataMapper());
+        $this->repo->add($this->entity1);
+        $this->unitOfWork->commit();
+        $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
     }
 } 
