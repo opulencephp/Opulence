@@ -25,6 +25,8 @@ abstract class ConnectionPool
     protected $connectionOptions = [];
     /** @var array The list of driver options */
     protected $driverOptions = [];
+    /** @var Configs\ConnectionPoolReader The config reader to use to initialize the connection pool from */
+    protected $configReader = null;
     /** @var ServerFactory The factory to use to create servers from configs */
     protected $serverFactory = null;
     /** @var IConnection|null The connection to use for read queries */
@@ -52,14 +54,10 @@ abstract class ConnectionPool
      */
     public function __construct($config)
     {
-        $configArray = $this->convertConfigToArray($config);
-
-        if(!$this->validateConfig($configArray))
-        {
-            throw new \RuntimeException("Invalid connection pool configuration");
-        }
-
+        $this->configReader = new Configs\ConnectionPoolReader();
         $this->serverFactory = new ServerFactory();
+        $configArray = $this->configReader->load("RDev\\Models\\Databases\\SQL\\Configs\\ConnectionPoolConfig", $config)
+            ->toArray();
         $this->setDriver($configArray["driver"]);
         $this->setServers($configArray["servers"]);
         $this->driverOptions = isset($configArray["driverOptions"]) ? $configArray["driverOptions"] : [];
@@ -213,7 +211,7 @@ abstract class ConnectionPool
         // We'll assume from here that the config parameter is really the path to the config file
         if(!is_string($config))
         {
-            throw new \RuntimeException("Config is neither a string nor an array");
+            throw new \RuntimeException("ConnectionPoolConfig is neither a string nor an array");
         }
 
         if(!file_exists($config))
@@ -322,31 +320,5 @@ abstract class ConnectionPool
     protected function setServers(array $config)
     {
         $this->setMaster($this->serverFactory->createFromConfig($config["master"]));
-    }
-
-    /**
-     * Validates the configuration array
-     *
-     * @param array $config The raw configuration passed into the constructor
-     * @return bool True if the configuration is valid, otherwise false
-     */
-    protected function validateConfig(array $config)
-    {
-        $requiredFields = ["driver", "servers"];
-
-        foreach($requiredFields as $requiredField)
-        {
-            if(!isset($config[$requiredField]))
-            {
-                return false;
-            }
-        }
-
-        if(!isset($config["servers"]["master"]))
-        {
-            return false;
-        }
-
-        return true;
     }
 } 

@@ -8,6 +8,8 @@ namespace RDev\Models\Databases\NoSQL\Redis;
 
 trait TRedis
 {
+    /** @var ServerFactory The factory to use to create servers from configs */
+    protected $serverFactory = null;
     /** @var Server The server we're connecting to */
     protected $server = null;
     /** @var TypeMapper The type mapper to use for converting data to/from Redis */

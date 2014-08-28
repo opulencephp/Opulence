@@ -19,15 +19,6 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests initializing the connection pool with a config file with an invalid extension
-     */
-    public function testInitializingPoolWithConfigFileWithInvalidExtension()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        new Mocks\ConnectionPool(__DIR__ . "/configs/config.txt");
-    }
-
-    /**
      * Tests initializing the pool without specifying a master
      */
     public function testNotSettingAMaster()
@@ -151,15 +142,6 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         new Mocks\ConnectionPool(new \DateTime("now", new \DateTimeZone("UTC")));
-    }
-
-    /**
-     * Tests initializing the pool with an invalid JSON file
-     */
-    public function testUsingInvalidJSONConfigFile()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        new Mocks\ConnectionPool(__DIR__ . "/invalidJSONConfig.json");
     }
 
     /**

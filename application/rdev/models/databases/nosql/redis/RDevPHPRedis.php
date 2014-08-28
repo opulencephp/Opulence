@@ -16,6 +16,7 @@ class RDevPHPRedis extends \Redis implements IRedis
      */
     public function __construct(Server $server)
     {
+        $this->serverFactory = new ServerFactory();
         $this->server = $server;
         $this->typeMapper = new TypeMapper();
 

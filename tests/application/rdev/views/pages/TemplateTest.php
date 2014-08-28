@@ -15,6 +15,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS = "/templates/TestWithCustomTagPlaceholders.html";
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_PHP_CODE = "/templates/TestWithPHP.html";
+    /** The path to the test template with PHP code */
+    const TEMPLATE_PATH_WITH_INVALID_PHP_CODE = "/templates/TestWithInvalidPHP.html";
 
     /**
      * Tests getting the close tag when we've set it to a custom value
@@ -68,6 +70,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $compilerResult = $this->registerCompiler($template);
         $this->assertEquals("Hello, world! {{blah}}. a&amp;b. c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.",
             $template->render());
+    }
+
+    /**
+     * Tests rendering invalid PHP
+     */
+    public function testRenderingInvalidPHP()
+    {
+        $this->setExpectedException('\RuntimeException');
+        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_INVALID_PHP_CODE);
+        $template->render();
     }
 
     /**

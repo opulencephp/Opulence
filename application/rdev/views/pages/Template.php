@@ -204,6 +204,7 @@ class Template implements Views\IView
      *
      * @param string $template The template's contents
      * @return string The template with the results of the evaluated PHP code
+     * @throws \RuntimeException Thrown if the template contained invalid PHP code
      */
     private function compilePHP($template)
     {
@@ -214,8 +215,12 @@ class Template implements Views\IView
         }
 
         ob_start();
-        // A little hack to compile inline PHP
-        eval("?>" . $template);
+
+        // Notice the little hack inside eval() to compile inline PHP
+        if(@eval("?>" . $template) === false)
+        {
+            throw new \RuntimeException("Invalid PHP inside template");
+        }
 
         return ob_get_clean();
     }
@@ -307,6 +312,7 @@ class Template implements Views\IView
      * Gets the compiled template
      *
      * @return string The compiled template
+     * @throws \RuntimeException Thrown if there was an error compiling the template
      */
     private function compileTemplate()
     {
