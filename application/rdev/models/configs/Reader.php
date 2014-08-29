@@ -9,111 +9,47 @@ namespace RDev\Models\Configs;
 abstract class Reader
 {
     /**
-     * Gets whether or not the config is valid
+     * Reads a config from a file
      *
-     * @param IConfig $config The config to validate
-     * @return bool True if the config is valid, otherwise false
+     * @param string $path The path to the file's location
+     * @param string $configClassName The name of the class that implements IConfig to save the input to
+     * @return IConfig The config object from the file
+     * @throws \RuntimeException Thrown if there was a problem reading from the file
+     * @throws \InvalidArgumentException Thrown if the config class name doesn't point to a class that implements IConfig
      */
-    abstract public function validateConfig(IConfig $config);
+    abstract public function readFromFile($path, $configClassName = "RDev\\Models\\Configs\\Config");
 
     /**
-     * Loads a config file and converts it to a keyed array
+     * Creates a config from input
      *
-     * @param string $configClassName The name of the class of the config to use
-     * @param array|string $config Either the already-formed array or a string pointing to the location of a config file
-     * @return IConfig The input config converted to a config class
-     * @throws \RuntimeException Thrown if the input config is invalid
+     * @param mixed $input The input to read from
+     *      For example, this could be a PHP array, JSON, and XML string, etc
+     * @param string $configClassName The name of the class that implements IConfig to save the input to
+     * @return IConfig The config object from the input
+     * @throws \RuntimeException Thrown if there was a problem decoding the input
+     * @throws \InvalidArgumentException Thrown if the config class name doesn't point to a class that implements IConfig
      */
-    public function load($configClassName, $config)
-    {
-        /** @var IConfig $configClassName */
-        $convertedConfig = $configClassName::fromArray($this->convertConfigToArray($config));
-
-        if(!$this->validateConfig($convertedConfig))
-        {
-            throw new \RuntimeException("Invalid config");
-        }
-
-        return $convertedConfig;
-    }
+    abstract public function readFromInput($input, $configClassName = "RDev\\Models\\Configs\\Config");
 
     /**
-     * Converts the input config to a config array
+     * Creates a config of the input type from a config array
      *
-     * @param array|string $config Either the already-formed array or a string pointing to the location of a config file
-     * @return array The converted config
-     * @throws \RuntimeException Thrown if the config is not a string or an array or if the config file doesn't exist
+     * @param array $configArray The config array to create the config from
+     * @param string $configClassName The fully-qualified name of the class that implements IConfig to save the config to
+     * @return IConfig The config from the input array
      */
-    protected function convertConfigToArray($config)
+    protected function createConfigFromArrayAndClassName(array $configArray, $configClassName)
     {
-        if(is_array($config))
+        $config = new $configClassName();
+
+        if(!$config instanceof IConfig)
         {
-            return $config;
+            throw new \InvalidArgumentException("The class \"$configClassName\" doesn't implement IConfig");
         }
 
-        // We'll assume from here that the config parameter is really the path to the config file
-        if(!is_string($config))
-        {
-            throw new \RuntimeException("ConnectionPoolConfig is neither a string nor an array");
-        }
+        /** @var IConfig $config */
+        $config->fromArray($configArray);
 
-        if(!file_exists($config))
-        {
-            throw new \RuntimeException("Invalid config path: " . $config);
-        }
-
-        $configPathInfo = pathinfo($config);
-
-        switch($configPathInfo["extension"])
-        {
-            case "json":
-                return $this->convertJSONFile($config);
-            default:
-                throw new \RuntimeException("Invalid config file extension: " . $configPathInfo["extension"]);
-        }
-    }
-
-    /**
-     * Converts a JSON file's contents to a config array
-     *
-     * @param string $path The path to the JSON file
-     * @return array The converted config
-     * @throws \RuntimeException Thrown if the JSON file is invalid
-     */
-    protected function convertJSONFile($path)
-    {
-        $decodedJSON = json_decode(file_get_contents($path), true);
-
-        if($decodedJSON === null)
-        {
-            throw new \RuntimeException("Invalid JSON config file");
-        }
-
-        return $decodedJSON;
-    }
-
-    /**
-     * Gets whether or not the config has the required fields
-     *
-     * @param array $configArray The config array to validate
-     * @param array $requiredFields The array of keys required by the config
-     * @return bool True if the config has the required fields, otherwise false
-     */
-    protected function hasRequiredFields(array $configArray, array $requiredFields)
-    {
-        foreach($requiredFields as $key => $value)
-        {
-            if(!array_key_exists($key, $configArray))
-            {
-                return false;
-            }
-
-            if(is_array($value))
-            {
-                return $this->hasRequiredFields($configArray[$key], $requiredFields[$key]);
-            }
-        }
-
-        return true;
+        return $config;
     }
 } 

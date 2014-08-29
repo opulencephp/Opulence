@@ -14,8 +14,10 @@ class Provider
     protected $falseBooleanFormat = "f";
     /** @var string The format for date strings */
     protected $dateFormat = "Y-m-d";
-    /** @var string The format for time strings */
-    protected $timeFormat = "H:i:s";
+    /** @var string The format for time with time zone strings */
+    protected $timeWithTimeZoneFormat = "H:i:sO";
+    /** @var string The format for time without time zone strings */
+    protected $timeWithoutTimeZoneFormat = "H:i:s";
     /** @var string The format for timestamps with timezones */
     protected $timestampWithTimeZoneFormat = "Y-m-d H:i:s";
     /** @var string The format for timestamps without timezones */
@@ -40,9 +42,17 @@ class Provider
     /**
      * @return string
      */
-    public function getTimeFormat()
+    public function getTimeWithTimeZoneFormat()
     {
-        return $this->timeFormat;
+        return $this->timeWithTimeZoneFormat;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTimeWithoutTimeZoneFormat()
+    {
+        return $this->timeWithoutTimeZoneFormat;
     }
 
     /**

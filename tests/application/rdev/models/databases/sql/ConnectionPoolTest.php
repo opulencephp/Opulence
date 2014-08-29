@@ -127,24 +127,6 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests initializing the pool with a config file path that is invalid
-     */
-    public function testUsingConfigPathThatIsInvalid()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        new Mocks\ConnectionPool("/path/that/does/not/exist.json");
-    }
-
-    /**
-     * Tests initializing the pool with a config file that is neither a string nor an array
-     */
-    public function testUsingConfigPathThatIsNeitherStringNorArray()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        new Mocks\ConnectionPool(new \DateTime("now", new \DateTimeZone("UTC")));
-    }
-
-    /**
      * Tests using the MySQL PDO driver
      */
     public function testUsingMySQLPDO()
@@ -186,15 +168,6 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $connectionPool = new Mocks\ConnectionPool($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
-    }
-
-    /**
-     * Tests initializing the pool with a valid JSON file
-     */
-    public function testUsingValidJSONConfigFile()
-    {
-        $connectionPool = new Mocks\ConnectionPool(__DIR__ . "/configs/validJSONConfig.json");
         $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
     }
 

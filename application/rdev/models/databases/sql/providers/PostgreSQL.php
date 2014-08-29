@@ -9,5 +9,5 @@ namespace RDev\Models\Databases\SQL\Providers;
 class PostgreSQL extends Provider
 {
     /** {@inheritdoc} */
-    protected $timestampWithTimeZoneFormat = "Y-m-d H:i:s.uP";
+    protected $timestampWithTimeZoneFormat = "Y-m-d H:i:s O";
 } 

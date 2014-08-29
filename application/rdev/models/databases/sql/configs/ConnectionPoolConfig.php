@@ -7,7 +7,18 @@
 namespace RDev\Models\Databases\SQL\Configs;
 use RDev\Models\Configs;
 
-class ConnectionPoolConfig extends Configs\SimpleArrayConfig
+class ConnectionPoolConfig extends Configs\Config
 {
-    // Don't do anything
+    /**
+     * {@inheritdoc}
+     */
+    public function isValid()
+    {
+        return $this->hasRequiredFields($this->configArray, [
+            "driver" => null,
+            "servers" => [
+                "master" => null
+            ]
+        ]);
+    }
 } 

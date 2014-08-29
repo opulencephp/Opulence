@@ -25,8 +25,6 @@ abstract class ConnectionPool
     protected $connectionOptions = [];
     /** @var array The list of driver options */
     protected $driverOptions = [];
-    /** @var Configs\ConnectionPoolReader The config reader to use to initialize the connection pool from */
-    protected $configReader = null;
     /** @var ServerFactory The factory to use to create servers from configs */
     protected $serverFactory = null;
     /** @var IConnection|null The connection to use for read queries */
@@ -35,11 +33,8 @@ abstract class ConnectionPool
     protected $writeConnection = null;
 
     /**
-     * @param array|string $config The configuration to use to setup the connection pool
-     *      If it's a string, then it must point to a valid JSON file containing the config
-     *          This JSON file should be decodable into the same format defined below for a keyed array
-     *      If it's an array, then it must have the following format
-     *      This must contain the following keys:
+     * @param Configs\ConnectionPoolConfig|array $config The configuration to use to setup the connection pool
+     *      It must contain the following keys:
      *          "driver" => name of the driver listed in self::$drivers OR
      *              The fully-qualified name of a custom driver class OR
      *              An object that implements IDriver
@@ -54,14 +49,22 @@ abstract class ConnectionPool
      */
     public function __construct($config)
     {
-        $this->configReader = new Configs\ConnectionPoolReader();
+        if(is_array($config))
+        {
+            $config = new Configs\ConnectionPoolConfig($config);
+        }
+
+        /** @var Configs\ConnectionPoolConfig $config */
+        if(!$config->isValid())
+        {
+            throw new \RuntimeException("Invalid connection pool config");
+        }
+
         $this->serverFactory = new ServerFactory();
-        $configArray = $this->configReader->load("RDev\\Models\\Databases\\SQL\\Configs\\ConnectionPoolConfig", $config)
-            ->toArray();
-        $this->setDriver($configArray["driver"]);
-        $this->setServers($configArray["servers"]);
-        $this->driverOptions = isset($configArray["driverOptions"]) ? $configArray["driverOptions"] : [];
-        $this->connectionOptions = isset($configArray["connectionOptions"]) ? $configArray["connectionOptions"] : [];
+        $this->setDriver($config["driver"]);
+        $this->setServers($config["servers"]);
+        $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
+        $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
     }
 
     /**
@@ -192,49 +195,6 @@ abstract class ConnectionPool
     protected function connectToServer(Server $server)
     {
         return $this->driver->connect($server, $this->connectionOptions, $this->driverOptions);
-    }
-
-    /**
-     * Converts the input config to a keyed array
-     *
-     * @param array|string $config Either the already-formed array or a string pointing to the location of a config file
-     * @return array The converted config array
-     * @throws \RuntimeException Thrown if the config is not a string or an array or if the config file doesn't exist
-     */
-    protected function convertConfigToArray($config)
-    {
-        if(is_array($config))
-        {
-            return $config;
-        }
-
-        // We'll assume from here that the config parameter is really the path to the config file
-        if(!is_string($config))
-        {
-            throw new \RuntimeException("ConnectionPoolConfig is neither a string nor an array");
-        }
-
-        if(!file_exists($config))
-        {
-            throw new \RuntimeException("Invalid config path: " . $config);
-        }
-
-        $configPathInfo = pathinfo($config);
-
-        switch($configPathInfo["extension"])
-        {
-            case "json":
-                $decodedJSON = json_decode(file_get_contents($config), true);
-
-                if($decodedJSON === null)
-                {
-                    throw new \RuntimeException("Invalid JSON config file");
-                }
-
-                return $decodedJSON;
-            default:
-                throw new \RuntimeException("Invalid config file extension: " . $configPathInfo["extension"]);
-        }
     }
 
     /**

@@ -10,7 +10,7 @@
 6. [Automatic Caching](#automatic-caching)
 
 ## Introduction
-**RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *DataMappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
+**RDev** utilizes the *repository pattern* to encapsulate data retrieval from storage.  *Repositories* have *data mappers* which actually interact directly with storage, eg cache and/or a relational database.  Repositories use *units of work*, which act as transactions across multiple repositories.  The benefits of using units of work include:
 
 1. Transactions across multiple repositories can be rolled back, giving you "all or nothing" functionality
 2. Changes made to entities retrieved by repositories are automatically checked for changes and, if any are found, scheduled for updating when the unit of work is committed
@@ -18,19 +18,19 @@
 4. Querying for the same object will always give you the same, single instance of that object
 
 ## Repositories
-*Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *DataMappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *DataMapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#datamappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
+*Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *data mappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *data mapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#datamappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
 
 ## DataMappers
-*DataMappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  There are currently 3 types of DataMappers, but you can certainly add your own by implementing `RDev\Models\ORM\DataMappers\IDataMapper`:
+*Data mappers* act as the go-between for repositories and storage.  By abstracting this interaction away from repositories, you can swap your method of storage without affecting the repositories' interfaces.  There are currently 3 types of DataMappers, but you can certainly add your own by implementing `RDev\Models\ORM\DataMappers\IDataMapper`:
 
-1. *SQLDataMapper*
+1. `SQLDataMapper`
   * Uses an SQL database as its method of storage
   * Allows you to write your own SQL queries to read and write to the database
-2. *RedisDataMapper*
+2. `RedisDataMapper`
   * Uses Redis as its method of storage
   * Allows you to write your own methods to read and write data to Redis
-3. *CachedSQLDataMapper*
-  * Uses an *SQLDataMapper* as its primary storage and an *ICacheDataMapper* to read and write from cache
+3. `CachedSQLDataMapper`
+  * Uses an *SQLDataMapper* as its primary storage and an `ICacheDataMapper` to read and write from cache
   * Drastically reduces the number of SQL queries and improves performance through heavy caching  
 
 ## Unit of Work
@@ -98,4 +98,4 @@ echo $password->getUserId() == $user->getId(); // 1
 ```
 
 ## Automatic Caching
-By extending the *CachedSQLDataMapper*, you can take advantage of automatic caching of entities for faster performance.  Entities are searched in cache before defaulting to an SQL database, and they are added to cache on misses.  Writes to cache are automatically queued whenever writing to a *CachedSQLDataMapper*.  To keep cache in sync with SQL, the writes are only performed once a unit of work commits successfully.
+By extending the `CachedSQLDataMapper`, you can take advantage of automatic caching of entities for faster performance.  Entities are searched in cache before defaulting to an SQL database, and they are added to cache on misses.  Writes to cache are automatically queued whenever writing to a `CachedSQLDataMapper`.  To keep cache in sync with SQL, the writes are only performed once a unit of work commits successfully.

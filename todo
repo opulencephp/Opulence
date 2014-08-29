@@ -1,4 +1,3 @@
-Rewrite ServerFactory to extend Config\Reader
 Add config capability to Redis/Memcached instances
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them

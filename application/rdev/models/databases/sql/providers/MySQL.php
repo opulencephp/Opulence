@@ -12,4 +12,6 @@ class MySQL extends Provider
     protected $trueBooleanFormat = 1;
     /** {@inheritdoc} */
     protected $falseBooleanFormat = 0;
+    /** @var string The format for time with time zone strings */
+    protected $timeWithTimeZoneFormat = "H:i:s";
 } 

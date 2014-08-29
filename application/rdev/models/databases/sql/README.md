@@ -5,30 +5,27 @@
 2. [Creating a Connection Pool](#creating-a-connection-pool)
 3. [Single-Server Connection Pool](#single-server-connection-pool)
   1. [PHP Array Config with PostgreSQL PDO](#php-array-config-with-postgresql-pdo)
+  1. [ConnectionPoolConfig with PostgreSQL PDO](#connectionpoolconfig-with-postgresql-pdo)
   2. [PHP Array Config with Driver and Server Objects](#php-array-config-with-driver-and-server-objects)
-  3. [JSON File Config with PostgreSQL PDO](#json-file-config-with-postgresql-pdo)
 4. [Master-Slave Connection Pool](#master-slave-connection-pool)
   1. [PHP Array Config with MySQL PDO Driver](#php-array-config-with-mysql-pdo-driver)
-  2. [JSON File Config with MySQL PDO Driver](#json-file-config-with-mysql-pdo-driver)
 5. [Read/Write Connections](#readwrite-connections)
 
 ## Introduction
-Relational databases store information about data and how it's related to other data.  **RDev** provides classes and methods for connecting to relational databases and querying them for data.  Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a **SingleServerConnectionPool**.  If you have a master/slave(s) setup, you can use a **MasterSlaveConnectionPool**.
+Relational databases store information about data and how it's related to other data.  **RDev** provides classes and methods for connecting to relational databases and querying them for data.  Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
 
 ## Creating a Connection Pool
-Connection pools are instantiated with a configuration.  This config can either be a keyed array or a path to a valid JSON file.  The array/JSON must have the following keys:
+Connection pools are instantiated with either a `RDev\Models\Databases\SQL\Configs\ConnectionPoolConfig` or a configuration array.  For more information on how to use configs, [click here](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/configs).  Regardless of the type of config, the config must have the following keys:
 * "driver"
   * The value must be either:
-    1. The name of the driver per the **ConnectionPool class** driver list
-    2. An object that implements the **IDriver** interface
-      * Valid only if the config is a PHP array
-    3. The fully-qualified name of a class that implements the **IDriver** interface (useful for passing in custom drivers)
+    1. The name of the driver per the `ConnectionPool class` driver list
+    2. An object that implements the `IDriver` interface
+    3. The fully-qualified name of a class that implements the `IDriver` interface (useful for passing in custom drivers)
 * "servers"
-  * The value must be an array of server settings.  Although the implementation of this array is up to the concrete class that implements **ConnectionPool**, all must have at least have a "master" key.  The value must be one of the following formats:
+  * The value must be an array of server settings.  Although the implementation of this array is up to the concrete class that implements `ConnectionPool`, all must have at least have a "master" key.  The value must be one of the following formats:
     1. An array of data containing keys of "host", "username", "password", and "databaseName", which should of course be mapped to the appropriate values.
       * You can optionally specify values for "charset" and "port"
     2. An object that extends the Server class
-      * Valid only if the config is a PHP array
     
 The following keys are options:
 * "driverOptions"
@@ -57,6 +54,25 @@ $config = [
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
 
+#### ConnectionPoolConfig with PostgreSQL PDO
+```php
+use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Configs;
+
+$config = new Configs\ConnectionPoolConfig([
+    "driver" => "pdo_pgsql",
+    "servers" => [
+        "master" => [
+            "host" => "127.0.0.1",
+            "username" => "foo",
+            "password" => "bar",
+            "databaseName" => "mydb"
+        ]
+    ]
+]);
+$connectionPool = new SQL\SingleServerConnectionPool($config);
+```
+
 #### PHP Array Config with Driver and Server Objects
 ```php
 use RDev\Models\Databases\SQL;
@@ -75,26 +91,6 @@ $config = [
     ]
 ];
 $connectionPool = new SQL\SingleServerConnectionPool($config);
-```
-
-#### JSON File Config with PostgreSQL PDO
-```javascript
-{
-    "driver": "pdo_pgsql",
-    "servers": {
-        "master": {
-            "host": "127.0.0.1",
-            "username": "foo",
-            "password": "bar",
-            "databaseName": "mydb"
-        }
-    }
-}
-```
-```php
-use RDev\Models\Databases\SQL;
-
-$connectionPool = new SQL\SingleServerConnectionPool(PATH_TO_JSON_FILE);
 ```
 
 ## Master-Slave Connection Pool
@@ -130,40 +126,6 @@ $config = [
     ]
 ];
 $connectionPool = new SQL\MasterSlaveConnectionPool($config);
-```
-
-#### JSON File Config with MySQL PDO Driver
-```javascript
-{
-    "driver": "pdo_mysql",
-    "servers": {
-        "master": {
-            "host": "127.0.0.1",
-            "username": "foo",
-            "password": "bar",
-            "databaseName": "mydb"
-        },
-        "slaves": [
-            {
-                "host": "192.128.0.1",
-                "username": "foo",
-                "password": "bar",
-                "databaseName": "mydb"
-            },
-            {
-                "host": "192.128.0.2",
-                "username": "foo",
-                "password": "bar",
-                "databaseName": "mydb"
-            }
-        ]
-    }
-}
-```
-```php
-use RDev\Models\Databases\SQL;
-
-$connectionPool = new SQL\MasterSlaveConnectionPool(PATH_TO_JSON_FILE);
 ```
 
 ## Read/Write Connections

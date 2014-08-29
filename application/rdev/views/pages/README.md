@@ -164,7 +164,7 @@ echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me
 ```
 
 ## Custom Tag Placeholders
-Want to use a custom character/string for the tag placeholders?  Easy!  Just specify it in the *Template* object like so:
+Want to use a custom character/string for the tag placeholders?  Easy!  Just specify it in the `Template` object like so:
 #### Template
 ```
 Hello, ^^username$$

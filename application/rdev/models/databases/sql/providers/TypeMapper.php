@@ -38,20 +38,37 @@ class TypeMapper
     }
 
     /**
-     * Converts an SQL time to a PHP date time
+     * Converts an SQL time with time zone to a PHP date time
      *
      * @param Provider $provider The provider to convert from
      * @param string $sqlTime The time to convert
      * @return \DateTime|null The PHP date time
      */
-    public function fromSQLTime(Provider $provider, $sqlTime)
+    public function fromSQLTimeWithTimeZone(Provider $provider, $sqlTime)
     {
         if($sqlTime === null)
         {
             return null;
         }
 
-        return \DateTime::createFromFormat($provider->getTimeFormat(), $sqlTime, new \DateTimeZone("UTC"));
+        return \DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
+    }
+
+    /**
+     * Converts an SQL time without time zone to a PHP date time
+     *
+     * @param Provider $provider The provider to convert from
+     * @param string $sqlTime The time to convert
+     * @return \DateTime|null The PHP date time
+     */
+    public function fromSQLTimeWithoutTimeZone(Provider $provider, $sqlTime)
+    {
+        if($sqlTime === null)
+        {
+            return null;
+        }
+
+        return \DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
     }
 
     /**
@@ -122,15 +139,27 @@ class TypeMapper
     }
 
     /**
-     * Converts a PHP date time to an SQL time
+     * Converts a PHP date time with time zone to an SQL time
      *
      * @param Provider $provider The provider to convert to
      * @param \DateTime $time The date time to convert
      * @return string The SQL time suitable for database storage
      */
-    public function toSQLTime(Provider $provider, \DateTime $time)
+    public function toSQLTimeWithTimeZone(Provider $provider, \DateTime $time)
     {
-        return $time->format($provider->getTimeFormat());
+        return $time->format($provider->getTimeWithTimeZoneFormat());
+    }
+
+    /**
+     * Converts a PHP date time without time zone to an SQL time
+     *
+     * @param Provider $provider The provider to convert to
+     * @param \DateTime $time The date time to convert
+     * @return string The SQL time suitable for database storage
+     */
+    public function toSQLTimeWithoutTimeZone(Provider $provider, \DateTime $time)
+    {
+        return $time->format($provider->getTimeWithoutTimeZoneFormat());
     }
 
     /**

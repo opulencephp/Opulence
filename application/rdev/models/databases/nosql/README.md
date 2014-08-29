@@ -14,7 +14,7 @@
 Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, [please visit its homepage](http://redis.io/).
 
 #### PHPRedis
-**PHPRedis** is a Redis client extension to PHP written in C, giving you raw performance without the overhead of PHP scripts.  *RDevPHPRedis* extends PHPRedis and gives you the added feature of *type mappers* (provides methods for casting to and from Redis data types) and compatibility with *Server* objects.  To use one, simply:
+**PHPRedis** is a Redis client extension to PHP written in C, giving you raw performance without the overhead of PHP scripts.  `RDevPHPRedis` extends PHPRedis and gives you the added feature of *type mappers* (provides methods for casting to and from Redis data types) and compatibility with `Server` objects.  To use one, simply:
 ```php
 use RDev\Models\Databases\NoSQL\Redis;
 
@@ -25,7 +25,7 @@ echo $phpRedis->get("foo"); // "bar"
 ```
 
 #### Predis
-**Predis** is a popular Redis client PHP library with the ability to create customized Redis commands.  *RDevPredis* extends Predis and gives you the added feature of *type mappers* and compatibility with *Server* objects.  To use one, simply:
+**Predis** is a popular Redis client PHP library with the ability to create customized Redis commands.  `RDevPredis` extends Predis and gives you the added feature of *type mappers* and compatibility with `Server` objects.  To use one, simply:
 ```php
 use RDev\Models\Databases\NoSQL\Redis;
 
