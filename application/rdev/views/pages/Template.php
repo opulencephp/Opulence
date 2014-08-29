@@ -50,6 +50,7 @@ class Template implements Views\IView
 
     /**
      * Gets the regular expression to use to match custom functions that appear in the template
+     * Any parameters passed into the function in the template are backreferenced, starting with $1
      *
      * @param string $functionName The name of the function to match
      * @return string The regular expression that will match the input function
@@ -58,7 +59,7 @@ class Template implements Views\IView
     {
         return "/" . preg_quote($this->openTagPlaceholder, "/") .
         preg_quote($functionName, "/") .
-        "\((\\$[^\)]+)\)" .
+        "\(([^,\)]+)(?:,\s*([^\)]+))?\)" .
         preg_quote($this->closeTagPlaceholder, "/") .
         "/";
     }

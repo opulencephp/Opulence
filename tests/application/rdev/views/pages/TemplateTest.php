@@ -257,7 +257,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $template->registerCompiler(function ($content) use ($template)
         {
-            return preg_replace($template->getFunctionMatcher("date"), "<?php echo $1->format('m/d/Y'); ?>", $content);
+            return preg_replace($template->getFunctionMatcher("date"), "<?php echo $1->format($2); ?>", $content);
         });
         $today = new \DateTime("now", new \DateTimeZone("UTC"));
         $template->setVar("today", $today);

@@ -8,14 +8,14 @@
   2. [JSON Config Reader](#json-config-reader)
 
 ## Introduction
-**RDev** allows you to create configs to easily read and validate settings.  Using *config readers*, you can read a config from files or from input in a method.
+**RDev** allows you to create configs to easily read and validate settings.  Using *config readers*, you can read a config from a file or from input to a method.
 
 ## Basic Usage
 #### Config
 A basic config class is already set up at `RDev\Models\Configs\Config`.  It provides methods for validating, initializing from an array, and converting to an array.  Additionally, it implements `\ArrayAccess`, allowing you to use the config like an array.
 
 #### Validation
-By default, `isValid` returns true.  However, you can override `isValid` in your custom config class with your own validation logic to prevent invalid configs.  To require certain fields, you can take advantage of `hasRequiredFields`:
+By default, `isValid()` returns true.  However, you can override `isValid()` in your custom config class with your own validation logic to prevent invalid configs.  To require certain fields, you can take advantage of `hasRequiredFields()`:
 ```php
 use RDev\Models\Configs;
 
@@ -52,7 +52,7 @@ echo $myConfig["databaseSettings"]["host"]; // "127.0.0.1"
 ```
 
 ## Config Readers
-*Config readers* allow you to read configs from files or from input to a method.  They read configs and save them to the config class of your choice, or `RDev\Models\Configs\Config` by default.  If you want to use your own config class, just implement `RDev\Models\Configs\IConfig`.  There are a few config readers already built, but you can write your own by extending `RDev\Models\Configs\Reader`.
+*Config readers* allow you to read configs from files or from input to a method.  They read configs and save them to the config class of your choice, or `RDev\Models\Configs\Config` by default.  If you want to use your own config class, just implement `RDev\Models\Configs\IConfig`.  There are a few config readers already built in, but you can write your own by extending `RDev\Models\Configs\Reader`.
 
 ##### Saving to a Custom Config Class
 ```php
@@ -72,8 +72,8 @@ class MyReader extends Configs\Reader
 }
 
 $reader = new MyReader();
-$config = $reader->readFromFile(PATH_TO_CONFIG_FILE, "Fully\Qualified\Name\Of\My\Config\Class");
-echo get_class($config); // "Fully\Qualified\Name\Of\My\Config\Class"
+$config = $reader->readFromFile(PATH_TO_CONFIG_FILE, "Fully\\Qualified\\Name\\Of\\My\\Config\\Class");
+echo get_class($config); // "Fully\\Qualified\\Name\\Of\\My\\Config\\Class"
 ```
 
 #### PHP Array Config Reader
@@ -86,7 +86,7 @@ return [
     "websiteURL" => "http://www.example.com"
 ];
 ```
-##### Reading From a File
+##### Reading From the File
 ```php
 use RDev\Models\Configs;
 
@@ -112,7 +112,7 @@ If your configuration is stored in JSON, you can use a `JSONReader` to read from
     "websiteURL": "http://www.example.com"
 }
 ```
-##### Reading From a File
+##### Reading From the File
 ```php
 use RDev\Models\Configs;
 

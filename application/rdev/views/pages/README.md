@@ -132,7 +132,7 @@ echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
 It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and add a compiler:
 #### Template
 ```
-{{dateFormatter($greatDay)}} is a great day
+{{dateFormatter($greatDay, "m/d/Y")}} is a great day
 ```
 #### Application Code
 ```php
@@ -141,7 +141,7 @@ use RDev\Views\Pages;
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->registerCompiler(function($content) use ($template)
 {
-    return preg_replace($template->getFunctionMatcher("dateFormatter"), "<?php echo $1->format('m/d/Y'); ?>", $content);
+    return preg_replace($template->getFunctionMatcher("dateFormatter"), "<?php echo $1->format($2); ?>", $content);
 });
 $greatDay = \DateTime::createFromFormat("m/d/Y", "07/24/1987");
 $template->setVar("greatDay", $greatDay);
