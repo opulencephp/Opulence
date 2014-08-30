@@ -13,12 +13,7 @@ class JSONReader extends Reader
      */
     public function readFromFile($path, $configClassName = "RDev\\Models\\Configs\\Config")
     {
-        // We'll assume from here that the config parameter is really the path to the config file
-        if(!is_string($path) || !file_exists($path))
-        {
-            throw new \RuntimeException("Couldn't read from path \"$path\"");
-        }
-
+        $this->validatePath($path);
         $pathInfo = pathinfo($path);
 
         switch($pathInfo["extension"])

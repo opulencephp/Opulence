@@ -52,4 +52,24 @@ abstract class Reader
 
         return $config;
     }
+
+    /**
+     * Validates whether or not a path to a config is valid
+     *
+     * @param string $path The path to the config to validate
+     * @throws \InvalidArgumentException Thrown if the path is not a string
+     * @throws \RuntimeException Thrown if the path does not exist or is not readable
+     */
+    protected function validatePath($path)
+    {
+        if(!is_string($path))
+        {
+            throw new \InvalidArgumentException("Path is not a string");
+        }
+
+        if(!file_exists($path) || !is_readable($path))
+        {
+            throw new \RuntimeException("Couldn't read from path \"$path\"");
+        }
+    }
 } 

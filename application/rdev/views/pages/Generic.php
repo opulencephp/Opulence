@@ -35,7 +35,9 @@ class Generic extends Template
 
     public function __construct()
     {
-        parent::__construct(__DIR__ . "/templates/Generic.html");
+        parent::__construct();
+
+        $this->readFromFile(__DIR__ . "/templates/Generic.html");
     }
 
     /**

@@ -22,7 +22,18 @@ Hello, {{username}}
 ```php
 use RDev\Views\Pages;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Pages\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setTag("username", "Beautiful Man");
+echo $template->render(); // "Hello, Beautiful Man"
+```
+
+Alternatively, we could just render a template by passing it into `readFromInput()`:
+```php
+use RDev\Views\Pages;
+
+$template = new Pages\Template();
+$template->readFromInput("Hello, {{username}}");
 $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
 ```
@@ -121,7 +132,8 @@ You can also inject values from your application code into variables in your tem
 ```php
 use RDev\Views\Pages;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Pages\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setVar("isAdministrator", true);
 echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
 ```
@@ -160,7 +172,8 @@ Hello, {{username}}.  \{{I am escaped}}! \{{{Me too}}}!
 ```php
 use RDev\Views\Pages;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Pages\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Mr Schwarzenegger");
 echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me too}}}!"
 ```
@@ -175,7 +188,8 @@ Hello, ^^username$$
 ```php
 use RDev\Views\Pages;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Pages\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setOpenTagPlaceholder("^^");
 $template->setCloseTagPlaceholder("$$");
 $template->setTag("username", "Daft Punk");

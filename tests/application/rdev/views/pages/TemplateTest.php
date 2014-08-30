@@ -59,11 +59,65 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the unrendered template from a file
+     */
+    public function testGettingUnrenderedTemplateFromAFile()
+    {
+        $templatePath = __DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS;
+        $unrenderedTemplate = file_get_contents($templatePath);
+        $template = new Template();
+        $template->readFromFile($templatePath);
+        $this->assertEquals($unrenderedTemplate, $template->getUnrenderedTemplate());
+    }
+
+    /**
+     * Tests getting the unrendered template from input
+     */
+    public function testGettingUnrenderedTemplateFromInput()
+    {
+        $unrenderedTemplate = "Hello, {{username}}";
+        $template = new Template();
+        $template->readFromInput($unrenderedTemplate);
+        $this->assertEquals($unrenderedTemplate, $template->getUnrenderedTemplate());
+    }
+
+    /**
+     * Tests reading from input that isn't a string
+     */
+    public function testReadFromInputThatIsNotString()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $template = new Template();
+        $template->readFromInput(["Not a string"]);
+    }
+
+    /**
+     * Tests reading from an invalid path
+     */
+    public function testReadingFromInvalidPath()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $template = new Template();
+        $template->readFromFile("PATH_THAT_DOES_NOT_EXIST.txt");
+    }
+
+    /**
+     * Tests reading from a path that isn't a string
+     */
+    public function testReadingFromPathThatIsNotString()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $template = new Template();
+        $template->readFromFile(["Not a string"]);
+    }
+
+    /**
      * Tests rendering by setting the template path in the constructor
      */
     public function testRenderingBySpecifyingTemplatePathInConstructor()
     {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $template = new Template();
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $template->setTag("imSafe", "a&b");
@@ -78,7 +132,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderingInvalidPHP()
     {
         $this->setExpectedException('\RuntimeException');
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_INVALID_PHP_CODE);
+        $template = new Template();
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_INVALID_PHP_CODE);
         $template->render();
     }
 
@@ -87,7 +142,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderingTemplateWithCustomTagPlaceholders()
     {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
+        $template = new Template();
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
         $template->setOpenTagPlaceholder("^^");
         $template->setCloseTagPlaceholder("$$");
         $template->setTag("foo", "Hello");
@@ -103,7 +159,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderingTemplateWithDefaultTagPlaceholders()
     {
-        $template = new Template(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $template = new Template();
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $template->setTag("foo", "Hello");
         $template->setTag("bar", "world");
         $template->setTag("imSafe", "a&b");
@@ -118,7 +175,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderingTemplateWithPHPCode()
     {
         $template = new Template();
-        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_PHP_CODE);
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_PHP_CODE);
         $user1 = new Mocks\User(1, "foo");
         $user2 = new Mocks\User(2, "bar");
         $template->setTag("listDescription", "usernames");
@@ -137,7 +194,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderingTemplateWithUnsetCustomTags()
     {
         $template = new Template();
-        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
         $template->setOpenTagPlaceholder("^^");
         $template->setCloseTagPlaceholder("$$");
         $compilerResult = $this->registerCompiler($template);
@@ -150,7 +207,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderingTemplateWithUnsetTags()
     {
         $template = new Template();
-        $template->setTemplatePath(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $compilerResult = $this->registerCompiler($template);
         $this->assertEquals(", ! {{blah}}. . c&amp;d. {{{\"e&f\"}}}. {{{blah}}}. Today is $compilerResult.", $template->render());
     }
@@ -231,20 +288,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $vars = $property->getValue($template);
         $this->assertEquals(["foo" => "bar"], $vars);
-    }
-
-    /**
-     * Tests setting the template path
-     */
-    public function testSettingTemplatePath()
-    {
-        $template = new Template();
-        $template->setTemplatePath("foo");
-        $reflectionObject = new \ReflectionObject($template);
-        $property = $reflectionObject->getProperty("templatePath");
-        $property->setAccessible(true);
-        $templatePath = $property->getValue($template);
-        $this->assertEquals("foo", $templatePath);
     }
 
     /**

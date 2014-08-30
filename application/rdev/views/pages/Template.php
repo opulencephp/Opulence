@@ -19,8 +19,8 @@ class Template implements Views\IView
     /** The string used to denote the end of a safe tag name in a template */
     const SAFE_CLOSE_TAG_PLACEHOLDER = "}}}";
 
-    /** @var string The path to the template */
-    protected $templatePath = "";
+    /** @var string The unrendered contents of the template */
+    protected $unrenderedTemplate = "";
     /** @var array The mapping of tag (placeholder) names to their values */
     protected $tags = [];
     /** @var array The mapping of PHP variable names to their values */
@@ -32,12 +32,9 @@ class Template implements Views\IView
     /** @var array The list of custom compile functions */
     private $customCompileFunctions = [];
 
-    /**
-     * @param string $templatePath The path to the template to use
-     */
-    public function __construct($templatePath = "")
+    public function __construct()
     {
-        $this->setTemplatePath($templatePath);
+        // Don't do anything
     }
 
     /**
@@ -70,6 +67,61 @@ class Template implements Views\IView
     public function getOpenTagPlaceholder()
     {
         return $this->openTagPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnrenderedTemplate()
+    {
+        return $this->unrenderedTemplate;
+    }
+
+    /**
+     * Reads the contents of a template file
+     * Note that this will overwrite any template set in any readFrom* method
+     *
+     * @param string $path The path to the template to read from
+     * @throws \InvalidArgumentException Thrown if the path is not a string
+     * @throws \RuntimeException Thrown if the path does not exist or is not readable
+     */
+    public function readFromFile($path)
+    {
+        if(!is_string($path))
+        {
+            throw new \InvalidArgumentException("Path is not a string");
+        }
+
+        if(!file_exists($path) || !is_readable($path))
+        {
+            throw new \RuntimeException("Couldn't read from path \"$path\"");
+        }
+
+        $contents = file_get_contents($path);
+
+        if($contents === false)
+        {
+            throw new \RuntimeException("Couldn't read from path \"$path\"");
+        }
+
+        $this->unrenderedTemplate = $contents;
+    }
+
+    /**
+     * Uses the contents of the input as the template
+     * Note that this will overwrite any template set in any readFrom* method
+     *
+     * @param string $input The template's contents
+     * @throws \InvalidArgumentException Thrown if the input is not a string
+     */
+    public function readFromInput($input)
+    {
+        if(!is_string($input))
+        {
+            throw new \InvalidArgumentException("Input is not a string");
+        }
+
+        $this->unrenderedTemplate = $input;
     }
 
     /**
@@ -149,14 +201,6 @@ class Template implements Views\IView
         {
             $this->setTag($name, $value);
         }
-    }
-
-    /**
-     * @param string $path
-     */
-    public function setTemplatePath($path)
-    {
-        $this->templatePath = $path;
     }
 
     /**
@@ -318,8 +362,7 @@ class Template implements Views\IView
     private function compileTemplate()
     {
         // Order here matters
-        $untaggedTemplate = file_get_contents($this->templatePath);
-        $templateWithCompileCustomTags = $this->compileCustomTags($untaggedTemplate);
+        $templateWithCompileCustomTags = $this->compileCustomTags($this->unrenderedTemplate);
         $templateWithCompiledPHP = $this->compilePHP($templateWithCompileCustomTags);
         $safeTaggedTemplate = $this->compileSafeTags($templateWithCompiledPHP);
         $regularTaggedTemplate = $this->compileRegularTags($safeTaggedTemplate);

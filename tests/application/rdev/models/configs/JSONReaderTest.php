@@ -46,6 +46,15 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests reading from a path that isn't a string
+     */
+    public function testPassingPathThatIsNotAString()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->jsonReader->readFromFile(["NOT_A_STRING"]);
+    }
+
+    /**
      * Tests reading from input that is of the wrong type
      */
     public function testReadingFromInputWithInvalidParameterType()
