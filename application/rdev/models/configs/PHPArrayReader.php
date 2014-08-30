@@ -44,7 +44,7 @@ class PHPArrayReader extends Reader
 
     /**
      * {@inheritdoc}
-     * @param array $input The PHP array string
+     * @param array $input The PHP array
      */
     public function readFromInput($input, $configClassName = "RDev\\Models\\Configs\\Config")
     {
