@@ -1,8 +1,7 @@
-Maybe rename toSQL(Blah) to toDB(Blah)
 Fix Postgres microseconds bug
-Add config capability to Redis/Memcached instances
     Maybe allow "formats" in providers to be arrays to try out??
     Look at Doctrine's solution
+Add config capability to Redis/Memcached instances
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials

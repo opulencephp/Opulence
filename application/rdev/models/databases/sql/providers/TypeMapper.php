@@ -41,7 +41,8 @@ class TypeMapper
      *
      * @param string $sqlDate The date to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date time
+     * @return \DateTime|null The PHP date
+     * @throws \InvalidArgumentException Thrown if the input date couldn't be cast to a PHP date
      */
     public function fromSQLDate($sqlDate, Provider $provider = null)
     {
@@ -51,8 +52,14 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
+        $phpDate = \DateTime::createFromFormat($provider->getDateFormat(), $sqlDate, new \DateTimeZone("UTC"));
 
-        return \DateTime::createFromFormat($provider->getDateFormat(), $sqlDate, new \DateTimeZone("UTC"));
+        if($phpDate === false)
+        {
+            $phpDate = $this->parseUnknownDateTimeFormat($sqlDate);
+        }
+
+        return $phpDate;
     }
 
     /**
@@ -60,7 +67,8 @@ class TypeMapper
      *
      * @param string $sqlTime The time to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date time
+     * @return \DateTime|null The PHP time
+     * @throws \InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
     public function fromSQLTimeWithTimeZone($sqlTime, Provider $provider = null)
     {
@@ -70,8 +78,14 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
+        $phpTime = \DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
 
-        return \DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
+        if($phpTime === false)
+        {
+            $phpTime = $this->parseUnknownDateTimeFormat($sqlTime);
+        }
+
+        return $phpTime;
     }
 
     /**
@@ -79,7 +93,8 @@ class TypeMapper
      *
      * @param string $sqlTime The time to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date time
+     * @return \DateTime|null The PHP time
+     * @throws \InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
     public function fromSQLTimeWithoutTimeZone($sqlTime, Provider $provider = null)
     {
@@ -89,28 +104,14 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
+        $phpTime = \DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
 
-        return \DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
-    }
-
-    /**
-     * Converts an SQL timestamp without time zone to a PHP date time
-     *
-     * @param string $sqlTimestamp The timestamp without time zone to convert
-     * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date time
-     */
-    public function fromSQLTimestampWithOutTimeZone($sqlTimestamp, Provider $provider = null)
-    {
-        if($sqlTimestamp === null)
+        if($phpTime === false)
         {
-            return null;
+            $phpTime = $this->parseUnknownDateTimeFormat($sqlTime);
         }
 
-        $this->setParameterProvider($provider);
-
-        return \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp,
-            new \DateTimeZone("UTC"));
+        return $phpTime;
     }
 
     /**
@@ -119,6 +120,7 @@ class TypeMapper
      * @param string $sqlTimestamp The timestamp with time zone to convert
      * @param Provider $provider The provider to convert from
      * @return \DateTime|null The PHP date time
+     * @throws \InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
     public function fromSQLTimestampWithTimeZone($sqlTimestamp, Provider $provider = null)
     {
@@ -129,8 +131,42 @@ class TypeMapper
 
         $this->setParameterProvider($provider);
 
-        return \DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(),
+        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(),
             $sqlTimestamp, new \DateTimeZone("UTC"));
+
+        if($phpTimestamp === false)
+        {
+            $phpTimestamp = $this->parseUnknownDateTimeFormat($sqlTimestamp);
+        }
+
+        return $phpTimestamp;
+    }
+
+    /**
+     * Converts an SQL timestamp without time zone to a PHP date time
+     *
+     * @param string $sqlTimestamp The timestamp without time zone to convert
+     * @param Provider $provider The provider to convert from
+     * @return \DateTime|null The PHP date time
+     * @throws \InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
+     */
+    public function fromSQLTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null)
+    {
+        if($sqlTimestamp === null)
+        {
+            return null;
+        }
+
+        $this->setParameterProvider($provider);
+        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp,
+            new \DateTimeZone("UTC"));
+
+        if($phpTimestamp === false)
+        {
+            $phpTimestamp = $this->parseUnknownDateTimeFormat($sqlTimestamp);
+        }
+
+        return $phpTimestamp;
     }
 
     /**
@@ -238,6 +274,25 @@ class TypeMapper
         $this->setParameterProvider($provider);
 
         return $timestamp->format($provider->getTimestampWithoutTimeZoneFormat());
+    }
+
+    /**
+     * Attempts to parse an unknown date/time format
+     *
+     * @param string $sqlDateTime The date/time to parse
+     * @return \DateTime The PHP date time
+     * @throws \InvalidArgumentException Thrown if the input time could not be parsed
+     */
+    protected function parseUnknownDateTimeFormat($sqlDateTime)
+    {
+        try
+        {
+            return new \DateTime($sqlDateTime, new \DateTimeZone("UTC"));
+        }
+        catch(\Exception $ex)
+        {
+            throw new \InvalidArgumentException("Unable to cast timestamp: " . $ex->getMessage());
+        }
     }
 
     /**
