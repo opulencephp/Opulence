@@ -38,9 +38,10 @@ abstract class SQLDataMapper implements ISQLDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
+     * @param SQL\IConnection $connection The connection used to load the entity
      * @return Models\IEntity The entity
      */
-    abstract protected function loadEntity(array $hash);
+    abstract protected function loadEntity(array $hash, SQL\IConnection $connection);
 
     /**
      * Sets the Id generator used by this data mapper
@@ -59,7 +60,8 @@ abstract class SQLDataMapper implements ISQLDataMapper
     {
         try
         {
-            $statement = $this->connectionPool->getReadConnection()->prepare($sql);
+            $connection = $this->connectionPool->getReadConnection();
+            $statement = $connection->prepare($sql);
             $statement->bindValues($sqlParameters);
             $statement->execute();
 
@@ -73,7 +75,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
 
             foreach($rows as $row)
             {
-                $entities[] = $this->loadEntity($row);
+                $entities[] = $this->loadEntity($row, $connection);
             }
 
             if($expectSingleResult)

@@ -6,6 +6,7 @@
  */
 namespace RDev\Tests\Models\ORM\DataMappers\Mocks;
 use RDev\Models;
+use RDev\Models\Databases\SQL;
 use RDev\Models\ORM\Exceptions;
 use RDev\Models\ORM\DataMappers;
 use RDev\Models\ORM\Ids;
@@ -88,7 +89,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     /**
      * {@inheritdoc}
      */
-    protected function loadEntity(array $hash)
+    protected function loadEntity(array $hash, SQL\IConnection $connection)
     {
         // Don't do anything
     }

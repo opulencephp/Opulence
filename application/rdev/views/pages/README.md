@@ -28,7 +28,7 @@ $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
 ```
 
-Alternatively, we could just render a template by passing it into `readFromInput()`:
+Alternatively, you could just render a template by passing it into `readFromInput()`:
 ```php
 use RDev\Views\Pages;
 

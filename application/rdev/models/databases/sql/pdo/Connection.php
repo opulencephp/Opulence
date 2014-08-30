@@ -43,7 +43,7 @@ class Connection extends \PDO implements SQL\IConnection
      */
     public function __construct(Providers\Provider $provider, SQL\Server $server, $dsn, array $driverOptions = [])
     {
-        $this->typeMapper = new Providers\TypeMapper();
+        $this->typeMapper = new Providers\TypeMapper($provider);
         $this->provider = $provider;
         $this->server = $server;
         $this->dsn = $dsn;

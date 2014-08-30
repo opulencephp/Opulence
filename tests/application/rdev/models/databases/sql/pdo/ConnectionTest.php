@@ -57,6 +57,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTypeMapper()
     {
-        $this->assertEquals(new Providers\TypeMapper(), $this->pdo->getTypeMapper());
+        $this->assertEquals(new Providers\TypeMapper($this->provider), $this->pdo->getTypeMapper());
     }
 }

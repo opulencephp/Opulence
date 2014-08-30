@@ -9,6 +9,7 @@
 
 ### Databases
 1. [Relational Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
+  1. [Type Mappers](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/providers)
 2. [NoSQL Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/nosql)
 3. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
 4. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
@@ -17,7 +18,7 @@
 1. [Building a Page Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views/pages)
 
 ### Configs
-1. [Using Configs](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/configs)
+1. [Configs](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/configs)
 
 ## Introduction
 **RDev** is a PHP framework that simplifies complex database interactions, object-relational mapping (ORM), and page templates.  It was written with customization, performance, security, scalability, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested.  However, it is still in development and should not be used in production code.  Hopefully, that will change soon.
