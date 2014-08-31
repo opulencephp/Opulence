@@ -1,6 +1,3 @@
-Fix Postgres microseconds bug
-    Maybe allow "formats" in providers to be arrays to try out??
-    Look at Doctrine's solution
 Add config capability to Redis/Memcached instances
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them

@@ -12,19 +12,18 @@ class Config extends Configs\Config
     /** @var array The list of required fields */
     private $requiredFields = [];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isValid()
+    public function __construct(array $configArray = [], array $requiredFields)
     {
-        return $this->hasRequiredFields($this->configArray, $this->requiredFields);
+        $this->requiredFields = $requiredFields;
+
+        parent::__construct($configArray);
     }
 
     /**
-     * @param array $requiredFields
+     * {@inheritdoc}
      */
-    public function setRequiredFields(array $requiredFields)
+    protected function isValid(array $configArray)
     {
-        $this->requiredFields = $requiredFields;
+        return $this->hasRequiredFields($configArray, $this->requiredFields);
     }
 } 

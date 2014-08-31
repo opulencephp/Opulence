@@ -6,11 +6,13 @@
  * This can handle multiple server setups or simple single server setups
  */
 namespace RDev\Models\Databases\SQL;
+use RDev\Models\Configs;
+use RDev\Models\Databases\SQL\Configs as SQLConfigs;
 
 abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */
-    private static $drivers = [
+    public static $drivers = [
         "pdo_mysql" => "RDev\\Models\\Databases\\SQL\\PDO\\MySQL\\Driver",
         "pdo_pgsql" => "RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver",
     ];
@@ -25,43 +27,41 @@ abstract class ConnectionPool
     protected $connectionOptions = [];
     /** @var array The list of driver options */
     protected $driverOptions = [];
-    /** @var ServerFactory The factory to use to create servers from configs */
-    protected $serverFactory = null;
     /** @var IConnection|null The connection to use for read queries */
     protected $readConnection = null;
     /** @var IConnection|null The connection to use for write queries */
     protected $writeConnection = null;
 
     /**
-     * @param Configs\ConnectionPoolConfig|array $config The configuration to use to setup the connection pool
+     * @param SQLConfigs\ConnectionPoolConfig|array $config The configuration to use to setup the connection pool
      *      It must contain the following keys:
      *          "driver" => name of the driver listed in self::$drivers OR
      *              The fully-qualified name of a custom driver class OR
      *              An object that implements IDriver
      *          "servers" => [
-     *              "master" => master server (see ServerFactory for examples of a server configuration)
+     *              "master" => An object that extends Server OR
+     *                  An array that contains the following keys:
+     *                      "host" => server host,
+     *                      "username" => server username credential,
+     *                      "password" => server password credential,
+     *                      "databaseName" => name of database on server to use
+     *                 The following keys are optional:
+     *                      "port" => server port,
+     *                      "charset" => character set
      *          ]
      *      The following are optional:
      *          "driverOptions" => settings to use to setup a driver connection,
      *          "connectionOptions" => the driver-specific connection settings
      * @throws \RuntimeException Thrown if the configuration was invalid
-     * @see ServerFactory
      */
     public function __construct($config)
     {
         if(is_array($config))
         {
-            $config = new Configs\ConnectionPoolConfig($config);
+            $config = $this->createConfigFromArray($config);
         }
 
-        /** @var Configs\ConnectionPoolConfig $config */
-        if(!$config->isValid())
-        {
-            throw new \RuntimeException("Invalid connection pool config");
-        }
-
-        $this->serverFactory = new ServerFactory();
-        $this->setDriver($config["driver"]);
+        $this->driver = $config["driver"];
         $this->setServers($config["servers"]);
         $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
         $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
@@ -198,6 +198,17 @@ abstract class ConnectionPool
     }
 
     /**
+     * Creates a config from an array to use for this pool
+     *
+     * @param array $configArray The array to create the config from
+     * @return Configs\IConfig The config
+     */
+    protected function createConfigFromArray(array $configArray)
+    {
+        return new SQLConfigs\ConnectionPoolConfig($configArray);
+    }
+
+    /**
      * Gets a connection to the input server
      *
      * @param string $type The type of server we're trying to connect to, eg "master", "custom"
@@ -241,37 +252,6 @@ abstract class ConnectionPool
     }
 
     /**
-     * Sets the driver to use in this pool
-     *
-     * @param string|IDriver $driver Indicates the driver to use, which can be any of the following:
-     *      The name of the driver per this class' constants
-     *      The fully-qualified name of the driver class
-     *      The driver object that implements IDriver
-     * @throws \RuntimeException Thrown if the custom driver couldn't be found
-     */
-    protected function setDriver($driver)
-    {
-        if($driver instanceof IDriver)
-        {
-            $this->driver = $driver;
-        }
-        elseif(isset(self::$drivers[$driver]))
-        {
-            $this->driver = new self::$drivers[$driver]();
-        }
-        else
-        {
-            // We assume this is a custom driver class
-            if(!class_exists($driver))
-            {
-                throw new \RuntimeException("Invalid custom driver: " . $driver);
-            }
-
-            $this->driver = new $driver();
-        }
-    }
-
-    /**
      * Sets the server configuration
      *
      * @param array $config The configuration array to use to setup the list of servers used by this pool
@@ -279,6 +259,6 @@ abstract class ConnectionPool
      */
     protected function setServers(array $config)
     {
-        $this->setMaster($this->serverFactory->createFromConfig($config["master"]));
+        $this->setMaster($config["master"]);
     }
 } 

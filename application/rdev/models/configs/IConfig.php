@@ -12,17 +12,9 @@ interface IConfig
      * Sets the config array
      *
      * @param array $configArray The config array to use
+     * @throws \RuntimeException Thrown if the config is invalid
      */
     public function fromArray(array $configArray);
-
-    /**
-     * Gets whether or not this config is valid
-     * This is a good place for implementing classes to implement some sort of validation on the existence of certain
-     * keys and values
-     *
-     * @return bool True if the config is valid, otherwise false
-     */
-    public function isValid();
 
     /**
      * Converts the config settings to a keyed array

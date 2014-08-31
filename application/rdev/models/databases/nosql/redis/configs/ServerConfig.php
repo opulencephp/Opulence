@@ -4,7 +4,7 @@
  *
  * Defines the server config
  */
-namespace RDev\Models\Databases\SQL\Configs;
+namespace RDev\Models\Databases\NoSQL\Redis\Configs;
 use RDev\Models\Configs;
 
 class ServerConfig extends Configs\Config
@@ -16,21 +16,24 @@ class ServerConfig extends Configs\Config
     {
         if(!$this->hasRequiredFields($this->configArray, [
             "host" => null,
-            "username" => null,
-            "password" => null,
-            "databaseName" => null,
+            "port" => null
         ])
         )
         {
             return false;
         }
 
-        if(isset($this["port"]) && !is_numeric($this["port"]))
+        if(isset($this["password"]) && !is_string($this["password"]))
         {
             return false;
         }
 
-        if(isset($this["charset"]) && !is_string($this["charset"]))
+        if(isset($this["databaseIndex"]) && !is_numeric($this["databaseIndex"]))
+        {
+            return false;
+        }
+
+        if(isset($this["connectionTimeout"]) && !is_numeric($this["connectionTimeout"]))
         {
             return false;
         }

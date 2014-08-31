@@ -27,16 +27,12 @@ class Config implements IConfig, \ArrayAccess
      */
     public function fromArray(array $configArray)
     {
-        $this->configArray = $configArray;
-    }
+        if(!$this->isValid($configArray))
+        {
+            throw new \RuntimeException("Invalid config");
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function isValid()
-    {
-        // Override this for custom validation
-        return true;
+        $this->configArray = $configArray;
     }
 
     /**
@@ -110,6 +106,18 @@ class Config implements IConfig, \ArrayAccess
             }
         }
 
+        return true;
+    }
+
+    /**
+     * Validates the config
+     *
+     * @param array $configArray The config array to validate
+     * @return bool True if the config is valid, otherwise false
+     */
+    protected function isValid(array $configArray)
+    {
+        // Let extending classes override this
         return true;
     }
 } 

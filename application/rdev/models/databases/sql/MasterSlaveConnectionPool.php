@@ -5,6 +5,7 @@
  * Defines a pool of master/slave servers
  */
 namespace RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Configs;
 
 class MasterSlaveConnectionPool extends ConnectionPool
 {
@@ -64,6 +65,14 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * {@inheritdoc}
      */
+    protected function createConfigFromArray(array $configArray)
+    {
+        return new Configs\MasterSlaveConnectionPoolConfig($configArray);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function setReadConnection(Server $preferredServer = null)
     {
         if($preferredServer !== null)
@@ -84,7 +93,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
 
     /**
      * {@inheritdoc}
-     * The server configuration can also contain an entry for "slaves" => [slave server data]
+     * The server configuration can also contain an entry for "slaves" => [slave server objects]
      */
     protected function setServers(array $config)
     {
@@ -92,9 +101,9 @@ class MasterSlaveConnectionPool extends ConnectionPool
 
         if(isset($config["slaves"]))
         {
-            foreach($config["slaves"] as $slaveConfig)
+            foreach($config["slaves"] as $slave)
             {
-                $this->addServer("slaves", $this->serverFactory->createFromConfig($slaveConfig));
+                $this->addServer("slaves", $slave);
             }
         }
     }

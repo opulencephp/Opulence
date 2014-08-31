@@ -29,14 +29,21 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForMatchingRequiredFields()
     {
-        $config = new Mocks\Config([
+        new Mocks\Config([
+            "foo"
+        ], [
             "foo"
         ]);
-        $config->setRequiredFields([
-            "foo"
-        ]);
-        $this->assertTrue($config->isValid());
-        $config->fromArray([
+        new Mocks\Config([
+            "foo",
+            "bar",
+            "nested" => [
+                "nestedNested" => [
+                    "blah",
+                    "notMissing"
+                ]
+            ]
+        ], [
             "foo",
             "bar",
             "nested" => [
@@ -46,17 +53,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ]);
-        $config->setRequiredFields([
-            "foo",
-            "bar",
-            "nested" => [
-                "nestedNested" => [
-                    "blah",
-                    "notMissing"
-                ]
-            ]
-        ]);
-        $this->assertTrue($config->isValid());
+        // This is a little hack just to make sure all the above code executed ok
+        $this->assertTrue(true);
     }
 
     /**
@@ -64,42 +62,48 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForMissingRequiredFields()
     {
-        $config = new Mocks\Config([
-            "foo" => null
-        ]);
-        $config->setRequiredFields([
-            "bar" => null
-        ]);
-        $this->assertFalse($config->isValid());
-        $config->fromArray([
-            "foo",
-            "bar",
-            "nested" => [
-                "nestedNested" => [
-                    "blah"
-                ]
-            ]
-        ]);
-        $config->setRequiredFields([
-            "foo",
-            "bar",
-            "nested" => [
-                "nestedNested" => [
-                    "blah",
-                    "missing"
-                ]
-            ]
-        ]);
-        $this->assertFalse($config->isValid());
-    }
+        $exceptionsThrown = false;
 
-    /**
-     * Tests checking if the config is valid
-     */
-    public function testIsValid()
-    {
-        $config = new Config();
-        $this->assertTrue($config->isValid());
+        try
+        {
+            new Mocks\Config([
+                "foo" => null
+            ], [
+                "bar" => null
+            ]);
+        }
+        catch(\RuntimeException $ex)
+        {
+            $exceptionsThrown = true;
+        }
+
+        try
+        {
+            new Mocks\Config([
+                "foo",
+                "bar",
+                "nested" => [
+                    "nestedNested" => [
+                        "blah"
+                    ]
+                ]
+            ], [
+                "foo",
+                "bar",
+                "nested" => [
+                    "nestedNested" => [
+                        "blah",
+                        "missing"
+                    ]
+                ]
+            ]);
+        }
+        catch(\RuntimeException $ex)
+        {
+            $exceptionsThrown = $exceptionsThrown && true;
+        }
+
+        $this->assertTrue($exceptionsThrown);
     }
 
     /**
@@ -114,4 +118,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($configArray, $configWithArrayInConstructor->toArray());
         $this->assertEquals($configArray, $configWithArrayInFromArray->toArray());
     }
-} 
+}
+
+$test = new ConfigTest();
+$test->testCheckingForMatchingRequiredFields();

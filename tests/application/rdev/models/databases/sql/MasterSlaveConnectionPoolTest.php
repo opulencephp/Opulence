@@ -179,35 +179,6 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests initializing the pool with a mix of already-instantiated server and configs
-     */
-    public function testWithAServerObject()
-    {
-        $config = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server(),
-                "slaves" => [
-                    [
-                        "host" => "8.8.8.8",
-                        "username" => "foo",
-                        "password" => "bar",
-                        "databaseName" => "mydb"
-                    ]
-                ]
-            ]
-        ];
-        $connectionPool = new MasterSlaveConnectionPool($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $connectionPool->getMaster());
-
-        /** @var Server $slave */
-        foreach($connectionPool->getSlaves() as $slave)
-        {
-            $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $slave);
-        }
-    }
-
-    /**
      * Tests initializing the pool with a slave server
      */
     public function testWithASlaveServer()
