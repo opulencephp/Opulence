@@ -160,7 +160,7 @@ $template->setVar("greatDay", $greatDay);
 echo $template->render(); // "07/24/1987 is a great day"
 ```
 
-Note that arguments passed into the function in the template are backreferenced by the function matcher.  They are available in the replacement string starting with $1 for argument 1, $2 for argument 2, etc.
+Note that arguments passed into the function in the template are backreferenced by the function matcher.  They are available in the replacement string starting with `$1` for argument 1, `$2` for argument 2, etc.
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
