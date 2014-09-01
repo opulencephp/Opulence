@@ -11,21 +11,39 @@ class RDevPHPRedis extends \Redis implements IRedis
 {
     use TRedis;
 
+    /** @var Server */
+    protected $server;
+
     /**
-     * @param Server $server The server we're connecting to
+     * @param Configs\ServerConfig|array $config The configuration to use for the server to connect to
+     *      This must contain the following keys:
+     *          "servers" => [
+     *              "master" => [
+     *                  "host" => server host,
+     *                  "port" => server port
+     *              ]
+     *          ]
+     *      The following keys are optional for the server:
+     *          "password" => server password for authentication,
+     *          "databaseIndex" => index of database to connect to on the server,
+     *          "connectionTimeout" => the number of seconds to wait before a connection is timed out
      */
-    public function __construct(Server $server)
+    public function __construct($config)
     {
-        $this->serverFactory = new ServerFactory();
-        $this->server = $server;
+        if(is_array($config))
+        {
+            $config = new Configs\ServerConfig($config);
+        }
+
+        $this->server = $config["servers"]["master"];
         $this->typeMapper = new TypeMapper();
 
         parent::connect($this->server->getHost(), $this->server->getPort(), $this->server->getConnectionTimeout());
         parent::select($this->server->getDatabaseIndex());
 
-        if($server->passwordIsSet())
+        if($this->server->passwordIsSet())
         {
-            parent::auth($server->getPassword());
+            parent::auth($this->server->getPassword());
         }
     }
 

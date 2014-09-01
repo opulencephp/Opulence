@@ -5,6 +5,7 @@
  * Tests the master/slave connection pool config
  */
 namespace RDev\Models\Databases\SQL\Configs;
+use RDev\Models\Databases\SQL;
 use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
@@ -42,6 +43,7 @@ class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingArrayForMasterAndServersForSlave()
     {
+        $slave = new Mocks\Server();
         $config = new MasterSlaveConnectionPoolConfig([
             "driver" => new Mocks\Driver(),
             "servers" => [
@@ -52,12 +54,18 @@ class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
                     "databaseName" => "mydb"
                 ],
                 "slaves" => [
-                    new Mocks\Server()
+                    $slave
                 ]
             ]
         ]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["slaves"][0]);
+        /** @var SQL\Server $master */
+        $master = $config["servers"]["master"];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $master);
+        $this->assertEquals("127.0.0.1", $master->getHost());
+        $this->assertEquals("foo", $master->getUsername());
+        $this->assertEquals("bar", $master->getPassword());
+        $this->assertEquals("mydb", $master->getDatabaseName());
+        $this->assertSame($slave, $config["servers"]["slaves"][0]);
     }
 
     /**
@@ -84,8 +92,20 @@ class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["slaves"][0]);
+        /** @var SQL\Server $master */
+        $master = $config["servers"]["master"];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $master);
+        $this->assertEquals("127.0.0.1", $master->getHost());
+        $this->assertEquals("foo", $master->getUsername());
+        $this->assertEquals("bar", $master->getPassword());
+        $this->assertEquals("mydb", $master->getDatabaseName());
+        /** @var SQL\Server $slave */
+        $slave = $config["servers"]["slaves"][0];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $slave);
+        $this->assertEquals("8.8.8.8", $slave->getHost());
+        $this->assertEquals("foo", $slave->getUsername());
+        $this->assertEquals("bar", $slave->getPassword());
+        $this->assertEquals("mydb", $slave->getDatabaseName());
     }
 
     /**
@@ -93,10 +113,11 @@ class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingServerObjectForMasterAndArrayForSlave()
     {
+        $master = new Mocks\Server();
         $config = new MasterSlaveConnectionPoolConfig([
             "driver" => new Mocks\Driver(),
             "servers" => [
-                "master" => new Mocks\Server(),
+                "master" => $master,
                 "slaves" => [
                     [
                         "host" => "8.8.8.8",
@@ -107,7 +128,13 @@ class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["slaves"][0]);
+        $this->assertSame($master, $config["servers"]["master"]);
+        /** @var SQL\Server $slave */
+        $slave = $config["servers"]["slaves"][0];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $slave);
+        $this->assertEquals("8.8.8.8", $slave->getHost());
+        $this->assertEquals("foo", $slave->getUsername());
+        $this->assertEquals("bar", $slave->getPassword());
+        $this->assertEquals("mydb", $slave->getDatabaseName());
     }
 } 

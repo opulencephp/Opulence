@@ -14,9 +14,9 @@ class Config implements IConfig, \ArrayAccess
     /**
      * @param array $configArray The config array to initialize from
      */
-    public function __construct(array $configArray = [])
+    public function __construct(array $configArray = null)
     {
-        if($configArray != [])
+        if(!is_null($configArray))
         {
             $this->fromArray($configArray);
         }

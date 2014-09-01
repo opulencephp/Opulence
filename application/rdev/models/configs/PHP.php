@@ -61,12 +61,15 @@ class PHP
             }
         }
 
-        if(!file_exists($filePath))
+        if(!empty($filePath))
         {
-            throw new \RuntimeException("Invalid file path: " . $filePath);
-        }
+            if(!file_exists($filePath))
+            {
+                throw new \RuntimeException("Invalid file path: " . $filePath);
+            }
 
-        require_once($filePath);
+            require_once($filePath);
+        }
     }
 }
 

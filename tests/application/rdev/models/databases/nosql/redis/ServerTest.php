@@ -14,7 +14,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfPasswordIsSet()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $this->assertFalse($server->passwordIsSet());
         $server->setPassword("foo");
         $this->assertTrue($server->passwordIsSet());
@@ -25,7 +25,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingConnectionTimeout()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $server->setConnectionTimeout(123);
         $this->assertEquals(123, $server->getConnectionTimeout());
     }
@@ -35,7 +35,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDatabaseIndex()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $server->setDatabaseIndex(100);
         $this->assertEquals(100, $server->getDatabaseIndex());
     }
@@ -45,7 +45,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingPassword()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $server->setPassword("foo");
         $this->assertEquals("foo", $server->getPassword());
     }
@@ -55,7 +55,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingPort()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $this->assertEquals(6379, $server->getPort());
     }
 } 

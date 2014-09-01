@@ -73,12 +73,12 @@ class ConnectionPoolConfig extends Configs\Config
         $server->setPassword($configArray["password"]);
         $server->setDatabaseName($configArray["databaseName"]);
 
-        if(isset($config["port"]))
+        if(isset($configArray["port"]))
         {
             $server->setPort($configArray["port"]);
         }
 
-        if(isset($config["charset"]))
+        if(isset($configArray["charset"]))
         {
             $server->setCharset($configArray["charset"]);
         }

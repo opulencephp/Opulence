@@ -5,6 +5,7 @@
  * Tests the connection pool config
  */
 namespace RDev\Models\Databases\SQL\Configs;
+use RDev\Models\Databases\SQL;
 use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class ConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
@@ -19,6 +20,7 @@ class ConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
         $configArray["servers"]["master"] = $server;
         $config = new ConnectionPoolConfig($configArray);
         $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
+        $this->assertEquals($server, $config["servers"]["master"]);
     }
 
     /**
@@ -34,7 +36,13 @@ class ConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
             "databaseName" => "mydb"
         ];
         $config = new ConnectionPoolConfig($configArray);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
+        /** @var SQL\Server $master */
+        $master = $config["servers"]["master"];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $master);
+        $this->assertEquals("127.0.0.1", $master->getHost());
+        $this->assertEquals("foo", $master->getUsername());
+        $this->assertEquals("bar", $master->getPassword());
+        $this->assertEquals("mydb", $master->getDatabaseName());
     }
 
     /**
@@ -85,7 +93,14 @@ class ConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
             "port" => 22
         ];
         $config = new ConnectionPoolConfig($configArray);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
+        /** @var SQL\Server $master */
+        $master = $config["servers"]["master"];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $master);
+        $this->assertEquals("127.0.0.1", $master->getHost());
+        $this->assertEquals("foo", $master->getUsername());
+        $this->assertEquals("bar", $master->getPassword());
+        $this->assertEquals("mydb", $master->getDatabaseName());
+        $this->assertEquals(22, $master->getPort());
     }
 
     /**
@@ -147,7 +162,14 @@ class ConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
             "charset" => "utf8"
         ];
         $config = new ConnectionPoolConfig($configArray);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
+        /** @var SQL\Server $master */
+        $master = $config["servers"]["master"];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $master);
+        $this->assertEquals("127.0.0.1", $master->getHost());
+        $this->assertEquals("foo", $master->getUsername());
+        $this->assertEquals("bar", $master->getPassword());
+        $this->assertEquals("mydb", $master->getDatabaseName());
+        $this->assertEquals("utf8", $master->getCharset());
     }
 
     /**
@@ -272,28 +294,14 @@ class ConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingServerObject()
     {
+        $server = new Mocks\Server();
         $config = new ConnectionPoolConfig([
             "driver" => new Mocks\Driver(),
             "servers" => [
-                "master" => new Mocks\Server()
+                "master" => $server
             ]
         ]);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\Server", $config["servers"]["master"]);
-    }
-
-    /**
-     * Tests initializing the config with just a master server
-     */
-    public function testWithJustAMaster()
-    {
-        $master = new Mocks\Server();
-        $config = new ConnectionPoolConfig([
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ]);
-        $this->assertEquals($master, $config["servers"]["master"]);
+        $this->assertSame($server, $config["servers"]["master"]);
     }
 
     /**

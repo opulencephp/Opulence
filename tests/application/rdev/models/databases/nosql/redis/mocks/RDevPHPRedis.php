@@ -6,15 +6,21 @@
  */
 namespace RDev\Tests\Models\Databases\NoSQL\Redis\Mocks;
 use RDev\Models\Databases\NoSQL\Redis;
+use RDev\Models\Databases\NoSQL\Redis\Configs;
 
 class RDevPHPRedis extends Redis\RDevPHPRedis
 {
     /**
-     * @param Redis\Server $server The server to connect to
+     * {@inheritdoc}
      */
-    public function __construct(Redis\Server $server)
+    public function __construct($config)
     {
-        $this->server = new $server;
+        if(is_array($config))
+        {
+            $config = new Configs\ServerConfig($config);
+        }
+
+        $this->server = $config["servers"]["master"];
         $this->typeMapper = new Redis\TypeMapper();
     }
 

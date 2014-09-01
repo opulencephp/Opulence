@@ -5,32 +5,74 @@
  * Defines an extension of Memcached
  */
 namespace RDev\Models\Databases\NoSQL\Memcached;
+use RDev\Models\Databases\NoSQL\Memcached\Configs;
 
 class RDevMemcached extends \Memcached
 {
-    /** @var Server The server we're connecting to */
-    private $server = null;
+    /** @var Server[] The server we're connecting to */
+    protected $servers = null;
     /** @var TypeMapper The type mapper to use for converting data to/from Redis */
-    private $typeMapper = null;
+    protected $typeMapper = null;
 
     /**
-     * @param Server $server The server we're connecting to
+     * @param Configs\ServerConfig|array $config The configuration to use for the server to connect to
+     *      This must contain the following keys:
+     *          "servers" => [
+     *              "host" => server host,
+     *              "port" => server port
+     *          ]
+     *      The following keys are optional in the servers:
+     *          "weight" => the weight of the server relative to the total weight of all other servers
      */
-    public function __construct(Server $server)
+    public function __construct($config)
     {
-        $this->server = $server;
+        if(is_array($config))
+        {
+            $config = new Configs\ServerConfig($config);
+        }
+
         $this->typeMapper = new TypeMapper();
 
         parent::__construct();
-        parent::addServer($this->server->getHost(), $this->server->getPort(), $this->server->getWeight());
+
+        /** @var Server $server */
+        foreach($config["servers"] as $server)
+        {
+            $this->addServer($server->getHost(), $server->getPort(), $server->getWeight());
+        }
     }
 
     /**
-     * @return Server
+     * {@inheritdoc}
      */
-    public function getServer()
+    public function addServer($host, $port, $weight = 0)
     {
-        return $this->server;
+        $server = new Server();
+        $server->setHost($host);
+        $server->setPort($port);
+        $server->setWeight($weight);
+        $this->servers[] = $server;
+
+        parent::addServer($host, $port, $weight);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function addServers(array $servers)
+    {
+        foreach($servers as $serverArray)
+        {
+            $this->addServer($serverArray[0], $serverArray[1], $serverArray[2]);
+        }
+    }
+
+    /**
+     * @return Server[]
+     */
+    public function getServers()
+    {
+        return $this->servers;
     }
 
     /**

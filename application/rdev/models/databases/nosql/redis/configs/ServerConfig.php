@@ -6,15 +6,95 @@
  */
 namespace RDev\Models\Databases\NoSQL\Redis\Configs;
 use RDev\Models\Configs;
+use RDev\Models\Databases\NoSQL\Redis;
 
 class ServerConfig extends Configs\Config
 {
     /**
      * {@inheritdoc}
      */
-    public function isValid()
+    public function fromArray(array $configArray)
     {
-        if(!$this->hasRequiredFields($this->configArray, [
+        if(!$this->isValid($configArray))
+        {
+            throw new \RuntimeException("Invalid config");
+        }
+
+        if(!$configArray["servers"]["master"] instanceof Redis\Server)
+        {
+            $masterConfigArray = $configArray["servers"]["master"];
+            $master = new Redis\Server();
+            $master->setHost($masterConfigArray["host"]);
+            $master->setPort($masterConfigArray["port"]);
+
+            if(isset($masterConfigArray["password"]))
+            {
+                $master->setPassword($masterConfigArray["password"]);
+            }
+
+            if(isset($masterConfigArray["databaseIndex"]))
+            {
+                $master->setDatabaseIndex($masterConfigArray["databaseIndex"]);
+            }
+
+            if(isset($masterConfigArray["connectionTimeout"]))
+            {
+                $master->setConnectionTimeout($masterConfigArray["connectionTimeout"]);
+            }
+
+            $configArray["servers"]["master"] = $master;
+        }
+
+        $this->configArray = $configArray;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isValid(array $configArray)
+    {
+        if(!$this->hasRequiredFields($configArray, [
+            "servers" => [
+                "master" => null
+            ]
+        ])
+        )
+        {
+            return false;
+        }
+
+        // Only accept server objects or valid server config arrays
+        if(is_array($configArray["servers"]["master"]))
+        {
+            if(!$this->validateServer($configArray["servers"]["master"]))
+            {
+                return false;
+            }
+        }
+        elseif(!$configArray["servers"]["master"] instanceof Redis\Server)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Validates a server config array
+     *
+     * @param array $configArray The array of config options
+     *      It must contain the following keys mapped to their appropriate values:
+     *          "host" => server host,
+     *          "port" => server port,
+     *      The following keys are optional:
+     *          "password" => server password,
+     *          "databaseIndex" => index of the database to use on this server,
+     *          "connectionTimeout" => the number of seconds to wait before a timeout
+     * @return bool True if the config is valid, otherwise false
+     */
+    protected function validateServer(array $configArray)
+    {
+        if(!$this->hasRequiredFields($configArray, [
             "host" => null,
             "port" => null
         ])
@@ -23,17 +103,27 @@ class ServerConfig extends Configs\Config
             return false;
         }
 
-        if(isset($this["password"]) && !is_string($this["password"]))
+        if(!is_string($configArray["host"]))
         {
             return false;
         }
 
-        if(isset($this["databaseIndex"]) && !is_numeric($this["databaseIndex"]))
+        if(!is_numeric($configArray["port"]))
         {
             return false;
         }
 
-        if(isset($this["connectionTimeout"]) && !is_numeric($this["connectionTimeout"]))
+        if(isset($configArray["password"]) && !is_string($configArray["password"]))
+        {
+            return false;
+        }
+
+        if(isset($configArray["databaseIndex"]) && !is_numeric($configArray["databaseIndex"]))
+        {
+            return false;
+        }
+
+        if(isset($configArray["connectionTimeout"]) && !is_numeric($configArray["connectionTimeout"]))
         {
             return false;
         }
