@@ -119,6 +119,3 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($configArray, $configWithArrayInFromArray->toArray());
     }
 }
-
-$test = new ConfigTest();
-$test->testCheckingForMatchingRequiredFields();

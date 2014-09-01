@@ -56,6 +56,26 @@ class ServerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests creating a server with a password specified
+     */
+    public function testCreatingServerWithPasswordSpecified()
+    {
+        $configArray = $this->getValidConfigForServerTests();
+        $configArray["servers"]["master"] = [
+            "host" => "127.0.0.1",
+            "port" => 6379,
+            "password" => "foo"
+        ];
+        $config = new ServerConfig($configArray);
+        /** @var Redis\Server $master */
+        $master = $config["servers"]["master"];
+        $this->assertInstanceOf("RDev\\Models\\Databases\\NoSQL\\Redis\\Server", $master);
+        $this->assertEquals("127.0.0.1", $master->getHost());
+        $this->assertEquals(6379, $master->getPort());
+        $this->assertEquals("foo", $master->getPassword());
+    }
+
+    /**
      * Tests creating a server without a connection timeout specified
      */
     public function testCreatingServerWithoutConnectionTimeoutSpecified()
@@ -113,7 +133,7 @@ class ServerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests creating a server without a password set specified
+     * Tests creating a server without a password specified
      */
     public function testCreatingServerWithoutPasswordSpecified()
     {

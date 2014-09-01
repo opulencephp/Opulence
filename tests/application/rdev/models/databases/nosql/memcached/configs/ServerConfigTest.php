@@ -56,7 +56,7 @@ class ServerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests creating a server with a weight set specified
+     * Tests creating a server with a weight specified
      */
     public function testCreatingServerWithWeightSpecified()
     {
@@ -102,7 +102,7 @@ class ServerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests creating a server without a weight set specified
+     * Tests creating a server without a weight specified
      */
     public function testCreatingServerWithoutWeightSpecified()
     {
@@ -204,7 +204,7 @@ class ServerConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests initializing the config with a mix of multiple already-instantiated servers and arrays
+     * Tests initializing the config with a mix of already-instantiated servers and arrays
      */
     public function testUsingServerObjectWithArray()
     {

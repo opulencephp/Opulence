@@ -39,9 +39,9 @@ class MasterSlaveConnectionPoolConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using an array for the master and servers for the slave
+     * Tests using an array for the master and a server for the slave
      */
-    public function testUsingArrayForMasterAndServersForSlave()
+    public function testUsingArrayForMasterAndServerForSlave()
     {
         $slave = new Mocks\Server();
         $config = new MasterSlaveConnectionPoolConfig([

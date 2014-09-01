@@ -12,6 +12,10 @@ class Config extends Configs\Config
     /** @var array The list of required fields */
     private $requiredFields = [];
 
+    /**
+     * @param array $configArray The array to convert from
+     * @param array $requiredFields The list of required fields to pass validation
+     */
     public function __construct(array $configArray = [], array $requiredFields)
     {
         $this->requiredFields = $requiredFields;

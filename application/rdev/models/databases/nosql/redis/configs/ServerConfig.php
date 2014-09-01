@@ -51,7 +51,7 @@ class ServerConfig extends Configs\Config
     /**
      * {@inheritdoc}
      */
-    public function isValid(array $configArray)
+    protected function isValid(array $configArray)
     {
         if(!$this->hasRequiredFields($configArray, [
             "servers" => [

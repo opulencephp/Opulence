@@ -21,11 +21,11 @@ use RDev\Models\Configs;
 
 class MyConfig extends Configs\Config
 {
-    public function isValid()
+    protected function isValid(array $configArray)
     {
         // The 2nd parameter is an array whose structure our config array must adhere to
         // In this case, all we care about is that the correct keys are set, which is why the values are all set to null
-        return $this->hasRequiredFields($this->configArray, [
+        return $this->hasRequiredFields($configArray, [
             "websiteURL" => null,
             "databaseSettings" => [
                 "host" => null,
@@ -44,11 +44,52 @@ $myConfig = new MyConfig([
         "password" => "bar"
     ]
 ]);
-
-echo $myConfig->isValid(); // "1"
 // We can use $myConfig as an array
 echo $myConfig["websiteURL"]; // "http://www.example.com"
 echo $myConfig["databaseSettings"]["host"]; // "127.0.0.1"
+```
+
+#### Converting From an Array
+All configs must implement `fromArray()`.  In this method, you should call `isValid()`, and then proceed to convert the array into a config, setting the object's config array at the end.  It is a good place to convert certain pieces of data into new objects.  For example, say we allow an SQL driver to be passed in the array, but we also allow the name of a SQL driver class to be passed in.  In `fromArray()`, convert the name of the driver class to an actual instance of that class:
+```php
+class MyConfig extends Configs\Config
+{
+    public function fromArray(array $configArray)
+    {
+        if(!$this->isValid($configArray))
+        {
+            throw new \RuntimeException("Invalid config");
+        }
+
+        // If it's already a driver, don't bother converting
+        if(!$configArray["driver"] instanceof RDev\Models\Databases\SQL\IDriver)
+        {
+            // Ensure that it points to a valid class name
+            if(!is_string($configArray["driver"]) || !class_exists($configArray["driver"]))
+            {
+                throw new \RuntimeException("Invalid driver class name");
+            }
+
+            $driver = new $configArray["driver"]();
+
+            // Ensure that it implements IDriver
+            if(!$driver instanceof RDev\Models\Databases\SQL\IDriver)
+            {
+                throw new \RuntimeException("Driver does not implement IDriver");
+            }
+
+            // Now that we have our instantiated driver, replace the item in the config array with the driver
+            $configArray["driver"] = $driver;
+        }
+
+        // Set our object's array now that we're done with the conversions
+        $this->configArray = $configArray;
+    }
+}
+
+$myConfigWithDriverObject = new MyConfig(["driver" => new MyDriver()]); // Valid
+$myConfigWithDriverClassName = new MyConfig(["driver" => "Fully\\Qualified\\Name\\Of\\My\\Driver\\Class"]); // Valid
+echo $myConfigWithDriverClassName["driver"] instanceof RDev\Models\Databases\SQL\IDriver; // "1"
 ```
 
 ## Config Readers

@@ -59,7 +59,7 @@ class ConnectionPoolConfig extends Configs\Config
     }
 
     /**
-     *
+     * Gets a server object from a config array
      *
      * @param array $configArray The configuration array
      * @return SQL\Server The server object from the config options

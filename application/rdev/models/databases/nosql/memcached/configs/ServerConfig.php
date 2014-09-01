@@ -43,7 +43,7 @@ class ServerConfig extends Configs\Config
     /**
      * {@inheritdoc}
      */
-    public function isValid(array $configArray)
+    protected function isValid(array $configArray)
     {
         if(!$this->hasRequiredFields($configArray, [
             "servers" => null
@@ -90,7 +90,7 @@ class ServerConfig extends Configs\Config
      *          "host" => server host,
      *          "port" => server port,
      *      The following keys are optional:
-     *          "weight" => server weight
+     *          "weight" => weight of this server relative to the total weights of all the servers
      * @return bool True if the config is valid, otherwise false
      */
     protected function validateServer(array $configArray)

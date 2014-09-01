@@ -54,7 +54,7 @@ abstract class Reader
     }
 
     /**
-     * Validates whether or not a path to a config is valid
+     * Ensures that a path to a config is valid and readable
      *
      * @param string $path The path to the config to validate
      * @throws \InvalidArgumentException Thrown if the path is not a string

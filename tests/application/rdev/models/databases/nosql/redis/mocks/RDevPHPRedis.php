@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Mocks the RDev PHP Redis class
+ * Mocks the RDev PHP Redis class for use in testing
  */
 namespace RDev\Tests\Models\Databases\NoSQL\Redis\Mocks;
 use RDev\Models\Databases\NoSQL\Redis;

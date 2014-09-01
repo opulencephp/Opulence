@@ -47,7 +47,7 @@ use RDev\Models\Databases\NoSQL\Redis;
 
 $config = [
     "servers" => [
-        "master" => new Redis\MyServer()
+        "master" => new MyServer()
     ]
 ];
 $phpRedis = new Redis\RDevPHPRedis($config);
@@ -62,7 +62,7 @@ use RDev\Models\Databases\NoSQL\Redis;
 
 $config = [
     "servers" => [
-        "master" => new Redis\MyServer()
+        "master" => new MyServer()
     ]
 ];
 $predis = new Redis\RDevPredis($config);
@@ -74,7 +74,7 @@ echo $redis->get("foo"); // "bar"
 Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, [please visit its homepage](http://www.memcached.org/).
 
 #### Memcached Config
-Our Redis extensions take a configuration array or Redis `ServerConfig` object in their constructors.  They must have the following structure:
+Our Memcached extensions take a configuration array or Redis `ServerConfig` object in their constructors.  They must have the following structure:
 ```php
 [
     "servers" => [

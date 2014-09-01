@@ -87,7 +87,7 @@ class Config implements IConfig, \ArrayAccess
      * This is a useful validation function
      *
      * @param array $configArray The config array to validate
-     *      The reason we pass it into this method is so that we can recursively call it on sub-keys
+     *      The reason we pass it into this method is so that we can recursively call it on sub-arrays
      * @param array $requiredFields The array of keys required by the config
      * @return bool True if the config has the required fields, otherwise false
      */
