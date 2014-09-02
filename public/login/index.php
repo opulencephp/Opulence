@@ -6,7 +6,7 @@
  */
 use TBA\Views\Pages;
 
-require_once(__DIR__ . "/../../application/rdev/models/configs/PHP.php");
+require_once(__DIR__ . "/../../configs/PHP.php");
 
 $page = new Pages\Login();
 echo $page->render();
