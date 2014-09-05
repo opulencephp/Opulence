@@ -20,7 +20,7 @@ Hello, {{username}}
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
@@ -30,7 +30,7 @@ echo $template->render(); // "Hello, Beautiful Man"
 
 Alternatively, you could just render a template by passing it into `readFromInput()`:
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template();
 $template->readFromInput("Hello, {{username}}");
@@ -58,7 +58,7 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $sidebar = new Pages\Template(PATH_TO_SIDEBAR_TEMPLATE);
 $page = new Pages\Template(PATH_TO_PAGE_TEMPLATE);
@@ -87,7 +87,7 @@ To sanitize data to prevent cross-site scripting (XSS), simply use the triple-br
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 $template->setTag("namesOfCouple", "Dave & Lindsey");
@@ -115,7 +115,7 @@ foreach(["foo", "bar"] as $item)
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
@@ -125,42 +125,42 @@ You can also inject values from your application code into variables in your tem
 #### Template
 ```
 <?php if($isAdministrator): ?>
-<a href="admin.php">Admin</a>
+Hello, Administrator
 <?php endif; ?>
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setVar("isAdministrator", true);
-echo $template->render(); // "<a href=\"admin.php\">Admin</a>"
+echo $template->render(); // "Hello, Administrator"
 ```
 
 *Note*: PHP code is compiled first, followed by tags.  Therefore, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 ## Custom Functions
-It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and add a compiler:
+It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
 #### Template
 ```
-{{dateFormatter($greatDay, "m/d/Y")}} is a great day
+{{myDateFormatter($greatDay, "m/d/Y")}} is a great day
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
-$template->registerCompiler(function($content) use ($template)
+$template->registerFunction("myDateFormatter", function(\DateTime $date, $format = "m/d/Y")
 {
-    return preg_replace($template->getFunctionMatcher("dateFormatter"), "<?php echo $1->format($2); ?>", $content);
+    echo $date->format($format);
 });
 $greatDay = \DateTime::createFromFormat("m/d/Y", "07/24/1987");
 $template->setVar("greatDay", $greatDay);
 echo $template->render(); // "07/24/1987 is a great day"
 ```
 
-Note that arguments passed into the function in the template are backreferenced by the function matcher.  They are available in the replacement string starting with `$1` for argument 1, `$2` for argument 2, etc.
+Note that the function you pass in must print/echo a value.
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
@@ -170,7 +170,7 @@ Hello, {{username}}.  \{{I am escaped}}! \{{{Me too}}}!
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
@@ -186,7 +186,7 @@ Hello, ^^username$$
 ```
 #### Application Code
 ```php
-use RDev\Views\Pages;
+use RDev\Views\Templates;
 
 $template = new Pages\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);

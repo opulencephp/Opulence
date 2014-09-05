@@ -5,8 +5,9 @@
  * Defines a generic page template
  */
 namespace RDev\Views\Pages;
+use RDev\Views\Templates;
 
-class Generic extends Template
+class Generic extends Templates\Template
 {
     /** @var string The title of the page */
     protected $title = "";
@@ -33,11 +34,14 @@ class Generic extends Template
     /** @var array The list of inline footer JavaScript */
     protected $footerInlineJavaScript = [];
 
-    public function __construct()
+    /**
+     * @param Templates\ICompiler $compiler The compiler to use in this template
+     */
+    public function __construct(Templates\ICompiler $compiler = null)
     {
-        parent::__construct();
+        parent::__construct($compiler);
 
-        $this->readFromFile(__DIR__ . "/templates/Generic.html");
+        $this->readFromFile(__DIR__ . "/files/Generic.html");
     }
 
     /**

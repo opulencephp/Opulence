@@ -15,7 +15,7 @@
 4. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
 
 ### Page Templates
-1. [Building a Page Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views/pages)
+1. [Building a Page Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views)
 
 ### Configs
 1. [Configs](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/configs)

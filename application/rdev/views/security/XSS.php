@@ -4,7 +4,7 @@
  *
  * Defines tools meant to prevent cross-site scripting
  */
-namespace RDev\Views\Pages\Security;
+namespace RDev\Views\Security;
 
 class XSS
 {
