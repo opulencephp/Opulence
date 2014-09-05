@@ -132,9 +132,8 @@ class Template implements Views\IView
      * Registers a custom function to our compiler
      * Useful for defining functions for consistent formatting in the template
      *
-     * @param string $functionName The name of the function to call
+     * @param string $functionName The name of the function as it'll appear in the template
      * @param callable $compiler The function that returns the string that will replace calls to the function in the template
-     *      If the replacement string executes some PHP, it should be surrounded by PHP open/close tags
      */
     public function registerFunction($functionName, callable $compiler)
     {
@@ -145,28 +144,32 @@ class Template implements Views\IView
             {
                 // Get rid of the subject
                 array_shift($matches);
-                ob_start();
 
                 if(count($matches) == 1)
                 {
-                    // Grab any of the parameters from the function and convert them to their actual values
+                    // Grab all of the parameters from the function and convert them to their actual values
                     $parameters = $this->tokenizeFunctionParameters($matches[0]);
                     array_walk($parameters, [$this, "getVarValue"]);
-                    call_user_func_array($compiler, $parameters);
+
+                    return call_user_func_array($compiler, $parameters);
                 }
                 else
                 {
-                    call_user_func($compiler);
+                    return call_user_func($compiler);
                 }
-
-                return ob_get_clean();
             };
 
             return preg_replace_callback("/"
                 . preg_quote($this->openTagPlaceholder, "/")
                 . "\s*"
                 . preg_quote($functionName, "/")
-                . "\(([^\)]*)\)"
+                . "\("
+                . "((?:(?!"
+                . "\)"
+                . "\s*"
+                . preg_quote($this->closeTagPlaceholder, "/")
+                . ").)*)"
+                . "\)"
                 . "\s*"
                 . preg_quote($this->closeTagPlaceholder, "/")
                 . "/",

@@ -294,7 +294,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->template->registerFunction("date", function (\DateTime $date, $format, array $someArray)
         {
-            echo $date->format($format) . " and count of array is " . count($someArray);
+            return $date->format($format) . " and count of array is " . count($someArray);
         });
         $today = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->template->setVar("today", $today);

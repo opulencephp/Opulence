@@ -22,7 +22,7 @@ Hello, {{username}}
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template();
+$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
@@ -32,7 +32,7 @@ Alternatively, you could just render a template by passing it into `readFromInpu
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template();
+$template = new Templates\Template();
 $template->readFromInput("Hello, {{username}}");
 $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
@@ -60,8 +60,8 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ```php
 use RDev\Views\Templates;
 
-$sidebar = new Pages\Template(PATH_TO_SIDEBAR_TEMPLATE);
-$page = new Pages\Template(PATH_TO_PAGE_TEMPLATE);
+$sidebar = new Templates\Template(PATH_TO_SIDEBAR_TEMPLATE);
+$page = new Templates\Template(PATH_TO_PAGE_TEMPLATE);
 $page->setTag("sidebar", $sidebar->render());
 echo $page->render();
 ```
@@ -89,7 +89,7 @@ To sanitize data to prevent cross-site scripting (XSS), simply use the triple-br
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
 $template->setTag("namesOfCouple", "Dave & Lindsey");
 echo $template->render(); // "Dave &amp; Lindsey"
 ```
@@ -117,7 +117,7 @@ foreach(["foo", "bar"] as $item)
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
@@ -132,7 +132,7 @@ Hello, Administrator
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template();
+$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setVar("isAdministrator", true);
 echo $template->render(); // "Hello, Administrator"
@@ -150,7 +150,7 @@ It's possible to add custom functions to your template.  For example, you might 
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
 $template->registerFunction("myDateFormatter", function(\DateTime $date, $format = "m/d/Y")
 {
     echo $date->format($format);
@@ -160,7 +160,7 @@ $template->setVar("greatDay", $greatDay);
 echo $template->render(); // "07/24/1987 is a great day"
 ```
 
-Note that the function you pass in must print/echo a value.
+Note that the function you pass in must return a value that can be printed.  Also, nested function calls are currently not supported.
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
@@ -172,7 +172,7 @@ Hello, {{username}}.  \{{I am escaped}}! \{{{Me too}}}!
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template();
+$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Mr Schwarzenegger");
 echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me too}}}!"
@@ -188,7 +188,7 @@ Hello, ^^username$$
 ```php
 use RDev\Views\Templates;
 
-$template = new Pages\Template();
+$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setOpenTagPlaceholder("^^");
 $template->setCloseTagPlaceholder("$$");
