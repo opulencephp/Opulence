@@ -251,6 +251,19 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests rendering a template with a function that has spaces between the open and close tag placeholders
+     */
+    public function testFunctionWithSpacesBetweenTags()
+    {
+        $this->template->readFromInput('{{ foo("bar") }}');
+        $this->template->registerFunction("foo", function ($input)
+        {
+            echo $input;
+        });
+        $this->assertEquals("bar", $this->template->render());
+    }
+
+    /**
      * Tests getting the compiler
      */
     public function testGettingCompiler()

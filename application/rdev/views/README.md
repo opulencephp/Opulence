@@ -174,7 +174,7 @@ use RDev\Views\Templates;
 $template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
-Note that nested function (eg `trim(strtoupper("foo "))`) calls are currently not supported.
+You can also pass variables into your functions in the template and set them using `setVar()`.  Note that nested function calls (eg `trim(strtoupper("foo "))`) are currently not supported.
 
 ## Custom Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
