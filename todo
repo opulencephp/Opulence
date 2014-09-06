@@ -1,22 +1,8 @@
-Add more built-in functions for templates like:
-    abs
-    ceil
-    count
-    date
-    floor
-    implode
-    json_encode
-    round
-    ucwords
-    urlencode
-Handle invalid function declarations
-    Try passing in bad functions, see what happens
-Invetigate allowing nested function calls
+Investigate allowing nested function calls
     Probably can register functions like we do vars
     In getVarValue(), try checking if the thing is a function
         If it is, execute it
         Of course, we'll run into issues with how to pass it its arguments
-Make Config extend ArrayObject because, otherwise, it's missing features by only implementing ArrayAccess
 Add FileSystem class for reading/writing to files
 Investigate using PSR4 in composer.json to autoload
 Investigate Travis.yml, too

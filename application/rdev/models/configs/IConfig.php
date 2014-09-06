@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\Configs;
 
-interface IConfig
+interface IConfig extends \ArrayAccess, \IteratorAggregate, \Serializable, \Countable
 {
     /**
      * Sets the config array

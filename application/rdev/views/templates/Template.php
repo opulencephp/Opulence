@@ -27,6 +27,8 @@ class Template implements Views\IView
     protected $tags = [];
     /** @var array The mapping of PHP variable names to their values */
     protected $vars = [];
+    /** @var array The mapping of function names to their callbacks */
+    protected $functions = [];
     /** @var string The open tag placeholder */
     private $openTagPlaceholder = self::DEFAULT_OPEN_TAG_PLACEHOLDER;
     /** @var string The close tag placeholder */
@@ -43,10 +45,12 @@ class Template implements Views\IView
         }
 
         $this->compiler = $compiler;
+
         // Order here matters
         $this->registerPHPCompiler();
         $this->registerSafeTagCompiler();
         $this->registerRegularTagCompiler();
+        $this->registerBuiltInFunctions();
     }
 
     /**
@@ -133,50 +137,12 @@ class Template implements Views\IView
      * Useful for defining functions for consistent formatting in the template
      *
      * @param string $functionName The name of the function as it'll appear in the template
-     * @param callable $compiler The function that returns the string that will replace calls to the function in the template
+     * @param callable $function The function that returns the string that will replace calls to the function in the template
+     *      It must accept one parameter (the template's contents) and return a printable value
      */
-    public function registerFunction($functionName, callable $compiler)
+    public function registerFunction($functionName, callable $function)
     {
-        // Notice that the compiler will have priority over other compilers
-        $this->compiler->registerCompiler(function ($content) use ($functionName, $compiler)
-        {
-            $callback = function ($matches) use ($compiler)
-            {
-                // Get rid of the subject
-                array_shift($matches);
-
-                if(count($matches) == 1)
-                {
-                    // Grab all of the parameters from the function and convert them to their actual values
-                    $parameters = $this->tokenizeFunctionParameters($matches[0]);
-                    array_walk($parameters, [$this, "getVarValue"]);
-
-                    return call_user_func_array($compiler, $parameters);
-                }
-                else
-                {
-                    return call_user_func($compiler);
-                }
-            };
-
-            return preg_replace_callback("/"
-                . preg_quote($this->openTagPlaceholder, "/")
-                . "\s*"
-                . preg_quote($functionName, "/")
-                . "\("
-                . "((?:(?!"
-                . "\)"
-                . "\s*"
-                . preg_quote($this->closeTagPlaceholder, "/")
-                . ").)*)"
-                . "\)"
-                . "\s*"
-                . preg_quote($this->closeTagPlaceholder, "/")
-                . "/",
-                $callback,
-                $content
-            );
-        }, true);
+        $this->functions[$functionName] = $function;
     }
 
     /**
@@ -280,31 +246,105 @@ class Template implements Views\IView
     }
 
     /**
-     * Gets the value for a variable set in this template
-     *
-     * @param string $var The variable whose value we want
-     *      This variable should be wrapped in quotes, and it will be evaluated
-     *      For example, if the string "[1, 2]" is passed in, it'll be evaluated to an actual array: [1, 2]
-     *      Likewise, if a string '"m/d/Y"' is passed in, it'll be evaluated to a string: "m/d/Y"
-     *      If the string looks like "$today", this will evaluate it as a variable set in this template named "today"
+     * Registers the built-in function compilers
      */
-    private function getVarValue(&$var)
+    private function registerBuiltInFunctions()
     {
-        // If it's pointing to a variable
-        if(substr($var, 0, 1) == "$")
+        // Register the absolute value function
+        $this->registerFunction("abs", function ($number)
         {
-            $var = trim($var, "$");
-
-            if(isset($this->vars[$var]))
+            return abs($number);
+        });
+        // Register the ceiling function
+        $this->registerFunction("ceil", function ($number)
+        {
+            return ceil($number);
+        });
+        // Register the count function
+        $this->registerFunction("count", function (array $array)
+        {
+            return count($array);
+        });
+        // Register the date function
+        $this->registerFunction('date', function (\DateTime $date, $format = "m/d/Y", $timeZone = null)
+        {
+            if($timeZone instanceof \DateTimeZone)
             {
-                $var = $this->vars[$var];
+                $date->setTimezone($timeZone);
             }
-        }
-        else
+
+            return $date->format($format);
+        });
+        // Register the floor function
+        $this->registerFunction("floor", function ($number)
         {
-            // It's pointing to a data type
-            $var = eval("return " . $var . ";");
-        }
+            return floor($number);
+        });
+        // Register the implode function
+        $this->registerFunction("implode", function ($glue, array $pieces)
+        {
+            return implode($glue, $pieces);
+        });
+        // Register the JSON encode function
+        $this->registerFunction("json_encode", function ($value, $options = 0, $depth = 512)
+        {
+            return json_encode($value, $options, $depth);
+        });
+        // Register the lowercase first function
+        $this->registerFunction("lcfirst", function ($string)
+        {
+            return lcfirst($string);
+        });
+        // Register the round function
+        $this->registerFunction("round", function ($number, $precision = 0, $mode = PHP_ROUND_HALF_UP)
+        {
+            return round($number, $precision, $mode);
+        });
+        // Register the lowercase function
+        $this->registerFunction("strtolower", function ($string)
+        {
+            return strtolower($string);
+        });
+        // Register the lowercase function
+        $this->registerFunction("strtoupper", function ($string)
+        {
+            return strtoupper($string);
+        });
+        // Register the substring function
+        $this->registerFunction("substr", function ($string, $start, $length = null)
+        {
+            if($length === null)
+            {
+                return substr($string, $start);
+            }
+
+            return substr($string, $start, $length);
+        });
+        // Register the trim function
+        $this->registerFunction("trim", function ($string, $characterMask = " \t\n\r\0\x0B")
+        {
+            return trim($string, $characterMask);
+        });
+        // Register the uppercase first function
+        $this->registerFunction("ucfirst", function ($string)
+        {
+            return ucfirst($string);
+        });
+        // Register the uppercase words function
+        $this->registerFunction("ucwords", function ($string)
+        {
+            return ucwords($string);
+        });
+        // Register the URL decode function
+        $this->registerFunction("urldecode", function ($string)
+        {
+            return urldecode($string);
+        });
+        // Register the URL encode function
+        $this->registerFunction("urlencode", function ($string)
+        {
+            return urlencode($string);
+        });
     }
 
     /**
@@ -322,6 +362,27 @@ class Template implements Views\IView
             }
 
             ob_start();
+
+            // Compile the functions
+            foreach($this->functions as $functionName => $callback)
+            {
+                $content = preg_replace("/"
+                    . preg_quote($this->openTagPlaceholder, "/")
+                    . "\s*"
+                    . preg_quote($functionName, "/")
+                    . "\("
+                    . "((?:(?!"
+                    . "\)"
+                    . "\s*"
+                    . preg_quote($this->closeTagPlaceholder, "/")
+                    . ").)*)"
+                    . "\)"
+                    . "\s*"
+                    . preg_quote($this->closeTagPlaceholder, "/")
+                    . "/",
+                    '<?php echo call_user_func_array($this->functions["' . $functionName . '"], [\1]); ?>',
+                    $content);
+            }
 
             // Notice the little hack inside eval() to compile inline PHP
             if(@eval("?>" . $content) === false)
@@ -477,7 +538,7 @@ class Template implements Views\IView
         };
 
         return preg_replace_callback("/"
-            . "(?<!" . preg_quote("\\") . ")"
+            . "(?<!" . preg_quote("\\", "/") . ")"
             . "("
             . "(" . preg_quote($safeOpenTagFirstChar, "/") . ")?"
             . preg_quote($openTagPlaceholder, "/")
@@ -490,92 +551,5 @@ class Template implements Views\IView
             . "/",
             $callback,
             $content);
-    }
-
-    /**
-     * Tokenizes a list of parameters for a function in a template
-     *
-     * @param string $rawParameters The string of comma-separated parameters to tokenize
-     * @return array The list of function parameters
-     */
-    private function tokenizeFunctionParameters($rawParameters)
-    {
-        $bracketDepth = 0;
-        $commaDepth = 0;
-        $parameters = [];
-        $buffer = "";
-        $parametersLen = strlen($rawParameters);
-
-        for($charIter = 0;$charIter < $parametersLen;$charIter++)
-        {
-            $char = $rawParameters[$charIter];
-
-            switch($char)
-            {
-                case '[':
-                    $bracketDepth++;
-                    break;
-                case '(':
-                    $commaDepth++;
-                    break;
-                case ',':
-                    if($commaDepth == 0 && $bracketDepth == 0)
-                    {
-                        if($buffer != '')
-                        {
-                            $parameters[] = $buffer;
-                            $buffer = '';
-                        }
-
-                        continue 2;
-                    }
-
-                    break;
-                case ' ':
-                    if($commaDepth == 0 && $bracketDepth == 0)
-                    {
-                        continue 2;
-                    }
-
-                    break;
-                case ']':
-                    if($bracketDepth == 0)
-                    {
-                        $parameters[] = $buffer . $char;
-                        $buffer = '';
-
-                        continue 2;
-                    }
-                    else
-                    {
-                        $bracketDepth--;
-                    }
-
-                    break;
-                case ')':
-                    if($commaDepth == 0)
-                    {
-                        $parameters[] = $buffer . $char;
-                        $buffer = '';
-
-                        continue 2;
-                    }
-                    else
-                    {
-                        $commaDepth--;
-                    }
-
-                    break;
-            }
-
-            $buffer .= $char;
-        }
-
-        if(!empty($buffer))
-        {
-            $parameters[] = $buffer;
-        }
-
-        return $parameters;
     }
 } 

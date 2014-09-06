@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\Configs;
 
-class Config implements IConfig, \ArrayAccess
+class Config extends \ArrayObject implements IConfig
 {
     /** @var array The config as an array */
     protected $configArray = [];

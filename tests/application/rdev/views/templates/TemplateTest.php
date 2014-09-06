@@ -30,6 +30,227 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the built-in absolute value function
+     */
+    public function testBuiltInAbsFunction()
+    {
+        $number = -3.9;
+        $this->template->setVar("number", $number);
+        $this->template->readFromInput('{{abs($number)}}');
+        $this->assertEquals(abs($number), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in ceiling function
+     */
+    public function testBuiltInCeilFunction()
+    {
+        $number = 3.9;
+        $this->template->setVar("number", $number);
+        $this->template->readFromInput('{{ceil($number)}}');
+        $this->assertEquals(ceil($number), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in count function
+     */
+    public function testBuiltInCountFunction()
+    {
+        $array = [1, 2, 3];
+        $this->template->setVar("array", $array);
+        $this->template->readFromInput('{{count($array)}}');
+        $this->assertEquals(count($array), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in date function
+     */
+    public function testBuiltInDateFunction()
+    {
+        $today = new \DateTime("now", new \DateTimeZone("UTC"));
+        $this->template->setVar("today", $today);
+        $this->template->readFromInput('{{date($today)}}');
+        $this->template->setVar("today", $today);
+        // Test with date parameter
+        $this->assertSame($today->format("m/d/Y"), $this->template->render());
+        // Test with date and format parameters
+        $format = "Y-m-d";
+        $this->template->readFromInput('{{date($today, "' . $format . '")}}');
+        $this->assertSame($today->format($format), $this->template->render());
+        // Test with date, format, and timezone parameters
+        $format = "Y-m-d";
+        $timezone = new \DateTimeZone("America/New_York");
+        $today->setTimezone($timezone);
+        $this->template->setVar("timezone", $timezone);
+        $this->template->readFromInput('{{date($today, "' . $format . '", $timezone)}}');
+        $this->assertSame($today->format($format), $this->template->render());
+        // Test an invalid timezone
+        $this->template->setVar("timezone", []);
+        $this->template->readFromInput('{{date($today, "' . $format . '", $timezone)}}');
+        $this->assertSame($today->format($format), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in floor function
+     */
+    public function testBuiltInFloorFunction()
+    {
+        $number = 3.9;
+        $this->template->setVar("number", $number);
+        $this->template->readFromInput('{{floor($number)}}');
+        $this->assertEquals(floor($number), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in implode function
+     */
+    public function testBuiltInImplodeFunction()
+    {
+        $array = [1, 2, 3];
+        $this->template->setVar("array", $array);
+        $this->template->readFromInput('{{implode(",", $array)}}');
+        $this->assertEquals(implode(",", $array), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in JSON encode function
+     */
+    public function testBuiltInJSONEncodeFunction()
+    {
+        $array = ["foo" => ["bar" => "blah"]];
+        $this->template->setVar("array", $array);
+        // Test with value parameter
+        $this->template->readFromInput('{{json_encode($array)}}');
+        $this->assertEquals(json_encode($array), $this->template->render());
+        // Test with value and options parameters
+        $this->template->setVar("options", JSON_HEX_TAG);
+        $this->template->readFromInput('{{json_encode($array, $options)}}');
+        $this->assertEquals(json_encode($array, JSON_HEX_TAG), $this->template->render());
+        // Test with value, options, and depth parameters
+        $this->template->setVar("depth", 1);
+        $this->template->readFromInput('{{json_encode($array, $options, $depth)}}');
+        $this->assertEquals(json_encode($array, JSON_HEX_TAG, 1), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in lowercase first function
+     */
+    public function testBuiltInLCFirstFunction()
+    {
+        $this->template->setVar("string", "FOO BAR");
+        $this->template->readFromInput('{{lcfirst($string)}}');
+        $this->assertEquals(lcfirst("FOO BAR"), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in round function
+     */
+    public function testBuiltInRoundFunction()
+    {
+        $number = 3.85;
+        $this->template->setVar("number", $number);
+        // Test with number parameter
+        $this->template->readFromInput('{{round($number)}}');
+        $this->assertEquals(round($number), $this->template->render());
+        // Test with number and precision parameters
+        $this->template->readFromInput('{{round($number, 1)}}');
+        $this->assertEquals(round($number, 1), $this->template->render());
+        // Test with number, precision, and mode parameters
+        $this->template->readFromInput('{{round($number, 0, PHP_ROUND_HALF_DOWN)}}');
+        $this->assertEquals(round($number, 0, PHP_ROUND_HALF_DOWN), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in lowercase function
+     */
+    public function testBuiltInStrToLowerFunction()
+    {
+        $this->template->setVar("string", "FOO BAR");
+        $this->template->readFromInput('{{strtolower($string)}}');
+        $this->assertEquals(strtolower("FOO BAR"), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in uppercase function
+     */
+    public function testBuiltInStrToUpperFunction()
+    {
+        $this->template->setVar("string", "foo bar");
+        $this->template->readFromInput('{{strtoupper($string)}}');
+        $this->assertEquals(strtoupper("foo bar"), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in substring function
+     */
+    public function testBuiltInSubstringFunction()
+    {
+        $string = "foo";
+        $this->template->setVar("string", $string);
+        // Test with string and start parameters
+        $this->template->readFromInput('{{substr($string, 1)}}');
+        $this->assertEquals(substr($string, 1), $this->template->render());
+        // Test with string, start, and length parameters
+        $this->template->readFromInput('{{substr($string, 0, -1)}}');
+        $this->assertEquals(substr($string, 0, -1), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in trim function
+     */
+    public function testBuiltInTrimFunction()
+    {
+        $this->template->setVar("string", "foo ");
+        $this->template->readFromInput('{{trim($string)}}');
+        // Test with string parameter
+        $this->assertEquals(trim("foo "), $this->template->render());
+        // Test with string and character mask parameters
+        $this->template->setVar("string", "foo,");
+        $this->template->readFromInput('{{trim($string, ",")}}');
+        $this->assertEquals(trim("foo,", ","), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in uppercase first function
+     */
+    public function testBuiltInUCFirstFunction()
+    {
+        $this->template->setVar("string", "foo bar");
+        $this->template->readFromInput('{{ucfirst($string)}}');
+        $this->assertEquals(ucfirst("foo bar"), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in uppercase words function
+     */
+    public function testBuiltInUCWordsFunction()
+    {
+        $this->template->setVar("string", "foo bar");
+        $this->template->readFromInput('{{ucwords($string)}}');
+        $this->assertEquals(ucwords("foo bar"), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in URL decode function
+     */
+    public function testBuiltInURLDecodeFunction()
+    {
+        $this->template->setVar("string", "foo%27bar");
+        $this->template->readFromInput('{{urldecode($string)}}');
+        $this->assertEquals(urldecode("foo%27bar"), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in URL encode function
+     */
+    public function testBuiltInURLEncodeFunction()
+    {
+        $this->template->setVar("string", "foo/bar");
+        $this->template->readFromInput('{{urlencode($string)}}');
+        $this->assertEquals(urlencode("foo/bar"), $this->template->render());
+    }
+
+    /**
      * Tests getting the compiler
      */
     public function testGettingCompiler()
@@ -292,7 +513,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     private function registerFunction()
     {
-        $this->template->registerFunction("date", function (\DateTime $date, $format, array $someArray)
+        $this->template->registerFunction("customDate", function (\DateTime $date, $format, array $someArray)
         {
             return $date->format($format) . " and count of array is " . count($someArray);
         });

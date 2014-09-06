@@ -6,9 +6,10 @@
 3. [Nesting Templates](#nesting-templates)
 4. [Cross-Site Scripting](#cross-site-scripting)
 5. [Using PHP in Your Template](#using-php-in-your-template)
-6. [Custom Functions](#custom-functions)
-7. [Escaping Tags](#escaping-tags)
-8. [Custom Tag Placeholders](#custom-tag-placeholders)
+6. [Built-In Functions](#built-in-functions)
+7. [Custom Functions](#custom-functions)
+8. [Escaping Tags](#escaping-tags)
+9. [Custom Tag Placeholders](#custom-tag-placeholders)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.
@@ -138,29 +139,75 @@ $template->setVar("isAdministrator", true);
 echo $template->render(); // "Hello, Administrator"
 ```
 
-*Note*: PHP code is compiled first, followed by tags.  Therefore, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
+*Note*: PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
-## Custom Functions
-It's possible to add custom functions to your template.  For example, you might want to output a formatted DateTime throughout your template.  You could set tags with the formatted values, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
+## Built-In Functions
+Templates come with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
+* `abs()`
+* `ceil()`
+* `count()`
+* `floor()`
+* `implode()`
+* `json_encode()`
+* `lcfirst()`
+* `round()`
+* `strtolower()`
+* `strtoupper()`
+* `substr()`
+* `trim()`
+* `ucfirst()`
+* `ucwords()`
+* `urldecode()`
+* `urlencode()`
+
+The built-in method `date()` behaves differently than its PHP counterpart.  It accepts a DateTime, an optional format, and an optional time zone.  It returns the DateTime with the specified format.
+
+Here's an example of how to use a built-in function:
 #### Template
 ```
-{{myDateFormatter($greatDay, "m/d/Y")}} is a great day
+4.35 rounded down to the nearest tenth is {{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
 ```
 #### Application Code
 ```php
 use RDev\Views\Templates;
 
 $template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
-$template->registerFunction("myDateFormatter", function(\DateTime $date, $format = "m/d/Y")
-{
-    echo $date->format($format);
-});
-$greatDay = \DateTime::createFromFormat("m/d/Y", "07/24/1987");
-$template->setVar("greatDay", $greatDay);
-echo $template->render(); // "07/24/1987 is a great day"
+echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
+Note that nested function (eg `trim(strtoupper("foo "))`) calls are currently not supported.
 
-Note that the function you pass in must return a value that can be printed.  Also, nested function calls are currently not supported.
+## Custom Functions
+It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
+#### Template
+```
+Hello, {{salutation("Young", false, true)}}
+```
+#### Application Code
+```php
+use RDev\Views\Templates;
+
+$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
+// Our function simply needs to have a printable return value
+$template->registerFunction("salutation", function($lastName, $isMale, $isMarried)
+{
+    if($isMale)
+    {
+        $salutation = "Mr.";
+    }
+    elseif($isMarried)
+    {
+        $salutation = "Mrs.";
+    }
+    else
+    {
+        $salutation = "Ms.";
+    }
+
+    return $salutation . " " . $lastName;
+});
+echo $template->render(); // "Hello, Mrs. Young"
+```
+Note that, as with built-in functions, nested function calls are currently not supported.
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
