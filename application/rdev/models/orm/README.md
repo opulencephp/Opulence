@@ -28,6 +28,7 @@
   * Allows you to write your own SQL queries to read and write to the database
 2. `RedisDataMapper`
   * Uses Redis as its method of storage
+    * Can use PHPRedis or Predis as the Redis client library
   * Allows you to write your own methods to read and write data to Redis
 3. `CachedSQLDataMapper`
   * Uses an *SQLDataMapper* as its primary storage and an `ICacheDataMapper` to read and write from cache
@@ -74,8 +75,8 @@ $this->unitOfWork->registerComparisonFunction($className, function($a, $b)
 {
     return $a->getUsername() == $b->getUsername();
 });
-// On commit, the unit of work will run the comparison function, and it will determine that the $user's username has changed
-// So, it will be scheduled for update and committed
+// On commit, the unit of work will run the comparison function, and it will determine that the $user's
+// username has changed.  So, it will be scheduled for update and committed
 $unitOfWork->commit();
 ```
 
@@ -94,7 +95,7 @@ $unitOfWork->registerAggregateRootChild($user, $password, function($user, $passw
     $password->setUserId($user->getId());
 });
 $unitOfWork->commit();
-echo $password->getUserId() == $user->getId(); // 1
+echo $password->getUserId() == $user->getId(); // "1"
 ```
 
 ## Automatic Caching
