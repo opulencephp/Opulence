@@ -8,6 +8,12 @@ namespace RDev\Tests\Models\Databases\NoSQL\Redis\Mocks;
 use RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\NoSQL\Redis\Configs;
 
+// To get around having to install Redis just to run tests, include a mock Redis class
+if(!class_exists("Redis"))
+{
+    require_once(__DIR__ . "/Redis.php");
+}
+
 class RDevPHPRedis extends Redis\RDevPHPRedis
 {
     /**
