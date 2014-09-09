@@ -26,6 +26,14 @@ class Statement extends \PDOStatement implements SQL\IStatement
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function bindValue($parameter, $value, $dataType = \PDO::PARAM_STR)
+    {
+        return parent::bindValue($parameter, $value, $dataType);
+    }
+
+    /**
      * Binds a list of values to the statement
      *
      * @param array $values The mapping of parameter name to a value or to an array
