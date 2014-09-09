@@ -4,7 +4,7 @@
  *
  * Defines a JSON config reader
  */
-namespace RDev\Models\Configs;
+namespace RDev\Models\Configs\Readers;
 
 class JSONReader extends Reader
 {

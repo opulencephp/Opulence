@@ -6,6 +6,7 @@
 3. [Config Readers](#config-readers)
   1. [PHP Array Config Reader](#php-array-config-reader)
   2. [JSON Config Reader](#json-config-reader)
+  3. [YAML Config Reader](#yaml-config-reader)
 
 ## Introduction
 **RDev** allows you to create configs to easily read and validate settings.  Using *config readers*, you can read a config from a file or from input to a method.
@@ -93,13 +94,13 @@ echo $myConfigWithDriverClassName["driver"] instanceof RDev\Models\Databases\SQL
 ```
 
 ## Config Readers
-*Config readers* allow you to read configs from files or from input to a method.  They read configs and save them to the config class of your choice, or `RDev\Models\Configs\Config` by default.  If you want to use your own config class, just implement `RDev\Models\Configs\IConfig`.  There are a few config readers already built in, but you can write your own by extending `RDev\Models\Configs\Reader`.
+*Config readers* allow you to read configs from files or from input to a method.  They read configs and save them to the config class of your choice, or `RDev\Models\Configs\Config` by default.  If you want to use your own config class, just implement `RDev\Models\Configs\IConfig`.  There are a few config readers already built in, but you can write your own by extending `RDev\Models\Configs\Readers\Reader`.
 
 ##### Saving to a Custom Config Class
 ```php
-use RDev\Models\Configs;
+use RDev\Models\Configs\Readers;
 
-class MyReader extends Configs\Reader
+class MyReader extends Readers\Reader
 {
     public function readFromFile($path, $configClassName = "RDev\\Models\\Configs\\Config")
     {
@@ -129,17 +130,17 @@ return [
 ```
 ##### Reading From the File
 ```php
-use RDev\Models\Configs;
+use RDev\Models\Configs\Readers;
 
-$reader = new Configs\PHPArrayReader();
+$reader = new Readers\PHPArrayReader();
 $config = $reader->readFromFile(PATH_TO_PHP_CONFIG_FILE);
 echo $config["websiteURL"]; // "http://www.example.com"
 ```
 ##### Reading From Input
 ```php
-use RDev\Models\Configs;
+use RDev\Models\Configs\Readers;
 
-$reader = new Configs\PHPArrayReader();
+$reader = new Readers\PHPArrayReader();
 $config = $reader->readFromInput(["host" => "192.168.1.1"]);
 echo $config["host"]; // "192.168.1.1"
 ```
@@ -155,17 +156,41 @@ If your configuration is stored in JSON, you can use a `JSONReader` to read from
 ```
 ##### Reading From the File
 ```php
-use RDev\Models\Configs;
+use RDev\Models\Configs\Readers;
 
-$reader = new Configs\JSONReader();
+$reader = new Readers\JSONReader();
 $config = $reader->readFromFile(PATH_TO_JSON_CONFIG_FILE);
 echo $config["websiteURL"]; // "http://www.example.com"
 ```
 ##### Reading From Input
 ```php
-use RDev\Models\Configs;
+use RDev\Models\Configs\Readers;
 
-$reader = new Configs\JSONReader();
+$reader = new Readers\JSONReader();
 $config = $reader->readFromInput('{"host":"192.168.1.1"}');
+echo $config["host"]; // "192.168.1.1"
+```
+
+##### YAML Config Reader
+If your configuration is stored in YAML, you can use a `YAMLReader` to read from it:
+
+##### YAML Config File
+```
+websiteURL: http://www.example.com
+```
+##### Reading From the File
+```php
+use RDev\Models\Configs\Readers;
+
+$reader = new Readers\YAMLReader();
+$config = $reader->readFromFile(PATH_TO_YAML_CONFIG_FILE);
+echo $config["websiteURL"]; // "http://www.example.com"
+```
+##### Reading From Input
+```php
+use RDev\Models\Configs\Readers;
+
+$reader = new Readers\YAMLReader();
+$config = $reader->readFromInput('host: 192.168.1.1');
 echo $config["host"]; // "192.168.1.1"
 ```

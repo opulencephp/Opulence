@@ -4,7 +4,7 @@
  *
  * Tests the PHP array config reader
  */
-namespace RDev\Models\Configs;
+namespace RDev\Models\Configs\Readers;
 
 class PHPArrayReaderTest extends \PHPUnit_Framework_TestCase
 {

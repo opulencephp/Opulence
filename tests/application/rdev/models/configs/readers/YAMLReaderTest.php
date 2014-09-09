@@ -2,28 +2,28 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the JSON config reader
+ * Tests the YAML config reader
  */
-namespace RDev\Models\Configs;
+namespace RDev\Models\Configs\Readers;
 
-class JSONReaderTest extends \PHPUnit_Framework_TestCase
+class YAMLReaderTest extends \PHPUnit_Framework_TestCase
 {
-    /** The path to the valid JSON config */
-    const VALID_JSON_CONFIG_PATH = "/files/validJSONConfig.json";
-    /** The path to the invalid JSON config */
-    const INVALID_JSON_CONFIG_PATH = "/files/invalidJSONConfig.json";
+    /** The path to the valid YAML config */
+    const VALID_YAML_CONFIG_PATH = "/files/validYAMLConfig.yml";
+    /** The path to the invalid YAML config */
+    const INVALID_YAML_CONFIG_PATH = "/files/invalidYAMLConfig.yml";
     /** The path to a file with an invalid extension */
     const INVALID_EXTENSION_CONFIG_PATH = "/files/config.txt";
 
-    /** @var JSONReader The reader to use in the tests */
-    private $jsonReader = null;
+    /** @var YAMLReader The reader to use in the tests */
+    private $yamlReader = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->jsonReader = new JSONReader();
+        $this->yamlReader = new YAMLReader();
     }
 
     /**
@@ -32,7 +32,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testPassingInInvalidConfigClassNameWhenReadingFromFile()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->jsonReader->readFromFile(__DIR__ . self::VALID_JSON_CONFIG_PATH, get_class($this));
+        $this->yamlReader->readFromFile(__DIR__ . self::VALID_YAML_CONFIG_PATH, get_class($this));
     }
 
     /**
@@ -41,8 +41,8 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testPassingInInvalidConfigClassNameWhenReadingFromInput()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $json = '{"foo":"bar"}';
-        $this->jsonReader->readFromInput($json, get_class($this));
+        $yaml = 'foo: bar';
+        $this->yamlReader->readFromInput($yaml, get_class($this));
     }
 
     /**
@@ -51,7 +51,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromInputWithInvalidParameterType()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->jsonReader->readFromInput(["Not valid JSON string"]);
+        $this->yamlReader->readFromInput(["Not valid YAML string"]);
     }
 
     /**
@@ -60,7 +60,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromInvalidFile()
     {
         $this->setExpectedException("\\RuntimeException");
-        $this->jsonReader->readFromFile(__DIR__ . self::INVALID_JSON_CONFIG_PATH);
+        $this->yamlReader->readFromFile(__DIR__ . self::INVALID_YAML_CONFIG_PATH);
     }
 
     /**
@@ -69,7 +69,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromInvalidInput()
     {
         $this->setExpectedException("\\RuntimeException");
-        $this->jsonReader->readFromInput('{Not Valid JSON');
+        $this->yamlReader->readFromInput('-');
     }
 
     /**
@@ -77,7 +77,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadingFromValidFile()
     {
-        $config = $this->jsonReader->readFromFile(__DIR__ . self::VALID_JSON_CONFIG_PATH);
+        $config = $this->yamlReader->readFromFile(__DIR__ . self::VALID_YAML_CONFIG_PATH);
         $this->assertEquals(["foo" => "bar"], $config->toArray());
     }
 
@@ -86,8 +86,8 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadingFromValidInput()
     {
-        $json = '{"foo":"bar"}';
-        $config = $this->jsonReader->readFromInput($json);
+        $yaml = 'foo: bar';
+        $config = $this->yamlReader->readFromInput($yaml);
         $this->assertEquals(["foo" => "bar"], $config->toArray());
     }
 
@@ -97,6 +97,6 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testUsingConfigFileWithInvalidExtension()
     {
         $this->setExpectedException("\\RuntimeException");
-        $this->jsonReader->readFromFile(__DIR__ . self::INVALID_EXTENSION_CONFIG_PATH);
+        $this->yamlReader->readFromFile(__DIR__ . self::INVALID_EXTENSION_CONFIG_PATH);
     }
 } 

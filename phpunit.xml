@@ -1,4 +1,6 @@
-<phpunit bootstrap="configs/PHP.php">
+<phpunit
+        bootstrap="configs/PHP.php"
+        colors="true">
     <testsuite name="RDev">
         <directory>tests</directory>
     </testsuite>

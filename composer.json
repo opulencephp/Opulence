@@ -20,7 +20,8 @@
     },
     "require": {
         "php": ">=5.5.10",
-        "alecesaro/phpredis": "dev-master"
+        "alecesaro/phpredis": "dev-master",
+        "symfony/yaml": "2.6.*@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*",

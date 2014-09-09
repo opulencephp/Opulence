@@ -4,7 +4,7 @@
  *
  * Defines a PHP array config reader
  */
-namespace RDev\Models\Configs;
+namespace RDev\Models\Configs\Readers;
 
 class PHPArrayReader extends Reader
 {
