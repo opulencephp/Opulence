@@ -1,4 +1,5 @@
 # RDev
+[![Build Status](https://travis-ci.org/ramblingsofadev/RDev.svg?branch=master)](https://travis-ci.org/ramblingsofadev/RDev)
 ## Table of Contents
 ### About RDev
 1. [Introduction](#introduction)
