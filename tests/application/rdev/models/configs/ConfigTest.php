@@ -16,8 +16,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Config();
         $config["foo"] = "bar";
-        $this->assertEquals("bar", $config["foo"]);
         $this->assertTrue(isset($config["foo"]));
+        $this->assertEquals("bar", $config["foo"]);
         unset($config["foo"]);
         $this->assertFalse(isset($config["foo"]));
         $config[] = "blah";

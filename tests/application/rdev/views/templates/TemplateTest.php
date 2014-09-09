@@ -407,8 +407,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
         $functionResult = $this->registerFunction();
-        $this->assertEquals("Hello, world! ^^blah$$. a&amp;b. me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
-            $this->template->render());
+        $this->assertTrue($this->stringsWithEncodedCharactersEqual(
+                "Hello, world! ^^blah$$. a&amp;b. me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                $this->template->render())
+        );
     }
 
     /**
@@ -421,8 +423,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
         $functionResult = $this->registerFunction();
-        $this->assertEquals("Hello, world! {{blah}}. a&amp;b. me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
-            $this->template->render());
+        $this->assertTrue($this->stringsWithEncodedCharactersEqual(
+                "Hello, world! {{blah}}. a&amp;b. me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                $this->template->render())
+        );
     }
 
     /**
@@ -452,7 +456,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->setOpenTagPlaceholder("^^");
         $this->template->setCloseTagPlaceholder("$$");
         $functionResult = $this->registerFunction();
-        $this->assertEquals(", ! ^^blah$$. . me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.", $this->template->render());
+        $this->assertTrue($this->stringsWithEncodedCharactersEqual(
+                ", ! ^^blah$$. . me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                $this->template->render())
+        );
     }
 
     /**
@@ -462,7 +469,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $functionResult = $this->registerFunction();
-        $this->assertEquals(", ! {{blah}}. . me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.", $this->template->render());
+        $this->assertTrue($this->stringsWithEncodedCharactersEqual(
+                ", ! {{blah}}. . me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                $this->template->render())
+        );
     }
 
     /**
@@ -562,5 +572,22 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->setVar("today", $today);
 
         return $today->format("m/d/Y") . " and count of array is 3";
+    }
+
+    /**
+     * Checks if two strings with encoded characters are equal
+     * This is necessary because, for example, HHVM encodes "&" to "&38;" whereas PHP 5.6 encodes to "&amp;"
+     * This method makes those two alternate characters equivalent
+     *
+     * @param string $string1 The first string to compare
+     * @param string $string2 The second string to compare
+     * @return bool True if the strings are equal, otherwise false
+     */
+    private function stringsWithEncodedCharactersEqual($string1, $string2)
+    {
+        $string1 = str_replace("&38;", "&amp;", $string1);
+        $string2 = str_replace("&38;", "&amp;", $string2);
+
+        return $string1 === $string2;
     }
 } 

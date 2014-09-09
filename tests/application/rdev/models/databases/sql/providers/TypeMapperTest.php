@@ -88,20 +88,18 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromSQLTimeWithTimeZone()
     {
-        /**
-         * PHP threw a fit when the timezone was set to "UTC" because the date returned by the type mapper
-         * was "+0" rather than "UTC", so they weren't equivalent
-         */
-        $phpTimeWithMicroseconds = new \DateTime("now", new \DateTimeZone("+0"));
+        $phpTimeWithMicroseconds = new \DateTime("now", new \DateTimeZone("UTC"));
         $sqlTimeWithMicroseconds = $phpTimeWithMicroseconds->format("H:i:s.uP");
-        $this->assertEquals($phpTimeWithMicroseconds, $this->typeMapperWithNoProvider
-            ->fromSQLTimestampWithTimeZone($sqlTimeWithMicroseconds, $this->provider));
-        $this->assertEquals($phpTimeWithMicroseconds, $this->typeMapperWithProvider
-            ->fromSQLTimestampWithTimeZone($sqlTimeWithMicroseconds));
-        $phpTime = new \DateTime("now", new \DateTimeZone("+0"));
+        $this->assertEquals($phpTimeWithMicroseconds->getTimestamp(), $this->typeMapperWithNoProvider
+            ->fromSQLTimestampWithTimeZone($sqlTimeWithMicroseconds, $this->provider)->getTimestamp());
+        $this->assertEquals($phpTimeWithMicroseconds->getTimestamp(), $this->typeMapperWithProvider
+            ->fromSQLTimestampWithTimeZone($sqlTimeWithMicroseconds)->getTimestamp());
+        $phpTime = new \DateTime("now", new \DateTimeZone("UTC"));
         $sqlTime = $phpTime->format($this->provider->getTimeWithTimeZoneFormat());
-        $this->assertEquals($phpTime, $this->typeMapperWithNoProvider->fromSQLTimeWithTimeZone($sqlTime, $this->provider));
-        $this->assertEquals($phpTime, $this->typeMapperWithProvider->fromSQLTimeWithTimeZone($sqlTime));
+        $this->assertEquals($phpTime->getTimestamp(),
+            $this->typeMapperWithNoProvider->fromSQLTimeWithTimeZone($sqlTime, $this->provider)->getTimestamp());
+        $this->assertEquals($phpTime->getTimestamp(),
+            $this->typeMapperWithProvider->fromSQLTimeWithTimeZone($sqlTime)->getTimestamp());
     }
 
     /**
@@ -126,20 +124,18 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromSQLTimestampWithTimeZone()
     {
-        /**
-         * PHP threw a fit when the timezone was set to "UTC" because the date returned by the type mapper
-         * was "+0" rather than "UTC", so they weren't equivalent
-         */
-        $phpTimestampWithMicroseconds = new \DateTime("now", new \DateTimeZone("+0"));
+        $phpTimestampWithMicroseconds = new \DateTime("now", new \DateTimeZone("UTC"));
         $sqlTimestampWithMicroseconds = $phpTimestampWithMicroseconds->format("Y-m-d H:i:s.uP");
-        $this->assertEquals($phpTimestampWithMicroseconds, $this->typeMapperWithNoProvider
-            ->fromSQLTimestampWithTimeZone($sqlTimestampWithMicroseconds, $this->provider));
-        $this->assertEquals($phpTimestampWithMicroseconds, $this->typeMapperWithProvider
-            ->fromSQLTimestampWithTimeZone($sqlTimestampWithMicroseconds));
-        $phpTimestamp = new \DateTime("now", new \DateTimeZone("+0"));
+        $this->assertEquals($phpTimestampWithMicroseconds->getTimestamp(), $this->typeMapperWithNoProvider
+            ->fromSQLTimestampWithTimeZone($sqlTimestampWithMicroseconds, $this->provider)->getTimestamp());
+        $this->assertEquals($phpTimestampWithMicroseconds->getTimestamp(), $this->typeMapperWithProvider
+            ->fromSQLTimestampWithTimeZone($sqlTimestampWithMicroseconds)->getTimestamp());
+        $phpTimestamp = new \DateTime("now", new \DateTimeZone("UTC"));
         $sqlTimestamp = $phpTimestamp->format($this->provider->getTimestampWithTimeZoneFormat());
-        $this->assertEquals($phpTimestamp, $this->typeMapperWithNoProvider->fromSQLTimestampWithTimeZone($sqlTimestamp, $this->provider));
-        $this->assertEquals($phpTimestamp, $this->typeMapperWithProvider->fromSQLTimestampWithTimeZone($sqlTimestamp));
+        $this->assertEquals($phpTimestamp->getTimestamp(),
+            $this->typeMapperWithNoProvider->fromSQLTimestampWithTimeZone($sqlTimestamp, $this->provider)->getTimestamp());
+        $this->assertEquals($phpTimestamp->getTimestamp(),
+            $this->typeMapperWithProvider->fromSQLTimestampWithTimeZone($sqlTimestamp)->getTimestamp());
     }
 
     /**
