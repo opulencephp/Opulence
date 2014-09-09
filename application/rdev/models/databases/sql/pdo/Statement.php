@@ -69,6 +69,14 @@ class Statement extends \PDOStatement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
+    public function execute($parameters = null)
+    {
+        return parent::execute($parameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fetch($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
     {
         if($fetchStyle === null && $cursorOrientation === null && $cursorOffset === null)
