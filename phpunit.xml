@@ -1,3 +1,5 @@
 <phpunit bootstrap="configs/PHP.php">
-
+    <testsuite name="RDev">
+        <directory>tests</directory>
+    </testsuite>
 </phpunit>

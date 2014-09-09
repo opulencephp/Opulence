@@ -292,7 +292,6 @@ class FileSystem
         }
 
         $files = [];
-
         $iter = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
             \RecursiveIteratorIterator::SELF_FIRST,
