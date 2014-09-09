@@ -15,11 +15,11 @@
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.
 
 ## Basic Usage
-#### Template
+##### Template
 ```
 Hello, {{username}}
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
@@ -41,14 +41,14 @@ echo $template->render(); // "Hello, Beautiful Man"
 
 ## Nesting Templates
 Nesting templates is an easy way to keep two components reusable.  For example, many websites use a sidebar for navigation on most pages.  With **RDev**, you can create a template for the sidebar and another for all the pages' contents.  Then, you can combine a page with the sidebar using a tag:
-#### Page Template
+##### Page Template
 ```
 <div id="main">
     Here's my main content
 </div>
 {{sidebar}}
 ```
-#### Sidebar Template
+##### Sidebar Template
 ```
 <div id="sidebar">
     <ul>
@@ -57,17 +57,19 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
     </ul>
 </div>
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
-$sidebar = new Templates\Template(PATH_TO_SIDEBAR_TEMPLATE);
-$page = new Templates\Template(PATH_TO_PAGE_TEMPLATE);
+$sidebar = new Templates\Template();
+$sidebar->readFromFile(PATH_TO_SIDEBAR_TEMPLATE);
+$page = new Templates\Template();
+$page->readFromFile(PATH_TO_PAGE_TEMPLATE);
 $page->setTag("sidebar", $sidebar->render());
 echo $page->render();
 ```
 
-#### Output
+##### Output
 ```
 <div id="main">
     Here's my main content
@@ -82,21 +84,22 @@ echo $page->render();
 
 ## Cross-Site Scripting
 To sanitize data to prevent cross-site scripting (XSS), simply use the triple-brace syntax:
-#### Template
+##### Template
 ```
 {{{namesOfCouple}}}
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
-$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("namesOfCouple", "Dave & Lindsey");
 echo $template->render(); // "Dave &amp; Lindsey"
 ```
 
 Alternatively, you can output a string literal inside the triple-braces:
-#### Template
+##### Template
 ```
 {{{"Dave & Lindsey"}}}
 ```
@@ -105,7 +108,7 @@ This will output "Dave &amp;amp; Lindsey".
 
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  With RDev's template system, you can do this:
-#### Template
+##### Template
 ```
 <ul><?php
 foreach(["foo", "bar"] as $item)
@@ -114,22 +117,23 @@ foreach(["foo", "bar"] as $item)
 }
 ?></ul>
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
-$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
 You can also inject values from your application code into variables in your template:
-#### Template
+##### Template
 ```
 <?php if($isAdministrator): ?>
 Hello, Administrator
 <?php endif; ?>
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
@@ -163,30 +167,32 @@ Templates come with built-in functions that you can call to format data in your 
 The built-in method `date()` behaves differently than its PHP counterpart.  It accepts a DateTime, an optional format, and an optional time zone.  It returns the DateTime with the specified format.
 
 Here's an example of how to use a built-in function:
-#### Template
+##### Template
 ```
 4.35 rounded down to the nearest tenth is {{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
-$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
 You can also pass variables into your functions in the template and set them using `setVar()`.  Note that nested function calls (eg `trim(strtoupper("foo "))`) are currently not supported.
 
 ## Custom Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
-#### Template
+##### Template
 ```
 Hello, {{salutation("Young", false, true)}}
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
-$template = new Templates\Template(PATH_TO_HTML_TEMPLATE);
+$template = new Templates\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
 // Our function simply needs to have a printable return value
 $template->registerFunction("salutation", function($lastName, $isMale, $isMarried)
 {
@@ -211,11 +217,11 @@ Note that, as with built-in functions, nested function calls are currently not s
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
-#### Template
+##### Template
 ```
 Hello, {{username}}.  \{{I am escaped}}! \{{{Me too}}}!
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 
@@ -227,11 +233,11 @@ echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me
 
 ## Custom Tag Placeholders
 Want to use a custom character/string for the tag placeholders?  Easy!  Just specify it in the `Template` object like so:
-#### Template
+##### Template
 ```
 Hello, ^^username$$
 ```
-#### Application Code
+##### Application Code
 ```php
 use RDev\Views\Templates;
 

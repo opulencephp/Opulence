@@ -13,13 +13,10 @@ class JSONReader extends Reader
      */
     public function readFromFile($path, $configClassName = "RDev\\Models\\Configs\\Config")
     {
-        $this->validatePath($path);
-        $pathInfo = pathinfo($path);
-
-        switch($pathInfo["extension"])
+        switch($this->fileSystem->getExtension($path))
         {
             case "json":
-                $decodedJSON = json_decode(file_get_contents($path), true);
+                $decodedJSON = json_decode($this->fileSystem->read($path), true);
 
                 if($decodedJSON === null)
                 {
@@ -28,7 +25,7 @@ class JSONReader extends Reader
 
                 return $this->createConfigFromArrayAndClassName($decodedJSON, $configClassName);
             default:
-                throw new \RuntimeException("Invalid config file extension: " . $pathInfo["extension"]);
+                throw new \RuntimeException("Invalid config file extension: " . $this->fileSystem->getExtension($path));
         }
     }
 

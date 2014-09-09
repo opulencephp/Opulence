@@ -62,7 +62,7 @@ $unitOfWork->commit();
 echo $users->getById(123)->getUsername(); // "bar"
 ```
 
-#### Custom Change Tracking
+##### Custom Change Tracking
 Object's updates are tracked using reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
 ```php
 // Let's assume the unit of work has already been setup and that the user object is created

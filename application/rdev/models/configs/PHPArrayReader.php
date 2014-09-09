@@ -13,13 +13,10 @@ class PHPArrayReader extends Reader
      */
     public function readFromFile($path, $configClassName = "RDev\\Models\\Configs\\Config")
     {
-        $this->validatePath($path);
-        $pathInfo = pathinfo($path);
-
-        switch($pathInfo["extension"])
+        switch($this->fileSystem->getExtension($path))
         {
             case "php":
-                $fileContents = file_get_contents($path);
+                $fileContents = $this->fileSystem->read($path);
 
                 // Notice the little hack inside eval() to compile inline PHP
                 $array = @eval("?>" . $fileContents);
@@ -33,7 +30,7 @@ class PHPArrayReader extends Reader
 
                 return $this->createConfigFromArrayAndClassName($array, $configClassName);
             default:
-                throw new \RuntimeException("Invalid config file extension: " . $pathInfo["extension"]);
+                throw new \RuntimeException("Invalid config file extension: " . $this->fileSystem->getExtension($path));
         }
     }
 

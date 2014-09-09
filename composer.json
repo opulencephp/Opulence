@@ -6,6 +6,18 @@
         }
     ],
     "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "RDev\\": [
+                "application/rdev",
+                "tests/application/rdev"
+            ],
+            "TBA\\": [
+                "application/tba",
+                "tests/application/tba"
+            ]
+        }
+    },
     "require": {
         "php": ">=5.5.10",
         "alecesaro/phpredis": "dev-master"

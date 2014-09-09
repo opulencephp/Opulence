@@ -331,6 +331,34 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests rendering a template with multiple calls to the same function
+     */
+    public function testMultipleCallsOfSameFunction()
+    {
+        $this->template->registerFunction("foo", function ($param1 = null, $param2 = null)
+        {
+            if($param1 == null && $param2 == null)
+            {
+                return "No params";
+            }
+            elseif($param1 == null)
+            {
+                return "Param 2 set";
+            }
+            elseif($param2 == null)
+            {
+                return "Param 1 set";
+            }
+            else
+            {
+                return "Both params set";
+            }
+        });
+        $this->template->readFromInput('{{foo()}}, {{foo()}}, {{foo("bar")}}, {{foo(null, "bar")}}, {{foo("bar", "blah")}}');
+        $this->assertEquals('No params, No params, Param 1 set, Param 2 set, Both params set', $this->template->render());
+    }
+
+    /**
      * Tests reading from input that isn't a string
      */
     public function testReadFromInputThatIsNotString()

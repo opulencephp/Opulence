@@ -11,10 +11,10 @@
 **RDev** allows you to create configs to easily read and validate settings.  Using *config readers*, you can read a config from a file or from input to a method.
 
 ## Basic Usage
-#### Config
+##### Config
 A basic config class is already set up at `RDev\Models\Configs\Config`.  It provides methods for validating, initializing from an array, and converting to an array.  Additionally, it implements `\ArrayAccess`, allowing you to use the config like an array.
 
-#### Validation
+##### Validation
 By default, `isValid()` returns true.  However, you can override `isValid()` in your custom config class with your own validation logic to prevent invalid configs.  To require certain fields, you can take advantage of `hasRequiredFields()`:
 ```php
 use RDev\Models\Configs;
@@ -49,7 +49,7 @@ echo $myConfig["websiteURL"]; // "http://www.example.com"
 echo $myConfig["databaseSettings"]["host"]; // "127.0.0.1"
 ```
 
-#### Converting From an Array
+##### Converting From an Array
 All configs must implement `fromArray()`.  In this method, you should call `isValid()`, and then proceed to convert the array into a config, setting the object's config array at the end.  It is a good place to convert certain pieces of data into new objects.  For example, say we allow an SQL driver to be passed in the array, but we also allow the name of a SQL driver class to be passed in.  In `fromArray()`, convert the name of the driver class to an actual instance of that class:
 ```php
 class MyConfig extends Configs\Config
@@ -117,7 +117,7 @@ $config = $reader->readFromFile(PATH_TO_CONFIG_FILE, "Fully\\Qualified\\Name\\Of
 echo get_class($config); // "Fully\\Qualified\\Name\\Of\\My\\Config\\Class"
 ```
 
-#### PHP Array Config Reader
+##### PHP Array Config Reader
 If your configuration is stored in a PHP array, you can use a `PHPArrayReader` to read from it:
 
 ##### PHP Config File
@@ -144,7 +144,7 @@ $config = $reader->readFromInput(["host" => "192.168.1.1"]);
 echo $config["host"]; // "192.168.1.1"
 ```
 
-#### JSON Config Reader
+##### JSON Config Reader
 If your configuration is stored in JSON, you can use a `JSONReader` to read from it:
 
 ##### JSON Config File

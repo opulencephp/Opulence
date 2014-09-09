@@ -5,16 +5,25 @@
  * Defines a config reader, which can convert and validate JSON config files
  */
 namespace RDev\Models\Configs;
+use RDev\Models\Files;
 
 abstract class Reader
 {
+    /** @var Files\FileSystem The file system to use to read/write to files */
+    protected $fileSystem = null;
+
+    public function __construct()
+    {
+        $this->fileSystem = new Files\FileSystem();
+    }
+
     /**
      * Reads a config from a file
      *
      * @param string $path The path to the file's location
      * @param string $configClassName The name of the class that implements IConfig to save the input to
      * @return IConfig The config object from the file
-     * @throws \RuntimeException Thrown if there was a problem reading from the file
+     * @throws Files\FileSystemException Thrown if there was a problem reading from the file
      * @throws \InvalidArgumentException Thrown if the config class name doesn't point to a class that implements IConfig
      */
     abstract public function readFromFile($path, $configClassName = "RDev\\Models\\Configs\\Config");
@@ -26,7 +35,7 @@ abstract class Reader
      *      For example, this could be a PHP array, JSON, and XML string, etc
      * @param string $configClassName The name of the class that implements IConfig to save the input to
      * @return IConfig The config object from the input
-     * @throws \RuntimeException Thrown if there was a problem decoding the input
+     * @throws Files\FileSystemException Thrown if there was a problem decoding the input
      * @throws \InvalidArgumentException Thrown if the config class name doesn't point to a class that implements IConfig
      */
     abstract public function readFromInput($input, $configClassName = "RDev\\Models\\Configs\\Config");
@@ -51,25 +60,5 @@ abstract class Reader
         $config->fromArray($configArray);
 
         return $config;
-    }
-
-    /**
-     * Ensures that a path to a config is valid and readable
-     *
-     * @param string $path The path to the config to validate
-     * @throws \InvalidArgumentException Thrown if the path is not a string
-     * @throws \RuntimeException Thrown if the path does not exist or is not readable
-     */
-    protected function validatePath($path)
-    {
-        if(!is_string($path))
-        {
-            throw new \InvalidArgumentException("Path is not a string");
-        }
-
-        if(!file_exists($path) || !is_readable($path))
-        {
-            throw new \RuntimeException("Couldn't read from path \"$path\"");
-        }
     }
 } 

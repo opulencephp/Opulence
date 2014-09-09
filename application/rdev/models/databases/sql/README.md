@@ -36,7 +36,7 @@ The following keys are options:
 ## Single-Server Connection Pool
 Single-server connection pools are useful for single-database server stacks, eg not master-slave setups.
 
-#### PHP Array Config with PostgreSQL PDO
+##### PHP Array Config with PostgreSQL PDO
 ```php
 use RDev\Models\Databases\SQL;
 
@@ -54,7 +54,7 @@ $config = [
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
 
-#### ConnectionPoolConfig with PostgreSQL PDO
+##### ConnectionPoolConfig with PostgreSQL PDO
 ```php
 use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\Configs;
@@ -73,7 +73,7 @@ $config = new Configs\ConnectionPoolConfig([
 $connectionPool = new SQL\SingleServerConnectionPool($config);
 ```
 
-#### PHP Array Config with Driver and Server Objects
+##### PHP Array Config with Driver and Server Objects
 ```php
 use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\PDO\PostgreSQL;
@@ -96,7 +96,7 @@ $connectionPool = new SQL\SingleServerConnectionPool($config);
 ## Master-Slave Connection Pool
 Master-slave connection pools are useful for setups that include a master and at least one slave server.  The configuration array for a master-slave connection pool accepts an additional entry under "servers" - "slaves", which must map to an array of server data that is identical to the master server settings from above.
 
-#### PHP Array Config with MySQL PDO Driver
+##### PHP Array Config with MySQL PDO Driver
 ```php
 use RDev\Models\Databases\SQL;
 
