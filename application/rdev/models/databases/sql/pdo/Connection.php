@@ -175,7 +175,7 @@ class Connection extends \PDO implements SQL\IConnection
      * @return Statement
      * @throws \PDOException Thrown if there was an error connecting to the database
      */
-    public function prepare($statement, array $driverOptions = [])
+    public function prepare($statement, $driverOptions = [])
     {
         $this->connect();
 

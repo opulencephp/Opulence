@@ -11,9 +11,6 @@ class RDevPHPRedis extends \Redis implements IRedis
 {
     use TRedis;
 
-    /** @var Server */
-    protected $server;
-
     /**
      * @param Configs\ServerConfig|array $config The configuration to use for the server to connect to
      *      This must contain the following keys:
