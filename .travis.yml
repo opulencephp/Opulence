@@ -5,7 +5,7 @@ php:
 
 before_script:
   - composer install
-  - php composer.phar dumpautoload -o
+  - composer dump-autoload -o
 
 script: vendor/bin/phpunit
 
