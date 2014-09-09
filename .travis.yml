@@ -1,0 +1,10 @@
+language: php
+
+php:
+  - 5.5
+
+before_script:
+  - travis_retry composer self-update
+  - travis_retry composer installer --prefer-source --no-interaction --dev
+
+script: vendor/bin/phpunit tests

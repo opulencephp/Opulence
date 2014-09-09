@@ -1,9 +1,4 @@
 Investigate allowing nested function calls
-    Probably can register functions like we do vars
-    In getVarValue(), try checking if the thing is a function
-        If it is, execute it
-        Of course, we'll run into issues with how to pass it its arguments
-Add FileSystem class for reading/writing to files
 Investigate Travis.yml, too
 Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them

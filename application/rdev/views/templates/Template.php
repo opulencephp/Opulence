@@ -137,7 +137,7 @@ class Template implements Views\IView
      * Useful for defining functions for consistent formatting in the template
      *
      * @param string $functionName The name of the function as it'll appear in the template
-     * @param callable $function The function that returns the string that will replace calls to the function in the template
+     * @param callable $function The function that returns the replacement string for the function in the template
      *      It must accept one parameter (the template's contents) and return a printable value
      */
     public function registerFunction($functionName, callable $function)
@@ -163,8 +163,8 @@ class Template implements Views\IView
             && $this->openTagPlaceholder == self::SAFE_OPEN_TAG_PLACEHOLDER
         )
         {
-            throw new \RuntimeException("Cannot use " . self::SAFE_OPEN_TAG_PLACEHOLDER . self::SAFE_CLOSE_TAG_PLACEHOLDER .
-                " as placeholders because they are reserved for safe tags");
+            throw new \RuntimeException("Cannot use " . self::SAFE_OPEN_TAG_PLACEHOLDER
+                . self::SAFE_CLOSE_TAG_PLACEHOLDER . " as placeholders because they are reserved for safe tags");
         }
 
         $this->closeTagPlaceholder = $closeTagPlaceholder;
@@ -188,8 +188,8 @@ class Template implements Views\IView
             && $this->closeTagPlaceholder == self::SAFE_CLOSE_TAG_PLACEHOLDER
         )
         {
-            throw new \RuntimeException("Cannot use " . self::SAFE_OPEN_TAG_PLACEHOLDER . self::SAFE_CLOSE_TAG_PLACEHOLDER .
-                " as placeholders because they are reserved for safe tags");
+            throw new \RuntimeException("Cannot use " . self::SAFE_OPEN_TAG_PLACEHOLDER
+                . self::SAFE_CLOSE_TAG_PLACEHOLDER . " as placeholders because they are reserved for safe tags");
         }
 
         $this->openTagPlaceholder = $openTagPlaceholder;
@@ -449,7 +449,9 @@ class Template implements Views\IView
                 $tagName = $matches[1];
 
                 // Check if the tag name is a string literal
-                if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1] && ($tagName[0] == "'" || $tagName[0] == '"'))
+                if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1]
+                    && ($tagName[0] == "'" || $tagName[0] == '"')
+                )
                 {
                     return Security\XSS::filter(trim($tagName, $tagName[0]));
                 }
@@ -529,7 +531,9 @@ class Template implements Views\IView
         $callback = function ($matches) use ($isStrippingRegularTags, $safeOpenTagFirstChar, $safeCloseTagLastChar)
         {
             // If we are stripping regular tags, make sure to not strip safe tags
-            if($isStrippingRegularTags && $matches[1] == self::SAFE_OPEN_TAG_PLACEHOLDER && $matches[4] == self::SAFE_CLOSE_TAG_PLACEHOLDER)
+            if($isStrippingRegularTags && $matches[1] == self::SAFE_OPEN_TAG_PLACEHOLDER
+                && $matches[4] == self::SAFE_CLOSE_TAG_PLACEHOLDER
+            )
             {
                 return $matches[0];
             }

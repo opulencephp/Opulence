@@ -314,7 +314,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test writing to a file
+     * Tests writing to a file
      */
     public function testWritingToFile()
     {

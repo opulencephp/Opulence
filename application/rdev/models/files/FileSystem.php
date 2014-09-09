@@ -152,14 +152,14 @@ class FileSystem
      * Gets the basename of a path
      *
      * @param string $path The path to check
-     * @return string The basename of the file
-     * @throws FileSystemException Thrown if the file does not exist
+     * @return string The basename of the path
+     * @throws FileSystemException Thrown if the path does not exist
      */
     public function getBasename($path)
     {
         if(!$this->exists($path))
         {
-            throw new FileSystemException("File at path {$path} not found");
+            throw new FileSystemException("Path $path not found");
         }
 
         return pathinfo($path, PATHINFO_BASENAME);
@@ -213,7 +213,7 @@ class FileSystem
     {
         if(!$this->exists($path))
         {
-            throw new FileSystemException("File at path {$path} not found");
+            throw new FileSystemException("File at path $path not found");
         }
 
         return pathinfo($path, PATHINFO_DIRNAME);
@@ -230,7 +230,7 @@ class FileSystem
     {
         if(!$this->exists($path))
         {
-            throw new FileSystemException("File at path {$path} not found");
+            throw new FileSystemException("File at path $path not found");
         }
 
         return pathinfo($path, PATHINFO_EXTENSION);
@@ -240,14 +240,14 @@ class FileSystem
      * Gets the file name of a file
      *
      * @param string $path The path to check
-     * @return string The file name of the file
+     * @return string The file name
      * @throws FileSystemException Thrown if the file does not exist
      */
     public function getFileName($path)
     {
         if(!$this->exists($path))
         {
-            throw new FileSystemException("File at path {$path} not found");
+            throw new FileSystemException("File at path $path not found");
         }
 
         return pathinfo($path, PATHINFO_FILENAME);
@@ -264,7 +264,7 @@ class FileSystem
     {
         if(!$this->exists($path))
         {
-            throw new FileSystemException("File at path {$path} not found");
+            throw new FileSystemException("File at path $path not found");
         }
 
         $fileSize = filesize($path);
@@ -320,13 +320,13 @@ class FileSystem
      *
      * @param string $path The path to check
      * @return \DateTime The last modified time
-     * @throws FileSystemException Thrown if the file was not found or the modified time was not readable
+     * @throws FileSystemException Thrown if the file was not found or if the modified time was not readable
      */
     public function getLastModified($path)
     {
         if(!$this->exists($path))
         {
-            throw new FileSystemException("File at path {$path} not found");
+            throw new FileSystemException("File at path $path not found");
         }
 
         $modifiedTimestamp = filemtime($path);
