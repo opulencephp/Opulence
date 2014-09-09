@@ -25,7 +25,8 @@
 **RDev** is a PHP framework that simplifies complex database interactions, object-relational mapping (ORM), and page templates.  It was written with customization, performance, security, scalability, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested.  However, it is still in development and should not be used in production code.  Hopefully, that will change soon.
 
 ## Requirements
-* PHP 5.5 or higher with OpenSSL enabled
+* PHP 5.5, 5.6, or HHVM
+* OpenSSL enabled
 * mbstring
 
 ## License
