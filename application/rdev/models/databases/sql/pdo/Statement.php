@@ -18,6 +18,14 @@ class Statement extends \PDOStatement implements SQL\IStatement
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null, $driverOptions = null)
+    {
+        return parent::bindParam($parameter, $variable, $dataType, $length, $driverOptions);
+    }
+
+    /**
      * Binds a list of values to the statement
      *
      * @param array $values The mapping of parameter name to a value or to an array
@@ -48,5 +56,69 @@ class Statement extends \PDOStatement implements SQL\IStatement
         }
 
         return true;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fetch($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
+    {
+        if($fetchStyle === null && $cursorOrientation === null && $cursorOffset === null)
+        {
+            return parent::fetch();
+        }
+
+        if($cursorOrientation === null && $cursorOffset === null)
+        {
+            return parent::fetch($fetchStyle);
+        }
+
+        if($cursorOffset === null)
+        {
+            return parent::fetch($fetchStyle, $cursorOrientation);
+        }
+
+        return parent::fetch($fetchStyle, $cursorOrientation, $cursorOffset);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function fetchAll($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)
+    {
+        if($fetchStyle === null && $fetchArgument === null && $ctorArgs === null)
+        {
+            return parent::fetchAll();
+        }
+
+        if($fetchArgument === null && $ctorArgs === null)
+        {
+            return parent::fetchAll($fetchStyle);
+        }
+
+        if($ctorArgs === null)
+        {
+            return parent::fetchAll($fetchStyle, $fetchArgument);
+        }
+
+        return parent::fetchAll($fetchStyle, $fetchArgument, $ctorArgs);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null)
+    {
+        if($arg2 === null && $arg3 === null)
+        {
+            return parent::setFetchMode($fetchMode);
+        }
+
+        if($arg3 === null)
+        {
+            return parent::setFetchMode($fetchMode, $arg2);
+        }
+
+        return parent::setFetchMode($fetchMode, $arg2, $arg3);
     }
 } 

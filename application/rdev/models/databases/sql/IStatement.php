@@ -13,10 +13,11 @@ interface IStatement
      *
      * @param mixed $parameter Either the named placeholder, eg ":id", or the 1-indexed position of an unnamed placeholder
      * @param mixed $variable The value of the parameter
-     * @param int $dataType The PDO type indicating the type of data we're binding
+     * @param int|null $dataType The PDO type indicating the type of data we're binding
+     * @param int|null $length Length of the data type
      * @return bool True if successful, otherwise false
      */
-    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR);
+    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null);
 
     /**
      * Binds a value to the statement
