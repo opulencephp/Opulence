@@ -191,11 +191,11 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingFilesWithRecursion()
     {
-        $this->assertEquals([
+        $this->assertTrue(count(array_diff([
             __DIR__ . "/subdirectory/subdirectory/bar.txt",
             __DIR__ . "/subdirectory/foo.txt",
             __FILE__
-        ], $this->fileSystem->getFiles(__DIR__, true));
+            ], $this->fileSystem->getFiles(__DIR__, true))) == 0);
     }
 
     /**
