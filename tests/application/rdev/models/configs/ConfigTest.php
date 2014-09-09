@@ -10,21 +10,6 @@ use RDev\Tests\Models\Configs\Mocks;
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests using the config as an array
-     */
-    public function testAsArrayAccess()
-    {
-        $config = new Config();
-        $config["foo"] = "bar";
-        $this->assertTrue(isset($config["foo"]));
-        $this->assertEquals("bar", $config["foo"]);
-        unset($config["foo"]);
-        $this->assertFalse(isset($config["foo"]));
-        $config[] = "blah";
-        $this->assertEquals("blah", $config[0]);
-    }
-
-    /**
      * Tests checking for matching required fields
      */
     public function testCheckingForMatchingRequiredFields()
@@ -104,6 +89,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertTrue($exceptionsThrown);
+    }
+
+    /**
+     * Tests making sure the config can be treated like an array
+     */
+    public function testIsArrayObject()
+    {
+        $this->assertInstanceOf("\\ArrayObject", new Config);
     }
 
     /**

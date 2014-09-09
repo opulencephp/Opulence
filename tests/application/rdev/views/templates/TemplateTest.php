@@ -576,7 +576,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Checks if two strings with encoded characters are equal
-     * This is necessary because, for example, HHVM encodes "&" to "&38;" whereas PHP 5.6 encodes to "&amp;"
+     * This is necessary because, for example, HHVM encodes "&" to "&#38;" whereas PHP 5.6 encodes to "&amp;"
      * This method makes those two alternate characters equivalent
      *
      * @param string $string1 The first string to compare
@@ -585,8 +585,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     private function stringsWithEncodedCharactersEqual($string1, $string2)
     {
-        $string1 = str_replace("&38;", "&amp;", $string1);
-        $string2 = str_replace("&38;", "&amp;", $string2);
+        $string1 = str_replace("&#38;", "&amp;", $string1);
+        $string2 = str_replace("&#38;", "&amp;", $string2);
 
         return $string1 === $string2;
     }
