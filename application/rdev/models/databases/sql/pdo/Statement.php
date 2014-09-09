@@ -123,6 +123,14 @@ class Statement extends \PDOStatement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
+    public function fetchColumn($columnNumber = 0)
+    {
+        return parent::fetchColumn($columnNumber);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null)
     {
         if($arg2 === null && $arg3 === null)
