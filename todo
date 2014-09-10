@@ -1,6 +1,3 @@
-Investigate allowing nested function calls
-Investigate Travis.yml, too
-Switch to Monolog for logging
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
 See if current Session class would make more sense as an abstract class
