@@ -7,10 +7,6 @@
 namespace RDev\Models\Databases\NoSQL\Redis;
 use RDev\Models\Databases\NoSQL\Redis\Configs;
 
-// Register the autoloader for Predis
-require("Predis/Autoloader.php");
-Predis\Autoloader::register();
-
 class RDevPredis extends \Predis\Client implements IRedis
 {
     use TRedis;

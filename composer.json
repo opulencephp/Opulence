@@ -21,6 +21,7 @@
     "require": {
         "php": ">=5.5.10",
         "alecesaro/phpredis": "dev-master",
+        "predis/predis": "1.1.*@dev",
         "symfony/yaml": "2.6.*@dev"
     },
     "require-dev": {
