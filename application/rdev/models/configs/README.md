@@ -118,7 +118,7 @@ $config = $reader->readFromFile(PATH_TO_CONFIG_FILE, "Fully\\Qualified\\Name\\Of
 echo get_class($config); // "Fully\\Qualified\\Name\\Of\\My\\Config\\Class"
 ```
 
-##### PHP Array Config Reader
+#### PHP Array Config Reader
 If your configuration is stored in a PHP array, you can use a `PHPArrayReader` to read from it:
 
 ##### PHP Config File
@@ -145,7 +145,7 @@ $config = $reader->readFromInput(["host" => "192.168.1.1"]);
 echo $config["host"]; // "192.168.1.1"
 ```
 
-##### JSON Config Reader
+#### JSON Config Reader
 If your configuration is stored in JSON, you can use a `JSONReader` to read from it:
 
 ##### JSON Config File
@@ -171,7 +171,7 @@ $config = $reader->readFromInput('{"host":"192.168.1.1"}');
 echo $config["host"]; // "192.168.1.1"
 ```
 
-##### YAML Config Reader
+#### YAML Config Reader
 If your configuration is stored in YAML, you can use a `YAMLReader` to read from it:
 
 ##### YAML Config File

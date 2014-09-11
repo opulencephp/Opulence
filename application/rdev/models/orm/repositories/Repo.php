@@ -52,7 +52,7 @@ class Repo implements IRepo
      */
     public function getAll()
     {
-        return $this->get("getAll");
+        return $this->getFromDataMapper("getAll");
     }
 
     /**
@@ -67,7 +67,7 @@ class Repo implements IRepo
             return $entity;
         }
 
-        return $this->get("getById", [$id]);
+        return $this->getFromDataMapper("getById", [$id]);
     }
 
     /**
@@ -95,7 +95,7 @@ class Repo implements IRepo
      * @return Models\IEntity|array The entity or list of entities
      * @throws Exceptions\ORMException Thrown if there was an error getting the entity(ies)
      */
-    protected function get($functionName, $args = [])
+    protected function getFromDataMapper($functionName, $args = [])
     {
         $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
 
