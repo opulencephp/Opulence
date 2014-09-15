@@ -25,12 +25,19 @@ class Compiler implements ICompiler
      */
     public function compile($template)
     {
-        foreach($this->compileFunctions as $priorityKey => $compileFunctionsByPriority)
+        // Sort the compile functions by their priorities
+        usort($this->compileFunctions["priority"], [$this, "sort"]);
+
+        // Compile the non-priority compilers
+        foreach($this->compileFunctions["priority"] as $compileFunctionData)
         {
-            foreach($compileFunctionsByPriority as $compileFunction)
-            {
-                $template = call_user_func_array($compileFunction, [$template]);
-            }
+            $template = call_user_func_array($compileFunctionData["compiler"], [$template]);
+        }
+
+        // Compile the non-priority compilers
+        foreach($this->compileFunctions["nonPriority"] as $compileFunction)
+        {
+            $template = call_user_func_array($compileFunction, [$template]);
         }
 
         return $template;
@@ -39,20 +46,50 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function registerCompiler($compiler, $hasPriority = false)
+    public function registerCompiler($compiler, $priority = null)
     {
         if(!is_callable($compiler, true))
         {
             throw new \InvalidArgumentException("Compiler is not callable");
         }
 
-        if($hasPriority)
+        if($priority === null)
         {
-            $this->compileFunctions["priority"][] = $compiler;
+            $this->compileFunctions["nonPriority"][] = $compiler;
+        }
+        elseif(!is_int($priority) || $priority < 1)
+        {
+            throw new \InvalidArgumentException("Priority must be positive integer");
         }
         else
         {
-            $this->compileFunctions["nonPriority"][] = $compiler;
+            $this->compileFunctions["priority"][] = [
+                "compiler" => $compiler,
+                "priority" => $priority
+            ];
+        }
+    }
+
+    /**
+     * Sorts two arrays of compilers by comparing their priorities
+     *
+     * @param array $a An array containing the priority and compiler
+     * @param array $b An array containing the priority and compiler
+     * @return int A value suitable for a sorting function
+     */
+    private function sort(array $a, array $b)
+    {
+        if($a["priority"] > $b["priority"])
+        {
+            return 1;
+        }
+        elseif($a["priority"] == $b["priority"])
+        {
+            return 0;
+        }
+        else
+        {
+            return -1;
         }
     }
 } 

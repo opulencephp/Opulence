@@ -24,10 +24,9 @@ interface ICompiler
      *      The function must take in one parameter: the template contents
      *      The function must return the compile template's contents
      *      Alternatively, it can be an array that is_callable()
-     * @param bool $hasPriority True if the compiler should have higher precedence
-     *      If true, the compiler will be executed in the order it was added to the list of prioirty compilers
-     *      If false, the compiler will be executed in the order it was added to the list of non-priority compilers
-     * @throw new \InvalidArgumentException Thrown if the compiler is not callable
+     * @param int|bool $priority The priority (1 is the highest) in which the compiler is run
+     *      If no priority is given, the compiler will be executed in the order it was registered
+     * @throw new \InvalidArgumentException Thrown if the compiler is not callable or if the priority is invalid
      */
-    public function registerCompiler($compiler, $hasPriority = false);
+    public function registerCompiler($compiler, $priority = null);
 } 

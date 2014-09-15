@@ -6,10 +6,10 @@
  */
 namespace RDev\Users\Authentication\Controllers;
 use RDev\Models\Cryptography;
-use RDev\Models\Cryptography\Repositories\Token;
+use RDev\Models\Cryptography\ORM\Token;
 use RDev\Models\Users\Authentication\Credentials;
 use RDev\Models\Users\Authentication\Credentials\Factories;
-use RDev\Models\Users\Repositories\User;
+use RDev\Models\Users\ORM\User;
 use RDev\Models\Web;
 use TBA\Models\Configs;
 
