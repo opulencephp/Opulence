@@ -43,5 +43,10 @@
         "phpunit/phpunit-story": "*",
         "phpunit/dbunit": ">=1.2",
         "phing/phing": "dev-master"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.0.x-dev"
+        }
     }
 }
