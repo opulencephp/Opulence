@@ -1,3 +1,4 @@
+Incorrect username entry is faster, making room for timing attacks
 Think of stuff to throw in the application and application config
 Work on router
 Be able to call controller from router using syntax similar to Laravel: "MyController::registerUser"
