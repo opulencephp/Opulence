@@ -11,19 +11,19 @@ use RDev\Models\Web;
 
 class Session
 {
-    /** @var Web\HTTP The HTTP object to use in our requests/responses */
-    private $http;
+    /** @var Web\HTTPConnection The HTTP connection to use in our requests/responses */
+    private $httpConnection;
     /** @var Users\IUser|null The current user object if there is one, otherwise null */
     private $user = null;
     /** @var Credentials\ICredentials|null The current user's credentials if there are any, otherwise null */
     private $credentials = null;
 
     /**
-     * @param Web\HTTP $http The HTTP object to use in our requests/responses
+     * @param Web\HTTPConnection $httpConnection The HTTP connection to use in our requests/responses
      */
-    public function __construct(Web\HTTP $http)
+    public function __construct(Web\HTTPConnection $httpConnection)
     {
-        $this->http = $http;
+        $this->httpConnection = $httpConnection;
     }
 
     /**
@@ -35,11 +35,11 @@ class Session
     }
 
     /**
-     * @return Web\HTTP
+     * @return Web\HTTPConnection
      */
-    public function getHttp()
+    public function getHTTPConnection()
     {
-        return $this->http;
+        return $this->httpConnection;
     }
 
     /**

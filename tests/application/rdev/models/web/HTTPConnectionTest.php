@@ -2,18 +2,18 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the HTTP class
+ * Tests the HTTP connection class
  */
 namespace RDev\Models\Web;
 
-class HTTPTest extends \PHPUnit_Framework_TestCase
+class HTTPConnectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests getting the HTTP request
      */
     public function testGettingRequest()
     {
-        $http = new HTTP();
+        $http = new HTTPConnection();
         $this->assertInstanceOf("RDev\\Models\\Web\\Request", $http->getRequest());
     }
 
@@ -22,7 +22,7 @@ class HTTPTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingResponse()
     {
-        $http = new HTTP();
+        $http = new HTTPConnection();
         $this->assertInstanceOf("RDev\\Models\\Web\\Response", $http->getResponse());
     }
 } 

@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\Web;
 
-class HTTP
+class HTTPConnection
 {
     /** @var Request The HTTP request made by the user */
     private $request = null;

@@ -4,9 +4,8 @@
  *
  * Defines a RESTful API URL router
  */
-namespace RDev\Models\Web\API;
+namespace RDev\Models\Web;
 use RDev\Models\Exceptions\Log;
-use RDev\Models\Web;
 
 class Router
 {
@@ -22,9 +21,12 @@ class Router
      * @param array $regexesToCallbacks Maps regular expressions to anonymous functions to execute on URL matches
      *      The anonymous function must return an API response object
      */
-    public function __construct(array $regexesToCallbacks)
+    public function __construct(array $regexesToCallbacks = null)
     {
-        $this->setRegexesToCallbacks($regexesToCallbacks);
+        if(is_array($regexesToCallbacks))
+        {
+            $this->setRegexesToCallbacks($regexesToCallbacks);
+        }
     }
 
     /**
@@ -50,14 +52,14 @@ class Router
                 }
             }
 
-            return new Response(Web\Response::HTTP_BAD_REQUEST);
+            return new Response(Response::HTTP_BAD_REQUEST);
         }
         catch(\Exception $ex)
         {
             Log::write("Failed to route path: " . $ex);
         }
 
-        return new Response(Web\Response::HTTP_INTERNAL_SERVER_ERROR);
+        return new Response(Response::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**

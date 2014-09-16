@@ -21,22 +21,22 @@ class Login
     private $tokenRepo = null;
     /** @var Factories\LoginCredentialsFactory $loginCredentialsFactory The factory to use to create credentials */
     private $loginCredentialsFactory = null;
-    /** @var Web\HTTP The HTTP object to use in our requests/responses */
-    private $http = null;
+    /** @var Web\HTTPConnection The HTTP connection to use in our requests/responses */
+    private $httpConnection = null;
 
     /**
      * @param User\IUserRepo $userRepo The user repo to use for finding users
      * @param Token\ITokenRepo $tokenRepo The token repo to use for logging in users
      * @param Factories\LoginCredentialsFactory $loginCredentialsFactory The factory to use to create credentials
-     * @param Web\HTTP $http The HTTP object to use in our requests/responses
+     * @param Web\HTTPConnection $httpConnection The HTTP connection to use in our requests/responses
      */
     public function __construct(User\IUserRepo $userRepo, Token\ITokenRepo $tokenRepo,
-                                Factories\LoginCredentialsFactory $loginCredentialsFactory, Web\HTTP $http)
+                                Factories\LoginCredentialsFactory $loginCredentialsFactory, Web\HTTPConnection $httpConnection)
     {
         $this->userRepo = $userRepo;
         $this->tokenRepo = $tokenRepo;
         $this->loginCredentialsFactory = $loginCredentialsFactory;
-        $this->http = $http;
+        $this->httpConnection = $httpConnection;
     }
 
     /**

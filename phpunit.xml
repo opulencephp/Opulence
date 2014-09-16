@@ -1,5 +1,5 @@
 <phpunit
-        bootstrap="configs/PHP.php"
+        bootstrap="configs/phpunit.php"
         colors="true">
     <testsuite name="RDev">
         <directory>tests</directory>
