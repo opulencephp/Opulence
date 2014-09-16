@@ -30,7 +30,7 @@
 ```javascript
 {
     "require": {
-        "rdev/rdev": "dev-master"
+        "rdev/rdev": "0.0.*@dev"
     }
 }
 ```
