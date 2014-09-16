@@ -17,14 +17,19 @@ class Application
     /**
      * @param Configs\ApplicationConfig|array $config The configuration to use to setup the application
      */
-    public function __construct(Configs\ApplicationConfig $config)
+    public function __construct($config)
     {
+        if(is_array($config))
+        {
+            $config = new Configs\ApplicationConfig($config);
+        }
+
         $this->httpConnection = new Web\HTTPConnection();
         $this->router = new Web\Router();
     }
 
     /**
-     * @return Web\Request
+     * @return Web\HTTPConnection
      */
     public function getHTTPConnection()
     {
