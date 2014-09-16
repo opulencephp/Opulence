@@ -1,8 +1,17 @@
 {
+    "name": "RDev",
+    "description": "The RDev PHP framework",
+    "keywords": [
+        "PHP",
+        "database",
+        "orm",
+        "framework"
+    ],
     "authors": [
         {
             "name": "David Young",
-            "role": "Developer"
+            "email": "dbyoung2@gmail.com",
+            "role": "Architect"
         }
     ],
     "license": "MIT",
