@@ -68,7 +68,7 @@ class ServerConfig extends Configs\Config
             // Only accept server objects or valid server config arrays
             if(is_array($server))
             {
-                if(!$this->validateServer($server))
+                if(!$this->serverIsValid($server))
                 {
                     return false;
                 }
@@ -93,7 +93,7 @@ class ServerConfig extends Configs\Config
      *          "weight" => weight of this server relative to the total weights of all the servers
      * @return bool True if the config is valid, otherwise false
      */
-    protected function validateServer(array $configArray)
+    private function serverIsValid(array $configArray)
     {
         if(!$this->hasRequiredFields($configArray, [
             "host" => null,

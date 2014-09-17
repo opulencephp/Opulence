@@ -23,6 +23,16 @@ class Config extends \ArrayObject implements IConfig
     }
 
     /**
+     * Gets the number of items in this config
+     *
+     * @return int The number of items in this config
+     */
+    public function count()
+    {
+        return count($this->configArray);
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function fromArray(array $configArray)

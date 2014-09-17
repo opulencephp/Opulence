@@ -62,7 +62,7 @@ class MasterSlaveConnectionPoolConfig extends ConnectionPoolConfig
             {
                 if(is_array($slaveConfigArray))
                 {
-                    if(!$this->validateServer($slaveConfigArray))
+                    if(!$this->serverIsValid($slaveConfigArray))
                     {
                         return false;
                     }

@@ -11,13 +11,28 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
+    /** @var array The config array the application uses */
+    private $config = [];
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->application = new Application(new Configs\ApplicationConfig());
+        $this->config = [
+            "environment" => [
+                "staging" => gethostname()
+            ]
+        ];
+        $this->application = new Application($this->config);
+    }
+
+    /**
+     * Tests getting the environment
+     */
+    public function testGettingEnvironment()
+    {
+        $this->assertEquals("staging", $this->application->getEnvironment());
     }
 
     /**

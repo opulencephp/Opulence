@@ -63,7 +63,7 @@ class ConnectionPoolConfig extends Configs\Config
      *
      * @param array $configArray The configuration array
      * @return SQL\Server The server object from the config options
-     * @see validateServer() for the required config structure
+     * @see serverIsValid() for the required config structure
      */
     protected function getServerFromConfig(array $configArray)
     {
@@ -111,7 +111,7 @@ class ConnectionPoolConfig extends Configs\Config
         // Only accept server objects or valid server config arrays
         if(is_array($configArray["servers"]["master"]))
         {
-            if(!$this->validateServer($configArray["servers"]["master"]))
+            if(!$this->serverIsValid($configArray["servers"]["master"]))
             {
                 return false;
             }
@@ -138,7 +138,7 @@ class ConnectionPoolConfig extends Configs\Config
      *          "charset" => character set
      * @return bool True if the config is valid, otherwise false
      */
-    protected function validateServer(array $configArray)
+    protected function serverIsValid(array $configArray)
     {
         if(!$this->hasRequiredFields($configArray, [
             "host" => null,

@@ -66,7 +66,7 @@ class ServerConfig extends Configs\Config
         // Only accept server objects or valid server config arrays
         if(is_array($configArray["servers"]["master"]))
         {
-            if(!$this->validateServer($configArray["servers"]["master"]))
+            if(!$this->serverIsValid($configArray["servers"]["master"]))
             {
                 return false;
             }
@@ -92,7 +92,7 @@ class ServerConfig extends Configs\Config
      *          "connectionTimeout" => the number of seconds to wait before a timeout
      * @return bool True if the config is valid, otherwise false
      */
-    protected function validateServer(array $configArray)
+    private function serverIsValid(array $configArray)
     {
         if(!$this->hasRequiredFields($configArray, [
             "host" => null,

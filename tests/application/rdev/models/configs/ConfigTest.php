@@ -92,6 +92,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the count of items in the config
+     */
+    public function testCount()
+    {
+        $configArray = [
+            "foo",
+            "bar"
+        ];
+        $config = new Config($configArray);
+        $this->assertEquals(count($configArray), $config->count());
+    }
+
+    /**
      * Tests making sure the config can be treated like an array
      */
     public function testIsArrayObject()
