@@ -69,7 +69,7 @@ class YAMLReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromInvalidInput()
     {
         $this->setExpectedException("\\RuntimeException");
-        $this->yamlReader->readFromInput('-');
+        $this->yamlReader->readFromInput('[');
     }
 
     /**
