@@ -387,6 +387,7 @@ class Template implements Views\IView
             // Notice the little hack inside eval() to compile inline PHP
             if(@eval("?>" . $content) === false)
             {
+                ob_end_clean();
                 throw new \RuntimeException("Invalid PHP inside template");
             }
 
