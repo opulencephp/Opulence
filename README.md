@@ -1,5 +1,8 @@
 # RDev
 [![Build Status](https://travis-ci.org/ramblingsofadev/RDev.svg?branch=master)](https://travis-ci.org/ramblingsofadev/RDev)
+[![Latest Stable Version](https://poser.pugx.org/rdev/rdev/v/stable.svg)](https://packagist.org/packages/rdev/rdev)
+[![Latest Unstable Version](https://poser.pugx.org/rdev/rdev/v/unstable.svg)](https://packagist.org/packages/rdev/rdev)
+[![License](https://poser.pugx.org/rdev/rdev/license.svg)](https://packagist.org/packages/rdev/rdev)
 ## Table of Contents
 ### About RDev
 1. [Introduction](#introduction)
@@ -36,7 +39,7 @@
 ```
 
 ## Requirements
-* PHP 5.5, 5.6, or HHVM
+* PHP 5.5, 5.6, or HHVM >= 3.3.0
 * OpenSSL enabled
 * mbstring
 
