@@ -143,7 +143,7 @@ $template->setVar("isAdministrator", true);
 echo $template->render(); // "Hello, Administrator"
 ```
 
-*Note*: PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
+> **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 ## Built-In Functions
 Templates come with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
@@ -179,7 +179,9 @@ $template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
-You can also pass variables into your functions in the template and set them using `setVar()`.  Note that nested function calls (eg `trim(strtoupper("foo "))`) are currently not supported.
+You can also pass variables into your functions in the template and set them using `setVar()`.
+
+> **Note:**  Nested function calls (eg `trim(strtoupper("foo "))`) are currently not supported.
 
 ## Custom Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
@@ -213,7 +215,7 @@ $template->registerFunction("salutation", function($lastName, $isMale, $isMarrie
 });
 echo $template->render(); // "Hello, Mrs. Young"
 ```
-Note that, as with built-in functions, nested function calls are currently not supported.
+> **Note:**  As with built-in functions, nested function calls are currently not supported.
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
