@@ -10,7 +10,7 @@ before_script:
   - composer install
   - composer dump-autoload -o
 
-script: vendor/bin/phpunit
+script: vendor/bin/phpunit --verbose
 
 notifications:
   email:
