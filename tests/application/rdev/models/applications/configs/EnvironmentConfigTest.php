@@ -42,30 +42,39 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests passing an invalid list of development machines
+     * Tests passing an invalid list of development hosts
      */
-    public function testPassingInvalidListOfDevelopmentMachines()
+    public function testPassingInvalidListOfDevelopmentHosts()
     {
         $this->setExpectedException("\\RuntimeException");
         new EnvironmentConfig(["development" => [1, 2]]);
     }
 
     /**
-     * Tests passing an invalid list of production machines
+     * Tests passing an invalid list of production hosts
      */
-    public function testPassingInvalidListOfProductionMachines()
+    public function testPassingInvalidListOfProductionHosts()
     {
         $this->setExpectedException("\\RuntimeException");
         new EnvironmentConfig(["production" => [1, 2]]);
     }
 
     /**
-     * Tests passing an invalid list of staging machines
+     * Tests passing an invalid list of staging hosts
      */
-    public function testPassingInvalidListOfStagingMachines()
+    public function testPassingInvalidListOfStagingHosts()
     {
         $this->setExpectedException("\\RuntimeException");
         new EnvironmentConfig(["staging" => [1, 2]]);
+    }
+
+    /**
+     * Tests passing an invalid list of testing hosts
+     */
+    public function testPassingInvalidListOfTestingHosts()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        new EnvironmentConfig(["testing" => [1, 2]]);
     }
 
     /**
@@ -84,5 +93,90 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         new EnvironmentConfig(["staging" => 1]);
+    }
+
+    /**
+     * Tests passing an invalid testing option
+     */
+    public function testPassingInvalidTestingOption()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        new EnvironmentConfig(["testing" => 1]);
+    }
+
+    /**
+     * Tests passing valid development options as an array
+     */
+    public function testPassingValidDevelopmentOptionsAsArray()
+    {
+        $configArray = ["development" => ["foo"]];
+        $config = new EnvironmentConfig($configArray);
+        $this->assertEquals($configArray, $config->toArray());
+    }
+
+    /**
+     * Tests passing valid development options as a string
+     */
+    public function testPassingValidDevelopmentOptionsAsString()
+    {
+        $config = new EnvironmentConfig(["development" => "foo"]);
+        $this->assertEquals(["development" => ["foo"]], $config->toArray());
+    }
+
+    /**
+     * Tests passing valid production options as an array
+     */
+    public function testPassingValidProductionOptionsAsArray()
+    {
+        $configArray = ["production" => ["foo"]];
+        $config = new EnvironmentConfig($configArray);
+        $this->assertEquals($configArray, $config->toArray());
+    }
+
+    /**
+     * Tests passing valid production options as a string
+     */
+    public function testPassingValidProductionOptionsAsString()
+    {
+        $config = new EnvironmentConfig(["production" => "foo"]);
+        $this->assertEquals(["production" => ["foo"]], $config->toArray());
+    }
+
+    /**
+     * Tests passing valid staging options as an array
+     */
+    public function testPassingValidStagingOptionsAsArray()
+    {
+        $configArray = ["staging" => ["foo"]];
+        $config = new EnvironmentConfig($configArray);
+        $this->assertEquals($configArray, $config->toArray());
+    }
+
+    /**
+     * Tests passing valid staging options as a string
+     */
+    public function testPassingValidStagingOptionsAsString()
+    {
+        $config = new EnvironmentConfig(["staging" => "foo"]);
+        $this->assertEquals(["staging" => ["foo"]], $config->toArray());
+    }
+
+    /**
+     * Tests passing valid testing options as an array
+     */
+    public function testPassingValidTestingOptionsAsArray()
+    {
+        $configArray = ["testing" => ["foo"]];
+        $config = new EnvironmentConfig($configArray);
+        $this->assertEquals($configArray, $config->toArray());
+    }
+
+    /**
+     * Tests passing valid testing options as a string
+     */
+    public function testPassingValidTestingOptionsAsString()
+    {
+        $config = new EnvironmentConfig(["testing" => "foo"]);
+        $this->assertEquals(["testing" => ["foo"]], $config->toArray());
     }
 } 

@@ -31,7 +31,7 @@ class EnvironmentFetcher
         }
 
         // Allow a callback
-        if($config->count() == 1 && isset($config[0]) && $config[0] instanceof \Closure)
+        if($config->count() == 1 && isset($config[0]) && is_callable($config[0]))
         {
             return call_user_func($config[0]);
         }

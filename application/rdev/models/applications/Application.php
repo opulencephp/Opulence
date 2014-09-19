@@ -24,6 +24,16 @@ class Application
     private $httpConnection = null;
     /** @var Web\Router The router for requests */
     private $router = null;
+    /** @var bool Whether or not the application is currently running */
+    private $isRunning = false;
+    /** @var Callable[] The list of functions to execute before startup */
+    private $preStartTasks = [];
+    /** @var Callable[] The list of functions to execute after startup */
+    private $postStartTasks = [];
+    /** @var Callable[] The list of functions to execute before shutdown */
+    private $preShutdownTasks = [];
+    /** @var Callable[] The list of functions to execute after shutdown */
+    private $postShutdownTasks = [];
 
     /**
      * @param Configs\ApplicationConfig|array $config The configuration to use to setup the application
@@ -66,5 +76,128 @@ class Application
     public function getRouter()
     {
         return $this->router;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isRunning()
+    {
+        return $this->isRunning;
+    }
+
+    /**
+     * Registers a task to be run after the application shuts down
+     *
+     * @param callable $task The task to register
+     */
+    public function registerPostShutdownTask(Callable $task)
+    {
+        $this->postShutdownTasks[] = $task;
+    }
+
+    /**
+     * Registers a task to be run after the application starts
+     *
+     * @param callable $task The task to register
+     */
+    public function registerPostStartTask(Callable $task)
+    {
+        $this->postStartTasks[] = $task;
+    }
+
+    /**
+     * Registers a task to be run before the application shuts down
+     *
+     * @param callable $task The task to register
+     */
+    public function registerPreShutdownTask(Callable $task)
+    {
+        $this->preShutdownTasks[] = $task;
+    }
+
+    /**
+     * Registers a task to be run before the application starts
+     *
+     * @param callable $task The task to register
+     */
+    public function registerPreStartTask(Callable $task)
+    {
+        $this->preStartTasks[] = $task;
+    }
+
+    /**
+     * Shuts down this application
+     *
+     * @throws \RuntimeException Thrown if there was an error shutting down the application
+     */
+    public function shutdown()
+    {
+        // Don't shutdown a shutdown application
+        if($this->isRunning)
+        {
+            $this->doTasks($this->preShutdownTasks);
+            $this->doShutdown();
+            $this->isRunning = false;
+            $this->doTasks($this->postShutdownTasks);
+        }
+    }
+
+    /**
+     * Starts this application
+     *
+     * @throws \RuntimeException Thrown if there was an error starting up the application
+     */
+    public function start()
+    {
+        // Don't start a running application
+        if(!$this->isRunning)
+        {
+            $this->doTasks($this->preStartTasks);
+            $this->doStart();
+            $this->isRunning = true;
+            $this->doTasks($this->postStartTasks);
+        }
+    }
+
+    /**
+     * Actually performs the shutdown
+     *
+     * @throws \RuntimeException Thrown if there was an error shutting down the application
+     */
+    protected function doShutdown()
+    {
+        // Don't do anything right now
+    }
+
+    /**
+     * Actually performs the start
+     *
+     * @throws \RuntimeException Thrown if there was an error starting up the application
+     */
+    protected function doStart()
+    {
+        // Don't do anything right now
+    }
+
+    /**
+     * Runs a list of tasks
+     *
+     * @param array $taskList The list of tasks to run
+     * @throws \RuntimeException Thrown if any of the tasks error out
+     */
+    protected function doTasks(array $taskList)
+    {
+        try
+        {
+            foreach($taskList as $task)
+            {
+                call_user_func($task);
+            }
+        }
+        catch(\Exception $ex)
+        {
+            throw new \RuntimeException("Failed to run tasks: " . $ex->getMessage());
+        }
     }
 } 

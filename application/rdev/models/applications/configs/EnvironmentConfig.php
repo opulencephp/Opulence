@@ -61,7 +61,7 @@ class EnvironmentConfig extends Configs\Config
                     Applications\Application::ENV_DEVELOPMENT
                 ] as $environment)
         {
-            if(isset($configArray[$environment]) && !$this->isMachineListValid($configArray[$environment]))
+            if(isset($configArray[$environment]) && !$this->hostListIsValid($configArray[$environment]))
             {
                 return false;
             }
@@ -71,21 +71,21 @@ class EnvironmentConfig extends Configs\Config
     }
 
     /**
-     * Validates a list of machines for an environment
+     * Validates a list of hosts for an environment
      *
-     * @param string|array $machineList The name of the machine or the list of machines
+     * @param string|array $hostList The name of the machine or the list of machines
      * @return bool True if the list is valid, otherwise false
      */
-    private function isMachineListValid($machineList)
+    private function hostListIsValid($hostList)
     {
-        if(!is_array($machineList))
+        if(!is_array($hostList))
         {
-            $machineList = [$machineList];
+            $hostList = [$hostList];
         }
 
-        foreach($machineList as $machine)
+        foreach($hostList as $host)
         {
-            if(!is_string($machine))
+            if(!is_string($host))
             {
                 return false;
             }
