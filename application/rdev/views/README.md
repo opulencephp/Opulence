@@ -12,7 +12,7 @@
 9. [Custom Tag Placeholders](#custom-tag-placeholders)
 
 ## Introduction
-**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.
+**RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
 ## Basic Usage
 ##### Template
@@ -55,13 +55,13 @@ $template->setTag("name", "A&W");
 echo $template->render(); // "A&amp;W vs A&W"
 ```
 
-Alternatively, you can output a string literal inside the escaped tags:
+Alternatively, you can output a string literal inside tags:
 ##### Template
 ```
-{{"A&W"}}
+{{"A&W"}} vs {{!"A&W"!}}
 ```
 
-This will output "A&amp;amp;W".
+This will output "A&amp;amp;W vs A&amp;W".
 
 ## Nesting Templates
 Nesting templates is an easy way to keep two components reusable.  For example, many websites use a sidebar for navigation on most pages.  With **RDev**, you can create a template for the sidebar and another for all the pages' contents.  Then, you can combine a page with the sidebar using a tag:
@@ -70,7 +70,7 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 <div id="main">
     Here's my main content
 </div>
-{{sidebar}}
+{{!sidebar!}}
 ```
 ##### Sidebar Template
 ```
@@ -106,8 +106,10 @@ echo $page->render();
 </div>
 ```
 
+> **Note:** It is recommended you use unescaped tags to nest templates that display HTML.  Otherwise, the HTML will be escaped and will not appear correctly.
+
 ## Using PHP in Your Template
-Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  With RDev's template system, you can do this:
+Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
 ##### Template
 ```
 <ul><?php
@@ -181,7 +183,7 @@ echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
 You can also pass variables into your functions in the template and set them using `setVar()`.
 
-> **Note:**  Nested function calls (eg `trim(strtoupper("foo "))`) are currently not supported.
+> **Note:**  Nested function calls (eg `trim(strtoupper(" foo "))`) are currently not supported.
 
 ## Custom Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
