@@ -24,6 +24,36 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a config with a custom, although invalid, type
+     */
+    public function testConfigWithInvalidHostOptionType()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "staging" => [
+                ["type" => "doesnotexist", "value" => "foo"],
+                "192.168.1.1"
+            ]
+        ];
+        new EnvironmentConfig($configArray);
+    }
+
+    /**
+     * Tests a config with a regex
+     */
+    public function testConfigWithRegex()
+    {
+        $configArray = [
+            "staging" => [
+                ["type" => "regex", "value" => "/^192\.168\.*$/"],
+                "192.168.1.1"
+            ]
+        ];
+        $config = new EnvironmentConfig($configArray);
+        $this->assertEquals($configArray, $config->toArray());
+    }
+
+    /**
      * Tests not setting anything
      */
     public function testNotSettingAnything()

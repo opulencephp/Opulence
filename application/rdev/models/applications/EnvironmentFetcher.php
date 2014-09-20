@@ -14,10 +14,15 @@ class EnvironmentFetcher
      *
      * @param Configs\EnvironmentConfig|array $config The config to use for the environment
      *      The following keys are optional:
-     *          "production" => server name/regex, or list of server names/regexes in the production environment
-     *          "staging" => server name/regex, or list of server names/regexes in the staging environment
-     *          "testing" => server name/regex, or list of server names/regexes in the testing environment
-     *          "development" => server name/regex, or list of server names/regexes in the development environment
+     *          "production"
+     *          "staging"
+     *          "testing"
+     *          "development"
+     *          Note:  All of the above may map to one of the following
+     *              Server host
+     *              An array containing:
+     *                  "type" => see EnvironmentConfig for list of valid types
+     *                  "value" => The value to use
      *      Alternatively, a callback may be passed in as the only item for customization
      *          It must return the environment the current server resides in
      *          This only works for PHPArray configs because callbacks cannot be passed in other types like JSON
@@ -58,14 +63,25 @@ class EnvironmentFetcher
         {
             foreach($hosts as $host)
             {
-                if($host == $thisHost)
+                if(is_string($host))
                 {
-                    return $environment;
+                    if($host == $thisHost)
+                    {
+                        return $environment;
+                    }
                 }
-
-                if(preg_match("/^" . $host . "$/", $thisHost) === 1)
+                elseif(is_array($host))
                 {
-                    return $environment;
+                    switch($host["type"])
+                    {
+                        case "regex":
+                            if(preg_match($host["value"], $thisHost) === 1)
+                            {
+                                return $environment;
+                            }
+
+                            break;
+                    }
                 }
             }
         }

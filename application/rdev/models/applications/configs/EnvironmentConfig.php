@@ -10,6 +10,9 @@ use RDev\Models\Configs;
 
 class EnvironmentConfig extends Configs\Config
 {
+    /** @var array The list of allowed host value types */
+    public static $hostValueTypes = ["regex"];
+
     /**
      * {@inheritdoc}
      */
@@ -85,7 +88,14 @@ class EnvironmentConfig extends Configs\Config
 
         foreach($hostList as $host)
         {
-            if(!is_string($host))
+            if(is_array($host))
+            {
+                if(!isset($host["type"]) || !in_array($host["type"], self::$hostValueTypes) || !isset($host["value"]))
+                {
+                    return false;
+                }
+            }
+            elseif(!is_string($host))
             {
                 return false;
             }

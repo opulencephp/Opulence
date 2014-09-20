@@ -12,32 +12,32 @@ use RDev\Views\Security;
 class Template implements Views\IView
 {
     /** The default string used to denote the beginning of a tag name in a template */
-    const DEFAULT_UNESCAPED_OPEN_TAG_PLACEHOLDER = "{{!";
+    const DEFAULT_UNESCAPED_OPEN_TAG = "{{!";
     /** The default string used to denote the end of a tag name in a template */
-    const DEFAULT_UNESCAPED_CLOSE_TAG_PLACEHOLDER = "!}}";
+    const DEFAULT_UNESCAPED_CLOSE_TAG = "!}}";
     /** The string used to denote the beginning of an escaped tag name in a template */
-    const DEFAULT_ESCAPED_OPEN_TAG_PLACEHOLDER = "{{";
+    const DEFAULT_ESCAPED_OPEN_TAG = "{{";
     /** The string used to denote the end of an escaped tag name in a template */
-    const DEFAULT_ESCAPED_CLOSE_TAG_PLACEHOLDER = "}}";
+    const DEFAULT_ESCAPED_CLOSE_TAG = "}}";
 
     /** @var string The unrendered contents of the template */
     protected $unrenderedTemplate = "";
     /** @var ICompiler The compiler to use to compile the template */
     protected $compiler = null;
-    /** @var array The mapping of tag (placeholder) names to their values */
+    /** @var array The mapping of tag names to their values */
     protected $tags = [];
     /** @var array The mapping of PHP variable names to their values */
     protected $vars = [];
     /** @var array The mapping of function names to their callbacks */
     protected $functions = [];
-    /** @var string The unescaped open tag placeholder */
-    private $unescapedOpenTagPlaceholder = self::DEFAULT_UNESCAPED_OPEN_TAG_PLACEHOLDER;
-    /** @var string The unescaped close tag placeholder */
-    private $unescapedCloseTagPlaceholder = self::DEFAULT_UNESCAPED_CLOSE_TAG_PLACEHOLDER;
-    /** @var string The escaped open tag placeholder */
-    private $escapedOpenTagPlaceholder = self::DEFAULT_ESCAPED_OPEN_TAG_PLACEHOLDER;
-    /** @var string The escaped close tag placeholder */
-    private $escapedCloseTagPlaceholder = self::DEFAULT_ESCAPED_CLOSE_TAG_PLACEHOLDER;
+    /** @var string The unescaped open tag */
+    private $unescapedOpenTag = self::DEFAULT_UNESCAPED_OPEN_TAG;
+    /** @var string The unescaped close tag */
+    private $unescapedCloseTag = self::DEFAULT_UNESCAPED_CLOSE_TAG;
+    /** @var string The escaped open tag */
+    private $escapedOpenTag = self::DEFAULT_ESCAPED_OPEN_TAG;
+    /** @var string The escaped close tag */
+    private $escapedCloseTag = self::DEFAULT_ESCAPED_CLOSE_TAG;
     /** @var Files\FileSystem The file system to use to read/write to files */
     private $fileSystem = null;
 
@@ -72,33 +72,33 @@ class Template implements Views\IView
     /**
      * @return string
      */
-    public function getEscapedCloseTagPlaceholder()
+    public function getEscapedCloseTag()
     {
-        return $this->escapedCloseTagPlaceholder;
+        return $this->escapedCloseTag;
     }
 
     /**
      * @return string
      */
-    public function getEscapedOpenTagPlaceholder()
+    public function getEscapedOpenTag()
     {
-        return $this->escapedOpenTagPlaceholder;
+        return $this->escapedOpenTag;
     }
 
     /**
      * @return string
      */
-    public function getUnescapedCloseTagPlaceholder()
+    public function getUnescapedCloseTag()
     {
-        return $this->unescapedCloseTagPlaceholder;
+        return $this->unescapedCloseTag;
     }
 
     /**
      * @return string
      */
-    public function getUnescapedOpenTagPlaceholder()
+    public function getUnescapedOpenTag()
     {
-        return $this->unescapedOpenTagPlaceholder;
+        return $this->unescapedOpenTag;
     }
 
     /**
@@ -169,19 +169,19 @@ class Template implements Views\IView
     }
 
     /**
-     * @param string $escapedCloseTagPlaceholder
+     * @param string $escapedCloseTag
      */
-    public function setEscapedCloseTagPlaceholder($escapedCloseTagPlaceholder)
+    public function setEscapedCloseTag($escapedCloseTag)
     {
-        $this->escapedCloseTagPlaceholder = $escapedCloseTagPlaceholder;
+        $this->escapedCloseTag = $escapedCloseTag;
     }
 
     /**
-     * @param string $escapedOpenTagPlaceholder
+     * @param string $escapedOpenTag
      */
-    public function setEscapedOpenTagPlaceholder($escapedOpenTagPlaceholder)
+    public function setEscapedOpenTag($escapedOpenTag)
     {
-        $this->escapedOpenTagPlaceholder = $escapedOpenTagPlaceholder;
+        $this->escapedOpenTag = $escapedOpenTag;
     }
 
     /**
@@ -210,19 +210,19 @@ class Template implements Views\IView
     }
 
     /**
-     * @param string $unescapedCloseTagPlaceholder
+     * @param string $unescapedCloseTag
      */
-    public function setUnescapedCloseTagPlaceholder($unescapedCloseTagPlaceholder)
+    public function setUnescapedCloseTag($unescapedCloseTag)
     {
-        $this->unescapedCloseTagPlaceholder = $unescapedCloseTagPlaceholder;
+        $this->unescapedCloseTag = $unescapedCloseTag;
     }
 
     /**
-     * @param string $unescapedOpenTagPlaceholder
+     * @param string $unescapedOpenTag
      */
-    public function setUnescapedOpenTagPlaceholder($unescapedOpenTagPlaceholder)
+    public function setUnescapedOpenTag($unescapedOpenTag)
     {
-        $this->unescapedOpenTagPlaceholder = $unescapedOpenTagPlaceholder;
+        $this->unescapedOpenTag = $unescapedOpenTag;
     }
 
     /**
@@ -377,10 +377,10 @@ class Template implements Views\IView
                 $content = preg_replace(
                     sprintf(
                         $regex,
-                        preg_quote($this->escapedOpenTagPlaceholder, "/"),
+                        preg_quote($this->escapedOpenTag, "/"),
                         preg_quote($functionName, "/"),
-                        preg_quote($this->escapedCloseTagPlaceholder, "/"),
-                        preg_quote($this->escapedCloseTagPlaceholder, "/")),
+                        preg_quote($this->escapedCloseTag, "/"),
+                        preg_quote($this->escapedCloseTag, "/")),
                     $replacementString,
                     $content
                 );
@@ -388,10 +388,10 @@ class Template implements Views\IView
                 $content = preg_replace(
                     sprintf(
                         $regex,
-                        preg_quote($this->unescapedOpenTagPlaceholder, "/"),
+                        preg_quote($this->unescapedOpenTag, "/"),
                         preg_quote($functionName, "/"),
-                        preg_quote($this->unescapedCloseTagPlaceholder, "/"),
-                        preg_quote($this->unescapedCloseTagPlaceholder, "/")),
+                        preg_quote($this->unescapedCloseTag, "/"),
+                        preg_quote($this->unescapedCloseTag, "/")),
                     $replacementString,
                     $content
                 );
@@ -421,15 +421,15 @@ class Template implements Views\IView
 
             // In the case that one open tag is a substring of another (eg "{{" and "{{{"), handle the longer one first
             // If they're the same length, they cannot be substrings of one another unless they're equal
-            if(strlen($this->escapedOpenTagPlaceholder) > strlen($this->unescapedOpenTagPlaceholder))
+            if(strlen($this->escapedOpenTag) > strlen($this->unescapedOpenTag))
             {
-                $tags[] = [$this->escapedOpenTagPlaceholder, $this->escapedCloseTagPlaceholder];
-                $tags[] = [$this->unescapedOpenTagPlaceholder, $this->unescapedCloseTagPlaceholder];
+                $tags[] = [$this->escapedOpenTag, $this->escapedCloseTag];
+                $tags[] = [$this->unescapedOpenTag, $this->unescapedCloseTag];
             }
             else
             {
-                $tags[] = [$this->unescapedOpenTagPlaceholder, $this->unescapedCloseTagPlaceholder];
-                $tags[] = [$this->escapedOpenTagPlaceholder, $this->escapedCloseTagPlaceholder];
+                $tags[] = [$this->unescapedOpenTag, $this->unescapedCloseTag];
+                $tags[] = [$this->escapedOpenTag, $this->escapedCloseTag];
             }
 
             /**
@@ -483,7 +483,7 @@ class Template implements Views\IView
             // Holds the tags as well as the callbacks to callbacks to execute in the case of string literals or tag names
             $tagData = [
                 [
-                    "tags" => [$this->escapedOpenTagPlaceholder, $this->escapedCloseTagPlaceholder],
+                    "tags" => [$this->escapedOpenTag, $this->escapedCloseTag],
                     "stringLiteralCallback" => function ($stringLiteral)
                     {
                         return Security\XSS::filter(trim($stringLiteral, $stringLiteral[0]));
@@ -494,7 +494,7 @@ class Template implements Views\IView
                     }
                 ],
                 [
-                    "tags" => [$this->unescapedOpenTagPlaceholder, $this->unescapedCloseTagPlaceholder],
+                    "tags" => [$this->unescapedOpenTag, $this->unescapedCloseTag],
                     "stringLiteralCallback" => function ($stringLiteral)
                     {
                         return trim($stringLiteral, $stringLiteral[0]);

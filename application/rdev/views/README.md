@@ -9,7 +9,7 @@
 6. [Built-In Functions](#built-in-functions)
 7. [Custom Functions](#custom-functions)
 8. [Escaping Tags](#escaping-tags)
-9. [Custom Tag Placeholders](#custom-tag-placeholders)
+9. [Custom Tags](#custom-tags)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
@@ -235,8 +235,8 @@ $template->setTag("username", "Mr Schwarzenegger");
 echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
 ```
 
-## Custom Tag Placeholders
-Want to use a custom character/string for the tag placeholders?  Easy!  Just specify it in the `Template` object like so:
+## Custom Tags
+Want to use a custom character/string for the tags?  Easy!  Just specify it in the `Template` object like so:
 ##### Template
 ```
 ^^name$$ ++food--
@@ -247,11 +247,11 @@ use RDev\Views\Templates;
 
 $template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
-$template->setEscapedOpenTagPlaceholder("^^");
-$template->setEscapedCloseTagPlaceholder("$$");
-// You can also override the unescaped tag placeholders
-$template->setUnescapedOpenTagPlaceholder("++");
-$template->setUnescapedCloseTagPlaceholder("--");
+$template->setEscapedOpenTag("^^");
+$template->setEscapedCloseTag("$$");
+// You can also override the unescaped tags
+$template->setUnescapedOpenTag("++");
+$template->setUnescapedCloseTag("--");
 $template->setTag("name", "A&W");
 $template->setTag("food", "Root Beer");
 echo $template->render(); // "A&amp;W Root Beer"

@@ -9,10 +9,10 @@ use RDev\Tests\Models\Mocks;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
-    /** The path to the test template with default tag placeholders */
-    const TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS = "/files/TestWithDefaultTagPlaceholders.html";
-    /** The path to the test template with custom tag placeholders */
-    const TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS = "/files/TestWithCustomTagPlaceholders.html";
+    /** The path to the test template with default tags */
+    const TEMPLATE_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTags.html";
+    /** The path to the test template with custom tags */
+    const TEMPLATE_PATH_WITH_CUSTOM_TAGS = "/files/TestWithCustomTags.html";
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_PHP_CODE = "/files/TestWithPHP.html";
     /** The path to the test template with PHP code */
@@ -251,7 +251,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests rendering a template with a function that has spaces between the open and close tag placeholders
+     * Tests rendering a template with a function that has spaces between the open and close tags
      */
     public function testFunctionWithSpacesBetweenTags()
     {
@@ -274,29 +274,29 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the escaped tag placeholders
+     * Tests getting the escaped tags
      */
-    public function testGettingEscapedTagPlaceholders()
+    public function testGettingEscapedTags()
     {
-        $this->assertEquals(Template::DEFAULT_ESCAPED_OPEN_TAG_PLACEHOLDER, $this->template->getEscapedOpenTagPlaceholder());
-        $this->assertEquals(Template::DEFAULT_ESCAPED_CLOSE_TAG_PLACEHOLDER, $this->template->getEscapedCloseTagPlaceholder());
-        $this->template->setEscapedOpenTagPlaceholder("foo");
-        $this->template->setEscapedCloseTagPlaceholder("bar");
-        $this->assertEquals("foo", $this->template->getEscapedOpenTagPlaceholder());
-        $this->assertEquals("bar", $this->template->getEscapedCloseTagPlaceholder());
+        $this->assertEquals(Template::DEFAULT_ESCAPED_OPEN_TAG, $this->template->getEscapedOpenTag());
+        $this->assertEquals(Template::DEFAULT_ESCAPED_CLOSE_TAG, $this->template->getEscapedCloseTag());
+        $this->template->setEscapedOpenTag("foo");
+        $this->template->setEscapedCloseTag("bar");
+        $this->assertEquals("foo", $this->template->getEscapedOpenTag());
+        $this->assertEquals("bar", $this->template->getEscapedCloseTag());
     }
 
     /**
-     * Tests getting the unescaped tag placeholders
+     * Tests getting the unescaped tags
      */
-    public function testGettingUnescapedTagPlaceholders()
+    public function testGettingUnescapedTags()
     {
-        $this->assertEquals(Template::DEFAULT_UNESCAPED_OPEN_TAG_PLACEHOLDER, $this->template->getUnescapedOpenTagPlaceholder());
-        $this->assertEquals(Template::DEFAULT_UNESCAPED_CLOSE_TAG_PLACEHOLDER, $this->template->getUnescapedCloseTagPlaceholder());
-        $this->template->setUnescapedOpenTagPlaceholder("foo");
-        $this->template->setUnescapedCloseTagPlaceholder("bar");
-        $this->assertEquals("foo", $this->template->getUnescapedOpenTagPlaceholder());
-        $this->assertEquals("bar", $this->template->getUnescapedCloseTagPlaceholder());
+        $this->assertEquals(Template::DEFAULT_UNESCAPED_OPEN_TAG, $this->template->getUnescapedOpenTag());
+        $this->assertEquals(Template::DEFAULT_UNESCAPED_CLOSE_TAG, $this->template->getUnescapedCloseTag());
+        $this->template->setUnescapedOpenTag("foo");
+        $this->template->setUnescapedCloseTag("bar");
+        $this->assertEquals("foo", $this->template->getUnescapedOpenTag());
+        $this->assertEquals("bar", $this->template->getUnescapedCloseTag());
     }
 
     /**
@@ -304,7 +304,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnrenderedTemplateFromAFile()
     {
-        $templatePath = __DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS;
+        $templatePath = __DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_TAGS;
         $unrenderedTemplate = file_get_contents($templatePath);
         $this->template->readFromFile($templatePath);
         $this->assertEquals($unrenderedTemplate, $this->template->getUnrenderedTemplate());
@@ -368,37 +368,37 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests rendering a template that uses custom tag placeholders
+     * Tests rendering a template that uses custom tags
      */
-    public function testRenderingTemplateWithCustomTagPlaceholders()
+    public function testRenderingTemplateWithCustomTags()
     {
-        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
-        $this->template->setUnescapedOpenTagPlaceholder("^^");
-        $this->template->setUnescapedCloseTagPlaceholder("$$");
-        $this->template->setEscapedOpenTagPlaceholder("++");
-        $this->template->setEscapedCloseTagPlaceholder("--");
+        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_TAGS);
+        $this->template->setUnescapedOpenTag("^^");
+        $this->template->setUnescapedCloseTag("$$");
+        $this->template->setEscapedOpenTag("++");
+        $this->template->setEscapedCloseTag("--");
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                "Hello, world! ^^blah$$. a&amp;b. me too. c&amp;d. ++\"e&f\"--. ++ \"g&h\" --. ++blah--. Today escaped is $functionResult and unescaped is $functionResult.",
+                "Hello, world! ^^blah$$. a&amp;b. me too. c&amp;d. e&f. ++\"g&h\"--. ++ \"i&j\" --. ++blah--. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }
 
     /**
-     * Tests rendering a template that uses the default tag placeholders
+     * Tests rendering a template that uses the default tags
      */
-    public function testRenderingTemplateWithDefaultTagPlaceholders()
+    public function testRenderingTemplateWithDefaultTags()
     {
-        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_TAGS);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                "Hello, world! {{!blah!}}. a&amp;b. me too. c&amp;d. {{\"e&f\"}}. {{ \"g&h\" }}. {{blah}}. Today escaped is $functionResult and unescaped is $functionResult.",
+                "Hello, world! {{!blah!}}. a&amp;b. me too. c&amp;d. e&f. {{\"g&h\"}}. {{ \"i&j\" }}. {{blah}}. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }
@@ -426,14 +426,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderingTemplateWithUnsetCustomTags()
     {
-        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
-        $this->template->setUnescapedOpenTagPlaceholder("^^");
-        $this->template->setUnescapedCloseTagPlaceholder("$$");
-        $this->template->setEscapedOpenTagPlaceholder("++");
-        $this->template->setEscapedCloseTagPlaceholder("--");
+        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_TAGS);
+        $this->template->setUnescapedOpenTag("^^");
+        $this->template->setUnescapedCloseTag("$$");
+        $this->template->setEscapedOpenTag("++");
+        $this->template->setEscapedCloseTag("--");
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                ", ! ^^blah$$. . me too. c&amp;d. ++\"e&f\"--. ++ \"g&h\" --. ++blah--. Today escaped is $functionResult and unescaped is $functionResult.",
+                ", ! ^^blah$$. . me too. c&amp;d. e&f. ++\"g&h\"--. ++ \"i&j\" --. ++blah--. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }
@@ -443,10 +443,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderingTemplateWithUnsetTags()
     {
-        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
+        $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_TAGS);
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                ", ! {{!blah!}}. . me too. c&amp;d. {{\"e&f\"}}. {{ \"g&h\" }}. {{blah}}. Today escaped is $functionResult and unescaped is $functionResult.",
+                ", ! {{!blah!}}. . me too. c&amp;d. e&f. {{\"g&h\"}}. {{ \"i&j\" }}. {{blah}}. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }

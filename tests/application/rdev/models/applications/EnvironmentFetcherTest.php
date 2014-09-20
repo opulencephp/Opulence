@@ -82,12 +82,14 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingRegexForHost()
     {
-        // Use a wildcard as the last character of the host
-        $hostWithWildcard = substr(gethostname(), 0, -1) . ".";
+        // Truncate the last character of the host
+        $truncatedHost = substr(gethostname(), 0, -1);
         $config = [
             "development" => "8.8.8.8",
             "testing" => "8.8.8.2",
-            "staging" => $hostWithWildcard,
+            "staging" => [
+                ["type" => "regex", "value" => "/^" . preg_quote($truncatedHost, "/") . ".*$/"]
+            ],
             "production" => "8.8.8.4"
         ];
         $fetcher = new EnvironmentFetcher();
