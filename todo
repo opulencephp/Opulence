@@ -1,4 +1,4 @@
-Add pre/post-run and pre/post-shutdown callback support
+Change safe/regular tags around so that safe tags are the default
 Think of more application config data, update ApplicationConfig::isValid()
 Need to write up application/environment READMEs
 Incorrect username entry is faster, making room for timing attacks
