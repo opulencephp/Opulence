@@ -26,13 +26,13 @@ class Application
     private $router = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
-    /** @var Callable[] The list of functions to execute before startup */
+    /** @var callable[] The list of functions to execute before startup */
     private $preStartTasks = [];
-    /** @var Callable[] The list of functions to execute after startup */
+    /** @var callable[] The list of functions to execute after startup */
     private $postStartTasks = [];
-    /** @var Callable[] The list of functions to execute before shutdown */
+    /** @var callable[] The list of functions to execute before shutdown */
     private $preShutdownTasks = [];
-    /** @var Callable[] The list of functions to execute after shutdown */
+    /** @var callable[] The list of functions to execute after shutdown */
     private $postShutdownTasks = [];
 
     /**
@@ -91,7 +91,7 @@ class Application
      *
      * @param callable $task The task to register
      */
-    public function registerPostShutdownTask(Callable $task)
+    public function registerPostShutdownTask(callable $task)
     {
         $this->postShutdownTasks[] = $task;
     }
@@ -101,7 +101,7 @@ class Application
      *
      * @param callable $task The task to register
      */
-    public function registerPostStartTask(Callable $task)
+    public function registerPostStartTask(callable $task)
     {
         $this->postStartTasks[] = $task;
     }
@@ -111,7 +111,7 @@ class Application
      *
      * @param callable $task The task to register
      */
-    public function registerPreShutdownTask(Callable $task)
+    public function registerPreShutdownTask(callable $task)
     {
         $this->preShutdownTasks[] = $task;
     }
@@ -121,7 +121,7 @@ class Application
      *
      * @param callable $task The task to register
      */
-    public function registerPreStartTask(Callable $task)
+    public function registerPreStartTask(callable $task)
     {
         $this->preStartTasks[] = $task;
     }

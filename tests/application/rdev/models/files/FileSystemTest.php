@@ -192,9 +192,9 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGettingFilesWithRecursion()
     {
         $this->assertTrue(count(array_diff([
-            __DIR__ . "/subdirectory/subdirectory/bar.txt",
-            __DIR__ . "/subdirectory/foo.txt",
-            __FILE__
+                __DIR__ . "/subdirectory/subdirectory/bar.txt",
+                __DIR__ . "/subdirectory/foo.txt",
+                __FILE__
             ], $this->fileSystem->getFiles(__DIR__, true))) == 0);
     }
 
@@ -294,6 +294,15 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         file_put_contents(__DIR__ . "/test.txt", "foo");
         $this->assertEquals("foo", $this->fileSystem->read(__DIR__ . "/test.txt"));
+    }
+
+    /**
+     * Tests reading from a path that is not a string
+     */
+    public function testReadingFromPathThatIsNotString()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->fileSystem->read(["not a string"]);
     }
 
     /**

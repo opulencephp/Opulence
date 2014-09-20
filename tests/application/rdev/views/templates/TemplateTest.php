@@ -36,7 +36,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $number = -3.9;
         $this->template->setVar("number", $number);
-        $this->template->readFromInput('{{abs($number)}}');
+        $this->template->readFromInput('{{!abs($number)!}}');
         $this->assertEquals(abs($number), $this->template->render());
     }
 
@@ -47,7 +47,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $number = 3.9;
         $this->template->setVar("number", $number);
-        $this->template->readFromInput('{{ceil($number)}}');
+        $this->template->readFromInput('{{!ceil($number)!}}');
         $this->assertEquals(ceil($number), $this->template->render());
     }
 
@@ -58,7 +58,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $array = [1, 2, 3];
         $this->template->setVar("array", $array);
-        $this->template->readFromInput('{{count($array)}}');
+        $this->template->readFromInput('{{!count($array)!}}');
         $this->assertEquals(count($array), $this->template->render());
     }
 
@@ -69,24 +69,24 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $today = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->template->setVar("today", $today);
-        $this->template->readFromInput('{{date($today)}}');
+        $this->template->readFromInput('{{!date($today)!}}');
         $this->template->setVar("today", $today);
         // Test with date parameter
         $this->assertSame($today->format("m/d/Y"), $this->template->render());
         // Test with date and format parameters
         $format = "Y-m-d";
-        $this->template->readFromInput('{{date($today, "' . $format . '")}}');
+        $this->template->readFromInput('{{!date($today, "' . $format . '")!}}');
         $this->assertSame($today->format($format), $this->template->render());
         // Test with date, format, and timezone parameters
         $format = "Y-m-d";
         $timezone = new \DateTimeZone("America/New_York");
         $today->setTimezone($timezone);
         $this->template->setVar("timezone", $timezone);
-        $this->template->readFromInput('{{date($today, "' . $format . '", $timezone)}}');
+        $this->template->readFromInput('{{!date($today, "' . $format . '", $timezone)!}}');
         $this->assertSame($today->format($format), $this->template->render());
         // Test an invalid timezone
         $this->template->setVar("timezone", []);
-        $this->template->readFromInput('{{date($today, "' . $format . '", $timezone)}}');
+        $this->template->readFromInput('{{!date($today, "' . $format . '", $timezone)!}}');
         $this->assertSame($today->format($format), $this->template->render());
     }
 
@@ -97,7 +97,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $number = 3.9;
         $this->template->setVar("number", $number);
-        $this->template->readFromInput('{{floor($number)}}');
+        $this->template->readFromInput('{{!floor($number)!}}');
         $this->assertEquals(floor($number), $this->template->render());
     }
 
@@ -108,7 +108,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $array = [1, 2, 3];
         $this->template->setVar("array", $array);
-        $this->template->readFromInput('{{implode(",", $array)}}');
+        $this->template->readFromInput('{{!implode(",", $array)!}}');
         $this->assertEquals(implode(",", $array), $this->template->render());
     }
 
@@ -120,15 +120,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $array = ["foo" => ["bar" => "blah"]];
         $this->template->setVar("array", $array);
         // Test with value parameter
-        $this->template->readFromInput('{{json_encode($array)}}');
+        $this->template->readFromInput('{{!json_encode($array)!}}');
         $this->assertEquals(json_encode($array), $this->template->render());
         // Test with value and options parameters
         $this->template->setVar("options", JSON_HEX_TAG);
-        $this->template->readFromInput('{{json_encode($array, $options)}}');
+        $this->template->readFromInput('{{!json_encode($array, $options)!}}');
         $this->assertEquals(json_encode($array, JSON_HEX_TAG), $this->template->render());
         // Test with value, options, and depth parameters
         $this->template->setVar("depth", 1);
-        $this->template->readFromInput('{{json_encode($array, $options, $depth)}}');
+        $this->template->readFromInput('{{!json_encode($array, $options, $depth)!}}');
         $this->assertEquals(json_encode($array, JSON_HEX_TAG, 1), $this->template->render());
     }
 
@@ -138,7 +138,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInLCFirstFunction()
     {
         $this->template->setVar("string", "FOO BAR");
-        $this->template->readFromInput('{{lcfirst($string)}}');
+        $this->template->readFromInput('{{!lcfirst($string)!}}');
         $this->assertEquals(lcfirst("FOO BAR"), $this->template->render());
     }
 
@@ -150,13 +150,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $number = 3.85;
         $this->template->setVar("number", $number);
         // Test with number parameter
-        $this->template->readFromInput('{{round($number)}}');
+        $this->template->readFromInput('{{!round($number)!}}');
         $this->assertEquals(round($number), $this->template->render());
         // Test with number and precision parameters
-        $this->template->readFromInput('{{round($number, 1)}}');
+        $this->template->readFromInput('{{!round($number, 1)!}}');
         $this->assertEquals(round($number, 1), $this->template->render());
         // Test with number, precision, and mode parameters
-        $this->template->readFromInput('{{round($number, 0, PHP_ROUND_HALF_DOWN)}}');
+        $this->template->readFromInput('{{!round($number, 0, PHP_ROUND_HALF_DOWN)!}}');
         $this->assertEquals(round($number, 0, PHP_ROUND_HALF_DOWN), $this->template->render());
     }
 
@@ -166,7 +166,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInStrToLowerFunction()
     {
         $this->template->setVar("string", "FOO BAR");
-        $this->template->readFromInput('{{strtolower($string)}}');
+        $this->template->readFromInput('{{!strtolower($string)!}}');
         $this->assertEquals(strtolower("FOO BAR"), $this->template->render());
     }
 
@@ -176,7 +176,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInStrToUpperFunction()
     {
         $this->template->setVar("string", "foo bar");
-        $this->template->readFromInput('{{strtoupper($string)}}');
+        $this->template->readFromInput('{{!strtoupper($string)!}}');
         $this->assertEquals(strtoupper("foo bar"), $this->template->render());
     }
 
@@ -188,10 +188,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $string = "foo";
         $this->template->setVar("string", $string);
         // Test with string and start parameters
-        $this->template->readFromInput('{{substr($string, 1)}}');
+        $this->template->readFromInput('{{!substr($string, 1)!}}');
         $this->assertEquals(substr($string, 1), $this->template->render());
         // Test with string, start, and length parameters
-        $this->template->readFromInput('{{substr($string, 0, -1)}}');
+        $this->template->readFromInput('{{!substr($string, 0, -1)!}}');
         $this->assertEquals(substr($string, 0, -1), $this->template->render());
     }
 
@@ -201,12 +201,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInTrimFunction()
     {
         $this->template->setVar("string", "foo ");
-        $this->template->readFromInput('{{trim($string)}}');
+        $this->template->readFromInput('{{!trim($string)!}}');
         // Test with string parameter
         $this->assertEquals(trim("foo "), $this->template->render());
         // Test with string and character mask parameters
         $this->template->setVar("string", "foo,");
-        $this->template->readFromInput('{{trim($string, ",")}}');
+        $this->template->readFromInput('{{!trim($string, ",")!}}');
         $this->assertEquals(trim("foo,", ","), $this->template->render());
     }
 
@@ -216,7 +216,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInUCFirstFunction()
     {
         $this->template->setVar("string", "foo bar");
-        $this->template->readFromInput('{{ucfirst($string)}}');
+        $this->template->readFromInput('{{!ucfirst($string)!}}');
         $this->assertEquals(ucfirst("foo bar"), $this->template->render());
     }
 
@@ -226,7 +226,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInUCWordsFunction()
     {
         $this->template->setVar("string", "foo bar");
-        $this->template->readFromInput('{{ucwords($string)}}');
+        $this->template->readFromInput('{{!ucwords($string)!}}');
         $this->assertEquals(ucwords("foo bar"), $this->template->render());
     }
 
@@ -236,7 +236,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInURLDecodeFunction()
     {
         $this->template->setVar("string", "foo%27bar");
-        $this->template->readFromInput('{{urldecode($string)}}');
+        $this->template->readFromInput('{{!urldecode($string)!}}');
         $this->assertEquals(urldecode("foo%27bar"), $this->template->render());
     }
 
@@ -246,7 +246,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testBuiltInURLEncodeFunction()
     {
         $this->template->setVar("string", "foo/bar");
-        $this->template->readFromInput('{{urlencode($string)}}');
+        $this->template->readFromInput('{{!urlencode($string)!}}');
         $this->assertEquals(urlencode("foo/bar"), $this->template->render());
     }
 
@@ -255,7 +255,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testFunctionWithSpacesBetweenTags()
     {
-        $this->template->readFromInput('{{ foo("bar") }}');
+        $this->template->readFromInput('{{! foo("bar") !}}');
         $this->template->registerFunction("foo", function ($input)
         {
             echo $input;
@@ -274,39 +274,29 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the close tag when we've set it to a custom value
+     * Tests getting the escaped tag placeholders
      */
-    public function testGettingCustomCloseTag()
+    public function testGettingEscapedTagPlaceholders()
     {
-        $closeTag = "$$";
-        $this->template->setCloseTagPlaceholder($closeTag);
-        $this->assertEquals($closeTag, $this->template->getCloseTagPlaceholder());
+        $this->assertEquals(Template::DEFAULT_ESCAPED_OPEN_TAG_PLACEHOLDER, $this->template->getEscapedOpenTagPlaceholder());
+        $this->assertEquals(Template::DEFAULT_ESCAPED_CLOSE_TAG_PLACEHOLDER, $this->template->getEscapedCloseTagPlaceholder());
+        $this->template->setEscapedOpenTagPlaceholder("foo");
+        $this->template->setEscapedCloseTagPlaceholder("bar");
+        $this->assertEquals("foo", $this->template->getEscapedOpenTagPlaceholder());
+        $this->assertEquals("bar", $this->template->getEscapedCloseTagPlaceholder());
     }
 
     /**
-     * Tests getting the open tag when we've set it to a custom value
+     * Tests getting the unescaped tag placeholders
      */
-    public function testGettingCustomOpenTag()
+    public function testGettingUnescapedTagPlaceholders()
     {
-        $openTag = "^^";
-        $this->template->setOpenTagPlaceholder($openTag);
-        $this->assertEquals($openTag, $this->template->getOpenTagPlaceholder());
-    }
-
-    /**
-     * Tests getting the close tag when it's set to the default value
-     */
-    public function testGettingDefaultCloseTag()
-    {
-        $this->assertEquals(Template::DEFAULT_CLOSE_TAG_PLACEHOLDER, $this->template->getCloseTagPlaceholder());
-    }
-
-    /**
-     * Tests getting the open tag when it's set to the default value
-     */
-    public function testGettingDefaultOpenTag()
-    {
-        $this->assertEquals(Template::DEFAULT_OPEN_TAG_PLACEHOLDER, $this->template->getOpenTagPlaceholder());
+        $this->assertEquals(Template::DEFAULT_UNESCAPED_OPEN_TAG_PLACEHOLDER, $this->template->getUnescapedOpenTagPlaceholder());
+        $this->assertEquals(Template::DEFAULT_UNESCAPED_CLOSE_TAG_PLACEHOLDER, $this->template->getUnescapedCloseTagPlaceholder());
+        $this->template->setUnescapedOpenTagPlaceholder("foo");
+        $this->template->setUnescapedCloseTagPlaceholder("bar");
+        $this->assertEquals("foo", $this->template->getUnescapedOpenTagPlaceholder());
+        $this->assertEquals("bar", $this->template->getUnescapedCloseTagPlaceholder());
     }
 
     /**
@@ -325,7 +315,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnrenderedTemplateFromInput()
     {
-        $unrenderedTemplate = "Hello, {{username}}";
+        $unrenderedTemplate = "Hello, {{!username!}}";
         $this->template->readFromInput($unrenderedTemplate);
         $this->assertEquals($unrenderedTemplate, $this->template->getUnrenderedTemplate());
     }
@@ -354,7 +344,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 return "Both params set";
             }
         });
-        $this->template->readFromInput('{{foo()}}, {{foo()}}, {{foo("bar")}}, {{foo(null, "bar")}}, {{foo("bar", "blah")}}');
+        $this->template->readFromInput('{{!foo()!}}, {{!foo()!}}, {{!foo("bar")!}}, {{!foo(null, "bar")!}}, {{!foo("bar", "blah")!}}');
         $this->assertEquals('No params, No params, Param 1 set, Param 2 set, Both params set', $this->template->render());
     }
 
@@ -365,24 +355,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         $this->template->readFromInput(["Not a string"]);
-    }
-
-    /**
-     * Tests reading from an invalid path
-     */
-    public function testReadingFromInvalidPath()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->template->readFromFile("PATH_THAT_DOES_NOT_EXIST.txt");
-    }
-
-    /**
-     * Tests reading from a path that isn't a string
-     */
-    public function testReadingFromPathThatIsNotString()
-    {
-        $this->setExpectedException("\\InvalidArgumentException");
-        $this->template->readFromFile(["Not a string"]);
     }
 
     /**
@@ -401,14 +373,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderingTemplateWithCustomTagPlaceholders()
     {
         $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
-        $this->template->setOpenTagPlaceholder("^^");
-        $this->template->setCloseTagPlaceholder("$$");
+        $this->template->setUnescapedOpenTagPlaceholder("^^");
+        $this->template->setUnescapedCloseTagPlaceholder("$$");
+        $this->template->setEscapedOpenTagPlaceholder("++");
+        $this->template->setEscapedCloseTagPlaceholder("--");
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                "Hello, world! ^^blah$$. a&amp;b. me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                "Hello, world! ^^blah$$. a&amp;b. me too. c&amp;d. ++\"e&f\"--. ++ \"g&h\" --. ++blah--. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }
@@ -424,7 +398,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->setTag("imSafe", "a&b");
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                "Hello, world! {{blah}}. a&amp;b. me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                "Hello, world! {{!blah!}}. a&amp;b. me too. c&amp;d. {{\"e&f\"}}. {{ \"g&h\" }}. {{blah}}. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }
@@ -453,11 +427,13 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testRenderingTemplateWithUnsetCustomTags()
     {
         $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_PLACEHOLDERS);
-        $this->template->setOpenTagPlaceholder("^^");
-        $this->template->setCloseTagPlaceholder("$$");
+        $this->template->setUnescapedOpenTagPlaceholder("^^");
+        $this->template->setUnescapedCloseTagPlaceholder("$$");
+        $this->template->setEscapedOpenTagPlaceholder("++");
+        $this->template->setEscapedCloseTagPlaceholder("--");
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                ", ! ^^blah$$. . me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                ", ! ^^blah$$. . me too. c&amp;d. ++\"e&f\"--. ++ \"g&h\" --. ++blah--. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
     }
@@ -470,19 +446,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_PLACEHOLDERS);
         $functionResult = $this->registerFunction();
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
-                ", ! {{blah}}. . me too. c&amp;d. {{{\"e&f\"}}}. {{{ \"g&h\" }}}. {{{blah}}}. Today is $functionResult.",
+                ", ! {{!blah!}}. . me too. c&amp;d. {{\"e&f\"}}. {{ \"g&h\" }}. {{blah}}. Today escaped is $functionResult and unescaped is $functionResult.",
                 $this->template->render())
         );
-    }
-
-    /**
-     * Tests that we cannot set the close then the open tags to the same thing as the safe tags
-     */
-    public function testSettingCloseThenOpenTagsToSafeTags()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->template->setCloseTagPlaceholder(Template::SAFE_CLOSE_TAG_PLACEHOLDER);
-        $this->template->setOpenTagPlaceholder(Template::SAFE_OPEN_TAG_PLACEHOLDER);
     }
 
     /**
@@ -519,16 +485,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $vars = $property->getValue($this->template);
         $this->assertEquals(["foo" => "bar", "abc" => ["xyz"]], $vars);
-    }
-
-    /**
-     * Tests that we cannot set the open then the close tags to the same thing as the safe tags
-     */
-    public function testSettingOpenThenCloseTagsToSafeTags()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->template->setOpenTagPlaceholder(Template::SAFE_OPEN_TAG_PLACEHOLDER);
-        $this->template->setCloseTagPlaceholder(Template::SAFE_CLOSE_TAG_PLACEHOLDER);
     }
 
     /**

@@ -414,9 +414,15 @@ class FileSystem
      * @param string $path The path of the file whose contents we want
      * @return string The contents of the file
      * @throws FileSystemException Thrown if the path was not a valid path
+     * @throws \InvalidArgumentException Thrown if the path was not a string
      */
     public function read($path)
     {
+        if(!is_string($path))
+        {
+            throw new \InvalidArgumentException("Path is not a string");
+        }
+
         if(!$this->isFile($path))
         {
             throw new FileSystemException("File at path $path not found");

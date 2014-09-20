@@ -26,7 +26,7 @@ class Compiler implements ICompiler
     public function compile($template)
     {
         // Sort the compile functions by their priorities
-        usort($this->compileFunctions["priority"], [$this, "sort"]);
+        usort($this->compileFunctions["priority"], [$this, "sortPriority"]);
 
         // Compile the non-priority compilers
         foreach($this->compileFunctions["priority"] as $compileFunctionData)
@@ -77,7 +77,7 @@ class Compiler implements ICompiler
      * @param array $b An array containing the priority and compiler
      * @return int A value suitable for a sorting function
      */
-    private function sort(array $a, array $b)
+    private function sortPriority(array $a, array $b)
     {
         if($a["priority"] > $b["priority"])
         {

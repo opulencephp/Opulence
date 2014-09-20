@@ -5,19 +5,20 @@
  * Defines methods common to all website page files
  */
 namespace RDev\Views\Templates;
+use RDev\Models\Files;
 use RDev\Views;
 use RDev\Views\Security;
 
 class Template implements Views\IView
 {
     /** The default string used to denote the beginning of a tag name in a template */
-    const DEFAULT_OPEN_TAG_PLACEHOLDER = "{{";
+    const DEFAULT_UNESCAPED_OPEN_TAG_PLACEHOLDER = "{{!";
     /** The default string used to denote the end of a tag name in a template */
-    const DEFAULT_CLOSE_TAG_PLACEHOLDER = "}}";
-    /** The string used to denote the beginning of a safe tag name in a template */
-    const SAFE_OPEN_TAG_PLACEHOLDER = "{{{";
-    /** The string used to denote the end of a safe tag name in a template */
-    const SAFE_CLOSE_TAG_PLACEHOLDER = "}}}";
+    const DEFAULT_UNESCAPED_CLOSE_TAG_PLACEHOLDER = "!}}";
+    /** The string used to denote the beginning of an escaped tag name in a template */
+    const DEFAULT_ESCAPED_OPEN_TAG_PLACEHOLDER = "{{";
+    /** The string used to denote the end of an escaped tag name in a template */
+    const DEFAULT_ESCAPED_CLOSE_TAG_PLACEHOLDER = "}}";
 
     /** @var string The unrendered contents of the template */
     protected $unrenderedTemplate = "";
@@ -29,10 +30,16 @@ class Template implements Views\IView
     protected $vars = [];
     /** @var array The mapping of function names to their callbacks */
     protected $functions = [];
-    /** @var string The open tag placeholder */
-    private $openTagPlaceholder = self::DEFAULT_OPEN_TAG_PLACEHOLDER;
-    /** @var string The close tag placeholder */
-    private $closeTagPlaceholder = self::DEFAULT_CLOSE_TAG_PLACEHOLDER;
+    /** @var string The unescaped open tag placeholder */
+    private $unescapedOpenTagPlaceholder = self::DEFAULT_UNESCAPED_OPEN_TAG_PLACEHOLDER;
+    /** @var string The unescaped close tag placeholder */
+    private $unescapedCloseTagPlaceholder = self::DEFAULT_UNESCAPED_CLOSE_TAG_PLACEHOLDER;
+    /** @var string The escaped open tag placeholder */
+    private $escapedOpenTagPlaceholder = self::DEFAULT_ESCAPED_OPEN_TAG_PLACEHOLDER;
+    /** @var string The escaped close tag placeholder */
+    private $escapedCloseTagPlaceholder = self::DEFAULT_ESCAPED_CLOSE_TAG_PLACEHOLDER;
+    /** @var Files\FileSystem The file system to use to read/write to files */
+    private $fileSystem = null;
 
     /**
      * @param ICompiler $compiler The compiler to use in this template
@@ -44,21 +51,14 @@ class Template implements Views\IView
             $compiler = new Compiler();
         }
 
-        $this->compiler = $compiler;
+        $this->setCompiler($compiler);
+        $this->fileSystem = new Files\FileSystem();
 
         // Order here matters
         $this->registerPHPCompiler();
-        $this->registerSafeTagCompiler();
-        $this->registerRegularTagCompiler();
+        $this->registerTagCompiler();
+        $this->registerTagCleanupCompiler();
         $this->registerBuiltInFunctions();
-    }
-
-    /**
-     * @return string
-     */
-    public function getCloseTagPlaceholder()
-    {
-        return $this->closeTagPlaceholder;
     }
 
     /**
@@ -72,9 +72,33 @@ class Template implements Views\IView
     /**
      * @return string
      */
-    public function getOpenTagPlaceholder()
+    public function getEscapedCloseTagPlaceholder()
     {
-        return $this->openTagPlaceholder;
+        return $this->escapedCloseTagPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEscapedOpenTagPlaceholder()
+    {
+        return $this->escapedOpenTagPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnescapedCloseTagPlaceholder()
+    {
+        return $this->unescapedCloseTagPlaceholder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUnescapedOpenTagPlaceholder()
+    {
+        return $this->unescapedOpenTagPlaceholder;
     }
 
     /**
@@ -95,24 +119,7 @@ class Template implements Views\IView
      */
     public function readFromFile($path)
     {
-        if(!is_string($path))
-        {
-            throw new \InvalidArgumentException("Path is not a string");
-        }
-
-        if(!file_exists($path) || !is_readable($path))
-        {
-            throw new \RuntimeException("Couldn't read from path \"$path\"");
-        }
-
-        $contents = file_get_contents($path);
-
-        if($contents === false)
-        {
-            throw new \RuntimeException("Couldn't read from path \"$path\"");
-        }
-
-        $this->unrenderedTemplate = $contents;
+        $this->unrenderedTemplate = $this->fileSystem->read($path);
     }
 
     /**
@@ -154,23 +161,6 @@ class Template implements Views\IView
     }
 
     /**
-     * @param string $closeTagPlaceholder
-     * @throws \RuntimeException Thrown if the tags overlap with reserved tag definitions
-     */
-    public function setCloseTagPlaceholder($closeTagPlaceholder)
-    {
-        if($closeTagPlaceholder === self::SAFE_CLOSE_TAG_PLACEHOLDER
-            && $this->openTagPlaceholder == self::SAFE_OPEN_TAG_PLACEHOLDER
-        )
-        {
-            throw new \RuntimeException("Cannot use " . self::SAFE_OPEN_TAG_PLACEHOLDER
-                . self::SAFE_CLOSE_TAG_PLACEHOLDER . " as placeholders because they are reserved for safe tags");
-        }
-
-        $this->closeTagPlaceholder = $closeTagPlaceholder;
-    }
-
-    /**
      * @param ICompiler $compiler
      */
     public function setCompiler(ICompiler $compiler)
@@ -179,20 +169,19 @@ class Template implements Views\IView
     }
 
     /**
-     * @param string $openTagPlaceholder
-     * @throws \RuntimeException Thrown if the tags overlap with reserved tag definitions
+     * @param string $escapedCloseTagPlaceholder
      */
-    public function setOpenTagPlaceholder($openTagPlaceholder)
+    public function setEscapedCloseTagPlaceholder($escapedCloseTagPlaceholder)
     {
-        if($openTagPlaceholder === self::SAFE_OPEN_TAG_PLACEHOLDER
-            && $this->closeTagPlaceholder == self::SAFE_CLOSE_TAG_PLACEHOLDER
-        )
-        {
-            throw new \RuntimeException("Cannot use " . self::SAFE_OPEN_TAG_PLACEHOLDER
-                . self::SAFE_CLOSE_TAG_PLACEHOLDER . " as placeholders because they are reserved for safe tags");
-        }
+        $this->escapedCloseTagPlaceholder = $escapedCloseTagPlaceholder;
+    }
 
-        $this->openTagPlaceholder = $openTagPlaceholder;
+    /**
+     * @param string $escapedOpenTagPlaceholder
+     */
+    public function setEscapedOpenTagPlaceholder($escapedOpenTagPlaceholder)
+    {
+        $this->escapedOpenTagPlaceholder = $escapedOpenTagPlaceholder;
     }
 
     /**
@@ -218,6 +207,22 @@ class Template implements Views\IView
         {
             $this->setTag($name, $value);
         }
+    }
+
+    /**
+     * @param string $unescapedCloseTagPlaceholder
+     */
+    public function setUnescapedCloseTagPlaceholder($unescapedCloseTagPlaceholder)
+    {
+        $this->unescapedCloseTagPlaceholder = $unescapedCloseTagPlaceholder;
+    }
+
+    /**
+     * @param string $unescapedOpenTagPlaceholder
+     */
+    public function setUnescapedOpenTagPlaceholder($unescapedOpenTagPlaceholder)
+    {
+        $this->unescapedOpenTagPlaceholder = $unescapedOpenTagPlaceholder;
     }
 
     /**
@@ -366,22 +371,30 @@ class Template implements Views\IView
             // Compile the functions
             foreach($this->functions as $functionName => $callback)
             {
-                $content = preg_replace("/"
-                    . preg_quote($this->openTagPlaceholder, "/")
-                    . "\s*"
-                    . preg_quote($functionName, "/")
-                    . "\("
-                    . "((?:(?!"
-                    . "\)"
-                    . "\s*"
-                    . preg_quote($this->closeTagPlaceholder, "/")
-                    . ").)*)"
-                    . "\)"
-                    . "\s*"
-                    . preg_quote($this->closeTagPlaceholder, "/")
-                    . "/",
-                    '<?php echo call_user_func_array($this->functions["' . $functionName . '"], [\1]); ?>',
-                    $content);
+                $regex = "/%s\s*%s\(((?:(?!\)\s*%s).)*)\)\s*%s/";
+                $replacementString = '<?php echo call_user_func_array($this->functions["' . $functionName . '"], [\1]); ?>';
+                // Replace function calls in escaped tags
+                $content = preg_replace(
+                    sprintf(
+                        $regex,
+                        preg_quote($this->escapedOpenTagPlaceholder, "/"),
+                        preg_quote($functionName, "/"),
+                        preg_quote($this->escapedCloseTagPlaceholder, "/"),
+                        preg_quote($this->escapedCloseTagPlaceholder, "/")),
+                    $replacementString,
+                    $content
+                );
+                // Replace function calls in unescaped tags
+                $content = preg_replace(
+                    sprintf(
+                        $regex,
+                        preg_quote($this->unescapedOpenTagPlaceholder, "/"),
+                        preg_quote($functionName, "/"),
+                        preg_quote($this->unescapedCloseTagPlaceholder, "/"),
+                        preg_quote($this->unescapedCloseTagPlaceholder, "/")),
+                    $replacementString,
+                    $content
+                );
             }
 
             // Notice the little hack inside eval() to compile inline PHP
@@ -396,165 +409,152 @@ class Template implements Views\IView
     }
 
     /**
-     * Registers the compiler of the regular tags in a template
+     * Registers the compiler that cleans up unused tags and escape characters before tags in a template
      * Cannot just use this method as the compiler and register it because it is private
      */
-    private function registerRegularTagCompiler()
+    private function registerTagCleanupCompiler()
     {
         $this->compiler->registerCompiler(function ($content)
         {
-            // Create the regexes to find regular tags with bookends
-            $arrayMapCallback = function ($tagName)
-            {
-                return "/(?<!" . preg_quote("\\") . ")"
-                . preg_quote($this->openTagPlaceholder, "/")
-                . "\s*"
-                . preg_quote($tagName, "/")
-                . "\s*"
-                . preg_quote($this->closeTagPlaceholder, "/") . "/U";
-            };
+            // Holds the tags, with the longest-length opening tag first
+            $tags = [];
 
-            // Replace the tags with their values
-            $regexes = array_map($arrayMapCallback, array_keys($this->tags));
-            $content = preg_replace($regexes, array_values($this->tags), $content);
-            $content = $this->stripUnusedTags($content, $this->openTagPlaceholder, $this->closeTagPlaceholder);
-            $content = $this->stripEscapeCharacters($content, $this->openTagPlaceholder, $this->closeTagPlaceholder);
+            // In the case that one open tag is a substring of another (eg "{{" and "{{{"), handle the longer one first
+            // If they're the same length, they cannot be substrings of one another unless they're equal
+            if(strlen($this->escapedOpenTagPlaceholder) > strlen($this->unescapedOpenTagPlaceholder))
+            {
+                $tags[] = [$this->escapedOpenTagPlaceholder, $this->escapedCloseTagPlaceholder];
+                $tags[] = [$this->unescapedOpenTagPlaceholder, $this->unescapedCloseTagPlaceholder];
+            }
+            else
+            {
+                $tags[] = [$this->unescapedOpenTagPlaceholder, $this->unescapedCloseTagPlaceholder];
+                $tags[] = [$this->escapedOpenTagPlaceholder, $this->escapedCloseTagPlaceholder];
+            }
+
+            /**
+             * The reason we cannot combine this loop and the next is that we must remove all unused tags before
+             * removing their escape characters
+             */
+            foreach($tags as $tagsByType)
+            {
+                // Remove unused tags
+                $content = preg_replace(
+                    sprintf(
+                        "/(?<!%s)%s((?!%s).)*%s/",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagsByType[0], "/"),
+                        preg_quote($tagsByType[1], "/"),
+                        preg_quote($tagsByType[1], "/")
+                    ),
+                    "",
+                    $content
+                );
+            }
+
+            foreach($tags as $tagsByType)
+            {
+                // Remove the escape character (eg "\" from "\{{foo}}")
+                $content = preg_replace(
+                    sprintf(
+                        "/%s(%s\s*((?!%s).)*\s*%s)/U",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagsByType[0], "/"),
+                        preg_quote($tagsByType[1], "/"),
+                        preg_quote($tagsByType[1], "/")
+                    ),
+                    "$1",
+                    $content
+                );
+            }
 
             return $content;
         });
     }
 
     /**
-     * Registers the compiler of safe tags in a template
+     * Registers the compiler of tags in a template
      * Cannot just use this method as the compiler and register it because it is private
      */
-    private function registerSafeTagCompiler()
+    private function registerTagCompiler()
     {
         $this->compiler->registerCompiler(function ($content)
         {
-            // Create the regexes to find safe tags with bookends
-            $arrayMapCallback = function ($tagName)
-            {
-                return "/(?<!" . preg_quote("\\") . ")"
-                . preg_quote(self::SAFE_OPEN_TAG_PLACEHOLDER, "/")
-                . "\s*"
-                . "(" . preg_quote($tagName, "/") . ")"
-                . "\s*"
-                . preg_quote(self::SAFE_CLOSE_TAG_PLACEHOLDER, "/")
-                . "/U";
-            };
+            // Holds the tags as well as the callbacks to callbacks to execute in the case of string literals or tag names
+            $tagData = [
+                [
+                    "tags" => [$this->escapedOpenTagPlaceholder, $this->escapedCloseTagPlaceholder],
+                    "stringLiteralCallback" => function ($stringLiteral)
+                    {
+                        return Security\XSS::filter(trim($stringLiteral, $stringLiteral[0]));
+                    },
+                    "tagNameCallback" => function ($tagName)
+                    {
+                        return Security\XSS::filter($this->tags[$tagName]);
+                    }
+                ],
+                [
+                    "tags" => [$this->unescapedOpenTagPlaceholder, $this->unescapedCloseTagPlaceholder],
+                    "stringLiteralCallback" => function ($stringLiteral)
+                    {
+                        return trim($stringLiteral, $stringLiteral[0]);
+                    },
+                    "tagNameCallback" => function ($tagName)
+                    {
+                        return $this->tags[$tagName];
+                    }
+                ]
+            ];
 
-            // Filter the values
-            $regexCallback = function ($matches)
+            foreach($tagData as $tagDataByType)
             {
-                $tagName = $matches[1];
-
-                // Check if the tag name is a string literal
-                if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1]
-                    && ($tagName[0] == "'" || $tagName[0] == '"')
-                )
+                // Create the regexes to find escaped tags with bookends
+                $arrayMapCallback = function ($tagName) use ($content, $tagDataByType)
                 {
-                    return Security\XSS::filter(trim($tagName, $tagName[0]));
-                }
+                    return sprintf(
+                        "/(?<!%s)%s\s*(%s)\s*%s/U",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["tags"][0], "/"),
+                        preg_quote($tagName, "/"),
+                        preg_quote($tagDataByType["tags"][1], "/")
+                    );
+                };
 
-                return Security\XSS::filter($this->tags[$tagName]);
-            };
+                // Filter the values
+                $regexCallback = function ($matches) use ($tagDataByType)
+                {
+                    $tagName = $matches[1];
 
-            // Replace string literals
-            $taggedTemplate = preg_replace_callback("/(?<!" . preg_quote("\\") . ")"
-                . preg_quote(self::SAFE_OPEN_TAG_PLACEHOLDER, "/")
-                . "\s*"
-                . "("
-                . "(([\"'])[^\\3]*\\3)"
-                . ")"
-                . "\s*"
-                . preg_quote(self::SAFE_CLOSE_TAG_PLACEHOLDER, "/")
-                . "/U",
-                $regexCallback,
-                $content);
+                    // If the tag name is a string literal
+                    if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1]
+                        && ($tagName[0] == "'" || $tagName[0] == '"')
+                    )
+                    {
+                        return call_user_func_array($tagDataByType["stringLiteralCallback"], [$tagName]);
+                    }
 
-            // Replace the tags with their safe values
-            $regexes = array_map($arrayMapCallback, array_keys($this->tags));
+                    return call_user_func_array($tagDataByType["tagNameCallback"], [$tagName]);
+                };
 
-            foreach($regexes as $regex)
-            {
-                $taggedTemplate = preg_replace_callback($regex, $regexCallback, $taggedTemplate);
+                // Replace string literals
+                $stringLiteralRegex = "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U";
+                $content = preg_replace_callback(
+                    sprintf(
+                        $stringLiteralRegex,
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["tags"][0], "/"),
+                        preg_quote($tagDataByType["tags"][1], "/")
+                    ),
+                    $regexCallback,
+                    $content
+                );
+
+                // Replace the tags with their values
+                $regexes = array_map($arrayMapCallback, array_keys($this->tags));
+                $content = preg_replace_callback($regexes, $regexCallback, $content);
             }
 
-            $taggedTemplate = $this->stripUnusedTags($taggedTemplate, self::SAFE_OPEN_TAG_PLACEHOLDER,
-                self::SAFE_CLOSE_TAG_PLACEHOLDER);
-            $taggedTemplate = $this->stripEscapeCharacters($taggedTemplate, self::SAFE_OPEN_TAG_PLACEHOLDER,
-                self::SAFE_CLOSE_TAG_PLACEHOLDER);
-
-            return $taggedTemplate;
+            return $content;
         });
-    }
-
-    /**
-     * Removes the escape character from all the input tags
-     *
-     * @param string $template The template whose escape characters we want to remove
-     * @param string $openTagPlaceholder The open tag placeholder
-     * @param string $closeTagPlaceholder The close tag placeholder
-     * @return string The template without the tag escape characters
-     */
-    private function stripEscapeCharacters($template, $openTagPlaceholder, $closeTagPlaceholder)
-    {
-        return preg_replace("/"
-            . preg_quote("\\")
-            . "("
-            . preg_quote($openTagPlaceholder, "/")
-            . "\s*"
-            . "((?!" . preg_quote($closeTagPlaceholder, "/") . ").)*"
-            . "\s*"
-            . preg_quote($closeTagPlaceholder, "/")
-            . ")"
-            . "/U",
-            "$1",
-            $template);
-    }
-
-    /**
-     * Removes any unused tags from the template
-     *
-     * @param string $content The template's contents whose empty tags we want to remove
-     * @param string $openTagPlaceholder The open tag placeholder
-     * @param string $closeTagPlaceholder The close tag placeholder
-     * @return string The template without the unused tags
-     */
-    private function stripUnusedTags($content, $openTagPlaceholder, $closeTagPlaceholder)
-    {
-        $isStrippingRegularTags = $openTagPlaceholder == $this->openTagPlaceholder
-            && $closeTagPlaceholder == $this->closeTagPlaceholder;
-        $safeOpenTagFirstChar = substr(self::SAFE_OPEN_TAG_PLACEHOLDER, 0, 1);
-        $safeCloseTagLastChar = substr(self::SAFE_CLOSE_TAG_PLACEHOLDER, -1);
-
-        $callback = function ($matches) use ($isStrippingRegularTags, $safeOpenTagFirstChar, $safeCloseTagLastChar)
-        {
-            // If we are stripping regular tags, make sure to not strip safe tags
-            if($isStrippingRegularTags && $matches[1] == self::SAFE_OPEN_TAG_PLACEHOLDER
-                && $matches[4] == self::SAFE_CLOSE_TAG_PLACEHOLDER
-            )
-            {
-                return $matches[0];
-            }
-
-            return "";
-        };
-
-        return preg_replace_callback("/"
-            . "(?<!" . preg_quote("\\", "/") . ")"
-            . "("
-            . "(" . preg_quote($safeOpenTagFirstChar, "/") . ")?"
-            . preg_quote($openTagPlaceholder, "/")
-            . ")"
-            . "((?!" . preg_quote($closeTagPlaceholder, "/") . ").)*"
-            . "("
-            . preg_quote($closeTagPlaceholder, "/")
-            . "(" . preg_quote($safeCloseTagLastChar, "/") . ")?"
-            . ")"
-            . "/",
-            $callback,
-            $content);
     }
 } 

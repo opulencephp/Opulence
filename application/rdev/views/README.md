@@ -3,8 +3,8 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-3. [Nesting Templates](#nesting-templates)
-4. [Cross-Site Scripting](#cross-site-scripting)
+3. [Cross-Site Scripting](#cross-site-scripting)
+4. [Nesting Templates](#nesting-templates)
 5. [Using PHP in Your Template](#using-php-in-your-template)
 6. [Built-In Functions](#built-in-functions)
 7. [Custom Functions](#custom-functions)
@@ -38,6 +38,30 @@ $template->readFromInput("Hello, {{username}}");
 $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
 ```
+
+## Cross-Site Scripting
+Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
+##### Template
+```
+{{name}} vs {{!name!}}
+```
+##### Application Code
+```php
+use RDev\Views\Templates;
+
+$template = new Templates\Template();
+$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setTag("name", "A&W");
+echo $template->render(); // "A&amp;W vs A&W"
+```
+
+Alternatively, you can output a string literal inside the escaped tags:
+##### Template
+```
+{{"A&W"}}
+```
+
+This will output "A&amp;amp;W".
 
 ## Nesting Templates
 Nesting templates is an easy way to keep two components reusable.  For example, many websites use a sidebar for navigation on most pages.  With **RDev**, you can create a template for the sidebar and another for all the pages' contents.  Then, you can combine a page with the sidebar using a tag:
@@ -81,30 +105,6 @@ echo $page->render();
     </ul>
 </div>
 ```
-
-## Cross-Site Scripting
-To sanitize data to prevent cross-site scripting (XSS), simply use the triple-brace syntax:
-##### Template
-```
-{{{namesOfCouple}}}
-```
-##### Application Code
-```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
-$template->setTag("namesOfCouple", "Dave & Lindsey");
-echo $template->render(); // "Dave &amp; Lindsey"
-```
-
-Alternatively, you can output a string literal inside the triple-braces:
-##### Template
-```
-{{{"Dave & Lindsey"}}}
-```
-
-This will output "Dave &amp;amp; Lindsey".  
 
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  With RDev's template system, you can do this:
@@ -221,7 +221,7 @@ echo $template->render(); // "Hello, Mrs. Young"
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
 ##### Template
 ```
-Hello, {{username}}.  \{{I am escaped}}! \{{{Me too}}}!
+Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}!
 ```
 ##### Application Code
 ```php
@@ -230,14 +230,14 @@ use RDev\Views\Templates;
 $template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Mr Schwarzenegger");
-echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{{Me too}}}!"
+echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
 ```
 
 ## Custom Tag Placeholders
 Want to use a custom character/string for the tag placeholders?  Easy!  Just specify it in the `Template` object like so:
 ##### Template
 ```
-Hello, ^^username$$
+^^name$$ ++food--
 ```
 ##### Application Code
 ```php
@@ -245,8 +245,12 @@ use RDev\Views\Templates;
 
 $template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
-$template->setOpenTagPlaceholder("^^");
-$template->setCloseTagPlaceholder("$$");
-$template->setTag("username", "Daft Punk");
-echo $template->render(); // "Hello, Daft Punk"
+$template->setEscapedOpenTagPlaceholder("^^");
+$template->setEscapedCloseTagPlaceholder("$$");
+// You can also override the unescaped tag placeholders
+$template->setUnescapedOpenTagPlaceholder("++");
+$template->setUnescapedCloseTagPlaceholder("--");
+$template->setTag("name", "A&W");
+$template->setTag("food", "Root Beer");
+echo $template->render(); // "A&amp;W Root Beer"
 ```
