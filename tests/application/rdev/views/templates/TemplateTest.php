@@ -67,26 +67,48 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuiltInDateFunction()
     {
+        // For the purposes of this test, we need to set a default timezone
+        date_default_timezone_set("UTC");
+        $format = "Ymd";
+        $now = time();
+        $this->template->setVar("format", $format);
+        $this->template->readFromInput('{{!date($format)!}}');
+        $this->assertEquals(date($format), $this->template->render());
+        $this->template->setVar("now", $now);
+        $this->template->readFromInput('{{!date($format, $now)!}}');
+        $this->assertEquals(date($format, $now), $this->template->render());
+    }
+
+    /**
+     * Tests the built-in DateTime format function
+     */
+    public function testBuiltInDateTimeFormatFunction()
+    {
         $today = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->template->setVar("today", $today);
-        $this->template->readFromInput('{{!date($today)!}}');
+        $this->template->readFromInput('{{!formatDateTime($today)!}}');
         $this->template->setVar("today", $today);
         // Test with date parameter
         $this->assertSame($today->format("m/d/Y"), $this->template->render());
         // Test with date and format parameters
         $format = "Y-m-d";
-        $this->template->readFromInput('{{!date($today, "' . $format . '")!}}');
+        $this->template->readFromInput('{{!formatDateTime($today, "' . $format . '")!}}');
         $this->assertSame($today->format($format), $this->template->render());
-        // Test with date, format, and timezone parameters
+        // Test with date, format, and DateTimeZone timezone parameters
         $format = "Y-m-d";
-        $timezone = new \DateTimeZone("America/New_York");
+        $timeZoneIdentifier = "America/New_York";
+        $timezone = new \DateTimeZone($timeZoneIdentifier);
         $today->setTimezone($timezone);
         $this->template->setVar("timezone", $timezone);
-        $this->template->readFromInput('{{!date($today, "' . $format . '", $timezone)!}}');
+        $this->template->readFromInput('{{!formatDateTime($today, "' . $format . '", $timezone)!}}');
+        $this->assertSame($today->format($format), $this->template->render());
+        // Test with date, format, and string timezone parameters
+        $this->template->setVar("timezone", $timeZoneIdentifier);
+        $this->template->readFromInput('{{!formatDateTime($today, "' . $format . '", $timezone)!}}');
         $this->assertSame($today->format($format), $this->template->render());
         // Test an invalid timezone
         $this->template->setVar("timezone", []);
-        $this->template->readFromInput('{{!date($today, "' . $format . '", $timezone)!}}');
+        $this->template->readFromInput('{{!formatDateTime($today, "' . $format . '", $timezone)!}}');
         $this->assertSame($today->format($format), $this->template->render());
     }
 

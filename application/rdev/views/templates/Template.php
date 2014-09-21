@@ -271,19 +271,34 @@ class Template implements Views\IView
             return count($array);
         });
         // Register the date function
-        $this->registerFunction('date', function (\DateTime $date, $format = "m/d/Y", $timeZone = null)
+        $this->registerFunction("date", function ($format, $timestamp = null)
         {
+            if($timestamp === null)
+            {
+                $timestamp = time();
+            }
+
+            return date($format, $timestamp);
+        });
+        // Register the floor function
+        $this->registerFunction("floor", function ($number)
+        {
+            return floor($number);
+        });
+        // Register the format DateTime function
+        $this->registerFunction('formatDateTime', function (\DateTime $date, $format = "m/d/Y", $timeZone = null)
+        {
+            if(is_string($timeZone) && in_array($timeZone, \DateTimeZone::listIdentifiers()))
+            {
+                $timeZone = new \DateTimeZone($timeZone);
+            }
+
             if($timeZone instanceof \DateTimeZone)
             {
                 $date->setTimezone($timeZone);
             }
 
             return $date->format($format);
-        });
-        // Register the floor function
-        $this->registerFunction("floor", function ($number)
-        {
-            return floor($number);
         });
         // Register the implode function
         $this->registerFunction("implode", function ($glue, array $pieces)

@@ -152,6 +152,7 @@ Templates come with built-in functions that you can call to format data in your 
 * `abs()`
 * `ceil()`
 * `count()`
+* `date()`
 * `floor()`
 * `implode()`
 * `json_encode()`
@@ -166,7 +167,13 @@ Templates come with built-in functions that you can call to format data in your 
 * `urldecode()`
 * `urlencode()`
 
-The built-in method `date()` behaves differently than its PHP counterpart.  It accepts a DateTime, an optional format, and an optional time zone.  It returns the DateTime with the specified format.
+RDev also supplies some other built-in functions:
+* `formatDateTime()`
+  * Returns a formatted date time
+  * Accepts the following arguments:
+    1. DateTime $dateTime - The DateTime to format
+    2. string $format - The optional format (defaults to "m/d/Y")
+    3. DateTimeZone|string $timeZone - The optional DateTimeZone object or timezone identifier to use
 
 Here's an example of how to use a built-in function:
 ##### Template

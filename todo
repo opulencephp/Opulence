@@ -1,5 +1,4 @@
 Think of more application config data, update ApplicationConfig::isValid()
-Need to write up application/environment READMEs
 Incorrect username entry is faster, making room for timing attacks
 Think of stuff to throw in the application and application config
 Work on router
