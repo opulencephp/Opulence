@@ -11,13 +11,13 @@ use RDev\Views\Security;
 
 class Template implements Views\IView
 {
-    /** The default string used to denote the beginning of a tag name in a template */
+    /** The default open tag for unescaped tags  */
     const DEFAULT_UNESCAPED_OPEN_TAG = "{{!";
-    /** The default string used to denote the end of a tag name in a template */
+    /** The default close tag for unescaped tags  */
     const DEFAULT_UNESCAPED_CLOSE_TAG = "!}}";
-    /** The string used to denote the beginning of an escaped tag name in a template */
+    /** The default open tag for escaped tags  */
     const DEFAULT_ESCAPED_OPEN_TAG = "{{";
-    /** The string used to denote the end of an escaped tag name in a template */
+    /** The default close tag for escaped tags */
     const DEFAULT_ESCAPED_CLOSE_TAG = "}}";
 
     /** @var string The unrendered contents of the template */

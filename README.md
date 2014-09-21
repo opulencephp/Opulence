@@ -13,11 +13,12 @@
 6. [About the Author](#about-the-author)
 
 ### Databases
-1. [Relational Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
+1. [Setting Up an Application](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/applications)
+2. [Relational Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
   1. [Type Mappers](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/providers)
-2. [NoSQL Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/nosql)
-3. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
-4. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
+3. [NoSQL Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/nosql)
+4. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
+5. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
 
 ### Templates
 1. [Building a Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views)
