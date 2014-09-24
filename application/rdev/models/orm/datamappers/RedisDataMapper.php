@@ -11,7 +11,7 @@ use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 abstract class RedisDataMapper implements ICacheDataMapper
 {
-    /** Defines a simple value */
+    /** Defines a string value */
     const VALUE_TYPE_STRING = 0;
     /** Defines a set value */
     const VALUE_TYPE_SET = 1;
