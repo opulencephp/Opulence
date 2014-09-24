@@ -8,10 +8,6 @@ namespace RDev\Models\Databases\SQL\Providers;
 
 class Provider
 {
-    /** @var string The format for a true boolean */
-    protected $trueBooleanFormat = "t";
-    /** @var string The format for a false boolean */
-    protected $falseBooleanFormat = "f";
     /** @var string The format for date strings */
     protected $dateFormat = "Y-m-d";
     /** @var string The format for time with time zone strings */
@@ -24,19 +20,43 @@ class Provider
     protected $timestampWithoutTimeZoneFormat = "Y-m-d H:i:s";
 
     /**
-     * @return string
+     * Converts an SQL boolean to a PHP boolean
+     *
+     * @param mixed $value The value to convert
+     * @return bool|null The boolean value if the input was not null, otherwise null
      */
-    public function getDateFormat()
+    public function convertFromSQLBoolean($value)
     {
-        return $this->dateFormat;
+        if(is_null($value))
+        {
+            return null;
+        }
+
+        return (bool)$value;
+    }
+
+    /**
+     * Converts a PHP boolean to a SQL boolean
+     *
+     * @param bool $value The boolean value to convert
+     * @return int The boolean in an SQL boolean format
+     */
+    public function convertToSQLBoolean($value)
+    {
+        if(is_bool($value))
+        {
+            return (int)$value;
+        }
+
+        return $value;
     }
 
     /**
      * @return string
      */
-    public function getFalseBooleanFormat()
+    public function getDateFormat()
     {
-        return $this->falseBooleanFormat;
+        return $this->dateFormat;
     }
 
     /**
@@ -69,13 +89,5 @@ class Provider
     public function getTimestampWithoutTimeZoneFormat()
     {
         return $this->timestampWithoutTimeZoneFormat;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTrueBooleanFormat()
-    {
-        return $this->trueBooleanFormat;
     }
 } 

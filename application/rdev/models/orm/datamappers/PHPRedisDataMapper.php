@@ -23,6 +23,14 @@ abstract class PHPRedisDataMapper extends RedisDataMapper
     /**
      * {@inheritdoc}
      */
+    protected function getSortedSetMembersFromRedis($key)
+    {
+        return $this->redis->zRange($key, 0, -1);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function getValueFromRedis($key)
     {
         return $this->redis->get($key);

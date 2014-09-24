@@ -39,7 +39,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromFalseSQLBoolean()
     {
-        $sqlBoolean = $this->provider->getFalseBooleanFormat();
+        $sqlBoolean = 0;
         $this->assertSame(false, $this->typeMapperWithNoProvider->fromSQLBoolean($sqlBoolean, $this->provider));
         $this->assertSame(false, $this->typeMapperWithProvider->fromSQLBoolean($sqlBoolean));
     }
@@ -162,7 +162,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromTrueSQLBoolean()
     {
-        $sqlBoolean = $this->provider->getTrueBooleanFormat();
+        $sqlBoolean = 1;
         $this->assertSame(true, $this->typeMapperWithNoProvider->fromSQLBoolean($sqlBoolean, $this->provider));
         $this->assertSame(true, $this->typeMapperWithProvider->fromSQLBoolean($sqlBoolean));
     }
@@ -208,8 +208,8 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingToFalseSQLBoolean()
     {
-        $this->assertEquals($this->provider->getFalseBooleanFormat(), $this->typeMapperWithNoProvider->toSQLBoolean(false, $this->provider));
-        $this->assertEquals($this->provider->getFalseBooleanFormat(), $this->typeMapperWithProvider->toSQLBoolean(false));
+        $this->assertEquals(0, $this->typeMapperWithNoProvider->toSQLBoolean(false, $this->provider));
+        $this->assertEquals(0, $this->typeMapperWithProvider->toSQLBoolean(false));
     }
 
     /**
@@ -275,10 +275,8 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingToTrueSQLBoolean()
     {
-        $this->assertEquals($this->provider->getTrueBooleanFormat(),
-            $this->typeMapperWithNoProvider->toSQLBoolean(true, $this->provider));
-        $this->assertEquals($this->provider->getTrueBooleanFormat(),
-            $this->typeMapperWithProvider->toSQLBoolean(true));
+        $this->assertEquals(1, $this->typeMapperWithNoProvider->toSQLBoolean(true, $this->provider));
+        $this->assertEquals(1, $this->typeMapperWithProvider->toSQLBoolean(true));
     }
 
     /**

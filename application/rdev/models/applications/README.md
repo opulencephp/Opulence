@@ -59,7 +59,7 @@ $configArray = [
         "staging" => ["123.456.7.9", "123.456.7.10"],
         // Let's use a regular expression to detect a development environment
         "development" => [
-            ["type" => "regex", "value" => "^/192\.168\..*$/"]
+            ["type" => "regex", "value" => "/^192\.168\..*$/"]
         ]
     ]
 ];

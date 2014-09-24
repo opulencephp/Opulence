@@ -11,6 +11,13 @@ use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 abstract class RedisDataMapper implements ICacheDataMapper
 {
+    /** Defines a simple value */
+    const VALUE_TYPE_STRING = 0;
+    /** Defines a set value */
+    const VALUE_TYPE_SET = 1;
+    /** Defines a sorted set value */
+    const VALUE_TYPE_SORTED_SET = 2;
+
     /** @var Redis\IRedis The Redis cache to use for queries */
     protected $redis = null;
 
@@ -55,6 +62,15 @@ abstract class RedisDataMapper implements ICacheDataMapper
     abstract protected function getSetMembersFromRedis($key);
 
     /**
+     * Gets the list of members of the sorted set at the given key
+     * We need this to know how to get the sorted set members from the concrete Redis cache object this mapper uses
+     *
+     * @param string $key The key whose members we want
+     * @return array|bool The list of members if successful, otherwise false
+     */
+    abstract protected function getSortedSetMembersFromRedis($key);
+
+    /**
      * Gets the item at the given key
      * We need this to know how to get the value from the concrete Redis cache object this mapper uses
      *
@@ -76,31 +92,45 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * This assumes that the Ids for all the entities are stored in a set
      *
      * @param string $keyOfEntityIds The key that contains the Id(s) of the entities we're searching for
-     * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
+     * @param int $valueType The constant indicating the type of value at the key
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      */
-    protected function read($keyOfEntityIds, $expectSingleResult)
+    protected function read($keyOfEntityIds, $valueType)
     {
-        if($expectSingleResult)
+        switch($valueType)
         {
-            $entityIds = $this->getValueFromRedis($keyOfEntityIds);
+            case self::VALUE_TYPE_STRING:
+                $entityIds = $this->getValueFromRedis($keyOfEntityIds);
 
-            if($entityIds === false)
-            {
+                if($entityIds === false)
+                {
+                    return null;
+                }
+
+                // To be compatible with the rest of this method, we'll convert the Id to an array containing that Id
+                $entityIds = [$entityIds];
+
+                break;
+            case self::VALUE_TYPE_SET:
+                $entityIds = $this->getSetMembersFromRedis($keyOfEntityIds);
+
+                if(count($entityIds) == 0)
+                {
+                    return null;
+                }
+
+                break;
+            case self::VALUE_TYPE_SORTED_SET:
+                $entityIds = $this->getSortedSetMembersFromRedis($keyOfEntityIds);
+
+                if(count($entityIds) == 0)
+                {
+                    return null;
+                }
+
+                break;
+            default:
                 return null;
-            }
-
-            // To be compatible with the rest of this method, we'll convert the Id to an array containing that Id
-            $entityIds = [$entityIds];
-        }
-        else
-        {
-            $entityIds = $this->getSetMembersFromRedis($keyOfEntityIds);
-
-            if(count($entityIds) == 0)
-            {
-                return null;
-            }
         }
 
         $entities = [];
@@ -118,13 +148,11 @@ abstract class RedisDataMapper implements ICacheDataMapper
             $entities[] = $this->loadEntity($hash);
         }
 
-        if($expectSingleResult)
+        if($valueType == self::VALUE_TYPE_STRING)
         {
             return $entities[0];
         }
-        else
-        {
-            return $entities;
-        }
+
+        return $entities;
     }
 } 

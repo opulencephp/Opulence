@@ -169,7 +169,7 @@ Templates come with built-in functions that you can call to format data in your 
 
 RDev also supplies some other built-in functions:
 * `formatDateTime()`
-  * Returns a formatted date time
+  * Returns a formatted DateTime
   * Accepts the following arguments:
     1. DateTime $dateTime - The DateTime to format
     2. string $format - The optional format (defaults to "m/d/Y")

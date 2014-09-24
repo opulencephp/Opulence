@@ -27,13 +27,13 @@ class TypeMapper
      *
      * @param mixed $sqlBoolean The boolean to convert
      * @param Provider $provider The provider to convert from
-     * @return bool The PHP boolean
+     * @return bool|null The PHP boolean if it was a boolean value, otherwise null
      */
     public function fromSQLBoolean($sqlBoolean, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
-        return $provider->getTrueBooleanFormat() === $sqlBoolean;
+        return $provider->convertFromSQLBoolean($sqlBoolean);
     }
 
     /**
@@ -196,14 +196,7 @@ class TypeMapper
     {
         $this->setParameterProvider($provider);
 
-        if($boolean)
-        {
-            return $provider->getTrueBooleanFormat();
-        }
-        else
-        {
-            return $provider->getFalseBooleanFormat();
-        }
+        return $provider->convertToSQLBoolean($boolean);
     }
 
     /**
