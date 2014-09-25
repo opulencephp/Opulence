@@ -536,6 +536,33 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that nothing is output from an invalid template
+     */
+    public function testThatNothingIsOutputFromInvalidTemplate()
+    {
+        $output = "";
+        $startOBLevel = ob_get_level();
+
+        try
+        {
+            $this->template->readFromFile(__DIR__ . self::TEMPLATE_PATH_WITH_INVALID_PHP_CODE);
+        }
+        catch(\RuntimeException $ex)
+        {
+            // Don't do anything
+        }
+        finally
+        {
+            while(ob_get_level() > $startOBLevel)
+            {
+                $output .= ob_get_clean();
+            }
+        }
+
+        $this->assertEmpty($output);
+    }
+
+    /**
      * Registers a function to the template for use in testing
      *
      * @return string The expected result of the compiler

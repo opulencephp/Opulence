@@ -1,11 +1,11 @@
+Work on router
 Think of more application config data, update ApplicationConfig::isValid()
 Incorrect username entry is faster, making room for timing attacks
 Think of stuff to throw in the application and application config
-Work on router
-Be able to call controller from router using syntax similar to Laravel: "MyController::registerUser"
 Convert test pages to views/controllers
 Need to write some interfaces around LoginCredentials and its factory to generalize them
     This will make classes like LoginController and Session able to work with different types of credentials
+        Will the wrapper need a delete() method?  Or will that be called on the repo from the controller?
 See if current Session class would make more sense as an abstract class
     Also need to add methods for setting things like cookies/JSON response for credentials
     Need to pass a reference to this object to LoginController

@@ -376,11 +376,9 @@ class Template implements Views\IView
         $this->compiler->registerCompiler(function ($content)
         {
             // Create local variables for use in eval()
-            foreach($this->vars as $name => $value)
-            {
-                ${$name} = $value;
-            }
+            extract($this->vars);
 
+            $startOBLevel = ob_get_level();
             ob_start();
 
             // Compile the functions
@@ -415,7 +413,12 @@ class Template implements Views\IView
             // Notice the little hack inside eval() to compile inline PHP
             if(@eval("?>" . $content) === false)
             {
-                ob_end_clean();
+                // Prevent an invalid template from displaying
+                while(ob_get_level() > $startOBLevel)
+                {
+                    ob_end_clean();
+                }
+
                 throw new \RuntimeException("Invalid PHP inside template");
             }
 
