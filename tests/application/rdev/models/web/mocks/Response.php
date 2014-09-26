@@ -42,7 +42,7 @@ class Response extends Web\Response
      * @param bool $httpOnly Whether or not this cookie can be accessed exclusively over the HTTP protocol
      * @return bool True if successful, otherwise false
      */
-    public function setCookie($name, $value, \DateTime $expiration, $path, $domain, $isSecure, $httpOnly)
+    public function setCookie($name, $value, \DateTime $expiration, $path, $domain, $isSecure, $httpOnly = true)
     {
         $this->cookies[$name] = [
             "value" => $value,
