@@ -17,7 +17,7 @@ class Login
 {
     /** @var User\IUserRepo The user repo to use for finding users */
     private $userRepo = null;
-    /** @var Token\ITokenRepo The token repo to use for logging in users */
+    /** @var Token\IRepo The token repo to use for logging in users */
     private $tokenRepo = null;
     /** @var Factories\LoginCredentialsFactory $loginCredentialsFactory The factory to use to create credentials */
     private $loginCredentialsFactory = null;
@@ -26,11 +26,11 @@ class Login
 
     /**
      * @param User\IUserRepo $userRepo The user repo to use for finding users
-     * @param Token\ITokenRepo $tokenRepo The token repo to use for logging in users
+     * @param Token\IRepo $tokenRepo The token repo to use for logging in users
      * @param Factories\LoginCredentialsFactory $loginCredentialsFactory The factory to use to create credentials
      * @param Web\HTTPConnection $httpConnection The HTTP connection to use in our requests/responses
      */
-    public function __construct(User\IUserRepo $userRepo, Token\ITokenRepo $tokenRepo,
+    public function __construct(User\IUserRepo $userRepo, Token\IRepo $tokenRepo,
                                 Factories\LoginCredentialsFactory $loginCredentialsFactory, Web\HTTPConnection $httpConnection)
     {
         $this->userRepo = $userRepo;

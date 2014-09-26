@@ -51,7 +51,7 @@ class Response
      * @param bool $httpOnly Whether or not this cookie can be accessed exclusively over the HTTP protocol
      * @return bool True if successful, otherwise false
      */
-    public function deleteCookie($name, $path, $domain, $isSecure, $httpOnly)
+    public function deleteCookie($name, $path, $domain, $isSecure, $httpOnly = true)
     {
         $expiration = \DateTime::createFromFormat("U", time() - 3600, new \DateTimeZone("UTC"));
 
@@ -70,7 +70,7 @@ class Response
      * @param bool $httpOnly Whether or not this cookie can be accessed exclusively over the HTTP protocol
      * @return bool True if successful, otherwise false
      */
-    public function setCookie($name, $value, \DateTime $expiration, $path, $domain, $isSecure, $httpOnly)
+    public function setCookie($name, $value, \DateTime $expiration, $path, $domain, $isSecure, $httpOnly = true)
     {
         return setcookie($name, $value, $expiration->getTimestamp(), $path, $domain, $isSecure, $httpOnly);
     }

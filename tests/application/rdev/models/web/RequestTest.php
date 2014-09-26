@@ -8,6 +8,8 @@ namespace RDev\Models\Web;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var array A clone of the $_COOKIE array, which we can use to restore original values */
+    private static $cookieClone = [];
     /** @var array A clone of the $_SERVER array, which we can use to restore original values */
     private static $serverClone = [];
     /** @var array A clone of the $_GET array, which we can use to restore original values */
@@ -20,6 +22,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
+        self::$cookieClone = $_COOKIE;
         self::$serverClone = $_SERVER;
         self::$getClone = $_GET;
         self::$postClone = $_POST;
@@ -30,9 +33,20 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
+        $_COOKIE = self::$cookieClone;
         $_SERVER = self::$serverClone;
         $_GET = self::$getClone;
         $_POST = self::$postClone;
+    }
+
+    /**
+     * Tests checking that a set COOKIE is set
+     */
+    public function testCheckingIfSetCookieIsSet()
+    {
+        $request = new Request();
+        $_COOKIE["foo"] = "bar";
+        $this->assertTrue($request->cookieIsSet("foo"));
     }
 
     /**
@@ -53,6 +67,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $_POST["foo"] = "bar";
         $this->assertTrue($request->postVarIsSet("foo"));
+    }
+
+    /**
+     * Tests checking that an unset COOKIE is set
+     */
+    public function testCheckingIfUnsetCookieIsSet()
+    {
+        $request = new Request();
+        $this->assertFalse($request->cookieIsSet("foo"));
     }
 
     /**
@@ -99,6 +122,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting a set cookie
+     */
+    public function testGettingSetCookie()
+    {
+        $request = new Request();
+        $_COOKIE["foo"] = "bar";
+        $this->assertEquals("bar", $request->getCookie("foo"));
+    }
+
+    /**
      * Tests getting a set GET variable
      */
     public function testGettingSetGetVar()
@@ -116,6 +149,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $_POST["foo"] = "bar";
         $this->assertEquals("bar", $request->getPostVar("foo"));
+    }
+
+    /**
+     * Tests getting an unset cookie
+     */
+    public function testGettingUnsetCookie()
+    {
+        $request = new Request();
+        $this->assertFalse($request->getCookie("foo"));
     }
 
     /**

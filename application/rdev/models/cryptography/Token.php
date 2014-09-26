@@ -5,39 +5,30 @@
  * Defines a cryptographic token used for security
  */
 namespace RDev\Models\Cryptography;
-use RDev\Models;
 
-class Token implements Models\IEntity
+class Token implements IToken
 {
     /** @var int The database Id of this token */
-    private $id = -1;
-    /** @var int The type of token this is */
-    private $typeId = -1;
-    /** @var int The Id of the user whose token this is */
-    private $userId = -1;
+    protected $id = -1;
     /** @var string The hashed value */
-    private $hashedValue = "";
+    protected $hashedValue = "";
     /** @var \DateTime The valid-from date */
-    private $validFrom = null;
+    protected $validFrom = null;
     /** @var \DateTime The valid-to date */
-    private $validTo = null;
+    protected $validTo = null;
     /** @var bool Whether or not this token is active */
-    private $isActive = false;
+    protected $isActive = false;
 
     /**
      * @param int $id The database Id of this token
-     * @param int $typeId The type of token this is
-     * @param int $userId The Id of the user whose token this is
      * @param string $hashedValue The hashed value
      * @param \DateTime $validFrom The valid-from date
      * @param \DateTime $validTo The valid-to date
      * @param bool $isActive Whether or not this token is active
      */
-    public function __construct($id, $typeId, $userId, $hashedValue, \DateTime $validFrom, \DateTime $validTo, $isActive)
+    public function __construct($id, $hashedValue, \DateTime $validFrom, \DateTime $validTo, $isActive)
     {
         $this->id = $id;
-        $this->typeId = $typeId;
-        $this->userId = $userId;
         $this->hashedValue = $hashedValue;
         $this->validFrom = $validFrom;
         $this->validTo = $validTo;
@@ -45,13 +36,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Gets the hash of a token, which is suitable for storage
-     *
-     * @param string $unhashedValue The unhashed token to hash
-     * @param int $hashAlgorithm The hash algorithm constant to use in password_hash
-     * @param int $cost The cost of the hash to use
-     * @param string $pepper The optional pepper to append prior to hashing the value
-     * @return string The hashed token
+     * {@inheritdoc}
      */
     public static function generateHashedValue($unhashedValue, $hashAlgorithm, $cost, $pepper = "")
     {
@@ -59,10 +44,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Creates a cryptographically-strong random string
-     *
-     * @param int $length The desired length of the string
-     * @return string The random string
+     * {@inheritdoc}
      */
     public static function generateRandomString($length)
     {
@@ -79,7 +61,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * Marks this token is inactive
+     * {@inheritdoc}
      */
     public function deactivate()
     {
@@ -87,7 +69,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getHashedValue()
     {
@@ -95,7 +77,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @return int
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -103,23 +85,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @return int
-     */
-    public function getTypeId()
-    {
-        return $this->typeId;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserId()
-    {
-        return $this->userId;
-    }
-
-    /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getValidFrom()
     {
@@ -127,7 +93,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @return \DateTime
+     * {@inheritdoc}
      */
     public function getValidTo()
     {
@@ -135,7 +101,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @return bool
+     * {@inheritdoc}
      */
     public function isActive()
     {
@@ -145,7 +111,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @param int $id
+     * {@inheritdoc}
      */
     public function setId($id)
     {
@@ -153,19 +119,7 @@ class Token implements Models\IEntity
     }
 
     /**
-     * @param int $userId
-     */
-    public function setUserId($userId)
-    {
-        $this->userId = $userId;
-    }
-
-    /**
-     * Verifies that an unhashed value matches the hashed value
-     *
-     * @param string $unhashedValue The unhashed value to verify
-     * @param string $pepper The optional pepper to append prior to verifying the value
-     * @return bool True if the unhashed value matches the hashed value
+     * {@inheritdoc}
      */
     public function verify($unhashedValue, $pepper = "")
     {

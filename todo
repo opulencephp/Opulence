@@ -1,3 +1,15 @@
+WORK ON CREDENTIAL STUFF
+    Need to reconsider doing token validation in the TokenRepo
+        It's convenient to have this logic in one place so there's less of a chance to screw it up
+        Seems odd to have this logic in the repository, though
+    Tokens should not have any idea how they're used, which is why having credentials and passwords using them is helpful
+        In other words, this is the better design, but it's introduced some issues
+    What is the "Credentials" class??
+        Right now, it seems like a nice place to store all of the current credentials
+        Question: If we want to delete a credential, does the "Credentials" class get it's own copy of the repo and storage to delete it?
+            I think this would make sense
+    Credentials class needs be injected with (typeId, ICredentialStorage) for the various types of credentials
+
 Work on router
 Think of more application config data, update ApplicationConfig::isValid()
 Incorrect username entry is faster, making room for timing attacks

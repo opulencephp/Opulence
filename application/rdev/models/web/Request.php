@@ -20,6 +20,33 @@ class Request
     }
 
     /**
+     * Gets whether or not a cookie is set to a non-empty value
+     *
+     * @param string $name The name of the cookie to check
+     * @return bool True if the cookie has a non-empty value, otherwise false
+     */
+    public function cookieIsSet($name)
+    {
+        return isset($_COOKIE[$name]);
+    }
+
+    /**
+     * Gets the value of a cookie
+     *
+     * @param string $name The name of the cookie to check
+     * @return mixed|bool The cookie if it was set, otherwise false
+     */
+    public function getCookie($name)
+    {
+        if(!$this->cookieIsSet($name))
+        {
+            return false;
+        }
+
+        return $_COOKIE[$name];
+    }
+
+    /**
      * @return string
      */
     public function getIPAddress()
