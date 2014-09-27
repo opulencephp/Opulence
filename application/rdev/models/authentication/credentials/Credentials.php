@@ -50,7 +50,10 @@ class Credentials implements ICredentials
             throw new \RuntimeException("No storage for credential type {$credential->getTypeId()}");
         }
 
-        $this->credentials[$credential->getTypeId()] = $credential;
+        if($credential->isActive())
+        {
+            $this->credentials[$credential->getTypeId()] = $credential;
+        }
     }
 
     /**
@@ -71,7 +74,7 @@ class Credentials implements ICredentials
         $credential = $this->credentials[$type];
 
         // Don't return deactivated credentials
-        if(!$credential->getToken()->isActive())
+        if(!$credential->isActive())
         {
             $this->remove($type);
 
@@ -139,7 +142,7 @@ class Credentials implements ICredentials
             throw new \RuntimeException("No storage for credential type $type");
         }
 
-        $this->credentials[$type]->getToken()->deactivate();
+        $this->credentials[$type]->deactivate();
         $this->storages[$type]->delete();
         unset($this->credentials[$type]);
     }

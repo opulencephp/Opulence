@@ -31,9 +31,17 @@ class Credential implements ICredential
     {
         $this->setId($id);
         $this->typeId = $typeId;
-        $this->entityId = $entityId;
+        $this->setEntityId($entityId);
         $this->entityTypeId = $entityTypeId;
         $this->token = $token;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function deactivate()
+    {
+        $this->token->deactivate();
     }
 
     /**
@@ -74,6 +82,14 @@ class Credential implements ICredential
     public function getTypeId()
     {
         return $this->typeId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isActive()
+    {
+        return $this->token->isActive();
     }
 
     /**

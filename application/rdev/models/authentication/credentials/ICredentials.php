@@ -10,6 +10,7 @@ interface ICredentials
 {
     /**
      * Adds a credential
+     * If the credential has expired, then it is not added
      *
      * @param ICredential $credential The credential to add
      * @throws \RuntimeException Thrown if the credential didn't have a storage mechanism registered

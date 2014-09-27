@@ -11,6 +11,11 @@ use RDev\Models\Cryptography;
 interface ICredential extends Models\IEntity
 {
     /**
+     * Deactivates this credential
+     */
+    public function deactivate();
+
+    /**
      * Gets the Id of the entity whose credential this is
      *
      * @return string|int The Id of the entity whose credential this is
@@ -37,6 +42,13 @@ interface ICredential extends Models\IEntity
      * @return int The type of credential
      */
     public function getTypeId();
+
+    /**
+     * Gets whether or not a credential is active
+     *
+     * @return bool True if the credential is active, otherwise false
+     */
+    public function isActive();
 
     /**
      * @param int|string $entityId

@@ -36,6 +36,24 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if a credential is active
+     */
+    public function testCheckingIfActive()
+    {
+        $this->assertTrue($this->credential->isActive());
+    }
+
+    /**
+     * Tests deactivating a credential
+     */
+    public function testDeactivating()
+    {
+        $this->credential->deactivate();
+        $this->assertFalse($this->credential->isActive());
+        $this->assertFalse($this->credential->getToken()->isActive());
+    }
+
+    /**
      * Tests getting the entity Id
      */
     public function testGettingEntityId()

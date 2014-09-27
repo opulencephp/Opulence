@@ -19,7 +19,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
-        $this->assertEquals([$credential], $credentials->getAll());
+        $this->assertEquals($credential, $credentials->get(CredentialTypes::LOGIN));
     }
 
     /**
@@ -31,6 +31,20 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
         $credentials = new Credentials(1, 369);
         $credentials->add($credential);
+    }
+
+    /**
+     * Tests adding an expired credential
+     */
+    public function testAddingDeactivatedCredential()
+    {
+        $credentials = new Credentials(1, 369);
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential->deactivate();
+        $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
+        $credentials->add($credential);
+        $this->assertFalse($credentials->has(CredentialTypes::LOGIN));
+        $this->assertNull($credentials->get(CredentialTypes::LOGIN));
     }
 
     /**
@@ -91,7 +105,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credentials = new Credentials(1, 369);
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
-        $credential->getToken()->deactivate();
+        $credential->deactivate();
         $credentials->add($credential);
         $this->assertNull($credentials->get(CredentialTypes::LOGIN));
         $this->assertEquals([], $credentials->getTypes());
@@ -155,10 +169,10 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
-        $this->assertTrue($credential->getToken()->isActive());
+        $this->assertTrue($credential->isActive());
         $credentials->remove(CredentialTypes::LOGIN);
         $this->assertFalse($credentials->has(CredentialTypes::LOGIN));
-        $this->assertFalse($credential->getToken()->isActive());
+        $this->assertFalse($credential->isActive());
     }
 
     /**
