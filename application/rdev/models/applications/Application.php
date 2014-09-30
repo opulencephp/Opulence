@@ -6,6 +6,7 @@
  */
 namespace RDev\Models\Applications;
 use RDev\Models\Web;
+use RDev\Models\Web\Routing;
 
 class Application
 {
@@ -22,7 +23,7 @@ class Application
     private $environment = self::ENV_PRODUCTION;
     /** @var Web\HTTPConnection The HTTP connection */
     private $httpConnection = null;
-    /** @var Web\Router The router for requests */
+    /** @var Routing\Router The router for requests */
     private $router = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
@@ -51,7 +52,7 @@ class Application
         $environmentFetcher = new EnvironmentFetcher();
         $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
         $this->httpConnection = new Web\HTTPConnection();
-        $this->router = new Web\Router();
+        $this->router = new Routing\Router($this->httpConnection, $config["router"]);
     }
 
     /**
@@ -71,7 +72,7 @@ class Application
     }
 
     /**
-     * @return Web\Router
+     * @return Routing\Router
      */
     public function getRouter()
     {

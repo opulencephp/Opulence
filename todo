@@ -1,27 +1,14 @@
-WORK ON CREDENTIAL STUFF
-    Need to reconsider doing token validation in the TokenRepo
-        It's convenient to have this logic in one place so there's less of a chance to screw it up
-        Seems odd to have this logic in the repository, though
-    Tokens should not have any idea how they're used, which is why having credentials and passwords using them is helpful
-        In other words, this is the better design, but it's introduced some issues
-    What is the "Credentials" class??
-        Right now, it seems like a nice place to store all of the current credentials
-        Question: If we want to delete a credential, does the "Credentials" class get it's own copy of the repo and storage to delete it?
-            I think this would make sense
-    Credentials class needs be injected with (typeId, ICredentialStorage) for the various types of credentials
-
-Work on router
+Consider using Configs for controllers
+    In the config, you'd specify the repos, credentials to use
+Add ability to instantiate controllers from router
+    How without resorting to service locator?  Do some research.
+        Biggest hurdle is resolving dependencies in controller constructor
+    Need to use reflection to pass in variables in $matches to appropriate parameters in controller
+Once the above is done, need to finish Login controller
+    Waiting on ways to resolve dependencies in constructor, first
 Think of more application config data, update ApplicationConfig::isValid()
-Incorrect username entry is faster, making room for timing attacks
-Think of stuff to throw in the application and application config
+Incorrect username entry is faster, allowing timing attacks
+Cache rendered templates
 Convert test pages to views/controllers
-Need to write some interfaces around LoginCredentials and its factory to generalize them
-    This will make classes like LoginController and Session able to work with different types of credentials
-        Will the wrapper need a delete() method?  Or will that be called on the repo from the controller?
-See if current Session class would make more sense as an abstract class
-    Also need to add methods for setting things like cookies/JSON response for credentials
-    Need to pass a reference to this object to LoginController
 Need to figure out where to store lifetime settings for login credentials in LoginController
-Need to build classes to store credentials client-side (eg cookies/JSON)
-    Where should these classes be instantiated/used?
 Need to determine how we hand out api keys

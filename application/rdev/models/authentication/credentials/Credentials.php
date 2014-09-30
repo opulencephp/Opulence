@@ -59,16 +59,26 @@ class Credentials implements ICredentials
     /**
      * {@inheritdoc}
      */
+    public function delete($type)
+    {
+        if(!isset($this->storages[$type]))
+        {
+            throw new \RuntimeException("No storage for credential type $type");
+        }
+
+        $this->credentials[$type]->deactivate();
+        $this->storages[$type]->delete();
+        unset($this->credentials[$type]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function get($type)
     {
         if(!$this->has($type))
         {
-            if(!$this->storages[$type]->exists())
-            {
-                return null;
-            }
-
-            $this->add($this->storages[$type]->get());
+            return null;
         }
 
         $credential = $this->credentials[$type];
@@ -76,7 +86,7 @@ class Credentials implements ICredentials
         // Don't return deactivated credentials
         if(!$credential->isActive())
         {
-            $this->remove($type);
+            $this->delete($type);
 
             return null;
         }
@@ -121,7 +131,24 @@ class Credentials implements ICredentials
      */
     public function has($type)
     {
-        return isset($this->credentials[$type]);
+        if(isset($this->credentials[$type]))
+        {
+            return true;
+        }
+
+        if(!isset($this->storages[$type]))
+        {
+            return false;
+        }
+
+        if(!$this->storages[$type]->exists())
+        {
+            return false;
+        }
+
+        $this->add($this->storages[$type]->get());
+
+        return true;
     }
 
     /**
@@ -135,15 +162,13 @@ class Credentials implements ICredentials
     /**
      * {@inheritdoc}
      */
-    public function remove($type)
+    public function save(ICredential $credential, $unhashedToken)
     {
-        if(!isset($this->storages[$type]))
+        if(!isset($this->storages[$credential->getTypeId()]))
         {
-            throw new \RuntimeException("No storage for credential type $type");
+            throw new \RuntimeException("No storage for credential type {$credential->getTypeId()}");
         }
 
-        $this->credentials[$type]->deactivate();
-        $this->storages[$type]->delete();
-        unset($this->credentials[$type]);
+        $this->storages[$credential->getTypeId()]->save($credential, $unhashedToken);
     }
 } 

@@ -46,6 +46,8 @@ Let's break down the structure of the config.  The following keys are optional:
           * "regex" to denote that the rule uses a regular expression
         * "value" => The value of the rule, eg the regular expression to use
     * If you use a callback, it must simply return the name of the environment the current server resides in
+* "router"
+  * See the [Routing page](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/web/routing)
 
 Let's take a look at an example that uses an array:
 ```php

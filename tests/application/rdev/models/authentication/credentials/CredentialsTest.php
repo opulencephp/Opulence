@@ -48,6 +48,20 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking for a credential that exists in storage but has not been added
+     */
+    public function testCheckingForCredentialThatIsInStorageButHasNotBeenAdded()
+    {
+        $credentials = new Credentials(1, 369);
+        $storage = new CredentialStorage();
+        $credentials->registerStorage(CredentialTypes::LOGIN, $storage);
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $storage->save($credential, "foo");
+        $this->assertTrue($credentials->has(CredentialTypes::LOGIN));
+        $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
+    }
+
+    /**
      * Tests checking if it has a credential
      */
     public function testCheckingIfHasCredential()
@@ -58,6 +72,21 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertTrue($credentials->has(CredentialTypes::LOGIN));
+    }
+
+    /**
+     * Tests deleting a credential
+     */
+    public function testDeletingCredential()
+    {
+        $credentials = new Credentials(1, 369);
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
+        $credentials->add($credential);
+        $this->assertTrue($credential->isActive());
+        $credentials->delete(CredentialTypes::LOGIN);
+        $this->assertFalse($credentials->has(CredentialTypes::LOGIN));
+        $this->assertFalse($credential->isActive());
     }
 
     /**
@@ -161,27 +190,35 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests removing a credential
-     */
-    public function testRemovingCredential()
-    {
-        $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
-        $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
-        $credentials->add($credential);
-        $this->assertTrue($credential->isActive());
-        $credentials->remove(CredentialTypes::LOGIN);
-        $this->assertFalse($credentials->has(CredentialTypes::LOGIN));
-        $this->assertFalse($credential->isActive());
-    }
-
-    /**
      * Tests removing a credential that does not have a storage registered
      */
     public function testRemovingCredentialThatDoesNotHaveStorage()
     {
         $this->setExpectedException("\\RuntimeException");
         $credentials = new Credentials(1, 369);
-        $credentials->remove(CredentialTypes::LOGIN);
+        $credentials->delete(CredentialTypes::LOGIN);
+    }
+
+    /**
+     * Tests saving a credential
+     */
+    public function testSavingCredential()
+    {
+        $credentials = new Credentials(1, 369);
+        $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credentials->save($credential, "foo");
+        $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
+    }
+
+    /**
+     * Tests saving a credential without registering a storage mechanism
+     */
+    public function testSavingCredentialWithNoStorageRegistered()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $credentials = new Credentials(1, 369);
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credentials->save($credential, "foo");
     }
 } 

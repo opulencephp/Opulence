@@ -16,4 +16,13 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
         $config = new ApplicationConfig([]);
         $this->assertEquals([], $config["environment"]);
     }
+
+    /**
+     * Tests that the router key is automatically set
+     */
+    public function testRouterKeyIsSetAutomatically()
+    {
+        $config = new ApplicationConfig([]);
+        $this->assertEquals([], $config["router"]);
+    }
 } 

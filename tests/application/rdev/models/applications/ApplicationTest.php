@@ -6,6 +6,7 @@
  */
 namespace RDev\Models\Applications;
 use RDev\Models\Web;
+use RDev\Models\Web\Routing;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -89,7 +90,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouter()
     {
-        $this->assertEquals(new Web\Router(), $this->application->getRouter());
+        $this->assertInstanceOf("RDev\\Models\\Web\\Routing\\Router", $this->application->getRouter());
     }
 
     /**

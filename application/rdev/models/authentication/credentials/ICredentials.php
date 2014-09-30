@@ -18,6 +18,14 @@ interface ICredentials
     public function add(ICredential $credential);
 
     /**
+     * Removes a credential of the input type
+     *
+     * @param int $type The type of credential to remove
+     * @throws \RuntimeException Thrown if the credential didn't have a storage mechanism registered
+     */
+    public function delete($type);
+
+    /**
      * Gets the credential of the input type
      * Only active credentials are returned
      *
@@ -71,10 +79,11 @@ interface ICredentials
     public function registerStorage($type, Storage\ICredentialStorage $storage);
 
     /**
-     * Removes a credential of the input type
+     * Saves a credential to storage
      *
-     * @param int $type The type of credential to remove
+     * @param ICredential $credential The credential to save
+     * @param string $unhashedToken The unhashed token value
      * @throws \RuntimeException Thrown if the credential didn't have a storage mechanism registered
      */
-    public function remove($type);
+    public function save(ICredential $credential, $unhashedToken);
 } 

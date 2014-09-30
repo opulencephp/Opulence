@@ -24,6 +24,11 @@ class ApplicationConfig extends Configs\Config
             $configArray["environment"] = [];
         }
 
+        if(!isset($configArray["router"]))
+        {
+            $configArray["router"] = [];
+        }
+
         $this->configArray = $configArray;
     }
 

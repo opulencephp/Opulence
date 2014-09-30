@@ -8,6 +8,29 @@ namespace RDev\Models\Web;
 
 class Request
 {
+    /** The delete method */
+    const METHOD_DELETE = "DELETE";
+    /** The get method */
+    const METHOD_GET = "GET";
+    /** The post method */
+    const METHOD_POST = "POST";
+    /** The put method */
+    const METHOD_PUT = "PUT";
+    /** The head method */
+    const METHOD_HEAD = "HEAD";
+    /** The trace method */
+    const METHOD_TRACE = "TRACE";
+    /** The purge method */
+    const METHOD_PURGE = "PURGE";
+    /** The connect method */
+    const METHOD_CONNECT = "CONNECT";
+    /** The patch method */
+    const METHOD_PATCH = "PATCH";
+    /** The options method */
+    const METHOD_OPTIONS = "OPTIONS";
+
+    /** @var string The method used in the request */
+    private $method = "";
     /** @var string The client's IP address */
     private $ipAddress = "";
     /** @var string The client's user agent */
@@ -15,6 +38,7 @@ class Request
 
     public function __construct()
     {
+        $this->setMethod();
         $this->setIPAddress();
         $this->setUserAgent();
     }
@@ -52,6 +76,16 @@ class Request
     public function getIPAddress()
     {
         return $this->ipAddress;
+    }
+
+    /**
+     * Gets the method used in the request
+     *
+     * @return string The method used in the request
+     */
+    public function getMethod()
+    {
+        return $this->method;
     }
 
     /**
@@ -145,6 +179,56 @@ class Request
         }
 
         $this->ipAddress = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "";
+    }
+
+    /**
+     * Sets the method
+     */
+    private function setMethod()
+    {
+        if(isset($_SERVER["REQUEST_METHOD"]))
+        {
+            switch(strtolower($_SERVER["REQUEST_METHOD"]))
+            {
+                case "delete":
+                    $this->method = self::METHOD_DELETE;
+                    break;
+                case "get":
+                    $this->method = self::METHOD_GET;
+                    break;
+                case "post":
+                    $this->method = self::METHOD_POST;
+                    break;
+                case "put":
+                    $this->method = self::METHOD_PUT;
+                    break;
+                case "head":
+                    $this->method = self::METHOD_HEAD;
+                    break;
+                case "trace":
+                    $this->method = self::METHOD_TRACE;
+                    break;
+                case "purge":
+                    $this->method = self::METHOD_PURGE;
+                    break;
+                case "connect":
+                    $this->method = self::METHOD_CONNECT;
+                    break;
+                case "patch":
+                    $this->method = self::METHOD_PATCH;
+                    break;
+                case "options":
+                    $this->method = self::METHOD_OPTIONS;
+                    break;
+                default:
+                    $this->method = self::METHOD_GET;
+                    break;
+            }
+        }
+        else
+        {
+            $this->method = self::METHOD_GET;
+        }
     }
 
     /**

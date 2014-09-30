@@ -71,7 +71,7 @@ class Repo implements IRepo
     }
 
     /**
-     * @return DataMappers\IDataMapper
+     * {@inheritdoc}
      */
     public function getDataMapper()
     {
@@ -79,7 +79,7 @@ class Repo implements IRepo
     }
 
     /**
-     * @param DataMappers\IDataMapper $dataMapper
+     * {@inheritdoc}
      */
     public function setDataMapper($dataMapper)
     {

@@ -97,6 +97,36 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the connect method
+     */
+    public function testGettingConnectMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "CONNECT";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_CONNECT, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the delete method
+     */
+    public function testGettingDeleteMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "DELETE";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_DELETE, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the get method
+     */
+    public function testGettingGetMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "GET";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+    }
+
+    /**
      * Tests getting the IP address
      */
     public function testGettingIPAddress()
@@ -119,6 +149,76 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());
             unset($_SERVER[$key]);
         }
+    }
+
+    /**
+     * Tests getting the method when the input method doesn't match any predefined values
+     */
+    public function testGettingMethodWhenInputDoesNotMatchPredefinedValue()
+    {
+        $_SERVER["REQUEST_METHOD"] = "foo";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the method when there is none set in the $_SERVER
+     */
+    public function testGettingMethodWhenNoneIsSet()
+    {
+        unset($_SERVER["REQUEST_METHOD"]);
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the options method
+     */
+    public function testGettingOptionsMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "OPTIONS";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_OPTIONS, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the patch method
+     */
+    public function testGettingPatchMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "PATCH";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_PATCH, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the post method
+     */
+    public function testGettingPostMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the purge method
+     */
+    public function testGettingPurgeMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "PURGE";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_PURGE, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the put method
+     */
+    public function testGettingPutMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_PUT, $request->getMethod());
     }
 
     /**
@@ -149,6 +249,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
         $_POST["foo"] = "bar";
         $this->assertEquals("bar", $request->getPostVar("foo"));
+    }
+
+    /**
+     * Tests getting the trace method
+     */
+    public function testGettingTraceMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "TRACE";
+        $request = new Request();
+        $this->assertEquals(Request::METHOD_TRACE, $request->getMethod());
     }
 
     /**
