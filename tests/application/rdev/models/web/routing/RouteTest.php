@@ -9,58 +9,6 @@ namespace RDev\Models\Web\Routing;
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests getting the after filter when it is a string
-     */
-    public function testGettingAfterFilterWhenItIsAString()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "after" => "foo"
-        ];
-        $route = new Route(["get"], "/foo", $options);
-        $this->assertEquals(["foo"], $route->getAfterFilters());
-    }
-
-    /**
-     * Tests getting the after filters when they are an array
-     */
-    public function testGettingAfterFiltersWhenTheyAreAnArray()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "after" => ["foo", "bar"]
-        ];
-        $route = new Route(["get"], "/foo", $options);
-        $this->assertEquals(["foo", "bar"], $route->getAfterFilters());
-    }
-
-    /**
-     * Tests getting the before filter when it is a string
-     */
-    public function testGettingBeforeFilterWhenItIsAString()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "before" => "foo"
-        ];
-        $route = new Route(["get"], "/foo", $options);
-        $this->assertEquals(["foo"], $route->getBeforeFilters());
-    }
-
-    /**
-     * Tests getting the before filters when they are an array
-     */
-    public function testGettingBeforeFiltersWhenTheyAreAnArray()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "before" => ["foo", "bar"]
-        ];
-        $route = new Route(["get"], "/foo", $options);
-        $this->assertEquals(["foo", "bar"], $route->getBeforeFilters());
-    }
-
-    /**
      * Tests getting the controller method
      */
     public function testGettingControllerMethod()
@@ -106,6 +54,58 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Route(["get"], "/foo", $options);
         $this->assertEquals(["get"], $route->getMethods());
+    }
+
+    /**
+     * Tests getting the post-filter when it is a string
+     */
+    public function testGettingPostFilterWhenItIsAString()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "post" => "foo"
+        ];
+        $route = new Route(["get"], "/foo", $options);
+        $this->assertEquals(["foo"], $route->getPostFilters());
+    }
+
+    /**
+     * Tests getting the post-filters when they are an array
+     */
+    public function testGettingPostFiltersWhenTheyAreAnArray()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "post" => ["foo", "bar"]
+        ];
+        $route = new Route(["get"], "/foo", $options);
+        $this->assertEquals(["foo", "bar"], $route->getPostFilters());
+    }
+
+    /**
+     * Tests getting the pre-filter when it is a string
+     */
+    public function testGettingPreFilterWhenItIsAString()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "pre" => "foo"
+        ];
+        $route = new Route(["get"], "/foo", $options);
+        $this->assertEquals(["foo"], $route->getPreFilters());
+    }
+
+    /**
+     * Tests getting the pre-filters when they are an array
+     */
+    public function testGettingPreFiltersWhenTheyAreAnArray()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "pre" => ["foo", "bar"]
+        ];
+        $route = new Route(["get"], "/foo", $options);
+        $this->assertEquals(["foo", "bar"], $route->getPreFilters());
     }
 
     /**

@@ -136,10 +136,10 @@ class Router
 
             if(preg_match($route->getRegex(), $path, $matches))
             {
-                // Do our before-filters
-                if(($beforeFilterReturnValue = $this->executeFilters($route->getBeforeFilters())) !== null)
+                // Do our pre-filters
+                if(($preFilterReturnValue = $this->executeFilters($route->getPreFilters())) !== null)
                 {
-                    return $beforeFilterReturnValue;
+                    return $preFilterReturnValue;
                 }
 
                 // Call our controller
@@ -148,10 +148,10 @@ class Router
                     return $controllerResponse;
                 }
 
-                // Do our after-filters
-                if(($afterFilterReturnValue = $this->executeFilters($route->getAfterFilters())) !== null)
+                // Do our post-filters
+                if(($postFilterReturnValue = $this->executeFilters($route->getPostFilters())) !== null)
                 {
-                    return $afterFilterReturnValue;
+                    return $postFilterReturnValue;
                 }
             }
         }

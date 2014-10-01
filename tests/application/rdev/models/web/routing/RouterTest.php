@@ -75,9 +75,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using a after-filter that does not return anything
+     * Tests using a post-filter that does not return anything
      */
-    public function testUsingAfterFilterThatDoesNotReturnAnything()
+    public function testUsingPostFilterThatDoesNotReturnAnything()
     {
         $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", [],
             ["foo"]);
@@ -89,9 +89,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using an after-filter that returns something
+     * Tests using a post-filter that returns something
      */
-    public function testUsingAfterFilterThatReturnsSomething()
+    public function testUsingPostFilterThatReturnsSomething()
     {
         $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", [],
             ["foo"]);
@@ -103,9 +103,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using a before-filter that does not return anything
+     * Tests using a pre-filter that does not return anything
      */
-    public function testUsingBeforeFilterThatDoesNotReturnAnything()
+    public function testUsingPreFilterThatDoesNotReturnAnything()
     {
         $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "noParameters", ["foo"],
             []);
@@ -117,9 +117,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using a before-filter that returns something
+     * Tests using a pre-filter that returns something
      */
-    public function testUsingBeforeFilterThatReturnsSomething()
+    public function testUsingPreFilterThatReturnsSomething()
     {
         $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", ["foo"],
             []);
@@ -131,9 +131,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using an unregistered after-filter
+     * Tests using an unregistered post-filter
      */
-    public function testUsingUnregisteredAfterFilter()
+    public function testUsingUnregisteredPostFilter()
     {
         $this->setExpectedException("RDev\\Models\\Web\\Routing\\Exceptions\\InvalidFilterException");
         $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", [],
@@ -142,9 +142,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using an unregistered before-filter
+     * Tests using an unregistered pre-filter
      */
-    public function testUsingUnregisteredBeforeFilter()
+    public function testUsingUnregisteredPreFilter()
     {
         $this->setExpectedException("RDev\\Models\\Web\\Routing\\Exceptions\\InvalidFilterException");
         $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing",
@@ -178,24 +178,24 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      * @param string $path The raw path the routes should use
      * @param string $controllerName The name of the controller to call
      * @param string $controllerMethod The name of the method in the mock controller to call
-     * @param array $beforeFilters The list of before-filters to run
-     * @param array $afterFilters The list of after-filters to run
+     * @param array $preFilters The list of pre-filters to run
+     * @param array $postFilters The list of post-filters to run
      */
-    private function setupRequest($httpMethod, $path, $controllerName, $controllerMethod, array $beforeFilters = [],
-                                  array $afterFilters = [])
+    private function setupRequest($httpMethod, $path, $controllerName, $controllerMethod, array $preFilters = [],
+                                  array $postFilters = [])
     {
         $options = [
             "controller" => "$controllerName@$controllerMethod"
         ];
 
-        if(count($beforeFilters) > 0)
+        if(count($preFilters) > 0)
         {
-            $options["before"] = $beforeFilters;
+            $options["pre"] = $preFilters;
         }
 
-        if(count($afterFilters) > 0)
+        if(count($postFilters) > 0)
         {
-            $options["after"] = $afterFilters;
+            $options["post"] = $postFilters;
         }
 
         $_SERVER["REQUEST_METHOD"] = $httpMethod;

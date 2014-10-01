@@ -1,8 +1,9 @@
 Add ability to instantiate controllers from router
     How without resorting to service locator?  Do some research.
         Biggest hurdle is resolving dependencies in controller constructor
-    Need to use reflection to pass in variables in $matches to appropriate parameters in controller
-Need to write tests for Router
+Need default controller support in Router
+Need to figure out what exactly should be returned by Controllers
+    Responses?  What does that actually even mean?
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
 Consider using Configs for controllers

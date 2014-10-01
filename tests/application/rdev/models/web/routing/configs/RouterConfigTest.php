@@ -165,52 +165,6 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests specifying after-filters
-     */
-    public function testSpecifyingAfterFilters()
-    {
-        $configArray = [
-            "routes" => [
-                [
-                    "methods" => "GET",
-                    "path" => "/foo",
-                    "options" => [
-                        "controller" => "foo@bar",
-                        "after" => "foo"
-                    ]
-                ]
-            ]
-        ];
-        $config = new RouterConfig($configArray);
-        /** @var Routing\Route $route */
-        $route = $config->toArray()["routes"][0];
-        $this->assertEquals(["foo"], $route->getAfterFilters());
-    }
-
-    /**
-     * Tests specifying before-filters
-     */
-    public function testSpecifyingBeforeFilters()
-    {
-        $configArray = [
-            "routes" => [
-                [
-                    "methods" => "GET",
-                    "path" => "/foo",
-                    "options" => [
-                        "controller" => "foo@bar",
-                        "before" => "foo"
-                    ]
-                ]
-            ]
-        ];
-        $config = new RouterConfig($configArray);
-        /** @var Routing\Route $route */
-        $route = $config->toArray()["routes"][0];
-        $this->assertEquals(["foo"], $route->getBeforeFilters());
-    }
-
-    /**
      * Tests specifying a compiler class
      */
     public function testSpecifyingCompilerClass()
@@ -241,6 +195,52 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
             "routes" => []
         ], $config->toArray());
         $this->assertSame($compiler, $config->toArray()["compiler"]);
+    }
+
+    /**
+     * Tests specifying post-filters
+     */
+    public function testSpecifyingPostFilters()
+    {
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => "GET",
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@bar",
+                        "post" => "foo"
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $route */
+        $route = $config->toArray()["routes"][0];
+        $this->assertEquals(["foo"], $route->getPostFilters());
+    }
+
+    /**
+     * Tests specifying pre-filters
+     */
+    public function testSpecifyingPreFilters()
+    {
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => "GET",
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@bar",
+                        "pre" => "foo"
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $route */
+        $route = $config->toArray()["routes"][0];
+        $this->assertEquals(["foo"], $route->getPreFilters());
     }
 
     /**

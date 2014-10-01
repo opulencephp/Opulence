@@ -64,14 +64,14 @@ class RouterConfig extends Configs\Config
             if(is_array($route))
             {
                 // Convert the filters to arrays
-                if(isset($route["options"]["before"]) && is_string($route["options"]["before"]))
+                if(isset($route["options"]["pre"]) && is_string($route["options"]["pre"]))
                 {
-                    $route["options"]["before"] = [$route["options"]["before"]];
+                    $route["options"]["pre"] = [$route["options"]["pre"]];
                 }
 
-                if(isset($route["options"]["after"]) && is_string($route["options"]["after"]))
+                if(isset($route["options"]["post"]) && is_string($route["options"]["post"]))
                 {
-                    $route["options"]["after"] = [$route["options"]["after"]];
+                    $route["options"]["post"] = [$route["options"]["post"]];
                 }
 
                 $configArray["routes"][$index] = $this->getRouteFromConfig($route);

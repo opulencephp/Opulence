@@ -23,9 +23,9 @@ class Route
     /** @var array The mapping of route-variables to their default values */
     private $defaultValues = [];
     /** @var array The list of filters to run before dispatching a route */
-    private $beforeFilters = [];
+    private $preFilters = [];
     /** @var array The list of filters to run after dispatching a route */
-    private $afterFilters = [];
+    private $postFilters = [];
 
     /**
      * @param array $methods The HTTP methods this route matches on
@@ -51,31 +51,15 @@ class Route
             $this->setVariableRegexes($options["variables"]);
         }
 
-        if(isset($options["before"]))
+        if(isset($options["pre"]))
         {
-            $this->setBeforeFilters($options["before"]);
+            $this->setPreFilters($options["pre"]);
         }
 
-        if(isset($options["after"]))
+        if(isset($options["post"]))
         {
-            $this->setAfterFilters($options["after"]);
+            $this->setPostFilters($options["post"]);
         }
-    }
-
-    /**
-     * @return array
-     */
-    public function getAfterFilters()
-    {
-        return $this->afterFilters;
-    }
-
-    /**
-     * @return array
-     */
-    public function getBeforeFilters()
-    {
-        return $this->beforeFilters;
     }
 
     /**
@@ -116,6 +100,22 @@ class Route
     public function getMethods()
     {
         return $this->methods;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPostFilters()
+    {
+        return $this->postFilters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getPreFilters()
+    {
+        return $this->preFilters;
     }
 
     /**
@@ -192,36 +192,6 @@ class Route
     }
 
     /**
-     * Sets the filters to run after dispatching a route
-     *
-     * @param string|array $filters The filter or list of filters to run after dispatching a route
-     */
-    private function setAfterFilters($filters)
-    {
-        if(!is_array($filters))
-        {
-            $filters = [$filters];
-        }
-
-        $this->afterFilters = $filters;
-    }
-
-    /**
-     * Sets the filters to run before dispatching a route
-     *
-     * @param string|array $filters The filter or list of filters to run before dispatching a route
-     */
-    private function setBeforeFilters($filters)
-    {
-        if(!is_array($filters))
-        {
-            $filters = [$filters];
-        }
-
-        $this->beforeFilters = $filters;
-    }
-
-    /**
      * Sets the controller name and method from the raw string
      *
      * @param string $controllerString The string to set the variables from
@@ -239,6 +209,36 @@ class Route
 
         $this->controllerName = substr($controllerString, 0, $atCharPos);
         $this->controllerMethod = substr($controllerString, $atCharPos + 1);
+    }
+
+    /**
+     * Sets the filters to run after dispatching a route
+     *
+     * @param string|array $filters The filter or list of filters to run after dispatching a route
+     */
+    private function setPostFilters($filters)
+    {
+        if(!is_array($filters))
+        {
+            $filters = [$filters];
+        }
+
+        $this->postFilters = $filters;
+    }
+
+    /**
+     * Sets the filters to run before dispatching a route
+     *
+     * @param string|array $filters The filter or list of filters to run before dispatching a route
+     */
+    private function setPreFilters($filters)
+    {
+        if(!is_array($filters))
+        {
+            $filters = [$filters];
+        }
+
+        $this->preFilters = $filters;
     }
 
     /**
