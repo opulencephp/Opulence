@@ -4,7 +4,8 @@
  *
  * Defines the login controller
  */
-namespace RDev\Users\Authentication\Controllers;
+namespace RDev\Controllers\Users\Authentication;
+use RDev\Controllers;
 use RDev\Models\Authentication\Credentials;
 use RDev\Models\Authentication\Credentials\ORM\Credential;
 use RDev\Models\Authentication\EntityTypes;
@@ -14,7 +15,7 @@ use RDev\Models\Users\ORM\User;
 use RDev\Models\Web;
 use TBA\Models\Configs;
 
-class Login
+class Login extends Controllers\Controller
 {
     /** @var User\IUserRepo The user repo to use for finding users */
     private $userRepo = null;

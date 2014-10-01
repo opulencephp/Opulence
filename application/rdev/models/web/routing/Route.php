@@ -14,21 +14,84 @@ class Route
     private $rawPath = "";
     /** @var string The compiled (regex) path */
     private $regex = "";
-    /** @var array The list of options for this route */
-    private $options = [];
+    /** @var string The name of the controller this routes to */
+    private $controllerName = "";
+    /** @var string The name of the controller method this route calls */
+    private $controllerMethod = "";
+    /** @var array The mapping of route variable names to their regexes */
+    private $variableRegexes = [];
     /** @var array The mapping of route-variables to their default values */
     private $defaultValues = [];
+    /** @var array The list of filters to run before dispatching a route */
+    private $beforeFilters = [];
+    /** @var array The list of filters to run after dispatching a route */
+    private $afterFilters = [];
 
     /**
      * @param array $methods The HTTP methods this route matches on
      * @param string $path The raw path to match on
      * @param array $options The list of options
+     * @throws \RuntimeException Thrown if there is no controller specified in the options
+     * @throws \InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
      */
     public function __construct(array $methods, $path, array $options)
     {
         $this->methods = $methods;
         $this->rawPath = $path;
-        $this->options = $options;
+
+        if(!isset($options["controller"]))
+        {
+            throw new \RuntimeException("No controller specified for route");
+        }
+
+        $this->setControllerVariables($options["controller"]);
+
+        if(isset($options["variables"]))
+        {
+            $this->setVariableRegexes($options["variables"]);
+        }
+
+        if(isset($options["before"]))
+        {
+            $this->setBeforeFilters($options["before"]);
+        }
+
+        if(isset($options["after"]))
+        {
+            $this->setAfterFilters($options["after"]);
+        }
+    }
+
+    /**
+     * @return array
+     */
+    public function getAfterFilters()
+    {
+        return $this->afterFilters;
+    }
+
+    /**
+     * @return array
+     */
+    public function getBeforeFilters()
+    {
+        return $this->beforeFilters;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerMethod()
+    {
+        return $this->controllerMethod;
+    }
+
+    /**
+     * @return string
+     */
+    public function getControllerName()
+    {
+        return $this->controllerName;
     }
 
     /**
@@ -79,12 +142,23 @@ class Route
      */
     public function getVariableRegex($name)
     {
-        if(isset($this->options["variables"][$name]))
-        {
-            return $this->options["variables"][$name];
-        }
+        return isset($this->variableRegexes[$name]) ? $this->variableRegexes[$name] : null;
+    }
 
-        return null;
+    /**
+     * @param string $controllerMethod
+     */
+    public function setControllerMethod($controllerMethod)
+    {
+        $this->controllerMethod = $controllerMethod;
+    }
+
+    /**
+     * @param string $controllerName
+     */
+    public function setControllerName($controllerName)
+    {
+        $this->controllerName = $controllerName;
     }
 
     /**
@@ -114,11 +188,69 @@ class Route
      */
     public function setVariableRegex($name, $regex)
     {
-        if(!isset($this->options["variables"]))
+        $this->variableRegexes[$name] = $regex;
+    }
+
+    /**
+     * Sets the filters to run after dispatching a route
+     *
+     * @param string|array $filters The filter or list of filters to run after dispatching a route
+     */
+    private function setAfterFilters($filters)
+    {
+        if(!is_array($filters))
         {
-            $this->options["variables"] = [];
+            $filters = [$filters];
         }
 
-        $this->options["variables"][$name] = $regex;
+        $this->afterFilters = $filters;
+    }
+
+    /**
+     * Sets the filters to run before dispatching a route
+     *
+     * @param string|array $filters The filter or list of filters to run before dispatching a route
+     */
+    private function setBeforeFilters($filters)
+    {
+        if(!is_array($filters))
+        {
+            $filters = [$filters];
+        }
+
+        $this->beforeFilters = $filters;
+    }
+
+    /**
+     * Sets the controller name and method from the raw string
+     *
+     * @param string $controllerString The string to set the variables from
+     * @throws \InvalidArgumentException Thrown if the controller string is not formatted correctly
+     */
+    private function setControllerVariables($controllerString)
+    {
+        $atCharPos = strpos($controllerString, "@");
+
+        // Make sure the "@" is somewhere in the middle of the string
+        if($atCharPos === false || $atCharPos === 0 || $atCharPos === strlen($controllerString) - 1)
+        {
+            throw new \InvalidArgumentException("Controller string is not formatted correctly");
+        }
+
+        $this->controllerName = substr($controllerString, 0, $atCharPos);
+        $this->controllerMethod = substr($controllerString, $atCharPos + 1);
+    }
+
+    /**
+     * Sets route variable regexes
+     *
+     * @param array $variableRegexes The mapping of variable names to their regexes
+     */
+    private function setVariableRegexes(array $variableRegexes)
+    {
+        foreach($variableRegexes as $variableName => $regex)
+        {
+            $this->setVariableRegex($variableName, $regex);
+        }
     }
 } 

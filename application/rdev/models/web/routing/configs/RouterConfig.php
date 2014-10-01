@@ -63,9 +63,15 @@ class RouterConfig extends Configs\Config
         {
             if(is_array($route))
             {
-                if(!isset($route["options"]))
+                // Convert the filters to arrays
+                if(isset($route["options"]["before"]) && is_string($route["options"]["before"]))
                 {
-                    $route["options"] = [];
+                    $route["options"]["before"] = [$route["options"]["before"]];
+                }
+
+                if(isset($route["options"]["after"]) && is_string($route["options"]["after"]))
+                {
+                    $route["options"]["after"] = [$route["options"]["after"]];
                 }
 
                 $configArray["routes"][$index] = $this->getRouteFromConfig($route);
@@ -162,16 +168,26 @@ class RouterConfig extends Configs\Config
             return false;
         }
 
-        if(isset($configArray["options"]))
+        if(!isset($configArray["options"]) || !isset($configArray["options"]["controller"]))
         {
-            if(isset($configArray["options"]["variables"]))
+            return false;
+        }
+
+        $atCharPos = strpos($configArray["options"]["controller"], "@");
+
+        // Check that there's an "@" somewhere in the middle of the controller
+        if($atCharPos === false || $atCharPos === 0 || $atCharPos === strlen($configArray["options"]["controller"]) - 1)
+        {
+            return false;
+        }
+
+        if(isset($configArray["options"]["variables"]))
+        {
+            foreach($configArray["options"]["variables"] as $varName => $value)
             {
-                foreach($configArray["options"]["variables"] as $varName => $value)
+                if(!is_string($varName) || !is_string($value))
                 {
-                    if(!is_string($varName) || !is_string($value))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
             }
         }

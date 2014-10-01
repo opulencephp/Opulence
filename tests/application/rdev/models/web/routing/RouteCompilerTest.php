@@ -24,7 +24,10 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingMultipleVariables()
     {
-        $route = new Route(["get"], "/{foo}/bar/{blah}", []);
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}/bar/{blah}", $options);
         $this->compiler->compile($route);
         $this->assertEquals(
             sprintf(
@@ -40,8 +43,14 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingMultipleVariablesWithRegexes()
     {
-        $parameters = ["foo" => "\d+", "blah" => "[a-z]{3}"];
-        $route = new Route(["get"], "/{foo}/bar/{blah}", ["variables" => $parameters]);
+        $options = [
+            "controller" => "foo@bar",
+            "variables" => [
+                "foo" => "\d+",
+                "blah" => "[a-z]{3}"
+            ]
+        ];
+        $route = new Route(["get"], "/{foo}/bar/{blah}", $options);
         $this->compiler->compile($route);
         $this->assertEquals(
             sprintf(
@@ -57,7 +66,10 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingSingleVariable()
     {
-        $route = new Route(["get"], "/{foo}", []);
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}", $options);
         $this->compiler->compile($route);
         $this->assertEquals(
             sprintf(
@@ -73,7 +85,10 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingSingleVariableWithDefaultValue()
     {
-        $route = new Route(["get"], "/{foo=23}", []);
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo=23}", $options);
         $this->compiler->compile($route);
         $this->assertEquals(
             sprintf(
@@ -90,7 +105,11 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingSingleVariableWithRegexes()
     {
-        $route = new Route(["get"], "/{foo}", ["variables" => ["foo" => "\d+"]]);
+        $options = [
+            "controller" => "foo@bar",
+            "variables" => ["foo" => "\d+"]
+        ];
+        $route = new Route(["get"], "/{foo}", $options);
         $this->compiler->compile($route);
         $this->assertEquals(
             sprintf(
@@ -107,7 +126,10 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
     public function testCompilingStaticPath()
     {
         $path = "/foo/bar/blah";
-        $route = new Route(["get"], $path, []);
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], $path, $options);
         $this->compiler->compile($route);
         $this->assertEquals(
             sprintf(
@@ -124,7 +146,10 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
     public function testCompilingWithDuplicateVariables()
     {
         $this->setExpectedException("\\RuntimeException");
-        $route = new Route(["get"], "/{foo}/{foo}", []);
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}/{foo}", $options);
         $this->compiler->compile($route);
     }
 } 

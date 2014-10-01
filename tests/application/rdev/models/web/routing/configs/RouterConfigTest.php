@@ -11,6 +11,46 @@ use RDev\Tests\Models\Web\Routing\Mocks;
 class RouterConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests a controller without a controller specified
+     */
+    public function testControllerWithControllerMethod()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => ["GET", "POST"],
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "@bar"
+                    ]
+                ]
+            ]
+        ];
+        new RouterConfig($configArray);
+    }
+
+    /**
+     * Tests a controller without a method specified
+     */
+    public function testControllerWithNoMethod()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => ["GET", "POST"],
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@"
+                    ]
+                ]
+            ]
+        ];
+        new RouterConfig($configArray);
+    }
+
+    /**
      * Tests using an empty config
      */
     public function testEmptyConfig()
@@ -45,6 +85,26 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests an improperly-formatted controller
+     */
+    public function testInvalidFormatController()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => ["GET", "POST"],
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo"
+                    ]
+                ]
+            ]
+        ];
+        new RouterConfig($configArray);
+    }
+
+    /**
      * Tests using an invalid value for the routes
      */
     public function testInvalidRoutesValueType()
@@ -53,6 +113,23 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         new RouterConfig([
             "routes" => [
                 "foo"
+            ]
+        ]);
+    }
+
+    /**
+     * Tests not specifying a controller
+     */
+    public function testNotSpecifyingController()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        new RouterConfig([
+            "routes" => [
+                [
+                    "methods" => "GET",
+                    "path" => "/foo",
+                    "options" => []
+                ]
             ]
         ]);
     }
@@ -85,6 +162,52 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ]);
+    }
+
+    /**
+     * Tests specifying after-filters
+     */
+    public function testSpecifyingAfterFilters()
+    {
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => "GET",
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@bar",
+                        "after" => "foo"
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $route */
+        $route = $config->toArray()["routes"][0];
+        $this->assertEquals(["foo"], $route->getAfterFilters());
+    }
+
+    /**
+     * Tests specifying before-filters
+     */
+    public function testSpecifyingBeforeFilters()
+    {
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => "GET",
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@bar",
+                        "before" => "foo"
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $route */
+        $route = $config->toArray()["routes"][0];
+        $this->assertEquals(["foo"], $route->getBeforeFilters());
     }
 
     /**
@@ -129,7 +252,10 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
             "routes" => [
                 [
                     "methods" => ["GET", "POST"],
-                    "path" => "/foo"
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@bar"
+                    ]
                 ]
             ]
         ];
@@ -150,27 +276,9 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
                 [
                     "methods" => "GET",
                     "path" => "/foo",
-                    "options" => []
-                ]
-            ]
-        ];
-        $config = new RouterConfig($configArray);
-        /** @var Routing\Route $route */
-        $route = $config["routes"][0];
-        $this->assertEquals(["GET"], $route->getMethods());
-        $this->assertEquals("/foo", $route->getRawPath());
-    }
-
-    /**
-     * Tests specifying a route array without options
-     */
-    public function testSpecifyingRouteArrayWithoutOptions()
-    {
-        $configArray = [
-            "routes" => [
-                [
-                    "methods" => "GET",
-                    "path" => "/foo"
+                    "options" => [
+                        "controller" => "foo@bar"
+                    ]
                 ]
             ]
         ];
@@ -186,7 +294,10 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifyingRouteObject()
     {
-        $route = new Routing\Route(["get"], "/foo", []);
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Routing\Route(["get"], "/foo", $options);
         $configArray = [
             "routes" => [$route]
         ];

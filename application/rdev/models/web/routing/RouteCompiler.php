@@ -71,6 +71,7 @@ class RouteCompiler implements IRouteCompiler
         $quotedPath = "";
         $pathLength = strlen($path);
         $braceDepth = 0;
+        $quoteBuffer = "";
 
         for($charIter = 0;$charIter < $pathLength;$charIter++)
         {
@@ -78,6 +79,13 @@ class RouteCompiler implements IRouteCompiler
 
             if($char == "{")
             {
+                // Flush out the quote buffer
+                if($braceDepth == 0 && strlen($quoteBuffer) > 0)
+                {
+                    $quotedPath .= preg_quote($quoteBuffer, "/");
+                    $quoteBuffer = "";
+                }
+
                 $braceDepth++;
             }
             elseif($char == "}")
@@ -85,14 +93,21 @@ class RouteCompiler implements IRouteCompiler
                 $braceDepth--;
             }
 
-            if($braceDepth == 0 && $char !== "}")
+            // Make sure that we didn't JUST close all the braces
+            if($braceDepth == 0 && $char != "}")
             {
-                $quotedPath .= preg_quote($char, "/");
+                $quoteBuffer .= $char;
             }
             else
             {
                 $quotedPath .= $char;
             }
+        }
+
+        // Flush out the buffer
+        if(strlen($quoteBuffer) > 0)
+        {
+            $quotedPath .= preg_quote($quoteBuffer, "/");
         }
 
         return $quotedPath;

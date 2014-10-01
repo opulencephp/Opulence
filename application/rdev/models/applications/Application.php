@@ -178,13 +178,13 @@ class Application
      */
     protected function doStart()
     {
-        // Don't do anything right now
+        $this->router->route($this->httpConnection->getRequest()->getRequestURI());
     }
 
     /**
      * Runs a list of tasks
      *
-     * @param array $taskList The list of tasks to run
+     * @param callable[] $taskList The list of tasks to run
      * @throws \RuntimeException Thrown if any of the tasks error out
      */
     protected function doTasks(array $taskList)

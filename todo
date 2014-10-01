@@ -1,9 +1,12 @@
-Consider using Configs for controllers
-    In the config, you'd specify the repos, credentials to use
 Add ability to instantiate controllers from router
     How without resorting to service locator?  Do some research.
         Biggest hurdle is resolving dependencies in controller constructor
     Need to use reflection to pass in variables in $matches to appropriate parameters in controller
+Need to write tests for Router
+Allow caching of routes/matches
+Be able to generatePath() for a router for use in templates
+Consider using Configs for controllers
+    In the config, you'd specify the repos, credentials to use
 Once the above is done, need to finish Login controller
     Waiting on ways to resolve dependencies in constructor, first
 Think of more application config data, update ApplicationConfig::isValid()

@@ -105,6 +105,16 @@ class Request
     }
 
     /**
+     * Gets the entire query string
+     *
+     * @return string The entire query string
+     */
+    public function getQueryString()
+    {
+        return isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
+    }
+
+    /**
      * Gets the value of a query string variable
      *
      * @param string $name The name of the variable to check
@@ -118,6 +128,16 @@ class Request
         }
 
         return $_GET[$name];
+    }
+
+    /**
+     * Gets the request URI
+     *
+     * @return string The request URI if it was set, otherwise an empty string
+     */
+    public function getRequestURI()
+    {
+        return isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : "";
     }
 
     /**

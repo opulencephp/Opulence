@@ -20,6 +20,8 @@ class Router
         Web\Request::METHOD_POST => [],
         Web\Request::METHOD_PUT => []
     ];
+    /** @var callable[] The list of filters that can be used */
+    private $filters = [];
 
     /**
      * @param Web\HTTPConnection $httpConnection The HTTP connection
@@ -98,10 +100,24 @@ class Router
     }
 
     /**
+     * Registers a filter function that can be used before/after a request
+     *
+     * @param string $name The name of the filter
+     * @param callable $callback The callback that executes custom logic
+     */
+    public function registerFilter($name, callable $callback)
+    {
+        $this->filters[$name] = $callback;
+    }
+
+    /**
      * Routes a path
      *
      * @param string $path The path to route
+     * @return mixed The return value of the controller
      * @throws \RuntimeException Thrown if there was a problem routing the input path
+     * @throws Exceptions\InvalidControllerException Thrown if the controller or method could not be called
+     * @throws Exceptions\InvalidFilterException Thrown if the route attempts to call any filters that are not registered
      */
     public function route($path)
     {
@@ -120,9 +136,28 @@ class Router
 
             if(preg_match($route->getRegex(), $path, $matches))
             {
-                // TODO:  Actually dispatch the action on a controller
+                // Do our before-filters
+                if(($beforeFilterReturnValue = $this->executeFilters($route->getBeforeFilters())) !== null)
+                {
+                    return $beforeFilterReturnValue;
+                }
+
+                // Call our controller
+                if(($controllerResponse = $this->callController($route, $matches)) !== null)
+                {
+                    return $controllerResponse;
+                }
+
+                // Do our after-filters
+                if(($afterFilterReturnValue = $this->executeFilters($route->getAfterFilters())) !== null)
+                {
+                    return $afterFilterReturnValue;
+                }
             }
         }
+
+        // TODO: Implement a default controller
+        return "NOTHING";
     }
 
     /**
@@ -139,6 +174,59 @@ class Router
     }
 
     /**
+     * Calls the controller for a matched route
+     *
+     * @param Route $route The matched route
+     * @param array $matches The list of matches on route variables
+     * @return mixed|null The response from the controller, if there was one, otherwise null
+     * @throws Exceptions\InvalidControllerException Thrown if the controller or method were invalid
+     */
+    private function callController(Route $route, array $matches)
+    {
+        $controllerName = $route->getControllerName();
+        $method = $route->getControllerMethod();
+        $parameters = [];
+
+        if(!class_exists($controllerName))
+        {
+            throw new Exceptions\InvalidControllerException("Controller class $controllerName does not exist");
+        }
+
+        try
+        {
+            $reflection = new \ReflectionMethod($controllerName, $method);
+
+            if(!$reflection->isPublic())
+            {
+                throw new Exceptions\InvalidControllerException("Method $method is not public");
+            }
+
+            // Match the route variables to the method parameters
+            foreach($reflection->getParameters() as $parameter)
+            {
+                if(isset($matches[$parameter->getName()]))
+                {
+                    $parameters[$parameter->getPosition()] = $matches[$parameter->getName()];
+                }
+                elseif(!$parameter->isDefaultValueAvailable())
+                {
+                    throw new Exceptions\InvalidControllerException(
+                        "No value set for parameter {$parameter->getName()}"
+                    );
+                }
+            }
+
+            return call_user_func_array([new $controllerName, $method], $parameters);
+        }
+        catch(\ReflectionException $ex)
+        {
+            throw new Exceptions\InvalidControllerException(
+                "Reflection failed for method $method in controller $controllerName: $ex"
+            );
+        }
+    }
+
+    /**
      * Creates a route from the input
      *
      * @param string $method The method whose route this is
@@ -149,5 +237,30 @@ class Router
     private function createRoute($method, $path, array $options)
     {
         return new Route([$method], $path, $options);
+    }
+
+    /**
+     * Executes the list of filters
+     *
+     * @param array $filterNames The list of filter names to execute
+     * @return mixed|null The response from any of the filters if they returned something, otherwise null
+     * @throws Exceptions\InvalidFilterException Thrown if the filter does not exist
+     */
+    private function executeFilters(array $filterNames)
+    {
+        foreach($filterNames as $filterName)
+        {
+            if(!isset($this->filters[$filterName]))
+            {
+                throw new Exceptions\InvalidFilterException("Filter $filterName is not registered with the router");
+            }
+
+            if(($filterReturnValue = $this->filters[$filterName]()) !== null)
+            {
+                return $filterReturnValue;
+            }
+        }
+
+        return null;
     }
 } 

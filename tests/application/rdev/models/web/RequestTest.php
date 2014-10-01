@@ -222,6 +222,37 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the query string
+     */
+    public function testGettingQueryString()
+    {
+        $queryString = "foo=bar&blah=asdf";
+        $_SERVER["QUERY_STRING"] = $queryString;
+        $request = new Request();
+        $this->assertEquals($queryString, $request->getQueryString());
+    }
+
+    /**
+     * Tests getting the request URI
+     */
+    public function testGettingRequestURI()
+    {
+        $_SERVER["REQUEST_URI"] = "/foo/bar";
+        $request = new Request();
+        $this->assertEquals("/foo/bar", $request->getRequestURI());
+    }
+
+    /**
+     * Tests getting the request URI when none was set
+     */
+    public function testGettingRequestURIWhenNoneWasSet()
+    {
+        unset($_SERVER["REQUEST_URI"]);
+        $request = new Request();
+        $this->assertEmpty($request->getRequestURI());
+    }
+
+    /**
      * Tests getting a set cookie
      */
     public function testGettingSetCookie()
