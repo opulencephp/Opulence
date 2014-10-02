@@ -1,6 +1,3 @@
-Add ability to instantiate controllers from router
-    How without resorting to service locator?  Do some research.
-        Biggest hurdle is resolving dependencies in controller constructor
 Need default controller support in Router
 Need to figure out what exactly should be returned by Controllers
     Responses?  What does that actually even mean?

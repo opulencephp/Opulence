@@ -5,6 +5,7 @@
  * Defines an application
  */
 namespace RDev\Models\Applications;
+use RDev\Models\IoC;
 use RDev\Models\Web;
 use RDev\Models\Web\Routing;
 
@@ -25,6 +26,8 @@ class Application
     private $httpConnection = null;
     /** @var Routing\Router The router for requests */
     private $router = null;
+    /** @var IoC\Container The dependency injection container to use throughout the application */
+    private $iocContainer = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
     /** @var callable[] The list of functions to execute before startup */
@@ -49,10 +52,11 @@ class Application
             $config = new Configs\ApplicationConfig($config);
         }
 
+        $this->iocContainer = new IoC\Container();
         $environmentFetcher = new EnvironmentFetcher();
         $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
         $this->httpConnection = new Web\HTTPConnection();
-        $this->router = new Routing\Router($this->httpConnection, $config["router"]);
+        $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["router"]);
     }
 
     /**
@@ -69,6 +73,14 @@ class Application
     public function getHTTPConnection()
     {
         return $this->httpConnection;
+    }
+
+    /**
+     * @return IoC\Container
+     */
+    public function getIoCContainer()
+    {
+        return $this->iocContainer;
     }
 
     /**

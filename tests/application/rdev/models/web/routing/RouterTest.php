@@ -5,6 +5,7 @@
  * Tests the router
  */
 namespace RDev\Models\Web\Routing;
+use RDev\Models\IoC;
 use RDev\Models\Web;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
@@ -207,6 +208,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 new Route([Web\Request::METHOD_PUT], $path, $options)
             ]
         ];
-        $this->router = new Router(new Web\HTTPConnection, $configArray);
+        $this->router = new Router(new IoC\Container(), new Web\HTTPConnection, $configArray);
     }
 } 

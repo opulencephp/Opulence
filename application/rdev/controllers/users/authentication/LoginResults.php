@@ -4,7 +4,7 @@
  *
  * Defines the different types of login results
  */
-namespace RDev\Users\Authentication\Controllers;
+namespace RDev\Controllers\Users\Authentication;
 
 class LoginResults
 {

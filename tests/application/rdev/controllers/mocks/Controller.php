@@ -6,6 +6,7 @@
  */
 namespace RDev\Tests\Controllers\Mocks;
 use RDev\Controllers;
+use RDev\Tests\Models\Mocks;
 
 class Controller extends Controllers\Controller
 {

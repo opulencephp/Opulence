@@ -55,9 +55,7 @@ class RouteCompiler implements IRouteCompiler
             );
         }
 
-        $route->setRegex(
-            sprintf("/^%s$/", $pathRegex)
-        );
+        $route->setRegex(sprintf("/^%s$/", $pathRegex));
     }
 
     /**

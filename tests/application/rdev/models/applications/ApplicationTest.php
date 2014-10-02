@@ -86,6 +86,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the dependency injection container
+     */
+    public function testGettingIoCContainer()
+    {
+        $this->assertInstanceOf("RDev\\Models\\IoC\\Container", $this->application->getIoCContainer());
+    }
+
+    /**
      * Tests getting the router
      */
     public function testGettingRouter()

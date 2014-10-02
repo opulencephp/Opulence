@@ -15,6 +15,12 @@
 ### Building Your First Application
 1. [Setting Up an Application](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/applications)
 
+### Templates
+1. [Building a Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views)
+
+### Routing
+1. [Setting Up a Router](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/web/routing)
+
 ### Databases
 1. [Relational Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
   1. [Type Mappers](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/providers)
@@ -22,8 +28,8 @@
 3. [Object-Relational Mapping](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/orm)
 4. [Query Builders](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql/querybuilders)
 
-### Templates
-1. [Building a Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views)
+### Inversion of Control
+1. [Dependency Injection](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/ioc)
 
 ### Configs
 1. [Configs](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/configs)

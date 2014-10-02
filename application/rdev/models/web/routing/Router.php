@@ -5,10 +5,13 @@
  * Defines a router for URL requests
  */
 namespace RDev\Models\Web\Routing;
+use RDev\Models\IoC;
 use RDev\Models\Web;
 
 class Router
 {
+    /** @var IoC\Container The dependency injection container */
+    private $iocContainer = null;
     /** @var IRouteCompiler The compiler used by this router */
     private $compiler = null;
     /** @var Web\HTTPConnection The HTTP connection */
@@ -24,6 +27,7 @@ class Router
     private $filters = [];
 
     /**
+     * @param IoC\Container $iocContainer The dependency injection container
      * @param Web\HTTPConnection $httpConnection The HTTP connection
      * @param Configs\RouterConfig|array $config The configuration to use
      *      The following keys are optional:
@@ -34,8 +38,9 @@ class Router
      *              "options" => The optional array of route options, which may contain the following:
      *                  "variables" => The mapping of route-variable names to the regexes they must fulfill
      */
-    public function __construct(Web\HTTPConnection $httpConnection, $config)
+    public function __construct(IoC\Container $iocContainer, Web\HTTPConnection $httpConnection, $config)
     {
+        $this->iocContainer = $iocContainer;
         $this->httpConnection = $httpConnection;
 
         if(is_array($config))
@@ -216,7 +221,9 @@ class Router
                 }
             }
 
-            return call_user_func_array([new $controllerName, $method], $parameters);
+            $controller = $this->iocContainer->createShared($controllerName);
+
+            return call_user_func_array([$controller, $method], $parameters);
         }
         catch(\ReflectionException $ex)
         {
