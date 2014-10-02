@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
   1. [Explanation of Dependency Injection](#explanation-of-dependency-injection)
-  2. [Dependency Injection Container](#depdency-injection-container)
+  2. [Dependency Injection Container](#dependency-injection-container)
 2. [Basic Usage](#basic-usage)
 3. [Binding for a Specific Class](#binding-for-a-specific-class)
 4. [Creating New Instances](#creating-new-instances)
