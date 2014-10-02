@@ -105,6 +105,17 @@ $configArray = [
 ];
 $config = new Configs\ApplicationConfig($configArray);
 ```
+The following specifies a custom container class:
+```php
+use RDev\Models\Application\Configs;
+
+$configArray = [
+    "bindings" => [
+        "container" => "Class\\That\\Implements\\IContainer"
+    ]
+];
+$config = new Configs\ApplicationConfig($configArray);
+```
 
 ## Bindings
 Bindings in the config are set when the application is instantiated.  If you'd like to register more bindings after the application has been instantiated, you may do so by registering a pre-start task:
