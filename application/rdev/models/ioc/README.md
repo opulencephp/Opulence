@@ -1,3 +1,3 @@
-# Inversion of Control
+# Dependency Injection
 
 Coming soon to a browser near you!
