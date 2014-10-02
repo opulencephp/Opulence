@@ -42,7 +42,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testBindingToAbstractClass()
     {
         $this->container->bind($this->baseClassName, $this->concreteClassName);
-        $object = $this->container->createShared($this->baseClassName);
+        $object = $this->container->createSingleton($this->baseClassName);
         $this->assertInstanceOf($this->concreteClassName, $object);
     }
 
@@ -52,7 +52,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testBindingToInterface()
     {
         $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createShared($this->interfaceName);
+        $object = $this->container->createSingleton($this->interfaceName);
         $this->assertInstanceOf($this->concreteClassName, $object);
     }
 
@@ -64,7 +64,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $methodCalls = [
             "setFoo" => ["bar"]
         ];
-        $object = $this->container->createShared($this->constructorWithSettersName, [], $methodCalls);
+        $object = $this->container->createSingleton($this->constructorWithSettersName, [], $methodCalls);
         $this->assertEquals("bar", $object->getFoo());
     }
 
@@ -76,7 +76,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->bind($this->interfaceName, $this->secondConcreteClassName, $this->constructorWithInterfaceName);
         // Setup a universal binding which in theory should not be respected
         $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createShared($this->constructorWithInterfaceName);
+        $object = $this->container->createSingleton($this->constructorWithInterfaceName);
         $this->assertInstanceOf($this->constructorWithInterfaceName, $object);
         $this->assertInstanceOf($this->secondConcreteClassName, $object->getFoo());
     }
@@ -86,7 +86,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewConcreteClass()
     {
-        $object = $this->container->createShared($this->concreteClassName);
+        $object = $this->container->createSingleton($this->concreteClassName);
         $this->assertInstanceOf($this->concreteClassName, $object);
         $this->assertNotSame($object, $this->container->createNew($this->concreteClassName));
     }
@@ -96,7 +96,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingObjectWithConcreteClassInConstructor()
     {
-        $object = $this->container->createShared($this->constructorWithConcreteClassName);
+        $object = $this->container->createSingleton($this->constructorWithConcreteClassName);
         $this->assertInstanceOf($this->constructorWithConcreteClassName, $object);
         $this->assertInstanceOf($this->concreteClassName, $object->getFoo());
     }
@@ -107,7 +107,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCreatingObjectWithInterfaceInConstructor()
     {
         $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createShared($this->constructorWithInterfaceName);
+        $object = $this->container->createSingleton($this->constructorWithInterfaceName);
         $this->assertInstanceOf($this->constructorWithInterfaceName, $object);
         $this->assertInstanceOf($this->concreteClassName, $object->getFoo());
     }
@@ -118,18 +118,29 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCreatingObjectWithPrimitivesInConstructor()
     {
         $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createShared($this->constructorWithPrimitivesName, ["foo"]);
+        $object = $this->container->createSingleton($this->constructorWithPrimitivesName, ["foo"]);
         $this->assertInstanceOf($this->constructorWithPrimitivesName, $object);
         $this->assertEquals("foo", $object->getFoo());
     }
 
     /**
-     * Tests creating a shared instance of a concrete class
+     * Tests creating a singleton instance of a concrete class
      */
-    public function testCreatingSharedConcreteClass()
+    public function testCreatingSingletonConcreteClass()
     {
-        $object = $this->container->createShared($this->concreteClassName);
+        $object = $this->container->createSingleton($this->concreteClassName);
         $this->assertInstanceOf($this->concreteClassName, $object);
-        $this->assertSame($object, $this->container->createShared($this->concreteClassName));
+        $this->assertSame($object, $this->container->createSingleton($this->concreteClassName));
+    }
+
+    /**
+     * Tests that a singleton will always return the same instance
+     */
+    public function testSingletonAlwaysReturnsSameInstance()
+    {
+        $singletonObject = $this->container->createSingleton($this->concreteClassName);
+        // Create a new object to make sure it didn't mess with the singleton instance
+        $this->container->createNew($this->concreteClassName);
+        $this->assertSame($singletonObject, $this->container->createSingleton($this->concreteClassName));
     }
 } 

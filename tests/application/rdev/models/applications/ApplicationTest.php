@@ -62,6 +62,34 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the bindings are registered
+     */
+    public function testBindings()
+    {
+        $interfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\IFoo";
+        $concreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Bar";
+        $secondConcreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Blah";
+        $constructorWithInterfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithInterface";
+        $configArray = [
+            "bindings" => [
+                "universal" => [
+                    $interfaceName => $concreteClassName
+                ],
+                "targeted" => [
+                    $constructorWithInterfaceName => [
+                        $interfaceName => $secondConcreteClassName
+                    ]
+                ]
+            ]
+        ];
+        $application = new Application($configArray);
+        $object1 = $application->getIoCContainer()->createNew($interfaceName);
+        $object2 = $application->getIoCContainer()->createNew($constructorWithInterfaceName)->getFoo();
+        $this->assertInstanceOf($concreteClassName, $object1);
+        $this->assertInstanceOf($secondConcreteClassName, $object2);
+    }
+
+    /**
      * Tests checking if an application that wasn't ever started is running
      */
     public function testCheckingIfUnstartedApplicationIsRunning()
@@ -90,7 +118,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingIoCContainer()
     {
-        $this->assertInstanceOf("RDev\\Models\\IoC\\Container", $this->application->getIoCContainer());
+        $this->assertInstanceOf("RDev\\Models\\IoC\\IContainer", $this->application->getIoCContainer());
     }
 
     /**

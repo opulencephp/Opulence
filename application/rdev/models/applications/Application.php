@@ -26,7 +26,7 @@ class Application
     private $httpConnection = null;
     /** @var Routing\Router The router for requests */
     private $router = null;
-    /** @var IoC\Container The dependency injection container to use throughout the application */
+    /** @var IoC\IContainer The dependency injection container to use throughout the application */
     private $iocContainer = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
@@ -52,7 +52,8 @@ class Application
             $config = new Configs\ApplicationConfig($config);
         }
 
-        $this->iocContainer = new IoC\Container();
+        $this->iocContainer = $config["bindings"]["container"];
+        $this->registerBindings($config["bindings"]);
         $environmentFetcher = new EnvironmentFetcher();
         $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
         $this->httpConnection = new Web\HTTPConnection();
@@ -76,7 +77,7 @@ class Application
     }
 
     /**
-     * @return IoC\Container
+     * @return IoC\IContainer
      */
     public function getIoCContainer()
     {
@@ -211,6 +212,27 @@ class Application
         catch(\Exception $ex)
         {
             throw new \RuntimeException("Failed to run tasks: " . $ex->getMessage());
+        }
+    }
+
+    /**
+     * Registers the bindings from the config
+     *
+     * @param array $bindings The list of bindings from the config
+     */
+    private function registerBindings(array $bindings)
+    {
+        foreach($bindings["universal"] as $component => $concreteClassName)
+        {
+            $this->iocContainer->bind($component, $concreteClassName);
+        }
+
+        foreach($bindings["targeted"] as $targetClassName => $targetedBindings)
+        {
+            foreach($targetedBindings as $component => $concreteClassName)
+            {
+                $this->iocContainer->bind($component, $concreteClassName, $targetClassName);
+            }
         }
     }
 } 
