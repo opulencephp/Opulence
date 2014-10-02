@@ -50,7 +50,7 @@ Let's break down the structure of the config.  The following keys are optional:
 * "bindings"
   * The following keys are optional:
     * "container" => The dependency injection container to use throughout the application
-      * Must either be an instance or name of a class that implements RDev\Models\IoC\IContainer
+      * Must either be an instance or name of a class that implements `RDev\Models\IoC\IContainer`
     * "universal" => Mapping of universal bindings of interface/abstract class names to concrete class names
     * "targeted" => Mapping of targeted classes to their list of bindings of interface/abstract class names to concrete class names
       * Targeted bindings take precedence over universal bindings
