@@ -63,7 +63,7 @@ class RequestParameters extends \ArrayObject
      */
     public function get($name, $default = null)
     {
-        return isset($this->parameters[$name]) ? $this->parameters[$name] : $default;
+        return $this->has($name) ? $this->parameters[$name] : $default;
     }
 
     /**

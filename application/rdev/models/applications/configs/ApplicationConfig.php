@@ -12,6 +12,55 @@ use RDev\Models\IoC;
 
 class ApplicationConfig extends Configs\Config
 {
+    private static $monologHandlerDefaultOptions = [
+        "handler" => null,
+        "handlers" => [],
+        "level" => Monolog\Logger::DEBUG,
+        "bubble" => true,
+        "fromEmail" => "",
+        "subject" => "",
+        "toEmail" => "",
+        "mailer" => null,
+        "formatter" => null,
+        "priority" => 0,
+        "id" => null,
+        "stopBuffering" => true,
+        "bufferSize" => 0,
+        "activationStrategy" => null,
+        "passThroughLevel" => null,
+        "facility" => LOG_USER,
+        "cubeHandlerURL" => "",
+        "amqpExchange" => null,
+        "amqpExchangeName" => "log",
+        "couchDBClient" => null,
+        "dynamoDBClient" => null,
+        "dynamoTable" => "",
+        "elasticClient" => null,
+        "minLevel" => Monolog\Logger::DEBUG,
+        "maxLevel" => Monolog\Logger::EMERGENCY,
+        "token" => "",
+        "gelfPublisher" => null,
+        "hipChatRoom" => "",
+        "swiftMailer" => null,
+        "swiftMessage" => null,
+        "mongo" => null,
+        "mongoDB" => "",
+        "mongoCollection" => "",
+        "pushoverUsers" => [],
+        "ravenClient" => null,
+        "redisClient" => null,
+        "redisKey" => "",
+        "rollbarNotifier" => null,
+        "filename" => "",
+        "maxFiles" => 0,
+        "slackChannel" => "",
+        "slackUsername" => "",
+        "socketConnectionString" => "",
+        "stream" => "",
+        "sysLogHost" => "",
+        "sysLogPort" => 514
+    ];
+
     /**
      * {@inheritdoc}
      */
@@ -184,56 +233,7 @@ class ApplicationConfig extends Configs\Config
      */
     private function createDefaultMonologHandlerOptions(array &$configArray)
     {
-        $defaults = [
-            "handler" => null,
-            "handlers" => [],
-            "level" => Monolog\Logger::DEBUG,
-            "bubble" => true,
-            "fromEmail" => "",
-            "subject" => "",
-            "toEmail" => "",
-            "mailer" => null,
-            "formatter" => null,
-            "priority" => 0,
-            "id" => null,
-            "stopBuffering" => true,
-            "bufferSize" => 0,
-            "activationStrategy" => null,
-            "passThroughLevel" => null,
-            "facility" => LOG_USER,
-            "cubeHandlerURL" => "",
-            "amqpExchange" => null,
-            "amqpExchangeName" => "log",
-            "couchDBClient" => null,
-            "dynamoDBClient" => null,
-            "dynamoTable" => "",
-            "elasticClient" => null,
-            "minLevel" => Monolog\Logger::DEBUG,
-            "maxLevel" => Monolog\Logger::EMERGENCY,
-            "token" => "",
-            "gelfPublisher" => null,
-            "hipChatRoom" => "",
-            "swiftMailer" => null,
-            "swiftMessage" => null,
-            "mongo" => null,
-            "mongoDB" => "",
-            "mongoCollection" => "",
-            "pushoverUsers" => [],
-            "ravenClient" => null,
-            "redisClient" => null,
-            "redisKey" => "",
-            "rollbarNotifier" => null,
-            "filename" => "",
-            "maxFiles" => 0,
-            "slackChannel" => "",
-            "slackUsername" => "",
-            "socketConnectionString" => "",
-            "stream" => "",
-            "sysLogHost" => "",
-            "sysLogPort" => 514
-        ];
-
-        foreach($defaults as $name => $value)
+        foreach(self::$monologHandlerDefaultOptions as $name => $value)
         {
             if(!isset($configArray[$name]))
             {
@@ -252,9 +252,10 @@ class ApplicationConfig extends Configs\Config
      */
     private function createMonologHandlerInstance($handlerClassName, array $configArray)
     {
-        $type = strtolower(str_replace("Monolog\\Handler\\", "", $handlerClassName));
+        $handlerClassName = trim($handlerClassName, "\\");
+        $handlerClassName = strtolower(str_replace("Monolog\\Handler\\", "", $handlerClassName));
 
-        switch($type)
+        switch($handlerClassName)
         {
             case "amqphandler":
                 return new Handler\AmqpHandler($configArray["amqpExchange"], $configArray["amqpExchangeName"],

@@ -1,12 +1,13 @@
 Need default controller support in Router
 Need to figure out what exactly should be returned by Controllers
-    Responses?  What does that actually even mean?
+    Responses?
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
 Consider using Configs for controllers
     In the config, you'd specify the repos, credentials to use
+Need a Redirector
+    Needs to play with Response
 Once the above is done, need to finish Login controller
-    Waiting on ways to resolve dependencies in constructor, first
 See if there's a way to throw an exception rather than fail completely when IoC container fails to bind/create
     In the long run, it's probably best to just rewrite implementation to not use Dice
 Incorrect username entry is faster, allowing timing attacks

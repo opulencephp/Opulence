@@ -159,7 +159,7 @@ class Request
             }
         }
 
-        $this->ipAddress = $this->server->has("REMOTE_ADDR") ? $this->server->get("REMOTE_ADDR") : "";
+        $this->ipAddress = $this->server->get("REMOTE_ADDR", "");
     }
 
     /**
@@ -167,48 +167,41 @@ class Request
      */
     private function setMethod()
     {
-        if($this->server->has("REQUEST_METHOD"))
+        switch(strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET)))
         {
-            switch(strtolower($this->server->get("REQUEST_METHOD")))
-            {
-                case "delete":
-                    $this->method = self::METHOD_DELETE;
-                    break;
-                case "get":
-                    $this->method = self::METHOD_GET;
-                    break;
-                case "post":
-                    $this->method = self::METHOD_POST;
-                    break;
-                case "put":
-                    $this->method = self::METHOD_PUT;
-                    break;
-                case "head":
-                    $this->method = self::METHOD_HEAD;
-                    break;
-                case "trace":
-                    $this->method = self::METHOD_TRACE;
-                    break;
-                case "purge":
-                    $this->method = self::METHOD_PURGE;
-                    break;
-                case "connect":
-                    $this->method = self::METHOD_CONNECT;
-                    break;
-                case "patch":
-                    $this->method = self::METHOD_PATCH;
-                    break;
-                case "options":
-                    $this->method = self::METHOD_OPTIONS;
-                    break;
-                default:
-                    $this->method = self::METHOD_GET;
-                    break;
-            }
-        }
-        else
-        {
-            $this->method = self::METHOD_GET;
+            case "delete":
+                $this->method = self::METHOD_DELETE;
+                break;
+            case "get":
+                $this->method = self::METHOD_GET;
+                break;
+            case "post":
+                $this->method = self::METHOD_POST;
+                break;
+            case "put":
+                $this->method = self::METHOD_PUT;
+                break;
+            case "head":
+                $this->method = self::METHOD_HEAD;
+                break;
+            case "trace":
+                $this->method = self::METHOD_TRACE;
+                break;
+            case "purge":
+                $this->method = self::METHOD_PURGE;
+                break;
+            case "connect":
+                $this->method = self::METHOD_CONNECT;
+                break;
+            case "patch":
+                $this->method = self::METHOD_PATCH;
+                break;
+            case "options":
+                $this->method = self::METHOD_OPTIONS;
+                break;
+            default:
+                $this->method = self::METHOD_GET;
+                break;
         }
     }
 } 
