@@ -5,11 +5,10 @@
  * Tests the HTTP response
  */
 namespace RDev\Models\Web;
-use RDev\Tests\Models\Web\Mocks;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\Response The response to use in tests */
+    /** @var Response The response to use in tests */
     private $response = null;
 
     /**
@@ -17,26 +16,52 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Mocks\Response();
+        $this->response = new Response();
     }
 
     /**
-     * Tests deleting a cookie
+     * Tests getting the content
      */
-    public function testDeletingCookie()
+    public function testGettingContent()
     {
-        $this->response->setCookie("foo", "bar", new \DateTime("now", new \DateTimeZone("UTC")), "/", "foo.bar", true, true);
-        $this->response->deleteCookie("foo", "/", "foo.bar", true, true);
-        $this->assertEmpty($this->response->getCookies()["foo"]["value"]);
+        $response = new Response("foo");
+        $this->assertEquals("foo", $response->getContent());
     }
 
     /**
-     * Tests setting a cookie
+     * Tests getting the default HTTP version
      */
-    public function testSettingCookie()
+    public function testGettingDefaultHTTPVersion()
     {
-        $this->response->setCookie("foo", "bar", new \DateTime("now", new \DateTimeZone("UTC")), "/", "foo.bar", true, true);
-        $this->assertEquals("bar", $this->response->getCookies()["foo"]["value"]);
+        $this->assertEquals("1.1", $this->response->getHTTPVersion());
+    }
+
+    /**
+     * Tests getting the default status code
+     */
+    public function testGettingDefaultStatusCode()
+    {
+        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * Tests sending the content
+     */
+    public function testSendingContent()
+    {
+        $this->response->setContent("foo");
+        ob_start();
+        $this->response->sendContent();
+        $this->assertEquals("foo", ob_get_clean());
+    }
+
+    /**
+     * Tests setting the content
+     */
+    public function testSettingContent()
+    {
+        $this->response->setContent("foo");
+        $this->assertEquals("foo", $this->response->getContent());
     }
 
     /**
@@ -46,37 +71,33 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $expiration = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->response->setExpiration($expiration);
-        $this->assertEquals([
-            "value" => $expiration->format("r"),
-            "shouldReplace" => true,
-            "httpResponseCode" => ""
-        ], $this->response->getHeaders()["Expires"]);
+        $this->assertEquals([$expiration->format("r")], $this->response->getHeaders()->get("Expires"));
     }
 
     /**
-     * Tests setting a header
+     * Tests setting the HTTP version
      */
-    public function testSettingHeader()
+    public function testSettingHTTPVersion()
     {
-        $this->response->setHeader("foo", "bar", false, 400);
-        $this->assertEquals([
-            "value" => "bar",
-            "shouldReplace" => false,
-            "httpResponseCode" => 400
-        ], $this->response->getHeaders()["foo"]);
+        $this->response->setHTTPVersion("2.0");
+        $this->assertEquals("2.0", $this->response->getHTTPVersion());
     }
 
     /**
-     * Tests setting a location
+     * Tests setting the status code
      */
-    public function testSettingLocation()
+    public function testSettingStatusCode()
     {
-        $location = "http://www.google.com";
-        $this->response->setLocation($location);
-        $this->assertEquals([
-            "value" => $location,
-            "shouldReplace" => true,
-            "httpResponseCode" => ""
-        ], $this->response->getHeaders()["Location"]);
+        $this->response->setStatusCode(Response::HTTP_ACCEPTED);
+        $this->assertEquals(Response::HTTP_ACCEPTED, $this->response->getStatusCode());
+    }
+
+    /**
+     * Tests setting the status code with text
+     */
+    public function testSettingStatusCodeWithText()
+    {
+        $this->response->setStatusCode(Response::HTTP_ACCEPTED, Response::$statusTexts[Response::HTTP_ACCEPTED]);
+        $this->assertEquals(Response::HTTP_ACCEPTED, $this->response->getStatusCode());
     }
 }

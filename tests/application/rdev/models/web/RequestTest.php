@@ -16,6 +16,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     private static $getClone = [];
     /** @var array A clone of the $_POST array, which we can use to restore original values */
     private static $postClone = [];
+    /** @var Request The request to use in tests */
+    private $request = null;
 
     /**
      * Sets up all of the tests
@@ -26,6 +28,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         self::$serverClone = $_SERVER;
         self::$getClone = $_GET;
         self::$postClone = $_POST;
+    }
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES);
     }
 
     /**
@@ -44,9 +54,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfSetCookieIsSet()
     {
-        $request = new Request();
         $_COOKIE["foo"] = "bar";
-        $this->assertTrue($request->cookieIsSet("foo"));
+        $this->request->getCookies()->exchangeArray($_COOKIE);
+        $this->assertTrue($this->request->getCookies()->has("foo"));
     }
 
     /**
@@ -54,9 +64,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfSetGetVarIsSet()
     {
-        $request = new Request();
         $_GET["foo"] = "bar";
-        $this->assertTrue($request->queryStringVarIsSet("foo"));
+        $this->request->getQuery()->exchangeArray($_GET);
+        $this->assertTrue($this->request->getQuery()->has("foo"));
     }
 
     /**
@@ -64,9 +74,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfSetPostVarIsSet()
     {
-        $request = new Request();
         $_POST["foo"] = "bar";
-        $this->assertTrue($request->postVarIsSet("foo"));
+        $this->request->getPost()->exchangeArray($_POST);
+        $this->assertTrue($this->request->getPost()->has("foo"));
     }
 
     /**
@@ -74,8 +84,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfUnsetCookieIsSet()
     {
-        $request = new Request();
-        $this->assertFalse($request->cookieIsSet("foo"));
+        $this->assertFalse($this->request->getCookies()->has("foo"));
     }
 
     /**
@@ -83,8 +92,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfUnsetGetVarIsNotSet()
     {
-        $request = new Request();
-        $this->assertFalse($request->queryStringVarIsSet("foo"));
+        $this->assertFalse($this->request->getQuery()->has("foo"));
     }
 
     /**
@@ -92,8 +100,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfUnsetPostVarIsNotSet()
     {
-        $request = new Request();
-        $this->assertFalse($request->postVarIsSet("foo"));
+        $this->assertFalse($this->request->getPost()->has("foo"));
     }
 
     /**
@@ -102,8 +109,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingConnectMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "CONNECT";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_CONNECT, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_CONNECT, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting the cookies
+     */
+    public function testGettingCookies()
+    {
+        $this->assertSame($_COOKIE, $this->request->getCookies()->getAll());
     }
 
     /**
@@ -112,8 +127,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingDeleteMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "DELETE";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_DELETE, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_DELETE, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting the files
+     */
+    public function testGettingFiles()
+    {
+        $this->assertSame($_FILES, $this->request->getFiles()->getAll());
     }
 
     /**
@@ -122,8 +145,27 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingGetMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "GET";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_GET, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting the headers
+     */
+    public function testGettingHeaders()
+    {
+        $headerParameters = [];
+
+        // Grab all of the server parameters that begin with "HTTP_"
+        foreach($this->request->getServer()->getAll() as $key => $value)
+        {
+            if(strpos($key, "HTTP_") === 0)
+            {
+                $headerParameters[substr($key, 5)] = $value;
+            }
+        }
+
+        $this->assertSame($headerParameters, $this->request->getHeaders()->getAll());
     }
 
     /**
@@ -145,20 +187,10 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         foreach($keys as $key)
         {
             $_SERVER[$key] = $defaultIPAddress;
-            $request = new Request();
+            $request = new Request([], [], [], $_SERVER, []);
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());
             unset($_SERVER[$key]);
         }
-    }
-
-    /**
-     * Tests getting the method when the input method doesn't match any predefined values
-     */
-    public function testGettingMethodWhenInputDoesNotMatchPredefinedValue()
-    {
-        $_SERVER["REQUEST_METHOD"] = "foo";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
     }
 
     /**
@@ -166,9 +198,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingMethodWhenNoneIsSet()
     {
-        unset($_SERVER["REQUEST_METHOD"]);
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+        $this->request->getServer()->remove("REQUEST_METHOD");
+        $this->assertNull($this->request->getServer()->get("REQUEST_METHOD"));
     }
 
     /**
@@ -177,8 +208,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingOptionsMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "OPTIONS";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_OPTIONS, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_OPTIONS, $this->request->getServer()->get("REQUEST_METHOD"));
     }
 
     /**
@@ -187,8 +218,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPatchMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "PATCH";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_PATCH, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_PATCH, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting the post
+     */
+    public function testGettingPost()
+    {
+        $this->assertSame($_POST, $this->request->getPost()->getAll());
     }
 
     /**
@@ -197,8 +236,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPostMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "POST";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_POST, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_POST, $this->request->getServer()->get("REQUEST_METHOD"));
     }
 
     /**
@@ -207,8 +246,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPurgeMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "PURGE";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_PURGE, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_PURGE, $this->request->getServer()->get("REQUEST_METHOD"));
     }
 
     /**
@@ -217,8 +256,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPutMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "PUT";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_PUT, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_PUT, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting the query
+     */
+    public function testGettingQuery()
+    {
+        $this->assertSame($_GET, $this->request->getQuery()->getAll());
     }
 
     /**
@@ -228,8 +275,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $queryString = "foo=bar&blah=asdf";
         $_SERVER["QUERY_STRING"] = $queryString;
-        $request = new Request();
-        $this->assertEquals($queryString, $request->getQueryString());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals($queryString, $this->request->getServer()->get("QUERY_STRING"));
     }
 
     /**
@@ -238,8 +285,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingRequestURI()
     {
         $_SERVER["REQUEST_URI"] = "/foo/bar";
-        $request = new Request();
-        $this->assertEquals("/foo/bar", $request->getRequestURI());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals("/foo/bar", $this->request->getServer()->get("REQUEST_URI"));
     }
 
     /**
@@ -247,9 +294,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRequestURIWhenNoneWasSet()
     {
-        unset($_SERVER["REQUEST_URI"]);
-        $request = new Request();
-        $this->assertEmpty($request->getRequestURI());
+        $this->request->getServer()->remove("REQUEST_URI");
+        $this->assertEmpty($this->request->getServer()->get("REQUEST_URI"));
+    }
+
+    /**
+     * Tests getting the server
+     */
+    public function testGettingServer()
+    {
+        $this->assertSame($_SERVER, $this->request->getServer()->getAll());
     }
 
     /**
@@ -257,9 +311,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSetCookie()
     {
-        $request = new Request();
         $_COOKIE["foo"] = "bar";
-        $this->assertEquals("bar", $request->getCookie("foo"));
+        $this->request->getCookies()->exchangeArray($_COOKIE);
+        $this->assertEquals("bar", $this->request->getCookies()->get("foo"));
     }
 
     /**
@@ -267,9 +321,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSetGetVar()
     {
-        $request = new Request();
         $_GET["foo"] = "bar";
-        $this->assertEquals("bar", $request->getQueryStringVar("foo"));
+        $this->request->getQuery()->exchangeArray($_GET);
+        $this->assertEquals("bar", $this->request->getQuery()->get("foo"));
     }
 
     /**
@@ -277,9 +331,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSetPostVar()
     {
-        $request = new Request();
         $_POST["foo"] = "bar";
-        $this->assertEquals("bar", $request->getPostVar("foo"));
+        $this->request->getPost()->exchangeArray($_POST);
+        $this->assertEquals("bar", $this->request->getPost()->get("foo"));
     }
 
     /**
@@ -288,8 +342,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingTraceMethod()
     {
         $_SERVER["REQUEST_METHOD"] = "TRACE";
-        $request = new Request();
-        $this->assertEquals(Request::METHOD_TRACE, $request->getMethod());
+        $this->request->getServer()->exchangeArray($_SERVER);
+        $this->assertEquals(Request::METHOD_TRACE, $this->request->getServer()->get("REQUEST_METHOD"));
     }
 
     /**
@@ -297,8 +351,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnsetCookie()
     {
-        $request = new Request();
-        $this->assertFalse($request->getCookie("foo"));
+        $this->assertNull($this->request->getCookies()->get("foo"));
     }
 
     /**
@@ -306,8 +359,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnsetGetVar()
     {
-        $request = new Request();
-        $this->assertFalse($request->getQueryStringVar("foo"));
+        $this->assertNull($this->request->getQuery()->get("foo"));
     }
 
     /**
@@ -315,18 +367,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnsetPostVar()
     {
-        $request = new Request();
-        $this->assertFalse($request->getPostVar("foo"));
-    }
-
-    /**
-     * Tests getting the user agent
-     */
-    public function testGettingUserAgent()
-    {
-        $fakeUserAgent = "foobar";
-        $_SERVER["HTTP_USER_AGENT"] = $fakeUserAgent;
-        $request = new Request();
-        $this->assertEquals($fakeUserAgent, $request->getUserAgent());
+        $this->assertNull($this->request->getPost()->get("foo"));
     }
 } 

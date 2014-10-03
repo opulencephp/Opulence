@@ -191,7 +191,7 @@ class Application
      */
     protected function doStart()
     {
-        $this->router->route($this->httpConnection->getRequest()->getRequestURI());
+        $this->router->route($this->httpConnection->getRequest()->getServer()->get("REQUEST_URI"));
     }
 
     /**

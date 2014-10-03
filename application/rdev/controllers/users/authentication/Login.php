@@ -39,7 +39,7 @@ class Login extends Controllers\Controller
      */
     public function authenticate()
     {
-        return $this->credentials->get(Credentials\CredentialTypes::LOGIN) instanceof Credentials\ICredential;
+        return $this->credentials->has(Credentials\CredentialTypes::LOGIN);
     }
 
     /**

@@ -15,7 +15,7 @@ class HTTPConnection
 
     public function __construct()
     {
-        $this->request = new Request();
+        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES);
         $this->response = new Response;
     }
 

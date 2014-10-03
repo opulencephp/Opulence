@@ -33,41 +33,60 @@ class Request
     private $method = "";
     /** @var string The client's IP address */
     private $ipAddress = "";
-    /** @var string The client's user agent */
-    private $userAgent = "";
+    /** @var RequestParameters The list of GET parameters */
+    private $query = null;
+    /** @var RequestParameters The list of POST parameters */
+    private $post = null;
+    /** @var Headers The list of headers */
+    private $headers = null;
+    /** @var RequestParameters The list of SERVER parameters */
+    private $server = null;
+    /** @var RequestParameters The list of FILES parameters */
+    private $files = null;
+    /** @var RequestParameters The list of cookies */
+    private $cookies = null;
 
-    public function __construct()
+    /**
+     * @param array $query The GET parameters
+     * @param array $post The POST parameters
+     * @param array $cookies The COOKIE parameters
+     * @param array $server The SERVER parameters
+     * @param array $files The FILES parameters
+     */
+    public function __construct(array $query, array $post, array $cookies, array $server, array $files)
     {
+        $this->query = new RequestParameters($query);
+        $this->post = new RequestParameters($post);
+        $this->cookies = new RequestParameters($cookies);
+        $this->server = new RequestParameters($server);
+        $this->headers = new Headers($server);
+        $this->files = new RequestParameters($files);
         $this->setMethod();
         $this->setIPAddress();
-        $this->setUserAgent();
     }
 
     /**
-     * Gets whether or not a cookie is set to a non-empty value
-     *
-     * @param string $name The name of the cookie to check
-     * @return bool True if the cookie has a non-empty value, otherwise false
+     * @return RequestParameters
      */
-    public function cookieIsSet($name)
+    public function getCookies()
     {
-        return isset($_COOKIE[$name]);
+        return $this->cookies;
     }
 
     /**
-     * Gets the value of a cookie
-     *
-     * @param string $name The name of the cookie to check
-     * @return mixed|bool The cookie if it was set, otherwise false
+     * @return RequestParameters
      */
-    public function getCookie($name)
+    public function getFiles()
     {
-        if(!$this->cookieIsSet($name))
-        {
-            return false;
-        }
+        return $this->files;
+    }
 
-        return $_COOKIE[$name];
+    /**
+     * @return Headers
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
     /**
@@ -89,85 +108,27 @@ class Request
     }
 
     /**
-     * Gets the value of a post variable
-     *
-     * @param string $name The name of the variable to check
-     * @return mixed|bool The post variable if it was set, otherwise false
+     * @return RequestParameters
      */
-    public function getPostVar($name)
+    public function getPost()
     {
-        if(!$this->postVarIsSet($name))
-        {
-            return false;
-        }
-
-        return $_POST[$name];
+        return $this->post;
     }
 
     /**
-     * Gets the entire query string
-     *
-     * @return string The entire query string
+     * @return RequestParameters
      */
-    public function getQueryString()
+    public function getQuery()
     {
-        return isset($_SERVER["QUERY_STRING"]) ? $_SERVER["QUERY_STRING"] : "";
+        return $this->query;
     }
 
     /**
-     * Gets the value of a query string variable
-     *
-     * @param string $name The name of the variable to check
-     * @return mixed|bool The query string variable if it was set, otherwise false
+     * @return RequestParameters
      */
-    public function getQueryStringVar($name)
+    public function getServer()
     {
-        if(!$this->queryStringVarIsSet($name))
-        {
-            return false;
-        }
-
-        return $_GET[$name];
-    }
-
-    /**
-     * Gets the request URI
-     *
-     * @return string The request URI if it was set, otherwise an empty string
-     */
-    public function getRequestURI()
-    {
-        return isset($_SERVER["REQUEST_URI"]) ? $_SERVER["REQUEST_URI"] : "";
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserAgent()
-    {
-        return $this->userAgent;
-    }
-
-    /**
-     * Gets whether or not a post variable is set to a non-empty value
-     *
-     * @param string $name The name of the variable to check
-     * @return bool True if the post variable has a non-empty value, otherwise false
-     */
-    public function postVarIsSet($name)
-    {
-        return isset($_POST[$name]);
-    }
-
-    /**
-     * Gets whether or not a query string variable is set to a non-empty value
-     *
-     * @param string $name The name of the variable to check
-     * @return bool True if the query string variable has a non-empty value, otherwise false
-     */
-    public function queryStringVarIsSet($name)
-    {
-        return isset($_GET[$name]);
+        return $this->server;
     }
 
     /**
@@ -180,9 +141,9 @@ class Request
 
         foreach($ipKeys as $key)
         {
-            if(array_key_exists($key, $_SERVER))
+            if($this->server->has($key))
             {
-                foreach(explode(",", $_SERVER[$key]) as $ipAddress)
+                foreach(explode(",", $this->server->get($key)) as $ipAddress)
                 {
                     $ipAddress = trim($ipAddress);
 
@@ -198,7 +159,7 @@ class Request
             }
         }
 
-        $this->ipAddress = isset($_SERVER["REMOTE_ADDR"]) ? $_SERVER["REMOTE_ADDR"] : "";
+        $this->ipAddress = $this->server->has("REMOTE_ADDR") ? $this->server->get("REMOTE_ADDR") : "";
     }
 
     /**
@@ -206,9 +167,9 @@ class Request
      */
     private function setMethod()
     {
-        if(isset($_SERVER["REQUEST_METHOD"]))
+        if($this->server->has("REQUEST_METHOD"))
         {
-            switch(strtolower($_SERVER["REQUEST_METHOD"]))
+            switch(strtolower($this->server->get("REQUEST_METHOD")))
             {
                 case "delete":
                     $this->method = self::METHOD_DELETE;
@@ -249,13 +210,5 @@ class Request
         {
             $this->method = self::METHOD_GET;
         }
-    }
-
-    /**
-     * Sets the user agent attribute
-     */
-    private function setUserAgent()
-    {
-        $this->userAgent = isset($_SERVER["HTTP_USER_AGENT"]) ? $_SERVER["HTTP_USER_AGENT"] : "";
     }
 } 

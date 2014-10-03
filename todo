@@ -7,7 +7,8 @@ Consider using Configs for controllers
     In the config, you'd specify the repos, credentials to use
 Once the above is done, need to finish Login controller
     Waiting on ways to resolve dependencies in constructor, first
-Think of more application config data, update ApplicationConfig::isValid()
+See if there's a way to throw an exception rather than fail completely when IoC container fails to bind/create
+    In the long run, it's probably best to just rewrite implementation to not use Dice
 Incorrect username entry is faster, allowing timing attacks
 Cache rendered templates
 Convert test pages to views/controllers
