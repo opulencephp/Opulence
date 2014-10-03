@@ -87,7 +87,7 @@ class Cookie
     /**
      * @return boolean
      */
-    public function isIsHTTPOnly()
+    public function isHTTPOnly()
     {
         return $this->isHTTPOnly;
     }
@@ -117,19 +117,11 @@ class Cookie
     }
 
     /**
-     * @param boolean $httpOnly
+     * @param boolean $isHTTPOnly
      */
-    public function setIsHTTPOnly($httpOnly)
+    public function setHTTPOnly($isHTTPOnly)
     {
-        $this->isHTTPOnly = $httpOnly;
-    }
-
-    /**
-     * @param boolean $isSecure
-     */
-    public function setIsSecure($isSecure)
-    {
-        $this->isSecure = $isSecure;
+        $this->isHTTPOnly = $isHTTPOnly;
     }
 
     /**
@@ -146,6 +138,14 @@ class Cookie
     public function setPath($path)
     {
         $this->path = $path;
+    }
+
+    /**
+     * @param boolean $isSecure
+     */
+    public function setSecure($isSecure)
+    {
+        $this->isSecure = $isSecure;
     }
 
     /**

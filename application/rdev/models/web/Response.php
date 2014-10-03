@@ -271,7 +271,7 @@ class Response
                     $cookie->getPath(),
                     $cookie->getDomain(),
                     $cookie->isSecure(),
-                    $cookie->isIsHTTPOnly()
+                    $cookie->isHTTPOnly()
                 );
             }
         }

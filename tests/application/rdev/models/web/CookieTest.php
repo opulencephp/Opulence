@@ -62,7 +62,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingIsHTTPOnly()
     {
-        $this->assertEquals($this->isHTTPOnly, $this->cookie->isIsHTTPOnly());
+        $this->assertEquals($this->isHTTPOnly, $this->cookie->isHTTPOnly());
     }
 
     /**
@@ -121,8 +121,8 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingIsHTTPOnly()
     {
-        $this->cookie->setIsHTTPOnly(true);
-        $this->assertTrue($this->cookie->isIsHTTPOnly());
+        $this->cookie->setHTTPOnly(true);
+        $this->assertTrue($this->cookie->isHTTPOnly());
     }
 
     /**
@@ -130,7 +130,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingIsSecure()
     {
-        $this->cookie->setIsSecure(false);
+        $this->cookie->setSecure(false);
         $this->assertFalse($this->cookie->isSecure());
     }
 

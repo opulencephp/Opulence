@@ -36,7 +36,7 @@ class ApplicationConfig extends Configs\Config
         {
             foreach($configArray["monolog"]["handlers"] as $handlerName => &$handlerConfig)
             {
-                $this->createDefaultMonologHandlerEntries($handlerConfig);
+                $this->createDefaultMonologHandlerOptions($handlerConfig);
 
                 // If we have to create a handler from a config
                 if(!$handlerConfig["handler"] instanceof Handler\HandlerInterface)
@@ -182,7 +182,7 @@ class ApplicationConfig extends Configs\Config
      *
      * @param array $configArray
      */
-    private function createDefaultMonologHandlerEntries(array &$configArray)
+    private function createDefaultMonologHandlerOptions(array &$configArray)
     {
         $defaults = [
             "handler" => null,
