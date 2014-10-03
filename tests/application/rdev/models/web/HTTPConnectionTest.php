@@ -25,4 +25,15 @@ class HTTPConnectionTest extends \PHPUnit_Framework_TestCase
         $http = new HTTPConnection();
         $this->assertInstanceOf("RDev\\Models\\Web\\Response", $http->getResponse());
     }
+
+    /**
+     * Tests setting the HTTP response
+     */
+    public function testSettingResponse()
+    {
+        $http = new HTTPConnection();
+        $response = new Response();
+        $http->setResponse($response);
+        $this->assertSame($response, $http->getResponse());
+    }
 } 

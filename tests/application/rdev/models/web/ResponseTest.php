@@ -46,6 +46,8 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
 
     /**
      * Tests sending the content
+     *
+     * @runInSeparateProcess
      */
     public function testSendingContent()
     {

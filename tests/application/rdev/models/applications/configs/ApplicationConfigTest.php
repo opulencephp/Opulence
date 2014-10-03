@@ -5,6 +5,8 @@
  * Tests the application config
  */
 namespace RDev\Models\Applications\Configs;
+use Monolog;
+use Monolog\Handler;
 use RDev\Models\IoC;
 use RDev\Tests\Models\IoC\Mocks;
 
@@ -71,6 +73,68 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
             "bindings" => [
                 "universal" => "foo"
             ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests that the monolog key is automatically set
+     */
+    public function testMonologKeyIsSetAutomatically()
+    {
+        $config = new ApplicationConfig([]);
+        $expectedMonolog = [
+            "handlers" => [
+                "main" => new Handler\ErrorLogHandler()
+            ]
+        ];
+        $this->assertEquals($expectedMonolog, $config["monolog"]);
+    }
+
+    /**
+     * Tests not specifying a Monolog handler
+     */
+    public function testNotSpecifyingMonologHandler()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => "Monolog\\Handler\\FingersCrossedHandler"
+                    ]
+                ]
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests not specifying a Monolog handler type
+     */
+    public function testNotSpecifyingMonologHandlerType()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "handler" => "Monolog\\Handler\\ErrorLogHandler"
+                    ]
+                ]
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests not specifying Monolog handlers
+     */
+    public function testNotSpecifyingMonologHandlers()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "monolog" => []
         ];
         new ApplicationConfig($configArray);
     }
@@ -160,6 +224,25 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying a Monolog handler type class that does not implement the handler interface
+     */
+    public function testSpecifyingHandlerTypeClassThatDoesNotImplementInterface()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => get_class($this),
+                        "handler" => "Monolog\\Handler\\ErrorLogHandler"
+                    ]
+                ]
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
      * Tests specifying an invalid container class
      */
     public function testSpecifyingInvalidContainerClass()
@@ -168,6 +251,88 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
         $configArray = [
             "bindings" => [
                 "container" => "RDev\\Class\\That\\Does\\Not\\Exist"
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests specifying a error level for a Monolog handler
+     */
+    public function testSpecifyingMonologLevel()
+    {
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => "Monolog\\Handler\\FingersCrossedHandler",
+                        "handler" => "Monolog\\Handler\\ErrorLogHandler",
+                        "level" => Monolog\Logger::CRITICAL
+                    ]
+                ]
+            ]
+        ];
+        $config = new ApplicationConfig($configArray);
+        /** @var Handler\AbstractHandler $handler */
+        $handler = $config["monolog"]["handlers"]["main"];
+        $this->assertEquals(Monolog\Logger::DEBUG, $handler->getLevel());
+    }
+
+    /**
+     * Tests specifying a Monolog type and handler classes
+     */
+    public function testSpecifyingMonologTypeAndHandlerClasses()
+    {
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => "Monolog\\Handler\\FingersCrossedHandler",
+                        "handler" => "Monolog\\Handler\\ErrorLogHandler"
+                    ]
+                ]
+            ]
+        ];
+        $config = new ApplicationConfig($configArray);
+        $expectedType = new Handler\FingersCrossedHandler(new Handler\ErrorLogHandler());
+        $this->assertEquals($expectedType, $config["monolog"]["handlers"]["main"]);
+    }
+
+    /**
+     * Tests specifying a Monolog type class and handler object
+     */
+    public function testSpecifyingMonologTypeClassAndHandlerObject()
+    {
+        $handler = new Handler\ErrorLogHandler();
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => "Monolog\\Handler\\FingersCrossedHandler",
+                        "handler" => $handler
+                    ]
+                ]
+            ]
+        ];
+        $config = new ApplicationConfig($configArray);
+        $expectedType = new Handler\FingersCrossedHandler($handler);
+        $this->assertEquals($expectedType, $config["monolog"]["handlers"]["main"]);
+    }
+
+    /**
+     * Tests specifying a non-existent Monolog handler type class
+     */
+    public function testSpecifyingNonExistentMonologHandlerTypeClass()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => "RDev\\Does\\Not\\Exist",
+                        "handler" => "Monolog\\Handler\\ErrorLogHandler"
+                    ]
+                ]
             ]
         ];
         new ApplicationConfig($configArray);

@@ -226,7 +226,10 @@ class Response
      */
     public function sendContent()
     {
-        echo $this->content;
+        if(!$this->headersAreSent())
+        {
+            echo $this->content;
+        }
     }
 
     /**
@@ -234,7 +237,7 @@ class Response
      */
     public function sendHeaders()
     {
-        if($this->headersAreSent())
+        if(!$this->headersAreSent())
         {
             header(
                 sprintf(

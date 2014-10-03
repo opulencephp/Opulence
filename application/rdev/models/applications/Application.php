@@ -5,6 +5,8 @@
  * Defines an application
  */
 namespace RDev\Models\Applications;
+use Monolog;
+use Monolog\Handler;
 use RDev\Models\IoC;
 use RDev\Models\Web;
 use RDev\Models\Web\Routing;
@@ -28,6 +30,8 @@ class Application
     private $router = null;
     /** @var IoC\IContainer The dependency injection container to use throughout the application */
     private $iocContainer = null;
+    /** @var Monolog\Logger The logger used by this application */
+    private $log = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
     /** @var callable[] The list of functions to execute before startup */
@@ -52,6 +56,7 @@ class Application
             $config = new Configs\ApplicationConfig($config);
         }
 
+        $this->setLog($config["monolog"]["handlers"]);
         $this->iocContainer = $config["bindings"]["container"];
         $this->registerBindings($config["bindings"]);
         $environmentFetcher = new EnvironmentFetcher();
@@ -82,6 +87,14 @@ class Application
     public function getIoCContainer()
     {
         return $this->iocContainer;
+    }
+
+    /**
+     * @return Monolog\Logger
+     */
+    public function getLog()
+    {
+        return $this->log;
     }
 
     /**
@@ -150,27 +163,41 @@ class Application
         // Don't shutdown a shutdown application
         if($this->isRunning)
         {
-            $this->doTasks($this->preShutdownTasks);
-            $this->doShutdown();
-            $this->isRunning = false;
-            $this->doTasks($this->postShutdownTasks);
+            try
+            {
+                $this->doTasks($this->preShutdownTasks);
+                $this->doShutdown();
+                $this->isRunning = false;
+                $this->doTasks($this->postShutdownTasks);
+            }
+            catch(\Exception $ex)
+            {
+                $this->httpConnection->getResponse()->setStatusCode(Web\Response::HTTP_INTERNAL_SERVER_ERROR);
+                $this->httpConnection->getResponse()->send();
+            }
         }
     }
 
     /**
      * Starts this application
-     *
-     * @throws \RuntimeException Thrown if there was an error starting up the application
      */
     public function start()
     {
         // Don't start a running application
         if(!$this->isRunning)
         {
-            $this->doTasks($this->preStartTasks);
-            $this->doStart();
-            $this->isRunning = true;
-            $this->doTasks($this->postStartTasks);
+            try
+            {
+                $this->doTasks($this->preStartTasks);
+                $this->doStart();
+                $this->isRunning = true;
+                $this->doTasks($this->postStartTasks);
+            }
+            catch(\Exception $ex)
+            {
+                $this->log->addError("Failed to start application: $ex");
+                $this->httpConnection->getResponse()->setStatusCode(Web\Response::HTTP_INTERNAL_SERVER_ERROR);
+            }
         }
     }
 
@@ -181,7 +208,7 @@ class Application
      */
     protected function doShutdown()
     {
-        // Don't do anything right now
+        $this->httpConnection->getResponse()->send();
     }
 
     /**
@@ -191,7 +218,16 @@ class Application
      */
     protected function doStart()
     {
-        $this->router->route($this->httpConnection->getRequest()->getServer()->get("REQUEST_URI"));
+        $response = $this->router->route($this->httpConnection->getRequest()->getServer()->get("REQUEST_URI"));
+
+        if($response instanceof Web\Response)
+        {
+            $this->httpConnection->setResponse($response);
+        }
+        else
+        {
+            $this->httpConnection->getResponse()->setContent($response);
+        }
     }
 
     /**
@@ -233,6 +269,21 @@ class Application
             {
                 $this->iocContainer->bind($component, $concreteClassName, $targetClassName);
             }
+        }
+    }
+
+    /**
+     * Sets the application log
+     *
+     * @param array $config The array of handlers
+     */
+    private function setLog(array $config)
+    {
+        $this->log = new Monolog\Logger("application");
+
+        foreach($config as $name => $handler)
+        {
+            $this->log->pushHandler($handler);
         }
     }
 } 

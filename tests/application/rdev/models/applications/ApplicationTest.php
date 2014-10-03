@@ -7,6 +7,7 @@
 namespace RDev\Models\Applications;
 use RDev\Models\Web;
 use RDev\Models\Web\Routing;
+use RDev\Tests\Models\Applications\Mocks;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,9 +24,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->config = [
             "environment" => [
                 "staging" => gethostname()
+            ],
+            "monolog" => [
+                "handlers" => [
+                    "main" => [
+                        "type" => new Mocks\MonologHandler(),
+                        "handler" => new Mocks\MonologHandler()
+                    ]
+                ]
             ]
         ];
-        $this->application = new Application($this->config);
+        $this->application = new Mocks\Application($this->config);
     }
 
     /**
@@ -62,6 +71,60 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering a bad post-shutdown task
+     */
+    public function testBadPostShutdownTask()
+    {
+        $this->application->registerPostShutdownTask(function ()
+        {
+            // Throw anything other than a runtime exception
+            throw new \InvalidArgumentException("foobar");
+        });
+        $this->application->start();
+        $this->application->shutdown();
+        $this->assertEquals(
+            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+        );
+    }
+
+    /**
+     * Tests registering a bad post-start task
+     */
+    public function testBadPostStartTask()
+    {
+        $this->application->registerPostStartTask(function ()
+        {
+            // Throw anything other than a runtime exception
+            throw new \InvalidArgumentException("foobar");
+        });
+        $this->application->start();
+        $this->application->shutdown();
+        $this->assertEquals(
+            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+        );
+    }
+
+    /**
+     * Tests registering a bad pre-shutdown task
+     */
+    public function testBadPreShutdownTask()
+    {
+        $this->application->registerPreShutdownTask(function ()
+        {
+            // Throw anything other than a runtime exception
+            throw new \InvalidArgumentException("foobar");
+        });
+        $this->application->start();
+        $this->application->shutdown();
+        $this->assertEquals(
+            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+        );
+    }
+
+    /**
      * Tests that the bindings are registered
      */
     public function testBindings()
@@ -82,7 +145,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
-        $application = new Application($configArray);
+        $application = new Mocks\Application($configArray);
         $object1 = $application->getIoCContainer()->createNew($interfaceName);
         $object2 = $application->getIoCContainer()->createNew($constructorWithInterfaceName)->getFoo();
         $this->assertInstanceOf($concreteClassName, $object1);
@@ -119,6 +182,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testGettingIoCContainer()
     {
         $this->assertInstanceOf("RDev\\Models\\IoC\\IContainer", $this->application->getIoCContainer());
+    }
+
+    /**
+     * Tests getting the log
+     */
+    public function testGettingLog()
+    {
+        $this->assertInstanceOf("Monolog\\Logger", $this->application->getLog());
     }
 
     /**
@@ -229,61 +300,21 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that a runtime exception is thrown by a bad post-shutdown task
-     */
-    public function testRuntimeExceptionIsThrownWithBadPostShutdownTask()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->application->registerPostShutdownTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
-        });
-        $this->application->start();
-        $this->application->shutdown();
-    }
-
-    /**
-     * Tests that a runtime exception is thrown by a bad post-start task
-     */
-    public function testRuntimeExceptionIsThrownWithBadPostStartTask()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->application->registerPostStartTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
-        });
-        $this->application->start();
-    }
-
-    /**
-     * Tests that a runtime exception is thrown by a bad pre-shutdown task
-     */
-    public function testRuntimeExceptionIsThrownWithBadPreShutdownTask()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->application->registerPreShutdownTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
-        });
-        $this->application->start();
-        $this->application->shutdown();
-    }
-
-    /**
-     * Tests that a runtime exception is thrown by a bad pre-start task
+     * Tests registering a bad pre-start task
      */
     public function testRuntimeExceptionIsThrownWithBadPreStartTask()
     {
-        $this->setExpectedException("\\RuntimeException");
         $this->application->registerPreStartTask(function ()
         {
             // Throw anything other than a runtime exception
             throw new \InvalidArgumentException("foobar");
         });
         $this->application->start();
+        $this->application->shutdown();
+        $this->assertEquals(
+            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+        );
     }
 
     /**

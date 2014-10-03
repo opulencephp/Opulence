@@ -5,7 +5,9 @@
 2. [Basic Usage](#basic-usage)
 3. [Config](#config)
 4. [Bindings](#bindings)
-5. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
+5. [Monolog](#monolog)
+  1. [Monolog Handler Options](#monolog-handler-options)
+6. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
 
 ## Introduction
 An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production"), pre-/post-start and -shutdown tasks to run, and URL routing.
@@ -57,6 +59,12 @@ Let's break down the structure of the config.  The following keys are optional:
   * For more about dependency injection, [read this](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/ioc)
 * "router"
   * See the [Routing page](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/web/routing)
+* "monolog"
+  The following are required:
+  * "handlers" => Maps to names of handlers, which map to options for that handler
+    * "type" => The class name or instance of the Monolog handler
+      * This is the only option that is required for all handlers
+    * [Read the full list of Monolog handler options](#monolog-handler-options)
 
 Let's take a look at an example that uses an array:
 ```php
@@ -133,6 +141,79 @@ $application->registerPreStartTask(function() use ($application)
 ```
 
 > **Note:** Register all of your bindings before the application is started.  Otherwise, they may not be available.
+
+## Monolog
+RDev takes advantage of Monolog, a popular error logger.  By default, RDev will simply write to the built-in PHP error logs, but you can customize how Monolog works.  The following is an example of a logger that writes warnings to the PHP error log with a `FingersCrossedHandler`:
+```php
+$configArray = [
+    "monolog" => [
+        "handlers" => [
+            "main" => [
+                "type" => "Monolog\\Handler\\FingersCrossedHandler",
+                "handler" => "Monolog\\Handler\\ErrorLogHandler",
+                "level" => Monolog\Logger::WARNING
+            ]
+        ]
+    ]
+];
+$config = new Configs\ApplicationConfig($configArray);
+```
+
+#### Monolog Handler Options
+Certain Monolog handlers require a lot more information to get started.  To handle those cases, the following is a list of all the possible keys you may set in the config:
+```php
+$defaults = [
+    "type" => null,
+    "handler" => null,
+    "handlers" => [],
+    "level" => Monolog\Logger::DEBUG,
+    "bubble" => true,
+    "fromEmail" => "",
+    "subject" => "",
+    "toEmail" => "",
+    "mailer" => null,
+    "formatter" => null,
+    "priority" => 0,
+    "id" => null,
+    "stopBuffering" => true,
+    "bufferSize" => 0,
+    "activationStrategy" => null,
+    "passThroughLevel" => null,
+    "facility" => LOG_USER,
+    "cubeHandlerURL" => "",
+    "amqpExchange" => null,
+    "amqpExchangeName" => "log",
+    "couchDBClient" => null,
+    "dynamoDBClient" => null,
+    "dynamoTable" => "",
+    "elasticClient" => null,
+    "minLevel" => Monolog\Logger::DEBUG,
+    "maxLevel" => Monolog\Logger::EMERGENCY,
+    "token" => "",
+    "gelfPublisher" => null,
+    "hipChatRoom" => "",
+    "swiftMailer" => null,
+    "swiftMessage" => null,
+    "mongo" => null,
+    "mongoDB" => "",
+    "mongoCollection" => "",
+    "pushoverUsers" => [],
+    "ravenClient" => null,
+    "redisClient" => null,
+    "redisKey" => "",
+    "rollbarNotifier" => null,
+    "filename" => "",
+    "maxFiles" => 0,
+    "slackChannel" => "",
+    "slackUsername" => "",
+    "socketConnectionString" => "",
+    "stream" => "",
+    "sysLogHost" => "",
+    "sysLogPort" => 514
+];
+```
+
+Obviously, you do not have to set every one.  Just set the ones that are applicable to the handler you're creating.
 
 ## Starting And Shutting Down An Application
 To start and shutdown an application, simply call the `start()` and `shutdown()` methods, respectively, on the application object.  If you'd like to do some tasks before or after startup, you may do them using `registerPreStartTask()` and `registerPostStartTask()`, respectively.  Similarly, you can add tasks before and after shutdown using `registerPreShutdownTask()` and `registerPostShutdownTask()`, respectively.  These tasks are handy places to do any setting up that your application requires or any housekeeping after start/shutdown.
