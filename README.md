@@ -19,7 +19,7 @@
 1. [Building a Template](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/views)
 
 ### Routing
-1. [Setting Up a Router](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/web/routing)
+1. [Setting Up a Router](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/routing)
 
 ### Databases
 1. [Relational Databases](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/databases/sql)
