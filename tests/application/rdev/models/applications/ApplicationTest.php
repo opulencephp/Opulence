@@ -5,8 +5,8 @@
  * Tests the application class
  */
 namespace RDev\Models\Applications;
-use RDev\Models\Web;
-use RDev\Models\Web\Routing;
+use RDev\Models\HTTP;
+use RDev\Models\Routing;
 use RDev\Tests\Models\Applications\Mocks;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -83,7 +83,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }
@@ -101,7 +101,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }
@@ -119,7 +119,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }
@@ -173,7 +173,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingHTTPConnection()
     {
-        $this->assertEquals(new Web\HTTPConnection, $this->application->getHTTPConnection());
+        $this->assertEquals(new HTTP\HTTPConnection, $this->application->getHTTPConnection());
     }
 
     /**
@@ -189,7 +189,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingLog()
     {
-        $this->assertInstanceOf("Monolog\\Logger", $this->application->getLog());
+        $this->assertInstanceOf("Monolog\\Logger", $this->application->getLogger());
     }
 
     /**
@@ -197,7 +197,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouter()
     {
-        $this->assertInstanceOf("RDev\\Models\\Web\\Routing\\Router", $this->application->getRouter());
+        $this->assertInstanceOf("RDev\\Models\\Routing\\Router", $this->application->getRouter());
     }
 
     /**
@@ -312,7 +312,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            Web\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }

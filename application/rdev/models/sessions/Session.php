@@ -5,13 +5,13 @@
  * Defines a session that persists throughout a transaction on a page
  */
 namespace RDev\Models\Sessions;
+use RDev\Models\Authentication\Credentials;
 use RDev\Models\Users;
-use RDev\Models\Users\Authentication\Credentials;
-use RDev\Models\Web;
+use RDev\Models\HTTP;
 
 class Session
 {
-    /** @var Web\HTTPConnection The HTTP connection to use in our requests/responses */
+    /** @var HTTP\HTTPConnection The HTTP connection to use in our requests/responses */
     private $httpConnection;
     /** @var Users\IUser|null The current user object if there is one, otherwise null */
     private $user = null;
@@ -19,9 +19,9 @@ class Session
     private $credentials = null;
 
     /**
-     * @param Web\HTTPConnection $httpConnection The HTTP connection to use in our requests/responses
+     * @param HTTP\HTTPConnection $httpConnection The HTTP connection to use in our requests/responses
      */
-    public function __construct(Web\HTTPConnection $httpConnection)
+    public function __construct(HTTP\HTTPConnection $httpConnection)
     {
         $this->httpConnection = $httpConnection;
     }
@@ -35,7 +35,7 @@ class Session
     }
 
     /**
-     * @return Web\HTTPConnection
+     * @return HTTP\HTTPConnection
      */
     public function getHTTPConnection()
     {

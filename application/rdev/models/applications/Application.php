@@ -7,9 +7,9 @@
 namespace RDev\Models\Applications;
 use Monolog;
 use Monolog\Handler;
+use RDev\Models\HTTP;
 use RDev\Models\IoC;
-use RDev\Models\Web;
-use RDev\Models\Web\Routing;
+use RDev\Models\Routing;
 
 class Application
 {
@@ -24,14 +24,14 @@ class Application
 
     /** @var string The environment the current server belongs to, eg "production" */
     private $environment = self::ENV_PRODUCTION;
-    /** @var Web\HTTPConnection The HTTP connection */
+    /** @var HTTP\HTTPConnection The HTTP connection */
     private $httpConnection = null;
     /** @var Routing\Router The router for requests */
     private $router = null;
     /** @var IoC\IContainer The dependency injection container to use throughout the application */
     private $iocContainer = null;
     /** @var Monolog\Logger The logger used by this application */
-    private $log = null;
+    private $logger = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
     /** @var callable[] The list of functions to execute before startup */
@@ -61,7 +61,7 @@ class Application
         $this->registerBindings($config["bindings"]);
         $environmentFetcher = new EnvironmentFetcher();
         $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
-        $this->httpConnection = new Web\HTTPConnection();
+        $this->httpConnection = new HTTP\HTTPConnection();
         $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["router"]);
     }
 
@@ -74,7 +74,7 @@ class Application
     }
 
     /**
-     * @return Web\HTTPConnection
+     * @return HTTP\HTTPConnection
      */
     public function getHTTPConnection()
     {
@@ -92,9 +92,9 @@ class Application
     /**
      * @return Monolog\Logger
      */
-    public function getLog()
+    public function getLogger()
     {
-        return $this->log;
+        return $this->logger;
     }
 
     /**
@@ -172,7 +172,7 @@ class Application
             }
             catch(\Exception $ex)
             {
-                $this->httpConnection->getResponse()->setStatusCode(Web\Response::HTTP_INTERNAL_SERVER_ERROR);
+                $this->httpConnection->getResponse()->setStatusCode(HTTP\Response::HTTP_INTERNAL_SERVER_ERROR);
                 $this->httpConnection->getResponse()->send();
             }
         }
@@ -195,8 +195,8 @@ class Application
             }
             catch(\Exception $ex)
             {
-                $this->log->addError("Failed to start application: $ex");
-                $this->httpConnection->getResponse()->setStatusCode(Web\Response::HTTP_INTERNAL_SERVER_ERROR);
+                $this->logger->addError("Failed to start application: $ex");
+                $this->httpConnection->getResponse()->setStatusCode(HTTP\Response::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
     }
@@ -220,7 +220,7 @@ class Application
     {
         $response = $this->router->route($this->httpConnection->getRequest()->getServer()->get("REQUEST_URI"));
 
-        if($response instanceof Web\Response)
+        if($response instanceof HTTP\Response)
         {
             $this->httpConnection->setResponse($response);
         }
@@ -279,11 +279,11 @@ class Application
      */
     private function setLog(array $config)
     {
-        $this->log = new Monolog\Logger("application");
+        $this->logger = new Monolog\Logger("application");
 
         foreach($config as $name => $handler)
         {
-            $this->log->pushHandler($handler);
+            $this->logger->pushHandler($handler);
         }
     }
 } 
