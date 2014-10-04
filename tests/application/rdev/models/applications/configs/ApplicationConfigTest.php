@@ -96,7 +96,6 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSpecifyingMonologHandler()
     {
-        $this->setExpectedException("\\RuntimeException");
         $configArray = [
             "monolog" => [
                 "handlers" => [
@@ -106,7 +105,8 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
-        new ApplicationConfig($configArray);
+        $config = new ApplicationConfig($configArray);
+        $this->assertInstanceOf("Monolog\\Handler\\FingersCrossedHandler", $config["monolog"]["handlers"]["main"]);
     }
 
     /**

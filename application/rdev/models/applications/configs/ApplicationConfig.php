@@ -71,80 +71,10 @@ class ApplicationConfig extends Configs\Config
             throw new \RuntimeException("Invalid config");
         }
 
-        if(!isset($configArray["monolog"]))
-        {
-            $handler = new Handler\ErrorLogHandler();
-            $handler->setLevel(Monolog\Logger::DEBUG);
-            $configArray["monolog"] = [
-                "handlers" => [
-                    "main" => $handler
-                ]
-            ];
-        }
-        else
-        {
-            foreach($configArray["monolog"]["handlers"] as $handlerName => &$handlerConfig)
-            {
-                $this->createDefaultMonologHandlerOptions($handlerConfig);
-
-                // If we have to create a handler from a config
-                if(!$handlerConfig["handler"] instanceof Handler\HandlerInterface)
-                {
-                    $handlerConfig["handler"] = $this->createMonologHandlerInstance($handlerConfig["handler"], $handlerConfig);
-                }
-
-                // If we have to create a type from a config
-                if(!$handlerConfig["type"] instanceof Handler\HandlerInterface)
-                {
-                    $handlerConfig["type"] = $this->createMonologHandlerInstance($handlerConfig["type"], $handlerConfig);
-                }
-
-                /** @var Handler\AbstractHandler[] $handlerConfig */
-                $configArray["monolog"]["handlers"][$handlerName] = $handlerConfig["type"];
-            }
-        }
-
-        if(!isset($configArray["environment"]))
-        {
-            $configArray["environment"] = [];
-        }
-
-        if(!isset($configArray["router"]))
-        {
-            $configArray["router"] = [];
-        }
-
-        if(isset($configArray["bindings"]))
-        {
-            if(!isset($configArray["bindings"]["container"]))
-            {
-                // Default to our container
-                $configArray["bindings"]["container"] = new IoC\Container();
-            }
-
-            if(is_string($configArray["bindings"]["container"]))
-            {
-                if(!class_exists($configArray["bindings"]["container"]))
-                {
-                    throw new \RuntimeException("Class {$configArray['bindings']['container']} does not exist");
-                }
-
-                $configArray["bindings"]["container"] = new $configArray["bindings"]["container"];
-            }
-
-            if(!$configArray["bindings"]["container"] instanceof IoC\IContainer)
-            {
-                throw new \RuntimeException("Container does not implement IContainer");
-            }
-        }
-        else
-        {
-            $configArray["bindings"] = [
-                "container" => new IoC\Container(),
-                "universal" => [],
-                "targeted" => []
-            ];
-        }
+        $this->setupMonologFromArray($configArray);
+        $this->setupEnvironmentFromArray($configArray);
+        $this->setupRouterFromArray($configArray);
+        $this->setupBindingsFromArray($configArray);
 
         $this->configArray = $configArray;
     }
@@ -154,22 +84,22 @@ class ApplicationConfig extends Configs\Config
      */
     protected function isValid(array $configArray)
     {
-        if(isset($configArray["monolog"]))
+        if(!$this->monologConfigIsValid($configArray) || !$this->bindingsConfigIsValid($configArray))
         {
-            if(!isset($configArray["monolog"]["handlers"]) || !is_array($configArray["monolog"]["handlers"]))
-            {
-                return false;
-            }
-
-            foreach($configArray["monolog"]["handlers"] as $name => $handlerConfig)
-            {
-                if(!isset($handlerConfig["type"]))
-                {
-                    return false;
-                }
-            }
+            return false;
         }
 
+        return true;
+    }
+
+    /**
+     * Checks if the bindings config array is valid
+     *
+     * @param array $configArray The config array
+     * @return bool Whether or not the bindings config array is valid
+     */
+    private function bindingsConfigIsValid(array $configArray)
+    {
         if(isset($configArray["bindings"]))
         {
             if(isset($configArray["bindings"]["container"])
@@ -372,6 +302,139 @@ class ApplicationConfig extends Configs\Config
                 return new Handler\ZendMonitorHandler($configArray["level"], $configArray["bubble"]);
             default:
                 throw new \RuntimeException("Monolog handler type {$handlerClassName} not supported");
+        }
+    }
+
+    /**
+     * Checks if the Monolog config array is valid
+     *
+     * @param array $configArray The config array
+     * @return bool Whether or not the Monolog config array is valid
+     */
+    private function monologConfigIsValid(array $configArray)
+    {
+        if(isset($configArray["monolog"]))
+        {
+            if(!isset($configArray["monolog"]["handlers"]) || !is_array($configArray["monolog"]["handlers"]))
+            {
+                return false;
+            }
+
+            foreach($configArray["monolog"]["handlers"] as $name => $handlerConfig)
+            {
+                if(!isset($handlerConfig["type"]))
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Sets up the bindings from a config array
+     *
+     * @param array $configArray The config array
+     */
+    private function setupBindingsFromArray(array &$configArray)
+    {
+        if(!isset($configArray["bindings"]))
+        {
+            // Setup a default bindings
+            $configArray["bindings"] = [
+                "container" => "RDev\\Models\\IoC\\Container",
+                "universal" => [],
+                "targeted" => []
+            ];
+        }
+
+        if(!isset($configArray["bindings"]["container"]))
+        {
+            // Default to our container
+            $configArray["bindings"]["container"] = new IoC\Container();
+        }
+
+        if(is_string($configArray["bindings"]["container"]))
+        {
+            if(!class_exists($configArray["bindings"]["container"]))
+            {
+                throw new \RuntimeException("Class {$configArray['bindings']['container']} does not exist");
+            }
+
+            $configArray["bindings"]["container"] = new $configArray["bindings"]["container"];
+        }
+
+        if(!$configArray["bindings"]["container"] instanceof IoC\IContainer)
+        {
+            throw new \RuntimeException("Container does not implement IContainer");
+        }
+    }
+
+    /**
+     * Sets up the environment from a config array
+     *
+     * @param array $configArray The config array
+     */
+    private function setupEnvironmentFromArray(array &$configArray)
+    {
+        if(!isset($configArray["environment"]))
+        {
+            $configArray["environment"] = [];
+        }
+    }
+
+    /**
+     * Sets up Monolog from a config array
+     *
+     * @param array $configArray The config array
+     */
+    private function setupMonologFromArray(array &$configArray)
+    {
+        if(!isset($configArray["monolog"]))
+        {
+            // Setup a default Monolog handler
+            $configArray["monolog"] = [
+                "handlers" => [
+                    "main" => [
+                        "type" => "Monolog\\Handler\\ErrorLogHandler",
+                        "level" => Monolog\Logger::DEBUG
+                    ]
+                ]
+            ];
+        }
+
+        foreach($configArray["monolog"]["handlers"] as $handlerName => &$handlerConfig)
+        {
+            $this->createDefaultMonologHandlerOptions($handlerConfig);
+
+            // If we have to create a handler from a config
+            if(isset($handlerConfig["handler"]) && !$handlerConfig["handler"] instanceof Handler\HandlerInterface)
+            {
+                $handlerConfig["handler"] = $this->createMonologHandlerInstance($handlerConfig["handler"], $handlerConfig);
+            }
+
+            // If we have to create a type from a config
+            if(!$handlerConfig["type"] instanceof Handler\HandlerInterface)
+            {
+                $handlerConfig["type"] = $this->createMonologHandlerInstance($handlerConfig["type"], $handlerConfig);
+            }
+
+            /** @var Handler\AbstractHandler[] $handlerConfig */
+            $configArray["monolog"]["handlers"][$handlerName] = $handlerConfig["type"];
+        }
+    }
+
+    /**
+     * Sets up the router from a config array
+     *
+     * @param array $configArray The config array
+     */
+    private function setupRouterFromArray(array &$configArray)
+    {
+        if(!isset($configArray["router"]))
+        {
+            $configArray["router"] = [];
         }
     }
 } 
