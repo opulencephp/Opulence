@@ -12,6 +12,7 @@ interface IRouteCompiler
      * Compiles a route into regular expressions
      *
      * @param Route $route The route to compile
+     * @throws Exceptions\RouteException Thrown if the route is not valid
      */
     public function compile(Route &$route);
 } 

@@ -5,8 +5,8 @@
  * Defines a router for URL requests
  */
 namespace RDev\Models\Routing;
-use RDev\Models\IoC;
 use RDev\Models\HTTP;
+use RDev\Models\IoC;
 
 class Router
 {
@@ -14,9 +14,9 @@ class Router
     private $iocContainer = null;
     /** @var IRouteCompiler The compiler used by this router */
     private $compiler = null;
-    /** @var HTTP\HTTPConnection The HTTP connection */
+    /** @var HTTP\Connection The HTTP connection */
     private $httpConnection = null;
-    /** @var Route[] The list of methods to their various routes */
+    /** @var array The list of methods to their various routes */
     private $routes = [
         HTTP\Request::METHOD_DELETE => [],
         HTTP\Request::METHOD_GET => [],
@@ -28,7 +28,7 @@ class Router
 
     /**
      * @param IoC\IContainer $iocContainer The dependency injection container
-     * @param HTTP\HTTPConnection $httpConnection The HTTP connection
+     * @param HTTP\Connection $httpConnection The HTTP connection
      * @param Configs\RouterConfig|array $config The configuration to use
      *      The following keys are optional:
      *          "compiler" => Name of class that implements IRouteCompiler or an instantiated object,
@@ -38,7 +38,7 @@ class Router
      *              "options" => The optional array of route options, which may contain the following:
      *                  "variables" => The mapping of route-variable names to the regexes they must fulfill
      */
-    public function __construct(IoC\IContainer $iocContainer, HTTP\HTTPConnection $httpConnection, $config)
+    public function __construct(IoC\IContainer $iocContainer, HTTP\Connection $httpConnection, $config)
     {
         $this->iocContainer = $iocContainer;
         $this->httpConnection = $httpConnection;
@@ -54,6 +54,17 @@ class Router
         {
             $this->addRoute($route);
         }
+    }
+
+    /**
+     * Adds a route for the any method at the given path
+     *
+     * @param string $path The path to match on
+     * @param array $options The list of options for this path
+     */
+    public function any($path, array $options)
+    {
+        $this->multiple(array_keys($this->routes), $path, $options);
     }
 
     /**
@@ -78,6 +89,45 @@ class Router
     {
         $route = $this->createRoute(HTTP\Request::METHOD_GET, $path, $options);
         $this->addRoute($route);
+    }
+
+    /**
+     * Gets all the routes in this router
+     *
+     * @param string|null $method If specified, the list of routes for that method will be returned
+     *      If null, all routes will be returned, keyed by method
+     * @return array The list of routes
+     */
+    public function getRoutes($method = null)
+    {
+        if($method === null)
+        {
+            return $this->routes;
+        }
+        elseif(!isset($this->routes[$method]))
+        {
+            return [];
+        }
+        else
+        {
+            return $this->routes[$method];
+        }
+    }
+
+    /**
+     * Adds a route for multiple methods
+     *
+     * @param array $methods The list of methods to match on
+     * @param string $path The path to match on
+     * @param array $options The list of options for this path
+     */
+    public function multiple(array $methods, $path, array $options)
+    {
+        foreach($methods as $method)
+        {
+            $route = $this->createRoute($method, $path, $options);
+            $this->addRoute($route);
+        }
     }
 
     /**
@@ -121,8 +171,7 @@ class Router
      * @param string $path The path to route
      * @return mixed The return value of the controller
      * @throws \RuntimeException Thrown if there was a problem routing the input path
-     * @throws Exceptions\InvalidControllerException Thrown if the controller or method could not be called
-     * @throws Exceptions\InvalidFilterException Thrown if the route attempts to call any filters that are not registered
+     * @throws Exceptions\RouteException Thrown if the controller or method could not be called
      */
     public function route($path)
     {
@@ -184,7 +233,7 @@ class Router
      * @param Route $route The matched route
      * @param array $matches The list of matches on route variables
      * @return mixed|null The response from the controller, if there was one, otherwise null
-     * @throws Exceptions\InvalidControllerException Thrown if the controller or method were invalid
+     * @throws Exceptions\RouteException Thrown if the controller or method were invalid
      */
     private function callController(Route $route, array $matches)
     {
@@ -194,7 +243,7 @@ class Router
 
         if(!class_exists($controllerName))
         {
-            throw new Exceptions\InvalidControllerException("Controller class $controllerName does not exist");
+            throw new Exceptions\RouteException("Controller class $controllerName does not exist");
         }
 
         try
@@ -203,7 +252,7 @@ class Router
 
             if(!$reflection->isPublic())
             {
-                throw new Exceptions\InvalidControllerException("Method $method is not public");
+                throw new Exceptions\RouteException("Method $method is not public");
             }
 
             // Match the route variables to the method parameters
@@ -215,7 +264,7 @@ class Router
                 }
                 elseif(!$parameter->isDefaultValueAvailable())
                 {
-                    throw new Exceptions\InvalidControllerException(
+                    throw new Exceptions\RouteException(
                         "No value set for parameter {$parameter->getName()}"
                     );
                 }
@@ -227,7 +276,7 @@ class Router
         }
         catch(\ReflectionException $ex)
         {
-            throw new Exceptions\InvalidControllerException(
+            throw new Exceptions\RouteException(
                 "Reflection failed for method $method in controller $controllerName: $ex"
             );
         }
@@ -251,7 +300,7 @@ class Router
      *
      * @param array $filterNames The list of filter names to execute
      * @return mixed|null The response from any of the filters if they returned something, otherwise null
-     * @throws Exceptions\InvalidFilterException Thrown if the filter does not exist
+     * @throws Exceptions\RouteException Thrown if the filter does not exist
      */
     private function executeFilters(array $filterNames)
     {
@@ -259,7 +308,7 @@ class Router
         {
             if(!isset($this->filters[$filterName]))
             {
-                throw new Exceptions\InvalidFilterException("Filter $filterName is not registered with the router");
+                throw new Exceptions\RouteException("Filter $filterName is not registered with the router");
             }
 
             if(($filterReturnValue = $this->filters[$filterName]()) !== null)

@@ -173,7 +173,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingHTTPConnection()
     {
-        $this->assertEquals(new HTTP\HTTPConnection, $this->application->getHTTPConnection());
+        $this->assertEquals(new HTTP\Connection, $this->application->getHTTPConnection());
     }
 
     /**

@@ -13,7 +13,7 @@ class HTTPConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRequest()
     {
-        $http = new HTTPConnection();
+        $http = new Connection();
         $this->assertInstanceOf("RDev\\Models\\HTTP\\Request", $http->getRequest());
     }
 
@@ -22,7 +22,7 @@ class HTTPConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingResponse()
     {
-        $http = new HTTPConnection();
+        $http = new Connection();
         $this->assertInstanceOf("RDev\\Models\\HTTP\\Response", $http->getResponse());
     }
 
@@ -31,7 +31,7 @@ class HTTPConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingResponse()
     {
-        $http = new HTTPConnection();
+        $http = new Connection();
         $response = new Response();
         $http->setResponse($response);
         $this->assertSame($response, $http->getResponse());

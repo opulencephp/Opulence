@@ -145,11 +145,89 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingWithDuplicateVariables()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
         $route = new Route(["get"], "/{foo}/{foo}", $options);
         $this->compiler->compile($route);
+    }
+
+    /**
+     * Tests compiling a path with an unclosed open brace
+     */
+    public function testCompilingWithUnclosedOpenBrace()
+    {
+        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}/{bar", $options);
+        $this->compiler->compile($route);
+    }
+
+    /**
+     * Tests compiling a path with an unopened close brace
+     */
+    public function testCompilingWithUnopenedCloseBrace()
+    {
+        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}/{bar}}", $options);
+        $this->compiler->compile($route);
+    }
+
+    /**
+     * Tests using a route variable with a name that isn't a valid PHP variable name
+     */
+    public function testInvalidPHPVariableName()
+    {
+        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{123foo}/bar", $options);
+        $this->compiler->compile($route);
+    }
+
+    /**
+     * Tests an optional variable
+     */
+    public function testOptionalVariable()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}/bar/{blah?}", $options);
+        $this->compiler->compile($route);
+        $this->assertEquals(
+            sprintf(
+                "/^%s$/",
+                preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
+            ),
+            $route->getRegex()
+        );
+    }
+
+    /**
+     * Tests an optional variable with a default value
+     */
+    public function testOptionalVariableWithDefaultValue()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{foo}/bar/{blah?=123}", $options);
+        $this->compiler->compile($route);
+        $this->assertEquals(
+            sprintf(
+                "/^%s$/",
+                preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
+            ),
+            $route->getRegex()
+        );
+        $this->assertEquals("123", $route->getDefaultValue("blah"));
     }
 } 

@@ -6,12 +6,12 @@
  */
 namespace RDev\Models\Sessions;
 use RDev\Models\Authentication\Credentials;
-use RDev\Models\Users;
 use RDev\Models\HTTP;
+use RDev\Models\Users;
 
 class Session
 {
-    /** @var HTTP\HTTPConnection The HTTP connection to use in our requests/responses */
+    /** @var HTTP\Connection The HTTP connection to use in our requests/responses */
     private $httpConnection;
     /** @var Users\IUser|null The current user object if there is one, otherwise null */
     private $user = null;
@@ -19,9 +19,9 @@ class Session
     private $credentials = null;
 
     /**
-     * @param HTTP\HTTPConnection $httpConnection The HTTP connection to use in our requests/responses
+     * @param HTTP\Connection $httpConnection The HTTP connection to use in our requests/responses
      */
-    public function __construct(HTTP\HTTPConnection $httpConnection)
+    public function __construct(HTTP\Connection $httpConnection)
     {
         $this->httpConnection = $httpConnection;
     }
@@ -35,7 +35,7 @@ class Session
     }
 
     /**
-     * @return HTTP\HTTPConnection
+     * @return HTTP\Connection
      */
     public function getHTTPConnection()
     {

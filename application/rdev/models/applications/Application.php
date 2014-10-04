@@ -24,7 +24,7 @@ class Application
 
     /** @var string The environment the current server belongs to, eg "production" */
     private $environment = self::ENV_PRODUCTION;
-    /** @var HTTP\HTTPConnection The HTTP connection */
+    /** @var HTTP\Connection The HTTP connection */
     private $httpConnection = null;
     /** @var Routing\Router The router for requests */
     private $router = null;
@@ -61,7 +61,7 @@ class Application
         $this->registerBindings($config["bindings"]);
         $environmentFetcher = new EnvironmentFetcher();
         $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
-        $this->httpConnection = new HTTP\HTTPConnection();
+        $this->httpConnection = new HTTP\Connection();
         $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["router"]);
     }
 
@@ -74,7 +74,7 @@ class Application
     }
 
     /**
-     * @return HTTP\HTTPConnection
+     * @return HTTP\Connection
      */
     public function getHTTPConnection()
     {

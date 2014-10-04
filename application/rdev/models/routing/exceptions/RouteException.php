@@ -2,12 +2,12 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines an invalid filter exception
+ * Defines a route exception
  */
 namespace RDev\Models\Routing\Exceptions;
 use RDev\Models\Exceptions;
 
-class InvalidFilterException extends Exceptions\Exception
+class RouteException extends Exceptions\Exception
 {
     // Don't do anything
 } 
