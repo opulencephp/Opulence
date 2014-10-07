@@ -16,7 +16,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $this->assertEquals("bar", $route->getControllerMethod());
     }
 
@@ -28,7 +28,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $this->assertEquals("foo", $route->getControllerName());
     }
 
@@ -40,7 +40,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $this->assertNull($route->getDefaultValue("foo"));
     }
 
@@ -52,7 +52,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertEquals(["get"], $route->getMethods());
     }
 
@@ -65,7 +65,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "post" => "foo"
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertEquals(["foo"], $route->getPostFilters());
     }
 
@@ -78,7 +78,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "post" => ["foo", "bar"]
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertEquals(["foo", "bar"], $route->getPostFilters());
     }
 
@@ -91,7 +91,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "pre" => "foo"
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertEquals(["foo"], $route->getPreFilters());
     }
 
@@ -104,7 +104,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "pre" => ["foo", "bar"]
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertEquals(["foo", "bar"], $route->getPreFilters());
     }
 
@@ -116,7 +116,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/foo/{id}", $options);
+        $route = new Route("get", "/foo/{id}", $options);
         $this->assertEquals("/foo/{id}", $route->getRawPath());
     }
 
@@ -129,7 +129,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "variables" => ["bar" => "\d+"]
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertEquals("\d+", $route->getVariableRegex("bar"));
     }
 
@@ -141,7 +141,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route("get", "/foo", $options);
         $this->assertNull($route->getVariableRegex("bar"));
     }
 
@@ -151,7 +151,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingController()
     {
         $this->setExpectedException("\\RuntimeException");
-        new Route(["get"], "/{foo}", []);
+        new Route("get", "/{foo}", []);
     }
 
     /**
@@ -163,7 +163,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@"
         ];
-        new Route(["get"], "/{foo}", $options);
+        new Route("get", "/{foo}", $options);
     }
 
     /**
@@ -175,7 +175,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "@foo"
         ];
-        new Route(["get"], "/{foo}", $options);
+        new Route("get", "/{foo}", $options);
     }
 
     /**
@@ -187,7 +187,31 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo"
         ];
-        new Route(["get"], "/{foo}", $options);
+        new Route("get", "/{foo}", $options);
+    }
+
+    /**
+     * Tests passing in multiple methods to the constructor
+     */
+    public function testPassingMultipleMethodsToConstructor()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get", "post"], "/foo", $options);
+        $this->assertEquals(["get", "post"], $route->getMethods());
+    }
+
+    /**
+     * Tests passing in a single method to the constructor
+     */
+    public function testPassingSingleMethodToConstructor()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/foo", $options);
+        $this->assertEquals(["get"], $route->getMethods());
     }
 
     /**
@@ -198,7 +222,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $route->setDefaultValue("foo", 2);
         $this->assertEquals(2, $route->getDefaultValue("foo"));
     }
@@ -211,7 +235,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $route->setControllerMethod("blah");
         $this->assertEquals("blah", $route->getControllerMethod());
     }
@@ -224,7 +248,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $route->setControllerName("blah");
         $this->assertEquals("blah", $route->getControllerName());
     }
@@ -237,7 +261,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/foo/{id}", $options);
+        $route = new Route("get", "/foo/{id}", $options);
         $route->setRegex("blah");
         $this->assertEquals("blah", $route->getRegex());
     }
@@ -250,7 +274,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route("get", "/{foo}", $options);
         $route->setVariableRegex("foo", "\d+");
         $this->assertEquals("\d+", $route->getVariableRegex("foo"));
     }

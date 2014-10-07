@@ -8,7 +8,7 @@ namespace RDev\Models\HTTP;
 
 class RequestParametersTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var RequestParameters The parameters to use in tests */
+    /** @var Parameters The parameters to use in tests */
     private $parameters = null;
 
     /**
@@ -16,7 +16,7 @@ class RequestParametersTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parameters = new RequestParameters([]);
+        $this->parameters = new Parameters([]);
     }
 
     /**
@@ -121,7 +121,7 @@ class RequestParametersTest extends \PHPUnit_Framework_TestCase
     public function testPassingParametersInConstructor()
     {
         $parametersArray = ["foo" => "bar", "bar" => "foo"];
-        $parameters = new RequestParameters($parametersArray);
+        $parameters = new Parameters($parametersArray);
         $this->assertEquals($parametersArray, $parameters->getAll());
     }
 

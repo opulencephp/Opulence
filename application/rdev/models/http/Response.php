@@ -147,16 +147,16 @@ class Response
         self::HTTP_HTTP_VERSION_NOT_SUPPORTED => "HTTP Version Not Supported"
     ];
     /** @var string The content of the response */
-    private $content = "";
+    protected $content = "";
     /** @var ResponseHeaders The headers in this response */
-    private $headers = null;
+    protected $headers = null;
     /** @var int The status code of this response */
-    private $statusCode = self::HTTP_OK;
+    protected $statusCode = self::HTTP_OK;
     /** @var string The status text of this response */
-    private $statusText = "OK";
+    protected $statusText = "OK";
     /** @var string The status text of this response */
     /** @var string The HTTP version of this response */
-    private $httpVersion = "1.1";
+    protected $httpVersion = "1.1";
 
     /**
      * @param string $content The content of the response

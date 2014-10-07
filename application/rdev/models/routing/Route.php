@@ -28,16 +28,21 @@ class Route
     private $postFilters = [];
 
     /**
-     * @param array $methods The HTTP methods this route matches on
-     * @param string $path The raw path to match on
+     * @param string|array $methods The HTTP method or list of methods this route matches on
+     * @param string $rawPath The raw path to match on
      * @param array $options The list of options
      * @throws \RuntimeException Thrown if there is no controller specified in the options
      * @throws \InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
      */
-    public function __construct(array $methods, $path, array $options)
+    public function __construct($methods, $rawPath, array $options)
     {
+        if(!is_array($methods))
+        {
+            $methods = [$methods];
+        }
+
         $this->methods = $methods;
-        $this->rawPath = $path;
+        $this->rawPath = $rawPath;
 
         if(!isset($options["controller"]))
         {

@@ -7,6 +7,7 @@
 namespace RDev\Models\Routing;
 use RDev\Models\HTTP;
 use RDev\Models\IoC;
+use RDev\Tests\Models\Routing\Mocks;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,33 +15,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     private $router = null;
 
     /**
-     * Tests calling a non-existent controller
+     * Sets up the tests
      */
-    public function testCallingNonExistentController()
+    public function setUp()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
-        $this->setupRequest("GET", "/foo", "RDev\\Class\\That\\Does\\Not\\Exist", "foo");
-        $this->router->route("/foo");
-    }
-
-    /**
-     * Tests calling a method that does not exists in a controller
-     */
-    public function testCallingNonExistentMethod()
-    {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "doesNotExist");
-        $this->router->route("/foo");
-    }
-
-    /**
-     * Tests calling a private method in a controller
-     */
-    public function testCallingPrivateMethod()
-    {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "notPublic");
-        $this->router->route("/foo");
+        $this->router = new Router(new IoC\Container(), new HTTP\Connection());
     }
 
     /**
@@ -52,19 +31,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
-        $deleteRoute = new Route([HTTP\Request::METHOD_DELETE], $path, $options);
-        $getRoute = new Route([HTTP\Request::METHOD_GET], $path, $options);
-        $postRoute = new Route([HTTP\Request::METHOD_POST], $path, $options);
-        $putRoute = new Route([HTTP\Request::METHOD_PUT], $path, $options);
-        $configArray = [
-            "routes" => [
-                $deleteRoute,
-                $getRoute,
-                $postRoute,
-                $putRoute
-            ]
-        ];
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection, $configArray);
+        $this->router->delete($path, $options);
+        $this->router->get($path, $options);
+        $this->router->post($path, $options);
+        $this->router->put($path, $options);
         $this->assertEquals([], $this->router->getRoutes("methodThatDoeNotExist"));
     }
 
@@ -77,25 +47,19 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
-        $deleteRoute = new Route([HTTP\Request::METHOD_DELETE], $path, $options);
-        $getRoute = new Route([HTTP\Request::METHOD_GET], $path, $options);
-        $postRoute = new Route([HTTP\Request::METHOD_POST], $path, $options);
-        $putRoute = new Route([HTTP\Request::METHOD_PUT], $path, $options);
-        $configArray = [
-            "routes" => [
-                $deleteRoute,
-                $getRoute,
-                $postRoute,
-                $putRoute
-            ]
-        ];
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection, $configArray);
-        $this->assertEquals([
-            HTTP\Request::METHOD_DELETE => [$deleteRoute],
-            HTTP\Request::METHOD_GET => [$getRoute],
-            HTTP\Request::METHOD_POST => [$postRoute],
-            HTTP\Request::METHOD_PUT => [$putRoute]
-        ], $this->router->getRoutes());
+        $deleteRoute = new Route(HTTP\Request::METHOD_DELETE, $path, $options);
+        $getRoute = new Route(HTTP\Request::METHOD_GET, $path, $options);
+        $postRoute = new Route(HTTP\Request::METHOD_POST, $path, $options);
+        $putRoute = new Route(HTTP\Request::METHOD_PUT, $path, $options);
+        $this->router->addRoute($deleteRoute);
+        $this->router->addRoute($getRoute);
+        $this->router->addRoute($postRoute);
+        $this->router->addRoute($putRoute);
+        $allRoutes = $this->router->getRoutes();
+        $this->assertSame([$deleteRoute], $allRoutes[HTTP\Request::METHOD_DELETE]);
+        $this->assertSame([$getRoute], $allRoutes[HTTP\Request::METHOD_GET]);
+        $this->assertSame([$postRoute], $allRoutes[HTTP\Request::METHOD_POST]);
+        $this->assertSame([$putRoute], $allRoutes[HTTP\Request::METHOD_PUT]);
     }
 
     /**
@@ -107,20 +71,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
-        $deleteRoute = new Route([HTTP\Request::METHOD_DELETE], $path, $options);
-        $getRoute = new Route([HTTP\Request::METHOD_GET], $path, $options);
-        $postRoute = new Route([HTTP\Request::METHOD_POST], $path, $options);
-        $putRoute = new Route([HTTP\Request::METHOD_PUT], $path, $options);
-        $configArray = [
-            "routes" => [
-                $deleteRoute,
-                $getRoute,
-                $postRoute,
-                $putRoute
-            ]
-        ];
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection, $configArray);
-        $this->assertEquals([$getRoute], $this->router->getRoutes(HTTP\Request::METHOD_GET));
+        $getRoute = new Route(HTTP\Request::METHOD_GET, $path, $options);
+        $this->router->addRoute($getRoute);
+        $getRoutes = $this->router->getRoutes(HTTP\Request::METHOD_GET);
+        $this->assertSame([$getRoute], $getRoutes);
     }
 
     /**
@@ -128,7 +82,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingAnyMethod()
     {
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection(), []);
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
@@ -161,7 +114,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMultipleMethods()
     {
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection(), []);
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
@@ -190,81 +142,72 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using a post-filter that does not return anything
+     * Tests routing a route with an optional variable
      */
-    public function testUsingPostFilterThatDoesNotReturnAnything()
+    public function testRoutingRouteWithOptionalVariable()
     {
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", [],
-            ["foo"]);
-        $this->router->registerFilter("foo", function ()
+        $options = [
+            "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
+        ];
+        $this->router->get("/foo/{bar?}", $options);
+        $this->assertEquals("noParameters", $this->router->route("/foo/"));
+    }
+
+    /**
+     * Tests routing a route with an optional variable with a default value
+     */
+    public function testRoutingRouteWithOptionalVariableWithDefaultValue()
+    {
+        $options = [
+            "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@oneParameter"
+        ];
+        $this->router->get("/bar/{foo?=23}", $options);
+        $this->assertEquals("foo:23", $this->router->route("/bar/"));
+    }
+
+    /**
+     * Sets up a router and does the routing and testing
+     *
+     * @param string $httpMethod The HTTP method to simulate in the call
+     * @param string $rawPath The raw path the routes should use
+     * @param string $pathToRoute The path to route
+     * @param string $controllerName The name of the controller to call
+     * @param string $controllerMethod The name of the method in the mock controller to call
+     */
+    private function doRoute($httpMethod, $rawPath, $pathToRoute, $controllerName, $controllerMethod)
+    {
+        $options = [
+            "controller" => "$controllerName@$controllerMethod"
+        ];
+
+        // The mock router will return the route used rather than the output of the route controller
+        // This makes testing easier
+        $mockRouter = new Mocks\Router(new IoC\Container(), new HTTP\Connection());
+        $deleteRoute = new Route(HTTP\Request::METHOD_DELETE, $rawPath, $options);
+        $getRoute = new Route(HTTP\Request::METHOD_GET, $rawPath, $options);
+        $postRoute = new Route(HTTP\Request::METHOD_POST, $rawPath, $options);
+        $putRoute = new Route(HTTP\Request::METHOD_PUT, $rawPath, $options);
+        $mockRouter->addRoute($deleteRoute);
+        $mockRouter->addRoute($getRoute);
+        $mockRouter->addRoute($postRoute);
+        $mockRouter->addRoute($putRoute);
+        $mockRouter->setHTTPMethod($httpMethod);
+
+        switch($httpMethod)
         {
-            $foo = "bar";
-        });
-        $this->assertEquals("NOTHING", $this->router->route("/foo"));
-    }
-
-    /**
-     * Tests using a post-filter that returns something
-     */
-    public function testUsingPostFilterThatReturnsSomething()
-    {
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", [],
-            ["foo"]);
-        $this->router->registerFilter("foo", function ()
-        {
-            return "YAY";
-        });
-        $this->assertEquals("YAY", $this->router->route("/foo"));
-    }
-
-    /**
-     * Tests using a pre-filter that does not return anything
-     */
-    public function testUsingPreFilterThatDoesNotReturnAnything()
-    {
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "noParameters", ["foo"],
-            []);
-        $this->router->registerFilter("foo", function ()
-        {
-            $foo = "bar";
-        });
-        $this->assertEquals("noParameters", $this->router->route("/foo"));
-    }
-
-    /**
-     * Tests using a pre-filter that returns something
-     */
-    public function testUsingPreFilterThatReturnsSomething()
-    {
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", ["foo"],
-            []);
-        $this->router->registerFilter("foo", function ()
-        {
-            return "YAY";
-        });
-        $this->assertEquals("YAY", $this->router->route("/foo"));
-    }
-
-    /**
-     * Tests using an unregistered post-filter
-     */
-    public function testUsingUnregisteredPostFilter()
-    {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing", [],
-            ["fakeFilter"]);
-        $this->router->route("/foo");
-    }
-
-    /**
-     * Tests using an unregistered pre-filter
-     */
-    public function testUsingUnregisteredPreFilter()
-    {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
-        $this->setupRequest("GET", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "returnsNothing",
-            ["fakeFilter"]);
-        $this->router->route("/foo");
+            case HTTP\Request::METHOD_DELETE:
+                $this->assertSame($deleteRoute, $mockRouter->route($pathToRoute));
+                break;
+            case HTTP\Request::METHOD_GET:
+                $this->assertSame($getRoute, $mockRouter->route($pathToRoute));
+                break;
+            case HTTP\Request::METHOD_POST:
+                $this->assertSame($postRoute, $mockRouter->route($pathToRoute));
+                break;
+            case HTTP\Request::METHOD_PUT:
+                $this->assertSame($putRoute, $mockRouter->route($pathToRoute));
+                break;
+        }
     }
 
     /**
@@ -274,62 +217,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     private function doTestForHTTPMethod($httpMethod)
     {
-        $this->setupRequest($httpMethod, "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "noParameters");
-        $this->assertEquals("noParameters", $this->router->route("/foo"));
-        $this->setupRequest($httpMethod, "/foo/{foo}", "RDev\\Tests\\Controllers\\Mocks\\Controller", "oneParameter");
-        $this->assertEquals("foo:123", $this->router->route("/foo/123"));
-        $this->setupRequest($httpMethod, "/foo/{foo}/{bar}", "RDev\\Tests\\Controllers\\Mocks\\Controller",
+        $this->doRoute($httpMethod, "/foo", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "noParameters");
+        $this->doRoute($httpMethod, "/foo/{foo}", "/foo/123", "RDev\\Tests\\Controllers\\Mocks\\Controller",
+            "oneParameter");
+        $this->doRoute($httpMethod, "/foo/{foo}/{bar}", "/foo/123/456", "RDev\\Tests\\Controllers\\Mocks\\Controller",
             "multipleParameters");
-        $this->assertEquals("foo:123, bar:456", $this->router->route("/foo/123/456"));
-        $this->setupRequest($httpMethod, "/foo/{foo}/{bar}", "RDev\\Tests\\Controllers\\Mocks\\Controller",
-            "multipleParametersWithDefaultValues");
-        $this->assertEquals("foo:123, bar:456, blah:724", $this->router->route("/foo/123/456"));
-    }
-
-    /**
-     * Sets up a request so we can test the router
-     *
-     * @param string $httpMethod The HTTP method to simulate in the call
-     * @param string $path The raw path the routes should use
-     * @param string $controllerName The name of the controller to call
-     * @param string $controllerMethod The name of the method in the mock controller to call
-     * @param array $preFilters The list of pre-filters to run
-     * @param array $postFilters The list of post-filters to run
-     */
-    private function setupRequest($httpMethod, $path, $controllerName, $controllerMethod, array $preFilters = [],
-                                  array $postFilters = [])
-    {
-        $options = [
-            "controller" => "$controllerName@$controllerMethod"
-        ];
-
-        if(count($preFilters) > 0)
-        {
-            $options["pre"] = $preFilters;
-        }
-
-        if(count($postFilters) > 0)
-        {
-            $options["post"] = $postFilters;
-        }
-
-        $_SERVER["REQUEST_METHOD"] = $httpMethod;
-        $configArray = [
-            "routes" => [
-                new Route([HTTP\Request::METHOD_DELETE], $path, $options),
-                new Route([HTTP\Request::METHOD_GET], $path, $options),
-                new Route([HTTP\Request::METHOD_POST], $path, $options),
-                new Route([HTTP\Request::METHOD_PUT], $path, $options)
-            ]
-        ];
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection, $configArray);
-        $allRoutes = $this->router->getRoutes();
-
-        /** @var Route $route */
-        foreach($configArray["routes"] as $route)
-        {
-            // This is testing that this route was added to the appropriate HTTP method
-            $this->assertSame($route, $allRoutes[$route->getMethods()[0]][0]);
-        }
     }
 } 

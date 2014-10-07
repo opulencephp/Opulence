@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines the base class for request parameters
+ * Defines the base class for HTTP connection parameters
  */
 namespace RDev\Models\HTTP;
 
-class RequestParameters extends \ArrayObject
+class Parameters extends \ArrayObject
 {
     /** @var array The list of parameters */
     protected $parameters = [];

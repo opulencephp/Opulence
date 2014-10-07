@@ -33,17 +33,19 @@ class Request
     private $method = "";
     /** @var string The client's IP address */
     private $ipAddress = "";
-    /** @var RequestParameters The list of GET parameters */
+    /** @var Parameters The list of GET parameters */
     private $query = null;
-    /** @var RequestParameters The list of POST parameters */
+    /** @var Parameters The list of POST parameters */
     private $post = null;
     /** @var Headers The list of headers */
     private $headers = null;
-    /** @var RequestParameters The list of SERVER parameters */
+    /** @var Parameters The list of SERVER parameters */
     private $server = null;
-    /** @var RequestParameters The list of FILES parameters */
+    /** @var Parameters The list of FILES parameters */
     private $files = null;
-    /** @var RequestParameters The list of cookies */
+    /** @var Parameters The list of ENV parameters */
+    private $env = null;
+    /** @var Parameters The list of cookies */
     private $cookies = null;
 
     /**
@@ -52,21 +54,23 @@ class Request
      * @param array $cookies The COOKIE parameters
      * @param array $server The SERVER parameters
      * @param array $files The FILES parameters
+     * @param array $env The ENV parameters
      */
-    public function __construct(array $query, array $post, array $cookies, array $server, array $files)
+    public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env)
     {
-        $this->query = new RequestParameters($query);
-        $this->post = new RequestParameters($post);
-        $this->cookies = new RequestParameters($cookies);
-        $this->server = new RequestParameters($server);
+        $this->query = new Parameters($query);
+        $this->post = new Parameters($post);
+        $this->cookies = new Parameters($cookies);
+        $this->server = new Parameters($server);
         $this->headers = new Headers($server);
-        $this->files = new RequestParameters($files);
+        $this->files = new Parameters($files);
+        $this->env = new Parameters($env);
         $this->setMethod();
         $this->setIPAddress();
     }
 
     /**
-     * @return RequestParameters
+     * @return Parameters
      */
     public function getCookies()
     {
@@ -74,7 +78,15 @@ class Request
     }
 
     /**
-     * @return RequestParameters
+     * @return Parameters
+     */
+    public function getEnv()
+    {
+        return $this->env;
+    }
+
+    /**
+     * @return Parameters
      */
     public function getFiles()
     {
@@ -108,7 +120,7 @@ class Request
     }
 
     /**
-     * @return RequestParameters
+     * @return Parameters
      */
     public function getPost()
     {
@@ -116,7 +128,7 @@ class Request
     }
 
     /**
-     * @return RequestParameters
+     * @return Parameters
      */
     public function getQuery()
     {
@@ -124,7 +136,7 @@ class Request
     }
 
     /**
-     * @return RequestParameters
+     * @return Parameters
      */
     public function getServer()
     {

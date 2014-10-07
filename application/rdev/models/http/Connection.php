@@ -15,7 +15,7 @@ class Connection
 
     public function __construct()
     {
-        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES);
+        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
         $this->response = new Response;
     }
 

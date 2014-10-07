@@ -11,20 +11,20 @@ use RDev\Models\IoC;
 class Router
 {
     /** @var IoC\IContainer The dependency injection container */
-    private $iocContainer = null;
+    protected $iocContainer = null;
     /** @var IRouteCompiler The compiler used by this router */
-    private $compiler = null;
+    protected $compiler = null;
+    /** @var Dispatcher The route dispatcher */
+    protected $dispatcher = null;
     /** @var HTTP\Connection The HTTP connection */
-    private $httpConnection = null;
+    protected $httpConnection = null;
     /** @var array The list of methods to their various routes */
-    private $routes = [
+    protected $routes = [
         HTTP\Request::METHOD_DELETE => [],
         HTTP\Request::METHOD_GET => [],
         HTTP\Request::METHOD_POST => [],
         HTTP\Request::METHOD_PUT => []
     ];
-    /** @var callable[] The list of filters that can be used */
-    private $filters = [];
 
     /**
      * @param IoC\IContainer $iocContainer The dependency injection container
@@ -38,10 +38,11 @@ class Router
      *              "options" => The optional array of route options, which may contain the following:
      *                  "variables" => The mapping of route-variable names to the regexes they must fulfill
      */
-    public function __construct(IoC\IContainer $iocContainer, HTTP\Connection $httpConnection, $config)
+    public function __construct(IoC\IContainer $iocContainer, HTTP\Connection $httpConnection, $config = [])
     {
         $this->iocContainer = $iocContainer;
         $this->httpConnection = $httpConnection;
+        $this->dispatcher = new Dispatcher($this->iocContainer);
 
         if(is_array($config))
         {
@@ -53,6 +54,19 @@ class Router
         foreach($config["routes"] as $route)
         {
             $this->addRoute($route);
+        }
+    }
+
+    /**
+     * Adds a route to the router
+     *
+     * @param Route $route The route to add
+     */
+    public function addRoute(Route $route)
+    {
+        foreach($route->getMethods() as $method)
+        {
+            $this->routes[$method][] = $route;
         }
     }
 
@@ -162,7 +176,7 @@ class Router
      */
     public function registerFilter($name, callable $callback)
     {
-        $this->filters[$name] = $callback;
+        $this->dispatcher->registerFilter($name, $callback);
     }
 
     /**
@@ -190,96 +204,12 @@ class Router
 
             if(preg_match($route->getRegex(), $path, $matches))
             {
-                // Do our pre-filters
-                if(($preFilterReturnValue = $this->executeFilters($route->getPreFilters())) !== null)
-                {
-                    return $preFilterReturnValue;
-                }
-
-                // Call our controller
-                if(($controllerResponse = $this->callController($route, $matches)) !== null)
-                {
-                    return $controllerResponse;
-                }
-
-                // Do our post-filters
-                if(($postFilterReturnValue = $this->executeFilters($route->getPostFilters())) !== null)
-                {
-                    return $postFilterReturnValue;
-                }
+                return $this->dispatcher->dispatch($route, $matches);
             }
         }
 
         // TODO: Implement a default controller
         return "NOTHING";
-    }
-
-    /**
-     * Adds a route to the router
-     *
-     * @param Route $route The route to add
-     */
-    private function addRoute(Route $route)
-    {
-        foreach($route->getMethods() as $method)
-        {
-            $this->routes[$method][] = $route;
-        }
-    }
-
-    /**
-     * Calls the controller for a matched route
-     *
-     * @param Route $route The matched route
-     * @param array $matches The list of matches on route variables
-     * @return mixed|null The response from the controller, if there was one, otherwise null
-     * @throws Exceptions\RouteException Thrown if the controller or method were invalid
-     */
-    private function callController(Route $route, array $matches)
-    {
-        $controllerName = $route->getControllerName();
-        $method = $route->getControllerMethod();
-        $parameters = [];
-
-        if(!class_exists($controllerName))
-        {
-            throw new Exceptions\RouteException("Controller class $controllerName does not exist");
-        }
-
-        try
-        {
-            $reflection = new \ReflectionMethod($controllerName, $method);
-
-            if(!$reflection->isPublic())
-            {
-                throw new Exceptions\RouteException("Method $method is not public");
-            }
-
-            // Match the route variables to the method parameters
-            foreach($reflection->getParameters() as $parameter)
-            {
-                if(isset($matches[$parameter->getName()]))
-                {
-                    $parameters[$parameter->getPosition()] = $matches[$parameter->getName()];
-                }
-                elseif(!$parameter->isDefaultValueAvailable())
-                {
-                    throw new Exceptions\RouteException(
-                        "No value set for parameter {$parameter->getName()}"
-                    );
-                }
-            }
-
-            $controller = $this->iocContainer->createSingleton($controllerName);
-
-            return call_user_func_array([$controller, $method], $parameters);
-        }
-        catch(\ReflectionException $ex)
-        {
-            throw new Exceptions\RouteException(
-                "Reflection failed for method $method in controller $controllerName: $ex"
-            );
-        }
     }
 
     /**
@@ -293,30 +223,5 @@ class Router
     private function createRoute($method, $path, array $options)
     {
         return new Route([$method], $path, $options);
-    }
-
-    /**
-     * Executes the list of filters
-     *
-     * @param array $filterNames The list of filter names to execute
-     * @return mixed|null The response from any of the filters if they returned something, otherwise null
-     * @throws Exceptions\RouteException Thrown if the filter does not exist
-     */
-    private function executeFilters(array $filterNames)
-    {
-        foreach($filterNames as $filterName)
-        {
-            if(!isset($this->filters[$filterName]))
-            {
-                throw new Exceptions\RouteException("Filter $filterName is not registered with the router");
-            }
-
-            if(($filterReturnValue = $this->filters[$filterName]()) !== null)
-            {
-                return $filterReturnValue;
-            }
-        }
-
-        return null;
     }
 } 

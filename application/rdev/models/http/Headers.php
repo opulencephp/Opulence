@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\HTTP;
 
-class Headers extends RequestParameters
+class Headers extends Parameters
 {
     /**
      * @param array $parameters The list of server parameters to create the headers from

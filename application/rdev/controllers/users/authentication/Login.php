@@ -17,16 +17,20 @@ use TBA\Models\Configs;
 
 class Login extends Controllers\Controller
 {
+    /** @var Credentials\ICredentials The credentials */
+    private $credentials = null;
     /** @var User\IUserRepo The user repo to use for finding users */
     private $userRepo = null;
     /** @var Credential\IRepo The credential repo to use for getting/adding user credentials */
     private $credentialRepo = null;
 
     /**
+     * @param Credentials\ICredentials $credentials The credentials
      * @param User\IUserRepo $userRepo The user repo to use for finding users
      * @param Credential\IRepo $credentialRepo The credential repo to use for getting/adding user credentials
      */
-    public function __construct(User\IUserRepo $userRepo, Credential\IRepo $credentialRepo)
+    public function __construct(Credentials\ICredentials $credentials, User\IUserRepo $userRepo,
+                                Credential\IRepo $credentialRepo)
     {
         $this->userRepo = $userRepo;
         $this->credentialRepo = $credentialRepo;
@@ -77,7 +81,7 @@ class Login extends Controllers\Controller
                 $user->getId(), $token);
             $this->credentialRepo->add($loginCredential);
             // TODO:  Commit UoW
-            $this->credentials->save($loginCredential);
+            $this->credentials->save($loginCredential, $tokenValue);
 
             return LoginResults::SUCCESSFUL;
         }
@@ -96,6 +100,6 @@ class Login extends Controllers\Controller
     {
         $loginCredential = $this->credentials->get(Credentials\CredentialTypes::LOGIN);
         $this->credentialRepo->delete($loginCredential);
-        $this->credentials->delete($loginCredential);
+        $this->credentials->delete($loginCredential->getTypeId());
     }
 } 

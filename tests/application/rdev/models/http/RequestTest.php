@@ -35,7 +35,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES);
+        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
     }
 
     /**
@@ -132,6 +132,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the environment variables
+     */
+    public function testGettingEnvironmentVariables()
+    {
+        $this->assertSame($_ENV, $this->request->getEnv()->getAll());
+    }
+
+    /**
      * Tests getting the files
      */
     public function testGettingFiles()
@@ -187,7 +195,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         foreach($keys as $key)
         {
             $_SERVER[$key] = $defaultIPAddress;
-            $request = new Request([], [], [], $_SERVER, []);
+            $request = new Request([], [], [], $_SERVER, [], []);
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());
             unset($_SERVER[$key]);
         }

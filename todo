@@ -1,6 +1,13 @@
+Need to think through MVC
+    Login page could use multiple controllers, depending on the action taken
+    Do they all extend a common "LoginController", which would setup the view?
+    Where does the common-view-setup happen?
 Need default controller support in Router
+Need a fail-safe method in controllers
 Need to figure out what exactly should be returned by Controllers
     Responses?
+Add a class like "ConfigConverter" to make it easy to translate class names to objects in configs
+    Would help reduce code duplication
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
 Consider using Configs for controllers
@@ -10,6 +17,7 @@ Need a Redirector
 Once the above is done, need to finish Login controller
 See if there's a way to throw an exception rather than fail completely when IoC container fails to bind/create
     In the long run, it's probably best to just rewrite implementation to not use Dice
+Need a group() method to group many routes in a router
 Need to write documentation on Request/Response
 Incorrect username entry is faster, allowing timing attacks
 Cache rendered templates
