@@ -41,7 +41,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDefaultStatusCode()
     {
-        $this->assertEquals(Response::HTTP_OK, $this->response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
     }
 
     /**
@@ -90,8 +90,8 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingStatusCode()
     {
-        $this->response->setStatusCode(Response::HTTP_ACCEPTED);
-        $this->assertEquals(Response::HTTP_ACCEPTED, $this->response->getStatusCode());
+        $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED);
+        $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
     }
 
     /**
@@ -99,7 +99,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingStatusCodeWithText()
     {
-        $this->response->setStatusCode(Response::HTTP_ACCEPTED, Response::$statusTexts[Response::HTTP_ACCEPTED]);
-        $this->assertEquals(Response::HTTP_ACCEPTED, $this->response->getStatusCode());
+        $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED, ResponseHeaders::$statusTexts[ResponseHeaders::HTTP_ACCEPTED]);
+        $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
     }
 }

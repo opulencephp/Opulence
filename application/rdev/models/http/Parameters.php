@@ -16,7 +16,10 @@ class Parameters extends \ArrayObject
      */
     public function __construct(array $parameters)
     {
-        $this->parameters = $parameters;
+        foreach($parameters as $key => $value)
+        {
+            $this->add($key, $value);
+        }
     }
 
     /**

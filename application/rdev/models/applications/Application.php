@@ -172,7 +172,7 @@ class Application
             }
             catch(\Exception $ex)
             {
-                $this->httpConnection->getResponse()->setStatusCode(HTTP\Response::HTTP_INTERNAL_SERVER_ERROR);
+                $this->httpConnection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
                 $this->httpConnection->getResponse()->send();
             }
         }
@@ -196,7 +196,7 @@ class Application
             catch(\Exception $ex)
             {
                 $this->logger->addError("Failed to start application: $ex");
-                $this->httpConnection->getResponse()->setStatusCode(HTTP\Response::HTTP_INTERNAL_SERVER_ERROR);
+                $this->httpConnection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
     }

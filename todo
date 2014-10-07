@@ -17,8 +17,9 @@ Need a Redirector
 Once the above is done, need to finish Login controller
 See if there's a way to throw an exception rather than fail completely when IoC container fails to bind/create
     In the long run, it's probably best to just rewrite implementation to not use Dice
-Need a group() method to group many routes in a router
 Need to write documentation on Request/Response
+Do we need a Session object?
+    Probably, just seems weird after all this because I haven't looked at it in a long time
 Incorrect username entry is faster, allowing timing attacks
 Cache rendered templates
 Convert test pages to views/controllers

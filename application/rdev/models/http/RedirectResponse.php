@@ -16,7 +16,7 @@ class RedirectResponse extends Response
      * @param int $statusCode The HTTP status code
      * @param array $headers The headers to set
      */
-    public function __construct($targetURL, $statusCode = self::HTTP_FOUND, $headers = [])
+    public function __construct($targetURL, $statusCode = ResponseHeaders::HTTP_FOUND, array $headers = [])
     {
         parent::__construct("", $statusCode, $headers);
 

@@ -13,18 +13,21 @@ class Headers extends Parameters
      */
     public function __construct(array $parameters = [])
     {
-        $headerParameters = [];
-
         // Grab all of the server parameters that begin with "HTTP_"
         foreach($parameters as $key => $value)
         {
             if(strpos($key, "HTTP_") === 0)
             {
-                $headerParameters[substr($key, 5)] = $value;
+                $this->set(substr($key, 5), $value);
             }
         }
 
-        parent::__construct($headerParameters);
+        /**
+         * Headers allow multiple values
+         * The parent class does not have this feature, which is why we took care of it in this constructor
+         * To satisfy the parent constructor, we'll simply send it an empty array
+         */
+        parent::__construct([]);
     }
 
     /**

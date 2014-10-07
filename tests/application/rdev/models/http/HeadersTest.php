@@ -32,9 +32,9 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting all the headers
+     * Tests getting all the headers after setting them in the constructor
      */
-    public function testGettingAll()
+    public function testGettingAllAfterSettingInConstructor()
     {
         $headerParameters = [];
 
@@ -42,6 +42,11 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         {
             if(strpos($key, "HTTP_") === 0)
             {
+                if(!is_array($value))
+                {
+                    $value = [$value];
+                }
+
                 $headerParameters[substr($key, 5)] = $value;
             }
         }

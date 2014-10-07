@@ -83,7 +83,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }
@@ -101,7 +101,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }
@@ -119,7 +119,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }
@@ -312,7 +312,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         $this->application->shutdown();
         $this->assertEquals(
-            HTTP\Response::HTTP_INTERNAL_SERVER_ERROR,
+            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getHTTPConnection()->getResponse()->getStatusCode()
         );
     }

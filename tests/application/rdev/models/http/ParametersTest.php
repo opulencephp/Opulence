@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\HTTP;
 
-class RequestParametersTest extends \PHPUnit_Framework_TestCase
+class ParametersTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Parameters The parameters to use in tests */
     private $parameters = null;
