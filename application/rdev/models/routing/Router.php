@@ -25,6 +25,8 @@ class Router
         HTTP\Request::METHOD_POST => [],
         HTTP\Request::METHOD_PUT => []
     ];
+    /** @var array The list of options in the current group stack */
+    protected $groupOptionsStack = [];
 
     /**
      * @param IoC\IContainer $iocContainer The dependency injection container
@@ -64,6 +66,8 @@ class Router
      */
     public function addRoute(Route $route)
     {
+        $route = $this->applyGroupSettings($route);
+
         foreach($route->getMethods() as $method)
         {
             $this->routes[$method][] = $route;
@@ -126,6 +130,23 @@ class Router
         {
             return $this->routes[$method];
         }
+    }
+
+    /**
+     * Groups similar routes together so that you don't have to repeat route options
+     *
+     * @param array $options The list of options common to all routes added in the closure
+     *      It can contain the following keys:
+     *          "path" => The common path to be prepended to all the grouped routes,
+     *          "pre" => The pre-filters to be added to all the grouped routes,
+     *          "post" => The post-filters to be added to all the grouped routes
+     * @param callable $closure A function that adds routes to the router
+     */
+    public function group(array $options, callable $closure)
+    {
+        array_push($this->groupOptionsStack, $options);
+        call_user_func($closure);
+        array_pop($this->groupOptionsStack);
     }
 
     /**
@@ -213,6 +234,31 @@ class Router
     }
 
     /**
+     * Applies any group settings to a route
+     *
+     * @param Route $route The route to apply the settings to
+     * @return Route The route with the applied settings
+     */
+    private function applyGroupSettings(Route $route)
+    {
+        $route->setRawPath($this->getGroupPath() . $route->getRawPath());
+        $groupPreFilters = $this->getGroupFilters("pre");
+        $groupPostFilters = $this->getGroupFilters("post");
+
+        if(count($groupPreFilters) > 0)
+        {
+            $route->addPreFilters($groupPreFilters, true);
+        }
+
+        if(count($groupPostFilters) > 0)
+        {
+            $route->addPostFilters($groupPostFilters, true);
+        }
+
+        return $route;
+    }
+
+    /**
      * Creates a route from the input
      *
      * @param string $method The method whose route this is
@@ -223,5 +269,51 @@ class Router
     private function createRoute($method, $path, array $options)
     {
         return new Route([$method], $path, $options);
+    }
+
+    /**
+     * Gets the filters in the current group stack
+     *
+     * @param string $filterType The type of filter ("pre" or "post")
+     * @return array The list of filters of all the groups
+     */
+    private function getGroupFilters($filterType)
+    {
+        $filters = [];
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions[$filterType]))
+            {
+                if(!is_array($groupOptions[$filterType]))
+                {
+                    $groupOptions[$filterType] = [$groupOptions[$filterType]];
+                }
+
+                $filters = array_merge($filters, $groupOptions[$filterType]);
+            }
+        }
+
+        return $filters;
+    }
+
+    /**
+     * Gets the path of the current group stack
+     *
+     * @return string The path of all the groups concatenated together
+     */
+    private function getGroupPath()
+    {
+        $path = "";
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["path"]))
+            {
+                $path .= $groupOptions["path"];
+            }
+        }
+
+        return $path;
     }
 } 

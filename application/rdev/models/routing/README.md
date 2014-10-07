@@ -8,3 +8,4 @@ Things to document:
 * Route variable regexes
 * Route filters
 * Controllers and method names
+* Route grouping

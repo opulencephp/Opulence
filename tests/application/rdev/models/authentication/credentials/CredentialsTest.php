@@ -16,7 +16,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testAddingCredential()
     {
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertEquals($credential, $credentials->get(CredentialTypes::LOGIN));
@@ -28,7 +28,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testAddingCredentialWithoutStorage()
     {
         $this->setExpectedException("\\RuntimeException");
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials = new Credentials(1, 369);
         $credentials->add($credential);
     }
@@ -39,7 +39,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testAddingDeactivatedCredential()
     {
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credential->deactivate();
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
@@ -55,7 +55,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credentials = new Credentials(1, 369);
         $storage = new CredentialStorage();
         $credentials->registerStorage(CredentialTypes::LOGIN, $storage);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $storage->save($credential, "foo");
         $this->assertTrue($credentials->has(CredentialTypes::LOGIN));
         $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
@@ -68,7 +68,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     {
         $credentials = new Credentials(1, 369);
         $this->assertFalse($credentials->has(CredentialTypes::LOGIN));
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertTrue($credentials->has(CredentialTypes::LOGIN));
@@ -80,7 +80,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testDeletingCredential()
     {
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertTrue($credential->isActive());
@@ -95,7 +95,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testGettingAllTypes()
     {
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertEquals([CredentialTypes::LOGIN], $credentials->getTypes());
@@ -107,7 +107,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testGettingCredential()
     {
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
@@ -119,7 +119,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testGettingCredentialThatExistsInStorageButHasNotBeenAdded()
     {
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $storage = new CredentialStorage();
         $credentials->registerStorage(CredentialTypes::LOGIN, $storage);
         $storage->save($credential, "foo");
@@ -133,7 +133,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     {
         $credentials = new Credentials(1, 369);
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credential->deactivate();
         $credentials->add($credential);
         $this->assertNull($credentials->get(CredentialTypes::LOGIN));
@@ -164,7 +164,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstantiatingWithListOfCredentials()
     {
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $storage = new CredentialStorage();
         $credentials = new Credentials(1, 369, [CredentialTypes::LOGIN => $storage], [$credential]);
         $this->assertEquals([$credential], $credentials->getAll());
@@ -176,7 +176,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     public function testInstantiatingWithListOfCredentialsWithoutStorage()
     {
         $this->setExpectedException("\\RuntimeException");
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         new Credentials(1, 369, [], [$credential]);
     }
 
@@ -206,7 +206,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     {
         $credentials = new Credentials(1, 369);
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->save($credential, "foo");
         $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
     }
@@ -218,7 +218,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $credentials = new Credentials(1, 369);
-        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, new Token());
+        $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->save($credential, "foo");
     }
 } 

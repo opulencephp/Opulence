@@ -9,9 +9,14 @@ use RDev\Models\Cryptography;
 
 class Token extends Cryptography\Token
 {
-    public function __construct()
+    /**
+     * Creates a new token for use in testing
+     *
+     * @return Token An instantiated token class
+     */
+    public static function create()
     {
-        parent::__construct(1, "foo", new \DateTime("now", new \DateTimeZone("UTC")),
+        return new Token(1, "foo", new \DateTime("now", new \DateTimeZone("UTC")),
             new \DateTime("+1 week", new \DateTimeZone("UTC")), true);
     }
 } 

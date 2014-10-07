@@ -31,7 +31,7 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
         $this->type = CredentialTypes::LOGIN;
         $this->entityId = 1;
         $this->entityTypeId = 844;
-        $this->token = new Mocks\Token();
+        $this->token = Mocks\Token::create();
         $this->credential = new Credential($this->id, $this->type, $this->entityId, $this->entityTypeId, $this->token);
     }
 

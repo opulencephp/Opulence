@@ -78,6 +78,140 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests grouping routes
+     */
+    public function testGroupingRoutes()
+    {
+        $groupOptions = [
+            "path" => "/foo",
+            "pre" => ["pre1", "pre2"],
+            "post" => ["post1", "post2"]
+        ];
+        $this->router->group($groupOptions, function ()
+        {
+            $routeOptions = ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"];
+            $this->router->addRoute(new Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $this->router->delete("/blah", $routeOptions);
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes(HTTP\Request::METHOD_GET);
+        /** @var Route[] $deleteRoutes */
+        $deleteRoutes = $this->router->getRoutes(HTTP\Request::METHOD_DELETE);
+        $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
+        $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
+        $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
+        $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
+    }
+
+    /**
+     * Tests grouping the routes and then adding another route
+     */
+    public function testGroupingRoutesThenAddingAnotherRoute()
+    {
+        $routeOptions = [
+            "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters",
+            "pre" => ["pre3", "pre4"],
+            "post" => ["post3", "post4"]
+        ];
+        $groupOptions = [
+            "path" => "/foo",
+            "pre" => ["pre1", "pre2"],
+            "post" => ["post1", "post2"]
+        ];
+        $this->router->group($groupOptions, function () use ($routeOptions)
+        {
+            $this->router->addRoute(new Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $this->router->delete("/blah", $routeOptions);
+        });
+        $this->router->get("/asdf", $routeOptions);
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes(HTTP\Request::METHOD_GET);
+        /** @var Route[] $deleteRoutes */
+        $deleteRoutes = $this->router->getRoutes(HTTP\Request::METHOD_DELETE);
+        $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
+        $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $getRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2", "post3", "post4"], $getRoutes[0]->getPostFilters());
+        $this->assertEquals("/asdf", $getRoutes[1]->getRawPath());
+        $this->assertEquals(["pre3", "pre4"], $getRoutes[1]->getPreFilters());
+        $this->assertEquals(["post3", "post4"], $getRoutes[1]->getPostFilters());
+        $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
+        $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $deleteRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2", "post3", "post4"], $deleteRoutes[0]->getPostFilters());
+    }
+
+    /**
+     * Tests grouping routes that use a string for the pre- and post-filters
+     */
+    public function testGroupingRoutesWithStringFilters()
+    {
+        $routeOptions = [
+            "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters",
+            "pre" => "pre2",
+            "post" => "post2"
+        ];
+        $groupOptions = [
+            "path" => "/foo",
+            "pre" => "pre1",
+            "post" => "post1"
+        ];
+        $this->router->group($groupOptions, function () use ($routeOptions)
+        {
+            $this->router->addRoute(new Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $this->router->delete("/blah", $routeOptions);
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes(HTTP\Request::METHOD_GET);
+        /** @var Route[] $deleteRoutes */
+        $deleteRoutes = $this->router->getRoutes(HTTP\Request::METHOD_DELETE);
+        $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
+        $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
+    }
+
+    /**
+     * Tests nested grouped routes
+     */
+    public function testNestedGroupedRoutes()
+    {
+        $outerGroupOptions = [
+            "path" => "/foo",
+            "pre" => ["pre1", "pre2"],
+            "post" => ["post1", "post2"]
+        ];
+        $routeOptions = ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"];
+        $this->router->group($outerGroupOptions, function () use ($routeOptions)
+        {
+            $this->router->addRoute(new Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $this->router->delete("/blah", $routeOptions);
+            $innerGroupOptions = [
+                "path" => "/asdf",
+                "pre" => ["pre3", "pre4"],
+                "post" => ["post3", "post4"]
+            ];
+            $this->router->group($innerGroupOptions, function () use ($routeOptions)
+            {
+                $this->router->get("/jkl", $routeOptions);
+            });
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes(HTTP\Request::METHOD_GET);
+        /** @var Route[] $deleteRoutes */
+        $deleteRoutes = $this->router->getRoutes(HTTP\Request::METHOD_DELETE);
+        $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
+        $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
+        $this->assertEquals("/foo/asdf/jkl", $getRoutes[1]->getRawPath());
+        $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $getRoutes[1]->getPreFilters());
+        $this->assertEquals(["post1", "post2", "post3", "post4"], $getRoutes[1]->getPostFilters());
+        $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
+        $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
+        $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
+    }
+
+    /**
      * Tests routing for any method
      */
     public function testRoutingAnyMethod()

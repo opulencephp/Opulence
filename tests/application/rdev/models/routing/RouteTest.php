@@ -9,6 +9,86 @@ namespace RDev\Models\Routing;
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests adding multiple post-filters
+     */
+    public function testAddingMultiplePostFilters()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPostFilters(["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $route->getPostFilters());
+    }
+
+    /**
+     * Tests adding multiple pre-filters
+     */
+    public function testAddingMultiplePreFilters()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPreFilters(["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $route->getPreFilters());
+    }
+
+    /**
+     * Tests adding non-unique post-filters
+     */
+    public function testAddingNonUniquePostFilters()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPostFilters("foo");
+        $route->addPostFilters("foo");
+        $this->assertEquals(["foo"], $route->getPostFilters());
+    }
+
+    /**
+     * Tests adding non-unique pre-filters
+     */
+    public function testAddingNonUniquePreFilters()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPreFilters("foo");
+        $route->addPreFilters("foo");
+        $this->assertEquals(["foo"], $route->getPreFilters());
+    }
+
+    /**
+     * Tests adding a single post-filter
+     */
+    public function testAddingSinglePostFilter()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPostFilters("foo");
+        $this->assertEquals(["foo"], $route->getPostFilters());
+    }
+
+    /**
+     * Tests adding a single pre-filter
+     */
+    public function testAddingSinglePreFilter()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPreFilters("foo");
+        $this->assertEquals(["foo"], $route->getPreFilters());
+    }
+
+    /**
      * Tests getting the controller method
      */
     public function testGettingControllerMethod()
@@ -215,6 +295,34 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test prepending a post-filter
+     */
+    public function testPrependingPostFilter()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPostFilters("foo", false);
+        $route->addPostFilters("bar", true);
+        $this->assertEquals(["bar", "foo"], $route->getPostFilters());
+    }
+
+    /**
+     * Test prepending a pre-filter
+     */
+    public function testPrependingPreFilter()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->addPreFilters("foo", false);
+        $route->addPreFilters("bar", true);
+        $this->assertEquals(["bar", "foo"], $route->getPreFilters());
+    }
+
+    /**
      * Tests setting a default value
      */
     public function testSettingADefaultValue()
@@ -251,6 +359,19 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route("get", "/{foo}", $options);
         $route->setControllerName("blah");
         $this->assertEquals("blah", $route->getControllerName());
+    }
+
+    /**
+     * Tests setting the raw path
+     */
+    public function testSettingRawPath()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->setRawPath("blah");
+        $this->assertEquals("blah", $route->getRawPath());
     }
 
     /**

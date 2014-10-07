@@ -58,13 +58,63 @@ class Route
 
         if(isset($options["pre"]))
         {
-            $this->setPreFilters($options["pre"]);
+            $this->addPreFilters($options["pre"]);
         }
 
         if(isset($options["post"]))
         {
-            $this->setPostFilters($options["post"]);
+            $this->addPostFilters($options["post"]);
         }
+    }
+
+    /**
+     * Adds post-filters to this route
+     *
+     * @param string|array $filters The filter or list of post-filters to add
+     * @param bool $prepend True if we want to prepend the filters (give them higher priority), otherwise false
+     */
+    public function addPostFilters($filters, $prepend = false)
+    {
+        if(!is_array($filters))
+        {
+            $filters = [$filters];
+        }
+
+        if($prepend)
+        {
+            $this->postFilters = array_merge($filters, $this->postFilters);
+        }
+        else
+        {
+            $this->postFilters = array_merge($this->postFilters, $filters);
+        }
+
+        $this->postFilters = array_unique($this->postFilters);
+    }
+
+    /**
+     * Adds pre-filters to this route
+     *
+     * @param string|array $filters The filter or list of pre-filters to add
+     * @param bool $prepend True if we want to prepend the filters (give them higher priority), otherwise false
+     */
+    public function addPreFilters($filters, $prepend = false)
+    {
+        if(!is_array($filters))
+        {
+            $filters = [$filters];
+        }
+
+        if($prepend)
+        {
+            $this->preFilters = array_merge($filters, $this->preFilters);
+        }
+        else
+        {
+            $this->preFilters = array_merge($this->preFilters, $filters);
+        }
+
+        $this->preFilters = array_unique($this->preFilters);
     }
 
     /**
@@ -178,6 +228,14 @@ class Route
     }
 
     /**
+     * @param string $rawPath
+     */
+    public function setRawPath($rawPath)
+    {
+        $this->rawPath = $rawPath;
+    }
+
+    /**
      * @param string $regex
      */
     public function setRegex($regex)
@@ -214,36 +272,6 @@ class Route
 
         $this->controllerName = substr($controllerString, 0, $atCharPos);
         $this->controllerMethod = substr($controllerString, $atCharPos + 1);
-    }
-
-    /**
-     * Sets the filters to run after dispatching a route
-     *
-     * @param string|array $filters The filter or list of filters to run after dispatching a route
-     */
-    private function setPostFilters($filters)
-    {
-        if(!is_array($filters))
-        {
-            $filters = [$filters];
-        }
-
-        $this->postFilters = $filters;
-    }
-
-    /**
-     * Sets the filters to run before dispatching a route
-     *
-     * @param string|array $filters The filter or list of filters to run before dispatching a route
-     */
-    private function setPreFilters($filters)
-    {
-        if(!is_array($filters))
-        {
-            $filters = [$filters];
-        }
-
-        $this->preFilters = $filters;
     }
 
     /**
