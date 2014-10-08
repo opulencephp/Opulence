@@ -40,7 +40,9 @@ Let's say you want to grab a specific user's profile page.  You'll probably want
 
 Let's take a look at a full example:
 ```php
-class UserController
+use RDev\Controllers;
+
+class UserController extends Controllers\Controller
 {
     public function showProfile($userId)
     {
