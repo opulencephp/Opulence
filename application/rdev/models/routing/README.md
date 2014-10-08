@@ -86,6 +86,8 @@ Sometimes, you might want to have a default value for a route variable.  Doing s
 $router->get("/food/{foodName=all}", ["controller" => "MyApp\\FoodController@showFood"]);
 ```
 
+If no food name was specified, "all" will be the default value.
+
 > **Note:** To give an optional variable a default value, structure the route variable like "{varName?=value}".
 
 ## Filters
