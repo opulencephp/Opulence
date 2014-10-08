@@ -29,8 +29,8 @@ use RDev\Models\IoC;
 use RDev\Models\Routing;
 
 $router = new Routing\Router(new IoC\Container(), new HTTP\Connection());
-// This will route a GET request to "/users" to MyController->myMethod()
-$router->get("/users", ["controller" => "MyApp\\MyController@myMethod"]);
+// This will route a GET request to "/users" to MyController->getAllUsers()
+$router->get("/users", ["controller" => "MyApp\\MyController@getAllUsers"]);
 // This will route a POST request to "/login" to MyController->login()
 $router->post("/login", ["controller" => "MyApp\\MyController@login"]);
 // This will route a DELETE request to "/users/me" to MyController->deleteUser()
