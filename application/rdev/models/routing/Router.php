@@ -204,18 +204,12 @@ class Router
      * Routes a path
      *
      * @param string $path The path to route
-     * @return mixed The return value of the controller
-     * @throws \RuntimeException Thrown if there was a problem routing the input path
+     * @return HTTP\Response The response from the controller
      * @throws Exceptions\RouteException Thrown if the controller or method could not be called
      */
     public function route($path)
     {
         $method = $this->httpConnection->getRequest()->getMethod();
-
-        if(!isset($this->routes[$method]))
-        {
-            throw new \RuntimeException("No route specified for method $method");
-        }
 
         /** @var Route $route */
         foreach($this->routes[$method] as $route)
@@ -230,7 +224,7 @@ class Router
         }
 
         // TODO: Implement a default controller
-        return "NOTHING";
+        return new HTTP\Response();
     }
 
     /**

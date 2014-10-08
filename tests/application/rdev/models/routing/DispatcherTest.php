@@ -82,9 +82,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $route = new Route(["GET"], "/foo", $options);
         $this->dispatcher->registerFilter("foo", function ()
         {
-            $foo = "bar";
+            count($_SERVER);
         });
-        $this->assertNull($this->dispatcher->dispatch($route, []));
+        $this->assertEquals(new HTTP\Response(), $this->dispatcher->dispatch($route, []));
     }
 
     /**
@@ -116,7 +116,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $route = new Route(["GET"], "/foo", $options);
         $this->dispatcher->registerFilter("foo", function ()
         {
-            $foo = "bar";
+            count($_SERVER);
         });
         $this->assertEquals("noParameters", $this->dispatcher->dispatch($route, []));
     }

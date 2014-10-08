@@ -29,7 +29,7 @@ class Dispatcher
      *
      * @param Route $route The route to dispatch
      * @param array @routeVariables The array of route variable names to their values
-     * @return mixed|null The response from the controller or pre/post filters if there was one, otherwise null
+     * @return HTTP\Response The response from the controller or pre/post filters if there was one
      * @throws Exceptions\RouteException Thrown if the method could not be called on the controller
      */
     public function dispatch(Route $route, array $routeVariables)
@@ -54,7 +54,8 @@ class Dispatcher
             return $postFilterReturnValue;
         }
 
-        return null;
+        // Nothing returned a value, so return a basic HTTP response
+        return new HTTP\Response();
     }
 
     /**
@@ -74,7 +75,7 @@ class Dispatcher
      * @param Controllers\Controller $controller The instance of the controller to call
      * @param Route $route The route being dispatched
      * @param array $routeVariables The list of route variable names to their values
-     * @return mixed Returns the value from the controller method
+     * @return HTTP\Response Returns the value from the controller method
      * @throws Exceptions\RouteException Thrown if the method could not be called on the controller
      */
     private function callController(Controllers\Controller $controller, Route $route, array $routeVariables)
