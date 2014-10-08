@@ -6,7 +6,7 @@
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
   2. [Optional Variables](#optional-variables)
-  3. [Default Values](#default values)
+  3. [Default Values](#default-values)
 4. [Filters](#filters)
 5. [Route Grouping](#route-grouping)
   1. [Filters](#filters)
