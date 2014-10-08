@@ -4,16 +4,12 @@ Need to think through MVC
     Where does the common-view-setup happen?
 Need default controller support in Router
 Need a fail-safe method in controllers
-Need to figure out what exactly should be returned by Controllers
-    Responses?
 Add a class like "ConfigConverter" to make it easy to translate class names to objects in configs
     Would help reduce code duplication
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
 Consider using Configs for controllers
     In the config, you'd specify the repos, credentials to use
-Need a Redirector
-    Needs to play with Response
 Once the above is done, need to finish Login controller
 See if there's a way to throw an exception rather than fail completely when IoC container fails to bind/create
     In the long run, it's probably best to just rewrite implementation to not use Dice
@@ -21,6 +17,7 @@ Need to write documentation on Request/Response
 Need to document Router config
     Need to add grouping support to router config
     Maybe best to start subclassing configs that have multiple config arrays inside them
+Need to add support for host in routers
 Do we need a Session object?
     Probably, just seems weird after all this because I haven't looked at it in a long time
 Incorrect username entry is faster, allowing timing attacks

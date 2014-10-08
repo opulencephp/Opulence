@@ -3,6 +3,7 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
+  1. [Multiple Methods](#multiple-methods)
 3. [Route Variables](#route-variables)
   1. [Regular Expressions](#regular-expressions)
   2. [Optional Variables](#optional-variables)
@@ -37,6 +38,21 @@ $router->post("/login", ["controller" => "MyApp\\MyController@login"]);
 $router->delete("/users/me", ["controller" => "MyApp\\MyController@deleteUser"]);
 // This will route a PUT request to "/users/profile/image" to MyController->uploadProfileImage()
 $router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
+```
+
+The router takes advantage of the [Dependency Injection Container](/application/rdev/models/ioc) to instantiate your controller.
+
+> **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
+
+#### Multiple Methods
+You can register a route to multiple methods using the router's `multiple()` method:
+```php
+$router->multiple(["GET", "POST"], ["controller" => "MyApp\\MyController@myMethod"]);
+```
+
+To register a route for all methods, use the `any()` method:
+```php
+$router->any(["controller" => "MyApp\\MyController@myMethod"]);
 ```
 
 ## Route Variables

@@ -12,6 +12,16 @@ abstract class Controller
 {
     /** @var Views\IView The view used in the response */
     protected $view = null;
+    /** @var HTTP\Connection The HTTP connection */
+    protected $connection = null;
+
+    /**
+     * @param HTTP\Connection $connection The HTTP connection
+     */
+    public function __construct(HTTP\Connection $connection)
+    {
+        $this->connection = $connection;
+    }
 
     /**
      * Actually calls the method in the controller
