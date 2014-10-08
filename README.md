@@ -13,26 +13,26 @@
 6. [About the Author](#about-the-author)
 
 ### Building Your First Application
-1. [Setting Up an Application](ResponseHeaders::application/rdev/models/applications)
+1. [Setting Up an Application](application/rdev/models/applications)
 
 ### Templates
-1. [Building a Template](ResponseHeaders::application/rdev/views)
+1. [Building a Template](application/rdev/views)
 
 ### Routing
-1. [Setting Up a Router](ResponseHeaders::application/rdev/models/routing)
+1. [Setting Up a Router](application/rdev/models/routing)
 
 ### Databases
-1. [Relational Databases](ResponseHeaders::application/rdev/models/databases/sql)
-  1. [Type Mappers](ResponseHeaders::application/rdev/models/databases/sql/providers)
-2. [NoSQL Databases](ResponseHeaders::application/rdev/models/databases/nosql)
-3. [Object-Relational Mapping](ResponseHeaders::application/rdev/models/orm)
-4. [Query Builders](ResponseHeaders::application/rdev/models/databases/sql/querybuilders)
+1. [Relational Databases](application/rdev/models/databases/sql)
+  1. [Type Mappers](application/rdev/models/databases/sql/providers)
+2. [NoSQL Databases](application/rdev/models/databases/nosql)
+3. [Object-Relational Mapping](application/rdev/models/orm)
+4. [Query Builders](application/rdev/models/databases/sql/querybuilders)
 
 ### Inversion of Control
-1. [Dependency Injection](ResponseHeaders::application/rdev/models/ioc)
+1. [Dependency Injection](application/rdev/models/ioc)
 
 ### Configs
-1. [Configs](ResponseHeaders::application/rdev/models/configs)
+1. [Configs](application/rdev/models/configs)
 
 ## Introduction
 **RDev** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With RDev, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested.  However, it is still in development and should not be used in production code.  Hopefully, that will change soon.

@@ -32,7 +32,7 @@ $application->shutdown();
 ```
 
 ## Config
-Applications are initialized with an `ApplicationConfig` object or array ([learn more about application configs](ResponseHeaders::application/rdev/models/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
+Applications are initialized with an `ApplicationConfig` object or array ([learn more about application configs](application/rdev/models/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
 
 Let's break down the structure of the config.  The following keys are optional:
 * "environment"
@@ -56,9 +56,9 @@ Let's break down the structure of the config.  The following keys are optional:
     * "universal" => Mapping of universal bindings of interface/abstract class names to concrete class names
     * "targeted" => Mapping of targeted classes to their list of bindings of interface/abstract class names to concrete class names
       * Targeted bindings take precedence over universal bindings
-  * For more about dependency injection, [read this](ResponseHeaders::application/rdev/models/ioc)
+  * For more about dependency injection, [read this](application/rdev/models/ioc)
 * "router"
-  * See the [Routing page](ResponseHeaders::application/rdev/models/routing)
+  * See the [Routing page](application/rdev/models/routing)
 * "monolog"
   The following are required:
   * "handlers" => Maps to names of handlers, which map to options for that handler
