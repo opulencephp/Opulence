@@ -71,13 +71,13 @@ class Dispatcher
     /**
      * Calls the method on the input controller
      *
-     * @param mixed $controller The instance of the controller to call
+     * @param Controllers\Controller $controller The instance of the controller to call
      * @param Route $route The route being dispatched
      * @param array $routeVariables The list of route variable names to their values
      * @return mixed Returns the value from the controller method
      * @throws Exceptions\RouteException Thrown if the method could not be called on the controller
      */
-    private function callController($controller, Route $route, array $routeVariables)
+    private function callController(Controllers\Controller $controller, Route $route, array $routeVariables)
     {
         $parameters = [];
 
@@ -85,9 +85,9 @@ class Dispatcher
         {
             $reflection = new \ReflectionMethod($controller, $route->getControllerMethod());
 
-            if(!$reflection->isPublic())
+            if($reflection->isPrivate())
             {
-                throw new Exceptions\RouteException("Method {$route->getControllerMethod()} is not public");
+                throw new Exceptions\RouteException("Method {$route->getControllerMethod()} is private");
             }
 
             // Match the route variables to the method parameters
@@ -131,7 +131,7 @@ class Dispatcher
      * Creates an instance of the input controller
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
-     * @return mixed The instantiated controller
+     * @return Controllers\Controller The instantiated controller
      * @throws Exceptions\RouteException Thrown if the controller could not be instantiated
      */
     private function createController($controllerName)

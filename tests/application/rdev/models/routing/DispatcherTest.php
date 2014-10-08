@@ -57,8 +57,17 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingPrivateMethod()
     {
         $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
-        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@notPublic"]);
+        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@privateMethod"]);
         $this->dispatcher->dispatch($route, []);
+    }
+
+    /**
+     * Tests calling a protected method in a controller
+     */
+    public function testCallingProtectedMethod()
+    {
+        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@protectedMethod"]);
+        $this->assertEquals("protectedMethod", $this->dispatcher->dispatch($route, []));
     }
 
     /**

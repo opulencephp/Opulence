@@ -19,6 +19,8 @@ See if there's a way to throw an exception rather than fail completely when IoC 
     In the long run, it's probably best to just rewrite implementation to not use Dice
 Need to write documentation on Request/Response
 Need to document Router config
+    Need to add grouping support to router config
+    Maybe best to start subclassing configs that have multiple config arrays inside them
 Do we need a Session object?
     Probably, just seems weird after all this because I haven't looked at it in a long time
 Incorrect username entry is faster, allowing timing attacks

@@ -10,6 +10,7 @@
 4. [Filters](#filters)
 5. [Route Grouping](#route-grouping)
   1. [Filters](#group-filters)
+6. [Notes](#notes)
 
 ## Introduction
 So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
@@ -84,6 +85,7 @@ $router->get("/food/{foodName=all}", ["controller" => "MyApp\\FoodController@sho
 
 ## Filters
 Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is when filters come in handy.  "Pre" filters are executed before the controller is called, and "post" filters are called after the controller.  Here is the order of precedence of return values of filters and controllers:
+
 1. If a pre-filter returns something other than null, it is returned by the router, and the controller is never called
 2. If the controller method returns something other than null, it is returned, and the post-filters are never called
 3. If a post-filter returns something other than null, it is returned by the router
@@ -99,7 +101,7 @@ $router->registerFilter("authenticate", function()
 });
 $router->post("/users/posts", [
     "controller" => "MyApp\\UserController@createPost",
-    "pre" => "authenticate", // Could also be an array of pre-filters
+    "pre" => "authenticate" // Could also be an array of pre-filters
 ]);
 ```
 
@@ -108,21 +110,19 @@ Now, the "authenticate" filter will be called before the "createPost" method is 
 ## Route Grouping
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
 ```php
-$router->group(["path" => "/users/{userId}", function() use ($router)
+$router->group(["path" => "/users/{userId}"], function() use ($router)
 {
     $router->get("/profile", ["controller" => "MyApp\\UserController@showProfile"]);
-    $router->delete("/", ["controller" => "MyApp\\UserController@deleteUser"]);
+    $router->delete("", ["controller" => "MyApp\\UserController@deleteUser"]);
 });
 ```
 
-Now, a GET request to "/users/{userId}/profile" will get a user's profile, and a DELETE request to "/users/{userId}/" will delete a user.
+Now, a GET request to "/users/{userId}/profile" will get a user's profile, and a DELETE request to "/users/{userId}" will delete a user.
 
 #### Group Filters
 Route groups allow you to apply "pre" and "post" filters to multiple routes:
 ```php
-$router->group([
-    "pre" => "authenticate"
-], function() use ($router)
+$router->group(["pre" => "authenticate"], function() use ($router)
 {
     $router->get("/users/{userId}/profile", ["controller" => "MyApp\\UserController@showProfile"]);
     $router->get("/posts", ["controller" => "MyApp\\PostController@showPosts"]);
@@ -130,3 +130,17 @@ $router->group([
 ```
 
 The "authenticate" filter will be executed on any matched routes inside the closure.
+
+## Notes
+Routes are matched based on the order they were added to the router.  So, if you did the following:
+```php
+$router->get("/{foo}", [
+    "controller" => "MyApp\\MyController@myMethod",
+    "variables" => [
+        "foo" => ".*"
+    ]
+]);
+$router->get("/users", ["controller" => "MyApp\\MyController@myMethod"]);
+```
+
+...The first route "/{foo}" would always match first because it was added first.  Add any "fall-through" routes after you've added the rest of your routes.

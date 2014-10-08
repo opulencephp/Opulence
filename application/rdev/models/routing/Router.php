@@ -122,13 +122,13 @@ class Router
         {
             return $this->routes;
         }
-        elseif(!isset($this->routes[$method]))
+        elseif(isset($this->routes[$method]))
         {
-            return [];
+            return $this->routes[$method];
         }
         else
         {
-            return $this->routes[$method];
+            return [];
         }
     }
 

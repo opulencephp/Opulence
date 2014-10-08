@@ -65,12 +65,22 @@ class Controller extends Controllers\Controller
     }
 
     /**
+     * Mocks a protected method for use in testing
+     *
+     * @return string The name of the method
+     */
+    protected function protectedMethod()
+    {
+        return "protectedMethod";
+    }
+
+    /**
      * Mocks a private method for use in testing
      *
      * @return string The name of the method
      */
-    private function notPublic()
+    private function privateMethod()
     {
-        return "notPublic";
+        return "privateMethod";
     }
 } 

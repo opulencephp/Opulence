@@ -58,7 +58,7 @@ Let's break down the structure of the config.  The following keys are optional:
       * Targeted bindings take precedence over universal bindings
   * For more about dependency injection, [read this](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/ioc)
 * "router"
-  * See the [Routing page](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/web/routing)
+  * See the [Routing page](https://github.com/ramblingsofadev/RDev/tree/master/application/rdev/models/routing)
 * "monolog"
   The following are required:
   * "handlers" => Maps to names of handlers, which map to options for that handler
