@@ -29,10 +29,15 @@ use RDev\Models\IoC;
 use RDev\Models\Routing;
 
 $router = new Routing\Router(new IoC\Container(), new HTTP\Connection());
+// This will route a GET request to "/users" to MyController->myMethod()
 $router->get("/users", ["controller" => "MyApp\\MyController@myMethod"]);
+// This will route a POST request to "/login" to MyController->login()
+$router->post("/login", ["controller" => "MyApp\\MyController@login"]);
+// This will route a DELETE request to "/users/me" to MyController->deleteUser()
+$router->post("/users/me", ["controller" => "MyApp\\MyController@deleteUser"]);
+// This will route a PUT request to "/users/profile/image" to MyController->uploadProfileImage()
+$router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
 ```
-
-From now on, all requests to "/users" will go to `MyController->myMethod()`.  Specify the name of the controller method by writing "@THE_NAME_OF_THE_METHOD" after the controller class name.
 
 ## Route Variables
 Let's say you want to grab a specific user's profile page.  You'll probably want to structure your URL like "/users/{userId}/profile", where "{userId}" is the Id of the user whose profile we want to view.  Using a `Router`, the data matched in "{userId}" will be mapped to a parameter in your controller's method named "$userId".
