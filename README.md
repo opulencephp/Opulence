@@ -22,7 +22,7 @@
 1. [Setting Up a Router](application/rdev/models/routing)
 
 ### Databases
-1. [Relational Databases](application/rdev/models/databases/sql)
+1. [Relational Databases](/application/rdev/models/databases/sql)
   1. [Type Mappers](application/rdev/models/databases/sql/providers)
 2. [NoSQL Databases](application/rdev/models/databases/nosql)
 3. [Object-Relational Mapping](application/rdev/models/orm)
