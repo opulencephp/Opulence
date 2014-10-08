@@ -34,7 +34,7 @@ $router->get("/users", ["controller" => "MyApp\\MyController@myMethod"]);
 // This will route a POST request to "/login" to MyController->login()
 $router->post("/login", ["controller" => "MyApp\\MyController@login"]);
 // This will route a DELETE request to "/users/me" to MyController->deleteUser()
-$router->post("/users/me", ["controller" => "MyApp\\MyController@deleteUser"]);
+$router->delete("/users/me", ["controller" => "MyApp\\MyController@deleteUser"]);
 // This will route a PUT request to "/users/profile/image" to MyController->uploadProfileImage()
 $router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
 ```
