@@ -9,7 +9,7 @@
   3. [Default Values](#default-values)
 4. [Filters](#filters)
 5. [Route Grouping](#route-grouping)
-  1. [Filters](#filters)
+  1. [Filters](#group-filters)
 
 ## Introduction
 So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
@@ -115,7 +115,7 @@ $router->group(["path" => "/users/{userId}", function() use ($router)
 
 Now, a GET request to "/users/{userId}/profile" will get a user's profile, and a DELETE request to "/users/{userId}/" will delete a user.
 
-#### Filters
+#### Group Filters
 Route groups allow you to apply "pre" and "post" filters to multiple routes:
 ```php
 $router->group([
