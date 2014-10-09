@@ -154,7 +154,7 @@ echo $a1 === $a2; // "0"
 ```
 
 ## Creating Shared Instances
-Shared instances are just that - shared.  No matter how many times you make a shared instance, you'll always get the same instance.  This concept is similar to the **Singleton* design pattern, but with the added benefit of being able to bind different concrete implementations at runtime.  To create a shared instance of a class with all of its dependencies injected, you can call `makeShared()`:
+Shared instances are just that - shared.  No matter how many times you make a shared instance, you'll always get the same instance.  This concept is similar to the **Singleton** design pattern, but with the added benefit of being able to bind different concrete implementations at runtime.  To create a shared instance of a class with all of its dependencies injected, you can call `makeShared()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->makeShared("A");
