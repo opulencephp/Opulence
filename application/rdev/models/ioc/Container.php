@@ -127,7 +127,7 @@ class Container implements IContainer
         if(!$forceNewInstance)
         {
             // Register this instance for next time
-            $this->registerInstance($instance, $constructorPrimitives, $methodCalls, false);
+            $this->registerInstance($instance, $constructorPrimitives, $methodCalls);
         }
 
         return $instance;
@@ -313,6 +313,7 @@ class Container implements IContainer
             return $this->targetedBindings[$targetClass][$interface];
         }
 
+        // Fallback on the universal binding
         return $this->getUniversalBinding($interface);
     }
 

@@ -19,6 +19,7 @@ interface IContainer
 
     /**
      * Gets the name of the concrete class bound to the interface
+     * If a target is specified, but nothing has been explicitly bound to it, then the universal binding is returned
      *
      * @param string $interface The name of the interface whose binding we want
      * @param string|null $targetClass The name of the target class whose binding we want, or null for universal bindings
@@ -28,6 +29,7 @@ interface IContainer
 
     /**
      * Gets whether or not an interface is bound
+     * If a target is specified, but the interface has not been explicitly bound to it, then this returns false
      *
      * @param string $interface The name of the interface
      * @param string|null $targetClass The name of the class whose bindings we're checking, or null for universal bindings
