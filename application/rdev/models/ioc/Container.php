@@ -46,7 +46,7 @@ class Container implements IContainer
         }
         else
         {
-            $this->bindTarget($interface, $concreteClass, $targetClass);
+            $this->bindToTarget($interface, $concreteClass, $targetClass);
         }
     }
 
@@ -156,11 +156,11 @@ class Container implements IContainer
     {
         if($targetClass === null)
         {
-            unset($this->universalBindings[$interface]);
+            $this->unbindUniversal($interface);
         }
-        elseif(isset($this->targetedBindings[$targetClass]))
+        else
         {
-            unset($this->targetedBindings[$targetClass][$interface]);
+            $this->unbindFromTarget($interface, $targetClass);
         }
     }
 
@@ -171,7 +171,7 @@ class Container implements IContainer
      * @param string $concreteClass The concrete class to bind
      * @param string $targetClass The name of the target class to bind on
      */
-    protected function bindTarget($interface, $concreteClass, $targetClass)
+    protected function bindToTarget($interface, $concreteClass, $targetClass)
     {
         $this->targetedBindings[$targetClass][$interface] = $concreteClass;
     }
@@ -397,5 +397,29 @@ class Container implements IContainer
         {
             return $this->makeShared($concreteClass);
         }
+    }
+
+    /**
+     * Unbinds an interface from a target
+     *
+     * @param string $interface The name of the interface to unbind
+     * @param string $targetClass The name of the target to unbind from
+     */
+    protected function unbindFromTarget($interface, $targetClass)
+    {
+        if(isset($this->targetedBindings[$targetClass]))
+        {
+            unset($this->targetedBindings[$targetClass][$interface]);
+        }
+    }
+
+    /**
+     * Unbinds an interface universally
+     *
+     * @param string $interface The name of the interface to unbind
+     */
+    protected function unbindUniversal($interface)
+    {
+        unset($this->universalBindings[$interface]);
     }
 } 

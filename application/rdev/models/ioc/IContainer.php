@@ -30,13 +30,13 @@ interface IContainer
      * Gets whether or not an interface is bound
      *
      * @param string $interface The name of the interface
-     * @param string|null $targetClass The name of the target class whose bindings we're checking
+     * @param string|null $targetClass The name of the class whose bindings we're checking, or null for universal bindings
      * @return bool True if the interface is bound, otherwise false
      */
     public function isBound($interface, $targetClass = null);
 
     /**
-     * Creates a shared instance of the input class name
+     * Creates an instance of the input class name
      *
      * @param string $component The name of the component to instantiate
      * @param bool $forceNewInstance True if we want to create a new instance, otherwise false
@@ -48,6 +48,7 @@ interface IContainer
      *          ...
      *      ]
      * @return mixed An instance of the input class
+     * @throws IoCException Thrown if there was an error making the component
      */
     public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = []);
 
@@ -63,6 +64,7 @@ interface IContainer
      *          ...
      *      ]
      * @return mixed A new instance of the input class
+     * @throws IoCException Thrown if there was an error making the component
      */
     public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = []);
 
@@ -78,6 +80,7 @@ interface IContainer
      *          ...
      *      ]
      * @return mixed An instance of the input class
+     * @throws IoCException Thrown if there was an error making the component
      */
     public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = []);
 
