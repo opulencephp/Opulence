@@ -271,6 +271,7 @@ To remove a binding, call `unbind()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 $container->unbind("IFoo");
+echo $container->isBound("IFoo"); // "0"
 echo $container->getBinding("IFoo"); // null
 ```
 
@@ -278,5 +279,6 @@ To remove a targeted binding:
 ```php
 $container->bind("IFoo", "ConcreteFoo", "A");
 $container->unbind("IFoo", "A");
+echo $container->isBound("IFoo", "A"); // "0"
 echo $container->getBinding("IFoo", "A"); // null
 ```
