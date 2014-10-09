@@ -35,7 +35,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder()
     {
-        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\InvalidQueryException");
         $this->query->addUnnamedPlaceholderValue("dave")
             ->addNamedPlaceholderValue("id", 18175);
     }
@@ -56,7 +56,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderWithIncorrectArrayValueCount()
     {
-        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\InvalidQueryException");
         $this->query->addNamedPlaceholderValues(["foo" => ["bar"]]);
     }
 
@@ -76,7 +76,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder()
     {
-        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\InvalidQueryException");
         $this->query->addNamedPlaceholderValue("id", 18175)
             ->addUnnamedPlaceholderValue("dave");
     }
@@ -97,7 +97,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount()
     {
-        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\InvalidQueryException");
         $this->query->addUnnamedPlaceholderValues([["bar"]]);
     }
 
@@ -118,7 +118,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
     {
-        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\InvalidQueryException");
         $this->query->addUnnamedPlaceholderValue("foo");
         $this->query->removeNamedPlaceHolder("bar");
     }
@@ -153,7 +153,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders()
     {
-        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\Exceptions\\InvalidQueryException");
+        $this->setExpectedException("RDev\\Models\\Databases\\SQL\\QueryBuilders\\InvalidQueryException");
         $this->query->addNamedPlaceholderValue("foo", "bar");
         $this->query->removeUnnamedPlaceHolder(0);
     }

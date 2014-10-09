@@ -9,7 +9,6 @@ use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
 use RDev\Models\ORM\DataMappers;
-use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 class UnitOfWork
 {
@@ -60,7 +59,7 @@ class UnitOfWork
     /**
      * Commits any entities that have been scheduled for insertion/updating/deletion
      *
-     * @throws ORMExceptions\ORMException Thrown if there was an error committing the transaction
+     * @throws ORMException Thrown if there was an error committing the transaction
      */
     public function commit()
     {
@@ -79,7 +78,7 @@ class UnitOfWork
         {
             $this->connection->rollBack();
             $this->postRollback();
-            throw new ORMExceptions\ORMException($ex->getMessage());
+            throw new ORMException($ex->getMessage());
         }
 
         $this->postCommit();

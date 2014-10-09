@@ -6,7 +6,6 @@
  */
 namespace RDev\Models\Authentication\Credentials\Storage;
 use RDev\Models\Authentication\Credentials;
-use RDev\Models\Authentication\Credentials\Exceptions;
 
 interface ICredentialStorage
 {
@@ -26,7 +25,7 @@ interface ICredentialStorage
      * Gets the credential from storage
      *
      * @return Credentials\ICredential|null The credential from storage if they exist, otherwise null
-     * @throws Exceptions\InvalidCredentialException Thrown if the credentials in storage are invalid
+     * @throws Credentials\InvalidCredentialException Thrown if the credentials in storage are invalid
      */
     public function get();
 

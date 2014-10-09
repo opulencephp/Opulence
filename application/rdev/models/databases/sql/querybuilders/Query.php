@@ -5,7 +5,6 @@
  * Defines common functionality for query classes
  */
 namespace RDev\Models\Databases\SQL\QueryBuilders;
-use RDev\Models\Databases\SQL\QueryBuilders\Exceptions;
 
 abstract class Query
 {
@@ -39,13 +38,13 @@ abstract class Query
      * @param mixed $value The value of the placeholder
      * @param int $dataType The PDO constant that indicates the type of data the value represents
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function addNamedPlaceholderValue($placeholderName, $value, $dataType = \PDO::PARAM_STR)
     {
         if($this->usingUnnamedPlaceholders === true)
         {
-            throw new Exceptions\InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
         $this->usingUnnamedPlaceholders = false;
@@ -62,7 +61,7 @@ abstract class Query
      *      Optionally, the names can map to an array whose first item is the value and whose second value is the
      *      PDO constant indicating the type of data the value represents
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
+     * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
      *      if the value is an array that doesn't contain the correct number of items
      */
     public function addNamedPlaceholderValues(array $placeholderNamesToValues)
@@ -73,7 +72,7 @@ abstract class Query
             {
                 if(count($value) != 2)
                 {
-                    throw new Exceptions\InvalidQueryException("Incorrect number of items in value array");
+                    throw new InvalidQueryException("Incorrect number of items in value array");
                 }
 
                 $this->addNamedPlaceholderValue($placeholderName, $value[0], $value[1]);
@@ -94,13 +93,13 @@ abstract class Query
      * @param mixed $value
      * @param int $dataType The PDO constant that indicates the type of data the value represents
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function addUnnamedPlaceholderValue($value, $dataType = \PDO::PARAM_STR)
     {
         if($this->usingUnnamedPlaceholders === false)
         {
-            throw new Exceptions\InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
         $this->usingUnnamedPlaceholders = true;
@@ -117,7 +116,7 @@ abstract class Query
      *      Optionally, each value can be contained in an array whose first item is the value and whose second value is
      *      the PDO constant indicating the type of data the value represents
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
+     * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
      *      if the value is an array that doesn't contain the correct number of items
      */
     public function addUnnamedPlaceholderValues(array $placeholderValues)
@@ -128,7 +127,7 @@ abstract class Query
             {
                 if(count($value) != 2)
                 {
-                    throw new Exceptions\InvalidQueryException("Incorrect number of items in value array");
+                    throw new InvalidQueryException("Incorrect number of items in value array");
                 }
 
                 $this->addUnnamedPlaceholderValue($value[0], $value[1]);
@@ -157,13 +156,13 @@ abstract class Query
      *
      * @param string $placeholderName The name of the placeholder to remove
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function removeNamedPlaceHolder($placeholderName)
     {
         if($this->usingUnnamedPlaceholders === true)
         {
-            throw new Exceptions\InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
         unset($this->parameters[$placeholderName]);
@@ -176,13 +175,13 @@ abstract class Query
      *
      * @param int $placeholderIndex The index of the placeholder in the parameters to remove
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
+     * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
     public function removeUnnamedPlaceHolder($placeholderIndex)
     {
         if($this->usingUnnamedPlaceholders === false)
         {
-            throw new Exceptions\InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
+            throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
         unset($this->parameters[$placeholderIndex]);

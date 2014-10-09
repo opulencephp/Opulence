@@ -205,7 +205,7 @@ class Router
      *
      * @param string $path The path to route
      * @return HTTP\Response The response from the controller
-     * @throws Exceptions\RouteException Thrown if the controller or method could not be called
+     * @throws RouteException Thrown if the controller or method could not be called
      */
     public function route($path)
     {

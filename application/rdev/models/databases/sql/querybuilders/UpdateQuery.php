@@ -17,7 +17,7 @@ class UpdateQuery extends Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The alias of the table we're querying
      * @param array $columnNamesToValues The mapping of column names to their respective values
-     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
+     * @throws InvalidQueryException Thrown if the query is invalid
      */
     public function __construct($tableName, $tableAlias, array $columnNamesToValues)
     {
@@ -34,7 +34,7 @@ class UpdateQuery extends Query
      *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
      *      the PDO constant indicating the type of data the value represents
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
+     * @throws InvalidQueryException Thrown if the query is invalid
      */
     public function addColumnValues(array $columnNamesToValues)
     {

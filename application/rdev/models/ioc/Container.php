@@ -119,7 +119,7 @@ class Container implements IContainer
      *      ]
      * @param bool $forceNewInstance True if we want a new instance, otherwise false and we'll share it
      * @return mixed The instantiated component
-     * @throws Exceptions\IoCException Thrown if there was an error creating the instance
+     * @throws IoCException Thrown if there was an error creating the instance
      */
     protected function create(
         $concreteClass,
@@ -143,7 +143,7 @@ class Container implements IContainer
 
         if(!$reflectionClass->isInstantiable())
         {
-            throw new Exceptions\IoCException("$concreteClass is not instantiable");
+            throw new IoCException("$concreteClass is not instantiable");
         }
 
         $constructor = $reflectionClass->getConstructor();
@@ -199,7 +199,7 @@ class Container implements IContainer
      * @param mixed $instance The instance to call methods on
      * @param array $methodCalls The list of methods to call
      * @param bool $forceNewInstance True if we want a new instance, otherwise false
-     * @throws Exceptions\IoCException Thrown if there was a problem calling the methods
+     * @throws IoCException Thrown if there was a problem calling the methods
      */
     private function callMethods(&$instance, array $methodCalls, $forceNewInstance)
     {
@@ -259,7 +259,7 @@ class Container implements IContainer
      * @param array $primitives The list of primitive values
      * @param bool $forceNewInstances True if the dependencies should be new instances, otherwise they'll be singletons
      * @return array The list of parameters with all the dependencies resolved
-     * @throws Exceptions\IoCException Thrown if there was an error resolving the parameters
+     * @throws IoCException Thrown if there was an error resolving the parameters
      */
     private function getResolvedParameters(
         $callingClass,
@@ -286,7 +286,7 @@ class Container implements IContainer
                 }
                 else
                 {
-                    throw new Exceptions\IoCException("No default value available for {$parameter->getName()}");
+                    throw new IoCException("No default value available for {$parameter->getName()}");
                 }
             }
             else
@@ -360,7 +360,7 @@ class Container implements IContainer
      * @param string $component The name of the class to resolve
      * @param bool $forceNewInstance True if we want to force a new instance, otherwise false
      * @return mixed The instantiated class
-     * @throws Exceptions\IoCException Thrown if there was a problem resolving the class
+     * @throws IoCException Thrown if there was a problem resolving the class
      */
     private function resolveClass($callingClass, $component, $forceNewInstance)
     {

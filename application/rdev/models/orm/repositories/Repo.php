@@ -8,7 +8,6 @@ namespace RDev\Models\ORM\Repositories;
 use RDev\Models;
 use RDev\Models\ORM;
 use RDev\Models\ORM\DataMappers;
-use RDev\Models\ORM\Exceptions;
 
 class Repo implements IRepo
 {
@@ -93,7 +92,7 @@ class Repo implements IRepo
      * @param string $functionName The name of the function to call in the data mapper
      * @param array $args The list of arguments to pass into the data mapper
      * @return Models\IEntity|array The entity or list of entities
-     * @throws Exceptions\ORMException Thrown if there was an error getting the entity(ies)
+     * @throws ORM\ORMException Thrown if there was an error getting the entity(ies)
      */
     protected function getFromDataMapper($functionName, $args = [])
     {

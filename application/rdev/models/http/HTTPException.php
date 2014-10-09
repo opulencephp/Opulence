@@ -4,7 +4,7 @@
  *
  * Defines an exception that is thrown by an HTTP component
  */
-namespace RDev\Models\HTTP\Exceptions;
+namespace RDev\Models\HTTP;
 use RDev\Models\Exceptions;
 
 class HTTPException extends Exceptions\Exception

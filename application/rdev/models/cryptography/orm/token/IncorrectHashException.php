@@ -4,7 +4,7 @@
  *
  * Defines an incorrect-hash exception
  */
-namespace RDev\Models\Cryptography\ORM\Token\Exceptions;
+namespace RDev\Models\Cryptography\ORM\Token;
 use RDev\Models\Exceptions;
 
 class IncorrectHashException extends Exceptions\Exception

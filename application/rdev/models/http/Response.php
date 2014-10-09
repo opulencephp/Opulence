@@ -153,7 +153,7 @@ class Response
      * Sets the expiration time of the page
      *
      * @param \DateTime $expiration The expiration time
-     * @throws Exceptions\HTTPException Thrown if the headers were already sent
+     * @throws HTTPException Thrown if the headers were already sent
      */
     public function setExpiration(\DateTime $expiration)
     {

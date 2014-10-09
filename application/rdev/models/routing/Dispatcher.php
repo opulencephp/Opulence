@@ -30,7 +30,7 @@ class Dispatcher
      * @param Route $route The route to dispatch
      * @param array @routeVariables The array of route variable names to their values
      * @return HTTP\Response The response from the controller or pre/post filters if there was one
-     * @throws Exceptions\RouteException Thrown if the method could not be called on the controller
+     * @throws RouteException Thrown if the method could not be called on the controller
      */
     public function dispatch(Route $route, array $routeVariables)
     {
@@ -76,7 +76,7 @@ class Dispatcher
      * @param Route $route The route being dispatched
      * @param array $routeVariables The list of route variable names to their values
      * @return HTTP\Response Returns the value from the controller method
-     * @throws Exceptions\RouteException Thrown if the method could not be called on the controller
+     * @throws RouteException Thrown if the method could not be called on the controller
      */
     private function callController(Controllers\Controller $controller, Route $route, array $routeVariables)
     {
@@ -88,7 +88,7 @@ class Dispatcher
 
             if($reflection->isPrivate())
             {
-                throw new Exceptions\RouteException("Method {$route->getControllerMethod()} is private");
+                throw new RouteException("Method {$route->getControllerMethod()} is private");
             }
 
             // Match the route variables to the method parameters
@@ -107,7 +107,7 @@ class Dispatcher
                 elseif(!$parameter->isDefaultValueAvailable())
                 {
                     // There is no value/default value for this variable
-                    throw new Exceptions\RouteException(
+                    throw new RouteException(
                         "No value set for parameter {$parameter->getName()}"
                     );
                 }
@@ -117,7 +117,7 @@ class Dispatcher
         }
         catch(\ReflectionException $ex)
         {
-            throw new Exceptions\RouteException(
+            throw new RouteException(
                 sprintf(
                     "Reflection failed for method %s in controller %s: %s",
                     $route->getControllerMethod(),
@@ -133,20 +133,20 @@ class Dispatcher
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
      * @return Controllers\Controller The instantiated controller
-     * @throws Exceptions\RouteException Thrown if the controller could not be instantiated
+     * @throws RouteException Thrown if the controller could not be instantiated
      */
     private function createController($controllerName)
     {
         if(!class_exists($controllerName))
         {
-            throw new Exceptions\RouteException("Controller class $controllerName does not exist");
+            throw new RouteException("Controller class $controllerName does not exist");
         }
 
         $controller = $this->iocContainer->createSingleton($controllerName);
 
         if(!$controller instanceof Controllers\Controller)
         {
-            throw new Exceptions\RouteException("Controller class $controllerName does not extend the base controller");
+            throw new RouteException("Controller class $controllerName does not extend the base controller");
         }
 
         return $controller;
@@ -157,7 +157,7 @@ class Dispatcher
      *
      * @param array $filterNames The list of filter names to execute
      * @return mixed|null The response from any of the filters if they returned something, otherwise null
-     * @throws Exceptions\RouteException Thrown if the filter does not exist
+     * @throws RouteException Thrown if the filter does not exist
      */
     private function executeFilters(array $filterNames)
     {
@@ -165,7 +165,7 @@ class Dispatcher
         {
             if(!isset($this->filters[$filterName]))
             {
-                throw new Exceptions\RouteException("Filter $filterName is not registered");
+                throw new RouteException("Filter $filterName is not registered");
             }
 
             if(($filterReturnValue = $this->filters[$filterName]()) !== null)

@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\ORM;
 use RDev\Models;
-use RDev\Models\ORM\Exceptions as ORMExceptions;
+use RDev\Models\ORM;
 use RDev\Models\Users;
 use RDev\Tests\Models\Mocks as ModelMocks;
 use RDev\Tests\Models\Databases\SQL\Mocks as SQLMocks;
@@ -255,7 +255,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
         $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
-        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
+        $this->setExpectedException("RDev\\Models\\ORM\\ORMException");
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -306,7 +306,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
         $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
         $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
-        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
+        $this->setExpectedException("RDev\\Models\\ORM\\ORMException");
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -406,7 +406,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $this->unitOfWork->scheduleForInsertion($this->entity2);
             $this->unitOfWork->commit();
         }
-        catch(ORMExceptions\ORMException $ex)
+        catch(ORM\ORMException $ex)
         {
             $exceptionThrown = true;
         }
@@ -420,7 +420,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      * Gets the entity after committing it
      *
      * @return ModelMocks\User The entity from the data mapper
-     * @throws Exceptions\ORMException Thrown if there was an error committing the transaction
+     * @throws ORM\ORMException Thrown if there was an error committing the transaction
      */
     private function getInsertedEntity()
     {

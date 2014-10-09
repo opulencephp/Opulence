@@ -4,7 +4,7 @@
  *
  *
  */
-namespace RDev\Models\Authentication\Credentials\Exceptions;
+namespace RDev\Models\Authentication\Credentials;
 use RDev\Models\Exceptions;
 
 class InvalidCredentialException extends Exceptions\Exception

@@ -70,7 +70,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingInterfaceWithoutBinding()
     {
-        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->setExpectedException("RDev\\Models\\IoC\\IoCException");
         $this->container->createNew($this->fooInterface);
     }
 
@@ -131,7 +131,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewObjectWithUnsetConstructorPrimitive()
     {
-        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->setExpectedException("RDev\\Models\\IoC\\IoCException");
         $this->container->createNew($this->constructorWithPrimitives);
     }
 
@@ -215,7 +215,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSingletonWithUnsetConstructorPrimitive()
     {
-        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->setExpectedException("RDev\\Models\\IoC\\IoCException");
         $this->container->createSingleton($this->constructorWithPrimitives);
     }
 
@@ -241,7 +241,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDependencyThatHasDependencyWithoutBindingAllDependencies()
     {
-        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->setExpectedException("RDev\\Models\\IoC\\IoCException");
         $this->container->bind($this->fooInterface, $this->concreteFooWithIPersonDependency);
         $this->container->createSingleton($this->fooInterface);
     }

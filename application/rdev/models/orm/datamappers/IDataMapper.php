@@ -6,7 +6,7 @@
  */
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
-use RDev\Models\ORM\Exceptions;
+use RDev\Models\ORM;
 
 interface IDataMapper
 {
@@ -14,7 +14,7 @@ interface IDataMapper
      * Adds an entity to the database
      *
      * @param Models\IEntity $entity The entity to add
-     * @throws Exceptions\ORMException Thrown if the entity couldn't be added
+     * @throws ORM\ORMException Thrown if the entity couldn't be added
      */
     public function add(Models\IEntity &$entity);
 
@@ -22,7 +22,7 @@ interface IDataMapper
      * Deletes an entity
      *
      * @param Models\IEntity $entity The entity to delete
-     * @throws Exceptions\ORMException Thrown if the entity couldn't be deleted
+     * @throws ORM\ORMException Thrown if the entity couldn't be deleted
      */
     public function delete(Models\IEntity &$entity);
 
@@ -38,7 +38,7 @@ interface IDataMapper
      *
      * @param int|string $id The Id of the entity we're searching for
      * @return Models\IEntity The entity with the input Id
-     * @throws Exceptions\ORMException Thrown if there was no entity with the input Id
+     * @throws ORM\ORMException Thrown if there was no entity with the input Id
      */
     public function getById($id);
 
@@ -46,7 +46,7 @@ interface IDataMapper
      * Saves any changes made to an entity
      *
      * @param Models\IEntity $entity The entity to save
-     * @throws Exceptions\ORMException Thrown if the entity couldn't be saved
+     * @throws ORM\ORMException Thrown if the entity couldn't be saved
      */
     public function update(Models\IEntity &$entity);
 } 

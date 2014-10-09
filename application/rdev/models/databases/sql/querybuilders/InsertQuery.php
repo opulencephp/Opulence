@@ -5,7 +5,6 @@
  * Builds an insert query
  */
 namespace RDev\Models\Databases\SQL\QueryBuilders;
-use RDev\Models\Databases\SQL\QueryBuilders\Exceptions;
 
 class InsertQuery extends Query
 {
@@ -15,7 +14,7 @@ class InsertQuery extends Query
     /**
      * @param string $tableName The name of the table we're inserting into
      * @param array $columnNamesToValues The mapping of column names to their respective values
-     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
+     * @throws InvalidQueryException Thrown if the query is invalid
      */
     public function __construct($tableName, array $columnNamesToValues)
     {
@@ -31,7 +30,7 @@ class InsertQuery extends Query
      *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
      *      the PDO constant indicating the type of data the value represents
      * @return $this
-     * @throws Exceptions\InvalidQueryException Thrown if the query is invalid
+     * @throws InvalidQueryException Thrown if the query is invalid
      */
     public function addColumnValues(array $columnNamesToValues)
     {

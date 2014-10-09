@@ -7,7 +7,6 @@
 namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\NoSQL\Redis;
-use RDev\Models\ORM\Exceptions as ORMExceptions;
 
 abstract class RedisDataMapper implements ICacheDataMapper
 {

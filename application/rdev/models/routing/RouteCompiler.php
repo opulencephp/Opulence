@@ -5,7 +5,6 @@
  * Defines the compiler for a route
  */
 namespace RDev\Models\Routing;
-use RDev\Models\Routing\Exceptions;
 
 class RouteCompiler implements IRouteCompiler
 {
@@ -44,12 +43,12 @@ class RouteCompiler implements IRouteCompiler
             // @link http://php.net/manual/en/language.variables.basics.php
             if(!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/", $variableName))
             {
-                throw new Exceptions\RouteException("Invalid variable name \"$variableName\"");
+                throw new RouteException("Invalid variable name \"$variableName\"");
             }
 
             if(in_array($variableName, $routeVariables))
             {
-                throw new Exceptions\RouteException("Route path uses multiple references to \"$variableName\"");
+                throw new RouteException("Route path uses multiple references to \"$variableName\"");
             }
 
             $routeVariables[] = $variableName;
@@ -79,7 +78,7 @@ class RouteCompiler implements IRouteCompiler
      *
      * @param string $path The path to quote
      * @return string The path with the static text quoted
-     * @throws Exceptions\RouteException Thrown if the braces are not nested correctly
+     * @throws RouteException Thrown if the braces are not nested correctly
      */
     private function quoteStaticText($path)
     {
@@ -129,7 +128,7 @@ class RouteCompiler implements IRouteCompiler
         {
             $message = "Route variable has " . ($braceDepth > 0 ? "unclosed" : "unopened") . " braces";
 
-            throw new Exceptions\RouteException($message);
+            throw new RouteException($message);
         }
 
         return $quotedPath;

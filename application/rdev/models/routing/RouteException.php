@@ -4,7 +4,7 @@
  *
  * Defines a route exception
  */
-namespace RDev\Models\Routing\Exceptions;
+namespace RDev\Models\Routing;
 use RDev\Models\Exceptions;
 
 class RouteException extends Exceptions\Exception

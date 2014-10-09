@@ -26,7 +26,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingInvalidController()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Controllers\\Mocks\\InvalidController@foo"]);
         $this->dispatcher->dispatch($route, []);
     }
@@ -36,7 +36,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentController()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Controller\\That\\Does\\Not\\Exist@foo"]);
         $this->dispatcher->dispatch($route, []);
     }
@@ -46,7 +46,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentMethod()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@doesNotExist"]);
         $this->dispatcher->dispatch($route, []);
     }
@@ -56,7 +56,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingPrivateMethod()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@privateMethod"]);
         $this->dispatcher->dispatch($route, []);
     }
@@ -143,7 +143,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingUnregisteredPostFilter()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@returnsNothing",
             "post" => "fakeFilter"
@@ -157,7 +157,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingUnregisteredPreFilter()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $options = [
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@returnsNothing",
             "pre" => "fakeFilter"

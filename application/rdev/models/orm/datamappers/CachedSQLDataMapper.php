@@ -8,7 +8,7 @@ namespace RDev\Models\ORM\DataMappers;
 use RDev\Models;
 use RDev\Models\Databases\SQL;
 use RDev\Models\Exceptions;
-use RDev\Models\ORM\Exceptions as ORMExceptions;
+use RDev\Models\ORM;
 
 abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 {
@@ -69,7 +69,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         }
         catch(\Exception $ex)
         {
-            throw new ORMExceptions\ORMException($ex->getMessage());
+            throw new ORM\ORMException($ex->getMessage());
         }
 
         // Clear our schedules
@@ -114,7 +114,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Refreshes the data in cache with the data from the SQL data mapper
      *
-     * @throws ORMExceptions\ORMException Thrown if there was an error refreshing the cache
+     * @throws ORM\ORMException Thrown if there was an error refreshing the cache
      */
     public function refreshCache()
     {

@@ -7,7 +7,7 @@
 namespace RDev\Tests\Models\ORM\DataMappers\Mocks;
 use RDev\Models;
 use RDev\Models\Databases\SQL;
-use RDev\Models\ORM\Exceptions;
+use RDev\Models\ORM;
 use RDev\Models\ORM\DataMappers;
 use RDev\Models\ORM\Ids;
 
@@ -64,7 +64,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     {
         if(!isset($this->entities[$id]))
         {
-            throw new Exceptions\ORMException("No entity found with Id " . $id);
+            throw new ORM\ORMException("No entity found with Id " . $id);
         }
 
         return clone $this->entities[$id];

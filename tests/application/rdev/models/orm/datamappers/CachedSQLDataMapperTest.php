@@ -42,7 +42,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper->add($this->entity);
         $this->assertEquals($this->entity, $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId()));
-        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
+        $this->setExpectedException("RDev\\Models\\ORM\\ORMException");
         $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId());
     }
 
@@ -54,7 +54,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->add($this->entity);
         $this->dataMapper->delete($this->entity);
         $this->dataMapper->commit();
-        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
+        $this->setExpectedException("RDev\\Models\\ORM\\ORMException");
         $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId());
     }
 
@@ -65,7 +65,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper->add($this->entity);
         $this->dataMapper->delete($this->entity);
-        $this->setExpectedException("RDev\\Models\\ORM\\Exceptions\\ORMException");
+        $this->setExpectedException("RDev\\Models\\ORM\\ORMException");
         $this->dataMapper->getSQLDataMapperForTests()->getById($this->entity->getId());
     }
 

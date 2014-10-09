@@ -6,7 +6,6 @@
  */
 namespace RDev\Models\Cryptography\ORM\Token;
 use RDev\Models\Cryptography;
-use RDev\Models\Cryptography\ORM\Token\Exceptions as TokenExceptions;
 use RDev\Models\ORM\Repositories;
 
 /**
@@ -21,7 +20,7 @@ interface IRepo extends Repositories\IRepo
      * @param int $id The Id of the token we're searching for
      * @param string $unhashedValue The unhashed value we're looking for
      * @return Cryptography\Token|null The token if successful, otherwise null
-     * @throws TokenExceptions\IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
+     * @throws IncorrectHashException Thrown if the unhashed value doesn't match the hashed value
      */
     public function getByIdAndUnhashedValue($id, $unhashedValue);
 } 

@@ -6,7 +6,7 @@
  */
 namespace RDev\Tests\Models\ORM\DataMappers\Mocks;
 use RDev\Models;
-use RDev\Models\ORM\Exceptions;
+use RDev\Models\ORM;
 use RDev\Models\ORM\DataMappers;
 
 class CacheDataMapper implements DataMappers\ICacheDataMapper
@@ -58,7 +58,7 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
     {
         if(!isset($this->entities[$id]))
         {
-            throw new Exceptions\ORMException("No entity found with Id " . $id);
+            throw new ORM\ORMException("No entity found with Id " . $id);
         }
 
         return $this->entities[$id];

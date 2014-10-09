@@ -4,7 +4,7 @@
  *
  * Defines an ORM exception
  */
-namespace RDev\Models\ORM\Exceptions;
+namespace RDev\Models\ORM;
 use RDev\Models\Exceptions;
 
 class ORMException extends Exceptions\Exception

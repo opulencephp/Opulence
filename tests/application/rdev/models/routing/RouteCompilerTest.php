@@ -145,7 +145,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingWithDuplicateVariables()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
@@ -158,7 +158,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingWithUnclosedOpenBrace()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
@@ -171,7 +171,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingWithUnopenedCloseBrace()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
@@ -184,7 +184,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidPHPVariableName()
     {
-        $this->setExpectedException("RDev\\Models\\Routing\\Exceptions\\RouteException");
+        $this->setExpectedException("RDev\\Models\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
