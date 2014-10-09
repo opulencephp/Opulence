@@ -264,6 +264,8 @@ echo $container->getBinding("NonExistentInterface", "A"); // null
 echo $container->isBound("NonExistentInterface", "A"); // "0"
 ```
 
+> **Note:** If a target is specified, but nothing has been explicitly bound to it, then `getBinding()` returns any universal bindings, and `isBound()` returns false.  Therefore, checking if something is bound to a target using the result from `getBinding()` could be misleading.
+
 ## Removing a Binding
 To remove a binding, call `unbind()`:
 ```php
