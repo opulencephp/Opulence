@@ -8,7 +8,7 @@
 3. [Binding a Specific Instance](#binding-a-specific-instance)
 4. [Targeted Bindings](#targeted-bindings)
 5. [Creating New Instances](#creating-new-instances)
-6. [Creating Singletons](#creating-singletons)
+6. [Creating Shared Instances](#creating-shared-instances)
 7. [Passing Constructor Primitives](#passing-constructor-primitives)
 8. [Using Setters](#using-setters)
 9. [Getting a Binding](#getting-a-binding)
@@ -153,8 +153,8 @@ $a2 = $container->makeNew("A");
 echo $a1 === $a2; // "0"
 ```
 
-## Creating Singletons
-Singletons are shared instances of a class.  No matter how many times you create a singleton, you'll always get the same instance.  To create a singleton of a class with all of its dependencies injected, you can call `makeShared()`:
+## Creating Shared Instances
+Shared instances are just that - shared.  No matter how many times you make a shared instance, you'll always get the same instance.  This concept is similar to the **Singleton* design pattern, but with the added benefit of being able to bind different concrete implementations at runtime.  To create a shared instance of a class with all of its dependencies injected, you can call `makeShared()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->makeShared("A");
