@@ -18,6 +18,40 @@ interface IContainer
     public function bind($interface, $concreteClass, $targetClass = null);
 
     /**
+     * Gets the name of the concrete class bound to the interface
+     *
+     * @param string $interface The name of the interface whose binding we want
+     * @param string|null $targetClass The name of the target class whose binding we want, or null for universal bindings
+     * @return string|null The name of the concrete class bound to the interface if there is one, otherwise null
+     */
+    public function getBinding($interface, $targetClass = null);
+
+    /**
+     * Gets whether or not an interface is bound
+     *
+     * @param string $interface The name of the interface
+     * @param string|null $targetClass The name of the target class whose bindings we're checking
+     * @return bool True if the interface is bound, otherwise false
+     */
+    public function isBound($interface, $targetClass = null);
+
+    /**
+     * Creates a shared instance of the input class name
+     *
+     * @param string $component The name of the component to instantiate
+     * @param bool $forceNewInstance True if we want to create a new instance, otherwise false
+     * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
+     * @param array $methodCalls The array of method calls and their primitive parameter values
+     *      Should be structured like so:
+     *      [
+     *          NAME_OF_METHOD => [VALUES_OF_PRIMITIVE_PARAMETERS],
+     *          ...
+     *      ]
+     * @return mixed An instance of the input class
+     */
+    public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = []);
+
+    /**
      * Creates a new instance of the input class name
      *
      * @param string $component The name of the component to instantiate
@@ -30,10 +64,10 @@ interface IContainer
      *      ]
      * @return mixed A new instance of the input class
      */
-    public function createNew($component, array $constructorPrimitives = [], array $methodCalls = []);
+    public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = []);
 
     /**
-     * Creates a singleton instance of the input class name
+     * Creates a shared instance of the input class name
      *
      * @param string $component The name of the component to instantiate
      * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
@@ -45,16 +79,7 @@ interface IContainer
      *      ]
      * @return mixed An instance of the input class
      */
-    public function createSingleton($component, array $constructorPrimitives = [], array $methodCalls = []);
-
-    /**
-     * Gets the name of the concrete class bound to the interface
-     *
-     * @param string $interface The name of the interface whose binding we want
-     * @param string|null $targetClass The name of the target class whose binding we want, or null for universal bindings
-     * @return string|null The name of the concrete class bound to the interface if there is one, otherwise null
-     */
-    public function getBinding($interface, $targetClass = null);
+    public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = []);
 
     /**
      * Removes a binding from the container

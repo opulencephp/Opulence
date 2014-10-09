@@ -120,7 +120,7 @@ $container->bind("IFoo", "ConcreteFoo");
 
 Now, whenever a dependency on `IFoo` is detected, the container will inject an instance of `ConcreteFoo`.  To create an instance of `A` with its dependencies set, simply:
 ```php
-$a = $container->createNew("A");
+$a = $container->makeNew("A");
 $a->getFoo()->sayHi(); // "Hi"
 ```
 
@@ -131,7 +131,7 @@ Binding a specific instance to an interface is also possible through the `bind()
 ```php
 $concreteInstance = new ConcreteFoo();
 $container->bind("IFoo", $concreteInstance);
-echo $concreteInstance === $container->createSingleton("IFoo"); // "1"
+echo $concreteInstance === $container->makeShared("IFoo"); // "1"
 ```
 
 ## Targeted Bindings
@@ -145,25 +145,25 @@ Now, `ConcreteFoo` is only bound to `IFoo` for the target class `A`.
 > **Note:** Targeted bindings take precedence over universal bindings.
 
 ## Creating New Instances
-To create a brand new instance of a class with all of its dependencies injected, you can call `createNew()`:
+To create a brand new instance of a class with all of its dependencies injected, you can call `makeNew()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
-$a1 = $container->createNew("A");
-$a2 = $container->createNew("A");
+$a1 = $container->makeNew("A");
+$a2 = $container->makeNew("A");
 echo $a1 === $a2; // "0"
 ```
 
 ## Creating Singletons
-Singletons are shared instances of a class.  No matter how many times you create a singleton, you'll always get the same instance.  To create a singleton of a class with all of its dependencies injected, you can call `createSingleton()`:
+Singletons are shared instances of a class.  No matter how many times you create a singleton, you'll always get the same instance.  To create a singleton of a class with all of its dependencies injected, you can call `makeShared()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
-$a1 = $container->createSingleton("A");
-$a2 = $container->createSingleton("A");
+$a1 = $container->makeShared("A");
+$a2 = $container->makeShared("A");
 echo $a1 === $a2; // "1"
 ```
 
 ## Passing Constructor Primitives
-If your constructor depends on some primitive values, you can set them in both the `createNew()` and `createSingleton()` methods:
+If your constructor depends on some primitive values, you can set them in both the `makeNew()` and `makeShared()` methods:
 ```php
 class B
 {
@@ -188,7 +188,7 @@ class B
 }
 
 $container->bind("IFoo", "ConcreteFoo");
-$b = $container->createNew("B", ["I love containers!"]);
+$b = $container->makeNew("B", ["I love containers!"]);
 echo get_class($b->getFoo()); // "ConcreteFoo"
 $b->sayAdditionalMessage(); // "I love containers!"
 ```
@@ -196,7 +196,7 @@ $b->sayAdditionalMessage(); // "I love containers!"
 Only the primitive values should be passed in the array.  They must appear in the same order as the constructor.
 
 ## Using Setters
-Sometimes a class needs setter methods to pass in dependencies.  This is possible using both the `createNew()` and `createSingleton()` methods:
+Sometimes a class needs setter methods to pass in dependencies.  This is possible using both the `makeNew()` and `makeShared()` methods:
 ```php
 class C
 {
@@ -231,33 +231,37 @@ class C
 }
 
 $container->bind("IFoo", "ConcreteFoo");
-$c = $container->createNew("C", [], ["setFoo" => []]);
+$c = $container->makeNew("C", [], ["setFoo" => []]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 ```
 
 If your setter requires primitive values, you can pass them in, too:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
-$c = $container->createNew("C", [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
+$c = $container->makeNew("C", [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 $c->sayAdditionalMessage(); // "I love setters!"
 ```
 
 ## Getting a Binding
-To get the current binding for an interface, just call `getBinding()`:
+To get the current binding for an interface, call `getBinding()`.  To check whether or not a binding exists, call `isBound()`.
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 echo $container->getBinding("IFoo"); // "ConcreteFoo"
+echo $container->isBound("IFoo"); // "1"
 // Non-existent bindings return null
 echo $container->getBinding("NonExistentInterface"); // null
+echo $container->isBound("NonExistentInterface"); // "0"
 ```
 
 Similarly, you can get a current targeted binding:
 ```php
 $container->bind("IFoo", "ConcreteFoo", "A");
 echo $container->getBinding("IFoo", "A"); // "ConcreteFoo"
+echo $container->isBound("IFoo", "A"); // "1"
 // Non-existent targeted bindings return null
 echo $container->getBinding("NonExistentInterface", "A"); // null
+echo $container->isBound("NonExistentInterface", "A"); // "0"
 ```
 
 ## Removing a Binding

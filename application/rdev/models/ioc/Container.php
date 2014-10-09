@@ -46,34 +46,8 @@ class Container implements IContainer
         }
         else
         {
-            $this->bindTargeted($interface, $concreteClass, $targetClass);
+            $this->bindTarget($interface, $concreteClass, $targetClass);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createNew($component, array $constructorPrimitives = [], array $methodCalls = [])
-    {
-        return $this->create($this->getConcreteClass($component), $constructorPrimitives, $methodCalls, true);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createSingleton($component, array $constructorPrimitives = [], array $methodCalls = [])
-    {
-        $concreteClass = $this->getConcreteClass($component);
-
-        if(($instance = $this->getInstance($concreteClass, $constructorPrimitives, $methodCalls)) !== null)
-        {
-            return $instance;
-        }
-
-        $instance = $this->create($this->getConcreteClass($component), $constructorPrimitives, $methodCalls, false);
-        $this->registerInstance($instance, $constructorPrimitives, $methodCalls, false);
-
-        return $instance;
     }
 
     /**
@@ -94,41 +68,24 @@ class Container implements IContainer
     /**
      * {@inheritdoc}
      */
-    public function unbind($interface, $targetClass = null)
+    public function isBound($interface, $targetClass = null)
     {
         if($targetClass === null)
         {
-            unset($this->universalBindings[$interface]);
+            return $this->isBoundUniversally($interface);
         }
-        elseif(isset($this->targetedBindings[$targetClass]))
+        else
         {
-            unset($this->targetedBindings[$targetClass][$interface]);
+            return $this->isBoundToTarget($interface, $targetClass);
         }
     }
 
     /**
-     * Creates a component
-     *
-     * @param string $concreteClass The name of the concrete class to create
-     * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
-     * @param array $methodCalls The array of method calls and their primitive parameter values
-     *      Should be structured like so:
-     *      [
-     *          NAME_OF_METHOD => [VALUES_OF_PRIMITIVE_PARAMETERS],
-     *          ...
-     *      ]
-     * @param bool $forceNewInstance True if we want a new instance, otherwise false and we'll share it
-     * @return mixed The instantiated component
-     * @throws IoCException Thrown if there was an error creating the instance
+     * {@inheritdoc}
      */
-    protected function create(
-        $concreteClass,
-        array $constructorPrimitives = [],
-        array $methodCalls = [],
-        $forceNewInstance = false
-    )
+    public function make($concreteClass, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        // If we're creating a singleton, check to see if we've already instantiated it
+        // If we're creating a shared instance, check to see if we've already instantiated it
         if(!$forceNewInstance)
         {
             $instance = $this->getInstance($concreteClass, $constructorPrimitives, $methodCalls);
@@ -167,7 +124,44 @@ class Container implements IContainer
 
         $this->callMethods($instance, $methodCalls, $forceNewInstance);
 
+        if(!$forceNewInstance)
+        {
+            // Register this instance for next time
+            $this->registerInstance($instance, $constructorPrimitives, $methodCalls, false);
+        }
+
         return $instance;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = [])
+    {
+        return $this->make($this->getConcreteClass($component), true, $constructorPrimitives, $methodCalls);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = [])
+    {
+        return $this->make($this->getConcreteClass($component), false, $constructorPrimitives, $methodCalls);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function unbind($interface, $targetClass = null)
+    {
+        if($targetClass === null)
+        {
+            unset($this->universalBindings[$interface]);
+        }
+        elseif(isset($this->targetedBindings[$targetClass]))
+        {
+            unset($this->targetedBindings[$targetClass][$interface]);
+        }
     }
 
     /**
@@ -177,7 +171,7 @@ class Container implements IContainer
      * @param string $concreteClass The concrete class to bind
      * @param string $targetClass The name of the target class to bind on
      */
-    private function bindTargeted($interface, $concreteClass, $targetClass)
+    protected function bindTarget($interface, $concreteClass, $targetClass)
     {
         $this->targetedBindings[$targetClass][$interface] = $concreteClass;
     }
@@ -188,7 +182,7 @@ class Container implements IContainer
      * @param string $interface The interface to bind to
      * @param string $concreteClass The concrete class to bind
      */
-    private function bindUniversal($interface, $concreteClass)
+    protected function bindUniversal($interface, $concreteClass)
     {
         $this->universalBindings[$interface] = $concreteClass;
     }
@@ -201,7 +195,7 @@ class Container implements IContainer
      * @param bool $forceNewInstance True if we want a new instance, otherwise false
      * @throws IoCException Thrown if there was a problem calling the methods
      */
-    private function callMethods(&$instance, array $methodCalls, $forceNewInstance)
+    protected function callMethods(&$instance, array $methodCalls, $forceNewInstance)
     {
         // Call any methods
         foreach($methodCalls as $methodName => $methodPrimitives)
@@ -225,7 +219,7 @@ class Container implements IContainer
      * @return string The name of the concrete class bound to the component
      *      If the input was a concrete class, then it's returned
      */
-    private function getConcreteClass($component)
+    protected function getConcreteClass($component)
     {
         return isset($this->universalBindings[$component]) ? $this->universalBindings[$component] : $component;
     }
@@ -238,7 +232,7 @@ class Container implements IContainer
      * @param array $methodCalls The list of method names to their primitives used to create the instance
      * @return mixed|null The instance if it exists, otherwise false
      */
-    private function getInstance($concreteClass, array $constructorPrimitives = [], array $methodCalls = [])
+    protected function getInstance($concreteClass, array $constructorPrimitives = [], array $methodCalls = [])
     {
         if(isset($this->instances[$concreteClass]) &&
             $this->instances[$concreteClass]["constructorPrimitives"] == $constructorPrimitives &&
@@ -257,11 +251,11 @@ class Container implements IContainer
      * @param string $callingClass The name of the class whose parameters we're resolving
      * @param \ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
      * @param array $primitives The list of primitive values
-     * @param bool $forceNewInstances True if the dependencies should be new instances, otherwise they'll be singletons
+     * @param bool $forceNewInstances True if the dependencies should be new instances, otherwise they'll be shared
      * @return array The list of parameters with all the dependencies resolved
      * @throws IoCException Thrown if there was an error resolving the parameters
      */
-    private function getResolvedParameters(
+    protected function getResolvedParameters(
         $callingClass,
         array $unresolvedParameters,
         array $primitives,
@@ -277,6 +271,7 @@ class Container implements IContainer
                 // The parameter is a primitive
                 if(count($primitives) > 0)
                 {
+                    // Grab the next primitive
                     $resolvedParameters[] = array_shift($primitives);
                 }
                 elseif($parameter->isDefaultValueAvailable())
@@ -311,9 +306,9 @@ class Container implements IContainer
      * @param string $targetClass The name of the target class whose binding we want
      * @return string|null The name of the concrete class bound to the interface if it exists, otherwise null
      */
-    private function getTargetedBinding($interface, $targetClass)
+    protected function getTargetedBinding($interface, $targetClass)
     {
-        if(isset($this->targetedBindings[$targetClass]) && isset($this->targetedBindings[$targetClass][$interface]))
+        if($this->isBoundToTarget($interface, $targetClass))
         {
             return $this->targetedBindings[$targetClass][$interface];
         }
@@ -327,14 +322,37 @@ class Container implements IContainer
      * @param string $interface The name of the interface whose binding we want
      * @return string|null The name of the concrete class bound to the interface if it exists, otherwise null
      */
-    private function getUniversalBinding($interface)
+    protected function getUniversalBinding($interface)
     {
-        if(isset($this->universalBindings[$interface]))
+        if($this->isBound($interface))
         {
             return $this->universalBindings[$interface];
         }
 
         return null;
+    }
+
+    /**
+     * Gets whether or not an interface is bound to a target
+     *
+     * @param string $interface The name of the interface to check
+     * @param string $targetClass The target class
+     * @return bool True if the interface is bound to a target, otherwise false
+     */
+    protected function isBoundToTarget($interface, $targetClass)
+    {
+        return isset($this->targetedBindings[$targetClass]) && isset($this->targetedBindings[$targetClass][$interface]);
+    }
+
+    /**
+     * Gets whether or not an interface is bound universally
+     *
+     * @param string $interface The name of the interface to check
+     * @return bool True if the interface is bound universally, otherwise false
+     */
+    protected function isBoundUniversally($interface)
+    {
+        return isset($this->universalBindings[$interface]);
     }
 
     /**
@@ -344,7 +362,7 @@ class Container implements IContainer
      * @param array $constructorPrimitives The list of constructor primitives used to create the instance
      * @param array $methodCalls The list of method names to their primitives used to create the instance
      */
-    private function registerInstance($instance, array $constructorPrimitives = [], array $methodCalls = [])
+    protected function registerInstance($instance, array $constructorPrimitives = [], array $methodCalls = [])
     {
         $this->instances[get_class($instance)] = [
             "instance" => $instance,
@@ -362,7 +380,7 @@ class Container implements IContainer
      * @return mixed The instantiated class
      * @throws IoCException Thrown if there was a problem resolving the class
      */
-    private function resolveClass($callingClass, $component, $forceNewInstance)
+    protected function resolveClass($callingClass, $component, $forceNewInstance)
     {
         $concreteClass = $this->getBinding($component, $callingClass);
 
@@ -373,11 +391,11 @@ class Container implements IContainer
 
         if($forceNewInstance)
         {
-            return $this->createNew($concreteClass);
+            return $this->makeNew($concreteClass);
         }
         else
         {
-            return $this->createSingleton($concreteClass);
+            return $this->makeShared($concreteClass);
         }
     }
 } 

@@ -146,8 +146,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $application = new Mocks\Application($configArray);
-        $object1 = $application->getIoCContainer()->createNew($interfaceName);
-        $object2 = $application->getIoCContainer()->createNew($constructorWithInterfaceName)->getFoo();
+        $object1 = $application->getIoCContainer()->makeNew($interfaceName);
+        $object2 = $application->getIoCContainer()->makeNew($constructorWithInterfaceName)->getFoo();
         $this->assertInstanceOf($concreteClassName, $object1);
         $this->assertInstanceOf($secondConcreteClassName, $object2);
     }

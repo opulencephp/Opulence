@@ -142,7 +142,7 @@ class Dispatcher
             throw new RouteException("Controller class $controllerName does not exist");
         }
 
-        $controller = $this->iocContainer->createSingleton($controllerName);
+        $controller = $this->iocContainer->makeShared($controllerName);
 
         if(!$controller instanceof Controllers\Controller)
         {

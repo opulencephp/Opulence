@@ -20,23 +20,39 @@ class Container implements IoC\IContainer
     /**
      * {@inheritdoc}
      */
-    public function createNew($component, array $constructorPrimitives = [], array $methodCalls = [])
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function createSingleton($component, array $constructorPrimitives = [], array $methodCalls = [])
-    {
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getBinding($interface, $targetClass = null)
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isBound($interface, $targetClass = null)
+    {
+        return false;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = [])
+    {
+        return null;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = [])
     {
         return null;
     }
