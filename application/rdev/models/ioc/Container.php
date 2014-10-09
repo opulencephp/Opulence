@@ -42,7 +42,7 @@ class Container implements IContainer
 
         if($targetClass === null)
         {
-            $this->bindUniversal($interface, $concreteClass);
+            $this->bindUniversally($interface, $concreteClass);
         }
         else
         {
@@ -156,7 +156,7 @@ class Container implements IContainer
     {
         if($targetClass === null)
         {
-            $this->unbindUniversal($interface);
+            $this->unbindUniversally($interface);
         }
         else
         {
@@ -182,7 +182,7 @@ class Container implements IContainer
      * @param string $interface The interface to bind to
      * @param string $concreteClass The concrete class to bind
      */
-    protected function bindUniversal($interface, $concreteClass)
+    protected function bindUniversally($interface, $concreteClass)
     {
         $this->universalBindings[$interface] = $concreteClass;
     }
@@ -418,7 +418,7 @@ class Container implements IContainer
      *
      * @param string $interface The name of the interface to unbind
      */
-    protected function unbindUniversal($interface)
+    protected function unbindUniversally($interface)
     {
         unset($this->universalBindings[$interface]);
     }
