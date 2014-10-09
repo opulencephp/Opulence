@@ -47,9 +47,6 @@ Tags are automatically sanitized to prevent cross-site scripting (XSS) when usin
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("name", "A&W");
 echo $template->render(); // "A&amp;W vs A&W"
@@ -121,9 +118,6 @@ foreach(["foo", "bar"] as $item)
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
@@ -137,9 +131,6 @@ Hello, Administrator
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setVar("isAdministrator", true);
 echo $template->render(); // "Hello, Administrator"
@@ -182,9 +173,6 @@ Here's an example of how to use a built-in function:
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
@@ -200,9 +188,6 @@ Hello, {{salutation("Young", false, true)}}
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 // Our function simply needs to have a printable return value
 $template->registerFunction("salutation", function($lastName, $isMale, $isMarried)
@@ -234,9 +219,6 @@ Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}!
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Mr Schwarzenegger");
 echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
@@ -250,9 +232,6 @@ Want to use a custom character/string for the tags?  Easy!  Just specify it in t
 ```
 ##### Application Code
 ```php
-use RDev\Views\Templates;
-
-$template = new Templates\Template();
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setEscapedOpenTag("^^");
 $template->setEscapedCloseTag("$$");

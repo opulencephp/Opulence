@@ -244,10 +244,11 @@ $c->sayAdditionalMessage(); // "I love setters!"
 ```
 
 ## Getting a Binding
-To get the current binding for a class, just call `getBinding()`:
+To get the current binding for an interface, just call `getBinding()`:
 ```php
 $container->bind("IFoo", "ConcreteFoo");
 echo $container->getBinding("IFoo"); // "ConcreteFoo"
+// Non-existent bindings return null
 echo $container->getBinding("NonExistentInterface"); // null
 ```
 
@@ -255,6 +256,7 @@ Similarly, you can get a current targeted binding:
 ```php
 $container->bind("IFoo", "ConcreteFoo", "A");
 echo $container->getBinding("IFoo", "A"); // "ConcreteFoo"
+// Non-existent targeted bindings return null
 echo $container->getBinding("NonExistentInterface", "A"); // null
 ```
 
