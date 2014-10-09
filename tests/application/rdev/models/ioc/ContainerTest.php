@@ -2,31 +2,48 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Tests the inversion of control container
+ * Tests the dependency injection controller
  */
 namespace RDev\Models\IoC;
-use RDev\Tests\Models\IoC;
+use RDev\Tests\Models\IoC\Mocks;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Container */
+    /** @var Container The container to use in tests */
     private $container = null;
     /** @var string The name of the simple interface to use in tests */
-    private $interfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\IFoo";
+    private $fooInterface = "RDev\\Tests\\Models\\IoC\\Mocks\\IFoo";
+    /** @var string The name of the simple interface to use in tests */
+    private $personInterface = "RDev\\Tests\\Models\\IoC\\Mocks\\IPerson";
+    /** @var string The name of a class that implements IPerson */
+    private $concretePerson = "RDev\\Tests\\Models\\IoC\\Mocks\\Dave";
     /** @var string The name of the base class to use in tests */
-    private $baseClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\BaseClass";
-    /** @var string The name of the class that implements the simple interface to use in tests */
-    private $concreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Bar";
-    /** @var string The name of a second class that implements the simple interface to use in tests */
-    private $secondConcreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Blah";
-    /** @var string The name of the class that accepts the simple interface in its constructor */
-    private $constructorWithInterfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithInterface";
-    /** @var string The name of the class that accepts the simple concrete class in its constructor */
-    private $constructorWithConcreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithConcreteClass";
-    /** @var string The name of the class that accepts the simple concrete class in its constructor */
-    private $constructorWithPrimitivesName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithPrimitives";
+    private $baseClass = "RDev\\Tests\\Models\\IoC\\Mocks\\BaseClass";
+    /** @var string The name of the class that implements IFoo to use in tests */
+    private $concreteFoo = "RDev\\Tests\\Models\\IoC\\Mocks\\Bar";
+    /** @var string The name of a second class that implements the IFoo to use in tests */
+    private $secondConcreteIFoo = "RDev\\Tests\\Models\\IoC\\Mocks\\Blah";
+    /** @var string The name of a another class that implements the IFoo to use in tests */
+    private $concreteFooWithIPersonDependency = "RDev\\Tests\\Models\\IoC\\Mocks\\Foo";
+    /** @var string The name of the class that accepts the IFoo in its constructor */
+    private $constructorWithIFoo = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithInterface";
+    /** @var string The name of the class that accepts the concrete class in its constructor */
+    private $constructorWithConcreteClass = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithConcreteClass";
+    /** @var string The name of the class that accepts a mix of interfaces and primitives in its constructor */
+    private $constructorWithInterfacesAndPrimitives =
+        "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithMixOfInterfacesAndPrimitives";
+    /** @var string The name of the class that accepts a mix of class names and primitives in its constructor */
+    private $constructorWithConcreteClassesAndPrimitives =
+        "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithMixOfConcreteClassesAndPrimitives";
+    /** @var string The name of the class that accepts the primitives in its constructor */
+    private $constructorWithPrimitives = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithPrimitives";
+    /** @var string The name of the class that accepts primitives with default values in its constructor */
+    private $constructorWithDefaultValuePrimitives =
+        "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithDefaultValuePrimitives";
     /** @var string The name of the class that uses setters */
-    private $constructorWithSettersName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithSetters";
+    private $constructorWithSetters = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithSetters";
+    /** @var string The name of the class that uses an interface in the constructor and setters */
+    private $constructorWithIFooAndSetters = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithInterfaceAndSetters";
 
     /**
      * Sets up the tests
@@ -41,106 +58,326 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingToAbstractClass()
     {
-        $this->container->bind($this->baseClassName, $this->concreteClassName);
-        $object = $this->container->createSingleton($this->baseClassName);
-        $this->assertInstanceOf($this->concreteClassName, $object);
+        $this->container->bind($this->baseClass, $this->concreteFoo);
+        $singleton = $this->container->createSingleton($this->baseClass);
+        $this->assertInstanceOf($this->concreteFoo, $singleton);
+        $newInstance = $this->container->createNew($this->baseClass);
+        $this->assertInstanceOf($this->concreteFoo, $newInstance);
     }
 
     /**
-     * Tests binding to an interface
+     * Tests creating an interface without binding a concrete implementation
      */
-    public function testBindingToInterface()
+    public function testCreatingInterfaceWithoutBinding()
     {
-        $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createSingleton($this->interfaceName);
-        $this->assertInstanceOf($this->concreteClassName, $object);
+        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->container->createNew($this->fooInterface);
     }
 
     /**
-     * Tests calling setters
+     * Tests creating a new instance with a concrete dependency
      */
-    public function testCallingSetters()
+    public function testCreatingNewInstanceWithConcreteDependency()
+    {
+        $newInstance = $this->container->createNew($this->constructorWithConcreteClass);
+        $this->assertInstanceOf($this->constructorWithConcreteClass, $newInstance);
+    }
+
+    /**
+     * Tests creating a new instance with an interface in the constructor and setters
+     */
+    public function testCreatingNewInstanceWithInterfaceInConstructorAndSetters()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->container->bind($this->personInterface, $this->concretePerson);
+        $methodCalls = [
+            "setSetterDependency" => []
+        ];
+        /** @var Mocks\ConstructorWithInterfaceAndSetters $newInstance */
+        $newInstance = $this->container->createNew($this->constructorWithIFooAndSetters, [], $methodCalls);
+        $this->assertInstanceOf($this->concreteFoo, $newInstance->getConstructorDependency());
+        $this->assertInstanceOf($this->concretePerson, $newInstance->getSetterDependency());
+    }
+
+    /**
+     * Tests creating a new instance with setters
+     */
+    public function testCreatingNewInstanceWithSetters()
     {
         $methodCalls = [
-            "setFoo" => ["bar"]
+            "setPrimitive" => ["myPrimitive"],
+            "setDependency" => []
         ];
-        $object = $this->container->createSingleton($this->constructorWithSettersName, [], $methodCalls);
-        $this->assertEquals("bar", $object->getFoo());
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        /** @var Mocks\ConstructorWithSetters $newInstance */
+        $newInstance = $this->container->createNew($this->constructorWithSetters, [], $methodCalls);
+        $this->assertEquals("myPrimitive", $newInstance->getPrimitive());
+        $this->assertInstanceOf($this->concreteFoo, $newInstance->getDependency());
     }
 
     /**
-     * Tests binding to an individual class
+     * Tests creating a new object with a constructor primitive
      */
-    public function testClassBinding()
+    public function testCreatingNewObjectWithConstructorPrimitive()
     {
-        $this->container->bind($this->interfaceName, $this->secondConcreteClassName, $this->constructorWithInterfaceName);
-        // Setup a universal binding which in theory should not be respected
-        $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createSingleton($this->constructorWithInterfaceName);
-        $this->assertInstanceOf($this->constructorWithInterfaceName, $object);
-        $this->assertInstanceOf($this->secondConcreteClassName, $object->getFoo());
+        $instance = $this->container->createNew($this->constructorWithPrimitives, ["foo", "bar"]);
+        $this->assertInstanceOf($this->constructorWithPrimitives, $instance);
+        $this->assertNotSame($instance, $this->container->createNew($this->constructorWithPrimitives, ["foo", "bar"]));
+        $this->assertNotSame($instance, $this->container->createSingleton($this->constructorWithPrimitives, ["foo", "bar"]));
     }
 
     /**
-     * Tests creating a new instance of a concrete class
+     * Tests creating a new object with an unset constructor primitive
      */
-    public function testCreatingNewConcreteClass()
+    public function testCreatingNewObjectWithUnsetConstructorPrimitive()
     {
-        $object = $this->container->createSingleton($this->concreteClassName);
-        $this->assertInstanceOf($this->concreteClassName, $object);
-        $this->assertNotSame($object, $this->container->createNew($this->concreteClassName));
+        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->container->createNew($this->constructorWithPrimitives);
     }
 
     /**
-     * Tests creating an object with a concrete class in its constructor
+     * Tests creating a new object with an unset constructor primitive with a default value
      */
-    public function testCreatingObjectWithConcreteClassInConstructor()
+    public function testCreatingNewObjectWithUnsetConstructorPrimitiveWithDefaultValue()
     {
-        $object = $this->container->createSingleton($this->constructorWithConcreteClassName);
-        $this->assertInstanceOf($this->constructorWithConcreteClassName, $object);
-        $this->assertInstanceOf($this->concreteClassName, $object->getFoo());
+        $instance = $this->container->createNew($this->constructorWithDefaultValuePrimitives, ["foo"]);
+        $this->assertInstanceOf($this->constructorWithDefaultValuePrimitives, $instance);
+        $this->assertNotSame($instance, $this->container->createNew($this->constructorWithDefaultValuePrimitives,
+            ["foo"]));
+        $this->assertNotSame($instance, $this->container->createSingleton($this->constructorWithDefaultValuePrimitives,
+            ["foo"]));
     }
 
     /**
-     * Tests creating an object with an interface in its constructor
+     * Tests creating a singleton with a constructor primitive
      */
-    public function testCreatingObjectWithInterfaceInConstructor()
+    public function testCreatingSingleWithConstructorPrimitive()
     {
-        $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createSingleton($this->constructorWithInterfaceName);
-        $this->assertInstanceOf($this->constructorWithInterfaceName, $object);
-        $this->assertInstanceOf($this->concreteClassName, $object->getFoo());
+        $instance = $this->container->createSingleton($this->constructorWithPrimitives, ["foo", "bar"]);
+        $this->assertInstanceOf($this->constructorWithPrimitives, $instance);
+        $this->assertSame($instance, $this->container->createSingleton($this->constructorWithPrimitives, ["foo", "bar"]));
     }
 
     /**
-     * Tests creating an object with primitives in its constructor
+     * Tests creating a singleton with an unset constructor primitive with a default value
      */
-    public function testCreatingObjectWithPrimitivesInConstructor()
+    public function testCreatingSingleWithUnsetConstructorPrimitiveWithDefaultValue()
     {
-        $this->container->bind($this->interfaceName, $this->concreteClassName);
-        $object = $this->container->createSingleton($this->constructorWithPrimitivesName, ["foo"]);
-        $this->assertInstanceOf($this->constructorWithPrimitivesName, $object);
-        $this->assertEquals("foo", $object->getFoo());
+        $instance = $this->container->createSingleton($this->constructorWithDefaultValuePrimitives, ["foo"]);
+        $this->assertInstanceOf($this->constructorWithDefaultValuePrimitives, $instance);
+        $this->assertSame($instance, $this->container->createSingleton($this->constructorWithDefaultValuePrimitives,
+            ["foo"]));
     }
 
     /**
-     * Tests creating a singleton instance of a concrete class
+     * Tests creating a singleton with a concrete dependency
      */
-    public function testCreatingSingletonConcreteClass()
+    public function testCreatingSingletonWithConcreteDependency()
     {
-        $object = $this->container->createSingleton($this->concreteClassName);
-        $this->assertInstanceOf($this->concreteClassName, $object);
-        $this->assertSame($object, $this->container->createSingleton($this->concreteClassName));
+        $singleton = $this->container->createSingleton($this->constructorWithConcreteClass);
+        $this->assertInstanceOf($this->constructorWithConcreteClass, $singleton);
     }
 
     /**
-     * Tests that a singleton will always return the same instance
+     * Tests creating a singleton with an interface in the constructor and setters
      */
-    public function testSingletonAlwaysReturnsSameInstance()
+    public function testCreatingSingletonWithInterfaceInConstructorAndSetters()
     {
-        $singletonObject = $this->container->createSingleton($this->concreteClassName);
-        // Create a new object to make sure it didn't mess with the singleton instance
-        $this->container->createNew($this->concreteClassName);
-        $this->assertSame($singletonObject, $this->container->createSingleton($this->concreteClassName));
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->container->bind($this->personInterface, $this->concretePerson);
+        $methodCalls = [
+            "setSetterDependency" => []
+        ];
+        /** @var Mocks\ConstructorWithInterfaceAndSetters $singleton */
+        $singleton = $this->container->createSingleton($this->constructorWithIFooAndSetters, [], $methodCalls);
+        $this->assertInstanceOf($this->concreteFoo, $singleton->getConstructorDependency());
+        $this->assertInstanceOf($this->concretePerson, $singleton->getSetterDependency());
+    }
+
+    /**
+     * Tests creating a singleton with setters
+     */
+    public function testCreatingSingletonWithSetters()
+    {
+        $methodCalls = [
+            "setPrimitive" => ["myPrimitive"],
+            "setDependency" => []
+        ];
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        /** @var Mocks\ConstructorWithSetters $singleton */
+        $singleton = $this->container->createSingleton($this->constructorWithSetters, [], $methodCalls);
+        $this->assertEquals("myPrimitive", $singleton->getPrimitive());
+        $this->assertInstanceOf($this->concreteFoo, $singleton->getDependency());
+    }
+
+    /**
+     * Tests creating a singleton object with an unset constructor primitive
+     */
+    public function testCreatingSingletonWithUnsetConstructorPrimitive()
+    {
+        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->container->createSingleton($this->constructorWithPrimitives);
+    }
+
+    /**
+     * Tests creating a class that has a dependency that has a dependency
+     */
+    public function testDependencyThatHasDependency()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFooWithIPersonDependency);
+        $this->container->bind($this->personInterface, $this->concretePerson);
+        $this->assertInstanceOf(
+            $this->concreteFooWithIPersonDependency,
+            $this->container->createSingleton($this->fooInterface)
+        );
+        $this->assertInstanceOf(
+            $this->concreteFooWithIPersonDependency,
+            $this->container->createNew($this->fooInterface)
+        );
+    }
+
+    /**
+     * Tests creating a class that has a dependency that has a dependency without binding all dependencies
+     */
+    public function testDependencyThatHasDependencyWithoutBindingAllDependencies()
+    {
+        $this->setExpectedException("RDev\\Models\\IoC\\Exceptions\\IoCException");
+        $this->container->bind($this->fooInterface, $this->concreteFooWithIPersonDependency);
+        $this->container->createSingleton($this->fooInterface);
+    }
+
+    /**
+     * Tests getting a targeted binding
+     */
+    public function testGettingTargetedBinding()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo, $this->constructorWithIFoo);
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding($this->fooInterface, $this->constructorWithIFoo));
+        $this->assertNull($this->container->getBinding($this->fooInterface));
+    }
+
+    /**
+     * Tests getting a targeted binding when no targeted binding exists but a universal one does
+     */
+    public function testGettingTargetedBindingWhenOneDoesNotExistButUniversalBindingExists()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding($this->fooInterface, $this->constructorWithIFoo));
+    }
+
+    /**
+     * Tests getting an unbound targeted binding
+     */
+    public function testGettingUnboundTargetedBinding()
+    {
+        $this->assertNull($this->container->getBinding($this->fooInterface, $this->constructorWithIFoo));
+    }
+
+    /**
+     * Tests getting an unbound universal binding
+     */
+    public function testGettingUnboundUniversalBinding()
+    {
+        $this->assertNull($this->container->getBinding($this->fooInterface));
+    }
+
+    /**
+     * Tests getting a universal binding
+     */
+    public function testGettingUniversalBinding()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding($this->fooInterface));
+    }
+
+    /**
+     * Tests instantiating a class with a mix of concrete classes and primitives in its constructor
+     */
+    public function testMixOfConcreteClassesAndPrimitivesInConstructor()
+    {
+        /** @var Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives $singleton */
+        $singleton = $this->container->createSingleton($this->constructorWithConcreteClassesAndPrimitives, [23]);
+        /** @var Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
+        $newInstance = $this->container->createNew($this->constructorWithConcreteClassesAndPrimitives, [23]);
+        $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $singleton);
+        $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $newInstance);
+        $this->assertEquals(23, $singleton->getId());
+        $this->assertEquals(23, $newInstance->getId());
+    }
+
+    /**
+     * Tests instantiating a class with a mix of interfaces and primitives in its constructor
+     */
+    public function testMixOfInterfacesAndPrimitivesInConstructor()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->container->bind($this->personInterface, $this->concretePerson);
+        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $singleton */
+        $singleton = $this->container->createSingleton($this->constructorWithInterfacesAndPrimitives, [23]);
+        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance */
+        $newInstance = $this->container->createNew($this->constructorWithInterfacesAndPrimitives, [23]);
+        $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $singleton);
+        $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $newInstance);
+        $this->assertEquals(23, $singleton->getId());
+        $this->assertEquals(23, $newInstance->getId());
+    }
+
+    /**
+     * Tests new instances' dependencies are not singletons
+     */
+    public function testNewInstanceDependenciesAreNotSingletons()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->container->bind($this->personInterface, $this->concretePerson);
+        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance1 */
+        $newInstance1 = $this->container->createNew($this->constructorWithInterfacesAndPrimitives, [23]);
+        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
+        $newInstance2 = $this->container->createNew($this->constructorWithInterfacesAndPrimitives, [23]);
+        $this->assertNotSame($newInstance1->getFoo(), $newInstance2->getFoo());
+        $this->assertNotSame($newInstance1->getPerson(), $newInstance2->getPerson());
+    }
+
+    /**
+     * Tests a targeted binding of an instance to an interface
+     */
+    public function testTargetedBindingOfInstanceToInterface()
+    {
+        $instance = new $this->concreteFoo();
+        $this->container->bind($this->fooInterface, $instance, $this->constructorWithIFoo);
+        // This universal binding should get NOT take precedence over the class binding
+        $this->container->bind($this->fooInterface, $this->secondConcreteIFoo);
+        $singleton = $this->container->createSingleton($this->constructorWithIFoo);
+        $this->assertSame($instance, $singleton->getFoo());
+    }
+
+    /**
+     * Tests unbinding a targeted binding
+     */
+    public function testUnbindingTargetedBinding()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo, $this->constructorWithIFoo);
+        $this->container->unbind($this->fooInterface, $this->constructorWithIFoo);
+        $this->assertNull($this->container->getBinding($this->fooInterface, $this->constructorWithIFoo));
+    }
+
+    /**
+     * Tests unbinding a universal binding
+     */
+    public function testUnbindingUniversalBinding()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->container->unbind($this->fooInterface);
+        $this->assertNull($this->container->getBinding($this->fooInterface));
+    }
+
+    /**
+     * Tests universally binding an instance to an interface
+     */
+    public function testUniversallyBindingInstanceToInterface()
+    {
+        $instance = new $this->concreteFoo();
+        $this->container->bind($this->fooInterface, $instance);
+        $this->assertSame($instance, $this->container->createSingleton($this->fooInterface));
+        $this->assertSame($instance, $this->container->createSingleton($this->concreteFoo));
     }
 } 

@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Mocks a class that takes in primitives in its constructor
+ * Mocks a class that takes in primitives with default values in its constructor
  */
 namespace RDev\Tests\Models\IoC\Mocks;
 
-class ConstructorWithPrimitives
+class ConstructorWithDefaultValuePrimitives
 {
     /** @var string A primitive stored by this class */
     private $foo = "";
@@ -15,9 +15,8 @@ class ConstructorWithPrimitives
 
     /**
      * @param string $foo A primitive to store in this class
-     * @param string $bar A primitive to store in this class
      */
-    public function __construct($foo, $bar)
+    public function __construct($foo, $bar = "bar")
     {
         $this->foo = $foo;
         $this->bar = $bar;

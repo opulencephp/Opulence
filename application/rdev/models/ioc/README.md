@@ -5,11 +5,14 @@
   1. [Explanation of Dependency Injection](#explanation-of-dependency-injection)
   2. [Dependency Injection Container](#dependency-injection-container)
 2. [Basic Usage](#basic-usage)
-3. [Binding for a Specific Class](#binding-for-a-specific-class)
-4. [Creating New Instances](#creating-new-instances)
-5. [Creating Singletons](#creating-singletons)
-6. [Passing Constructor Primitives](#passing-constructor-primitives)
-7. [Using Setters](#using-setters)
+3. [Binding a Specific Instance](#binding-a-specific-instance)
+4. [Targeted Bindings](#targeted-bindings)
+5. [Creating New Instances](#creating-new-instances)
+6. [Creating Singletons](#creating-singletons)
+7. [Passing Constructor Primitives](#passing-constructor-primitives)
+8. [Using Setters](#using-setters)
+9. [Getting a Binding](#getting-a-binding)
+10. [Removing a Binding](#removing-a-binding)
 
 ## Introduction
 #### Explanation of Dependency Injection
@@ -123,12 +126,17 @@ $a->getFoo()->sayHi(); // "Hi"
 
 As you can see, the container automatically injected an instance of `ConcreteFoo`.
 
-## Binding for a Specific Class
+## Binding a Specific Instance
+Binding a specific instance to an interface is also possible through the `bind()` method:
+```php
+$concreteInstance = new ConcreteFoo();
+$container->bind("IFoo", $concreteInstance);
+echo $concreteInstance === $container->createSingleton("IFoo"); // "1"
+```
+
+## Targeted Bindings
 By default, bindings are registered so that they can be used by all classes.  If you'd like to bind a concrete class to an interface or abstract class for only a specific class, you can create a targeted binding:
 ```php
-use RDev\Models\IoC;
-
-$container = new IoC\Container();
 $container->bind("IFoo", "ConcreteFoo", "A");
 ```
 
@@ -139,9 +147,6 @@ Now, `ConcreteFoo` is only bound to `IFoo` for the target class `A`.
 ## Creating New Instances
 To create a brand new instance of a class with all of its dependencies injected, you can call `createNew()`:
 ```php
-use RDev\Models\IoC;
-
-$container = new IoC\Container();
 $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->createNew("A");
 $a2 = $container->createNew("A");
@@ -151,9 +156,6 @@ echo $a1 === $a2; // "0"
 ## Creating Singletons
 Singletons are shared instances of a class.  No matter how many times you create a singleton, you'll always get the same instance.  To create a singleton of a class with all of its dependencies injected, you can call `createSingleton()`:
 ```php
-use RDev\Models\IoC;
-
-$container = new IoC\Container();
 $container->bind("IFoo", "ConcreteFoo");
 $a1 = $container->createSingleton("A");
 $a2 = $container->createSingleton("A");
@@ -163,8 +165,6 @@ echo $a1 === $a2; // "1"
 ## Passing Constructor Primitives
 If your constructor depends on some primitive values, you can set them in both the `createNew()` and `createSingleton()` methods:
 ```php
-use RDev\Models\IoC;
-
 class B
 {
     private $foo;
@@ -187,7 +187,6 @@ class B
     }
 }
 
-$container = new IoC\Container();
 $container->bind("IFoo", "ConcreteFoo");
 $b = $container->createNew("B", ["I love containers!"]);
 echo get_class($b->getFoo()); // "ConcreteFoo"
@@ -199,8 +198,6 @@ Only the primitive values should be passed in the array.  They must appear in th
 ## Using Setters
 Sometimes a class needs setter methods to pass in dependencies.  This is possible using both the `createNew()` and `createSingleton()` methods:
 ```php
-use RDev\Models\IoC;
-
 class C
 {
     private $foo;
@@ -233,7 +230,6 @@ class C
     }
 }
 
-$container = new IoC\Container();
 $container->bind("IFoo", "ConcreteFoo");
 $c = $container->createNew("C", [], ["setFoo" => []]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
@@ -241,11 +237,38 @@ echo get_class($c->getFoo()); // "ConcreteFoo"
 
 If your setter requires primitive values, you can pass them in, too:
 ```php
-use RDev\Models\IoC;
-
-$container = new IoC\Container();
 $container->bind("IFoo", "ConcreteFoo");
 $c = $container->createNew("C", [], ["setFooAndAdditionalMessage" => ["I love setters!"]]);
 echo get_class($c->getFoo()); // "ConcreteFoo"
 $c->sayAdditionalMessage(); // "I love setters!"
+```
+
+## Getting a Binding
+To get the current binding for a class, just call `getBinding()`:
+```php
+$container->bind("IFoo", "ConcreteFoo");
+echo $container->getBinding("IFoo"); // "ConcreteFoo"
+echo $container->getBinding("NonExistentInterface"); // null
+```
+
+Similarly, you can get a current targeted binding:
+```php
+$container->bind("IFoo", "ConcreteFoo", "A");
+echo $container->getBinding("IFoo", "A"); // "ConcreteFoo"
+echo $container->getBinding("NonExistentInterface", "A"); // null
+```
+
+## Removing a Binding
+To remove a binding, call `unbind()`:
+```php
+$container->bind("IFoo", "ConcreteFoo");
+$container->unbind("IFoo");
+echo $container->getBinding("IFoo"); // null
+```
+
+To remove a targeted binding:
+```php
+$container->bind("IFoo", "ConcreteFoo", "A");
+$container->unbind("IFoo", "A");
+echo $container->getBinding("IFoo", "A"); // null
 ```

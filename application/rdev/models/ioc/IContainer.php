@@ -11,11 +11,11 @@ interface IContainer
     /**
      * Binds a class to an interface or abstract class
      *
-     * @param string $interfaceName The name of the interface to bind to
-     * @param string $concreteClassName The name of the concrete class to bind
+     * @param string $interface The name of the interface to bind to
+     * @param string|mixed $concreteClass Either the name of or an instance of the concrete class to bind
      * @param string|null $targetClass The name of the target class to bind on, or null if binding to all classes
      */
-    public function bind($interfaceName, $concreteClassName, $targetClass = null);
+    public function bind($interface, $concreteClass, $targetClass = null);
 
     /**
      * Creates a new instance of the input class name
@@ -30,7 +30,7 @@ interface IContainer
      *      ]
      * @return mixed A new instance of the input class
      */
-    public function createNew($component, $constructorPrimitives = [], $methodCalls = []);
+    public function createNew($component, array $constructorPrimitives = [], array $methodCalls = []);
 
     /**
      * Creates a singleton instance of the input class name
@@ -45,5 +45,22 @@ interface IContainer
      *      ]
      * @return mixed An instance of the input class
      */
-    public function createSingleton($component, $constructorPrimitives = [], $methodCalls = []);
+    public function createSingleton($component, array $constructorPrimitives = [], array $methodCalls = []);
+
+    /**
+     * Gets the name of the concrete class bound to the interface
+     *
+     * @param string $interface The name of the interface whose binding we want
+     * @param string|null $targetClass The name of the target class whose binding we want, or null for universal bindings
+     * @return string|null The name of the concrete class bound to the interface if there is one, otherwise null
+     */
+    public function getBinding($interface, $targetClass = null);
+
+    /**
+     * Removes a binding from the container
+     *
+     * @param string $interface The name of the interface whose binding we're removing
+     * @param string|null $targetClass The name of the target class whose binding we're removing, or null if it's universal
+     */
+    public function unbind($interface, $targetClass = null);
 } 

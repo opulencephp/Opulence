@@ -29,7 +29,6 @@
     },
     "require": {
         "php": ">=5.5.10",
-        "tombzombie/dice": "dev-PHP5.4---PHP5.5",
         "monolog/monolog": "1.11.*@dev",
         "alecesaro/phpredis": "dev-master",
         "predis/predis": "1.1.*@dev",

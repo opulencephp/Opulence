@@ -2,28 +2,46 @@
 /**
  * Copyright (C) 2014 David Young
  *
- *
+ * Mocks a class with setters for use in IoC tests
  */
 namespace RDev\Tests\Models\IoC\Mocks;
 
 class ConstructorWithSetters
 {
-    /** @var string The primitive stored by this class */
-    private $foo = "";
+    /** @var string A primitive */
+    private $primitive = "";
+    /** @var IFoo A dependency */
+    private $dependency = null;
+
+    /**
+     * @return IFoo
+     */
+    public function getDependency()
+    {
+        return $this->dependency;
+    }
 
     /**
      * @return string
      */
-    public function getFoo()
+    public function getPrimitive()
     {
-        return $this->foo;
+        return $this->primitive;
+    }
+
+    /**
+     * @param IFoo $dependency
+     */
+    public function setDependency(IFoo $dependency)
+    {
+        $this->dependency = $dependency;
     }
 
     /**
      * @param string $foo
      */
-    public function setFoo($foo)
+    public function setPrimitive($foo)
     {
-        $this->foo = $foo;
+        $this->primitive = $foo;
     }
 } 
