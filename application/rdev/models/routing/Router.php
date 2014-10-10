@@ -236,6 +236,7 @@ class Router
     private function applyGroupSettings(Route $route)
     {
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
+        $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
         $groupPreFilters = $this->getGroupFilters("pre");
         $groupPostFilters = $this->getGroupFilters("post");
 
@@ -263,6 +264,32 @@ class Router
     private function createRoute($method, $path, array $options)
     {
         return new Route([$method], $path, $options);
+    }
+
+    /**
+     * Gets the controller namespace from the current group stack
+     *
+     * @return string The controller namespace
+     */
+    private function getGroupControllerNamespace()
+    {
+        $controllerNamespace = "";
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["controllerNamespace"]))
+            {
+                // Add trailing slashes if they're not there already
+                if(substr($groupOptions["controllerNamespace"], -1) != "\\")
+                {
+                    $groupOptions["controllerNamespace"] .= "\\";
+                }
+
+                $controllerNamespace .= $groupOptions["controllerNamespace"];
+            }
+        }
+
+        return $controllerNamespace;
     }
 
     /**

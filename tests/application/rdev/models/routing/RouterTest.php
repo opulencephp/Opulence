@@ -300,6 +300,42 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying a namespace prefix
+     */
+    public function testSpecifyingNamespacePrefix()
+    {
+        $this->router->group(["controllerNamespace" => "MyApp\\Controllers\\"], function ()
+        {
+            $this->router->get("/foo", ["controller" => "ControllerA@myMethod"]);
+            $this->router->post("/foo", ["controller" => "ControllerB@myMethod"]);
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes("GET");
+        /** @var Route[] $postRoutes */
+        $postRoutes = $this->router->getRoutes("POST");
+        $this->assertEquals("MyApp\\Controllers\\ControllerA", $getRoutes[0]->getControllerName());
+        $this->assertEquals("MyApp\\Controllers\\ControllerB", $postRoutes[0]->getControllerName());
+    }
+
+    /**
+     * Tests specifying a namespace prefix with no trailing slash
+     */
+    public function testSpecifyingNamespacePrefixWithNoTrailingSlash()
+    {
+        $this->router->group(["controllerNamespace" => "MyApp\\Controllers"], function ()
+        {
+            $this->router->get("/foo", ["controller" => "ControllerA@myMethod"]);
+            $this->router->post("/foo", ["controller" => "ControllerB@myMethod"]);
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes("GET");
+        /** @var Route[] $postRoutes */
+        $postRoutes = $this->router->getRoutes("POST");
+        $this->assertEquals("MyApp\\Controllers\\ControllerA", $getRoutes[0]->getControllerName());
+        $this->assertEquals("MyApp\\Controllers\\ControllerB", $postRoutes[0]->getControllerName());
+    }
+
+    /**
      * Sets up a router and does the routing and testing
      *
      * @param string $httpMethod The HTTP method to simulate in the call

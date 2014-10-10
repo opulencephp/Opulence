@@ -10,7 +10,8 @@
   3. [Default Values](#default-values)
 4. [Filters](#filters)
 5. [Route Grouping](#route-grouping)
-  1. [Filters](#group-filters)
+  1. [Controller Namespaces](#controller-namespaces)
+  1. [Group Filters](#group-filters)
 6. [Notes](#notes)
 
 ## Introduction
@@ -141,6 +142,18 @@ $router->group(["path" => "/users/{userId}"], function() use ($router)
 ```
 
 Now, a GET request to "/users/{userId}/profile" will get a user's profile, and a DELETE request to "/users/{userId}" will delete a user.
+
+#### Controller Namespaces
+If all the controllers in a route group belong under a common namespace, you can specify the namespace in the group options:
+```php
+$router->group(["controllerNamespace" => "MyApp\\Controllers"], function() use ($router)
+{
+    $router->get("/users", ["controller" => "UserController"@showAllUsers"]);
+    $router->get("/posts", ["controller" => "PostController"@showAllPosts"]);
+});
+```
+
+Now, a GET request to "/users" will route to `MyApp\Controllers\UserController::showAllUsers()`, and a GET request to "/posts" will route to `MyApp\Controllers\PostController::showAllPosts()`.
 
 #### Group Filters
 Route groups allow you to apply "pre" and "post" filters to multiple routes:
