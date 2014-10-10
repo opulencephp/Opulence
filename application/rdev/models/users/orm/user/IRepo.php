@@ -12,7 +12,7 @@ use RDev\Models\Users;
  * @method Users\User getById($id)
  * @method Users\User[] getAll()
  */
-interface IUserRepo extends Repositories\IRepo
+interface IRepo extends Repositories\IRepo
 {
     /**
      * Gets the user with the input username

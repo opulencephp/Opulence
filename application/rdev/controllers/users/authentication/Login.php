@@ -20,7 +20,7 @@ class Login extends Controllers\Controller
     private $hasher = null;
     /** @var Credentials\ICredentials The credentials */
     private $credentials = null;
-    /** @var User\IUserRepo The user repo to use for finding users */
+    /** @var User\IRepo The user repo to use for finding users */
     private $userRepo = null;
     /** @var Credential\IRepo The credential repo to use for getting/adding user credentials */
     private $credentialRepo = null;
@@ -28,10 +28,10 @@ class Login extends Controllers\Controller
     /**
      * @param Cryptography\IHasher $hasher The hasher to use for tokens
      * @param Credentials\ICredentials $credentials The credentials
-     * @param User\IUserRepo $userRepo The user repo to use for finding users
+     * @param User\IRepo $userRepo The user repo to use for finding users
      * @param Credential\IRepo $credentialRepo The credential repo to use for getting/adding user credentials
      */
-    public function __construct(Cryptography\IHasher $hasher, Credentials\ICredentials $credentials, User\IUserRepo $userRepo,
+    public function __construct(Cryptography\IHasher $hasher, Credentials\ICredentials $credentials, User\IRepo $userRepo,
                                 Credential\IRepo $credentialRepo)
     {
         $this->hasher = $hasher;
