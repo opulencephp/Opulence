@@ -140,12 +140,12 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that the router key is automatically set
+     * Tests that the routing key is automatically set
      */
-    public function testRouterKeyIsSetAutomatically()
+    public function testRoutingKeyIsSetAutomatically()
     {
         $config = new ApplicationConfig([]);
-        $this->assertEquals([], $config["router"]);
+        $this->assertEquals([], $config["routing"]);
     }
 
     /**

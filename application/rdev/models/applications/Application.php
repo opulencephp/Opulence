@@ -62,7 +62,7 @@ class Application
         $environmentFetcher = new EnvironmentFetcher();
         $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
         $this->httpConnection = new HTTP\Connection();
-        $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["router"]);
+        $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["routing"]);
     }
 
     /**

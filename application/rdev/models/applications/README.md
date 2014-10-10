@@ -57,7 +57,7 @@ Let's break down the structure of the config.  The following keys are optional:
     * "targeted" => Mapping of targeted classes to their list of bindings of interface/abstract class names to concrete class names
       * Targeted bindings take precedence over universal bindings
   * For more about dependency injection, [read this](/application/rdev/models/ioc)
-* "router"
+* "routing"
   * See the [Routing page](/application/rdev/models/routing)
 * "monolog"
   The following are required:

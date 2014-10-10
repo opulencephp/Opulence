@@ -442,9 +442,9 @@ class ApplicationConfig extends Configs\Config
      */
     private function setupRouterFromArray(array &$configArray)
     {
-        if(!isset($configArray["router"]))
+        if(!isset($configArray["routing"]))
         {
-            $configArray["router"] = [];
+            $configArray["routing"] = [];
         }
     }
 } 

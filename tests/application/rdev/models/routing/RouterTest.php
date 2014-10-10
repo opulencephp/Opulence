@@ -218,6 +218,21 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests passing in routes from the config
+     */
+    public function testPassingInRoutesFromConfig()
+    {
+        $getRoute = new Route("GET", "/foo", ["controller" => "MyController@myMethod"]);
+        $config = [
+            "routes" => [
+                $getRoute
+            ]
+        ];
+        $router = new Router(new IoC\Container(), new HTTP\Connection(), $config);
+        $this->assertSame($getRoute, $router->getRoutes("GET")[0]);
+    }
+
+    /**
      * Tests routing for any method
      */
     public function testRoutingAnyMethod()
