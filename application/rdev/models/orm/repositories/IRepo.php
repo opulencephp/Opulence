@@ -30,7 +30,7 @@ interface IRepo
     /**
      * Gets all the entities
      *
-     * @return array The list of all the entities of this type
+     * @return Models\IEntity[] The list of all the entities of this type
      * @throws ORM\ORMException Thrown if there was an error getting the entities
      */
     public function getAll();
@@ -45,12 +45,23 @@ interface IRepo
     public function getById($id);
 
     /**
-     * @return DataMappers\IDataMapper
+     * Gets the data mapper used by this repository
+     *
+     * @return DataMappers\IDataMapper The data mapper used by this repository
      */
     public function getDataMapper();
 
     /**
-     * @param DataMappers\IDataMapper $dataMapper
+     * Gets the unit of work used by this repository
+     *
+     * @return ORM\UnitOfWork The unit of work used by this repository
+     */
+    public function getUnitOfWork();
+
+    /**
+     * Sets the data mapper to use in this repository
+     *
+     * @param DataMappers\IDataMapper $dataMapper The data mapper to use
      */
     public function setDataMapper($dataMapper);
 }

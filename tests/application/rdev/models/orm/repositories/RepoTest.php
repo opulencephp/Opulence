@@ -146,6 +146,14 @@ class RepoTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the unit of work
+     */
+    public function testGettingUnitOfWork()
+    {
+        $this->assertSame($this->unitOfWork, $this->repo->getUnitOfWork());
+    }
+
+    /**
      * Tests setting the data mapper
      */
     public function testSettingDataMapper()

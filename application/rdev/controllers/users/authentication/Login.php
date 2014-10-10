@@ -13,10 +13,11 @@ use RDev\Models\Cryptography;
 use RDev\Models\Exceptions\Log;
 use RDev\Models\HTTP;
 use RDev\Models\Users\ORM\User;
-use TBA\Models\Configs;
 
 class Login extends Controllers\Controller
 {
+    /** @var Cryptography\IHasher The hasher to use for tokens */
+    private $hasher = null;
     /** @var Credentials\ICredentials The credentials */
     private $credentials = null;
     /** @var User\IUserRepo The user repo to use for finding users */
@@ -25,13 +26,15 @@ class Login extends Controllers\Controller
     private $credentialRepo = null;
 
     /**
+     * @param Cryptography\IHasher $hasher The hasher to use for tokens
      * @param Credentials\ICredentials $credentials The credentials
      * @param User\IUserRepo $userRepo The user repo to use for finding users
      * @param Credential\IRepo $credentialRepo The credential repo to use for getting/adding user credentials
      */
-    public function __construct(Credentials\ICredentials $credentials, User\IUserRepo $userRepo,
+    public function __construct(Cryptography\IHasher $hasher, Credentials\ICredentials $credentials, User\IUserRepo $userRepo,
                                 Credential\IRepo $credentialRepo)
     {
+        $this->hasher = $hasher;
         $this->userRepo = $userRepo;
         $this->credentialRepo = $credentialRepo;
     }
@@ -39,11 +42,15 @@ class Login extends Controllers\Controller
     /**
      * Authenticates the current user
      *
-     * @return bool True if the user is authenticated, otherwise false
+     * @return HTTP\Response The response of the authentication attempt
      */
     public function authenticate()
     {
-        return $this->credentials->has(Credentials\CredentialTypes::LOGIN);
+        // Todo: Make this a route filter
+        if(!$this->credentials->has(Credentials\CredentialTypes::LOGIN))
+        {
+            return new HTTP\RedirectResponse("/login", HTTP\ResponseHeaders::HTTP_UNAUTHORIZED);
+        }
     }
 
     /**
@@ -51,7 +58,7 @@ class Login extends Controllers\Controller
      *
      * @param string $username The username to log in with
      * @param string $unhashedPassword The unhashed password to log in with
-     * @return int The login result constant indicating the result
+     * @return HTTP\Response The response from the action
      */
     public function logIn($username, $unhashedPassword)
     {
@@ -61,18 +68,13 @@ class Login extends Controllers\Controller
 
             if($user === null)
             {
-                return LoginResults::USER_NOT_FOUND;
+                return new HTTP\RedirectResponse("/login", HTTP\ResponseHeaders::HTTP_UNAUTHORIZED);
             }
 
-            $tokenValue = Cryptography\Token::generateRandomString(Configs\Authentication::LOGIN_TOKEN_LENGTH);
+            $tokenValue = $this->hasher->generateRandomString(64);
             $token = new Cryptography\Token(
                 -1,
-                Cryptography\Token::generateHashedValue(
-                    $tokenValue,
-                    Configs\Authentication::LOGIN_TOKEN_HASH_ALGORITHM,
-                    Configs\Authentication::LOGIN_TOKEN_HASH_COST,
-                    Configs\Authentication::TOKEN_PEPPER
-                ),
+                $this->hasher->generate($tokenValue),
                 new \DateTime("now", new \DateTimeZone("UTC")),
                 new \DateTime("+1 week", new \DateTimeZone("UTC")),
                 true
@@ -80,26 +82,31 @@ class Login extends Controllers\Controller
             $loginCredential = new Credentials\Credential(-1, Credentials\CredentialTypes::LOGIN, EntityTypes::USER,
                 $user->getId(), $token);
             $this->credentialRepo->add($loginCredential);
-            // TODO:  Commit UoW
+            $this->credentialRepo->getUnitOfWork()->commit();
             $this->credentials->save($loginCredential, $tokenValue);
 
-            return LoginResults::SUCCESSFUL;
+            return new HTTP\RedirectResponse("/home");
         }
         catch(\Exception $ex)
         {
             Log::write("Failed to log in user: " . $ex);
 
-            return LoginResults::EXCEPTION;
+            return new HTTP\RedirectResponse("/login", HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 
     /**
      * Logs a user out
+     *
+     * @return HTTP\Response The response from the action
      */
     public function logOut()
     {
         $loginCredential = $this->credentials->get(Credentials\CredentialTypes::LOGIN);
         $this->credentialRepo->delete($loginCredential);
         $this->credentials->delete($loginCredential->getTypeId());
+        $this->credentialRepo->getUnitOfWork()->commit();
+
+        return new HTTP\RedirectResponse("/login");
     }
 } 

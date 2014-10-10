@@ -80,6 +80,14 @@ class Repo implements IRepo
     /**
      * {@inheritdoc}
      */
+    public function getUnitOfWork()
+    {
+        return $this->unitOfWork;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function setDataMapper($dataMapper)
     {
         $this->dataMapper = $dataMapper;

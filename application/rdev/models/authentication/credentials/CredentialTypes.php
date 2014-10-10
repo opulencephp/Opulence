@@ -8,8 +8,10 @@ namespace RDev\Models\Authentication\Credentials;
 
 class CredentialTypes
 {
+    /** A password */
+    const PASSWORD = 1;
     /** A login credential */
-    const LOGIN = 0;
+    const LOGIN = 2;
     /** A credential used to authenticate the identity of an entity, but not log it in */
-    const AUTHENTICATION = 1;
+    const AUTHENTICATION = 3;
 } 
