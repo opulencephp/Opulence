@@ -24,10 +24,10 @@ class Credentials implements ICredentials
      * @param ICredential[] $credentials The list of credentials to add
      * @throws \RuntimeException Thrown if a credential was added that didn't have a storage mechanism registered
      */
-    public function __construct($entityId, $entityTypeId, array $storages = [], array $credentials = [])
+    public function __construct($entityId = -1, $entityTypeId = -1, array $storages = [], array $credentials = [])
     {
-        $this->entityId = $entityId;
-        $this->entityTypeId = $entityTypeId;
+        $this->setEntityId($entityId);
+        $this->setEntityTypeId($entityTypeId);
 
         foreach($storages as $type => $storage)
         {
@@ -170,5 +170,21 @@ class Credentials implements ICredentials
         }
 
         $this->storages[$credential->getTypeId()]->save($credential, $unhashedToken);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setEntityId($entityId)
+    {
+        $this->entityId = $entityId;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setEntityTypeId($entityTypeId)
+    {
+        $this->entityTypeId = $entityTypeId;
     }
 } 

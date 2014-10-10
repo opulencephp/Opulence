@@ -190,6 +190,16 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not passing in the entity Id or entity type Id
+     */
+    public function testNotPassingInEntityIdOrEntityTypeId()
+    {
+        $credentials = new Credentials();
+        $this->assertEquals(-1, $credentials->getEntityId());
+        $this->assertEquals(-1, $credentials->getEntityTypeId());
+    }
+
+    /**
      * Tests removing a credential that does not have a storage registered
      */
     public function testRemovingCredentialThatDoesNotHaveStorage()
@@ -220,5 +230,25 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credentials = new Credentials(1, 369);
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $credentials->save($credential, "foo");
+    }
+
+    /**
+     * Tests setting the entity Id
+     */
+    public function testSettingEntityId()
+    {
+        $credentials = new Credentials(-1, -1);
+        $credentials->setEntityId(44);
+        $this->assertEquals(44, $credentials->getEntityId());
+    }
+
+    /**
+     * Tests setting the entity type Id
+     */
+    public function testSettingTypeEntityId()
+    {
+        $credentials = new Credentials(-1, -1);
+        $credentials->setEntityTypeId(44);
+        $this->assertEquals(44, $credentials->getEntityTypeId());
     }
 } 

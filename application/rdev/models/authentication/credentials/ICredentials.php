@@ -86,4 +86,18 @@ interface ICredentials
      * @throws \RuntimeException Thrown if the credential didn't have a storage mechanism registered
      */
     public function save(ICredential $credential, $unhashedToken);
+
+    /**
+     * Sets the entity Id
+     *
+     * @param int|string $entityId The Id of the entity whose credentials these are
+     */
+    public function setEntityId($entityId);
+
+    /**
+     * Sets the entity type Id
+     *
+     * @param int|string $entityTypeId The Id of the type of entity whose credentials these are
+     */
+    public function setEntityTypeId($entityTypeId);
 } 
