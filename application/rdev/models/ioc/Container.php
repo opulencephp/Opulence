@@ -283,8 +283,8 @@ class Container implements IContainer
                 {
                     throw new IoCException(sprintf("No default value available for %s in %s::%s()",
                         $parameter->getName(),
-                        $parameter->getDeclaringClass(),
-                        $parameter->getDeclaringFunction()
+                        $parameter->getDeclaringClass()->getName(),
+                        $parameter->getDeclaringFunction()->getName()
                     ));
                 }
             }
