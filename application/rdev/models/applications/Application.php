@@ -56,7 +56,7 @@ class Application
             $config = new Configs\ApplicationConfig($config);
         }
 
-        $this->setLog($config["monolog"]["handlers"]);
+        $this->setLogger($config["monolog"]["handlers"]);
         $this->iocContainer = $config["bindings"]["container"];
         $this->registerBindings($config["bindings"]);
         $environmentFetcher = new EnvironmentFetcher();
@@ -277,7 +277,7 @@ class Application
      *
      * @param array $config The array of handlers
      */
-    private function setLog(array $config)
+    private function setLogger(array $config)
     {
         $this->logger = new Monolog\Logger("application");
 

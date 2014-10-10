@@ -337,4 +337,34 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
         ];
         new ApplicationConfig($configArray);
     }
+
+    /**
+     * Tests that the targeted bindings key is set automatically
+     */
+    public function testTargetedBindingKeyIsSetAutomatically()
+    {
+        $bindings = [
+            "bindings" => [
+                "container" => new IoC\Container(),
+                "universal" => []
+            ]
+        ];
+        $config = new ApplicationConfig($bindings);
+        $this->assertEquals([], $config["bindings"]["targeted"]);
+    }
+
+    /**
+     * Tests that the universal bindings key is set automatically
+     */
+    public function testUniversalBindingKeyIsSetAutomatically()
+    {
+        $bindings = [
+            "bindings" => [
+                "container" => new IoC\Container(),
+                "targeted" => []
+            ]
+        ];
+        $config = new ApplicationConfig($bindings);
+        $this->assertEquals([], $config["bindings"]["universal"]);
+    }
 } 

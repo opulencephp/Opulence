@@ -369,6 +369,16 @@ class ApplicationConfig extends Configs\Config
         {
             throw new \RuntimeException("Container does not implement IContainer");
         }
+
+        if(!isset($configArray["bindings"]["universal"]))
+        {
+            $configArray["bindings"]["universal"] = [];
+        }
+
+        if(!isset($configArray["bindings"]["targeted"]))
+        {
+            $configArray["bindings"]["targeted"] = [];
+        }
     }
 
     /**
