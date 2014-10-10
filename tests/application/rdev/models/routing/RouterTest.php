@@ -178,22 +178,25 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $outerGroupOptions = [
             "path" => "/foo",
+            "controllerNamespace" => "RDev\\Tests\\Controllers",
             "pre" => ["pre1", "pre2"],
             "post" => ["post1", "post2"]
         ];
-        $routeOptions = ["controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"];
-        $this->router->group($outerGroupOptions, function () use ($routeOptions)
+        $outerRouteOptions = ["controller" => "Mocks\\Controller@noParameters"];
+        $innerRouteOptions = ["controller" => "Controller@noParameters"];
+        $this->router->group($outerGroupOptions, function () use ($outerRouteOptions, $innerRouteOptions)
         {
-            $this->router->addRoute(new Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
-            $this->router->delete("/blah", $routeOptions);
+            $this->router->addRoute(new Route(HTTP\Request::METHOD_GET, "/bar", $outerRouteOptions));
+            $this->router->delete("/blah", $outerRouteOptions);
             $innerGroupOptions = [
                 "path" => "/asdf",
+                "controllerNamespace" => "Mocks",
                 "pre" => ["pre3", "pre4"],
                 "post" => ["post3", "post4"]
             ];
-            $this->router->group($innerGroupOptions, function () use ($routeOptions)
+            $this->router->group($innerGroupOptions, function () use ($innerRouteOptions)
             {
-                $this->router->get("/jkl", $routeOptions);
+                $this->router->get("/jkl", $innerRouteOptions);
             });
         });
         /** @var Route[] $getRoutes */
@@ -201,12 +204,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRoutes(HTTP\Request::METHOD_DELETE);
         $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
+        $this->assertEquals("RDev\\Tests\\Controllers\\Mocks\\Controller", $getRoutes[0]->getControllerName());
         $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
         $this->assertEquals("/foo/asdf/jkl", $getRoutes[1]->getRawPath());
+        $this->assertEquals("RDev\\Tests\\Controllers\\Mocks\\Controller", $getRoutes[1]->getControllerName());
         $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $getRoutes[1]->getPreFilters());
         $this->assertEquals(["post1", "post2", "post3", "post4"], $getRoutes[1]->getPostFilters());
         $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
+        $this->assertEquals("RDev\\Tests\\Controllers\\Mocks\\Controller", $deleteRoutes[0]->getControllerName());
         $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
     }
