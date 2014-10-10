@@ -148,8 +148,8 @@ If all the controllers in a route group belong under a common namespace, you can
 ```php
 $router->group(["controllerNamespace" => "MyApp\\Controllers"], function() use ($router)
 {
-    $router->get("/users", ["controller" => "UserController"@showAllUsers"]);
-    $router->get("/posts", ["controller" => "PostController"@showAllPosts"]);
+    $router->get("/users", ["controller" => "UserController@showAllUsers"]);
+    $router->get("/posts", ["controller" => "PostController@showAllPosts"]);
 });
 ```
 
