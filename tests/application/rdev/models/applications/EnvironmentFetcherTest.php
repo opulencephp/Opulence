@@ -6,6 +6,8 @@
  */
 namespace RDev\Models\Applications;
 
+use RDev\Models\Applications\Configs\EnvironmentConfig;
+
 class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -14,7 +16,7 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
     public function testThatDefaultEnvironmentIsProduction()
     {
         $fetcher = new EnvironmentFetcher();
-        $this->assertEquals(Application::ENV_PRODUCTION, $fetcher->getEnvironment([]));
+        $this->assertEquals(Application::ENV_PRODUCTION, $fetcher->getEnvironment(new EnvironmentConfig([])));
     }
 
     /**
@@ -22,12 +24,12 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingDevelopmentEnvironment()
     {
-        $config = [
+        $config = new EnvironmentConfig([
             "development" => gethostname(),
             "testing" => "8.8.8.2",
             "staging" => "8.8.8.8",
             "production" => "8.8.8.4"
-        ];
+        ]);
         $fetcher = new EnvironmentFetcher();
         $this->assertEquals(Application::ENV_DEVELOPMENT, $fetcher->getEnvironment($config));
     }
@@ -37,12 +39,12 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingProductionEnvironment()
     {
-        $config = [
+        $config = new EnvironmentConfig([
             "development" => "8.8.8.8",
             "testing" => "8.8.8.2",
             "staging" => "8.8.8.4",
             "production" => gethostname()
-        ];
+        ]);
         $fetcher = new EnvironmentFetcher();
         $this->assertEquals(Application::ENV_PRODUCTION, $fetcher->getEnvironment($config));
     }
@@ -52,12 +54,12 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingStagingEnvironment()
     {
-        $config = [
+        $config = new EnvironmentConfig([
             "development" => "8.8.8.8",
             "testing" => "8.8.8.2",
             "staging" => gethostname(),
             "production" => "8.8.8.4"
-        ];
+        ]);
         $fetcher = new EnvironmentFetcher();
         $this->assertEquals(Application::ENV_STAGING, $fetcher->getEnvironment($config));
     }
@@ -67,12 +69,12 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingTestingEnvironment()
     {
-        $config = [
+        $config = new EnvironmentConfig([
             "development" => "8.8.8.8",
             "testing" => gethostname(),
             "staging" => "8.8.8.2",
             "production" => "8.8.8.4"
-        ];
+        ]);
         $fetcher = new EnvironmentFetcher();
         $this->assertEquals(Application::ENV_TESTING, $fetcher->getEnvironment($config));
     }
@@ -84,14 +86,14 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
     {
         // Truncate the last character of the host
         $truncatedHost = substr(gethostname(), 0, -1);
-        $config = [
+        $config = new EnvironmentConfig([
             "development" => "8.8.8.8",
             "testing" => "8.8.8.2",
             "staging" => [
                 ["type" => "regex", "value" => "/^" . preg_quote($truncatedHost, "/") . ".*$/"]
             ],
             "production" => "8.8.8.4"
-        ];
+        ]);
         $fetcher = new EnvironmentFetcher();
         $this->assertEquals(Application::ENV_STAGING, $fetcher->getEnvironment($config));
     }
@@ -101,12 +103,12 @@ class EnvironmentFetcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithCallback()
     {
-        $config = [
+        $config = new EnvironmentConfig([
             function ()
             {
                 return "staging";
             }
-        ];
+        ]);
         $fetcher = new EnvironmentFetcher();
         $this->assertEquals(Application::ENV_STAGING, $fetcher->getEnvironment($config));
     }

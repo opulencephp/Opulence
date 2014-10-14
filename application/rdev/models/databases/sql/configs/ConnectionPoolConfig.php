@@ -17,7 +17,7 @@ class ConnectionPoolConfig extends Configs\Config
     {
         if(!$this->isValid($configArray))
         {
-            throw new \RuntimeException("Invalid config");
+            throw new \RuntimeException("Invalid connection pool config");
         }
 
         $driver = $configArray["driver"];

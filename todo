@@ -1,3 +1,7 @@
+Add support for controllerPrimitives/methodCalls in bindings config
+Need to think through not always sharing parameter objects in makeNew()
+    For example, if we makeNew() a repo, we need a UoW, which needs to be shared
+    However, makeNew() will make a new UoW for each repo, which defeats the purpose
 Need to think through MVC
     Login page could use multiple controllers, depending on the action taken
     Do they all extend a common "LoginController", which would setup the view?

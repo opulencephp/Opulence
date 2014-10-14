@@ -9,7 +9,9 @@ use Monolog;
 use Monolog\Handler;
 use RDev\Models\HTTP;
 use RDev\Models\IoC;
+use RDev\Models\IoC\Configs as IoCConfigs;
 use RDev\Models\Routing;
+use RDev\Models\Routing\Configs as RouterConfigs;
 
 class Application
 {
@@ -57,10 +59,9 @@ class Application
         }
 
         $this->setLogger($config["monolog"]["handlers"]);
-        $this->iocContainer = $config["bindings"]["container"];
-        $this->registerBindings($config["bindings"]);
-        $environmentFetcher = new EnvironmentFetcher();
-        $this->environment = $environmentFetcher->getEnvironment($config["environment"]);
+        $this->iocContainer = $config["ioc"]["container"];
+        $this->registerBindings($config["ioc"]);
+        $this->environment = (new EnvironmentFetcher())->getEnvironment($config["environment"]);
         $this->httpConnection = new HTTP\Connection();
         $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["routing"]);
     }
@@ -254,16 +255,16 @@ class Application
     /**
      * Registers the bindings from the config
      *
-     * @param array $bindings The list of bindings from the config
+     * @param IoCConfigs\IoCConfig $config The bindings config
      */
-    private function registerBindings(array $bindings)
+    private function registerBindings(IoCConfigs\IoCConfig $config)
     {
-        foreach($bindings["universal"] as $component => $concreteClassName)
+        foreach($config["universal"] as $component => $concreteClassName)
         {
             $this->iocContainer->bind($component, $concreteClassName);
         }
 
-        foreach($bindings["targeted"] as $targetClassName => $targetedBindings)
+        foreach($config["targeted"] as $targetClassName => $targetedBindings)
         {
             foreach($targetedBindings as $component => $concreteClassName)
             {

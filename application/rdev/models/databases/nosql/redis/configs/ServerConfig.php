@@ -17,7 +17,7 @@ class ServerConfig extends Configs\Config
     {
         if(!$this->isValid($configArray))
         {
-            throw new \RuntimeException("Invalid config");
+            throw new \RuntimeException("Invalid Redis config");
         }
 
         if(!$configArray["servers"]["master"] instanceof Redis\Server)

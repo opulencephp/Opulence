@@ -49,7 +49,7 @@ Let's break down the structure of the config.  The following keys are optional:
           * "regex" to denote that the rule uses a regular expression
         * "value" => The value of the rule, eg the regular expression to use
     * If you use a callback, it must simply return the name of the environment the current server resides in
-* "bindings"
+* "ioc"
   * The following keys are optional:
     * "container" => The dependency injection container to use throughout the application
       * Must either be an instance or name of a class that implements `RDev\Models\IoC\IContainer`
@@ -81,7 +81,7 @@ $configArray = [
             ["type" => "regex", "value" => "/^192\.168\..*$/"]
         ]
     ],
-    "bindings" => [
+    "ioc" => [
         "universal" => [
             "IFoo" => "ConcreteFoo"
         ]
@@ -105,7 +105,7 @@ $configArray = [
         // By default, return production
         return "production";
     },
-    "bindings" => [
+    "ioc" => [
         "universal" => [
             "IFoo" => "ConcreteFoo"
         ]
@@ -118,7 +118,7 @@ The following specifies a custom container class:
 use RDev\Models\Application\Configs;
 
 $configArray = [
-    "bindings" => [
+    "ioc" => [
         "container" => "Class\\That\\Implements\\IContainer"
     ]
 ];

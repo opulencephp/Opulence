@@ -12,29 +12,11 @@ class EnvironmentFetcher
     /**
      * Gets the environment the server belongs to, eg "production"
      *
-     * @param Configs\EnvironmentConfig|array $config The config to use for the environment
-     *      The following keys are optional:
-     *          "production"
-     *          "staging"
-     *          "testing"
-     *          "development"
-     *          Note:  All of the above may map to one of the following
-     *              Server host
-     *              An array containing:
-     *                  "type" => see EnvironmentConfig for list of valid types
-     *                  "value" => The value to use
-     *      Alternatively, a callback may be passed in as the only item for customization
-     *          It must return the environment the current server resides in
-     *          This only works for PHPArray configs because callbacks cannot be passed in other types like JSON
+     * @param Configs\EnvironmentConfig $config The environment config
      * @return string The environment the server belongs to
      */
-    public function getEnvironment($config)
+    public function getEnvironment(Configs\EnvironmentConfig $config)
     {
-        if(is_array($config))
-        {
-            $config = new Configs\EnvironmentConfig($config);
-        }
-
         // Allow a callback
         if($config->count() == 1 && isset($config[0]) && is_callable($config[0]))
         {

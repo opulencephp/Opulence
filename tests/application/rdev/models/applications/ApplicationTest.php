@@ -134,7 +134,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $secondConcreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Blah";
         $constructorWithInterfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithInterface";
         $configArray = [
-            "bindings" => [
+            "ioc" => [
                 "universal" => [
                     $interfaceName => $concreteClassName
                 ],

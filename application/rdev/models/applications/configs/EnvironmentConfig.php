@@ -20,7 +20,7 @@ class EnvironmentConfig extends Configs\Config
     {
         if(!$this->isValid($configArray))
         {
-            throw new \RuntimeException("Invalid config");
+            throw new \RuntimeException("Invalid environment config");
         }
 
         // Convert any strings to arrays for each of the environments
