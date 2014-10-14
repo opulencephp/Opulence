@@ -265,7 +265,7 @@ $router = new Routing\Router(
 
 > **Note:** In router configs, grouped routes are added before non-grouped routes, so they take precedence.
 
-The above would create routes with the following properties:
+The above would instantiate `MyApp\Routing\MyCompiler` as the route compiler, and it'd create routes with the following properties:
 * One that matches GET requests to "/books/{bookId}" and dispatches to `MyApp\\Controllers\\BookController::showBook()`
 * One that matches GET requests to "/users", applies the "authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showAllUsers()`
 * One that matches GET requests to "/users/{userId}/profile", applies the "authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showProfile()`
