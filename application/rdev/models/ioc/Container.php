@@ -83,8 +83,10 @@ class Container implements IContainer
     /**
      * {@inheritdoc}
      */
-    public function make($concreteClass, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
+    public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
     {
+        $concreteClass = $this->getConcreteClass($component);
+
         // If we're creating a shared instance, check to see if we've already instantiated it
         if(!$forceNewInstance)
         {
@@ -138,7 +140,7 @@ class Container implements IContainer
      */
     public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        return $this->make($this->getConcreteClass($component), true, $constructorPrimitives, $methodCalls);
+        return $this->make($component, true, $constructorPrimitives, $methodCalls);
     }
 
     /**
@@ -146,7 +148,7 @@ class Container implements IContainer
      */
     public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        return $this->make($this->getConcreteClass($component), false, $constructorPrimitives, $methodCalls);
+        return $this->make($component, false, $constructorPrimitives, $methodCalls);
     }
 
     /**
