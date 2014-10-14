@@ -5,10 +5,7 @@
  * Defines the application config
  */
 namespace RDev\Models\Applications\Configs;
-use Monolog;
-use Monolog\Handler;
 use RDev\Models\Configs;
-use RDev\Models\IoC;
 use RDev\Models\IoC\Configs as IoCConfigs;
 use RDev\Models\Routing\Configs as RouterConfigs;
 
