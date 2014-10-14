@@ -58,8 +58,53 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         $config = new RouterConfig([]);
         $this->assertEquals([
             "compiler" => new Routing\RouteCompiler(),
+            "groups" => [],
             "routes" => []
         ], $config->toArray());
+    }
+
+    /**
+     * Tests grouped routes
+     */
+    public function testGroups()
+    {
+        $configArray = [
+            "groups" => [
+                [
+                    "options" => [
+                        "pre" => ["pre1", "pre2"],
+                        "post" => ["post1", "post2"],
+                        "controllerNamespace" => "MyApp\\Controllers",
+                        "path" => "/my/path"
+                    ],
+                    "routes" => [
+                        [
+                            "methods" => "GET",
+                            "path" => "/foo",
+                            "options" => [
+                                "controller" => "foo@bar"
+                            ]
+                        ],
+                        [
+                            "methods" => "POST",
+                            "path" => "/bar",
+                            "options" => [
+                                "controller" => "foo@blah"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $getRoute */
+        $getRoute = $config["groups"][0]["routes"][0];
+        /** @var Routing\Route $postRoute */
+        $postRoute = $config["groups"][0]["routes"][1];
+        $this->assertInstanceOf("RDev\\Models\\Routing\\Route", $getRoute);
+        $this->assertInstanceOf("RDev\\Models\\Routing\\Route", $postRoute);
+        $this->assertEquals(["GET"], $getRoute->getMethods());
+        $this->assertEquals(["POST"], $postRoute->getMethods());
     }
 
     /**
@@ -105,6 +150,48 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying an invalid type for group options
+     */
+    public function testInvalidGroupOptionsType()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "groups" => [
+                [
+                    "options" => 1,
+                    "routes" => [
+                        [
+                            "methods" => "GET",
+                            "path" => "/foo",
+                            "options" => [
+                                "controller" => "foo@bar"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        new RouterConfig($configArray);
+    }
+
+    /**
+     * Tests specifying an invalid type for group routes
+     */
+    public function testInvalidGroupRoutesType()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "groups" => [
+                [
+                    "options" => [],
+                    "routes" => 1
+                ]
+            ]
+        ];
+        new RouterConfig($configArray);
+    }
+
+    /**
      * Tests using an invalid value for the routes
      */
     public function testInvalidRoutesValueType()
@@ -115,6 +202,135 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
                 "foo"
             ]
         ]);
+    }
+
+    /**
+     * Tests nested grouped routes
+     */
+    public function testNestedGroups()
+    {
+        $configArray = [
+            "groups" => [
+                [
+                    "options" => [
+                        "pre" => ["pre1", "pre2"],
+                        "post" => ["post1", "post2"],
+                        "controllerNamespace" => "MyApp\\Controllers",
+                        "path" => "/my/path"
+                    ],
+                    "groups" => [
+                        [
+                            "options" => [
+                                "pre" => ["pre3", "pre4"],
+                                "post" => ["post3", "post4"],
+                                "controllerNamespace" => "Users",
+                                "path" => "/users/{userId}/profile"
+                            ],
+                            "routes" => [
+                                [
+                                    "methods" => "GET",
+                                    "path" => "",
+                                    "options" => [
+                                        "controller" => "UserController@showProfile"
+                                    ]
+                                ],
+                                [
+                                    "methods" => "POST",
+                                    "path" => "/update",
+                                    "options" => [
+                                        "controller" => "UserController@editProfile"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ],
+                    "routes" => [
+                        [
+                            "methods" => "GET",
+                            "path" => "/foo",
+                            "options" => [
+                                "controller" => "foo@bar"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route[] $outsideGroupRoutes */
+        $outsideGroupRoutes = $config["groups"][0]["routes"];
+        /** @var Routing\Route[] $nestedGroupRoutes */
+        $nestedGroupRoutes = $config["groups"][0]["groups"][0]["routes"];
+        $this->assertInstanceOf("RDev\\Models\\Routing\\Route", $outsideGroupRoutes[0]);
+        $this->assertInstanceOf("RDev\\Models\\Routing\\Route", $nestedGroupRoutes[0]);
+        $this->assertEquals("", $nestedGroupRoutes[0]->getRawPath());
+        $this->assertInstanceOf("RDev\\Models\\Routing\\Route", $nestedGroupRoutes[1]);
+        $this->assertEquals("/update", $nestedGroupRoutes[1]->getRawPath());
+    }
+
+    /**
+     * Tests nested groups without routes
+     */
+    public function testNestedGroupsWithoutRoutes()
+    {
+        $configArray = [
+            "groups" => [
+                [
+                    "options" => [
+                        "path" => "/foo",
+                        "controllerNamespace" => "MyApp"
+                    ],
+                    "groups" => [
+                        [
+                            "options" => [
+                                "path" => "/bar",
+                                "controllerNamespace" => "Controllers"
+                            ],
+                            "routes" => [
+                                [
+                                    "methods" => "GET",
+                                    "path" => "/blah",
+                                    "options" => [
+                                        "controller" => "MyController@myMethod"
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $getRoute */
+        $getRoute = $config["groups"][0]["groups"][0]["routes"][0];
+        $this->assertEquals(["GET"], $getRoute->getMethods());
+        $this->assertEquals("/blah", $getRoute->getRawPath());
+        $this->assertEquals("MyController", $getRoute->getControllerName());
+        $this->assertEquals("myMethod", $getRoute->getControllerMethod());
+    }
+
+    /**
+     * Tests not setting any options in a group
+     */
+    public function testNotSettingOptionsInGroup()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "groups" => [
+                [
+                    "routes" => [
+                        [
+                            "methods" => "GET",
+                            "path" => "/foo",
+                            "options" => [
+                                "controller" => "foo@bar"
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ];
+        new RouterConfig($configArray);
     }
 
     /**
@@ -176,7 +392,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         $config = new RouterConfig($configArray);
         $this->assertEquals([
             "compiler" => new Mocks\RouteCompiler(),
-            "routes" => []
+            "routes" => [],
+            "groups" => []
         ], $config->toArray());
     }
 
@@ -192,7 +409,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         $config = new RouterConfig($configArray);
         $this->assertEquals([
             "compiler" => $compiler,
-            "routes" => []
+            "routes" => [],
+            "groups" => []
         ], $config->toArray());
         $this->assertSame($compiler, $config->toArray()["compiler"]);
     }

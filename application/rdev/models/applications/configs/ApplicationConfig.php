@@ -21,10 +21,10 @@ class ApplicationConfig extends Configs\Config
             throw new \RuntimeException("Invalid application config");
         }
 
-        $this->setupIoCFromArray($configArray);
-        $this->setupEnvironmentFromArray($configArray);
-        $this->setupRouterFromArray($configArray);
-        $this->setupMonologFromArray($configArray);
+        $this->setUpIoCFromArray($configArray);
+        $this->setUpEnvironmentFromArray($configArray);
+        $this->setUpRouterFromArray($configArray);
+        $this->setUpMonologFromArray($configArray);
         $this->configArray = $configArray;
     }
 
@@ -34,7 +34,7 @@ class ApplicationConfig extends Configs\Config
      * @param array $configArray The config array
      * @throws \RuntimeException Thrown if there was a problem with the environment config
      */
-    private function setupEnvironmentFromArray(array &$configArray)
+    private function setUpEnvironmentFromArray(array &$configArray)
     {
         if(!isset($configArray["environment"]))
         {
@@ -50,7 +50,7 @@ class ApplicationConfig extends Configs\Config
      * @param array $configArray The config array
      * @throws \RuntimeException Thrown if there was a problem with the IoC config
      */
-    private function setupIoCFromArray(array &$configArray)
+    private function setUpIoCFromArray(array &$configArray)
     {
         if(!isset($configArray["ioc"]))
         {
@@ -66,7 +66,7 @@ class ApplicationConfig extends Configs\Config
      * @param array $configArray The config array
      * @throws \RuntimeException Thrown if there was a problem with the Monolog config
      */
-    private function setupMonologFromArray(array &$configArray)
+    private function setUpMonologFromArray(array &$configArray)
     {
         if(!isset($configArray["monolog"]))
         {
@@ -82,7 +82,7 @@ class ApplicationConfig extends Configs\Config
      * @param array $configArray The config array
      * @throws \RuntimeException Thrown if there was a problem with the router config
      */
-    private function setupRouterFromArray(array &$configArray)
+    private function setUpRouterFromArray(array &$configArray)
     {
         if(!isset($configArray["routing"]))
         {

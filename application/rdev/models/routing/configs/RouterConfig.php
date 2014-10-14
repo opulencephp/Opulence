@@ -54,35 +54,18 @@ class RouterConfig extends Configs\Config
             $configArray["compiler"] = new Routing\RouteCompiler();
         }
 
+        if(!isset($configArray["groups"]))
+        {
+            $configArray["groups"] = [];
+        }
+
         if(!isset($configArray["routes"]))
         {
             $configArray["routes"] = [];
         }
 
-        foreach($configArray["routes"] as $index => $route)
-        {
-            if(is_array($route))
-            {
-                // Convert the filters to arrays
-                if(isset($route["options"]["pre"]) && is_string($route["options"]["pre"]))
-                {
-                    $route["options"]["pre"] = [$route["options"]["pre"]];
-                }
-
-                if(isset($route["options"]["post"]) && is_string($route["options"]["post"]))
-                {
-                    $route["options"]["post"] = [$route["options"]["post"]];
-                }
-
-                $configArray["routes"][$index] = $this->getRouteFromConfig($route);
-            }
-
-            if(!$configArray["routes"][$index] instanceof Routing\Route)
-            {
-                throw new \RuntimeException("Route does not extend Route");
-            }
-        }
-
+        $this->createGroupRoutesFromConfigArray($configArray);
+        $this->createRoutesFromConfigArray($configArray["routes"]);
         $this->configArray = $configArray;
     }
 
@@ -105,6 +88,11 @@ class RouterConfig extends Configs\Config
             }
         }
 
+        if(!$this->groupsAreValid($configArray))
+        {
+            return false;
+        }
+
         if(isset($configArray["routes"]))
         {
             foreach($configArray["routes"] as $route)
@@ -117,6 +105,59 @@ class RouterConfig extends Configs\Config
         }
 
         return true;
+    }
+
+    /**
+     * Creates routes inside groups
+     *
+     * @param array $configArray The config array
+     */
+    private function createGroupRoutesFromConfigArray(array &$configArray)
+    {
+        foreach($configArray["groups"] as $groupIndex => $group)
+        {
+            if(isset($configArray["groups"][$groupIndex]["routes"]))
+            {
+                $this->createRoutesFromConfigArray($configArray["groups"][$groupIndex]["routes"]);
+            }
+
+            if(isset($group["groups"]))
+            {
+                $this->createGroupRoutesFromConfigArray($configArray["groups"][$groupIndex]);
+            }
+        }
+    }
+
+    /**
+     * Creates a list of routes from a config array
+     *
+     * @param array $configArray The config array to create routes from
+     */
+    private function createRoutesFromConfigArray(array &$configArray)
+    {
+        foreach($configArray as $index => $route)
+        {
+            if(is_array($route))
+            {
+                // Convert the filters to arrays
+                if(isset($route["options"]["pre"]) && is_string($route["options"]["pre"]))
+                {
+                    $route["options"]["pre"] = [$route["options"]["pre"]];
+                }
+
+                if(isset($route["options"]["post"]) && is_string($route["options"]["post"]))
+                {
+                    $route["options"]["post"] = [$route["options"]["post"]];
+                }
+
+                $configArray[$index] = $this->getRouteFromConfig($route);
+            }
+
+            if(!$configArray[$index] instanceof Routing\Route)
+            {
+                throw new \RuntimeException("Route does not extend Route");
+            }
+        }
     }
 
     /**
@@ -133,6 +174,50 @@ class RouterConfig extends Configs\Config
         }
 
         return new Routing\Route($configArray["methods"], $configArray["path"], $configArray["options"]);
+    }
+
+    /**
+     * Checks if groups (and nested groups) are valid
+     *
+     * @param array $configArray The config array
+     * @return bool True if the groups are valid, otherwise false
+     */
+    private function groupsAreValid(array &$configArray)
+    {
+        if(isset($configArray["groups"]))
+        {
+            foreach($configArray["groups"] as $group)
+            {
+                if(!isset($group["options"]) || !is_array($group["options"]))
+                {
+                    return false;
+                }
+
+                if(isset($group["routes"]))
+                {
+                    if(!is_array($group["routes"]))
+                    {
+                        return false;
+                    }
+
+                    foreach($group["routes"] as $route)
+                    {
+                        if(!$route instanceof Routing\Route && (!is_array($route) || !$this->routeIsValid($route)))
+                        {
+                            return false;
+                        }
+                    }
+                }
+
+                // Check for nested groups
+                if(isset($group["groups"]))
+                {
+                    return $this->groupsAreValid($group["groups"]);
+                }
+            }
+        }
+
+        return true;
     }
 
     /**

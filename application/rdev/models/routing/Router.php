@@ -52,11 +52,7 @@ class Router
         }
 
         $this->compiler = $config["compiler"];
-
-        foreach($config["routes"] as $route)
-        {
-            $this->addRoute($route);
-        }
+        $this->createRoutesFromConfigArray($config->toArray());
     }
 
     /**
@@ -254,6 +250,33 @@ class Router
     }
 
     /**
+     * Creates all the nested group routes in a config array
+     *
+     * @param array $configArray The config to create routes from
+     */
+    private function createGroupedRoutesFromConfigArray(array $configArray)
+    {
+        if(isset($configArray["groups"]))
+        {
+            foreach($configArray["groups"] as $groupOptions)
+            {
+                $this->group($groupOptions["options"], function () use ($groupOptions)
+                {
+                    foreach($groupOptions["routes"] as $route)
+                    {
+                        $this->addRoute($route);
+                    }
+
+                    if(isset($groupOptions["groups"]))
+                    {
+                        $this->createGroupedRoutesFromConfigArray($groupOptions);
+                    }
+                });
+            }
+        }
+    }
+
+    /**
      * Creates a route from the input
      *
      * @param string $method The method whose route this is
@@ -264,6 +287,25 @@ class Router
     private function createRoute($method, $path, array $options)
     {
         return new Route([$method], $path, $options);
+    }
+
+    /**
+     * Creates routes from a config
+     *
+     * @param array $configArray The config to create routes from
+     *      This must be an array because we will need to recursively iterate through it
+     */
+    private function createRoutesFromConfigArray(array $configArray)
+    {
+        $this->createGroupedRoutesFromConfigArray($configArray);
+
+        if(isset($configArray["routes"]))
+        {
+            foreach($configArray["routes"] as $route)
+            {
+                $this->addRoute($route);
+            }
+        }
     }
 
     /**

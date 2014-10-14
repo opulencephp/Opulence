@@ -58,9 +58,8 @@ class Application
             $config = new Configs\ApplicationConfig($config);
         }
 
-        $this->setLogger($config["monolog"]["handlers"]);
-        $this->iocContainer = $config["ioc"]["container"];
-        $this->registerBindings($config["ioc"]);
+        $this->setUpLogger($config["monolog"]["handlers"]);
+        $this->setUpIoC($config["ioc"]);
         $this->environment = (new EnvironmentFetcher())->getEnvironment($config["environment"]);
         $this->httpConnection = new HTTP\Connection();
         $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["routing"]);
@@ -274,11 +273,22 @@ class Application
     }
 
     /**
-     * Sets the application log
+     * Sets up the inversion-of-control items in this application
+     *
+     * @param IoCConfigs\IoCConfig $config The IoC config
+     */
+    private function setUpIoC(IoCConfigs\IoCConfig $config)
+    {
+        $this->iocContainer = $config["container"];
+        $this->registerBindings($config);
+    }
+
+    /**
+     * Sets up the application logger
      *
      * @param array $config The array of handlers
      */
-    private function setLogger(array $config)
+    private function setUpLogger(array $config)
     {
         $this->logger = new Monolog\Logger("application");
 
