@@ -198,7 +198,7 @@ Let's break down the structure of the config.  All of the top-level keys are opt
         * "path" => The path common to all routes in the group
     * "routes"
       * An array of routes, which should have the same structure as "routes" from above
-    * The following keys are options
+    * The following keys are optional:
       * "groups"
         * An array of nested groups, which should have the same structure as "groups" from above
 
@@ -256,10 +256,14 @@ $configArray = [
         ]
     ]
 ];
-$router = new Routing\Router(new IoC\Container(), new HTTP\Connection(), new Configs\RouterConfig($configArray));
+$router = new Routing\Router(
+    new IoC\Container(),
+    new HTTP\Connection(),
+    new Configs\RouterConfig($configArray)
+);
 ```
 
-> **Note:** In router configs, grouped routes will have precedence over non-grouped routes.
+> **Note:** In router configs, grouped routes are added before non-grouped routes, so they take precedence.
 
 The above would create routes with the following properties:
 * One that matches GET requests to "/books/{bookId}" and dispatches to `MyApp\\Controllers\\BookController::showBook()`
