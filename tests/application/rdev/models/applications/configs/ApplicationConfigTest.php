@@ -23,6 +23,62 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying an invalid environment config
+     */
+    public function testInvalidEnvironmentConfig()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "environment" => [
+                "production" => 1
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests specifying an invalid IoC config
+     */
+    public function testInvalidIoCConfig()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "ioc" => [
+                "container" => "RDev\\Class\\That\\Does\\Not\\Exist"
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests specifying an invalid Monolog config
+     */
+    public function testInvalidMonologConfig()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "monolog" => [
+                "foo" => "bar"
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests specifying an invalid routing config
+     */
+    public function testInvalidRoutingConfig()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "routing" => [
+                "compiler" => 1
+            ]
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
      * Tests that the IoC key is automatically set
      */
     public function testIoCKeyIsSetAutomatically()

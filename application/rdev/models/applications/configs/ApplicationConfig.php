@@ -32,6 +32,7 @@ class ApplicationConfig extends Configs\Config
      * Sets up the environment from a config array
      *
      * @param array $configArray The config array
+     * @throws \RuntimeException Thrown if there was a problem with the environment config
      */
     private function setupEnvironmentFromArray(array &$configArray)
     {
@@ -47,6 +48,7 @@ class ApplicationConfig extends Configs\Config
      * Sets up the IoC from a config array
      *
      * @param array $configArray The config array
+     * @throws \RuntimeException Thrown if there was a problem with the IoC config
      */
     private function setupIoCFromArray(array &$configArray)
     {
@@ -62,6 +64,7 @@ class ApplicationConfig extends Configs\Config
      * Sets up the Monolog from a config array
      *
      * @param array $configArray The config array
+     * @throws \RuntimeException Thrown if there was a problem with the Monolog config
      */
     private function setupMonologFromArray(array &$configArray)
     {
@@ -77,6 +80,7 @@ class ApplicationConfig extends Configs\Config
      * Sets up the router from a config array
      *
      * @param array $configArray The config array
+     * @throws \RuntimeException Thrown if there was a problem with the router config
      */
     private function setupRouterFromArray(array &$configArray)
     {
