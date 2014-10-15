@@ -256,7 +256,7 @@ class Application
      *
      * @param IoCConfigs\IoCConfig $config The bindings config
      */
-    private function registerBindings(IoCConfigs\IoCConfig $config)
+    private function registerBindingsFromConfig(IoCConfigs\IoCConfig $config)
     {
         foreach($config["universal"] as $component => $concreteClassName)
         {
@@ -270,7 +270,13 @@ class Application
                 $this->iocContainer->bind($component, $concreteClassName, $targetClassName);
             }
         }
+    }
 
+    /**
+     * Registers the default bindings to be used throughout the application
+     */
+    private function registerDefaultBindings()
+    {
         // Register the default bindings
         $this->iocContainer->bind("RDev\\Models\\HTTP\\Connection", $this->httpConnection);
         $this->iocContainer->bind("RDev\\Models\\HTTP\\Request", $this->httpConnection->getRequest());
@@ -285,7 +291,8 @@ class Application
     private function setUpIoC(IoCConfigs\IoCConfig $config)
     {
         $this->iocContainer = $config["container"];
-        $this->registerBindings($config);
+        $this->registerBindingsFromConfig($config);
+        $this->registerDefaultBindings();
     }
 
     /**
