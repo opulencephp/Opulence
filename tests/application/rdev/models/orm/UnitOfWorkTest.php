@@ -358,15 +358,36 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the aggregate root
+     * Tests setting the aggregate root on inserted entities
      */
-    public function testSettingAggregateRoot()
+    public function testSettingAggregateRootOnInsertedEntities()
     {
         $originalAggregateRootId = $this->entity1->getId();
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity2);
+        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
+        {
+            /** @var ModelMocks\User $aggregateRoot */
+            /** @var ModelMocks\User $child */
+            $child->setAggregateRootId($aggregateRoot->getId());
+        });
+        $this->unitOfWork->commit();
+        $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
+        $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
+    }
+
+    /**
+     * Tests setting the aggregate root on updated entities
+     */
+    public function testSettingAggregateRootOnUpdatedEntities()
+    {
+        $originalAggregateRootId = $this->entity1->getId();
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->unitOfWork->scheduleForUpdate($this->entity2);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
         {
             /** @var ModelMocks\User $aggregateRoot */

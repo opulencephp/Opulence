@@ -503,6 +503,24 @@ class UnitOfWork
     }
 
     /**
+     * Executes the aggregate root functions, if there any for the input entity
+     *
+     * @param string $objectHashId The object hash Id of the child
+     * @param Models\IEntity $child The child entity
+     */
+    private function doAggregateRootFunctions($objectHashId, Models\IEntity $child)
+    {
+        if(isset($this->aggregateRootChildren[$objectHashId]))
+        {
+            foreach($this->aggregateRootChildren[$objectHashId] as $aggregateRootData)
+            {
+                $aggregateRoot = $aggregateRootData["aggregateRoot"];
+                $aggregateRootData["function"]($aggregateRoot, $child);
+            }
+        }
+    }
+
+    /**
      * Gets the object's class name
      *
      * @param mixed $object The object whose class name we want
@@ -533,15 +551,7 @@ class UnitOfWork
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            if(isset($this->aggregateRootChildren[$objectHashId]))
-            {
-                foreach($this->aggregateRootChildren[$objectHashId] as $aggregateRootData)
-                {
-                    $aggregateRoot = $aggregateRootData["aggregateRoot"];
-                    $aggregateRootData["function"]($aggregateRoot, $entity);
-                }
-            }
-
+            $this->doAggregateRootFunctions($objectHashId, $entity);
             $dataMapper = $this->getDataMapper($this->getClassName($entity));
             $dataMapper->add($entity);
             $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
@@ -557,6 +567,8 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForUpdate as $objectHashId => $entity)
         {
+            // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
+            $this->doAggregateRootFunctions($objectHashId, $entity);
             $dataMapper = $this->getDataMapper($this->getClassName($entity));
             $dataMapper->update($entity);
             $this->manageEntity($entity);
