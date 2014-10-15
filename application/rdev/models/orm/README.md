@@ -32,7 +32,8 @@
   * Allows you to write your own methods to read and write data to Redis
 3. `CachedSQLDataMapper`
   * Uses an *SQLDataMapper* as its primary storage and an `ICacheDataMapper` to read and write from cache
-  * Drastically reduces the number of SQL queries and improves performance through heavy caching  
+  * Drastically reduces the number of SQL queries and improves performance through heavy caching
+  * `RedisCachedSQLDataMapper` and `MemcachedCachedSQLDataMapper` extend `CachedSQLDataMapper` to give you Redis- and Memcached-backed data mappers, respectively
 
 ## Unit of Work
 *Units of work* act as transactions across multiple repositories.  They also schedule entity updates/insertions/deletions in the DataMappers. Let's take a look at how units of work can manage entities retrieved through repositories:
