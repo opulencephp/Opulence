@@ -1,7 +1,18 @@
+HAS PRIORITY:
+    Refactor classes so they don't take in a config, but rather are passed in their dependencies directly
+        You can use a config to pass in the dependencies - just don't make classes dependent on configs
+        What would instantiate the classes from the config?  The config itself? Or a factory that reads configs and instantiates them?
+            I think factory is best bet
+    Move bindings to a bindings file, include it in the bootstrap
+    Be able to catch various errors and render different views depending on the error
+    Don't return response from controller before applying post-filters
+        Post-filters should accept the response as a parameter
+
+
+
 Need to rethink how we are currently matching routes
     "REQUEST_URI" includes the query string, which would be annoying to have to write a Route regex for every GET var
     Maybe don't match on the "REQUEST_URI", but instead on the URI minus the query string?
-        See how other frameworks do it
 Need to think through not always sharing parameter objects in makeNew()
     For example, if we makeNew() a repo, we need a UoW, which needs to be shared
     However, makeNew() will make a new UoW for each repo, which defeats the purpose

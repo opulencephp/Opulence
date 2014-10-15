@@ -20,21 +20,17 @@
             "RDev\\": [
                 "application/rdev",
                 "tests/application/rdev"
-            ],
-            "TBA\\": [
-                "application/tba",
-                "tests/application/tba"
             ]
         }
     },
     "require": {
         "php": ">=5.5.10",
-        "monolog/monolog": "1.11.*@dev",
-        "alecesaro/phpredis": "dev-master",
-        "predis/predis": "1.1.*@dev",
-        "symfony/yaml": "2.6.*@dev"
+        "monolog/monolog": "1.11.*@dev"
     },
     "require-dev": {
+        "alecesaro/phpredis": "dev-master",
+        "predis/predis": "1.1.*@dev",
+        "symfony/yaml": "2.6.*@dev",
         "phpunit/phpunit": "4.2.*",
         "phpunit/php-file-iterator": ">=1.3.0",
         "phpunit/php-token-stream": ">=1.1.3",
@@ -42,8 +38,7 @@
         "phpunit/php-invoker": ">=1.1.0",
         "phpunit/phpunit-selenium": ">=1.2",
         "phpunit/phpunit-story": "*",
-        "phpunit/dbunit": ">=1.2",
-        "phing/phing": "dev-master"
+        "phpunit/dbunit": ">=1.2"
     },
     "extra": {
         "branch-alias": {

@@ -18,7 +18,7 @@ $queryBuilder = new PostgreSQL\QueryBuilder();
 $selectLongTimeUsersQuery = $queryBuilder->select("id", "name", "email")
     ->from("users")
     ->where("datejoined < :dateJoined")
-    ->addNamedPlaceholderValue("dateJoined" => "2010-01-01");
+    ->addNamedPlaceholderValue("dateJoined", "2010-01-01");
 
 echo $selectLongTimeUsersQuery->getSQL(); // "SELECT id, name, email FROM users WHERE datejoined < :dateJoined"
 echo var_dump($selectLongTimeUsersQuery->getParameters()); // array("dateJoined" => "2010-01-01")
