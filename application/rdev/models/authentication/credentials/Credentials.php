@@ -5,6 +5,7 @@
  * Defines methods and properties for all the credentials an entity has
  */
 namespace RDev\Models\Authentication\Credentials;
+use RDev\Models\HTTP;
 
 class Credentials implements ICredentials
 {
@@ -59,7 +60,7 @@ class Credentials implements ICredentials
     /**
      * {@inheritdoc}
      */
-    public function delete($type)
+    public function delete(HTTP\Response $response, $type)
     {
         if(!isset($this->storages[$type]))
         {
@@ -67,7 +68,7 @@ class Credentials implements ICredentials
         }
 
         $this->credentials[$type]->deactivate();
-        $this->storages[$type]->delete();
+        $this->storages[$type]->delete($response);
         unset($this->credentials[$type]);
     }
 
@@ -86,8 +87,6 @@ class Credentials implements ICredentials
         // Don't return deactivated credentials
         if(!$credential->isActive())
         {
-            $this->delete($type);
-
             return null;
         }
 
@@ -162,14 +161,14 @@ class Credentials implements ICredentials
     /**
      * {@inheritdoc}
      */
-    public function save(ICredential $credential, $unhashedToken)
+    public function save(HTTP\Response $response, ICredential $credential, $unhashedToken)
     {
         if(!isset($this->storages[$credential->getTypeId()]))
         {
             throw new \RuntimeException("No storage for credential type {$credential->getTypeId()}");
         }
 
-        $this->storages[$credential->getTypeId()]->save($credential, $unhashedToken);
+        $this->storages[$credential->getTypeId()]->save($response, $credential, $unhashedToken);
     }
 
     /**

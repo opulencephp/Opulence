@@ -7,6 +7,7 @@
 namespace RDev\Models\Authentication\Credentials;
 use RDev\Tests\Models\Authentication\Credentials\Storage\Mocks\CredentialStorage;
 use RDev\Tests\Models\Cryptography\Mocks\Token;
+use RDev\Models\HTTP;
 
 class CredentialsTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,7 +57,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $storage = new CredentialStorage();
         $credentials->registerStorage(CredentialTypes::LOGIN, $storage);
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
-        $storage->save($credential, "foo");
+        $storage->save(new HTTP\Response(), $credential, "foo");
         $this->assertTrue($credentials->has(CredentialTypes::LOGIN));
         $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
     }
@@ -84,7 +85,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credentials->add($credential);
         $this->assertTrue($credential->isActive());
-        $credentials->delete(CredentialTypes::LOGIN);
+        $credentials->delete(new HTTP\Response(), CredentialTypes::LOGIN);
         $this->assertFalse($credentials->has(CredentialTypes::LOGIN));
         $this->assertFalse($credential->isActive());
     }
@@ -122,7 +123,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $storage = new CredentialStorage();
         $credentials->registerStorage(CredentialTypes::LOGIN, $storage);
-        $storage->save($credential, "foo");
+        $storage->save(new HTTP\Response(), $credential, "foo");
         $this->assertEquals($credential, $credentials->get(CredentialTypes::LOGIN));
     }
 
@@ -206,7 +207,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $credentials = new Credentials(1, 369);
-        $credentials->delete(CredentialTypes::LOGIN);
+        $credentials->delete(new HTTP\Response(), CredentialTypes::LOGIN);
     }
 
     /**
@@ -217,7 +218,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $credentials = new Credentials(1, 369);
         $credentials->registerStorage(CredentialTypes::LOGIN, new CredentialStorage());
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
-        $credentials->save($credential, "foo");
+        $credentials->save(new HTTP\Response(), $credential, "foo");
         $this->assertSame($credential, $credentials->get(CredentialTypes::LOGIN));
     }
 
@@ -229,7 +230,7 @@ class CredentialsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("\\RuntimeException");
         $credentials = new Credentials(1, 369);
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
-        $credentials->save($credential, "foo");
+        $credentials->save(new HTTP\Response(), $credential, "foo");
     }
 
     /**

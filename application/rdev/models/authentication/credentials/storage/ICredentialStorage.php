@@ -6,13 +6,16 @@
  */
 namespace RDev\Models\Authentication\Credentials\Storage;
 use RDev\Models\Authentication\Credentials;
+use RDev\Models\HTTP;
 
 interface ICredentialStorage
 {
     /**
      * Deletes the credential from storage
+     *
+     * @param HTTP\Response $response The response to delete the credential from
      */
-    public function delete();
+    public function delete(HTTP\Response $response);
 
     /**
      * Gets whether or not the credential is set in storage
@@ -31,9 +34,11 @@ interface ICredentialStorage
 
     /**
      * Saves the credential to storage
+     *     *
      *
+     * @param HTTP\Response $response The response to save the credential to
      * @param Credentials\ICredential $credential The credential to save
      * @param string $unhashedToken The unhashed token to save
      */
-    public function save(Credentials\ICredential $credential, $unhashedToken);
+    public function save(HTTP\Response $response, Credentials\ICredential $credential, $unhashedToken);
 } 

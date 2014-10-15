@@ -6,8 +6,8 @@
  */
 namespace RDev\Tests\Models\Authentication\Credentials\Storage\Mocks;
 use RDev\Models\Authentication\Credentials;
-use RDev\Models\Authentication\Credentials\Exceptions;
 use RDev\Models\Authentication\Credentials\Storage;
+use RDev\Models\HTTP;
 
 class CredentialStorage implements Storage\ICredentialStorage
 {
@@ -19,7 +19,7 @@ class CredentialStorage implements Storage\ICredentialStorage
     /**
      * {@inheritdoc}
      */
-    public function delete()
+    public function delete(HTTP\Response $response)
     {
         $this->credential = null;
         $this->unhashedToken = "";
@@ -44,7 +44,7 @@ class CredentialStorage implements Storage\ICredentialStorage
     /**
      * {@inheritdoc}
      */
-    public function save(Credentials\ICredential $credential, $unhashedToken)
+    public function save(HTTP\Response $response, Credentials\ICredential $credential, $unhashedToken)
     {
         $this->credential = $credential;
         $this->unhashedToken = $unhashedToken;
