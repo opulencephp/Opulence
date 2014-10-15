@@ -181,9 +181,10 @@ class ResponseHeaders extends Headers
     /**
      * Gets a list of all the active cookies
      *
+     * @param bool $includeDeletedCookies Whether or not to include deleted cookies
      * @return Cookie[] The list of all the set cookies
      */
-    public function getCookies()
+    public function getCookies($includeDeletedCookies = false)
     {
         $cookies = [];
 
@@ -198,38 +199,7 @@ class ResponseHeaders extends Headers
                 foreach($cookiesByPath as $name => $cookie)
                 {
                     // Only include active cookies
-                    if($cookie->getExpiration() >= new \DateTime("now"))
-                    {
-                        $cookies[] = $cookie;
-                    }
-                }
-            }
-        }
-
-        return $cookies;
-    }
-
-    /**
-     * Gets a list of all the cookies scheduled for deletion
-     *
-     * @return Cookie[] The list of all deleted cookies
-     */
-    public function getDeletedCookies()
-    {
-        $cookies = [];
-
-        foreach($this->cookies as $domain => $cookiesByDomain)
-        {
-            foreach($cookiesByDomain as $path => $cookiesByPath)
-            {
-                /**
-                 * @var string $name
-                 * @var Cookie $cookie
-                 */
-                foreach($cookiesByPath as $name => $cookie)
-                {
-                    // Only include active cookies
-                    if($cookie->getExpiration() < new \DateTime("now"))
+                    if($includeDeletedCookies || $cookie->getExpiration() >= new \DateTime("now"))
                     {
                         $cookies[] = $cookie;
                     }

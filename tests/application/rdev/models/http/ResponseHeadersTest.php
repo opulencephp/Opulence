@@ -28,7 +28,7 @@ class ResponseHeadersTest extends \PHPUnit_Framework_TestCase
         $this->headers->setCookie($cookie);
         $this->headers->deleteCookie($cookie->getName(), $cookie->getPath(), $cookie->getDomain());
         $this->assertEmpty($this->headers->getCookies());
-        $this->assertEquals(1, count($this->headers->getDeletedCookies()));
+        $this->assertEquals(1, count($this->headers->getCookies(true)));
     }
 
     /**

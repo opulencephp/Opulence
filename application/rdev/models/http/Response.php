@@ -126,7 +126,7 @@ class Response
 
             // Send the cookies
             /** @var Cookie $cookie */
-            foreach($this->headers->getCookies() as $cookie)
+            foreach($this->headers->getCookies(true) as $cookie)
             {
                 setcookie(
                     $cookie->getName(),
