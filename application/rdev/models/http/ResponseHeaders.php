@@ -155,9 +155,12 @@ class ResponseHeaders extends Headers
      * @param string $name The name of the cookie to delete
      * @param string $path The path the cookie is valid on
      * @param string $domain The domain the cookie is valid on
+     * @param bool $isSecure Whether or not the cookie was secure
+     * @param bool $isHTTPOnly Whether or not the cookie was HTTP-only
      */
-    public function deleteCookie($name, $path, $domain)
+    public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHTTPOnly = true)
     {
+        // Remove the cookie from the array
         unset($this->cookies[$domain][$path][$name]);
 
         // Remove any orphans
@@ -170,6 +173,9 @@ class ResponseHeaders extends Headers
                 unset($this->cookies[$domain]);
             }
         }
+
+        // Remove the cookie from the response
+        $this->setCookie(new Cookie($name, "", new \DateTime("-1 year"), $path, $domain, $isSecure, $isHTTPOnly));
     }
 
     /**
@@ -185,9 +191,48 @@ class ResponseHeaders extends Headers
         {
             foreach($cookiesByDomain as $path => $cookiesByPath)
             {
+                /**
+                 * @var string $name
+                 * @var Cookie $cookie
+                 */
                 foreach($cookiesByPath as $name => $cookie)
                 {
-                    $cookies[] = $cookie;
+                    // Only include active cookies
+                    if($cookie->getExpiration() >= new \DateTime("now"))
+                    {
+                        $cookies[] = $cookie;
+                    }
+                }
+            }
+        }
+
+        return $cookies;
+    }
+
+    /**
+     * Gets a list of all the cookies scheduled for deletion
+     *
+     * @return Cookie[] The list of all deleted cookies
+     */
+    public function getDeletedCookies()
+    {
+        $cookies = [];
+
+        foreach($this->cookies as $domain => $cookiesByDomain)
+        {
+            foreach($cookiesByDomain as $path => $cookiesByPath)
+            {
+                /**
+                 * @var string $name
+                 * @var Cookie $cookie
+                 */
+                foreach($cookiesByPath as $name => $cookie)
+                {
+                    // Only include active cookies
+                    if($cookie->getExpiration() < new \DateTime("now"))
+                    {
+                        $cookies[] = $cookie;
+                    }
                 }
             }
         }
