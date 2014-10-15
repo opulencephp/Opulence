@@ -33,6 +33,7 @@ interface ICredentials
      *
      * @param int $type The type of credential we want
      * @return ICredential|null An instance of the input type if it exists, otherwise null
+     * @throws InvalidCredentialException Thrown if the credentials exist but are invalid
      */
     public function get($type);
 
@@ -69,6 +70,7 @@ interface ICredentials
      *
      * @param int $type The type of credential to search for
      * @return bool True if it exists, otherwise false
+     * @throws InvalidCredentialException Thrown if the credentials exist but are invalid
      */
     public function has($type);
 

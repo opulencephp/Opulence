@@ -21,6 +21,7 @@ interface ICredentialStorage
      * Gets whether or not the credential is set in storage
      *
      * @return bool True if the credential exists in storage, otherwise false
+     * @throws Credentials\InvalidCredentialException Thrown if the credentials exist but are invalid
      */
     public function exists();
 
