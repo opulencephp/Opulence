@@ -59,9 +59,9 @@ class Application
         }
 
         $this->setUpLogger($config["monolog"]["handlers"]);
-        $this->setUpIoC($config["ioc"]);
         $this->environment = (new EnvironmentFetcher())->getEnvironment($config["environment"]);
         $this->httpConnection = new HTTP\Connection();
+        $this->setUpIoC($config["ioc"]);
         $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["routing"]);
     }
 
@@ -270,6 +270,11 @@ class Application
                 $this->iocContainer->bind($component, $concreteClassName, $targetClassName);
             }
         }
+
+        // Register the default bindings
+        $this->iocContainer->bind("RDev\\Models\\HTTP\\Connection", $this->httpConnection);
+        $this->iocContainer->bind("RDev\\Models\\HTTP\\Request", $this->httpConnection->getRequest());
+        $this->iocContainer->bind("Monolog\\Logger", $this->logger);
     }
 
     /**
