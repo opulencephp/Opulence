@@ -44,7 +44,7 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
     public function testGettingTargetURLAfterSettingInConstructor()
     {
         $this->assertEquals("/foo", $this->redirectResponse->getTargetURL());
-        $this->assertEquals(["/foo"], $this->redirectResponse->getHeaders()->get("Location"));
+        $this->assertEquals("/foo", $this->redirectResponse->getHeaders()->get("Location"));
     }
 
     /**
@@ -54,6 +54,6 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
     {
         $this->redirectResponse->setTargetURL("/bar");
         $this->assertEquals("/bar", $this->redirectResponse->getTargetURL());
-        $this->assertEquals(["/bar"], $this->redirectResponse->getHeaders()->get("Location"));
+        $this->assertEquals("/bar", $this->redirectResponse->getHeaders()->get("Location"));
     }
 } 

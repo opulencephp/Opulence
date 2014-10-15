@@ -73,7 +73,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $expiration = new \DateTime("now", new \DateTimeZone("UTC"));
         $this->response->setExpiration($expiration);
-        $this->assertEquals([$expiration->format("r")], $this->response->getHeaders()->get("Expires"));
+        $this->assertEquals($expiration->format("r"), $this->response->getHeaders()->get("Expires"));
     }
 
     /**

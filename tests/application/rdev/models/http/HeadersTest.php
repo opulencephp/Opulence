@@ -53,4 +53,36 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($headerParameters, $this->headers->getAll());
     }
+
+    /**
+     * Tests returning all the values
+     */
+    public function testGettingAllValues()
+    {
+        $this->assertEquals(["host"], $this->headers->get("HOST", null, false));
+    }
+
+    /**
+     * Tests returning all the values when the key does not exist
+     */
+    public function testGettingAllValuesWhenKeyDoesNotExist()
+    {
+        $this->assertEquals("foo", $this->headers->get("THIS_DOES_NOT_EXIST", "foo", false));
+    }
+
+    /**
+     * Tests returning only the first value
+     */
+    public function testGettingFirstValue()
+    {
+        $this->assertEquals("host", $this->headers->get("HOST", null, true));
+    }
+
+    /**
+     * Tests returning only the first value when the key does not exist
+     */
+    public function testGettingFirstValueWhenKeyDoesNotExist()
+    {
+        $this->assertEquals("foo", $this->headers->get("THIS_DOES_NOT_EXIST", "foo", true));
+    }
 } 

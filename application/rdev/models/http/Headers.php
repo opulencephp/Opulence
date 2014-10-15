@@ -31,6 +31,29 @@ class Headers extends Parameters
     }
 
     /**
+     * {@inheritdoc}
+     * @param bool $onlyReturnFirst True if we only want the first header, otherwise we'll return all of them
+     */
+    public function get($name, $default = null, $onlyReturnFirst = true)
+    {
+        if($this->has($name))
+        {
+            $value = $this->parameters[$name];
+
+            if($onlyReturnFirst)
+            {
+                return $value[0];
+            }
+        }
+        else
+        {
+            $value = $default;
+        }
+
+        return $value;
+    }
+
+    /**
      * Headers are allowed to have multiple values, so we must add support for that
      *
      * {@inheritdoc}

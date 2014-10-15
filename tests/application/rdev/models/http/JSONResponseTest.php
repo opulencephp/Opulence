@@ -14,7 +14,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testGettingContentType()
     {
         $response = new JSONResponse();
-        $this->assertEquals([ResponseHeaders::CONTENT_TYPE_JSON], $response->getHeaders()->get("Content-Type"));
+        $this->assertEquals(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get("Content-Type"));
     }
 
     /**
@@ -93,6 +93,6 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingHeadersInConstructor()
     {
         $response = new JSONResponse([], ResponseHeaders::HTTP_OK, ["HTTP_FOO" => "bar"]);
-        $this->assertEquals(["bar"], $response->getHeaders()->get("FOO"));
+        $this->assertEquals("bar", $response->getHeaders()->get("FOO"));
     }
 } 
