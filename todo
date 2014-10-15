@@ -10,9 +10,6 @@ HAS PRIORITY:
 
 
 
-Need to rethink how we are currently matching routes
-    "REQUEST_URI" includes the query string, which would be annoying to have to write a Route regex for every GET var
-    Maybe don't match on the "REQUEST_URI", but instead on the URI minus the query string?
 Need to think through not always sharing parameter objects in makeNew()
     For example, if we makeNew() a repo, we need a UoW, which needs to be shared
     However, makeNew() will make a new UoW for each repo, which defeats the purpose

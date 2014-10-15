@@ -30,7 +30,7 @@ class UnitOfWork
     private $managedEntities = [];
     /**
      * Maps aggregate root children to their roots as well as functions that can set the child's aggregate root Id
-     * Each entry is an array with the following keys:
+     * Each entry is an array of arrays with the following keys:
      *      "aggregateRoot" => The aggregate root
      *      "child" => The entity whose aggregate root Id will be set to the Id of the aggregate root
      *      "function" => The function to execute that actually sets the aggregate root Id in the child
@@ -274,7 +274,13 @@ class UnitOfWork
     public function registerAggregateRootChild(Models\IEntity $aggregateRoot, Models\IEntity $child, callable $function)
     {
         $childObjectHashId = $this->getObjectHashId($child);
-        $this->aggregateRootChildren[$childObjectHashId] = [
+
+        if(!isset($this->aggregateRootChildren[$childObjectHashId]))
+        {
+            $this->aggregateRootChildren[$childObjectHashId] = [];
+        }
+
+        $this->aggregateRootChildren[$childObjectHashId][] = [
             "aggregateRoot" => $aggregateRoot,
             "child" => $child,
             "function" => $function
@@ -526,12 +532,14 @@ class UnitOfWork
         /** @var Models\IEntity $entity */
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
-            // If this entity was a child of an aggregate root, then call the function to set the aggregate root Id
+            // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             if(isset($this->aggregateRootChildren[$objectHashId]))
             {
-                $aggregateRootData = $this->aggregateRootChildren[$objectHashId];
-                $aggregateRoot = $aggregateRootData["aggregateRoot"];
-                $aggregateRootData["function"]($aggregateRoot, $entity);
+                foreach($this->aggregateRootChildren[$objectHashId] as $aggregateRootData)
+                {
+                    $aggregateRoot = $aggregateRootData["aggregateRoot"];
+                    $aggregateRootData["function"]($aggregateRoot, $entity);
+                }
             }
 
             $dataMapper = $this->getDataMapper($this->getClassName($entity));

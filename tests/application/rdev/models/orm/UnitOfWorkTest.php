@@ -22,6 +22,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     private $entity1 = null;
     /** @var ModelMocks\User An entity to use in the tests */
     private $entity2 = null;
+    /** @var ModelMocks\User An entity to use in the tests */
+    private $entity3 = null;
 
     /**
      * Sets up the tests
@@ -40,6 +42,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
          */
         $this->entity1 = new ModelMocks\User(724, "foo");
         $this->entity2 = new ModelMocks\User(1987, "bar");
+        $this->entity3 = new ModelMocks\User(345, "baz");
     }
 
     /**
@@ -373,6 +376,37 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
         $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
+    }
+
+    /**
+     * Tests setting two aggregate roots for a single child
+     */
+    public function testSettingTwoAggregateRootsForChild()
+    {
+        $originalAggregateRootId = $this->entity1->getId();
+        $originalSecondAggregateRootId = $this->entity2->getId();
+        $className = get_class($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->unitOfWork->scheduleForInsertion($this->entity2);
+        $this->unitOfWork->scheduleForInsertion($this->entity3);
+        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity3, function ($aggregateRoot, $child)
+        {
+            /** @var ModelMocks\User $aggregateRoot */
+            /** @var ModelMocks\User $child */
+            $child->setAggregateRootId($aggregateRoot->getId());
+        });
+        $this->unitOfWork->registerAggregateRootChild($this->entity2, $this->entity3, function ($aggregateRoot, $child)
+        {
+            /** @var ModelMocks\User $aggregateRoot */
+            /** @var ModelMocks\User $child */
+            $child->setSecondAggregateRootId($aggregateRoot->getId());
+        });
+        $this->unitOfWork->commit();
+        $this->assertNotEquals($originalAggregateRootId, $this->entity3->getAggregateRootId());
+        $this->assertNotEquals($originalSecondAggregateRootId, $this->entity3->getSecondAggregateRootId());
+        $this->assertEquals($this->entity1->getId(), $this->entity3->getAggregateRootId());
+        $this->assertEquals($this->entity2->getId(), $this->entity3->getSecondAggregateRootId());
     }
 
     /**

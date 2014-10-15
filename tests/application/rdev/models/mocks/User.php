@@ -11,8 +11,10 @@ class User implements Models\IEntity
 {
     /** @var int The user Id */
     private $id = -1;
-    /** @var int The Id of an imaginary aggregate root (eg child) of this user */
+    /** @var int The Id of an imaginary aggregate root (eg parent) of this user */
     private $aggregateRootId = -1;
+    /** @var int The Id of a second imaginary aggregate root of this user */
+    private $secondAggregateRootId = -1;
     /** @var string The username */
     private $username = "";
 
@@ -43,6 +45,14 @@ class User implements Models\IEntity
     }
 
     /**
+     * @return int
+     */
+    public function getSecondAggregateRootId()
+    {
+        return $this->secondAggregateRootId;
+    }
+
+    /**
      * @return string
      */
     public function getUsername()
@@ -64,6 +74,14 @@ class User implements Models\IEntity
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @param int $secondAggregateRootId
+     */
+    public function setSecondAggregateRootId($secondAggregateRootId)
+    {
+        $this->secondAggregateRootId = $secondAggregateRootId;
     }
 
     /**
