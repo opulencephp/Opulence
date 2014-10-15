@@ -218,7 +218,7 @@ class Application
      */
     protected function doStart()
     {
-        $response = $this->router->route($this->httpConnection->getRequest()->getServer()->get("REQUEST_URI"));
+        $response = $this->router->route($this->httpConnection->getRequest()->getPath());
 
         if($response instanceof HTTP\Response)
         {

@@ -47,6 +47,8 @@ class Request
     private $env = null;
     /** @var Parameters The list of cookies */
     private $cookies = null;
+    /** @var string The path of the request, which does not include the query string */
+    private $path = "";
 
     /**
      * @param array $query The GET parameters
@@ -67,6 +69,7 @@ class Request
         $this->env = new Parameters($env);
         $this->setMethod();
         $this->setIPAddress();
+        $this->setPath();
     }
 
     /**
@@ -117,6 +120,14 @@ class Request
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
@@ -214,6 +225,25 @@ class Request
             default:
                 $this->method = self::METHOD_GET;
                 break;
+        }
+    }
+
+    /**
+     * Sets the path of this request, which does not include the query string
+     */
+    private function setPath()
+    {
+        $uri = $this->server->get("REQUEST_URI");
+
+        if(empty($uri))
+        {
+            // Default to a slash
+            $this->path = "/";
+        }
+        else
+        {
+            $uriParts = explode("?", $uri);
+            $this->path = $uriParts[0];
         }
     }
 } 

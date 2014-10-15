@@ -231,6 +231,36 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the path
+     */
+    public function testGettingPath()
+    {
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
+        $request = new Request([], [], [], $_SERVER, [], []);
+        $this->assertEquals("/foo/bar/baz", $request->getPath());
+    }
+
+    /**
+     * Tests getting the path when it is empty
+     */
+    public function testGettingPathWhenEmpty()
+    {
+        $_SERVER["REQUEST_URI"] = "";
+        $request = new Request([], [], [], $_SERVER, [], []);
+        $this->assertEquals("/", $request->getPath());
+    }
+
+    /**
+     * Tests getting the path when the URI has a query string
+     */
+    public function testGettingPathWithQueryStringInURI()
+    {
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz?a=1&b=2";
+        $request = new Request([], [], [], $_SERVER, [], []);
+        $this->assertEquals("/foo/bar/baz", $request->getPath());
+    }
+
+    /**
      * Tests getting the post
      */
     public function testGettingPost()
