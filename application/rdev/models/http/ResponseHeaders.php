@@ -160,20 +160,6 @@ class ResponseHeaders extends Headers
      */
     public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHTTPOnly = true)
     {
-        // Remove the cookie from the array
-        unset($this->cookies[$domain][$path][$name]);
-
-        // Remove any orphans
-        if(isset($this->cookies[$domain][$path]))
-        {
-            unset($this->cookies[$domain][$path]);
-
-            if(isset($this->cookies[$domain]))
-            {
-                unset($this->cookies[$domain]);
-            }
-        }
-
         // Remove the cookie from the response
         $this->setCookie(new Cookie($name, "", new \DateTime("-1 year"), $path, $domain, $isSecure, $isHTTPOnly));
     }
