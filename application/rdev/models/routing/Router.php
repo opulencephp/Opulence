@@ -262,9 +262,12 @@ class Router
             {
                 $this->group($groupOptions["options"], function () use ($groupOptions)
                 {
-                    foreach($groupOptions["routes"] as $route)
+                    if(isset($groupOptions["routes"]))
                     {
-                        $this->addRoute($route);
+                        foreach($groupOptions["routes"] as $route)
+                        {
+                            $this->addRoute($route);
+                        }
                     }
 
                     if(isset($groupOptions["groups"]))
