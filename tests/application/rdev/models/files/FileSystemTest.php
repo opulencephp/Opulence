@@ -212,7 +212,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGettingLastModifiedTime()
     {
         $path = __DIR__ . "/subdirectory/foo.txt";
-        $this->assertEquals(\DateTime::createFromFormat("U", filemtime($path), new \DateTimeZone("UTC")),
+        $this->assertEquals(\DateTime::createFromFormat("U", filemtime($path)),
             $this->fileSystem->getLastModified($path));
         $this->setExpectedException("RDev\\Models\\Files\\FileSystemException");
         $this->fileSystem->getLastModified(__DIR__ . "/doesnotexist.txt");

@@ -16,7 +16,7 @@ class RegisteredUserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $dateCreated = new \DateTime("now", new \DateTimeZone("UTC"));
+        $dateCreated = new \DateTime("now");
         $this->user = new RegisteredUser(1, "dave", "fooPassword", $dateCreated, []);
     }
 

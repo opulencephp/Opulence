@@ -14,8 +14,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIsActiveWithFutureValidFrom()
     {
-        $validFrom = new \DateTime("+1 day", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("+1 day");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token(1, "", $validFrom, $validTo, true);
         $this->assertFalse($token->isActive());
     }
@@ -25,8 +25,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIsActiveWithFutureValidTo()
     {
-        $validFrom = new \DateTime("now", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("now");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token(1, "", $validFrom, $validTo, true);
         $this->assertTrue($token->isActive());
     }
@@ -36,8 +36,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIsActiveWithInactiveToken()
     {
-        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("-1 week");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token(1, "", $validFrom, $validTo, false);
         $this->assertFalse($token->isActive());
     }
@@ -47,8 +47,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIsActiveWithPastValidFrom()
     {
-        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("-1 week");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token(1, "", $validFrom, $validTo, true);
         $this->assertTrue($token->isActive());
     }
@@ -58,8 +58,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIsActiveWithPastValidTo()
     {
-        $validFrom = new \DateTime("now", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("-1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("now");
+        $validTo = new \DateTime("-1 week");
         $token = new Mocks\Token(1, "", $validFrom, $validTo, true);
         $this->assertFalse($token->isActive());
     }
@@ -70,8 +70,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function testGettingHashedValue()
     {
         $hashedValue = "foo";
-        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("-1 week");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token(1, $hashedValue, $validFrom, $validTo, false);
         $this->assertEquals($hashedValue, $token->getHashedValue());
     }
@@ -82,8 +82,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function testGettingId()
     {
         $id = 1;
-        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("-1 week");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token($id, "", $validFrom, $validTo, true);
         $this->assertEquals($id, $token->getId());
     }
@@ -93,8 +93,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValidFromDate()
     {
-        $validFromDate = new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC"));
-        $token = new Mocks\Token(1, "", $validFromDate, new \DateTime("1970-01-01 01:00:00", new \DateTimeZone("UTC")), true);
+        $validFromDate = new \DateTime("1776-07-04 12:34:56");
+        $token = new Mocks\Token(1, "", $validFromDate, new \DateTime("1970-01-01 01:00:00"), true);
         $this->assertEquals($validFromDate, $token->getValidFrom());
     }
 
@@ -103,8 +103,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValidToDate()
     {
-        $validToDate = new \DateTime("1970-01-01 01:00:00", new \DateTimeZone("UTC"));
-        $token = new Mocks\Token(1, "", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), $validToDate, true);
+        $validToDate = new \DateTime("1970-01-01 01:00:00");
+        $token = new Mocks\Token(1, "", new \DateTime("1776-07-04 12:34:56"), $validToDate, true);
         $this->assertEquals($validToDate, $token->getValidTo());
     }
 
@@ -115,8 +115,8 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $oldId = 1;
         $newId = 2;
-        $validFrom = new \DateTime("-1 week", new \DateTimeZone("UTC"));
-        $validTo = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $validFrom = new \DateTime("-1 week");
+        $validTo = new \DateTime("+1 week");
         $token = new Mocks\Token($oldId, "", $validFrom, $validTo, true);
         $token->setId($newId);
         $this->assertEquals($newId, $token->getId());

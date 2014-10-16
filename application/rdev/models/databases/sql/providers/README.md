@@ -13,7 +13,7 @@ For example, let's convert a `DateTime` to a SQL-ready value:
 ```php
 use RDev\Models\Databases\SQL\Providers;
 
-$phpDateTime = new \DateTime("1987-07-24 12:34:56", new \DateTimeZone("UTC"));
+$phpDateTime = new \DateTime("1987-07-24 12:34:56");
 
 // Let's use the PostgreSQL provider
 $provider = new Providers\PostgreSQL();
@@ -24,7 +24,7 @@ Alternatively, we can specify the provider in the type mapper's constructor so w
 ```php
 use RDev\Models\Databases\SQL\Providers;
 
-$phpTime = new \DateTime("1987-07-24 12:34:56", new \DateTimeZone("UTC"));
+$phpTime = new \DateTime("1987-07-24 12:34:56");
 
 // Let's use the MySQL provider
 $provider = new Providers\MySQL();

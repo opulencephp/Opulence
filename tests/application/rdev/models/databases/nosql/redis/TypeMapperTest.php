@@ -32,7 +32,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromRedisTimestamp()
     {
-        $time = new \DateTime("now", new \DateTimeZone("UTC"));
+        $time = new \DateTime("now");
         $this->assertEquals($time->getTimestamp(),
             $this->typeMapper->fromRedisTimestamp($time->getTimestamp())->getTimestamp());
     }
@@ -58,7 +58,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingToRedisTimestamp()
     {
-        $time = new \DateTime("now", new \DateTimeZone("UTC"));
+        $time = new \DateTime("now");
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 

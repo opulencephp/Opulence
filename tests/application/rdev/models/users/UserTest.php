@@ -16,9 +16,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->user = new User(18175, "foo", new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")),
-            [1, 2, 3]
-        );
+        $this->user = new User(18175, "foo", new \DateTime("1776-07-04 12:34:56"), [1, 2, 3]);
     }
 
     /**
@@ -42,7 +40,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDateCreated()
     {
-        $this->assertEquals(new \DateTime("1776-07-04 12:34:56", new \DateTimeZone("UTC")), $this->user->getDateCreated());
+        $this->assertEquals(new \DateTime("1776-07-04 12:34:56"), $this->user->getDateCreated());
     }
 
     /**

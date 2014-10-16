@@ -27,7 +27,7 @@ class TypeMapper
      */
     public function fromRedisTimestamp($timestamp)
     {
-        return \DateTime::createFromFormat("U", $timestamp, new \DateTimeZone("UTC"));
+        return \DateTime::createFromFormat("U", $timestamp);
     }
 
     /**

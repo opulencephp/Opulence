@@ -335,7 +335,7 @@ class FileSystem
             throw new FileSystemException("Failed to get last modified time of $path");
         }
 
-        return \DateTime::createFromFormat("U", $modifiedTimestamp, new \DateTimeZone("UTC"));
+        return \DateTime::createFromFormat("U", $modifiedTimestamp);
     }
 
     /**

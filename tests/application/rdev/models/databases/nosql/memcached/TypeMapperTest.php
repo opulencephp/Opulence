@@ -32,7 +32,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromMemcachedTimestamp()
     {
-        $time = new \DateTime("now", new \DateTimeZone("UTC"));
+        $time = new \DateTime("now");
         $this->assertEquals($time->getTimestamp(),
             $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp())->getTimestamp());
     }
@@ -58,7 +58,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingToMemcachedTimestamp()
     {
-        $time = new \DateTime("now", new \DateTimeZone("UTC"));
+        $time = new \DateTime("now");
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 

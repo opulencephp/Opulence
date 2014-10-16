@@ -52,7 +52,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpDate = \DateTime::createFromFormat($provider->getDateFormat(), $sqlDate, new \DateTimeZone("UTC"));
+        $phpDate = \DateTime::createFromFormat($provider->getDateFormat(), $sqlDate);
 
         if($phpDate === false)
         {
@@ -78,7 +78,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpTime = \DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
+        $phpTime = \DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime);
 
         if($phpTime === false)
         {
@@ -104,7 +104,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpTime = \DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime, new \DateTimeZone("UTC"));
+        $phpTime = \DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime);
 
         if($phpTime === false)
         {
@@ -131,8 +131,7 @@ class TypeMapper
 
         $this->setParameterProvider($provider);
 
-        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(),
-            $sqlTimestamp, new \DateTimeZone("UTC"));
+        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(), $sqlTimestamp);
 
         if($phpTimestamp === false)
         {
@@ -158,8 +157,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp,
-            new \DateTimeZone("UTC"));
+        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp);
 
         if($phpTimestamp === false)
         {
@@ -280,7 +278,7 @@ class TypeMapper
     {
         try
         {
-            return new \DateTime($sqlDateTime, new \DateTimeZone("UTC"));
+            return new \DateTime($sqlDateTime);
         }
         catch(\Exception $ex)
         {

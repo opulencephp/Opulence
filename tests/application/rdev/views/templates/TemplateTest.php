@@ -84,7 +84,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuiltInDateTimeFormatFunction()
     {
-        $today = new \DateTime("now", new \DateTimeZone("UTC"));
+        $today = new \DateTime("now");
         $this->template->setVar("today", $today);
         $this->template->readFromInput('{{!formatDateTime($today)!}}');
         $this->template->setVar("today", $today);
@@ -573,7 +573,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         {
             return $date->format($format) . " and count of array is " . count($someArray);
         });
-        $today = new \DateTime("now", new \DateTimeZone("UTC"));
+        $today = new \DateTime("now");
         $this->template->setVar("today", $today);
 
         return $today->format("m/d/Y") . " and count of array is 3";

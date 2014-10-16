@@ -32,7 +32,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     {
         $this->name = "foo";
         $this->value = "bar";
-        $this->expiration = new \DateTime("+1 week", new \DateTimeZone("UTC"));
+        $this->expiration = new \DateTime("+1 week");
         $this->path = "/foo";
         $this->domain = "foo.com";
         $this->isSecure = true;
@@ -111,7 +111,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingExpiration()
     {
-        $expiration = new \DateTime("+1 day", new \DateTimeZone("UTC"));
+        $expiration = new \DateTime("+1 day");
         $this->cookie->setExpiration($expiration);
         $this->assertEquals($expiration, $this->cookie->getExpiration());
     }

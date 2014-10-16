@@ -16,7 +16,6 @@ class Token extends Cryptography\Token
      */
     public static function create()
     {
-        return new Token(1, "foo", new \DateTime("now", new \DateTimeZone("UTC")),
-            new \DateTime("+1 week", new \DateTimeZone("UTC")), true);
+        return new Token(1, "foo", new \DateTime("now"), new \DateTime("+1 week"), true);
     }
 } 

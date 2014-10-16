@@ -80,7 +80,7 @@ class Token implements IToken
      */
     public function isActive()
     {
-        $now = new \DateTime("now", new \DateTimeZone("UTC"));
+        $now = new \DateTime("now");
 
         return $this->isActive && $this->validFrom <= $now && $now < $this->validTo;
     }
