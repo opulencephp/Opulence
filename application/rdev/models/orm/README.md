@@ -5,7 +5,7 @@
 2. [Repositories](#repositories)
 3. [DataMappers](#datamappers)
 4. [Unit of Work](#unit-of-work)
-  1. [Custom Change Tracking](#custom-change-tracking)
+  1. [Change Tracking](#change-tracking)
 5. [Aggregate Roots](#aggregate-roots)
 6. [Automatic Caching](#automatic-caching)
 
@@ -63,7 +63,7 @@ $unitOfWork->commit();
 echo $users->getById(123)->getUsername(); // "bar"
 ```
 
-#### Custom Change Tracking
+#### Change Tracking
 Objects' updates are tracked using reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
 ```php
 // Let's assume the unit of work has already been setup and that the user object is created
@@ -80,6 +80,7 @@ $this->unitOfWork->registerComparisonFunction($className, function($a, $b)
 // username has changed.  So, it will be scheduled for update and committed
 $unitOfWork->commit();
 ```
+> **Note:** PHP's `clone` feature performs a shallow clone.  In other words, it only clones the object, but not any objects contained in that object.  If your object contains another object and you'd like to take advantage of automatic change tracking, you must write a `__clone()` method for that class to clone any objects it contains.  Otherwise, the automatic change tracking will not pick up on changes made to the objects contained in other objects.
 
 ## Aggregate Roots
 Let's say that when creating a user you also create a password object.  This password object has a reference to the user object's Id.  In this case, the user is what we call an *aggregate root* because without it, the password wouldn't exist.  It'd be perfectly reasonable to insert both of them in the same unit of work.  However, if you did this, you might be asking yourself "How do I get the Id of the user before storing the password?"  The answer is `registerAggregateRootChild()`:
