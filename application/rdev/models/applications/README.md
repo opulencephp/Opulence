@@ -63,6 +63,9 @@ Let's break down the structure of the config.  The following keys are optional:
   * For more about dependency injection, [read this](/application/rdev/models/ioc)
 * "routing"
   * See the [Routing page](/application/rdev/models/routing)
+* "session"
+  * The session to use throughout the application
+  * Must either the name or an instance of a class that implements `ISession`
 * "monolog"
   The following are required:
   * "handlers" => Maps to names of handlers, which map to options for that handler

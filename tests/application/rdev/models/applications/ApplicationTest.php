@@ -8,6 +8,7 @@ namespace RDev\Models\Applications;
 use RDev\Models\Applications\Configs;
 use RDev\Models\HTTP;
 use RDev\Models\Routing;
+use RDev\Models\Sessions;
 use RDev\Tests\Models\Applications\Mocks;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -203,6 +204,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testGettingRouter()
     {
         $this->assertInstanceOf("RDev\\Models\\Routing\\Router", $this->application->getRouter());
+    }
+
+    /**
+     * Tests getting the session
+     */
+    public function testGettingSession()
+    {
+        $this->assertEquals(new Sessions\Session, $this->application->getSession());
     }
 
     /**

@@ -47,8 +47,9 @@ class ApplicationFactory
 
         $routerFactory = new Factories\RouterFactory();
         $router = $routerFactory->createFromConfig($config["routing"], $container, $connection);
+        $session = $config["session"];
 
-        return new Applications\Application($logger, $environment, $connection, $container, $router);
+        return new Applications\Application($logger, $environment, $connection, $container, $router, $session);
     }
 
     /**

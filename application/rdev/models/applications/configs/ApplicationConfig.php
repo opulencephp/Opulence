@@ -8,6 +8,7 @@ namespace RDev\Models\Applications\Configs;
 use RDev\Models\Configs;
 use RDev\Models\IoC\Configs as IoCConfigs;
 use RDev\Models\Routing\Configs as RouterConfigs;
+use RDev\Models\Sessions;
 
 class ApplicationConfig extends Configs\Config
 {
@@ -25,6 +26,7 @@ class ApplicationConfig extends Configs\Config
         $this->setUpEnvironmentFromArray($configArray);
         $this->setUpRouterFromArray($configArray);
         $this->setUpMonologFromArray($configArray);
+        $this->setUpSessionFromArray($configArray);
         $this->configArray = $configArray;
     }
 
@@ -90,5 +92,36 @@ class ApplicationConfig extends Configs\Config
         }
 
         $configArray["routing"] = new RouterConfigs\RouterConfig($configArray["routing"]);
+    }
+
+    /**
+     * Sets up the session from a config array
+     *
+     * @param array $configArray The config array
+     * @throws \RuntimeException Thrown if there was a problem with the session config
+     */
+    private function setUpSessionFromArray(array &$configArray)
+    {
+        if(isset($configArray["session"]))
+        {
+            if(is_string($configArray["session"]))
+            {
+                if(!class_exists($configArray["session"]))
+                {
+                    throw new \RuntimeException("Class {$configArray['session']} does not exist");
+                }
+
+                $configArray["session"] = new $configArray["session"]();
+            }
+
+            if(!$configArray["session"] instanceof Sessions\ISession)
+            {
+                throw new \RuntimeException("Session does not implement ISession");
+            }
+        }
+        else
+        {
+            $configArray["session"] = new Sessions\Session();
+        }
     }
 } 

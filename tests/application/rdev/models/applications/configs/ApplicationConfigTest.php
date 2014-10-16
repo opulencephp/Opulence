@@ -9,6 +9,7 @@ use Monolog;
 use Monolog\Handler;
 use RDev\Models\IoC;
 use RDev\Models\Routing;
+use RDev\Models\Sessions;
 
 class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -121,5 +122,54 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($expectedConfigArray, $config["routing"]->toArray());
         $this->assertInstanceOf("RDev\\Models\\Routing\\Configs\\RouterConfig", $config["routing"]);
+    }
+
+    /**
+     * Tests specifying a session class that does not exist
+     */
+    public function testSessionClassThatDoesNotExist()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "session" => "RDev\\Class\\That\\Does\\Not\\Exist"
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests specifying a session class that does not implement the correct interface
+     */
+    public function testSessionClassThatDoesNotImplementCorrectInterface()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $configArray = [
+            "session" => get_class($this)
+        ];
+        new ApplicationConfig($configArray);
+    }
+
+    /**
+     * Tests specifying a valid session class
+     */
+    public function testValidSessionClass()
+    {
+        $configArray = [
+            "session" => "RDev\\Models\\Sessions\\Session"
+        ];
+        $config = new ApplicationConfig($configArray);
+        $this->assertInstanceOf("RDev\\Models\\Sessions\\Session", $config["session"]);
+    }
+
+    /**
+     * Tests specifying a valid session object
+     */
+    public function testValidSessionObject()
+    {
+        $session = new Sessions\Session();
+        $configArray = [
+            "session" => $session
+        ];
+        $config = new ApplicationConfig($configArray);
+        $this->assertSame($session, $config["session"]);
     }
 } 

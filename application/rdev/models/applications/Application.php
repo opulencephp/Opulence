@@ -12,6 +12,7 @@ use RDev\Models\IoC;
 use RDev\Models\IoC\Configs as IoCConfigs;
 use RDev\Models\Routing;
 use RDev\Models\Routing\Configs as RouterConfigs;
+use RDev\Models\Sessions;
 
 class Application
 {
@@ -34,6 +35,8 @@ class Application
     private $container = null;
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
+    /** @var Sessions\ISession The current user's session */
+    private $session = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
     /** @var callable[] The list of functions to execute before startup */
@@ -51,13 +54,15 @@ class Application
      * @param HTTP\Connection $connection The current HTTP connection
      * @param IoC\IContainer $container The IoC container to use
      * @param Routing\Router $router The router to use
+     * @param Sessions\ISession $session The current user's session
      */
     public function __construct(
         Monolog\Logger $logger,
         $environment,
         HTTP\Connection $connection,
         IoC\IContainer $container,
-        Routing\Router $router
+        Routing\Router $router,
+        Sessions\ISession $session
     )
     {
         $this->logger = $logger;
@@ -65,6 +70,7 @@ class Application
         $this->connection = $connection;
         $this->container = $container;
         $this->router = $router;
+        $this->session = $session;
     }
 
     /**
@@ -105,6 +111,14 @@ class Application
     public function getRouter()
     {
         return $this->router;
+    }
+
+    /**
+     * @return Sessions\ISession
+     */
+    public function getSession()
+    {
+        return $this->session;
     }
 
     /**
