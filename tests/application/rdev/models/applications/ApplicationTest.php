@@ -5,6 +5,7 @@
  * Tests the application class
  */
 namespace RDev\Models\Applications;
+use RDev\Models\Applications\Configs;
 use RDev\Models\HTTP;
 use RDev\Models\Routing;
 use RDev\Tests\Models\Applications\Mocks;
@@ -13,6 +14,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
+    /** @var Factories\ApplicationFactory The factory to use to create applications */
+    private $applicationFactory = null;
     /** @var array The config array the application uses */
     private $config = [];
 
@@ -34,7 +37,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
-        $this->application = new Mocks\Application($this->config);
+        $this->applicationFactory = new Factories\ApplicationFactory();
+        $this->application = $this->applicationFactory->createFromConfig(new Configs\ApplicationConfig($this->config));
     }
 
     /**
@@ -84,7 +88,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->shutdown();
         $this->assertEquals(
             HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+            $this->application->getConnection()->getResponse()->getStatusCode()
         );
     }
 
@@ -102,7 +106,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->shutdown();
         $this->assertEquals(
             HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+            $this->application->getConnection()->getResponse()->getStatusCode()
         );
     }
 
@@ -120,7 +124,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->shutdown();
         $this->assertEquals(
             HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+            $this->application->getConnection()->getResponse()->getStatusCode()
         );
     }
 
@@ -145,7 +149,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
-        $application = new Mocks\Application($configArray);
+        $config = new Configs\ApplicationConfig($configArray);
+        $application = $this->applicationFactory->createFromConfig($config);
         $object1 = $application->getIoCContainer()->makeNew($interfaceName);
         $object2 = $application->getIoCContainer()->makeNew($constructorWithInterfaceName)->getFoo();
         $this->assertInstanceOf($concreteClassName, $object1);
@@ -173,7 +178,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingHTTPConnection()
     {
-        $this->assertEquals(new HTTP\Connection, $this->application->getHTTPConnection());
+        $this->assertEquals(new HTTP\Connection, $this->application->getConnection());
     }
 
     /**
@@ -313,7 +318,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->shutdown();
         $this->assertEquals(
             HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getHTTPConnection()->getResponse()->getStatusCode()
+            $this->application->getConnection()->getResponse()->getStatusCode()
         );
     }
 

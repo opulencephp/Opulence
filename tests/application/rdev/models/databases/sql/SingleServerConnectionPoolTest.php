@@ -62,13 +62,15 @@ class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     private function getConnectionPool()
     {
-        $config = [
+        $configArray = [
             "driver" => new Mocks\Driver(),
             "servers" => [
                 "master" => new Mocks\Server()
             ]
         ];
+        $config = new Configs\ConnectionPoolConfig($configArray);
+        $singleServerConnectionPoolFactory = new Factories\SingleServerConnectionPoolFactory();
 
-        return new SingleServerConnectionPool($config);
+        return $singleServerConnectionPoolFactory->createFromConfig($config);
     }
 }

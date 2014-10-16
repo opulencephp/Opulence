@@ -9,10 +9,11 @@
   3. [YAML Config Reader](#yaml-config-reader)
 
 ## Introduction
-**RDev** allows you to create configs to easily read and validate settings.  Using *config readers*, you can read a config from a file or from input to a method.
+Sometimes, it's easier to have configuration files to make it easy to swap out features/settings.  **RDev** allows you to create configs to easily read and validate settings.  Using *config readers*, you can read a config from a file or from input to a method.
+
+> **Note:** To make your application as de-coupled as possible, it's strongly recommended that classes are not directly instantiated with configs.  Instead, create a **factory** class that takes a config as a parameter, extracts data from the config, and then instantiates a class with the extracted data.  Using this method decouples classes from their configs.
 
 ## Basic Usage
-##### Config
 A basic config class is already set up at `RDev\Models\Configs\Config`.  It provides methods for validating, initializing from an array, and converting to an array.  Additionally, it implements `\ArrayAccess`, allowing you to use the config like an array.
 
 ##### Validation

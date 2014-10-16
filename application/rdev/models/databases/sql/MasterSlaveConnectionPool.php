@@ -17,6 +17,26 @@ class MasterSlaveConnectionPool extends ConnectionPool
     ];
 
     /**
+     * {@inheritdoc}
+     * @param Server[] $slaves The list of slave servers to use
+     */
+    public function __construct(
+        IDriver $driver,
+        Server $master,
+        array $slaves = [],
+        array $driverOptions = [],
+        array $connectionOptions = []
+    )
+    {
+        parent::__construct($driver, $master, $driverOptions, $connectionOptions);
+
+        foreach($slaves as $slave)
+        {
+            $this->addServer("slaves", $slave);
+        }
+    }
+
+    /**
      * Adds a slave to the list of slaves
      *
      * @param Server $slave The slave to add
@@ -65,14 +85,6 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * {@inheritdoc}
      */
-    protected function createConfigFromArray(array $configArray)
-    {
-        return new Configs\MasterSlaveConnectionPoolConfig($configArray);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setReadConnection(Server $preferredServer = null)
     {
         if($preferredServer !== null)
@@ -88,23 +100,6 @@ class MasterSlaveConnectionPool extends ConnectionPool
         else
         {
             $this->readConnection = $this->getConnection("master", $this->getMaster());
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     * The server configuration can also contain an entry for "slaves" => [slave server objects]
-     */
-    protected function setServers(array $config)
-    {
-        parent::setServers($config);
-
-        if(isset($config["slaves"]))
-        {
-            foreach($config["slaves"] as $slave)
-            {
-                $this->addServer("slaves", $slave);
-            }
         }
     }
 

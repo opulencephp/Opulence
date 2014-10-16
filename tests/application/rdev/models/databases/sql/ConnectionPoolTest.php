@@ -10,7 +10,6 @@ use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Tests getting the list of driver names
      */
@@ -24,45 +23,9 @@ class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingMaster()
     {
-        $config = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $connectionPool = new Mocks\ConnectionPool($config);
+        $connectionPool = new Mocks\ConnectionPool(new Mocks\Driver(), new Mocks\Server());
         $master = new Mocks\Server();
         $connectionPool->setMaster($master);
-        $this->assertEquals($master, $connectionPool->getMaster());
-    }
-
-    /**
-     * Tests using the MySQL PDO driver
-     */
-    public function testUsingMySQLPDO()
-    {
-        $config = [
-            "driver" => "pdo_mysql",
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $connectionPool = new Mocks\ConnectionPool($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\PDO\\MySQL\\Driver", $connectionPool->getDriver());
-    }
-
-    /**
-     * Tests using the PostgreSQL PDO driver
-     */
-    public function testUsingPostgreSQLPDO()
-    {
-        $config = [
-            "driver" => "pdo_pgsql",
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $connectionPool = new Mocks\ConnectionPool($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\SQL\\PDO\\PostgreSQL\\Driver", $connectionPool->getDriver());
+        $this->assertSame($master, $connectionPool->getMaster());
     }
 } 

@@ -13,15 +13,10 @@ class RDevPredis extends Redis\RDevPredis
     /**
      * {@inheritdoc}
      */
-    public function __construct($config)
+    public function __construct(Redis\Server $server, Redis\TypeMapper $typeMapper)
     {
-        if(is_array($config))
-        {
-            $config = new Configs\ServerConfig($config);
-        }
-
-        $this->server = $config["servers"]["master"];
-        $this->typeMapper = new Redis\TypeMapper();
+        $this->server = $server;
+        $this->typeMapper = $typeMapper;
     }
 
     /**

@@ -33,38 +33,17 @@ abstract class ConnectionPool
     protected $writeConnection = null;
 
     /**
-     * @param SQLConfigs\ConnectionPoolConfig|array $config The configuration to use to setup the connection pool
-     *      It must contain the following keys:
-     *          "driver" => name of the driver listed in self::$drivers OR
-     *              The fully-qualified name of a custom driver class OR
-     *              An object that implements IDriver
-     *          "servers" => [
-     *              "master" => An object that extends Server OR
-     *                  An array that contains the following keys:
-     *                      "host" => server host,
-     *                      "username" => server username credential,
-     *                      "password" => server password credential,
-     *                      "databaseName" => name of database on server to use
-     *                 The following keys are optional:
-     *                      "port" => server port,
-     *                      "charset" => character set
-     *          ]
-     *      The following are optional:
-     *          "driverOptions" => settings to use to setup a driver connection,
-     *          "connectionOptions" => the driver-specific connection settings
-     * @throws \RuntimeException Thrown if the configuration was invalid
+     * @param IDriver $driver The driver to use
+     * @param Server $master The master server
+     * @param array $driverOptions The setting to use to setup a driver
+     * @param array $connectionOptions The driver-specific connection settings
      */
-    public function __construct($config)
+    public function __construct(IDriver $driver, Server $master, array $driverOptions = [], array $connectionOptions = [])
     {
-        if(is_array($config))
-        {
-            $config = $this->createConfigFromArray($config);
-        }
-
-        $this->driver = $config["driver"];
-        $this->setServers($config["servers"]);
-        $this->driverOptions = isset($config["driverOptions"]) ? $config["driverOptions"] : [];
-        $this->connectionOptions = isset($config["connectionOptions"]) ? $config["connectionOptions"] : [];
+        $this->driver = $driver;
+        $this->setMaster($master);
+        $this->driverOptions = $driverOptions;
+        $this->connectionOptions = $connectionOptions;
     }
 
     /**
@@ -198,17 +177,6 @@ abstract class ConnectionPool
     }
 
     /**
-     * Creates a config from an array to use for this pool
-     *
-     * @param array $configArray The array to create the config from
-     * @return Configs\IConfig The config
-     */
-    protected function createConfigFromArray(array $configArray)
-    {
-        return new SQLConfigs\ConnectionPoolConfig($configArray);
-    }
-
-    /**
      * Gets a connection to the input server
      *
      * @param string $type The type of server we're trying to connect to, eg "master", "custom"
@@ -249,16 +217,5 @@ abstract class ConnectionPool
 
                 return $this->servers[$type][$serverHashId]["connection"];
         }
-    }
-
-    /**
-     * Sets the server configuration
-     *
-     * @param array $config The configuration array to use to setup the list of servers used by this pool
-     * @throws \RuntimeException Thrown if the config isn't valid
-     */
-    protected function setServers(array $config)
-    {
-        $this->setMaster($config["master"]);
     }
 } 

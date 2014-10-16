@@ -8,8 +8,10 @@ namespace RDev\Models\Users;
 
 class UserRoles
 {
+    /** A guest user */
+    const GUEST = 1;
     /** An administrator user */
-    const ADMINISTRATOR = 1;
+    const ADMINISTRATOR = 2;
     /** A subscriber user */
-    const SUBSCRIBER = 2;
+    const SUBSCRIBER = 3;
 } 

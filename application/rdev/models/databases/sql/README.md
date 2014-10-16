@@ -15,17 +15,20 @@
 Relational databases store information about data and how it's related to other data.  **RDev** provides classes and methods for connecting to relational databases and querying them for data.  Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
 
 ## Creating a Connection Pool
-Connection pools are instantiated with either a `RDev\Models\Databases\SQL\Configs\ConnectionPoolConfig` or a configuration array ([learn more about configs](/application/rdev/models/configs)).  Regardless of the type of config, it must have the following keys:
+Connection pools can be instantiated directly or with the help of a `ConnectionPoolConfig` and `SingleServerConnectionPoolFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following keys:
 * "driver"
   * The value must be either:
     1. The name of the driver per the `ConnectionPool class` driver list
     2. An object that implements the `IDriver` interface
     3. The fully-qualified name of a class that implements the `IDriver` interface (useful for passing in custom drivers)
 * "servers"
-  * The value must be an array of server settings.  Although the implementation of this array is up to the concrete class that implements `ConnectionPool`, all must have at least have a "master" key.  The value must be one of the following formats:
-    1. An array of data containing keys of "host", "username", "password", and "databaseName", which should of course be mapped to the appropriate values.
+  * "master"
+    * Either the name or an instance of a server class OR an array with the following keys:
+      * "host" => The server host
+      * "username" => The server username
+      * "password" => The server password
+      * "databaseName" => The database name
       * You can optionally specify values for "charset" and "port"
-    2. An object that extends the Server class
     
 The following keys are options:
 * "driverOptions"
@@ -38,9 +41,10 @@ Single-server connection pools are useful for single-database server stacks, eg 
 
 #### PHP Array Config with PostgreSQL PDO
 ```php
-use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Configs;
+use RDev\Models\Databases\SQL\Factories;
 
-$config = [
+$configArray = [
     "driver" => "pdo_pgsql",
     "servers" => [
         "master" => [
@@ -51,15 +55,17 @@ $config = [
         ]
     ]
 ];
-$connectionPool = new SQL\SingleServerConnectionPool($config);
+$config = new Configs\ConnectionPoolConfig($configArray);
+$factory = new Factories\SingleServerConnectionPoolFactory($config);
+$connectionPool = $factory->createFromConfig($config);
 ```
 
 #### ConnectionPoolConfig with PostgreSQL PDO
 ```php
-use RDev\Models\Databases\SQL;
 use RDev\Models\Databases\SQL\Configs;
+use RDev\Models\Databases\SQL\Factories;
 
-$config = new Configs\ConnectionPoolConfig([
+$configArray = [
     "driver" => "pdo_pgsql",
     "servers" => [
         "master" => [
@@ -69,13 +75,16 @@ $config = new Configs\ConnectionPoolConfig([
             "databaseName" => "mydb"
         ]
     ]
-]);
-$connectionPool = new SQL\SingleServerConnectionPool($config);
+];
+$config = new Configs\ConnectionPoolConfig($configArray);
+$factory = new Factories\SingleServerConnectionPoolFactory($config);
+$connectionPool = $factory->createFromConfig($config);
 ```
 
 #### PHP Array Config with Driver and Server Objects
 ```php
-use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Configs;
+use RDev\Models\Databases\SQL\Factories;
 use RDev\Models\Databases\SQL\PDO\PostgreSQL;
 
 $driver = new PostgreSQL\Driver();
@@ -84,13 +93,15 @@ $server->setHost("127.0.0.1");
 $server->setUsername("foo");
 $server->setPassword("bar");
 $server->setDatabaseName("mydb");
-$config = [
+$configArray = [
     "driver" => $driver,
     "servers" => [
         "master" => $server
     ]
 ];
-$connectionPool = new SQL\SingleServerConnectionPool($config);
+$config = new Configs\ConnectionPoolConfig($configArray);
+$factory = new Factories\SingleServerConnectionPoolFactory($config);
+$connectionPool = $factory->createFromConfig($config);
 ```
 
 ## Master-Slave Connection Pool
@@ -98,9 +109,10 @@ Master-slave connection pools are useful for setups that include a master and at
 
 #### PHP Array Config with MySQL PDO Driver
 ```php
-use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\Configs;
+use RDev\Models\Databases\SQL\Factories;
 
-$config = [
+$configArray = [
     "driver" => "pdo_mysql",
     "servers" => [
         "master" => [
@@ -125,7 +137,9 @@ $config = [
         ]
     ]
 ];
-$connectionPool = new SQL\MasterSlaveConnectionPool($config);
+$config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
+$factory = new Factories\MasterSlaveConnectionPoolFactory();
+$connectionPool = $factory->createFromConfig($config);
 ```
 
 ## Read/Write Connections

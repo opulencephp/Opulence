@@ -19,20 +19,9 @@ class RDevMemcached extends MemcachedNamespace\RDevMemcached
     /**
      * {@inheritdoc}
      */
-    public function __construct($config)
+    public function __construct(MemcachedNamespace\TypeMapper $typeMapper)
     {
-        if(is_array($config))
-        {
-            $config = new Configs\ServerConfig($config);
-        }
-
-        $this->typeMapper = new MemcachedNamespace\TypeMapper();
-
-        /** @var Server $server */
-        foreach($config["servers"] as $server)
-        {
-            $this->addServer($server->getHost(), $server->getPort(), $server->getWeight());
-        }
+        $this->typeMapper = $typeMapper;
     }
 
     /**

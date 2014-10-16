@@ -14,13 +14,18 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Router The router to use in tests */
     private $router = null;
+    /** @var Factories\RouterFactory The factory to use to create routers */
+    private $routerFactory = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->router = new Router(new IoC\Container(), new HTTP\Connection());
+        $this->routerFactory = new Factories\RouterFactory();
+        $container = new IoC\Container();
+        $connection = new HTTP\Connection();
+        $this->router = $this->routerFactory->createFromConfig(new Configs\RouterConfig([]), $container, $connection);
     }
 
     /**
@@ -233,7 +238,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 ]
             ]
         ];
-        $router = new Router(new IoC\Container(), new HTTP\Connection(), new Configs\RouterConfig($configArray));
+        $config = new Configs\RouterConfig($configArray);
+        $container = new IoC\Container();
+        $connection = new HTTP\Connection();
+        $router = $this->routerFactory->createFromConfig($config, $container, $connection);
         /** @var Route[] $getRoutes */
         $getRoutes = $router->getRoutes("GET");
         /** @var Route[] $postRoutes */
@@ -312,12 +320,15 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testPassingInRoutesFromConfig()
     {
         $getRoute = new Route("GET", "/foo", ["controller" => "MyController@myMethod"]);
-        $config = [
+        $configArray = [
             "routes" => [
                 $getRoute
             ]
         ];
-        $router = new Router(new IoC\Container(), new HTTP\Connection(), $config);
+        $config = new Configs\RouterConfig($configArray);
+        $container = new IoC\Container();
+        $connection = new HTTP\Connection();
+        $router = $this->routerFactory->createFromConfig($config, $container, $connection);
         $this->assertSame($getRoute, $router->getRoutes("GET")[0]);
     }
 

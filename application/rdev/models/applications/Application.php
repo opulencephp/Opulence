@@ -27,11 +27,11 @@ class Application
     /** @var string The environment the current server belongs to, eg "production" */
     private $environment = self::ENV_PRODUCTION;
     /** @var HTTP\Connection The HTTP connection */
-    private $httpConnection = null;
+    private $connection = null;
     /** @var Routing\Router The router for requests */
     private $router = null;
     /** @var IoC\IContainer The dependency injection container to use throughout the application */
-    private $iocContainer = null;
+    private $container = null;
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
     /** @var bool Whether or not the application is currently running */
@@ -46,23 +46,33 @@ class Application
     private $postShutdownTasks = [];
 
     /**
-     * @param Configs\ApplicationConfig|array $config The configuration to use to setup the application
-     *      The following keys are optional:
-     *          "environment" => see environment config for details on structure
-     * @see Environment::getEnvironment()
+     * @param Monolog\Logger $logger The logger to use throughout the application
+     * @param string $environment The current environment
+     * @param HTTP\Connection $connection The current HTTP connection
+     * @param IoC\IContainer $container The IoC container to use
+     * @param Routing\Router $router The router to use
      */
-    public function __construct($config)
+    public function __construct(
+        Monolog\Logger $logger,
+        $environment,
+        HTTP\Connection $connection,
+        IoC\IContainer $container,
+        Routing\Router $router
+    )
     {
-        if(is_array($config))
-        {
-            $config = new Configs\ApplicationConfig($config);
-        }
+        $this->logger = $logger;
+        $this->environment = $environment;
+        $this->connection = $connection;
+        $this->container = $container;
+        $this->router = $router;
+    }
 
-        $this->setUpLogger($config["monolog"]["handlers"]);
-        $this->environment = (new EnvironmentFetcher())->getEnvironment($config["environment"]);
-        $this->httpConnection = new HTTP\Connection();
-        $this->setUpIoC($config["ioc"]);
-        $this->router = new Routing\Router($this->iocContainer, $this->httpConnection, $config["routing"]);
+    /**
+     * @return HTTP\Connection
+     */
+    public function getConnection()
+    {
+        return $this->connection;
     }
 
     /**
@@ -74,19 +84,11 @@ class Application
     }
 
     /**
-     * @return HTTP\Connection
-     */
-    public function getHTTPConnection()
-    {
-        return $this->httpConnection;
-    }
-
-    /**
      * @return IoC\IContainer
      */
     public function getIoCContainer()
     {
-        return $this->iocContainer;
+        return $this->container;
     }
 
     /**
@@ -172,8 +174,8 @@ class Application
             }
             catch(\Exception $ex)
             {
-                $this->httpConnection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
-                $this->httpConnection->getResponse()->send();
+                $this->connection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+                $this->connection->getResponse()->send();
             }
         }
     }
@@ -196,7 +198,7 @@ class Application
             catch(\Exception $ex)
             {
                 $this->logger->addError("Failed to start application: $ex");
-                $this->httpConnection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+                $this->connection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
             }
         }
     }
@@ -208,7 +210,7 @@ class Application
      */
     protected function doShutdown()
     {
-        $this->httpConnection->getResponse()->send();
+        $this->connection->getResponse()->send();
     }
 
     /**
@@ -218,15 +220,15 @@ class Application
      */
     protected function doStart()
     {
-        $response = $this->router->route($this->httpConnection->getRequest()->getPath());
+        $response = $this->router->route($this->connection->getRequest()->getPath());
 
         if($response instanceof HTTP\Response)
         {
-            $this->httpConnection->setResponse($response);
+            $this->connection->setResponse($response);
         }
         else
         {
-            $this->httpConnection->getResponse()->setContent($response);
+            $this->connection->getResponse()->setContent($response);
         }
     }
 
@@ -248,65 +250,6 @@ class Application
         catch(\Exception $ex)
         {
             throw new \RuntimeException("Failed to run tasks: " . $ex->getMessage());
-        }
-    }
-
-    /**
-     * Registers the bindings from the config
-     *
-     * @param IoCConfigs\IoCConfig $config The bindings config
-     */
-    private function registerBindingsFromConfig(IoCConfigs\IoCConfig $config)
-    {
-        foreach($config["universal"] as $component => $concreteClassName)
-        {
-            $this->iocContainer->bind($component, $concreteClassName);
-        }
-
-        foreach($config["targeted"] as $targetClassName => $targetedBindings)
-        {
-            foreach($targetedBindings as $component => $concreteClassName)
-            {
-                $this->iocContainer->bind($component, $concreteClassName, $targetClassName);
-            }
-        }
-    }
-
-    /**
-     * Registers the default bindings to be used throughout the application
-     */
-    private function registerDefaultBindings()
-    {
-        // Register the default bindings
-        $this->iocContainer->bind("RDev\\Models\\HTTP\\Connection", $this->httpConnection);
-        $this->iocContainer->bind("RDev\\Models\\HTTP\\Request", $this->httpConnection->getRequest());
-        $this->iocContainer->bind("Monolog\\Logger", $this->logger);
-    }
-
-    /**
-     * Sets up the inversion-of-control items in this application
-     *
-     * @param IoCConfigs\IoCConfig $config The IoC config
-     */
-    private function setUpIoC(IoCConfigs\IoCConfig $config)
-    {
-        $this->iocContainer = $config["container"];
-        $this->registerBindingsFromConfig($config);
-        $this->registerDefaultBindings();
-    }
-
-    /**
-     * Sets up the application logger
-     *
-     * @param array $config The array of handlers
-     */
-    private function setUpLogger(array $config)
-    {
-        $this->logger = new Monolog\Logger("application");
-
-        foreach($config as $name => $handler)
-        {
-            $this->logger->pushHandler($handler);
         }
     }
 } 

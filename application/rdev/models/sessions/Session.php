@@ -6,17 +6,38 @@
  */
 namespace RDev\Models\Sessions;
 use RDev\Models\Authentication\Credentials;
+use RDev\Models\Authentication;
 use RDev\Models\Users;
 
-class Session
+class Session implements ISession
 {
-    /** @var Users\IUser|null The current user object if there is one, otherwise null */
+    /** @var Users\IUser The current user */
     private $user = null;
-    /** @var Credentials\ICredentials|null The current user's credentials if there are any, otherwise null */
+    /** @var Credentials\ICredentials The current user's credentials */
     private $credentials = null;
 
     /**
-     * @return Credentials\ICredentials|null
+     * @param Users\IUser $user The current user
+     * @param Credentials\ICredentials $credentials The current user's credentials
+     */
+    public function __construct(Users\IUser $user = null, Credentials\ICredentials $credentials = null)
+    {
+        if($user === null)
+        {
+            $user = new Users\GuestUser();
+        }
+
+        if($credentials === null)
+        {
+            $credentials = new Credentials\Credentials($user->getId(), Authentication\EntityTypes::USER);
+        }
+
+        $this->setUser($user);
+        $this->setCredentials($credentials);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function getCredentials()
     {
@@ -24,7 +45,7 @@ class Session
     }
 
     /**
-     * @return Users\IUser|null
+     * {@inheritdoc}
      */
     public function getUser()
     {
@@ -32,7 +53,7 @@ class Session
     }
 
     /**
-     * @param Credentials\ICredentials $credentials
+     * {@inheritdoc}
      */
     public function setCredentials(Credentials\ICredentials $credentials)
     {
@@ -40,9 +61,9 @@ class Session
     }
 
     /**
-     * @param Users\IUser $user
+     * {@inheritdoc}
      */
-    public function setUser(Users\IUSer $user)
+    public function setUser(Users\IUser $user)
     {
         $this->user = $user;
     }

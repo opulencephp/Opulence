@@ -11,13 +11,13 @@ use RDev\Models\IoC;
 class Router
 {
     /** @var IoC\IContainer The dependency injection container */
-    protected $iocContainer = null;
+    protected $container = null;
     /** @var IRouteCompiler The compiler used by this router */
     protected $compiler = null;
     /** @var Dispatcher The route dispatcher */
     protected $dispatcher = null;
     /** @var HTTP\Connection The HTTP connection */
-    protected $httpConnection = null;
+    protected $connection = null;
     /** @var array The list of methods to their various routes */
     protected $routes = [
         HTTP\Request::METHOD_DELETE => [],
@@ -29,30 +29,22 @@ class Router
     protected $groupOptionsStack = [];
 
     /**
-     * @param IoC\IContainer $iocContainer The dependency injection container
-     * @param HTTP\Connection $httpConnection The HTTP connection
-     * @param Configs\RouterConfig|array $config The configuration to use
-     *      The following keys are optional:
-     *          "compiler" => Name of class that implements IRouteCompiler or an instantiated object,
-     *          "routes" => Array containing the following:
-     *              "methods" => The HTTP methods matched by the request (eg "GET", "POST", ...),
-     *              "path" => The path matched by the request,
-     *              "options" => The optional array of route options, which may contain the following:
-     *                  "variables" => The mapping of route-variable names to the regexes they must fulfill
+     * @param IoC\IContainer $container The IoC container
+     * @param HTTP\Connection $connection The connection used during this transaction
+     * @param Dispatcher $dispatcher The route dispatcher
+     * @param IRouteCompiler $compiler The route compiler
      */
-    public function __construct(IoC\IContainer $iocContainer, HTTP\Connection $httpConnection, $config = [])
+    public function __construct(
+        IoC\IContainer $container,
+        HTTP\Connection $connection,
+        Dispatcher $dispatcher,
+        IRouteCompiler $compiler
+    )
     {
-        $this->iocContainer = $iocContainer;
-        $this->httpConnection = $httpConnection;
-        $this->dispatcher = new Dispatcher($this->iocContainer);
-
-        if(is_array($config))
-        {
-            $config = new Configs\RouterConfig($config);
-        }
-
-        $this->compiler = $config["compiler"];
-        $this->createRoutesFromConfigArray($config->toArray());
+        $this->container = $container;
+        $this->connection = $connection;
+        $this->dispatcher = $dispatcher;
+        $this->compiler = $compiler;
     }
 
     /**
@@ -205,7 +197,7 @@ class Router
      */
     public function route($path)
     {
-        $method = $this->httpConnection->getRequest()->getMethod();
+        $method = $this->connection->getRequest()->getMethod();
 
         /** @var Route $route */
         foreach($this->routes[$method] as $route)
@@ -290,25 +282,6 @@ class Router
     private function createRoute($method, $path, array $options)
     {
         return new Route([$method], $path, $options);
-    }
-
-    /**
-     * Creates routes from a config
-     *
-     * @param array $configArray The config to create routes from
-     *      This must be an array because we will need to recursively iterate through it
-     */
-    private function createRoutesFromConfigArray(array $configArray)
-    {
-        $this->createGroupedRoutesFromConfigArray($configArray);
-
-        if(isset($configArray["routes"]))
-        {
-            foreach($configArray["routes"] as $route)
-            {
-                $this->addRoute($route);
-            }
-        }
     }
 
     /**

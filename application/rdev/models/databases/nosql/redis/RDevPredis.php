@@ -12,28 +12,13 @@ class RDevPredis extends \Predis\Client implements IRedis
     use TRedis;
 
     /**
-     * @param Configs\ServerConfig|array $config The configuration to use for the server to connect to
-     *      This must contain the following keys:
-     *          "servers" => [
-     *              "master" => [
-     *                  "host" => server host,
-     *                  "port" => server port
-     *              ]
-     *          ]
-     *      The following keys are optional for the server:
-     *          "password" => server password for authentication,
-     *          "databaseIndex" => index of database to connect to on the server,
-     *          "connectionTimeout" => the number of seconds to wait before a connection is timed out
+     * @param Server $server The server to use
+     * @param TypeMapper $typeMapper The type mapper to use
      */
-    public function __construct($config)
+    public function __construct(Server $server, TypeMapper $typeMapper)
     {
-        if(is_array($config))
-        {
-            $config = new Configs\ServerConfig($config);
-        }
-
-        $this->server = $config["servers"]["master"];
-        $this->typeMapper = new TypeMapper();
+        $this->server = $server;
+        $this->typeMapper = $typeMapper;
         $connectionOptions = [
             "host" => $this->server->getHost(),
             "port" => $this->server->getPort(),
@@ -42,7 +27,7 @@ class RDevPredis extends \Predis\Client implements IRedis
 
         if($this->server->passwordIsSet())
         {
-            $connectionOptions["password"] = $config->getPassword();
+            $connectionOptions["password"] = $this->server->getPassword();
         }
 
         if($this->server->getConnectionTimeout() > 0)

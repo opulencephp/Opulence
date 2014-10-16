@@ -15,31 +15,13 @@ class RDevMemcached extends \Memcached
     protected $typeMapper = null;
 
     /**
-     * @param Configs\ServerConfig|array $config The configuration to use for the server to connect to
-     *      This must contain the following keys:
-     *          "servers" => [
-     *              "host" => server host,
-     *              "port" => server port
-     *          ]
-     *      The following keys are optional in the servers:
-     *          "weight" => the weight of the server relative to the total weight of all other servers
+     * @param TypeMapper $typeMapper The type mapper to use
      */
-    public function __construct($config)
+    public function __construct(TypeMapper $typeMapper)
     {
-        if(is_array($config))
-        {
-            $config = new Configs\ServerConfig($config);
-        }
-
-        $this->typeMapper = new TypeMapper();
+        $this->typeMapper = $typeMapper;
 
         parent::__construct();
-
-        /** @var Server $server */
-        foreach($config["servers"] as $server)
-        {
-            $this->addServer($server->getHost(), $server->getPort(), $server->getWeight());
-        }
     }
 
     /**

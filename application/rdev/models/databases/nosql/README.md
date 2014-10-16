@@ -17,7 +17,7 @@
 Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, [please visit its homepage](http://redis.io/).
 
 #### Redis Config
-Our Redis extensions take a configuration array or Redis `ServerConfig` object in their constructors ([learn more about configs](/application/rdev/models/configs)).  They must have the following structure:
+Our Redis extensions can either be instantiated directly or with the help of a `ServerConfig` object and `RDevPHPRedisFactory` or `RDevPredisFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following structure:
 ```php
 [
     "servers" => [
@@ -43,14 +43,17 @@ Alternatively, you may pass in a server object that extends `RDev\Models\Databas
 #### PHPRedis
 **PHPRedis** is a Redis client extension to PHP written in C, giving you raw performance without the overhead of PHP scripts.  `RDevPHPRedis` extends PHPRedis and gives you the added feature of *type mappers* (provides methods for casting to and from Redis data types) and compatibility with `Server` objects.  To use one, simply:
 ```php
-use RDev\Models\Databases\NoSQL\Redis;
+use RDev\Models\Databases\NoSQL\Redis\Configs;
+use RDev\Models\Databases\NoSQL\Redis\Factories;
 
-$config = [
+$configArray = [
     "servers" => [
         "master" => new MyServer()
     ]
 ];
-$phpRedis = new Redis\RDevPHPRedis($config);
+$config = new Configs\ServerConfig($configArray);
+$factory = new Factories\RDevPHPRedisFactory($config);
+$phpRedis = $factory->createFromConfig($config);
 $phpRedis->set("foo", "bar");
 echo $phpRedis->get("foo"); // "bar"
 ```
@@ -58,14 +61,17 @@ echo $phpRedis->get("foo"); // "bar"
 #### Predis
 **Predis** is a popular Redis client PHP library with the ability to create customized Redis commands.  `RDevPredis` extends Predis and gives you the added feature of *type mappers* and compatibility with `Server` objects.  To use one, simply:
 ```php
-use RDev\Models\Databases\NoSQL\Redis;
+use RDev\Models\Databases\NoSQL\Redis\Configs;
+use RDev\Models\Databases\NoSQL\Redis\Factories;
 
-$config = [
+$configArray = [
     "servers" => [
         "master" => new MyServer()
     ]
 ];
-$predis = new Redis\RDevPredis($config);
+$config = new Configs\ServerConfig($configArray);
+$factory = new Factories\RDevPredisFactory($config);
+$redis = $factory->createFromConfig($config);
 $predis->set("foo", "bar");
 echo $redis->get("foo"); // "bar"
 ```
@@ -74,7 +80,7 @@ echo $redis->get("foo"); // "bar"
 Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, [please visit its homepage](http://www.memcached.org/).
 
 #### Memcached Config
-Our Memcached extensions take a configuration array or Redis `ServerConfig` object in their constructors ([learn more about configs](/application/rdev/models/configs)).  They must have the following structure:
+Our Memcached extensions can either be instantiated directly or with the help of a `ServerConfig` object and `RDevMemcachedFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following structure:
 ```php
 [
     "servers" => [
@@ -100,9 +106,10 @@ Alternatively, you may pass in server objects that extend `RDev\Models\Databases
 ```
 #### Basic Memcached Usage
 ```php
-use RDev\Models\Databases\NoSQL\Memcached;
+use RDev\Models\Databases\NoSQL\Memcached\Configs;
+use RDev\Models\Databases\NoSQL\Memcached\Factories;
 
-$config = [
+$configArray = [
     "servers" => [
         [
             "host" => "127.0.0.1",
@@ -111,7 +118,9 @@ $config = [
         ]
     ]
 ];
-$memcached = new Memcached\RDevMemcached($config);
+$config = new Configs\ServerConfig($configArray);
+$factory = new Factories\RDevMemcachedFactory();
+$memcached = $factory->createFromConfig($config);
 $memcached->set("foo", "bar");
 echo $memcached->get("foo"); // "bar"
 ```

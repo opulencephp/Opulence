@@ -5,27 +5,40 @@
  * Tests Memcached
  */
 namespace RDev\Models\Databases\NoSQL\Memcached;
-use RDev\Tests\Models\Databases\NoSQL\Memcached\Mocks;
+use RDev\Tests\Models\Databases\NoSQL\Memcached\Mocks as MemcachedMocks;
+use RDev\Tests\Models\Databases\NoSQL\Memcached\Factories\Mocks;
 
 class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var Mocks\RDevMemcachedFactory The factory to use to create mock Memcache objects */
+    private $rDevMemcachedFactory = null;
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->rDevMemcachedFactory = new Mocks\RDevMemcachedFactory();
+    }
+
     /**
      * Tests adding multiple servers
      */
     public function testAddingMultipleServers()
     {
-        $server1 = new Mocks\Server();
+        $server1 = new MemcachedMocks\Server();
         $server1->setPort(1);
-        $server2 = new Mocks\Server();
+        $server2 = new MemcachedMocks\Server();
         $server2->setPort(2);
-        $server3 = new Mocks\Server();
+        $server3 = new MemcachedMocks\Server();
         $server3->setPort(3);
-        $config = [
+        $configArray = [
             "servers" => [
                 $server1
             ]
         ];
-        $memcached = new Mocks\RDevMemcached($config);
+        $config = new Configs\ServerConfig($configArray);
+        $memcached = $this->rDevMemcachedFactory->createFromConfig($config);
         $memcached->addServers([
             [
                 $server2->getHost(),
@@ -46,22 +59,14 @@ class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTypeMapper()
     {
-        $config = [
+        $configArray = [
             "servers" => [
-                new Mocks\Server()
+                new MemcachedMocks\Server()
             ]
         ];
-        $redis = new Mocks\RDevMemcached($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\NoSQL\\Memcached\\TypeMapper", $redis->getTypeMapper());
-    }
-
-    /**
-     * Tests passing an invalid config
-     */
-    public function testPassingInvalidConfig()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        new Mocks\RDevMemcached(["Bad config"]);
+        $config = new Configs\ServerConfig($configArray);
+        $memcached = $this->rDevMemcachedFactory->createFromConfig($config);
+        $this->assertInstanceOf("RDev\\Models\\Databases\\NoSQL\\Memcached\\TypeMapper", $memcached->getTypeMapper());
     }
 
     /**
@@ -69,15 +74,16 @@ class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingMultipleServers()
     {
-        $server1 = new Mocks\Server();
-        $server2 = new Mocks\Server();
-        $config = [
+        $server1 = new MemcachedMocks\Server();
+        $server2 = new MemcachedMocks\Server();
+        $configArray = [
             "servers" => [
                 $server1,
                 $server2
             ]
         ];
-        $memcached = new Mocks\RDevMemcached($config);
+        $config = new Configs\ServerConfig($configArray);
+        $memcached = $this->rDevMemcachedFactory->createFromConfig($config);
         $this->assertEquals([$server1, $server2], $memcached->getServers());
     }
 
@@ -86,13 +92,14 @@ class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingSingleServer()
     {
-        $server = new Mocks\Server();
-        $config = [
+        $server = new MemcachedMocks\Server();
+        $configArray = [
             "servers" => [
                 $server
             ]
         ];
-        $memcached = new Mocks\RDevMemcached($config);
+        $config = new Configs\ServerConfig($configArray);
+        $memcached = $this->rDevMemcachedFactory->createFromConfig($config);
         $this->assertEquals([$server], $memcached->getServers());
     }
 }

@@ -32,7 +32,7 @@ $application->shutdown();
 ```
 
 ## Config
-Applications are initialized with an `ApplicationConfig` object or array ([learn more about configs](/application/rdev/models/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
+Applications can be instantiated directly or with the help of a combination of an `ApplicationConfig` object and an `ApplicationFactory` object ([learn more about configs](/application/rdev/models/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
 
 Let's break down the structure of the config.  The following keys are optional:
 * "environment"
@@ -68,7 +68,8 @@ Let's break down the structure of the config.  The following keys are optional:
 
 Let's take a look at an example that uses an array:
 ```php
-use RDev\Models\Application\Configs;
+use RDev\Models\Applications\Configs;
+use RDev\Models\Applications\Factories;
 
 $configArray = [
     "environment" => [
@@ -88,10 +89,13 @@ $configArray = [
     ]
 ];
 $config = new Configs\ApplicationConfig($configArray);
+$factory = new Factories\ApplicationFactory();
+$application = $factory->createFromConfig($config);
 ```
 The following is an example with a custom callback:
 ```php
-use RDev\Models\Application\Configs;
+use RDev\Models\Applications\Configs;
+use RDev\Models\Applications\Factories;
 
 $configArray = [
     "environment" => function()
@@ -112,10 +116,13 @@ $configArray = [
     ]
 ];
 $config = new Configs\ApplicationConfig($configArray);
+$factory = new Factories\ApplicationFactory();
+$application = $factory->createFromConfig($config);
 ```
 The following specifies a custom container class:
 ```php
-use RDev\Models\Application\Configs;
+use RDev\Models\Applications\Configs;
+use RDev\Models\Applications\Factories;
 
 $configArray = [
     "ioc" => [
@@ -123,15 +130,13 @@ $configArray = [
     ]
 ];
 $config = new Configs\ApplicationConfig($configArray);
+$factory = new Factories\ApplicationFactory();
+$application = $factory->createFromConfig($config);
 ```
 
 ## Bindings
-Bindings in the config are set when the application is instantiated.  If you'd like to register more bindings after the application has been instantiated, you may do so by registering a pre-start task:
-
+Bindings in the config are set when the application is instantiated from the `ApplicationFactory`.  If you'd like to register more bindings after the application has been instantiated, you may do so by registering a pre-start task:
 ```php
-use RDev\Models\Applications;
-
-$application = new Applications\Application();
 $application->registerPreStartTask(function() use ($application)
 {
     $container = $application->getIoCContainer();
@@ -145,6 +150,9 @@ $application->registerPreStartTask(function() use ($application)
 ## Monolog
 RDev takes advantage of Monolog, a popular error logger.  By default, RDev will simply write to the built-in PHP error logs, but you can customize how Monolog works.  The following is an example of a logger that writes warnings to the PHP error log with a `FingersCrossedHandler`:
 ```php
+use RDev\Models\Applications\Configs;
+use RDev\Models\Applications\Factories;
+
 $configArray = [
     "monolog" => [
         "handlers" => [
@@ -157,6 +165,8 @@ $configArray = [
     ]
 ];
 $config = new Configs\ApplicationConfig($configArray);
+$factory = new Factories\ApplicationFactory();
+$application = $factory->createFromConfig($config);
 ```
 
 #### Monolog Handler Options
@@ -219,14 +229,6 @@ To start and shutdown an application, simply call the `start()` and `shutdown()`
 
 Let's look at an example of using these tasks:
 ```php
-use RDev\Models\Applications;
-use RDev\Models\Applications\Configs;
-use RDev\Models\Configs\Readers;
-
-// Get the autoloader from Composer
-require_once(__DIR__ . "/../vendor/autoload.php");
-
-$application = new Applications\Application([]);
 // Let's register a pre-start task
 $application->registerPreStartTask(function()
 {
