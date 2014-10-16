@@ -1,15 +1,11 @@
 HAS PRIORITY:
-    Refactor classes so they don't take in a config, but rather are passed in their dependencies directly
-        You can use a config to pass in the dependencies - just don't make classes dependent on configs
-        What would instantiate the classes from the config?  The config itself? Or a factory that reads configs and instantiates them?
-            I think factory is best bet
     Move bindings to a bindings file, include it in the bootstrap
     Be able to catch various errors and render different views depending on the error
     Don't return response from controller before applying post-filters
         Post-filters should accept the response as a parameter
 
 
-
+Need to write tests for factories
 Need to think through not always sharing parameter objects in makeNew()
     For example, if we makeNew() a repo, we need a UoW, which needs to be shared
     However, makeNew() will make a new UoW for each repo, which defeats the purpose
@@ -23,8 +19,6 @@ Add a class like "ConfigConverter" to make it easy to translate class names to o
     Would help reduce code duplication
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
-Consider using Configs for controllers
-    In the config, you'd specify the repos, credentials to use
 Once the above is done, need to finish Login controller
 Need to write documentation on Request/Response
 Need to add support for host in routers

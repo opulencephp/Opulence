@@ -16,8 +16,8 @@ An **RDev** application is started up through the `Application` class.  In it, y
 Applications are started and shutdown in a bootstrap file.  Applications use an `ApplicationConfig` ([learn more about application configs](#config)) to specify settings for an application.  The following is an example of a bootstrap file:
 
 ```php
-use RDev\Models\Applications;
 use RDev\Models\Applications\Configs;
+use RDev\Models\Applications\Factories;
 use RDev\Models\Configs\Readers;
 
 // Get the autoloader from Composer
@@ -26,13 +26,14 @@ require_once(__DIR__ . "/../vendor/autoload.php");
 // Let's pretend that the config is in a JSON file
 $jsonReader = new Readers\JSONReader();
 $applicationConfig = $jsonReader->readFromFile(PATH_TO_CONFIG, "RDev\\Models\\Applications\\Configs\\ApplicationConfig");
-$application = new Applications\Application($applicationConfig);
+$factory = new Factories\ApplicationFactory();
+$application = $factory->createFromConfig($applicationConfig);
 $application->start();
 $application->shutdown();
 ```
 
 ## Config
-Applications can be instantiated directly or with the help of a combination of an `ApplicationConfig` object and an `ApplicationFactory` object ([learn more about configs](/application/rdev/models/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
+Applications can be instantiated directly or with the help of a combination of an `ApplicationConfig` and an `ApplicationFactory` ([learn more about configs](/application/rdev/models/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
 
 Let's break down the structure of the config.  The following keys are optional:
 * "environment"

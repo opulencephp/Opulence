@@ -170,7 +170,7 @@ $router->group(["pre" => "authenticate"], function() use ($router)
 The "authenticate" filter will be executed on any matched routes inside the closure.
 
 ## Config
-Routers can be initialized directly or with the help of a combination of a `RouterConfig` object and a `RouterFactory` ([learn more about configs](/application/rdev/models/configs)).  The two will automatically create `Route` objects and add them to your `Router`.
+Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/application/rdev/models/configs)).  The two will automatically create `Route` objects and add them to your `Router`.
 
 Let's break down the structure of the config.  All of the top-level keys are optional:
 * "compiler"
@@ -208,8 +208,8 @@ Let's take a look at an example config:
 use RDev\Models\HTTP;
 use RDev\Models\IoC;
 use RDev\Models\Routing;
-use RDev\Models\Routing\Factories;
 use RDev\Models\Routing\Configs;
+use RDev\Models\Routing\Factories;
 
 $configArray = [
     "compiler" => "MyApp\\Routing\\MyCompiler",

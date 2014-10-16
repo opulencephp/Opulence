@@ -17,7 +17,7 @@
 Redis is an extremely popular, in-memory key-value cache with pub/sub capabilities.  Unlike Memcached, Redis can store more complex structures such as sets, sorted lists, and hashes.  For more information, [please visit its homepage](http://redis.io/).
 
 #### Redis Config
-Our Redis extensions can either be instantiated directly or with the help of a `ServerConfig` object and `RDevPHPRedisFactory` or `RDevPredisFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following structure:
+Our Redis extensions can either be instantiated directly or with the help of a `ServerConfig` and `RDevPHPRedisFactory` or `RDevPredisFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following structure:
 ```php
 [
     "servers" => [
@@ -52,7 +52,7 @@ $configArray = [
     ]
 ];
 $config = new Configs\ServerConfig($configArray);
-$factory = new Factories\RDevPHPRedisFactory($config);
+$factory = new Factories\RDevPHPRedisFactory();
 $phpRedis = $factory->createFromConfig($config);
 $phpRedis->set("foo", "bar");
 echo $phpRedis->get("foo"); // "bar"
@@ -70,7 +70,7 @@ $configArray = [
     ]
 ];
 $config = new Configs\ServerConfig($configArray);
-$factory = new Factories\RDevPredisFactory($config);
+$factory = new Factories\RDevPredisFactory();
 $redis = $factory->createFromConfig($config);
 $predis->set("foo", "bar");
 echo $redis->get("foo"); // "bar"
@@ -80,7 +80,7 @@ echo $redis->get("foo"); // "bar"
 Memcached (pronounced "Mem-cash-dee") is a distributed memory cache with basic key-value store functionality.  Although it doesn't come with all the bells and whistles of Redis, it does offer faster speed, which is suitable for simple key-value data.  For more information, [please visit its homepage](http://www.memcached.org/).
 
 #### Memcached Config
-Our Memcached extensions can either be instantiated directly or with the help of a `ServerConfig` object and `RDevMemcachedFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following structure:
+Our Memcached extensions can either be instantiated directly or with the help of a `ServerConfig` and `RDevMemcachedFactory` ([learn more about configs](/application/rdev/models/configs)).  The config must have the following structure:
 ```php
 [
     "servers" => [

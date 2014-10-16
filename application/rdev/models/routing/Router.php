@@ -242,36 +242,6 @@ class Router
     }
 
     /**
-     * Creates all the nested group routes in a config array
-     *
-     * @param array $configArray The config to create routes from
-     */
-    private function createGroupedRoutesFromConfigArray(array $configArray)
-    {
-        if(isset($configArray["groups"]))
-        {
-            foreach($configArray["groups"] as $groupOptions)
-            {
-                $this->group($groupOptions["options"], function () use ($groupOptions)
-                {
-                    if(isset($groupOptions["routes"]))
-                    {
-                        foreach($groupOptions["routes"] as $route)
-                        {
-                            $this->addRoute($route);
-                        }
-                    }
-
-                    if(isset($groupOptions["groups"]))
-                    {
-                        $this->createGroupedRoutesFromConfigArray($groupOptions);
-                    }
-                });
-            }
-        }
-    }
-
-    /**
      * Creates a route from the input
      *
      * @param string $method The method whose route this is

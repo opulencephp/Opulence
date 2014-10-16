@@ -56,7 +56,7 @@ $configArray = [
     ]
 ];
 $config = new Configs\ConnectionPoolConfig($configArray);
-$factory = new Factories\SingleServerConnectionPoolFactory($config);
+$factory = new Factories\SingleServerConnectionPoolFactory();
 $connectionPool = $factory->createFromConfig($config);
 ```
 
@@ -77,7 +77,7 @@ $configArray = [
     ]
 ];
 $config = new Configs\ConnectionPoolConfig($configArray);
-$factory = new Factories\SingleServerConnectionPoolFactory($config);
+$factory = new Factories\SingleServerConnectionPoolFactory();
 $connectionPool = $factory->createFromConfig($config);
 ```
 
@@ -100,7 +100,7 @@ $configArray = [
     ]
 ];
 $config = new Configs\ConnectionPoolConfig($configArray);
-$factory = new Factories\SingleServerConnectionPoolFactory($config);
+$factory = new Factories\SingleServerConnectionPoolFactory();
 $connectionPool = $factory->createFromConfig($config);
 ```
 
