@@ -9,7 +9,10 @@ php:
 before_script:
   - composer install
   - composer dump-autoload -o
-  - echo 'date.timezone = "UTC"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  - echo 'date.timezone = "UTC"' > travis.php.ini
+  - echo 'timezone = "UTC"' > travis.hhvm.ini
+  - hhvm -c travis.hhvm.ini
+  - phpenv config-add travis.php.ini
 
 script: vendor/bin/phpunit --verbose
 
