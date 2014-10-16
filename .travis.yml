@@ -9,10 +9,6 @@ php:
 before_script:
   - composer install
   - composer dump-autoload -o
-  - echo 'date.timezone = "UTC"' >> travis.php.ini
-  - echo 'date.timezone = "UTC"' >> travis.hhvm.ini
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" != "hhvm" && "$TRAVIS_PHP_VERSION" != "hhvm-nightly"]; then phpenv config-add travis.php.ini; fi';
-  - sh -c 'if [ "$TRAVIS_PHP_VERSION" == "hhvm" || "$TRAVIS_PHP_VERSION" == "hhvm-nightly"]; then hhvm -c travis.hhvm.ini; fi';
 
 script: vendor/bin/phpunit --verbose
 
