@@ -18,11 +18,11 @@ class GuestUserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the username
+     * Tests getting the roles
      */
-    public function testGettingUsername()
+    public function testGettingRoles()
     {
         $user = new GuestUser();
-        $this->assertEquals("Guest", $user->getUsername());
+        $this->assertEquals([], $user->getRoles());
     }
 } 

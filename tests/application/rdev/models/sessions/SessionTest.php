@@ -48,7 +48,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSettingUser()
     {
         $session = new Session();
-        $user = new Users\User(1, "foo", new \DateTime("now"), []);
+        $user = new Users\User(1, new \DateTime("now"), []);
         $session->setUser($user);
         $this->assertSame($user, $session->getUser());
     }

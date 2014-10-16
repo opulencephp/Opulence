@@ -9,16 +9,16 @@ namespace RDev\Models\Users;
 interface IRegisteredUser extends IUser
 {
     /**
-     * Gets a user's password Id
+     * Gets the username
      *
-     * @return int|string The password Id
+     * @return string
      */
-    public function getPasswordId();
+    public function getUsername();
 
     /**
-     * Sets a user's password Id
+     * Sets the username
      *
-     * @param int|string $passwordId The password Id
+     * @param string $username The username to use
      */
-    public function setPasswordId($passwordId);
+    public function setUsername($username);
 } 

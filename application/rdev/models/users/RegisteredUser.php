@@ -8,36 +8,35 @@ namespace RDev\Models\Users;
 
 class RegisteredUser extends User implements IRegisteredUser
 {
-    /** @var int|string The password Id */
-    protected $passwordId = "";
+    /** @var string The username of the user (for now, it'll be the same as the username) */
+    protected $username = "";
 
     /**
      * @param int $id The database Id of this user
      * @param string $username The username of the user
-     * @param int|string $passwordId The password Id
      * @param \DateTime $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
      */
-    public function __construct($id, $username, $passwordId, \DateTime $dateCreated, array $roles)
+    public function __construct($id, $username, \DateTime $dateCreated, array $roles)
     {
-        $this->setPasswordId($passwordId);
+        parent::__construct($id, $dateCreated, $roles);
 
-        parent::__construct($id, $username, $dateCreated, $roles);
+        $this->username = $username;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getPasswordId()
+    public function getUsername()
     {
-        return $this->passwordId;
+        return $this->username;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setPasswordId($passwordId)
+    public function setUsername($username)
     {
-        $this->passwordId = $passwordId;
+        $this->username = $username;
     }
 } 

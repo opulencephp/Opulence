@@ -16,7 +16,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->user = new User(18175, "foo", new \DateTime("1776-07-04 12:34:56"), [1, 2, 3]);
+        $this->user = new User(18175, new \DateTime("1776-07-04 12:34:56"), [1, 2, 3]);
     }
 
     /**
@@ -57,14 +57,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testGettingRoles()
     {
         $this->assertEquals([1, 2, 3], $this->user->getRoles());
-    }
-
-    /**
-     * Test getting the username
-     */
-    public function testGettingUsername()
-    {
-        $this->assertEquals("foo", $this->user->getUsername());
     }
 
     /**
