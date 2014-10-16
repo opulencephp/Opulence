@@ -12,7 +12,7 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR)
+    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null)
     {
         return true;
     }
@@ -56,6 +56,7 @@ class Statement implements SQL\IStatement
     {
         return "";
     }
+
     /**
      * {@inheritdoc}
      */

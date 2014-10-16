@@ -1,49 +1,49 @@
 {
-    "name": "rdev/rdev",
-    "description": "The RDev PHP framework",
-    "keywords": [
-        "PHP",
-        "database",
-        "orm",
-        "framework"
-    ],
-    "authors": [
-        {
-            "name": "David Young",
-            "email": "dbyoung2@gmail.com",
-            "role": "Architect"
-        }
-    ],
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "RDev\\": [
-                "application/rdev",
-                "tests/application/rdev"
-            ]
-        }
-    },
-    "require": {
-        "php": ">=5.5.10",
-        "monolog/monolog": "1.11.*@dev"
-    },
-    "require-dev": {
-        "alecesaro/phpredis": "dev-master",
-        "predis/predis": "1.1.*@dev",
-        "symfony/yaml": "2.6.*@dev",
-        "phpunit/phpunit": "4.2.*",
-        "phpunit/php-file-iterator": ">=1.3.0",
-        "phpunit/php-token-stream": ">=1.1.3",
-        "phpunit/php-text-template": ">=1.2.0",
-        "phpunit/php-invoker": ">=1.1.0",
-        "phpunit/phpunit-selenium": ">=1.2",
-        "phpunit/phpunit-story": "*",
-        "phpunit/dbunit": ">=1.2"
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "0.0.x-dev"
-        }
-    },
-    "minimum-stability": "dev"
+  "name": "rdev/rdev",
+  "description": "The RDev PHP framework",
+  "keywords": [
+    "PHP",
+    "database",
+    "orm",
+    "framework"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "RDev\\": [
+        "application/rdev",
+        "tests/application/rdev"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "monolog/monolog": "1.11.*@dev"
+  },
+  "require-dev": {
+    "alecesaro/phpredis": "dev-master",
+    "predis/predis": "1.1.*@dev",
+    "symfony/yaml": "2.6.*@dev",
+    "phpunit/phpunit": "4.2.*",
+    "phpunit/php-file-iterator": ">=1.3.0",
+    "phpunit/php-token-stream": ">=1.1.3",
+    "phpunit/php-text-template": ">=1.2.0",
+    "phpunit/php-invoker": ">=1.1.0",
+    "phpunit/phpunit-selenium": ">=1.2",
+    "phpunit/phpunit-story": "*",
+    "phpunit/dbunit": ">=1.2"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
 }
