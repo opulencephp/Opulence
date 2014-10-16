@@ -13,7 +13,7 @@
 An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production"), pre-/post-start and -shutdown tasks to run, and URL routing.
 
 ## Basic Usage
-Applications are started and shutdown in a bootstrap file.  Applications use an `ApplicationConfig` ([learn more about application configs](#config)) to specify settings for an application.  The following is an example of a bootstrap file:
+Applications are started and shutdown in a bootstrap file.  Applications can either be instantiated directly or with the help of an `ApplicationConfig` and `ApplicationFactory` ([learn more about application configs](#config)).  The following is an example of a bootstrap file:
 
 ```php
 use RDev\Models\Applications\Configs;
@@ -25,7 +25,10 @@ require_once(__DIR__ . "/../vendor/autoload.php");
 
 // Let's pretend that the config is in a JSON file
 $jsonReader = new Readers\JSONReader();
-$applicationConfig = $jsonReader->readFromFile(PATH_TO_CONFIG, "RDev\\Models\\Applications\\Configs\\ApplicationConfig");
+$applicationConfig = $jsonReader->readFromFile(
+    PATH_TO_CONFIG, 
+    "RDev\\Models\\Applications\\Configs\\ApplicationConfig"
+);
 $factory = new Factories\ApplicationFactory();
 $application = $factory->createFromConfig($applicationConfig);
 $application->start();
