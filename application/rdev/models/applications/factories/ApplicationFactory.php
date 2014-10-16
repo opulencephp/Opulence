@@ -35,9 +35,6 @@ class ApplicationFactory
         $connection = new HTTP\Connection();
         /** @var IoC\IContainer $container */
         $container = $config["ioc"]["container"];
-        $container->bind("RDev\\Models\\HTTP\\Connection", $connection);
-        $container->bind("RDev\\Models\\HTTP\\Request", $connection->getRequest());
-        $container->bind("Monolog\\Logger", $logger);
         $this->registerBindingsFromConfig($container, $config["ioc"]);
 
         if(is_array($config["routing"]))
@@ -48,6 +45,12 @@ class ApplicationFactory
         $routerFactory = new Factories\RouterFactory();
         $router = $routerFactory->createFromConfig($config["routing"], $container, $connection);
         $session = $config["session"];
+
+        // Create some default bindings
+        $container->bind("RDev\\Models\\HTTP\\Connection", $connection);
+        $container->bind("RDev\\Models\\HTTP\\Request", $connection->getRequest());
+        $container->bind("Monolog\\Logger", $logger);
+        $container->bind("RDev\\Models\\Sessions\\ISession", $session);
 
         return new Applications\Application($logger, $environment, $connection, $container, $router, $session);
     }
