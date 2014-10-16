@@ -9,16 +9,16 @@ namespace RDev\Models\Users;
 interface IRegisteredUser extends IUser
 {
     /**
-     * Gets a user's hashed password
+     * Gets a user's password Id
      *
-     * @return string The hashed password
+     * @return int|string The password Id
      */
-    public function getHashedPassword();
+    public function getPasswordId();
 
     /**
-     * Sets a user's hashed password, which is suitable for storage
+     * Sets a user's password Id
      *
-     * @param string $hashedPassword The hashed password
+     * @param int|string $passwordId The password Id
      */
-    public function setHashedPassword($hashedPassword);
+    public function setPasswordId($passwordId);
 } 

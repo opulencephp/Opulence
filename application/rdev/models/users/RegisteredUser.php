@@ -8,19 +8,19 @@ namespace RDev\Models\Users;
 
 class RegisteredUser extends User implements IRegisteredUser
 {
-    /** @var string The hashed password */
-    protected $hashedPassword = "";
+    /** @var int|string The password Id */
+    protected $passwordId = "";
 
     /**
      * @param int $id The database Id of this user
      * @param string $username The username of the user
-     * @param string $hashedPassword The hashed password
+     * @param int|string $passwordId The password Id
      * @param \DateTime $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
      */
-    public function __construct($id, $username, $hashedPassword, \DateTime $dateCreated, array $roles)
+    public function __construct($id, $username, $passwordId, \DateTime $dateCreated, array $roles)
     {
-        $this->setHashedPassword($hashedPassword);
+        $this->setPasswordId($passwordId);
 
         parent::__construct($id, $username, $dateCreated, $roles);
     }
@@ -28,16 +28,16 @@ class RegisteredUser extends User implements IRegisteredUser
     /**
      * {@inheritdoc}
      */
-    public function getHashedPassword()
+    public function getPasswordId()
     {
-        return $this->hashedPassword;
+        return $this->passwordId;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setHashedPassword($hashedPassword)
+    public function setPasswordId($passwordId)
     {
-        $this->hashedPassword = $hashedPassword;
+        $this->passwordId = $passwordId;
     }
 } 

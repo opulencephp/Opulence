@@ -17,23 +17,23 @@ class RegisteredUserTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $dateCreated = new \DateTime("now");
-        $this->user = new RegisteredUser(1, "dave", "fooPassword", $dateCreated, []);
+        $this->user = new RegisteredUser(1, "dave", 321, $dateCreated, []);
     }
 
     /**
-     * Tests getting the hashed password after setting it in the constructor
+     * Tests getting the password Id after setting it in the constructor
      */
-    public function testGettingHashedPasswordAfterSettingInConstructor()
+    public function testGettingPasswordIdAfterSettingInConstructor()
     {
-        $this->assertEquals("fooPassword", $this->user->getHashedPassword());
+        $this->assertEquals(321, $this->user->getPasswordId());
     }
 
     /**
-     * Tests setting the hashed password
+     * Tests setting the password Id
      */
     public function testSettingHashedPassword()
     {
-        $this->user->setHashedPassword("newFooPassword");
-        $this->assertEquals("newFooPassword", $this->user->getHashedPassword());
+        $this->user->setPasswordId(846);
+        $this->assertEquals(846, $this->user->getPasswordId());
     }
 } 
