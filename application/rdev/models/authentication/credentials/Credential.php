@@ -37,6 +37,14 @@ class Credential implements ICredential
     }
 
     /**
+     * Clones the token contained in this class
+     */
+    public function __clone()
+    {
+        $this->token = clone $this->token;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function deactivate()

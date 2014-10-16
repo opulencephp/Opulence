@@ -44,6 +44,16 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests cloning the credential
+     */
+    public function testCloning()
+    {
+        $clone = clone $this->credential;
+        $this->assertNotSame($clone, $this->credential);
+        $this->assertNotSame($clone->getToken(), $this->credential->getToken());
+    }
+
+    /**
      * Tests deactivating a credential
      */
     public function testDeactivating()
