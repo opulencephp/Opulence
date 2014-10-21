@@ -99,10 +99,10 @@ class Repo implements IRepo
      *
      * @param string $functionName The name of the function to call in the data mapper
      * @param array $args The list of arguments to pass into the data mapper
-     * @return Models\IEntity|array The entity or list of entities
+     * @return Models\IEntity|Models\IEntity[] The entity or list of entities
      * @throws ORM\ORMException Thrown if there was an error getting the entity(ies)
      */
-    protected function getFromDataMapper($functionName, $args = [])
+    protected function getFromDataMapper($functionName, array $args = [])
     {
         $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
 
