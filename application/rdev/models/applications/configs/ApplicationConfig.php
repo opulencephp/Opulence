@@ -15,7 +15,7 @@ class ApplicationConfig extends Configs\Config
     /**
      * {@inheritdoc}
      */
-    public function fromArray(array $configArray)
+    public function exchangeArray(array $configArray)
     {
         if(!$this->isValid($configArray))
         {

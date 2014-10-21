@@ -78,7 +78,7 @@ class YAMLReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromValidFile()
     {
         $config = $this->yamlReader->readFromFile(__DIR__ . self::VALID_YAML_CONFIG_PATH);
-        $this->assertEquals(["foo" => "bar"], $config->toArray());
+        $this->assertEquals(["foo" => "bar"], $config->getArrayCopy());
     }
 
     /**
@@ -88,7 +88,7 @@ class YAMLReaderTest extends \PHPUnit_Framework_TestCase
     {
         $yaml = 'foo: bar';
         $config = $this->yamlReader->readFromInput($yaml);
-        $this->assertEquals(["foo" => "bar"], $config->toArray());
+        $this->assertEquals(["foo" => "bar"], $config->getArrayCopy());
     }
 
     /**

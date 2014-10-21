@@ -60,7 +60,7 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
             "compiler" => new Routing\RouteCompiler(),
             "groups" => [],
             "routes" => []
-        ], $config->toArray());
+        ], $config->getArrayCopy());
     }
 
     /**
@@ -394,7 +394,7 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
             "compiler" => new Mocks\RouteCompiler(),
             "routes" => [],
             "groups" => []
-        ], $config->toArray());
+        ], $config->getArrayCopy());
     }
 
     /**
@@ -411,8 +411,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
             "compiler" => $compiler,
             "routes" => [],
             "groups" => []
-        ], $config->toArray());
-        $this->assertSame($compiler, $config->toArray()["compiler"]);
+        ], $config->getArrayCopy());
+        $this->assertSame($compiler, $config->getArrayCopy()["compiler"]);
     }
 
     /**
@@ -434,7 +434,7 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         ];
         $config = new RouterConfig($configArray);
         /** @var Routing\Route $route */
-        $route = $config->toArray()["routes"][0];
+        $route = $config->getArrayCopy()["routes"][0];
         $this->assertEquals(["foo"], $route->getPostFilters());
     }
 
@@ -457,7 +457,7 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         ];
         $config = new RouterConfig($configArray);
         /** @var Routing\Route $route */
-        $route = $config->toArray()["routes"][0];
+        $route = $config->getArrayCopy()["routes"][0];
         $this->assertEquals(["foo"], $route->getPreFilters());
     }
 

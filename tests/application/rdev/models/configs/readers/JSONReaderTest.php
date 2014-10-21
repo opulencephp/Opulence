@@ -78,7 +78,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromValidFile()
     {
         $config = $this->jsonReader->readFromFile(__DIR__ . self::VALID_JSON_CONFIG_PATH);
-        $this->assertEquals(["foo" => "bar"], $config->toArray());
+        $this->assertEquals(["foo" => "bar"], $config->getArrayCopy());
     }
 
     /**
@@ -88,7 +88,7 @@ class JSONReaderTest extends \PHPUnit_Framework_TestCase
     {
         $json = '{"foo":"bar"}';
         $config = $this->jsonReader->readFromInput($json);
-        $this->assertEquals(["foo" => "bar"], $config->toArray());
+        $this->assertEquals(["foo" => "bar"], $config->getArrayCopy());
     }
 
     /**

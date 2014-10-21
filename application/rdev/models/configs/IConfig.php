@@ -14,12 +14,12 @@ interface IConfig extends \ArrayAccess, \IteratorAggregate, \Serializable, \Coun
      * @param array $configArray The config array to use
      * @throws \RuntimeException Thrown if the config is invalid
      */
-    public function fromArray(array $configArray);
+    public function exchangeArray(array $configArray);
 
     /**
      * Converts the config settings to a keyed array
      *
      * @return array The config settings as a keyed array
      */
-    public function toArray();
+    public function getArrayCopy();
 } 

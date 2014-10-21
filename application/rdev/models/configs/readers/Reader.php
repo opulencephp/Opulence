@@ -58,7 +58,7 @@ abstract class Reader
         }
 
         /** @var Configs\IConfig $config */
-        $config->fromArray($configArray);
+        $config->exchangeArray($configArray);
 
         return $config;
     }

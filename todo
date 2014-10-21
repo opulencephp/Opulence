@@ -3,9 +3,16 @@ HAS PRIORITY:
     Be able to catch various errors and render different views depending on the error
     Don't return response from controller before applying post-filters
         Post-filters should accept the response as a parameter
+    Need to write tests for factories
+        Current tests for classes that previously took in configs are really tests for the factories
+        So, need to copy these over to the factories, and need to write tests that directly instantiate classes
+    *** Once above is done, create a tag
 
 
-Need to write tests for factories
+Need to create session storage classes
+    Need to think of how to assign session Ids
+    For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to to implement
+        This would only include the basics: get(), set(), and delete()
 Need to think through not always sharing parameter objects in makeNew()
     For example, if we makeNew() a repo, we need a UoW, which needs to be shared
     However, makeNew() will make a new UoW for each repo, which defeats the purpose
@@ -19,11 +26,8 @@ Add a class like "ConfigConverter" to make it easy to translate class names to o
     Would help reduce code duplication
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
-Once the above is done, need to finish Login controller
 Need to write documentation on Request/Response
 Need to add support for host in routers
-Do we need a Session object?
-    Probably, just seems weird after all this because I haven't looked at it in a long time
 Incorrect username entry is faster, allowing timing attacks
 Cache rendered templates
 Convert test pages to views/controllers

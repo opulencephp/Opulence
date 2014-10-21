@@ -19,7 +19,7 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     public function testEnvironmentKeyIsSetAutomatically()
     {
         $config = new ApplicationConfig([]);
-        $this->assertEquals([], $config["environment"]->toArray());
+        $this->assertEquals([], $config["environment"]->getArrayCopy());
         $this->assertInstanceOf("RDev\\Models\\Applications\\Configs\\EnvironmentConfig", $config["environment"]);
     }
 
@@ -90,7 +90,7 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
             "universal" => [],
             "targeted" => []
         ];
-        $this->assertEquals($expectedIoCConfigArray, $config["ioc"]->toArray());
+        $this->assertEquals($expectedIoCConfigArray, $config["ioc"]->getArrayCopy());
         $this->assertInstanceOf("RDev\\Models\\IoC\\Configs\\IoCConfig", $config["ioc"]);
     }
 
@@ -105,7 +105,7 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
                 "main" => new Handler\ErrorLogHandler()
             ]
         ];
-        $this->assertEquals($expectedMonologConfigArray, $config["monolog"]->toArray());
+        $this->assertEquals($expectedMonologConfigArray, $config["monolog"]->getArrayCopy());
         $this->assertInstanceOf("RDev\\Models\\Applications\\Configs\\MonologConfig", $config["monolog"]);
     }
 
@@ -120,7 +120,7 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
             "routes" => [],
             "groups" => []
         ];
-        $this->assertEquals($expectedConfigArray, $config["routing"]->toArray());
+        $this->assertEquals($expectedConfigArray, $config["routing"]->getArrayCopy());
         $this->assertInstanceOf("RDev\\Models\\Routing\\Configs\\RouterConfig", $config["routing"]);
     }
 

@@ -18,7 +18,7 @@ class Config extends \ArrayObject implements IConfig
     {
         if(!is_null($configArray))
         {
-            $this->fromArray($configArray);
+            $this->exchangeArray($configArray);
         }
     }
 
@@ -35,7 +35,7 @@ class Config extends \ArrayObject implements IConfig
     /**
      * {@inheritdoc}
      */
-    public function fromArray(array $configArray)
+    public function exchangeArray(array $configArray)
     {
         if(!$this->isValid($configArray))
         {
@@ -43,6 +43,14 @@ class Config extends \ArrayObject implements IConfig
         }
 
         $this->configArray = $configArray;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getArrayCopy()
+    {
+        return $this->configArray;
     }
 
     /**
@@ -82,14 +90,6 @@ class Config extends \ArrayObject implements IConfig
     public function offsetUnset($offset)
     {
         unset($this->configArray[$offset]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function toArray()
-    {
-        return $this->configArray;
     }
 
     /**

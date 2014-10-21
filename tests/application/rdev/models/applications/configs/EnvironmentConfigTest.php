@@ -20,7 +20,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
             }
         ];
         $config = new EnvironmentConfig($configArray);
-        $this->assertEquals($configArray, $config->toArray());
+        $this->assertEquals($configArray, $config->getArrayCopy());
     }
 
     /**
@@ -50,7 +50,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $config = new EnvironmentConfig($configArray);
-        $this->assertEquals($configArray, $config->toArray());
+        $this->assertEquals($configArray, $config->getArrayCopy());
     }
 
     /**
@@ -59,7 +59,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingAnything()
     {
         $config = new EnvironmentConfig([]);
-        $this->assertEquals([], $config->toArray());
+        $this->assertEquals([], $config->getArrayCopy());
     }
 
     /**
@@ -141,7 +141,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $configArray = ["development" => ["foo"]];
         $config = new EnvironmentConfig($configArray);
-        $this->assertEquals($configArray, $config->toArray());
+        $this->assertEquals($configArray, $config->getArrayCopy());
     }
 
     /**
@@ -150,7 +150,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingValidDevelopmentOptionsAsString()
     {
         $config = new EnvironmentConfig(["development" => "foo"]);
-        $this->assertEquals(["development" => ["foo"]], $config->toArray());
+        $this->assertEquals(["development" => ["foo"]], $config->getArrayCopy());
     }
 
     /**
@@ -160,7 +160,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $configArray = ["production" => ["foo"]];
         $config = new EnvironmentConfig($configArray);
-        $this->assertEquals($configArray, $config->toArray());
+        $this->assertEquals($configArray, $config->getArrayCopy());
     }
 
     /**
@@ -169,7 +169,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingValidProductionOptionsAsString()
     {
         $config = new EnvironmentConfig(["production" => "foo"]);
-        $this->assertEquals(["production" => ["foo"]], $config->toArray());
+        $this->assertEquals(["production" => ["foo"]], $config->getArrayCopy());
     }
 
     /**
@@ -179,7 +179,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $configArray = ["staging" => ["foo"]];
         $config = new EnvironmentConfig($configArray);
-        $this->assertEquals($configArray, $config->toArray());
+        $this->assertEquals($configArray, $config->getArrayCopy());
     }
 
     /**
@@ -188,7 +188,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingValidStagingOptionsAsString()
     {
         $config = new EnvironmentConfig(["staging" => "foo"]);
-        $this->assertEquals(["staging" => ["foo"]], $config->toArray());
+        $this->assertEquals(["staging" => ["foo"]], $config->getArrayCopy());
     }
 
     /**
@@ -198,7 +198,7 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $configArray = ["testing" => ["foo"]];
         $config = new EnvironmentConfig($configArray);
-        $this->assertEquals($configArray, $config->toArray());
+        $this->assertEquals($configArray, $config->getArrayCopy());
     }
 
     /**
@@ -207,6 +207,6 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingValidTestingOptionsAsString()
     {
         $config = new EnvironmentConfig(["testing" => "foo"]);
-        $this->assertEquals(["testing" => ["foo"]], $config->toArray());
+        $this->assertEquals(["testing" => ["foo"]], $config->getArrayCopy());
     }
 } 

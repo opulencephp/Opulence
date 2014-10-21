@@ -105,23 +105,23 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests converting to an array
+     */
+    public function testGetArrayCopy()
+    {
+        $configArray = ["foo" => "bar"];
+        $configWithArrayInConstructor = new Config($configArray);
+        $configWithArrayInFromArray = new Config();
+        $configWithArrayInFromArray->exchangeArray($configArray);
+        $this->assertEquals($configArray, $configWithArrayInConstructor->getArrayCopy());
+        $this->assertEquals($configArray, $configWithArrayInFromArray->getArrayCopy());
+    }
+
+    /**
      * Tests making sure the config can be treated like an array
      */
     public function testIsArrayObject()
     {
         $this->assertInstanceOf("\\ArrayObject", new Config);
-    }
-
-    /**
-     * Tests converting to an array
-     */
-    public function testToArray()
-    {
-        $configArray = ["foo" => "bar"];
-        $configWithArrayInConstructor = new Config($configArray);
-        $configWithArrayInFromArray = new Config();
-        $configWithArrayInFromArray->fromArray($configArray);
-        $this->assertEquals($configArray, $configWithArrayInConstructor->toArray());
-        $this->assertEquals($configArray, $configWithArrayInFromArray->toArray());
     }
 }

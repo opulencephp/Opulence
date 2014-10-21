@@ -12,9 +12,9 @@ class MasterSlaveConnectionPoolConfig extends ConnectionPoolConfig
     /**
      * {@inheritdoc}
      */
-    public function fromArray(array $configArray)
+    public function exchangeArray(array $configArray)
     {
-        parent::fromArray($configArray);
+        parent::exchangeArray($configArray);
 
         // We don't want this object's config array set until we're done with this method
         // so, store it off to a temporary variable, and then set it to an empty array

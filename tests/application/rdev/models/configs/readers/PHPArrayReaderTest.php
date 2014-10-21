@@ -69,7 +69,7 @@ class PHPArrayReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadingFromValidFile()
     {
         $config = $this->phpArrayReader->readFromFile(__DIR__ . self::VALID_PHP_ARRAY_CONFIG_PATH);
-        $this->assertEquals(["foo" => "bar"], $config->toArray());
+        $this->assertEquals(["foo" => "bar"], $config->getArrayCopy());
     }
 
     /**
@@ -79,7 +79,7 @@ class PHPArrayReaderTest extends \PHPUnit_Framework_TestCase
     {
         $array = ["foo" => "bar"];
         $config = $this->phpArrayReader->readFromInput($array);
-        $this->assertEquals($array, $config->toArray());
+        $this->assertEquals($array, $config->getArrayCopy());
     }
 
     /**

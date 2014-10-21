@@ -23,7 +23,7 @@ class RouterFactory
     public function createFromConfig(Configs\RouterConfig $config, IoC\IContainer $container, HTTP\Connection $connection)
     {
         $router = new Routing\Router($container, $connection, new Routing\Dispatcher($container), $config["compiler"]);
-        $this->createRoutesFromConfigArray($router, $config->toArray());
+        $this->createRoutesFromConfigArray($router, $config->getArrayCopy());
 
         return $router;
     }

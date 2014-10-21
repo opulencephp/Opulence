@@ -52,11 +52,11 @@ echo $myConfig["databaseSettings"]["host"]; // "127.0.0.1"
 ```
 
 ##### Converting From an Array
-All configs must implement `fromArray()`.  In this method, you should call `isValid()`, and then proceed to convert the array into a config, setting the object's config array at the end.  It is a good place to convert certain pieces of data into new objects.  For example, say we allow an SQL driver to be passed in the array, but we also allow the name of a SQL driver class to be passed in.  In `fromArray()`, convert the name of the driver class to an actual instance of that class:
+All configs must implement `exchangeArray()`.  In this method, you should call `isValid()`, and then proceed to convert the array into a config, setting the object's config array at the end.  It is a good place to convert certain pieces of data into new objects.  For example, say we allow an SQL driver to be passed in the array, but we also allow the name of a SQL driver class to be passed in.  In `exchangeArray()`, convert the name of the driver class to an actual instance of that class:
 ```php
 class MyConfig extends Configs\Config
 {
-    public function fromArray(array $configArray)
+    public function exchangeArray(array $configArray)
     {
         if(!$this->isValid($configArray))
         {
