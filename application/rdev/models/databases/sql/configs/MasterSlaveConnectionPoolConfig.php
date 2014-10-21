@@ -12,7 +12,7 @@ class MasterSlaveConnectionPoolConfig extends ConnectionPoolConfig
     /**
      * {@inheritdoc}
      */
-    public function exchangeArray(array $configArray)
+    public function exchangeArray($configArray)
     {
         parent::exchangeArray($configArray);
 

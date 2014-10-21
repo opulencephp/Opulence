@@ -35,7 +35,7 @@ class Config extends \ArrayObject implements IConfig
     /**
      * {@inheritdoc}
      */
-    public function exchangeArray(array $configArray)
+    public function exchangeArray($configArray)
     {
         if(!$this->isValid($configArray))
         {

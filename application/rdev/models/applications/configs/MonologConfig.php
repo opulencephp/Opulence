@@ -63,7 +63,7 @@ class MonologConfig extends Configs\Config
     /**
      * {@inheritdoc}
      */
-    public function exchangeArray(array $configArray)
+    public function exchangeArray($configArray)
     {
         if(!$this->isValid($configArray))
         {

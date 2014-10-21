@@ -56,7 +56,7 @@ All configs must implement `exchangeArray()`.  In this method, you should call `
 ```php
 class MyConfig extends Configs\Config
 {
-    public function exchangeArray(array $configArray)
+    public function exchangeArray($configArray)
     {
         if(!$this->isValid($configArray))
         {
