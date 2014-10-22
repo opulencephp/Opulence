@@ -157,9 +157,9 @@ class Cache implements ICache
     private function getTemplatePath($unrenderedTemplate, array $variables, array $tags)
     {
         return $this->path . "/" . md5(http_build_query([
-            "te" => $unrenderedTemplate,
+            "u" => $unrenderedTemplate,
             "v" => $variables,
-            "ta" => $tags
+            "t" => $tags
         ]));
     }
 
