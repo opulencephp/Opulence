@@ -51,7 +51,20 @@ echo $template->render(); // "Hello, Beautiful Man"
 To improve the speed of template rendering, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
 #### Garbage Collection
-Occasionally, you should clear out old cached template files to save disk space.  `Cache` has a mechanism for performing this garbage collection every so often.  If you'd like to call it explicitly, call `gc()` on your cache object.
+Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
+ 
+```php
+use RDev\Models\Files;
+use RDev\Views\Templates;
+
+// Make 123 out of every 1,000 template renderings trigger garbage collection
+$cache = new Templates\Cache(new Files\FileSystem(), "/tmp", 123, 1000);
+```
+Or use `setGCChance()`:
+```php
+// Make 1 out of every 500 template renderings trigger garbage collection
+$cache->setGCChance(1, 500);
+```
 
 ## Cross-Site Scripting
 Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
