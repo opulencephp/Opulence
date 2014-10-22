@@ -24,6 +24,8 @@ class Template implements Views\IView
     protected $unrenderedTemplate = "";
     /** @var ICompiler The compiler to use to compile the template */
     protected $compiler = null;
+    /** @var ICache The cache to use for rendered templates */
+    protected $cache = null;
     /** @var array The mapping of tag names to their values */
     protected $tags = [];
     /** @var array The mapping of PHP variable names to their values */
@@ -43,16 +45,13 @@ class Template implements Views\IView
 
     /**
      * @param ICompiler $compiler The compiler to use in this template
+     * @param ICache $cache The cache to use for rendered templates
      */
-    public function __construct(ICompiler $compiler = null)
+    public function __construct(ICompiler $compiler, ICache $cache)
     {
-        if($compiler === null)
-        {
-            $compiler = new Compiler();
-        }
-
-        $this->setCompiler($compiler);
         $this->fileSystem = new Files\FileSystem();
+        $this->setCompiler($compiler);
+        $this->setCache($cache);
 
         // Order here matters
         $this->registerPHPCompiler();
@@ -157,7 +156,24 @@ class Template implements Views\IView
      */
     public function render()
     {
-        return $this->compiler->compile($this->unrenderedTemplate);
+        $compiledTemplate = $this->cache->get($this->unrenderedTemplate, $this->vars, $this->tags);
+
+        if($compiledTemplate === null)
+        {
+            // Remember this for next time
+            $compiledTemplate = $this->compiler->compile($this->unrenderedTemplate);
+            $this->cache->set($compiledTemplate, $this->unrenderedTemplate, $this->vars, $this->tags);
+        }
+
+        return $compiledTemplate;
+    }
+
+    /**
+     * @param ICache $cache
+     */
+    public function setCache($cache)
+    {
+        $this->cache = $cache;
     }
 
     /**

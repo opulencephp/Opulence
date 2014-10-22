@@ -3,13 +3,14 @@
 ## Table of Contents
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
-3. [Cross-Site Scripting](#cross-site-scripting)
-4. [Nesting Templates](#nesting-templates)
-5. [Using PHP in Your Template](#using-php-in-your-template)
-6. [Built-In Functions](#built-in-functions)
-7. [Custom Functions](#custom-functions)
-8. [Escaping Tags](#escaping-tags)
-9. [Custom Tags](#custom-tags)
+3. [Caching](#caching)
+4. [Cross-Site Scripting](#cross-site-scripting)
+5. [Nesting Templates](#nesting-templates)
+6. [Using PHP in Your Template](#using-php-in-your-template)
+7. [Built-In Functions](#built-in-functions)
+8. [Custom Functions](#custom-functions)
+9. [Escaping Tags](#escaping-tags)
+10. [Custom Tags](#custom-tags)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
@@ -21,9 +22,12 @@ Hello, {{username}}
 ```
 ##### Application Code
 ```php
+use RDev\Models\Files;
 use RDev\Views\Templates;
 
-$template = new Templates\Template();
+$compiler = new Templates\Compiler();
+$cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
+$template = new Templates\Template($compiler, $cache);
 $template->readFromFile(PATH_TO_HTML_TEMPLATE);
 $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
@@ -31,13 +35,19 @@ echo $template->render(); // "Hello, Beautiful Man"
 
 Alternatively, you could just render a template by passing it into `readFromInput()`:
 ```php
+use RDev\Models\Files;
 use RDev\Views\Templates;
 
-$template = new Templates\Template();
+$compiler = new Templates\Compiler();
+$cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
+$template = new Templates\Template($compiler, $cache);
 $template->readFromInput("Hello, {{username}}");
 $template->setTag("username", "Beautiful Man");
 echo $template->render(); // "Hello, Beautiful Man"
 ```
+
+## Caching
+To improve the speed of template rendering, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.
 
 ## Cross-Site Scripting
 Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
@@ -80,11 +90,14 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ```
 ##### Application Code
 ```php
+use RDev\Models\Files;
 use RDev\Views\Templates;
 
-$sidebar = new Templates\Template();
+$compiler = new Templates\Compiler();
+$cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
+$sidebar = new Templates\Template($compiler, $cache);
 $sidebar->readFromFile(PATH_TO_SIDEBAR_TEMPLATE);
-$page = new Templates\Template();
+$page = new Templates\Template($compiler, $cache);
 $page->readFromFile(PATH_TO_PAGE_TEMPLATE);
 $page->setTag("sidebar", $sidebar->render());
 echo $page->render();

@@ -36,10 +36,11 @@ class Generic extends Templates\Template
 
     /**
      * @param Templates\ICompiler $compiler The compiler to use in this template
+     * @param Templates\ICache $cache The cache to use for rendered templates
      */
-    public function __construct(Templates\ICompiler $compiler = null)
+    public function __construct(Templates\ICompiler $compiler, Templates\ICache $cache)
     {
-        parent::__construct($compiler);
+        parent::__construct($compiler, $cache);
 
         $this->readFromFile(__DIR__ . "/files/Generic.html");
     }

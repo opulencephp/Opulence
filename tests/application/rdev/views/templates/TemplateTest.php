@@ -5,6 +5,7 @@
  * Tests the template class
  */
 namespace RDev\Views\Templates;
+use RDev\Models\Files;
 use RDev\Tests\Models\Mocks;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
@@ -22,11 +23,39 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     private $template = null;
 
     /**
+     * Does some setup before any tests
+     */
+    public static function setUpBeforeClass()
+    {
+        if(!is_dir(__DIR__ . "/tmp"))
+        {
+            mkdir(__DIR__ . "/tmp");
+        }
+    }
+
+    /**
+     * Performs some garbage collection
+     */
+    public static function tearDownAfterClass()
+    {
+        $files = glob(__DIR__ . "/tmp/*");
+
+        foreach($files as $file)
+        {
+            is_dir($file) ? rmdir($file) : unlink($file);
+        }
+
+        rmdir(__DIR__ . "/tmp");
+    }
+
+    /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->template = new Template(new Compiler());
+        $compiler = new Compiler();
+        $cache = new Cache(new Files\FileSystem(), __DIR__ . "/tmp");
+        $this->template = new Template($compiler, $cache);
     }
 
     /**
@@ -479,7 +508,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testSettingCompilerInConstructor()
     {
         $compiler = new Compiler();
-        $template = new Template($compiler);
+        $cache = new Cache(new Files\FileSystem(), __DIR__ . "/tmp");
+        $template = new Template($compiler, $cache);
         $this->assertSame($compiler, $template->getCompiler());
     }
 
