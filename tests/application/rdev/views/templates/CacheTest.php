@@ -9,6 +9,8 @@ use RDev\Models\Files;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var Files\FileSystem The file system to use to read cached templates */
+    private $fileSystem = null;
     /** @var Cache The cache to use in tests */
     private $cache = null;
 
@@ -43,7 +45,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cache = new Cache(new Files\FileSystem(), __DIR__ . "/tmp", 3600);
+        $this->fileSystem = new Files\FileSystem();
+        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 3600);
     }
 
     /**
@@ -116,6 +119,17 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->cache->flush();
         $this->assertFalse($this->cache->has("foo", ["bar1" => "baz"], ["blah1" => "asdf"]));
         $this->assertFalse($this->cache->has("foo", ["bar2" => "baz"], ["blah2" => "asdf"]));
+    }
+
+    /**
+     * Tests running garbage collection
+     */
+    public function testGarbageCollection()
+    {
+        $this->fileSystem->write(__DIR__ . "/tmp/foo", "compiled");
+        $this->cache->setLifetime(-1);
+        $this->cache->gc();
+        $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . "/tmp"));
     }
 
     /**

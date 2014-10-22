@@ -9,7 +9,7 @@ use RDev\Models\Files;
 
 class Cache implements ICache
 {
-    /** The default expiration of a cached template */
+    /** The default lifetime of a cached template */
     const DEFAULT_LIFETIME = 3600;
 
     /** @var Files\FileSystem The file system to use to read cached templates */
@@ -47,6 +47,22 @@ class Cache implements ICache
         foreach($templatePaths as $templatePath)
         {
             $this->fileSystem->deleteFile($templatePath);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function gc()
+    {
+        $templatePaths = $this->fileSystem->getFiles($this->path);
+
+        foreach($templatePaths as $templatePath)
+        {
+            if($this->isExpired($templatePath))
+            {
+                $this->fileSystem->deleteFile($templatePath);
+            }
         }
     }
 
@@ -128,22 +144,6 @@ class Cache implements ICache
     private function cachingIsEnabled()
     {
         return $this->lifetime > 0;
-    }
-
-    /**
-     * Performs garbage collection of expired templates
-     */
-    private function gc()
-    {
-        $templatePaths = $this->fileSystem->getFiles($this->path);
-
-        foreach($templatePaths as $templatePath)
-        {
-            if($this->isExpired($templatePath))
-            {
-                $this->fileSystem->deleteFile($templatePath);
-            }
-        }
     }
 
     /**

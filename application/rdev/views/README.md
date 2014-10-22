@@ -4,6 +4,7 @@
 1. [Introduction](#introduction)
 2. [Basic Usage](#basic-usage)
 3. [Caching](#caching)
+  1. [Garbage Collection](#garbage-collection)
 4. [Cross-Site Scripting](#cross-site-scripting)
 5. [Nesting Templates](#nesting-templates)
 6. [Using PHP in Your Template](#using-php-in-your-template)
@@ -48,6 +49,9 @@ echo $template->render(); // "Hello, Beautiful Man"
 
 ## Caching
 To improve the speed of template rendering, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
+
+#### Garbage Collection
+Occasionally, you should clear out old cached template files to save disk space.  `Cache` has a mechanism for performing this garbage collection every so often.  If you'd like to call it explicitly, call `gc()` on your cache object.
 
 ## Cross-Site Scripting
 Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".

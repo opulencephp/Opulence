@@ -14,6 +14,11 @@ interface ICache
     public function flush();
 
     /**
+     * Performs garbage collection of expired templates
+     */
+    public function gc();
+
+    /**
      * Gets the unrendered template with the input data
      *
      * @param string $unrenderedTemplate The unrendered template
