@@ -179,9 +179,9 @@ RDev also supplies some other built-in functions:
 * `formatDateTime()`
   * Returns a formatted DateTime
   * Accepts the following arguments:
-    1. DateTime $dateTime - The DateTime to format
-    2. string $format - The optional format (defaults to "m/d/Y")
-    3. DateTimeZone|string $timeZone - The optional DateTimeZone object or timezone identifier to use
+    1. `DateTime $dateTime` - The DateTime to format
+    2. `string $format` - The optional format (defaults to "m/d/Y")
+    3. `DateTimeZone|string $timeZone` - The optional DateTimeZone object or timezone identifier to use
 
 Here's an example of how to use a built-in function:
 ##### Template
