@@ -47,7 +47,7 @@ echo $template->render(); // "Hello, Beautiful Man"
 ```
 
 ## Caching
-To improve the speed of template rendering, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.
+To improve the speed of template rendering, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
 ## Cross-Site Scripting
 Tags are automatically sanitized to prevent cross-site scripting (XSS) when using the "{{" and "}}" tags.  To display unescaped data, simply use "{{!MY_UNESCAPED_TAG_NAME_HERE!}}".
