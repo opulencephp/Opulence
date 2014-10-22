@@ -11,6 +11,10 @@ class Cache implements ICache
 {
     /** The default lifetime of a cached template */
     const DEFAULT_LIFETIME = 3600;
+    /** The default chance that garbage collection will be run in this instance */
+    const DEFAULT_GC_CHANCE = 1;
+    /** The default number the chance will be divided by to calculate the probability */
+    const DEFAULT_GC_TOTAL = 1000;
 
     /** @var Files\FileSystem The file system to use to read cached templates */
     private $fileSystem = null;
@@ -18,20 +22,38 @@ class Cache implements ICache
     private $path = null;
     /** @var int The number of seconds cached templates should live */
     private $lifetime = self::DEFAULT_LIFETIME;
+    /** @var int The chance (out of the total) that garbage collection will be run */
+    private $gcChance = self::DEFAULT_GC_CHANCE;
+    /** @var int The number the chance will be divided by to calculate the probability */
+    private $gcTotal = self::DEFAULT_GC_TOTAL;
 
     /**
      * @param Files\FileSystem $fileSystem The file system to use to read cached template
      * @param string $path The path to store the cached templates at
      * @param int $lifetime The number of seconds cached templates should live
+     * @param int $gcChance The chance (out of the total) that garbage collection will be run
+     * @param int $gcTotal The number the chance will be divided by to calculate the probability
      */
-    public function __construct(Files\FileSystem $fileSystem, $path, $lifetime = self::DEFAULT_LIFETIME)
+    public function __construct(
+        Files\FileSystem $fileSystem,
+        $path,
+        $lifetime = self::DEFAULT_LIFETIME,
+        $gcChance = self::DEFAULT_GC_CHANCE,
+        $gcTotal = self::DEFAULT_GC_TOTAL
+    )
     {
         $this->fileSystem = $fileSystem;
         $this->path = rtrim($path, "/");
         $this->setLifetime($lifetime);
+        $this->setGCChance($gcChance, $gcTotal);
+    }
 
-        // Every so often, run some garbage collection
-        if(rand(1, 100) == 50)
+    /**
+     * Performs some garbage collection
+     */
+    public function __destruct()
+    {
+        if(rand(1, $this->gcTotal) <= $this->gcChance)
         {
             $this->gc();
         }
@@ -126,6 +148,15 @@ class Cache implements ICache
         {
             $this->fileSystem->write($this->getTemplatePath($unrenderedTemplate, $variables, $tags), $renderedTemplate);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setGCChance($chance, $total = 100)
+    {
+        $this->gcChance = $chance;
+        $this->gcTotal = $total;
     }
 
     /**

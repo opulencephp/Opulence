@@ -9,6 +9,13 @@ HAS PRIORITY:
     *** Once above is done, create a tag
 
 
+Need to think of a good place to instantiate Compiler and Cache
+    Create a factory class?  Maybe make the factory class configurable?
+        Maybe controller classes will be passed them in their constructors?
+        That way, you could call $this->viewFactory->create()->...->render();
+    Or make a view config class with those settings?
+        Could have lottery-definition for cache
+        Could specify instance/name of compiler/cache classes
 Need to create session storage classes
     Need to think of how to assign session Ids
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to to implement

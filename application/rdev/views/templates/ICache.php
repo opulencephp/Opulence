@@ -57,6 +57,15 @@ interface ICache
     public function set($renderedTemplate, $unrenderedTemplate, array $variables = [], array $tags = []);
 
     /**
+     * Sets the chance that garbage collection will be run
+     * For example, passing (123, 1000) means you will have a 123/1000 chance of having to perform garbage collection
+     *
+     * @param int $chance The chance (out of the total) that garbage collection will be run
+     * @param int $total The number the chance will be divided by to calculate the probability
+     */
+    public function setGCChance($chance, $total = 100);
+
+    /**
      * Sets the lifetime of cached templates
      *
      * @param int $lifetime The number of seconds a rendered template should stay cached
