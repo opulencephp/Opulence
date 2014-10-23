@@ -5,8 +5,6 @@
  * Tests the generic page template
  */
 namespace RDev\Views\Pages;
-use RDev\Models\Files;
-use RDev\Views\Templates;
 
 class GenericTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,9 +16,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $compiler = new Templates\Compiler();
-        $cache = new Templates\Cache(new Files\FileSystem(), __DIR__ . "/tmp");
-        $this->generic = new Generic($compiler, $cache);
+        $this->generic = new Generic();
     }
 
     /**

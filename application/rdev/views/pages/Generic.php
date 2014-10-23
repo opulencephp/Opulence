@@ -5,6 +5,7 @@
  * Defines a generic page template
  */
 namespace RDev\Views\Pages;
+use RDev\Models\Files;
 use RDev\Views\Templates;
 
 class Generic extends Templates\Template
@@ -34,15 +35,12 @@ class Generic extends Templates\Template
     /** @var array The list of inline footer JavaScript */
     protected $footerInlineJavaScript = [];
 
-    /**
-     * @param Templates\ICompiler $compiler The compiler to use in this template
-     * @param Templates\ICache $cache The cache to use for rendered templates
-     */
-    public function __construct(Templates\ICompiler $compiler, Templates\ICache $cache)
+    public function __construct()
     {
-        parent::__construct($compiler, $cache);
+        parent::__construct();
 
-        $this->readFromFile(__DIR__ . "/files/Generic.html");
+        $fileSystem = new Files\FileSystem();
+        $this->setContents($fileSystem->read(__DIR__ . "/files/Generic.html"));
     }
 
     /**
@@ -233,7 +231,7 @@ class Generic extends Templates\Template
     /**
      * {@inheritdoc}
      */
-    public function render()
+    public function prepare()
     {
         if(!empty($this->title))
         {
@@ -297,8 +295,6 @@ class Generic extends Templates\Template
         {
             $this->setTag("footerInlineJavaScript", $this->getHTMLForInlineJavaScript($this->footerInlineJavaScript));
         }
-
-        return parent::render();
     }
 
     /**

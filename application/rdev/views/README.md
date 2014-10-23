@@ -26,29 +26,29 @@ Hello, {{username}}
 use RDev\Models\Files;
 use RDev\Views\Templates;
 
-$compiler = new Templates\Compiler();
-$cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
-$template = new Templates\Template($compiler, $cache);
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$fileSystem = new Files\FileSystem();
+$cache = new Templates\Cache($fileSystem, "/tmp");
+$compiler = new Templates\Compiler($cache);
+$template = new Templates\Template();
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Beautiful Man");
-echo $template->render(); // "Hello, Beautiful Man"
+echo $compiler->compile($template)); // "Hello, Beautiful Man"
 ```
 
-Alternatively, you could just render a template by passing it into `readFromInput()`:
+Alternatively, you could just pass in a template's contents to its constructor:
 ```php
 use RDev\Models\Files;
 use RDev\Views\Templates;
 
-$compiler = new Templates\Compiler();
 $cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
-$template = new Templates\Template($compiler, $cache);
-$template->readFromInput("Hello, {{username}}");
+$compiler = new Templates\Compiler($cache);
+$template = new Templates\Template("Hello, {{username}}");
 $template->setTag("username", "Beautiful Man");
-echo $template->render(); // "Hello, Beautiful Man"
+echo $compiler->compile($template)); // "Hello, Beautiful Man"
 ```
 
 ## Caching
-To improve the speed of template rendering, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
+To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
 #### Garbage Collection
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
@@ -57,12 +57,12 @@ Occasionally, you should clear out old cached template files to save disk space.
 use RDev\Models\Files;
 use RDev\Views\Templates;
 
-// Make 123 out of every 1,000 template renderings trigger garbage collection
+// Make 123 out of every 1,000 template compilings trigger garbage collection
 $cache = new Templates\Cache(new Files\FileSystem(), "/tmp", 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php
-// Make 1 out of every 500 template renderings trigger garbage collection
+// Make 1 out of every 500 template compilings trigger garbage collection
 $cache->setGCChance(1, 500);
 ```
 
@@ -74,9 +74,9 @@ Tags are automatically sanitized to prevent cross-site scripting (XSS) when usin
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("name", "A&W");
-echo $template->render(); // "A&amp;W vs A&W"
+echo $compiler->compile($template)); // "A&amp;W vs A&W"
 ```
 
 Alternatively, you can output a string literal inside tags:
@@ -110,14 +110,15 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 use RDev\Models\Files;
 use RDev\Views\Templates;
 
-$compiler = new Templates\Compiler();
-$cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
-$sidebar = new Templates\Template($compiler, $cache);
-$sidebar->readFromFile(PATH_TO_SIDEBAR_TEMPLATE);
-$page = new Templates\Template($compiler, $cache);
-$page->readFromFile(PATH_TO_PAGE_TEMPLATE);
-$page->setTag("sidebar", $sidebar->render());
-echo $page->render();
+$fileSystem = new Files\FileSystem();
+$cache = new Templates\Cache($fileSystem, "/tmp");
+$compiler = new Templates\Compiler($cache);
+$sidebar = new Templates\Template();
+$sidebar->setContents($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
+$page = new Templates\Template();
+$page->setContents($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
+$page->setTag("sidebar", $compiler->compile($sidebar));
+echo $compiler->compile($page));
 ```
 
 ##### Output
@@ -148,8 +149,8 @@ foreach(["foo", "bar"] as $item)
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
-echo $template->render(); // "<ul><li>foo</li><li>bar</li></ul>"
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
+echo $compiler->compile($template)); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
 You can also inject values from your application code into variables in your template:
@@ -161,9 +162,9 @@ Hello, Administrator
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setVar("isAdministrator", true);
-echo $template->render(); // "Hello, Administrator"
+echo $compiler->compile($template)); // "Hello, Administrator"
 ```
 
 > **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
@@ -203,24 +204,24 @@ Here's an example of how to use a built-in function:
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
-echo $template->render(); // "4.35 rounded down to the nearest tenth is 4.3"
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
+echo $compiler->compile($template)); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
 You can also pass variables into your functions in the template and set them using `setVar()`.
 
 > **Note:**  Nested function calls (eg `trim(strtoupper(" foo "))`) are currently not supported.
 
 ## Custom Functions
-It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the template:
+It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
 ##### Template
 ```
 Hello, {{salutation("Young", false, true)}}
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 // Our function simply needs to have a printable return value
-$template->registerFunction("salutation", function($lastName, $isMale, $isMarried)
+$compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $isMarried)
 {
     if($isMale)
     {
@@ -237,7 +238,7 @@ $template->registerFunction("salutation", function($lastName, $isMale, $isMarrie
 
     return $salutation . " " . $lastName;
 });
-echo $template->render(); // "Hello, Mrs. Young"
+echo $compiler->compile($template)); // "Hello, Mrs. Young"
 ```
 > **Note:**  As with built-in functions, nested function calls are currently not supported.
 
@@ -249,9 +250,9 @@ Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}!
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Mr Schwarzenegger");
-echo $template->render(); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
+echo $compiler->compile($template)); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
 ```
 
 ## Custom Tags
@@ -262,7 +263,7 @@ Want to use a custom character/string for the tags?  Easy!  Just specify it in t
 ```
 ##### Application Code
 ```php
-$template->readFromFile(PATH_TO_HTML_TEMPLATE);
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setEscapedOpenTag("^^");
 $template->setEscapedCloseTag("$$");
 // You can also override the unescaped tags
@@ -270,5 +271,5 @@ $template->setUnescapedOpenTag("++");
 $template->setUnescapedCloseTag("--");
 $template->setTag("name", "A&W");
 $template->setTag("food", "Root Beer");
-echo $template->render(); // "A&amp;W Root Beer"
+echo $compiler->compile($template)); // "A&amp;W Root Beer"
 ```

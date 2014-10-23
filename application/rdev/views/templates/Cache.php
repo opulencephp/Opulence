@@ -9,13 +9,6 @@ use RDev\Models\Files;
 
 class Cache implements ICache
 {
-    /** The default lifetime of a cached template */
-    const DEFAULT_LIFETIME = 3600;
-    /** The default chance that garbage collection will be run in this instance */
-    const DEFAULT_GC_CHANCE = 1;
-    /** The default number the chance will be divided by to calculate the probability */
-    const DEFAULT_GC_TOTAL = 1000;
-
     /** @var Files\FileSystem The file system to use to read cached templates */
     private $fileSystem = null;
     /** @var string The path to store the cached templates at */

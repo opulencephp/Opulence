@@ -6,12 +6,14 @@
  */
 namespace RDev\Controllers;
 use RDev\Models\HTTP;
-use RDev\Views;
+use RDev\Views\Templates;
 
 abstract class Controller
 {
-    /** @var Views\IView The view used in the response */
-    protected $view = null;
+    /** @var Templates\ITemplate The template used in the response */
+    protected $template = null;
+    /** @var Templates\ICompiler The template compiler to use */
+    protected $compiler = null;
     /** @var HTTP\Connection The HTTP connection */
     protected $connection = null;
 
@@ -33,23 +35,23 @@ abstract class Controller
      */
     public function callMethod($methodName, array $parameters)
     {
-        $this->setUpView();
+        $this->setUpTemplate();
         /** @var HTTP\Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if($response === null && $this->view !== null)
+        if($response === null && $this->compiler instanceof Templates\ICompiler && $this->template !== null)
         {
-            $response->setContent($this->view->render());
+            $response->setContent($this->compiler->compile($this->template));
         }
 
         return $response;
     }
 
     /**
-     * Sets up the view
-     * Useful for setting up a view's components that are the same across controller methods
+     * Sets up the template
+     * Useful for setting up a template's components that are the same across controller methods
      */
-    protected function setUpView()
+    protected function setUpTemplate()
     {
         // Don't do anything
     }

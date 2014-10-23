@@ -9,6 +9,12 @@ HAS PRIORITY:
     *** Once above is done, create a tag
 
 
+
+PROBLEM!!!!
+    Configs try and instantiate classes sometimes when the name is specified as a string
+        Right now, it does the naive way of not passing in anything to the constructor
+        What about the case that something is required in the constructor
+        Configs won't work in this case
 Need to think of a good place to instantiate Compiler and Cache
     Create a factory class?  Maybe make the factory class configurable?
         Maybe controller classes will be passed them in their constructors?

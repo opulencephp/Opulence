@@ -8,6 +8,13 @@ namespace RDev\Views\Templates;
 
 interface ICache
 {
+    /** The default lifetime of a cached template */
+    const DEFAULT_LIFETIME = 3600;
+    /** The default chance that garbage collection will be run in this instance */
+    const DEFAULT_GC_CHANCE = 1;
+    /** The default number the chance will be divided by to calculate the probability */
+    const DEFAULT_GC_TOTAL = 1000;
+
     /**
      * Flushes all of the rendered templates from cache
      */
