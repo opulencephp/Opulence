@@ -10,7 +10,7 @@
 6. [Using PHP in Your Template](#using-php-in-your-template)
 7. [Built-In Functions](#built-in-functions)
 8. [Custom Template Functions](#custom-template-functions)
-9 [Extending the Compiler](#extending-the-compiler)
+9. [Extending the Compiler](#extending-the-compiler)
 10. [Escaping Tags](#escaping-tags)
 11. [Custom Tags](#custom-tags)
 
