@@ -246,7 +246,16 @@ echo $compiler->compile($template); // "Hello, Mrs. Young"
 ## Extending the Compiler
 Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerCompiler()`, you can write a function that can compile the syntax in your template to the desired output.  RDev itself uses `registerCompiler()` to compile PHP and tags in templates.
 
-`registerCompiler()` takes in two arguments:  the compiler function and an optional priority.  If your compiler needs to be executed before other compilers, simply pass in an integer to prioritize the compiler (1 is the highest).  If you do not specify a priority, then the compiler will be executed after the prioritized compilers in the order it was added.  Your compiler function must accept two arguments: the `ITemplate` object that is being compiled, and the current compiled contents.  By passing in the current compiled contents, you can chain compilers so that each compiles the output of the previous one.  
+Let's take a look at what should be passed into `registerCompiler()`:
+
+  1. `callable $compiler`
+  
+    * Should accept an `ITemplate` as it's first parameter and the current compiled contents as its second
+      * By passing in current compiled contents, you can chain compilers to that each compiles the output of the previous one
+    * Should return a string containing the results of the compilation
+  2. `int|null $priority`
+    * If your compiler needs to be executed before other compilers, simply pass in an integer to prioritize the compiler (1 is the highest)
+    * If you do not specify a priority, then the compiler will be executed after the prioritized compilers in the order it was added
 
 Let's take a look at an example that converts HTML comments to an HTML list of those comments:
 
