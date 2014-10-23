@@ -17,6 +17,8 @@
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
 ## Basic Usage
+Templates hold raw content for pages and page parts.  In order to compile this raw content into finished templates, we `compile()` them using a compiler that implements `RDev\Views\Templates\ICompiler` (`RDev\Views\Templates\Compiler` come built-in to RDev).  By separating the compiling into a separate class, we respect the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
+
 ##### Template
 ```
 Hello, {{username}}
@@ -31,8 +33,8 @@ $cache = new Templates\Cache($fileSystem, "/tmp");
 $compiler = new Templates\Compiler($cache);
 $template = new Templates\Template();
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-$template->setTag("username", "Beautiful Man");
-echo $compiler->compile($template)); // "Hello, Beautiful Man"
+$template->setTag("username", "Dave");
+echo $compiler->compile($template); // "Hello, Dave"
 ```
 
 Alternatively, you could just pass in a template's contents to its constructor:
@@ -43,8 +45,8 @@ use RDev\Views\Templates;
 $cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
 $compiler = new Templates\Compiler($cache);
 $template = new Templates\Template("Hello, {{username}}");
-$template->setTag("username", "Beautiful Man");
-echo $compiler->compile($template)); // "Hello, Beautiful Man"
+$template->setTag("username", "Dave");
+echo $compiler->compile($template); // "Hello, Dave"
 ```
 
 ## Caching
@@ -76,7 +78,7 @@ Tags are automatically sanitized to prevent cross-site scripting (XSS) when usin
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("name", "A&W");
-echo $compiler->compile($template)); // "A&amp;W vs A&W"
+echo $compiler->compile($template); // "A&amp;W vs A&W"
 ```
 
 Alternatively, you can output a string literal inside tags:
@@ -113,12 +115,10 @@ use RDev\Views\Templates;
 $fileSystem = new Files\FileSystem();
 $cache = new Templates\Cache($fileSystem, "/tmp");
 $compiler = new Templates\Compiler($cache);
-$sidebar = new Templates\Template();
-$sidebar->setContents($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
-$page = new Templates\Template();
-$page->setContents($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
+$sidebar = new Templates\Template($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
+$page = new Templates\Template($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
 $page->setTag("sidebar", $compiler->compile($sidebar));
-echo $compiler->compile($page));
+echo $compiler->compile($page);
 ```
 
 ##### Output
@@ -150,7 +150,7 @@ foreach(["foo", "bar"] as $item)
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-echo $compiler->compile($template)); // "<ul><li>foo</li><li>bar</li></ul>"
+echo $compiler->compile($template); // "<ul><li>foo</li><li>bar</li></ul>"
 ```
 
 You can also inject values from your application code into variables in your template:
@@ -164,13 +164,13 @@ Hello, Administrator
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setVar("isAdministrator", true);
-echo $compiler->compile($template)); // "Hello, Administrator"
+echo $compiler->compile($template); // "Hello, Administrator"
 ```
 
 > **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 ## Built-In Functions
-Templates come with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
+`RDev\Views\Templates\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
 * `abs()`
 * `ceil()`
 * `count()`
@@ -205,7 +205,7 @@ Here's an example of how to use a built-in function:
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-echo $compiler->compile($template)); // "4.35 rounded down to the nearest tenth is 4.3"
+echo $compiler->compile($template); // "4.35 rounded down to the nearest tenth is 4.3"
 ```
 You can also pass variables into your functions in the template and set them using `setVar()`.
 
@@ -238,7 +238,7 @@ $compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $
 
     return $salutation . " " . $lastName;
 });
-echo $compiler->compile($template)); // "Hello, Mrs. Young"
+echo $compiler->compile($template); // "Hello, Mrs. Young"
 ```
 > **Note:**  As with built-in functions, nested function calls are currently not supported.
 
@@ -252,7 +252,7 @@ Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}!
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Mr Schwarzenegger");
-echo $compiler->compile($template)); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
+echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
 ```
 
 ## Custom Tags
@@ -271,5 +271,5 @@ $template->setUnescapedOpenTag("++");
 $template->setUnescapedCloseTag("--");
 $template->setTag("name", "A&W");
 $template->setTag("food", "Root Beer");
-echo $compiler->compile($template)); // "A&amp;W Root Beer"
+echo $compiler->compile($template); // "A&amp;W Root Beer"
 ```
