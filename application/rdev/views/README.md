@@ -250,8 +250,8 @@ Let's take a look at what should be passed into `registerCompiler()`:
 
   1. `callable $compiler`
   
-    * Should accept an `ITemplate` as it's first parameter and the current compiled contents as its second
-      * By passing in current compiled contents, you can chain compilers to that each compiles the output of the previous one
+    * Should accept an `ITemplate` as its first parameter and the current compiled contents as its second
+      * By passing in current compiled contents, you can chain compilers so that each compiles the output of the previous one
     * Should return a string containing the results of the compilation
   2. `int|null $priority`
     * If your compiler needs to be executed before other compilers, simply pass in an integer to prioritize the compiler (1 is the highest)
