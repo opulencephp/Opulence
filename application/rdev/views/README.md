@@ -9,9 +9,10 @@
 5. [Nesting Templates](#nesting-templates)
 6. [Using PHP in Your Template](#using-php-in-your-template)
 7. [Built-In Functions](#built-in-functions)
-8. [Custom Functions](#custom-functions)
-9. [Escaping Tags](#escaping-tags)
-10. [Custom Tags](#custom-tags)
+8. [Custom Template Functions](#custom-template-functions)
+9 [Extending the Compiler](#extending-the-compiler)
+10. [Escaping Tags](#escaping-tags)
+11. [Custom Tags](#custom-tags)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
@@ -211,7 +212,7 @@ You can also pass variables into your functions in the template and set them usi
 
 > **Note:**  Nested function calls (eg `trim(strtoupper(" foo "))`) are currently not supported.
 
-## Custom Functions
+## Custom Template Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
 ##### Template
 ```
@@ -241,6 +242,22 @@ $compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $
 echo $compiler->compile($template); // "Hello, Mrs. Young"
 ```
 > **Note:**  As with built-in functions, nested function calls are currently not supported.
+
+## Extending the Compiler
+Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerCompiler()`, you can write a function that can compile the syntax in your template to the desired output.  RDev itself uses `registerCompiler()` to compile PHP and tags in templates.
+
+`registerCompiler()` takes in two arguments:  the compiler function and an optional priority.  If your compiler needs to be executed before other compilers, simply pass in an integer to prioritize the compiler (1 is the highest).  If you do not specify a priority, then the compiler will be executed after the prioritized compilers in the order it was added.  Your compiler function must accept two arguments: the `ITemplate` object that is being compiled, and the current compiled contents.  By passing in the current compiled contents, you can chain compilers so that each compiles the output of the previous one.  
+
+Let's take a look at an example that converts HTML comments to an HTML list of those comments:
+
+```php
+$compiler->registerCompiler(function($template, $content)
+{
+    return "<ul>" . preg_replace("/<!--((?:(?!-->).)*)-->/", "<li>$1</li>", $content) . "</ul>";
+});
+$template->setContents("<!--Comment 1--><!--Comment 2-->");
+echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li></ul>"
+```
 
 ## Escaping Tags
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
