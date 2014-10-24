@@ -14,9 +14,9 @@ class Router extends Routing\Router
     /**
      * {@inheritdoc}
      */
-    public function __construct(IoC\IContainer $container, HTTP\Connection $httpConnection)
+    public function __construct(IoC\IContainer $container)
     {
-        parent::__construct($container, $httpConnection, new Dispatcher($container), new Routing\RouteCompiler());
+        parent::__construct($container, new Dispatcher($container), new Routing\RouteCompiler());
     }
 
     /**
@@ -27,6 +27,5 @@ class Router extends Routing\Router
     public function setHTTPMethod($httpMethod)
     {
         $_SERVER["REQUEST_METHOD"] = $httpMethod;
-        $this->connection = new HTTP\Connection();
     }
 } 

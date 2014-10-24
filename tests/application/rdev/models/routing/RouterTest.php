@@ -24,8 +24,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->routerFactory = new Factories\RouterFactory();
         $container = new IoC\Container();
-        $connection = new HTTP\Connection();
-        $this->router = $this->routerFactory->createFromConfig(new Configs\RouterConfig([]), $container, $connection);
+        $this->router = $this->routerFactory->createFromConfig(new Configs\RouterConfig([]), $container);
     }
 
     /**
@@ -240,8 +239,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $config = new Configs\RouterConfig($configArray);
         $container = new IoC\Container();
-        $connection = new HTTP\Connection();
-        $router = $this->routerFactory->createFromConfig($config, $container, $connection);
+        $router = $this->routerFactory->createFromConfig($config, $container);
         /** @var Route[] $getRoutes */
         $getRoutes = $router->getRoutes("GET");
         /** @var Route[] $postRoutes */
@@ -327,8 +325,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $config = new Configs\RouterConfig($configArray);
         $container = new IoC\Container();
-        $connection = new HTTP\Connection();
-        $router = $this->routerFactory->createFromConfig($config, $container, $connection);
+        $router = $this->routerFactory->createFromConfig($config, $container);
         $this->assertSame($getRoute, $router->getRoutes("GET")[0]);
     }
 
@@ -405,7 +402,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
         $this->router->get("/foo/{bar?}", $options);
-        $this->assertEquals("noParameters", $this->router->route("/foo/"));
+        $request = new HTTP\Request([], [], [], ["REQUEST_METHOD" => "GET", "REQUEST_URI" => "/foo/"], [], []);
+        $this->assertEquals("noParameters", $this->router->route($request));
     }
 
     /**
@@ -417,7 +415,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@oneParameter"
         ];
         $this->router->get("/bar/{foo?=23}", $options);
-        $this->assertEquals("foo:23", $this->router->route("/bar/"));
+        $request = new HTTP\Request([], [], [], ["REQUEST_METHOD" => "GET", "REQUEST_URI" => "/bar/"], [], []);
+        $this->assertEquals("foo:23", $this->router->route($request));
     }
 
     /**
@@ -473,7 +472,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         // The mock router will return the route used rather than the output of the route controller
         // This makes testing easier
-        $mockRouter = new Mocks\Router(new IoC\Container(), new HTTP\Connection());
+        $mockRouter = new Mocks\Router(new IoC\Container());
         $deleteRoute = new Route(HTTP\Request::METHOD_DELETE, $rawPath, $options);
         $getRoute = new Route(HTTP\Request::METHOD_GET, $rawPath, $options);
         $postRoute = new Route(HTTP\Request::METHOD_POST, $rawPath, $options);
@@ -482,21 +481,21 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $mockRouter->addRoute($getRoute);
         $mockRouter->addRoute($postRoute);
         $mockRouter->addRoute($putRoute);
-        $mockRouter->setHTTPMethod($httpMethod);
+        $request = new HTTP\Request([], [], [], ["REQUEST_URI" => $pathToRoute, "REQUEST_METHOD" => $httpMethod], [], []);
 
         switch($httpMethod)
         {
             case HTTP\Request::METHOD_DELETE:
-                $this->assertSame($deleteRoute, $mockRouter->route($pathToRoute));
+                $this->assertSame($deleteRoute, $mockRouter->route($request));
                 break;
             case HTTP\Request::METHOD_GET:
-                $this->assertSame($getRoute, $mockRouter->route($pathToRoute));
+                $this->assertSame($getRoute, $mockRouter->route($request));
                 break;
             case HTTP\Request::METHOD_POST:
-                $this->assertSame($postRoute, $mockRouter->route($pathToRoute));
+                $this->assertSame($postRoute, $mockRouter->route($request));
                 break;
             case HTTP\Request::METHOD_PUT:
-                $this->assertSame($putRoute, $mockRouter->route($pathToRoute));
+                $this->assertSame($putRoute, $mockRouter->route($request));
                 break;
         }
     }

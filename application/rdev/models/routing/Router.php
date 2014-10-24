@@ -16,8 +16,6 @@ class Router
     protected $compiler = null;
     /** @var Dispatcher The route dispatcher */
     protected $dispatcher = null;
-    /** @var HTTP\Connection The HTTP connection */
-    protected $connection = null;
     /** @var array The list of methods to their various routes */
     protected $routes = [
         HTTP\Request::METHOD_DELETE => [],
@@ -30,19 +28,16 @@ class Router
 
     /**
      * @param IoC\IContainer $container The IoC container
-     * @param HTTP\Connection $connection The connection used during this transaction
      * @param Dispatcher $dispatcher The route dispatcher
      * @param IRouteCompiler $compiler The route compiler
      */
     public function __construct(
         IoC\IContainer $container,
-        HTTP\Connection $connection,
         Dispatcher $dispatcher,
         IRouteCompiler $compiler
     )
     {
         $this->container = $container;
-        $this->connection = $connection;
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
     }
@@ -191,13 +186,13 @@ class Router
     /**
      * Routes a path
      *
-     * @param string $path The path to route
+     * @param HTTP\Request $request The request to route
      * @return HTTP\Response The response from the controller
      * @throws RouteException Thrown if the controller or method could not be called
      */
-    public function route($path)
+    public function route(HTTP\Request $request)
     {
-        $method = $this->connection->getRequest()->getMethod();
+        $method = $request->getMethod();
 
         /** @var Route $route */
         foreach($this->routes[$method] as $route)
@@ -205,7 +200,7 @@ class Router
             $this->compiler->compile($route);
             $matches = [];
 
-            if(preg_match($route->getRegex(), $path, $matches))
+            if(preg_match($route->getRegex(), $request->getPath(), $matches))
             {
                 return $this->dispatcher->dispatch($route, $matches);
             }

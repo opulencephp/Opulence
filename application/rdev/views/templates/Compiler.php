@@ -306,10 +306,9 @@ class Compiler implements ICompiler
             };
 
             // Replace string literals
-            $stringLiteralRegex = "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U";
             $content = preg_replace_callback(
                 sprintf(
-                    $stringLiteralRegex,
+                    "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U",
                     preg_quote("\\", "/"),
                     preg_quote($tagDataByType["tags"][0], "/"),
                     preg_quote($tagDataByType["tags"][1], "/")

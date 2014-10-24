@@ -43,7 +43,7 @@ class ApplicationFactory
         }
 
         $routerFactory = new Factories\RouterFactory();
-        $router = $routerFactory->createFromConfig($config["routing"], $container, $connection);
+        $router = $routerFactory->createFromConfig($config["routing"], $container);
         $session = $config["session"];
 
         // Create some default bindings

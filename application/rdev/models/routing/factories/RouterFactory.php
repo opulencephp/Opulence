@@ -17,12 +17,11 @@ class RouterFactory
      *
      * @param Configs\RouterConfig $config The config to instantiate from
      * @param IoC\IContainer $container The IoC container to use
-     * @param HTTP\Connection $connection The connection used in this transaction
      * @return Routing\Router The instantiated router
      */
-    public function createFromConfig(Configs\RouterConfig $config, IoC\IContainer $container, HTTP\Connection $connection)
+    public function createFromConfig(Configs\RouterConfig $config, IoC\IContainer $container)
     {
-        $router = new Routing\Router($container, $connection, new Routing\Dispatcher($container), $config["compiler"]);
+        $router = new Routing\Router($container, new Routing\Dispatcher($container), $config["compiler"]);
         $this->createRoutesFromConfigArray($router, $config->getArrayCopy());
 
         return $router;

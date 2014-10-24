@@ -18,7 +18,7 @@
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
 ## Basic Usage
-Templates hold raw content for pages and page parts.  In order to compile this raw content into finished templates, we `compile()` them using a compiler that implements `RDev\Views\Templates\ICompiler` (`RDev\Views\Templates\Compiler` come built-in to RDev).  By separating the compiling into a separate class, we respect the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
+Templates hold raw content for pages and page parts.  In order to compile this raw content into finished templates, we `compile()` them using a compiler that implements `RDev\Views\Templates\ICompiler` (`RDev\Views\Templates\Compiler` come built-in to RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
 
 ##### Template
 ```
@@ -60,12 +60,12 @@ Occasionally, you should clear out old cached template files to save disk space.
 use RDev\Models\Files;
 use RDev\Views\Templates;
 
-// Make 123 out of every 1,000 template compilings trigger garbage collection
+// Make 123 out of every 1,000 template compilations trigger garbage collection
 $cache = new Templates\Cache(new Files\FileSystem(), "/tmp", 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php
-// Make 1 out of every 500 template compilings trigger garbage collection
+// Make 1 out of every 500 template compilations trigger garbage collection
 $cache->setGCChance(1, 500);
 ```
 

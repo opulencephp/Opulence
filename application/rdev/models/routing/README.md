@@ -28,11 +28,11 @@ Routes require a few pieces of information:
 
 Let's take a look at a simple route that maps a GET request to the path "/users":
 ```php
-use RDev\Models\HTTP;
 use RDev\Models\IoC;
 use RDev\Models\Routing;
 
-$router = new Routing\Router(new IoC\Container(), new HTTP\Connection());
+$container = new IoC\Container();
+$router = new Routing\Router($container, new Routing\Dispatcher($container), new Routing\RouteCompiler());
 // This will route a GET request to "/users" to MyController->getAllUsers()
 $router->get("/users", ["controller" => "MyApp\\MyController@getAllUsers"]);
 // This will route a POST request to "/login" to MyController->login()
@@ -205,7 +205,6 @@ Let's break down the structure of the config.  All of the top-level keys are opt
 #### Config Example
 Let's take a look at an example config:
 ```php
-use RDev\Models\HTTP;
 use RDev\Models\IoC;
 use RDev\Models\Routing;
 use RDev\Models\Routing\Configs;
@@ -259,7 +258,7 @@ $configArray = [
 ];
 $config = new Configs\RouterConfig($configArray);
 $factory = new Factories\RouterFactory();
-$router = $factory->createFromConfig(new IoC\Container(), new HTTP\Connection(), $config);
+$router = $factory->createFromConfig(new IoC\Container(), $config);
 ```
 
 > **Note:** In router configs, grouped routes are added before non-grouped routes, so they take precedence.
