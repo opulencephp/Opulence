@@ -216,7 +216,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
                         "pre" => ["pre1", "pre2"],
                         "post" => ["post1", "post2"],
                         "controllerNamespace" => "MyApp\\Controllers",
-                        "path" => "/my/path"
+                        "path" => "/my/path",
+                        "host" => "google.com"
                     ],
                     "groups" => [
                         [
@@ -224,7 +225,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
                                 "pre" => ["pre3", "pre4"],
                                 "post" => ["post3", "post4"],
                                 "controllerNamespace" => "Users",
-                                "path" => "/users/{userId}/profile"
+                                "path" => "/users/{userId}/profile",
+                                "host" => "mail."
                             ],
                             "routes" => [
                                 [
@@ -413,6 +415,29 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
             "groups" => []
         ], $config->getArrayCopy());
         $this->assertSame($compiler, $config->getArrayCopy()["compiler"]);
+    }
+
+    /**
+     * Tests specifying a host
+     */
+    public function testSpecifyingHost()
+    {
+        $configArray = [
+            "routes" => [
+                [
+                    "methods" => "GET",
+                    "path" => "/foo",
+                    "options" => [
+                        "controller" => "foo@bar",
+                        "host" => "google.com"
+                    ]
+                ]
+            ]
+        ];
+        $config = new RouterConfig($configArray);
+        /** @var Routing\Route $route */
+        $route = $config->getArrayCopy()["routes"][0];
+        $this->assertEquals("google.com", $route->getRawHost());
     }
 
     /**

@@ -19,6 +19,54 @@ class Server extends Databases\Server
     protected $charset = "utf8";
 
     /**
+     * @param string $host The server host
+     * @param string $username The username to log in to the server
+     * @param string $password The password to log in to the server
+     * @param string $databaseName The name of the database to connect to
+     * @param int $port The port of this server
+     * @param string $charset The character set used by this server
+     */
+    public function __construct(
+        $host = null,
+        $username = null,
+        $password = null,
+        $databaseName = null,
+        $port = null,
+        $charset = null
+    )
+    {
+        if($host !== null)
+        {
+            $this->setHost($host);
+        }
+
+        if($username !== null)
+        {
+            $this->setUsername($username);
+        }
+
+        if($password !== null)
+        {
+            $this->setPassword($password);
+        }
+
+        if($databaseName !== null)
+        {
+            $this->setDatabaseName($databaseName);
+        }
+
+        if($port !== null)
+        {
+            $this->setPort($port);
+        }
+
+        if($charset !== null)
+        {
+            $this->setCharset($charset);
+        }
+    }
+
+    /**
      * @return string
      */
     public function getCharset()

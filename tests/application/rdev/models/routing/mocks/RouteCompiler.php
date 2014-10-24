@@ -15,6 +15,6 @@ class RouteCompiler implements Routing\IRouteCompiler
      */
     public function compile(Route &$route)
     {
-        $route->setRegex("/^foo$/");
+        $route->setPathRegex("/^foo$/");
     }
 } 

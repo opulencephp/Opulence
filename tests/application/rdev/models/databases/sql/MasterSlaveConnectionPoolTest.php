@@ -9,31 +9,13 @@ use RDev\Tests\Models\Databases\SQL\Mocks;
 
 class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Factories\MasterSlaveConnectionPoolFactory The factory to use to create connection pools */
-    private $masterSlaveConnectionPoolFactory = null;
-
-    /**
-     * Sets up the tests
-     */
-    public function setUp()
-    {
-        $this->masterSlaveConnectionPoolFactory = new Factories\MasterSlaveConnectionPoolFactory();
-    }
-
     /**
      * Tests adding a slave
      */
     public function testAddingSlave()
     {
-        $slave = new Mocks\Server();
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $slave = $this->createServer();
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $connectionPool->addSlave($slave);
         $this->assertEquals([$slave], $connectionPool->getSlaves());
     }
@@ -43,18 +25,10 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingSlaves()
     {
-        $slave1 = new Mocks\Server();
-        $slave2 = new Mocks\Server();
-        $slave3 = new Mocks\Server();
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server(),
-                "slaves" => [$slave1]
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $slave1 = $this->createServer();
+        $slave2 = $this->createServer();
+        $slave3 = $this->createServer();
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(), [$slave1]);
         $connectionPool->addSlaves([$slave2, $slave3]);
         $this->assertEquals([$slave1, $slave2, $slave3], $connectionPool->getSlaves());
     }
@@ -64,14 +38,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingConnectionWithNoSlaves()
     {
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $this->assertEquals([], $connectionPool->getSlaves());
     }
 
@@ -80,15 +47,8 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithNoSlaves()
     {
-        $master = new Mocks\Server();
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => $master
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $master = $this->createServer();
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
         $expectedConnection = new Mocks\Connection($master);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection());
     }
@@ -98,14 +58,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithPreferredServer()
     {
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $preferredServer = new Mocks\Server();
         $expectedConnection = new Mocks\Connection($preferredServer);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection($preferredServer));
@@ -116,17 +69,9 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingReadConnectionWithSlaves()
     {
-        $slave1 = new Mocks\Server();
-        $slave2 = new Mocks\Server();
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server(),
-                "slaves" => [$slave1, $slave2]
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $slave1 = $this->createServer();
+        $slave2 = $this->createServer();
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(), [$slave1, $slave2]);
         $expectedServers = [$slave1, $slave2];
         $expectedPDO = $connectionPool->getReadConnection();
         $slaveFound = false;
@@ -147,15 +92,8 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnectionWithNoSlaves()
     {
-        $master = new Mocks\Server();
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => $master
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $master = $this->createServer();
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
         $expectedConnection = new Mocks\Connection($master);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection());
     }
@@ -165,15 +103,8 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingWriteConnectionWithPreferredServer()
     {
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server()
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
-        $preferredServer = new Mocks\Server();
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
+        $preferredServer = $this->createServer();
         $expectedConnection = new Mocks\Connection($preferredServer);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection($preferredServer));
     }
@@ -183,61 +114,32 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingSlave()
     {
-        $slave1 = new Mocks\Server();
+        $slave1 = $this->createServer();
         $slave1->setDatabaseName("slave1");
-        $slave2 = new Mocks\Server();
+        $slave2 = $this->createServer();
         $slave2->setDatabaseName("slave2");
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => new Mocks\Server(),
-                "slaves" => [$slave1, $slave2]
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(), [$slave1, $slave2]);
         $connectionPool->removeSlave($slave2);
         $this->assertEquals([$slave1], $connectionPool->getSlaves());
     }
 
     /**
-     * Tests initializing the pool with a slave server
+     * Creates a driver for use in tests
+     *
+     * @return Mocks\Driver A driver
      */
-    public function testWithASlaveServer()
+    private function createDriver()
     {
-        $configArray = [
-            "driver" => new Mocks\Driver(),
-            "servers" => [
-                "master" => [
-                    "host" => "127.0.0.1",
-                    "username" => "foo",
-                    "password" => "bar",
-                    "databaseName" => "mydb"
-                ],
-                "slaves" => [
-                    [
-                        "host" => "8.8.8.8",
-                        "username" => "foo",
-                        "password" => "bar",
-                        "databaseName" => "mydb"
-                    ]
-                ]
-            ]
-        ];
-        $config = new Configs\MasterSlaveConnectionPoolConfig($configArray);
-        $connectionPool = $this->masterSlaveConnectionPoolFactory->createFromConfig($config);
-        $this->assertEquals(1, count($connectionPool->getSlaves()));
-        $slaveFound = false;
+        return new Mocks\Driver();
+    }
 
-        /** @var Server $slave */
-        foreach($connectionPool->getSlaves() as $slave)
-        {
-            if($slave->getHost() == "8.8.8.8")
-            {
-                $slaveFound = true;
-            }
-        }
-
-        $this->assertTrue($slaveFound);
+    /**
+     * Creates a server for use in tests
+     *
+     * @return Mocks\Server A server
+     */
+    private function createServer()
+    {
+        return new Mocks\Server();
     }
 }

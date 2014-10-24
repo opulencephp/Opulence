@@ -1,11 +1,9 @@
 HAS PRIORITY:
-    Move bindings to a bindings file, include it in the bootstrap
     Be able to catch various errors and render different views depending on the error
     Don't return response from controller before applying post-filters
         Post-filters should accept the response as a parameter
-    Need to write tests for factories
-        Current tests for classes that previously took in configs are really tests for the factories
-        So, need to copy these over to the factories, and need to write tests that directly instantiate classes
+    Move Config README stuff into their own READMEs
+        Focus on how to instantiate classes directly
     *** Once above is done, create a tag
 
 
@@ -40,7 +38,6 @@ Add a class like "ConfigConverter" to make it easy to translate class names to o
 Allow caching of routes/matches
 Be able to generatePath() for a router for use in templates
 Need to write documentation on Request/Response
-Need to add support for host in routers
 Incorrect username entry is faster, allowing timing attacks
 Convert test pages to views/controllers
 Need to figure out where to store lifetime settings for login credentials in LoginController

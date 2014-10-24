@@ -125,6 +125,15 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the host regex when it's not set
+     */
+    public function testGettingHostRegexWhenNotSet()
+    {
+        $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
+        $this->assertEquals("/^.*$/", $route->getHostRegex());
+    }
+
+    /**
      * Tests getting the methods
      */
     public function testGettingMethods()
@@ -362,6 +371,52 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting the host regex
+     */
+    public function testSettingHostRegex()
+    {
+        $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
+        $route->setHostRegex("google\.com");
+        $this->assertEquals("google\.com", $route->getHostRegex());
+    }
+
+    /**
+     * Tests setting the path regex
+     */
+    public function testSettingPathRegex()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/foo/{id}", $options);
+        $route->setPathRegex("blah");
+        $this->assertEquals("blah", $route->getPathRegex());
+    }
+
+    /**
+     * Tests setting the raw host
+     */
+    public function testSettingRawHost()
+    {
+        $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
+        $route->setRawHost("google.com");
+        $this->assertEquals("google.com", $route->getRawHost());
+    }
+
+    /**
+     * Tests setting the raw host in the constructor
+     */
+    public function testSettingRawHostInConstructor()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "host" => "google.com"
+        ];
+        $route = new Route("get", "/foo", $options);
+        $this->assertEquals("google.com", $route->getRawHost());
+    }
+
+    /**
      * Tests setting the raw path
      */
     public function testSettingRawPath()
@@ -372,19 +427,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route("get", "/{foo}", $options);
         $route->setRawPath("blah");
         $this->assertEquals("blah", $route->getRawPath());
-    }
-
-    /**
-     * Tests setting the regex
-     */
-    public function testSettingRegex()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/foo/{id}", $options);
-        $route->setRegex("blah");
-        $this->assertEquals("blah", $route->getRegex());
     }
 
     /**

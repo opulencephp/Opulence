@@ -11,18 +11,6 @@ use RDev\Tests\Models\Mocks;
 class Controller extends Controllers\Controller
 {
     /**
-     * Mocks a method that takes in multiple parameters
-     *
-     * @param mixed $foo The first parameter
-     * @param mixed $bar The second parameter
-     * @return string The parameter names to their values
-     */
-    public function multipleParameters($foo, $bar)
-    {
-        return "foo:$foo, bar:$bar";
-    }
-
-    /**
      * Mocks a method that takes in multiple parameters with some default values
      *
      * @param mixed $foo The first parameter
@@ -62,6 +50,32 @@ class Controller extends Controllers\Controller
     public function returnsNothing()
     {
         // Don't do anything
+    }
+
+    /**
+     * Mocks a method that takes in several parameters
+     *
+     * @param mixed $foo The first parameter
+     * @param mixed $bar The second parameter
+     * @param mixed $baz The third parameter
+     * @param mixed $blah The fourth parameter
+     * @return string The parameter names to their values
+     */
+    public function severalParameters($foo, $bar, $baz, $blah)
+    {
+        return "foo:$foo, bar:$bar, baz:$baz, blah:$blah";
+    }
+
+    /**
+     * Mocks a method that takes in two parameters
+     *
+     * @param mixed $foo The first parameter
+     * @param mixed $bar The second parameter
+     * @return string The parameter names to their values
+     */
+    public function twoParameters($foo, $bar)
+    {
+        return "foo:$foo, bar:$bar";
     }
 
     /**

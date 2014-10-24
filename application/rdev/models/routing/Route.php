@@ -13,7 +13,11 @@ class Route
     /** @var string The raw path passed into the route */
     private $rawPath = "";
     /** @var string The compiled (regex) path */
-    private $regex = "";
+    private $pathRegex = "";
+    /** @var string The raw host passed into the route */
+    private $rawHost = "";
+    /** @var string|null The compiled (regex) host if set, otherwise null */
+    private $hostRegex = null;
     /** @var string The name of the controller this routes to */
     private $controllerName = "";
     /** @var string The name of the controller method this route calls */
@@ -64,6 +68,11 @@ class Route
         if(isset($options["post"]))
         {
             $this->addPostFilters($options["post"]);
+        }
+
+        if(isset($options["host"]))
+        {
+            $this->setRawHost($options["host"]);
         }
     }
 
@@ -150,11 +159,28 @@ class Route
     }
 
     /**
+     * @return string
+     */
+    public function getHostRegex()
+    {
+        // Default to matching everything if it isn't set
+        return is_null($this->hostRegex) ? "/^.*$/" : $this->hostRegex;
+    }
+
+    /**
      * @return array
      */
     public function getMethods()
     {
         return $this->methods;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPathRegex()
+    {
+        return $this->pathRegex;
     }
 
     /**
@@ -176,17 +202,17 @@ class Route
     /**
      * @return string
      */
-    public function getRawPath()
+    public function getRawHost()
     {
-        return $this->rawPath;
+        return $this->rawHost;
     }
 
     /**
      * @return string
      */
-    public function getRegex()
+    public function getRawPath()
     {
-        return $this->regex;
+        return $this->rawPath;
     }
 
     /**
@@ -228,19 +254,35 @@ class Route
     }
 
     /**
-     * @param string $rawPath
+     * @param string $hostRegex
      */
-    public function setRawPath($rawPath)
+    public function setHostRegex($hostRegex)
     {
-        $this->rawPath = $rawPath;
+        $this->hostRegex = $hostRegex;
     }
 
     /**
      * @param string $regex
      */
-    public function setRegex($regex)
+    public function setPathRegex($regex)
     {
-        $this->regex = $regex;
+        $this->pathRegex = $regex;
+    }
+
+    /**
+     * @param string $rawHost
+     */
+    public function setRawHost($rawHost)
+    {
+        $this->rawHost = $rawHost;
+    }
+
+    /**
+     * @param string $rawPath
+     */
+    public function setRawPath($rawPath)
+    {
+        $this->rawPath = $rawPath;
     }
 
     /**

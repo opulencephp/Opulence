@@ -18,14 +18,4 @@ class Router extends Routing\Router
     {
         parent::__construct($container, new Dispatcher($container), new Routing\RouteCompiler());
     }
-
-    /**
-     * Sets the HTTP method so we can test that routing works correctly for various methods
-     *
-     * @param string $httpMethod The method
-     */
-    public function setHTTPMethod($httpMethod)
-    {
-        $_SERVER["REQUEST_METHOD"] = $httpMethod;
-    }
 } 

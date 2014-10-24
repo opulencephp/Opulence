@@ -5,35 +5,18 @@
  * Tests the Predis class
  */
 namespace RDev\Models\Databases\NoSQL\Redis;
-use RDev\Tests\Models\Databases\NoSQL\Redis\Factories\Mocks;
+use RDev\Tests\Models\Databases\NoSQL\Redis\Mocks;
 
 class RDevPredisTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\RDevPredisFactory The factory to use to create Redis objects */
-    private $rDevPredisFactory = null;
-
-    /**
-     * Sets up the tests
-     */
-    public function setUp()
-    {
-        $this->rDevPredisFactory = new Mocks\RDevPredisFactory();
-    }
-
     /**
      * Tests getting the server
      */
     public function testGettingServer()
     {
         $server = new Server();
-        $configArray = [
-            "servers" => [
-                "master" => $server
-            ]
-        ];
-        $config = new Configs\ServerConfig($configArray);
-        $redis = $this->rDevPredisFactory->createFromConfig($config);
-        $this->assertEquals($server, $redis->getServer());
+        $redis = new Mocks\RDevPredis($server, new TypeMapper());
+        $this->assertSame($server, $redis->getServer());
     }
 
     /**
@@ -41,13 +24,9 @@ class RDevPredisTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTypeMapper()
     {
-        $configArray = [
-            "servers" => [
-                "master" => new Server()
-            ]
-        ];
-        $config = new Configs\ServerConfig($configArray);
-        $redis = $this->rDevPredisFactory->createFromConfig($config);
-        $this->assertInstanceOf("RDev\\Models\\Databases\\NoSQL\\Redis\\TypeMapper", $redis->getTypeMapper());
+        $server = new Server();
+        $typeMapper = new TypeMapper();
+        $redis = new Mocks\RDevPredis($server, $typeMapper);
+        $this->assertSame($typeMapper, $redis->getTypeMapper());
     }
 } 

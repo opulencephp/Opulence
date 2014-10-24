@@ -12,19 +12,16 @@ use RDev\Tests\Models\Routing\Mocks;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Router The router to use in tests */
+    /** @var Mocks\Router The router to use in tests */
     private $router = null;
-    /** @var Factories\RouterFactory The factory to use to create routers */
-    private $routerFactory = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->routerFactory = new Factories\RouterFactory();
         $container = new IoC\Container();
-        $this->router = $this->routerFactory->createFromConfig(new Configs\RouterConfig([]), $container);
+        $this->router = new Router($container, new Dispatcher($container), new RouteCompiler());
     }
 
     /**
@@ -177,96 +174,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using groups in the config
-     */
-    public function testGroupsInConfig()
-    {
-        $configArray = [
-            "routes" => [
-                [
-                    "methods" => "GET",
-                    "path" => "/foo",
-                    "options" => [
-                        "controller" => "foo@bar"
-                    ]
-                ]
-            ],
-            "groups" => [
-                [
-                    "options" => [
-                        "pre" => ["pre1", "pre2"],
-                        "post" => ["post1", "post2"],
-                        "controllerNamespace" => "MyApp\\Controllers",
-                        "path" => "/group"
-                    ],
-                    "routes" => [
-                        [
-                            "methods" => "GET",
-                            "path" => "/foo",
-                            "options" => [
-                                "controller" => "foo@bar"
-                            ]
-                        ],
-                        [
-                            "methods" => "POST",
-                            "path" => "/bar",
-                            "options" => [
-                                "controller" => "foo@bar"
-                            ]
-                        ]
-                    ],
-                    "groups" => [
-                        [
-                            "options" => [
-                                "pre" => ["pre3", "pre4"],
-                                "post" => ["post3", "post4"],
-                                "controllerNamespace" => "User",
-                                "path" => "/user"
-                            ],
-                            "routes" => [
-                                [
-                                    "methods" => "GET",
-                                    "path" => "/{userId}",
-                                    "options" => [
-                                        "controller" => "UserController@showUser"
-                                    ]
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ]
-        ];
-        $config = new Configs\RouterConfig($configArray);
-        $container = new IoC\Container();
-        $router = $this->routerFactory->createFromConfig($config, $container);
-        /** @var Route[] $getRoutes */
-        $getRoutes = $router->getRoutes("GET");
-        /** @var Route[] $postRoutes */
-        $postRoutes = $router->getRoutes("POST");
-        // Test first GET route
-        $this->assertEquals("/group/foo", $getRoutes[0]->getRawPath());
-        $this->assertEquals("MyApp\\Controllers\\foo", $getRoutes[0]->getControllerName());
-        $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
-        $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
-        // Test second GET route
-        $this->assertEquals("/group/user/{userId}", $getRoutes[1]->getRawPath());
-        $this->assertEquals("MyApp\\Controllers\\User\\UserController", $getRoutes[1]->getControllerName());
-        $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $getRoutes[1]->getPreFilters());
-        $this->assertEquals(["post1", "post2", "post3", "post4"], $getRoutes[1]->getPostFilters());
-        // Test POST route
-        $this->assertEquals("/group/bar", $postRoutes[0]->getRawPath());
-        $this->assertEquals("MyApp\\Controllers\\foo", $postRoutes[0]->getControllerName());
-        $this->assertEquals(["pre1", "pre2"], $postRoutes[0]->getPreFilters());
-        $this->assertEquals(["post1", "post2"], $postRoutes[0]->getPostFilters());
-        // Test non-grouped route
-        $this->assertEquals([], $getRoutes[2]->getPreFilters());
-        $this->assertEquals([], $getRoutes[2]->getPostFilters());
-        $this->assertEquals("/foo", $getRoutes[2]->getRawPath());
-        $this->assertEquals("foo", $getRoutes[2]->getControllerName());
-    }
-
-    /**
      * Tests nested grouped routes
      */
     public function testNestedGroupedRoutes()
@@ -310,23 +217,6 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("RDev\\Tests\\Controllers\\Mocks\\Controller", $deleteRoutes[0]->getControllerName());
         $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
-    }
-
-    /**
-     * Tests passing in routes from the config
-     */
-    public function testPassingInRoutesFromConfig()
-    {
-        $getRoute = new Route("GET", "/foo", ["controller" => "MyController@myMethod"]);
-        $configArray = [
-            "routes" => [
-                $getRoute
-            ]
-        ];
-        $config = new Configs\RouterConfig($configArray);
-        $container = new IoC\Container();
-        $router = $this->routerFactory->createFromConfig($config, $container);
-        $this->assertSame($getRoute, $router->getRoutes("GET")[0]);
     }
 
     /**
@@ -402,7 +292,10 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@noParameters"
         ];
         $this->router->get("/foo/{bar?}", $options);
-        $request = new HTTP\Request([], [], [], ["REQUEST_METHOD" => "GET", "REQUEST_URI" => "/foo/"], [], []);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/foo/"
+        ], [], []);
         $this->assertEquals("noParameters", $this->router->route($request));
     }
 
@@ -415,8 +308,29 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Controllers\\Mocks\\Controller@oneParameter"
         ];
         $this->router->get("/bar/{foo?=23}", $options);
-        $request = new HTTP\Request([], [], [], ["REQUEST_METHOD" => "GET", "REQUEST_URI" => "/bar/"], [], []);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/bar/"
+        ], [], []);
         $this->assertEquals("foo:23", $this->router->route($request));
+    }
+
+    /**
+     * Tests specifying a group host
+     */
+    public function testSpecifyingGroupHost()
+    {
+        $this->router->group(["host" => "google.com"], function ()
+        {
+            $this->router->get("/foo", ["controller" => "foo@bar"]);
+            $this->router->post("/foo", ["controller" => "foo@bar"]);
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes("GET");
+        /** @var Route[] $postRoutes */
+        $postRoutes = $this->router->getRoutes("POST");
+        $this->assertEquals("google.com", $getRoutes[0]->getRawHost());
+        $this->assertEquals("google.com", $postRoutes[0]->getRawHost());
     }
 
     /**
@@ -456,18 +370,50 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying a nested group hosts
+     */
+    public function testSpecifyingNestedGroupHosts()
+    {
+        $this->router->group(["host" => "google.com"], function ()
+        {
+            $this->router->group(["host" => "mail."], function ()
+            {
+                $this->router->get("/foo", ["controller" => "foo@bar"]);
+                $this->router->post("/foo", ["controller" => "foo@bar"]);
+            });
+        });
+        /** @var Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes("GET");
+        /** @var Route[] $postRoutes */
+        $postRoutes = $this->router->getRoutes("POST");
+        $this->assertEquals("mail.google.com", $getRoutes[0]->getRawHost());
+        $this->assertEquals("mail.google.com", $postRoutes[0]->getRawHost());
+    }
+
+    /**
      * Sets up a router and does the routing and testing
      *
      * @param string $httpMethod The HTTP method to simulate in the call
      * @param string $rawPath The raw path the routes should use
      * @param string $pathToRoute The path to route
+     * @param string $rawHost The raw host the routes should use
+     * @param string $hostToRoute The host to route
      * @param string $controllerName The name of the controller to call
      * @param string $controllerMethod The name of the method in the mock controller to call
      */
-    private function doRoute($httpMethod, $rawPath, $pathToRoute, $controllerName, $controllerMethod)
+    private function doRoute(
+        $httpMethod,
+        $rawPath,
+        $pathToRoute,
+        $rawHost,
+        $hostToRoute,
+        $controllerName,
+        $controllerMethod
+    )
     {
         $options = [
-            "controller" => "$controllerName@$controllerMethod"
+            "controller" => "$controllerName@$controllerMethod",
+            "host" => $rawHost
         ];
 
         // The mock router will return the route used rather than the output of the route controller
@@ -481,7 +427,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $mockRouter->addRoute($getRoute);
         $mockRouter->addRoute($postRoute);
         $mockRouter->addRoute($putRoute);
-        $request = new HTTP\Request([], [], [], ["REQUEST_URI" => $pathToRoute, "REQUEST_METHOD" => $httpMethod], [], []);
+        $server = [
+            "REQUEST_METHOD" => $httpMethod,
+            "REQUEST_URI" => $pathToRoute,
+            "HTTP_HOST" => $hostToRoute
+        ];
+        $request = new HTTP\Request([], [], [], $server, [], []);
 
         switch($httpMethod)
         {
@@ -507,10 +458,32 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     private function doTestForHTTPMethod($httpMethod)
     {
-        $this->doRoute($httpMethod, "/foo", "/foo", "RDev\\Tests\\Controllers\\Mocks\\Controller", "noParameters");
-        $this->doRoute($httpMethod, "/foo/{foo}", "/foo/123", "RDev\\Tests\\Controllers\\Mocks\\Controller",
-            "oneParameter");
-        $this->doRoute($httpMethod, "/foo/{foo}/{bar}", "/foo/123/456", "RDev\\Tests\\Controllers\\Mocks\\Controller",
-            "multipleParameters");
+        $this->doRoute(
+            $httpMethod,
+            "/foo",
+            "/foo",
+            "google.com",
+            "google.com",
+            "RDev\\Tests\\Controllers\\Mocks\\Controller",
+            "noParameters"
+        );
+        $this->doRoute(
+            $httpMethod,
+            "/foo/{foo}",
+            "/foo/123",
+            "{bar}.google.com",
+            "mail.google.com",
+            "RDev\\Tests\\Controllers\\Mocks\\Controller",
+            "twoParameters"
+        );
+        $this->doRoute(
+            $httpMethod,
+            "/foo/{foo}/{bar}",
+            "/foo/123/456",
+            "{baz}.{blah}.google.com",
+            "u.mail.google.com",
+            "RDev\\Tests\\Controllers\\Mocks\\Controller",
+            "severalParameters"
+        );
     }
 } 

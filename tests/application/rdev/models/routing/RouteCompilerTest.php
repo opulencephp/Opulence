@@ -24,17 +24,21 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingMultipleVariables()
     {
+        $rawString = "/{foo}/bar/{blah}";
         $options = [
-            "controller" => "foo@bar"
+            "controller" => "foo@bar",
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo}/bar/{blah}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)"
+                )
+            )
         );
     }
 
@@ -43,21 +47,25 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingMultipleVariablesWithRegexes()
     {
+        $rawString = "/{foo}/bar/{blah}";
         $options = [
             "controller" => "foo@bar",
             "variables" => [
                 "foo" => "\d+",
                 "blah" => "[a-z]{3}"
-            ]
+            ],
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo}/bar/{blah}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>\d+)" . preg_quote("/bar/", "/") . "(?P<blah>[a-z]{3})"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>\d+)" . preg_quote("/bar/", "/") . "(?P<blah>[a-z]{3})"
+                )
+            )
         );
     }
 
@@ -66,17 +74,21 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingSingleVariable()
     {
+        $rawString = "/{foo}";
         $options = [
-            "controller" => "foo@bar"
+            "controller" => "foo@bar",
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>.+)"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>.+)"
+                )
+            )
         );
     }
 
@@ -85,17 +97,21 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingSingleVariableWithDefaultValue()
     {
+        $rawString = "/{foo=23}";
         $options = [
-            "controller" => "foo@bar"
+            "controller" => "foo@bar",
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo=23}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>.+)"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>.+)"
+                )
+            )
         );
         $this->assertEquals("23", $route->getDefaultValue("foo"));
     }
@@ -105,18 +121,22 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingSingleVariableWithRegexes()
     {
+        $rawString = "/{foo}";
         $options = [
             "controller" => "foo@bar",
-            "variables" => ["foo" => "\d+"]
+            "variables" => ["foo" => "\d+"],
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>\d+)"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>\d+)"
+                )
+            )
         );
     }
 
@@ -125,18 +145,21 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingStaticPath()
     {
-        $path = "/foo/bar/blah";
+        $rawString = "/foo/bar/blah";
         $options = [
-            "controller" => "foo@bar"
+            "controller" => "foo@bar",
+            "host" => $rawString
         ];
-        $route = new Route(["get"], $path, $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote($path, "/")
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote($rawString, "/")
+                )
+            )
         );
     }
 
@@ -197,17 +220,21 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testOptionalVariable()
     {
+        $rawString = "/{foo}/bar/{blah?}";
         $options = [
-            "controller" => "foo@bar"
+            "controller" => "foo@bar",
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo}/bar/{blah?}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
+                )
+            )
         );
     }
 
@@ -216,18 +243,34 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testOptionalVariableWithDefaultValue()
     {
+        $rawString = "/{foo}/bar/{blah?=123}";
         $options = [
-            "controller" => "foo@bar"
+            "controller" => "foo@bar",
+            "host" => $rawString
         ];
-        $route = new Route(["get"], "/{foo}/bar/{blah?=123}", $options);
+        $route = new Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
-        $this->assertEquals(
-            sprintf(
-                "/^%s$/",
-                preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
-            ),
-            $route->getRegex()
+        $this->assertTrue(
+            $this->regexesMach(
+                $route,
+                sprintf(
+                    "/^%s$/",
+                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
+                )
+            )
         );
         $this->assertEquals("123", $route->getDefaultValue("blah"));
+    }
+
+    /**
+     * Gets whether or not a route's regexes match the input regex
+     *
+     * @param Route $route The route whose regexes we're matching
+     * @param string $regex The expected regex
+     * @return bool True if the regexes match, otherwise false
+     */
+    private function regexesMach(Route $route, $regex)
+    {
+        return $route->getPathRegex() == $regex && $route->getHostRegex() == $regex;
     }
 } 

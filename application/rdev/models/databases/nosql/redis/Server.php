@@ -19,6 +19,47 @@ class Server extends Databases\Server
     protected $connectionTimeout = 0;
 
     /**
+     * @param string $host The server host
+     * @param string $password The password to log in to the server
+     * @param int $port The port of this server
+     * @param int $databaseIndex The name of the database to connect to
+     * @param int $connectionTimeout The connection timeout (in seconds)
+     */
+    public function __construct(
+        $host = null,
+        $password = null,
+        $port = null,
+        $databaseIndex = null,
+        $connectionTimeout = null
+    )
+    {
+        if($host !== null)
+        {
+            $this->setHost($host);
+        }
+
+        if($password !== null)
+        {
+            $this->setPassword($password);
+        }
+
+        if($port !== null)
+        {
+            $this->setPort($port);
+        }
+
+        if($databaseIndex !== null)
+        {
+            $this->setDatabaseIndex($databaseIndex);
+        }
+
+        if($connectionTimeout !== null)
+        {
+            $this->setConnectionTimeout($connectionTimeout);
+        }
+    }
+
+    /**
      * @return int
      */
     public function getConnectionTimeout()

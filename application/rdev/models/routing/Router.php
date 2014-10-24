@@ -198,11 +198,17 @@ class Router
         foreach($this->routes[$method] as $route)
         {
             $this->compiler->compile($route);
-            $matches = [];
+            $hostMatches = [];
+            $pathMatches = [];
 
-            if(preg_match($route->getRegex(), $request->getPath(), $matches))
+            if(
+                preg_match($route->getHostRegex(), $request->getHeaders()->get("HOST"), $hostMatches) &&
+                preg_match($route->getPathRegex(), $request->getPath(), $pathMatches)
+            )
             {
-                return $this->dispatcher->dispatch($route, $matches);
+                $mergedMatches = array_merge($hostMatches, $pathMatches);
+
+                return $this->dispatcher->dispatch($route, $mergedMatches);
             }
         }
 
@@ -219,6 +225,7 @@ class Router
     private function applyGroupSettings(Route $route)
     {
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
+        $route->setRawHost($this->getGroupHost() . $route->getRawHost());
         $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
         $groupPreFilters = $this->getGroupFilters("pre");
         $groupPostFilters = $this->getGroupFilters("post");
@@ -299,6 +306,26 @@ class Router
         }
 
         return $filters;
+    }
+
+    /**
+     * Gets the host from the current group stack
+     *
+     * @return string The host
+     */
+    private function getGroupHost()
+    {
+        $host = "";
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["host"]))
+            {
+                $host = $groupOptions["host"] . $host;
+            }
+        }
+
+        return $host;
     }
 
     /**

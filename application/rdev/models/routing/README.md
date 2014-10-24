@@ -8,13 +8,15 @@
   1. [Regular Expressions](#regular-expressions)
   2. [Optional Variables](#optional-variables)
   3. [Default Values](#default-values)
-4. [Filters](#filters)
-5. [Route Grouping](#route-grouping)
+4. [Host Matching](#host-matching)
+5. [Filters](#filters)
+6. [Route Grouping](#route-grouping)
   1. [Controller Namespaces](#controller-namespaces)
-  1. [Group Filters](#group-filters)
-6. [Config](#config)
+  2. [Group Filters](#group-filters)
+  3. [Group Hosts](#group-hosts)
+7. [Config](#config)
   1. [Example](#config-example)
-7. [Notes](#notes)
+8. [Notes](#notes)
 
 ## Introduction
 So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
@@ -109,6 +111,29 @@ If no food name was specified, "all" will be the default value.
 
 > **Note:** To give an optional variable a default value, structure the route variable like "{varName?=value}".
 
+## Host Matching
+Routers can match on hosts as well as paths.  Want to match calls to a subdomain?  Easy:
+
+```php
+$routeOptions = [
+    "controller" => "MyApp\\InboxController@showInbox",
+    "host" => "mail.mysite.com" 
+];
+$router->get("/inbox", $routeOptions);
+```
+
+Just like with paths, you can create variables from components of your host.  In the following example, a variable called `$subdomain` will be passed into `MyApp\SomeController::doSomething()`:
+
+```php
+$routeOptions = [
+    "controller" => "MyApp\\SomeController@doSomething",
+    "host" => "{subdomain}.mysite.com" 
+];
+$router->get("/foo", $routeOptions);
+```
+
+Host variables can also have regular expression constraints, similar to path variables.
+
 ## Filters
 Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is when filters come in handy.  "Pre" filters are executed before the controller is called, and "post" filters are called after the controller.  Here is the order of precedence of return values of filters and controllers:
 
@@ -168,6 +193,22 @@ $router->group(["pre" => "authenticate"], function() use ($router)
 ```
 
 The "authenticate" filter will be executed on any matched routes inside the closure.
+
+#### Group Hosts
+You can filter by host in router groups:
+
+```php
+$router->group(["host" => "google.com"], function() use ($router)
+{
+    $router->get("/", ["controller" => "MyApp\\HomeController@showHomePage"]);
+    $router->group(["host" => "mail."], function() use ($router)
+    {
+        $router->get("/", ["controller" => "MyApp\\MailController@showInbox"]);
+    });
+});
+```
+
+When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
 
 ## Config
 Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/application/rdev/models/configs)).  The two will automatically create `Route` objects and add them to your `Router`.

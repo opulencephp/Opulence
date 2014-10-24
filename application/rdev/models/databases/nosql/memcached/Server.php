@@ -15,6 +15,29 @@ class Server extends Databases\Server
     protected $weight = 0;
 
     /**
+     * @param string $host The server host
+     * @param int $port The port of this server
+     * @param int $weight The weight of this server, relative to the total weight of all the servers in the pool
+     */
+    public function __construct($host = null, $port = null, $weight = null)
+    {
+        if($host !== null)
+        {
+            $this->setHost($host);
+        }
+
+        if($port !== null)
+        {
+            $this->setPort($port);
+        }
+
+        if($weight !== null)
+        {
+            $this->setWeight($weight);
+        }
+    }
+
+    /**
      * @return int
      */
     public function getWeight()

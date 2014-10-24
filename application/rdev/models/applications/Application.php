@@ -130,6 +130,40 @@ class Application
     }
 
     /**
+     * Registers bootstrapper classes to run
+     * This should be called before the application is started
+     *
+     * @param array $bootstrapperClasses The list of class names of bootstrappers
+     * @throws \RuntimeException Thrown if the bootstrapper is of the incorrect class
+     */
+    public function registerBootstrappers(array $bootstrapperClasses)
+    {
+        $instantiatedBootstrappers = [];
+
+        foreach($bootstrapperClasses as $bootstrapperClass)
+        {
+            $bootstrapper = $this->container->makeNew($bootstrapperClass);
+
+            if(!$bootstrapper instanceof Bootstrappers\IBootstrapper)
+            {
+                throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
+            }
+
+            $bootstrapper->setApplication($this);
+            $instantiatedBootstrappers[] = $bootstrapper;
+        }
+
+        $this->registerPreStartTask(function () use ($instantiatedBootstrappers)
+        {
+            foreach($instantiatedBootstrappers as $bootstrapper)
+            {
+                /** @var Bootstrappers\IBootstrapper $bootstrapper */
+                $bootstrapper->run();
+            }
+        });
+    }
+
+    /**
      * Registers a task to be run after the application shuts down
      *
      * @param callable $task The task to register

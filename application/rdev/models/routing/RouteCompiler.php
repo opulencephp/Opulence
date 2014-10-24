@@ -13,11 +13,25 @@ class RouteCompiler implements IRouteCompiler
      */
     public function compile(Route &$route)
     {
-        $pathRegex = $this->quoteStaticText($route->getRawPath());
+        $route->setPathRegex($this->convertRawStringToRegex($route, $route->getRawPath()));
+        $route->setHostRegex($this->convertRawStringToRegex($route, $route->getRawHost()));
+    }
+
+    /**
+     * Converts a raw string with path variables to a regex
+     *
+     * @param Route $route The route whose string we're converting
+     * @param string $rawString The raw string to convert
+     * @return string The regex
+     * @throws RouteException
+     */
+    private function convertRawStringToRegex(Route &$route, $rawString)
+    {
+        $regex = $this->quoteStaticText($rawString);
         $routeVariables = [];
         $matches = [];
 
-        preg_match_all("/\{([^\}]+)\}/", $route->getRawPath(), $matches, PREG_SET_ORDER);
+        preg_match_all("/\{([^\}]+)\}/", $rawString, $matches, PREG_SET_ORDER);
 
         foreach($matches as $match)
         {
@@ -61,42 +75,42 @@ class RouteCompiler implements IRouteCompiler
                 $variableRegex = ".+";
             }
 
-            // Insert the regex for this variable back into the path regex
-            $pathRegex = str_replace(
+            // Insert the regex for this variable back into the regex
+            $regex = str_replace(
                 sprintf("{%s}", $match[1]),
                 // This gives us the ability to name the match the same as the variable name
                 sprintf("(?P<%s>%s)%s", $variableName, $variableRegex, $isOptional ? "?" : ""),
-                $pathRegex
+                $regex
             );
         }
 
-        $route->setRegex(sprintf("/^%s$/", $pathRegex));
+        return sprintf("/^%s$/", $regex);
     }
 
     /**
      * Quotes the static text (text not in braces) for use in a regex
      *
-     * @param string $path The path to quote
-     * @return string The path with the static text quoted
+     * @param string $string The string to quote
+     * @return string The string with the static text quoted
      * @throws RouteException Thrown if the braces are not nested correctly
      */
-    private function quoteStaticText($path)
+    private function quoteStaticText($string)
     {
-        $quotedPath = "";
-        $pathLength = strlen($path);
+        $quotedString = "";
+        $pathLength = strlen($string);
         $braceDepth = 0;
         $quoteBuffer = "";
 
         for($charIter = 0;$charIter < $pathLength;$charIter++)
         {
-            $char = $path[$charIter];
+            $char = $string[$charIter];
 
             if($char == "{")
             {
                 // Flush out the quote buffer
                 if($braceDepth == 0 && strlen($quoteBuffer) > 0)
                 {
-                    $quotedPath .= preg_quote($quoteBuffer, "/");
+                    $quotedString .= preg_quote($quoteBuffer, "/");
                     $quoteBuffer = "";
                 }
 
@@ -114,23 +128,23 @@ class RouteCompiler implements IRouteCompiler
             }
             else
             {
-                $quotedPath .= $char;
+                $quotedString .= $char;
             }
         }
 
         // Flush out the buffer
         if(strlen($quoteBuffer) > 0)
         {
-            $quotedPath .= preg_quote($quoteBuffer, "/");
+            $quotedString .= preg_quote($quoteBuffer, "/");
         }
 
         if($braceDepth != 0)
         {
-            $message = "Route variable has " . ($braceDepth > 0 ? "unclosed" : "unopened") . " braces";
+            $message = "Route has " . ($braceDepth > 0 ? "unclosed" : "unopened") . " braces";
 
             throw new RouteException($message);
         }
 
-        return $quotedPath;
+        return $quotedString;
     }
 } 

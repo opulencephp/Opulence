@@ -5,41 +5,36 @@
  * Tests the application class
  */
 namespace RDev\Models\Applications;
+use Monolog;
 use RDev\Models\Applications\Configs;
 use RDev\Models\HTTP;
+use RDev\Models\IoC;
+use RDev\Tests\Models\Mocks as ModelMocks;
 use RDev\Models\Routing;
 use RDev\Models\Sessions;
 use RDev\Tests\Models\Applications\Mocks;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Application The application to use in the tests */
+    /** @var Mocks\Application The application to use in the tests */
     private $application = null;
-    /** @var Factories\ApplicationFactory The factory to use to create applications */
-    private $applicationFactory = null;
-    /** @var array The config array the application uses */
-    private $config = [];
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->config = [
-            "environment" => [
-                "staging" => gethostname()
-            ],
-            "monolog" => [
-                "handlers" => [
-                    "main" => [
-                        "type" => new Mocks\MonologHandler(),
-                        "handler" => new Mocks\MonologHandler()
-                    ]
-                ]
-            ]
-        ];
-        $this->applicationFactory = new Factories\ApplicationFactory();
-        $this->application = $this->applicationFactory->createFromConfig(new Configs\ApplicationConfig($this->config));
+        $logger = new Monolog\Logger("application");
+        $logger->pushHandler(new Mocks\MonologHandler());
+        $container = new IoC\Container();
+        $this->application = new Mocks\Application(
+            $logger,
+            "staging",
+            new HTTP\Connection(),
+            $container,
+            new Routing\Router($container, new Routing\Dispatcher($container), new Routing\RouteCompiler()),
+            new Sessions\Session()
+        );
     }
 
     /**
@@ -130,35 +125,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that the bindings are registered
-     */
-    public function testBindings()
-    {
-        $interfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\IFoo";
-        $concreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Bar";
-        $secondConcreteClassName = "RDev\\Tests\\Models\\IoC\\Mocks\\Blah";
-        $constructorWithInterfaceName = "RDev\\Tests\\Models\\IoC\\Mocks\\ConstructorWithInterface";
-        $configArray = [
-            "ioc" => [
-                "universal" => [
-                    $interfaceName => $concreteClassName
-                ],
-                "targeted" => [
-                    $constructorWithInterfaceName => [
-                        $interfaceName => $secondConcreteClassName
-                    ]
-                ]
-            ]
-        ];
-        $config = new Configs\ApplicationConfig($configArray);
-        $application = $this->applicationFactory->createFromConfig($config);
-        $object1 = $application->getIoCContainer()->makeNew($interfaceName);
-        $object2 = $application->getIoCContainer()->makeNew($constructorWithInterfaceName)->getFoo();
-        $this->assertInstanceOf($concreteClassName, $object1);
-        $this->assertInstanceOf($secondConcreteClassName, $object2);
-    }
-
-    /**
      * Tests checking if an application that wasn't ever started is running
      */
     public function testCheckingIfUnstartedApplicationIsRunning()
@@ -212,6 +178,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testGettingSession()
     {
         $this->assertEquals(new Sessions\Session, $this->application->getSession());
+    }
+
+    /**
+     * Tests registering an invalid bootstrapper
+     */
+    public function testRegisteringInvalidBootstrapper()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $this->application->registerBootstrappers([get_class($this)]);
     }
 
     /**

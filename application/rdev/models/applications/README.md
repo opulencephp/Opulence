@@ -8,6 +8,7 @@
 5. [Monolog](#monolog)
   1. [Monolog Handler Options](#monolog-handler-options)
 6. [Starting and Shutting Down An Application](#starting-and-shutting-down-an-application)
+7. [Bootstrappers](#bootstrappers)
 
 ## Introduction
 An **RDev** application is started up through the `Application` class.  In it, you can configure things like the environment you're on (eg "development" or "production"), pre-/post-start and -shutdown tasks to run, and URL routing.
@@ -259,3 +260,34 @@ $application->registerPostShutdownTask(function()
 $application->start();
 $application->shutdown();
 ```
+
+## Bootstrappers
+Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by implementing `RDev\Models\Applications\Bootstrappers\IBootstrapper`:
+
+```php
+namespace MyApp\Bootstrappers;
+use RDev\Models\Applications\Bootstrappers;
+use RDev\Models\Databases\SQL;
+use RDev\Models\Databases\SQL\PDO\PostgreSQL;
+
+class MyBootstrapper extends Bootstrappers\Bootstrapper
+{
+    public function run()
+    {
+        $driver = new PostgreSQL\Driver();
+        $server = new SQL\Server("127.0.0.1", "dbuser", "password", "mydb");
+        $connectionPool = new SQL\SingleServerConnectionPoolConfig($driver, $server);
+        $this->application->getIoCContainer()->bind(
+            "RDev\\Models\\Databases\\SQL\\ConnectionPool",
+            $connectionPool
+        );
+    }
+}
+```
+Then, in your start file, register the bootstrapper:
+
+```php
+$application->registerBootstrappers(["MyApp\\Bootstrappers\\MyBootstrapper"]);
+```
+
+When the application boots, `MyBootstrapper` will be `run()`.

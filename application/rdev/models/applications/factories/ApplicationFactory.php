@@ -46,12 +46,6 @@ class ApplicationFactory
         $router = $routerFactory->createFromConfig($config["routing"], $container);
         $session = $config["session"];
 
-        // Create some default bindings
-        $container->bind("RDev\\Models\\HTTP\\Connection", $connection);
-        $container->bind("RDev\\Models\\HTTP\\Request", $connection->getRequest());
-        $container->bind("Monolog\\Logger", $logger);
-        $container->bind("RDev\\Models\\Sessions\\ISession", $session);
-
         return new Applications\Application($logger, $environment, $connection, $container, $router, $session);
     }
 
