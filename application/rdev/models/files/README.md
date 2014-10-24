@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Introduction](#introduction)
-2. Basic Usage
+2. [Basic Usage](#basic-usage)
   1. [Reading a File](#reading-a-file)
   2. [Writing to a File](#writing-to-a-file)
   3. [Appending to a File](#appending-to-a-file)
@@ -13,7 +13,7 @@
   8. [Copying a File](#copying-a-file)
   9. [Moving a File](#moving-a-file)
   10. [Getting a File's Directory Name](#getting-a-files-directory-name)
-  11. [Getting a File Basename](#getting-a-file-basename)
+  11. [Getting a File's Basename](#getting-a-file-sbasename)
   12. [Getting a File's Name](#getting-a-files-name)
   13. [Getting a File's Extension](#getting-a-files-extension)
   14. [Getting a File's Size](#getting-a-files-size)
@@ -26,7 +26,7 @@
   21. [Copying a Directory](#copying-a-directory)
 
 ## Introduction
-Most programs interact with a computer's file system in some way.  RDev comes with the `FileSystem` class to facilitate these interactions.  With it, you can easily read and write files, get attributes of files, copy files and folders, and recursively delete directories.
+Most programs interact with a computer's file system in some way.  RDev comes with the `FileSystem` class to facilitate these interactions.  With it, you can easily read and write files, get attributes of files, copy files and folders, and recursively delete directories, and do other common tasks.
 
 ## Basic Usage
 For all examples below, assume `$fileSystem = new \RDev\Models\Files\FileSystem();`.
@@ -83,7 +83,7 @@ $fileSystem->move(SOURCE_FILE, TARGET_PATH);
 $fileSystem->getDirectoryName(FILE_PATH);
 ```
 
-#### Getting a File Basename
+#### Getting a File's Basename
 ```php
 // This returns everything in the file name except for the path preceding it
 $fileSystem->getBaseName(FILE_PATH);
