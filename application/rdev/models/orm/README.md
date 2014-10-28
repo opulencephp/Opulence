@@ -17,6 +17,8 @@
 3. Database writes are queued and executed all at once when the unit of work is committed, giving you better performance than executing writes throughout the lifetime of the application
 4. Querying for the same object will always give you the same, single instance of that object
 
+Unlike other popular PHP frameworks, RDev does not force you to extend ORM classes in order to make them storable.  The only interface they must implement is `RDev\Models\IEntity`, which simply requires `getId()` and `setId()`.
+
 ## Repositories
 *Repositories* act as collections of entities.  They include methods for adding, deleting, and retrieving entities.  The actual retrieval from storage is done through *data mappers* contained in the repository.  Note that there are no methods like `update()` or `save()`.  These actions take place in the *data mapper* and are scheduled by the *unit of work* contained by the repository.  [Read here](#datamappers) for more information on DataMappers or [here](#unit-of-work) for more information on units of work.
 

@@ -27,7 +27,22 @@ class ApplicationConfig extends Configs\Config
         $this->setUpRouterFromArray($configArray);
         $this->setUpMonologFromArray($configArray);
         $this->setUpSessionFromArray($configArray);
+        $this->setUpBootstrappersFromArray($configArray);
         $this->configArray = $configArray;
+    }
+
+    /**
+     * Sets up the bootstrappers from a config array
+     *
+     * @param array $configArray The config array
+     * @throws \RuntimeException Thrown if there was a problem with the bootstrapper config
+     */
+    private function setUpBootstrappersFromArray(array &$configArray)
+    {
+        if(!isset($configArray["bootstrappers"]))
+        {
+            $configArray["bootstrappers"] = [];
+        }
     }
 
     /**

@@ -18,7 +18,7 @@ class RouteCompiler implements IRouteCompiler
     }
 
     /**
-     * Converts a raw string with path variables to a regex
+     * Converts a raw string with variables to a regex
      *
      * @param Route $route The route whose string we're converting
      * @param string $rawString The raw string to convert
@@ -62,7 +62,7 @@ class RouteCompiler implements IRouteCompiler
 
             if(in_array($variableName, $routeVariables))
             {
-                throw new RouteException("Route path uses multiple references to \"$variableName\"");
+                throw new RouteException("Route uses multiple references to \"$variableName\"");
             }
 
             $routeVariables[] = $variableName;
@@ -97,11 +97,11 @@ class RouteCompiler implements IRouteCompiler
     private function quoteStaticText($string)
     {
         $quotedString = "";
-        $pathLength = strlen($string);
+        $stringLength = strlen($string);
         $braceDepth = 0;
         $quoteBuffer = "";
 
-        for($charIter = 0;$charIter < $pathLength;$charIter++)
+        for($charIter = 0;$charIter < $stringLength;$charIter++)
         {
             $char = $string[$charIter];
 

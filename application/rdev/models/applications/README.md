@@ -67,6 +67,9 @@ Let's break down the structure of the config.  The following keys are optional:
 * "session"
   * The session to use throughout the application
   * Must either the name or an instance of a class that implements `ISession`
+* "bootstrappers"
+  * Lists the names of the classes that implement `RDev\Models\Applications\Bootstrappers\IBootstrapper`
+  * All the bootstrappers listed will be registered to the application
 * "monolog"
   The following are required:
   * "handlers" => Maps to names of handlers, which map to options for that handler

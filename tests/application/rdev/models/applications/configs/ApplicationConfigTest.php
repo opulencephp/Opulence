@@ -14,6 +14,15 @@ use RDev\Models\Sessions;
 class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests that the bootstrappers key is automatically set
+     */
+    public function testBootstrappersKeyIsSetAutomatically()
+    {
+        $config = new ApplicationConfig([]);
+        $this->assertTrue(is_array($config["bootstrappers"]));
+    }
+
+    /**
      * Tests that the environment key is automatically set
      */
     public function testEnvironmentKeyIsSetAutomatically()
