@@ -5,7 +5,7 @@
  * Tests the template class
  */
 namespace RDev\Views\Templates;
-use RDev\Models\Files;
+use RDev\Files;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {

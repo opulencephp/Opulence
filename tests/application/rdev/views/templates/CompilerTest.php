@@ -5,8 +5,8 @@
  * Tests the template compiler
  */
 namespace RDev\Views\Templates;
-use RDev\Models\Files;
-use RDev\Tests\Models\Mocks;
+use RDev\Files;
+use RDev\Tests\Mocks;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {

@@ -26,7 +26,7 @@ Hello, {{username}}
 ```
 ##### Application Code
 ```php
-use RDev\Models\Files;
+use RDev\Files;
 use RDev\Views\Templates;
 
 $fileSystem = new Files\FileSystem();
@@ -40,7 +40,7 @@ echo $compiler->compile($template); // "Hello, Dave"
 
 Alternatively, you could just pass in a template's contents to its constructor:
 ```php
-use RDev\Models\Files;
+use RDev\Files;
 use RDev\Views\Templates;
 
 $cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
@@ -57,7 +57,7 @@ To improve the speed of template compiling, templates are cached using a class t
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
-use RDev\Models\Files;
+use RDev\Files;
 use RDev\Views\Templates;
 
 // Make 123 out of every 1,000 template compilations trigger garbage collection
@@ -110,7 +110,7 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ```
 ##### Application Code
 ```php
-use RDev\Models\Files;
+use RDev\Files;
 use RDev\Views\Templates;
 
 $fileSystem = new Files\FileSystem();

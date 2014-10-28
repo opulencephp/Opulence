@@ -5,7 +5,7 @@
  * Defines methods common to all website page files
  */
 namespace RDev\Views\Templates;
-use RDev\Models\Files;
+use RDev\Files;
 use RDev\Views\Security;
 
 class Template implements ITemplate

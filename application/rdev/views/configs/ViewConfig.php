@@ -5,8 +5,8 @@
  * Defines the view config
  */
 namespace RDev\Views\Configs;
-use RDev\Models\Configs;
-use RDev\Models\Files;
+use RDev\Configs;
+use RDev\Files;
 use RDev\Views\Factories;
 use RDev\Views\Templates;
 

@@ -5,7 +5,7 @@
  * Defines a generic page template
  */
 namespace RDev\Views\Pages;
-use RDev\Models\Files;
+use RDev\Files;
 use RDev\Views\Templates;
 
 class Generic extends Templates\Template

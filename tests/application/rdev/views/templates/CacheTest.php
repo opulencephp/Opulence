@@ -5,7 +5,7 @@
  * Tests the template cache
  */
 namespace RDev\Views\Templates;
-use RDev\Models\Files;
+use RDev\Files;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
