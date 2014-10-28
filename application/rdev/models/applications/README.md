@@ -276,7 +276,7 @@ class MyBootstrapper extends Bootstrappers\Bootstrapper
     {
         $driver = new PostgreSQL\Driver();
         $server = new SQL\Server("127.0.0.1", "dbuser", "password", "mydb");
-        $connectionPool = new SQL\SingleServerConnectionPoolConfig($driver, $server);
+        $connectionPool = new SQL\SingleServerConnectionPool($driver, $server);
         $this->application->getIoCContainer()->bind(
             "RDev\\Models\\Databases\\SQL\\ConnectionPool",
             $connectionPool

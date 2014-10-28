@@ -173,17 +173,6 @@ class Router
     }
 
     /**
-     * Registers a filter function that can be used before/after a request
-     *
-     * @param string $name The name of the filter
-     * @param callable $callback The callback that executes custom logic
-     */
-    public function registerFilter($name, callable $callback)
-    {
-        $this->dispatcher->registerFilter($name, $callback);
-    }
-
-    /**
      * Routes a path
      *
      * @param HTTP\Request $request The request to route
@@ -208,7 +197,7 @@ class Router
             {
                 $mergedMatches = array_merge($hostMatches, $pathMatches);
 
-                return $this->dispatcher->dispatch($route, $mergedMatches);
+                return $this->dispatcher->dispatch($route, $request, $mergedMatches);
             }
         }
 

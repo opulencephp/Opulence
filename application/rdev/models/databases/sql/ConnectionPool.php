@@ -6,8 +6,6 @@
  * This can handle multiple server setups or simple single server setups
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Configs;
-use RDev\Models\Databases\SQL\Configs as SQLConfigs;
 
 abstract class ConnectionPool
 {

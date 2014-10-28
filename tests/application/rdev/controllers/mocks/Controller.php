@@ -6,6 +6,7 @@
  */
 namespace RDev\Tests\Controllers\Mocks;
 use RDev\Controllers;
+use RDev\Models\HTTP;
 use RDev\Tests\Models\Mocks;
 
 class Controller extends Controllers\Controller
@@ -16,32 +17,32 @@ class Controller extends Controllers\Controller
      * @param mixed $foo The first parameter
      * @param mixed $bar The second parameter
      * @param mixed $blah The optional third parameter
-     * @return string The parameter names to their values
+     * @return HTTP\Response The parameter names to their values
      */
     public function multipleParametersWithDefaultValues($foo, $bar, $blah = "724")
     {
-        return "foo:$foo, bar:$bar, blah:$blah";
+        return new HTTP\Response("foo:$foo, bar:$bar, blah:$blah");
     }
 
     /**
      * Mocks a method that takes in no parameters
      *
-     * @return string An empty string
+     * @return HTTP\Response An empty string
      */
     public function noParameters()
     {
-        return "noParameters";
+        return new HTTP\Response("noParameters");
     }
 
     /**
      * Mocks a method that takes in a single parameter
      *
      * @param mixed $foo The parameter
-     * @return string The parameter name to its value
+     * @return HTTP\Response The parameter name to its value
      */
     public function oneParameter($foo)
     {
-        return "foo:$foo";
+        return new HTTP\Response("foo:$foo");
     }
 
     /**
@@ -59,11 +60,11 @@ class Controller extends Controllers\Controller
      * @param mixed $bar The second parameter
      * @param mixed $baz The third parameter
      * @param mixed $blah The fourth parameter
-     * @return string The parameter names to their values
+     * @return HTTP\Response The parameter names to their values
      */
     public function severalParameters($foo, $bar, $baz, $blah)
     {
-        return "foo:$foo, bar:$bar, baz:$baz, blah:$blah";
+        return new HTTP\Response("foo:$foo, bar:$bar, baz:$baz, blah:$blah");
     }
 
     /**
@@ -71,30 +72,30 @@ class Controller extends Controllers\Controller
      *
      * @param mixed $foo The first parameter
      * @param mixed $bar The second parameter
-     * @return string The parameter names to their values
+     * @return HTTP\Response The parameter names to their values
      */
     public function twoParameters($foo, $bar)
     {
-        return "foo:$foo, bar:$bar";
+        return new HTTP\Response("foo:$foo, bar:$bar");
     }
 
     /**
      * Mocks a protected method for use in testing
      *
-     * @return string The name of the method
+     * @return HTTP\Response The name of the method
      */
     protected function protectedMethod()
     {
-        return "protectedMethod";
+        return new HTTP\Response("protectedMethod");
     }
 
     /**
      * Mocks a private method for use in testing
      *
-     * @return string The name of the method
+     * @return HTTP\Response The name of the method
      */
     private function privateMethod()
     {
-        return "privateMethod";
+        return new HTTP\Response("privateMethod");
     }
 } 

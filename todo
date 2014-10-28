@@ -1,7 +1,5 @@
 HAS PRIORITY:
     Be able to catch various errors and render different views depending on the error
-    Don't return response from controller before applying post-filters
-        Post-filters should accept the response as a parameter
     Move Config README stuff into their own READMEs
         Focus on how to instantiate classes directly
     *** Once above is done, create a tag

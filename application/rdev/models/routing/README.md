@@ -138,25 +138,35 @@ Host variables can also have regular expression constraints, similar to path var
 Some routes might require actions to occur before and after the controller is called.  For example, you might want to check if a user is authenticated before allowing him or her access to a certain page.  This is when filters come in handy.  "Pre" filters are executed before the controller is called, and "post" filters are called after the controller.  Here is the order of precedence of return values of filters and controllers:
 
 1. If a pre-filter returns something other than null, it is returned by the router, and the controller is never called
-2. If the controller method returns something other than null, it is returned, and the post-filters are never called
-3. If a post-filter returns something other than null, it is returned by the router
+2. If a post-filter returns something other than null, it is returned by the router
+3. If the pre- and post-filters do not return anything, then the controller's output is returned
+4. If the controller does not return anything, then an empty response is returned
 
-Filters are specified in the route options, and they must be registered to the router:
+Filters are specified in the route options.  They must contain the fully-qualified name of the filter class.  The class itself must implement `RDev\Models\Routing\Filters\IFilter`, which has a `run()` method where the filtering is performed.
 ```php
-$router->registerFilter("authenticate", function()
+namespace MyApp;
+use RDev\Models\HTTP;
+use RDev\Models\Routing;
+use RDev\Models\Routing\Filters;
+
+class Authenticate implements Filters\IFilter
 {
-    if(!MyApp::isUserLoggedIn())
+    public function run(Routing\Route $route, HTTP\Request $request, HTTP\Response $response = null)
     {
-        return new RDev\Models\HTTP\RedirectResponse("/login");
+        if(!MyApp::isUserLoggedIn())
+        {
+            return new HTTP\RedirectResponse("/login");
+        }
     }
-});
+}
+
 $router->post("/users/posts", [
     "controller" => "MyApp\\UserController@createPost",
-    "pre" => "authenticate" // Could also be an array of pre-filters
+    "pre" => "MyApp\\Authenticate" // Could also be an array of pre-filters
 ]);
 ```
 
-Now, the "authenticate" filter will be called before the "createPost" method is called.  If the user is not logged in, he'll be redirected to the login page.  To apply "post" filters to a route, just add a "post" entry in the route options.
+Now, the "Authenticate" filter will be run before the "createPost" method is called.  If the user is not logged in, he'll be redirected to the login page.  To apply "post" filters to a route, just add a "post" entry in the route options.  In post-filters, the response of the previous filters is passed into the next filters, allowing you to chain together actions on the response.
 
 ## Route Grouping
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
@@ -185,14 +195,14 @@ Now, a GET request to "/users" will route to `MyApp\Controllers\UserController::
 #### Group Filters
 Route groups allow you to apply "pre" and "post" filters to multiple routes:
 ```php
-$router->group(["pre" => "authenticate"], function() use ($router)
+$router->group(["pre" => "MyApp\\Authenticate"], function() use ($router)
 {
     $router->get("/users/{userId}/profile", ["controller" => "MyApp\\UserController@showProfile"]);
     $router->get("/posts", ["controller" => "MyApp\\PostController@showPosts"]);
 });
 ```
 
-The "authenticate" filter will be executed on any matched routes inside the closure.
+The "Authenticate" filter will be executed on any matched routes inside the closure.
 
 #### Group Hosts
 You can filter by host in router groups:
@@ -226,15 +236,15 @@ Let's break down the structure of the config.  All of the top-level keys are opt
         * "controller" => The fully-qualified name of the controller class and name of the controller method to call when the route is matched
           * An example is "MyApp\\Controller\\MyController@myMethod", where `MyController` is the name of the controller, and `myMethod()` is the method to call in that controller
       * The following options are optional:
-        * "pre" => The name or list of names of pre-filters
-        * "post" => The name or list of names of post-filters
+        * "pre" => The name or list of names of pre-filter classes
+        * "post" => The name or list of names of post-filter classes
         * "variables" => The mapping of route variable names to the regular expressions they must satisfy
 * "groups"
   * An array of group options and routes, where each entry has the following structure:
     * "options"
       * Can contain the following (all are optional):
-        * "pre" => The name or list of names of pre-filters
-        * "post" => The name or list of names of post-filters
+        * "pre" => The name or list of names of pre-filter classes
+        * "post" => The name or list of names of post-filter classes
         * "controllerNamespace" => The namespace common to all controllers in the group
         * "path" => The path common to all routes in the group
     * "routes"
@@ -266,7 +276,7 @@ $configArray = [
     "groups" => [
         [
             "options" => [
-                "pre" => "authenticate",
+                "pre" => "MyApp\\Authenticate",
                 "path" => "/users",
                 "controllerNamespace" => "MyApp\\Controllers"
             ],
@@ -306,9 +316,9 @@ $router = $factory->createFromConfig(new IoC\Container(), $config);
 
 The above would instantiate `MyApp\Routing\MyCompiler` as the route compiler, and it'd create routes with the following properties:
 * One that matches GET requests to "/books/{bookId}" and dispatches to `MyApp\\Controllers\\BookController::showBook()`
-* One that matches GET requests to "/users", applies the "authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showAllUsers()`
-* One that matches GET requests to "/users/{userId}/profile", applies the "authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showProfile()`
-* One that matches POST requests to "/users/{userId}/profile/edit", applies the "authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::editProfile()`
+* One that matches GET requests to "/users", applies the "Authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showAllUsers()`
+* One that matches GET requests to "/users/{userId}/profile", applies the "Authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showProfile()`
+* One that matches POST requests to "/users/{userId}/profile/edit", applies the "Authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::editProfile()`
 
 ## Notes
 Routes are matched based on the order they were added to the router.  So, if you did the following:

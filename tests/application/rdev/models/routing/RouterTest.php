@@ -296,7 +296,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "REQUEST_METHOD" => "GET",
             "REQUEST_URI" => "/foo/"
         ], [], []);
-        $this->assertEquals("noParameters", $this->router->route($request));
+        $this->assertEquals("noParameters", $this->router->route($request)->getContent());
     }
 
     /**
@@ -312,7 +312,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "REQUEST_METHOD" => "GET",
             "REQUEST_URI" => "/bar/"
         ], [], []);
-        $this->assertEquals("foo:23", $this->router->route($request));
+        $this->assertEquals("foo:23", $this->router->route($request)->getContent());
     }
 
     /**

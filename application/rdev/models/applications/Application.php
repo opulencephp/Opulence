@@ -6,12 +6,9 @@
  */
 namespace RDev\Models\Applications;
 use Monolog;
-use Monolog\Handler;
 use RDev\Models\HTTP;
 use RDev\Models\IoC;
-use RDev\Models\IoC\Configs as IoCConfigs;
 use RDev\Models\Routing;
-use RDev\Models\Routing\Configs as RouterConfigs;
 use RDev\Models\Sessions;
 
 class Application

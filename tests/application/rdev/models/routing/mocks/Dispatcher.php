@@ -5,6 +5,7 @@
  * Mocks the dispatcher for use in testing
  */
 namespace RDev\Tests\Models\Routing\Mocks;
+use RDev\Models\HTTP;
 use RDev\Models\Routing;
 use RDev\Models\Routing\Route;
 
@@ -15,10 +16,11 @@ class Dispatcher extends Routing\Dispatcher
      * This makes it easy to test that the router is selecting the correct route
      *
      * @param Route $route The route to be dispatched
+     * @param HTTP\Request $request The request made by the user
      * @param array $routeVariables The list of route variables
      * @return Route The chosen route
      */
-    public function dispatch(Route $route, array $routeVariables)
+    public function dispatch(Route $route, HTTP\Request $request, array $routeVariables)
     {
         return $route;
     }

@@ -5,7 +5,6 @@
  * Defines a pool of master/slave servers
  */
 namespace RDev\Models\Databases\SQL;
-use RDev\Models\Databases\SQL\Configs;
 
 class MasterSlaveConnectionPool extends ConnectionPool
 {

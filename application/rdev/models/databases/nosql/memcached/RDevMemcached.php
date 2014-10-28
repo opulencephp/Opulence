@@ -5,7 +5,6 @@
  * Defines an extension of Memcached
  */
 namespace RDev\Models\Databases\NoSQL\Memcached;
-use RDev\Models\Databases\NoSQL\Memcached\Configs;
 
 class RDevMemcached extends \Memcached
 {

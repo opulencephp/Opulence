@@ -13,8 +13,6 @@ class Dispatcher
 {
     /** @var IoC\IContainer The dependency injection container */
     private $iocContainer = null;
-    /** @var callable[] The list of filters that can be used */
-    private $filters = [];
 
     /**
      * @param IoC\IContainer $iocContainer The dependency injection container
@@ -28,45 +26,32 @@ class Dispatcher
      * Dispatches the input route
      *
      * @param Route $route The route to dispatch
+     * @param HTTP\Request $request The request made by the user
      * @param array @routeVariables The array of route variable names to their values
      * @return HTTP\Response The response from the controller or pre/post filters if there was one
      * @throws RouteException Thrown if the method could not be called on the controller
      */
-    public function dispatch(Route $route, array $routeVariables)
+    public function dispatch(Route $route, HTTP\Request $request, array $routeVariables)
     {
         $controller = $this->createController($route->getControllerName());
 
         // Do our pre-filters
-        if(($preFilterReturnValue = $this->executeFilters($route->getPreFilters())) !== null)
+        if(($preFilterReturnValue = $this->doPreFilters($route, $request)) !== null)
         {
             return $preFilterReturnValue;
         }
 
         // Call our controller
-        if(($controllerResponse = $this->callController($controller, $route, $routeVariables)) !== null)
-        {
-            return $controllerResponse;
-        }
+        $controllerResponse = $this->callController($controller, $route, $routeVariables);
 
         // Do our post-filters
-        if(($postFilterReturnValue = $this->executeFilters($route->getPostFilters())) !== null)
+        if(($postFilterReturnValue = $this->doPostFilters($route, $request, $controllerResponse)) !== null)
         {
             return $postFilterReturnValue;
         }
 
         // Nothing returned a value, so return a basic HTTP response
         return new HTTP\Response();
-    }
-
-    /**
-     * Registers a filter function that can be used before/after a request
-     *
-     * @param string $name The name of the filter
-     * @param callable $callback The callback that executes custom logic
-     */
-    public function registerFilter($name, callable $callback)
-    {
-        $this->filters[$name] = $callback;
     }
 
     /**
@@ -153,24 +138,58 @@ class Dispatcher
     }
 
     /**
-     * Executes the list of filters
+     * Executes a route's post-filters
      *
-     * @param array $filterNames The list of filter names to execute
-     * @return mixed|null The response from any of the filters if they returned something, otherwise null
-     * @throws RouteException Thrown if the filter does not exist
+     * @param Route $route The route that is being dispatched
+     * @param HTTP\Request $request The request made by the user
+     * @param HTTP\Response $response The response returned by the controller
+     * @return HTTP\Response|null The response if any filter returned one, otherwise null
+     * @throws RouteException Thrown if the filter is not of the correct type
      */
-    private function executeFilters(array $filterNames)
+    private function doPostFilters(Route $route, HTTP\Request $request, HTTP\Response $response = null)
     {
-        foreach($filterNames as $filterName)
+        foreach($route->getPostFilters() as $filterClassName)
         {
-            if(!isset($this->filters[$filterName]))
+            $filter = $this->iocContainer->makeShared($filterClassName);
+
+            if(!$filter instanceof Filters\IFilter)
             {
-                throw new RouteException("Filter $filterName is not registered");
+                throw new RouteException("Filter $filterClassName does not implement IFilter");
             }
 
-            if(($filterReturnValue = $this->filters[$filterName]()) !== null)
+            // Don't send this response to the next filter if it didn't return anything
+            if(($thisResponse = $filter->run($route, $request, $response)) !== null)
             {
-                return $filterReturnValue;
+                $response = $thisResponse;
+            }
+        }
+
+        return $response;
+    }
+
+    /**
+     * Executes a route's pre-filters
+     *
+     * @param Route $route The route that is being dispatched
+     * @param HTTP\Request $request The request made by the user
+     * @return HTTP\Response|null The response if any filter returned one, otherwise null
+     * @throws RouteException Thrown if the filter is not of the correct type
+     */
+    private function doPreFilters(Route $route, HTTP\Request $request)
+    {
+        foreach($route->getPreFilters() as $filterClassName)
+        {
+            $filter = $this->iocContainer->makeShared($filterClassName);
+
+            if(!$filter instanceof Filters\IFilter)
+            {
+                throw new RouteException("Filter $filterClassName does not implement IFilter");
+            }
+
+            // If the filter returned anything, return it right away
+            if(($response = $filter->run($route, $request)) !== null)
+            {
+                return $response;
             }
         }
 
