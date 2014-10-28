@@ -166,7 +166,7 @@ $router->post("/users/posts", [
 ]);
 ```
 
-Now, the "Authenticate" filter will be run before the "createPost" method is called.  If the user is not logged in, he'll be redirected to the login page.  To apply "post" filters to a route, just add a "post" entry in the route options.  In post-filters, the response of the previous filters is passed into the next filters, allowing you to chain together actions on the response.
+Now, the `Authenticate` filter will be run before the `createPost()` method is called.  If the user is not logged in, he'll be redirected to the login page.  To apply "post" filters to a route, just add a "post" entry in the route options.  In post-filters, the response of the previous filters is passed into the next filters, allowing you to chain together actions on the response.
 
 ## Route Grouping
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
@@ -202,7 +202,7 @@ $router->group(["pre" => "MyApp\\Authenticate"], function() use ($router)
 });
 ```
 
-The "Authenticate" filter will be executed on any matched routes inside the closure.
+The `Authenticate` filter will be executed on any matched routes inside the closure.
 
 #### Group Hosts
 You can filter by host in router groups:
@@ -316,9 +316,9 @@ $router = $factory->createFromConfig(new IoC\Container(), $config);
 
 The above would instantiate `MyApp\Routing\MyCompiler` as the route compiler, and it'd create routes with the following properties:
 * One that matches GET requests to "/books/{bookId}" and dispatches to `MyApp\\Controllers\\BookController::showBook()`
-* One that matches GET requests to "/users", applies the "Authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showAllUsers()`
-* One that matches GET requests to "/users/{userId}/profile", applies the "Authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showProfile()`
-* One that matches POST requests to "/users/{userId}/profile/edit", applies the "Authenticate" pre-filter, and dispatches to `MyApp\\Controllers\\UserController::editProfile()`
+* One that matches GET requests to "/users", applies the `Authenticate` pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showAllUsers()`
+* One that matches GET requests to "/users/{userId}/profile", applies the `Authenticate` pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showProfile()`
+* One that matches POST requests to "/users/{userId}/profile/edit", applies the `Authenticate` pre-filter, and dispatches to `MyApp\\Controllers\\UserController::editProfile()`
 
 ## Notes
 Routes are matched based on the order they were added to the router.  So, if you did the following:
