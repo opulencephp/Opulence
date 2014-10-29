@@ -27,6 +27,11 @@ class RouteCompiler implements IRouteCompiler
      */
     private function convertRawStringToRegex(Route &$route, $rawString)
     {
+        if(empty($rawString))
+        {
+            return "/^.*$/";
+        }
+
         $regex = $this->quoteStaticText($rawString);
         $routeVariables = [];
         $matches = [];

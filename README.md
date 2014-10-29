@@ -45,7 +45,7 @@
 ```javascript
 {
     "require": {
-        "rdev/rdev": "0.0.*@dev"
+        "rdev/rdev": "0.1.*@dev"
     }
 }
 ```

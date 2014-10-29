@@ -216,6 +216,19 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not specifying a host
+     */
+    public function testNotSpecifyingHost()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/foo", $options);
+        $this->compiler->compile($route);
+        $this->assertEquals("/^.*$/", $route->getHostRegex());
+    }
+
+    /**
      * Tests an optional variable
      */
     public function testOptionalVariable()
@@ -260,6 +273,19 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             )
         );
         $this->assertEquals("123", $route->getDefaultValue("blah"));
+    }
+
+    /**
+     * Tests specifying an empty path
+     */
+    public function testSpecifyingEmptyPath()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "", $options);
+        $this->compiler->compile($route);
+        $this->assertEquals("/^.*$/", $route->getPathRegex());
     }
 
     /**

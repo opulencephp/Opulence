@@ -201,8 +201,7 @@ class Router
             }
         }
 
-        // TODO: Implement a default controller
-        return new HTTP\Response();
+        return new HTTP\Response("", HTTP\ResponseHeaders::HTTP_NOT_FOUND);
     }
 
     /**

@@ -14,9 +14,10 @@
   1. [Controller Namespaces](#controller-namespaces)
   2. [Group Filters](#group-filters)
   3. [Group Hosts](#group-hosts)
-7. [Config](#config)
+7. [Missing Routes](#missing-routes)
+8. [Config](#config)
   1. [Example](#config-example)
-8. [Notes](#notes)
+9. [Notes](#notes)
 
 ## Introduction
 So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
@@ -219,6 +220,19 @@ $router->group(["host" => "google.com"], function() use ($router)
 ```
 
 When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
+
+## Missing Routes
+In the case that the router cannot find a route that matches the request, a 404 response will be returned.  If you'd like to customize your 404 page, you can add an `ErrorDocument` to your .htaccess or Apache config:
+```
+ErrorDocument 404 /errors/404
+```
+
+Then, just add a route to handle this:
+```php
+$router->get("/errors/404", ["controller" => "MyApp\\ErrorController@showFourOhFour"]);
+```
+
+You can handle other HTTP error status codes in a similar manner.
 
 ## Config
 Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/application/rdev/configs)).  The two will automatically create `Route` objects and add them to your `Router`.

@@ -1,4 +1,5 @@
 HAS PRIORITY:
+    Turn various components into Composer packages
     Be able to catch various errors and render different views depending on the error
     Move Config README stuff into their own READMEs
         Focus on how to instantiate classes directly
@@ -29,7 +30,6 @@ Need to think through MVC
     Login page could use multiple controllers, depending on the action taken
     Do they all extend a common "LoginController", which would setup the view?
     Where does the common-view-setup happen?
-Need default controller support in Router
 Need a fail-safe method in controllers
 Add a class like "ConfigConverter" to make it easy to translate class names to objects in configs
     Would help reduce code duplication

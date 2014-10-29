@@ -252,6 +252,20 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests routing a missing path
+     */
+    public function testRoutingMissingPath()
+    {
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/foo/"
+        ], [], []);
+        $response = $this->router->route($request);
+        $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
+        $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+    }
+
+    /**
      * Tests routing for multiple methods
      */
     public function testRoutingMultipleMethods()
