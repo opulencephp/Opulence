@@ -1,12 +1,5 @@
 HAS PRIORITY:
-    Does ErrorDocument create new HTTP request?  Or does it try and load the file directly?
-        If it tries to load the file directly, will it respect the .htaccess rewrites?
-    Add bootstrapper for Templates
-        Need to instantiate ICache/ICompiler
-        Is this better done in projects that use RDev?
-        Look at the point below about where to instantiate Compiler and Cache
     Turn various components into Composer packages
-    Be able to catch various errors and render different views depending on the error
     Move Config README stuff into their own READMEs
         Focus on how to instantiate classes directly
     *** Once above is done, create a tag
@@ -18,24 +11,10 @@ PROBLEM!!!!
         Right now, it does the naive way of not passing in anything to the constructor
         What about the case that something is required in the constructor
         Configs won't work in this case
-Need to think of a good place to instantiate Compiler and Cache
-    Create a factory class?  Maybe make the factory class configurable?
-        Maybe controller classes will be passed them in their constructors?
-        That way, you could call $this->viewFactory->create()->...->render();
-    Or make a view config class with those settings?
-        Could have lottery-definition for cache
-        Could specify instance/name of compiler/cache classes
 Need to create session storage classes
     Need to think of how to assign session Ids
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to to implement
         This would only include the basics: get(), set(), and delete()
-Need to think through not always sharing parameter objects in makeNew()
-    For example, if we makeNew() a repo, we need a UoW, which needs to be shared
-    However, makeNew() will make a new UoW for each repo, which defeats the purpose
-Need to think through MVC
-    Login page could use multiple controllers, depending on the action taken
-    Do they all extend a common "LoginController", which would setup the view?
-    Where does the common-view-setup happen?
 Add a class like "ConfigConverter" to make it easy to translate class names to objects in configs
     Would help reduce code duplication
 Allow caching of routes/matches

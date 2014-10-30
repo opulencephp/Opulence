@@ -357,9 +357,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests new instances' dependencies are not shared instances
+     * Tests new instances' dependencies are shared instances
      */
-    public function testNewInstanceDependenciesAreNotShared()
+    public function testNewInstanceDependenciesAreShared()
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
@@ -367,8 +367,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $newInstance1 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
         /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
         $newInstance2 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
-        $this->assertNotSame($newInstance1->getFoo(), $newInstance2->getFoo());
-        $this->assertNotSame($newInstance1->getPerson(), $newInstance2->getPerson());
+        $this->assertSame($newInstance1->getFoo(), $newInstance2->getFoo());
+        $this->assertSame($newInstance1->getPerson(), $newInstance2->getPerson());
     }
 
     /**

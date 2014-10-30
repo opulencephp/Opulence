@@ -119,12 +119,12 @@ class Container implements IContainer
                 $concreteClass,
                 $constructor->getParameters(),
                 $constructorPrimitives,
-                $forceNewInstance
+                false
             );
             $instance = $reflectionClass->newInstanceArgs($constructorParameters);
         }
 
-        $this->callMethods($instance, $methodCalls, $forceNewInstance);
+        $this->callMethods($instance, $methodCalls, false);
 
         if(!$forceNewInstance)
         {
