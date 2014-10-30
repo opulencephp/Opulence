@@ -5,6 +5,7 @@
  * Tests the router factory
  */
 namespace RDev\Routing\Factories;
+use RDev\HTTP;
 use RDev\IoC;
 use RDev\Routing;
 use RDev\Routing\Configs;
@@ -110,6 +111,26 @@ class RouterFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $getRoutes[2]->getPostFilters());
         $this->assertEquals("/foo", $getRoutes[2]->getRawPath());
         $this->assertEquals("foo", $getRoutes[2]->getControllerName());
+    }
+
+    /**
+     * Tests specifying a missed route controller in the config
+     */
+    public function testMissedRouteControllerInConfig()
+    {
+        $configArray = [
+            "missedRouteController" => "RDev\\Tests\\Routing\\Mocks\\Controller"
+        ];
+        $config = new Configs\RouterConfig($configArray);
+        $container = new IoC\Container();
+        $router = $this->routerFactory->createFromConfig($config, $container);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/foo/"
+        ], [], []);
+        $response = $router->route($request);
+        $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEquals("foo", $response->getContent());
     }
 
     /**

@@ -21,7 +21,12 @@ class RouterFactory
      */
     public function createFromConfig(Configs\RouterConfig $config, IoC\IContainer $container)
     {
-        $router = new Routing\Router($container, new Routing\Dispatcher($container), $config["compiler"]);
+        $router = new Routing\Router(
+            $container,
+            new Routing\Dispatcher($container),
+            $config["compiler"],
+            $config["missedRouteController"]
+        );
         $this->createRoutesFromConfigArray($router, $config->getArrayCopy());
 
         return $router;
