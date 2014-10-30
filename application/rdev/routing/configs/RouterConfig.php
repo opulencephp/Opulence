@@ -54,6 +54,11 @@ class RouterConfig extends Configs\Config
             $configArray["compiler"] = new Routing\RouteCompiler();
         }
 
+        if(!isset($configArray["missedRouteController"]))
+        {
+            $configArray["missedRouteController"] = "RDev\\Routing\\Controller";
+        }
+
         if(!isset($configArray["groups"]))
         {
             $configArray["groups"] = [];

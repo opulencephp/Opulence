@@ -59,7 +59,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             "compiler" => new Routing\RouteCompiler(),
             "groups" => [],
-            "routes" => []
+            "routes" => [],
+            "missedRouteController" => "RDev\\Routing\\Controller"
         ], $config->getArrayCopy());
     }
 
@@ -202,6 +203,15 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
                 "foo"
             ]
         ]);
+    }
+
+    /**
+     * Tests that the missed route controller key is set
+     */
+    public function testMissedRouteControllerKeyIsSet()
+    {
+        $config = new RouterConfig([]);
+        $this->assertEquals("RDev\\Routing\\Controller", $config["missedRouteController"]);
     }
 
     /**
@@ -395,7 +405,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             "compiler" => new Mocks\RouteCompiler(),
             "routes" => [],
-            "groups" => []
+            "groups" => [],
+            "missedRouteController" => "RDev\\Routing\\Controller"
         ], $config->getArrayCopy());
     }
 
@@ -412,7 +423,8 @@ class RouterConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([
             "compiler" => $compiler,
             "routes" => [],
-            "groups" => []
+            "groups" => [],
+            "missedRouteController" => "RDev\\Routing\\Controller"
         ], $config->getArrayCopy());
         $this->assertSame($compiler, $config->getArrayCopy()["compiler"]);
     }

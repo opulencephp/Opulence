@@ -25,21 +25,26 @@ class Router
     ];
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
+    /** @var string The name of the controller class that will handle missing routes */
+    protected $missedRouteControllerName = "";
 
     /**
      * @param IoC\IContainer $container The IoC container
      * @param Dispatcher $dispatcher The route dispatcher
      * @param IRouteCompiler $compiler The route compiler
+     * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
      */
     public function __construct(
         IoC\IContainer $container,
         Dispatcher $dispatcher,
-        IRouteCompiler $compiler
+        IRouteCompiler $compiler,
+        $missedRouteControllerName = "RDev\\Routing\\Controller"
     )
     {
         $this->container = $container;
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
+        $this->setMissedRouteControllerName($missedRouteControllerName);
     }
 
     /**
@@ -201,7 +206,16 @@ class Router
             }
         }
 
-        return new HTTP\Response("", HTTP\ResponseHeaders::HTTP_NOT_FOUND);
+        // If we've gotten here, we've got a missing route
+        return $this->getMissingRouteResponse($request);
+    }
+
+    /**
+     * @param string $missedRouteControllerName
+     */
+    public function setMissedRouteControllerName($missedRouteControllerName)
+    {
+        $this->missedRouteControllerName = $missedRouteControllerName;
     }
 
     /**
@@ -334,5 +348,16 @@ class Router
         }
 
         return $path;
+    }
+
+    /**
+     * Gets the response for a missing route
+     *
+     * @param HTTP\Request $request
+     * @return HTTP\Response The response
+     */
+    private function getMissingRouteResponse(HTTP\Request $request)
+    {
+        return $this->dispatcher->dispatch(new MissingRoute($this->missedRouteControllerName), $request, []);
     }
 } 

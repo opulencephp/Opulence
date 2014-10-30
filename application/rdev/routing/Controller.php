@@ -8,7 +8,7 @@ namespace RDev\Routing;
 use RDev\HTTP;
 use RDev\Views\Templates;
 
-abstract class Controller
+class Controller
 {
     /** @var Templates\ITemplate The template used in the response */
     protected $template = null;
@@ -45,6 +45,18 @@ abstract class Controller
         }
 
         return $response;
+    }
+
+    /**
+     * Shows an HTTP error response
+     * To customize error messages, override this method
+     *
+     * @param int $statusCode The HTTP status code of the error
+     * @return HTTP\Response The response
+     */
+    public function showHTTPError($statusCode)
+    {
+        return new HTTP\Response("", $statusCode);
     }
 
     /**

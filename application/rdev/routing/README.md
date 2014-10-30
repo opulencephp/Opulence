@@ -222,22 +222,37 @@ $router->group(["host" => "google.com"], function() use ($router)
 When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
 
 ## Missing Routes
-In the case that the router cannot find a route that matches the request, a 404 response will be returned.  If you'd like to customize your 404 page, you can add an `ErrorDocument` to your .htaccess or Apache config:
-```
-ErrorDocument 404 /errors/404
-```
+In the case that the router cannot find a route that matches the request, a 404 response will be returned.  If you'd like to customize your 404 page or any other HTTP error status page, override `showHTTPError()` in your controller and display the appropriate response.  Register your controller in the case of a missing route using `Router::setMissedRouteControllerName()`:
 
 Then, just add a route to handle this:
 ```php
-$router->get("/errors/404", ["controller" => "MyApp\\ErrorController@showFourOhFour"]);
-```
+namespace MyApp;
+use RDev\HTTP;
+use RDev\Routing;
 
-You can handle other HTTP error status codes in a similar manner.
+class MyController extends Routing\Controller
+{
+    public function showHTTPError($statusCode)
+    {
+        switch($statusCode)
+        {
+            case HTTP\ResponseHeaders::HTTP_NOT_FOUND:
+                return new HTTP\Response("My custom 404 page", $statusCode);
+            default:
+                return new HTTP\Response("Something went wrong", $statusCode);
+        }
+    }
+}
+
+$router->setDefaultControllerClass("MyApp\\MyController");
+// Assume $request points to a request object with a path that isn't covered in the router
+$router->route($request); // returns a 404 response with "My custom 404 page"
+```
 
 ## Config
 Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/application/rdev/configs)).  The two will automatically create `Route` objects and add them to your `Router`.
 
-Let's break down the structure of the config.  All of the top-level keys are optional:
+Let's break down the structure of the config.  The following keys are optional:
 * "compiler"
   * Must either be an instance or name of a class that implements `IRouteCompiler`
 * "routes"
@@ -266,6 +281,8 @@ Let's break down the structure of the config.  All of the top-level keys are opt
     * The following keys are optional:
       * "groups"
         * An array of nested groups, which should have the same structure as "groups" from above
+* "missedRouteController"
+  * The name of the controller class to instantiate in the case that a route cannot be handled
 
 #### Config Example
 Let's take a look at an example config:

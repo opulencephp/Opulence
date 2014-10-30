@@ -68,6 +68,14 @@ class Controller extends Routing\Controller
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function showHTTPError($statusCode)
+    {
+        return new HTTP\Response("foo", $statusCode);
+    }
+
+    /**
      * Mocks a method that takes in two parameters
      *
      * @param mixed $foo The first parameter

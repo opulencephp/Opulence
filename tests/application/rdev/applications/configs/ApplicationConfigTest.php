@@ -127,7 +127,8 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
         $expectedConfigArray = [
             "compiler" => new Routing\RouteCompiler(),
             "routes" => [],
-            "groups" => []
+            "groups" => [],
+            "missedRouteController" => "RDev\\Routing\\Controller"
         ];
         $this->assertEquals($expectedConfigArray, $config["routing"]->getArrayCopy());
         $this->assertInstanceOf("RDev\\Routing\\Configs\\RouterConfig", $config["routing"]);

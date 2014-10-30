@@ -263,6 +263,23 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $response = $this->router->route($request);
         $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
         $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEmpty($response->getContent());
+    }
+
+    /**
+     * Tests routing a missing path with a custom controller
+     */
+    public function testRoutingMissingPathWithCustomController()
+    {
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/foo/"
+        ], [], []);
+        $this->router->setMissedRouteControllerName("RDev\\Tests\\Routing\\Mocks\\Controller");
+        $response = $this->router->route($request);
+        $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
+        $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEquals("foo", $response->getContent());
     }
 
     /**
