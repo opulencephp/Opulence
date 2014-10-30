@@ -50,6 +50,8 @@
 }
 ```
 
+To setup a skeleton project that uses RDev, check out the [Project repository](https://github.com/ramblingsofadev/Project).
+
 ## Requirements
 * PHP 5.5, 5.6, or HHVM >= 3.3.0
 * OpenSSL enabled
