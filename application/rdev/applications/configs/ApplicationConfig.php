@@ -117,26 +117,28 @@ class ApplicationConfig extends Configs\Config
      */
     private function setUpSessionFromArray(array &$configArray)
     {
-        if(isset($configArray["session"]))
+        if(isset($configArray["session"]) && isset($configArray["session"]["session"]))
         {
-            if(is_string($configArray["session"]))
+            if(is_string($configArray["session"]["session"]))
             {
-                if(!class_exists($configArray["session"]))
+                if(!class_exists($configArray["session"]["session"]))
                 {
-                    throw new \RuntimeException("Class {$configArray['session']} does not exist");
+                    throw new \RuntimeException("Class {$configArray['session']['session']} does not exist");
                 }
 
-                $configArray["session"] = new $configArray["session"]();
+                $configArray["session"]["session"] = new $configArray["session"]["session"]();
             }
 
-            if(!$configArray["session"] instanceof Sessions\ISession)
+            if(!$configArray["session"]["session"] instanceof Sessions\ISession)
             {
                 throw new \RuntimeException("Session does not implement ISession");
             }
         }
         else
         {
-            $configArray["session"] = new Sessions\Session();
+            $configArray["session"] = [
+                "session" => new Sessions\Session()
+            ];
         }
     }
 } 

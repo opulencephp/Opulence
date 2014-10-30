@@ -140,7 +140,9 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $configArray = [
-            "session" => "RDev\\Class\\That\\Does\\Not\\Exist"
+            "session" => [
+                "session" => "RDev\\Class\\That\\Does\\Not\\Exist"
+            ]
         ];
         new ApplicationConfig($configArray);
     }
@@ -152,7 +154,9 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $configArray = [
-            "session" => get_class($this)
+            "session" => [
+                "session" => get_class($this)
+            ]
         ];
         new ApplicationConfig($configArray);
     }
@@ -163,10 +167,12 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     public function testValidSessionClass()
     {
         $configArray = [
-            "session" => "RDev\\Sessions\\Session"
+            "session" => [
+                "session" => "RDev\\Sessions\\Session"
+            ]
         ];
         $config = new ApplicationConfig($configArray);
-        $this->assertInstanceOf("RDev\\Sessions\\Session", $config["session"]);
+        $this->assertInstanceOf("RDev\\Sessions\\Session", $config["session"]["session"]);
     }
 
     /**
@@ -176,9 +182,11 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     {
         $session = new Sessions\Session();
         $configArray = [
-            "session" => $session
+            "session" => [
+                "session" => $session
+            ]
         ];
         $config = new ApplicationConfig($configArray);
-        $this->assertSame($session, $config["session"]);
+        $this->assertSame($session, $config["session"]["session"]);
     }
 } 

@@ -1,4 +1,10 @@
 HAS PRIORITY:
+    Does ErrorDocument create new HTTP request?  Or does it try and load the file directly?
+        If it tries to load the file directly, will it respect the .htaccess rewrites?
+    Add bootstrapper for Templates
+        Need to instantiate ICache/ICompiler
+        Is this better done in projects that use RDev?
+        Look at the point below about where to instantiate Compiler and Cache
     Turn various components into Composer packages
     Be able to catch various errors and render different views depending on the error
     Move Config README stuff into their own READMEs

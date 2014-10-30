@@ -65,8 +65,10 @@ Let's break down the structure of the config.  The following keys are optional:
 * "routing"
   * See the [Routing page](/application/rdev/routing)
 * "session"
-  * The session to use throughout the application
-  * Must either the name or an instance of a class that implements `ISession`
+  * Defines options about the session used throughout the request
+  * The following keys are required:
+    * "session"
+      * Must either be the name or an instance of a class that implements `ISession`
 * "bootstrappers"
   * Lists the names of the classes that implement `RDev\Applications\Bootstrappers\IBootstrapper`
   * All the bootstrappers listed will be registered to the application

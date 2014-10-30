@@ -47,6 +47,36 @@ class IoCConfigTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests passing an instance to a targeted binding
+     */
+    public function testPassingInstanceToTargetedBinding()
+    {
+        $configArray = [
+            "targeted" => [
+                "Foo" => [
+                    get_class($this) => $this
+                ]
+            ]
+        ];
+        $config = new IoCConfig($configArray);
+        $this->assertSame($this, $config["targeted"]["Foo"][get_class($this)]);
+    }
+
+    /**
+     * Tests passing an instance to a universal binding
+     */
+    public function testPassingInstanceToUniversalBinding()
+    {
+        $configArray = [
+            "universal" => [
+                get_class($this) => $this
+            ]
+        ];
+        $config = new IoCConfig($configArray);
+        $this->assertSame($this, $config["universal"][get_class($this)]);
+    }
+
+    /**
      * Tests a single invalid targeted binding
      */
     public function testSingleInvalidTargetedBinding()

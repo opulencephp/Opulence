@@ -44,7 +44,7 @@ class ApplicationFactory
 
         $routerFactory = new Factories\RouterFactory();
         $router = $routerFactory->createFromConfig($config["routing"], $container);
-        $session = $config["session"];
+        $session = $config["session"]["session"];
 
         // Register bootstrappers
         $application = new Applications\Application($logger, $environment, $connection, $container, $router, $session);

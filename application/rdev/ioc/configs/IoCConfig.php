@@ -88,7 +88,7 @@ class IoCConfig extends Configs\Config
 
                 foreach($configArray["universal"] as $interfaceName => $concreteClassName)
                 {
-                    if(!is_string($interfaceName) || !is_string($concreteClassName))
+                    if(!is_string($interfaceName))
                     {
                         return false;
                     }
@@ -111,7 +111,7 @@ class IoCConfig extends Configs\Config
 
                     foreach($bindings as $interfaceName => $concreteClassName)
                     {
-                        if(!is_string($interfaceName) || !is_string($concreteClassName))
+                        if(!is_string($interfaceName))
                         {
                             return false;
                         }

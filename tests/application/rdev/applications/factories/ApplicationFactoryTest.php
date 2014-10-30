@@ -52,7 +52,7 @@ class ApplicationFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $config = new Configs\ApplicationConfig([]);
         $application = $this->factory->createFromConfig($config);
-        $this->assertSame($config["session"], $application->getSession());
+        $this->assertSame($config["session"]["session"], $application->getSession());
     }
 
     /**
