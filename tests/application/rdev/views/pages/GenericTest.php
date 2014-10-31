@@ -198,4 +198,22 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $this->generic->addHeaderJavaScriptFilePaths($filePath);
         $this->assertEquals([$filePath], $this->generic->getHeaderJavaScriptFilePaths());
     }
+
+    /**
+     * Tests not passing contents to the constructor
+     */
+    public function testNotPassingContentsToConstructor()
+    {
+        $contents = file_get_contents(__DIR__ . "/../../../../../application/rdev/views/pages/files/Generic.html");
+        $this->assertEquals($contents, $this->generic->getContents());
+    }
+
+    /**
+     * Tests passing contents to the constructor
+     */
+    public function testPassingContentsToConstructor()
+    {
+        $generic = new Generic("foo");
+        $this->assertEquals("foo", $generic->getContents());
+    }
 } 

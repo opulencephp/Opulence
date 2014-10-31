@@ -35,12 +35,19 @@ class Generic extends Templates\Template
     /** @var array The list of inline footer JavaScript */
     protected $footerInlineJavaScript = [];
 
-    public function __construct()
+    public function __construct($content = "")
     {
         parent::__construct();
 
-        $fileSystem = new Files\FileSystem();
-        $this->setContents($fileSystem->read(__DIR__ . "/files/Generic.html"));
+        if(empty($content))
+        {
+            $fileSystem = new Files\FileSystem();
+            $this->setContents($fileSystem->read(__DIR__ . "/files/Generic.html"));
+        }
+        else
+        {
+            $this->setContents($content);
+        }
     }
 
     /**
