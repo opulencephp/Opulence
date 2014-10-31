@@ -13,6 +13,7 @@
 9. [Extending the Compiler](#extending-the-compiler)
 10. [Escaping Tags](#escaping-tags)
 11. [Custom Tags](#custom-tags)
+12. [Template Factory](#template-factory)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
@@ -299,3 +300,21 @@ $template->setTag("name", "A&W");
 $template->setTag("food", "Root Beer");
 echo $compiler->compile($template); // "A&amp;W Root Beer"
 ```
+
+## Template Factory
+Having to always pass in the full path to load a template from a file can get annoying.  It can also make it more difficult to switch your template directory should you ever decide to do so.  This is where a `TemplateFactory` comes in handy.  Simply pass in a `FileSystem` and the directory that your template are stored in, and you'll never have to repeat yourself:
+ 
+ ```php
+ use RDev\Files;
+ use RDev\Views\Templates;
+ 
+ $fileSystem = new Files\FileSystem();
+ // Assume we keep all templates at "/var/www/html/views"
+ $factory = new Templates\TemplateFactory($fileSystem, "/var/www/html/views");
+ // This creates a template from "/var/www/html/views/login.html"
+ $loginTemplate = $factory->create("login.html");
+ // This creates a template from "/var/www/html/views/books/list.html"
+ $bookListTemplate = $factory->create("books/list.html");
+ ```
+ 
+ > **Note:** Preceding slashes in `create()` are not necessary.
