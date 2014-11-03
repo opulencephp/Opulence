@@ -4,20 +4,21 @@
  *
  * Defines the interface for view factories to implement
  */
-namespace RDev\Views;
+namespace RDev\Views\Factories;
 use RDev\Files;
+use RDev\Views;
 
-interface IFactory
+interface ITemplateFactory
 {
     /**
      * Creates a template from the file at the input path
      * If any builders are registered for this template, they're run too
      *
      * @param string $templatePath The path relative to the root template directory
-     * @return Template The template with the contents from the path
+     * @return Views\Template The template with the contents from the path
      * @throws Files\FileSystemException Thrown if the template does not exist
      */
-    public function createTemplate($templatePath);
+    public function create($templatePath);
 
     /**
      * Registers a builder for a particular template
@@ -25,7 +26,7 @@ interface IFactory
      * Builders are run in the order they're registered
      *
      * @param string $templatePath The path of the template relative to the root template directory
-     * @param IBuilder $builder The builder to register
+     * @param Views\IBuilder $builder The builder to register
      */
-    public function registerBuilder($templatePath, IBuilder $builder);
+    public function registerBuilder($templatePath, Views\IBuilder $builder);
 }

@@ -315,10 +315,11 @@ Having to always pass in the full path to load a template from a file can get an
 ```php
 use RDev\Files;
 use RDev\Views;
+use RDev\Views\Factories;
 
 $fileSystem = new Files\FileSystem();
 // Assume we keep all templates at "/var/www/html/views"
-$factory = new Views\Factory($fileSystem, "/var/www/html/views");
+$factory = new Factories\TemplateFactory($fileSystem, "/var/www/html/views");
 // This creates a template from "/var/www/html/views/login.html"
 $loginTemplate = $factory->createTemplate("login.html");
 // This creates a template from "/var/www/html/views/books/list.html"
@@ -329,7 +330,7 @@ $bookListTemplate = $factory->createTemplate("books/list.html");
  
 #### Builders
  
-Repetitive tasks such as setting up template should not be done in controllers.  That should to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `IFactory::registerBuilder()`.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
+Repetitive tasks such as setting up template should not be done in controllers.  That should to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplate::registerBuilder()`.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
 
 Let's take a look at an example:
 
@@ -343,6 +344,7 @@ Let's take a look at an example:
 namespace MyApp\Builders;
 use RDev\Files;
 use RDev\Views;
+use RDev\Views\Factories;
 
 class MyBuilder implements Views\IBuilder
 {
@@ -355,7 +357,7 @@ class MyBuilder implements Views\IBuilder
 }
 
 // Register our builder to "Index.html"
-$factory = new Views\Factory(new Files\FileSystem(), __DIR__ . "/tmp");
+$factory = new Factories\TemplateFactory(new Files\FileSystem(), __DIR__ . "/tmp");
 $factory->registerBuilder("Index.html", new MyBuilder());
 
 // Now, whenever we request "Index.html", the "siteName" tag will be set to "My Website"

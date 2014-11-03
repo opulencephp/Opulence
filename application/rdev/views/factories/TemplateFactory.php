@@ -4,10 +4,11 @@
  *
  * Defines the template factory
  */
-namespace RDev\Views;
+namespace RDev\Views\Factories;
 use RDev\Files;
+use RDev\Views;
 
-class Factory implements IFactory
+class TemplateFactory implements ITemplateFactory
 {
     /** @var Files\FileSystem The file system to read templates with */
     private $fileSystem = null;
@@ -29,11 +30,11 @@ class Factory implements IFactory
     /**
      * {@inheritdoc}
      */
-    public function createTemplate($templatePath)
+    public function create($templatePath)
     {
         $templatePath = ltrim($templatePath, "/");
         $content = $this->fileSystem->read($this->rootTemplateDirectory . "/" . $templatePath);
-        $template = new Template($content);
+        $template = new Views\Template($content);
         $template = $this->runBuilders($templatePath, $template);
 
         return $template;
@@ -42,7 +43,7 @@ class Factory implements IFactory
     /**
      * {@inheritdoc}
      */
-    public function registerBuilder($templatePath, IBuilder $builder)
+    public function registerBuilder($templatePath, Views\IBuilder $builder)
     {
         if(!isset($this->builders[$templatePath]))
         {
@@ -56,14 +57,14 @@ class Factory implements IFactory
      * Runs the builders for a template (if there any)
      *
      * @param string $templatePath The path of the template relative to the root template directory
-     * @param Template $template The template to run builders on
-     * @return Template The built template
+     * @param Views\Template $template The template to run builders on
+     * @return Views\Template The built template
      */
-    private function runBuilders($templatePath, Template $template)
+    private function runBuilders($templatePath, Views\Template $template)
     {
         if(isset($this->builders[$templatePath]))
         {
-            /** @var IBuilder $builder */
+            /** @var Views\IBuilder $builder */
             foreach($this->builders[$templatePath] as $builder)
             {
                 $template = $builder->build($template);
