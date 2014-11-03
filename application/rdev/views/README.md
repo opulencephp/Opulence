@@ -321,12 +321,12 @@ $fileSystem = new Files\FileSystem();
 // Assume we keep all templates at "/var/www/html/views"
 $factory = new Factories\TemplateFactory($fileSystem, "/var/www/html/views");
 // This creates a template from "/var/www/html/views/login.html"
-$loginTemplate = $factory->createTemplate("login.html");
+$loginTemplate = $factory->create("login.html");
 // This creates a template from "/var/www/html/views/books/list.html"
-$bookListTemplate = $factory->createTemplate("books/list.html");
+$bookListTemplate = $factory->create("books/list.html");
 ```
  
-> **Note:** Preceding slashes in `createTemplate()` are not necessary.
+> **Note:** Preceding slashes in `create()` are not necessary.
  
 #### Builders
  
@@ -361,6 +361,6 @@ $factory = new Factories\TemplateFactory(new Files\FileSystem(), __DIR__ . "/tmp
 $factory->registerBuilder("Index.html", new MyBuilder());
 
 // Now, whenever we request "Index.html", the "siteName" tag will be set to "My Website"
-$template = $factory->createTemplate("Index.html");
+$template = $factory->create("Index.html");
 echo $template->getTag("siteName"); // "My Website"
 ```
