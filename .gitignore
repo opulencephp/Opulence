@@ -1,2 +1,3 @@
 .idea
 phpunit.phar
+vendor/

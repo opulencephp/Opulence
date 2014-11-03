@@ -55,6 +55,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
      * @param array $sqlParameters The list of SQL parameters
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
+     * @throws ORM\ORMException Thrown if there was an error querying the entities
      */
     protected function read($sql, array $sqlParameters, $expectSingleResult)
     {
@@ -89,9 +90,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
         }
         catch(\PDOException $ex)
         {
-            Exceptions\Log::write("Unable to query entities: " . $ex);
+            throw new ORM\ORMException("Unable to query entities: " . $ex);
         }
-
-        return null;
     }
 } 

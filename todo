@@ -1,9 +1,6 @@
 HAS PRIORITY:
     Rethink how we add css/js to templates
         Shouldn't have to have methods in the Template class
-    Ideally, we'd register NAMES of builder classes and then instantiate them when we need them
-        Right now, we have to always instantiate them, which is inefficient
-        Problem is that there's no place to call $container->makeShared() in Factory
     Turn various components into Composer packages
     Move Config README stuff into their own READMEs
         Focus on how to instantiate classes directly

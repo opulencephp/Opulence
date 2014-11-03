@@ -40,6 +40,22 @@
     "phpunit/phpunit-story": "*",
     "phpunit/dbunit": ">=1.2"
   },
+  "replace": {
+    "rdev/applications": "self.version",
+    "rdev/authentication": "self.version",
+    "rdev/configs": "self.version",
+    "rdev/cryptography": "self.version",
+    "rdev/databases": "self.version",
+    "rdev/exceptions": "self.version",
+    "rdev/files": "self.version",
+    "rdev/http": "self.version",
+    "rdev/ioc": "self.version",
+    "rdev/orm": "self.version",
+    "rdev/routing": "self.version",
+    "rdev/sessions": "self.version",
+    "rdev/users": "self.version",
+    "rdev/views": "self.version"
+  },
   "extra": {
     "branch-alias": {
       "dev-master": "0.1.x-dev"
