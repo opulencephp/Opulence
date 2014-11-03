@@ -1,4 +1,5 @@
 HAS PRIORITY:
+    Convert Generic template's tags to php loops/if-statements
     Turn various components into Composer packages
     Move Config README stuff into their own READMEs
         Focus on how to instantiate classes directly

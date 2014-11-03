@@ -4,7 +4,7 @@
  *
  * Defines the interface for templates to implement
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views;
 
 interface ITemplate
 {

@@ -4,8 +4,10 @@
  *
  * Defines methods for compiling templates
  */
-namespace RDev\Views\Templates;
-use RDev\Views\Security;
+namespace RDev\Views\Compilers;
+use RDev\Views;
+use RDev\Views\Cache;
+use RDev\Views\Filters;
 
 class Compiler implements ICompiler
 {
@@ -14,15 +16,15 @@ class Compiler implements ICompiler
         "priority" => [],
         "nonPriority" => []
     ];
-    /** @var ICache The cache to use for compiled templates */
+    /** @var Cache\ICache The cache to use for compiled templates */
     protected $cache = null;
     /** @var array The mapping of function names to their callbacks */
     protected $templateFunctions = [];
 
     /**
-     * @param ICache $cache The cache to use for compiled templates
+     * @param Cache\ICache $cache The cache to use for compiled templates
      */
-    public function __construct(ICache $cache)
+    public function __construct(Cache\ICache $cache)
     {
         $this->setCache($cache);
 
@@ -36,7 +38,7 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function compile(ITemplate $template)
+    public function compile(Views\ITemplate $template)
     {
         $template->prepare();
         $uncompiledContents = $template->getContents();
@@ -111,7 +113,7 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function setCache(ICache $cache)
+    public function setCache(Cache\ICache $cache)
     {
         $this->cache = $cache;
     }
@@ -119,11 +121,11 @@ class Compiler implements ICompiler
     /**
      * Cleans up unused tags and escape characters before tags in a template
      *
-     * @param ITemplate $template The template whose tags we're compiling
+     * @param Views\ITemplate $template The template whose tags we're compiling
      * @param string $content The actual content to compile
      * @return string The compiled template
      */
-    private function cleanupTags(ITemplate $template, $content)
+    private function cleanupTags(Views\ITemplate $template, $content)
     {
         // Holds the tags, with the longest-length opening tag first
         $tags = [];
@@ -183,11 +185,11 @@ class Compiler implements ICompiler
     /**
      * Compiles PHP that appears in a template
      *
-     * @param ITemplate $template The template whose tags we're compiling
+     * @param Views\ITemplate $template The template whose tags we're compiling
      * @param string $content The actual content to compile
      * @return string The compiled template
      */
-    private function compilePHP(ITemplate $template, $content)
+    private function compilePHP(Views\ITemplate $template, $content)
     {
         // Create local variables for use in eval()
         extract($template->getVars());
@@ -243,11 +245,11 @@ class Compiler implements ICompiler
     /**
      * Compiles tags in a template
      *
-     * @param ITemplate $template The template whose tags we're compiling
+     * @param Views\ITemplate $template The template whose tags we're compiling
      * @param string $content The actual content to compile
      * @return string The compiled template
      */
-    private function compileTags(ITemplate $template, $content)
+    private function compileTags(Views\ITemplate $template, $content)
     {
         // Holds the tags as well as the callbacks to callbacks to execute in the case of string literals or tag names
         $tagData = [
@@ -255,11 +257,11 @@ class Compiler implements ICompiler
                 "tags" => [$template->getEscapedOpenTag(), $template->getEscapedCloseTag()],
                 "stringLiteralCallback" => function ($stringLiteral) use ($template)
                 {
-                    return Security\XSS::filter(trim($stringLiteral, $stringLiteral[0]));
+                    return Filters\XSS::run(trim($stringLiteral, $stringLiteral[0]));
                 },
                 "tagNameCallback" => function ($tagName) use ($template)
                 {
-                    return Security\XSS::filter($template->getTag($tagName));
+                    return Filters\XSS::run($template->getTag($tagName));
                 }
             ],
             [

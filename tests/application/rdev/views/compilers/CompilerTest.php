@@ -4,24 +4,26 @@
  *
  * Tests the template compiler
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views\Compilers;
 use RDev\Files;
 use RDev\Tests\Mocks;
+use RDev\Views;
+use RDev\Views\Cache;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
     /** The path to the test template with default tags */
-    const TEMPLATE_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTags.html";
+    const TEMPLATE_PATH_WITH_DEFAULT_TAGS = "/../files/TestWithDefaultTags.html";
     /** The path to the test template with custom tags */
-    const TEMPLATE_PATH_WITH_CUSTOM_TAGS = "/files/TestWithCustomTags.html";
+    const TEMPLATE_PATH_WITH_CUSTOM_TAGS = "/../files/TestWithCustomTags.html";
     /** The path to the test template with PHP code */
-    const TEMPLATE_PATH_WITH_PHP_CODE = "/files/TestWithPHP.html";
+    const TEMPLATE_PATH_WITH_PHP_CODE = "/../files/TestWithPHP.html";
     /** The path to the test template with PHP code */
-    const TEMPLATE_PATH_WITH_INVALID_PHP_CODE = "/files/TestWithInvalidPHP.html";
+    const TEMPLATE_PATH_WITH_INVALID_PHP_CODE = "/../files/TestWithInvalidPHP.html";
 
     /** @var Compiler $compiler The compiler to use in tests */
     private $compiler = null;
-    /** @var Template The template to use in the tests */
+    /** @var Views\Template The template to use in the tests */
     private $template = null;
     /** @var Files\FileSystem The file system used to read templates */
     private $fileSystem = null;
@@ -58,9 +60,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->fileSystem = new Files\FileSystem();
-        $cache = new Cache($this->fileSystem, __DIR__ . "/tmp");
+        $cache = new Cache\Cache($this->fileSystem, __DIR__ . "/tmp");
         $this->compiler = new Compiler($cache);
-        $this->template = new Template();
+        $this->template = new Views\Template();
     }
 
     /**
@@ -311,7 +313,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilerPriority()
     {
-        $template = new Template();
+        $template = new Views\Template();
         $template->setContents("");
         // Although this one is registered first, it doesn't have priority
         $this->compiler->registerCompiler(function ($template, $content)
@@ -337,7 +339,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testCompilingInvalidPHP()
     {
         $this->setExpectedException("\\RuntimeException");
-        $contents = $this->fileSystem->read(__DIR__ . "/files/TestWithInvalidPHP.html");
+        $contents = $this->fileSystem->read(__DIR__ . "/../files/TestWithInvalidPHP.html");
         $this->template->setContents($contents);
         $this->compiler->compile($this->template);
     }

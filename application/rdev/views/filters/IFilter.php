@@ -1,0 +1,19 @@
+<?php
+/**
+ * Copyright (C) 2014 David Young
+ *
+ * Defines the interface for view filters to implement
+ */
+namespace RDev\Views\Filters;
+
+interface IFilter
+{
+    /**
+     * Filters input for use in a view
+     *
+     * @param string $input The input to filter
+     * @param array $options The list of options to use to filter the input
+     * @return string The filtered input
+     */
+    public static function run($input, array $options = []);
+}

@@ -6,13 +6,14 @@
  */
 namespace RDev\Routing;
 use RDev\HTTP;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Compilers;
 
 class Controller
 {
-    /** @var Templates\ITemplate The template used in the response */
+    /** @var Views\ITemplate The template used in the response */
     protected $template = null;
-    /** @var Templates\ICompiler The template compiler to use */
+    /** @var Compilers\ICompiler The template compiler to use */
     protected $compiler = null;
     /** @var HTTP\Connection The HTTP connection */
     protected $connection = null;
@@ -39,7 +40,7 @@ class Controller
         /** @var HTTP\Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if($response === null && $this->compiler instanceof Templates\ICompiler && $this->template !== null)
+        if($response === null && $this->compiler instanceof Compilers\ICompiler && $this->template !== null)
         {
             $response->setContent($this->compiler->compile($this->template));
         }

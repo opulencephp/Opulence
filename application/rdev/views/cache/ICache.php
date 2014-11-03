@@ -4,7 +4,7 @@
  *
  * Defines the interface for template caches to implement
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views\Cache;
 
 interface ICache
 {

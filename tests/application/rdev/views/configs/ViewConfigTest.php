@@ -5,7 +5,8 @@
  * Tests the view config
  */
 namespace RDev\Views\Configs;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Cache;
 
 class ViewConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -62,8 +63,8 @@ class ViewConfigTest extends \PHPUnit_Framework_TestCase
             ]
         ];
         $config = new ViewConfig($configArray);
-        $this->assertEquals(Templates\ICache::DEFAULT_GC_CHANCE, $config["templates"]["gcChance"]);
-        $this->assertEquals(Templates\ICache::DEFAULT_GC_TOTAL, $config["templates"]["gcTotal"]);
+        $this->assertEquals(Cache\ICache::DEFAULT_GC_CHANCE, $config["templates"]["gcChance"]);
+        $this->assertEquals(Cache\ICache::DEFAULT_GC_TOTAL, $config["templates"]["gcTotal"]);
     }
 
     /**

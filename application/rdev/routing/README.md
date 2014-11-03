@@ -319,19 +319,21 @@ $configArray = [
                 ]
             ],
             "groups" => [
-                "options" => [
-                    "path" => "/{userId}"
-                ],
-                "routes" => [
-                    [
-                        "methods" => "GET",
-                        "path" => "/profile",
-                        "options" => ["controller" => "UserController@showProfile"]
+                [
+                    "options" => [
+                        "path" => "/{userId}"
                     ],
-                    [
-                        "methods" => "POST",
-                        "path" => "/profile/edit",
-                        "options" => ["controller" => "UserController@editProfile"]
+                    "routes" => [
+                        [
+                            "methods" => "GET",
+                            "path" => "/profile",
+                            "options" => ["controller" => "UserController@showProfile"]
+                        ],
+                        [
+                            "methods" => "POST",
+                            "path" => "/profile/edit",
+                            "options" => ["controller" => "UserController@editProfile"]
+                        ]
                     ]
                 ]
             ]

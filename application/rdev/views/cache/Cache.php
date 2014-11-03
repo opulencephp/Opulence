@@ -4,7 +4,7 @@
  *
  * Defines the cache for rendered templates
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views\Cache;
 use RDev\Files;
 
 class Cache implements ICache

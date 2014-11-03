@@ -4,7 +4,7 @@
  *
  * Defines the template factory
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views;
 use RDev\Files;
 
 class TemplateFactory

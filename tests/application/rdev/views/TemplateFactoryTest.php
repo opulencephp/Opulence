@@ -4,7 +4,7 @@
  *
  * Tests the template factory
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views;
 use RDev\Files;
 
 class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/files/");
         $template = $factory->create("TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/files/TestWithDefaultTags.html");
-        $this->assertInstanceOf("RDev\\Views\\Templates\\Template", $template);
+        $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 
@@ -40,7 +40,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/files");
         $template = $factory->create("TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/files/TestWithDefaultTags.html");
-        $this->assertInstanceOf("RDev\\Views\\Templates\\Template", $template);
+        $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 
@@ -62,7 +62,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/files");
         $template = $factory->create("/TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/files/TestWithDefaultTags.html");
-        $this->assertInstanceOf("RDev\\Views\\Templates\\Template", $template);
+        $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 
@@ -74,7 +74,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/files");
         $template = $factory->create("TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/files/TestWithDefaultTags.html");
-        $this->assertInstanceOf("RDev\\Views\\Templates\\Template", $template);
+        $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 }

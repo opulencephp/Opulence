@@ -6,9 +6,9 @@
  */
 namespace RDev\Views\Pages;
 use RDev\Files;
-use RDev\Views\Templates;
+use RDev\Views;
 
-class Generic extends Templates\Template
+class Generic extends Views\Template
 {
     /** @var string The title of the page */
     protected $title = "";

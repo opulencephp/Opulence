@@ -4,18 +4,20 @@
  *
  * Defines the interface for template compilers to implement
  */
-namespace RDev\Views\Templates;
+namespace RDev\Views\Compilers;
+use RDev\Views;
+use RDev\Views\Cache;
 
 interface ICompiler
 {
     /**
      * Gets the compiled template
      *
-     * @param ITemplate $template The template to render
+     * @param Views\ITemplate $template The template to render
      * @return string The compiled template
      * @throws \RuntimeException Thrown if there was an error compiling the template
      */
-    public function compile(ITemplate $template);
+    public function compile(Views\ITemplate $template);
 
     /**
      * Registers a custom compiler
@@ -43,7 +45,7 @@ interface ICompiler
     /**
      * Sets the cache to use
      *
-     * @param ICache $cache The cache to use
+     * @param Cache\ICache $cache The cache to use
      */
-    public function setCache(ICache $cache);
+    public function setCache(Cache\ICache $cache);
 } 

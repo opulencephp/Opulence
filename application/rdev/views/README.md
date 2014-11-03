@@ -19,7 +19,7 @@
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
 
 ## Basic Usage
-Templates hold raw content for pages and page parts.  In order to compile this raw content into finished templates, we `compile()` them using a compiler that implements `RDev\Views\Templates\ICompiler` (`RDev\Views\Templates\Compiler` come built-in to RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
+Templates hold raw content for pages and page parts.  In order to compile this raw content into finished templates, we `compile()` them using a compiler that implements `RDev\Views\Compilers\ICompiler` (`RDev\Views\Compilers\Compiler` come built-in to RDev).  By separating compiling into a separate class, we separate the concerns of templates and compiling templates, thus satisfying the *Single Responsibility Principle* (*SRP*).  Let's take a look at a basic example:
 
 ##### Template
 ```
@@ -28,12 +28,14 @@ Hello, {{username}}
 ##### Application Code
 ```php
 use RDev\Files;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Cache;
+use RDev\Views\Compilers;
 
 $fileSystem = new Files\FileSystem();
-$cache = new Templates\Cache($fileSystem, "/tmp");
-$compiler = new Templates\Compiler($cache);
-$template = new Templates\Template();
+$cache = new Cache\Cache($fileSystem, "/tmp");
+$compiler = new Compilers\Compiler($cache);
+$template = new Views\Template();
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
@@ -42,27 +44,30 @@ echo $compiler->compile($template); // "Hello, Dave"
 Alternatively, you could just pass in a template's contents to its constructor:
 ```php
 use RDev\Files;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Cache;
+use RDev\Views\Compilers;
 
-$cache = new Templates\Cache(new Files\FileSystem(), "/tmp");
-$compiler = new Templates\Compiler($cache);
-$template = new Templates\Template("Hello, {{username}}");
+$cache = new Cache\Cache(new Files\FileSystem(), "/tmp");
+$compiler = new Compilers\Compiler($cache);
+$template = new Views\Template("Hello, {{username}}");
 $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
 ```
 
 ## Caching
-To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Templates\ICache` (`RDev\Views\Templates\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
+To improve the speed of template compiling, templates are cached using a class that implements `RDev\Views\Cache\ICache` (`RDev\Views\Cache\Cache` comes built-in to RDev).  You can specify how long a template should live in cache using `setLifetime()`.  If you do not want templates to live in cache at all, you can specify a non-positive lifetime.  If you'd like to create your own cache engine for templates, just implement `ICache` and pass it into your `Template` class.
 
 #### Garbage Collection
 Occasionally, you should clear out old cached template files to save disk space.  If you'd like to call it explicitly, call `gc()` on your cache object.  `Cache` has a mechanism for performing this garbage collection every so often.  You can customize how frequently garbage collection is run:
  
 ```php
 use RDev\Files;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Cache;
 
 // Make 123 out of every 1,000 template compilations trigger garbage collection
-$cache = new Templates\Cache(new Files\FileSystem(), "/tmp", 123, 1000);
+$cache = new Cache\Cache(new Files\FileSystem(), "/tmp", 123, 1000);
 ```
 Or use `setGCChance()`:
 ```php
@@ -112,13 +117,15 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ##### Application Code
 ```php
 use RDev\Files;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Cache;
+use RDev\Views\Compilers;
 
 $fileSystem = new Files\FileSystem();
-$cache = new Templates\Cache($fileSystem, "/tmp");
-$compiler = new Templates\Compiler($cache);
-$sidebar = new Templates\Template($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
-$page = new Templates\Template($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
+$cache = new Cache\Cache($fileSystem, "/tmp");
+$compiler = new Compilers\Compiler($cache);
+$sidebar = new Views\Template($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
+$page = new Views\Template($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
 $page->setTag("sidebar", $compiler->compile($sidebar));
 echo $compiler->compile($page);
 ```
@@ -172,7 +179,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 > **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 ## Built-In Functions
-`RDev\Views\Templates\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
+`RDev\Views\Compilers\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
 * `abs()`
 * `ceil()`
 * `count()`
@@ -306,11 +313,11 @@ Having to always pass in the full path to load a template from a file can get an
  
  ```php
  use RDev\Files;
- use RDev\Views\Templates;
+ use RDev\Views;
  
  $fileSystem = new Files\FileSystem();
  // Assume we keep all templates at "/var/www/html/views"
- $factory = new Templates\TemplateFactory($fileSystem, "/var/www/html/views");
+ $factory = new Views\TemplateFactory($fileSystem, "/var/www/html/views");
  // This creates a template from "/var/www/html/views/login.html"
  $loginTemplate = $factory->create("login.html");
  // This creates a template from "/var/www/html/views/books/list.html"

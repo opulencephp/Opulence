@@ -7,8 +7,8 @@
 namespace RDev\Views\Configs;
 use RDev\Configs;
 use RDev\Files;
-use RDev\Views\Factories;
-use RDev\Views\Templates;
+use RDev\Views;
+use RDev\Views\Cache;
 
 class ViewConfig extends Configs\Config
 {
@@ -24,12 +24,12 @@ class ViewConfig extends Configs\Config
 
         if(!isset($configArray["templates"]["gcChance"]))
         {
-            $configArray["templates"]["gcChance"] = Templates\ICache::DEFAULT_GC_CHANCE;
+            $configArray["templates"]["gcChance"] = Cache\ICache::DEFAULT_GC_CHANCE;
         }
 
         if(!isset($configArray["templates"]["gcTotal"]))
         {
-            $configArray["templates"]["gcTotal"] = Templates\ICache::DEFAULT_GC_TOTAL;
+            $configArray["templates"]["gcTotal"] = Cache\ICache::DEFAULT_GC_TOTAL;
         }
 
         if(isset($configArray["templates"]["cache"]))
@@ -45,7 +45,7 @@ class ViewConfig extends Configs\Config
                 $configArray["templates"]["cache"] = new $configArray["templates"]["cache"]();
             }
 
-            if(!$configArray["templates"]["cache"] instanceof Templates\ICache)
+            if(!$configArray["templates"]["cache"] instanceof Cache\ICache)
             {
                 throw new \RuntimeException("View cache does not implement ICache");
             }
