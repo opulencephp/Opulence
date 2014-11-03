@@ -14,6 +14,7 @@
 10. [Escaping Tags](#escaping-tags)
 11. [Custom Tags](#custom-tags)
 12. [Template Factory](#template-factory)
+  1. [Builders](#builders)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
@@ -309,7 +310,7 @@ echo $compiler->compile($template); // "A&amp;W Root Beer"
 ```
 
 ## Template Factory
-Having to always pass in the full path to load a template from a file can get annoying.  It can also make it more difficult to switch your template directory should you ever decide to do so.  This is where a `TemplateFactory` comes in handy.  Simply pass in a `FileSystem` and the directory that your template are stored in, and you'll never have to repeat yourself:
+Having to always pass in the full path to load a template from a file can get annoying.  It can also make it more difficult to switch your template directory should you ever decide to do so.  This is where a `Factory` comes in handy.  Simply pass in a `FileSystem` and the directory that your template are stored in, and you'll never have to repeat yourself:
  
  ```php
  use RDev\Files;
@@ -317,11 +318,14 @@ Having to always pass in the full path to load a template from a file can get an
  
  $fileSystem = new Files\FileSystem();
  // Assume we keep all templates at "/var/www/html/views"
- $factory = new Views\TemplateFactory($fileSystem, "/var/www/html/views");
+ $factory = new Views\Factory($fileSystem, "/var/www/html/views");
  // This creates a template from "/var/www/html/views/login.html"
- $loginTemplate = $factory->create("login.html");
+ $loginTemplate = $factory->createTemplate("login.html");
  // This creates a template from "/var/www/html/views/books/list.html"
- $bookListTemplate = $factory->create("books/list.html");
+ $bookListTemplate = $factory->createTemplate("books/list.html");
  ```
  
- > **Note:** Preceding slashes in `create()` are not necessary.
+ > **Note:** Preceding slashes in `createTemplate()` are not necessary.
+ 
+ #### Builders
+ Your controllers shouldn't contain too much logic to setup a template.  Instead, that should be left to a `Builder` class.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time it is loaded by the factory, the builders are run and your template is set up via `IFactory::registerBuilder()`.  Your builder class must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
