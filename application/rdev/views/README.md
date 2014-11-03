@@ -330,7 +330,7 @@ $bookListTemplate = $factory->create("books/list.html");
  
 #### Builders
  
-Repetitive tasks such as setting up template should not be done in controllers.  That should to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
+Repetitive tasks such as setting up template should not be done in controllers.  That should to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `ITemplateFactory::registerBuilder()`.  The second parameter is a callback that returns an instance of your builder.  Builders are lazy-loaded (ie they're only created when they're needed), which is why a callback is passed instead of the actual instance.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
 
 Let's take a look at an example:
 
@@ -348,7 +348,7 @@ use RDev\Views\Factories;
 
 class MyBuilder implements Views\IBuilder
 {
-    public function build(Views\Template $template)
+    public function build(Views\ITemplate $template)
     {
         $template->setTag("siteName", "My Website");
         
@@ -358,7 +358,11 @@ class MyBuilder implements Views\IBuilder
 
 // Register our builder to "Index.html"
 $factory = new Factories\TemplateFactory(new Files\FileSystem(), __DIR__ . "/tmp");
-$factory->registerBuilder("Index.html", new MyBuilder());
+$callback = function()
+{
+    return new MyBuilder();
+};
+$factory->registerBuilder("Index.html", $callback);
 
 // Now, whenever we request "Index.html", the "siteName" tag will be set to "My Website"
 $template = $factory->create("Index.html");

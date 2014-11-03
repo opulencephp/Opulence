@@ -85,7 +85,10 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     public function testsRegisteringBuilder()
     {
         $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $factory->registerBuilder("TestWithDefaultTags.html", new Mocks\FooBuilder());
+        $factory->registerBuilder("TestWithDefaultTags.html", function ()
+            {
+                return new Mocks\FooBuilder();
+            });
         $template = $factory->create("TestWithDefaultTags.html");
         $this->assertEquals("bar", $template->getTag("foo"));
     }
@@ -96,8 +99,14 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     public function testsRegisteringMultipleBuilders()
     {
         $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $factory->registerBuilder("TestWithDefaultTags.html", new Mocks\FooBuilder());
-        $factory->registerBuilder("TestWithDefaultTags.html", new Mocks\BarBuilder());
+        $factory->registerBuilder("TestWithDefaultTags.html", function ()
+            {
+                return new Mocks\FooBuilder();
+            });
+        $factory->registerBuilder("TestWithDefaultTags.html", function ()
+            {
+                return new Mocks\BarBuilder();
+            });
         $template = $factory->create("TestWithDefaultTags.html");
         $this->assertEquals("bar", $template->getTag("foo"));
         $this->assertEquals("baz", $template->getTag("bar"));

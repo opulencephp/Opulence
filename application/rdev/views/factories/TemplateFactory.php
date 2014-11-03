@@ -43,14 +43,14 @@ class TemplateFactory implements ITemplateFactory
     /**
      * {@inheritdoc}
      */
-    public function registerBuilder($templatePath, Views\IBuilder $builder)
+    public function registerBuilder($templatePath, callable $callback)
     {
         if(!isset($this->builders[$templatePath]))
         {
             $this->builders[$templatePath] = [];
         }
 
-        $this->builders[$templatePath][] = $builder;
+        $this->builders[$templatePath][] = $callback;
     }
 
     /**
@@ -64,9 +64,10 @@ class TemplateFactory implements ITemplateFactory
     {
         if(isset($this->builders[$templatePath]))
         {
-            /** @var Views\IBuilder $builder */
-            foreach($this->builders[$templatePath] as $builder)
+            foreach($this->builders[$templatePath] as $callback)
             {
+                /** @var Views\IBuilder $builder */
+                $builder = $callback();
                 $template = $builder->build($template);
             }
         }

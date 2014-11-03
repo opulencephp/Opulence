@@ -26,7 +26,7 @@ interface ITemplateFactory
      * Builders are run in the order they're registered
      *
      * @param string $templatePath The path of the template relative to the root template directory
-     * @param Views\IBuilder $builder The builder to register
+     * @param callable $callback The callback that will return an instance of a builder
      */
-    public function registerBuilder($templatePath, Views\IBuilder $builder);
+    public function registerBuilder($templatePath, callable $callback);
 }
