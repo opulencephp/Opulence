@@ -327,6 +327,7 @@ Having to always pass in the full path to load a template from a file can get an
  
  > **Note:** Preceding slashes in `createTemplate()` are not necessary.
  
+ 
  #### Builders
  
  Repetitive tasks such as setting up template should not be done in controllers.  That should to dedicated classes called `Builders`.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run.  Register builders via `IFactory::registerBuilder()`.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
