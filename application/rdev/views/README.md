@@ -328,4 +328,36 @@ Having to always pass in the full path to load a template from a file can get an
  > **Note:** Preceding slashes in `createTemplate()` are not necessary.
  
  #### Builders
- Your controllers shouldn't contain too much logic to setup a template.  Instead, that should be left to a `Builder` class.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time it is loaded by the factory, the builders are run and your template is set up via `IFactory::registerBuilder()`.  Your builder class must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
+ Your controllers shouldn't contain too much logic to setup a template.  Repetitive tasks such as setting up template should be left to their own dedicated classes.  In RDev, `Builder` classes set up templates so that your controllers don't have to.  A `Builder` is a class that does any setup on a template after it is created by the factory.  You can register a `Builder` to a template so that each time that template is loaded by the factory, the builders are run and your template is set.  Register builders via `IFactory::registerBuilder()`.  Your builder classes must implement `RDev\Views\IBuilder`.  It's recommended that you register your builders via a [`Bootstrapper`](/application/rdev/applications#bootstrappers).
+ 
+ Let's take a look at an example:
+ 
+ ```
+ <!-- Let's say this markup is in "Index.html" -->
+ <h1>{{siteName}}</h1>
+ {{content}}
+ ```
+ 
+ ```php
+ namespace MyApp\Builders;
+ use RDev\Files;
+ use RDev\Views;
+ 
+ class MyBuilder implements Views\IBuilder
+ {
+    public function build(Views\Template $template)
+    {
+        $template->setTag("siteName", "My Website");
+        
+        return $template;
+    }
+ }
+ 
+ // Register our builder to "Index.html"
+ $factory = new Views\Factory(new Files\FileSystem(), __DIR__ . "/tmp");
+ $factory->registerBuilder("Index.html", new MyBuilder());
+ 
+ // Now, whenever we request "Index.html", the "siteName" tag will be set to "My Website"
+ $template = $factory->createTemplate("Index.html");
+ echo $template->getTag("siteName"); // "My Website"
+ ```
