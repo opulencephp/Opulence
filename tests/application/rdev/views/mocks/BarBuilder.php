@@ -6,14 +6,13 @@
  */
 namespace RDev\Tests\Views\Mocks;
 use RDev\Views;
-use RDev\Views\Template;
 
 class BarBuilder implements Views\IBuilder
 {
     /**
      * {@inheritdoc}
      */
-    public function build(Template $template)
+    public function build(Views\ITemplate $template)
     {
         $template->setTag("bar", "baz");
 

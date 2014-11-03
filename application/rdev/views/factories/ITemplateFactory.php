@@ -15,7 +15,7 @@ interface ITemplateFactory
      * If any builders are registered for this template, they're run too
      *
      * @param string $templatePath The path relative to the root template directory
-     * @return Views\Template The template with the contents from the path
+     * @return Views\ITemplate The template with the contents from the path
      * @throws Files\FileSystemException Thrown if the template does not exist
      */
     public function create($templatePath);

@@ -12,8 +12,8 @@ interface IBuilder
      * Builds a template or a part of a template
      * Useful for centralizing creation of common components in templates
      *
-     * @param Template $template The template to build
-     * @return Template The built template
+     * @param ITemplate $template The template to build
+     * @return ITemplate The built template
      */
-    public function build(Template $template);
+    public function build(ITemplate $template);
 }
