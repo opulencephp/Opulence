@@ -53,7 +53,7 @@
 You can also install the components of RDev individually.  The following is a list of all the components available for installation:
 ```javascript
 {
-    "require: {
+    "require": {
         "rdev/applications": "0.1.*@dev",
         "rdev/authentication": "0.1.*@dev",
         "rdev/configs": "0.1.*@dev",
