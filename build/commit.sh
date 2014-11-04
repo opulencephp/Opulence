@@ -1,18 +1,40 @@
-if ! git diff --quiet ; then
-    read -p "   Commit message: " message
-
-    git add .
-    git commit -m "$message"
-    git push origin master
-fi
-
 repos=(applications authentication configs cryptography databases exceptions files http ioc orm routing sessions users views)
 
-for repo in ${repos[@]}
-do
-    if git diff --quiet $repo/master master:application/rdev/$repo; then
-        echo "   No changes in $repo"
-    else
-        git subtree push --prefix=application/rdev/$repo --squash $repo master
+function commit()
+{
+    if ! git diff --quiet ; then
+        read -p "   Commit message: " message
+
+        git add .
+        git commit -m "$message"
+        git push origin master
     fi
+
+    for repo in ${repos[@]}
+    do
+        if git diff --quiet $repo/master master:application/rdev/$repo; then
+            echo "   No changes in $repo"
+        else
+            echo "   Pushing $repo"
+            git subtree push --prefix=application/rdev/$repo --squash $repo master
+        fi
+    done
+}
+
+function tag()
+{
+    echo "   Tagging"
+}
+
+while true; do
+    echo "   Select an action"
+    echo "   c: Commit"
+    echo "   t: Tag"
+    read -p "   Choice: " choice
+
+    case $choice in
+        [cC]* ) commit; break;;
+        [tT]* ) tag; break;;
+        * ) echo "Invalid choice";;
+    esac
 done
