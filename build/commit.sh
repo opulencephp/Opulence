@@ -34,7 +34,7 @@ function tag()
     git push origin $tagname
 
     # Tag components
-    for repo in ${repos[@]}
+    for repo in ${REPOS[@]}
     do
         cd ../$repo
         echo "   Pulling $repo"
