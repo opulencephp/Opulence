@@ -1,8 +1,10 @@
-read -p "Commit message: " message
+if ! git diff --quiet ; then
+    read -p "Commit message: " message
 
-git add .
-git commit -m "$message"
-git push origin master
+    git add .
+    git commit -m "$message"
+    git push origin master
+fi
 
 repos=(applications)
 
