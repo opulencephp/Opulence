@@ -15,7 +15,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\Files": ""
+      "RDev\\Files\\": ""
     }
   },
   "require": {

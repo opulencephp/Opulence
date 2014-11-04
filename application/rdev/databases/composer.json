@@ -16,7 +16,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\Databases": ""
+      "RDev\\Databases\\": ""
     }
   },
   "require": {

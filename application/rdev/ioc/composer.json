@@ -17,7 +17,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\IoC": ""
+      "RDev\\IoC\\": ""
     }
   },
   "require": {

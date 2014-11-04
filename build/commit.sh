@@ -1,15 +1,14 @@
-if [ $# == 0 ]; then
-    echo "Please enter commit message"
-    exit 2
-fi
+read -p "Commit message: " message
 
 git add .
-git commit -m "$1"
+git commit -m "$message"
 git push origin master
 
 repos=(applications)
 
 for repo in ${repos[@]}
 do
-    git subtree push --prefix=application/rdev/$repo $repo master
+    if ! git diff $repo/master master:application/rdev/$repo; then
+        git subtree push --prefix=application/rdev/$repo $repo master
+    fi
 done
