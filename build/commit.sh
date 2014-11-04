@@ -44,8 +44,8 @@ while true; do
     read -p "   Choice: " choice
 
     case $choice in
-        [cC]* ) commit; break;;
-        [tT]* ) tag; break;;
+        [cC]* ) commit;;
+        [tT]* ) tag;;
         [eE]* ) exit 0;;
         * ) echo "   Invalid choice";;
     esac
