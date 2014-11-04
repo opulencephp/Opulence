@@ -6,7 +6,7 @@ if ! git diff --quiet ; then
     git push origin master
 fi
 
-repos=(applications)
+repos=(applications authentication configs cryptography databases exceptions files http ioc orm routing sessions users views)
 
 for repo in ${repos[@]}
 do
