@@ -1,6 +1,20 @@
 REPOS=(applications authentication configs cryptography databases exceptions files http ioc orm routing sessions users views)
 SUBTREE_DIR="app/rdev"
 
+for repo in ${REPOS[@]}
+do
+    git rm -r $SUBTREE_DIR/$repo
+done
+
+git commit -am "Removed subtrees in attempt to fix them"
+
+for repo in ${REPOS[@]}
+do
+    git subtree add --prefix=$SUBTREE_DIR/$repo --squash $repo master
+done
+
+exit 0
+
 function commit()
 {
     # Check if we need to commit RDev
