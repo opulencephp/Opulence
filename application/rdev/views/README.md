@@ -368,3 +368,4 @@ $factory->registerBuilder("Index.html", $callback);
 $template = $factory->create("Index.html");
 echo $template->getTag("siteName"); // "My Website"
 ```
+
