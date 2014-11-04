@@ -23,18 +23,30 @@ function commit()
 
 function tag()
 {
-    echo "   Tagging"
+    read -p "   Tag Name: " tagname
+    read -p "   Commit message: " message
+
+    for repo in ${repos[@]}
+    do
+        cd ../$repo
+        git tag -a $tagname -m  "$message"
+        git push origin $tagname
+    done
+
+    cd ../rdev
 }
 
 while true; do
     echo "   Select an action"
     echo "   c: Commit"
     echo "   t: Tag"
+    echo "   e: Exit"
     read -p "   Choice: " choice
 
     case $choice in
         [cC]* ) commit; break;;
         [tT]* ) tag; break;;
-        * ) echo "Invalid choice";;
+        [eE]* ) exit 0;;
+        * ) echo "   Invalid choice";;
     esac
 done
