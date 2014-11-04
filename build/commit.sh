@@ -8,7 +8,7 @@ repos=(applications)
 
 for repo in ${repos[@]}
 do
-    if git diff $repo/master master:application/rdev/$repo; then
+    if ! git diff --quiet $repo/master master:application/rdev/$repo; then
         git subtree push --prefix=application/rdev/$repo $repo master
     fi
 done
