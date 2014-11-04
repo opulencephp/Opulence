@@ -29,6 +29,9 @@ function tag()
     for repo in ${repos[@]}
     do
         cd ../$repo
+        echo "   Pulling $repo"
+        git pull origin master
+        echo "   Tagging $repo"
         git tag -a $tagname -m  "$message"
         git push origin $tagname
     done
