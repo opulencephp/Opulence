@@ -1,0 +1,38 @@
+{
+  "name": "rdev/orm",
+  "description": "The RDev ORM library",
+  "keywords": [
+    "PHP",
+    "orm",
+    "repository",
+    "unit of work",
+    "data mapper"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "RDev\\": [
+        "application/rdev"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "rdev/configs": "0.1.*",
+    "rdev/databases": "0.1.*",
+    "rdev/exceptions": "0.1.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
