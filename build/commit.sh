@@ -2,6 +2,7 @@ repos=(applications authentication configs cryptography databases exceptions fil
 
 function commit()
 {
+    # Check if we need to commit RDev
     if ! git diff --quiet ; then
         read -p "   Commit message: " message
 
@@ -10,6 +11,7 @@ function commit()
         git push origin master
     fi
 
+    ## Check if we need to commit components
     for repo in ${repos[@]}
     do
         if git diff --quiet $repo/master master:application/rdev/$repo; then
@@ -26,6 +28,11 @@ function tag()
     read -p "   Tag Name: " tagname
     read -p "   Commit message: " message
 
+    # Tag RDev
+    git tag -a $tagname -m "$message"
+    git push origin $tagname
+
+    # Tag components
     for repo in ${repos[@]}
     do
         cd ../$repo
@@ -40,6 +47,7 @@ function tag()
 }
 
 while true; do
+    # Display options
     echo "   Select an action"
     echo "   c: Commit"
     echo "   t: Tag"
