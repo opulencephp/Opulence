@@ -13,29 +13,29 @@
 6. [About the Author](#about-the-author)
 
 ### Building Your First Application
-1. [Setting Up an Application](/application/rdev/applications)
+1. [Setting Up an Application](/app/rdev/applications)
 
 ### Templates
-1. [Building a Template](/application/rdev/views)
+1. [Building a Template](/app/rdev/views)
 
 ### Routing
-1. [Setting Up a Router](/application/rdev/routing)
+1. [Setting Up a Router](/app/rdev/routing)
 
 ### Databases
-1. [Relational Databases](/application/rdev/databases/sql)
-  1. [Type Mappers](/application/rdev/databases/sql/providers)
-2. [NoSQL Databases](/application/rdev/databases/nosql)
-3. [Object-Relational Mapping](/application/rdev/orm)
-4. [Query Builders](/application/rdev/databases/sql/querybuilders)
+1. [Relational Databases](/app/rdev/databases/sql)
+  1. [Type Mappers](/app/rdev/databases/sql/providers)
+2. [NoSQL Databases](/app/rdev/databases/nosql)
+3. [Object-Relational Mapping](/app/rdev/orm)
+4. [Query Builders](/app/rdev/databases/sql/querybuilders)
 
 ### Inversion of Control
-1. [Dependency Injection](/application/rdev/ioc)
+1. [Dependency Injection](/app/rdev/ioc)
 
 ### Configs
-1. [Configs](/application/rdev/configs)
+1. [Configs](/app/rdev/configs)
 
 ### File System
-1. [File System](/application/rdev/files)
+1. [File System](/app/rdev/files)
 
 ## Introduction
 **RDev** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With RDev, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested. RDev is split into components, which can be installed separately or bundled together.

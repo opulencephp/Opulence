@@ -204,7 +204,7 @@ class GenericTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPassingContentsToConstructor()
     {
-        $contents = file_get_contents(__DIR__ . "/../../../../../application/rdev/views/pages/files/Generic.html");
+        $contents = file_get_contents(__DIR__ . "/../../../../../app/rdev/views/pages/files/Generic.html");
         $this->assertEquals($contents, $this->generic->getContents());
     }
 

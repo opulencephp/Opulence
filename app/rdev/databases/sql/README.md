@@ -15,7 +15,7 @@
 Relational databases store information about data and how it's related to other data.  **RDev** provides classes and methods for connecting to relational databases and querying them for data.  Connection pools help you manage your database connections by doing all the dirty work for you.  You can use an assortment of PHP drivers to connect to multiple types of server configurations.  For example, if you have a single database server in your stack, you can use a `SingleServerConnectionPool`.  If you have a master/slave(s) setup, you can use a `MasterSlaveConnectionPool`.
 
 ## Creating a Connection Pool
-Connection pools can be instantiated directly or with the help of a `ConnectionPoolConfig` and `SingleServerConnectionPoolFactory` ([learn more about configs](/application/rdev/configs)).  The config must have the following keys:
+Connection pools can be instantiated directly or with the help of a `ConnectionPoolConfig` and `SingleServerConnectionPoolFactory` ([learn more about configs](/app/rdev/configs)).  The config must have the following keys:
 * "driver"
   * The value must be either:
     1. The name of the driver per the `ConnectionPool class` driver list

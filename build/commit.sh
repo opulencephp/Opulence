@@ -1,4 +1,5 @@
-repos=(applications authentication configs cryptography databases exceptions files http ioc orm routing sessions users views)
+REPOS=(applications authentication configs cryptography databases exceptions files http ioc orm routing sessions users views)
+SUBTREE_DIR="app/rdev"
 
 function commit()
 {
@@ -12,13 +13,13 @@ function commit()
     fi
 
     ## Check if we need to commit components
-    for repo in ${repos[@]}
+    for repo in ${REPOS[@]}
     do
-        if git diff --quiet $repo/master master:application/rdev/$repo; then
+        if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
             echo "   No changes in $repo"
         else
             echo "   Pushing $repo"
-            git subtree push --prefix=application/rdev/$repo --squash $repo master
+            git subtree push --prefix=$SUBTREE_DIR/$repo --squash $repo master
         fi
     done
 }

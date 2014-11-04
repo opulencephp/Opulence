@@ -18,8 +18,8 @@
   "autoload": {
     "psr-4": {
       "RDev\\": [
-        "application/rdev",
-        "tests/application/rdev"
+        "app/rdev",
+        "tests/app/rdev"
       ]
     }
   },

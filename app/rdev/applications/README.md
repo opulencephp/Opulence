@@ -37,7 +37,7 @@ $application->shutdown();
 ```
 
 ## Config
-Applications can be instantiated directly or with the help of a combination of an `ApplicationConfig` and an `ApplicationFactory` ([learn more about configs](/application/rdev/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
+Applications can be instantiated directly or with the help of a combination of an `ApplicationConfig` and an `ApplicationFactory` ([learn more about configs](/app/rdev/configs)).  You can setup rules for automatically detecting which environment the current server belongs on, eg "production", "staging", "testing", or "development".  For example, you could specify a list of server IP addresses for each of the environments.  You could also use regular expressions to match against the servers' hosts, or you could use a callback to completely customize the logic for determining the environment.
 
 Let's break down the structure of the config.  The following keys are optional:
 * "environment"
@@ -61,9 +61,9 @@ Let's break down the structure of the config.  The following keys are optional:
     * "universal" => Mapping of universal bindings of interface/abstract class names to concrete class names
     * "targeted" => Mapping of targeted classes to their list of bindings of interface/abstract class names to concrete class names
       * Targeted bindings take precedence over universal bindings
-  * For more about dependency injection, [read this](/application/rdev/ioc)
+  * For more about dependency injection, [read this](/app/rdev/ioc)
 * "routing"
-  * See the [Routing page](/application/rdev/routing)
+  * See the [Routing page](/app/rdev/routing)
 * "session"
   * Defines options about the session used throughout the request
   * The following keys are required:
