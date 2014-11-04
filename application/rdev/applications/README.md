@@ -296,5 +296,3 @@ $application->registerBootstrappers(["MyApp\\Bootstrappers\\MyBootstrapper"]);
 ```
 
 When the application boots, `MyBootstrapper` will be `run()`.
-
-Test1
