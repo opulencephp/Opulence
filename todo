@@ -1,7 +1,6 @@
 HAS PRIORITY:
     Rethink how we add css/js to templates
         Shouldn't have to have methods in the Template class
-    Turn various components into Composer packages
     Move Config README stuff into their own READMEs
         Focus on how to instantiate classes directly
     *** Once above is done, create a tag
