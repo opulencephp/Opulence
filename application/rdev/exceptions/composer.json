@@ -1,0 +1,32 @@
+{
+  "name": "rdev/exceptions",
+  "description": "The RDev exception library",
+  "keywords": [
+    "PHP",
+    "exceptions"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "RDev\\": [
+        "application/rdev"
+      ]
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
