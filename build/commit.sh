@@ -11,5 +11,5 @@ repos=(applications)
 
 for repo in ${repos[@]}
 do
-    git subtree push --prefix=application/rdev/$repo --squash $repo master
+    git subtree push --prefix=application/rdev/$repo $repo master
 done
