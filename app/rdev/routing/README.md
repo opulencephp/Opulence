@@ -46,7 +46,7 @@ $router->delete("/users/me", ["controller" => "MyApp\\MyController@deleteUser"])
 $router->put("/users/profile/image", ["controller" => "MyApp\\MyController@uploadProfileImage"]);
 ```
 
-The router takes advantage of the [Dependency Injection Container](/application/rdev/ioc) to instantiate your controller.
+The router takes advantage of the [Dependency Injection Container](/app/rdev/ioc) to instantiate your controller.
 
 > **Note:** Primitives (eg strings and arrays) should not appear in a controller's constructor because the IoC container would have no way of resolving those dependencies at runtime.  Stick to type-hinted objects in the constructors.
 
@@ -250,7 +250,7 @@ $router->route($request); // returns a 404 response with "My custom 404 page"
 ```
 
 ## Config
-Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/application/rdev/configs)).  The two will automatically create `Route` objects and add them to your `Router`.
+Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/app/rdev/configs)).  The two will automatically create `Route` objects and add them to your `Router`.
 
 Let's break down the structure of the config.  The following keys are optional:
 * "compiler"
