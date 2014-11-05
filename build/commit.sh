@@ -53,6 +53,7 @@ while true; do
     echo "   c: Commit"
     echo "   t: Tag"
     echo "   e: Exit"
+    echo "--------------------------"
     read -p "   Choice: " choice
 
     case $choice in
