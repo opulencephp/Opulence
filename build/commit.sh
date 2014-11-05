@@ -19,7 +19,7 @@ function commit()
             echo "   No changes in $repo"
         else
             echo "   Pushing $repo"
-            git subtree push --prefix=$SUBTREE_DIR/$repo --squash $repo master
+            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
         fi
     done
 }

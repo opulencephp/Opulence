@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2014 David Young
  *
- * Defines the Monolog configuration
+ * Defines the Monolog config
  */
 namespace RDev\Applications\Configs;
 use Monolog;
