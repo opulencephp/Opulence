@@ -21,7 +21,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $container = new IoC\Container();
-        $this->router = new Router($container, new Dispatcher($container), new RouteCompiler());
+        $this->router = new Router(new Dispatcher($container), new RouteCompiler());
     }
 
     /**
@@ -449,7 +449,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         // The mock router will return the route used rather than the output of the route controller
         // This makes testing easier
-        $mockRouter = new Mocks\Router(new IoC\Container());
+        $mockRouter = new Mocks\Router();
         $deleteRoute = new Route(HTTP\Request::METHOD_DELETE, $rawPath, $options);
         $getRoute = new Route(HTTP\Request::METHOD_GET, $rawPath, $options);
         $postRoute = new Route(HTTP\Request::METHOD_POST, $rawPath, $options);

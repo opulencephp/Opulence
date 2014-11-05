@@ -14,8 +14,8 @@ class Router extends Routing\Router
     /**
      * {@inheritdoc}
      */
-    public function __construct(IoC\IContainer $container)
+    public function __construct()
     {
-        parent::__construct($container, new Dispatcher($container), new Routing\RouteCompiler());
+        parent::__construct(new Dispatcher(new IoC\Container()), new Routing\RouteCompiler());
     }
 } 

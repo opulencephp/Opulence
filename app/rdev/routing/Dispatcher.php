@@ -12,14 +12,14 @@ use RDev\IoC;
 class Dispatcher
 {
     /** @var IoC\IContainer The dependency injection container */
-    private $iocContainer = null;
+    private $container = null;
 
     /**
-     * @param IoC\IContainer $iocContainer The dependency injection container
+     * @param IoC\IContainer $container The dependency injection container
      */
-    public function __construct(IoC\IContainer $iocContainer)
+    public function __construct(IoC\IContainer $container)
     {
-        $this->iocContainer = $iocContainer;
+        $this->setIoCContainer($container);
     }
 
     /**
@@ -52,6 +52,14 @@ class Dispatcher
 
         // Nothing returned a value, so return a basic HTTP response
         return new HTTP\Response();
+    }
+
+    /**
+     * @param IoC\IContainer $container
+     */
+    public function setIoCContainer($container)
+    {
+        $this->container = $container;
     }
 
     /**
@@ -127,7 +135,7 @@ class Dispatcher
             throw new RouteException("Controller class $controllerName does not exist");
         }
 
-        $controller = $this->iocContainer->makeShared($controllerName);
+        $controller = $this->container->makeShared($controllerName);
 
         if(!$controller instanceof Routing\Controller)
         {
@@ -150,7 +158,7 @@ class Dispatcher
     {
         foreach($route->getPostFilters() as $filterClassName)
         {
-            $filter = $this->iocContainer->makeShared($filterClassName);
+            $filter = $this->container->makeShared($filterClassName);
 
             if(!$filter instanceof Filters\IFilter)
             {
@@ -179,7 +187,7 @@ class Dispatcher
     {
         foreach($route->getPreFilters() as $filterClassName)
         {
-            $filter = $this->iocContainer->makeShared($filterClassName);
+            $filter = $this->container->makeShared($filterClassName);
 
             if(!$filter instanceof Filters\IFilter)
             {

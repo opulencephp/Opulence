@@ -62,12 +62,13 @@ class Application
         Sessions\ISession $session
     )
     {
-        $this->logger = $logger;
-        $this->environment = $environment;
-        $this->connection = $connection;
-        $this->container = $container;
-        $this->router = $router;
-        $this->session = $session;
+        // Order here is important
+        $this->setLogger($logger);
+        $this->setEnvironment($environment);
+        $this->setConnection($connection);
+        $this->setRouter($router);
+        $this->setIoCContainer($container);
+        $this->setSession($session);
     }
 
     /**
@@ -198,6 +199,55 @@ class Application
     public function registerPreStartTask(callable $task)
     {
         $this->preStartTasks[] = $task;
+    }
+
+    /**
+     * @param HTTP\Connection $connection
+     */
+    public function setConnection(HTTP\Connection $connection)
+    {
+        $this->connection = $connection;
+    }
+
+    /**
+     * @param string $environment
+     */
+    public function setEnvironment($environment)
+    {
+        $this->environment = $environment;
+    }
+
+    /**
+     * @param IoC\IContainer $container
+     */
+    public function setIoCContainer(IoC\IContainer $container)
+    {
+        $this->container = $container;
+        $this->router->setIoCContainer($this->container);
+    }
+
+    /**
+     * @param Monolog\Logger $logger
+     */
+    public function setLogger(Monolog\Logger $logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * @param Routing\Router $router
+     */
+    public function setRouter(Routing\Router $router)
+    {
+        $this->router = $router;
+    }
+
+    /**
+     * @param Sessions\ISession $session
+     */
+    public function setSession(Sessions\ISession $session)
+    {
+        $this->session = $session;
     }
 
     /**

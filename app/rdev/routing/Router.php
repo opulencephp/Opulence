@@ -10,8 +10,6 @@ use RDev\IoC;
 
 class Router
 {
-    /** @var IoC\IContainer The dependency injection container */
-    protected $container = null;
     /** @var IRouteCompiler The compiler used by this router */
     protected $compiler = null;
     /** @var Dispatcher The route dispatcher */
@@ -29,19 +27,16 @@ class Router
     protected $missedRouteControllerName = "";
 
     /**
-     * @param IoC\IContainer $container The IoC container
      * @param Dispatcher $dispatcher The route dispatcher
      * @param IRouteCompiler $compiler The route compiler
      * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
      */
     public function __construct(
-        IoC\IContainer $container,
         Dispatcher $dispatcher,
         IRouteCompiler $compiler,
         $missedRouteControllerName = "RDev\\Routing\\Controller"
     )
     {
-        $this->container = $container;
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
         $this->setMissedRouteControllerName($missedRouteControllerName);
@@ -208,6 +203,14 @@ class Router
 
         // If we've gotten here, we've got a missing route
         return $this->getMissingRouteResponse($request);
+    }
+
+    /**
+     * @param IoC\IContainer $container
+     */
+    public function setIoCContainer($container)
+    {
+        $this->dispatcher->setIoCContainer($container);
     }
 
     /**

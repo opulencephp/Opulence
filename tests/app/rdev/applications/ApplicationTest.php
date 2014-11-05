@@ -32,7 +32,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             "staging",
             new HTTP\Connection(),
             $container,
-            new Routing\Router($container, new Routing\Dispatcher($container), new Routing\RouteCompiler()),
+            new Routing\Router(new Routing\Dispatcher($container), new Routing\RouteCompiler()),
             new Sessions\Session()
         );
     }
@@ -304,6 +304,66 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
             $this->application->getConnection()->getResponse()->getStatusCode()
         );
+    }
+
+    /**
+     * Tests setting the connection
+     */
+    public function testSettingConnection()
+    {
+        $connection = new HTTP\Connection();
+        $this->application->setConnection($connection);
+        $this->assertSame($connection, $this->application->getConnection());
+    }
+
+    /**
+     * Tests setting the container
+     */
+    public function testSettingContainer()
+    {
+        $container = new IoC\Container();
+        $this->application->setIoCContainer($container);
+        $this->assertSame($container, $this->application->getIoCContainer());
+    }
+
+    /**
+     * Tests setting the environment
+     */
+    public function testSettingEnvironment()
+    {
+        $this->application->setEnvironment("foo");
+        $this->assertEquals("foo", $this->application->getEnvironment());
+    }
+
+    /**
+     * Tests setting the logger
+     */
+    public function testSettingLogger()
+    {
+        $logger = new Monolog\Logger("test");
+        $this->application->setLogger($logger);
+        $this->assertSame($logger, $this->application->getLogger());
+    }
+
+    /**
+     * Tests setting the router
+     */
+    public function testSettingRouter()
+    {
+        $container = new IoC\Container();
+        $router = new Routing\Router(new Routing\Dispatcher($container), new Routing\RouteCompiler());
+        $this->application->setRouter($router);
+        $this->assertSame($router, $this->application->getRouter());
+    }
+
+    /**
+     * Tests setting the session
+     */
+    public function testSettingSession()
+    {
+        $session = new Sessions\Session();
+        $this->application->setSession($session);
+        $this->assertSame($session, $this->application->getSession());
     }
 
     /**
