@@ -6,7 +6,6 @@
  */
 namespace RDev\Applications\Factories;
 use Monolog;
-use Monolog\Handler;
 use RDev\Applications;
 use RDev\Applications\Configs;
 use RDev\HTTP;
