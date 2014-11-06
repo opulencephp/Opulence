@@ -125,7 +125,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     public function refreshEntity($id)
     {
         $entity = $this->sqlDataMapper->getById($id);
-        $this->cacheDataMapper->update($entity);
+        $this->cacheDataMapper->add($entity);
     }
 
     /**
