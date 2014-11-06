@@ -57,7 +57,7 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
     {
         if(!isset($this->entities[$id]))
         {
-            throw new ORM\ORMException("No entity found with Id " . $id);
+            return null;
         }
 
         return $this->entities[$id];

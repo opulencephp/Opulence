@@ -124,8 +124,21 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      */
     public function refreshEntity($id)
     {
-        $entity = $this->sqlDataMapper->getById($id);
-        $this->cacheDataMapper->add($entity);
+        /**
+         * We're refreshing because the entity in cache might have different properties than the one in the SQL database
+         * These properties might be used to fully-delete the entity from cache
+         * So, we must make sure to use the cache-version of the entity when we delete it from cache
+         * Then, we re-fetch it from the SQL database and add it to cache
+         */
+        $entityFromCache = $this->cacheDataMapper->getById($id);
+
+        if($entityFromCache !== null)
+        {
+            $this->cacheDataMapper->delete($entityFromCache);
+        }
+
+        $entityFromSQL = $this->sqlDataMapper->getById($id);
+        $this->cacheDataMapper->add($entityFromSQL);
     }
 
     /**
