@@ -111,14 +111,21 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * Refreshes the data in cache with the data from the SQL data mapper
-     *
-     * @throws ORM\ORMException Thrown if there was an error refreshing the cache
+     * {@inheritdoc}
      */
     public function refreshCache()
     {
         $this->cacheDataMapper->flush();
         $this->getAll();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function refreshEntity($id)
+    {
+        $entity = $this->sqlDataMapper->getById($id);
+        $this->cacheDataMapper->update($entity);
     }
 
     /**

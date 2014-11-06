@@ -85,6 +85,21 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests refreshing an entity
+     */
+    public function testRefreshingEntity()
+    {
+        $this->dataMapper->add($this->entity);
+        /**
+         * Manually delete the entity from cache in case there's a bug in the refresh code that prevents it from
+         * being automatically deleted from cache
+         */
+        $this->dataMapper->getCacheDataMapperForTests()->delete($this->entity);
+        $this->dataMapper->refreshEntity($this->entity->getId());
+        $this->assertEquals($this->entity, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity->getId()));
+    }
+
+    /**
      * Tests updating an entity and committing to cache
      */
     public function testUpdatingEntityAndCommittingCache()

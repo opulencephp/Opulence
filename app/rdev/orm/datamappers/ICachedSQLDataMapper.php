@@ -24,4 +24,12 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
      * @throws ORM\ORMException Thrown if there was an error refreshing the cache
      */
     public function refreshCache();
+
+    /**
+     * Refreshes an entity in cache with the entity from the SQL data mapper
+     *
+     * @param int $id The Id of the entity to sync
+     * @throws ORM\ORMException Thrown if there was an error refreshing the entity
+     */
+    public function refreshEntity($id);
 } 
