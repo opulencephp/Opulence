@@ -14,7 +14,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
-    /** @var EntityStateStateManager The entity state manager to use in tests */
+    /** @var EntityStateManager The entity state manager to use in tests */
     private $entityStateManager = null;
     /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
@@ -32,7 +32,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $server = new SQLMocks\Server();
         $connection = new SQLMocks\Connection($server);
-        $this->entityStateManager = new EntityStateStateManager();
+        $this->entityStateManager = new EntityStateManager();
         $this->unitOfWork = new UnitOfWork($connection, $this->entityStateManager);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
         /**

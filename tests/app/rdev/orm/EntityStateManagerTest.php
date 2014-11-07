@@ -9,7 +9,7 @@ use RDev\Tests\Mocks;
 
 class EntityStateManagerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var EntityStateStateManager The entity state manager to use in tests */
+    /** @var EntityStateManager The entity state manager to use in tests */
     private $entityStateManager = null;
     /** @var Mocks\User An entity to use in the tests */
     private $entity1 = null;
@@ -25,7 +25,7 @@ class EntityStateManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->entityStateManager = new EntityStateStateManager();
+        $this->entityStateManager = new EntityStateManager();
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids

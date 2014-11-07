@@ -6,7 +6,7 @@
  */
 namespace RDev\ORM;
 
-class EntityStateStateManager implements IEntityStateManager
+class EntityStateManager implements IEntityStateManager
 {
     /** @var IEntity[] The mapping of object Ids to their original data */
     protected $objectHashIdsToOriginalData = [];

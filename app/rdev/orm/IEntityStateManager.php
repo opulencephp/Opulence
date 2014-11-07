@@ -10,6 +10,7 @@ interface IEntityStateManager
 {
     /**
      * Detaches an entity from being managed
+     * This should only be called through a unit of work
      *
      * @param IEntity $entity The entity to detach
      */
@@ -17,6 +18,7 @@ interface IEntityStateManager
 
     /**
      * Disposes of all tracking data
+     * This should only be called through a unit of work
      */
     public function dispose();
 
