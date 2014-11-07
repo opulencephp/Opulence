@@ -12,8 +12,8 @@ class UnitOfWork
 {
     /** @var SQL\IConnection The connection to use in our unit of work */
     private $connection = null;
-    /** @var IEntityManager What manages/tracks entities for our unit of work */
-    private $entityManager = null;
+    /** @var IEntityStateManager What manages/tracks entities for our unit of work */
+    private $entityStateManager = null;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
     /** @var array The list of entities scheduled for insertion */
@@ -36,12 +36,12 @@ class UnitOfWork
 
     /**
      * @param SQL\IConnection $connection The connection to use in our unit of work
-     * @param IEntityManager $entityManager The entity manager to use
+     * @param IEntityStateManager $entityStateManager The entity state manager to use
      */
-    public function __construct(SQL\IConnection $connection, IEntityManager $entityManager)
+    public function __construct(SQL\IConnection $connection, IEntityStateManager $entityStateManager)
     {
         $this->connection = $connection;
-        $this->entityManager = $entityManager;
+        $this->entityStateManager = $entityStateManager;
     }
 
     /**
@@ -85,8 +85,8 @@ class UnitOfWork
      */
     public function detach(IEntity $entity)
     {
-        $this->entityManager->detach($entity);
-        $objectHashId = $this->entityManager->getObjectHashId($entity);
+        $this->entityStateManager->detach($entity);
+        $objectHashId = $this->entityStateManager->getObjectHashId($entity);
         unset($this->scheduledForInsertion[$objectHashId]);
         unset($this->scheduledForUpdate[$objectHashId]);
         unset($this->scheduledForDeletion[$objectHashId]);
@@ -102,7 +102,7 @@ class UnitOfWork
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
         $this->aggregateRootChildren = [];
-        $this->entityManager->dispose();
+        $this->entityStateManager->dispose();
     }
 
     /**
@@ -123,11 +123,11 @@ class UnitOfWork
     }
 
     /**
-     * @return IEntityManager
+     * @return IEntityStateManager
      */
-    public function getEntityManager()
+    public function getEntityStateManager()
     {
-        return $this->entityManager;
+        return $this->entityStateManager;
     }
 
     /**
@@ -170,7 +170,7 @@ class UnitOfWork
      */
     public function registerAggregateRootChild(IEntity $aggregateRoot, IEntity $child, callable $function)
     {
-        $childObjectHashId = $this->entityManager->getObjectHashId($child);
+        $childObjectHashId = $this->entityStateManager->getObjectHashId($child);
 
         if(!isset($this->aggregateRootChildren[$childObjectHashId]))
         {
@@ -203,7 +203,7 @@ class UnitOfWork
      */
     public function scheduleForDeletion(IEntity $entity)
     {
-        $this->scheduledForDeletion[$this->entityManager->getObjectHashId($entity)] = $entity;
+        $this->scheduledForDeletion[$this->entityStateManager->getObjectHashId($entity)] = $entity;
     }
 
     /**
@@ -213,9 +213,9 @@ class UnitOfWork
      */
     public function scheduleForInsertion(IEntity $entity)
     {
-        $objectHashId = $this->entityManager->getObjectHashId($entity);
+        $objectHashId = $this->entityStateManager->getObjectHashId($entity);
         $this->scheduledForInsertion[$objectHashId] = $entity;
-        $this->entityManager->setState($entity, EntityStates::ADDED);
+        $this->entityStateManager->setState($entity, EntityStates::ADDED);
     }
 
     /**
@@ -225,7 +225,7 @@ class UnitOfWork
      */
     public function scheduleForUpdate(IEntity $entity)
     {
-        $this->scheduledForUpdate[$this->entityManager->getObjectHashId($entity)] = $entity;
+        $this->scheduledForUpdate[$this->entityStateManager->getObjectHashId($entity)] = $entity;
     }
 
     /**
@@ -257,7 +257,7 @@ class UnitOfWork
         /** @var IEntity $entity */
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityStateManager->getClassName($entity));
             $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
         }
     }
@@ -275,17 +275,17 @@ class UnitOfWork
      */
     private function checkForUpdates()
     {
-        $managedEntities = $this->entityManager->getManagedEntities();
+        $managedEntities = $this->entityStateManager->getManagedEntities();
 
         foreach($managedEntities as $entity)
         {
-            $objectHashId = $this->entityManager->getObjectHashId($entity);
+            $objectHashId = $this->entityStateManager->getObjectHashId($entity);
 
-            if($this->entityManager->isManaged($entity)
+            if($this->entityStateManager->isManaged($entity)
                 && !isset($this->scheduledForInsertion[$objectHashId])
                 && !isset($this->scheduledForUpdate[$objectHashId])
                 && !isset($this->scheduledForDeletion[$objectHashId])
-                && $this->entityManager->hasChanged($entity)
+                && $this->entityStateManager->hasChanged($entity)
             )
             {
                 $this->scheduleForUpdate($entity);
@@ -301,11 +301,11 @@ class UnitOfWork
         /** @var IEntity $entity */
         foreach($this->scheduledForDeletion as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityStateManager->getClassName($entity));
             $dataMapper->delete($entity);
             // Order here matters
             $this->detach($entity);
-            $this->entityManager->setState($entity, EntityStates::DELETED);
+            $this->entityStateManager->setState($entity, EntityStates::DELETED);
         }
     }
 
@@ -337,10 +337,10 @@ class UnitOfWork
         {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
-            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityStateManager->getClassName($entity));
             $dataMapper->add($entity);
             $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
-            $this->entityManager->manage($entity);
+            $this->entityStateManager->manage($entity);
         }
     }
 
@@ -354,9 +354,9 @@ class UnitOfWork
         {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
-            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityStateManager->getClassName($entity));
             $dataMapper->update($entity);
-            $this->entityManager->manage($entity);
+            $this->entityStateManager->manage($entity);
         }
     }
 } 

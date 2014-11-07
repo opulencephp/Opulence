@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  * 
- * Defines an entity manager
+ * Defines an entity state manager
  */
 namespace RDev\ORM;
 
-class EntityManager implements IEntityManager
+class EntityStateStateManager implements IEntityStateManager
 {
     /** @var IEntity[] The mapping of object Ids to their original data */
     protected $objectHashIdsToOriginalData = [];
@@ -120,18 +120,18 @@ class EntityManager implements IEntityManager
     {
         if(!isset($this->objectHashIdsToOriginalData[$this->getObjectHashId($entity)]))
         {
-            throw new ORMException("Entity is not being tracked");
+            throw new ORMException("Entity is not managed");
         }
 
         // If a comparison function was specified, we don't bother using reflection to check for updates
         if(isset($this->comparisonFunctions[$this->getClassName($entity)]))
         {
-            if($this->checkEntityForUpdatesWithComparisonFunction($entity))
+            if($this->hasChangedUsingComparisonFunction($entity))
             {
                 return true;
             }
         }
-        elseif($this->checkEntityForUpdatesWithReflection($entity))
+        elseif($this->hasChangedUsingReflection($entity))
         {
             return true;
         }
@@ -197,7 +197,7 @@ class EntityManager implements IEntityManager
      * @param IEntity $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    private function checkEntityForUpdatesWithComparisonFunction(IEntity $entity)
+    private function hasChangedUsingComparisonFunction(IEntity $entity)
     {
         $objectHashId = $this->getObjectHashId($entity);
         $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
@@ -211,7 +211,7 @@ class EntityManager implements IEntityManager
      * @param IEntity $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    private function checkEntityForUpdatesWithReflection(IEntity $entity)
+    private function hasChangedUsingReflection(IEntity $entity)
     {
         // Get all the properties in the original entity and the current one
         $objectHashId = $this->getObjectHashId($entity);

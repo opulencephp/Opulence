@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  * 
- * Defines the interface for entity managers to implement
+ * Defines the interface for entity state managers to implement
  */
 namespace RDev\ORM;
 
-interface IEntityManager
+interface IEntityStateManager
 {
     /**
      * Detaches an entity from being managed
