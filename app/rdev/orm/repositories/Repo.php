@@ -58,7 +58,7 @@ class Repo implements IRepo
      */
     public function getById($id)
     {
-        $entity = $this->unitOfWork->getEntityStateManager()->getManagedEntity($this->className, $id);
+        $entity = $this->unitOfWork->getEntityRegistry()->getEntity($this->className, $id);
 
         if($entity instanceof ORM\IEntity)
         {
@@ -112,13 +112,13 @@ class Repo implements IRepo
             {
                 if($entity instanceof ORM\IEntity)
                 {
-                    $this->unitOfWork->getEntityStateManager()->manage($entity);
+                    $this->unitOfWork->getEntityRegistry()->register($entity);
                 }
             }
         }
         elseif($entities instanceof ORM\IEntity)
         {
-            $this->unitOfWork->getEntityStateManager()->manage($entities);
+            $this->unitOfWork->getEntityRegistry()->register($entities);
         }
 
         return $entities;

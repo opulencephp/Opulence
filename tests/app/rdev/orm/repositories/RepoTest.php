@@ -30,7 +30,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
     {
         $server = new SQLMocks\Server();
         $connection = new SQLMocks\Connection($server);
-        $entityStateManager = new ORM\EntityStateManager();
+        $entityStateManager = new ORM\EntityRegistry();
         $this->unitOfWork = new ORM\UnitOfWork($connection, $entityStateManager);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
         $this->entity1 = new ModelMocks\User(1, "foo");

@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2014 David Young
  * 
- * Defines an entity state manager
+ * Defines an entity registry
  */
 namespace RDev\ORM;
 
-class EntityStateManager implements IEntityStateManager
+class EntityRegistry implements IEntityRegistry
 {
     /** @var IEntity[] The mapping of object Ids to their original data */
     protected $objectHashIdsToOriginalData = [];
@@ -20,33 +20,33 @@ class EntityStateManager implements IEntityStateManager
     /** @var array The mapping of entities' object hash Ids to their various states */
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
-    private $managedEntities = [];
+    private $entities = [];
 
     /**
      * {@inheritdoc}
      */
-    public function detach(IEntity $entity)
+    public function clear()
     {
-        $entityState = $this->getEntityState($entity);
-
-        if($entityState == EntityStates::ADDED || $entityState == EntityStates::MANAGED)
-        {
-            $className = $this->getClassName($entity);
-            $objectHashId = $this->getObjectHashId($entity);
-            $this->entityStates[$objectHashId] = EntityStates::DETACHED;
-            unset($this->managedEntities[$className][$entity->getId()]);
-            unset($this->objectHashIdsToOriginalData[$objectHashId]);
-        }
+        $this->objectHashIdsToOriginalData = [];
+        $this->entities = [];
+        $this->entityStates = [];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function dispose()
+    public function deregister(IEntity $entity)
     {
-        $this->objectHashIdsToOriginalData = [];
-        $this->managedEntities = [];
-        $this->entityStates = [];
+        $entityState = $this->getEntityState($entity);
+
+        if($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED)
+        {
+            $className = $this->getClassName($entity);
+            $objectHashId = $this->getObjectHashId($entity);
+            $this->entityStates[$objectHashId] = EntityStates::UNREGISTERED;
+            unset($this->entities[$className][$entity->getId()]);
+            unset($this->objectHashIdsToOriginalData[$objectHashId]);
+        }
     }
 
     /**
@@ -60,31 +60,16 @@ class EntityStateManager implements IEntityStateManager
     /**
      * {@inheritdoc}
      */
-    public function getEntityState(IEntity $entity)
+    public function getEntities()
     {
-        $objectHashId = $this->getObjectHashId($entity);
-
-        if(!isset($this->entityStates[$objectHashId]))
-        {
-            return EntityStates::UNMANAGED;
-        }
-
-        return $this->entityStates[$objectHashId];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getManagedEntities()
-    {
-        if(count($this->managedEntities) == 0)
+        if(count($this->entities) == 0)
         {
             return [];
         }
 
         // Flatten the  list of entities
         $entities = [];
-        array_walk_recursive($this->managedEntities, function($entity) use (&$entities)
+        array_walk_recursive($this->entities, function($entity) use (&$entities)
         {
             $entities[] = $entity;
         });
@@ -95,14 +80,29 @@ class EntityStateManager implements IEntityStateManager
     /**
      * {@inheritdoc}
      */
-    public function getManagedEntity($className, $id)
+    public function getEntity($className, $id)
     {
-        if(!isset($this->managedEntities[$className]) || !isset($this->managedEntities[$className][$id]))
+        if(!isset($this->entities[$className]) || !isset($this->entities[$className][$id]))
         {
             return null;
         }
 
-        return $this->managedEntities[$className][$id];
+        return $this->entities[$className][$id];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getEntityState(IEntity $entity)
+    {
+        $objectHashId = $this->getObjectHashId($entity);
+
+        if(!isset($this->entityStates[$objectHashId]))
+        {
+            return EntityStates::NEVER_REGISTERED;
+        }
+
+        return $this->entityStates[$objectHashId];
     }
 
     /**
@@ -142,36 +142,36 @@ class EntityStateManager implements IEntityStateManager
     /**
      * {@inheritdoc}
      */
-    public function isManaged(IEntity $entity)
+    public function isRegistered(IEntity $entity)
     {
-        return $this->getEntityState($entity) == EntityStates::MANAGED
-        || isset($this->managedEntities[$this->getClassName($entity)][$entity->getId()]);
+        return $this->getEntityState($entity) == EntityStates::REGISTERED
+        || isset($this->entities[$this->getClassName($entity)][$entity->getId()]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function manage(IEntity &$entity)
+    public function register(IEntity &$entity)
     {
         $className = $this->getClassName($entity);
         $objectHashId = $this->getObjectHashId($entity);
 
-        if(!isset($this->managedEntities[$className]))
+        if(!isset($this->entities[$className]))
         {
-            $this->managedEntities[$className] = [];
+            $this->entities[$className] = [];
         }
 
-        if(isset($this->managedEntities[$className][$entity->getId()]))
+        if(isset($this->entities[$className][$entity->getId()]))
         {
-            // Change the reference of the input entity to the one that's already managed
-            $entity = $this->getManagedEntity($this->getClassName($entity), $entity->getId());
+            // Change the reference of the input entity to the one that's already registered
+            $entity = $this->getEntity($this->getClassName($entity), $entity->getId());
         }
         else
         {
-            // Manage this entity
+            // Register this entity
             $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
-            $this->managedEntities[$className][$entity->getId()] = $entity;
-            $this->entityStates[$objectHashId] = EntityStates::MANAGED;
+            $this->entities[$className][$entity->getId()] = $entity;
+            $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
         }
     }
 

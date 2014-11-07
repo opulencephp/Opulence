@@ -2,25 +2,26 @@
 /**
  * Copyright (C) 2014 David Young
  * 
- * Defines the interface for entity state managers to implement
+ * Defines the interface for entity registry to implement
  */
 namespace RDev\ORM;
 
-interface IEntityStateManager
+interface IEntityRegistry
 {
     /**
-     * Detaches an entity from being managed
+     * Clears all the contents of the registry
+     * All entities will appear
+     * This should only be called through a unit of work
+     */
+    public function clear();
+
+    /**
+     * Deregisters an entity
      * This should only be called through a unit of work
      *
      * @param IEntity $entity The entity to detach
      */
-    public function detach(IEntity $entity);
-
-    /**
-     * Disposes of all tracking data
-     * This should only be called through a unit of work
-     */
-    public function dispose();
+    public function deregister(IEntity $entity);
 
     /**
      * Gets the object's class name
@@ -31,28 +32,28 @@ interface IEntityStateManager
     public function getClassName($object);
 
     /**
+     * Gets the list of all registered entities
+     *
+     * @return IEntity[] The list of all registered entities
+     */
+    public function getEntities();
+
+    /**
+     * Attempts to get a registered entity
+     *
+     * @param string $className The name of the class the entity belongs to
+     * @param int|string $id The entity's Id
+     * @return IEntity|null The entity if it was found, otherwise null
+     */
+    public function getEntity($className, $id);
+
+    /**
      * Gets the entity state for the input entity
      *
      * @param IEntity $entity The entity to check
      * @return int The entity state
      */
     public function getEntityState(IEntity $entity);
-
-    /**
-     * Gets the list of all managed entities
-     *
-     * @return IEntity[] The list of all managed entities
-     */
-    public function getManagedEntities();
-
-    /**
-     * Attempts to get a managed entity
-     *
-     * @param string $className The name of the class the entity belongs to
-     * @param int|string $id The entity's Id
-     * @return IEntity|null The entity if it was found, otherwise null
-     */
-    public function getManagedEntity($className, $id);
 
     /**
      * Gets a unique hash Id for an object
@@ -72,19 +73,19 @@ interface IEntityStateManager
     public function hasChanged(IEntity $entity);
 
     /**
-     * Gets whether or not an entity is being managed
+     * Gets whether or not an entity is being registered
      *
      * @param IEntity $entity The entity to check
-     * @return bool True if the entity is managed, otherwise false
+     * @return bool True if the entity is registered, otherwise false
      */
-    public function isManaged(IEntity $entity);
+    public function isRegistered(IEntity $entity);
 
     /**
-     * Adds an entity to manage
+     * Registers an entity
      *
-     * @param IEntity $entity The entity to manage
+     * @param IEntity $entity The entity to register
      */
-    public function manage(IEntity &$entity);
+    public function register(IEntity &$entity);
 
     /**
      * Registers a comparison function for a class, which speeds up the check for updates

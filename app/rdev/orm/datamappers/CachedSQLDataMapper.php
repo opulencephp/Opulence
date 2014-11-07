@@ -115,8 +115,26 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      */
     public function refreshCache()
     {
-        $this->cacheDataMapper->flush();
-        $this->getAll();
+        $cacheEntities = $this->keyEntityArray($this->cacheDataMapper->getAll());
+        $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
+
+        foreach($sqlEntities as $sqlId => $sqlEntity)
+        {
+            if(isset($cacheEntities[$sqlEntity->getId()]))
+            {
+                $cacheEntity = $cacheEntities[$sqlEntity->getId()];
+
+                if($sqlEntity != $cacheEntity)
+                {
+                    $this->cacheDataMapper->delete($cacheEntity);
+                    $this->cacheDataMapper->add($sqlEntity);
+                }
+            }
+            else
+            {
+                $this->cacheDataMapper->add($sqlEntity);
+            }
+        }
     }
 
     /**
@@ -240,5 +258,24 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     protected function scheduleForCacheUpdate(ORM\IEntity $entity)
     {
         $this->scheduledForCacheUpdate[] = $entity;
+    }
+
+    /**
+     * Converts a list of entities to a keyed array of those entities
+     * The keys are the entity Ids
+     *
+     * @param ORM\IEntity[] $entities The list of entities
+     * @return ORM\IEntity[] The keyed array
+     */
+    private function keyEntityArray(array $entities)
+    {
+        $keyedArray = [];
+
+        foreach($entities as $entity)
+        {
+            $keyedArray[$entity->getId()] = $entity;
+        }
+
+        return $keyedArray;
     }
 } 
