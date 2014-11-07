@@ -117,6 +117,10 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     {
         $cacheEntities = $this->keyEntityArray($this->cacheDataMapper->getAll());
         $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
+        $unsyncedEntities = [
+            "missing" => [],
+            "differing" => []
+        ];
 
         foreach($sqlEntities as $sqlId => $sqlEntity)
         {
@@ -126,15 +130,19 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 
                 if($sqlEntity != $cacheEntity)
                 {
+                    $unsyncedEntities["differing"][] = $sqlEntity;
                     $this->cacheDataMapper->delete($cacheEntity);
                     $this->cacheDataMapper->add($sqlEntity);
                 }
             }
             else
             {
+                $unsyncedEntities["missing"][] = $sqlEntity;
                 $this->cacheDataMapper->add($sqlEntity);
             }
         }
+
+        return $unsyncedEntities;
     }
 
     /**

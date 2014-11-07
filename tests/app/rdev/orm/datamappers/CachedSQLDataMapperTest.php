@@ -87,10 +87,14 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->getSQLDataMapperForTests()->add($this->entity3);
         // Add an entity with slightly different data to see if it gets updated with the refresh call
         $differentEntity = clone $this->entity3;
-        $differentEntity->setUsername("differentname");
+        $differentEntity->setUsername("differentName");
         $this->dataMapper->getCacheDataMapperForTests()->add($differentEntity);
         // This should synchronize cache and SQL
-        $this->dataMapper->refreshCache();
+        $unsyncedEntities = $this->dataMapper->refreshCache();
+        $this->assertEquals([
+            "missing" => [$this->entity2],
+            "differing" => [$this->entity3]
+        ], $unsyncedEntities);
         // This should be the exact same instance because it was already in sync
         $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity1->getId()));
         // This entity should have been added to cache because it was missing

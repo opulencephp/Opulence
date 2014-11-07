@@ -21,6 +21,9 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
     /**
      * Refreshes the data in cache with the data from the SQL data mapper
      *
+     * @return ORM\IEntity[] The list of entities that were not already synced
+     *      The "missing" list contains the entities that were not in cache
+     *      The "differing" list contains the entities in cache that were not the same as SQL
      * @throws ORM\ORMException Thrown if there was an error refreshing the cache
      */
     public function refreshCache();
