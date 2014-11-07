@@ -6,7 +6,7 @@
  */
 namespace RDev\ORM;
 use RDev\Users;
-use RDev\Tests\Mocks as ModelMocks;
+use RDev\Tests\Mocks;
 use RDev\Tests\Databases\SQL\Mocks as SQLMocks;
 use RDev\Tests\ORM\DataMappers\Mocks as DataMapperMocks;
 
@@ -14,13 +14,15 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
+    /** @var EntityManager The entity manager to use in tests */
+    private $entityManager = null;
     /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
-    /** @var ModelMocks\User An entity to use in the tests */
+    /** @var Mocks\User An entity to use in the tests */
     private $entity1 = null;
-    /** @var ModelMocks\User An entity to use in the tests */
+    /** @var Mocks\User An entity to use in the tests */
     private $entity2 = null;
-    /** @var ModelMocks\User An entity to use in the tests */
+    /** @var Mocks\User An entity to use in the tests */
     private $entity3 = null;
 
     /**
@@ -30,7 +32,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $server = new SQLMocks\Server();
         $connection = new SQLMocks\Connection($server);
-        $this->unitOfWork = new UnitOfWork($connection);
+        $this->entityManager = new EntityManager();
+        $this->unitOfWork = new UnitOfWork($connection, $this->entityManager);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
@@ -38,38 +41,9 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
          * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
          * set to the Ids
          */
-        $this->entity1 = new ModelMocks\User(724, "foo");
-        $this->entity2 = new ModelMocks\User(1987, "bar");
-        $this->entity3 = new ModelMocks\User(345, "baz");
-    }
-
-    /**
-     * Tests checking if multiple entities are managed
-     */
-    public function testCheckingIfEntitiesAreManaged()
-    {
-        $this->unitOfWork->manageEntities([$this->entity1, $this->entity2]);
-        $this->assertTrue($this->unitOfWork->isManaged($this->entity1));
-        $this->assertTrue($this->unitOfWork->isManaged($this->entity2));
-    }
-
-    /**
-     * Tests checking if an entity is managed
-     */
-    public function testCheckingIfEntityIsManaged()
-    {
-        $this->unitOfWork->manageEntity($this->entity1);
-        $this->assertTrue($this->unitOfWork->isManaged($this->entity1));
-    }
-
-    /**
-     * Tests checking if an entity is still marked as managed after making changes to it
-     */
-    public function testCheckingIfEntityIsManagedAfterMakingChangesToIt()
-    {
-        $this->unitOfWork->manageEntity($this->entity1);
-        $this->entity1->setUsername("blah");
-        $this->assertTrue($this->unitOfWork->isManaged($this->entity1));
+        $this->entity1 = new Mocks\User(724, "foo");
+        $this->entity2 = new Mocks\User(1987, "bar");
+        $this->entity3 = new Mocks\User(345, "baz");
     }
 
     /**
@@ -79,7 +53,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entityManager->manage($this->entity1);
         $this->entity1->setUsername("blah");
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
@@ -88,8 +62,6 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
         $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
-        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
-        $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
     }
 
     /**
@@ -116,93 +88,31 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that a comparison function for two instances of a class are considered identical
-     */
-    public function testComparisonFunctionSaysTwoInstancesAreIdentical()
-    {
-        $className = get_class($this->entity1);
-        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
-        $this->entity1->setUsername("not entity 1's username");
-        $this->unitOfWork->registerComparisonFunction($className, function ($a, $b)
-        {
-            /** @var ModelMocks\User $a */
-            /** @var ModelMocks\User $b */
-            return $a->getId() == $b->getId();
-        });
-        $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
-        $method->setAccessible(true);
-        $method->invoke($this->unitOfWork);
-        $scheduledForUpdate = $this->unitOfWork->getScheduledEntityUpdates();
-        $this->unitOfWork->commit();
-        $this->assertFalse(in_array($this->entity1, $scheduledForUpdate));
-        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
-    }
-
-    /**
-     * Tests that a comparison function for two instances of a class are not considered identical
-     */
-    public function testComparisonFunctionSaysTwoInstancesAreNotIdentical()
-    {
-        $className = get_class($this->entity1);
-        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
-        $this->entity1->setUsername("not entity 1's username");
-        $this->unitOfWork->registerComparisonFunction($className, function ($a, $b)
-        {
-            /** @var ModelMocks\User $a */
-            /** @var ModelMocks\User $b */
-            return $a->getUsername() == $b->getUsername();
-        });
-        $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
-        $method->setAccessible(true);
-        $method->invoke($this->unitOfWork);
-        $scheduledForUpdate = $this->unitOfWork->getScheduledEntityUpdates();
-        $this->unitOfWork->commit();
-        $this->assertTrue(in_array($this->entity1, $scheduledForUpdate));
-        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
-        $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
-    }
-
-    /**
-     * Tests detaching a managed entity
-     */
-    public function testDetachingEntity()
-    {
-        $this->unitOfWork->manageEntity($this->entity1);
-        $this->unitOfWork->detach($this->entity1);
-        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
-        $this->assertEquals(EntityStates::DETACHED, $this->unitOfWork->getEntityState($this->entity1));
-    }
-
-    /**
      * Tests detaching a managed entity after scheduling it for deletion, insertion, and update
      */
     public function testDetachingEntityAfterSchedulingForDeletionInsertionUpdate()
     {
-        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entityManager->manage($this->entity1);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForUpdate($this->entity1);
         $this->unitOfWork->detach($this->entity1);
-        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
-        $this->assertEquals(EntityStates::DETACHED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertFalse($this->entityManager->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::DETACHED, $this->entityManager->getEntityState($this->entity1));
         $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityDeletions()));
         $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityInsertions()));
         $this->assertFalse(in_array($this->entity1, $this->unitOfWork->getScheduledEntityUpdates()));
     }
 
     /**
-     * Tests disposing the unit of work
+     * Tests disposing of the unit of work
      */
     public function testDisposing()
     {
-        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entityManager->manage($this->entity1);
         $this->unitOfWork->dispose();
-        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
-        $this->assertEquals(EntityStates::UNMANAGED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertFalse($this->entityManager->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::UNMANAGED, $this->entityManager->getEntityState($this->entity1));
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityDeletions());
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityInsertions());
         $this->assertEquals([], $this->unitOfWork->getScheduledEntityUpdates());
@@ -219,28 +129,11 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the entity state for a managed entity
+     * Tests getting the entity manager
      */
-    public function testGettingEntityStateForManagedEntity()
+    public function testGettingEntityManager()
     {
-        $this->unitOfWork->manageEntity($this->entity1);
-        $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
-    }
-
-    /**
-     * Tests getting the entity state for an unmanaged entity
-     */
-    public function testGettingEntityStateForUnmanagedEntity()
-    {
-        $this->assertEquals(EntityStates::UNMANAGED, $this->unitOfWork->getEntityState($this->entity1));
-    }
-
-    /**
-     * Tests getting an entity that isn't managed
-     */
-    public function testGettingEntityThatIsNotManaged()
-    {
-        $this->assertNull($this->unitOfWork->getManagedEntity(get_class($this->entity1), $this->entity1->getId()));
+        $this->assertSame($this->entityManager, $this->unitOfWork->getEntityManager());
     }
 
     /**
@@ -250,12 +143,12 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entityManager->manage($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
         $this->unitOfWork->commit();
-        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
-        $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertFalse($this->entityManager->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::DELETED, $this->entityManager->getEntityState($this->entity1));
         $this->setExpectedException("RDev\\ORM\\ORMException");
         $this->dataMapper->getById($this->entity1->getId());
     }
@@ -267,7 +160,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entityManager->manage($this->entity1);
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
         $method->setAccessible(true);
@@ -284,7 +177,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $className = get_class($this->entity1);
         $dataMapper = new DataMapperMocks\CachedSQLDataMapper();
         $this->unitOfWork->registerDataMapper($className, $dataMapper);
-        $this->unitOfWork->manageEntity($this->entity1);
+        $this->entityManager->manage($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->commit();
         $this->assertEquals($this->entity1, $dataMapper->getSQLDataMapperForTests()->getById($this->entity1->getId()));
@@ -305,8 +198,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $scheduledFoDeletion = $this->unitOfWork->getScheduledEntityDeletions();
         $this->unitOfWork->commit();
         $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
-        $this->assertFalse($this->unitOfWork->isManaged($this->entity1));
-        $this->assertEquals(EntityStates::DELETED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertFalse($this->entityManager->isManaged($this->entity1));
+        $this->assertEquals(EntityStates::DELETED, $this->entityManager->getEntityState($this->entity1));
         $this->setExpectedException("RDev\\ORM\\ORMException");
         $this->dataMapper->getById($this->entity1->getId());
     }
@@ -319,7 +212,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
-        $this->assertEquals(EntityStates::ADDED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertEquals(EntityStates::ADDED, $this->entityManager->getEntityState($this->entity1));
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
         $method->setAccessible(true);
@@ -328,8 +221,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $expectedId = $this->dataMapper->getCurrId() + 1;
         $this->unitOfWork->commit();
         $this->assertTrue(in_array($this->entity1, $scheduledFoInsertion));
-        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
-        $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertEquals($this->entity1, $this->entityManager->getManagedEntity($className, $this->entity1->getId()));
+        $this->assertEquals(EntityStates::MANAGED, $this->entityManager->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
         $this->assertEquals($expectedId, $this->entity1->getId());
     }
@@ -350,8 +243,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->unitOfWork->commit();
         $this->assertTrue(in_array($this->entity1, $scheduledFoUpdate));
-        $this->assertEquals($this->entity1, $this->unitOfWork->getManagedEntity($className, $this->entity1->getId()));
-        $this->assertEquals(EntityStates::MANAGED, $this->unitOfWork->getEntityState($this->entity1));
+        $this->assertEquals($this->entity1, $this->entityManager->getManagedEntity($className, $this->entity1->getId()));
+        $this->assertEquals(EntityStates::MANAGED, $this->entityManager->getEntityState($this->entity1));
         $this->assertEquals($this->entity1, $this->dataMapper->getById($this->entity1->getId()));
     }
 
@@ -367,8 +260,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity2);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
         {
-            /** @var ModelMocks\User $aggregateRoot */
-            /** @var ModelMocks\User $child */
+            /** @var Mocks\User $aggregateRoot */
+            /** @var Mocks\User $child */
             $child->setAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->commit();
@@ -388,8 +281,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForUpdate($this->entity2);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
         {
-            /** @var ModelMocks\User $aggregateRoot */
-            /** @var ModelMocks\User $child */
+            /** @var Mocks\User $aggregateRoot */
+            /** @var Mocks\User $child */
             $child->setAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->commit();
@@ -411,14 +304,14 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity3);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity3, function ($aggregateRoot, $child)
         {
-            /** @var ModelMocks\User $aggregateRoot */
-            /** @var ModelMocks\User $child */
+            /** @var Mocks\User $aggregateRoot */
+            /** @var Mocks\User $child */
             $child->setAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->registerAggregateRootChild($this->entity2, $this->entity3, function ($aggregateRoot, $child)
         {
-            /** @var ModelMocks\User $aggregateRoot */
-            /** @var ModelMocks\User $child */
+            /** @var Mocks\User $aggregateRoot */
+            /** @var Mocks\User $child */
             $child->setSecondAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->commit();
@@ -449,10 +342,10 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $server = new SQLMocks\Server();
             $connection = new SQLMocks\Connection($server);
             $connection->setToFailOnPurpose(true);
-            $this->unitOfWork = new UnitOfWork($connection);
+            $this->unitOfWork = new UnitOfWork($connection, $this->entityManager);
             $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-            $this->entity1 = new ModelMocks\User(1, "foo");
-            $this->entity2 = new ModelMocks\User(2, "bar");
+            $this->entity1 = new Mocks\User(1, "foo");
+            $this->entity2 = new Mocks\User(2, "bar");
             $className = get_class($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
             $this->unitOfWork->scheduleForInsertion($this->entity1);
@@ -472,17 +365,17 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     /**
      * Gets the entity after committing it
      *
-     * @return ModelMocks\User The entity from the data mapper
+     * @return Mocks\User The entity from the data mapper
      * @throws ORMException Thrown if there was an error committing the transaction
      */
     private function getInsertedEntity()
     {
         $className = get_class($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $foo = new ModelMocks\User(18175, "blah");
+        $foo = new Mocks\User(18175, "blah");
         $this->unitOfWork->scheduleForInsertion($foo);
         $this->unitOfWork->commit();
 
-        return $this->unitOfWork->getManagedEntity($className, $foo->getId());
+        return $this->entityManager->getManagedEntity($className, $foo->getId());
     }
 }

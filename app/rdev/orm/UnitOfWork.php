@@ -7,12 +7,13 @@
 namespace RDev\ORM;
 use RDev\Databases\SQL;
 use RDev\Exceptions;
-use RDev\ORM\DataMappers;
 
 class UnitOfWork
 {
     /** @var SQL\IConnection The connection to use in our unit of work */
     private $connection = null;
+    /** @var IEntityManager What manages/tracks entities for our unit of work */
+    private $entityManager = null;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
     /** @var array The list of entities scheduled for insertion */
@@ -21,12 +22,6 @@ class UnitOfWork
     private $scheduledForUpdate = [];
     /** @var array The list of entities scheduled for deletion */
     private $scheduledForDeletion = [];
-    /** @var array The mapping of object Ids to their original data */
-    private $objectHashIdsToOriginalData = [];
-    /** @var array The mapping of entities' object hash Ids to their various states */
-    private $entityStates = [];
-    /** @var array The mapping of class names to a list of entities of that class */
-    private $managedEntities = [];
     /**
      * Maps aggregate root children to their roots as well as functions that can set the child's aggregate root Id
      * Each entry is an array of arrays with the following keys:
@@ -38,21 +33,15 @@ class UnitOfWork
      * @var array
      */
     private $aggregateRootChildren = [];
-    /**
-     * The mapping of class names to their comparison functions, which can be used to speed up checking for updates
-     * The functions should accept two instances of the same class, and it should return true if they contain the same
-     * data, otherwise false
-     *
-     * @var array
-     */
-    private $comparisonFunctions = [];
 
     /**
      * @param SQL\IConnection $connection The connection to use in our unit of work
+     * @param IEntityManager $entityManager The entity manager to use
      */
-    public function __construct(SQL\IConnection $connection)
+    public function __construct(SQL\IConnection $connection, IEntityManager $entityManager)
     {
         $this->connection = $connection;
+        $this->entityManager = $entityManager;
     }
 
     /**
@@ -96,20 +85,12 @@ class UnitOfWork
      */
     public function detach(IEntity $entity)
     {
-        $entityState = $this->getEntityState($entity);
-
-        if($entityState == EntityStates::ADDED || $entityState == EntityStates::MANAGED)
-        {
-            $className = $this->getClassName($entity);
-            $objectHashId = $this->getObjectHashId($entity);
-            $this->entityStates[$objectHashId] = EntityStates::DETACHED;
-            unset($this->managedEntities[$className][$entity->getId()]);
-            unset($this->objectHashIdsToOriginalData[$objectHashId]);
-            unset($this->scheduledForInsertion[$objectHashId]);
-            unset($this->scheduledForUpdate[$objectHashId]);
-            unset($this->scheduledForDeletion[$objectHashId]);
-            unset($this->aggregateRootChildren[$objectHashId]);
-        }
+        $this->entityManager->detach($entity);
+        $objectHashId = $this->entityManager->getObjectHashId($entity);
+        unset($this->scheduledForInsertion[$objectHashId]);
+        unset($this->scheduledForUpdate[$objectHashId]);
+        unset($this->scheduledForDeletion[$objectHashId]);
+        unset($this->aggregateRootChildren[$objectHashId]);
     }
 
     /**
@@ -121,9 +102,7 @@ class UnitOfWork
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
         $this->aggregateRootChildren = [];
-        $this->managedEntities = [];
-        $this->entityStates = [];
-        $this->objectHashIdsToOriginalData = [];
+        $this->entityManager->dispose();
     }
 
     /**
@@ -144,38 +123,11 @@ class UnitOfWork
     }
 
     /**
-     * Gets the entity state for the input entity
-     *
-     * @param IEntity $entity The entity to check
-     * @return int The entity state
+     * @return IEntityManager
      */
-    public function getEntityState(IEntity $entity)
+    public function getEntityManager()
     {
-        $objectHashId = $this->getObjectHashId($entity);
-
-        if(!isset($this->entityStates[$objectHashId]))
-        {
-            return EntityStates::UNMANAGED;
-        }
-
-        return $this->entityStates[$objectHashId];
-    }
-
-    /**
-     * Attempts to get a managed entity
-     *
-     * @param string $className The name of the class the entity belongs to
-     * @param int|string $id The entity's Id
-     * @return IEntity|null The entity if it was found, otherwise null
-     */
-    public function getManagedEntity($className, $id)
-    {
-        if(!isset($this->managedEntities[$className]) || !isset($this->managedEntities[$className][$id]))
-        {
-            return null;
-        }
-
-        return $this->managedEntities[$className][$id];
+        return $this->entityManager;
     }
 
     /**
@@ -209,60 +161,6 @@ class UnitOfWork
     }
 
     /**
-     * Gets whether or not an entity is being managed
-     *
-     * @param IEntity $entity The entity to check
-     * @return bool True if the entity is managed, otherwise false
-     */
-    public function isManaged(IEntity $entity)
-    {
-        return $this->getEntityState($entity) == EntityStates::MANAGED
-        || isset($this->managedEntities[$this->getClassName($entity)][$entity->getId()]);
-    }
-
-    /**
-     * Adds entities to manage
-     *
-     * @param IEntity[] $entities The entities to manage
-     */
-    public function manageEntities(array $entities)
-    {
-        foreach($entities as $entity)
-        {
-            $this->manageEntity($entity);
-        }
-    }
-
-    /**
-     * Adds an entity to manage
-     *
-     * @param IEntity $entity The entity to manage
-     */
-    public function manageEntity(IEntity &$entity)
-    {
-        $className = $this->getClassName($entity);
-        $objectHashId = $this->getObjectHashId($entity);
-
-        if(!isset($this->managedEntities[$className]))
-        {
-            $this->managedEntities[$className] = [];
-        }
-
-        if(isset($this->managedEntities[$className][$entity->getId()]))
-        {
-            // Change the reference of the input entity to the one that's already managed
-            $entity = $this->getManagedEntity($this->getClassName($entity), $entity->getId());
-        }
-        else
-        {
-            // Manage this entity
-            $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
-            $this->managedEntities[$className][$entity->getId()] = $entity;
-            $this->entityStates[$objectHashId] = EntityStates::MANAGED;
-        }
-    }
-
-    /**
      * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
      * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
      *
@@ -272,7 +170,7 @@ class UnitOfWork
      */
     public function registerAggregateRootChild(IEntity $aggregateRoot, IEntity $child, callable $function)
     {
-        $childObjectHashId = $this->getObjectHashId($child);
+        $childObjectHashId = $this->entityManager->getObjectHashId($child);
 
         if(!isset($this->aggregateRootChildren[$childObjectHashId]))
         {
@@ -284,19 +182,6 @@ class UnitOfWork
             "child" => $child,
             "function" => $function
         ];
-    }
-
-    /**
-     * Registers a comparison function for a class, which speeds up the check for updates
-     * Registering a comparison function for a class will overwrite any previously-set comparison functions for that class
-     *
-     * @param string $className The name of the class whose comparison function we're registering
-     * @param callable $function The function that takes two instances of the same class and returns whether or not
-     *      they're considered identical
-     */
-    public function registerComparisonFunction($className, callable $function)
-    {
-        $this->comparisonFunctions[$className] = $function;
     }
 
     /**
@@ -318,7 +203,7 @@ class UnitOfWork
      */
     public function scheduleForDeletion(IEntity $entity)
     {
-        $this->scheduledForDeletion[$this->getObjectHashId($entity)] = $entity;
+        $this->scheduledForDeletion[$this->entityManager->getObjectHashId($entity)] = $entity;
     }
 
     /**
@@ -328,9 +213,9 @@ class UnitOfWork
      */
     public function scheduleForInsertion(IEntity $entity)
     {
-        $objectHashId = $this->getObjectHashId($entity);
+        $objectHashId = $this->entityManager->getObjectHashId($entity);
         $this->scheduledForInsertion[$objectHashId] = $entity;
-        $this->entityStates[$objectHashId] = EntityStates::ADDED;
+        $this->entityManager->setState($entity, EntityStates::ADDED);
     }
 
     /**
@@ -340,7 +225,7 @@ class UnitOfWork
      */
     public function scheduleForUpdate(IEntity $entity)
     {
-        $this->scheduledForUpdate[$this->getObjectHashId($entity)] = $entity;
+        $this->scheduledForUpdate[$this->entityManager->getObjectHashId($entity)] = $entity;
     }
 
     /**
@@ -372,7 +257,7 @@ class UnitOfWork
         /** @var IEntity $entity */
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper($this->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
             $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
         }
     }
@@ -386,101 +271,24 @@ class UnitOfWork
     }
 
     /**
-     * Checks to see if an entity has changed using a comparison function
-     *
-     * @param string $objectHashId The object hash Id of the entity
-     * @param IEntity $entity The entity to check for changes
-     * @return bool True if the entity has changed, otherwise false
-     */
-    private function checkEntityForUpdatesWithComparisonFunction($objectHashId, IEntity $entity)
-    {
-        $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
-
-        return !$this->comparisonFunctions[$this->getClassName($entity)]($originalData, $entity);
-    }
-
-    /**
-     * Checks to see if an entity has changed using reflection
-     *
-     * @param string $objectHashId The object hash Id of the entity
-     * @param IEntity $entity The entity to check for changes
-     * @return bool True if the entity has changed, otherwise false
-     */
-    private function checkEntityForUpdatesWithReflection($objectHashId, IEntity $entity)
-    {
-        // Get all the properties in the original entity and the current one
-        $currentEntityReflection = new \ReflectionClass($entity);
-        $currentProperties = $currentEntityReflection->getProperties();
-        $currentPropertiesAsHash = [];
-        $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
-        $originalEntityReflection = new \ReflectionClass($originalData);
-        $originalProperties = $originalEntityReflection->getProperties();
-        $originalPropertiesAsHash = [];
-
-        // Map each property name to its value for the current entity
-        foreach($currentProperties as $currentProperty)
-        {
-            $currentProperty->setAccessible(true);
-            $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue($entity);
-        }
-
-        // Map each property name to its value for the original entity
-        foreach($originalProperties as $originalProperty)
-        {
-            $originalProperty->setAccessible(true);
-            $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
-        }
-
-        if(count($originalProperties) != count($currentProperties))
-        {
-            // Clearly there's a difference here, so update
-            return true;
-        }
-
-        // Compare all the property values to see if they are identical
-        foreach($originalPropertiesAsHash as $name => $value)
-        {
-            if(!array_key_exists($name, $currentPropertiesAsHash) || $currentPropertiesAsHash[$name] !== $value)
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
      * Checks for any changes made to entities, and if any are found, they're scheduled for update
      */
     private function checkForUpdates()
     {
-        foreach($this->managedEntities as $className => $entities)
-        {
-            /** @var IEntity $entity */
-            foreach($entities as $entityId => $entity)
-            {
-                $objectHashId = $this->getObjectHashId($entity);
+        $managedEntities = $this->entityManager->getManagedEntities();
 
-                // No point in checking for changes if it's already scheduled for an action
-                if($this->isManaged($entity)
-                    && !isset($this->scheduledForInsertion[$objectHashId])
-                    && !isset($this->scheduledForUpdate[$objectHashId])
-                    && !isset($this->scheduledForDeletion[$objectHashId])
-                )
-                {
-                    // If a comparison function was specified, we don't bother using reflection to check for updates
-                    if(isset($this->comparisonFunctions[$className]))
-                    {
-                        if($this->checkEntityForUpdatesWithComparisonFunction($objectHashId, $entity))
-                        {
-                            $this->scheduleForUpdate($entity);
-                        }
-                    }
-                    elseif($this->checkEntityForUpdatesWithReflection($objectHashId, $entity))
-                    {
-                        $this->scheduleForUpdate($entity);
-                    }
-                }
+        foreach($managedEntities as $entity)
+        {
+            $objectHashId = $this->entityManager->getObjectHashId($entity);
+
+            if($this->entityManager->isManaged($entity)
+                && !isset($this->scheduledForInsertion[$objectHashId])
+                && !isset($this->scheduledForUpdate[$objectHashId])
+                && !isset($this->scheduledForDeletion[$objectHashId])
+                && $this->entityManager->hasChanged($entity)
+            )
+            {
+                $this->scheduleForUpdate($entity);
             }
         }
     }
@@ -493,11 +301,11 @@ class UnitOfWork
         /** @var IEntity $entity */
         foreach($this->scheduledForDeletion as $objectHashId => $entity)
         {
-            $dataMapper = $this->getDataMapper($this->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
             $dataMapper->delete($entity);
             // Order here matters
             $this->detach($entity);
-            $this->entityStates[$objectHashId] = EntityStates::DELETED;
+            $this->entityManager->setState($entity, EntityStates::DELETED);
         }
     }
 
@@ -520,28 +328,6 @@ class UnitOfWork
     }
 
     /**
-     * Gets the object's class name
-     *
-     * @param mixed $object The object whose class name we want
-     * @return string The object's class name
-     */
-    private function getClassName($object)
-    {
-        return get_class($object);
-    }
-
-    /**
-     * Gets a unique hash Id for an object
-     *
-     * @param mixed $object The object whose hash we want
-     * @return string The object hash Id
-     */
-    private function getObjectHashId($object)
-    {
-        return spl_object_hash($object);
-    }
-
-    /**
      * Attempts to insert all the entities scheduled for insertion
      */
     private function insert()
@@ -551,10 +337,10 @@ class UnitOfWork
         {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
-            $dataMapper = $this->getDataMapper($this->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
             $dataMapper->add($entity);
             $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
-            $this->manageEntity($entity);
+            $this->entityManager->manage($entity);
         }
     }
 
@@ -568,9 +354,9 @@ class UnitOfWork
         {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
-            $dataMapper = $this->getDataMapper($this->getClassName($entity));
+            $dataMapper = $this->getDataMapper($this->entityManager->getClassName($entity));
             $dataMapper->update($entity);
-            $this->manageEntity($entity);
+            $this->entityManager->manage($entity);
         }
     }
 } 

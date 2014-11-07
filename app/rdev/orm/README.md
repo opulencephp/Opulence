@@ -5,7 +5,7 @@
 2. [Repositories](#repositories)
 3. [DataMappers](#datamappers)
 4. [Unit of Work](#unit-of-work)
-  1. [Change Tracking](#change-tracking)
+  1. [Entity Manager](#entity-manager)
 5. [Aggregate Roots](#aggregate-roots)
 6. [Automatic Caching](#automatic-caching)
 
@@ -49,7 +49,7 @@ use RDev\ORM\Repositories;
 use RDev\Users;
 
 // Assume $connection was set previously
-$unitOfWork = new ORM\UnitOfWork($connection);
+$unitOfWork = new ORM\UnitOfWork($connection, new ORM\EntityManager());
 $dataMapper = new DataMappers\MyDataMapper();
 $users = new Repositories\Repo("RDev\\Users\\User", $dataMapper, $unitOfWork);
 
@@ -67,20 +67,25 @@ $unitOfWork->commit();
 echo $users->getById(123)->getUsername(); // "bar"
 ```
 
-#### Change Tracking
-Objects' updates are tracked using reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
+#### Entity Manager
+Entities that are scheduled for insertion/deletion/update are managed by an `EntityManager`.  The `EntityManager` is also responsible for tracking any changes made to the entities it manages.  By default, it uses reflection, which for some classes might be slow.  To speed up the comparison between two objects to see if they're identical, you can use `registerComparisonFunction()`:
 ```php
-// Let's assume the unit of work has already been setup and that the user object is created
-$className = get_class($user);
-$unitOfWork->manageEntity($user);
+use RDev\ORM;
+
+// Assume $connection was set previously
+// Also assume the user object was already instantiated
+$entityManager = new ORM\EntityManager();
+$unitOfWork = new ORM\UnitOfWork($connection, $entityManager); 
+$className = $entityManager->getClassName($user);
+$entityManager->manageEntity($user);
 $user->setUsername("newUsername");
 // Let's pretend that all we care about in checking if two user objects are identical is comparing their usernames
 // Register a comparison function that takes two user objects and returns whether or not the usernames matched
-$this->unitOfWork->registerComparisonFunction($className, function($a, $b)
+$entityManager->registerComparisonFunction($className, function($a, $b)
 {
     return $a->getUsername() == $b->getUsername();
 });
-// On commit, the unit of work will run the comparison function, and it will determine that the $user's
+// On commit, the entity manager will run the comparison function, and it will determine that the $user's
 // username has changed.  So, it will be scheduled for update and committed
 $unitOfWork->commit();
 ```
