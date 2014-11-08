@@ -119,7 +119,8 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
         $unsyncedEntities = [
             "missing" => [],
-            "differing" => []
+            "differing" => [],
+            "additional" => []
         ];
 
         foreach($sqlEntities as $sqlId => $sqlEntity)
@@ -130,6 +131,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 
                 if($sqlEntity != $cacheEntity)
                 {
+                    // Sync the entity in cache with the one in SQL
                     $unsyncedEntities["differing"][] = $sqlEntity;
                     $this->cacheDataMapper->delete($cacheEntity);
                     $this->cacheDataMapper->add($sqlEntity);
@@ -137,9 +139,20 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
             }
             else
             {
+                // Add the entity to cache
                 $unsyncedEntities["missing"][] = $sqlEntity;
                 $this->cacheDataMapper->add($sqlEntity);
             }
+        }
+
+        // Remove entities that only appear in cache
+        $cacheOnlyIds = array_diff(array_keys($cacheEntities), array_keys($sqlEntities));
+
+        foreach($cacheOnlyIds as $entityId)
+        {
+            $cacheEntity = $cacheEntities[$entityId];
+            $unsyncedEntities["additional"][] = $cacheEntity;
+            $this->cacheDataMapper->delete($cacheEntity);
         }
 
         return $unsyncedEntities;

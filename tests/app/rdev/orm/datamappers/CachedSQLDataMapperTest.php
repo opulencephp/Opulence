@@ -18,6 +18,8 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     private $entity2 = null;
     /** @var ModelMocks\User An entity to use for tests */
     private $entity3 = null;
+    /** @var ModelMocks\User An entity to use for tests */
+    private $entity4 = null;
 
     /**
      * Sets up the tests
@@ -28,6 +30,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->entity1 = new ModelMocks\User(123, "foo");
         $this->entity2 = new ModelMocks\User(456, "bar");
         $this->entity3 = new ModelMocks\User(789, "baz");
+        $this->entity4 = new ModelMocks\User(101, "blah");
     }
 
     /**
@@ -89,11 +92,14 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
         $differentEntity = clone $this->entity3;
         $differentEntity->setUsername("differentName");
         $this->dataMapper->getCacheDataMapperForTests()->add($differentEntity);
+        // This entity is ONLY in cache
+        $this->dataMapper->getCacheDataMapperForTests()->add($this->entity4);
         // This should synchronize cache and SQL
         $unsyncedEntities = $this->dataMapper->refreshCache();
         $this->assertEquals([
             "missing" => [$this->entity2],
-            "differing" => [$this->entity3]
+            "differing" => [$this->entity3],
+            "additional" => [$this->entity4]
         ], $unsyncedEntities);
         // This should be the exact same instance because it was already in sync
         $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity1->getId()));
@@ -101,6 +107,8 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->entity2, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity2->getId()));
         // This entity should have been synchronized because cache had a different version
         $this->assertEquals($this->entity3, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity3->getId()));
+        // This entity should have been removed because it only existed in cache
+        $this->assertNull($this->dataMapper->getCacheDataMapperForTests()->getById($this->entity4->getId()));
     }
 
     /**
