@@ -41,19 +41,20 @@ Applications can be instantiated directly or with the help of a combination of a
 
 Let's break down the structure of the config.  The following keys are optional:
 * "environment"
-  * There are two values you can pass in: a keyed array or a callback
-    * In the case of an array, it must have at least one of the following keys:
-      * "production"
-      * "staging"
-      * "testing"
-      * "development"
-    * Each of these keys may map to one of the following values:
-      * A server host or an array of server hosts that belong under that environment
-      * An array containing the following keys:
-        * "type" => One of the following values:
-          * "regex" to denote that the rule uses a regular expression
-        * "value" => The value of the rule, eg the regular expression to use
-    * If you use a callback, it must simply return the name of the environment the current server resides in
+  * "names"
+    * There are two values you can pass in: a keyed array or a callback
+      * In the case of an array, it must have at least one of the following keys:
+        * "production"
+        * "staging"
+        * "testing"
+        * "development"
+      * Each of these keys may map to one of the following values:
+        * A server host or an array of server hosts that belong under that environment
+        * An array containing the following keys:
+          * "type" => One of the following values:
+            * "regex" to denote that the rule uses a regular expression
+          * "value" => The value of the rule, eg the regular expression to use
+      * If you use a callback, it must simply return the name of the environment the current server resides in
 * "ioc"
   * The following keys are optional:
     * "container" => The dependency injection container to use throughout the application

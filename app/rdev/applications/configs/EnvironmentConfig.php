@@ -23,17 +23,25 @@ class EnvironmentConfig extends Configs\Config
             throw new \RuntimeException("Invalid environment config");
         }
 
+        if(isset($configArray["detector"]))
+        {
+            if(is_string($configArray["detector"]))
+            {
+
+            }
+        }
+
         // Convert any strings to arrays for each of the environments
         foreach([
-                    Applications\Application::ENV_PRODUCTION,
-                    Applications\Application::ENV_STAGING,
-                    Applications\Application::ENV_TESTING,
-                    Applications\Application::ENV_DEVELOPMENT
+                    Applications\Environment::PRODUCTION,
+                    Applications\Environment::STAGING,
+                    Applications\Environment::TESTING,
+                    Applications\Environment::DEVELOPMENT
                 ] as $environment)
         {
-            if(isset($configArray[$environment]) && is_string($configArray[$environment]))
+            if(isset($configArray["names"][$environment]) && is_string($configArray["names"][$environment]))
             {
-                $configArray[$environment] = [$configArray[$environment]];
+                $configArray["names"][$environment] = [$configArray["names"][$environment]];
             }
         }
 
@@ -50,23 +58,33 @@ class EnvironmentConfig extends Configs\Config
             return true;
         }
 
-        // Allow a function to be passed in
-        if(count($configArray) == 1 && isset($configArray[0]) && is_callable($configArray[0]))
+        if(isset($configArray["names"]))
         {
-            return true;
-        }
-
-        // Make sure each machine list is valid for each environment that's specified
-        foreach([
-                    Applications\Application::ENV_PRODUCTION,
-                    Applications\Application::ENV_STAGING,
-                    Applications\Application::ENV_TESTING,
-                    Applications\Application::ENV_DEVELOPMENT
-                ] as $environment)
-        {
-            if(isset($configArray[$environment]) && !$this->hostListIsValid($configArray[$environment]))
+            // Allow a function to be passed in
+            if(
+                count($configArray["names"]) == 1 &&
+                isset($configArray["names"][0]) &&
+                is_callable($configArray["names"][0])
+            )
             {
-                return false;
+                return true;
+            }
+
+            // Make sure each machine list is valid for each environment that's specified
+            foreach([
+                        Applications\Environment::PRODUCTION,
+                        Applications\Environment::STAGING,
+                        Applications\Environment::TESTING,
+                        Applications\Environment::DEVELOPMENT
+                    ] as $environment)
+            {
+                if(
+                    isset($configArray["names"][$environment]) &&
+                    !$this->hostListIsValid($configArray["names"][$environment])
+                )
+                {
+                    return false;
+                }
             }
         }
 

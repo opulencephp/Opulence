@@ -120,7 +120,7 @@ class EntityRegistry implements IEntityRegistry
     {
         if(!isset($this->objectHashIdsToOriginalData[$this->getObjectHashId($entity)]))
         {
-            throw new ORMException("Entity is not managed");
+            throw new ORMException("Entity is not registered");
         }
 
         // If a comparison function was specified, we don't bother using reflection to check for updates

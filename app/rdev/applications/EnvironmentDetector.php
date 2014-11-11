@@ -7,20 +7,33 @@
 namespace RDev\Applications;
 use RDev\Applications\Configs;
 
-class EnvironmentFetcher
+class EnvironmentDetector implements IEnvironmentDetector
 {
+    /** @var Configs\EnvironmentConfig The config to use */
+    private $config = null;
+
     /**
-     * Gets the environment the server belongs to, eg "production"
-     *
-     * @param Configs\EnvironmentConfig $config The environment config
-     * @return string The environment the server belongs to
+     * @param Configs\EnvironmentConfig $config The config to use
      */
-    public function getEnvironment(Configs\EnvironmentConfig $config)
+    public function __construct(Configs\EnvironmentConfig $config)
+    {
+        $this->config = $config;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function detect()
     {
         // Allow a callback
-        if($config->count() == 1 && isset($config[0]) && is_callable($config[0]))
+        if(
+            isset($this->config["names"]) &&
+            count($this->config["names"]) == 1 &&
+            isset($this->config["names"][0]) &&
+            is_callable($this->config["names"][0])
+        )
         {
-            return call_user_func($config[0]);
+            return call_user_func($this->config["names"][0]);
         }
 
         $thisHost = gethostname();
@@ -28,15 +41,15 @@ class EnvironmentFetcher
 
         // Include all the environments with set configs
         foreach([
-                    Application::ENV_PRODUCTION,
-                    Application::ENV_STAGING,
-                    Application::ENV_TESTING,
-                    Application::ENV_DEVELOPMENT
+                    Environment::PRODUCTION,
+                    Environment::STAGING,
+                    Environment::TESTING,
+                    Environment::DEVELOPMENT
                 ] as $environment)
         {
-            if(isset($config[$environment]))
+            if(isset($this->config["names"][$environment]))
             {
-                $environments[$environment] = $config[$environment];
+                $environments[$environment] = $this->config["names"][$environment];
             }
         }
 
@@ -69,6 +82,6 @@ class EnvironmentFetcher
         }
 
         // Default to production
-        return Application::ENV_PRODUCTION;
+        return Environment::PRODUCTION;
     }
 } 

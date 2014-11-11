@@ -72,7 +72,9 @@ class ApplicationFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $configArray = [
             "environment" => [
-                "staging" => gethostname()
+                "names" => [
+                    "staging" => gethostname()
+                ]
             ],
         ];
         $config = new Configs\ApplicationConfig($configArray);

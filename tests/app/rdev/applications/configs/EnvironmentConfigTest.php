@@ -14,10 +14,12 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testConfigWithCallback()
     {
         $configArray = [
-            function ()
-            {
-                return "staging";
-            }
+            "names" => [
+                function ()
+                {
+                    return "staging";
+                }
+            ]
         ];
         $config = new EnvironmentConfig($configArray);
         $this->assertEquals($configArray, $config->getArrayCopy());
@@ -30,9 +32,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $configArray = [
-            "staging" => [
-                ["type" => "doesnotexist", "value" => "foo"],
-                "192.168.1.1"
+            "names" => [
+                "staging" => [
+                    ["type" => "doesnotexist", "value" => "foo"],
+                    "192.168.1.1"
+                ]
             ]
         ];
         new EnvironmentConfig($configArray);
@@ -44,9 +48,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testConfigWithRegex()
     {
         $configArray = [
-            "staging" => [
-                ["type" => "regex", "value" => "/^192\.168\.*$/"],
-                "192.168.1.1"
+            "names" => [
+                "staging" => [
+                    ["type" => "regex", "value" => "/^192\.168\.*$/"],
+                    "192.168.1.1"
+                ]
             ]
         ];
         $config = new EnvironmentConfig($configArray);
@@ -68,7 +74,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidDevelopmentOption()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["development" => 1]);
+        new EnvironmentConfig([
+            "names" => [
+                "development" => 1
+            ]
+        ]);
     }
 
     /**
@@ -77,7 +87,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidListOfDevelopmentHosts()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["development" => [1, 2]]);
+        new EnvironmentConfig([
+            "names" => [
+                "development" => [1, 2]
+            ]
+        ]);
     }
 
     /**
@@ -86,7 +100,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidListOfProductionHosts()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["production" => [1, 2]]);
+        new EnvironmentConfig([
+            "names" => [
+                "production" => [1, 2]
+            ]
+        ]);
     }
 
     /**
@@ -95,7 +113,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidListOfStagingHosts()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["staging" => [1, 2]]);
+        new EnvironmentConfig([
+            "names" => [
+                "staging" => [1, 2]
+            ]
+        ]);
     }
 
     /**
@@ -104,7 +126,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidListOfTestingHosts()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["testing" => [1, 2]]);
+        new EnvironmentConfig([
+            "names" => [
+                "testing" => [1, 2]
+            ]
+        ]);
     }
 
     /**
@@ -113,7 +139,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidProductionOption()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["production" => 1]);
+        new EnvironmentConfig([
+            "names" => [
+                "production" => 1
+            ]
+        ]);
     }
 
     /**
@@ -122,7 +152,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidStagingOption()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["staging" => 1]);
+        new EnvironmentConfig([
+            "names" => [
+                "staging" => 1
+            ]
+        ]);
     }
 
     /**
@@ -131,7 +165,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
     public function testPassingInvalidTestingOption()
     {
         $this->setExpectedException("\\RuntimeException");
-        new EnvironmentConfig(["testing" => 1]);
+        new EnvironmentConfig([
+            "names" => [
+                "testing" => 1
+            ]
+        ]);
     }
 
     /**
@@ -139,7 +177,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidDevelopmentOptionsAsArray()
     {
-        $configArray = ["development" => ["foo"]];
+        $configArray = [
+            "names" => [
+                "development" => ["foo"]
+            ]
+        ];
         $config = new EnvironmentConfig($configArray);
         $this->assertEquals($configArray, $config->getArrayCopy());
     }
@@ -149,8 +191,16 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidDevelopmentOptionsAsString()
     {
-        $config = new EnvironmentConfig(["development" => "foo"]);
-        $this->assertEquals(["development" => ["foo"]], $config->getArrayCopy());
+        $config = new EnvironmentConfig([
+            "names" => [
+                "development" => "foo"
+            ]
+        ]);
+        $this->assertEquals([
+            "names" => [
+                "development" => ["foo"]
+            ]
+        ], $config->getArrayCopy());
     }
 
     /**
@@ -158,7 +208,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidProductionOptionsAsArray()
     {
-        $configArray = ["production" => ["foo"]];
+        $configArray = [
+            "names" => [
+                "production" => ["foo"]
+            ]
+        ];
         $config = new EnvironmentConfig($configArray);
         $this->assertEquals($configArray, $config->getArrayCopy());
     }
@@ -168,8 +222,16 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidProductionOptionsAsString()
     {
-        $config = new EnvironmentConfig(["production" => "foo"]);
-        $this->assertEquals(["production" => ["foo"]], $config->getArrayCopy());
+        $config = new EnvironmentConfig([
+            "names" => [
+                "production" => "foo"
+            ]
+        ]);
+        $this->assertEquals([
+            "names" => [
+                "production" => ["foo"]
+            ]
+        ], $config->getArrayCopy());
     }
 
     /**
@@ -177,7 +239,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidStagingOptionsAsArray()
     {
-        $configArray = ["staging" => ["foo"]];
+        $configArray = [
+            "names" => [
+                "staging" => ["foo"]
+            ]
+        ];
         $config = new EnvironmentConfig($configArray);
         $this->assertEquals($configArray, $config->getArrayCopy());
     }
@@ -187,8 +253,16 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidStagingOptionsAsString()
     {
-        $config = new EnvironmentConfig(["staging" => "foo"]);
-        $this->assertEquals(["staging" => ["foo"]], $config->getArrayCopy());
+        $config = new EnvironmentConfig([
+            "names" => [
+                "staging" => "foo"
+            ]
+        ]);
+        $this->assertEquals([
+            "names" => [
+                "staging" => ["foo"]
+            ]
+        ], $config->getArrayCopy());
     }
 
     /**
@@ -196,7 +270,11 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidTestingOptionsAsArray()
     {
-        $configArray = ["testing" => ["foo"]];
+        $configArray = [
+            "names" => [
+                "testing" => ["foo"]
+            ]
+        ];
         $config = new EnvironmentConfig($configArray);
         $this->assertEquals($configArray, $config->getArrayCopy());
     }
@@ -206,7 +284,15 @@ class EnvironmentConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingValidTestingOptionsAsString()
     {
-        $config = new EnvironmentConfig(["testing" => "foo"]);
-        $this->assertEquals(["testing" => ["foo"]], $config->getArrayCopy());
+        $config = new EnvironmentConfig([
+            "names" => [
+                "testing" => "foo"
+            ]
+        ]);
+        $this->assertEquals([
+            "names" => [
+                "testing" => ["foo"]
+            ]
+        ], $config->getArrayCopy());
     }
 } 

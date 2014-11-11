@@ -6,6 +6,23 @@ HAS PRIORITY:
     *** Once above is done, create a tag
 
 
+Env:
+    "environment" => [
+    	"detector" => "RDev\\Applications\\EnvironmentDetector",
+    	"names" => [
+    		"staging" => [
+    			"rules" => [
+    				"192.168.1.47",
+    				"192.168.128.47"
+    			],
+    			"variables" => []
+    		]
+    	],
+    	"requiredVariables" => []
+    ]
+    Is nesting names/name/rules too much?
+    Need to work on EnvironmentConfig
+
 
 PROBLEM!!!!
     Configs try and instantiate classes sometimes when the name is specified as a string

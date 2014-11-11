@@ -68,12 +68,12 @@ interface IEntityRegistry
      *
      * @param IEntity $entity The entity to check
      * @return bool True if the entity has changed, otherwise false
-     * @throws ORMException Thrown if the entity was not being tracked
+     * @throws ORMException Thrown if the entity was not registered
      */
     public function hasChanged(IEntity $entity);
 
     /**
-     * Gets whether or not an entity is being registered
+     * Gets whether or not an entity is registered
      *
      * @param IEntity $entity The entity to check
      * @return bool True if the entity is registered, otherwise false

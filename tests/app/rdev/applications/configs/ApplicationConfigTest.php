@@ -39,8 +39,11 @@ class ApplicationConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $configArray = [
+
             "environment" => [
-                "production" => 1
+                "names" => [
+                    "production" => 1
+                ]
             ]
         ];
         new ApplicationConfig($configArray);

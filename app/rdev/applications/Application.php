@@ -13,17 +13,8 @@ use RDev\Sessions;
 
 class Application
 {
-    /** The production environment */
-    const ENV_PRODUCTION = "production";
-    /** The staging environment */
-    const ENV_STAGING = "staging";
-    /** The testing environment */
-    const ENV_TESTING = "testing";
-    /** The development environment */
-    const ENV_DEVELOPMENT = "development";
-
     /** @var string The environment the current server belongs to, eg "production" */
-    private $environment = self::ENV_PRODUCTION;
+    private $environment = Environment::PRODUCTION;
     /** @var HTTP\Connection The HTTP connection */
     private $connection = null;
     /** @var Routing\Router The router for requests */

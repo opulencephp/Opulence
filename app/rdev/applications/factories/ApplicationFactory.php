@@ -30,7 +30,7 @@ class ApplicationFactory
             $logger->pushHandler($handler);
         }
 
-        $environment = (new Applications\EnvironmentFetcher())->getEnvironment($config["environment"]);
+        $environment = (new Applications\EnvironmentDetector($config["environment"]))->detect();
         $connection = new HTTP\Connection();
         /** @var IoC\IContainer $container */
         $container = $config["ioc"]["container"];
