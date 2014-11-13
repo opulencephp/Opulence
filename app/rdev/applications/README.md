@@ -52,7 +52,7 @@ The configuration that's passed into `EnvironmentDetector::detect()` should be e
 
 Let's take a look at an example:
 ```php
-use RDev\Applications;
+use RDev\Applications\Environments;
 
 $configArray = [
    // Let's say that there's only one production server
@@ -64,13 +64,13 @@ $configArray = [
        ["type" => "regex", "value" => "/^192\.168\..*$/"]
    ]
 ];
-$detector = new Applications\EnvironmentDetector($configArray);
+$detector = new Environments\EnvironmentDetector($configArray);
 $environmentName = $detector->getName();
-$environment = new Applications\Environment($environmentName);
+$environment = new Environments\Environment($environmentName);
 ```
 The following is an example with a custom callback:
 ```php
-use RDev\Applications;
+use RDev\Applications\Environments;
 
 $callback = function()
 {
@@ -83,44 +83,49 @@ $callback = function()
     // By default, return production
     return "production";
 };
-$detector = new Applications\EnvironmentDetector($callback);
+$detector = new Environments\EnvironmentDetector($callback);
 $environmentName = $detector->getName();
-$environment = new Applications\Environment($environmentName);
+$environment = new Environments\Environment($environmentName);
 ```
 
 #### Environment Variables
 Variables that are specifically tied to the environment the application is running on are called *environment variables*.  Let's say the password for your database connection is different on your development server vs your production server.  Set an environment variable to hold this data:
 
 ```php
-use RDev\Applications;
+use RDev\Applications\Environments;
 use RDev\Databases\SQL;
 
-$environment = new Applications\Environment("production");
+$environment = new Environments\Environment("production");
 $environment->setVariable("DB_PASSWORD", "Pr0ducti0nP4$$w0rD");
 // Do some stuff...
 $server = new SQL\Server("localhost", "dbuser", $environment->getVariable("DB_PASSWORD"), "dbname");
 ```
 
 ## Bootstrappers
-Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by implementing `RDev\Applications\Bootstrappers\IBootstrapper`:
+Most applications need to do some configuration before starting.  A common task is registering bindings, and yet another is setting up database connections.  You can do this bootstrapping by implementing `RDev\Applications\Bootstrappers\IBootstrapper`.  If your bootstrapper has any dependencies such as an IoC `Container`, inject it through the constructor:
 
 ```php
 namespace MyApp\Bootstrappers;
 use RDev\Applications\Bootstrappers;
+use RDev\IoC;
 use RDev\Databases\SQL;
 use RDev\Databases\SQL\PDO\PostgreSQL;
 
-class MyBootstrapper extends Bootstrappers\Bootstrapper
+class MyBootstrapper implements Bootstrappers\IBootstrapper
 {
+    private $container = null;
+    
+    public function __construct(IoC\IContainer $container)
+    {
+        $this->container = $container;
+    }
+
     public function run()
     {
         $driver = new PostgreSQL\Driver();
         $server = new SQL\Server("127.0.0.1", "dbuser", "password", "mydb");
         $connectionPool = new SQL\SingleServerConnectionPool($driver, $server);
-        $this->application->getIoCContainer()->bind(
-            "RDev\\Databases\\SQL\\ConnectionPool",
-            $connectionPool
-        );
+        $this->container->bind("RDev\\Databases\\SQL\\ConnectionPool", $connectionPool);
     }
 }
 ```

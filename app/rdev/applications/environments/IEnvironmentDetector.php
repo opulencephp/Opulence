@@ -4,7 +4,7 @@
  * 
  * Defines the interface for environment detectors to implement
  */
-namespace RDev\Applications;
+namespace RDev\Applications\Environments;
 
 interface IEnvironmentDetector
 {

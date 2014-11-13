@@ -4,7 +4,7 @@
  *
  * Tests the environment detector class
  */
-namespace RDev\Applications;
+namespace RDev\Applications\Environments;
 
 class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
 {

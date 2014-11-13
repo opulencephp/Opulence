@@ -4,8 +4,7 @@
  *
  * Defines methods for fetching details about the environment
  */
-namespace RDev\Applications;
-use RDev\Applications\Configs;
+namespace RDev\Applications\Environments;
 
 class EnvironmentDetector implements IEnvironmentDetector
 {

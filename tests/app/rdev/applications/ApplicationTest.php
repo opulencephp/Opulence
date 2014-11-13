@@ -6,7 +6,6 @@
  */
 namespace RDev\Applications;
 use Monolog;
-use RDev\Applications\Configs;
 use RDev\IoC;
 use RDev\Tests\Mocks as ModelMocks;
 use RDev\Sessions;
@@ -27,7 +26,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $container = new IoC\Container();
         $this->application = new Application(
             $logger,
-            new Environment("staging"),
+            new Environments\Environment("staging"),
             $container,
             new Sessions\Session()
         );
@@ -123,7 +122,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEnvironment()
     {
-        $expectedEnvironment = new Environment("staging");
+        $expectedEnvironment = new Environments\Environment("staging");
         $this->assertEquals($expectedEnvironment, $this->application->getEnvironment());
     }
 
@@ -274,7 +273,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingEnvironment()
     {
-        $environment = new Environment("foo");
+        $environment = new Environments\Environment("foo");
         $this->application->setEnvironment($environment);
         $this->assertEquals($environment, $this->application->getEnvironment());
     }

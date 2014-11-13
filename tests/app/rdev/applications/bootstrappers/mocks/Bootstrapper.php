@@ -8,7 +8,7 @@ namespace RDev\Tests\Applications\Bootstrappers\Mocks;
 use RDev\Applications\Bootstrappers;
 use RDev\Tests\Mocks;
 
-class Bootstrapper extends Bootstrappers\Bootstrapper
+class Bootstrapper implements Bootstrappers\IBootstrapper
 {
     /** @var Mocks\User The user to use in tests */
     private $user = null;

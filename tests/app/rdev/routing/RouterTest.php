@@ -7,7 +7,6 @@
 namespace RDev\Routing;
 use RDev\HTTP;
 use RDev\IoC;
-use RDev\Routing\Configs;
 use RDev\Tests\Routing\Mocks;
 
 class RouterTest extends \PHPUnit_Framework_TestCase

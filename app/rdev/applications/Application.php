@@ -13,7 +13,7 @@ class Application
 {
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
-    /** @var Environment The environment the application is running on */
+    /** @var Environments\Environment The environment the application is running on */
     private $environment = null;
     /** @var IoC\IContainer The dependency injection container to use throughout the application */
     private $container = null;
@@ -32,13 +32,13 @@ class Application
 
     /**
      * @param Monolog\Logger $logger The logger to use throughout the application
-     * @param Environment $environment The current environment
+     * @param Environments\Environment $environment The current environment
      * @param IoC\IContainer $container The IoC container to use
      * @param Sessions\ISession $session The current user's session
      */
     public function __construct(
         Monolog\Logger $logger,
-        $environment,
+        Environments\Environment $environment,
         IoC\IContainer $container,
         Sessions\ISession $session
     )
@@ -51,7 +51,7 @@ class Application
     }
 
     /**
-     * @return Environment
+     * @return Environments\Environment
      */
     public function getEnvironment()
     {
@@ -110,7 +110,6 @@ class Application
                 throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
             }
 
-            $bootstrapper->setApplication($this);
             $instantiatedBootstrappers[] = $bootstrapper;
         }
 
@@ -165,9 +164,9 @@ class Application
     }
 
     /**
-     * @param Environment $environment
+     * @param Environments\Environment $environment
      */
-    public function setEnvironment(Environment $environment)
+    public function setEnvironment(Environments\Environment $environment)
     {
         $this->environment = $environment;
     }

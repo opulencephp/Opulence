@@ -4,8 +4,7 @@
  * 
  * Tests the environment
  */
-namespace RDev\Applications;
-use RDev\Tests\Applications\Mocks;
+namespace RDev\Applications\Environments;
 
 class EnvironmentTest extends \PHPUnit_Framework_TestCase 
 {

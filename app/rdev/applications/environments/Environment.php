@@ -4,7 +4,7 @@
  * 
  * Defines an application environment
  */
-namespace RDev\Applications;
+namespace RDev\Applications\Environments;
 
 class Environment
 {
