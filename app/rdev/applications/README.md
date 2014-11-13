@@ -19,7 +19,7 @@ RDev uses a single point of entry for all pages.  In other words, all HTTP reque
 1. User requests http://www.example.com/users/23/profile
 2. `.htaccess` file redirects the request through http://www.example.com/index.php
 3. `bootstrap/start.php` is loaded, which instantiates an `Application` object
-4. An HTTP `Kernel` is instantiated, which will convert the HTTP request into a response
+4. An HTTP `Kernel` is instantiated, which converts the HTTP request into a response
   * The path "/users/23/profile" is detected by the request
 5. The `Router` finds a route that matches the request
   * The user Id 23 is extracted from the URL here
@@ -47,7 +47,7 @@ The configuration that's passed into `EnvironmentDetector::detect()` should be e
     1. A server host IP or array of host IPs that belong to that environment
     2. An array containing the following keys:
       * "type" => One of the following values:
-        * "regex" => Denotes that the rules uses a regular expression
+        * "regex" => Denotes that the rule uses a regular expression
       * "value" => The value of the rule, eg the regular expression to use
 
 Let's take a look at an example:
