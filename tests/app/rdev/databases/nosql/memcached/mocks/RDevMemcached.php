@@ -11,7 +11,7 @@ use RDev\Databases\NoSQL\Memcached\Configs;
 // To get around having to install Memcached just to run tests, include a mock Memcached class
 if(!class_exists("Memcached"))
 {
-    require_once(__DIR__ . "/Memcached.php");
+    require_once __DIR__ . "/Memcached.php";
 }
 
 class RDevMemcached extends MemcachedNamespace\RDevMemcached
