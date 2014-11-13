@@ -9,7 +9,7 @@ use RDev\Tests\Applications\Mocks;
 
 class EnvironmentTest extends \PHPUnit_Framework_TestCase 
 {
-    /** @var Environment */
+    /** @var Environment The environment to use in tests */
     private $environment = null;
 
     /**
@@ -17,7 +17,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->environment = new Environment(new Mocks\EnvironmentDetector());
+        $this->environment = new Environment("foo");
     }
 
     /**
@@ -25,7 +25,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals(Environment::PRODUCTION, $this->environment->getName());
+        $this->assertEquals("foo", $this->environment->getName());
     }
 
     /**
@@ -34,9 +34,26 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
     public function testGettingVariable()
     {
         putenv("bar=baz");
-        $this->assertEquals("baz", $this->environment->getVar("bar"));
-        $this->environment->setVar("baz", "blah");
-        $this->assertEquals("blah", $this->environment->getVar("baz"));
+        $this->assertEquals("baz", $this->environment->getVariable("bar"));
+        $this->environment->setVariable("baz", "blah");
+        $this->assertEquals("blah", $this->environment->getVariable("baz"));
+    }
+
+    /**
+     * Tests checking if the application is running in a console
+     */
+    public function testIsRunningInConsole()
+    {
+        $isRunningInConsole = $this->environment->isRunningInConsole();
+
+        if(php_sapi_name() == "cli")
+        {
+            $this->assertTrue($isRunningInConsole);
+        }
+        else
+        {
+            $this->assertFalse($isRunningInConsole);
+        }
     }
 
     /**
@@ -53,7 +70,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingVariable()
     {
-        $this->environment->setVar("foo", "bar");
+        $this->environment->setVariable("foo", "bar");
         $this->assertEquals("bar", getenv("foo"));
     }
 }

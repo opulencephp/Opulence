@@ -1,42 +1,21 @@
 HAS PRIORITY:
+    Need to consider whether or not to remove Config from Database classes
+        I think this is one place that they might prove useful, but think about it
+    Need to add URLGenerator
+        Try and re-use RouteCompiler to insert variables back into path
     Rethink how we add css/js to templates
         Shouldn't have to have methods in the Template class
-    Move Config README stuff into their own READMEs
-        Focus on how to instantiate classes directly
-    *** Once above is done, create a tag
+        Add built-in template methods to display CSS/JS
+            Question is how/where do we specify the list of CSS/JS files for the header/footer?
 
 
-Env:
-    "environment" => [
-    	"detector" => "RDev\\Applications\\EnvironmentDetector",
-    	"names" => [
-    		"staging" => [
-    			"rules" => [
-    				"192.168.1.47",
-    				"192.168.128.47"
-    			],
-    			"variables" => []
-    		]
-    	],
-    	"requiredVariables" => []
-    ]
-    Is nesting names/name/rules too much?
-    Need to work on EnvironmentConfig
-
-
-PROBLEM!!!!
-    Configs try and instantiate classes sometimes when the name is specified as a string
-        Right now, it does the naive way of not passing in anything to the constructor
-        What about the case that something is required in the constructor
-        Configs won't work in this case
 Need to create session storage classes
     Need to think of how to assign session Ids
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to to implement
         This would only include the basics: get(), set(), and delete()
-Add a class like "ConfigConverter" to make it easy to translate class names to objects in configs
-    Would help reduce code duplication
+Do we really need repo interface examples in RDev?
+    Is this best left for Project?
 Allow caching of routes/matches
-Be able to generatePath() for a router for use in templates
 Need to write documentation on Request/Response
 Incorrect username entry is faster, allowing timing attacks
 Need to figure out where to store lifetime settings for login credentials in LoginController

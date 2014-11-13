@@ -15,8 +15,6 @@
   2. [Group Filters](#group-filters)
   3. [Group Hosts](#group-hosts)
 7. [Missing Routes](#missing-routes)
-8. [Config](#config)
-  1. [Example](#config-example)
 9. [Notes](#notes)
 
 ## Introduction
@@ -248,110 +246,6 @@ $router->setDefaultControllerClass("MyApp\\MyController");
 // Assume $request points to a request object with a path that isn't covered in the router
 $router->route($request); // returns a 404 response with "My custom 404 page"
 ```
-
-## Config
-Routers can be initialized directly or with the help of a combination of a `RouterConfig` and a `RouterFactory` ([learn more about configs](/app/rdev/configs)).  The two will automatically create `Route` objects and add them to your `Router`.
-
-Let's break down the structure of the config.  The following keys are optional:
-* "compiler"
-  * Must either be an instance or name of a class that implements `IRouteCompiler`
-* "routes"
-  * An array of route options
-  * The following keys are required:
-    * "methods" => The name or list of names of the HTTP methods this route applies to, eg "POST" or ["GET", "POST"]
-    * "path" => The path this route should match on
-    * "options" => The list of options for this route
-      * The following options are required:
-        * "controller" => The fully-qualified name of the controller class and name of the controller method to call when the route is matched
-          * An example is "MyApp\\Controller\\MyController@myMethod", where `MyController` is the name of the controller, and `myMethod()` is the method to call in that controller
-      * The following options are optional:
-        * "pre" => The name or list of names of pre-filter classes
-        * "post" => The name or list of names of post-filter classes
-        * "variables" => The mapping of route variable names to the regular expressions they must satisfy
-* "groups"
-  * An array of group options and routes, where each entry has the following structure:
-    * "options"
-      * Can contain the following (all are optional):
-        * "pre" => The name or list of names of pre-filter classes
-        * "post" => The name or list of names of post-filter classes
-        * "controllerNamespace" => The namespace common to all controllers in the group
-        * "path" => The path common to all routes in the group
-    * "routes"
-      * An array of routes, which should have the same structure as "routes" from above
-    * The following keys are optional:
-      * "groups"
-        * An array of nested groups, which should have the same structure as "groups" from above
-* "missedRouteController"
-  * The name of the controller class to instantiate in the case that a route cannot be handled
-
-#### Config Example
-Let's take a look at an example config:
-```php
-use RDev\IoC;
-use RDev\Routing;
-use RDev\Routing\Configs;
-use RDev\Routing\Factories;
-
-$configArray = [
-    "compiler" => "MyApp\\Routing\\MyCompiler",
-    "routes" => [
-        [
-            "methods" => "GET",
-            "path" => "/books/{bookId}"
-            "options" => [
-                "controller" => "MyApp\\Controllers\\BookController@showBook",
-                "variables" => ["bookId" => "\d+"]
-            ]
-        ]
-    ],
-    "groups" => [
-        [
-            "options" => [
-                "pre" => "MyApp\\Authenticate",
-                "path" => "/users",
-                "controllerNamespace" => "MyApp\\Controllers"
-            ],
-            "routes" => [
-                [
-                    "methods" => "GET",
-                    "path" => "",
-                    "options" => ["controller" => "UserController@showAllUsers"]
-                ]
-            ],
-            "groups" => [
-                [
-                    "options" => [
-                        "path" => "/{userId}"
-                    ],
-                    "routes" => [
-                        [
-                            "methods" => "GET",
-                            "path" => "/profile",
-                            "options" => ["controller" => "UserController@showProfile"]
-                        ],
-                        [
-                            "methods" => "POST",
-                            "path" => "/profile/edit",
-                            "options" => ["controller" => "UserController@editProfile"]
-                        ]
-                    ]
-                ]
-            ]
-        ]
-    ]
-];
-$config = new Configs\RouterConfig($configArray);
-$factory = new Factories\RouterFactory();
-$router = $factory->createFromConfig(new IoC\Container(), $config);
-```
-
-> **Note:** In router configs, grouped routes are added before non-grouped routes, so they take precedence.
-
-The above would instantiate `MyApp\Routing\MyCompiler` as the route compiler, and it'd create routes with the following properties:
-* One that matches GET requests to "/books/{bookId}" and dispatches to `MyApp\\Controllers\\BookController::showBook()`
-* One that matches GET requests to "/users", applies the `Authenticate` pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showAllUsers()`
-* One that matches GET requests to "/users/{userId}/profile", applies the `Authenticate` pre-filter, and dispatches to `MyApp\\Controllers\\UserController::showProfile()`
-* One that matches POST requests to "/users/{userId}/profile/edit", applies the `Authenticate` pre-filter, and dispatches to `MyApp\\Controllers\\UserController::editProfile()`
 
 ## Notes
 Routes are matched based on the order they were added to the router.  So, if you did the following:

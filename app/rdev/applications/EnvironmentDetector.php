@@ -9,31 +9,15 @@ use RDev\Applications\Configs;
 
 class EnvironmentDetector implements IEnvironmentDetector
 {
-    /** @var Configs\EnvironmentConfig The config to use */
-    private $config = null;
-
-    /**
-     * @param Configs\EnvironmentConfig $config The config to use
-     */
-    public function __construct(Configs\EnvironmentConfig $config)
-    {
-        $this->config = $config;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function detect()
+    public function detect($config)
     {
         // Allow a callback
-        if(
-            isset($this->config["names"]) &&
-            count($this->config["names"]) == 1 &&
-            isset($this->config["names"][0]) &&
-            is_callable($this->config["names"][0])
-        )
+        if(is_callable($config))
         {
-            return call_user_func($this->config["names"][0]);
+            return call_user_func($config);
         }
 
         $thisHost = gethostname();
@@ -45,24 +29,29 @@ class EnvironmentDetector implements IEnvironmentDetector
                     Environment::STAGING,
                     Environment::TESTING,
                     Environment::DEVELOPMENT
-                ] as $environment)
+                ] as $name)
         {
-            if(isset($this->config["names"][$environment]))
+            if(isset($config[$name]))
             {
-                $environments[$environment] = $this->config["names"][$environment];
+                $environments[$name] = $config[$name];
             }
         }
 
         // Loop through all the environments and find the one that matches this server
-        foreach($environments as $environment => $hosts)
+        foreach($environments as $name => $hosts)
         {
+            if(!is_array($hosts))
+            {
+                $hosts = [$hosts];
+            }
+
             foreach($hosts as $host)
             {
                 if(is_string($host))
                 {
                     if($host == $thisHost)
                     {
-                        return $environment;
+                        return $name;
                     }
                 }
                 elseif(is_array($host))
@@ -72,7 +61,7 @@ class EnvironmentDetector implements IEnvironmentDetector
                         case "regex":
                             if(preg_match($host["value"], $thisHost) === 1)
                             {
-                                return $environment;
+                                return $name;
                             }
 
                             break;

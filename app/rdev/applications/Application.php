@@ -6,23 +6,17 @@
  */
 namespace RDev\Applications;
 use Monolog;
-use RDev\HTTP;
 use RDev\IoC;
-use RDev\Routing;
 use RDev\Sessions;
 
 class Application
 {
-    /** @var string The environment the current server belongs to, eg "production" */
-    private $environment = Environment::PRODUCTION;
-    /** @var HTTP\Connection The HTTP connection */
-    private $connection = null;
-    /** @var Routing\Router The router for requests */
-    private $router = null;
-    /** @var IoC\IContainer The dependency injection container to use throughout the application */
-    private $container = null;
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
+    /** @var Environment The environment the application is running on */
+    private $environment = null;
+    /** @var IoC\IContainer The dependency injection container to use throughout the application */
+    private $container = null;
     /** @var Sessions\ISession The current user's session */
     private $session = null;
     /** @var bool Whether or not the application is currently running */
@@ -38,40 +32,26 @@ class Application
 
     /**
      * @param Monolog\Logger $logger The logger to use throughout the application
-     * @param string $environment The current environment
-     * @param HTTP\Connection $connection The current HTTP connection
+     * @param Environment $environment The current environment
      * @param IoC\IContainer $container The IoC container to use
-     * @param Routing\Router $router The router to use
      * @param Sessions\ISession $session The current user's session
      */
     public function __construct(
         Monolog\Logger $logger,
         $environment,
-        HTTP\Connection $connection,
         IoC\IContainer $container,
-        Routing\Router $router,
         Sessions\ISession $session
     )
     {
         // Order here is important
         $this->setLogger($logger);
         $this->setEnvironment($environment);
-        $this->setConnection($connection);
-        $this->setRouter($router);
         $this->setIoCContainer($container);
         $this->setSession($session);
     }
 
     /**
-     * @return HTTP\Connection
-     */
-    public function getConnection()
-    {
-        return $this->connection;
-    }
-
-    /**
-     * @return string
+     * @return Environment
      */
     public function getEnvironment()
     {
@@ -92,14 +72,6 @@ class Application
     public function getLogger()
     {
         return $this->logger;
-    }
-
-    /**
-     * @return Routing\Router
-     */
-    public function getRouter()
-    {
-        return $this->router;
     }
 
     /**
@@ -193,17 +165,9 @@ class Application
     }
 
     /**
-     * @param HTTP\Connection $connection
+     * @param Environment $environment
      */
-    public function setConnection(HTTP\Connection $connection)
-    {
-        $this->connection = $connection;
-    }
-
-    /**
-     * @param string $environment
-     */
-    public function setEnvironment($environment)
+    public function setEnvironment(Environment $environment)
     {
         $this->environment = $environment;
     }
@@ -214,7 +178,6 @@ class Application
     public function setIoCContainer(IoC\IContainer $container)
     {
         $this->container = $container;
-        $this->router->setIoCContainer($this->container);
     }
 
     /**
@@ -223,14 +186,6 @@ class Application
     public function setLogger(Monolog\Logger $logger)
     {
         $this->logger = $logger;
-    }
-
-    /**
-     * @param Routing\Router $router
-     */
-    public function setRouter(Routing\Router $router)
-    {
-        $this->router = $router;
     }
 
     /**
@@ -254,14 +209,13 @@ class Application
             try
             {
                 $this->doTasks($this->preShutdownTasks);
-                $this->doShutdown();
                 $this->isRunning = false;
                 $this->doTasks($this->postShutdownTasks);
             }
             catch(\Exception $ex)
             {
-                $this->connection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
-                $this->connection->getResponse()->send();
+                $this->logger->addError("Failed to shut down properly: $ex");
+                $this->isRunning = false;
             }
         }
     }
@@ -277,44 +231,14 @@ class Application
             try
             {
                 $this->doTasks($this->preStartTasks);
-                $this->doStart();
                 $this->isRunning = true;
                 $this->doTasks($this->postStartTasks);
             }
             catch(\Exception $ex)
             {
                 $this->logger->addError("Failed to start application: $ex");
-                $this->connection->getResponse()->setStatusCode(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+                $this->shutdown();
             }
-        }
-    }
-
-    /**
-     * Actually performs the shutdown
-     *
-     * @throws \RuntimeException Thrown if there was an error shutting down the application
-     */
-    protected function doShutdown()
-    {
-        $this->connection->getResponse()->send();
-    }
-
-    /**
-     * Actually performs the start
-     *
-     * @throws \RuntimeException Thrown if there was an error starting up the application
-     */
-    protected function doStart()
-    {
-        $response = $this->router->route($this->connection->getRequest());
-
-        if($response instanceof HTTP\Response)
-        {
-            $this->connection->setResponse($response);
-        }
-        else
-        {
-            $this->connection->getResponse()->setContent($response);
         }
     }
 

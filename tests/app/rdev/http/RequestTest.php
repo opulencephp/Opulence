@@ -104,6 +104,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests creating from globals
+     */
+    public function testCreatingFromGlobals()
+    {
+        $requestFromConstructor = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
+        $this->assertEquals($requestFromConstructor, Request::createFromGlobals());
+    }
+
+    /**
      * Tests getting the connect method
      */
     public function testGettingConnectMethod()
@@ -195,7 +204,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         foreach($keys as $key)
         {
             $_SERVER[$key] = $defaultIPAddress;
-            $request = new Request([], [], [], $_SERVER, [], []);
+            $request = Request::createFromGlobals();
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());
             unset($_SERVER[$key]);
         }
@@ -236,7 +245,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPath()
     {
         $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
-        $request = new Request([], [], [], $_SERVER, [], []);
+        $request = Request::createFromGlobals();
         $this->assertEquals("/foo/bar/baz", $request->getPath());
     }
 
@@ -246,7 +255,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPathWhenEmpty()
     {
         $_SERVER["REQUEST_URI"] = "";
-        $request = new Request([], [], [], $_SERVER, [], []);
+        $request = Request::createFromGlobals();
         $this->assertEquals("/", $request->getPath());
     }
 
@@ -256,7 +265,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingPathWithQueryStringInURI()
     {
         $_SERVER["REQUEST_URI"] = "/foo/bar/baz?a=1&b=2";
-        $request = new Request([], [], [], $_SERVER, [], []);
+        $request = Request::createFromGlobals();
         $this->assertEquals("/foo/bar/baz", $request->getPath());
     }
 

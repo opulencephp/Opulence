@@ -33,7 +33,7 @@ class Dispatcher
      */
     public function dispatch(Route $route, HTTP\Request $request, array $routeVariables)
     {
-        $controller = $this->createController($route->getControllerName());
+        $controller = $this->createController($route->getControllerName(), $request);
 
         // Do our pre-filters
         if(($preFilterReturnValue = $this->doPreFilters($route, $request)) !== null)
@@ -125,14 +125,22 @@ class Dispatcher
      * Creates an instance of the input controller
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
+     * @param HTTP\Request $request The request that's being routed
      * @return Routing\Controller The instantiated controller
      * @throws RouteException Thrown if the controller could not be instantiated
      */
-    private function createController($controllerName)
+    private function createController($controllerName, HTTP\Request $request)
     {
         if(!class_exists($controllerName))
         {
             throw new RouteException("Controller class $controllerName does not exist");
+        }
+
+        // Just in case the request hasn't already been bound, bind it
+        // This allows us to use it when resolving the controller class
+        if(!is_object($this->container->getBinding("RDev\\HTTP\\Request")))
+        {
+            $this->container->bind("RDev\\HTTP\\Request", $request);
         }
 
         $controller = $this->container->makeShared($controllerName);

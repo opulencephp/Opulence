@@ -7,16 +7,14 @@
 namespace RDev\Applications;
 use Monolog;
 use RDev\Applications\Configs;
-use RDev\HTTP;
 use RDev\IoC;
 use RDev\Tests\Mocks as ModelMocks;
-use RDev\Routing;
 use RDev\Sessions;
 use RDev\Tests\Applications\Mocks;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\Application The application to use in the tests */
+    /** @var Application The application to use in the tests */
     private $application = null;
 
     /**
@@ -27,12 +25,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $logger = new Monolog\Logger("application");
         $logger->pushHandler(new Mocks\MonologHandler());
         $container = new IoC\Container();
-        $this->application = new Mocks\Application(
+        $this->application = new Application(
             $logger,
-            "staging",
-            new HTTP\Connection(),
+            new Environment("staging"),
             $container,
-            new Routing\Router(new Routing\Dispatcher($container), new Routing\RouteCompiler()),
             new Sessions\Session()
         );
     }
@@ -82,10 +78,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         });
         $this->application->start();
         $this->application->shutdown();
-        $this->assertEquals(
-            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getConnection()->getResponse()->getStatusCode()
-        );
+        $this->assertFalse($this->application->isRunning());
     }
 
     /**
@@ -99,11 +92,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             throw new \InvalidArgumentException("foobar");
         });
         $this->application->start();
-        $this->application->shutdown();
-        $this->assertEquals(
-            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getConnection()->getResponse()->getStatusCode()
-        );
+        $this->assertFalse($this->application->isRunning());
     }
 
     /**
@@ -118,10 +107,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         });
         $this->application->start();
         $this->application->shutdown();
-        $this->assertEquals(
-            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getConnection()->getResponse()->getStatusCode()
-        );
+        $this->assertFalse($this->application->isRunning());
     }
 
     /**
@@ -137,15 +123,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEnvironment()
     {
-        $this->assertEquals("staging", $this->application->getEnvironment());
-    }
-
-    /**
-     * Tests getting the HTTP connection
-     */
-    public function testGettingHTTPConnection()
-    {
-        $this->assertEquals(new HTTP\Connection, $this->application->getConnection());
+        $expectedEnvironment = new Environment("staging");
+        $this->assertEquals($expectedEnvironment, $this->application->getEnvironment());
     }
 
     /**
@@ -162,14 +141,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testGettingLog()
     {
         $this->assertInstanceOf("Monolog\\Logger", $this->application->getLogger());
-    }
-
-    /**
-     * Tests getting the router
-     */
-    public function testGettingRouter()
-    {
-        $this->assertInstanceOf("RDev\\Routing\\Router", $this->application->getRouter());
     }
 
     /**
@@ -289,34 +260,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests registering a bad pre-start task
-     */
-    public function testRuntimeExceptionIsThrownWithBadPreStartTask()
-    {
-        $this->application->registerPreStartTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
-        });
-        $this->application->start();
-        $this->application->shutdown();
-        $this->assertEquals(
-            HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR,
-            $this->application->getConnection()->getResponse()->getStatusCode()
-        );
-    }
-
-    /**
-     * Tests setting the connection
-     */
-    public function testSettingConnection()
-    {
-        $connection = new HTTP\Connection();
-        $this->application->setConnection($connection);
-        $this->assertSame($connection, $this->application->getConnection());
-    }
-
-    /**
      * Tests setting the container
      */
     public function testSettingContainer()
@@ -331,8 +274,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingEnvironment()
     {
-        $this->application->setEnvironment("foo");
-        $this->assertEquals("foo", $this->application->getEnvironment());
+        $environment = new Environment("foo");
+        $this->application->setEnvironment($environment);
+        $this->assertEquals($environment, $this->application->getEnvironment());
     }
 
     /**
@@ -343,17 +287,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $logger = new Monolog\Logger("test");
         $this->application->setLogger($logger);
         $this->assertSame($logger, $this->application->getLogger());
-    }
-
-    /**
-     * Tests setting the router
-     */
-    public function testSettingRouter()
-    {
-        $container = new IoC\Container();
-        $router = new Routing\Router(new Routing\Dispatcher($container), new Routing\RouteCompiler());
-        $this->application->setRouter($router);
-        $this->assertSame($router, $this->application->getRouter());
     }
 
     /**

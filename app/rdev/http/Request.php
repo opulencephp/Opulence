@@ -73,6 +73,16 @@ class Request
     }
 
     /**
+     * Creates an instance of this class using the PHP globals
+     *
+     * @return Request An instance of this class
+     */
+    public static function createFromGlobals()
+    {
+        return new static($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
+    }
+
+    /**
      * @return Parameters
      */
     public function getCookies()

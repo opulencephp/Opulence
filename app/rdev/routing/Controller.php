@@ -15,15 +15,15 @@ class Controller
     protected $template = null;
     /** @var Compilers\ICompiler The template compiler to use */
     protected $compiler = null;
-    /** @var HTTP\Connection The HTTP connection */
-    protected $connection = null;
+    /** @var HTTP\Request The HTTP request */
+    protected $request = null;
 
     /**
-     * @param HTTP\Connection $connection The HTTP connection
+     * @param HTTP\Request $request The HTTP request
      */
-    public function __construct(HTTP\Connection $connection)
+    public function __construct(HTTP\Request $request)
     {
-        $this->connection = $connection;
+        $this->request = $request;
     }
 
     /**

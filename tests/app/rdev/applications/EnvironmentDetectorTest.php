@@ -13,8 +13,8 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatDefaultEnvironmentIsProduction()
     {
-        $detector = new EnvironmentDetector(new Configs\EnvironmentConfig([]));
-        $this->assertEquals(Environment::PRODUCTION, $detector->detect());
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::PRODUCTION, $detector->detect([]));
     }
 
     /**
@@ -22,16 +22,14 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingDevelopmentEnvironment()
     {
-        $config = new Configs\EnvironmentConfig([
-            "names" => [
-                "development" => gethostname(),
-                "testing" => "8.8.8.2",
-                "staging" => "8.8.8.8",
-                "production" => "8.8.8.4"
-            ]
-        ]);
-        $detector = new EnvironmentDetector($config);
-        $this->assertEquals(Environment::DEVELOPMENT, $detector->detect());
+        $config = [
+            "development" => gethostname(),
+            "testing" => "8.8.8.2",
+            "staging" => "8.8.8.8",
+            "production" => "8.8.8.4"
+        ];
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::DEVELOPMENT, $detector->detect($config));
     }
 
     /**
@@ -39,16 +37,14 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingProductionEnvironment()
     {
-        $config = new Configs\EnvironmentConfig([
-            "names" => [
-                "development" => "8.8.8.8",
-                "testing" => "8.8.8.2",
-                "staging" => "8.8.8.4",
-                "production" => gethostname()
-            ]
-        ]);
-        $detector = new EnvironmentDetector($config);
-        $this->assertEquals(Environment::PRODUCTION, $detector->detect());
+        $config = [
+            "development" => "8.8.8.8",
+            "testing" => "8.8.8.2",
+            "staging" => "8.8.8.4",
+            "production" => gethostname()
+        ];
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::PRODUCTION, $detector->detect($config));
     }
 
     /**
@@ -56,16 +52,14 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingStagingEnvironment()
     {
-        $config = new Configs\EnvironmentConfig([
-            "names" => [
-                "development" => "8.8.8.8",
-                "testing" => "8.8.8.2",
-                "staging" => gethostname(),
-                "production" => "8.8.8.4"
-            ]
-        ]);
-        $detector = new EnvironmentDetector($config);
-        $this->assertEquals(Environment::STAGING, $detector->detect());
+        $config = [
+            "development" => "8.8.8.8",
+            "testing" => "8.8.8.2",
+            "staging" => gethostname(),
+            "production" => "8.8.8.4"
+        ];
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::STAGING, $detector->detect($config));
     }
 
     /**
@@ -73,16 +67,14 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingTestingEnvironment()
     {
-        $config = new Configs\EnvironmentConfig([
-            "names" => [
-                "development" => "8.8.8.8",
-                "testing" => gethostname(),
-                "staging" => "8.8.8.2",
-                "production" => "8.8.8.4"
-            ]
-        ]);
-        $detector = new EnvironmentDetector($config);
-        $this->assertEquals(Environment::TESTING, $detector->detect());
+        $config = [
+            "development" => "8.8.8.8",
+            "testing" => gethostname(),
+            "staging" => "8.8.8.2",
+            "production" => "8.8.8.4"
+        ];
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::TESTING, $detector->detect($config));
     }
 
     /**
@@ -92,18 +84,16 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
     {
         // Truncate the last character of the host
         $truncatedHost = substr(gethostname(), 0, -1);
-        $config = new Configs\EnvironmentConfig([
-            "names" => [
-                "development" => "8.8.8.8",
-                "testing" => "8.8.8.2",
-                "staging" => [
-                    ["type" => "regex", "value" => "/^" . preg_quote($truncatedHost, "/") . ".*$/"]
-                ],
-                "production" => "8.8.8.4"
-            ]
-        ]);
-        $detector = new EnvironmentDetector($config);
-        $this->assertEquals(Environment::STAGING, $detector->detect());
+        $config = [
+            "development" => "8.8.8.8",
+            "testing" => "8.8.8.2",
+            "staging" => [
+                ["type" => "regex", "value" => "/^" . preg_quote($truncatedHost, "/") . ".*$/"]
+            ],
+            "production" => "8.8.8.4"
+        ];
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::STAGING, $detector->detect($config));
     }
 
     /**
@@ -111,15 +101,11 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithCallback()
     {
-        $config = new Configs\EnvironmentConfig([
-            "names" => [
-                function ()
-                {
-                    return "staging";
-                }
-            ]
-        ]);
-        $detector = new EnvironmentDetector($config);
-        $this->assertEquals(Environment::STAGING, $detector->detect());
+        $callback = function ()
+        {
+            return "staging";
+        };
+        $detector = new EnvironmentDetector();
+        $this->assertEquals(Environment::STAGING, $detector->detect($callback));
     }
 } 

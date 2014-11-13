@@ -21,7 +21,6 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/configs": "0.1.*",
     "rdev/files": "0.1.*"
   },
   "extra": {

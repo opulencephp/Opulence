@@ -17,7 +17,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->controller = new Controller(new HTTP\Connection());
+        $this->controller = new Controller(HTTP\Request::createFromGlobals());
     }
 
     /**

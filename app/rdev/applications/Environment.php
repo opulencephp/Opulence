@@ -21,11 +21,11 @@ class Environment
     private $name = "";
 
     /**
-     * @param IEnvironmentDetector $detector The environment detector to use
+     * @param string $name The name of the environment
      */
-    public function __construct(IEnvironmentDetector $detector)
+    public function __construct($name)
     {
-        $this->setName($detector->detect());
+        $this->setName($name);
     }
 
     /**
@@ -42,7 +42,7 @@ class Environment
      * @param string $name The name of the environment variable to get
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public function getVar($name)
+    public function getVariable($name)
     {
         $value = getenv($name);
 
@@ -52,6 +52,16 @@ class Environment
         }
 
         return $value;
+    }
+
+    /**
+     * Gets whether or not the application is running in a console
+     *
+     * @return bool true if the application is running in a console, otherwise false
+     */
+    public function isRunningInConsole()
+    {
+        return php_sapi_name() == "cli";
     }
 
     /**
@@ -68,7 +78,7 @@ class Environment
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
-    public function setVar($name, $value)
+    public function setVariable($name, $value)
     {
         putenv($name . "=" . $value);
     }
