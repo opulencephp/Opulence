@@ -23,7 +23,6 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/configs": "0.1.*",
     "rdev/databases": "0.1.*",
     "rdev/exceptions": "0.1.*"
   },

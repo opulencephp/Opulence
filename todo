@@ -8,7 +8,7 @@ HAS PRIORITY:
         Add built-in template methods to display CSS/JS
             Question is how/where do we specify the list of CSS/JS files for the header/footer?
 
-
+Need to add more TypeMapper methods
 Need to create session storage classes
     Need to think of how to assign session Ids
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to to implement
