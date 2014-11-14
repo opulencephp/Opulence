@@ -10,7 +10,7 @@ use RDev\IoC;
 
 class Router
 {
-    /** @var IRouteCompiler The compiler used by this router */
+    /** @var Compilers\ICompiler The compiler used by this router */
     protected $compiler = null;
     /** @var Dispatcher The route dispatcher */
     protected $dispatcher = null;
@@ -19,8 +19,13 @@ class Router
         HTTP\Request::METHOD_DELETE => [],
         HTTP\Request::METHOD_GET => [],
         HTTP\Request::METHOD_POST => [],
-        HTTP\Request::METHOD_PUT => []
+        HTTP\Request::METHOD_PUT => [],
+        HTTP\Request::METHOD_HEAD => [],
+        HTTP\Request::METHOD_OPTIONS => [],
+        HTTP\Request::METHOD_PATCH => []
     ];
+    /** @var array The mapping of route names to routes */
+    protected $namedRoutes = [];
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
     /** @var string The name of the controller class that will handle missing routes */
@@ -28,12 +33,12 @@ class Router
 
     /**
      * @param Dispatcher $dispatcher The route dispatcher
-     * @param IRouteCompiler $compiler The route compiler
+     * @param Compilers\ICompiler $compiler The route compiler
      * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
      */
     public function __construct(
         Dispatcher $dispatcher,
-        IRouteCompiler $compiler,
+        Compilers\ICompiler $compiler,
         $missedRouteControllerName = "RDev\\Routing\\Controller"
     )
     {
@@ -54,6 +59,11 @@ class Router
         foreach($route->getMethods() as $method)
         {
             $this->routes[$method][] = $route;
+
+            if(!empty($route->getName()))
+            {
+                $this->namedRoutes[$route->getName()] =& $route;
+            }
         }
     }
 
@@ -90,6 +100,22 @@ class Router
     {
         $route = $this->createRoute(HTTP\Request::METHOD_GET, $path, $options);
         $this->addRoute($route);
+    }
+
+    /**
+     * Gets the route with the input name
+     *
+     * @param string $name The name to search for
+     * @return Route|null The route with the input name if one existed, otherwise null
+     */
+    public function getNamedRoute($name)
+    {
+        if(isset($this->namedRoutes[$name]))
+        {
+            return $this->namedRoutes[$name];
+        }
+
+        return null;
     }
 
     /**
@@ -133,6 +159,18 @@ class Router
     }
 
     /**
+     * Adds a route for the HEAD method at the given path
+     *
+     * @param string $path The path to match on
+     * @param array $options The list of options for this path
+     */
+    public function head($path, array $options)
+    {
+        $route = $this->createRoute(HTTP\Request::METHOD_HEAD, $path, $options);
+        $this->addRoute($route);
+    }
+
+    /**
      * Adds a route for multiple methods
      *
      * @param array $methods The list of methods to match on
@@ -146,6 +184,30 @@ class Router
             $route = $this->createRoute($method, $path, $options);
             $this->addRoute($route);
         }
+    }
+
+    /**
+     * Adds a route for the OPTIONS method at the given path
+     *
+     * @param string $path The path to match on
+     * @param array $options The list of options for this path
+     */
+    public function options($path, array $options)
+    {
+        $route = $this->createRoute(HTTP\Request::METHOD_OPTIONS, $path, $options);
+        $this->addRoute($route);
+    }
+
+    /**
+     * Adds a route for the PATCH method at the given path
+     *
+     * @param string $path The path to match on
+     * @param array $options The list of options for this path
+     */
+    public function patch($path, array $options)
+    {
+        $route = $this->createRoute(HTTP\Request::METHOD_PATCH, $path, $options);
+        $this->addRoute($route);
     }
 
     /**
@@ -191,6 +253,7 @@ class Router
             $pathMatches = [];
 
             if(
+                (($route->isSecure() && $request->isSecure()) || !$route->isSecure()) &&
                 preg_match($route->getHostRegex(), $request->getHeaders()->get("HOST"), $hostMatches) &&
                 preg_match($route->getPathRegex(), $request->getPath(), $pathMatches)
             )
@@ -232,6 +295,7 @@ class Router
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
         $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
+        $route->setSecure($this->isGroupSecure() || $route->isSecure());
         $groupPreFilters = $this->getGroupFilters("pre");
         $groupPostFilters = $this->getGroupFilters("post");
 
@@ -362,5 +426,24 @@ class Router
     private function getMissingRouteResponse(HTTP\Request $request)
     {
         return $this->dispatcher->dispatch(new MissingRoute($this->missedRouteControllerName), $request, []);
+    }
+
+    /**
+     * Gets whether or not the current group stack is secure
+     * If ANY of the groups were marked as HTTPS, then this will return true even if a sub-group is not marked HTTPS
+     *
+     * @return bool True if the group is secure, otherwise false
+     */
+    private function isGroupSecure()
+    {
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["https"]) && $groupOptions["https"])
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 } 

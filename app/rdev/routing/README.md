@@ -14,8 +14,12 @@
   1. [Controller Namespaces](#controller-namespaces)
   2. [Group Filters](#group-filters)
   3. [Group Hosts](#group-hosts)
-7. [Missing Routes](#missing-routes)
-9. [Notes](#notes)
+  4. [Group HTTPS](#group-https)
+7. [HTTPS](#https)
+8. [Named Routes](#named-routes)
+9. [URL Generators](#url-generators)
+10. [Missing Routes](#missing-routes)
+11. [Notes](#notes)
 
 ## Introduction
 So, you've made some page templates, and you've written some models.  Now, you need a way to wire everything up so that users can access your pages.  To do this, you need a `Router` and controllers.  The `Router` can capture data from the URL to help you decide which controller to use and what data to send to the view.  It makes building a RESTful application a cinch.
@@ -31,9 +35,10 @@ Let's take a look at a simple route that maps a GET request to the path "/users"
 ```php
 use RDev\IoC;
 use RDev\Routing;
+use RDev\Routing\Compilers;
 
 $container = new IoC\Container();
-$router = new Routing\Router($container, new Routing\Dispatcher($container), new Routing\RouteCompiler());
+$router = new Routing\Router($container, new Routing\Dispatcher($container), new Compilers\Compiler());
 // This will route a GET request to "/users" to MyController->getAllUsers()
 $router->get("/users", ["controller" => "MyApp\\MyController@getAllUsers"]);
 // This will route a POST request to "/login" to MyController->login()
@@ -217,7 +222,20 @@ $router->group(["host" => "google.com"], function() use ($router)
 });
 ```
 
-When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
+> **Note:** When specifying hosts in nested router groups, the inner groups' hosts are prepended to the outer groups' hosts.  This means the inner-most route in the example above will have a host of "mail.google.com".
+
+#### Group HTTPS
+You can force all routes in a group to be HTTPS:
+
+```php
+$router->group(["https" => true], function() use ($router)
+{
+    $router->get("/", ["controller" => "MyApp\\HomeController@showHomePage"]);
+    $router->get("/books", ["controller" => "MyApp\\BookController@showBooksPage"]);
+});
+```
+
+> **Note:** If the an outer group marks the routes HTTPS but an inner one doesn't, the inner group gets ignored.  The outer-most group with an HTTPS definition is the only one that counts.
 
 ## Missing Routes
 In the case that the router cannot find a route that matches the request, a 404 response will be returned.  If you'd like to customize your 404 page or any other HTTP error status page, override `showHTTPError()` in your controller and display the appropriate response.  Register your controller in the case of a missing route using `Router::setMissedRouteControllerName()`:
@@ -246,6 +264,69 @@ $router->setDefaultControllerClass("MyApp\\MyController");
 // Assume $request points to a request object with a path that isn't covered in the router
 $router->route($request); // returns a 404 response with "My custom 404 page"
 ```
+
+## HTTPS
+Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
+
+```php
+$options = [
+    "controller" => "MyApp\\MyController@myMethod",
+    "https" => true
+];
+$router->get("/users", $options);
+```
+
+HTTPS requests to "/users" will match, but non SSL connections will return a 404 response.
+
+## Named Routes
+Routes can be given a name, which makes them identifiable.  This is especially useful for things like generating URLs from a route.  To name a route, pass a `"name" => "THE_NAME"` into the route options:
+
+```php
+$options = [
+    "controller" => "MyApp\\MyController@myMethod",
+    "name" => "awesome"
+];
+$router->get("/users", $options);
+```
+
+This will create a route named "awesome".
+
+## URL Generators
+A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::generate()`.  Unless a host is specified in the route, an absolute path is generated:
+
+```php
+use RDev\Routing;
+use RDev\Routing\Compilers;
+use RDev\Routing\URL;
+
+$compiler = new Compilers\Compiler();
+$urlGenerator = new URL\URLGenerator($compiler);
+// Let's assume the router is already instantiated
+// Let's add a route named "profile"
+$router->get("/users/{userId}", ["controller" => "MyApp\\ProfileController@showProfile", "name" => "profile"]);
+// Now we can generate a URL and pass in data to it
+echo $urlGenerator->generate("profile", 23); // "/users/23"
+```
+
+If we specify a host in our route, an absolute URL is generated.  We can even define variables in the host:
+
+```php
+// Let's assume the URL generator is already instantiated
+// Let's add a route named "inbox"
+$routeOptions = [
+    "controller" => "MyApp\\InboxController@showInbox",
+    "host" => "{country}.mail.example.com",
+    "name" => "inbox"
+];
+$router->get("/users/{userId}", $routeOptions);
+// Any values passed in will first be used to define variables in the host
+// Any leftover values will define the values in the path
+echo $urlGenerator->generate("inbox", "us", 724); // "http://us.mail.example.com/users/724"
+```
+
+Secure routes with hosts specified will generate `https://` absolute URLs.
+
+> **Note:** If you do not define all the non-optional variables in the host or domain, a `URLException` will be thrown.
 
 ## Notes
 Routes are matched based on the order they were added to the router.  So, if you did the following:

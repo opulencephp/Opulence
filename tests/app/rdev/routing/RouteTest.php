@@ -63,6 +63,37 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not setting HTTPS
+     */
+    public function testNotSettingHTTPS()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertFalse($route->isSecure());
+    }
+
+    /**
+     * Tests setting HTTPS
+     */
+    public function testSettingHTTPS()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "https" => false
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertFalse($route->isSecure());
+        $options = [
+            "controller" => "foo@bar",
+            "https" => true
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertTrue($route->isSecure());
+    }
+
+    /**
      * Tests adding a single post-filter
      */
     public function testAddingSinglePostFilter()
@@ -207,6 +238,18 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Route("get", "/foo/{id}", $options);
         $this->assertEquals("/foo/{id}", $route->getRawPath());
+    }
+
+    /**
+     * Tests getting an unset name
+     */
+    public function testGettingUnsetName()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertEmpty($route->getName());
     }
 
     /**
@@ -378,6 +421,32 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
         $route->setHostRegex("google\.com");
         $this->assertEquals("google\.com", $route->getHostRegex());
+    }
+
+    /**
+     * Tests setting the name
+     */
+    public function testSettingName()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $route->setName("blah");
+        $this->assertEquals("blah", $route->getName());
+    }
+
+    /**
+     * Tests setting the name in the constructor
+     */
+    public function testSettingNameInConstructor()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "name" => "blah"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertEquals("blah", $route->getName());
     }
 
     /**

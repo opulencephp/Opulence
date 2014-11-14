@@ -22,6 +22,10 @@ class Route
     private $controllerName = "";
     /** @var string The name of the controller method this route calls */
     private $controllerMethod = "";
+    /** @var string The name of this route, if it is a named route */
+    private $name = "";
+    /** @var bool Whether or not this route only matches HTTPS requests */
+    private $isSecure = false;
     /** @var array The mapping of route variable names to their regexes */
     private $variableRegexes = [];
     /** @var array The mapping of route-variables to their default values */
@@ -73,6 +77,16 @@ class Route
         if(isset($options["host"]))
         {
             $this->setRawHost($options["host"]);
+        }
+
+        if(isset($options["name"]))
+        {
+            $this->setName($options["name"]);
+        }
+
+        if(isset($options["https"]))
+        {
+            $this->setSecure($options["https"]);
         }
     }
 
@@ -178,6 +192,14 @@ class Route
     /**
      * @return string
      */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
     public function getPathRegex()
     {
         return $this->pathRegex;
@@ -227,6 +249,14 @@ class Route
     }
 
     /**
+     * @return boolean
+     */
+    public function isSecure()
+    {
+        return $this->isSecure;
+    }
+
+    /**
      * @param string $controllerMethod
      */
     public function setControllerMethod($controllerMethod)
@@ -262,6 +292,14 @@ class Route
     }
 
     /**
+     * @param string $name
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    }
+
+    /**
      * @param string $regex
      */
     public function setPathRegex($regex)
@@ -283,6 +321,14 @@ class Route
     public function setRawPath($rawPath)
     {
         $this->rawPath = $rawPath;
+    }
+
+    /**
+     * @param bool $isSecure
+     */
+    public function setSecure($isSecure)
+    {
+        $this->isSecure = (bool)$isSecure;
     }
 
     /**

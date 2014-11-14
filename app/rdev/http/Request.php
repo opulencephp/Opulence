@@ -165,6 +165,16 @@ class Request
     }
 
     /**
+     * Gets whether or not the request was made through HTTPS
+     *
+     * @return bool True if the request is secure, otherwise false
+     */
+    public function isSecure()
+    {
+        return $this->server->has("HTTPS") && $this->server->get("HTTPS") !== "off";
+    }
+
+    /**
      * Sets the IP address attribute
      */
     private function setIPAddress()

@@ -416,4 +416,25 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNull($this->request->getPost()->get("foo"));
     }
+
+    /**
+     * Tests checking if an insecure request is secure
+     */
+    public function testIfInsecureRequestIsSecure()
+    {
+        $this->assertFalse($this->request->isSecure());
+        // Test for IIS
+        $this->request->getServer()->set("HTTPS", "off");
+        $this->assertFalse($this->request->isSecure());
+    }
+
+    /**
+     * Tests checking if a secure request is secure
+     */
+    public function testIfSecureRequestIsSecure()
+    {
+        // Test for IIS
+        $this->request->getServer()->set("HTTPS", "on");
+        $this->assertTrue($this->request->isSecure());
+    }
 } 

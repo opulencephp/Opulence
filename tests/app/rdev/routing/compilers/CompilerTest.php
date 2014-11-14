@@ -4,11 +4,12 @@
  *
  * Tests the route compiler
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Compilers;
+use RDev\Routing;
 
-class RouteCompilerTest extends \PHPUnit_Framework_TestCase
+class CompilerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var RouteCompiler The compiler to use in tests */
+    /** @var Compiler The compiler to use in tests */
     private $compiler = null;
 
     /**
@@ -16,7 +17,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compiler = new RouteCompiler();
+        $this->compiler = new Compiler();
     }
 
     /**
@@ -29,7 +30,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -56,7 +57,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             ],
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -79,7 +80,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -102,7 +103,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -127,7 +128,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "variables" => ["foo" => "\d+"],
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -150,7 +151,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -172,7 +173,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}/{foo}", $options);
+        $route = new Routing\Route(["get"], "/{foo}/{foo}", $options);
         $this->compiler->compile($route);
     }
 
@@ -185,7 +186,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}/{bar", $options);
+        $route = new Routing\Route(["get"], "/{foo}/{bar", $options);
         $this->compiler->compile($route);
     }
 
@@ -198,8 +199,16 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{foo}/{bar}}", $options);
+        $route = new Routing\Route(["get"], "/{foo}/{bar}}", $options);
         $this->compiler->compile($route);
+    }
+
+    /**
+     * Tests getting the variable matching regex
+     */
+    public function testGettingVariableMatchingRegex()
+    {
+        $this->assertEquals("/(\{([^\}]+)\})/", $this->compiler->getVariableMatchingRegex());
     }
 
     /**
@@ -211,7 +220,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/{123foo}/bar", $options);
+        $route = new Routing\Route(["get"], "/{123foo}/bar", $options);
         $this->compiler->compile($route);
     }
 
@@ -223,7 +232,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Routing\Route(["get"], "/foo", $options);
         $this->compiler->compile($route);
         $this->assertEquals("/^.*$/", $route->getHostRegex());
     }
@@ -238,7 +247,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -261,7 +270,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Routing\Route(["get"], $rawString, $options);
         $this->compiler->compile($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -283,7 +292,7 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Route(["get"], "", $options);
+        $route = new Routing\Route(["get"], "", $options);
         $this->compiler->compile($route);
         $this->assertEquals("/^.*$/", $route->getPathRegex());
     }
@@ -291,11 +300,11 @@ class RouteCompilerTest extends \PHPUnit_Framework_TestCase
     /**
      * Gets whether or not a route's regexes match the input regex
      *
-     * @param Route $route The route whose regexes we're matching
+     * @param Routing\Route $route The route whose regexes we're matching
      * @param string $regex The expected regex
      * @return bool True if the regexes match, otherwise false
      */
-    private function regexesMach(Route $route, $regex)
+    private function regexesMach(Routing\Route $route, $regex)
     {
         return $route->getPathRegex() == $regex && $route->getHostRegex() == $regex;
     }

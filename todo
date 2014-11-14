@@ -1,8 +1,12 @@
 HAS PRIORITY:
+    Need to think of how to handle optional variables in URLGenerator
+        Right now, there's no way for URLGenerator to know the variable is required because that logic is internal to the compiler
+        If I publicize this logic, is it starting to break encapsulation?
+    Need to add a url() template function
+        Would need to add URLGenerator dependency
+        This would tie Views to Routing.  Is this what I want?
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
-    Need to add URLGenerator
-        Try and re-use RouteCompiler to insert variables back into path
     Rethink how we add css/js to templates
         Shouldn't have to have methods in the Template class
         Add built-in template methods to display CSS/JS

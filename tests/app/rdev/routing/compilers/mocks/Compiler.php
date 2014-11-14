@@ -4,16 +4,16 @@
  *
  * Mocks the route compiler for use in testing
  */
-namespace RDev\Tests\Routing\Mocks;
+namespace RDev\Tests\Routing\Compilers\Mocks;
 use RDev\Routing;
-use RDev\Routing\Route;
+use RDev\Routing\Compilers;
 
-class RouteCompiler implements Routing\IRouteCompiler
+class Compiler implements Compilers\ICompiler
 {
     /**
      * {@inheritdoc}
      */
-    public function compile(Route &$route)
+    public function compile(Routing\Route &$route)
     {
         $route->setPathRegex("/^foo$/");
     }

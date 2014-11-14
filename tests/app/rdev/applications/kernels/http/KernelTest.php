@@ -8,6 +8,7 @@ namespace RDev\Applications\Kernels\HTTP;
 use RDev\HTTP;
 use RDev\IoC;
 use RDev\Routing;
+use RDev\Routing\Compilers;
 use RDev\Tests\Routing\Mocks;
 
 class KernelTest extends \PHPUnit_Framework_TestCase 
@@ -48,12 +49,12 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         {
             $router = new Mocks\ExceptionalRouter(
                 new Routing\Dispatcher(new IoC\Container()),
-                new Routing\RouteCompiler()
+                new Compilers\Compiler()
             );
         }
         else
         {
-            $router = new Routing\Router(new Routing\Dispatcher(new IoC\Container()), new Routing\RouteCompiler());
+            $router = new Routing\Router(new Routing\Dispatcher(new IoC\Container()), new Compilers\Compiler());
         }
 
         $router->any("/", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"]);
