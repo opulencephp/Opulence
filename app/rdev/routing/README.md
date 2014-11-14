@@ -10,13 +10,13 @@
   3. [Default Values](#default-values)
 4. [Host Matching](#host-matching)
 5. [Filters](#filters)
-6. [Route Grouping](#route-grouping)
+6. [HTTPS](#https)
+7. [Named Routes](#named-routes)
+8. [Route Grouping](#route-grouping)
   1. [Controller Namespaces](#controller-namespaces)
   2. [Group Filters](#group-filters)
   3. [Group Hosts](#group-hosts)
   4. [Group HTTPS](#group-https)
-7. [HTTPS](#https)
-8. [Named Routes](#named-routes)
 9. [URL Generators](#url-generators)
 10. [Missing Routes](#missing-routes)
 11. [Notes](#notes)
@@ -172,6 +172,32 @@ $router->post("/users/posts", [
 
 Now, the `Authenticate` filter will be run before the `createPost()` method is called.  If the user is not logged in, he'll be redirected to the login page.  To apply "post" filters to a route, just add a "post" entry in the route options.  In post-filters, the response of the previous filters is passed into the next filters, allowing you to chain together actions on the response.
 
+## HTTPS
+Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
+
+```php
+$options = [
+    "controller" => "MyApp\\MyController@myMethod",
+    "https" => true
+];
+$router->get("/users", $options);
+```
+
+HTTPS requests to "/users" will match, but non SSL connections will return a 404 response.
+
+## Named Routes
+Routes can be given a name, which makes them identifiable.  This is especially useful for things like generating URLs from a route.  To name a route, pass a `"name" => "THE_NAME"` into the route options:
+
+```php
+$options = [
+    "controller" => "MyApp\\MyController@myMethod",
+    "name" => "awesome"
+];
+$router->get("/users", $options);
+```
+
+This will create a route named "awesome".
+
 ## Route Grouping
 One of the most important sayings in programming is "Don't repeat yourself" or "DRY".  In other words, don't copy-and-paste code because that leads to difficulties in maintaining/changing the code base in the future.  Let's say you have several routes that start with the same path.  Instead of having to write out the full path for each route, you can create a group:
 ```php
@@ -264,32 +290,6 @@ $router->setDefaultControllerClass("MyApp\\MyController");
 // Assume $request points to a request object with a path that isn't covered in the router
 $router->route($request); // returns a 404 response with "My custom 404 page"
 ```
-
-## HTTPS
-Some routes should only match on an HTTPS connection.  To do this, set the `https` flag to true in the options:
-
-```php
-$options = [
-    "controller" => "MyApp\\MyController@myMethod",
-    "https" => true
-];
-$router->get("/users", $options);
-```
-
-HTTPS requests to "/users" will match, but non SSL connections will return a 404 response.
-
-## Named Routes
-Routes can be given a name, which makes them identifiable.  This is especially useful for things like generating URLs from a route.  To name a route, pass a `"name" => "THE_NAME"` into the route options:
-
-```php
-$options = [
-    "controller" => "MyApp\\MyController@myMethod",
-    "name" => "awesome"
-];
-$router->get("/users", $options);
-```
-
-This will create a route named "awesome".
 
 ## URL Generators
 A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::generate()`.  Unless a host is specified in the route, an absolute path is generated:
