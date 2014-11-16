@@ -46,16 +46,9 @@ class URLGenerator
         }
 
         $route = $this->namedRoutes[$name];
-        $url = $this->generateHost($route, $values) . $this->generatePath($route, $values);
-        $unfilledMatches = [];
+        $this->compiler->compile($route);
 
-        // Make sure there are no remaining unfilled variables
-        if(preg_match($this->compiler->getVariableMatchingRegex(), $url, $unfilledMatches))
-        {
-            throw new URLException("Unfilled URL variables: " . $unfilledMatches[0]);
-        }
-
-        return $url;
+        return $this->generateHost($route, $values) . $this->generatePath($route, $values);
     }
 
     /**
@@ -64,6 +57,7 @@ class URLGenerator
      * @param Routing\Route $route The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated host value
+     * @throws URLException Thrown if the generated host is not valid
      */
     private function generateHost(Routing\Route $route, &$values)
     {
@@ -86,6 +80,18 @@ class URLGenerator
                 }
             }
 
+            // Remove any leftover variables
+            $generatedHost = preg_replace($this->compiler->getVariableMatchingRegex(), "", $generatedHost);
+
+            // Make sure what we just generated satisfies the regex
+            if(!preg_match($route->getHostRegex(), $generatedHost))
+            {
+                throw new URLException(
+                    "Generated host \"$generatedHost\" does not satisfy regex for route \"{$route->getName()}\""
+                );
+            }
+
+            // Prefix the URL with the protocol
             $generatedHost = "http" . ($route->isSecure() ? "s" : "") . "://" . $generatedHost;
         }
 
@@ -98,6 +104,7 @@ class URLGenerator
      * @param Routing\Route $route The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated path value
+     * @throws URLException Thrown if the generated path is not valid
      */
     private function generatePath(Routing\Route $route, &$values)
     {
@@ -114,6 +121,17 @@ class URLGenerator
                 // Only remove a value if we actually replaced something
                 array_shift($values);
             }
+        }
+
+        // Remove any leftover variables
+        $generatedPath = preg_replace($this->compiler->getVariableMatchingRegex(), "", $generatedPath);
+
+        // Make sure what we just generated satisfies the regex
+        if(!preg_match($route->getPathRegex(), $generatedPath))
+        {
+            throw new URLException(
+                "Generated path \"$generatedPath\" does not satisfy regex for route \"{$route->getName()}\""
+            );
         }
 
         return $generatedPath;

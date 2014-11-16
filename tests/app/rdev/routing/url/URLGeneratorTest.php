@@ -35,6 +35,16 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 "/users/{userId}/profile/{mode}",
                 ["controller" => "foo@bar"]
             ),
+            "pathOptionalVariable" => new Routing\Route(
+                HTTP\Request::METHOD_GET,
+                "/users{foo?}",
+                ["controller" => "foo@bar"]
+            ),
+            "pathVariableRegex" => new Routing\Route(
+                HTTP\Request::METHOD_GET,
+                "/users/{userId}",
+                ["controller" => "foo@bar", "variables" => ["userId" => "\d+"]]
+            ),
             "hostNoParameters" => new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
@@ -50,10 +60,20 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 "/users",
                 ["controller" => "foo@bar", "host" => "{subdomain1}.{subdomain2}.example.com"]
             ),
+            "hostOptionalVariable" => new Routing\Route(
+                HTTP\Request::METHOD_GET,
+                "/users",
+                ["controller" => "foo@bar", "host" => "{subdomain?}example.com"]
+            ),
             "hostAndPathMultipleParameters" => new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users/{userId}/profile/{mode}",
                 ["controller" => "foo@bar", "host" => "{subdomain1}.{subdomain2}.example.com"]
+            ),
+            "hostAndPathOptionalParameters" => new Routing\Route(
+                HTTP\Request::METHOD_GET,
+                "/users{foo?}",
+                ["controller" => "foo@bar", "host" => "{subdomain?}example.com"]
             ),
             "secureHostNoParameters" => new Routing\Route(
                 HTTP\Request::METHOD_GET,
@@ -113,6 +133,39 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests generating a URL with an optional host variable
+     */
+    public function testGeneratingURLWithOptionalHostVariable()
+    {
+        $this->assertEquals(
+            "http://example.com/users",
+            $this->generator->generate("hostOptionalVariable")
+        );
+    }
+
+    /**
+     * Tests generating a URL with an optional path variable
+     */
+    public function testGeneratingURLWithOptionalPathVariable()
+    {
+        $this->assertEquals(
+            "/users",
+            $this->generator->generate("pathOptionalVariable")
+        );
+    }
+
+    /**
+     * Tests generating a URL with optional variables in the path and host
+     */
+    public function testGeneratingURLWithOptionalVariablesInPathAndHost()
+    {
+        $this->assertEquals(
+            "http://example.com/users",
+            $this->generator->generate("hostAndPathOptionalParameters")
+        );
+    }
+
+    /**
      * Tests generating a URL with two values
      */
     public function testGeneratingURLWithTwoValues()
@@ -125,12 +178,22 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests generating a URL with a variable value that does not satisfy the regex
+     */
+    public function testGeneratingURLWithVariableThatDoesNotSatisfyRegex()
+    {
+        $this->setExpectedException("RDev\\Routing\\URL\\URLException");
+        $this->generator->generate("pathVariableRegex", "notANumber");
+    }
+
+    /**
      * Tests not filling all values in a host
      */
     public function testNotFillingAllHostValues()
     {
         $this->setExpectedException("RDev\\Routing\\URL\\URLException");
         $this->generator->generate("hostOneParameter");
+
     }
 
     /**
