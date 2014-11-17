@@ -20,68 +20,120 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $namedRoutes = [
-            "pathNoParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
-                ["controller" => "foo@bar"]
+                [
+                    "controller" => "foo@bar",
+                    "name" => "pathNoParameters"
+                ]
             ),
-            "pathOneParameter" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users/{userId}",
-                ["controller" => "foo@bar"]
+                [
+                    "controller" => "foo@bar",
+                    "name" => "pathOneParameter"
+                ]
             ),
-            "pathTwoParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users/{userId}/profile/{mode}",
-                ["controller" => "foo@bar"]
+                [
+                    "controller" => "foo@bar",
+                    "name" => "pathTwoParameters"
+                ]
             ),
-            "pathOptionalVariable" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users{foo?}",
-                ["controller" => "foo@bar"]
+                [
+                    "controller" => "foo@bar",
+                    "name" => "pathOptionalVariable"
+                ]
             ),
-            "pathVariableRegex" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users/{userId}",
-                ["controller" => "foo@bar", "variables" => ["userId" => "\d+"]]
+                [
+                    "controller" => "foo@bar",
+                    "variables" => ["userId" => "\d+"],
+                    "name" => "pathVariableRegex"
+                ]
             ),
-            "hostNoParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
-                ["controller" => "foo@bar", "host" => "example.com"]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "example.com",
+                    "name" => "hostNoParameters"
+                ]
             ),
-            "hostOneParameter" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
-                ["controller" => "foo@bar", "host" => "{subdomain}.example.com"]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "{subdomain}.example.com",
+                    "name" => "hostOneParameter"
+                ]
             ),
-            "hostTwoParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
-                ["controller" => "foo@bar", "host" => "{subdomain1}.{subdomain2}.example.com"]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "{subdomain1}.{subdomain2}.example.com",
+                    "name" => "hostTwoParameters"
+                ]
             ),
-            "hostOptionalVariable" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
-                ["controller" => "foo@bar", "host" => "{subdomain?}example.com"]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "{subdomain?}example.com",
+                    "name" => "hostOptionalVariable"
+                ]
             ),
-            "hostAndPathMultipleParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users/{userId}/profile/{mode}",
-                ["controller" => "foo@bar", "host" => "{subdomain1}.{subdomain2}.example.com"]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "{subdomain1}.{subdomain2}.example.com",
+                    "name" => "hostAndPathMultipleParameters"
+                ]
             ),
-            "hostAndPathOptionalParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users{foo?}",
-                ["controller" => "foo@bar", "host" => "{subdomain?}example.com"]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "{subdomain?}example.com",
+                    "name" => "hostAndPathOptionalParameters"
+                ]
             ),
-            "secureHostNoParameters" => new Routing\Route(
+            new Routing\Route(
                 HTTP\Request::METHOD_GET,
                 "/users",
-                ["controller" => "foo@bar", "host" => "foo.example.com", "https" => true]
+                [
+                    "controller" => "foo@bar",
+                    "host" => "foo.example.com",
+                    "https" => true,
+                    "name" => "secureHostNoParameters"
+                ]
             )
         ];
-        $this->generator = new URLGenerator(new Compilers\Compiler(), $namedRoutes);
+        $routes = new Routing\Routes();
+
+        foreach($namedRoutes as $name => $route)
+        {
+            $routes->add($route);
+        }
+
+        $this->generator = new URLGenerator($routes, new Compilers\Compiler());
     }
 
     /**

@@ -10,19 +10,19 @@ use RDev\Routing\Compilers;
 
 class URLGenerator
 {
+    /** @var Routing\Routes The list of routes */
+    private $routes = null;
     /** @var Compilers\ICompiler The compiler to use */
     private $compiler = null;
-    /** @var Routing\Route[] The list of named routes */
-    private $namedRoutes = [];
 
     /**
+     * @param Routing\Routes $routes The list of routes
      * @param Compilers\ICompiler $compiler The compiler ot use
-     * @param array $namedRoutes The list of named routes
      */
-    public function __construct(Compilers\ICompiler $compiler, array &$namedRoutes)
+    public function __construct(Routing\Routes &$routes, Compilers\ICompiler $compiler)
     {
+        $this->routes = $routes;
         $this->compiler = $compiler;
-        $this->namedRoutes = $namedRoutes;
     }
 
     /**
@@ -35,7 +35,9 @@ class URLGenerator
      */
     public function generate($name, $values = [])
     {
-        if(!isset($this->namedRoutes[$name]))
+        $route = $this->routes->getNamedRoute($name);
+
+        if($route === null)
         {
             return "";
         }
@@ -45,7 +47,6 @@ class URLGenerator
             $values = [$values];
         }
 
-        $route = $this->namedRoutes[$name];
         $this->compiler->compile($route);
 
         return $this->generateHost($route, $values) . $this->generatePath($route, $values);

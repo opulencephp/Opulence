@@ -299,9 +299,9 @@ use RDev\Routing;
 use RDev\Routing\Compilers;
 use RDev\Routing\URL;
 
-$compiler = new Compilers\Compiler();
-$urlGenerator = new URL\URLGenerator($compiler);
 // Let's assume the router is already instantiated
+$compiler = new Compilers\Compiler();
+$urlGenerator = new URL\URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
 $router->get("/users/{userId}", ["controller" => "MyApp\\ProfileController@showProfile", "name" => "profile"]);
 // Now we can generate a URL and pass in data to it

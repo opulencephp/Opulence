@@ -14,18 +14,8 @@ class Router
     protected $compiler = null;
     /** @var Dispatcher The route dispatcher */
     protected $dispatcher = null;
-    /** @var array The list of methods to their various routes */
-    protected $routes = [
-        HTTP\Request::METHOD_DELETE => [],
-        HTTP\Request::METHOD_GET => [],
-        HTTP\Request::METHOD_POST => [],
-        HTTP\Request::METHOD_PUT => [],
-        HTTP\Request::METHOD_HEAD => [],
-        HTTP\Request::METHOD_OPTIONS => [],
-        HTTP\Request::METHOD_PATCH => []
-    ];
-    /** @var array The mapping of route names to routes */
-    protected $namedRoutes = [];
+    /** @var Routes The list of routes */
+    protected $routes = null;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
     /** @var string The name of the controller class that will handle missing routes */
@@ -44,6 +34,7 @@ class Router
     {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
+        $this->routes = new Routes();
         $this->setMissedRouteControllerName($missedRouteControllerName);
     }
 
@@ -55,16 +46,7 @@ class Router
     public function addRoute(Route $route)
     {
         $route = $this->applyGroupSettings($route);
-
-        foreach($route->getMethods() as $method)
-        {
-            $this->routes[$method][] = $route;
-
-            if(!empty($route->getName()))
-            {
-                $this->namedRoutes[$route->getName()] =& $route;
-            }
-        }
+        $this->routes->add($route);
     }
 
     /**
@@ -75,7 +57,7 @@ class Router
      */
     public function any($path, array $options)
     {
-        $this->multiple(array_keys($this->routes), $path, $options);
+        $this->multiple($this->routes->getMethods(), $path, $options);
     }
 
     /**
@@ -103,42 +85,11 @@ class Router
     }
 
     /**
-     * Gets the route with the input name
-     *
-     * @param string $name The name to search for
-     * @return Route|null The route with the input name if one existed, otherwise null
+     * @return Routes
      */
-    public function getNamedRoute($name)
+    public function getRoutes()
     {
-        if(isset($this->namedRoutes[$name]))
-        {
-            return $this->namedRoutes[$name];
-        }
-
-        return null;
-    }
-
-    /**
-     * Gets all the routes in this router
-     *
-     * @param string|null $method If specified, the list of routes for that method will be returned
-     *      If null, all routes will be returned, keyed by method
-     * @return array The list of routes
-     */
-    public function getRoutes($method = null)
-    {
-        if($method === null)
-        {
-            return $this->routes;
-        }
-        elseif(isset($this->routes[$method]))
-        {
-            return $this->routes[$method];
-        }
-        else
-        {
-            return [];
-        }
+        return $this->routes;
     }
 
     /**
@@ -246,7 +197,7 @@ class Router
         $method = $request->getMethod();
 
         /** @var Route $route */
-        foreach($this->routes[$method] as $route)
+        foreach($this->routes->get($method) as $route)
         {
             $this->compiler->compile($route);
             $hostMatches = [];
