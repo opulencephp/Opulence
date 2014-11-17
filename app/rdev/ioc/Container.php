@@ -268,18 +268,20 @@ class Container implements IContainer
 
         foreach($unresolvedParameters as $parameter)
         {
+            $resolvedParameter = null;
+
             if($parameter->getClass() === null)
             {
                 // The parameter is a primitive
                 if(count($primitives) > 0)
                 {
                     // Grab the next primitive
-                    $resolvedParameters[] = array_shift($primitives);
+                    $resolvedParameter = array_shift($primitives);
                 }
                 elseif($parameter->isDefaultValueAvailable())
                 {
                     // No value was found, so use the default value
-                    $resolvedParameters[] = $parameter->getDefaultValue();
+                    $resolvedParameter = $parameter->getDefaultValue();
                 }
                 else
                 {
@@ -293,11 +295,21 @@ class Container implements IContainer
             else
             {
                 // The parameter is an object
-                $resolvedParameters[] = $this->resolveClass(
+                $resolvedParameter = $this->resolveClass(
                     $callingClass,
                     $parameter->getClass()->getName(),
                     $forceNewInstances
                 );
+            }
+
+            // PHP forces a reference operator when passing parameters by reference via an array
+            if($parameter->isPassedByReference())
+            {
+                $resolvedParameters[] = &$resolvedParameter;
+            }
+            else
+            {
+                $resolvedParameters[] = $resolvedParameter;
             }
         }
 

@@ -44,6 +44,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     private $constructorWithSetters = "RDev\\Tests\\IoC\\Mocks\\ConstructorWithSetters";
     /** @var string The name of the class that uses an interface in the constructor and setters */
     private $constructorWithIFooAndSetters = "RDev\\Tests\\IoC\\Mocks\\ConstructorWithInterfaceAndSetters";
+    /** @var string The name of the class that takes in a reference */
+    private $constructorWithReference = "RDev\\Tests\\IoC\\Mocks\\ConstructorWithReference";
 
     /**
      * Sets up the tests
@@ -308,6 +310,19 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->assertEquals($this->concreteFoo, $this->container->getBinding($this->fooInterface));
+    }
+
+    /**
+     * Tests making a class that takes in a reference in its constructor
+     */
+    public function testMakingClassWithReferenceParameter()
+    {
+        $bar = new Mocks\Bar();
+        $this->container->bind($this->fooInterface, $bar);
+        /** @var Mocks\ConstructorWithReference $object */
+        $object = $this->container->makeShared($this->constructorWithReference);
+        $this->assertInstanceOf($this->constructorWithReference, $object);
+        $this->assertSame($bar, $object->getFoo());
     }
 
     /**
