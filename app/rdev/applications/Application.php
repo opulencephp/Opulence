@@ -99,25 +99,17 @@ class Application
      */
     public function registerBootstrappers(array $bootstrapperClasses)
     {
-        $instantiatedBootstrappers = [];
-
-        foreach($bootstrapperClasses as $bootstrapperClass)
+        $this->registerPreStartTask(function () use ($bootstrapperClasses)
         {
-            $bootstrapper = $this->container->makeNew($bootstrapperClass);
-
-            if(!$bootstrapper instanceof Bootstrappers\IBootstrapper)
+            foreach($bootstrapperClasses as $bootstrapperClass)
             {
-                throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
-            }
+                $bootstrapper = $this->container->makeNew($bootstrapperClass);
 
-            $instantiatedBootstrappers[] = $bootstrapper;
-        }
+                if(!$bootstrapper instanceof Bootstrappers\IBootstrapper)
+                {
+                    throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
+                }
 
-        $this->registerPreStartTask(function () use ($instantiatedBootstrappers)
-        {
-            foreach($instantiatedBootstrappers as $bootstrapper)
-            {
-                /** @var Bootstrappers\IBootstrapper $bootstrapper */
                 $bootstrapper->run();
             }
         });

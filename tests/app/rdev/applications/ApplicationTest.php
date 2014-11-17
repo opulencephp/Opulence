@@ -155,8 +155,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringInvalidBootstrapper()
     {
-        $this->setExpectedException("\\RuntimeException");
         $this->application->registerBootstrappers([get_class($this)]);
+        $this->application->start();
+        $this->assertFalse($this->application->isRunning());
     }
 
     /**

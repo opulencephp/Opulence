@@ -1,9 +1,4 @@
 HAS PRIORITY:
-    Need to add a url() template function
-        Would need to add URLGenerator dependency
-        This would tie Views to Routing.  Is this what I want?
-        Other option is to require that this data gets injected into template
-            Is this going to get super annoying?  I'm thinking so.
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
     Rethink how we add css/js to templates
