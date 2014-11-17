@@ -292,7 +292,7 @@ $router->route($request); // returns a 404 response with "My custom 404 page"
 ```
 
 ## URL Generators
-A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::generate()`.  Unless a host is specified in the route, an absolute path is generated:
+A cool feature is the ability to generate URLs from named routes using `RDev\Routing\URL\URLGenerator`.  If your route has variables in the domain or path, you just pass them in `URLGenerator::createFromName()`.  Unless a host is specified in the route, an absolute path is generated:
 
 ```php
 use RDev\Routing;
@@ -305,7 +305,7 @@ $urlGenerator = new URL\URLGenerator($router->getRoutes(), $compiler);
 // Let's add a route named "profile"
 $router->get("/users/{userId}", ["controller" => "MyApp\\ProfileController@showProfile", "name" => "profile"]);
 // Now we can generate a URL and pass in data to it
-echo $urlGenerator->generate("profile", 23); // "/users/23"
+echo $urlGenerator->createFromName("profile", 23); // "/users/23"
 ```
 
 If we specify a host in our route, an absolute URL is generated.  We can even define variables in the host:
@@ -321,7 +321,7 @@ $routeOptions = [
 $router->get("/users/{userId}", $routeOptions);
 // Any values passed in will first be used to define variables in the host
 // Any leftover values will define the values in the path
-echo $urlGenerator->generate("inbox", "us", 724); // "http://us.mail.example.com/users/724"
+echo $urlGenerator->createFromName("inbox", "us", 724); // "http://us.mail.example.com/users/724"
 ```
 
 Secure routes with hosts specified will generate `https://` absolute URLs.

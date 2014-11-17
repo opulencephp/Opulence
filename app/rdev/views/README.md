@@ -206,6 +206,11 @@ RDev also supplies some other built-in functions:
     1. `DateTime $dateTime` - The DateTime to format
     2. `string $format` - The optional format (defaults to "m/d/Y")
     3. `DateTimeZone|string $timeZone` - The optional DateTimeZone object or timezone identifier to use
+* `namedRouteURL()`
+  * Returns a URL that is created using the rules of the input route name
+  * Accepts the following arguments:
+    1. `string $routeName` - The name of the route whose URL we're creating
+    2. `array|mixed $arguments` The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/app/rdev/routing#url-generators))
 
 Here's an example of how to use a built-in function:
 ##### Template

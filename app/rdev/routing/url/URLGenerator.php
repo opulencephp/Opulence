@@ -26,14 +26,14 @@ class URLGenerator
     }
 
     /**
-     * Generates a URL for the named route
+     * Creates a URL for the named route
      *
      * @param string $name The named of the route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated URL if the route exists, otherwise an empty string
      * @throws URLException Thrown if there was an error generating the URL
      */
-    public function generate($name, $values = [])
+    public function createFromName($name, $values = [])
     {
         $route = $this->routes->getNamedRoute($name);
 

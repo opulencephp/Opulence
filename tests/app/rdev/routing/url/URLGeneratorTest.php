@@ -143,7 +143,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "https://foo.example.com/users",
-            $this->generator->generate("secureHostNoParameters")
+            $this->generator->createFromName("secureHostNoParameters")
         );
     }
 
@@ -152,7 +152,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLForNonExistentRoute()
     {
-        $this->assertEmpty($this->generator->generate("foo"));
+        $this->assertEmpty($this->generator->createFromName("foo"));
     }
 
     /**
@@ -162,7 +162,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "http://foo.bar.example.com/users/23/profile/edit",
-            $this->generator->generate("hostAndPathMultipleParameters", ["foo", "bar", 23, "edit"])
+            $this->generator->createFromName("hostAndPathMultipleParameters", ["foo", "bar", 23, "edit"])
         );
     }
 
@@ -171,8 +171,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLWithNoValues()
     {
-        $this->assertEquals("/users", $this->generator->generate("pathNoParameters"));
-        $this->assertEquals("http://example.com/users", $this->generator->generate("hostNoParameters"));
+        $this->assertEquals("/users", $this->generator->createFromName("pathNoParameters"));
+        $this->assertEquals("http://example.com/users", $this->generator->createFromName("hostNoParameters"));
     }
 
     /**
@@ -180,8 +180,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLWithOneValue()
     {
-        $this->assertEquals("/users/23", $this->generator->generate("pathOneParameter", [23]));
-        $this->assertEquals("http://foo.example.com/users", $this->generator->generate("hostOneParameter", ["foo"]));
+        $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", [23]));
+        $this->assertEquals("http://foo.example.com/users", $this->generator->createFromName("hostOneParameter", ["foo"]));
     }
 
     /**
@@ -191,7 +191,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "http://example.com/users",
-            $this->generator->generate("hostOptionalVariable")
+            $this->generator->createFromName("hostOptionalVariable")
         );
     }
 
@@ -202,7 +202,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "/users",
-            $this->generator->generate("pathOptionalVariable")
+            $this->generator->createFromName("pathOptionalVariable")
         );
     }
 
@@ -213,7 +213,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "http://example.com/users",
-            $this->generator->generate("hostAndPathOptionalParameters")
+            $this->generator->createFromName("hostAndPathOptionalParameters")
         );
     }
 
@@ -222,10 +222,10 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLWithTwoValues()
     {
-        $this->assertEquals("/users/23/profile/edit", $this->generator->generate("pathTwoParameters", [23, "edit"]));
+        $this->assertEquals("/users/23/profile/edit", $this->generator->createFromName("pathTwoParameters", [23, "edit"]));
         $this->assertEquals(
             "http://foo.bar.example.com/users",
-            $this->generator->generate("hostTwoParameters", ["foo", "bar"])
+            $this->generator->createFromName("hostTwoParameters", ["foo", "bar"])
         );
     }
 
@@ -235,7 +235,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testGeneratingURLWithVariableThatDoesNotSatisfyRegex()
     {
         $this->setExpectedException("RDev\\Routing\\URL\\URLException");
-        $this->generator->generate("pathVariableRegex", "notANumber");
+        $this->generator->createFromName("pathVariableRegex", "notANumber");
     }
 
     /**
@@ -244,7 +244,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testNotFillingAllHostValues()
     {
         $this->setExpectedException("RDev\\Routing\\URL\\URLException");
-        $this->generator->generate("hostOneParameter");
+        $this->generator->createFromName("hostOneParameter");
 
     }
 
@@ -254,7 +254,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testNotFillingAllPathValues()
     {
         $this->setExpectedException("RDev\\Routing\\URL\\URLException");
-        $this->generator->generate("pathOneParameter");
+        $this->generator->createFromName("pathOneParameter");
     }
 
     /**
@@ -262,6 +262,6 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingNonArrayValue()
     {
-        $this->assertEquals("/users/23", $this->generator->generate("pathOneParameter", 23));
+        $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", 23));
     }
 }
