@@ -5,6 +5,7 @@ HAS PRIORITY:
         Shouldn't have to have methods in the Template class
         Add built-in template methods to display CSS/JS
             Question is how/where do we specify the list of CSS/JS files for the header/footer?
+    Move docs to their own repository
 
 Need to add more TypeMapper methods
 Need to create session storage classes
