@@ -342,6 +342,11 @@ class Compiler implements ICompiler
         {
             return ceil($number);
         });
+        // Register the charset function
+        $this->registerTemplateFunction("charset", function ($charset)
+        {
+            return '<meta charset="' . $charset . '">';
+        });
         // Register the CSS function
         $this->registerTemplateFunction("css", function ($paths)
         {
@@ -355,7 +360,7 @@ class Compiler implements ICompiler
                 return '<link href="' . $path . '" rel="stylesheet">';
             };
 
-            return implode("", array_map($callback, $paths));
+            return implode("\n", array_map($callback, $paths));
         });
         // Register the count function
         $this->registerTemplateFunction("count", function (array $array)
@@ -396,6 +401,11 @@ class Compiler implements ICompiler
             }
 
             return $date->format($format);
+        });
+        // Register the HTTP-equiv function
+        $this->registerTemplateFunction("httpEquiv", function ($name, $value)
+        {
+            return '<meta http-equiv="' . htmlentities($name) . '" content="' . htmlentities($value) . '">';
         });
         // Register the implode function
         $this->registerTemplateFunction("implode", function ($glue, array $pieces)
@@ -445,7 +455,7 @@ class Compiler implements ICompiler
                 return '<script type="' . $type . '" src="' . $path . '"></script>';
             };
 
-            return implode("", array_map($callback, $paths));
+            return implode("\n", array_map($callback, $paths));
         });
         // Register the lowercase function
         $this->registerTemplateFunction("strtolower", function ($string)

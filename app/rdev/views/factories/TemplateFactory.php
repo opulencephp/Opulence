@@ -57,10 +57,10 @@ class TemplateFactory implements ITemplateFactory
      * Runs the builders for a template (if there any)
      *
      * @param string $templatePath The path of the template relative to the root template directory
-     * @param Views\Template $template The template to run builders on
-     * @return Views\Template The built template
+     * @param Views\ITemplate $template The template to run builders on
+     * @return Views\ITemplate The built template
      */
-    private function runBuilders($templatePath, Views\Template $template)
+    private function runBuilders($templatePath, Views\ITemplate $template)
     {
         if(isset($this->builders[$templatePath]))
         {

@@ -9,6 +9,8 @@
 5. [Nesting Templates](#nesting-templates)
 6. [Using PHP in Your Template](#using-php-in-your-template)
 7. [Built-In Functions](#built-in-functions)
+  1. [PHP Functions](#php-functions)
+  2. [RDev Functions](#rdev-functions)
 8. [Custom Template Functions](#custom-template-functions)
 9. [Extending the Compiler](#extending-the-compiler)
 10. [Escaping Tags](#escaping-tags)
@@ -180,6 +182,7 @@ echo $compiler->compile($template); // "Hello, Administrator"
 > **Note:** PHP code is compiled first, followed by tags.  Therefore, you cannot use tags inside PHP.  However, it's possible to use the output of PHP code inside tags in your template.  Also, it's recommended to keep as much business logic out of the templates as you can.  In other words, utilize PHP in the template to simplify things like lists or basic if/else statements or loops.  Perform the bulk of the logic in the application code, and inject data into the template when necessary.
 
 ## Built-In Functions
+#### PHP Functions
 `RDev\Views\Compilers\Compiler` comes with built-in functions that you can call to format data in your template.  The following methods are built-in, and can be used in the exact same way that their native PHP counterparts are:
 * `abs()`
 * `ceil()`
@@ -199,7 +202,26 @@ echo $compiler->compile($template); // "Hello, Administrator"
 * `urldecode()`
 * `urlencode()`
 
+Here's an example of how to use a built-in function:
+##### Template
+```
+4.35 rounded down to the nearest tenth is {{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
+```
+##### Application Code
+```php
+$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
+echo $compiler->compile($template); // "4.35 rounded down to the nearest tenth is 4.3"
+```
+You can also pass variables into your functions in the template and set them using `setVar()`.
+
+> **Note:**  Nested function calls (eg `trim(strtoupper(" foo "))`) are currently not supported.
+
+#### RDev Functions
 RDev also supplies some other built-in functions:
+* `charset()`
+  * Returns HTML used to select a character set
+  * Accepts the following arguments:
+    1. `string $charset` - The character set to use
 * `css()`
   * Returns HTML used to link to a CSS stylesheet
   * Accepts the following arguments:
@@ -214,6 +236,11 @@ RDev also supplies some other built-in functions:
     1. `DateTime $dateTime` - The DateTime to format
     2. `string $format` - The optional format (defaults to "m/d/Y")
     3. `DateTimeZone|string $timeZone` - The optional DateTimeZone object or timezone identifier to use
+* `httpEquiv()`
+  * Returns HTML used to create an http-equiv attribute
+  * Accepts the following arguments:
+    1. `string $name` - The name of the http-equiv attribute, eg "refresh"
+    2. `mixed $value` - The value of the attribute
 * `metaDescription()`
   * Returns HTML used to display a meta description
   * Accepts the following arguments:
@@ -226,7 +253,7 @@ RDev also supplies some other built-in functions:
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:
     1. `string $routeName` - The name of the route whose URL we're creating
-    2. `array|mixed $arguments` The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/app/rdev/routing#url-generators))
+    2. `array|mixed $arguments` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/app/rdev/routing#url-generators))
 * `pageTitle()`
   * Returns HTML used to display a title
   * Accepts the following arguments:
@@ -237,19 +264,93 @@ RDev also supplies some other built-in functions:
     1. `array|string $paths` - The path or list of paths to the scripts
     2. `string $type` - The script type, eg "text/javascript"
 
-Here's an example of how to use a built-in function:
+Since these functions output HTML, use them inside unescaped tags.  Here's an example of how to use these functions:
+
 ##### Template
 ```
-4.35 rounded down to the nearest tenth is {{round(4.35, 1, PHP_ROUND_HALF_DOWN)}}
+<!DOCTYPE html>
+<html>
+    <head>
+        {{!charset("utf-8")!}}
+        {{!httpEquiv("content-type", "text/html")!}}
+        {{!pageTitle("My Website")!}}
+        {{!metaDescription("An example website")!}}
+        {{!metaKeywords(["RDev", "sample"])!}}
+        {{!favicon("favicon.ico")!}}
+        {{!css("stylesheet.css")!}}
+    </head>
+    <body>
+        Hello, World!
+        {{!script(["jquery.js", "angular.js"])!}}
+    </body>
+</html>
 ```
+
 ##### Application Code
 ```php
-$template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
-echo $compiler->compile($template); // "4.35 rounded down to the nearest tenth is 4.3"
+$template->setContents(TEMPLATE);
+echo $compiler->compile($template);
 ```
-You can also pass variables into your functions in the template and set them using `setVar()`.
 
-> **Note:**  Nested function calls (eg `trim(strtoupper(" foo "))`) are currently not supported.
+This will output:
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="content-type" content="text/html">
+        <title>My Website</title>
+        <meta name="description" content="An example website">
+        <meta name="keywords" content="RDev,sample">
+        <link rel="shortcut icon" href="favicon.ico">
+        <link href="stylesheet.css" rel="stylesheet">
+    </head>
+    <body>
+        Hello, World!
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="angular.js"></script>
+    </body>
+</html>
+```
+
+It's recommended to inject the CSS and scripts into a template rather than declaring them in the template itself.  An easy way to do this to inject the list of CSS stylesheets and scripts into template variables:
+
+##### Template
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        {{!css($headCSS)!}}
+    </head>
+    <body>
+        Hello, World!
+        {{!script($footerJS)!}}
+    </body>
+</html>
+```
+
+##### Application Code
+```php
+$template->setVar("headCSS", "stylesheet.css");
+$template->setVar("footerJS", ["jquery.js", "angular.js"]);
+```
+
+This will output:
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="stylesheet.css" rel="stylesheet">
+    </head>
+    <body>
+        Hello, World!
+        <script type="text/javascript" src="jquery.js"></script>
+        <script type="text/javascript" src="angular.js"></script>
+    </body>
+</html>
+```
 
 ## Custom Template Functions
 It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:

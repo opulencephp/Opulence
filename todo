@@ -1,12 +1,11 @@
 HAS PRIORITY:
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
-    Rethink how we add css/js to templates
-        Don't need to implement special vars like $__headJS
-            Just let the user do it by calling $template->setVar()
-            They can then just call script($__headJS) from inside their template
     Move docs to their own repository
 
+Need to be able to select DB index for Redis after making connection
+    Right now, it's tied to the server object
+    So, what gets returned if we connect with a server object, change the DB index, and then request the server object?
 Need to add more TypeMapper methods
 Need to create session storage classes
     Need to think of how to assign session Ids

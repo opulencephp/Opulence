@@ -91,7 +91,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         // Test multiple values
         $this->template->setContents('{{!css(["foo", "bar"])!}}');
         $this->assertEquals(
-            '<link href="foo" rel="stylesheet"><link href="bar" rel="stylesheet">',
+            '<link href="foo" rel="stylesheet">' .
+            "\n" .
+            '<link href="bar" rel="stylesheet">',
             $this->compiler->compile($this->template)
         );
     }
@@ -105,6 +107,19 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->template->setVar("number", $number);
         $this->template->setContents('{{!ceil($number)!}}');
         $this->assertEquals(ceil($number), $this->compiler->compile($this->template));
+    }
+
+    /**
+     * Tests the built-in charset function
+     */
+    public function testBuiltInCharsetFunction()
+    {
+        $charset = "utf-8";
+        $this->template->setContents('{{!charset("' . $charset . '")!}}');
+        $this->assertEquals(
+            '<meta charset="' . $charset . '">',
+            $this->compiler->compile($this->template)
+        );
     }
 
     /**
@@ -190,6 +205,20 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->template->setVar("number", $number);
         $this->template->setContents('{{!floor($number)!}}');
         $this->assertEquals(floor($number), $this->compiler->compile($this->template));
+    }
+
+    /**
+     * Tests the built-in http-equiv function
+     */
+    public function testBuiltInHTTPEquivFunction()
+    {
+        $name = "refresh";
+        $value = 30;
+        $this->template->setContents('{{!httpEquiv("' . $name . '", ' . $value . ')!}}');
+        $this->assertEquals(
+            '<meta http-equiv="' . $name . '" content="' . $value . '">',
+            $this->compiler->compile($this->template)
+        );
     }
 
     /**
@@ -292,7 +321,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         // Test multiple values
         $this->template->setContents('{{!script(["foo", "bar"])!}}');
         $this->assertEquals(
-            '<script type="text/javascript" src="foo"></script><script type="text/javascript" src="bar"></script>',
+            '<script type="text/javascript" src="foo"></script>' .
+            "\n" .
+            '<script type="text/javascript" src="bar"></script>',
             $this->compiler->compile($this->template)
         );
 
@@ -306,7 +337,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         // Test multiple values with a type
         $this->template->setContents('{{!script(["foo", "bar"], "text/ecmascript")!}}');
         $this->assertEquals(
-            '<script type="text/ecmascript" src="foo"></script><script type="text/ecmascript" src="bar"></script>',
+            '<script type="text/ecmascript" src="foo"></script>' .
+            "\n" .
+            '<script type="text/ecmascript" src="bar"></script>',
             $this->compiler->compile($this->template)
         );
     }
@@ -685,4 +718,4 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
         return $string1 === $string2;
     }
-} 
+}
