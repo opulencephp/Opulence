@@ -200,7 +200,7 @@ class Compiler implements ICompiler
         // Compile the functions
         foreach($this->templateFunctions as $functionName => $callback)
         {
-            $regex = "/%s\s*%s\(((?:(?!\)\s*%s).)*)\)\s*%s/";
+            $regex = "/%s\s*%s\(\s*((?:(?!\)\s*%s).)*)\s*\)\s*%s/";
             $replacementString =
                 '<?php echo call_user_func_array($this->templateFunctions["' . $functionName . '"], [\1]); ?>';
             // Replace function calls in escaped tags

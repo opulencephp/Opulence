@@ -442,6 +442,23 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests compiling a template with a function that spans multiple lines
+     */
+    public function testFunctionThatSpansMultipleLines()
+    {
+        $this->compiler->registerTemplateFunction("foo", function($input)
+        {
+            return $input . "bar";
+        });
+        $this->template->setContents("{{
+        foo(
+        'foo'
+        )
+        }}");
+        $this->assertEquals("foobar", $this->compiler->compile($this->template));
+    }
+
+    /**
      * Tests compiling a template with a function that has spaces between the open and close tags
      */
     public function testFunctionWithSpacesBetweenTags()
@@ -518,6 +535,18 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         $this->compiler->registerCompiler([]);
+    }
+
+    /**
+     * Tests compiling a template with a tag that spans multiple lines
+     */
+    public function testTagThatSpansMultipleLines()
+    {
+        $this->template->setContents("{{
+        foo
+        }}");
+        $this->template->setTag("foo", "bar");
+        $this->assertEquals("bar", $this->compiler->compile($this->template));
     }
 
     /**
