@@ -342,6 +342,21 @@ class Compiler implements ICompiler
         {
             return ceil($number);
         });
+        // Register the CSS function
+        $this->registerTemplateFunction("css", function ($paths)
+        {
+            if(!is_array($paths))
+            {
+                $paths = [$paths];
+            }
+
+            $callback = function($path)
+            {
+                return '<link href="' . $path . '" rel="stylesheet">';
+            };
+
+            return implode("", array_map($callback, $paths));
+        });
         // Register the count function
         $this->registerTemplateFunction("count", function (array $array)
         {
@@ -356,6 +371,11 @@ class Compiler implements ICompiler
             }
 
             return date($format, $timestamp);
+        });
+        // Register the favicon function
+        $this->registerTemplateFunction("favicon", function ($path)
+        {
+            return '<link rel="shortcut icon" href="' . $path . '">';
         });
         // Register the floor function
         $this->registerTemplateFunction("floor", function ($number)
@@ -392,10 +412,40 @@ class Compiler implements ICompiler
         {
             return lcfirst($string);
         });
+        // Register the meta description function
+        $this->registerTemplateFunction("metaDescription", function ($metaDescription)
+        {
+            return '<meta name="description" content="' . htmlentities($metaDescription) . '">';
+        });
+        // Register the meta keywords function
+        $this->registerTemplateFunction("metaKeywords", function (array $metaKeywords)
+        {
+            return '<meta name="keywords" content="' . implode(",", array_map("htmlentities", $metaKeywords)) . '">';
+        });
+        // Register the page title function
+        $this->registerTemplateFunction("pageTitle", function ($title)
+        {
+            return '<title>' . htmlentities($title) . '</title>';
+        });
         // Register the round function
         $this->registerTemplateFunction("round", function ($number, $precision = 0, $mode = PHP_ROUND_HALF_UP)
         {
             return round($number, $precision, $mode);
+        });
+        // Register the script function
+        $this->registerTemplateFunction("script", function ($paths, $type = "text/javascript")
+        {
+            if(!is_array($paths))
+            {
+                $paths = [$paths];
+            }
+
+            $callback = function($path) use ($type)
+            {
+                return '<script type="' . $type . '" src="' . $path . '"></script>';
+            };
+
+            return implode("", array_map($callback, $paths));
         });
         // Register the lowercase function
         $this->registerTemplateFunction("strtolower", function ($string)

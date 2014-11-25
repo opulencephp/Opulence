@@ -2,9 +2,9 @@ HAS PRIORITY:
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
     Rethink how we add css/js to templates
-        Need to add support for {{script($path, $type)}}
-            In header, should add support for something like {{script(getHeaderJS())}}
-                This would require adding support for nested function calls
+        Don't need to implement special vars like $__headJS
+            Just let the user do it by calling $template->setVar()
+            They can then just call script($__headJS) from inside their template
     Move docs to their own repository
 
 Need to add more TypeMapper methods

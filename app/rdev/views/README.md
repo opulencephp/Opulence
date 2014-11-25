@@ -200,17 +200,42 @@ echo $compiler->compile($template); // "Hello, Administrator"
 * `urlencode()`
 
 RDev also supplies some other built-in functions:
+* `css()`
+  * Returns HTML used to link to a CSS stylesheet
+  * Accepts the following arguments:
+    1. `array|string $paths` - The path or list of paths to the stylesheets
+* `favicon()`
+  * Returns HTML used to display a favicon
+  * Accepts the following arguments:
+    1. `string $path` - The path to the favicon image
 * `formatDateTime()`
   * Returns a formatted DateTime
   * Accepts the following arguments:
     1. `DateTime $dateTime` - The DateTime to format
     2. `string $format` - The optional format (defaults to "m/d/Y")
     3. `DateTimeZone|string $timeZone` - The optional DateTimeZone object or timezone identifier to use
+* `metaDescription()`
+  * Returns HTML used to display a meta description
+  * Accepts the following arguments:
+    1. `string $metaDescription` - The meta description to use
+* `metaKeywords()`
+  * Returns HTML used to display meta keywords
+  * Accepts the following arguments:
+    1. `array $metaKeywords` - The list of meta keywords to use
 * `namedRouteURL()`
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:
     1. `string $routeName` - The name of the route whose URL we're creating
     2. `array|mixed $arguments` The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/app/rdev/routing#url-generators))
+* `pageTitle()`
+  * Returns HTML used to display a title
+  * Accepts the following arguments:
+    1. `string $title` - The title to use
+* `script()`
+  * Returns HTML used to link to a script file
+  * Accepts the following arguments:
+    1. `array|string $paths` - The path or list of paths to the scripts
+    2. `string $type` - The script type, eg "text/javascript"
 
 Here's an example of how to use a built-in function:
 ##### Template

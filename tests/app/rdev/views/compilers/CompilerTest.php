@@ -77,6 +77,26 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the built-in CSS function
+     */
+    public function testBuiltInCSSFunction()
+    {
+        // Test a single value
+        $this->template->setContents('{{!css("foo")!}}');
+        $this->assertEquals(
+            '<link href="foo" rel="stylesheet">',
+            $this->compiler->compile($this->template)
+        );
+
+        // Test multiple values
+        $this->template->setContents('{{!css(["foo", "bar"])!}}');
+        $this->assertEquals(
+            '<link href="foo" rel="stylesheet"><link href="bar" rel="stylesheet">',
+            $this->compiler->compile($this->template)
+        );
+    }
+
+    /**
      * Tests the built-in ceiling function
      */
     public function testBuiltInCeilFunction()
@@ -149,6 +169,19 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the built-in favicon function
+     */
+    public function testBuiltInFaviconFunction()
+    {
+        $path = "foo";
+        $this->template->setContents('{{!favicon("' . $path . '")!}}');
+        $this->assertEquals(
+            '<link rel="shortcut icon" href="' . $path . '">',
+            $this->compiler->compile($this->template)
+        );
+    }
+
+    /**
      * Tests the built-in floor function
      */
     public function testBuiltInFloorFunction()
@@ -201,6 +234,32 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the built-in meta description function
+     */
+    public function testBuiltInMetaDescriptionFunction()
+    {
+        $metaDescription = "A&W is a root beer";
+        $this->template->setContents('{{!metaDescription("' . $metaDescription . '")!}}');
+        $this->assertEquals(
+            '<meta name="description" content="' . htmlentities($metaDescription) . '">',
+            $this->compiler->compile($this->template)
+        );
+    }
+
+    /**
+     * Tests the built-in meta keywords function
+     */
+    public function testBuiltInMetaKeywordsFunction()
+    {
+        $metaKeywords = ["A&W", "root beer"];
+        $this->template->setContents('{{!metaKeywords(["' . implode('","', $metaKeywords) . '"])!}}');
+        $this->assertEquals(
+            '<meta name="keywords" content="' . implode(",", array_map("htmlentities", $metaKeywords)) . '">',
+            $this->compiler->compile($this->template)
+        );
+    }
+
+    /**
      * Tests the built-in round function
      */
     public function testBuiltInRoundFunction()
@@ -216,6 +275,40 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         // Test with number, precision, and mode parameters
         $this->template->setContents('{{!round($number, 0, PHP_ROUND_HALF_DOWN)!}}');
         $this->assertEquals(round($number, 0, PHP_ROUND_HALF_DOWN), $this->compiler->compile($this->template));
+    }
+
+    /**
+     * Tests the built-in script function
+     */
+    public function testBuiltInScriptFunction()
+    {
+        // Test a single value
+        $this->template->setContents('{{!script("foo")!}}');
+        $this->assertEquals(
+            '<script type="text/javascript" src="foo"></script>',
+            $this->compiler->compile($this->template)
+        );
+
+        // Test multiple values
+        $this->template->setContents('{{!script(["foo", "bar"])!}}');
+        $this->assertEquals(
+            '<script type="text/javascript" src="foo"></script><script type="text/javascript" src="bar"></script>',
+            $this->compiler->compile($this->template)
+        );
+
+        // Test a single value with a type
+        $this->template->setContents('{{!script("foo", "text/ecmascript")!}}');
+        $this->assertEquals(
+            '<script type="text/ecmascript" src="foo"></script>',
+            $this->compiler->compile($this->template)
+        );
+
+        // Test multiple values with a type
+        $this->template->setContents('{{!script(["foo", "bar"], "text/ecmascript")!}}');
+        $this->assertEquals(
+            '<script type="text/ecmascript" src="foo"></script><script type="text/ecmascript" src="bar"></script>',
+            $this->compiler->compile($this->template)
+        );
     }
 
     /**
@@ -251,6 +344,16 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         // Test with string, start, and length parameters
         $this->template->setContents('{{!substr($string, 0, -1)!}}');
         $this->assertEquals(substr($string, 0, -1), $this->compiler->compile($this->template));
+    }
+
+    /**
+     * Tests the built-in HTML title function
+     */
+    public function testBuiltInTitleFunction()
+    {
+        $title = "A&W";
+        $this->template->setContents('{{!pageTitle("' . $title . '")!}}');
+        $this->assertEquals('<title>' . htmlentities($title) . '</title>', $this->compiler->compile($this->template));
     }
 
     /**
