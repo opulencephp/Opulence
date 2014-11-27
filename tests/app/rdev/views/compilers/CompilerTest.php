@@ -479,7 +479,12 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             return "A&W";
         });
         $this->template->setContents("{{foo()}}");
-        $this->assertEquals("A&amp;W", $this->compiler->compile($this->template));
+        $this->assertTrue(
+            $this->stringsWithEncodedCharactersEqual(
+                "A&amp;W",
+                $this->compiler->compile($this->template)
+            )
+        );
     }
 
     /**
