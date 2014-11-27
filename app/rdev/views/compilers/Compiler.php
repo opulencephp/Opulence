@@ -380,7 +380,7 @@ class Compiler implements ICompiler
         // Register the favicon function
         $this->registerTemplateFunction("favicon", function ($path)
         {
-            return '<link rel="shortcut icon" href="' . $path . '">';
+            return '<link href="' . $path . '" rel="shortcut icon">';
         });
         // Register the floor function
         $this->registerTemplateFunction("floor", function ($number)

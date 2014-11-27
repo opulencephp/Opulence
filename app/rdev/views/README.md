@@ -303,7 +303,7 @@ This will output:
         <title>My Website</title>
         <meta name="description" content="An example website">
         <meta name="keywords" content="RDev,sample">
-        <link rel="shortcut icon" href="favicon.ico">
+        <link href="favicon.ico" rel="shortcut icon">
         <link href="stylesheet.css" rel="stylesheet">
     </head>
     <body>

@@ -191,7 +191,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $path = "foo";
         $this->template->setContents('{{!favicon("' . $path . '")!}}');
         $this->assertEquals(
-            '<link rel="shortcut icon" href="' . $path . '">',
+            '<link href="' . $path . '" rel="shortcut icon">',
             $this->compiler->compile($this->template)
         );
     }
