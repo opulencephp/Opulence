@@ -470,6 +470,32 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests compiling a function inside escaped tags
+     */
+    public function testCompilingFunctionInsideEscapedTags()
+    {
+        $this->compiler->registerTemplateFunction("foo", function()
+        {
+            return "A&W";
+        });
+        $this->template->setContents("{{foo()}}");
+        $this->assertEquals("A&amp;W", $this->compiler->compile($this->template));
+    }
+
+    /**
+     * Tests compiling a function inside unescaped tags
+     */
+    public function testCompilingFunctionInsideUnescapedTags()
+    {
+        $this->compiler->registerTemplateFunction("foo", function()
+        {
+            return "A&W";
+        });
+        $this->template->setContents("{{!foo()!}}");
+        $this->assertEquals("A&W", $this->compiler->compile($this->template));
+    }
+
+    /**
      * Tests compiling invalid PHP
      */
     public function testCompilingInvalidPHP()

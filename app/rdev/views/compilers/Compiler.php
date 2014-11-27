@@ -201,8 +201,7 @@ class Compiler implements ICompiler
         foreach($this->templateFunctions as $functionName => $callback)
         {
             $regex = "/%s\s*%s\(\s*((?:(?!\)\s*%s).)*)\s*\)\s*%s/";
-            $replacementString =
-                '<?php echo call_user_func_array($this->templateFunctions["' . $functionName . '"], [\1]); ?>';
+            $functionCallString = 'call_user_func_array($this->templateFunctions["' . $functionName . '"], [\1])';
             // Replace function calls in escaped tags
             $content = preg_replace(
                 sprintf(
@@ -211,7 +210,7 @@ class Compiler implements ICompiler
                     preg_quote($functionName, "/"),
                     preg_quote($template->getEscapedCloseTag(), "/"),
                     preg_quote($template->getEscapedCloseTag(), "/")),
-                $replacementString,
+                "<?php echo RDev\\Views\\Filters\\XSS::run($functionCallString); ?>",
                 $content
             );
             // Replace function calls in unescaped tags
@@ -222,7 +221,7 @@ class Compiler implements ICompiler
                     preg_quote($functionName, "/"),
                     preg_quote($template->getUnescapedCloseTag(), "/"),
                     preg_quote($template->getUnescapedCloseTag(), "/")),
-                $replacementString,
+                "<?php echo $functionCallString; ?>",
                 $content
             );
         }
