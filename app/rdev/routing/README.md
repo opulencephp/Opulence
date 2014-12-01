@@ -321,7 +321,7 @@ $routeOptions = [
 $router->get("/users/{userId}", $routeOptions);
 // Any values passed in will first be used to define variables in the host
 // Any leftover values will define the values in the path
-echo $urlGenerator->createFromName("inbox", "us", 724); // "http://us.mail.example.com/users/724"
+echo $urlGenerator->createFromName("inbox", ["us", 724]); // "http://us.mail.example.com/users/724"
 ```
 
 Secure routes with hosts specified will generate `https://` absolute URLs.
