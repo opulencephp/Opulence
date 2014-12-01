@@ -286,7 +286,7 @@ class MyController extends Routing\Controller
     }
 }
 
-$router->setDefaultControllerClass("MyApp\\MyController");
+$router->setMissedRouteControllerName("MyApp\\MyController");
 // Assume $request points to a request object with a path that isn't covered in the router
 $router->route($request); // returns a 404 response with "My custom 404 page"
 ```
