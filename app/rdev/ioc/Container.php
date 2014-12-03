@@ -273,24 +273,7 @@ class Container implements IContainer
             if($parameter->getClass() === null)
             {
                 // The parameter is a primitive
-                if(count($primitives) > 0)
-                {
-                    // Grab the next primitive
-                    $resolvedParameter = array_shift($primitives);
-                }
-                elseif($parameter->isDefaultValueAvailable())
-                {
-                    // No value was found, so use the default value
-                    $resolvedParameter = $parameter->getDefaultValue();
-                }
-                else
-                {
-                    throw new IoCException(sprintf("No default value available for %s in %s::%s()",
-                        $parameter->getName(),
-                        $parameter->getDeclaringClass()->getName(),
-                        $parameter->getDeclaringFunction()->getName()
-                    ));
-                }
+                $resolvedParameter = $this->resolvePrimitive($parameter, $primitives);
             }
             else
             {
@@ -416,6 +399,35 @@ class Container implements IContainer
         {
             return $this->makeShared($concreteClass);
         }
+    }
+
+    /**
+     * Resolves a primitive parameter
+     *
+     * @param \ReflectionParameter $parameter The primitive parameter to resolve
+     * @param array $primitives The list of primitive values
+     * @return mixed The resolved primitive
+     * @throws IoCException Thrown if there was a problem resolving the primitive
+     */
+    protected function resolvePrimitive(\ReflectionParameter $parameter, array &$primitives)
+    {
+        if(count($primitives) > 0)
+        {
+            // Grab the next primitive
+            return array_shift($primitives);
+        }
+
+        if($parameter->isDefaultValueAvailable())
+        {
+            // No value was found, so use the default value
+            return $parameter->getDefaultValue();
+        }
+
+        throw new IoCException(sprintf("No default value available for %s in %s::%s()",
+            $parameter->getName(),
+            $parameter->getDeclaringClass()->getName(),
+            $parameter->getDeclaringFunction()->getName()
+        ));
     }
 
     /**

@@ -50,7 +50,7 @@ abstract class Hasher implements IHasher
 
         if($hashedValue === false)
         {
-            throw new \RuntimeException("Failed to generate has for algorithm {$this->hashAlgorithm}");
+            throw new \RuntimeException("Failed to generate hash for algorithm {$this->hashAlgorithm}");
         }
 
         return $hashedValue;
