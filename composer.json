@@ -37,8 +37,7 @@
     "phpunit/php-text-template": ">=1.2.0",
     "phpunit/php-invoker": ">=1.1.0",
     "phpunit/phpunit-selenium": ">=1.2",
-    "phpunit/phpunit-story": "*",
-    "phpunit/dbunit": ">=1.2"
+    "phpunit/phpunit-story": "*"
   },
   "replace": {
     "rdev/applications": "self.version",
