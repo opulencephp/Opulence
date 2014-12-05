@@ -31,7 +31,6 @@
     "alecesaro/phpredis": "dev-master",
     "predis/predis": "1.1.*@dev",
     "ext-pdo": "*",
-    "ext-pdo_pgsql": "*",
     "symfony/yaml": "2.6.*@dev",
     "phpunit/phpunit": "4.2.*",
     "phpunit/php-file-iterator": ">=1.3.0",
