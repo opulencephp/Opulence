@@ -609,6 +609,39 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests executing a non-existent template function
+     */
+    public function testExecutingNonExistentTemplateFunction()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->compiler->executeTemplateFunction("nonExistentFunction");
+    }
+
+    /**
+     * Tests executing a template function that takes no parameters
+     */
+    public function testExecutingTemplateFunctionThatTakesNoParameters()
+    {
+        $this->compiler->registerTemplateFunction("foo", function()
+        {
+            return "bar";
+        });
+        $this->assertEquals("bar", $this->compiler->executeTemplateFunction("foo"));
+    }
+
+    /**
+     * Tests executing a template function that takes parameters
+     */
+    public function testExecutingTemplateFunctionThatTakesParameters()
+    {
+        $this->compiler->registerTemplateFunction("foo", function($input)
+        {
+            return "foo" . $input;
+        });
+        $this->assertEquals("foobar", $this->compiler->executeTemplateFunction("foo", ["bar"]));
+    }
+
+    /**
      * Tests compiling a template with a function that spans multiple lines
      */
     public function testFunctionThatSpansMultipleLines()

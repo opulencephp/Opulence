@@ -20,6 +20,16 @@ interface ICompiler
     public function compile(Views\ITemplate $template);
 
     /**
+     * Executes a template function
+     *
+     * @param string $functionName The name of the template function to execute
+     * @param array $args The list of arguments to pass into the template function
+     * @return mixed The results of the template function
+     * @throws \InvalidArgumentException Thrown if there is no function with the input name
+     */
+    public function executeTemplateFunction($functionName, array $args = []);
+
+    /**
      * Registers a custom compiler
      *
      * @param callable|array $compiler The anonymous function to execute to compile custom functions inside tags

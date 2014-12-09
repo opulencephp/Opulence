@@ -11,6 +11,7 @@
 7. [Built-In Functions](#built-in-functions)
   1. [PHP Functions](#php-functions)
   2. [RDev Functions](#rdev-functions)
+  3. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
 8. [Custom Template Functions](#custom-template-functions)
 9. [Extending the Compiler](#extending-the-compiler)
 10. [Escaping Tags](#escaping-tags)
@@ -348,6 +349,47 @@ This will output:
         Hello, World!
         <script type="text/javascript" src="jquery.js"></script>
         <script type="text/javascript" src="angular.js"></script>
+    </body>
+</html>
+```
+
+#### Using Template Functions in PHP Code
+You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | {NAME_OF_PAGE}`:
+
+##### Template
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        {{!myPageTitle("About")!}}
+    </head>
+    <body>
+        My About Page
+    </body>
+</html>
+```
+
+##### Application Code
+```php
+$compiler->registerTemplateFunction("myPageTitle", function($title) use ($compiler)
+{
+    // Take advantage of the built-in template function
+    return $compiler->executeTemplateFunction("pageTitle", ["My Site | " . $title]);
+});
+$template->setContents(TEMPLATE);
+echo $compiler->compile($template);
+```
+
+This will output:
+
+```
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Site | About</title>
+    </head>
+    <body>
+        My About Page
     </body>
 </html>
 ```

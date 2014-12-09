@@ -136,6 +136,24 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying an invalid route controller name in the constructor
+     */
+    public function testInvalidMissedRouteControllerNameInConstructor()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        new Router(new Dispatcher(new IoC\Container()), new Compilers\Compiler(), "Class\\That\\Does\\Not\\Exist");
+    }
+
+    /**
+     * Tests specifying an invalid route controller name in the setter
+     */
+    public function testInvalidMissedRouteControllerNameInSetter()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->router->setMissedRouteControllerName("Class\\That\\Does\\Not\\Exist");
+    }
+
+    /**
      * Tests matching an insecure route over HTTPS
      */
     public function testMatchingInsecureRouteOnHTTPS()

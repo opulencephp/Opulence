@@ -25,6 +25,7 @@ class Router
      * @param Dispatcher $dispatcher The route dispatcher
      * @param Compilers\ICompiler $compiler The route compiler
      * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
+     * @throws \InvalidArgumentException Thrown if the controller name does not exist
      */
     public function __construct(
         Dispatcher $dispatcher,
@@ -229,9 +230,20 @@ class Router
 
     /**
      * @param string $missedRouteControllerName
+     * @throws \InvalidArgumentException Thrown if the controller name does not exist
      */
     public function setMissedRouteControllerName($missedRouteControllerName)
     {
+        if(!class_exists($missedRouteControllerName))
+        {
+            throw new \InvalidArgumentException(
+                sprintf(
+                    "Missed route controller class \"%s\" does not exist",
+                    $missedRouteControllerName
+                )
+            );
+        }
+
         $this->missedRouteControllerName = $missedRouteControllerName;
     }
 

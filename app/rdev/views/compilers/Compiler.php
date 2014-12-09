@@ -78,6 +78,19 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
+    public function executeTemplateFunction($functionName, array $args = [])
+    {
+        if(!isset($this->templateFunctions[$functionName]))
+        {
+            throw new \InvalidArgumentException("Template function \"$functionName\" does not exist");
+        }
+
+        return call_user_func_array($this->templateFunctions[$functionName], $args);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function registerCompiler($compiler, $priority = null)
     {
         if(!is_callable($compiler, true))
