@@ -78,6 +78,7 @@ To setup a skeleton project that uses RDev, check out the [Project repository](h
 * PHP 5.5, 5.6, or HHVM >= 3.3.0
 * OpenSSL enabled
 * mbstring
+* A default PHP timezone set in the PHP.ini
 
 ## License
 This software is licensed under the MIT license.  Please read the LICENSE for more information.

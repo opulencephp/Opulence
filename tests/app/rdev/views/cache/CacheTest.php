@@ -141,6 +141,16 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not creating a directory before attempting to cache views in it
+     */
+    public function testNotCreatingDirectoryBeforeCaching()
+    {
+        $this->cache = new Cache($this->fileSystem, __DIR__ . "/verytemporarytmp", 3600);
+        $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
+        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
+    }
+
+    /**
      * Tests setting the lifetime
      */
     public function testSettingLifetime()

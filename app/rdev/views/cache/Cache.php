@@ -39,6 +39,12 @@ class Cache implements ICache
         $this->path = rtrim($path, "/");
         $this->setLifetime($lifetime);
         $this->setGCChance($gcChance, $gcTotal);
+
+        // Make sure the path exists
+        if(!$this->fileSystem->exists($this->path))
+        {
+            $this->fileSystem->makeDirectory($this->path);
+        }
     }
 
     /**
