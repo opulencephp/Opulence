@@ -240,7 +240,7 @@ class Compiler implements ICompiler
         }
 
         // Notice the little hack inside eval() to compile inline PHP
-        if(@eval("?>" . $content) === false)
+        if(eval("?>" . $content) === false)
         {
             // Prevent an invalid template from displaying
             while(ob_get_level() > $startOBLevel)

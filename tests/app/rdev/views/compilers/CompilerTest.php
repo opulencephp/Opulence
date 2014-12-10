@@ -508,7 +508,11 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("\\RuntimeException");
         $contents = $this->fileSystem->read(__DIR__ . "/../files/TestWithInvalidPHP.html");
         $this->template->setContents($contents);
+        // Temporarily disable error reporting to prevent stuff from being printed in the error logs
+        $originalErrorReporting = error_reporting();
+        error_reporting(0);
         $this->compiler->compile($this->template);
+        error_reporting($originalErrorReporting);
     }
 
     /**
