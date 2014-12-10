@@ -5,11 +5,13 @@
  * Tests the HTTP kernel
  */
 namespace RDev\Applications\Kernels\HTTP;
+use Monolog;
 use RDev\HTTP;
 use RDev\IoC;
 use RDev\Routing;
 use RDev\Routing\Compilers;
-use RDev\Tests\Routing\Mocks;
+use RDev\Tests\Applications\Mocks as ApplicationMocks;
+use RDev\Tests\Routing\Mocks as RoutingMocks;
 
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
@@ -47,7 +49,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         if($shouldThrowException)
         {
-            $router = new Mocks\ExceptionalRouter(
+            $router = new RoutingMocks\ExceptionalRouter(
                 new Routing\Dispatcher(new IoC\Container()),
                 new Compilers\Compiler()
             );
@@ -58,7 +60,9 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         }
 
         $router->any("/", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"]);
+        $logger = new Monolog\Logger("kernelTest");
+        $logger->pushHandler(new ApplicationMocks\MonologHandler());
 
-        return new Kernel($router);
+        return new Kernel($router, $logger);
     }
 }
