@@ -20,13 +20,17 @@ class Compiler implements ICompiler
     protected $cache = null;
     /** @var array The mapping of function names to their callbacks */
     protected $templateFunctions = [];
+    /** @var Filters\IFilter The cross-site scripting filter */
+    protected $xssFilter = null;
 
     /**
      * @param Cache\ICache $cache The cache to use for compiled templates
+     * @param Filters\IFilter $xssFilter The cross-site scripting filter
      */
-    public function __construct(Cache\ICache $cache)
+    public function __construct(Cache\ICache $cache, Filters\IFilter $xssFilter)
     {
         $this->setCache($cache);
+        $this->setXSSFilter($xssFilter);
 
         // Order here matters
         $this->registerCompiler([$this, "compilePHP"]);
@@ -91,6 +95,14 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
+    public function getXSSFilter()
+    {
+        return $this->xssFilter;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function registerCompiler($compiler, $priority = null)
     {
         if(!is_callable($compiler, true))
@@ -129,6 +141,14 @@ class Compiler implements ICompiler
     public function setCache(Cache\ICache $cache)
     {
         $this->cache = $cache;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setXSSFilter($xssFilter)
+    {
+        $this->xssFilter = $xssFilter;
     }
 
     /**
@@ -223,7 +243,7 @@ class Compiler implements ICompiler
                     preg_quote($functionName, "/"),
                     preg_quote($template->getEscapedCloseTag(), "/"),
                     preg_quote($template->getEscapedCloseTag(), "/")),
-                "<?php echo RDev\\Views\\Filters\\XSS::run($functionCallString); ?>",
+                '<?php echo $this->xssFilter->run(' . $functionCallString . '); ?>',
                 $content
             );
             // Replace function calls in unescaped tags
@@ -269,11 +289,11 @@ class Compiler implements ICompiler
                 "tags" => [$template->getEscapedOpenTag(), $template->getEscapedCloseTag()],
                 "stringLiteralCallback" => function ($stringLiteral) use ($template)
                 {
-                    return Filters\XSS::run(trim($stringLiteral, $stringLiteral[0]));
+                    return $this->xssFilter->run(trim($stringLiteral, $stringLiteral[0]));
                 },
                 "tagNameCallback" => function ($tagName) use ($template)
                 {
-                    return Filters\XSS::run($template->getTag($tagName));
+                    return $this->xssFilter->run($template->getTag($tagName));
                 }
             ],
             [

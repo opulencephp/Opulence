@@ -12,6 +12,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Files\FileSystem The file system to use in tests */
     private $fileSystem = null;
+    /** @var TemplateFactory The template factory to use in tests */
+    private $templateFactory = null;
 
     /**
      * Sets up the tests
@@ -19,6 +21,19 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->fileSystem = new Files\FileSystem();
+        $this->templateFactory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
+    }
+
+    /**
+     * Tests aliasing a template path
+     */
+    public function testAlias()
+    {
+        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->assertEquals(
+            $this->templateFactory->create("foo"),
+            $this->templateFactory->create("TestWithDefaultTags.html")
+        );
     }
 
     /**
@@ -26,8 +41,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithTrailingSlash()
     {
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files/");
-        $template = $factory->create("TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
@@ -38,8 +52,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithoutTrailingSlash()
     {
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $template = $factory->create("TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
@@ -51,8 +64,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     public function testPassingInTemplatePathThatDoesNotExist()
     {
         $this->setExpectedException("RDev\\Files\\FileSystemException");
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $factory->create("doesNotExist.html");
+        $this->templateFactory->create("doesNotExist.html");
     }
 
     /**
@@ -60,8 +72,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInTemplatePathWithPrecedingSlash()
     {
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $template = $factory->create("/TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("/TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
@@ -72,11 +83,38 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInTemplatePathWithoutPrecedingSlash()
     {
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $template = $factory->create("TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTags.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
+    }
+
+    /**
+     * Tests registering a builder to an alias
+     */
+    public function testRegisteringBuilderToAlias()
+    {
+        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->templateFactory->registerBuilder("foo", function ()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $template = $this->templateFactory->create("foo");
+        $this->assertEquals("bar", $template->getTag("foo"));
+    }
+
+    /**
+     * Tests registering a builder to a path also registers to an alias
+     */
+    public function testRegisteringBuilderToPathAlsoRegistersToAlias()
+    {
+        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $template = $this->templateFactory->create("foo");
+        $this->assertEquals("bar", $template->getTag("foo"));
     }
 
     /**
@@ -84,12 +122,11 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testsRegisteringBuilder()
     {
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $factory->registerBuilder("TestWithDefaultTags.html", function ()
-            {
-                return new Mocks\FooBuilder();
-            });
-        $template = $factory->create("TestWithDefaultTags.html");
+        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $template = $this->templateFactory->create("TestWithDefaultTags.html");
         $this->assertEquals("bar", $template->getTag("foo"));
     }
 
@@ -98,16 +135,15 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testsRegisteringMultipleBuilders()
     {
-        $factory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
-        $factory->registerBuilder("TestWithDefaultTags.html", function ()
+        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
             {
                 return new Mocks\FooBuilder();
             });
-        $factory->registerBuilder("TestWithDefaultTags.html", function ()
+        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
             {
                 return new Mocks\BarBuilder();
             });
-        $template = $factory->create("TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTags.html");
         $this->assertEquals("bar", $template->getTag("foo"));
         $this->assertEquals("baz", $template->getTag("bar"));
     }

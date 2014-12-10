@@ -9,6 +9,7 @@ use RDev\Files;
 use RDev\Tests\Mocks;
 use RDev\Views;
 use RDev\Views\Cache;
+use RDev\Views\Filters;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,6 +22,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_INVALID_PHP_CODE = "/../files/TestWithInvalidPHP.html";
 
+    /** @var Filters\IFilter The cross-site scripting filter to use */
+    private $xssFilter = null;
     /** @var Compiler $compiler The compiler to use in tests */
     private $compiler = null;
     /** @var Views\Template The template to use in the tests */
@@ -59,9 +62,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $this->xssFilter = new Filters\XSS();
         $this->fileSystem = new Files\FileSystem();
         $cache = new Cache\Cache($this->fileSystem, __DIR__ . "/tmp");
-        $this->compiler = new Compiler($cache);
+        $this->compiler = new Compiler($cache, $this->xssFilter);
         $this->template = new Views\Template();
     }
 
@@ -474,7 +478,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingFunctionInsideEscapedTags()
     {
-        $this->compiler->registerTemplateFunction("foo", function()
+        $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "A&W";
         });
@@ -492,7 +496,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingFunctionInsideUnescapedTags()
     {
-        $this->compiler->registerTemplateFunction("foo", function()
+        $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "A&W";
         });
@@ -626,7 +630,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecutingTemplateFunctionThatTakesNoParameters()
     {
-        $this->compiler->registerTemplateFunction("foo", function()
+        $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "bar";
         });
@@ -638,7 +642,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecutingTemplateFunctionThatTakesParameters()
     {
-        $this->compiler->registerTemplateFunction("foo", function($input)
+        $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return "foo" . $input;
         });
@@ -650,7 +654,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testFunctionThatSpansMultipleLines()
     {
-        $this->compiler->registerTemplateFunction("foo", function($input)
+        $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return $input . "bar";
         });
@@ -673,6 +677,14 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             echo $input;
         });
         $this->assertEquals("bar", $this->compiler->compile($this->template));
+    }
+
+    /**
+     * Tests getting the XSS filter
+     */
+    public function testGettingXSSFilter()
+    {
+        $this->assertSame($this->xssFilter, $this->compiler->getXSSFilter());
     }
 
     /**
@@ -739,6 +751,16 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         $this->compiler->registerCompiler([]);
+    }
+
+    /**
+     * Tests setting the XSS filter
+     */
+    public function testSettingXSSFilter()
+    {
+        $xssFilter = new Filters\XSS();
+        $this->compiler->setXSSFilter($xssFilter);
+        $this->assertSame($xssFilter, $this->compiler->getXSSFilter());
     }
 
     /**

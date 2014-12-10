@@ -16,6 +16,8 @@ class TemplateFactory implements ITemplateFactory
     private $rootTemplateDirectory = "";
     /** @var array The mapping of template paths to a list of builders to run whenever the template is created */
     private $builders = [];
+    /** @var array The mapping of aliases to their template paths */
+    private $aliases = [];
 
     /**
      * @param Files\FileSystem $fileSystem The file system to read templates with
@@ -30,12 +32,34 @@ class TemplateFactory implements ITemplateFactory
     /**
      * {@inheritdoc}
      */
-    public function create($templatePath)
+    public function alias($alias, $templatePath)
     {
+        $this->aliases[$alias] = $templatePath;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function create($name)
+    {
+        $isAlias = $this->isAlias($name);
+        $templatePath = $name;
+
+        if($isAlias)
+        {
+            $templatePath = $this->aliases[$name];
+        }
+
         $templatePath = ltrim($templatePath, "/");
         $content = $this->fileSystem->read($this->rootTemplateDirectory . "/" . $templatePath);
         $template = new Views\Template($content);
         $template = $this->runBuilders($templatePath, $template);
+
+        if($isAlias)
+        {
+            // Run any builders registered to the alias
+            $template = $this->runBuilders($name, $template);
+        }
 
         return $template;
     }
@@ -43,14 +67,25 @@ class TemplateFactory implements ITemplateFactory
     /**
      * {@inheritdoc}
      */
-    public function registerBuilder($templatePath, callable $callback)
+    public function registerBuilder($name, callable $callback)
     {
-        if(!isset($this->builders[$templatePath]))
+        if(!isset($this->builders[$name]))
         {
-            $this->builders[$templatePath] = [];
+            $this->builders[$name] = [];
         }
 
-        $this->builders[$templatePath][] = $callback;
+        $this->builders[$name][] = $callback;
+    }
+
+    /**
+     * Gets whether or not something is an alias to a template path
+     *
+     * @param string $name The item to check
+     * @return bool True if the input is an alias, otherwise false
+     */
+    private function isAlias($name)
+    {
+        return isset($this->aliases[$name]);
     }
 
     /**

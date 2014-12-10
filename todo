@@ -1,19 +1,4 @@
 HAS PRIORITY:
-    In Project, the 404 page and homepage share Example.html
-        However, they need two different builders bound to Example.html
-        How do we do this if both pages share the same template?
-        Maybe we need to have template names that can map to individual files
-        For example, $factory->createTemplate("Home") uses Example.html, but builders are registered to "Home"
-            This would require a rewrite of the way TemplateFactory works
-        Could be something like:
-                $templateFactory->bind("Home", "Example.html");
-                $templateFactory->registerBuilder("Home", MyBuilder);
-                $templateFactory->registerBuilder("Home", MySecondBuilder);
-                $view = $templateFactory->create("Home");
-            "bind()" doesn't seem like the most accurate description, so come up with a better one
-
-    Need to make View filters non-static
-        Since the compiler always needs the XSS filter, we should probably pass it into Compiler through the constructor
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
     Move docs to their own repository

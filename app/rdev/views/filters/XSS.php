@@ -15,7 +15,7 @@ class XSS implements IFilter
      * @param array $options The list of options with the following keys:
      *      "forURL" => true if the input is being filtered for use in a URL, otherwise false
      */
-    public static function run($input, array $options = [])
+    public function run($input, array $options = [])
     {
         $filteredInput = $input;
 

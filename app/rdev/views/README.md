@@ -18,6 +18,7 @@
 11. [Custom Tags](#custom-tags)
 12. [Template Factory](#template-factory)
   1. [Builders](#builders)
+  2. [Aliasing](#aliasing)
 
 ## Introduction
 **RDev** has a template system, which is meant to simplify adding dynamic content to web pages.  You can inject data into your pages, create loops for generating iterative items, escape unsanitized text, and add your own tag extensions.  Unlike other popular template libraries out there, you can use plain old PHP for simple constructs such as if/else statements and loops.
@@ -541,3 +542,28 @@ $factory->registerBuilder("Index.html", $callback);
 $template = $factory->create("Index.html");
 echo $template->getTag("siteName"); // "My Website"
 ```
+
+#### Aliasing
+Multiple pages might use the same template, but with different tag and variable values.  This creates a problem if we want to register a builder for one page that shares a template with others.  We don't want to register that builder for all the other pages that share the template.  This is where `ITemplateFactory::alias()` comes in handy.  You can create an alias, and then register builders to that alias.  `ITemplateFactory::create()` accepts either a template path or an alias.
+
+```php
+$templateFactory->alias("Home", "Master.html");
+$templateFactory->alias("About", "Master.html");
+$templateFactory->registerBuilder("Master.html", function()
+{
+    return new MasterBuilder();
+});
+$templateFactory->registerBuilder("Home", function()
+{
+    return new HomeBuilder();
+});
+$templateFactory->registerBuilder("About", function()
+{
+    return new AboutBuilder();
+});
+$masterTemplate = $templateFactory->create("Master.html"); // MasterBuilder is run
+$homeTemplate = $templateFactory->create("Home"); // MasterBuilder and HomeBuilder are run
+$aboutTemplate = $templateFactory->create("About"); // MasterBuilder and AboutBuilder are run
+```
+
+> **Note:** Builders registered to the template that an alias refers to will be run as well as builders registered to the alias.

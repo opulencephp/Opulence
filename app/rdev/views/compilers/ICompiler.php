@@ -7,6 +7,7 @@
 namespace RDev\Views\Compilers;
 use RDev\Views;
 use RDev\Views\Cache;
+use RDev\Views\Filters;
 
 interface ICompiler
 {
@@ -28,6 +29,13 @@ interface ICompiler
      * @throws \InvalidArgumentException Thrown if there is no function with the input name
      */
     public function executeTemplateFunction($functionName, array $args = []);
+
+    /**
+     * Gets the cross-site scripting filter used by this compiler
+     *
+     * @return Filters\IFilter
+     */
+    public function getXSSFilter();
 
     /**
      * Registers a custom compiler
@@ -58,4 +66,11 @@ interface ICompiler
      * @param Cache\ICache $cache The cache to use
      */
     public function setCache(Cache\ICache $cache);
+
+    /**
+     * Sets the cross-site scripting filter to use
+     *
+     * @param Filters\IFilter $xssFilter The filter to use
+     */
+    public function setXSSFilter($xssFilter);
 } 
