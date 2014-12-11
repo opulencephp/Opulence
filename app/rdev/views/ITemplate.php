@@ -30,6 +30,20 @@ interface ITemplate
     public function getEscapedOpenTag();
 
     /**
+     * Gets the statement close tag
+     *
+     * @return string The statement close tag
+     */
+    public function getStatementCloseTag();
+
+    /**
+     * Gets the statement open tag
+     *
+     * @return string The statement open tag
+     */
+    public function getStatementOpenTag();
+
+    /**
      * Gets the value for a tag
      *
      * @param string $name The name of the tag to get
@@ -98,6 +112,20 @@ interface ITemplate
      * @param string $escapedOpenTag The escaped open tag
      */
     public function setEscapedOpenTag($escapedOpenTag);
+
+    /**
+     * Sets the statement close tag
+     *
+     * @param string $statementCloseTag The statement close tag
+     */
+    public function setStatementCloseTag($statementCloseTag);
+
+    /**
+     * Sets the statement open tag
+     *
+     * @param string $statement The statement open tag
+     */
+    public function setStatementOpenTag($statement);
 
     /**
      * Sets the value for a tag in the template

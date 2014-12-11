@@ -1,4 +1,11 @@
 HAS PRIORITY:
+    Need to add support for {% extend("Foo.html") %}
+        Would need to call template factory, which isn't accessible from compiler ordinarily
+            Is it inevitable that we pass it into the compiler?
+        Needs to get cleared once it's compiled
+        Then what?  Do we simply pull load up the master (ie prepend it)?
+            Check what other libraries do
+    Need to writeup statements in README
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
     Move docs to their own repository

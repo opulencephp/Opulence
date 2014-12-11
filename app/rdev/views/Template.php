@@ -16,6 +16,10 @@ class Template implements ITemplate
     const DEFAULT_ESCAPED_OPEN_TAG = "{{";
     /** The default close tag for escaped tags */
     const DEFAULT_ESCAPED_CLOSE_TAG = "}}";
+    /** The default open tag for statement tags  */
+    const DEFAULT_STATEMENT_OPEN_TAG = "{%";
+    /** The default close tag for statement tags */
+    const DEFAULT_STATEMENT_CLOSE_TAG = "%}";
 
     /** @var string The uncompiled contents of the template */
     protected $contents = "";
@@ -31,6 +35,10 @@ class Template implements ITemplate
     protected $escapedOpenTag = self::DEFAULT_ESCAPED_OPEN_TAG;
     /** @var string The escaped close tag */
     protected $escapedCloseTag = self::DEFAULT_ESCAPED_CLOSE_TAG;
+    /** @var string The statement open tag */
+    protected $statementOpenTag = self::DEFAULT_STATEMENT_OPEN_TAG;
+    /** @var string The statement close tag */
+    protected $statementCloseTag = self::DEFAULT_STATEMENT_CLOSE_TAG;
 
     /**
      * @param string $contents The contents of the template
@@ -62,6 +70,22 @@ class Template implements ITemplate
     public function getEscapedOpenTag()
     {
         return $this->escapedOpenTag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatementCloseTag()
+    {
+        return $this->statementCloseTag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getStatementOpenTag()
+    {
+        return $this->statementOpenTag;
     }
 
     /**
@@ -157,6 +181,22 @@ class Template implements ITemplate
     public function setEscapedOpenTag($escapedOpenTag)
     {
         $this->escapedOpenTag = $escapedOpenTag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStatementCloseTag($statementCloseTag)
+    {
+        $this->statementCloseTag = $statementCloseTag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStatementOpenTag($statementOpenTag)
+    {
+        $this->statementOpenTag = $statementOpenTag;
     }
 
     /**

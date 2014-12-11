@@ -33,10 +33,12 @@ class Compiler implements ICompiler
         $this->setXSSFilter($xssFilter);
 
         // Order here matters
+        $this->registerCompiler([$this, "compilePartStatements"]);
         $this->registerCompiler([$this, "compilePHP"]);
         $this->registerCompiler([$this, "compileTags"]);
         $this->registerCompiler([$this, "cleanupTags"]);
-        $this->registerBuiltInFunctions();
+        $templateFunctionRegistrant = new BuiltInTemplateFunctionRegistrant();
+        $templateFunctionRegistrant->registerTemplateFunctions($this);
     }
 
     /**
@@ -275,6 +277,34 @@ class Compiler implements ICompiler
     }
 
     /**
+     * Compiles part statements that appears in a template
+     *
+     * @param Views\ITemplate $template The template whose statements we're compiling
+     * @param string $content The actual content to compile
+     * @return string The compiled template
+     */
+    private function compilePartStatements(Views\ITemplate $template, $content)
+    {
+        $callback = function($matches) use ($template)
+        {
+            $template->setTag($matches[2], $matches[3]);
+
+            return "";
+        };
+        $regex = sprintf(
+            '/(?<!%s)%s\s*part\((["|\'])([^\1]+)\1\)\s*%s(.*)%s\s*endpart\s*%s/s',
+            preg_quote("\\", "/"),
+            preg_quote($template->getStatementOpenTag(), "/"),
+            preg_quote($template->getStatementCloseTag(), "/"),
+            preg_quote($template->getStatementOpenTag(), "/"),
+            preg_quote($template->getStatementCloseTag(), "/")
+        );
+        $content = preg_replace_callback($regex, $callback, $content);
+
+        return $content;
+    }
+
+    /**
      * Compiles tags in a template
      *
      * @param Views\ITemplate $template The template whose tags we're compiling
@@ -357,183 +387,6 @@ class Compiler implements ICompiler
         }
 
         return $content;
-    }
-
-    /**
-     * Registers the built-in template function compilers
-     */
-    private function registerBuiltInFunctions()
-    {
-        // Register the absolute value function
-        $this->registerTemplateFunction("abs", function ($number)
-        {
-            return abs($number);
-        });
-        // Register the ceiling function
-        $this->registerTemplateFunction("ceil", function ($number)
-        {
-            return ceil($number);
-        });
-        // Register the charset function
-        $this->registerTemplateFunction("charset", function ($charset)
-        {
-            return '<meta charset="' . $charset . '">';
-        });
-        // Register the CSS function
-        $this->registerTemplateFunction("css", function ($paths)
-        {
-            if(!is_array($paths))
-            {
-                $paths = [$paths];
-            }
-
-            $callback = function($path)
-            {
-                return '<link href="' . $path . '" rel="stylesheet">';
-            };
-
-            return implode("\n", array_map($callback, $paths));
-        });
-        // Register the count function
-        $this->registerTemplateFunction("count", function (array $array)
-        {
-            return count($array);
-        });
-        // Register the date function
-        $this->registerTemplateFunction("date", function ($format, $timestamp = null)
-        {
-            if($timestamp === null)
-            {
-                $timestamp = time();
-            }
-
-            return date($format, $timestamp);
-        });
-        // Register the favicon function
-        $this->registerTemplateFunction("favicon", function ($path)
-        {
-            return '<link href="' . $path . '" rel="shortcut icon">';
-        });
-        // Register the floor function
-        $this->registerTemplateFunction("floor", function ($number)
-        {
-            return floor($number);
-        });
-        // Register the format DateTime function
-        $this->registerTemplateFunction('formatDateTime', function (\DateTime $date, $format = "m/d/Y", $timeZone = null)
-        {
-            if(is_string($timeZone) && in_array($timeZone, \DateTimeZone::listIdentifiers()))
-            {
-                $timeZone = new \DateTimeZone($timeZone);
-            }
-
-            if($timeZone instanceof \DateTimeZone)
-            {
-                $date->setTimezone($timeZone);
-            }
-
-            return $date->format($format);
-        });
-        // Register the HTTP-equiv function
-        $this->registerTemplateFunction("httpEquiv", function ($name, $value)
-        {
-            return '<meta http-equiv="' . htmlentities($name) . '" content="' . htmlentities($value) . '">';
-        });
-        // Register the implode function
-        $this->registerTemplateFunction("implode", function ($glue, array $pieces)
-        {
-            return implode($glue, $pieces);
-        });
-        // Register the JSON encode function
-        $this->registerTemplateFunction("json_encode", function ($value, $options = 0, $depth = 512)
-        {
-            return json_encode($value, $options, $depth);
-        });
-        // Register the lowercase first function
-        $this->registerTemplateFunction("lcfirst", function ($string)
-        {
-            return lcfirst($string);
-        });
-        // Register the meta description function
-        $this->registerTemplateFunction("metaDescription", function ($metaDescription)
-        {
-            return '<meta name="description" content="' . htmlentities($metaDescription) . '">';
-        });
-        // Register the meta keywords function
-        $this->registerTemplateFunction("metaKeywords", function (array $metaKeywords)
-        {
-            return '<meta name="keywords" content="' . implode(",", array_map("htmlentities", $metaKeywords)) . '">';
-        });
-        // Register the page title function
-        $this->registerTemplateFunction("pageTitle", function ($title)
-        {
-            return '<title>' . htmlentities($title) . '</title>';
-        });
-        // Register the round function
-        $this->registerTemplateFunction("round", function ($number, $precision = 0, $mode = PHP_ROUND_HALF_UP)
-        {
-            return round($number, $precision, $mode);
-        });
-        // Register the script function
-        $this->registerTemplateFunction("script", function ($paths, $type = "text/javascript")
-        {
-            if(!is_array($paths))
-            {
-                $paths = [$paths];
-            }
-
-            $callback = function($path) use ($type)
-            {
-                return '<script type="' . $type . '" src="' . $path . '"></script>';
-            };
-
-            return implode("\n", array_map($callback, $paths));
-        });
-        // Register the lowercase function
-        $this->registerTemplateFunction("strtolower", function ($string)
-        {
-            return strtolower($string);
-        });
-        // Register the lowercase function
-        $this->registerTemplateFunction("strtoupper", function ($string)
-        {
-            return strtoupper($string);
-        });
-        // Register the substring function
-        $this->registerTemplateFunction("substr", function ($string, $start, $length = null)
-        {
-            if($length === null)
-            {
-                return substr($string, $start);
-            }
-
-            return substr($string, $start, $length);
-        });
-        // Register the trim function
-        $this->registerTemplateFunction("trim", function ($string, $characterMask = " \t\n\r\0\x0B")
-        {
-            return trim($string, $characterMask);
-        });
-        // Register the uppercase first function
-        $this->registerTemplateFunction("ucfirst", function ($string)
-        {
-            return ucfirst($string);
-        });
-        // Register the uppercase words function
-        $this->registerTemplateFunction("ucwords", function ($string)
-        {
-            return ucwords($string);
-        });
-        // Register the URL decode function
-        $this->registerTemplateFunction("urldecode", function ($string)
-        {
-            return urldecode($string);
-        });
-        // Register the URL encode function
-        $this->registerTemplateFunction("urlencode", function ($string)
-        {
-            return urlencode($string);
-        });
     }
 
     /**

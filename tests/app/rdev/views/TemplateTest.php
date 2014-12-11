@@ -58,6 +58,19 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the statement tags
+     */
+    public function testGettingStatementTags()
+    {
+        $this->assertEquals(Template::DEFAULT_STATEMENT_OPEN_TAG, $this->template->getStatementOpenTag());
+        $this->assertEquals(Template::DEFAULT_STATEMENT_CLOSE_TAG, $this->template->getStatementCloseTag());
+        $this->template->setStatementOpenTag("foo");
+        $this->template->setStatementCloseTag("bar");
+        $this->assertEquals("foo", $this->template->getStatementOpenTag());
+        $this->assertEquals("bar", $this->template->getStatementCloseTag());
+    }
+
+    /**
      * Tests getting a tag
      */
     public function testGettingTag()

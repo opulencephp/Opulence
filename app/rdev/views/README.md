@@ -255,7 +255,7 @@ RDev also supplies some other built-in functions:
   * Returns a URL that is created using the rules of the input route name
   * Accepts the following arguments:
     1. `string $routeName` - The name of the route whose URL we're creating
-    2. `array|mixed $arguments` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/app/rdev/routing#url-generators))
+    2. `array|mixed $args` - The arguments to pass into the `URLGenerator` to fill any host or path variables in the route ([learn more about the `URLGenerator`](/app/rdev/routing#url-generators))
 * `pageTitle()`
   * Returns HTML used to display a title
   * Accepts the following arguments:
