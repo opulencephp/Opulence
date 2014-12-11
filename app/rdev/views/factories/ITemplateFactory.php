@@ -34,8 +34,8 @@ interface ITemplateFactory
      * Every time this template is created, the builders are run on it
      * Builders are run in the order they're registered
      *
-     * @param string $name The alias or path of the template relative to the root template directory
+     * @param string|array $names The alias(es) or path(s) of the template relative to the root template directory
      * @param callable $callback The callback that will return an instance of a builder
      */
-    public function registerBuilder($name, callable $callback);
+    public function registerBuilder($names, callable $callback);
 }

@@ -104,6 +104,54 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering builders to mix of paths and aliases
+     */
+    public function testRegisteringBuilderToMixOfPathsAndAliases()
+    {
+        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->templateFactory->registerBuilder(["foo", "TestWithCustomTags.html"], function()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $fooTemplate = $this->templateFactory->create("foo");
+        $customTagTemplate = $this->templateFactory->create("TestWithCustomTags.html");
+        $this->assertEquals("bar", $fooTemplate->getTag("foo"));
+        $this->assertEquals("bar", $customTagTemplate->getTag("foo"));
+    }
+
+    /**
+     * Tests registering builders to multiple aliases
+     */
+    public function testRegisteringBuilderToMultipleAliases()
+    {
+        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->templateFactory->alias("bar", "TestWithCustomTags.html");
+        $this->templateFactory->registerBuilder(["foo", "bar"], function()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $fooTemplate = $this->templateFactory->create("foo");
+        $barTemplate = $this->templateFactory->create("bar");
+        $this->assertEquals("bar", $fooTemplate->getTag("foo"));
+        $this->assertEquals("bar", $barTemplate->getTag("foo"));
+    }
+
+    /**
+     * Tests registering builders to multiple paths
+     */
+    public function testRegisteringBuilderToMultiplePaths()
+    {
+        $this->templateFactory->registerBuilder(["TestWithDefaultTags.html", "TestWithCustomTags.html"], function()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $defaultTagsTemplate = $this->templateFactory->create("TestWithDefaultTags.html");
+        $customTagsTemplate = $this->templateFactory->create("TestWithCustomTags.html");
+        $this->assertEquals("bar", $defaultTagsTemplate->getTag("foo"));
+        $this->assertEquals("bar", $customTagsTemplate->getTag("foo"));
+    }
+
+    /**
      * Tests registering a builder to a path also registers to an alias
      */
     public function testRegisteringBuilderToPathAlsoRegistersToAlias()

@@ -67,14 +67,22 @@ class TemplateFactory implements ITemplateFactory
     /**
      * {@inheritdoc}
      */
-    public function registerBuilder($name, callable $callback)
+    public function registerBuilder($names, callable $callback)
     {
-        if(!isset($this->builders[$name]))
+        if(!is_array($names))
         {
-            $this->builders[$name] = [];
+            $names = [$names];
         }
 
-        $this->builders[$name][] = $callback;
+        foreach($names as $name)
+        {
+            if(!isset($this->builders[$name]))
+            {
+                $this->builders[$name] = [];
+            }
+
+            $this->builders[$name][] = $callback;
+        }
     }
 
     /**
