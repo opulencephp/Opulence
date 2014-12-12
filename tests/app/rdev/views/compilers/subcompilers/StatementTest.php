@@ -44,7 +44,8 @@ class StatementTest extends Tests\Compiler
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_EXTEND_STATEMENT)
         );
         $this->assertEquals(
-            "The Header\r\nHello, world!",
+            "The Header
+Hello, world!",
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
     }
@@ -58,10 +59,13 @@ class StatementTest extends Tests\Compiler
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT)
         );
         $this->assertEquals(
-            '<div>{{!content!}}</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>' . "\r\n",
+            '<div>{{!content!}}</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>
+',
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
-        $this->assertEquals("\r\nThis is the content\r\n", $this->template->getTag("content"));
+        $this->assertEquals("
+This is the content
+", $this->template->getTag("content"));
     }
 
     /**
@@ -77,10 +81,13 @@ class StatementTest extends Tests\Compiler
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT)
         );
         $this->assertEquals(
-            '<div>{{!content!}}</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>' . "\r\n",
+            '<div>{{!content!}}</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>
+',
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
-        $this->assertEquals("\r\nThis is the content\r\n", $this->template->getTag("content"));
+        $this->assertEquals("
+This is the content
+", $this->template->getTag("content"));
         $this->assertEquals("bar", $this->template->getTag("foo"));
         $this->assertEquals(true, $this->template->getVar("bar"));
     }

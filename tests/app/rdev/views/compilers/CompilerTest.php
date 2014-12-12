@@ -169,7 +169,10 @@ class CompilerTest extends CompilerTests\Compiler
         );
         $this->compiler->compile($this->template);
         $this->assertEquals(
-            '<div>' . "\r\nThis is the content\r\n" . '</div><div>bar</div><div>baz</div>' . "\r\n",
+            '<div>
+This is the content
+</div><div>bar</div><div>baz</div>
+',
             $this->compiler->compile($this->template)
         );
     }

@@ -7,7 +7,7 @@
   1. [Garbage Collection](#garbage-collection)
 4. [Cross-Site Scripting](#cross-site-scripting)
 5. [Nesting Templates](#nesting-templates)
-6. [Extending Templates](#extending-template)
+6. [Extending Templates](#extending-templates)
   1. [Example](#example)
   2. [Parts](#parts)
 7. [Using PHP in Your Template](#using-php-in-your-template)
