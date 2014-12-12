@@ -142,15 +142,27 @@ class CompilerTest extends CompilerTests\Compiler
     }
 
     /**
+     * Tests executing a template function that takes no parameters
+     */
+    public function testExecutingTemplateFunctionThatTakesNoParameters()
+    {
+        $this->compiler->registerTemplateFunction("foo", function ()
+        {
+            return "foobar";
+        });
+        $this->assertEquals("foobar", $this->compiler->executeTemplateFunction("foo"));
+    }
+
+    /**
      * Tests executing a template function that takes parameters
      */
     public function testExecutingTemplateFunctionThatTakesParameters()
     {
-        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template, $input)
+        $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return "foo" . $input;
         });
-        $this->assertEquals("foobar", $this->compiler->executeTemplateFunction("foo", [$this->template, "bar"]));
+        $this->assertEquals("foobar", $this->compiler->executeTemplateFunction("foo", ["bar"]));
     }
 
     /**
@@ -180,11 +192,11 @@ This is the content
      */
     public function testGettingTemplateFunctions()
     {
-        $foo = function(Views\ITemplate $template)
+        $foo = function()
         {
             echo "foo";
         };
-        $bar = function(Views\ITemplate $template)
+        $bar = function()
         {
             echo "bar";
         };

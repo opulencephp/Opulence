@@ -390,7 +390,7 @@ You may execute template functions in your PHP code by calling `RDev\Views\Compi
 
 ##### Application Code
 ```php
-$compiler->registerTemplateFunction("myPageTitle", function($template, $title) use ($compiler, $template)
+$compiler->registerTemplateFunction("myPageTitle", function($title) use ($compiler, $template)
 {
     // Take advantage of the built-in template function
     return $compiler->executeTemplateFunction("pageTitle", [$template, "My Site | " . $title]);
@@ -414,19 +414,17 @@ This will output:
 ```
 
 ## Custom Template Functions
-It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler.  Your function declaration must accept the `ITemplate` object as its first parameter, but you do NOT need to pass it in when calling it from a template - it is automatically passed in for you:
+It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
 ##### Template
 ```
 Hello, {{salutation("Young", false, true)}}
 ```
 
-Notice how we didn't have to pass in an `ITemplate` object?  That's because it's done for you by the compiler.
-
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 // Our function simply needs to have a printable return value
-$compiler->registerTemplateFunction("salutation", function($template, $lastName, $isMale, $isMarried)
+$compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $isMarried)
 {
     if($isMale)
     {

@@ -51,7 +51,7 @@ class PHP extends SubCompiler
             // We allow any valid php function name
             /** @link http://php.net/manual/en/functions.user-defined.php */
             $regex = "/%s\s*([a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)\(\s*((?:(?!\)\s*%s).)*)\s*\)\s*%s/";
-            $functionCallString = 'call_user_func_array($templateFunctions["\1"], [$template, \2])';
+            $functionCallString = 'call_user_func_array($templateFunctions["\1"], [\2])';
             // Replace function calls in escaped tags
             $content = preg_replace(
                 sprintf(

@@ -29,7 +29,7 @@ class PHPTest extends Tests\Compiler
      */
     public function testCompilingFunctionInsideEscapedTags()
     {
-        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template)
+        $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "A&W";
         });
@@ -47,7 +47,7 @@ class PHPTest extends Tests\Compiler
      */
     public function testCompilingFunctionInsideUnescapedTags()
     {
-        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template)
+        $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "A&W";
         });
@@ -75,7 +75,7 @@ class PHPTest extends Tests\Compiler
      */
     public function testFunctionThatSpansMultipleLines()
     {
-        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template, $input)
+        $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return $input . "bar";
         });
@@ -93,7 +93,7 @@ class PHPTest extends Tests\Compiler
     public function testFunctionWithSpacesBetweenTags()
     {
         $this->template->setContents('{{! foo("bar") !}}');
-        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template, $input)
+        $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             echo $input;
         });
@@ -127,7 +127,7 @@ class PHPTest extends Tests\Compiler
     public function testMultipleCallsOfSameFunction()
     {
         $this->compiler->registerTemplateFunction("foo",
-            function (Views\ITemplate $template, $param1 = null, $param2 = null)
+            function ($param1 = null, $param2 = null)
             {
                 if($param1 == null && $param2 == null)
                 {

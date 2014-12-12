@@ -87,12 +87,10 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
      */
     protected function registerFunction()
     {
-        $this->compiler->registerTemplateFunction("customDate",
-            function (Views\ITemplate $template, \DateTime $date, $format, array $someArray)
-            {
-                return $date->format($format) . " and count of array is " . count($someArray);
-            }
-        );
+        $this->compiler->registerTemplateFunction("customDate", function (\DateTime $date, $format, array $someArray)
+        {
+            return $date->format($format) . " and count of array is " . count($someArray);
+        });
         $today = new \DateTime("now");
         $this->template->setVar("today", $today);
 
