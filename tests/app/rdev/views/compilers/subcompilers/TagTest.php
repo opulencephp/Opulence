@@ -19,7 +19,7 @@ class TagTest extends Tests\Compiler
     {
         parent::setUp();
 
-        $this->subCompiler = new Tag($this->compiler);
+        $this->subCompiler = new Tag($this->compiler, $this->xssFilter);
     }
 
     /**

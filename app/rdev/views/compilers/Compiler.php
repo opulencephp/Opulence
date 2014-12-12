@@ -21,8 +21,6 @@ class Compiler implements ICompiler
     protected $cache = null;
     /** @var array The mapping of function names to their callbacks */
     protected $templateFunctions = [];
-    /** @var Filters\IFilter The cross-site scripting filter */
-    protected $xssFilter = null;
 
     /**
      * @param Cache\ICache $cache The cache to use for compiled templates
@@ -35,13 +33,12 @@ class Compiler implements ICompiler
         Filters\IFilter $xssFilter
     )
     {
-        $this->setCache($cache);
-        $this->setXSSFilter($xssFilter);
+        $this->cache = $cache;
 
         // Order here matters
         $this->registerSubCompiler(new SubCompilers\Statement($this, $templateFactory));
-        $this->registerSubCompiler(new SubCompilers\PHP($this));
-        $this->registerSubCompiler(new SubCompilers\Tag($this));
+        $this->registerSubCompiler(new SubCompilers\PHP($this, $xssFilter));
+        $this->registerSubCompiler(new SubCompilers\Tag($this, $xssFilter));
         $templateFunctionRegistrant = new BuiltInTemplateFunctionRegistrant();
         $templateFunctionRegistrant->registerTemplateFunctions($this);
     }
@@ -112,14 +109,6 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function getXSSFilter()
-    {
-        return $this->xssFilter;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function registerSubCompiler(SubCompilers\ISubCompiler $subCompiler, $priority = null)
     {
         if($priority === null)
@@ -145,22 +134,6 @@ class Compiler implements ICompiler
     public function registerTemplateFunction($functionName, callable $function)
     {
         $this->templateFunctions[$functionName] = $function;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setCache(Cache\ICache $cache)
-    {
-        $this->cache = $cache;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setXSSFilter($xssFilter)
-    {
-        $this->xssFilter = $xssFilter;
     }
 
     /**

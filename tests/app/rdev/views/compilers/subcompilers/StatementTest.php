@@ -65,7 +65,9 @@ Hello, world!",
         );
         $this->assertEquals("
 This is the content
-", $this->template->getTag("content"));
+",
+            $this->template->getTag("content")
+        );
     }
 
     /**
@@ -87,7 +89,35 @@ This is the content
         );
         $this->assertEquals("
 This is the content
-", $this->template->getTag("content"));
+",
+            $this->template->getTag("content"));
+        $this->assertEquals("bar", $this->template->getTag("foo"));
+        $this->assertEquals(true, $this->template->getVar("bar"));
+    }
+
+    /**
+     * Tests extending a template that extends a template
+     */
+    public function testNestedExtendStatements()
+    {
+        $this->templateFactory->registerBuilder("Master.html", function()
+        {
+            return new Mocks\ParentBuilder();
+        });
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS)
+        );
+        $this->assertEquals(
+            '<div>{{!content!}}</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>
+
+Foo',
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+        $this->assertEquals("
+This is the content
+",
+            $this->template->getTag("content")
+        );
         $this->assertEquals("bar", $this->template->getTag("foo"));
         $this->assertEquals(true, $this->template->getVar("bar"));
     }

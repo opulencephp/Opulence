@@ -6,9 +6,25 @@
  */
 namespace RDev\Views\Compilers\SubCompilers;
 use RDev\Views;
+use RDev\Views\Compilers;
+use RDev\Views\Filters;
 
 class PHP extends SubCompiler
 {
+    /** @var Filters\IFilter The cross-site scripting filter */
+    private $xssFilter = null;
+
+    /**
+     * {@inheritdoc}
+     * @param Filters\IFilter $xssFilter The cross-site scripting filter
+     */
+    public function __construct(Compilers\ICompiler $parentCompiler, Filters\IFilter $xssFilter)
+    {
+        parent::__construct($parentCompiler);
+
+        $this->xssFilter = $xssFilter;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -17,6 +33,7 @@ class PHP extends SubCompiler
         // Create local variables for use in eval()
         extract($template->getVars());
 
+        // Keep track of our output buffer level so we know how many to clean when we're done
         $startOBLevel = ob_get_level();
         ob_start();
 
@@ -35,7 +52,7 @@ class PHP extends SubCompiler
                     preg_quote($functionName, "/"),
                     preg_quote($template->getEscapedCloseTag(), "/"),
                     preg_quote($template->getEscapedCloseTag(), "/")),
-                '<?php echo $this->parentCompiler->getXSSFilter()->run(' . $functionCallString . '); ?>',
+                '<?php echo $this->xssFilter->run(' . $functionCallString . '); ?>',
                 $content
             );
             // Replace function calls in unescaped tags

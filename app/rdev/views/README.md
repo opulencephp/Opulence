@@ -6,20 +6,19 @@
 3. [Caching](#caching)
   1. [Garbage Collection](#garbage-collection)
 4. [Cross-Site Scripting](#cross-site-scripting)
-5. [Nesting Templates](#nesting-templates)
-6. [Extending Templates](#extending-templates)
+5. [Extending Templates](#extending-templates)
   1. [Example](#example)
   2. [Parts](#parts)
-7. [Using PHP in Your Template](#using-php-in-your-template)
-8. [Built-In Functions](#built-in-functions)
+6. [Using PHP in Your Template](#using-php-in-your-template)
+7. [Built-In Functions](#built-in-functions)
   1. [PHP Functions](#php-functions)
   2. [RDev Functions](#rdev-functions)
   3. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
-9. [Custom Template Functions](#custom-template-functions)
-10. [Extending the Compiler](#extending-the-compiler)
-11. [Escaping Tags](#escaping-tags)
-12. [Custom Tags](#custom-tags)
-13. [Template Factory](#template-factory)
+8. [Custom Template Functions](#custom-template-functions)
+9. [Extending the Compiler](#extending-the-compiler)
+10. [Escaping Tags](#escaping-tags)
+11. [Custom Tags](#custom-tags)
+12. [Template Factory](#template-factory)
   1. [Builders](#builders)
   2. [Aliasing](#aliasing)
 
@@ -112,50 +111,6 @@ Alternatively, you can output a string literal inside tags:
 
 This will output "A&amp;amp;W vs A&amp;W".
 
-## Nesting Templates
-Nesting templates is an easy way to keep two components reusable.  For example, many websites use a sidebar for navigation on most pages.  With **RDev**, you can create a template for the sidebar and another for all the pages' contents.  Then, you can combine a page with the sidebar using a tag:
-##### Page Template
-```
-<div id="main">
-    Here's my main content
-</div>
-{{!sidebar!}}
-```
-##### Sidebar Template
-```
-<div id="sidebar">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/logout">Log Out</a></li>
-    </ul>
-</div>
-```
-##### Application Code
-```php
-use RDev\Files;
-use RDev\Views;
-
-$sidebar = new Views\Template($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
-$page = new Views\Template($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
-$page->setTag("sidebar", $compiler->compile($sidebar));
-echo $compiler->compile($page);
-```
-
-##### Output
-```
-<div id="main">
-    Here's my main content
-</div>
-<div id="sidebar">
-    <ul>
-        <li><a href="/">Home</a></li>
-        <li><a href="/logout">Log Out</a></li>
-    </ul>
-</div>
-```
-
-> **Note:** It is recommended you use unescaped tags to nest templates that display HTML.  Otherwise, the HTML will be escaped and will not appear correctly.
-
 ## Extending Templates
 Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a *statement tag* `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
 
@@ -169,7 +124,7 @@ Hello, world!
 ##### Child
 ```
 {% extend("Master.html") %}
-Hi, Dave!
+Hello, Dave!
 ```
 
 When the child template gets compiled, the `Master.html` template is automatically created by an `RDev\Views\Factories\ITemplateFactory` and inserted into the template to produce the following output:

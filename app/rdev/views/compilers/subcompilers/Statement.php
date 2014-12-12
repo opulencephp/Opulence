@@ -30,9 +30,10 @@ class Statement extends SubCompiler
      */
     public function compile(Views\ITemplate $template, $content)
     {
-        $content = $this->compilePartStatements($template, $content);
+        // Need to compile the extends before the parts so that we have all part statements in template
+        $content = $this->compileExtendStatements($template, $content);
 
-        return $this->compileExtendStatements($template, $content);
+        return $this->compilePartStatements($template, $content);
     }
 
     /**
@@ -68,7 +69,13 @@ class Statement extends SubCompiler
             preg_quote($template->getStatementOpenTag(), "/"),
             preg_quote($template->getStatementCloseTag(), "/")
         );
-        $content = preg_replace_callback($regex, $callback, $content);
+        $count = 10000;
+
+        do
+        {
+            $content = preg_replace_callback($regex, $callback, $content, -1, $count);
+        }
+        while($count > 0);
 
         return $content;
     }

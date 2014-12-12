@@ -38,13 +38,6 @@ interface ICompiler
     public function getTemplateFunctions();
 
     /**
-     * Gets the cross-site scripting filter used by this compiler
-     *
-     * @return Filters\IFilter
-     */
-    public function getXSSFilter();
-
-    /**
      * Registers a sub-compiler
      *
      * @param SubCompilers\ISubCompiler $subCompiler The sub-compiler to register
@@ -63,18 +56,4 @@ interface ICompiler
      *      It must accept one parameter (the template's contents) and return a printable value
      */
     public function registerTemplateFunction($functionName, callable $function);
-
-    /**
-     * Sets the cache to use
-     *
-     * @param Cache\ICache $cache The cache to use
-     */
-    public function setCache(Cache\ICache $cache);
-
-    /**
-     * Sets the cross-site scripting filter to use
-     *
-     * @param Filters\IFilter $xssFilter The filter to use
-     */
-    public function setXSSFilter($xssFilter);
 } 

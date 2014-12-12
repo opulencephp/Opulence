@@ -200,14 +200,6 @@ This is the content
     }
 
     /**
-     * Tests getting the XSS filter
-     */
-    public function testGettingXSSFilter()
-    {
-        $this->assertSame($this->xssFilter, $this->compiler->getXSSFilter());
-    }
-
-    /**
      * Tests passing in an integer less than 1 for the priority
      */
     public function testIntegerLessThanOnePriority()
@@ -229,15 +221,5 @@ This is the content
         {
             return $content;
         }), 1.5);
-    }
-
-    /**
-     * Tests setting the XSS filter
-     */
-    public function testSettingXSSFilter()
-    {
-        $xssFilter = new Filters\XSS();
-        $this->compiler->setXSSFilter($xssFilter);
-        $this->assertSame($xssFilter, $this->compiler->getXSSFilter());
     }
 }

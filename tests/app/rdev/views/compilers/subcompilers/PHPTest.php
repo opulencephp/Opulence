@@ -20,7 +20,7 @@ class PHPTest extends Tests\Compiler
     {
         parent::setUp();
 
-        $this->subCompiler = new PHP($this->compiler);
+        $this->subCompiler = new PHP($this->compiler, $this->xssFilter);
     }
 
     /**

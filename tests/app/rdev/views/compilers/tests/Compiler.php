@@ -26,6 +26,8 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH_WITH_EXTEND_STATEMENT = "/../files/TestWithExtendStatement.html";
     /** the path to the test template with extend and part statements */
     const TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT = "/../files/TestWithExtendAndPartStatements.html";
+    /** the path to the test template with nested extend statements */
+    const TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS = "/../files/TestWithNestedExtendStatements.html";
 
 
     /** @var Filters\IFilter The cross-site scripting filter to use */
