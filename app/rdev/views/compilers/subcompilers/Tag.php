@@ -134,61 +134,58 @@ class Tag extends SubCompiler
             ]
         ];
 
-        foreach($tagData as $tagDataByType)
+        $count = 0;
+
+        // By putting this in a loop, we handle the case that a tag's value is another tag
+        do
         {
-            // Create the regexes to find escaped tags with bookends
-            $arrayMapCallback = function ($tagName) use ($content, $tagDataByType)
+            foreach($tagData as $tagDataByType)
             {
-                return sprintf(
-                    "/(?<!%s)%s\s*(%s)\s*%s/U",
-                    preg_quote("\\", "/"),
-                    preg_quote($tagDataByType["tags"][0], "/"),
-                    preg_quote($tagName, "/"),
-                    preg_quote($tagDataByType["tags"][1], "/")
-                );
-            };
-
-            // Filter the values
-            $regexCallback = function ($matches) use ($tagDataByType)
-            {
-                $tagName = $matches[1];
-
-                // If the tag name is a string literal
-                if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1]
-                    && ($tagName[0] == "'" || $tagName[0] == '"')
-                )
+                // Create the regexes to find escaped tags with bookends
+                $arrayMapCallback = function ($tagName) use ($content, $tagDataByType)
                 {
-                    return call_user_func_array($tagDataByType["stringLiteralCallback"], [$tagName]);
-                }
+                    return sprintf(
+                        "/(?<!%s)%s\s*(%s)\s*%s/U",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["tags"][0], "/"),
+                        preg_quote($tagName, "/"),
+                        preg_quote($tagDataByType["tags"][1], "/")
+                    );
+                };
 
-                return call_user_func_array($tagDataByType["tagNameCallback"], [$tagName]);
-            };
+                // Filter the values
+                $regexCallback = function ($matches) use ($tagDataByType)
+                {
+                    $tagName = $matches[1];
 
-            // Replace string literals
-            $content = preg_replace_callback(
-                sprintf(
-                    "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U",
-                    preg_quote("\\", "/"),
-                    preg_quote($tagDataByType["tags"][0], "/"),
-                    preg_quote($tagDataByType["tags"][1], "/")
-                ),
-                $regexCallback,
-                $content
-            );
+                    // If the tag name is a string literal
+                    if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1]
+                        && ($tagName[0] == "'" || $tagName[0] == '"')
+                    )
+                    {
+                        return call_user_func_array($tagDataByType["stringLiteralCallback"], [$tagName]);
+                    }
 
-            /**
-             * Replace the tags with their values
-             * By putting this in a loop, we handle the case that a tag's value is another tag
-             */
-            $count = 1;
+                    return call_user_func_array($tagDataByType["tagNameCallback"], [$tagName]);
+                };
 
-            do
-            {
+                // Replace string literals
+                $content = preg_replace_callback(
+                    sprintf(
+                        "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["tags"][0], "/"),
+                        preg_quote($tagDataByType["tags"][1], "/")
+                    ),
+                    $regexCallback,
+                    $content
+                );
+                // Replace the tags with their values
                 $regexes = array_map($arrayMapCallback, array_keys($template->getTags()));
                 $content = preg_replace_callback($regexes, $regexCallback, $content, -1, $count);
             }
-            while($count > 0);
         }
+        while($count > 0);
 
         return $content;
     }
