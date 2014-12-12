@@ -41,14 +41,14 @@ class CompilerTest extends CompilerTests\Compiler
     }
 
     /**
-     * Tests compiling a tag whose value calls a template function
+     * Tests compiling a part whose value calls a template function
      */
-    /*public function testCompilingTagWhoseValueCallsTemplateFunction()
+    public function testCompilingPartWhoseValueCallsTemplateFunction()
     {
-        $this->template->setContents("{{content}}");
-        $this->template->setTag("content", "{{round(2.1)}}");
+        $this->template->setContents('{% show("content") %}{% part("content") %}{{round(2.1)}}{%endpart%}');
+        $this->compiler->compile($this->template);
         $this->assertEquals("2", $this->compiler->compile($this->template));
-    }*/
+    }
 
     /**
      * Tests compiling a template that uses custom tags
@@ -142,27 +142,15 @@ class CompilerTest extends CompilerTests\Compiler
     }
 
     /**
-     * Tests executing a template function that takes no parameters
-     */
-    public function testExecutingTemplateFunctionThatTakesNoParameters()
-    {
-        $this->compiler->registerTemplateFunction("foo", function ()
-        {
-            return "bar";
-        });
-        $this->assertEquals("bar", $this->compiler->executeTemplateFunction("foo"));
-    }
-
-    /**
      * Tests executing a template function that takes parameters
      */
     public function testExecutingTemplateFunctionThatTakesParameters()
     {
-        $this->compiler->registerTemplateFunction("foo", function ($input)
+        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template, $input)
         {
             return "foo" . $input;
         });
-        $this->assertEquals("foobar", $this->compiler->executeTemplateFunction("foo", ["bar"]));
+        $this->assertEquals("foobar", $this->compiler->executeTemplateFunction("foo", [$this->template, "bar"]));
     }
 
     /**
@@ -192,11 +180,11 @@ This is the content
      */
     public function testGettingTemplateFunctions()
     {
-        $foo = function()
+        $foo = function(Views\ITemplate $template)
         {
             echo "foo";
         };
-        $bar = function()
+        $bar = function(Views\ITemplate $template)
         {
             echo "bar";
         };

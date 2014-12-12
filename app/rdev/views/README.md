@@ -137,12 +137,12 @@ Hello, Dave!
 > **Note:** When extending a template, the child template inherits all of the parent's tag and variable values.
 
 #### Parts
-Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template:
+Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template.  Use the `{% show(NAME_OF_PART) %}` statement:
 
 ##### Master.html
 ```
 <div id="sidebar">
-    {{sidebar}}
+    {% show("sidebar") %}
 </div>
 ```
 
@@ -157,7 +157,7 @@ Another common case is a master template that is leaving a child template to fil
 {% endpart %}
 ```
 
-We created a *part* named "sidebar".  When the child gets compiled, the contents of that part will be inserted into a tag of the same name, which in this case is {{sidebar}}. We will get the following:
+We created a *part* named "sidebar".  When the child gets compiled, the contents of that part will be shown in any `{% show() %}` statement whose parameter matches the name of the part. We will get the following:
 
 ```
 <div id="sidebar">
@@ -373,7 +373,7 @@ This will output:
 ```
 
 #### Using Template Functions in PHP Code
-You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | {NAME_OF_PAGE}`:
+You may execute template functions in your PHP code by calling `RDev\Views\Compilers\ICompiler::executeTemplateFunction()`.  Let's take a look at an example that displays a pretty HTML page title formatted like `My Site | NAME_OF_PAGE`:
 
 ##### Template
 ```
@@ -390,10 +390,10 @@ You may execute template functions in your PHP code by calling `RDev\Views\Compi
 
 ##### Application Code
 ```php
-$compiler->registerTemplateFunction("myPageTitle", function($title) use ($compiler)
+$compiler->registerTemplateFunction("myPageTitle", function($template, $title) use ($compiler, $template)
 {
     // Take advantage of the built-in template function
-    return $compiler->executeTemplateFunction("pageTitle", ["My Site | " . $title]);
+    return $compiler->executeTemplateFunction("pageTitle", [$template, "My Site | " . $title]);
 });
 $template->setContents(TEMPLATE);
 echo $compiler->compile($template);
@@ -414,16 +414,19 @@ This will output:
 ```
 
 ## Custom Template Functions
-It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler:
+It's possible to add custom functions to your template.  For example, you might want to add a salutation to a last name in your template.  This salutation would need to know the last name, whether or not the person is a male, and if s/he is married.  You could set tags with the formatted value, but this would require a lot of duplicated formatting code in your application.  Instead, save yourself some work and register the function to the compiler.  Your function declaration must accept the `ITemplate` object as its first parameter, but you do NOT need to pass it in when calling it from a template - it is automatically passed in for you:
 ##### Template
 ```
 Hello, {{salutation("Young", false, true)}}
 ```
+
+Notice how we didn't have to pass in an `ITemplate` object?  That's because it's done for you by the compiler.
+
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 // Our function simply needs to have a printable return value
-$compiler->registerTemplateFunction("salutation", function($lastName, $isMale, $isMarried)
+$compiler->registerTemplateFunction("salutation", function($template, $lastName, $isMale, $isMarried)
 {
     if($isMale)
     {

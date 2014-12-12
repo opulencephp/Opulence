@@ -7,6 +7,7 @@
 namespace RDev\Views\Compilers\SubCompilers;
 use RDev\Tests\Mocks;
 use RDev\Tests\Views\Compilers\Tests;
+use RDev\Views;
 
 class PHPTest extends Tests\Compiler
 {
@@ -28,7 +29,7 @@ class PHPTest extends Tests\Compiler
      */
     public function testCompilingFunctionInsideEscapedTags()
     {
-        $this->compiler->registerTemplateFunction("foo", function ()
+        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template)
         {
             return "A&W";
         });
@@ -46,7 +47,7 @@ class PHPTest extends Tests\Compiler
      */
     public function testCompilingFunctionInsideUnescapedTags()
     {
-        $this->compiler->registerTemplateFunction("foo", function ()
+        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template)
         {
             return "A&W";
         });
@@ -74,7 +75,7 @@ class PHPTest extends Tests\Compiler
      */
     public function testFunctionThatSpansMultipleLines()
     {
-        $this->compiler->registerTemplateFunction("foo", function ($input)
+        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template, $input)
         {
             return $input . "bar";
         });
@@ -92,7 +93,7 @@ class PHPTest extends Tests\Compiler
     public function testFunctionWithSpacesBetweenTags()
     {
         $this->template->setContents('{{! foo("bar") !}}');
-        $this->compiler->registerTemplateFunction("foo", function ($input)
+        $this->compiler->registerTemplateFunction("foo", function (Views\ITemplate $template, $input)
         {
             echo $input;
         });
@@ -125,25 +126,27 @@ class PHPTest extends Tests\Compiler
      */
     public function testMultipleCallsOfSameFunction()
     {
-        $this->compiler->registerTemplateFunction("foo", function ($param1 = null, $param2 = null)
-        {
-            if($param1 == null && $param2 == null)
+        $this->compiler->registerTemplateFunction("foo",
+            function (Views\ITemplate $template, $param1 = null, $param2 = null)
             {
-                return "No params";
+                if($param1 == null && $param2 == null)
+                {
+                    return "No params";
+                }
+                elseif($param1 == null)
+                {
+                    return "Param 2 set";
+                }
+                elseif($param2 == null)
+                {
+                    return "Param 1 set";
+                }
+                else
+                {
+                    return "Both params set";
+                }
             }
-            elseif($param1 == null)
-            {
-                return "Param 2 set";
-            }
-            elseif($param2 == null)
-            {
-                return "Param 1 set";
-            }
-            else
-            {
-                return "Both params set";
-            }
-        });
+        );
         $this->template->setContents(
             '{{!foo()!}}, {{!foo()!}}, {{!foo("bar")!}}, {{!foo(null, "bar")!}}, {{!foo("bar", "blah")!}}'
         );

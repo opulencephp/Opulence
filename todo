@@ -1,5 +1,5 @@
 HAS PRIORITY:
-    Need to writeup statements in README
+    Need to probably add template parts to logic that checks if template is already cached
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
     Move docs to their own repository

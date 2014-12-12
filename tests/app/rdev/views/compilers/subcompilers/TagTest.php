@@ -72,7 +72,7 @@ class TagTest extends Tests\Compiler
         $this->template->setTag("imSafe", "a&b");
         $this->assertTrue(
             $this->stringsWithEncodedCharactersEqual(
-                'Hello, world! . ^^blah$$. a&amp;b. me too. c&amp;d. e&f. ++"g&h"--. ++ "i&j" --. ++blah--. Today escaped is  and unescaped is . (*part("parttest")*)It worked(*endpart*).',
+                'Hello, world! (*show("parttest")*). ^^blah$$. a&amp;b. me too. c&amp;d. e&f. ++"g&h"--. ++ "i&j" --. ++blah--. Today escaped is  and unescaped is . (*part("parttest")*)It worked(*endpart*).',
                 $this->subCompiler->compile($this->template, $this->template->getContents())
             )
         );
@@ -90,7 +90,7 @@ class TagTest extends Tests\Compiler
         $this->template->setTag("imSafe", "a&b");
         $this->assertTrue(
             $this->stringsWithEncodedCharactersEqual(
-                'Hello, world! . {{!blah!}}. a&amp;b. me too. c&amp;d. e&f. {{"g&h"}}. {{ "i&j" }}. {{blah}}. Today escaped is  and unescaped is . {%part("partest")%}It worked{%endpart%}.',
+                'Hello, world! {%show("parttest")%}. {{!blah!}}. a&amp;b. me too. c&amp;d. e&f. {{"g&h"}}. {{ "i&j" }}. {{blah}}. Today escaped is  and unescaped is . {%part("parttest")%}It worked{%endpart%}.',
                 $this->subCompiler->compile($this->template, $this->template->getContents())
             )
         );

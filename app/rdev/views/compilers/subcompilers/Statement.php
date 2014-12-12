@@ -32,8 +32,9 @@ class Statement extends SubCompiler
     {
         // Need to compile the extends before the parts so that we have all part statements in template
         $content = $this->compileExtendStatements($template, $content);
+        $content = $this->compilePartStatements($template, $content);
 
-        return $this->compilePartStatements($template, $content);
+        return $this->compileShowStatements($template, $content);
     }
 
     /**
@@ -45,7 +46,6 @@ class Statement extends SubCompiler
      */
     private function compileExtendStatements(Views\ITemplate $template, $content)
     {
-        /** @var Views\ITemplate[] $parentStack */
         $parentStack = [];
         $callback = function($matches) use (&$parentStack)
         {
@@ -75,7 +75,9 @@ class Statement extends SubCompiler
         // The nearest parents' tags and values take precedence over further ones
         while(count($parentStack) > 0)
         {
+            /** @var Views\ITemplate $parentTemplate */
             $parentTemplate = array_pop($parentStack);
+            $template->setParts($parentTemplate->getParts());
             $template->setTags($parentTemplate->getTags());
             $template->setVars($parentTemplate->getVars());
         }
@@ -94,7 +96,7 @@ class Statement extends SubCompiler
     {
         $callback = function($matches) use ($template)
         {
-            $template->setTag($matches[2], $matches[3]);
+            $template->setPart($matches[2], $matches[3]);
 
             return "";
         };
@@ -107,6 +109,37 @@ class Statement extends SubCompiler
             preg_quote($template->getStatementCloseTag(), "/")
         );
         $content = preg_replace_callback($regex, $callback, $content);
+
+        return $content;
+    }
+
+    /**
+     * Compiles show statements
+     *
+     * @param Views\ITemplate $template The template to compile
+     * @param string $content The compiled contents
+     * @return string The compiled contents
+     */
+    private function compileShowStatements(Views\ITemplate $template, $content)
+    {
+        $count = 1;
+
+        // Doing this in a loop allows us to compile statements that return statements
+        do
+        {
+            $callback = function ($matches) use ($template)
+            {
+                return $template->getPart($matches[2]);
+            };
+            $regex = sprintf(
+                '/(?<!%s)%s\s*show\((["|\'])([^\1]+)\1\)\s*%s/sU',
+                preg_quote("\\", "/"),
+                preg_quote($template->getStatementOpenTag(), "/"),
+                preg_quote($template->getStatementCloseTag(), "/")
+            );
+            $content = preg_replace_callback($regex, $callback, $content, -1, $count);
+        }
+        while($count > 0);
 
         return $content;
     }

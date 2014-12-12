@@ -27,6 +27,8 @@ class Template implements ITemplate
     protected $tags = [];
     /** @var array The mapping of PHP variable names to their values */
     protected $vars = [];
+    /** @var array The mapping of template part names to their contents */
+    protected $parts = [];
     /** @var string The unescaped open tag */
     protected $unescapedOpenTag = self::DEFAULT_UNESCAPED_OPEN_TAG;
     /** @var string The unescaped close tag */
@@ -70,6 +72,22 @@ class Template implements ITemplate
     public function getEscapedOpenTag()
     {
         return $this->escapedOpenTag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getPart($name)
+    {
+        return isset($this->parts[$name]) ? $this->parts[$name] : "";
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParts()
+    {
+        return $this->parts;
     }
 
     /**
@@ -181,6 +199,25 @@ class Template implements ITemplate
     public function setEscapedOpenTag($escapedOpenTag)
     {
         $this->escapedOpenTag = $escapedOpenTag;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setPart($name, $content)
+    {
+        $this->parts[$name] = $content;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setParts(array $namesToContents)
+    {
+        foreach($namesToContents as $name => $content)
+        {
+            $this->setPart($name, $content);
+        }
     }
 
     /**

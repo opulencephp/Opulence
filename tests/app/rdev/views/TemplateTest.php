@@ -181,6 +181,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting a template part
+     */
+    public function testSettingPart()
+    {
+        $this->template->setPart("foo", "bar");
+        $this->assertEquals("bar", $this->template->getPart("foo"));
+    }
+
+    /**
      * Tests setting a tag in a template
      */
     public function testSettingSingleTag()

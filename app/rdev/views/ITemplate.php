@@ -30,6 +30,21 @@ interface ITemplate
     public function getEscapedOpenTag();
 
     /**
+     * Gets the contents of a template part
+     *
+     * @param string $name The name of the template part to get
+     * @return string The contents of the template part
+     */
+    public function getPart($name);
+
+    /**
+     * Gets the list of template parts
+     *
+     * @return array The part name => content mappings
+     */
+    public function getParts();
+
+    /**
      * Gets the statement close tag
      *
      * @return string The statement close tag
@@ -112,6 +127,21 @@ interface ITemplate
      * @param string $escapedOpenTag The escaped open tag
      */
     public function setEscapedOpenTag($escapedOpenTag);
+
+    /**
+     * Sets the content of a template part
+     *
+     * @param string $name The name of the part to set
+     * @param string $content The content of the part
+     */
+    public function setPart($name, $content);
+
+    /**
+     * Sets multiple parts' contents in the template
+     *
+     * @param array $namesToContents The mapping of part names to their respective values
+     */
+    public function setParts(array $namesToContents);
 
     /**
      * Sets the statement close tag

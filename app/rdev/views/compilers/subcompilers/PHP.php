@@ -33,53 +33,66 @@ class PHP extends SubCompiler
         // Create local variables for use in eval()
         extract($template->getVars());
 
-        // Keep track of our output buffer level so we know how many to clean when we're done
-        $startOBLevel = ob_get_level();
-        ob_start();
-
         // Compile the functions
         $templateFunctions = $this->parentCompiler->getTemplateFunctions();
+        $escapedCount = 1;
+        $unescapedCount = 1;
 
-        foreach($templateFunctions as $functionName => $callback)
+        /**
+         * This is done inside a loop in case any function returns another function
+         * We keep evaluating the template until all the functions are evaluated
+         */
+        do
         {
-            $regex = "/%s\s*%s\(\s*((?:(?!\)\s*%s).)*)\s*\)\s*%s/";
-            $functionCallString = 'call_user_func_array($templateFunctions["' . $functionName . '"], [\1])';
+            // Keep track of our output buffer level so we know how many to clean when we're done
+            $startOBLevel = ob_get_level();
+            ob_start();
+
+            // We allow any valid php function name
+            /** @link http://php.net/manual/en/functions.user-defined.php */
+            $regex = "/%s\s*([a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)\(\s*((?:(?!\)\s*%s).)*)\s*\)\s*%s/";
+            $functionCallString = 'call_user_func_array($templateFunctions["\1"], [$template, \2])';
             // Replace function calls in escaped tags
             $content = preg_replace(
                 sprintf(
                     $regex,
                     preg_quote($template->getEscapedOpenTag(), "/"),
-                    preg_quote($functionName, "/"),
                     preg_quote($template->getEscapedCloseTag(), "/"),
                     preg_quote($template->getEscapedCloseTag(), "/")),
                 '<?php echo $this->xssFilter->run(' . $functionCallString . '); ?>',
-                $content
+                $content,
+                -1,
+                $escapedCount
             );
             // Replace function calls in unescaped tags
             $content = preg_replace(
                 sprintf(
                     $regex,
                     preg_quote($template->getUnescapedOpenTag(), "/"),
-                    preg_quote($functionName, "/"),
                     preg_quote($template->getUnescapedCloseTag(), "/"),
                     preg_quote($template->getUnescapedCloseTag(), "/")),
                 "<?php echo $functionCallString; ?>",
-                $content
+                $content,
+                -1,
+                $unescapedCount
             );
-        }
 
-        // Notice the little hack inside eval() to compile inline PHP
-        if(eval("?>" . $content) === false)
-        {
-            // Prevent an invalid template from displaying
-            while(ob_get_level() > $startOBLevel)
+            // Notice the little hack inside eval() to compile inline PHP
+            if(eval("?>" . $content) === false)
             {
-                ob_end_clean();
+                // Prevent an invalid template from displaying
+                while(ob_get_level() > $startOBLevel)
+                {
+                    ob_end_clean();
+                }
+
+                throw new \RuntimeException("Invalid PHP inside template");
             }
 
-            throw new \RuntimeException("Invalid PHP inside template");
+            $content = ob_get_clean();
         }
+        while($escapedCount > 0 || $unescapedCount > 0);
 
-        return ob_get_clean();
+        return $content;
     }
 }
