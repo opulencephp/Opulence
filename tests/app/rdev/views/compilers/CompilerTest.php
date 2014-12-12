@@ -41,6 +41,16 @@ class CompilerTest extends CompilerTests\Compiler
     }
 
     /**
+     * Tests compiling a tag whose value calls a template function
+     */
+    /*public function testCompilingTagWhoseValueCallsTemplateFunction()
+    {
+        $this->template->setContents("{{content}}");
+        $this->template->setTag("content", "{{round(2.1)}}");
+        $this->assertEquals("2", $this->compiler->compile($this->template));
+    }*/
+
+    /**
      * Tests compiling a template that uses custom tags
      */
     public function testCompilingTemplateWithCustomTags()
@@ -171,7 +181,7 @@ class CompilerTest extends CompilerTests\Compiler
         $this->assertEquals(
             '<div>
 This is the content
-</div><div>bar</div><div>baz</div>
+</div><div>blah</div><div>baz</div>
 ',
             $this->compiler->compile($this->template)
         );

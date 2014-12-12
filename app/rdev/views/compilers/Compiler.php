@@ -54,12 +54,12 @@ class Compiler implements ICompiler
 
         if($compiledContents === null)
         {
-            // Sort the compile functions by their priorities
+            // Sort the sub-compilers by their priorities
             usort($this->subCompilers["priority"], [$this, "sortPriority"]);
 
             $compiledContents = $uncompiledContents;
 
-            // Compile the priority compilers
+            // Compile the priority sub-compilers
             foreach($this->subCompilers["priority"] as $compileFunctionData)
             {
                 /** @var SubCompilers\ISubCompiler $subCompiler */
@@ -67,7 +67,7 @@ class Compiler implements ICompiler
                 $compiledContents = $subCompiler->compile($template, $compiledContents);
             }
 
-            // Compile the non-priority compilers
+            // Compile the non-priority sub-compilers
             foreach($this->subCompilers["nonPriority"] as $subCompiler)
             {
                 $compiledContents = $subCompiler->compile($template, $compiledContents);

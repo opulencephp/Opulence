@@ -45,21 +45,12 @@ class Statement extends SubCompiler
      */
     private function compileExtendStatements(Views\ITemplate $template, $content)
     {
-        $callback = function($matches) use ($template)
+        /** @var Views\ITemplate[] $parentStack */
+        $parentStack = [];
+        $callback = function($matches) use (&$parentStack)
         {
             $parentTemplate = $this->templateFactory->create($matches[2]);
-
-            // Copy parent's tags to child
-            foreach($parentTemplate->getTags() as $name => $value)
-            {
-                $template->setTag($name, $value);
-            }
-
-            // Copy parent's vars to child
-            foreach($parentTemplate->getVars() as $name => $value)
-            {
-                $template->setVar($name, $value);
-            }
+            $parentStack[] = $parentTemplate;
 
             return $parentTemplate->getContents();
         };
@@ -80,6 +71,14 @@ class Statement extends SubCompiler
             $content = preg_replace_callback($regex, $callback, $content, -1, $count);
         }
         while($count > 0);
+
+        // The nearest parents' tags and values take precedence over further ones
+        while(count($parentStack) > 0)
+        {
+            $parentTemplate = array_pop($parentStack);
+            $template->setTags($parentTemplate->getTags());
+            $template->setVars($parentTemplate->getVars());
+        }
 
         return $content;
     }

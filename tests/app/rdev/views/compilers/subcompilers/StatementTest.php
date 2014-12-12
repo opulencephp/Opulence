@@ -91,8 +91,28 @@ This is the content
 This is the content
 ",
             $this->template->getTag("content"));
-        $this->assertEquals("bar", $this->template->getTag("foo"));
+        $this->assertEquals("blah", $this->template->getTag("foo"));
         $this->assertEquals(true, $this->template->getVar("bar"));
+    }
+
+    /**
+     * Tests that tags are inherited from parents in the correct order
+     */
+    public function testTagsInheritedInCorrectOrder()
+    {
+        $this->templateFactory->registerBuilder("Master.html", function()
+        {
+            return new Mocks\ParentBuilder();
+        });
+        $this->templateFactory->registerBuilder("TestWithExtendAndPartStatements.html", function()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS)
+        );
+        $this->subCompiler->compile($this->template, $this->template->getContents());
+        $this->assertEquals("bar", $this->template->getTag("foo"));
     }
 
     /**
@@ -118,7 +138,7 @@ This is the content
 ",
             $this->template->getTag("content")
         );
-        $this->assertEquals("bar", $this->template->getTag("foo"));
+        $this->assertEquals("blah", $this->template->getTag("foo"));
         $this->assertEquals(true, $this->template->getVar("bar"));
     }
 

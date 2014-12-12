@@ -14,7 +14,7 @@ class ParentBuilder implements Views\IBuilder
      */
     public function build(Views\ITemplate $template)
     {
-        $template->setTag("foo", "bar");
+        $template->setTag("foo", "blah");
         $template->setVar("bar", true);
 
         return $template;
