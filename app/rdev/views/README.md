@@ -7,16 +7,19 @@
   1. [Garbage Collection](#garbage-collection)
 4. [Cross-Site Scripting](#cross-site-scripting)
 5. [Nesting Templates](#nesting-templates)
-6. [Using PHP in Your Template](#using-php-in-your-template)
-7. [Built-In Functions](#built-in-functions)
+6. [Extending Templates](#extending-template)
+  1. [Example](#example)
+  2. [Parts](#parts)
+7. [Using PHP in Your Template](#using-php-in-your-template)
+8. [Built-In Functions](#built-in-functions)
   1. [PHP Functions](#php-functions)
   2. [RDev Functions](#rdev-functions)
   3. [Using Template Functions in PHP Code](#using-template-functions-in-php-code)
-8. [Custom Template Functions](#custom-template-functions)
-9. [Extending the Compiler](#extending-the-compiler)
-10. [Escaping Tags](#escaping-tags)
-11. [Custom Tags](#custom-tags)
-12. [Template Factory](#template-factory)
+9. [Custom Template Functions](#custom-template-functions)
+10. [Extending the Compiler](#extending-the-compiler)
+11. [Escaping Tags](#escaping-tags)
+12. [Custom Tags](#custom-tags)
+13. [Template Factory](#template-factory)
   1. [Builders](#builders)
   2. [Aliasing](#aliasing)
 
@@ -36,10 +39,14 @@ use RDev\Files;
 use RDev\Views;
 use RDev\Views\Cache;
 use RDev\Views\Compilers;
+use RDev\Views\Factories;
+use RDev\Views\Filters;
 
 $fileSystem = new Files\FileSystem();
 $cache = new Cache\Cache($fileSystem, "/tmp");
-$compiler = new Compilers\Compiler($cache);
+$templateFactory = new Factories\TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
+$xssFilter = new Filters\XSS();
+$compiler = new Compilers\Compiler($cache, $templateFactory, $xssFilter);
 $template = new Views\Template();
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Dave");
@@ -52,9 +59,13 @@ use RDev\Files;
 use RDev\Views;
 use RDev\Views\Cache;
 use RDev\Views\Compilers;
+use RDev\Views\Factories;
+use RDev\Views\Filters;
 
 $cache = new Cache\Cache(new Files\FileSystem(), "/tmp");
-$compiler = new Compilers\Compiler($cache);
+$templateFactory = new Factories\TemplateFactory($fileSystem, PATH_TO_TEMPLATES);
+$xssFilter = new Filters\XSS();
+$compiler = new Compilers\Compiler($cache, $templateFactory, $xssFilter);
 $template = new Views\Template("Hello, {{username}}");
 $template->setTag("username", "Dave");
 echo $compiler->compile($template); // "Hello, Dave"
@@ -123,12 +134,7 @@ Nesting templates is an easy way to keep two components reusable.  For example, 
 ```php
 use RDev\Files;
 use RDev\Views;
-use RDev\Views\Cache;
-use RDev\Views\Compilers;
 
-$fileSystem = new Files\FileSystem();
-$cache = new Cache\Cache($fileSystem, "/tmp");
-$compiler = new Compilers\Compiler($cache);
 $sidebar = new Views\Template($fileSystem->read(PATH_TO_SIDEBAR_TEMPLATE));
 $page = new Views\Template($fileSystem->read(PATH_TO_PAGE_TEMPLATE));
 $page->setTag("sidebar", $compiler->compile($sidebar));
@@ -149,6 +155,63 @@ echo $compiler->compile($page);
 ```
 
 > **Note:** It is recommended you use unescaped tags to nest templates that display HTML.  Otherwise, the HTML will be escaped and will not appear correctly.
+
+## Extending Templates
+Most templates extend some sort of master template.  To make your life easy, RDev builds support for this functionality into its templates.  RDev uses a *statement tag* `{% %}` for RDev-specific logic statements.  They provide the ability do such things as extend templates.
+
+#### Example
+
+##### Master.html
+```
+Hello, world!
+```
+
+##### Child
+```
+{% extend("Master.html") %}
+Hi, Dave!
+```
+
+When the child template gets compiled, the `Master.html` template is automatically created by an `RDev\Views\Factories\ITemplateFactory` and inserted into the template to produce the following output:
+
+```
+Hello, world!
+Hello, Dave!
+```
+
+> **Note:** When extending a template, the child template inherits all of the parent's tag and variable values.
+
+#### Parts
+Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template:
+
+##### Master.html
+```
+<div id="sidebar">
+    {{sidebar}}
+</div>
+```
+
+##### Child
+```
+{% extend("Master.html") %}
+{% part("sidebar") %}
+<ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/about">About</a></li>
+</ul>
+{% endpart %}
+```
+
+We created a *part* named "sidebar".  When the child gets compiled, the contents of that part will be inserted into a tag of the same name, which in this case is {{sidebar}}. We will get the following:
+
+```
+<div id="sidebar">
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/about">About</a></li>
+    </ul>
+</div>
+```
 
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
@@ -427,26 +490,30 @@ echo $compiler->compile($template); // "Hello, Mrs. Young"
 > **Note:**  As with built-in functions, nested function calls are currently not supported.
 
 ## Extending the Compiler
-Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerCompiler()`, you can write a function that can compile the syntax in your template to the desired output.  RDev itself uses `registerCompiler()` to compile PHP and tags in templates.
+Let's pretend that there's some unique feature or syntax you want to implement in your template that cannot currently be compiled with RDev's `Compiler`.  Using `Compiler::registerSubCompiler()`, you can compile the syntax in your template to the desired output.  RDev itself uses `registerSubCompiler()` to compile PHP and tags in templates.
 
-Let's take a look at what should be passed into `registerCompiler()`:
+Let's take a look at what should be passed into `registerSubCompiler()`:
 
-  1. `callable $compiler`
-  
-    * Should accept an `ITemplate` as its first parameter and the current compiled contents as its second
-      * By passing in current compiled contents, you can chain compilers so that each compiles the output of the previous one
-    * Should return a string containing the results of the compilation
+  1. `RDev\Views\Compilers\SubCompilers\ISubCompiler $subCompiler`
   2. `int|null $priority`
-    * If your compiler needs to be executed before other compilers, simply pass in an integer to prioritize the compiler (1 is the highest)
-    * If you do not specify a priority, then the compiler will be executed after the prioritized compilers in the order it was added
+    * If your sb-compiler needs to be executed before other compilers, simply pass in an integer to prioritize the sub-compiler (1 is the highest)
+    * If you do not specify a priority, then the compiler will be executed after the prioritized sub-compilers in the order it was added
 
 Let's take a look at an example that converts HTML comments to an HTML list of those comments:
 
 ```php
-$compiler->registerCompiler(function($template, $content)
+use RDev\Views;
+use RDev\Views\Compilers\SubCompilers;
+
+class MySubCompiler implements SubCompilers\ISubCompiler
 {
-    return "<ul>" . preg_replace("/<!--((?:(?!-->).)*)-->/", "<li>$1</li>", $content) . "</ul>";
-});
+    public function compile(Views\ITemplate $template, $content)
+    {
+        return "<ul>" . preg_replace("/<!--((?:(?!-->).)*)-->/", "<li>$1</li>", $content) . "</ul>";
+    }
+}
+
+$compiler->registerSubCompiler(new MySubCompiler());
 $template->setContents("<!--Comment 1--><!--Comment 2-->");
 echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li></ul>"
 ```
@@ -455,13 +522,13 @@ echo $compiler->compile($template); // "<ul><li>Comment 1</li><li>Comment 2</li>
 Want to escape a tag?  Easy!  Just add a backslash before the opening tag like so:
 ##### Template
 ```
-Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}!
+Hello, {{username}}.  \{{I am escaped}}! \{{!Me too!}}. \{%So am I%}.
 ```
 ##### Application Code
 ```php
 $template->setContents($fileSystem->read(PATH_TO_HTML_TEMPLATE));
 $template->setTag("username", "Mr Schwarzenegger");
-echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}!"
+echo $compiler->compile($template); // "Hello, Mr Schwarzenegger.  {{I am escaped}}! {{!Me too!}}. {%So am I%}."
 ```
 
 ## Custom Tags
@@ -478,6 +545,10 @@ $template->setEscapedCloseTag("$$");
 // You can also override the unescaped tags
 $template->setUnescapedOpenTag("++");
 $template->setUnescapedCloseTag("--");
+// You can even override statement tags
+$template->setStatementOpenTag("(*");
+$template->setStatementCloseTag("*)");
+// Try setting some tags
 $template->setTag("name", "A&W");
 $template->setTag("food", "Root Beer");
 echo $compiler->compile($template); // "A&amp;W Root Beer"

@@ -31,6 +31,13 @@ interface ICompiler
     public function executeTemplateFunction($functionName, array $args = []);
 
     /**
+     * Gets a mapping of registered template function names to their callbacks
+     *
+     * @return array The mapping of function names to their callbacks
+     */
+    public function getTemplateFunctions();
+
+    /**
      * Gets the cross-site scripting filter used by this compiler
      *
      * @return Filters\IFilter
@@ -38,17 +45,14 @@ interface ICompiler
     public function getXSSFilter();
 
     /**
-     * Registers a custom compiler
+     * Registers a sub-compiler
      *
-     * @param callable|array $compiler The anonymous function to execute to compile custom functions inside tags
-     *      The function must take in two parameter: the template object and the contents to compile
-     *      The function must return the compiled template's contents
-     *      Alternatively, it can be an array that is_callable()
-     * @param int|null $priority The priority (1 is the highest) in which the compiler is run
-     *      If no priority is given, the compiler will be executed in the order it was registered
-     * @throw new \InvalidArgumentException Thrown if the compiler is not callable or if the priority is invalid
+     * @param SubCompilers\ISubCompiler $subCompiler The sub-compiler to register
+     * @param int|null $priority The priority (1 is the highest) in which the sub-compiler is run
+     *      If no priority is given, the sub-compiler will be executed in the order it was registered
+     * @throw new \InvalidArgumentException Thrown if the sub-compiler is not callable or if the priority is invalid
      */
-    public function registerCompiler($compiler, $priority = null);
+    public function registerSubCompiler(SubCompilers\ISubCompiler $subCompiler, $priority = null);
 
     /**
      * Registers a function that appears in a template
