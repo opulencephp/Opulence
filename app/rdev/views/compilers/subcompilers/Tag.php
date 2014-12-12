@@ -176,9 +176,18 @@ class Tag extends SubCompiler
                 $content
             );
 
-            // Replace the tags with their values
-            $regexes = array_map($arrayMapCallback, array_keys($template->getTags()));
-            $content = preg_replace_callback($regexes, $regexCallback, $content);
+            /**
+             * Replace the tags with their values
+             * By putting this in a loop, we handle the case that a tag's value is another tag
+             */
+            $count = 1;
+
+            do
+            {
+                $regexes = array_map($arrayMapCallback, array_keys($template->getTags()));
+                $content = preg_replace_callback($regexes, $regexCallback, $content, -1, $count);
+            }
+            while($count > 0);
         }
 
         return $content;

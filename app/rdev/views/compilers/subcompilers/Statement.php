@@ -69,7 +69,11 @@ class Statement extends SubCompiler
             preg_quote($template->getStatementOpenTag(), "/"),
             preg_quote($template->getStatementCloseTag(), "/")
         );
-        $count = 10000;
+
+        /**
+         * By putting this in a loop, we handle templates that extend templates that ...
+         */
+        $count = 1;
 
         do
         {
