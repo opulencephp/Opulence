@@ -9,6 +9,7 @@
 5. [Extending Templates](#extending-templates)
   1. [Example](#example)
   2. [Parts](#parts)
+  3. [Difference Between Tags and Statements](#difference-between-tags-and-statements)
 6. [Using PHP in Your Template](#using-php-in-your-template)
 7. [Built-In Functions](#built-in-functions)
   1. [PHP Functions](#php-functions)
@@ -134,7 +135,7 @@ Hello, world!
 Hello, Dave!
 ```
 
-> **Note:** When extending a template, the child template inherits all of the parent's tag and variable values.
+> **Note:** When extending a template, the child template inherits all of the parent's parts, tags, and variable values.  If A extends B, which extends C, tags/parts/variables from part B will overwrite any identically-named tags/parts/variables from part C.
 
 #### Parts
 Another common case is a master template that is leaving a child template to fill in some information.  For example, let's say our master has a sidebar, and we want to define the sidebar's contents in the child template.  Use the `{% show(NAME_OF_PART) %}` statement:
@@ -167,6 +168,9 @@ We created a *part* named "sidebar".  When the child gets compiled, the contents
     </ul>
 </div>
 ```
+
+#### Difference Between Tags and Statements
+You might be asking what the difference between tags and statements is.  Tags are temporary placeholders for data that is inserted through a controller.  Statements, on the other hand, provide a shorthand for executing logic entirely within a template.
 
 ## Using PHP in Your Template
 Keeping your view separate from your business logic is important.  However, there are times when it would be nice to be able to execute some PHP code to do things like for() loops to output a list.  There is no need to memorize library-specific constructs here.  With RDev's template system, you can do this:
@@ -452,7 +456,7 @@ Let's take a look at what should be passed into `registerSubCompiler()`:
 
   1. `RDev\Views\Compilers\SubCompilers\ISubCompiler $subCompiler`
   2. `int|null $priority`
-    * If your sb-compiler needs to be executed before other compilers, simply pass in an integer to prioritize the sub-compiler (1 is the highest)
+    * If your sub-compiler needs to be executed before other compilers, simply pass in an integer to prioritize the sub-compiler (1 is the highest)
     * If you do not specify a priority, then the compiler will be executed after the prioritized sub-compilers in the order it was added
 
 Let's take a look at an example that converts HTML comments to an HTML list of those comments:

@@ -10,9 +10,9 @@ use RDev\Tests\Views\Compilers\Tests;
 use RDev\Views\Factories;
 use RDev\Tests\Views\Mocks;
 
-class StatementTest extends Tests\Compiler
+class StatementCompilerTest extends Tests\Compiler
 {
-    /** @var Statement The sub-compiler to test */
+    /** @var StatementCompiler The sub-compiler to test */
     private $subCompiler = null;
 
     /**
@@ -22,7 +22,7 @@ class StatementTest extends Tests\Compiler
     {
         parent::setUp();
 
-        $this->subCompiler = new Statement($this->compiler, $this->templateFactory);
+        $this->subCompiler = new StatementCompiler($this->compiler, $this->templateFactory);
     }
 
     /**

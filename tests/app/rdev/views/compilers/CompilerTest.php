@@ -11,10 +11,33 @@ use RDev\Tests\Views\Compilers\SubCompilers\Mocks as SubCompilerMocks;
 use RDev\Tests\Views\Compilers\Tests as CompilerTests;
 use RDev\Views;
 use RDev\Views\Cache;
+use RDev\Views\Factories;
 use RDev\Views\Filters;
 
 class CompilerTest extends CompilerTests\Compiler
 {
+    /**
+     * Tests changing a parent template to make sure the child gets re-cached
+     */
+    public function testChangingParentTemplateToMakeSureChildGetsReCached()
+    {
+        // Create parent/child templates
+        file_put_contents(__DIR__ . "/tests/tmp/Master.html", "Foo");
+        file_put_contents(__DIR__ . "/tests/tmp/Child.html", '{% extend("Master.html") %}Bar');
+        $templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/tests/tmp");
+        // The compiler needs the new template factory because it uses a different path than the built-in one
+        $this->compiler = new Compiler(
+            new Cache\Cache($this->fileSystem, __DIR__ . "/tmp"),
+            $templateFactory,
+            $this->xssFilter
+        );
+        $child = $templateFactory->create("Child.html");
+        $this->assertEquals("FooBar", $this->compiler->compile($child));
+        // Change the master template and make sure the change is picked up
+        file_put_contents(__DIR__ . "/tests/tmp/Master.html", "Baz");
+        $this->assertEquals("BazBar", $this->compiler->compile($child));
+    }
+
     /**
      * Tests the compiler priorities
      */

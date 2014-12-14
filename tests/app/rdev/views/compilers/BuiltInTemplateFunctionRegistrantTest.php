@@ -20,6 +20,32 @@ class BuiltInTemplateFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     private $template = null;
 
     /**
+     * Does some setup before any tests
+     */
+    public static function setUpBeforeClass()
+    {
+        if(!is_dir(__DIR__ . "/tmp"))
+        {
+            mkdir(__DIR__ . "/tmp");
+        }
+    }
+
+    /**
+     * Performs some garbage collection
+     */
+    public static function tearDownAfterClass()
+    {
+        $files = glob(__DIR__ . "/tmp/*");
+
+        foreach($files as $file)
+        {
+            is_dir($file) ? rmdir($file) : unlink($file);
+        }
+
+        rmdir(__DIR__ . "/tmp");
+    }
+
+    /**
      * Sets up the tests
      */
     public function setUp()

@@ -7,9 +7,9 @@
 namespace RDev\Views\Compilers\SubCompilers;
 use RDev\Tests\Views\Compilers\Tests;
 
-class TagTest extends Tests\Compiler
+class TagCompilerTest extends Tests\Compiler
 {
-    /** @var Tag The sub-compiler to test */
+    /** @var TagCompiler The sub-compiler to test */
     private $subCompiler = null;
 
     /**
@@ -19,7 +19,7 @@ class TagTest extends Tests\Compiler
     {
         parent::setUp();
 
-        $this->subCompiler = new Tag($this->compiler, $this->xssFilter);
+        $this->subCompiler = new TagCompiler($this->compiler, $this->xssFilter);
     }
 
     /**

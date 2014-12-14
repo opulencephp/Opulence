@@ -9,7 +9,7 @@ use RDev\Views;
 use RDev\Views\Compilers;
 use RDev\Views\Filters;
 
-class PHP extends SubCompiler
+class PHPCompiler extends SubCompiler
 {
     /** @var Filters\IFilter The cross-site scripting filter */
     private $xssFilter = null;

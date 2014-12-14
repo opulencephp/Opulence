@@ -14,6 +14,7 @@ class Compiler implements ICompiler
 {
     /** @var array The list of custom compilers */
     protected $subCompilers = [
+        "preCache" => [],
         "priority" => [],
         "nonPriority" => []
     ];
@@ -36,9 +37,9 @@ class Compiler implements ICompiler
         $this->cache = $cache;
 
         // Order here matters
-        $this->registerSubCompiler(new SubCompilers\Statement($this, $templateFactory));
-        $this->registerSubCompiler(new SubCompilers\PHP($this, $xssFilter));
-        $this->registerSubCompiler(new SubCompilers\Tag($this, $xssFilter));
+        $this->registerSubCompiler(new SubCompilers\StatementCompiler($this, $templateFactory), null, true);
+        $this->registerSubCompiler(new SubCompilers\PHPCompiler($this, $xssFilter));
+        $this->registerSubCompiler(new SubCompilers\TagCompiler($this, $xssFilter));
         $templateFunctionRegistrant = new BuiltInTemplateFunctionRegistrant();
         $templateFunctionRegistrant->registerTemplateFunctions($this);
     }
@@ -49,34 +50,18 @@ class Compiler implements ICompiler
     public function compile(Views\ITemplate $template)
     {
         $template->prepare();
-        $uncompiledContents = $template->getContents();
-        $compiledContents = $this->cache->get($uncompiledContents, $template->getVars(), $template->getTags());
+        $preCacheContents = $this->runPreCacheSubCompilers($template, $template->getContents());
+        $compiledContents = $this->cache->get($preCacheContents, $template->getVars(), $template->getTags());
 
         if($compiledContents === null)
         {
-            // Sort the sub-compilers by their priorities
-            usort($this->subCompilers["priority"], [$this, "sortPriority"]);
-
-            $compiledContents = $uncompiledContents;
-
-            // Compile the priority sub-compilers
-            foreach($this->subCompilers["priority"] as $compileFunctionData)
-            {
-                /** @var SubCompilers\ISubCompiler $subCompiler */
-                $subCompiler = $compileFunctionData["subCompiler"];
-                $compiledContents = $subCompiler->compile($template, $compiledContents);
-            }
-
-            // Compile the non-priority sub-compilers
-            foreach($this->subCompilers["nonPriority"] as $subCompiler)
-            {
-                $compiledContents = $subCompiler->compile($template, $compiledContents);
-            }
+            $compiledContents = $this->runPrioritySubCompilers($template, $preCacheContents);
+            $compiledContents = $this->runNonPrioritySubCompilers($template, $compiledContents);
 
             // Remember this for next time
             $this->cache->set(
                 $compiledContents,
-                $uncompiledContents,
+                $template->getContents(),
                 $template->getVars(),
                 $template->getTags()
             );
@@ -109,9 +94,13 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function registerSubCompiler(SubCompilers\ISubCompiler $subCompiler, $priority = null)
+    public function registerSubCompiler(SubCompilers\ISubCompiler $subCompiler, $priority = null, $isPreCache = false)
     {
-        if($priority === null)
+        if($isPreCache)
+        {
+            $this->subCompilers["preCache"][] = $subCompiler;
+        }
+        elseif($priority === null)
         {
             $this->subCompilers["nonPriority"][] = $subCompiler;
         }
@@ -134,6 +123,65 @@ class Compiler implements ICompiler
     public function registerTemplateFunction($functionName, callable $function)
     {
         $this->templateFunctions[$functionName] = $function;
+    }
+
+    /**
+     * Runs the non-priority sub-compilers
+     *
+     * @param Views\ITemplate $template The view to compile
+     * @param string $content The uncompiled contents
+     * @return string The compiled contents
+     */
+    private function runNonPrioritySubCompilers(Views\ITemplate $template, $content)
+    {
+        /** @var SubCompilers\ISubCompiler $subCompiler */
+        foreach($this->subCompilers["nonPriority"] as $subCompiler)
+        {
+            $content = $subCompiler->compile($template, $content);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Runs the pre-cache sub-compilers
+     *
+     * @param Views\ITemplate $template The view to compile
+     * @param string $content The uncompiled contents
+     * @return string The compiled contents
+     */
+    private function runPreCacheSubCompilers(Views\ITemplate $template, $content)
+    {
+        /** @var SubCompilers\ISubCompiler $subCompiler */
+        foreach($this->subCompilers["preCache"] as $subCompiler)
+        {
+            $content = $subCompiler->compile($template, $content);
+        }
+
+        return $content;
+    }
+
+    /**
+     * Runs the priority sub-compilers
+     *
+     * @param Views\ITemplate $template The view to compile
+     * @param string $content The uncompiled contents
+     * @return string The compiled contents
+     */
+    private function runPrioritySubCompilers(Views\ITemplate $template, $content)
+    {
+        // Sort the sub-compilers by their priorities
+        usort($this->subCompilers["priority"], [$this, "sortPriority"]);
+
+        // Compile the priority sub-compilers
+        foreach($this->subCompilers["priority"] as $subCompilerData)
+        {
+            /** @var SubCompilers\ISubCompiler $subCompiler */
+            $subCompiler = $subCompilerData["subCompiler"];
+            $content = $subCompiler->compile($template, $content);
+        }
+
+        return $content;
     }
 
     /**

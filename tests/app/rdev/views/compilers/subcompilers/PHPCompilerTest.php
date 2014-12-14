@@ -9,9 +9,9 @@ use RDev\Tests\Mocks;
 use RDev\Tests\Views\Compilers\Tests;
 use RDev\Views;
 
-class PHPTest extends Tests\Compiler
+class PHPCompilerTest extends Tests\Compiler
 {
-    /** @var Tag The sub-compiler to test */
+    /** @var TagCompiler The sub-compiler to test */
     private $subCompiler = null;
 
     /**
@@ -21,7 +21,7 @@ class PHPTest extends Tests\Compiler
     {
         parent::setUp();
 
-        $this->subCompiler = new PHP($this->compiler, $this->xssFilter);
+        $this->subCompiler = new PHPCompiler($this->compiler, $this->xssFilter);
     }
 
     /**
