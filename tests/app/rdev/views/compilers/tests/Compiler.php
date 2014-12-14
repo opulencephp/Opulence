@@ -29,7 +29,8 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     /** the path to the test template with nested extend statements */
     const TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS = "/../files/TestWithNestedExtendStatements.html";
 
-
+    /** @var Cache\Cache The view cache */
+    protected $cache = null;
     /** @var Filters\IFilter The cross-site scripting filter to use */
     protected $xssFilter = null;
     /** @var Factories\ITemplateFactory The template factory */
@@ -74,9 +75,9 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     {
         $this->xssFilter = new Filters\XSS();
         $this->fileSystem = new Files\FileSystem();
-        $cache = new Cache\Cache($this->fileSystem, __DIR__ . "/tmp");
+        $this->cache = new Cache\Cache($this->fileSystem, __DIR__ . "/tmp");
         $this->templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/../../files");
-        $this->compiler = new Compilers\Compiler($cache, $this->templateFactory, $this->xssFilter);
+        $this->compiler = new Compilers\Compiler($this->cache, $this->templateFactory, $this->xssFilter);
         $this->template = new Views\Template();
     }
 

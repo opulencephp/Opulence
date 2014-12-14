@@ -255,4 +255,18 @@ This is the content
             return $content;
         }), 1.5);
     }
+
+    /**
+     * Tests checking that a template is cached after compiling
+     */
+    public function testTemplateIsCachedAfterCompiling()
+    {
+        $statementSubCompiler = new SubCompilers\StatementCompiler($this->compiler, $this->templateFactory);
+        $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_EXTEND_STATEMENT);
+        $this->template->setContents($contents);
+        $compiledStatements = $statementSubCompiler->compile($this->template, $this->template->getContents());
+        $this->assertFalse($this->cache->has($compiledStatements, $this->template->getVars(), $this->template->getTags()));
+        $this->compiler->compile($this->template);
+        $this->assertTrue($this->cache->has($compiledStatements, $this->template->getVars(), $this->template->getTags()));
+    }
 }

@@ -61,7 +61,7 @@ class Compiler implements ICompiler
             // Remember this for next time
             $this->cache->set(
                 $compiledContents,
-                $template->getContents(),
+                $preCacheContents,
                 $template->getVars(),
                 $template->getTags()
             );
