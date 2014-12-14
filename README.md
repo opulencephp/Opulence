@@ -8,34 +8,36 @@
 1. [Introduction](#introduction)
 2. [Requirements](#requirements)
 3. [Installation](#installation)
-4. [License](#license)
-5. [History](#history)
-6. [About the Author](#about-the-author)
+4. [Documentation](#documentation)
+5. [Requirements](#requirements)
+6. [License](#license)
+7. [History](#history)
+8. [About the Author](#about-the-author)
 
 ### Building Your First Application
-1. [Setting Up an Application](/app/rdev/applications)
+1. [Setting Up an Application](https://github.com/ramblingsofadev/docs/applications.md)
 
 ### Templates
-1. [Building a Template](/app/rdev/views)
+1. [Building a Template](https://github.com/ramblingsofadev/docs/views.md)
 
 ### Routing
-1. [Setting Up a Router](/app/rdev/routing)
+1. [Setting Up a Router](https://github.com/ramblingsofadev/docs/routing.md)
 
 ### Databases
-1. [Relational Databases](/app/rdev/databases/sql)
-  1. [Type Mappers](/app/rdev/databases/sql/providers)
-2. [NoSQL Databases](/app/rdev/databases/nosql)
-3. [Object-Relational Mapping](/app/rdev/orm)
-4. [Query Builders](/app/rdev/databases/sql/querybuilders)
+1. [Relational Databases](https://github.com/ramblingsofadev/docs/databases/rdbms.md)
+  1. [Type Mappers](https://github.com/ramblingsofadev/docs/databases/sql/typemappers.md)
+2. [NoSQL Databases](https://github.com/ramblingsofadev/docs/databases/nosql.md)
+3. [Object-Relational Mapping](https://github.com/ramblingsofadev/docs/orm.md)
+4. [Query Builders](https://github.com/ramblingsofadev/docs/databases/sql/querybuilders.md)
 
 ### Inversion of Control
-1. [Dependency Injection](/app/rdev/ioc)
+1. [Dependency Injection](https://github.com/ramblingsofadev/docs/ioc.md)
 
 ### Configs
-1. [Configs](/app/rdev/configs)
+1. [Configs](https://github.com/ramblingsofadev/docs/configs.md)
 
 ### File System
-1. [File System](/app/rdev/files)
+1. [File System](https://github.com/ramblingsofadev/docs/files.md)
 
 ## Introduction
 **RDev** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With RDev, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested. RDev is split into components, which can be installed separately or bundled together.
@@ -73,6 +75,9 @@ You can also install the components of RDev individually.  The following is a li
 ```
 
 To setup a skeleton project that uses RDev, check out the [Project repository](https://github.com/ramblingsofadev/Project).
+
+## Documentation
+For complete documentation, [visit the docs repository](https://github.com/ramblingsofadev/docs).
 
 ## Requirements
 * PHP 5.5, 5.6, or HHVM >= 3.3.0
