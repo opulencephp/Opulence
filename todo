@@ -1,7 +1,6 @@
 HAS PRIORITY:
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
-    Move docs to their own repository
 
 Need to be able to select DB index for Redis after making connection
     Right now, it's tied to the server object

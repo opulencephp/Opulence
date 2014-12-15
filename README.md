@@ -15,29 +15,29 @@
 8. [About the Author](#about-the-author)
 
 ### Building Your First Application
-1. [Setting Up an Application](https://github.com/ramblingsofadev/docs/applications.md)
+1. [Setting Up an Application](https://github.com/ramblingsofadev/docs/blob/master/application.md)
 
 ### Templates
-1. [Building a Template](https://github.com/ramblingsofadev/docs/views.md)
+1. [Building a Template](https://github.com/ramblingsofadev/docs/blob/master/views.md)
 
 ### Routing
-1. [Setting Up a Router](https://github.com/ramblingsofadev/docs/routing.md)
+1. [Setting Up a Router](https://github.com/ramblingsofadev/docs/blob/master/routing.md)
 
 ### Databases
-1. [Relational Databases](https://github.com/ramblingsofadev/docs/databases/rdbms.md)
-  1. [Type Mappers](https://github.com/ramblingsofadev/docs/databases/sql/typemappers.md)
-2. [NoSQL Databases](https://github.com/ramblingsofadev/docs/databases/nosql.md)
-3. [Object-Relational Mapping](https://github.com/ramblingsofadev/docs/orm.md)
-4. [Query Builders](https://github.com/ramblingsofadev/docs/databases/sql/querybuilders.md)
+1. [Relational Databases](https://github.com/ramblingsofadev/docs/blob/master/databases/rdbms.md)
+  1. [Type Mappers](https://github.com/ramblingsofadev/docs/blob/master/databases/sql/typemappers.md)
+2. [NoSQL Databases](https://github.com/ramblingsofadev/docs/blob/master/databases/nosql.md)
+3. [Object-Relational Mapping](https://github.com/ramblingsofadev/docs/blob/master/orm.md)
+4. [Query Builders](https://github.com/ramblingsofadev/docs/blob/master/databases/sql/querybuilders.md)
 
 ### Inversion of Control
-1. [Dependency Injection](https://github.com/ramblingsofadev/docs/ioc.md)
+1. [Dependency Injection](https://github.com/ramblingsofadev/docs/blob/master/ioc.md)
 
 ### Configs
-1. [Configs](https://github.com/ramblingsofadev/docs/configs.md)
+1. [Configs](https://github.com/ramblingsofadev/docs/blob/master/configs.md)
 
 ### File System
-1. [File System](https://github.com/ramblingsofadev/docs/files.md)
+1. [File System](https://github.com/ramblingsofadev/docs/blob/master/files.md)
 
 ## Introduction
 **RDev** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With RDev, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested. RDev is split into components, which can be installed separately or bundled together.
