@@ -99,11 +99,16 @@ class StatementCompiler extends SubCompiler
      */
     private function compileExtendStatements(Views\ITemplate $template, $content)
     {
-        $parentStack = [];
-        $callback = function($matches) use (&$parentStack)
+        /**
+         * We don't want the parents to overwrite values in the child
+         * So, we push a clone with all the original data to the inheritance stack
+         * This way, none of the original data from the child will be overwritten by parents
+         */
+        $inheritanceStack = [clone $template];
+        $callback = function($matches) use (&$inheritanceStack)
         {
             $parentTemplate = $this->templateFactory->create($matches[3]);
-            $parentStack[] = $parentTemplate;
+            $inheritanceStack[] = $parentTemplate;
 
             return $parentTemplate->getContents();
         };
@@ -122,10 +127,10 @@ class StatementCompiler extends SubCompiler
 
         // Inherit the parents' parts, tags, and vars
         // The nearest parents' tags and values take precedence over further ones
-        while(count($parentStack) > 0)
+        while(count($inheritanceStack) > 0)
         {
             /** @var Views\ITemplate $parentTemplate */
-            $parentTemplate = array_pop($parentStack);
+            $parentTemplate = array_pop($inheritanceStack);
             $template->setParts($parentTemplate->getParts());
             $template->setTags($parentTemplate->getTags());
             $template->setVars($parentTemplate->getVars());

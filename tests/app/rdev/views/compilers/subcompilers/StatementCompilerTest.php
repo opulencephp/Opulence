@@ -134,6 +134,24 @@ This is the content
     }
 
     /**
+     * Tests that a child's tag is not overwritten by a parent's tag
+     */
+    public function testParentTagDoesNotOverwriteChildTag()
+    {
+        $this->templateFactory->registerBuilder("Header.html", function()
+        {
+            return new Mocks\ParentBuilder();
+        });
+        $this->templateFactory->registerBuilder("TestWithExtendStatement.html", function()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $this->template = $this->templateFactory->create("TestWithExtendStatement.html");
+        $this->compiler->compile($this->template);
+        $this->assertEquals("bar", $this->template->getTag("foo"));
+    }
+
+    /**
      * Tests extending a template that extends a template
      */
     public function testNestedExtendStatements()
