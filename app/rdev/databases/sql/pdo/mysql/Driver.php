@@ -16,7 +16,7 @@ class Driver extends PDO\Driver
      */
     protected function getDSN(SQL\Server $server, array $options = [])
     {
-        $dsn = "mysql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $dsn = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";";
 
         if(isset($options["unix_socket"]))

@@ -18,7 +18,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $server = new Mocks\Server();
         $driver = new Driver();
         $unixSocket = "fakesocket";
-        $expectedResult = "mysql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $expectedResult = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";"
             . "unix_socket=" . $unixSocket . ";";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ["unix_socket" => $unixSocket]));
@@ -31,7 +31,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Mocks\Server();
         $driver = new Driver();
-        $expectedResult = "mysql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $expectedResult = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
     }

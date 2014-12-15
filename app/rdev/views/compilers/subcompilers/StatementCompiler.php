@@ -176,7 +176,7 @@ class StatementCompiler extends SubCompiler
      */
     private function getStatementRegex(Views\ITemplate $template, $statement, $escapeStatement, $isSelfClosed)
     {
-        $openStatementRegex = '(?<!%s)%s\s*(%s)\((["|\'])([^\2]+)\2\)\s*%s';
+        $openStatementRegex = '(?<!%s)%s\s*(%s)\((?:(["|\'])([^\2]+)\2)?\)\s*%s';
         $closeStatementRegex = '(.*)%s\s*end\1\s*%s';
 
         if(is_array($statement))

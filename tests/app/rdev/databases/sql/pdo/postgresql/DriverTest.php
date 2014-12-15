@@ -18,7 +18,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
         $server = new Mocks\Server();
         $driver = new Driver();
         $sslMode = "fakesslmode";
-        $expectedResult = "pgsql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $expectedResult = "pgsql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';"
             . "sslmode=" . $sslMode . ";";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ["sslmode" => $sslMode]));
@@ -31,7 +31,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Mocks\Server();
         $driver = new Driver();
-        $expectedResult = "pgsql: host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
+        $expectedResult = "pgsql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
     }
