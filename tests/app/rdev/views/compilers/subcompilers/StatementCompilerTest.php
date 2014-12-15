@@ -26,6 +26,19 @@ class StatementCompilerTest extends Tests\Compiler
     }
 
     /**
+     * Tests cleaning up unused statements
+     */
+    public function testCleaningUpUnusedStatements()
+    {
+        // Test closed statement
+        $this->template->setContents('foo{% foo("hi") %}baz{% endfoo %}bar');
+        $this->assertEquals("foobar", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        // Test self-closed statement
+        $this->template->setContents('foo{% foo("hi") %}bar');
+        $this->assertEquals("foobar", $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
+
+    /**
      * Tests compiling nested parts
      */
     public function testCompilingNestedParts()

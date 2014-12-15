@@ -37,8 +37,31 @@ class StatementCompiler extends SubCompiler
         // Need to compile the extends before the parts so that we have all part statements in the template
         $content = $this->compileExtendStatements($template, $content);
         $content = $this->compileControlStructures($template, $content);
+        $content = $this->compileShowStatements($template, $content);
 
-        return $this->compileShowStatements($template, $content);
+        return $this->cleanupStatements($template, $content);
+    }
+
+    /**
+     * Cleans up any un-executed statements
+     *
+     * @param Views\ITemplate $template The template to cleanup
+     * @param string $content The content to cleanup
+     * @return string The cleaned up contents
+     */
+    private function cleanupStatements(Views\ITemplate $template, $content)
+    {
+        // Match anything
+        $statement = sprintf(
+            "(?:(?:(?!%s).)*)",
+            preg_quote($template->getStatementCloseTag())
+        );
+        // Clean closed statements
+        $content = preg_replace($this->getStatementRegex($template, $statement, false, false), "", $content);
+        // Clean self-closed statements
+        $content = preg_replace($this->getStatementRegex($template, $statement, false, true), "", $content);
+
+        return $content;
     }
 
     /**
@@ -61,7 +84,7 @@ class StatementCompiler extends SubCompiler
 
             return "";
         };
-        $regex = $this->getStatementRegex($template, $this->controlStructures, false);
+        $regex = $this->getStatementRegex($template, $this->controlStructures, true, false);
         $content = preg_replace_callback($regex, $callback, $content);
 
         return $content;
@@ -84,7 +107,7 @@ class StatementCompiler extends SubCompiler
 
             return $parentTemplate->getContents();
         };
-        $regex = $this->getStatementRegex($template, "extend", true);
+        $regex = $this->getStatementRegex($template, "extend", true, true);
 
         /**
          * By putting this in a loop, we handle templates that extend templates that ...
@@ -129,7 +152,7 @@ class StatementCompiler extends SubCompiler
             {
                 return $template->getPart($matches[3]);
             };
-            $regex = $this->getStatementRegex($template, "show", true);
+            $regex = $this->getStatementRegex($template, "show", true, true);
             $content = preg_replace_callback($regex, $callback, $content, -1, $count);
         }
         while($count > 0);
@@ -142,25 +165,33 @@ class StatementCompiler extends SubCompiler
      *
      * @param Views\ITemplate $template The template whose statements we're compiling
      * @param string|array $statement The statement or list of statements whose regex we are building
+     * @param bool $escapeStatement Whether or not we want to escape the statement in the regex
      * @param bool $isSelfClosed Whether or not the statement is self-closed
      * @return string The regex
      */
-    private function getStatementRegex(Views\ITemplate $template, $statement, $isSelfClosed)
+    private function getStatementRegex(Views\ITemplate $template, $statement, $escapeStatement, $isSelfClosed)
     {
         $openStatementRegex = '(?<!%s)%s\s*(%s)\((["|\'])([^\2]+)\2\)\s*%s';
         $closeStatementRegex = '(.*)%s\s*end\1\s*%s';
 
         if(is_array($statement))
         {
-            $statement = implode("|", $this->pregQuoteArray($statement));
+            if($escapeStatement)
+            {
+                $statement = implode("|", $this->pregQuoteArray($statement));
+            }
+            else
+            {
+                $statement = implode("|", $statement);
+            }
         }
-        else
+        elseif($escapeStatement)
         {
-            $statement = preg_quote($statement);
+            $statement = preg_quote($statement, "/");
         }
 
         $regex = $openStatementRegex;
-        $sprintFArgs = [
+        $sPrintFArgs = [
             preg_quote("\\", "/"),
             preg_quote($template->getStatementOpenTag(), "/"),
             $statement,
@@ -170,13 +201,13 @@ class StatementCompiler extends SubCompiler
         if(!$isSelfClosed)
         {
             $regex .= $closeStatementRegex;
-            $sprintFArgs[] = preg_quote($template->getStatementOpenTag(), "/");
-            $sprintFArgs[] = preg_quote($template->getStatementCloseTag(), "/");
+            $sPrintFArgs[] = preg_quote($template->getStatementOpenTag(), "/");
+            $sPrintFArgs[] = preg_quote($template->getStatementCloseTag(), "/");
         }
 
         // Add the regex to the beginning of the argument list
-        array_unshift($sprintFArgs, $regex);
-        $regex = call_user_func_array("sprintf", $sprintFArgs);
+        array_unshift($sPrintFArgs, $regex);
+        $regex = call_user_func_array("sprintf", $sPrintFArgs);
         $regex = '/' . $regex . '/sU';
 
         return $regex;
