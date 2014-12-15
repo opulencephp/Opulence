@@ -24,11 +24,11 @@
 1. [Setting Up a Router](https://github.com/ramblingsofadev/docs/blob/master/routing.md)
 
 ### Databases
-1. [Relational Databases](https://github.com/ramblingsofadev/docs/blob/master/databases/rdbms.md)
-  1. [Type Mappers](https://github.com/ramblingsofadev/docs/blob/master/databases/sql/typemappers.md)
-2. [NoSQL Databases](https://github.com/ramblingsofadev/docs/blob/master/databases/nosql.md)
+1. [Relational Databases](https://github.com/ramblingsofadev/docs/blob/master/rdbms.md)
+  1. [Type Mappers](https://github.com/ramblingsofadev/docs/blob/master/typemappers.md)
+2. [NoSQL Databases](https://github.com/ramblingsofadev/docs/blob/master/nosql.md)
 3. [Object-Relational Mapping](https://github.com/ramblingsofadev/docs/blob/master/orm.md)
-4. [Query Builders](https://github.com/ramblingsofadev/docs/blob/master/databases/sql/querybuilders.md)
+4. [Query Builders](https://github.com/ramblingsofadev/docs/blob/master/querybuilders.md)
 
 ### Inversion of Control
 1. [Dependency Injection](https://github.com/ramblingsofadev/docs/blob/master/ioc.md)
