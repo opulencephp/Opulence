@@ -107,7 +107,7 @@ class StatementCompiler extends SubCompiler
 
             return $parentTemplate->getContents();
         };
-        $regex = $this->getStatementRegex($template, "extend", true, true);
+        $regex = $this->getStatementRegex($template, "extends", true, true);
 
         /**
          * By putting this in a loop, we handle templates that extend templates that ...

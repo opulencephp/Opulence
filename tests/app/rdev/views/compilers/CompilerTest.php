@@ -23,7 +23,7 @@ class CompilerTest extends CompilerTests\Compiler
     {
         // Create parent/child templates
         file_put_contents(__DIR__ . "/tests/tmp/Master.html", "Foo");
-        file_put_contents(__DIR__ . "/tests/tmp/Child.html", '{% extend("Master.html") %}Bar');
+        file_put_contents(__DIR__ . "/tests/tmp/Child.html", '{% extends("Master.html") %}Bar');
         $templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/tests/tmp");
         // The compiler needs the new template factory because it uses a different path than the built-in one
         $this->compiler = new Compiler(
