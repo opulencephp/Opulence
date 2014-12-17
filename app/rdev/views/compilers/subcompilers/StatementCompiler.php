@@ -36,6 +36,7 @@ class StatementCompiler extends SubCompiler
     {
         // Need to compile the extends before the parts so that we have all part statements in the template
         $content = $this->compileExtendStatements($template, $content);
+        $content = $this->compileIncludeStatements($template, $content);
         $content = $this->compileControlStructures($template, $content);
         $content = $this->compileShowStatements($template, $content);
 
@@ -135,6 +136,37 @@ class StatementCompiler extends SubCompiler
             $template->setTags($parentTemplate->getTags());
             $template->setVars($parentTemplate->getVars());
         }
+
+        return $content;
+    }
+
+    /**
+     * Compiles include statements
+     *
+     * @param Views\ITemplate $template The template to compile
+     * @param string $content The compiled contents
+     * @return string The compiled contents
+     */
+    private function compileIncludeStatements(Views\ITemplate $template, $content)
+    {
+        $callback = function($matches) use (&$inheritanceStack)
+        {
+            $includedTemplate = $this->templateFactory->create($matches[3]);
+
+            return $includedTemplate->getContents();
+        };
+        $regex = $this->getStatementRegex($template, "include", true, true);
+
+        /**
+         * By putting this in a loop, we handle templates that include templates that ...
+         */
+        $count = 1;
+
+        do
+        {
+            $content = preg_replace_callback($regex, $callback, $content, -1, $count);
+        }
+        while($count > 0);
 
         return $content;
     }

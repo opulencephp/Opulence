@@ -1,4 +1,8 @@
 HAS PRIORITY:
+    Add ability to start a section and show it
+        Basically, allows us to define a section and give it default content
+    Add ability to include a file with {% include("Quotes.php") %}
+    Find way to display PHP variables inside tags
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it
 

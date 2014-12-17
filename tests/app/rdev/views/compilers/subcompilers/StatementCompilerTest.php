@@ -152,6 +152,34 @@ This is the content
     }
 
     /**
+     * Tests including a template
+     */
+    public function testIncludeStatement()
+    {
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_INCLUDE_STATEMENT)
+        );
+        $this->assertEquals(
+            'FooBar',
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+    }
+
+    /**
+     * Tests including a template that includes a template
+     */
+    public function testNestedIncludeStatements()
+    {
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS)
+        );
+        $this->assertEquals(
+            'FooBarBaz',
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+    }
+
+    /**
      * Tests extending a template that extends a template
      */
     public function testNestedExtendStatements()

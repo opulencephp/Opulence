@@ -28,6 +28,12 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT = "/../files/TestWithExtendAndPartStatements.html";
     /** the path to the test template with nested extend statements */
     const TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS = "/../files/TestWithNestedExtendStatements.html";
+    /** the path to the test template with "Foo" as content */
+    const TEMPLATE_PATH_WITH_FOO = "/../files/Foo.html";
+    /** the path to the test template with an include statement */
+    const TEMPLATE_PATH_WITH_INCLUDE_STATEMENT = "/../files/TestWithIncludeStatement.html";
+    /** the path to the test template with nested include statements */
+    const TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS = "/../files/TestWithNestedIncludeStatements.html";
 
     /** @var Cache\Cache The view cache */
     protected $cache = null;
