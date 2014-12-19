@@ -16,7 +16,7 @@ interface ICompiler
      *
      * @param Views\ITemplate $template The template to render
      * @return string The compiled template
-     * @throws \RuntimeException Thrown if there was an error compiling the template
+     * @throws ViewCompilerException Thrown if there was an error compiling the template
      */
     public function compile(Views\ITemplate $template);
 

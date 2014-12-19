@@ -5,9 +5,8 @@
  *
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Exceptions;
 
-class InvalidCredentialException extends Exceptions\Exception
+class InvalidCredentialException extends \Exception
 {
     // Don't do anything
 } 

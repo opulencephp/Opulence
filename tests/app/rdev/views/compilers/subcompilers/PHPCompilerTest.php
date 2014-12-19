@@ -60,7 +60,7 @@ class PHPCompilerTest extends Tests\Compiler
      */
     public function testCompilingInvalidPHP()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException("RDev\\Views\\Compilers\\ViewCompilerException");
         $contents = $this->fileSystem->read(__DIR__ . "/../../files/TestWithInvalidPHP.html");
         $this->template->setContents($contents);
         // Temporarily disable error reporting to prevent stuff from being printed in the error logs

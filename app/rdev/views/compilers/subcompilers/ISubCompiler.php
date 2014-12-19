@@ -6,6 +6,7 @@
  */
 namespace RDev\Views\Compilers\SubCompilers;
 use RDev\Views;
+use RDev\Views\Compilers;
 
 interface ISubCompiler
 {
@@ -15,7 +16,7 @@ interface ISubCompiler
      * @param Views\ITemplate $template The template to render
      * @param string $content The content to compile
      * @return string The compiled template
-     * @throws \RuntimeException Thrown if there was an error compiling the template
+     * @throws Compilers\ViewCompilerException Thrown if there was an error compiling the template
      */
     public function compile(Views\ITemplate $template, $content);
 }

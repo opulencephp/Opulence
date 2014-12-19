@@ -46,7 +46,6 @@ class PHPCompiler extends SubCompiler
         {
             $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
             $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
-            $statementDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_STATEMENT);
 
             // Keep track of our output buffer level so we know how many to clean when we're done
             $startOBLevel = ob_get_level();
@@ -90,7 +89,7 @@ class PHPCompiler extends SubCompiler
                     ob_end_clean();
                 }
 
-                throw new \RuntimeException("Invalid PHP inside template");
+                throw new Compilers\ViewCompilerException("Invalid PHP inside template");
             }
 
             $content = ob_get_clean();

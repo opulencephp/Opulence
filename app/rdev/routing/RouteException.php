@@ -5,9 +5,8 @@
  * Defines a route exception
  */
 namespace RDev\Routing;
-use RDev\Exceptions;
 
-class RouteException extends Exceptions\Exception
+class RouteException extends \Exception
 {
     // Don't do anything
 } 

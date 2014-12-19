@@ -1,7 +1,19 @@
 HAS PRIORITY:
+    Idea:  Run statement compiler
+        Cache results
+        Run all other subcompilers
+        Cache results
+        Next time the template needs to be rendered, look it up in cache
+            If it's there, grab it, then check if it is also in cache with the input tags/vars
+
+        ** WOULD NEED TO INHERIT VARS/TAGS/PARTS FROM PARENTS AFTER TEMPLATE IS PARSED
+            If we do this inside the Statement subcompiler, we couldn't handle the case when {{username}} was set in a builder for the parent template
+                The cached template would always use the inherited tags/vars/parts from the template in cache, which is not at all what we want
+            So, we'd need to parse the statements and keep track of the inheritance stack somewhere
+                This would also involve running builders AFTER template has been parsed
+            Is all this really worth it?
     Add ability to start a section and show it
         Basically, allows us to define a section and give it default content
-    Add ability to include a file with {% include("Quotes.php") %}
     Find way to display PHP variables inside tags
     Need to consider whether or not to remove Config from Database classes
         I think this is one place that they might prove useful, but think about it

@@ -5,9 +5,8 @@
  * Defines an IoC exception
  */
 namespace RDev\IoC;
-use RDev\Exceptions;
 
-class IoCException extends Exceptions\Exception
+class IoCException extends \Exception
 {
     // Don't do anything
 } 

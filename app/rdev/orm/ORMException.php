@@ -5,9 +5,8 @@
  * Defines an ORM exception
  */
 namespace RDev\ORM;
-use RDev\Exceptions;
 
-class ORMException extends Exceptions\Exception
+class ORMException extends \Exception
 {
     // Don't do anything
 } 

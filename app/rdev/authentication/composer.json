@@ -21,7 +21,6 @@
   "require": {
     "php": ">=5.5.10",
     "rdev/cryptography": "0.1.*",
-    "rdev/exceptions": "0.1.*",
     "rdev/http": "0.1.*",
     "rdev/orm": "0.1.*"
   },

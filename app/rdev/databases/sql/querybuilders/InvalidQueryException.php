@@ -5,9 +5,8 @@
  * Defines an exception that is thrown when a query builder detects an invalid query
  */
 namespace RDev\Databases\SQL\QueryBuilders;
-use RDev\Exceptions;
 
-class InvalidQueryException extends Exceptions\Exception
+class InvalidQueryException extends \Exception
 {
     // Don't do anything
 } 

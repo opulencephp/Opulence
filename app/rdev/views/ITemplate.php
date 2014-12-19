@@ -16,7 +16,7 @@ interface ITemplate
     const DELIMITER_TYPE_UNESCAPED_TAG = 3;
 
     /**
-     * Gets the uncompiled templates
+     * Gets the uncompiled contents
      *
      * @return string The uncompiled contents
      */

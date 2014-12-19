@@ -21,7 +21,6 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/exceptions": "0.1.*",
     "rdev/http": "0.1.*",
     "rdev/ioc": "0.1.*",
     "rdev/views": "0.1.*"
