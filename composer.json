@@ -45,7 +45,6 @@
     "rdev/configs": "self.version",
     "rdev/cryptography": "self.version",
     "rdev/databases": "self.version",
-    "rdev/exceptions": "self.version",
     "rdev/files": "self.version",
     "rdev/http": "self.version",
     "rdev/ioc": "self.version",
