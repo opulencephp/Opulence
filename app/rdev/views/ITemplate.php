@@ -8,6 +8,13 @@ namespace RDev\Views;
 
 interface ITemplate
 {
+    /** The statement delimiter */
+    const DELIMITER_TYPE_STATEMENT = 1;
+    /** The escaped tag delimiter */
+    const DELIMITER_TYPE_ESCAPED_TAG = 2;
+    /** The unescaped tag delimiter */
+    const DELIMITER_TYPE_UNESCAPED_TAG = 3;
+
     /**
      * Gets the uncompiled templates
      *
@@ -16,18 +23,12 @@ interface ITemplate
     public function getContents();
 
     /**
-     * Gets the escaped close tag
+     * Gets the open and close delimiters for a particular type
      *
-     * @return string The escaped close tag
+     * @param mixed $type The type of delimiter to get
+     * @return array An array containing the open and close delimiters
      */
-    public function getEscapedCloseTag();
-
-    /**
-     * Gets the escaped open tag
-     *
-     * @return string The escaped open tag
-     */
-    public function getEscapedOpenTag();
+    public function getDelimiters($type);
 
     /**
      * Gets the contents of a template part
@@ -45,20 +46,6 @@ interface ITemplate
     public function getParts();
 
     /**
-     * Gets the statement close tag
-     *
-     * @return string The statement close tag
-     */
-    public function getStatementCloseTag();
-
-    /**
-     * Gets the statement open tag
-     *
-     * @return string The statement open tag
-     */
-    public function getStatementOpenTag();
-
-    /**
      * Gets the value for a tag
      *
      * @param string $name The name of the tag to get
@@ -72,20 +59,6 @@ interface ITemplate
      * @return array The tag name => value mappings
      */
     public function getTags();
-
-    /**
-     * Gets the unescaped close tag
-     *
-     * @return string The unescaped close tag
-     */
-    public function getUnescapedCloseTag();
-
-    /**
-     * Gets the unescaped open tag
-     *
-     * @return string The unescaped open tag
-     */
-    public function getUnescapedOpenTag();
 
     /**
      * Gets the value for a variable
@@ -115,18 +88,12 @@ interface ITemplate
     public function setContents($contents);
 
     /**
-     * Sets the escaped close tag
+     * Sets the values for a delimiter type
      *
-     * @param string $escapedCloseTag The escaped close tag
+     * @param mixed $type The type of delimiter to set
+     * @param array $values An array containing the open and close delimiter values
      */
-    public function setEscapedCloseTag($escapedCloseTag);
-
-    /**
-     * Sets the escaped open tag
-     *
-     * @param string $escapedOpenTag The escaped open tag
-     */
-    public function setEscapedOpenTag($escapedOpenTag);
+    public function setDelimiters($type, array $values);
 
     /**
      * Sets the content of a template part
@@ -144,20 +111,6 @@ interface ITemplate
     public function setParts(array $namesToContents);
 
     /**
-     * Sets the statement close tag
-     *
-     * @param string $statementCloseTag The statement close tag
-     */
-    public function setStatementCloseTag($statementCloseTag);
-
-    /**
-     * Sets the statement open tag
-     *
-     * @param string $statement The statement open tag
-     */
-    public function setStatementOpenTag($statement);
-
-    /**
      * Sets the value for a tag in the template
      * If the value was previously set for this tag, it'll be overwritten
      *
@@ -172,20 +125,6 @@ interface ITemplate
      * @param array $namesToValues The mapping of tag names to their respective values
      */
     public function setTags(array $namesToValues);
-
-    /**
-     * Sets the unescaped close tag
-     *
-     * @param string $unescapedCloseTag The unescaped close tag
-     */
-    public function setUnescapedCloseTag($unescapedCloseTag);
-
-    /**
-     * Sets the unescaped open tag
-     *
-     * @param string $unescapedOpenTag The unescaped open tag
-     */
-    public function setUnescapedOpenTag($unescapedOpenTag);
 
     /**
      * Sets the value for a variable in the template

@@ -15,9 +15,9 @@ use RDev\Views\Filters;
 abstract class Compiler extends \PHPUnit_Framework_TestCase
 {
     /** The path to the test template with default tags */
-    const TEMPLATE_PATH_WITH_DEFAULT_TAGS = "/../files/TestWithDefaultTags.html";
+    const TEMPLATE_PATH_WITH_DEFAULT_TAG_DELIMITERS = "/../files/TestWithDefaultTagDelimiters.html";
     /** The path to the test template with custom tags */
-    const TEMPLATE_PATH_WITH_CUSTOM_TAGS = "/../files/TestWithCustomTags.html";
+    const TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS = "/../files/TestWithCustomTagDelimiters.html";
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_PHP_CODE = "/../files/TestWithPHP.html";
     /** The path to the test template with PHP code */

@@ -44,20 +44,22 @@ class TagCompiler extends SubCompiler
      */
     private function cleanupTags(Views\ITemplate $template, $content)
     {
+        $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
+        $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
         // Holds the tags, with the longest-length opening tag first
         $tags = [];
 
         // In the case that one open tag is a substring of another (eg "{{" and "{{{"), handle the longer one first
         // If they're the same length, they cannot be substrings of one another unless they're equal
-        if(strlen($template->getEscapedOpenTag()) > strlen($template->getUnescapedOpenTag()))
+        if(strlen($escapedDelimiters[0]) > strlen($unescapedDelimiters[0]))
         {
-            $tags[] = [$template->getEscapedOpenTag(), $template->getEscapedCloseTag()];
-            $tags[] = [$template->getUnescapedOpenTag(), $template->getUnescapedCloseTag()];
+            $tags[] = [$escapedDelimiters[0], $escapedDelimiters[1]];
+            $tags[] = [$unescapedDelimiters[0], $unescapedDelimiters[1]];
         }
         else
         {
-            $tags[] = [$template->getUnescapedOpenTag(), $template->getUnescapedCloseTag()];
-            $tags[] = [$template->getEscapedOpenTag(), $template->getEscapedCloseTag()];
+            $tags[] = [$unescapedDelimiters[0], $unescapedDelimiters[1]];
+            $tags[] = [$escapedDelimiters[0], $escapedDelimiters[1]];
         }
 
         /**
@@ -108,10 +110,13 @@ class TagCompiler extends SubCompiler
      */
     private function compileTags(Views\ITemplate $template, $content)
     {
+        $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
+        $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
+
         // Holds the tags as well as the callbacks to callbacks to execute in the case of string literals or tag names
         $tagData = [
             [
-                "tags" => [$template->getEscapedOpenTag(), $template->getEscapedCloseTag()],
+                "delimiters" => $escapedDelimiters,
                 "stringLiteralCallback" => function ($stringLiteral) use ($template)
                 {
                     return $this->xssFilter->run(trim($stringLiteral, $stringLiteral[0]));
@@ -122,7 +127,7 @@ class TagCompiler extends SubCompiler
                 }
             ],
             [
-                "tags" => [$template->getUnescapedOpenTag(), $template->getUnescapedCloseTag()],
+                "delimiters" => $unescapedDelimiters,
                 "stringLiteralCallback" => function ($stringLiteral) use ($template)
                 {
                     return trim($stringLiteral, $stringLiteral[0]);
@@ -147,9 +152,9 @@ class TagCompiler extends SubCompiler
                     return sprintf(
                         "/(?<!%s)%s\s*(%s)\s*%s/U",
                         preg_quote("\\", "/"),
-                        preg_quote($tagDataByType["tags"][0], "/"),
+                        preg_quote($tagDataByType["delimiters"][0], "/"),
                         preg_quote($tagName, "/"),
-                        preg_quote($tagDataByType["tags"][1], "/")
+                        preg_quote($tagDataByType["delimiters"][1], "/")
                     );
                 };
 
@@ -174,8 +179,8 @@ class TagCompiler extends SubCompiler
                     sprintf(
                         "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U",
                         preg_quote("\\", "/"),
-                        preg_quote($tagDataByType["tags"][0], "/"),
-                        preg_quote($tagDataByType["tags"][1], "/")
+                        preg_quote($tagDataByType["delimiters"][0], "/"),
+                        preg_quote($tagDataByType["delimiters"][1], "/")
                     ),
                     $regexCallback,
                     $content

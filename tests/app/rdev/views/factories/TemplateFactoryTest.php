@@ -29,10 +29,10 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAlias()
     {
-        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
         $this->assertEquals(
             $this->templateFactory->create("foo"),
-            $this->templateFactory->create("TestWithDefaultTags.html")
+            $this->templateFactory->create("TestWithDefaultTagDelimiters.html")
         );
     }
 
@@ -41,8 +41,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithTrailingSlash()
     {
-        $template = $this->templateFactory->create("TestWithDefaultTags.html");
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
+        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
@@ -52,8 +52,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithoutTrailingSlash()
     {
-        $template = $this->templateFactory->create("TestWithDefaultTags.html");
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
+        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
@@ -72,8 +72,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInTemplatePathWithPrecedingSlash()
     {
-        $template = $this->templateFactory->create("/TestWithDefaultTags.html");
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("/TestWithDefaultTagDelimiters.html");
+        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
@@ -83,8 +83,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInTemplatePathWithoutPrecedingSlash()
     {
-        $template = $this->templateFactory->create("TestWithDefaultTags.html");
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
+        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
         $this->assertInstanceOf("RDev\\Views\\Template", $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
@@ -94,7 +94,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToAlias()
     {
-        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
+        $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
         $this->templateFactory->registerBuilder("foo", function ()
         {
             return new Mocks\FooBuilder();
@@ -108,13 +108,13 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToMixOfPathsAndAliases()
     {
-        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
-        $this->templateFactory->registerBuilder(["foo", "TestWithCustomTags.html"], function()
+        $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
+        $this->templateFactory->registerBuilder(["foo", "TestWithCustomTagDelimiters.html"], function()
         {
             return new Mocks\FooBuilder();
         });
         $fooTemplate = $this->templateFactory->create("foo");
-        $customTagTemplate = $this->templateFactory->create("TestWithCustomTags.html");
+        $customTagTemplate = $this->templateFactory->create("TestWithCustomTagDelimiters.html");
         $this->assertEquals("bar", $fooTemplate->getTag("foo"));
         $this->assertEquals("bar", $customTagTemplate->getTag("foo"));
     }
@@ -124,8 +124,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToMultipleAliases()
     {
-        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
-        $this->templateFactory->alias("bar", "TestWithCustomTags.html");
+        $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
+        $this->templateFactory->alias("bar", "TestWithCustomTagDelimiters.html");
         $this->templateFactory->registerBuilder(["foo", "bar"], function()
         {
             return new Mocks\FooBuilder();
@@ -141,12 +141,12 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToMultiplePaths()
     {
-        $this->templateFactory->registerBuilder(["TestWithDefaultTags.html", "TestWithCustomTags.html"], function()
+        $this->templateFactory->registerBuilder(["TestWithDefaultTagDelimiters.html", "TestWithCustomTagDelimiters.html"], function()
         {
             return new Mocks\FooBuilder();
         });
-        $defaultTagsTemplate = $this->templateFactory->create("TestWithDefaultTags.html");
-        $customTagsTemplate = $this->templateFactory->create("TestWithCustomTags.html");
+        $defaultTagsTemplate = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
+        $customTagsTemplate = $this->templateFactory->create("TestWithCustomTagDelimiters.html");
         $this->assertEquals("bar", $defaultTagsTemplate->getTag("foo"));
         $this->assertEquals("bar", $customTagsTemplate->getTag("foo"));
     }
@@ -156,8 +156,8 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToPathAlsoRegistersToAlias()
     {
-        $this->templateFactory->alias("foo", "TestWithDefaultTags.html");
-        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
+        $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
+        $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
         {
             return new Mocks\FooBuilder();
         });
@@ -170,11 +170,11 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testsRegisteringBuilder()
     {
-        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
+        $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
         {
             return new Mocks\FooBuilder();
         });
-        $template = $this->templateFactory->create("TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $this->assertEquals("bar", $template->getTag("foo"));
     }
 
@@ -183,15 +183,15 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testsRegisteringMultipleBuilders()
     {
-        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
+        $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
             {
                 return new Mocks\FooBuilder();
             });
-        $this->templateFactory->registerBuilder("TestWithDefaultTags.html", function ()
+        $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
             {
                 return new Mocks\BarBuilder();
             });
-        $template = $this->templateFactory->create("TestWithDefaultTags.html");
+        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $this->assertEquals("bar", $template->getTag("foo"));
         $this->assertEquals("baz", $template->getTag("bar"));
     }

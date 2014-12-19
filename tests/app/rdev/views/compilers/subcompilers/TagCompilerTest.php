@@ -6,6 +6,7 @@
  */
 namespace RDev\Views\Compilers\SubCompilers;
 use RDev\Tests\Views\Compilers\Tests;
+use RDev\Views;
 
 class TagCompilerTest extends Tests\Compiler
 {
@@ -55,18 +56,15 @@ class TagCompilerTest extends Tests\Compiler
     }
 
     /**
-     * Tests compiling a template that uses custom tags
+     * Tests compiling a template that uses custom delimiters
      */
-    public function testCompilingTemplateWithCustomTags()
+    public function testCompilingTemplateWithCustomDelimiters()
     {
-        $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_CUSTOM_TAGS);
+        $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setUnescapedOpenTag("^^");
-        $this->template->setUnescapedCloseTag("$$");
-        $this->template->setEscapedOpenTag("++");
-        $this->template->setEscapedCloseTag("--");
-        $this->template->setStatementOpenTag("(*");
-        $this->template->setStatementCloseTag("*)");
+        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
@@ -79,11 +77,11 @@ class TagCompilerTest extends Tests\Compiler
     }
 
     /**
-     * Tests compiling a template that uses the default tags
+     * Tests compiling a template that uses the default delimiters
      */
-    public function testCompilingTemplateWithDefaultTags()
+    public function testCompilingTemplateWithDefaultDelimiters()
     {
-        $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_DEFAULT_TAGS);
+        $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_DEFAULT_TAG_DELIMITERS);
         $this->template->setContents($contents);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");

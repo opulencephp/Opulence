@@ -8,18 +8,18 @@ namespace RDev\Views;
 
 class Template implements ITemplate
 {
-    /** The default open tag for unescaped tags  */
-    const DEFAULT_UNESCAPED_OPEN_TAG = "{{!";
-    /** The default close tag for unescaped tags  */
-    const DEFAULT_UNESCAPED_CLOSE_TAG = "!}}";
-    /** The default open tag for escaped tags  */
-    const DEFAULT_ESCAPED_OPEN_TAG = "{{";
-    /** The default close tag for escaped tags */
-    const DEFAULT_ESCAPED_CLOSE_TAG = "}}";
-    /** The default open tag for statement tags  */
-    const DEFAULT_STATEMENT_OPEN_TAG = "{%";
-    /** The default close tag for statement tags */
-    const DEFAULT_STATEMENT_CLOSE_TAG = "%}";
+    /** The default open tag for unescaped delimiter  */
+    const DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER = "{{!";
+    /** The default close tag for unescaped delimiter  */
+    const DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER = "!}}";
+    /** The default open tag for escaped delimiter  */
+    const DEFAULT_OPEN_ESCAPED_TAG_DELIMITER = "{{";
+    /** The default close tag for escaped delimiter */
+    const DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER = "}}";
+    /** The default open tag for statement delimiter  */
+    const DEFAULT_OPEN_STATEMENT_DELIMITER = "{%";
+    /** The default close tag for statement delimiter */
+    const DEFAULT_CLOSE_STATEMENT_DELIMITER = "%}";
 
     /** @var string The uncompiled contents of the template */
     protected $contents = "";
@@ -29,18 +29,21 @@ class Template implements ITemplate
     protected $vars = [];
     /** @var array The mapping of template part names to their contents */
     protected $parts = [];
-    /** @var string The unescaped open tag */
-    protected $unescapedOpenTag = self::DEFAULT_UNESCAPED_OPEN_TAG;
-    /** @var string The unescaped close tag */
-    protected $unescapedCloseTag = self::DEFAULT_UNESCAPED_CLOSE_TAG;
-    /** @var string The escaped open tag */
-    protected $escapedOpenTag = self::DEFAULT_ESCAPED_OPEN_TAG;
-    /** @var string The escaped close tag */
-    protected $escapedCloseTag = self::DEFAULT_ESCAPED_CLOSE_TAG;
-    /** @var string The statement open tag */
-    protected $statementOpenTag = self::DEFAULT_STATEMENT_OPEN_TAG;
-    /** @var string The statement close tag */
-    protected $statementCloseTag = self::DEFAULT_STATEMENT_CLOSE_TAG;
+    /** @var array The mapping of delimiter types to values */
+    private $delimiters = [
+        self::DELIMITER_TYPE_UNESCAPED_TAG => [
+            self::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
+            self::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+        ],
+        self::DELIMITER_TYPE_ESCAPED_TAG => [
+            self::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
+            self::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+        ],
+        self::DELIMITER_TYPE_STATEMENT => [
+            self::DEFAULT_OPEN_STATEMENT_DELIMITER,
+            self::DEFAULT_CLOSE_STATEMENT_DELIMITER
+        ]
+    ];
 
     /**
      * @param string $contents The contents of the template
@@ -61,17 +64,14 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
-    public function getEscapedCloseTag()
+    public function getDelimiters($type)
     {
-        return $this->escapedCloseTag;
-    }
+        if(!isset($this->delimiters[$type]))
+        {
+            return [null, null];
+        }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getEscapedOpenTag()
-    {
-        return $this->escapedOpenTag;
+        return $this->delimiters[$type];
     }
 
     /**
@@ -93,22 +93,6 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
-    public function getStatementCloseTag()
-    {
-        return $this->statementCloseTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getStatementOpenTag()
-    {
-        return $this->statementOpenTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function getTag($name)
     {
         if(isset($this->tags[$name]))
@@ -125,22 +109,6 @@ class Template implements ITemplate
     public function getTags()
     {
         return $this->tags;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUnescapedCloseTag()
-    {
-        return $this->unescapedCloseTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getUnescapedOpenTag()
-    {
-        return $this->unescapedOpenTag;
     }
 
     /**
@@ -188,17 +156,9 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
-    public function setEscapedCloseTag($escapedCloseTag)
+    public function setDelimiters($type, array $values)
     {
-        $this->escapedCloseTag = $escapedCloseTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setEscapedOpenTag($escapedOpenTag)
-    {
-        $this->escapedOpenTag = $escapedOpenTag;
+        $this->delimiters[$type] = $values;
     }
 
     /**
@@ -223,22 +183,6 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
-    public function setStatementCloseTag($statementCloseTag)
-    {
-        $this->statementCloseTag = $statementCloseTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setStatementOpenTag($statementOpenTag)
-    {
-        $this->statementOpenTag = $statementOpenTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setTag($name, $value)
     {
         $this->tags[$name] = $value;
@@ -253,22 +197,6 @@ class Template implements ITemplate
         {
             $this->setTag($name, $value);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUnescapedCloseTag($unescapedCloseTag)
-    {
-        $this->unescapedCloseTag = $unescapedCloseTag;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setUnescapedOpenTag($unescapedOpenTag)
-    {
-        $this->unescapedOpenTag = $unescapedOpenTag;
     }
 
     /**

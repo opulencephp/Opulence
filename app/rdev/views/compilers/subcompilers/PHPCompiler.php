@@ -44,6 +44,10 @@ class PHPCompiler extends SubCompiler
          */
         do
         {
+            $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
+            $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
+            $statementDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_STATEMENT);
+
             // Keep track of our output buffer level so we know how many to clean when we're done
             $startOBLevel = ob_get_level();
             ob_start();
@@ -56,9 +60,9 @@ class PHPCompiler extends SubCompiler
             $content = preg_replace(
                 sprintf(
                     $regex,
-                    preg_quote($template->getEscapedOpenTag(), "/"),
-                    preg_quote($template->getEscapedCloseTag(), "/"),
-                    preg_quote($template->getEscapedCloseTag(), "/")),
+                    preg_quote($escapedDelimiters[0], "/"),
+                    preg_quote($escapedDelimiters[1], "/"),
+                    preg_quote($escapedDelimiters[1], "/")),
                 '<?php echo $this->xssFilter->run(' . $functionCallString . '); ?>',
                 $content,
                 -1,
@@ -68,9 +72,9 @@ class PHPCompiler extends SubCompiler
             $content = preg_replace(
                 sprintf(
                     $regex,
-                    preg_quote($template->getUnescapedOpenTag(), "/"),
-                    preg_quote($template->getUnescapedCloseTag(), "/"),
-                    preg_quote($template->getUnescapedCloseTag(), "/")),
+                    preg_quote($unescapedDelimiters[0], "/"),
+                    preg_quote($unescapedDelimiters[1], "/"),
+                    preg_quote($unescapedDelimiters[1], "/")),
                 "<?php echo $functionCallString; ?>",
                 $content,
                 -1,

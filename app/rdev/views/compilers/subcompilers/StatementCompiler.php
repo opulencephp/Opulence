@@ -53,9 +53,10 @@ class StatementCompiler extends SubCompiler
     private function cleanupStatements(Views\ITemplate $template, $content)
     {
         // Match anything
+        $closeStatementDelimiter = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_STATEMENT)[1];
         $statement = sprintf(
             "(?:(?:(?!%s).)*)",
-            preg_quote($template->getStatementCloseTag())
+            preg_quote($closeStatementDelimiter)
         );
         // Clean closed statements
         $content = preg_replace($this->getStatementRegex($template, $statement, false, false), "", $content);
@@ -210,6 +211,7 @@ class StatementCompiler extends SubCompiler
     {
         $openStatementRegex = '(?<!%s)%s\s*(%s)\((?:(["|\'])([^\2]+)\2)?\)\s*%s';
         $closeStatementRegex = '(.*)%s\s*end\1\s*%s';
+        $statementDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_STATEMENT);
 
         if(is_array($statement))
         {
@@ -230,16 +232,16 @@ class StatementCompiler extends SubCompiler
         $regex = $openStatementRegex;
         $sPrintFArgs = [
             preg_quote("\\", "/"),
-            preg_quote($template->getStatementOpenTag(), "/"),
+            preg_quote($statementDelimiters[0], "/"),
             $statement,
-            preg_quote($template->getStatementCloseTag(), "/")
+            preg_quote($statementDelimiters[1], "/")
         ];
 
         if(!$isSelfClosed)
         {
             $regex .= $closeStatementRegex;
-            $sPrintFArgs[] = preg_quote($template->getStatementOpenTag(), "/");
-            $sPrintFArgs[] = preg_quote($template->getStatementCloseTag(), "/");
+            $sPrintFArgs[] = preg_quote($statementDelimiters[0], "/");
+            $sPrintFArgs[] = preg_quote($statementDelimiters[1], "/");
         }
 
         // Add the regex to the beginning of the argument list

@@ -10,7 +10,7 @@ use RDev\Files;
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /** The path to the test template with default tags */
-    const TEMPLATE_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTags.html";
+    const TEMPLATE_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTagDelimiters.html";
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_INVALID_PHP_CODE = "/files/TestWithInvalidPHP.html";
 
@@ -29,16 +29,25 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the escaped tags
+     * Tests getting the delimiters for a type that does not have any
      */
-    public function testGettingEscapedTags()
+    public function testGettingDelimitersForTypeThatDoesNotHaveAny()
     {
-        $this->assertEquals(Template::DEFAULT_ESCAPED_OPEN_TAG, $this->template->getEscapedOpenTag());
-        $this->assertEquals(Template::DEFAULT_ESCAPED_CLOSE_TAG, $this->template->getEscapedCloseTag());
-        $this->template->setEscapedOpenTag("foo");
-        $this->template->setEscapedCloseTag("bar");
-        $this->assertEquals("foo", $this->template->getEscapedOpenTag());
-        $this->assertEquals("bar", $this->template->getEscapedCloseTag());
+        $this->assertEquals([null, null], $this->template->getDelimiters("foo"));
+    }
+
+    /**
+     * Tests getting the escaped tag delimiters
+     */
+    public function testGettingEscapedTagDelimiters()
+    {
+        $escapedDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG);
+        $this->assertEquals(Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER, $escapedDelimiters[0]);
+        $this->assertEquals(Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER, $escapedDelimiters[1]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["foo", "bar"]);
+        $escapedDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG);
+        $this->assertEquals("foo", $escapedDelimiters[0]);
+        $this->assertEquals("bar", $escapedDelimiters[1]);
     }
 
     /**
@@ -58,16 +67,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the statement tags
+     * Tests getting the statement delimiters
      */
-    public function testGettingStatementTags()
+    public function testGettingStatementDelimiters()
     {
-        $this->assertEquals(Template::DEFAULT_STATEMENT_OPEN_TAG, $this->template->getStatementOpenTag());
-        $this->assertEquals(Template::DEFAULT_STATEMENT_CLOSE_TAG, $this->template->getStatementCloseTag());
-        $this->template->setStatementOpenTag("foo");
-        $this->template->setStatementCloseTag("bar");
-        $this->assertEquals("foo", $this->template->getStatementOpenTag());
-        $this->assertEquals("bar", $this->template->getStatementCloseTag());
+        $statementDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_STATEMENT);
+        $this->assertEquals(Template::DEFAULT_OPEN_STATEMENT_DELIMITER, $statementDelimiters[0]);
+        $this->assertEquals(Template::DEFAULT_CLOSE_STATEMENT_DELIMITER, $statementDelimiters[1]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $this->template->getDelimiters(Template::DELIMITER_TYPE_STATEMENT));
     }
 
     /**
@@ -89,16 +97,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the unescaped tags
+     * Tests getting the unescaped tag delimiters
      */
-    public function testGettingUnescapedTags()
+    public function testGettingUnescapedTagDelimiters()
     {
-        $this->assertEquals(Template::DEFAULT_UNESCAPED_OPEN_TAG, $this->template->getUnescapedOpenTag());
-        $this->assertEquals(Template::DEFAULT_UNESCAPED_CLOSE_TAG, $this->template->getUnescapedCloseTag());
-        $this->template->setUnescapedOpenTag("foo");
-        $this->template->setUnescapedCloseTag("bar");
-        $this->assertEquals("foo", $this->template->getUnescapedOpenTag());
-        $this->assertEquals("bar", $this->template->getUnescapedCloseTag());
+        $unescapedTagDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG);
+        $this->assertEquals(Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER, $unescapedTagDelimiters[0]);
+        $this->assertEquals(Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER, $unescapedTagDelimiters[1]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $this->template->getDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG));
     }
 
     /**
@@ -152,6 +159,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         $this->template->setContents(["Not a string"]);
+    }
+
+    /**
+     * Tests setting delimiters
+     */
+    public function testSettingDelimiters()
+    {
+        $this->template->setDelimiters("foo", ["bar", "baz"]);
+        $this->assertEquals(["bar", "baz"], $this->template->getDelimiters("foo"));
     }
 
     /**
