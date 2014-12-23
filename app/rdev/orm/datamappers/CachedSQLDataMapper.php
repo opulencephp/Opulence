@@ -115,7 +115,15 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      */
     public function refreshCache()
     {
-        $cacheEntities = $this->keyEntityArray($this->cacheDataMapper->getAll());
+        // If there was an issue grabbing all entities in cache, null will be returned
+        $unkeyedCacheEntities = $this->cacheDataMapper->getAll();
+
+        if($unkeyedCacheEntities === null)
+        {
+            $unkeyedCacheEntities = [];
+        }
+
+        $cacheEntities = $this->keyEntityArray($unkeyedCacheEntities);
         $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
         $unsyncedEntities = [
             "missing" => [],

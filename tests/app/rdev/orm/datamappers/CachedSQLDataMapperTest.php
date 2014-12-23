@@ -112,6 +112,24 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests refreshing the cache when getting all the entities returns null
+     */
+    public function testRefreshingCacheWhenGetAllReturnsNull()
+    {
+        $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper(
+            null,
+            new DataMapperMocks\CacheDataMapperThatReturnsNull()
+        );
+        $this->dataMapper->getSQLDataMapperForTests()->add($this->entity1);
+        $unsyncedEntities = $this->dataMapper->refreshCache();
+        $this->assertEquals([
+            "missing" => [$this->entity1],
+            "differing" => [],
+            "additional" => []
+        ], $unsyncedEntities);
+    }
+
+    /**
      * Tests refreshing an entity
      */
     public function testRefreshingEntity()

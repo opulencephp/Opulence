@@ -10,10 +10,27 @@ use RDev\ORM\DataMappers;
 
 class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
 {
-    public function __construct()
+    /**
+     * @param DataMappers\ISQLDataMapper $sqlDataMapper The SQL data mapper to use
+     * @param DataMappers\ICacheDataMapper $cacheDataMapper The cache data mapper to use
+     */
+    public function __construct(
+        DataMappers\ISQLDataMapper $sqlDataMapper = null,
+        DataMappers\ICacheDataMapper $cacheDataMapper = null
+    )
     {
-        $this->cacheDataMapper = new CacheDataMapper();
-        $this->sqlDataMapper = new SQLDataMapper();
+        if($sqlDataMapper === null)
+        {
+            $sqlDataMapper = new SQLDataMapper();
+        }
+
+        if($cacheDataMapper === null)
+        {
+            $cacheDataMapper = new CacheDataMapper();
+        }
+
+        $this->sqlDataMapper = $sqlDataMapper;
+        $this->cacheDataMapper = $cacheDataMapper;
     }
 
     /**
