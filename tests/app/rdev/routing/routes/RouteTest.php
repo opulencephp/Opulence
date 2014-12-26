@@ -4,7 +4,7 @@
  *
  * Tests the route class
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Routes;
 
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
@@ -141,27 +141,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Route("get", "/{foo}", $options);
         $this->assertEquals("foo", $route->getControllerName());
-    }
-
-    /**
-     * Tests getting the default value for a variable without a default value
-     */
-    public function testGettingDefaultValueForVariableWithoutDefaultValue()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $this->assertNull($route->getDefaultValue("foo"));
-    }
-
-    /**
-     * Tests getting the host regex when it's not set
-     */
-    public function testGettingHostRegexWhenNotSet()
-    {
-        $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
-        $this->assertEquals("/^.*$/", $route->getHostRegex());
     }
 
     /**
@@ -375,19 +354,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting a default value
-     */
-    public function testSettingADefaultValue()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $route->setDefaultValue("foo", 2);
-        $this->assertEquals(2, $route->getDefaultValue("foo"));
-    }
-
-    /**
      * Tests setting the controller method
      */
     public function testSettingControllerMethod()
@@ -414,16 +380,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the host regex
-     */
-    public function testSettingHostRegex()
-    {
-        $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
-        $route->setHostRegex("google\.com");
-        $this->assertEquals("google\.com", $route->getHostRegex());
-    }
-
-    /**
      * Tests setting the name
      */
     public function testSettingName()
@@ -447,19 +403,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Route("get", "/{foo}", $options);
         $this->assertEquals("blah", $route->getName());
-    }
-
-    /**
-     * Tests setting the path regex
-     */
-    public function testSettingPathRegex()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/foo/{id}", $options);
-        $route->setPathRegex("blah");
-        $this->assertEquals("blah", $route->getPathRegex());
     }
 
     /**

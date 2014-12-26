@@ -4,7 +4,7 @@
  * 
  * Defines a list of routes that can be used by a router
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Routes;
 use RDev\HTTP;
 
 class Routes

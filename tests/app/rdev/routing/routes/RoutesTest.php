@@ -4,7 +4,7 @@
  * 
  * Tests the routes
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Routes;
 use RDev\HTTP;
 
 class RoutesTest extends \PHPUnit_Framework_TestCase 

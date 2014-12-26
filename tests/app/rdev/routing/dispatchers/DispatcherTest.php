@@ -4,9 +4,10 @@
  *
  * Tests the dispatcher class
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Dispatchers;
 use RDev\HTTP;
 use RDev\IoC;
+use RDev\Routing\Routes;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,8 +31,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingInvalidController()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\InvalidController@foo"]);
-        $this->dispatcher->dispatch($route, $this->request, []);
+        $route = $this->getCompiledRoute(
+            new Routes\Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\InvalidController@foo"])
+        );
+        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
@@ -40,8 +43,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentController()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Controller\\That\\Does\\Not\\Exist@foo"]);
-        $this->dispatcher->dispatch($route, $this->request, []);
+        $route = $this->getCompiledRoute(
+            new Routes\Route(["GET"], "/foo", ["controller" => "RDev\\Controller\\That\\Does\\Not\\Exist@foo"])
+        );
+        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
@@ -50,8 +55,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentMethod()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@doesNotExist"]);
-        $this->dispatcher->dispatch($route, $this->request, []);
+        $route = $this->getCompiledRoute(
+            new Routes\Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@doesNotExist"])
+        );
+        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
@@ -60,8 +67,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingPrivateMethod()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@privateMethod"]);
-        $this->dispatcher->dispatch($route, $this->request, []);
+        $route = $this->getCompiledRoute(
+            new Routes\Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@privateMethod"])
+        );
+        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
@@ -69,8 +78,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingProtectedMethod()
     {
-        $route = new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@protectedMethod"]);
-        $this->assertEquals("protectedMethod", $this->dispatcher->dispatch($route, $this->request, [])->getContent());
+        $route = $this->getCompiledRoute(
+            new Routes\Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@protectedMethod"])
+        );
+        $this->assertEquals("protectedMethod", $this->dispatcher->dispatch($route, $this->request)->getContent());
     }
 
     /**
@@ -85,10 +96,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
                 "RDev\\Tests\\Routing\\Mocks\\DoesNotReturnSomethingFilter"
             ]
         ];
-        $route = new Route(["GET"], "/foo", $options);
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
         $this->assertEquals(
             "noParameters:something",
-            $this->dispatcher->dispatch($route, $this->request, [])->getContent()
+            $this->dispatcher->dispatch($route, $this->request)->getContent()
         );
     }
 
@@ -102,8 +113,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@returnsNothing",
             "post" => get_class($this)
         ];
-        $route = new Route(["GET"], "/foo", $options);
-        $this->dispatcher->dispatch($route, $this->request, []);
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
+        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
@@ -115,10 +126,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
             "post" => "RDev\\Tests\\Routing\\Mocks\\ReturnsSomethingFilter"
         ];
-        $route = new Route(["GET"], "/foo", $options);
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
         $this->assertEquals(
             "noParameters:something",
-            $this->dispatcher->dispatch($route, $this->request, [])->getContent()
+            $this->dispatcher->dispatch($route, $this->request)->getContent()
         );
     }
 
@@ -131,8 +142,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@returnsNothing",
             "post" => "RDev\\Tests\\Routing\\Mocks\\DoesNotReturnSomethingFilter"
         ];
-        $route = new Route(["GET"], "/foo", $options);
-        $this->assertEquals(new HTTP\Response(), $this->dispatcher->dispatch($route, $this->request, []));
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
+        $this->assertEquals(new HTTP\Response(), $this->dispatcher->dispatch($route, $this->request));
     }
 
     /**
@@ -144,8 +155,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@returnsNothing",
             "post" => "RDev\\Tests\\Routing\\Mocks\\ReturnsSomethingFilter"
         ];
-        $route = new Route(["GET"], "/foo", $options);
-        $this->assertEquals(new HTTP\RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request, []));
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
+        $this->assertEquals(new HTTP\RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request));
     }
 
     /**
@@ -157,8 +168,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
             "pre" => "RDev\\Tests\\Routing\\Mocks\\DoesNotReturnSomethingFilter"
         ];
-        $route = new Route(["GET"], "/foo", $options);
-        $this->assertEquals("noParameters", $this->dispatcher->dispatch($route, $this->request, [])->getContent());
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
+        $this->assertEquals("noParameters", $this->dispatcher->dispatch($route, $this->request)->getContent());
     }
 
     /**
@@ -170,7 +181,20 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
             "pre" => "RDev\\Tests\\Routing\\Mocks\\ReturnsSomethingFilter"
         ];
-        $route = new Route(["GET"], "/foo", $options);
-        $this->assertEquals(new HTTP\RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request, []));
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
+        $this->assertEquals(new HTTP\RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request));
+    }
+
+    /**
+     * Gets the compiled route
+     *
+     * @param Routes\Route $route The route to compile
+     * @return Routes\CompiledRoute The compiled route
+     */
+    private function getCompiledRoute(Routes\Route $route)
+    {
+        $parsedRoute = new Routes\ParsedRoute($route);
+
+        return new Routes\CompiledRoute($parsedRoute, false);
     }
 } 

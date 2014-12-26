@@ -1,11 +1,12 @@
 <?php
 /**
  * Copyright (C) 2014 David Young
- *
+ * 
  * Tests the route compiler
  */
 namespace RDev\Routing\Compilers;
-use RDev\Routing;
+use RDev\HTTP;
+use RDev\Routing\Routes;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,295 +18,118 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compiler = new Compiler();
+        $this->compiler = new Compiler(new Parsers\Parser());
     }
 
     /**
-     * Tests compiling a path with multiple variables
+     * Tests compiling an insecure route over HTTPS
      */
-    public function testCompilingMultipleVariables()
+    public function testCompilingInsecureRouteOnHTTPS()
     {
-        $rawString = "/{foo}/bar/{blah}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
+        $route = new Routes\Route("GET", "/", ["controller" => "foo@bar"]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/",
+            "HTTPS" => true
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertTrue($compiledRoute->isMatch());
+        $this->assertEquals([], $compiledRoute->getPathVariables());
+    }
+
+    /**
+     * Tests compiling a route with path variables
+     */
+    public function testCompilingRouteWitPathVariables()
+    {
+        $route = new Routes\Route("GET", "/foo/{bar}/{baz}", ["controller" => "foo@bar"]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/foo/12/34"
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertTrue($compiledRoute->isMatch());
+        $expectedPathVariables = [
+            "bar" => "12",
+            "baz" => "34",
+            0 => "12",
+            1 => "34"
         ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)"
-                )
-            )
-        );
+        $this->assertEquals($expectedPathVariables, $compiledRoute->getPathVariables());
     }
 
     /**
-     * Tests compiling a path with multiple variables with regexes
+     * Tests compiling a route with an optional variable
      */
-    public function testCompilingMultipleVariablesWithRegexes()
+    public function testCompilingRouteWithOptionalVariable()
     {
-        $rawString = "/{foo}/bar/{blah}";
-        $options = [
-            "controller" => "foo@bar",
-            "variables" => [
-                "foo" => "\d+",
-                "blah" => "[a-z]{3}"
-            ],
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>\d+)" . preg_quote("/bar/", "/") . "(?P<blah>[a-z]{3})"
-                )
-            )
-        );
+        $route = new Routes\Route("GET", "/foo/{bar?}", ["controller" => "foo@bar"]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/foo/"
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertTrue($compiledRoute->isMatch());
+        $this->assertEquals([], $compiledRoute->getPathVariables());
     }
 
     /**
-     * Tests compiling a path with a single variable
+     * Tests compiling a route with an optional variable with a default value
      */
-    public function testCompilingSingleVariable()
+    public function testCompilingRouteWithOptionalVariableWithDefaultValue()
     {
-        $rawString = "/{foo}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)"
-                )
-            )
-        );
+        $route = new Routes\Route("GET", "/bar/{foo?=23}", ["controller" => "foo@bar"]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/bar/"
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertTrue($compiledRoute->isMatch());
+        $this->assertEquals("23", $compiledRoute->getDefaultValue("foo"));
+        $this->assertEquals([], $compiledRoute->getPathVariables());
     }
 
     /**
-     * Tests compiling a path with a single variable with a default value
+     * Tests getting the route variables for an unmatched route
      */
-    public function testCompilingSingleVariableWithDefaultValue()
+    public function testGettingRouteVariablesForUnmatchedRoute()
     {
-        $rawString = "/{foo=23}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)"
-                )
-            )
-        );
-        $this->assertEquals("23", $route->getDefaultValue("foo"));
+        $route = new Routes\Route("GET", "/foo", ["controller" => "foo@bar"]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/bar"
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertEquals([], $compiledRoute->getPathVariables());
     }
 
     /**
-     * Tests compiling a path with a single variable with options
+     * Tests matching a secure route
      */
-    public function testCompilingSingleVariableWithRegexes()
+    public function testMatchingSecureRoute()
     {
-        $rawString = "/{foo}";
-        $options = [
-            "controller" => "foo@bar",
-            "variables" => ["foo" => "\d+"],
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>\d+)"
-                )
-            )
-        );
+        $route = new Routes\Route("GET", "/", ["controller" => "foo@bar", "https" => true]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/",
+            "HTTPS" => true
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertTrue($compiledRoute->isMatch());
+        $this->assertEquals([], $compiledRoute->getPathVariables());
     }
 
     /**
-     * Tests compiling a static path
+     * Tests trying to match a secure route when not running on HTTPS
      */
-    public function testCompilingStaticPath()
+    public function testNotBeingHTTPSAndMatchingSecureRoute()
     {
-        $rawString = "/foo/bar/blah";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote($rawString, "/")
-                )
-            )
-        );
+        $route = new Routes\Route("GET", "/", ["controller" => "foo@bar", "https" => true]);
+        $request = new HTTP\Request([], [], [], [
+            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+            "REQUEST_URI" => "/"
+        ], [], []);
+        $compiledRoute = $this->compiler->compile($route, $request);
+        $this->assertFalse($compiledRoute->isMatch());
     }
-
-    /**
-     * Tests compiling a path with duplicate variables
-     */
-    public function testCompilingWithDuplicateVariables()
-    {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routing\Route(["get"], "/{foo}/{foo}", $options);
-        $this->compiler->compile($route);
-    }
-
-    /**
-     * Tests compiling a path with an unclosed open brace
-     */
-    public function testCompilingWithUnclosedOpenBrace()
-    {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routing\Route(["get"], "/{foo}/{bar", $options);
-        $this->compiler->compile($route);
-    }
-
-    /**
-     * Tests compiling a path with an unopened close brace
-     */
-    public function testCompilingWithUnopenedCloseBrace()
-    {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routing\Route(["get"], "/{foo}/{bar}}", $options);
-        $this->compiler->compile($route);
-    }
-
-    /**
-     * Tests getting the variable matching regex
-     */
-    public function testGettingVariableMatchingRegex()
-    {
-        $this->assertEquals("/(\{([^\}]+)\})/", $this->compiler->getVariableMatchingRegex());
-    }
-
-    /**
-     * Tests using a route variable with a name that isn't a valid PHP variable name
-     */
-    public function testInvalidPHPVariableName()
-    {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routing\Route(["get"], "/{123foo}/bar", $options);
-        $this->compiler->compile($route);
-    }
-
-    /**
-     * Tests not specifying a host
-     */
-    public function testNotSpecifyingHost()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routing\Route(["get"], "/foo", $options);
-        $this->compiler->compile($route);
-        $this->assertEquals("/^.*$/", $route->getHostRegex());
-    }
-
-    /**
-     * Tests an optional variable
-     */
-    public function testOptionalVariable()
-    {
-        $rawString = "/{foo}/bar/{blah?}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
-                )
-            )
-        );
-    }
-
-    /**
-     * Tests an optional variable with a default value
-     */
-    public function testOptionalVariableWithDefaultValue()
-    {
-        $rawString = "/{foo}/bar/{blah?=123}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routing\Route(["get"], $rawString, $options);
-        $this->compiler->compile($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $route,
-                sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
-                )
-            )
-        );
-        $this->assertEquals("123", $route->getDefaultValue("blah"));
-    }
-
-    /**
-     * Tests specifying an empty path
-     */
-    public function testSpecifyingEmptyPath()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routing\Route(["get"], "", $options);
-        $this->compiler->compile($route);
-        $this->assertEquals("/^.*$/", $route->getPathRegex());
-    }
-
-    /**
-     * Gets whether or not a route's regexes match the input regex
-     *
-     * @param Routing\Route $route The route whose regexes we're matching
-     * @param string $regex The expected regex
-     * @return bool True if the regexes match, otherwise false
-     */
-    private function regexesMach(Routing\Route $route, $regex)
-    {
-        return $route->getPathRegex() == $regex && $route->getHostRegex() == $regex;
-    }
-} 
+}

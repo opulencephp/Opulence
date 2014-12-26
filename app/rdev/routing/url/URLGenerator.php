@@ -5,24 +5,24 @@
  * Defines a routing URL generator
  */
 namespace RDev\Routing\URL;
-use RDev\Routing;
-use RDev\Routing\Compilers;
+use RDev\Routing\Compilers\Parsers;
+use RDev\Routing\Routes;
 
 class URLGenerator
 {
-    /** @var Routing\Routes The list of routes */
+    /** @var Routes\Routes The list of routes */
     private $routes = null;
-    /** @var Compilers\ICompiler The compiler to use */
-    private $compiler = null;
+    /** @var Parsers\IParser The parser to use */
+    private $parser = null;
 
     /**
-     * @param Routing\Routes $routes The list of routes
-     * @param Compilers\ICompiler $compiler The compiler ot use
+     * @param Routes\Routes $routes The list of routes
+     * @param Parsers\IParser $parser The parser to use
      */
-    public function __construct(Routing\Routes &$routes, Compilers\ICompiler $compiler)
+    public function __construct(Routes\Routes &$routes, Parsers\IParser $parser)
     {
         $this->routes = $routes;
-        $this->compiler = $compiler;
+        $this->parser = $parser;
     }
 
     /**
@@ -47,23 +47,23 @@ class URLGenerator
             $values = [$values];
         }
 
-        $this->compiler->compile($route);
+        $parsedRoute = $this->parser->parse($route);
 
-        return $this->generateHost($route, $values) . $this->generatePath($route, $values);
+        return $this->generateHost($parsedRoute, $values) . $this->generatePath($parsedRoute, $values);
     }
 
     /**
      * Generates the host portion of a URL for a route
      *
-     * @param Routing\Route $route The route whose URL we're generating
+     * @param Routes\ParsedRoute $route The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated host value
      * @throws URLException Thrown if the generated host is not valid
      */
-    private function generateHost(Routing\Route $route, &$values)
+    private function generateHost(Routes\ParsedRoute $route, &$values)
     {
         $generatedHost = "";
-        $variableMatchingRegex = $this->compiler->getVariableMatchingRegex();
+        $variableMatchingRegex = $this->parser->getVariableMatchingRegex();
         $count = 1000;
 
         if(!empty($route->getRawHost()))
@@ -82,7 +82,7 @@ class URLGenerator
             }
 
             // Remove any leftover variables
-            $generatedHost = preg_replace($this->compiler->getVariableMatchingRegex(), "", $generatedHost);
+            $generatedHost = preg_replace($this->parser->getVariableMatchingRegex(), "", $generatedHost);
 
             // Make sure what we just generated satisfies the regex
             if(!preg_match($route->getHostRegex(), $generatedHost))
@@ -102,15 +102,15 @@ class URLGenerator
     /**
      * Generates the path portion of a URL for a route
      *
-     * @param Routing\Route $route The route whose URL we're generating
+     * @param Routes\ParsedRoute $route The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated path value
      * @throws URLException Thrown if the generated path is not valid
      */
-    private function generatePath(Routing\Route $route, &$values)
+    private function generatePath(Routes\ParsedRoute $route, &$values)
     {
         $generatedPath = $route->getRawPath();
-        $variableMatchingRegex = $this->compiler->getVariableMatchingRegex();
+        $variableMatchingRegex = $this->parser->getVariableMatchingRegex();
         $count = 1000;
 
         while($count > 0 && count($values) > 0)
@@ -125,7 +125,7 @@ class URLGenerator
         }
 
         // Remove any leftover variables
-        $generatedPath = preg_replace($this->compiler->getVariableMatchingRegex(), "", $generatedPath);
+        $generatedPath = preg_replace($this->parser->getVariableMatchingRegex(), "", $generatedPath);
 
         // Make sure what we just generated satisfies the regex
         if(!preg_match($route->getPathRegex(), $generatedPath))

@@ -4,36 +4,30 @@
  *
  * Defines an individual route
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Routes;
 
 class Route
 {
     /** @var string The HTTP method for this route */
-    private $methods = [];
+    protected $methods = [];
     /** @var string The raw path passed into the route */
-    private $rawPath = "";
-    /** @var string The compiled (regex) path */
-    private $pathRegex = "";
+    protected $rawPath = "";
     /** @var string The raw host passed into the route */
-    private $rawHost = "";
-    /** @var string|null The compiled (regex) host if set, otherwise null */
-    private $hostRegex = null;
+    protected $rawHost = "";
     /** @var string The name of the controller this routes to */
-    private $controllerName = "";
+    protected $controllerName = "";
     /** @var string The name of the controller method this route calls */
-    private $controllerMethod = "";
+    protected $controllerMethod = "";
     /** @var string The name of this route, if it is a named route */
-    private $name = "";
+    protected $name = "";
     /** @var bool Whether or not this route only matches HTTPS requests */
-    private $isSecure = false;
+    protected $isSecure = false;
     /** @var array The mapping of route variable names to their regexes */
-    private $variableRegexes = [];
-    /** @var array The mapping of route-variables to their default values */
-    private $defaultValues = [];
+    protected $variableRegexes = [];
     /** @var array The list of filters to run before dispatching a route */
-    private $preFilters = [];
+    protected $preFilters = [];
     /** @var array The list of filters to run after dispatching a route */
-    private $postFilters = [];
+    protected $postFilters = [];
 
     /**
      * @param string|array $methods The HTTP method or list of methods this route matches on
@@ -157,31 +151,6 @@ class Route
     }
 
     /**
-     * Gets the default value for a variable
-     *
-     * @param string $variableName The name of the variable whose default value we want
-     * @return mixed|null The default value for the variable if it exists, otherwise null
-     */
-    public function getDefaultValue($variableName)
-    {
-        if(isset($this->defaultValues[$variableName]))
-        {
-            return $this->defaultValues[$variableName];
-        }
-
-        return null;
-    }
-
-    /**
-     * @return string
-     */
-    public function getHostRegex()
-    {
-        // Default to matching everything if it isn't set
-        return is_null($this->hostRegex) ? "/^.*$/" : $this->hostRegex;
-    }
-
-    /**
      * @return array
      */
     public function getMethods()
@@ -195,14 +164,6 @@ class Route
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPathRegex()
-    {
-        return $this->pathRegex;
     }
 
     /**
@@ -273,38 +234,11 @@ class Route
     }
 
     /**
-     * Sets a default value for a variable
-     *
-     * @param string $variableName The name of the variable whose default value we're setting
-     * @param mixed $defaultValue The default value for the variable
-     */
-    public function setDefaultValue($variableName, $defaultValue)
-    {
-        $this->defaultValues[$variableName] = $defaultValue;
-    }
-
-    /**
-     * @param string $hostRegex
-     */
-    public function setHostRegex($hostRegex)
-    {
-        $this->hostRegex = $hostRegex;
-    }
-
-    /**
      * @param string $name
      */
     public function setName($name)
     {
         $this->name = $name;
-    }
-
-    /**
-     * @param string $regex
-     */
-    public function setPathRegex($regex)
-    {
-        $this->pathRegex = $regex;
     }
 
     /**
@@ -348,7 +282,7 @@ class Route
      * @param string $controllerString The string to set the variables from
      * @throws \InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
-    private function setControllerVariables($controllerString)
+    protected function setControllerVariables($controllerString)
     {
         $atCharPos = strpos($controllerString, "@");
 
@@ -367,7 +301,7 @@ class Route
      *
      * @param array $variableRegexes The mapping of variable names to their regexes
      */
-    private function setVariableRegexes(array $variableRegexes)
+    protected function setVariableRegexes(array $variableRegexes)
     {
         foreach($variableRegexes as $variableName => $regex)
         {

@@ -4,7 +4,7 @@
  *
  * Tests the missing route
  */
-namespace RDev\Routing;
+namespace RDev\Routing\Routes;
 use RDev\HTTP;
 
 class MissingRouteTest extends \PHPUnit_Framework_TestCase

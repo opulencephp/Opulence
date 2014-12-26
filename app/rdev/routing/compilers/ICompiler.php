@@ -1,26 +1,21 @@
 <?php
 /**
  * Copyright (C) 2014 David Young
- *
+ * 
  * Defines the interface for route compilers to implement
  */
 namespace RDev\Routing\Compilers;
-use RDev\Routing;
+use RDev\HTTP;
+use RDev\Routing\Routes;
 
 interface ICompiler
 {
     /**
-     * Compiles a route into regular expressions
+     * Compiles a route
      *
-     * @param Routing\Route $route The route to compile
-     * @throws Routing\RouteException Thrown if the route is not valid
+     * @param Routes\Route $route The route to compile
+     * @param HTTP\Request $request The request
+     * @return Routes\CompiledRoute The compiled route
      */
-    public function compile(Routing\Route &$route);
-
-    /**
-     * Gets the regex that matches variables that appear in a route
-     *
-     * @return string The regex that matches variables in the route
-     */
-    public function getVariableMatchingRegex();
-} 
+    public function compile(Routes\Route $route, HTTP\Request $request);
+}

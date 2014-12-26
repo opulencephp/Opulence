@@ -8,6 +8,8 @@ namespace RDev\Tests\Routing\Mocks;
 use RDev\IoC;
 use RDev\Routing;
 use RDev\Routing\Compilers;
+use RDev\Routing\Compilers\Parsers;
+use RDev\Tests\Routing\Dispatchers\Mocks;
 
 class Router extends Routing\Router
 {
@@ -16,6 +18,8 @@ class Router extends Routing\Router
      */
     public function __construct()
     {
-        parent::__construct(new Dispatcher(new IoC\Container()), new Compilers\Compiler());
+        $compiler = new Compilers\Compiler(new Parsers\Parser());
+
+        parent::__construct(new Mocks\Dispatcher(new IoC\Container()), $compiler);
     }
 } 
