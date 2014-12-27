@@ -34,17 +34,6 @@ class ParsedRoute extends Route
     }
 
     /**
-     * Sets a default value for a variable
-     *
-     * @param string $variableName The name of the variable whose default value we're setting
-     * @param mixed $defaultValue The default value for the variable
-     */
-    public function setDefaultValue($variableName, $defaultValue)
-    {
-        $this->defaultValues[$variableName] = $defaultValue;
-    }
-
-    /**
      * Gets the default value for a variable
      *
      * @param string $variableName The name of the variable whose default value we want
@@ -75,6 +64,17 @@ class ParsedRoute extends Route
     public function getPathRegex()
     {
         return $this->pathRegex;
+    }
+
+    /**
+     * Sets a default value for a variable
+     *
+     * @param string $variableName The name of the variable whose default value we're setting
+     * @param mixed $defaultValue The default value for the variable
+     */
+    public function setDefaultValue($variableName, $defaultValue)
+    {
+        $this->defaultValues[$variableName] = $defaultValue;
     }
 
     /**

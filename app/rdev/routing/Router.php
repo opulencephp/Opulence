@@ -187,7 +187,7 @@ class Router
     }
 
     /**
-     * Routes a path
+     * Routes a request
      *
      * @param HTTP\Request $request The request to route
      * @return HTTP\Response The response from the controller
