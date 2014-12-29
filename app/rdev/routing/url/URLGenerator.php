@@ -82,7 +82,7 @@ class URLGenerator
             }
 
             // Remove any leftover variables
-            $generatedHost = preg_replace($this->parser->getVariableMatchingRegex(), "", $generatedHost);
+            $generatedHost = preg_replace($variableMatchingRegex, "", $generatedHost);
 
             // Make sure what we just generated satisfies the regex
             if(!preg_match($route->getHostRegex(), $generatedHost))
