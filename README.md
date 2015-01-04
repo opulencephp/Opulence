@@ -59,6 +59,7 @@ You can also install the components of RDev individually.  The following is a li
         "rdev/applications": "0.1.*@dev",
         "rdev/authentication": "0.1.*@dev",
         "rdev/configs": "0.1.*@dev",
+        "rdev/console": "0.1.*@dev",
         "rdev/cryptography": "0.1.*@dev",
         "rdev/databases": "0.1.*@dev",
         "rdev/files": "0.1.*@dev",

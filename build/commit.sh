@@ -1,4 +1,4 @@
-REPOS=(applications authentication configs cryptography databases files http ioc orm routing sessions users views)
+REPOS=(applications authentication configs console cryptography databases files http ioc orm routing sessions users views)
 SUBTREE_DIR="app/rdev"
 
 function commit()
