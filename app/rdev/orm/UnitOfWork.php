@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines a unit of work that tracks changes made to entities and atomically persists them
  */

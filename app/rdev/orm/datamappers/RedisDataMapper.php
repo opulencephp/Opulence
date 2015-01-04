@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines a data mapper that maps domain data to and from Redis
  */

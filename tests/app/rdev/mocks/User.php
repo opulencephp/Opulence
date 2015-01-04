@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Mocks a user object for use in testing
  */

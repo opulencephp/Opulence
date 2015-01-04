@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines a data mapper that uses cache with SQL as a backup
  */

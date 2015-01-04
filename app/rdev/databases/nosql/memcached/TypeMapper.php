@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines a type mapper that can go back and forth between Memcached types and PHP types
  */

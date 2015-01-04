@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines a database connection pool
  * This can handle multiple server setups or simple single server setups

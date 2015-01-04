@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines the database connection interface, which must be implemented by any classes that wish to be used
  * as a database connection in this application

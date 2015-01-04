@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines an extension of the PDO library with lazy-connection
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain

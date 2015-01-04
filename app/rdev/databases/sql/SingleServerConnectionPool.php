@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 David Young
+ * Copyright (C) 2015 David Young
  *
  * Defines a single server implementation of the connection pool, which can be used for basic, non-master/slave setups
  */
