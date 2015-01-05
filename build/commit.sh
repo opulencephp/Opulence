@@ -50,7 +50,7 @@ function split()
 
     # Setup subtree in main repo
     git commit -am "Removed $subtree for subtree split"
-    git remote add $subtree $remouteurl
+    git remote add $subtree $remoteurl
     git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
 }
 
