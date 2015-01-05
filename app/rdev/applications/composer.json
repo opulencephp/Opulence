@@ -24,7 +24,6 @@
     "rdev/console": "0.1.*",
     "rdev/http": "0.1.*",
     "rdev/ioc": "0.1.*",
-    "rdev/routing": "0.1.*",
     "rdev/sessions": "0.1.*"
   },
   "extra": {
