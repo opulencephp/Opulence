@@ -5,7 +5,8 @@
  * Tests the router
  */
 namespace RDev\HTTP\Routing;
-use RDev\HTTP;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
 use RDev\HTTP\Routing\Compilers\Parsers;
 use RDev\IoC;
 use RDev\Tests\Routing\Mocks;
@@ -57,14 +58,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->router->group($groupOptions, function ()
         {
-            $routeOptions = ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"];
-            $this->router->addRoute(new Routes\Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $routeOptions = ["controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"];
+            $this->router->addRoute(new Routes\Route(Requests\Request::METHOD_GET, "/bar", $routeOptions));
             $this->router->delete("/blah", $routeOptions);
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $deleteRoutes */
-        $deleteRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_DELETE);
+        $deleteRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_DELETE);
         $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
         $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
@@ -79,7 +80,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testGroupingRoutesThenAddingAnotherRoute()
     {
         $routeOptions = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
             "pre" => ["pre3", "pre4"],
             "post" => ["post3", "post4"]
         ];
@@ -90,14 +91,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->router->group($groupOptions, function () use ($routeOptions)
         {
-            $this->router->addRoute(new Routes\Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $this->router->addRoute(new Routes\Route(Requests\Request::METHOD_GET, "/bar", $routeOptions));
             $this->router->delete("/blah", $routeOptions);
         });
         $this->router->get("/asdf", $routeOptions);
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $deleteRoutes */
-        $deleteRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_DELETE);
+        $deleteRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_DELETE);
         $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
         $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $getRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2", "post3", "post4"], $getRoutes[0]->getPostFilters());
@@ -115,7 +116,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testGroupingRoutesWithStringFilters()
     {
         $routeOptions = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
             "pre" => "pre2",
             "post" => "post2"
         ];
@@ -126,13 +127,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->router->group($groupOptions, function () use ($routeOptions)
         {
-            $this->router->addRoute(new Routes\Route(HTTP\Request::METHOD_GET, "/bar", $routeOptions));
+            $this->router->addRoute(new Routes\Route(Requests\Request::METHOD_GET, "/bar", $routeOptions));
             $this->router->delete("/blah", $routeOptions);
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $deleteRoutes */
-        $deleteRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_DELETE);
+        $deleteRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_DELETE);
         $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
         $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
@@ -172,9 +173,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             });
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $postRoutes */
-        $postRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_POST);
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
         $this->assertTrue($getRoutes[0]->isSecure());
         $this->assertTrue($postRoutes[0]->isSecure());
     }
@@ -186,7 +187,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $outerGroupOptions = [
             "path" => "/foo",
-            "controllerNamespace" => "RDev\\Tests\\Routing",
+            "controllerNamespace" => "RDev\\Tests\\HTTP\\Routing",
             "pre" => ["pre1", "pre2"],
             "post" => ["post1", "post2"]
         ];
@@ -194,7 +195,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $innerRouteOptions = ["controller" => "Controller@noParameters"];
         $this->router->group($outerGroupOptions, function () use ($outerRouteOptions, $innerRouteOptions)
         {
-            $this->router->addRoute(new Routes\Route(HTTP\Request::METHOD_GET, "/bar", $outerRouteOptions));
+            $this->router->addRoute(new Routes\Route(Requests\Request::METHOD_GET, "/bar", $outerRouteOptions));
             $this->router->delete("/blah", $outerRouteOptions);
             $innerGroupOptions = [
                 "path" => "/asdf",
@@ -208,19 +209,19 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             });
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $deleteRoutes */
-        $deleteRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_DELETE);
+        $deleteRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_DELETE);
         $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
-        $this->assertEquals("RDev\\Tests\\Routing\\Mocks\\Controller", $getRoutes[0]->getControllerName());
+        $this->assertEquals("RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller", $getRoutes[0]->getControllerName());
         $this->assertEquals(["pre1", "pre2"], $getRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $getRoutes[0]->getPostFilters());
         $this->assertEquals("/foo/asdf/jkl", $getRoutes[1]->getRawPath());
-        $this->assertEquals("RDev\\Tests\\Routing\\Mocks\\Controller", $getRoutes[1]->getControllerName());
+        $this->assertEquals("RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller", $getRoutes[1]->getControllerName());
         $this->assertEquals(["pre1", "pre2", "pre3", "pre4"], $getRoutes[1]->getPreFilters());
         $this->assertEquals(["post1", "post2", "post3", "post4"], $getRoutes[1]->getPostFilters());
         $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
-        $this->assertEquals("RDev\\Tests\\Routing\\Mocks\\Controller", $deleteRoutes[0]->getControllerName());
+        $this->assertEquals("RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller", $deleteRoutes[0]->getControllerName());
         $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
     }
@@ -231,14 +232,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testRoutingAnyMethod()
     {
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"
         ];
         $this->router->any("/foo", $options);
         $allRoutes = $this->router->getRoutes()->get();
-        $this->assertEquals(1, count($allRoutes[HTTP\Request::METHOD_GET]));
-        $this->assertEquals(1, count($allRoutes[HTTP\Request::METHOD_POST]));
-        $this->assertEquals(1, count($allRoutes[HTTP\Request::METHOD_DELETE]));
-        $this->assertEquals(1, count($allRoutes[HTTP\Request::METHOD_PUT]));
+        $this->assertEquals(1, count($allRoutes[Requests\Request::METHOD_GET]));
+        $this->assertEquals(1, count($allRoutes[Requests\Request::METHOD_POST]));
+        $this->assertEquals(1, count($allRoutes[Requests\Request::METHOD_DELETE]));
+        $this->assertEquals(1, count($allRoutes[Requests\Request::METHOD_PUT]));
     }
 
     /**
@@ -246,7 +247,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingDeleteRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_DELETE);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_DELETE);
     }
 
     /**
@@ -254,7 +255,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingGetRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_GET);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_GET);
     }
 
     /**
@@ -262,7 +263,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingHeadRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_HEAD);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_HEAD);
     }
 
     /**
@@ -270,13 +271,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMissingPath()
     {
-        $request = new HTTP\Request([], [], [], [
-            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+        $request = new Requests\Request([], [], [], [
+            "REQUEST_METHOD" => Requests\Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
         ], [], []);
         $response = $this->router->route($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
-        $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
         $this->assertEmpty($response->getContent());
     }
 
@@ -285,14 +286,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMissingPathWithCustomController()
     {
-        $request = new HTTP\Request([], [], [], [
-            "REQUEST_METHOD" => HTTP\Request::METHOD_GET,
+        $request = new Requests\Request([], [], [], [
+            "REQUEST_METHOD" => Requests\Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
         ], [], []);
-        $this->router->setMissedRouteControllerName("RDev\\Tests\\Routing\\Mocks\\Controller");
+        $this->router->setMissedRouteControllerName("RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller");
         $response = $this->router->route($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
-        $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
         $this->assertEquals("foo", $response->getContent());
     }
 
@@ -302,17 +303,17 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testRoutingMultipleMethods()
     {
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"
         ];
-        $this->router->multiple([HTTP\Request::METHOD_GET, HTTP\Request::METHOD_POST], "/foo", $options);
+        $this->router->multiple([Requests\Request::METHOD_GET, Requests\Request::METHOD_POST], "/foo", $options);
         $allRoutes = $this->router->getRoutes()->get();
-        $this->assertEquals(1, count($allRoutes[HTTP\Request::METHOD_GET]));
-        $this->assertEquals(1, count($allRoutes[HTTP\Request::METHOD_POST]));
-        $this->assertEquals(0, count($allRoutes[HTTP\Request::METHOD_DELETE]));
-        $this->assertEquals(0, count($allRoutes[HTTP\Request::METHOD_PUT]));
-        $this->assertEquals(0, count($allRoutes[HTTP\Request::METHOD_HEAD]));
-        $this->assertEquals(0, count($allRoutes[HTTP\Request::METHOD_OPTIONS]));
-        $this->assertEquals(0, count($allRoutes[HTTP\Request::METHOD_PATCH]));
+        $this->assertEquals(1, count($allRoutes[Requests\Request::METHOD_GET]));
+        $this->assertEquals(1, count($allRoutes[Requests\Request::METHOD_POST]));
+        $this->assertEquals(0, count($allRoutes[Requests\Request::METHOD_DELETE]));
+        $this->assertEquals(0, count($allRoutes[Requests\Request::METHOD_PUT]));
+        $this->assertEquals(0, count($allRoutes[Requests\Request::METHOD_HEAD]));
+        $this->assertEquals(0, count($allRoutes[Requests\Request::METHOD_OPTIONS]));
+        $this->assertEquals(0, count($allRoutes[Requests\Request::METHOD_PATCH]));
     }
 
     /**
@@ -320,7 +321,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingOptionsRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_OPTIONS);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_OPTIONS);
     }
 
     /**
@@ -328,7 +329,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingPatchRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_PATCH);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_PATCH);
     }
 
     /**
@@ -336,7 +337,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingPostRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_POST);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_POST);
     }
 
     /**
@@ -344,7 +345,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingPutRequest()
     {
-        $this->doTestForHTTPMethod(HTTP\Request::METHOD_PUT);
+        $this->doTestForHTTPMethod(Requests\Request::METHOD_PUT);
     }
 
     /**
@@ -358,9 +359,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this->router->post("/foo", ["controller" => "foo@bar"]);
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $postRoutes */
-        $postRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_POST);
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
         $this->assertTrue($getRoutes[0]->isSecure());
         $this->assertTrue($postRoutes[0]->isSecure());
     }
@@ -376,9 +377,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this->router->post("/foo", ["controller" => "foo@bar"]);
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $postRoutes */
-        $postRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_POST);
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
         $this->assertEquals("google.com", $getRoutes[0]->getRawHost());
         $this->assertEquals("google.com", $postRoutes[0]->getRawHost());
     }
@@ -394,9 +395,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this->router->post("/foo", ["controller" => "ControllerB@myMethod"]);
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $postRoutes */
-        $postRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_POST);
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
         $this->assertEquals("MyApp\\Controllers\\ControllerA", $getRoutes[0]->getControllerName());
         $this->assertEquals("MyApp\\Controllers\\ControllerB", $postRoutes[0]->getControllerName());
     }
@@ -412,9 +413,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             $this->router->post("/foo", ["controller" => "ControllerB@myMethod"]);
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $postRoutes */
-        $postRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_POST);
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
         $this->assertEquals("MyApp\\Controllers\\ControllerA", $getRoutes[0]->getControllerName());
         $this->assertEquals("MyApp\\Controllers\\ControllerB", $postRoutes[0]->getControllerName());
     }
@@ -433,9 +434,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             });
         });
         /** @var Routes\Route[] $getRoutes */
-        $getRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
         /** @var Routes\Route[] $postRoutes */
-        $postRoutes = $this->router->getRoutes()->get(HTTP\Request::METHOD_POST);
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
         $this->assertEquals("mail.google.com", $getRoutes[0]->getRawHost());
         $this->assertEquals("mail.google.com", $postRoutes[0]->getRawHost());
     }
@@ -469,13 +470,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         // The mock router will return the route used rather than the output of the route controller
         // This makes testing easier
         $mockRouter = new Mocks\Router();
-        $deleteRoute = new Routes\Route(HTTP\Request::METHOD_DELETE, $rawPath, $options);
-        $getRoute = new Routes\Route(HTTP\Request::METHOD_GET, $rawPath, $options);
-        $postRoute = new Routes\Route(HTTP\Request::METHOD_POST, $rawPath, $options);
-        $putRoute = new Routes\Route(HTTP\Request::METHOD_PUT, $rawPath, $options);
-        $headRoute = new Routes\Route(HTTP\Request::METHOD_HEAD, $rawPath, $options);
-        $optionsRoute = new Routes\Route(HTTP\Request::METHOD_OPTIONS, $rawPath, $options);
-        $patchRoute = new Routes\Route(HTTP\Request::METHOD_PATCH, $rawPath, $options);
+        $deleteRoute = new Routes\Route(Requests\Request::METHOD_DELETE, $rawPath, $options);
+        $getRoute = new Routes\Route(Requests\Request::METHOD_GET, $rawPath, $options);
+        $postRoute = new Routes\Route(Requests\Request::METHOD_POST, $rawPath, $options);
+        $putRoute = new Routes\Route(Requests\Request::METHOD_PUT, $rawPath, $options);
+        $headRoute = new Routes\Route(Requests\Request::METHOD_HEAD, $rawPath, $options);
+        $optionsRoute = new Routes\Route(Requests\Request::METHOD_OPTIONS, $rawPath, $options);
+        $patchRoute = new Routes\Route(Requests\Request::METHOD_PATCH, $rawPath, $options);
         $mockRouter->addRoute($deleteRoute);
         $mockRouter->addRoute($getRoute);
         $mockRouter->addRoute($postRoute);
@@ -488,30 +489,30 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "REQUEST_URI" => $pathToRoute,
             "HTTP_HOST" => $hostToRoute
         ];
-        $request = new HTTP\Request([], [], [], $server, [], []);
+        $request = new Requests\Request([], [], [], $server, [], []);
         $routeToHandle = null;
 
         switch($httpMethod)
         {
-            case HTTP\Request::METHOD_DELETE:
+            case Requests\Request::METHOD_DELETE:
                 $routeToHandle = $deleteRoute;
                 break;
-            case HTTP\Request::METHOD_GET:
+            case Requests\Request::METHOD_GET:
                 $routeToHandle = $getRoute;
                 break;
-            case HTTP\Request::METHOD_POST:
+            case Requests\Request::METHOD_POST:
                 $routeToHandle = $postRoute;
                 break;
-            case HTTP\Request::METHOD_PUT:
+            case Requests\Request::METHOD_PUT:
                 $routeToHandle = $putRoute;
                 break;
-            case HTTP\Request::METHOD_HEAD:
+            case Requests\Request::METHOD_HEAD:
                 $routeToHandle = $headRoute;
                 break;
-            case HTTP\Request::METHOD_OPTIONS:
+            case Requests\Request::METHOD_OPTIONS:
                 $routeToHandle = $optionsRoute;
                 break;
-            case HTTP\Request::METHOD_PATCH:
+            case Requests\Request::METHOD_PATCH:
                 $routeToHandle = $patchRoute;
                 break;
         }
@@ -533,7 +534,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "/foo",
             "google.com",
             "google.com",
-            "RDev\\Tests\\Routing\\Mocks\\Controller",
+            "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller",
             "noParameters"
         );
         $this->doRoute(
@@ -542,7 +543,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "/foo/123",
             "{bar}.google.com",
             "mail.google.com",
-            "RDev\\Tests\\Routing\\Mocks\\Controller",
+            "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller",
             "twoParameters"
         );
         $this->doRoute(
@@ -551,7 +552,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "/foo/123/456",
             "{baz}.{blah}.google.com",
             "u.mail.google.com",
-            "RDev\\Tests\\Routing\\Mocks\\Controller",
+            "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller",
             "severalParameters"
         );
     }

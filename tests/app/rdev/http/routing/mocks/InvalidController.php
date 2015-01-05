@@ -4,7 +4,7 @@
  *
  * Mocks a controller that doesn't extend the base controller
  */
-namespace RDev\Tests\Routing\Mocks;
+namespace RDev\Tests\HTTP\Routing\Mocks;
 
 class InvalidController
 {

@@ -6,7 +6,8 @@
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Response_codes
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
+use RDev\HTTP;
 
 class Response
 {
@@ -153,7 +154,7 @@ class Response
      * Sets the expiration time of the page
      *
      * @param \DateTime $expiration The expiration time
-     * @throws HTTPException Thrown if the headers were already sent
+     * @throws HTTP\HTTPException Thrown if the headers were already sent
      */
     public function setExpiration(\DateTime $expiration)
     {

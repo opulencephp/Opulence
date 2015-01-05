@@ -4,7 +4,7 @@
  *
  * Tests the HTTP request
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Requests;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {

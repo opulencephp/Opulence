@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Defines the interface for console outputs to implement
+ * Defines the interface for console responses to implement
  */
 namespace RDev\Console\Responses;
 

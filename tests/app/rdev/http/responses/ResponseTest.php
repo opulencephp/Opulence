@@ -4,7 +4,7 @@
  *
  * Tests the HTTP response
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {

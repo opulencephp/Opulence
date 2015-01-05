@@ -4,7 +4,7 @@
  *
  * Defines a JSON response
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class JSONResponse extends Response
 {

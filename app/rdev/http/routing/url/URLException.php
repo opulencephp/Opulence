@@ -4,7 +4,7 @@
  *
  * Defines a URL exception
  */
-namespace RDev\Routing\URL;
+namespace RDev\HTTP\Routing\URL;
 
 class URLException extends \Exception
 {

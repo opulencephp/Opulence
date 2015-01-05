@@ -4,20 +4,20 @@
  * 
  * Defines a list of routes that can be used by a router
  */
-namespace RDev\Routing\Routes;
-use RDev\HTTP;
+namespace RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Requests;
 
 class Routes
 {
     /** @var array The list of methods */
     private static $methods = [
-        HTTP\Request::METHOD_DELETE,
-        HTTP\Request::METHOD_GET,
-        HTTP\Request::METHOD_POST,
-        HTTP\Request::METHOD_PUT,
-        HTTP\Request::METHOD_HEAD,
-        HTTP\Request::METHOD_OPTIONS,
-        HTTP\Request::METHOD_PATCH
+        Requests\Request::METHOD_DELETE,
+        Requests\Request::METHOD_GET,
+        Requests\Request::METHOD_POST,
+        Requests\Request::METHOD_PUT,
+        Requests\Request::METHOD_HEAD,
+        Requests\Request::METHOD_OPTIONS,
+        Requests\Request::METHOD_PATCH
     ];
     /** @var array The list of methods to their various routes */
     private $routes = [];

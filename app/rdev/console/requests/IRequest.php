@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the interface for console inputs to implement
+ * Defines the interface for console requests to implement
  */
 namespace RDev\Console\Requests;
 

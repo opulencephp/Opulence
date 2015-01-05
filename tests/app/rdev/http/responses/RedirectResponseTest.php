@@ -4,7 +4,7 @@
  *
  * Tests the redirect response class
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class RedirectResponseTest extends \PHPUnit_Framework_TestCase
 {

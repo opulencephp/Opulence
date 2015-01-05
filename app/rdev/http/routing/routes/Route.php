@@ -4,7 +4,7 @@
  *
  * Defines an individual route
  */
-namespace RDev\Routing\Routes;
+namespace RDev\HTTP\Routing\Routes;
 
 class Route
 {

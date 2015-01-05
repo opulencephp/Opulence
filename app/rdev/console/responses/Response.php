@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Defines a basic output
+ * Defines a basic response
  */
 namespace RDev\Console\Responses;
 

@@ -4,9 +4,9 @@
  *
  * Defines the parser for a route
  */
-namespace RDev\Routing\Compilers\Parsers;
-use RDev\Routing;
-use RDev\Routing\Routes;
+namespace RDev\HTTP\Routing\Compilers\Parsers;
+use RDev\HTTP\Routing;
+use RDev\HTTP\Routing\Routes;
 
 class Parser implements IParser
 {

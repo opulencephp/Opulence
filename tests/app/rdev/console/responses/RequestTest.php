@@ -2,22 +2,22 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Tests the output class
+ * Tests the response class
  */
-namespace RDev\Console\Output;
-use RDev\Tests\Console\Output\Mocks;
+namespace RDev\Console\Responses;
+use RDev\Tests\Console\Responses\Mocks;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\Response The output to use in tests */
-    private $output = null;
+    /** @var Mocks\Response The response to use in tests */
+    private $response = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->output = new Mocks\Response();
+        $this->response = new Mocks\Response();
     }
 
     /**
@@ -26,7 +26,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testWritingMultipleMessagesWithNewLines()
     {
         ob_start();
-        $this->output->writeln(["foo", "bar"]);
+        $this->response->writeln(["foo", "bar"]);
         $this->assertEquals("foo" . PHP_EOL . "bar" . PHP_EOL, ob_get_clean());
     }
 
@@ -36,7 +36,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testWritingMultipleMessagesWithNoNewLines()
     {
         ob_start();
-        $this->output->write(["foo", "bar"]);
+        $this->response->write(["foo", "bar"]);
         $this->assertEquals("foobar", ob_get_clean());
     }
 
@@ -46,7 +46,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testWritingSingleMessageWithNewLine()
     {
         ob_start();
-        $this->output->writeln("foo");
+        $this->response->writeln("foo");
         $this->assertEquals("foo" . PHP_EOL, ob_get_clean());
     }
 
@@ -56,7 +56,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testWritingSingleMessageWithNoNewLine()
     {
         ob_start();
-        $this->output->write("foo");
+        $this->response->write("foo");
         $this->assertEquals("foo", ob_get_clean());
     }
 }

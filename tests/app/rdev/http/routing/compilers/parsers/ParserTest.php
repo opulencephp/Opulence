@@ -169,7 +169,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithDuplicateVariables()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
@@ -182,7 +182,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnclosedOpenBrace()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
@@ -195,7 +195,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnopenedCloseBrace()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];
@@ -216,7 +216,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidPHPVariableName()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
         $options = [
             "controller" => "foo@bar"
         ];

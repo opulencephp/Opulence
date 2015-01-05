@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Defines the console output
+ * Defines the console response
  */
-namespace RDev\Console\Output;
+namespace RDev\Console\Responses;
 
-class Console extends Output
+class Console extends Response
 {
     /** @var mixed The output stream */
     private $stream = null;

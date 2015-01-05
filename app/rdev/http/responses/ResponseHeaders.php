@@ -4,9 +4,10 @@
  *
  * Defines the response headers
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
+use RDev\HTTP;
 
-class ResponseHeaders extends Headers
+class ResponseHeaders extends HTTP\Headers
 {
     /** HTML content type */
     const CONTENT_TYPE_HTML = "text/html";

@@ -4,8 +4,8 @@
  *
  * Defines a mock controller for use in testing
  */
-namespace RDev\Tests\Routing\Mocks;
-use RDev\HTTP;
+namespace RDev\Tests\HTTP\Routing\Mocks;
+use RDev\HTTP\Responses;
 use RDev\HTTP\Routing;
 use RDev\Tests\Mocks;
 
@@ -17,32 +17,32 @@ class Controller extends Routing\Controller
      * @param mixed $foo The first parameter
      * @param mixed $bar The second parameter
      * @param mixed $blah The optional third parameter
-     * @return HTTP\Response The parameter names to their values
+     * @return Responses\Response The parameter names to their values
      */
     public function multipleParametersWithDefaultValues($foo, $bar, $blah = "724")
     {
-        return new HTTP\Response("foo:$foo, bar:$bar, blah:$blah");
+        return new Responses\Response("foo:$foo, bar:$bar, blah:$blah");
     }
 
     /**
      * Mocks a method that takes in no parameters
      *
-     * @return HTTP\Response An empty string
+     * @return Responses\Response An empty string
      */
     public function noParameters()
     {
-        return new HTTP\Response("noParameters");
+        return new Responses\Response("noParameters");
     }
 
     /**
      * Mocks a method that takes in a single parameter
      *
      * @param mixed $foo The parameter
-     * @return HTTP\Response The parameter name to its value
+     * @return Responses\Response The parameter name to its value
      */
     public function oneParameter($foo)
     {
-        return new HTTP\Response("foo:$foo");
+        return new Responses\Response("foo:$foo");
     }
 
     /**
@@ -60,11 +60,11 @@ class Controller extends Routing\Controller
      * @param mixed $bar The second parameter
      * @param mixed $baz The third parameter
      * @param mixed $blah The fourth parameter
-     * @return HTTP\Response The parameter names to their values
+     * @return Responses\Response The parameter names to their values
      */
     public function severalParameters($foo, $bar, $baz, $blah)
     {
-        return new HTTP\Response("foo:$foo, bar:$bar, baz:$baz, blah:$blah");
+        return new Responses\Response("foo:$foo, bar:$bar, baz:$baz, blah:$blah");
     }
 
     /**
@@ -72,7 +72,7 @@ class Controller extends Routing\Controller
      */
     public function showHTTPError($statusCode)
     {
-        return new HTTP\Response("foo", $statusCode);
+        return new Responses\Response("foo", $statusCode);
     }
 
     /**
@@ -80,30 +80,30 @@ class Controller extends Routing\Controller
      *
      * @param mixed $foo The first parameter
      * @param mixed $bar The second parameter
-     * @return HTTP\Response The parameter names to their values
+     * @return Responses\Response The parameter names to their values
      */
     public function twoParameters($foo, $bar)
     {
-        return new HTTP\Response("foo:$foo, bar:$bar");
+        return new Responses\Response("foo:$foo, bar:$bar");
     }
 
     /**
      * Mocks a protected method for use in testing
      *
-     * @return HTTP\Response The name of the method
+     * @return Responses\Response The name of the method
      */
     protected function protectedMethod()
     {
-        return new HTTP\Response("protectedMethod");
+        return new Responses\Response("protectedMethod");
     }
 
     /**
      * Mocks a private method for use in testing
      *
-     * @return HTTP\Response The name of the method
+     * @return Responses\Response The name of the method
      */
     private function privateMethod()
     {
-        return new HTTP\Response("privateMethod");
+        return new Responses\Response("privateMethod");
     }
 } 

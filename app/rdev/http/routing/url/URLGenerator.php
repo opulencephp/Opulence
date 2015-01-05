@@ -4,9 +4,9 @@
  * 
  * Defines a routing URL generator
  */
-namespace RDev\Routing\URL;
-use RDev\Routing\Compilers\Parsers;
-use RDev\Routing\Routes;
+namespace RDev\HTTP\Routing\URL;
+use RDev\HTTP\Routing\Compilers\Parsers;
+use RDev\HTTP\Routing\Routes;
 
 class URLGenerator
 {

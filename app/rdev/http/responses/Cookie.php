@@ -4,7 +4,7 @@
  *
  * Defines a cookie
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class Cookie
 {

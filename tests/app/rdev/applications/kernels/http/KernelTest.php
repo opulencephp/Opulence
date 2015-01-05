@@ -6,14 +6,15 @@
  */
 namespace RDev\Applications\Kernels\HTTP;
 use Monolog;
-use RDev\HTTP;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
+use RDev\HTTP\Routing;
+use RDev\HTTP\Routing\Compilers;
+use RDev\HTTP\Routing\Compilers\Parsers;
+use RDev\HTTP\Routing\Dispatchers;
 use RDev\IoC;
-use RDev\Routing;
-use RDev\Routing\Compilers;
-use RDev\Routing\Compilers\Parsers;
-use RDev\Routing\Dispatchers;
 use RDev\Tests\Applications\Mocks as ApplicationMocks;
-use RDev\Tests\Routing\Mocks as RoutingMocks;
+use RDev\Tests\HTTP\Routing\Mocks as RoutingMocks;
 
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
@@ -23,10 +24,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testHandlingRequest()
     {
         $kernel = $this->getKernel(false);
-        $request = HTTP\Request::createFromGlobals();
+        $request = Requests\Request::createFromGlobals();
         $response = $kernel->handle($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
-        $this->assertEquals(HTTP\ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertEquals(Responses\ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -35,10 +36,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testHandlingExceptionalRequest()
     {
         $kernel = $this->getKernel(true);
-        $request = HTTP\Request::createFromGlobals();
+        $request = Requests\Request::createFromGlobals();
         $response = $kernel->handle($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Response", $response);
-        $this->assertEquals(HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertEquals(Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     /**
@@ -63,7 +64,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
             $router = new Routing\Router(new Dispatchers\Dispatcher(new IoC\Container()), $routeCompiler);
         }
 
-        $router->any("/", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"]);
+        $router->any("/", ["controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"]);
         $logger = new Monolog\Logger("kernelTest");
         $logger->pushHandler(new ApplicationMocks\MonologHandler());
 

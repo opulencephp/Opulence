@@ -4,7 +4,7 @@
  * 
  * Defines a compiled route
  */
-namespace RDev\Routing\Routes;
+namespace RDev\HTTP\Routing\Routes;
 
 class CompiledRoute extends ParsedRoute
 {

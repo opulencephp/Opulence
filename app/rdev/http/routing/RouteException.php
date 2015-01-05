@@ -4,7 +4,7 @@
  *
  * Defines a route exception
  */
-namespace RDev\Routing;
+namespace RDev\HTTP\Routing;
 
 class RouteException extends \Exception
 {

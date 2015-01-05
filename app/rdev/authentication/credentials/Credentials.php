@@ -5,7 +5,7 @@
  * Defines methods and properties for all the credentials an entity has
  */
 namespace RDev\Authentication\Credentials;
-use RDev\HTTP;
+use RDev\HTTP\Responses;
 
 class Credentials implements ICredentials
 {
@@ -60,7 +60,7 @@ class Credentials implements ICredentials
     /**
      * {@inheritdoc}
      */
-    public function delete(HTTP\Response $response, $type)
+    public function delete(Responses\Response $response, $type)
     {
         if(!isset($this->storages[$type]))
         {
@@ -161,7 +161,7 @@ class Credentials implements ICredentials
     /**
      * {@inheritdoc}
      */
-    public function save(HTTP\Response $response, ICredential $credential, $unhashedToken)
+    public function save(Responses\Response $response, ICredential $credential, $unhashedToken)
     {
         if(!isset($this->storages[$credential->getTypeId()]))
         {

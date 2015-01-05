@@ -6,8 +6,9 @@
  */
 namespace RDev\Applications\Kernels\HTTP;
 use Monolog;
-use RDev\HTTP;
-use RDev\Routing;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
+use RDev\HTTP\Routing;
 
 class Kernel
 {
@@ -29,10 +30,10 @@ class Kernel
     /**
      * Handles an HTTP request
      *
-     * @param HTTP\Request $request The HTTP request to handle
-     * @return HTTP\Response The HTTP response
+     * @param Requests\Request $request The HTTP request to handle
+     * @return Responses\Response The HTTP response
      */
-    public function handle(HTTP\Request $request)
+    public function handle(Requests\Request $request)
     {
         try
         {
@@ -42,7 +43,7 @@ class Kernel
         {
             $this->logger->addError("Failed to handle request: $ex");
 
-            return new HTTP\Response("", HTTP\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+            return new Responses\Response("", Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

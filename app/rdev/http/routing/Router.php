@@ -4,8 +4,9 @@
  *
  * Defines a router for URL requests
  */
-namespace RDev\Routing;
-use RDev\HTTP;
+namespace RDev\HTTP\Routing;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
 use RDev\IoC;
 
 class Router
@@ -30,7 +31,7 @@ class Router
     public function __construct(
         Dispatchers\IDispatcher $dispatcher,
         Compilers\ICompiler $compiler,
-        $missedRouteControllerName = "RDev\\Routing\\Controller"
+        $missedRouteControllerName = "RDev\\HTTP\\Routing\\Controller"
     )
     {
         $this->dispatcher = $dispatcher;
@@ -69,7 +70,7 @@ class Router
      */
     public function delete($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_DELETE, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_DELETE, $path, $options);
         $this->addRoute($route);
     }
 
@@ -81,7 +82,7 @@ class Router
      */
     public function get($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_GET, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_GET, $path, $options);
         $this->addRoute($route);
     }
 
@@ -118,7 +119,7 @@ class Router
      */
     public function head($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_HEAD, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_HEAD, $path, $options);
         $this->addRoute($route);
     }
 
@@ -146,7 +147,7 @@ class Router
      */
     public function options($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_OPTIONS, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_OPTIONS, $path, $options);
         $this->addRoute($route);
     }
 
@@ -158,7 +159,7 @@ class Router
      */
     public function patch($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_PATCH, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_PATCH, $path, $options);
         $this->addRoute($route);
     }
 
@@ -170,7 +171,7 @@ class Router
      */
     public function post($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_POST, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_POST, $path, $options);
         $this->addRoute($route);
     }
 
@@ -182,18 +183,18 @@ class Router
      */
     public function put($path, array $options)
     {
-        $route = $this->createRoute(HTTP\Request::METHOD_PUT, $path, $options);
+        $route = $this->createRoute(Requests\Request::METHOD_PUT, $path, $options);
         $this->addRoute($route);
     }
 
     /**
      * Routes a request
      *
-     * @param HTTP\Request $request The request to route
-     * @return HTTP\Response The response from the controller
+     * @param Requests\Request $request The request to route
+     * @return Responses\Response The response from the controller
      * @throws RouteException Thrown if the controller or method could not be called
      */
-    public function route(HTTP\Request $request)
+    public function route(Requests\Request $request)
     {
         $method = $request->getMethod();
 
@@ -367,10 +368,10 @@ class Router
     /**
      * Gets the response for a missing route
      *
-     * @param HTTP\Request $request
-     * @return HTTP\Response The response
+     * @param Requests\Request $request
+     * @return Responses\Response The response
      */
-    private function getMissingRouteResponse(HTTP\Request $request)
+    private function getMissingRouteResponse(Requests\Request $request)
     {
         return $this->dispatcher->dispatch(new Routes\MissingRoute($this->missedRouteControllerName), $request, []);
     }

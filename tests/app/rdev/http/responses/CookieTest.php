@@ -4,7 +4,7 @@
  *
  * Tests the cookie class
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class CookieTest extends \PHPUnit_Framework_TestCase
 {

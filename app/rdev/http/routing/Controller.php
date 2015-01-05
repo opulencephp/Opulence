@@ -4,8 +4,9 @@
  *
  * Defines a base controller
  */
-namespace RDev\Routing;
-use RDev\HTTP;
+namespace RDev\HTTP\Routing;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
 use RDev\Views;
 use RDev\Views\Compilers;
 
@@ -15,13 +16,13 @@ class Controller
     protected $template = null;
     /** @var Compilers\ICompiler The template compiler to use */
     protected $compiler = null;
-    /** @var HTTP\Request The HTTP request */
+    /** @var Requests\Request The HTTP request */
     protected $request = null;
 
     /**
-     * @param HTTP\Request $request The HTTP request
+     * @param Requests\Request $request The HTTP request
      */
-    public function __construct(HTTP\Request $request)
+    public function __construct(Requests\Request $request)
     {
         $this->request = $request;
     }
@@ -32,12 +33,12 @@ class Controller
      *
      * @param string $methodName The name of the method in $this to call
      * @param array $parameters The list of parameters to pass into the action method
-     * @return HTTP\Response The HTTP response returned by the method
+     * @return Responses\Response The HTTP response returned by the method
      */
     public function callMethod($methodName, array $parameters)
     {
         $this->setUpTemplate();
-        /** @var HTTP\Response $response */
+        /** @var Responses\Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
         if($response === null && $this->compiler instanceof Compilers\ICompiler && $this->template !== null)
@@ -53,11 +54,11 @@ class Controller
      * To customize error messages, override this method
      *
      * @param int $statusCode The HTTP status code of the error
-     * @return HTTP\Response The response
+     * @return Responses\Response The response
      */
     public function showHTTPError($statusCode)
     {
-        return new HTTP\Response("", $statusCode);
+        return new Responses\Response("", $statusCode);
     }
 
     /**

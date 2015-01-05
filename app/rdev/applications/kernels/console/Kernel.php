@@ -7,8 +7,8 @@
 namespace RDev\Applications\Kernels\Console;
 use Monolog;
 use RDev\Console\Commands;
-use RDev\Console\Input;
-use RDev\Console\Output;
+use RDev\Console\Requests;
+use RDev\Console\Responses;
 
 class Kernel
 {
@@ -30,20 +30,20 @@ class Kernel
     /**
      * Handles a console command
      *
-     * @param Input\IInput $input The input to handle
-     * @param Output\IOutput $output The output to write to
+     * @param Requests\IRequest $request The request to handle
+     * @param Responses\IResponse $response The response to write to
      * @return int The status code
      */
-    public function handle(Input\IInput $input = null, Output\IOutput $output = null)
+    public function handle(Requests\IRequest $request = null, Responses\IResponse $response = null)
     {
-        if($input === null)
+        if($request === null)
         {
-            $input = new Input\Argv();
+            $request = new Requests\Argv();
         }
 
-        if($output === null)
+        if($response === null)
         {
-            $output = new Output\Console();
+            $response = new Responses\Console();
         }
     }
 }

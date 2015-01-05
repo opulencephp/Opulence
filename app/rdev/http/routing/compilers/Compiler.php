@@ -4,9 +4,9 @@
  * 
  * Defines a route compiler
  */
-namespace RDev\Routing\Compilers;
-use RDev\HTTP;
-use RDev\Routing\Routes;
+namespace RDev\HTTP\Routing\Compilers;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Routing\Routes;
 
 class Compiler implements ICompiler
 {
@@ -24,7 +24,7 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function compile(Routes\Route $route, HTTP\Request $request)
+    public function compile(Routes\Route $route, Requests\Request $request)
     {
         $parsedRoute = $this->parser->parse($route);
         $hostMatches = [];

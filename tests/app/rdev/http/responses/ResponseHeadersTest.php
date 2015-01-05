@@ -4,7 +4,7 @@
  *
  * Tests the response headers
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class ResponseHeadersTest extends \PHPUnit_Framework_TestCase
 {

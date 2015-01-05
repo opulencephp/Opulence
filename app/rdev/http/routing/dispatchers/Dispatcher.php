@@ -4,12 +4,13 @@
  *
  * Dispatches routes to the appropriate controllers
  */
-namespace RDev\Routing\Dispatchers;
-use RDev\HTTP;
+namespace RDev\HTTP\Routing\Dispatchers;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
+use RDev\HTTP\Routing;
+use RDev\HTTP\Routing\Filters;
+use RDev\HTTP\Routing\Routes;
 use RDev\IoC;
-use RDev\Routing;
-use RDev\Routing\Filters;
-use RDev\Routing\Routes;
 
 class Dispatcher implements IDispatcher
 {
@@ -27,7 +28,7 @@ class Dispatcher implements IDispatcher
     /**
      * {@inheritdoc}
      */
-    public function dispatch(Routes\CompiledRoute $route, HTTP\Request $request)
+    public function dispatch(Routes\CompiledRoute $route, Requests\Request $request)
     {
         $controller = $this->createController($route->getControllerName(), $request);
 
@@ -47,7 +48,7 @@ class Dispatcher implements IDispatcher
         }
 
         // Nothing returned a value, so return a basic HTTP response
-        return new HTTP\Response();
+        return new Responses\Response();
     }
 
     /**
@@ -55,7 +56,7 @@ class Dispatcher implements IDispatcher
      *
      * @param Routing\Controller $controller The instance of the controller to call
      * @param Routes\CompiledRoute $route The route being dispatched
-     * @return HTTP\Response Returns the value from the controller method
+     * @return Responses\Response Returns the value from the controller method
      * @throws Routing\RouteException Thrown if the method could not be called on the controller
      */
     private function callController(Routing\Controller $controller, Routes\CompiledRoute $route)
@@ -114,11 +115,11 @@ class Dispatcher implements IDispatcher
      * Creates an instance of the input controller
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
-     * @param HTTP\Request $request The request that's being routed
+     * @param Requests\Request $request The request that's being routed
      * @return Routing\Controller The instantiated controller
      * @throws Routing\RouteException Thrown if the controller could not be instantiated
      */
-    private function createController($controllerName, HTTP\Request $request)
+    private function createController($controllerName, Requests\Request $request)
     {
         if(!class_exists($controllerName))
         {
@@ -146,12 +147,12 @@ class Dispatcher implements IDispatcher
      * Executes a route's post-filters
      *
      * @param Routes\CompiledRoute $route The route that is being dispatched
-     * @param HTTP\Request $request The request made by the user
-     * @param HTTP\Response $response The response returned by the controller
-     * @return HTTP\Response|null The response if any filter returned one, otherwise null
+     * @param Requests\Request $request The request made by the user
+     * @param Responses\Response $response The response returned by the controller
+     * @return Responses\Response|null The response if any filter returned one, otherwise null
      * @throws Routing\RouteException Thrown if the filter is not of the correct type
      */
-    private function doPostFilters(Routes\CompiledRoute $route, HTTP\Request $request, HTTP\Response $response = null)
+    private function doPostFilters(Routes\CompiledRoute $route, Requests\Request $request, Responses\Response $response = null)
     {
         foreach($route->getPostFilters() as $filterClassName)
         {
@@ -176,11 +177,11 @@ class Dispatcher implements IDispatcher
      * Executes a route's pre-filters
      *
      * @param Routes\CompiledRoute $route The route that is being dispatched
-     * @param HTTP\Request $request The request made by the user
-     * @return HTTP\Response|null The response if any filter returned one, otherwise null
+     * @param Requests\Request $request The request made by the user
+     * @return Responses\Response|null The response if any filter returned one, otherwise null
      * @throws Routing\RouteException Thrown if the filter is not of the correct type
      */
-    private function doPreFilters(Routes\CompiledRoute $route, HTTP\Request $request)
+    private function doPreFilters(Routes\CompiledRoute $route, Requests\Request $request)
     {
         foreach($route->getPreFilters() as $filterClassName)
         {

@@ -66,7 +66,6 @@ You can also install the components of RDev individually.  The following is a li
         "rdev/http": "0.1.*@dev",
         "rdev/ioc": "0.1.*@dev",
         "rdev/orm": "0.1.*@dev",
-        "rdev/routing": "0.1.*@dev",
         "rdev/sessions": "0.1.*@dev",
         "rdev/users": "0.1.*@dev",
         "rdev/views": "0.1.*@dev"

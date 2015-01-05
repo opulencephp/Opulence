@@ -4,8 +4,9 @@
  *
  * Mocks a filter that returns something
  */
-namespace RDev\Tests\Routing\Mocks;
-use RDev\HTTP;
+namespace RDev\Tests\HTTP\Routing\Mocks;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
 use RDev\HTTP\Routing\Filters;
 use RDev\HTTP\Routing\Routes;
 
@@ -14,7 +15,7 @@ class ReturnsSomethingFilter implements Filters\IFilter
     /**
      * {@inheritdoc}
      */
-    public function run(Routes\CompiledRoute $route, HTTP\Request $request, HTTP\Response $response = null)
+    public function run(Routes\CompiledRoute $route, Requests\Request $request, Responses\Response $response = null)
     {
         if($response !== null)
         {
@@ -24,7 +25,7 @@ class ReturnsSomethingFilter implements Filters\IFilter
         }
         else
         {
-            return new HTTP\RedirectResponse("/bar");
+            return new Responses\RedirectResponse("/bar");
         }
     }
 }

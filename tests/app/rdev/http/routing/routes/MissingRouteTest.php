@@ -5,7 +5,7 @@
  * Tests the missing route
  */
 namespace RDev\HTTP\Routing\Routes;
-use RDev\HTTP;
+use RDev\HTTP\Responses;
 
 class MissingRouteTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,6 +34,6 @@ class MissingRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDefaultValue()
     {
-        $this->assertEquals(HTTP\ResponseHeaders::HTTP_NOT_FOUND, $this->missingRoute->getDefaultValue("statusCode"));
+        $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $this->missingRoute->getDefaultValue("statusCode"));
     }
 }

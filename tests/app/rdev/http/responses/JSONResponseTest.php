@@ -4,7 +4,7 @@
  *
  * Tests the JSON response
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class JSONResponseTest extends \PHPUnit_Framework_TestCase
 {

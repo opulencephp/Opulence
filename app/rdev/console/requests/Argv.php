@@ -4,9 +4,9 @@
  * 
  * Defines input the comes from argv
  */
-namespace RDev\Console\Input;
+namespace RDev\Console\Requests;
 
-class Argv extends Input
+class Argv extends Request
 {
 
 }

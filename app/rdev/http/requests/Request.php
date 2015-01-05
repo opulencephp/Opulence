@@ -4,7 +4,8 @@
  *
  * Defines an HTTP request
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Requests;
+use RDev\HTTP;
 
 class Request
 {
@@ -33,19 +34,19 @@ class Request
     private $method = "";
     /** @var string The client's IP address */
     private $ipAddress = "";
-    /** @var Parameters The list of GET parameters */
+    /** @var HTTP\Parameters The list of GET parameters */
     private $query = null;
-    /** @var Parameters The list of POST parameters */
+    /** @var HTTP\Parameters The list of POST parameters */
     private $post = null;
-    /** @var Headers The list of headers */
+    /** @var HTTP\Headers The list of headers */
     private $headers = null;
-    /** @var Parameters The list of SERVER parameters */
+    /** @var HTTP\Parameters The list of SERVER parameters */
     private $server = null;
-    /** @var Parameters The list of FILES parameters */
+    /** @var HTTP\Parameters The list of FILES parameters */
     private $files = null;
-    /** @var Parameters The list of ENV parameters */
+    /** @var HTTP\Parameters The list of ENV parameters */
     private $env = null;
-    /** @var Parameters The list of cookies */
+    /** @var HTTP\Parameters The list of cookies */
     private $cookies = null;
     /** @var string The path of the request, which does not include the query string */
     private $path = "";
@@ -60,13 +61,13 @@ class Request
      */
     public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env)
     {
-        $this->query = new Parameters($query);
-        $this->post = new Parameters($post);
-        $this->cookies = new Parameters($cookies);
-        $this->server = new Parameters($server);
-        $this->headers = new Headers($server);
-        $this->files = new Parameters($files);
-        $this->env = new Parameters($env);
+        $this->query = new HTTP\Parameters($query);
+        $this->post = new HTTP\Parameters($post);
+        $this->cookies = new HTTP\Parameters($cookies);
+        $this->server = new HTTP\Parameters($server);
+        $this->headers = new HTTP\Headers($server);
+        $this->files = new HTTP\Parameters($files);
+        $this->env = new HTTP\Parameters($env);
         $this->setMethod();
         $this->setIPAddress();
         $this->setPath();
@@ -83,7 +84,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return HTTP\Parameters
      */
     public function getCookies()
     {
@@ -91,7 +92,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return HTTP\Parameters
      */
     public function getEnv()
     {
@@ -99,7 +100,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return HTTP\Parameters
      */
     public function getFiles()
     {
@@ -107,7 +108,7 @@ class Request
     }
 
     /**
-     * @return Headers
+     * @return HTTP\Headers
      */
     public function getHeaders()
     {
@@ -141,7 +142,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return HTTP\Parameters
      */
     public function getPost()
     {
@@ -149,7 +150,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return HTTP\Parameters
      */
     public function getQuery()
     {
@@ -157,7 +158,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return HTTP\Parameters
      */
     public function getServer()
     {

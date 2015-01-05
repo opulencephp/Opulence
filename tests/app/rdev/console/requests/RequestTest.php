@@ -2,22 +2,22 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Tests the console input
+ * Tests the console request
  */
-namespace RDev\Console\Input;
-use RDev\Tests\Console\Input\Mocks;
+namespace RDev\Console\Requests;
+use RDev\Tests\Console\Requests\Mocks;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\Input The input to use in tests */
-    private $input = null;
+    /** @var Mocks\Request The request to use in tests */
+    private $request = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->input = new Mocks\Input();
+        $this->request = new Mocks\Request();
     }
 
     /**
@@ -25,9 +25,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAllArguments()
     {
-        $this->input->setArgument("foo", "bar");
-        $this->input->setArgument("baz", "blah");
-        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->input->getArguments());
+        $this->request->setArgument("foo", "bar");
+        $this->request->setArgument("baz", "blah");
+        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->request->getArguments());
     }
 
     /**
@@ -35,9 +35,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAllOptions()
     {
-        $this->input->setOption("foo", "bar");
-        $this->input->setOption("baz", "blah");
-        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->input->getOptions());
+        $this->request->setOption("foo", "bar");
+        $this->request->setOption("baz", "blah");
+        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->request->getOptions());
     }
 
     /**
@@ -45,8 +45,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingArgument()
     {
-        $this->input->setArgument("foo", "bar");
-        $this->assertEquals("bar", $this->input->getArgument("foo"));
+        $this->request->setArgument("foo", "bar");
+        $this->assertEquals("bar", $this->request->getArgument("foo"));
     }
 
     /**
@@ -55,7 +55,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentArgument()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->input->getArgument("foo");
+        $this->request->getArgument("foo");
     }
 
     /**
@@ -64,7 +64,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentOption()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->input->getOption("foo");
+        $this->request->getOption("foo");
     }
 
     /**
@@ -72,7 +72,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOption()
     {
-        $this->input->setOption("foo", "bar");
-        $this->assertEquals("bar", $this->input->getOption("foo"));
+        $this->request->setOption("foo", "bar");
+        $this->assertEquals("bar", $this->request->getOption("foo"));
     }
 }

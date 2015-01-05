@@ -2,12 +2,12 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Mocks the console output for use in tests
+ * Mocks the console response for use in tests
  */
-namespace RDev\Tests\Console\Output\Mocks;
-use RDev\Console\Output as OutputNS;
+namespace RDev\Tests\Console\Responses\Mocks;
+use RDev\Console\Responses;
 
-class Response extends OutputNS\Output
+class Response extends Responses\Response
 {
     /**
      * {@inheritdoc}

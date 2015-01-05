@@ -7,7 +7,7 @@
 namespace RDev\Tests\Authentication\Credentials\Storage\Mocks;
 use RDev\Authentication\Credentials;
 use RDev\Authentication\Credentials\Storage;
-use RDev\HTTP;
+use RDev\HTTP\Responses;
 
 class CredentialStorage implements Storage\ICredentialStorage
 {
@@ -19,7 +19,7 @@ class CredentialStorage implements Storage\ICredentialStorage
     /**
      * {@inheritdoc}
      */
-    public function delete(HTTP\Response $response)
+    public function delete(Responses\Response $response)
     {
         $this->credential = null;
         $this->unhashedToken = "";
@@ -44,7 +44,7 @@ class CredentialStorage implements Storage\ICredentialStorage
     /**
      * {@inheritdoc}
      */
-    public function save(HTTP\Response $response, Credentials\ICredential $credential, $unhashedToken)
+    public function save(Responses\Response $response, Credentials\ICredential $credential, $unhashedToken)
     {
         $this->credential = $credential;
         $this->unhashedToken = $unhashedToken;

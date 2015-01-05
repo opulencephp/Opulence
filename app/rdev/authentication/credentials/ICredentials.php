@@ -5,7 +5,7 @@
  * Defines the interface for credentials to implement
  */
 namespace RDev\Authentication\Credentials;
-use RDev\HTTP;
+use RDev\HTTP\Responses;
 
 interface ICredentials
 {
@@ -21,11 +21,11 @@ interface ICredentials
     /**
      * Removes a credential of the input type
      *
-     * @param HTTP\Response $response The response to delete the credential from
+     * @param Responses\Response $response The response to delete the credential from
      * @param int $type The type of credential to remove
      * @throws \RuntimeException Thrown if the credential didn't have a storage mechanism registered
      */
-    public function delete(HTTP\Response $response, $type);
+    public function delete(Responses\Response $response, $type);
 
     /**
      * Gets the credential of the input type
@@ -85,12 +85,12 @@ interface ICredentials
     /**
      * Saves a credential to storage
      *
-     * @param HTTP\Response $response The response to save the credential to
+     * @param Responses\Response $response The response to save the credential to
      * @param ICredential $credential The credential to save
      * @param string $unhashedToken The unhashed token value
      * @throws \RuntimeException Thrown if the credential didn't have a storage mechanism registered
      */
-    public function save(HTTP\Response $response, ICredential $credential, $unhashedToken);
+    public function save(Responses\Response $response, ICredential $credential, $unhashedToken);
 
     /**
      * Sets the entity Id

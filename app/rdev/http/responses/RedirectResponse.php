@@ -4,7 +4,7 @@
  *
  * Defines a redirect response
  */
-namespace RDev\HTTP;
+namespace RDev\HTTP\Responses;
 
 class RedirectResponse extends Response
 {

@@ -5,7 +5,7 @@
  * Tests the routes
  */
 namespace RDev\HTTP\Routing\Routes;
-use RDev\HTTP;
+use RDev\HTTP\Requests;
 
 class RoutesTest extends \PHPUnit_Framework_TestCase 
 {
@@ -25,9 +25,9 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $route = new Route(HTTP\Request::METHOD_GET, "/users", ["controller" => "foo@bar"]);
+        $route = new Route(Requests\Request::METHOD_GET, "/users", ["controller" => "foo@bar"]);
         $this->routes->add($route);
-        $this->assertSame([$route], $this->routes->get(HTTP\Request::METHOD_GET));
+        $this->assertSame([$route], $this->routes->get(Requests\Request::METHOD_GET));
     }
 
     /**
@@ -35,8 +35,8 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $getRoute = new Route(HTTP\Request::METHOD_GET, "/users", ["controller" => "foo@bar"]);
-        $postRoute = new Route(HTTP\Request::METHOD_POST, "/users", ["controller" => "foo@bar"]);
+        $getRoute = new Route(Requests\Request::METHOD_GET, "/users", ["controller" => "foo@bar"]);
+        $postRoute = new Route(Requests\Request::METHOD_POST, "/users", ["controller" => "foo@bar"]);
         $expectedRoutes = [];
 
         foreach(Routes::getMethods() as $method)
@@ -44,13 +44,13 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
             $expectedRoutes[$method] = [];
         }
 
-        $expectedRoutes[HTTP\Request::METHOD_GET][] = $getRoute;
-        $expectedRoutes[HTTP\Request::METHOD_POST][] = $postRoute;
+        $expectedRoutes[Requests\Request::METHOD_GET][] = $getRoute;
+        $expectedRoutes[Requests\Request::METHOD_POST][] = $postRoute;
         $this->routes->add($getRoute);
         $this->routes->add($postRoute);
         $this->assertSame($expectedRoutes, $this->routes->get());
-        $this->assertSame([$getRoute], $this->routes->get(HTTP\Request::METHOD_GET));
-        $this->assertSame([$postRoute], $this->routes->get(HTTP\Request::METHOD_POST));
+        $this->assertSame([$getRoute], $this->routes->get(Requests\Request::METHOD_GET));
+        $this->assertSame([$postRoute], $this->routes->get(Requests\Request::METHOD_POST));
     }
 
     /**
@@ -68,10 +68,10 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
     {
         $path = "/foo";
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
             "name" => "blah"
         ];
-        $expectedRoute = new Route(HTTP\Request::METHOD_GET, $path, $options);
+        $expectedRoute = new Route(Requests\Request::METHOD_GET, $path, $options);
         $this->routes->add($expectedRoute);
         $this->assertSame($expectedRoute, $this->routes->getNamedRoute("blah"));
     }
@@ -83,7 +83,7 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
     {
         $path = "/foo";
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"
         ];
         $this->routes->get($path, $options);
         $this->assertNull($this->routes->getNamedRoute("blah"));
@@ -96,15 +96,15 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
     {
         $path = "/foo";
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"
         ];
-        $deleteRoute = new Route(HTTP\Request::METHOD_DELETE, $path, $options);
-        $getRoute = new Route(HTTP\Request::METHOD_GET, $path, $options);
-        $postRoute = new Route(HTTP\Request::METHOD_POST, $path, $options);
-        $putRoute = new Route(HTTP\Request::METHOD_PUT, $path, $options);
-        $headRoute = new Route(HTTP\Request::METHOD_HEAD, $path, $options);
-        $optionsRoute = new Route(HTTP\Request::METHOD_OPTIONS, $path, $options);
-        $patchRoute = new Route(HTTP\Request::METHOD_PATCH, $path, $options);
+        $deleteRoute = new Route(Requests\Request::METHOD_DELETE, $path, $options);
+        $getRoute = new Route(Requests\Request::METHOD_GET, $path, $options);
+        $postRoute = new Route(Requests\Request::METHOD_POST, $path, $options);
+        $putRoute = new Route(Requests\Request::METHOD_PUT, $path, $options);
+        $headRoute = new Route(Requests\Request::METHOD_HEAD, $path, $options);
+        $optionsRoute = new Route(Requests\Request::METHOD_OPTIONS, $path, $options);
+        $patchRoute = new Route(Requests\Request::METHOD_PATCH, $path, $options);
         $this->routes->add($deleteRoute);
         $this->routes->add($getRoute);
         $this->routes->add($postRoute);
@@ -113,13 +113,13 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
         $this->routes->add($optionsRoute);
         $this->routes->add($patchRoute);
         $allRoutes = $this->routes->get();
-        $this->assertSame([$deleteRoute], $allRoutes[HTTP\Request::METHOD_DELETE]);
-        $this->assertSame([$getRoute], $allRoutes[HTTP\Request::METHOD_GET]);
-        $this->assertSame([$postRoute], $allRoutes[HTTP\Request::METHOD_POST]);
-        $this->assertSame([$putRoute], $allRoutes[HTTP\Request::METHOD_PUT]);
-        $this->assertSame([$headRoute], $allRoutes[HTTP\Request::METHOD_HEAD]);
-        $this->assertSame([$optionsRoute], $allRoutes[HTTP\Request::METHOD_OPTIONS]);
-        $this->assertSame([$patchRoute], $allRoutes[HTTP\Request::METHOD_PATCH]);
+        $this->assertSame([$deleteRoute], $allRoutes[Requests\Request::METHOD_DELETE]);
+        $this->assertSame([$getRoute], $allRoutes[Requests\Request::METHOD_GET]);
+        $this->assertSame([$postRoute], $allRoutes[Requests\Request::METHOD_POST]);
+        $this->assertSame([$putRoute], $allRoutes[Requests\Request::METHOD_PUT]);
+        $this->assertSame([$headRoute], $allRoutes[Requests\Request::METHOD_HEAD]);
+        $this->assertSame([$optionsRoute], $allRoutes[Requests\Request::METHOD_OPTIONS]);
+        $this->assertSame([$patchRoute], $allRoutes[Requests\Request::METHOD_PATCH]);
     }
 
     /**
@@ -127,7 +127,7 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRoutesForMethodThatDoesNotHaveAny()
     {
-        $this->assertEquals([], $this->routes->get(HTTP\Request::METHOD_GET));
+        $this->assertEquals([], $this->routes->get(Requests\Request::METHOD_GET));
     }
 
     /**
@@ -137,11 +137,11 @@ class RoutesTest extends \PHPUnit_Framework_TestCase
     {
         $path = "/foo";
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
+            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"
         ];
-        $getRoute = new Route(HTTP\Request::METHOD_GET, $path, $options);
+        $getRoute = new Route(Requests\Request::METHOD_GET, $path, $options);
         $this->routes->add($getRoute);
-        $getRoutes = $this->routes->get(HTTP\Request::METHOD_GET);
+        $getRoutes = $this->routes->get(Requests\Request::METHOD_GET);
         $this->assertSame([$getRoute], $getRoutes);
     }
 }

@@ -5,7 +5,7 @@
  * Defines a parsed route
  * This is different than a compiled route because this does not have the context of a particular request
  */
-namespace RDev\Routing\Routes;
+namespace RDev\HTTP\Routing\Routes;
 
 class ParsedRoute extends Route
 {

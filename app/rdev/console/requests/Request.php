@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Defines a basic input
+ * Defines a basic request
  */
 namespace RDev\Console\Requests;
 
