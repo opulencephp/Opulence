@@ -1,4 +1,8 @@
 HAS PRIORITY:
+    Create compiler classes for each console input type
+        They would compile the raw input into the appropriate input type
+        Need to think - do we really need different input classes if we have different compilers?
+            Look at other libraries to see if they handle situations I haven't thought of that would necessitate having different input classes
     Idea:  Run statement compiler
         Cache results
         Run all other subcompilers

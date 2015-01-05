@@ -13,6 +13,7 @@ interface IInput
      *
      * @param string $name The name of the argument
      * @return mixed The value of the argument
+     * @throws \InvalidArgumentException Thrown if the argument does not exist
      */
     public function getArgument($name);
 
@@ -28,6 +29,7 @@ interface IInput
      *
      * @param string $name The name of the option
      * @return mixed The value of the option
+     * @throws \InvalidArgumentException Thrown if the option does not exist
      */
     public function getOption($name);
 
@@ -37,6 +39,22 @@ interface IInput
      * @return array The mapping of option names to their values
      */
     public function getOptions();
+
+    /**
+     * Gets whether or not the input contains an argument
+     *
+     * @param string $name The name of the argument
+     * @return bool True if the input has the argument, otherwise false
+     */
+    public function hasArgument($name);
+
+    /**
+     * Gets whether or not the input contains an option
+     *
+     * @param string $name The name of the option
+     * @return bool True if the input has the option, otherwise false
+     */
+    public function hasOption($name);
 
     /**
      * Sets the value of an argument
