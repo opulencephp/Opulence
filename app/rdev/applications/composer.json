@@ -21,8 +21,8 @@
   "require": {
     "php": ">=5.5.10",
     "monolog/monolog": "1.11.*@dev",
-    "rdev/ioc": "0.1.*",
-    "rdev/sessions": "0.1.*"
+    "rdev/ioc": "0.2.*",
+    "rdev/sessions": "0.2.*"
   },
   "extra": {
     "branch-alias": {

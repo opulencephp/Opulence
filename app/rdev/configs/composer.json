@@ -20,7 +20,7 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/files": "0.1.*"
+    "rdev/files": "0.2.*"
   },
   "extra": {
     "branch-alias": {

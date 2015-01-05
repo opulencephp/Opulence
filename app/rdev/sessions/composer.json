@@ -21,8 +21,8 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/authentication": "0.1.*",
-    "rdev/users": "0.1.*"
+    "rdev/authentication": "0.2.*",
+    "rdev/users": "0.2.*"
   },
   "extra": {
     "branch-alias": {

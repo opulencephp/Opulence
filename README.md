@@ -47,7 +47,7 @@
 ```javascript
 {
     "require": {
-        "rdev/rdev": "0.1.*@dev"
+        "rdev/rdev": "0.2.*@dev"
     }
 }
 ```
@@ -56,19 +56,19 @@ You can also install the components of RDev individually.  The following is a li
 ```javascript
 {
     "require": {
-        "rdev/applications": "0.1.*@dev",
-        "rdev/authentication": "0.1.*@dev",
-        "rdev/configs": "0.1.*@dev",
-        "rdev/console": "0.1.*@dev",
-        "rdev/cryptography": "0.1.*@dev",
-        "rdev/databases": "0.1.*@dev",
-        "rdev/files": "0.1.*@dev",
-        "rdev/http": "0.1.*@dev",
-        "rdev/ioc": "0.1.*@dev",
-        "rdev/orm": "0.1.*@dev",
-        "rdev/sessions": "0.1.*@dev",
-        "rdev/users": "0.1.*@dev",
-        "rdev/views": "0.1.*@dev"
+        "rdev/applications": "0.2.*@dev",
+        "rdev/authentication": "0.2.*@dev",
+        "rdev/configs": "0.2.*@dev",
+        "rdev/console": "0.2.*@dev",
+        "rdev/cryptography": "0.2.*@dev",
+        "rdev/databases": "0.2.*@dev",
+        "rdev/files": "0.2.*@dev",
+        "rdev/http": "0.2.*@dev",
+        "rdev/ioc": "0.2.*@dev",
+        "rdev/orm": "0.2.*@dev",
+        "rdev/sessions": "0.2.*@dev",
+        "rdev/users": "0.2.*@dev",
+        "rdev/views": "0.2.*@dev"
     }
 }
 ```

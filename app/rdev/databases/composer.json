@@ -23,7 +23,7 @@
     "php": ">=5.5.10",
     "alecesaro/phpredis": "dev-master",
     "predis/predis": "1.1.*@dev",
-    "rdev/configs": "0.1.*"
+    "rdev/configs": "0.2.*"
   },
   "extra": {
     "branch-alias": {
