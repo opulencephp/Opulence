@@ -21,6 +21,7 @@
   "require": {
     "php": ">=5.5.10",
     "monolog/monolog": "1.11.*@dev",
+    "rdev/console": "0.1.*",
     "rdev/http": "0.1.*",
     "rdev/ioc": "0.1.*",
     "rdev/routing": "0.1.*",
