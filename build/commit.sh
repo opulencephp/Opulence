@@ -12,7 +12,7 @@ function commit()
         git push origin master
     fi
 
-    ## Check if we need to commit components
+    # Check if we need to commit components
     for repo in ${REPOS[@]}
     do
         if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
@@ -22,6 +22,36 @@ function commit()
             git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
         fi
     done
+}
+
+function split()
+{
+    read -p "   Name of subtree: " subtree
+    read -p "   Remote URL: " remoteurl
+
+    # Setup subtree directory
+    mkdir ../$subtree
+    cd ../$subtree
+    git init --bare
+
+    # Create branch from subtree directory, call it the same thing as the subtree directory
+    cd ../rdev
+    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
+    git push ../$subtree $subtree:master
+
+    # Push subtree to remote
+    cd ../$subtree
+    git remote add origin $remoteurl
+    git push origin master
+
+    # Remove original code, which will be re-added shortly
+    cd ../rdev
+    git rm -r $SUBTREE_DIR/$subtree
+
+    # Setup subtree in main repo
+    git commit -am "Removed $subtree for subtree split"
+    git remote add $subtree $remouteurl
+    git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
 }
 
 function tag()
@@ -52,6 +82,7 @@ while true; do
     echo "   Select an action"
     echo "   c: Commit"
     echo "   t: Tag"
+    echo "   s: Split Subtree"
     echo "   e: Exit"
     echo "--------------------------"
     read -p "   Choice: " choice
@@ -59,6 +90,7 @@ while true; do
     case $choice in
         [cC]* ) commit;;
         [tT]* ) tag;;
+        [sS]* ) split;;
         [eE]* ) exit 0;;
         * ) echo "   Invalid choice";;
     esac
