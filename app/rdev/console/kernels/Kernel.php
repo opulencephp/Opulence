@@ -4,7 +4,7 @@
  *
  * Defines the console kernel
  */
-namespace RDev\Applications\Kernels\Console;
+namespace RDev\Console\Kernels;
 use Monolog;
 use RDev\Console\Commands;
 use RDev\Console\Requests;

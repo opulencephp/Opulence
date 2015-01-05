@@ -4,7 +4,7 @@
  * 
  * Defines the HTTP kernel
  */
-namespace RDev\Applications\Kernels\HTTP;
+namespace RDev\HTTP\Kernels;
 use Monolog;
 use RDev\HTTP\Requests;
 use RDev\HTTP\Responses;
