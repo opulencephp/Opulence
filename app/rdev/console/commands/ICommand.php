@@ -8,14 +8,107 @@ namespace RDev\Console\Commands;
 use RDev\Console\Requests;
 use RDev\Console\Responses;
 
-interface ICommand 
+interface ICommand
 {
+    /**
+     * Adds an argument to the command
+     *
+     * @param Requests\Argument $argument The argument to add
+     */
+    public function addArgument(Requests\Argument $argument);
+
+    /**
+     * Adds an option to the command
+     *
+     * @param Requests\Option $option The option to add
+     */
+    public function addOption(Requests\Option $option);
+
     /**
      * Executes the command
      *
-     * @param Requests\IRequest $request The console request
      * @param Responses\IResponse $response The console response to write to
      * @return int|null Null or the status code of the command
      */
-    public function execute(Requests\IRequest $request, Responses\IResponse $response);
+    public function execute(Responses\IResponse $response);
+
+    /**
+     * Gets the argument with the input name
+     *
+     * @param string $name The name to look for
+     * @return Requests\Argument The argument with the input name
+     * @throws \InvalidArgumentException Thrown if no argument exists with that name
+     */
+    public function getArgument($name);
+
+    /**
+     * Gets the value of an argument
+     *
+     * @param string $name The name of the argument to get
+     * @return mixed The value of the argument
+     * @throws \InvalidArgumentException Thrown if there is no argument with the input name
+     */
+    public function getArgumentValue($name);
+
+    /**
+     * Gets the list of arguments this command accepts
+     *
+     * @return Requests\Argument[] The list of arguments
+     */
+    public function getArguments();
+
+    /**
+     * Gets the description of the command
+     *
+     * @return string The description
+     */
+    public function getDescription();
+
+    /**
+     * Gets the name of the command
+     *
+     * @return string The name
+     */
+    public function getName();
+
+    /**
+     * Gets the option with the input name
+     *
+     * @param string $name The name to look for
+     * @return Requests\Option The option with the input name
+     * @throws \InvalidArgumentException Thrown if no option exists with that name
+     */
+    public function getOption($name);
+
+    /**
+     * Gets the value of an option
+     *
+     * @param string $name The name of the option to get
+     * @return mixed The value of the option
+     * @throws \InvalidArgumentException Thrown if there is no option with the input name
+     */
+    public function getOptionValue($name);
+
+    /**
+     * Gets the list of options this command accepts
+     *
+     * @return Requests\Option[] The list of options
+     */
+    public function getOptions();
+
+    /**
+     * Sets the value of an argument
+     *
+     * @param string $name The name of the argument to set
+     * @param mixed $value The value to set
+     */
+    public function setArgumentValue($name, $value);
+
+    /**
+     * Sets the value of an option
+     *
+     * @param string $name The name of the option to set
+     * @param mixed $value The value to set
+     */
+    public function setOptionValue($name, $value);
 }

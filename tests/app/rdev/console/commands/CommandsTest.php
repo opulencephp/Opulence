@@ -25,8 +25,8 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $command = new Mocks\Command();
-        $this->commands->add("foo", $command, "The foo command");
+        $command = new Mocks\Command("foo", "The foo command");
+        $this->commands->add($command);
         $this->assertSame($command, $this->commands->get("foo"));
     }
 
@@ -36,8 +36,8 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
     public function testAddingDuplicateNames()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->commands->add("foo", new Mocks\Command(), "The foo command");
-        $this->commands->add("foo", new Mocks\Command(), "The foo command");
+        $this->commands->add(new Mocks\Command("foo", "The foo command"));
+        $this->commands->add(new Mocks\Command("foo", "The foo command copy"));
     }
 
     /**
@@ -45,7 +45,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfCommandExists()
     {
-        $this->commands->add("foo", new Mocks\Command(), "The foo command");
+        $this->commands->add(new Mocks\Command("foo", "The foo command"));
         $this->assertTrue($this->commands->has("foo"));
         $this->assertFalse($this->commands->has("bar"));
     }
@@ -55,15 +55,11 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAll()
     {
-        $fooCommand = new Mocks\Command();
-        $barCommand = new Mocks\Command();
-        $this->commands->add("foo", $fooCommand, "The foo command");
-        $this->commands->add("bar", $barCommand, "The bar command");
-        $expectedOutput = [
-            ["name" => "foo", "command" => $fooCommand, "description" => "The foo command"],
-            ["name" => "bar", "command" => $barCommand, "description" => "The bar command"]
-        ];
-        $this->assertEquals($expectedOutput, $this->commands->getAll());
+        $fooCommand = new Mocks\Command("foo", "The foo command");
+        $barCommand = new Mocks\Command("bar", "The bar command");
+        $this->commands->add($fooCommand);
+        $this->commands->add($barCommand);
+        $this->assertEquals([$fooCommand, $barCommand], $this->commands->getAll());
     }
 
     /**
@@ -73,15 +69,5 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         $this->commands->get("foo");
-    }
-
-    /**
-     * Tests getting a command's description
-     */
-    public function testGettingDescription()
-    {
-        $this->commands->add("foo", new Mocks\Command(), "The foo command");
-        $this->assertSame("The foo command", $this->commands->getDescription("foo"));
-        $this->assertEmpty($this->commands->getDescription("bar"));
     }
 }

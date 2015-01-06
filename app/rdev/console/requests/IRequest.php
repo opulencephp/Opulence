@@ -9,20 +9,25 @@ namespace RDev\Console\Requests;
 interface IRequest
 {
     /**
-     * Gets the value of an argument
+     * Adds an argument value
      *
-     * @param string $name The name of the argument
-     * @return mixed The value of the argument
-     * @throws \InvalidArgumentException Thrown if the argument does not exist
+     * @param mixed $value The value of the argument
      */
-    public function getArgument($name);
+    public function addArgumentValue($value);
 
     /**
      * Gets all the values of arguments
      *
-     * @return array The mapping of argument names to their values
+     * @return array The list of argument values
      */
-    public function getArguments();
+    public function getArgumentValues();
+
+    /**
+     * Gets the name of the command the request calls
+     *
+     * @return string The name of the command the request calls
+     */
+    public function getCommandName();
 
     /**
      * Gets the value of an option
@@ -41,14 +46,6 @@ interface IRequest
     public function getOptions();
 
     /**
-     * Gets whether or not the input contains an argument
-     *
-     * @param string $name The name of the argument
-     * @return bool True if the input has the argument, otherwise false
-     */
-    public function hasArgument($name);
-
-    /**
      * Gets whether or not the input contains an option
      *
      * @param string $name The name of the option
@@ -57,12 +54,11 @@ interface IRequest
     public function hasOption($name);
 
     /**
-     * Sets the value of an argument
+     * Sets the name of the command the request calls
      *
-     * @param string $name The name of the argument
-     * @param mixed $value The value of the argument
+     * @param string $name The name of the command the request calls
      */
-    public function setArgument($name, $value);
+    public function setCommandName($name);
 
     /**
      * Sets the value of an option

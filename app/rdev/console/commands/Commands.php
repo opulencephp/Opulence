@@ -14,22 +14,17 @@ class Commands
     /**
      * Adds a command
      *
-     * @param string $name The name of the command as it will be typed into the console
      * @param ICommand $command The command to add
-     * @param string $description A brief description of the command
      * @throws \InvalidArgumentException Thrown if a command with the input name already exists
      */
-    public function add($name, ICommand $command, $description)
+    public function add(ICommand $command)
     {
-        if($this->has($name))
+        if($this->has($command->getName()))
         {
-            throw new \InvalidArgumentException("A command with name \"$name\" already exists");
+            throw new \InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
         }
 
-        $this->commands[$name] = [
-            "command" => $command,
-            "description" => $description
-        ];
+        $this->commands[$command->getName()] = $command;
     }
 
     /**
@@ -46,47 +41,17 @@ class Commands
             throw new \InvalidArgumentException("No command with name \"$name\" exists");
         }
 
-        return $this->commands[$name]["command"];
+        return $this->commands[$name];
     }
 
     /**
      * Gets all the commands
      *
-     * @return array The list of arrays with three keys:
-     *      "name" => The name of the command,
-     *      "command" => The command object,
-     *      "description" => The description
+     * @return ICommand[] The list of commands
      */
     public function getAll()
     {
-        $returnData = [];
-
-        foreach($this->commands as $name => $commandData)
-        {
-            $returnData[] = [
-                "name" => $name,
-                "command" => $commandData["command"],
-                "description" => $commandData["description"]
-            ];
-        }
-
-        return $returnData;
-    }
-
-    /**
-     * Gets the description of the command with the input name
-     *
-     * @param string $name The name of the command to get
-     * @return string The description of the command if it was found, otherwise an empty string
-     */
-    public function getDescription($name)
-    {
-        if(!$this->has($name))
-        {
-            return "";
-        }
-
-        return $this->commands[$name]["description"];
+        return array_values($this->commands);
     }
 
     /**

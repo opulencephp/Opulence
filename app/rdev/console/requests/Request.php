@@ -6,9 +6,11 @@
  */
 namespace RDev\Console\Requests;
 
-abstract class Request implements IRequest
+class Request implements IRequest
 {
-    /** @var array The mapping of argument names to values */
+    /** @var string The name of the command entered */
+    private $commandName = "";
+    /** @var array The list of argument values */
     private $arguments = [];
     /** @var array The mapping of option names to values */
     private $options = [];
@@ -16,22 +18,25 @@ abstract class Request implements IRequest
     /**
      * {@inheritdoc}
      */
-    public function getArgument($name)
+    public function addArgumentValue($value)
     {
-        if(!$this->hasArgument($name))
-        {
-            throw new \InvalidArgumentException("Argument with name \"$name\" does not exist");
-        }
-
-        return $this->arguments[$name];
+        $this->arguments[] = $value;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getArguments()
+    public function getArgumentValues()
     {
         return $this->arguments;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getCommandName()
+    {
+        return $this->commandName;
     }
 
     /**
@@ -58,14 +63,6 @@ abstract class Request implements IRequest
     /**
      * {@inheritdoc}
      */
-    public function hasArgument($name)
-    {
-        return isset($this->arguments[$name]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function hasOption($name)
     {
         return isset($this->options[$name]);
@@ -74,9 +71,9 @@ abstract class Request implements IRequest
     /**
      * {@inheritdoc}
      */
-    public function setArgument($name, $value)
+    public function setCommandName($name)
     {
-        $this->arguments[$name] = $value;
+        $this->commandName = $name;
     }
 
     /**

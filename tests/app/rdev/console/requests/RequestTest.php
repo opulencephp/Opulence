@@ -5,11 +5,10 @@
  * Tests the console request
  */
 namespace RDev\Console\Requests;
-use RDev\Tests\Console\Requests\Mocks;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\Request The request to use in tests */
+    /** @var Request The request to use in tests */
     private $request = null;
 
     /**
@@ -17,7 +16,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->request = new Mocks\Request();
+        $this->request = new Request();
     }
 
     /**
@@ -25,9 +24,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAllArguments()
     {
-        $this->request->setArgument("foo", "bar");
-        $this->request->setArgument("baz", "blah");
-        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->request->getArguments());
+        $this->request->addArgumentValue("foo");
+        $this->request->addArgumentValue("bar");
+        $this->assertEquals(["foo", "bar"], $this->request->getArgumentValues());
     }
 
     /**
@@ -41,21 +40,12 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting an argument
+     * Tests getting the command name
      */
-    public function testGettingArgument()
+    public function testGettingCommandName()
     {
-        $this->request->setArgument("foo", "bar");
-        $this->assertEquals("bar", $this->request->getArgument("foo"));
-    }
-
-    /**
-     * Tests getting a non-existent argument
-     */
-    public function testGettingNonExistentArgument()
-    {
-        $this->setExpectedException("\\InvalidArgumentException");
-        $this->request->getArgument("foo");
+        $this->request->setCommandName("foo");
+        $this->assertEquals("foo", $this->request->getCommandName());
     }
 
     /**

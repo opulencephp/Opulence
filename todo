@@ -1,8 +1,13 @@
 HAS PRIORITY:
-    Create compiler classes for each console input type
-        They would compile the raw input into the appropriate input type
-        Need to think: do we really need different input classes if we have different compilers?
-            Look at other libraries to see if they handle situations I haven't thought of that would necessitate having different input classes
+    Test CommandCompiler
+        Try different combos of not having default values, of having optional values, and all required args
+    Add logic to grab command name from raw input and storing it into Request
+    Move most of Argv parser logic into base class that can be shared
+        Probably should be a few: shortOptionParser, longOptionParser, argumentParser
+    Write tests for Argv/base parser class
+    Add Array parser
+
+
     Idea:  Run statement compiler
         Cache results
         Run all other subcompilers
