@@ -20,6 +20,17 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a double quote inside single quotes
+     */
+    public function testDoubleQuoteInsideSingleQuotes()
+    {
+        $request = $this->parser->parse("foo --quote '\"Dave is cool\"'");
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals([], $request->getArgumentValues());
+        $this->assertEquals('"Dave is cool"', $request->getOptionValue("quote"));
+    }
+
+    /**
      * Tests parsing argument and short option and long option
      */
     public function testParsingArgumentShortOptionLongOption()
@@ -73,18 +84,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("foo", $request->getCommandName());
         $this->assertEquals([], $request->getArgumentValues());
         $this->assertEquals("dave", $request->getOptionValue("name"));
-    }
-
-    /**
-     * Tests parsing with extra spaces between tokens
-     */
-    public function testParsingWithExtraSpacesBetweenTokens()
-    {
-        $request = $this->parser->parse(" foo   bar  --name='dave   young'  -r ");
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["bar"], $request->getArgumentValues());
-        $this->assertEquals("dave   young", $request->getOptionValue("name"));
-        $this->assertNull($request->getOptionValue("r"));
     }
 
     /**
@@ -192,6 +191,18 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests parsing with extra spaces between tokens
+     */
+    public function testParsingWithExtraSpacesBetweenTokens()
+    {
+        $request = $this->parser->parse(" foo   bar  --name='dave   young'  -r ");
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals(["bar"], $request->getArgumentValues());
+        $this->assertEquals("dave   young", $request->getOptionValue("name"));
+        $this->assertNull($request->getOptionValue("r"));
+    }
+
+    /**
      * Tests passing an unclosed double quote
      */
     public function testPassingUnclosedDoubleQuote()
@@ -207,5 +218,16 @@ class StringTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $this->parser->parse("foo 'blah");
+    }
+
+    /**
+     * Tests a single quote inside double quotes
+     */
+    public function testSingleQuoteInsideDoubleQuotes()
+    {
+        $request = $this->parser->parse("foo --quote \"'Dave is cool'\"");
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals([], $request->getArgumentValues());
+        $this->assertEquals("'Dave is cool'", $request->getOptionValue("quote"));
     }
 }

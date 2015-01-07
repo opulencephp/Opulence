@@ -132,12 +132,22 @@ class String implements IParser
             switch($char)
             {
                 case '"':
-                    $inDoubleQuotes = !$inDoubleQuotes;
+                    // If the double quote is inside single quotes, we treat it as part of a quoted string
+                    if(!$inSingleQuotes)
+                    {
+                        $inDoubleQuotes = !$inDoubleQuotes;
+                    }
+
                     $buffer .= '"';
 
                     break;
                 case "'":
-                    $inSingleQuotes = !$inSingleQuotes;
+                    // If the single quote is inside double quotes, we treat it as part of a quoted string
+                    if(!$inDoubleQuotes)
+                    {
+                        $inSingleQuotes = !$inSingleQuotes;
+                    }
+
                     $buffer .= "'";
 
                     break;
