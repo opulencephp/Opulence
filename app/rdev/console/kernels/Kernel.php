@@ -43,14 +43,14 @@ class Kernel
      */
     public function handle(Parsers\IParser $requestParser, $input, Responses\IResponse $response = null)
     {
+        if($response === null)
+        {
+            $response = new Responses\Console();
+        }
+
         try
         {
             $request = $requestParser->parse($input);
-
-            if($response === null)
-            {
-                $response = new Responses\Console();
-            }
 
             if($this->commands->has($request->getCommandName()))
             {
