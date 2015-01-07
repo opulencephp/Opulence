@@ -6,7 +6,7 @@
  */
 namespace RDev\Console\Requests\Parsers;
 
-class ArgvTest extends \PHPUnit_Framework_TestCase 
+class ArgvTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Argv The parser to use in tests */
     private $parser = null;
@@ -24,10 +24,32 @@ class ArgvTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingArgumentsAndOptions()
     {
-        $request = $this->parser->parse("rdev foo bar -r --name=dave");
+        $request = $this->parser->parse(["rdev", "foo", "bar", "-r", "--name=dave"]);
         $this->assertEquals("foo", $request->getCommandName());
         $this->assertEquals(["bar"], $request->getArgumentValues());
         $this->assertNull($request->getOptionValue("r"));
         $this->assertEquals("dave", $request->getOptionValue("name"));
+    }
+
+    /**
+     * Tests parsing a null string
+     */
+    public function testParsingNullString()
+    {
+        $_SERVER["argv"] = ["rdev", "foo", "bar", "-r", "--name=dave"];
+        $request = $this->parser->parse(null);
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals(["bar"], $request->getArgumentValues());
+        $this->assertNull($request->getOptionValue("r"));
+        $this->assertEquals("dave", $request->getOptionValue("name"));
+    }
+
+    /**
+     * Tests passing in an invalid input type
+     */
+    public function testPassingInvalidInputType()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->parser->parse("foo");
     }
 }

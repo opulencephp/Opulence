@@ -35,17 +35,6 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test not passing the command name
-     */
-    public function testNotPassingCommandName()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->parser->parse([
-            "foo" => "bar"
-        ]);
-    }
-
-    /**
      * Test not passing options
      */
     public function testNotPassingOptions()
@@ -84,5 +73,14 @@ class ArrayListTest extends \PHPUnit_Framework_TestCase
             "name" => "mycommand"
         ]);
         $this->assertEquals("mycommand", $request->getCommandName());
+    }
+
+    /**
+     * Tests passing in an invalid input type
+     */
+    public function testPassingInvalidInputType()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->parser->parse("foo");
     }
 }

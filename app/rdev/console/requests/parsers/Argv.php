@@ -7,14 +7,16 @@
 namespace RDev\Console\Requests\Parsers;
 use RDev\Console\Requests;
 
-class Argv implements IParser
+class Argv extends Parser
 {
-    /** @var String The string parser */
-    private $stringParser = null;
+    /** @var Tokenizers\Argv The tokenizer to use */
+    private $tokenizer = null;
 
     public function __construct()
     {
-        $this->stringParser = new String();
+        parent::__construct();
+
+        $this->tokenizer = new Tokenizers\Argv();
     }
 
     /**
@@ -27,11 +29,13 @@ class Argv implements IParser
             $input = $_SERVER["argv"];
         }
 
-        // Get rid of the application name
-        $input = trim($input);
-        $input = explode(" ", $input);
-        array_shift($input);
+        if(!is_array($input))
+        {
+            throw new \InvalidArgumentException("Argv parser only accepts arrays as input");
+        }
 
-        return $this->stringParser->parse(implode(" ", $input));
+        $tokens = $this->tokenizer->tokenize($input);
+
+        return $this->parseTokens($tokens);
     }
 }

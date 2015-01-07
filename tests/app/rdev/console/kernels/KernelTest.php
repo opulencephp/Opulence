@@ -9,6 +9,7 @@ use Monolog;
 use RDev\Console\Commands;
 use RDev\Console\Commands\Compilers;
 use RDev\Console\Requests\Parsers;
+use RDev\Console\Requests\Parsers\Tokenizers;
 use RDev\Tests\Applications\Mocks as ApplicationMocks;
 use RDev\Tests\Console\Commands\Mocks as CommandMocks;
 use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
@@ -37,7 +38,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->commands = new Commands\Commands();
         $this->commands->add(new CommandMocks\SimpleCommand("mockcommand", "Mocks a command"));
         $this->commands->add(new CommandMocks\HappyHolidayCommand());
-        $this->parser = new Parsers\String();
+        $this->parser = new Parsers\String(new Tokenizers\RawString());
         $this->response = new ResponseMocks\Response();
         $this->kernel = new Kernel($this->compiler, $this->commands, $logger);
     }
@@ -115,7 +116,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
         $status = $this->kernel->handle($this->parser, "fake", $this->response);
-        error_log(ob_get_clean());
+        ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }
 

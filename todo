@@ -1,4 +1,7 @@
 HAS PRIORITY:
+    Need to handle logic of two long-options after one another like --foo --bar
+        Right now, it'd see there's no equal sign and pop the next token in line
+        Needs to be smart enough to know that next token is also an option
     Add table formatter
     Need to figure out why "sayhello "Lindsey's" does not work
         Is it due to some strange character encoding?

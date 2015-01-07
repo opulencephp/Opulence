@@ -16,29 +16,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-       $this->parser = new String();
-    }
-
-    /**
-     * Tests a double quote inside single quotes
-     */
-    public function testDoubleQuoteInsideSingleQuotes()
-    {
-        $request = $this->parser->parse("foo '\"foo bar\"' --quote '\"Dave is cool\"'");
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(['"foo bar"'], $request->getArgumentValues());
-        $this->assertEquals('"Dave is cool"', $request->getOptionValue("quote"));
-    }
-
-    /**
-     * Tests parsing an argument and option with space around it
-     */
-    public function testParsingArgumentAndOptionWithSpaceAroundIt()
-    {
-        $request = $this->parser->parse("foo ' dave ' --last=' young '");
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals([" dave "], $request->getArgumentValues());
-        $this->assertEquals(" young ", $request->getOptionValue("last"));
+       $this->parser = new String(new Tokenizers\RawString());
     }
 
     /**
@@ -169,17 +147,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests parsing option value with space in it
-     */
-    public function testParsingOptionValueWithSpace()
-    {
-        $request = $this->parser->parse("foo --name 'dave young'");
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals([], $request->getArgumentValues());
-        $this->assertEquals("dave young", $request->getOptionValue("name"));
-    }
-
-    /**
      * Tests parsing a single argument
      */
     public function testParsingSingleArgument()
@@ -199,46 +166,5 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("foo", $request->getCommandName());
         $this->assertNull($request->getOptionValue("r"));
         $this->assertEquals([], $request->getArgumentValues());
-    }
-
-    /**
-     * Tests parsing an unclosed double quote
-     */
-    public function testParsingUnclosedDoubleQuote()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->parser->parse('foo "blah');
-    }
-
-    /**
-     * Tests parsing an unclosed single quote
-     */
-    public function testParsingUnclosedSingleQuote()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->parser->parse("foo 'blah");
-    }
-
-    /**
-     * Tests parsing with extra spaces between tokens
-     */
-    public function testParsingWithExtraSpacesBetweenTokens()
-    {
-        $request = $this->parser->parse(" foo   bar  --name='dave   young'  -r ");
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["bar"], $request->getArgumentValues());
-        $this->assertEquals("dave   young", $request->getOptionValue("name"));
-        $this->assertNull($request->getOptionValue("r"));
-    }
-
-    /**
-     * Tests a single quote inside double quotes
-     */
-    public function testSingleQuoteInsideDoubleQuotes()
-    {
-        $request = $this->parser->parse("foo \"'foo bar'\" --quote \"'Dave is cool'\"");
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["'foo bar'"], $request->getArgumentValues());
-        $this->assertEquals("'Dave is cool'", $request->getOptionValue("quote"));
     }
 }

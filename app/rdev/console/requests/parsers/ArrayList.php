@@ -7,14 +7,16 @@
 namespace RDev\Console\Requests\Parsers;
 use RDev\Console\Requests;
 
-class ArrayList implements IParser
+class ArrayList extends Parser
 {
-    /** @var String The string parser */
-    private $stringParser = null;
+    /** @var Tokenizers\ArrayList The tokenizer to use */
+    private $tokenizer = null;
 
     public function __construct()
     {
-        $this->stringParser = new String();
+        parent::__construct();
+
+        $this->tokenizer = new Tokenizers\ArrayList();
     }
 
     /**
@@ -22,29 +24,13 @@ class ArrayList implements IParser
      */
     public function parse($input)
     {
-        $input = (array)$input;
-
-        if(!isset($input["name"]))
+        if(!is_array($input))
         {
-            throw new \RuntimeException("No command name given");
+            throw new \InvalidArgumentException("ArrayList parser only accepts arrays as input");
         }
 
-        if(!isset($input["arguments"]))
-        {
-            $input["arguments"] = [];
-        }
+        $tokens = $this->tokenizer->tokenize($input);
 
-        if(!isset($input["options"]))
-        {
-            $input["options"] = [];
-        }
-
-        $inputString = implode(" ", [
-            $input["name"],
-            implode(" ", $input["arguments"]),
-            implode(" ", $input["options"])
-        ]);
-
-        return $this->stringParser->parse($inputString);
+        return $this->parseTokens($tokens);
     }
 }

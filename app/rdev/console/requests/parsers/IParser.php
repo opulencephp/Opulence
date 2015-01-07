@@ -14,6 +14,7 @@ interface IParser
      *
      * @param mixed $input The input to parse
      * @return Requests\IRequest The parsed request
+     * @throws \InvalidArgumentException Thrown if the input was not of the type the parser was expecting
      * @throws \RuntimeException Thrown if the input could not be parsed
      */
     public function parse($input);
