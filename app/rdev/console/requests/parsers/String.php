@@ -52,6 +52,7 @@ class String implements IParser
                 else
                 {
                     // We consider this to be an argument
+                    $token = $this->trimQuotes($token);
                     $request->addArgumentValue($token);
                 }
 
@@ -72,19 +73,7 @@ class String implements IParser
     private function parseLongOption($token)
     {
         list($name, $value) = explode("=", $token);
-
-        // Trim any quotes
-        if(($firstValueChar = substr($value, 0, 1)) == substr($value, -1))
-        {
-            if($firstValueChar == "'")
-            {
-                $value = trim($value, "'");
-            }
-            elseif($firstValueChar == '"')
-            {
-                $value = trim($value, '"');
-            }
-        }
+        $value = $this->trimQuotes($value);
 
         return [$name, $value];
     }
@@ -179,5 +168,29 @@ class String implements IParser
         }
 
         return $tokens;
+    }
+
+    /**
+     * Trims the outer-most quotes from a token
+     *
+     * @param string $token Trims quotes off of a token
+     * @return string The trimmed token
+     */
+    private function trimQuotes($token)
+    {
+        // Trim any quotes
+        if(($firstValueChar = substr($token, 0, 1)) == substr($token, -1))
+        {
+            if($firstValueChar == "'")
+            {
+                $token = trim($token, "'");
+            }
+            elseif($firstValueChar == '"')
+            {
+                $token = trim($token, '"');
+            }
+        }
+
+        return $token;
     }
 }

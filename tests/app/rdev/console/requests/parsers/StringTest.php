@@ -24,9 +24,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testDoubleQuoteInsideSingleQuotes()
     {
-        $request = $this->parser->parse("foo --quote '\"Dave is cool\"'");
+        $request = $this->parser->parse("foo '\"foo bar\"' --quote '\"Dave is cool\"'");
         $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals([], $request->getArgumentValues());
+        $this->assertEquals(['"foo bar"'], $request->getArgumentValues());
         $this->assertEquals('"Dave is cool"', $request->getOptionValue("quote"));
     }
 
@@ -225,9 +225,9 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testSingleQuoteInsideDoubleQuotes()
     {
-        $request = $this->parser->parse("foo --quote \"'Dave is cool'\"");
+        $request = $this->parser->parse("foo \"'foo bar'\" --quote \"'Dave is cool'\"");
         $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals([], $request->getArgumentValues());
+        $this->assertEquals(["'foo bar'"], $request->getArgumentValues());
         $this->assertEquals("'Dave is cool'", $request->getOptionValue("quote"));
     }
 }
