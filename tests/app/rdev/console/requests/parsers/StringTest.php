@@ -31,6 +31,17 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests parsing an argument and option with space around it
+     */
+    public function testParsingArgumentAndOptionWithSpaceAroundIt()
+    {
+        $request = $this->parser->parse("foo ' dave ' --last=' young '");
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals([" dave "], $request->getArgumentValues());
+        $this->assertEquals(" young ", $request->getOptionValue("last"));
+    }
+
+    /**
      * Tests parsing argument and short option and long option
      */
     public function testParsingArgumentShortOptionLongOption()
@@ -191,6 +202,24 @@ class StringTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests parsing an unclosed double quote
+     */
+    public function testParsingUnclosedDoubleQuote()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $this->parser->parse('foo "blah');
+    }
+
+    /**
+     * Tests parsing an unclosed single quote
+     */
+    public function testParsingUnclosedSingleQuote()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $this->parser->parse("foo 'blah");
+    }
+
+    /**
      * Tests parsing with extra spaces between tokens
      */
     public function testParsingWithExtraSpacesBetweenTokens()
@@ -200,24 +229,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(["bar"], $request->getArgumentValues());
         $this->assertEquals("dave   young", $request->getOptionValue("name"));
         $this->assertNull($request->getOptionValue("r"));
-    }
-
-    /**
-     * Tests passing an unclosed double quote
-     */
-    public function testPassingUnclosedDoubleQuote()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->parser->parse('foo "blah');
-    }
-
-    /**
-     * Tests passing an unclosed single quote
-     */
-    public function testPassingUnclosedSingleQuote()
-    {
-        $this->setExpectedException("\\RuntimeException");
-        $this->parser->parse("foo 'blah");
     }
 
     /**

@@ -136,7 +136,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
         $this->command->addOption($option);
-        $this->assertEquals("bar", $this->command->getOptionValue("foo"));
+        $this->assertNull($this->command->getOptionValue("foo"));
     }
 
     /**

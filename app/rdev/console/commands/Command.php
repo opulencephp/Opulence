@@ -129,7 +129,7 @@ abstract class Command implements ICommand
 
         if(!isset($this->optionValues[$name]))
         {
-            return $option->getDefaultValue();
+            return null;
         }
 
         return $this->optionValues[$name];

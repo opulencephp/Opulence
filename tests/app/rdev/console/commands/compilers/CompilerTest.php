@@ -139,6 +139,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
         $this->command->addOption($option);
+        $this->request->addOptionValue("foo", null);
         $compiledCommand = $this->compiler->compile($this->command, $this->request);
         $this->assertEquals("bar", $compiledCommand->getOptionValue("foo"));
     }

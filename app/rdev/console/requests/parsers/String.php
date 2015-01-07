@@ -164,7 +164,7 @@ class String implements IParser
 
         if($inDoubleQuotes || $inSingleQuotes)
         {
-            throw new \RuntimeException("Unclosed " . ($inDoubleQuotes ? "double" : "single") . " quotes");
+            throw new \RuntimeException("Unclosed " . ($inDoubleQuotes ? "double" : "single") . " quote");
         }
 
         return $tokens;

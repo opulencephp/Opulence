@@ -60,7 +60,7 @@ class Kernel
             else
             {
                 // Default to the about command
-                $compiledCommand = new Commands\About();
+                $compiledCommand = new Commands\About($this->commands);
             }
 
             $statusCode = $compiledCommand->execute($response);
