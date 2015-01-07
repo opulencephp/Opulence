@@ -43,6 +43,18 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests handling an exception
+     */
+    public function testHandlingException()
+    {
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "unclosed quote '", $this->response);
+        $response = ob_get_clean();
+        $this->assertEquals(StatusCodes::ERROR, $status);
+        $this->assertEquals("Error: ", substr($response, 0, 7));
+    }
+
+    /**
      * Tests handling command with arguments and options
      */
     public function testHandlingHolidayCommand()

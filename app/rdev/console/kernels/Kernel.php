@@ -43,31 +43,40 @@ class Kernel
      */
     public function handle(Parsers\IParser $requestParser, $input, Responses\IResponse $response = null)
     {
-        $request = $requestParser->parse($input);
-
-        if($response === null)
+        try
         {
-            $response = new Responses\Console();
-        }
+            $request = $requestParser->parse($input);
 
-        if($this->commands->has($request->getCommandName()))
+            if($response === null)
+            {
+                $response = new Responses\Console();
+            }
+
+            if($this->commands->has($request->getCommandName()))
+            {
+                $command = $this->commands->get($request->getCommandName());
+                $compiledCommand = $this->commandCompiler->compile($command, $request);
+            }
+            else
+            {
+                // Default to the about command
+                $compiledCommand = new Commands\About();
+            }
+
+            $statusCode = $compiledCommand->execute($response);
+
+            if($statusCode === null)
+            {
+                return StatusCodes::OK;
+            }
+
+            return $statusCode;
+        }
+        catch(\Exception $ex)
         {
-            $command = $this->commands->get($request->getCommandName());
-            $compiledCommand = $this->commandCompiler->compile($command, $request);
-        }
-        else
-        {
-            // Default to the about command
-            $compiledCommand = new Commands\About();
-        }
+            $response->writeln("Error: " . $ex->getMessage());
 
-        $statusCode = $compiledCommand->execute($response);
-
-        if($statusCode === null)
-        {
-            return StatusCodes::OK;
+            return StatusCodes::ERROR;
         }
-
-        return $statusCode;
     }
 }
