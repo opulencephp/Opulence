@@ -1,7 +1,7 @@
 HAS PRIORITY:
+    Need to figure out why "sayhello "Lindsey's" does not work
+        Is it due to some strange character encoding?
     Need to determine how to allow followup input
-    Add support for -h for commands
-        Would involve getting description of command, descriptions of options and arguments
 
 
     Idea:  Run statement compiler

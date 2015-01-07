@@ -5,6 +5,7 @@
  * Defines the help command
  */
 namespace RDev\Console\Commands;
+use RDev\Console\Requests;
 use RDev\Console\Responses;
 
 class Help extends Command
@@ -18,6 +19,7 @@ class Help extends Command
     public function execute(Responses\IResponse $response)
     {
         $response->writeln(<<<EOF
+-----------------------
 Command: {$this->command->getName()}
 -----------------------
 Arguments:
@@ -36,8 +38,20 @@ EOF
 
         foreach($this->command->getOptions() as $option)
         {
+            $optionNames = "--{$option->getName()}";
+
+            if($option->valueIsOptional())
+            {
+                $optionNames .= "[={$option->getDefaultValue()}]";
+            }
+
+            if($option->getShortName() !== null)
+            {
+                $optionNames .= "|-{$option->getShortName()}";
+            }
+
             $response->writeln(<<<EOF
-   {$option->getName()} - {$option->getDescription()}
+   {$optionNames} - {$option->getDescription()}
 EOF
             );
         }
@@ -59,6 +73,11 @@ EOF
     protected function define()
     {
         $this->setName("help")
-            ->setDescription("Displays information about a command");
+            ->setDescription("Displays information about a command")
+            ->addArgument(new Requests\Argument(
+                "command",
+                Requests\ArgumentTypes::REQUIRED,
+                "The command to get help with"
+            ));
     }
 }

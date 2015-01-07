@@ -52,24 +52,20 @@ class Kernel
         {
             $request = $requestParser->parse($input);
 
-            if($this->commands->has($request->getCommandName()))
+            if($this->isInvokingHelpCommand($request))
             {
+                // We are going to execute the help command
+                $compiledCommand = $this->getCompiledHelpCommand($request);
+            }
+            elseif($this->commands->has($request->getCommandName()))
+            {
+                // We are going to execute the command that was entered
                 $command = $this->commands->get($request->getCommandName());
-
-                if($request->optionIsSet("h") || $request->optionIsSet("help"))
-                {
-                    // We're calling the help command
-                    $compiledCommand = new Commands\Help();
-                    $compiledCommand->setCommand($command);
-                }
-                else
-                {
-                    $compiledCommand = $this->commandCompiler->compile($command, $request);
-                }
+                $compiledCommand = $this->commandCompiler->compile($command, $request);
             }
             else
             {
-                // Default to the about command
+                // We are defaulting to the About command
                 $compiledCommand = new Commands\About($this->commands);
             }
 
@@ -88,5 +84,48 @@ class Kernel
 
             return StatusCodes::ERROR;
         }
+    }
+
+    /**
+     * Gets the name of the command that is getting help
+     *
+     * @param Requests\IRequest $request The parsed request
+     * @return Commands\ICommand The compiled help command
+     * @throws \InvalidArgumentException Thrown if the command that is requesting help does not exist
+     */
+    private function getCompiledHelpCommand(Requests\IRequest $request)
+    {
+        $helpCommand = new Commands\Help();
+
+        if($request->getCommandName() == "help")
+        {
+            $compiledHelpCommand = $this->commandCompiler->compile($helpCommand, $request);
+            $commandName = $compiledHelpCommand->getArgumentValue("command");
+        }
+        else
+        {
+            $commandName = $request->getCommandName();
+        }
+
+        if(!$this->commands->has($commandName))
+        {
+            throw new \InvalidArgumentException("No command with name \"$commandName\" exists");
+        }
+
+        $command = $this->commands->get($commandName);
+        $helpCommand->setCommand($command);
+
+        return $helpCommand;
+    }
+
+    /**
+     * Gets whether or not the input is invoking the help command
+     *
+     * @param Requests\IRequest $request The parsed request
+     * @return bool True if it is invoking the help command, otherwise false
+     */
+    private function isInvokingHelpCommand(Requests\IRequest $request)
+    {
+        return $request->getCommandName() == "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
     }
 }

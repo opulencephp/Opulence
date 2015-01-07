@@ -59,19 +59,36 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlingHelpCommand()
     {
+        // Try with command name
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "help holiday", $this->response);
+        $response = ob_get_clean();
+        error_log($response);
+        $this->assertEquals(StatusCodes::OK, $status);
+
         // Try with short name
         ob_start();
         $status = $this->kernel->handle($this->parser, "holiday -h", $this->response);
         $response = ob_get_clean();
-        $this->assertEquals("Command: ", substr($response, 0, 9));
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with long name
         ob_start();
         $status = $this->kernel->handle($this->parser, "holiday --help", $this->response);
         $response = ob_get_clean();
-        $this->assertEquals("Command: ", substr($response, 0, 9));
         $this->assertEquals(StatusCodes::OK, $status);
+    }
+
+    /**
+     * Tests handling help command with non-existent command
+     */
+    public function testHandlingHelpCommandWithNonExistentCommand()
+    {
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "help fake", $this->response);
+        $response = ob_get_clean();
+        $this->assertEquals(StatusCodes::ERROR, $status);
+        $this->assertEquals("Error: ", substr($response, 0, 7));
     }
 
     /**
@@ -84,6 +101,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $status = $this->kernel->handle($this->parser, "holiday birthday -y", $this->response);
         $this->assertEquals("Happy birthday!", ob_get_clean());
         $this->assertEquals(StatusCodes::OK, $status);
+
         // Test with long option
         ob_start();
         $status = $this->kernel->handle($this->parser, "holiday Easter --yell=no", $this->response);
