@@ -26,6 +26,7 @@ class About extends Command
     public function execute(Responses\IResponse $response)
     {
         $message = <<<EOF
+-----------------------
 About RDev Console
 -----------------------
 Commands:

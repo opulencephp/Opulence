@@ -62,20 +62,19 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         // Try with command name
         ob_start();
         $status = $this->kernel->handle($this->parser, "help holiday", $this->response);
-        $response = ob_get_clean();
-        error_log($response);
+        ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with short name
         ob_start();
         $status = $this->kernel->handle($this->parser, "holiday -h", $this->response);
-        $response = ob_get_clean();
+        ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with long name
         ob_start();
         $status = $this->kernel->handle($this->parser, "holiday --help", $this->response);
-        $response = ob_get_clean();
+        ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
@@ -116,8 +115,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
         $status = $this->kernel->handle($this->parser, "fake", $this->response);
-        $response = ob_get_clean();
-        $this->assertEquals("About RDev Console", substr($response, 0, 18));
+        ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
