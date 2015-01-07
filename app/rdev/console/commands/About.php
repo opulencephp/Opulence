@@ -9,17 +9,12 @@ use RDev\Console\Responses;
 
 class About extends Command
 {
-    public function __construct()
-    {
-        parent::__construct("about", "Describes the RDev console application");
-    }
-
     /**
      * {@inheritdoc}
      */
     public function execute(Responses\IResponse $response)
     {
-        $response->write(<<<EOF
+        $response->writeln(<<<EOF
 RDev Console
 EOF
         );
@@ -28,8 +23,9 @@ EOF
     /**
      * {@inheritdoc}
      */
-    protected function setArgumentsAndOptions()
+    protected function define()
     {
-        // Don't do anything
+        $this->setName("about")
+            ->setDescription("Describes the RDev console application");
     }
 }

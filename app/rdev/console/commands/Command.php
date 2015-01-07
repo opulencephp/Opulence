@@ -24,15 +24,17 @@ abstract class Command implements ICommand
     protected $optionValues = [];
 
     /**
-     * @param string $name The name of the command
-     * @param string $description A brief description of the command
+     * @throws \InvalidArgumentException Thrown if the name is not set
      */
-    public function __construct($name, $description)
+    public function __construct()
     {
-        $this->name = $name;
-        $this->description = $description;
-        // Setup the command
-        $this->setArgumentsAndOptions();
+        // Define the command
+        $this->define();
+
+        if(empty($this->name))
+        {
+            throw new \InvalidArgumentException("Command name cannot be empty");
+        }
     }
 
     /**
@@ -41,6 +43,8 @@ abstract class Command implements ICommand
     public function addArgument(Requests\Argument $argument)
     {
         $this->arguments[$argument->getName()] = $argument;
+
+        return $this;
     }
 
     /**
@@ -49,6 +53,8 @@ abstract class Command implements ICommand
     public function addOption(Requests\Option $option)
     {
         $this->options[$option->getName()] = $option;
+
+        return $this;
     }
 
     /**
@@ -166,5 +172,31 @@ abstract class Command implements ICommand
      * Sets the arguments and options for this command
      * Provides a convenient place to write down the definition for a command
      */
-    abstract protected function setArgumentsAndOptions();
+    abstract protected function define();
+
+    /**
+     * Sets the description of the command
+     *
+     * @param string $description The description to use
+     * @return Command For method chaining
+     */
+    protected function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Sets the name of the command
+     *
+     * @param string $name The name to use
+     * @return Command For method chaining
+     */
+    protected function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
 }

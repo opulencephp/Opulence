@@ -14,6 +14,7 @@ interface ICommand
      * Adds an argument to the command
      *
      * @param Requests\Argument $argument The argument to add
+     * @return ICommand For method chaining
      */
     public function addArgument(Requests\Argument $argument);
 
@@ -21,6 +22,7 @@ interface ICommand
      * Adds an option to the command
      *
      * @param Requests\Option $option The option to add
+     * @return ICommand For method chaining
      */
     public function addOption(Requests\Option $option);
 

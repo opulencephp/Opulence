@@ -11,11 +11,6 @@ use RDev\Console\Responses;
 
 class HappyHolidayCommand extends Commands\Command
 {
-    public function __construct()
-    {
-        parent::__construct("holiday", "Wishes someone a happy holiday");
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -34,8 +29,10 @@ class HappyHolidayCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function setArgumentsAndOptions()
+    protected function define()
     {
+        $this->setName("holiday");
+        $this->setDescription("Wishes someone a happy holiday");
         $this->addArgument(new Requests\Argument(
             "holiday",
             Requests\ArgumentTypes::REQUIRED,

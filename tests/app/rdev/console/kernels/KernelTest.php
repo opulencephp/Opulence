@@ -69,7 +69,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(<<<EOF
 RDev Console
 EOF
-        , ob_get_clean());
+        . PHP_EOL, ob_get_clean());
         $this->assertEquals(StatusCodes::OK, $status);
     }
 

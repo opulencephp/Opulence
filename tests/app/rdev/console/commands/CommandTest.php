@@ -28,7 +28,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals([], $this->command->getArguments());
         $argument = new Requests\Argument("foo", Requests\ArgumentTypes::OPTIONAL, "bar", null);
-        $this->command->addArgument($argument);
+        $returnValue = $this->command->addArgument($argument);
+        $this->assertSame($returnValue, $this->command);
         $this->assertSame($argument, $this->command->getArgument("foo"));
         $this->assertSame([$argument], $this->command->getArguments());
     }
@@ -40,7 +41,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals([], $this->command->getOptions());
         $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "bar", null);
-        $this->command->addOption($option);
+        $returnValue = $this->command->addOption($option);
+        $this->assertSame($returnValue, $this->command);
         $this->assertSame($option, $this->command->getOption("foo"));
         $this->assertSame([$option], $this->command->getOptions());
     }
@@ -138,6 +140,15 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not setting the command name in the constructor
+     */
+    public function testNotSettingNameInConstructor()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        new Mocks\NamelessCommand();
+    }
+
+    /**
      * Tests setting an argument value
      */
     public function testSettingArgumentValue()
@@ -155,13 +166,5 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $this->command->addOption($option);
         $this->command->setOptionValue("foo", "bar");
         $this->assertEquals("bar", $this->command->getOptionValue("foo"));
-    }
-
-    /**
-     * Tests that the command configuration is called in the constructor
-     */
-    public function testThatCommandConfigurationIsCalledInConstructor()
-    {
-        $this->assertEquals("argumentSetInMock", $this->command->getArgumentSetInMock()->getName());
     }
 }
