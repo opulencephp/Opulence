@@ -55,7 +55,17 @@ class Kernel
             if($this->commands->has($request->getCommandName()))
             {
                 $command = $this->commands->get($request->getCommandName());
-                $compiledCommand = $this->commandCompiler->compile($command, $request);
+
+                if($request->optionIsSet("h") || $request->optionIsSet("help"))
+                {
+                    // We're calling the help command
+                    $compiledCommand = new Commands\Help();
+                    $compiledCommand->setCommand($command);
+                }
+                else
+                {
+                    $compiledCommand = $this->commandCompiler->compile($command, $request);
+                }
             }
             else
             {

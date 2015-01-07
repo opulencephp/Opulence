@@ -39,12 +39,10 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingOption()
     {
-        $this->assertEquals([], $this->command->getOptions());
         $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "bar", null);
         $returnValue = $this->command->addOption($option);
         $this->assertSame($returnValue, $this->command);
         $this->assertSame($option, $this->command->getOption("foo"));
-        $this->assertSame([$option], $this->command->getOptions());
     }
 
     /**

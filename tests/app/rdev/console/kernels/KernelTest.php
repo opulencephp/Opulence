@@ -55,6 +55,26 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests handling a help option
+     */
+    public function testHandlingHelpCommand()
+    {
+        // Try with short name
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "holiday -h", $this->response);
+        $response = ob_get_clean();
+        $this->assertEquals("Command: ", substr($response, 0, 9));
+        $this->assertEquals(StatusCodes::OK, $status);
+
+        // Try with long name
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "holiday --help", $this->response);
+        $response = ob_get_clean();
+        $this->assertEquals("Command: ", substr($response, 0, 9));
+        $this->assertEquals(StatusCodes::OK, $status);
+    }
+
+    /**
      * Tests handling command with arguments and options
      */
     public function testHandlingHolidayCommand()

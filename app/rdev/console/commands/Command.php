@@ -35,6 +35,14 @@ abstract class Command implements ICommand
         {
             throw new \InvalidArgumentException("Command name cannot be empty");
         }
+
+        // This adds a help option to all commands
+        $this->addOption(new Requests\Option(
+            "help",
+            "h",
+            Requests\OptionTypes::NO_VALUE,
+            "Displays info about the command"
+        ));
     }
 
     /**
