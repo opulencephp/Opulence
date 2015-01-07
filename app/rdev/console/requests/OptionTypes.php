@@ -13,5 +13,7 @@ class OptionTypes
     /** The argument is optional */
     const OPTIONAL_VALUE = 2;
     /** The argument is not allowed */
-    const NO_VALUE = 3;
+    const NO_VALUE = 4;
+    /** The argument is an array */
+    const IS_ARRAY = 8;
 }

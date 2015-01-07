@@ -12,4 +12,6 @@ class ArgumentTypes
     const REQUIRED = 1;
     /** The argument is optional */
     const OPTIONAL = 2;
+    /** The argument is an array */
+    const IS_ARRAY = 4;
 }

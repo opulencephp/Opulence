@@ -10,6 +10,8 @@ class Option
 {
     /** @var string The name of the option */
     private $name = "";
+    /** @var string|null The short name of the option if it has one, otherwise null */
+    private $shortName = "";
     /** @var int The type of option this is */
     private $type = OptionTypes::REQUIRED_VALUE;
     /** @var string A brief description of the option */
@@ -19,13 +21,25 @@ class Option
 
     /**
      * @param string $name The name of the option
+     * @param string|null $shortName The short name of the option if it has one, otherwise null
      * @param int $type The type of option this is
      * @param string $description A brief description of the option
      * @param mixed $defaultValue The default value for the option if it's optional
+     * @throws \InvalidArgumentException Thrown if the type is invalid
      */
-    public function __construct($name, $type, $description, $defaultValue = null)
+    public function __construct($name, $shortName, $type, $description, $defaultValue = null)
     {
+        if(($type & 3) === 3)
+        {
+            throw new \InvalidArgumentException("Option type cannot be both optional and required");
+        }
+        elseif(($type & 5) === 5 || ($type & 6) === 6)
+        {
+            throw new \InvalidArgumentException("Option cannot have a value and not have a value");
+        }
+
         $this->name = $name;
+        $this->shortName = $shortName;
         $this->type = $type;
         $this->description = $description;
         $this->defaultValue = $defaultValue;
@@ -56,11 +70,21 @@ class Option
     }
 
     /**
-     * @return int
+     * @return null|string
      */
-    public function getType()
+    public function getShortName()
     {
-        return $this->type;
+        return $this->shortName;
+    }
+
+    /**
+     * Gets whether or not the option value is an array
+     *
+     * @return bool True if the option value is an array, otherwise false
+     */
+    public function valueIsArray()
+    {
+        return ($this->type & OptionTypes::IS_ARRAY) === OptionTypes::IS_ARRAY;
     }
 
     /**
@@ -70,7 +94,7 @@ class Option
      */
     public function valueIsOptional()
     {
-        return $this->type === OptionTypes::OPTIONAL_VALUE;
+        return ($this->type & OptionTypes::OPTIONAL_VALUE) === OptionTypes::OPTIONAL_VALUE;
     }
 
     /**
@@ -80,7 +104,7 @@ class Option
      */
     public function valueIsPermitted()
     {
-        return $this->type !== OptionTypes::NO_VALUE;
+        return ($this->type & OptionTypes::NO_VALUE) !== OptionTypes::NO_VALUE;
     }
 
     /**
@@ -90,6 +114,6 @@ class Option
      */
     public function valueIsRequired()
     {
-        return $this->type === OptionTypes::REQUIRED_VALUE;
+        return ($this->type & OptionTypes::REQUIRED_VALUE) === OptionTypes::REQUIRED_VALUE;
     }
 }

@@ -26,7 +26,7 @@ class Kernel
      * @param Commands\Commands $commands The list of commands to choose from
      * @param Monolog\Logger $logger The logger to use
      */
-    public function __construct(Compilers\ICompiler $commandCompiler, Commands\Commands $commands, Monolog\Logger $logger)
+    public function __construct(Compilers\ICompiler $commandCompiler, Commands\Commands &$commands, Monolog\Logger $logger)
     {
         $this->commandCompiler = $commandCompiler;
         $this->commands = $commands;
@@ -50,15 +50,24 @@ class Kernel
             $response = new Responses\Console();
         }
 
-        if(!$this->commands->has($request->getCommandName()))
+        if($this->commands->has($request->getCommandName()))
         {
-            // TODO:  Handle missing command
+            $command = $this->commands->get($request->getCommandName());
+            $compiledCommand = $this->commandCompiler->compile($command, $request);
+        }
+        else
+        {
+            // Default to the about command
+            $compiledCommand = new Commands\About();
         }
 
-        $command = $this->commands->get($request->getCommandName());
-        $compiledCommand = $this->commandCompiler->compile($command, $request);
-        $compiledCommand->execute($response);
+        $statusCode = $compiledCommand->execute($response);
 
-        // TODO:  Implement status code
+        if($statusCode === null)
+        {
+            return StatusCodes::OK;
+        }
+
+        return $statusCode;
     }
 }

@@ -20,6 +20,35 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if an option with a value is set
+     */
+    public function testCheckingIfOptionWithValueIsSet()
+    {
+        $this->request->addOptionValue("foo", "bar");
+        $this->assertTrue($this->request->optionIsSet("foo"));
+    }
+
+    /**
+     * Tests checking if an option without a value is set
+     */
+    public function testCheckingIfOptionWithoutValueIsSet()
+    {
+        $this->request->addOptionValue("foo", null);
+        $this->assertTrue($this->request->optionIsSet("foo"));
+    }
+
+    /**
+     * Tests adding multiple values for an option
+     */
+    public function testAddingMultipleValuesForOption()
+    {
+        $this->request->addOptionValue("foo", "bar");
+        $this->assertEquals("bar", $this->request->getOptionValue("foo"));
+        $this->request->addOptionValue("foo", "baz");
+        $this->assertEquals(["bar", "baz"], $this->request->getOptionValue("foo"));
+    }
+
+    /**
      * Tests getting all arguments
      */
     public function testGettingAllArguments()
@@ -34,9 +63,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAllOptions()
     {
-        $this->request->setOption("foo", "bar");
-        $this->request->setOption("baz", "blah");
-        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->request->getOptions());
+        $this->request->addOptionValue("foo", "bar");
+        $this->request->addOptionValue("baz", "blah");
+        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $this->request->getOptionValues());
     }
 
     /**
@@ -54,7 +83,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentOption()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->request->getOption("foo");
+        $this->request->getOptionValue("foo");
     }
 
     /**
@@ -62,7 +91,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOption()
     {
-        $this->request->setOption("foo", "bar");
-        $this->assertEquals("bar", $this->request->getOption("foo"));
+        $this->request->addOptionValue("foo", "bar");
+        $this->assertEquals("bar", $this->request->getOptionValue("foo"));
     }
 }

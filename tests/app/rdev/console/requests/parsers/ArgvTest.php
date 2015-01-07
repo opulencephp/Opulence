@@ -20,11 +20,14 @@ class ArgvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * This is just a placeholder
+     * Tests parsing arguments and options
      */
-    public function testNothing()
+    public function testParsingArgumentsAndOptions()
     {
-        // TODO:  Remove
-        $this->assertTrue(true);
+        $request = $this->parser->parse("rdev foo bar -r --name=dave");
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals(["bar"], $request->getArgumentValues());
+        $this->assertNull($request->getOptionValue("r"));
+        $this->assertEquals("dave", $request->getOptionValue("name"));
     }
 }

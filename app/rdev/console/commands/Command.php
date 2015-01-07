@@ -119,9 +119,11 @@ abstract class Command implements ICommand
      */
     public function getOptionValue($name)
     {
+        $option = $this->getOption($name);
+
         if(!isset($this->optionValues[$name]))
         {
-            throw new \InvalidArgumentException("No option with name \"$name\" exists");
+            return $option->getDefaultValue();
         }
 
         return $this->optionValues[$name];
@@ -133,6 +135,15 @@ abstract class Command implements ICommand
     public function getOptions()
     {
         return array_values($this->options);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function optionIsSet($name)
+    {
+        // Don't use isset because the value very well might be null, in which case we'd still return true
+        return array_key_exists($name, $this->optionValues);
     }
 
     /**

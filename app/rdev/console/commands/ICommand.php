@@ -97,6 +97,15 @@ interface ICommand
     public function getOptions();
 
     /**
+     * Gets whether or not the command has a certain option set
+     * Note that this does not necessarily mean it has a value - just that it was set
+     *
+     * @param string $name The name of the option to check
+     * @return bool True if the option is set, otherwise false
+     */
+    public function optionIsSet($name);
+
+    /**
      * Sets the value of an argument
      *
      * @param string $name The name of the argument to set

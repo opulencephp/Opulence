@@ -20,6 +20,15 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking whether or not the argument is an array
+     */
+    public function testCheckingIsArray()
+    {
+        $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY, "Foo argument");
+        $this->assertTrue($arrayArgument->isArray());
+    }
+
+    /**
      * Tests checking whether or not the argument is optional
      */
     public function testCheckingIsOptional()
@@ -66,10 +75,11 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the type
+     * Tests setting the type to both optional and required
      */
-    public function testGettingType()
+    public function testSettingTypeToOptionalAndRequired()
     {
-        $this->assertEquals(ArgumentTypes::OPTIONAL, $this->argument->getType());
+        $this->setExpectedException("\\InvalidArgumentException");
+        new Argument("foo", ArgumentTypes::OPTIONAL | ArgumentTypes::REQUIRED, "Foo argument");
     }
 }
