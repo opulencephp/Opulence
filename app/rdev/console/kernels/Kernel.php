@@ -87,7 +87,7 @@ class Kernel
     }
 
     /**
-     * Gets the name of the command that is getting help
+     * Gets the compiled help command
      *
      * @param Requests\IRequest $request The parsed request
      * @return Commands\ICommand The compiled help command

@@ -1,4 +1,5 @@
 HAS PRIORITY:
+    Add table formatter
     Need to figure out why "sayhello "Lindsey's" does not work
         Is it due to some strange character encoding?
     Need to determine how to allow followup input

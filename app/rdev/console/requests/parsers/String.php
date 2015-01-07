@@ -101,7 +101,7 @@ class String implements IParser
     /**
      * Tokenizes a request string
      *
-     * @param string $input The input to edit
+     * @param string $input The input to tokenize
      * @return array The list of tokens
      */
     private function tokenize($input)
