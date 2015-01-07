@@ -26,13 +26,21 @@ class Compiler implements ICompiler
      *
      * @param Commands\ICommand $command The command to compile
      * @param Requests\IRequest $request The user request
+     * @throws \RuntimeException Thrown if there are too many arguments
      */
     protected function compileArguments(Commands\ICommand &$command, Requests\IRequest $request)
     {
         $argumentValues = $request->getArgumentValues();
+        $commandArguments = $command->getArguments();
+
+        if($this->hasTooManyArguments($argumentValues, $commandArguments))
+        {
+            throw new \RuntimeException("Too many arguments");
+        }
+
         $hasSetArrayArgument = false;
 
-        foreach($command->getArguments() as $argument)
+        foreach($commandArguments as $argument)
         {
             if(count($argumentValues) == 0)
             {
@@ -114,5 +122,26 @@ class Compiler implements ICompiler
                 $command->setOptionValue($option->getName(), $value);
             }
         }
+    }
+
+    /**
+     * Gets whether or not there are too many argument values
+     *
+     * @param array $argumentValues The list of argument values
+     * @param Commands\ICommand[] $commandArguments The list of command arguments
+     * @return bool True if there are too many arguments, otherwise false
+     */
+    private function hasTooManyArguments(array $argumentValues, array $commandArguments)
+    {
+        if(count($argumentValues) > count($commandArguments))
+        {
+            // Only when the last argument is an array do we allow more request arguments than command arguments
+            if(count($commandArguments) == 0 || !end($commandArguments)->isArray())
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

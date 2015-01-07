@@ -221,6 +221,19 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests passing too many arguments
+     */
+    public function testPassingTooManyArguments()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $argument = new Requests\Argument("foo", Requests\ArgumentTypes::REQUIRED, "Foo command");
+        $this->command->addArgument($argument);
+        $this->request->addArgumentValue("bar");
+        $this->request->addArgumentValue("baz");
+        $this->compiler->compile($this->command, $this->request);
+    }
+
+    /**
      * Tests checking that short and long options in a request point to the same option in a command
      */
     public function testThatShortAndLongOptionsPointToSameOption()

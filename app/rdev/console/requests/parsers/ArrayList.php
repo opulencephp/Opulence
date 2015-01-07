@@ -14,8 +14,6 @@ class ArrayList extends Parser
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->tokenizer = new Tokenizers\ArrayList();
     }
 

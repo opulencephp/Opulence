@@ -167,4 +167,16 @@ class StringTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($request->getOptionValue("r"));
         $this->assertEquals([], $request->getArgumentValues());
     }
+
+    /**
+     * Tests parsing two consecutive long options
+     */
+    public function testParsingTwoConsecutiveLongOptions()
+    {
+        $request = $this->parser->parse("foo --bar --baz");
+        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals([], $request->getArgumentValues());
+        $this->assertEquals(null, $request->getOptionValue("bar"));
+        $this->assertEquals(null, $request->getOptionValue("baz"));
+    }
 }

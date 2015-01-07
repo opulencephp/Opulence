@@ -14,8 +14,6 @@ class Argv extends Parser
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->tokenizer = new Tokenizers\Argv();
     }
 
