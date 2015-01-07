@@ -9,6 +9,14 @@ use RDev\Console\Responses;
 
 class About extends Command
 {
+    /** @var string The template for the output */
+    private static $template = <<<EOF
+-----------------------
+About RDev Console
+-----------------------
+Commands:
+{{commands}}
+EOF;
     /** @var Commands The list of commands registered */
     private $commands = null;
 
@@ -25,15 +33,34 @@ class About extends Command
      */
     public function execute(Responses\IResponse $response)
     {
-        $message = <<<EOF
------------------------
-About RDev Console
------------------------
-Commands:
-EOF;
+        // Compile the template
+        $commandText = $this->getCommandText();
+        $compiledTemplate = self::$template;
+        $compiledTemplate = str_replace("{{commands}}", $commandText, $compiledTemplate);
 
+        $response->writeln($compiledTemplate);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function define()
+    {
+        $this->setName("about")
+            ->setDescription("Describes the RDev console application");
+    }
+
+    /**
+     * Converts commands to text
+     *
+     * @return string The commands as text
+     */
+    private function getCommandText()
+    {
+        $text = "";
         $maxNameLength = 0;
 
+        // Figure out the longest command name
         foreach($this->commands->getAll() as $command)
         {
             if(strlen($command->getName()) > $maxNameLength)
@@ -45,21 +72,11 @@ EOF;
         foreach($this->commands->getAll() as $command)
         {
             $padding = str_repeat(" ", $maxNameLength - strlen($command->getName()));
-            $message .= <<<EOF
-
-   {$command->getName()}{$padding} - {$command->getDescription()}
-EOF;
+            $text .= "   {$command->getName()}$padding - {$command->getDescription()}" . PHP_EOL;
         }
 
-        $response->writeln($message);
-    }
+        $text = trim($text, PHP_EOL);
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function define()
-    {
-        $this->setName("about")
-            ->setDescription("Describes the RDev console application");
+        return $text;
     }
 }

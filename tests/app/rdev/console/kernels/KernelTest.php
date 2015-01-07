@@ -115,7 +115,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
         $status = $this->kernel->handle($this->parser, "fake", $this->response);
-        ob_get_clean();
+        error_log(ob_get_clean());
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
