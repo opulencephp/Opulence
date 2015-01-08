@@ -22,8 +22,7 @@
   "require": {
     "php": ">=5.5.10",
     "alecesaro/phpredis": "dev-master",
-    "predis/predis": "1.1.*@dev",
-    "rdev/configs": "0.2.*"
+    "predis/predis": "1.1.*@dev"
   },
   "extra": {
     "branch-alias": {

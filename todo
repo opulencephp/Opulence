@@ -19,8 +19,6 @@ HAS PRIORITY:
     Add ability to start a section and show it
         Basically, allows us to define a section and give it default content
     Find way to display PHP variables inside tags
-    Need to consider whether or not to remove Config from Database classes
-        I think this is one place that they might prove useful, but think about it
 
 Need to be able to select DB index for Redis after making connection
     Right now, it's tied to the server object

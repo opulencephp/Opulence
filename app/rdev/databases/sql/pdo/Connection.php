@@ -8,7 +8,6 @@
 namespace RDev\Databases\SQL\PDO;
 use RDev\Databases\SQL;
 use RDev\Databases\SQL\Providers;
-use RDev\Exceptions;
 
 class Connection extends \PDO implements SQL\IConnection
 {

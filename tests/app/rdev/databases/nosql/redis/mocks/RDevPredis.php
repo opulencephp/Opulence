@@ -6,7 +6,6 @@
  */
 namespace RDev\Tests\Databases\NoSQL\Redis\Mocks;
 use RDev\Databases\NoSQL\Redis;
-use RDev\Databases\NoSQL\Redis\Configs;
 
 class RDevPredis extends Redis\RDevPredis
 {

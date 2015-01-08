@@ -6,7 +6,6 @@
  */
 namespace RDev\Tests\Databases\NoSQL\Memcached\Mocks;
 use RDev\Databases\NoSQL\Memcached as MemcachedNamespace;
-use RDev\Databases\NoSQL\Memcached\Configs;
 
 // To get around having to install Memcached just to run tests, include a mock Memcached class
 if(!class_exists("Memcached"))

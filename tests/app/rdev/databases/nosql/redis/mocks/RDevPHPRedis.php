@@ -6,7 +6,6 @@
  */
 namespace RDev\Tests\Databases\NoSQL\Redis\Mocks;
 use RDev\Databases\NoSQL\Redis;
-use RDev\Databases\NoSQL\Redis\Configs;
 
 // To get around having to install Redis just to run tests, include a mock Redis class
 if(!class_exists("Redis"))

@@ -6,7 +6,6 @@
  */
 namespace RDev\ORM\DataMappers;
 use RDev\Databases\SQL;
-use RDev\Exceptions;
 use RDev\ORM;
 
 abstract class CachedSQLDataMapper implements ICachedSQLDataMapper

@@ -33,9 +33,6 @@
 ### Inversion of Control
 1. [Dependency Injection](https://github.com/ramblingsofadev/docs/blob/master/ioc.md)
 
-### Configs
-1. [Configs](https://github.com/ramblingsofadev/docs/blob/master/configs.md)
-
 ### File System
 1. [File System](https://github.com/ramblingsofadev/docs/blob/master/files.md)
 
@@ -58,7 +55,6 @@ You can also install the components of RDev individually.  The following is a li
     "require": {
         "rdev/applications": "0.2.*@dev",
         "rdev/authentication": "0.2.*@dev",
-        "rdev/configs": "0.2.*@dev",
         "rdev/console": "0.2.*@dev",
         "rdev/cryptography": "0.2.*@dev",
         "rdev/databases": "0.2.*@dev",
