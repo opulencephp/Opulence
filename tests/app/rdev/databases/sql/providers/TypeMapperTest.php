@@ -79,8 +79,15 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     {
         $phpDate = new \DateTime("now");
         $sqlDate = $phpDate->format($this->provider->getDateFormat());
-        $this->assertEquals($phpDate, $this->typeMapperWithNoProvider->fromSQLDate($sqlDate, $this->provider));
-        $this->assertEquals($phpDate, $this->typeMapperWithProvider->fromSQLDate($sqlDate));
+        // Compare the formatted string because testing sometimes leads to the type mapper's date to be one second later
+        $this->assertEquals(
+            $phpDate->format("Ymd"),
+            $this->typeMapperWithNoProvider->fromSQLDate($sqlDate, $this->provider)->format("Ymd")
+        );
+        $this->assertEquals(
+            $phpDate->format("Ymd"),
+            $this->typeMapperWithProvider->fromSQLDate($sqlDate)->format("Ymd")
+        );
     }
 
     /**
