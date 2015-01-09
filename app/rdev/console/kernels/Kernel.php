@@ -80,6 +80,7 @@ class Kernel
         }
         catch(\Exception $ex)
         {
+            $this->logger->addError($ex->getMessage());
             $response->writeln("Error: " . $ex->getMessage());
 
             return StatusCodes::ERROR;
