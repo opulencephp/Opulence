@@ -67,6 +67,13 @@ interface ICommand
     public function getDescription();
 
     /**
+     * Gets the help text
+     *
+     * @return string The help text
+     */
+    public function getHelpText();
+
+    /**
      * Gets the name of the command
      *
      * @return string The name
@@ -114,6 +121,13 @@ interface ICommand
      * @param mixed $value The value to set
      */
     public function setArgumentValue($name, $value);
+
+    /**
+     * Sets the help text
+     *
+     * @param string $helpText The help text
+     */
+    public function setHelpText($helpText);
 
     /**
      * Sets the value of an option

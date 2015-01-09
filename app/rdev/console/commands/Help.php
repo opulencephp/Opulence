@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- * 
+ *
  * Defines the help command
  */
 namespace RDev\Console\Commands;
@@ -17,10 +17,12 @@ Command: {{name}}
 -----------------------
 {{command}}
 
+Description:
+   {{description}}
 Arguments:
 {{arguments}}
 Options:
-{{options}}
+{{options}}{{helpText}}
 EOF;
     /** @var ICommand The command to help with */
     private $command = null;
@@ -32,6 +34,18 @@ EOF;
     {
         $argumentText = "";
         $optionText = "";
+        $descriptionText = "No description";
+        $helpText = "";
+
+        if($this->command->getDescription() != "")
+        {
+            $descriptionText = $this->command->getDescription();
+        }
+
+        if($this->command->getHelpText() != "")
+        {
+            $helpText = PHP_EOL . "Help:" . PHP_EOL . "   " . $this->command->getHelpText();
+        }
 
         foreach($this->command->getArguments() as $argument)
         {
@@ -50,9 +64,11 @@ EOF;
         // Compile the template
         $compiledTemplate = self::$template;
         $compiledTemplate = str_replace("{{command}}", $this->getCommandText($this->command), $compiledTemplate);
+        $compiledTemplate = str_replace("{{description}}", $descriptionText, $compiledTemplate);
         $compiledTemplate = str_replace("{{name}}", $this->command->getName(), $compiledTemplate);
         $compiledTemplate = str_replace("{{arguments}}", $argumentText, $compiledTemplate);
         $compiledTemplate = str_replace("{{options}}", $optionText, $compiledTemplate);
+        $compiledTemplate = str_replace("{{helpText}}", $helpText, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
     }

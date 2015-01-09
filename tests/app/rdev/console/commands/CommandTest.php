@@ -156,6 +156,15 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting the help text
+     */
+    public function testSettingHelpText()
+    {
+        $this->command->setHelpText("Bob Loblaw's Law Blog no habla Espanol");
+        $this->assertEquals("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
+    }
+
+    /**
      * Tests setting an option value
      */
     public function testSettingOptionValue()

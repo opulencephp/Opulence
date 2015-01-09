@@ -22,6 +22,8 @@ abstract class Command implements ICommand
     protected $argumentValues = [];
     /** @var array The mapping of option names to values */
     protected $optionValues = [];
+    /** @var string The help text to be displayed in the help command */
+    protected $helpText = "";
 
     /**
      * @throws \InvalidArgumentException Thrown if the name is not set
@@ -110,6 +112,14 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
+    public function getHelpText()
+    {
+        return $this->helpText;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getName()
     {
         return $this->name;
@@ -169,6 +179,14 @@ abstract class Command implements ICommand
     public function setArgumentValue($name, $value)
     {
         $this->argumentValues[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setHelpText($helpText)
+    {
+        $this->helpText = $helpText;
     }
 
     /**
