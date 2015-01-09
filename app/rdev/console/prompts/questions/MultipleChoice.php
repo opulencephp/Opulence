@@ -70,11 +70,11 @@ class MultipleChoice extends Question
 
         if($this->choicesAreAssociative())
         {
-            $selectedChoices = $this->formatAssocChoices($answers);
+            $selectedChoices = $this->formatForAssociativeChoices($answers);
         }
         else
         {
-            $selectedChoices = $this->formatIndexChoices($answers);
+            $selectedChoices = $this->formatForIndexedChoices($answers);
         }
 
         if(count($selectedChoices) == 0)
@@ -130,7 +130,7 @@ class MultipleChoice extends Question
      * @param array $answers The list of answers
      * @return array The list of selected choices
      */
-    private function formatAssocChoices(array $answers)
+    private function formatForAssociativeChoices(array $answers)
     {
         $selectedChoices = [];
 
@@ -152,7 +152,7 @@ class MultipleChoice extends Question
      * @return array The list of selected choices
      * @throws \InvalidArgumentException Thrown if the answers are not of the correct type
      */
-    private function formatIndexChoices(array $answers)
+    private function formatForIndexedChoices(array $answers)
     {
         $selectedChoices = [];
 
