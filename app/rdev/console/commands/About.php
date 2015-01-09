@@ -6,6 +6,7 @@
  */
 namespace RDev\Console\Commands;
 use RDev\Console\Responses;
+use RDev\Console\Responses\Formatters;
 
 class About extends Command
 {
@@ -19,13 +20,19 @@ Commands:
 EOF;
     /** @var Commands The list of commands registered */
     private $commands = null;
+    /** @var Formatters\Padding The space padding formatter to use */
+    private $spacePaddingFormatter  = null;
 
     /**
      * @param Commands $commands The list of commands
+     * @param Formatters\Padding $spacePaddingFormatter The space padding formatter to use
      */
-    public function __construct(Commands &$commands)
+    public function __construct(Commands &$commands, Formatters\Padding $spacePaddingFormatter)
     {
+        parent::__construct();
+
         $this->commands = $commands;
+        $this->spacePaddingFormatter = $spacePaddingFormatter;
     }
 
     /**
@@ -58,25 +65,17 @@ EOF;
     private function getCommandText()
     {
         $text = "";
-        $maxNameLength = 0;
+        $commandTexts = [];
 
         // Figure out the longest command name
         foreach($this->commands->getAll() as $command)
         {
-            if(strlen($command->getName()) > $maxNameLength)
-            {
-                $maxNameLength = strlen(($command->getName()));
-            }
+            $commandTexts[] = [$command->getName(), " - " . $command->getDescription()];
         }
 
-        foreach($this->commands->getAll() as $command)
+        return $this->spacePaddingFormatter->format($commandTexts, function($line)
         {
-            $padding = str_repeat(" ", $maxNameLength - strlen($command->getName()));
-            $text .= "   {$command->getName()}$padding - {$command->getDescription()}" . PHP_EOL;
-        }
-
-        $text = trim($text, PHP_EOL);
-
-        return $text;
+            return "   " . $line[0] . $line[1];
+        });
     }
 }

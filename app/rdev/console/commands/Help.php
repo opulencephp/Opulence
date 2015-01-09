@@ -7,6 +7,7 @@
 namespace RDev\Console\Commands;
 use RDev\Console\Requests;
 use RDev\Console\Responses;
+use RDev\Console\Responses\Formatters;
 
 class Help extends Command
 {
@@ -26,14 +27,28 @@ Options:
 EOF;
     /** @var ICommand The command to help with */
     private $command = null;
+    /** @var Formatters\Command The formatter that converts a command object to text */
+    private $commandFormatter = null;
+    /** @var Formatters\Padding The space padding formatter to use */
+    private $spacePaddingFormatter  = null;
+
+    /**
+     * @param Formatters\Command $commandFormatter The formatter that converts a command object to text
+     * @param Formatters\Padding $spacePaddingFormatter The space padding formatter to use
+     */
+    public function __construct(Formatters\Command $commandFormatter, Formatters\Padding $spacePaddingFormatter)
+    {
+        parent::__construct();
+
+        $this->commandFormatter = $commandFormatter;
+        $this->spacePaddingFormatter = $spacePaddingFormatter;
+    }
 
     /**
      * {@inheritdoc}
      */
     public function execute(Responses\IResponse $response)
     {
-        $argumentText = "";
-        $optionText = "";
         $descriptionText = "No description";
         $helpText = "";
 
@@ -47,27 +62,13 @@ EOF;
             $helpText = PHP_EOL . "Help:" . PHP_EOL . "   " . $this->command->getHelpText();
         }
 
-        foreach($this->command->getArguments() as $argument)
-        {
-            $argumentText .= $this->getArgumentText($argument);
-        }
-
-        foreach($this->command->getOptions() as $option)
-        {
-            $optionText .= $this->getOptionText($option);
-        }
-
-        // Trim excess new lines
-        $argumentText = trim($argumentText, PHP_EOL);
-        $optionText = trim($optionText, PHP_EOL);
-
         // Compile the template
         $compiledTemplate = self::$template;
-        $compiledTemplate = str_replace("{{command}}", $this->getCommandText($this->command), $compiledTemplate);
+        $compiledTemplate = str_replace("{{command}}", $this->commandFormatter->format($this->command), $compiledTemplate);
         $compiledTemplate = str_replace("{{description}}", $descriptionText, $compiledTemplate);
         $compiledTemplate = str_replace("{{name}}", $this->command->getName(), $compiledTemplate);
-        $compiledTemplate = str_replace("{{arguments}}", $argumentText, $compiledTemplate);
-        $compiledTemplate = str_replace("{{options}}", $optionText, $compiledTemplate);
+        $compiledTemplate = str_replace("{{arguments}}", $this->getArgumentText(), $compiledTemplate);
+        $compiledTemplate = str_replace("{{options}}", $this->getOptionText(), $compiledTemplate);
         $compiledTemplate = str_replace("{{helpText}}", $helpText, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
@@ -98,114 +99,60 @@ EOF;
     }
 
     /**
-     * Converts an argument to text
+     * Converts the command arguments to text
      *
-     * @param Requests\Argument $argument The argument to convert to text
-     * @return string The argument as text
+     * @return string The arguments as text
      */
-    private function getArgumentText(Requests\Argument $argument)
+    private function getArgumentText()
     {
-        return "   {$argument->getName()} - {$argument->getDescription()}" . PHP_EOL;
+        $argumentTexts = [];
+
+        foreach($this->command->getArguments() as $argument)
+        {
+            $argumentTexts[] = [$argument->getName(), " - " . $argument->getDescription()];
+        }
+
+        return $this->spacePaddingFormatter->format($argumentTexts, function($line)
+        {
+            return "   " . $line[0] . $line[1];
+        });
     }
 
     /**
-     * Gets the command as text
+     * Gets the options as text
      *
-     * @param ICommand $command The command to convert
-     * @return string The command as text
+     * @return string The options as text
      */
-    private function getCommandText(ICommand $command)
+    private function getOptionText()
     {
-        $text = $command->getName() . " ";
+        $optionTexts = [];
 
-        // Output the options
-        foreach($command->getOptions() as $option)
+        foreach($this->command->getOptions() as $option)
         {
-            $text .= "[--{$option->getName()}";
-
-            if($option->getShortName() !== null)
-            {
-                $text .= "|-{$option->getShortName()}";
-            }
-
-            $text .= "] ";
+            $optionTexts[] = [$this->getOptionsNames($option), " - " . $option->getDescription()];
         }
 
-        /** @var Requests\Argument[] $requiredArguments */
-        $requiredArguments = [];
-        /** @var Requests\Argument[] $optionalArguments */
-        $optionalArguments = [];
-        /** @var Requests\Argument $arrayArgument */
-        $arrayArgument = null;
-
-        // Categorize each argument
-        foreach($command->getArguments() as $argument)
+        return $this->spacePaddingFormatter->format($optionTexts, function($line)
         {
-            if($argument->isRequired() && !$argument->isArray())
-            {
-                $requiredArguments[] = $argument;
-            }
-            elseif($argument->isOptional() && !$argument->isArray())
-            {
-                $optionalArguments[] = $argument;
-            }
-
-            if($argument->isArray())
-            {
-                $arrayArgument = $argument;
-            }
-        }
-
-        // Output the required arguments
-        foreach($requiredArguments as $argument)
-        {
-            $text .= $argument->getName() . " ";
-        }
-
-        // Output the optional arguments
-        foreach($optionalArguments as $argument)
-        {
-            $text .= "[{$argument->getName()}] ";
-        }
-
-        // Output the array argument
-        if($arrayArgument !== null)
-        {
-            $arrayArgumentTextOne = $arrayArgument->getName() . "1";
-            $arrayArgumentTextN = $arrayArgument->getName() . "N";
-
-            if($arrayArgument->isOptional())
-            {
-                $arrayArgumentTextOne = "[$arrayArgumentTextOne]";
-                $arrayArgumentTextN = "[$arrayArgumentTextN]";
-            }
-
-            $text .= "$arrayArgumentTextOne...$arrayArgumentTextN";
-        }
-
-        return trim($text);
+            return "   " . $line[0] . $line[1];
+        });
     }
 
     /**
-     * Converts an option to text
+     * Gets the option names as a formatted string
      *
      * @param Requests\Option $option The option to convert to text
-     * @return string The option as text
+     * @return string The option names as text
      */
-    private function getOptionText(Requests\Option $option)
+    private function getOptionsNames(Requests\Option $option)
     {
         $optionNames = "--{$option->getName()}";
-
-        if($option->valueIsOptional())
-        {
-            $optionNames .= "[={$option->getDefaultValue()}]";
-        }
 
         if($option->getShortName() !== null)
         {
             $optionNames .= "|-{$option->getShortName()}";
         }
 
-        return "   $optionNames - {$option->getDescription()}" . PHP_EOL;
+        return $optionNames;
     }
 }

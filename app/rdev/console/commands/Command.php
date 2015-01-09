@@ -26,6 +26,9 @@ abstract class Command implements ICommand
     protected $helpText = "";
 
     /**
+     * To ensure that the command is properly instantiated, be sure to
+     * always call parent::__construct() in child command classes
+     *
      * @throws \InvalidArgumentException Thrown if the name is not set
      */
     public function __construct()

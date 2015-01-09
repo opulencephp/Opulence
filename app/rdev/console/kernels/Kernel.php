@@ -11,6 +11,7 @@ use RDev\Console\Commands\Compilers;
 use RDev\Console\Requests;
 use RDev\Console\Requests\Parsers;
 use RDev\Console\Responses;
+use RDev\Console\Responses\Formatters;
 
 class Kernel
 {
@@ -66,7 +67,7 @@ class Kernel
             else
             {
                 // We are defaulting to the About command
-                $compiledCommand = new Commands\About($this->commands);
+                $compiledCommand = new Commands\About($this->commands, new Formatters\Padding());
             }
 
             $statusCode = $compiledCommand->execute($response);
@@ -96,7 +97,7 @@ class Kernel
      */
     private function getCompiledHelpCommand(Requests\IRequest $request)
     {
-        $helpCommand = new Commands\Help();
+        $helpCommand = new Commands\Help(new Formatters\Command(), new Formatters\Padding());
 
         if($request->getCommandName() == "help")
         {
