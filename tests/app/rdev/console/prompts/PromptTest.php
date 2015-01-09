@@ -35,9 +35,9 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests asking a multiple choice question
+     * Tests asking an indexed multiple choice question
      */
-    public function testAskingMultipleChoiceQuestion()
+    public function testAskingIndexedMultipleChoiceQuestion()
     {
         $prompt = new Prompt($this->getInputStream("2"));
         $question = new Questions\MultipleChoice("Pick", ["foo", "bar"]);
@@ -46,6 +46,35 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         $questionText = ob_get_clean();
         $this->assertEquals("Pick" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " > ", $questionText);
         $this->assertEquals("bar", $answer);
+    }
+
+    /**
+     * Tests asking a keyed multiple choice question
+     */
+    public function testAskingKeyedMultipleChoiceQuestion()
+    {
+        $prompt = new Prompt($this->getInputStream("c"));
+        $question = new Questions\MultipleChoice("Pick", ["a" => "b", "c" => "d"]);
+        ob_start();
+        $answer = $prompt->ask($question, $this->response);
+        $questionText = ob_get_clean();
+        $this->assertEquals("Pick" . PHP_EOL . " a) b" . PHP_EOL . " c) d" . PHP_EOL . " > ", $questionText);
+        $this->assertEquals("d", $answer);
+    }
+
+    /**
+     * Tests asking a multiple choice question with custom answer line string
+     */
+    public function testAskingMultipleChoiceQuestionWithCustomAnswerLineString()
+    {
+        $prompt = new Prompt($this->getInputStream("1"));
+        $question = new Questions\MultipleChoice("Pick", ["foo", "bar"]);
+        $question->setAnswerLineString(" : ");
+        ob_start();
+        $answer = $prompt->ask($question, $this->response);
+        $questionText = ob_get_clean();
+        $this->assertEquals("Pick" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " : ", $questionText);
+        $this->assertEquals("foo", $answer);
     }
 
     /**

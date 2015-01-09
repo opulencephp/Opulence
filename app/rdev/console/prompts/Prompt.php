@@ -39,16 +39,22 @@ class Prompt
 
         if($question instanceof Questions\MultipleChoice)
         {
-            // Display empty line
-            $response->writeln("");
-
             /** @var Questions\MultipleChoice $question */
-            foreach($question->getChoices() as $index => $choice)
+            $response->writeln("");
+            $choicesAreAssociative = $question->choicesAreAssociative();
+
+            foreach($question->getChoices() as $key => $choice)
             {
-                $response->writeln(" " . ($index + 1) . ") $choice");
+                if(!$choicesAreAssociative)
+                {
+                    // Make the choice 1-indexed
+                    $key += 1;
+                }
+
+                $response->writeln(" $key) $choice");
             }
 
-            $response->write(" > ");
+            $response->write($question->getAnswerLineString());
         }
 
         $answer = fgets($this->inputStream, 4096);
