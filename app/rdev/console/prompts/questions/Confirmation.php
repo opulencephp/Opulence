@@ -9,12 +9,12 @@ namespace RDev\Console\Prompts\Questions;
 class Confirmation extends Question
 {
     /**
-     * {@inheritdoc}
-     * @param bool $defaultResponse The default response
+     * @param string $question The question text
+     * @param bool $defaultAnswer The default answer to the question
      */
-    public function __construct($question, $defaultResponse = true)
+    public function __construct($question, $defaultAnswer = true)
     {
-        parent::__construct($question, $defaultResponse);
+        parent::__construct($question, $defaultAnswer);
     }
 
     /**
@@ -27,7 +27,7 @@ class Confirmation extends Question
             return $answer;
         }
 
-        // Accept "yes"
+        // Accept anything that begins with "y" like "y", "yes", and "YES"
         return strtolower($answer[0]) == "y";
     }
 }

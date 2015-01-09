@@ -10,17 +10,17 @@ class Question implements IQuestion
 {
     /** @var string The question text */
     private $question = "";
-    /** @var mixed The default value for the response */
-    private $defaultResponse = null;
+    /** @var mixed The default answer to the question */
+    private $defaultAnswer = null;
 
     /**
      * @param string $question The question text
-     * @param mixed $defaultResponse The default value for the response
+     * @param mixed $defaultAnswer The default answer to the question
      */
-    public function __construct($question, $defaultResponse = null)
+    public function __construct($question, $defaultAnswer = null)
     {
         $this->question = $question;
-        $this->defaultResponse = $defaultResponse;
+        $this->defaultAnswer = $defaultAnswer;
     }
 
     /**
@@ -35,9 +35,9 @@ class Question implements IQuestion
     /**
      * {@inheritdoc}
      */
-    public function getDefaultResponse()
+    public function getDefaultAnswer()
     {
-        return $this->defaultResponse;
+        return $this->defaultAnswer;
     }
 
     /**

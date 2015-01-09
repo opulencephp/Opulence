@@ -19,11 +19,11 @@ interface IQuestion
     public function formatAnswer($answer);
 
     /**
-     * Gets the default response
+     * Gets the default answer
      *
-     * @return mixed The default response
+     * @return mixed The default answer
      */
-    public function getDefaultResponse();
+    public function getDefaultAnswer();
 
     /**
      * Gets the question text

@@ -18,17 +18,17 @@ class MultipleChoice extends Question
     /*
      * @param string $question The question text
      * @param array $choices The list of choices
-     * @param mixed $defaultResponse The default value for the response
+     * @param mixed $defaultResponse The default answer to the question
      */
-    public function __construct($question, array $choices, $defaultResponse = null)
+    public function __construct($question, array $choices, $defaultAnswer = null)
     {
-        parent::__construct($question, $defaultResponse);
+        parent::__construct($question, $defaultAnswer);
 
         $this->choices = $choices;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
     public function allowsMultipleChoices()
     {
@@ -55,6 +55,7 @@ class MultipleChoice extends Question
 
         if(strpos($answer, ",") === false)
         {
+            // The answer is not a list of answers
             $answers = [$answer];
         }
         else
@@ -70,11 +71,11 @@ class MultipleChoice extends Question
 
         if($this->choicesAreAssociative())
         {
-            $selectedChoices = $this->formatForAssociativeChoices($answers);
+            $selectedChoices = $this->getSelectedAssociativeChoices($answers);
         }
         else
         {
-            $selectedChoices = $this->formatForIndexedChoices($answers);
+            $selectedChoices = $this->getSelectedIndexChoices($answers);
         }
 
         if(count($selectedChoices) == 0)
@@ -93,7 +94,7 @@ class MultipleChoice extends Question
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getAnswerLineString()
     {
@@ -109,7 +110,7 @@ class MultipleChoice extends Question
     }
 
     /**
-     * @param mixed $allowsMultipleChoices
+     * @param bool $allowsMultipleChoices
      */
     public function setAllowsMultipleChoices($allowsMultipleChoices)
     {
@@ -117,7 +118,7 @@ class MultipleChoice extends Question
     }
 
     /**
-     * @param mixed $answerLineString
+     * @param string $answerLineString
      */
     public function setAnswerLineString($answerLineString)
     {
@@ -125,12 +126,12 @@ class MultipleChoice extends Question
     }
 
     /**
-     * Formats a list of answers for an associative list of choices
+     * Gets the list of selected associative choices from a list of answers
      *
      * @param array $answers The list of answers
      * @return array The list of selected choices
      */
-    private function formatForAssociativeChoices(array $answers)
+    private function getSelectedAssociativeChoices(array $answers)
     {
         $selectedChoices = [];
 
@@ -146,13 +147,13 @@ class MultipleChoice extends Question
     }
 
     /**
-     * Formats a list of answers for an indexed list of choices
+     * Gets the list of selected indexed choices from a list of answers
      *
      * @param array $answers The list of answers
      * @return array The list of selected choices
      * @throws \InvalidArgumentException Thrown if the answers are not of the correct type
      */
-    private function formatForIndexedChoices(array $answers)
+    private function getSelectedIndexChoices(array $answers)
     {
         $selectedChoices = [];
 
@@ -160,14 +161,14 @@ class MultipleChoice extends Question
         {
             if(!is_numeric($answer))
             {
-			    throw new \InvalidArgumentException("Answer is not numeric");
+                throw new \InvalidArgumentException("Answer is not numeric");
             }
 
             $answer = (int)$answer;
 
             if($answer < 1 || $answer > count($this->choices))
             {
-                throw new \InvalidArgumentException("Choice is outside bounds");
+                throw new \InvalidArgumentException("Choice must be between 1 and " . count($this->choices));
             }
 
             // Answers are 1-indexed

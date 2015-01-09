@@ -106,6 +106,25 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting an invalid input stream through the constructor
+     */
+    public function testSettingInvalidInputStreamThroughConstructor()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        new Prompt("foo");
+    }
+
+    /**
+     * Tests setting an invalid input stream through the setter
+     */
+    public function testSettingInvalidInputStreamThroughSetter()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $prompt = new Prompt($this->getInputStream("foo"));
+        $prompt->setInputStream("foo");
+    }
+
+    /**
      * Gets an input stream for use in tests
      *
      * @param mixed $input The input to write to the stream

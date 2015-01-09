@@ -13,7 +13,7 @@ class Prompt
     private $inputStream = null;
 
     /***
-     * @param mixed|null $inputStream The input stream to look for answers in
+     * @param resource|null $inputStream The input stream to look for answers in
      */
     public function __construct($inputStream = null)
     {
@@ -68,7 +68,7 @@ class Prompt
 
         if(empty($answer))
         {
-            return $question->getDefaultResponse();
+            return $question->getDefaultAnswer();
         }
 
         return $question->formatAnswer($answer);
@@ -78,9 +78,15 @@ class Prompt
      * Sets the input stream
      *
      * @param resource $inputStream The input stream to look for answers in
+     * @throws \InvalidArgumentException Thrown if the input stream is not a resource
      */
     public function setInputStream($inputStream)
     {
+        if(!is_resource($inputStream))
+        {
+            throw new \InvalidArgumentException("Input stream must be resource");
+        }
+
         $this->inputStream = $inputStream;
     }
 }

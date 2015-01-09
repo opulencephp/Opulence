@@ -32,7 +32,7 @@ class QuestionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDefaultResponse()
     {
-        $this->assertEquals("foo", $this->question->getDefaultResponse());
+        $this->assertEquals("foo", $this->question->getDefaultAnswer());
     }
 
     /**
