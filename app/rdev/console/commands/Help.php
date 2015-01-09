@@ -13,8 +13,10 @@ class Help extends Command
     /** @var string The template for the output */
     private static $template = <<<EOF
 -----------------------
-Command: {{command}}
+Command: {{name}}
 -----------------------
+{{command}}
+
 Arguments:
 {{arguments}}
 Options:
@@ -47,7 +49,8 @@ EOF;
 
         // Compile the template
         $compiledTemplate = self::$template;
-        $compiledTemplate = str_replace("{{command}}", $this->command->getName(), $compiledTemplate);
+        $compiledTemplate = str_replace("{{command}}", $this->getCommandText($this->command), $compiledTemplate);
+        $compiledTemplate = str_replace("{{name}}", $this->command->getName(), $compiledTemplate);
         $compiledTemplate = str_replace("{{arguments}}", $argumentText, $compiledTemplate);
         $compiledTemplate = str_replace("{{options}}", $optionText, $compiledTemplate);
 
@@ -87,6 +90,84 @@ EOF;
     private function getArgumentText(Requests\Argument $argument)
     {
         return "   {$argument->getName()} - {$argument->getDescription()}" . PHP_EOL;
+    }
+
+    /**
+     * Gets the command as text
+     *
+     * @param ICommand $command The command to convert
+     * @return string The command as text
+     */
+    private function getCommandText(ICommand $command)
+    {
+        $text = $command->getName() . " ";
+
+        // Output the options
+        foreach($command->getOptions() as $option)
+        {
+            $text .= "[--{$option->getName()}";
+
+            if($option->getShortName() !== null)
+            {
+                $text .= "|-{$option->getShortName()}";
+            }
+
+            $text .= "] ";
+        }
+
+        /** @var Requests\Argument[] $requiredArguments */
+        $requiredArguments = [];
+        /** @var Requests\Argument[] $optionalArguments */
+        $optionalArguments = [];
+        /** @var Requests\Argument $arrayArgument */
+        $arrayArgument = null;
+
+        // Categorize each argument
+        foreach($command->getArguments() as $argument)
+        {
+            if($argument->isRequired() && !$argument->isArray())
+            {
+                $requiredArguments[] = $argument;
+            }
+            elseif($argument->isOptional() && !$argument->isArray())
+            {
+                $optionalArguments[] = $argument;
+            }
+
+            if($argument->isArray())
+            {
+                $arrayArgument = $argument;
+            }
+        }
+
+        // Output the required arguments
+        foreach($requiredArguments as $argument)
+        {
+            $text .= $argument->getName() . " ";
+        }
+
+        // Output the optional arguments
+        foreach($optionalArguments as $argument)
+        {
+            $text .= "[{$argument->getName()}] ";
+        }
+
+        // Output the array argument
+        if($arrayArgument !== null)
+        {
+            $arrayArgumentTextOne = $arrayArgument->getName() . "1";
+            $arrayArgumentTextN = $arrayArgument->getName() . "N";
+
+            if($arrayArgument->isOptional())
+            {
+                $arrayArgumentTextOne = "[$arrayArgumentTextOne]";
+                $arrayArgumentTextN = "[$arrayArgumentTextN]";
+            }
+
+            $text .= "$arrayArgumentTextOne...$arrayArgumentTextN";
+        }
+
+        return trim($text);
     }
 
     /**

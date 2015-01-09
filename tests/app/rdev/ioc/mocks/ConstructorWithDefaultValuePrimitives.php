@@ -15,6 +15,7 @@ class ConstructorWithDefaultValuePrimitives
 
     /**
      * @param string $foo A primitive to store in this class
+     * @param string $bar A primitive to store in this class
      */
     public function __construct($foo, $bar = "bar")
     {

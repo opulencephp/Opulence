@@ -133,7 +133,10 @@ abstract class Command implements ICommand
      */
     public function getOptionValue($name)
     {
-        $option = $this->getOption($name);
+        if(!isset($this->options[$name]))
+        {
+            throw new \InvalidArgumentException("No option with name \"$name\" exists");
+        }
 
         if(!isset($this->optionValues[$name]))
         {

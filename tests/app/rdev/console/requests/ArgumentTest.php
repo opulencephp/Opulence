@@ -24,7 +24,15 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIsArray()
     {
+        $requiredArgument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo argument", "bar");
+        $optionalArgument = new Argument("foo", ArgumentTypes::OPTIONAL, "Foo argument", "bar");
         $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY, "Foo argument");
+        $this->assertTrue($arrayArgument->isArray());
+        $this->assertFalse($requiredArgument->isArray());
+        $this->assertFalse($optionalArgument->isArray());
+        $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY | ArgumentTypes::OPTIONAL, "Foo argument");
+        $this->assertTrue($arrayArgument->isArray());
+        $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY | ArgumentTypes::REQUIRED, "Foo argument");
         $this->assertTrue($arrayArgument->isArray());
     }
 
@@ -35,8 +43,10 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     {
         $requiredArgument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo argument", "bar");
         $optionalArgument = new Argument("foo", ArgumentTypes::OPTIONAL, "Foo argument", "bar");
+        $optionalArrayArgument = new Argument("foo", ArgumentTypes::OPTIONAL | ArgumentTypes::IS_ARRAY, "Foo argument");
         $this->assertFalse($requiredArgument->isOptional());
         $this->assertTrue($optionalArgument->isOptional());
+        $this->assertTrue($optionalArrayArgument->isOptional());
     }
 
     /**
@@ -45,8 +55,10 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIsRequired()
     {
         $requiredArgument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo argument", "bar");
+        $requiredArrayArgument = new Argument("foo", ArgumentTypes::REQUIRED | ArgumentTypes::IS_ARRAY, "Foo argument");
         $optionalArgument = new Argument("foo", ArgumentTypes::OPTIONAL, "Foo argument", "bar");
         $this->assertTrue($requiredArgument->isRequired());
+        $this->assertTrue($requiredArrayArgument->isRequired());
         $this->assertFalse($optionalArgument->isRequired());
     }
 
