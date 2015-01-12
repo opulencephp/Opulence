@@ -195,14 +195,6 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
-    public function setHelpText($helpText)
-    {
-        $this->helpText = $helpText;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setOptionValue($name, $value)
     {
         $this->optionValues[$name] = $value;
@@ -223,6 +215,19 @@ abstract class Command implements ICommand
     protected function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Sets the help text
+     *
+     * @param string $helpText The help text
+     * @return Command for method chaining
+     */
+    protected function setHelpText($helpText)
+    {
+        $this->helpText = $helpText;
 
         return $this;
     }

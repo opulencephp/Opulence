@@ -131,13 +131,6 @@ interface ICommand
     public function setArgumentValue($name, $value);
 
     /**
-     * Sets the help text
-     *
-     * @param string $helpText The help text
-     */
-    public function setHelpText($helpText);
-
-    /**
      * Sets the value of an option
      *
      * @param string $name The name of the option to set

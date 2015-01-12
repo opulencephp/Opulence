@@ -18,7 +18,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->command = new Mocks\SimpleCommand("foo", "The foo command");
+        $this->command = new Mocks\SimpleCommand("foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol");
     }
 
     /**
@@ -170,11 +170,10 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the help text
+     * Tests Getting the help text
      */
-    public function testSettingHelpText()
+    public function testGettingHelpText()
     {
-        $this->command->setHelpText("Bob Loblaw's Law Blog no habla Espanol");
         $this->assertEquals("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
     }
 
