@@ -116,7 +116,7 @@ class Kernel
         {
             $compiledHelpCommand = $this->commandCompiler->compile($helpCommand, $request);
 
-            if($compiledHelpCommand->argumentHasValue("command"))
+            if($compiledHelpCommand->argumentValueIsSet("command"))
             {
                 $commandName = $compiledHelpCommand->getArgumentValue("command");
             }

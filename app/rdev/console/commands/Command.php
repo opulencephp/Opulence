@@ -73,7 +73,7 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
-    public function argumentHasValue($name)
+    public function argumentValueIsSet($name)
     {
         return isset($this->argumentValues[$name]);
     }
@@ -96,7 +96,7 @@ abstract class Command implements ICommand
      */
     public function getArgumentValue($name)
     {
-        if(!$this->argumentHasValue($name))
+        if(!$this->argumentValueIsSet($name))
         {
             throw new \InvalidArgumentException("No argument with name \"$name\" exists");
         }

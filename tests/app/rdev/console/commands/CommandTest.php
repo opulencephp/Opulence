@@ -55,8 +55,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $this->command->addArgument($noValueArgument)
             ->addArgument($hasValueArgument)
             ->setArgumentValue("hasvalue", "foo");
-        $this->assertFalse($this->command->argumentHasValue("novalue"));
-        $this->assertTrue($this->command->argumentHasValue("hasvalue"));
+        $this->assertFalse($this->command->argumentValueIsSet("novalue"));
+        $this->assertTrue($this->command->argumentValueIsSet("hasvalue"));
     }
 
     /**

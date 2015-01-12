@@ -32,7 +32,7 @@ interface ICommand
      * @param string $name The name of the argument to check
      * @return bool True if the input argument has a value, otherwise false
      */
-    public function argumentHasValue($name);
+    public function argumentValueIsSet($name);
 
     /**
      * Executes the command
