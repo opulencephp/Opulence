@@ -145,6 +145,15 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests attempting to refresh an entity that returns null from SQL
+     */
+    public function testRefreshingNullEntity()
+    {
+        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->dataMapper->refreshEntity($this->entity1->getId());
+    }
+
+    /**
      * Tests updating an entity and committing to cache
      */
     public function testUpdatingEntityAndCommittingCache()

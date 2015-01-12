@@ -86,7 +86,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {$@inheritdoc}
+     * {@inheritdoc}
      */
     public function getAll()
     {
@@ -94,7 +94,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {$@inheritdoc}
+     * {@inheritdoc}
      */
     public function getById($id)
     {

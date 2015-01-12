@@ -51,8 +51,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $status = $this->kernel->handle($this->parser, "unclosed quote '", $this->response);
         $response = ob_get_clean();
-        $this->assertEquals(StatusCodes::ERROR, $status);
-        $this->assertEquals("Error: ", substr($response, 0, 7));
+        $this->assertEquals(StatusCodes::FATAL, $status);
+        $this->assertEquals("Fatal: ", substr($response, 0, 7));
     }
 
     /**
@@ -63,6 +63,12 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         // Try with command name
         ob_start();
         $status = $this->kernel->handle($this->parser, "help holiday", $this->response);
+        ob_get_clean();
+        $this->assertEquals(StatusCodes::OK, $status);
+
+        // Try with command name with no argument
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "help", $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 

@@ -79,12 +79,24 @@ class Kernel
 
             return $statusCode;
         }
-        catch(\Exception $ex)
+        catch(\InvalidArgumentException $ex)
         {
-            $this->logger->addError($ex->getMessage());
             $response->writeln("Error: " . $ex->getMessage());
 
             return StatusCodes::ERROR;
+        }
+        catch(\RuntimeException $ex)
+        {
+            $response->writeln("Fatal: " . $ex->getMessage());
+
+            return StatusCodes::FATAL;
+        }
+        catch(\Exception $ex)
+        {
+            $response->writeln("Fatal: " . $ex->getMessage());
+            $this->logger->addError($ex->getMessage());
+
+            return StatusCodes::FATAL;
         }
     }
 
@@ -98,24 +110,33 @@ class Kernel
     private function getCompiledHelpCommand(Requests\IRequest $request)
     {
         $helpCommand = new Commands\Help(new Formatters\Command(), new Formatters\Padding());
+        $commandName = null;
 
         if($request->getCommandName() == "help")
         {
             $compiledHelpCommand = $this->commandCompiler->compile($helpCommand, $request);
-            $commandName = $compiledHelpCommand->getArgumentValue("command");
+
+            if($compiledHelpCommand->argumentHasValue("command"))
+            {
+                $commandName = $compiledHelpCommand->getArgumentValue("command");
+            }
         }
         else
         {
             $commandName = $request->getCommandName();
         }
 
-        if(!$this->commands->has($commandName))
+        // Set the command only if it was passed as an argument to the help command
+        if($commandName !== null)
         {
-            throw new \InvalidArgumentException("No command with name \"$commandName\" exists");
-        }
+            if(!$this->commands->has($commandName))
+            {
+                throw new \InvalidArgumentException("No command with name \"$commandName\" exists");
+            }
 
-        $command = $this->commands->get($commandName);
-        $helpCommand->setCommand($command);
+            $command = $this->commands->get($commandName);
+            $helpCommand->setCommand($command);
+        }
 
         return $helpCommand;
     }

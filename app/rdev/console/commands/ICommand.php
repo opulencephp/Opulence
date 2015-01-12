@@ -27,6 +27,14 @@ interface ICommand
     public function addOption(Requests\Option $option);
 
     /**
+     * Gets whether or not an argument has a value
+     *
+     * @param string $name The name of the argument to check
+     * @return bool True if the input argument has a value, otherwise false
+     */
+    public function argumentHasValue($name);
+
+    /**
      * Executes the command
      *
      * @param Responses\IResponse $response The console response to write to

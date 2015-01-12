@@ -46,6 +46,20 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if an argument has a value
+     */
+    public function testCheckingIfArgumentHasValue()
+    {
+        $noValueArgument = new Requests\Argument("novalue", Requests\ArgumentTypes::OPTIONAL, "No value");
+        $hasValueArgument = new Requests\Argument("hasvalue", Requests\ArgumentTypes::REQUIRED, "Has value");
+        $this->command->addArgument($noValueArgument)
+            ->addArgument($hasValueArgument)
+            ->setArgumentValue("hasvalue", "foo");
+        $this->assertFalse($this->command->argumentHasValue("novalue"));
+        $this->assertTrue($this->command->argumentHasValue("hasvalue"));
+    }
+
+    /**
      * Tests checking if a set option is set
      */
     public function testCheckingIfSetOptionIsSet()

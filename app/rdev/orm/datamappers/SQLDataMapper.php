@@ -68,7 +68,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
 
             if($expectSingleResult && $statement->rowCount() != 1)
             {
-                return null;
+                throw new ORM\ORMException("Failed to find entity");
             }
 
             $entities = [];
