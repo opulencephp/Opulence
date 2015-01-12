@@ -9,12 +9,12 @@ use RDev\Console\Requests;
 
 class String extends Parser
 {
-    /** @var Tokenizers\RawString The tokenizer to use */
+    /** @var Tokenizers\String The tokenizer to use */
     private $tokenizer = null;
 
     public function __construct()
     {
-        $this->tokenizer = new Tokenizers\RawString();
+        $this->tokenizer = new Tokenizers\String();
     }
 
     /**

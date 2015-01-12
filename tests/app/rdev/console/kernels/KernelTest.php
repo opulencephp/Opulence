@@ -38,7 +38,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->commands = new Commands\Commands();
         $this->commands->add(new CommandMocks\SimpleCommand("mockcommand", "Mocks a command"));
         $this->commands->add(new CommandMocks\HappyHolidayCommand());
-        $this->parser = new Parsers\String(new Tokenizers\RawString());
+        $this->parser = new Parsers\String(new Tokenizers\String());
         $this->response = new ResponseMocks\Response();
         $this->kernel = new Kernel($this->compiler, $this->commands, $logger);
     }

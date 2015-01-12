@@ -16,7 +16,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-       $this->parser = new String(new Tokenizers\RawString());
+       $this->parser = new String(new Tokenizers\String());
     }
 
     /**

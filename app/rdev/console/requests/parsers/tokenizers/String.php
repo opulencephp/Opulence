@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the raw string tokenizer
+ * Defines the string tokenizer
  */
 namespace RDev\Console\Requests\Parsers\Tokenizers;
 
-class RawString implements ITokenizer
+class String implements ITokenizer
 {
     /**
      * {@inheritdoc}

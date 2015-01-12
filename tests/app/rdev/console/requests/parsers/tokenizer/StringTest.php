@@ -2,13 +2,13 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Tests the raw string tokenizer
+ * Tests the string tokenizer
  */
 namespace RDev\Console\Requests\Parsers\Tokenizers;
 
-class RawStringTest extends \PHPUnit_Framework_TestCase
+class StringTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var RawString The tokenizer to use in tests */
+    /** @var \RDev\Console\Requests\Parsers\Tokenizers\String The tokenizer to use in tests */
     private $tokenizer = null;
 
     /**
@@ -16,7 +16,7 @@ class RawStringTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->tokenizer = new RawString();
+        $this->tokenizer = new String();
     }
 
     /**
