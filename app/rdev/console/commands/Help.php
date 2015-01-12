@@ -49,7 +49,11 @@ EOF;
      */
     public function execute(Responses\IResponse $response)
     {
-        if($this->argumentHasValue("command"))
+        if($this->command === null)
+        {
+            $response->writeln("Pass in the name of the command you'd like help with");
+        }
+        else
         {
             $descriptionText = "No description";
             $helpText = "";
@@ -74,10 +78,6 @@ EOF;
             $compiledTemplate = str_replace("{{helpText}}", $helpText, $compiledTemplate);
 
             $response->writeln($compiledTemplate);
-        }
-        else
-        {
-            $response->writeln("Pass in the name of the command you'd like help with");
         }
     }
 
