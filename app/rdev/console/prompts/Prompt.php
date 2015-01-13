@@ -66,7 +66,7 @@ class Prompt
 
         $answer = trim($answer);
 
-        if(empty($answer))
+        if(strlen($answer) == 0)
         {
             return $question->getDefaultAnswer();
         }
