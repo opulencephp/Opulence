@@ -84,10 +84,14 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
             $phpDate->format("Ymd"),
             $this->typeMapperWithNoProvider->fromSQLDate($sqlDate, $this->provider)->format("Ymd")
         );
+        // Make sure the hour, minutes, and seconds are zeroed out
+        $this->assertEquals("000", $this->typeMapperWithNoProvider->fromSQLDate($sqlDate, $this->provider)->format("His"));
         $this->assertEquals(
             $phpDate->format("Ymd"),
             $this->typeMapperWithProvider->fromSQLDate($sqlDate)->format("Ymd")
         );
+        // Make sure the hour, minutes, and seconds are zeroed out
+        $this->assertEquals("000", $this->typeMapperWithProvider->fromSQLDate($sqlDate)->format("His"));
     }
 
     /**

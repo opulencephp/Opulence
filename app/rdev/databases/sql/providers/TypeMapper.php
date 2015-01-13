@@ -52,7 +52,8 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpDate = \DateTime::createFromFormat($provider->getDateFormat(), $sqlDate);
+        // The "!" zeroes out the hours, minutes, and seconds
+        $phpDate = \DateTime::createFromFormat("!" . $provider->getDateFormat(), $sqlDate);
 
         if($phpDate === false)
         {
