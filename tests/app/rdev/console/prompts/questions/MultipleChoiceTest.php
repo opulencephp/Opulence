@@ -41,6 +41,33 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests an empty answer for keyed choices
+     */
+    public function testEmptyAnswerForAssociativeChoices()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->keyedChoiceQuestion->formatAnswer("");
+    }
+
+    /**
+     * Tests an empty answer for indexed choices
+     */
+    public function testEmptyAnswerForIndexedChoices()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->indexedChoiceQuestion->formatAnswer("");
+    }
+
+    /**
+     * Tests using a float as an answer to indexed choices
+     */
+    public function testFloatAsAnswerToIndexedChoices()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->indexedChoiceQuestion->formatAnswer(1.5);
+    }
+
+    /**
      * Tests formatting multiple answers
      */
     public function testFormattingMultipleAnswers()
@@ -120,15 +147,6 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using an invalid type answer
-     */
-    public function testInvalidTypeAnswer()
-    {
-        $this->setExpectedException("\\InvalidArgumentException");
-        $this->indexedChoiceQuestion->formatAnswer("foo");
-    }
-
-    /**
      * Tests selecting multiple indexed choices when it's not allowed
      */
     public function testMultipleIndexedChoicesWhenNotAllowed()
@@ -149,6 +167,24 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a null answer to indexed choices
+     */
+    public function testNullAnswerToIndexedChoices()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->indexedChoiceQuestion->formatAnswer(null);
+    }
+
+    /**
+     * Tests a null answer to keyed choices
+     */
+    public function testNullAnswerToKeyedChoices()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->keyedChoiceQuestion->formatAnswer(null);
+    }
+
+    /**
      * Tests setting whether we allow multiple choices
      */
     public function testSettingAllowsMultipleChoices()
@@ -164,5 +200,14 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexedChoiceQuestion->setAnswerLineString("foo");
         $this->assertEquals("foo", $this->indexedChoiceQuestion->getAnswerLineString());
+    }
+
+    /**
+     * Tests using a non-numeric string as an answer to indexed choices
+     */
+    public function testStringAsAnswerToIndexedChoices()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->indexedChoiceQuestion->formatAnswer("foo");
     }
 }

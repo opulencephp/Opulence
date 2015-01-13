@@ -159,9 +159,9 @@ class MultipleChoice extends Question
 
         foreach($answers as $answer)
         {
-            if(!is_numeric($answer))
+            if(!ctype_digit($answer))
             {
-                throw new \InvalidArgumentException("Answer is not numeric");
+                throw new \InvalidArgumentException("Answer is not an integer");
             }
 
             $answer = (int)$answer;
