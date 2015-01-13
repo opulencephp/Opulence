@@ -77,6 +77,59 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting unsynced entities
+     */
+    public function testGettingUnsyncedEntities()
+    {
+        // Add entity 1 to both data mappers
+        $this->dataMapper->getSQLDataMapperForTests()->add($this->entity1);
+        $this->dataMapper->getCacheDataMapperForTests()->add($this->entity1);
+        // Only add entity to the SQL data mapper
+        $this->dataMapper->getSQLDataMapperForTests()->add($this->entity2);
+        // Add different versions of the same entity to the data mappers
+        $this->dataMapper->getSQLDataMapperForTests()->add($this->entity3);
+        // Add an entity with slightly different data to see if it gets updated with the refresh call
+        $differentEntity = clone $this->entity3;
+        $differentEntity->setUsername("differentName");
+        $this->dataMapper->getCacheDataMapperForTests()->add($differentEntity);
+        // This entity is ONLY in cache
+        $this->dataMapper->getCacheDataMapperForTests()->add($this->entity4);
+        // This should synchronize cache and SQL
+        $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
+        $this->assertEquals([
+            "missing" => [$this->entity2],
+            "differing" => [$this->entity3],
+            "additional" => [$this->entity4]
+        ], $unsyncedEntities);
+        // This should be the exact same instance because it was already in sync
+        $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity1->getId()));
+        // This entity should not appear in the cache data mapper
+        $this->assertNull($this->dataMapper->getCacheDataMapperForTests()->getById($this->entity2->getId()));
+        // This entity should have been different than the one in the SQL data mapper
+        $this->assertSame($differentEntity, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity3->getId()));
+        // This entity should only appear in the cache data mapper
+        $this->assertSame($this->entity4, $this->dataMapper->getCacheDataMapperForTests()->getById($this->entity4->getId()));
+    }
+
+    /**
+     * Tests getting unsynced entities when getting all the entities returns null
+     */
+    public function testGettingUnsyncedEntitiesWhenGetAllReturnsNull()
+    {
+        $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper(
+            null,
+            new DataMapperMocks\CacheDataMapperThatReturnsNull()
+        );
+        $this->dataMapper->getSQLDataMapperForTests()->add($this->entity1);
+        $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
+        $this->assertEquals([
+            "missing" => [$this->entity1],
+            "differing" => [],
+            "additional" => []
+        ], $unsyncedEntities);
+    }
+
+    /**
      * Tests refreshing the cache
      */
     public function testRefreshingCache()

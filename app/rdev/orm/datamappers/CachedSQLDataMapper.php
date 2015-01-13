@@ -112,57 +112,17 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
+    public function getUnsyncedEntities()
+    {
+        return $this->compareCacheAndSQLEntities(false);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function refreshCache()
     {
-        // If there was an issue grabbing all entities in cache, null will be returned
-        $unkeyedCacheEntities = $this->cacheDataMapper->getAll();
-
-        if($unkeyedCacheEntities === null)
-        {
-            $unkeyedCacheEntities = [];
-        }
-
-        $cacheEntities = $this->keyEntityArray($unkeyedCacheEntities);
-        $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
-        $unsyncedEntities = [
-            "missing" => [],
-            "differing" => [],
-            "additional" => []
-        ];
-
-        foreach($sqlEntities as $sqlId => $sqlEntity)
-        {
-            if(isset($cacheEntities[$sqlEntity->getId()]))
-            {
-                $cacheEntity = $cacheEntities[$sqlEntity->getId()];
-
-                if($sqlEntity != $cacheEntity)
-                {
-                    // Sync the entity in cache with the one in SQL
-                    $unsyncedEntities["differing"][] = $sqlEntity;
-                    $this->cacheDataMapper->delete($cacheEntity);
-                    $this->cacheDataMapper->add($sqlEntity);
-                }
-            }
-            else
-            {
-                // Add the entity to cache
-                $unsyncedEntities["missing"][] = $sqlEntity;
-                $this->cacheDataMapper->add($sqlEntity);
-            }
-        }
-
-        // Remove entities that only appear in cache
-        $cacheOnlyIds = array_diff(array_keys($cacheEntities), array_keys($sqlEntities));
-
-        foreach($cacheOnlyIds as $entityId)
-        {
-            $cacheEntity = $cacheEntities[$entityId];
-            $unsyncedEntities["additional"][] = $cacheEntity;
-            $this->cacheDataMapper->delete($cacheEntity);
-        }
-
-        return $unsyncedEntities;
+        return $this->compareCacheAndSQLEntities(true);
     }
 
     /**
@@ -286,6 +246,86 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     protected function scheduleForCacheUpdate(ORM\IEntity $entity)
     {
         $this->scheduledForCacheUpdate[] = $entity;
+    }
+
+    /**
+     * Does the comparison of entities in cache to entities in the SQL database
+     * Also performs refresh if the user chooses to do so
+     *
+     * @param bool $doRefresh Whether or not to refresh any unsynced entities
+     * @return ORM\IEntity[] The list of entities that were not already synced
+     *      The "missing" list contains the entities that were not in cache
+     *      The "differing" list contains the entities in cache that were not the same as SQL
+     *      The "additional" list contains entities in cache that were not at all in SQL
+     * @throws ORM\ORMException Thrown if there was an error getting the unsynced entities
+     */
+    private function compareCacheAndSQLEntities($doRefresh)
+    {
+        // If there was an issue grabbing all entities in cache, null will be returned
+        $unkeyedCacheEntities = $this->cacheDataMapper->getAll();
+
+        if($unkeyedCacheEntities === null)
+        {
+            $unkeyedCacheEntities = [];
+        }
+
+        $cacheEntities = $this->keyEntityArray($unkeyedCacheEntities);
+        $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
+        $unsyncedEntities = [
+            "missing" => [],
+            "differing" => [],
+            "additional" => []
+        ];
+
+        // Compare the entities in the SQL database to those in cache
+        foreach($sqlEntities as $sqlId => $sqlEntity)
+        {
+            if(isset($cacheEntities[$sqlEntity->getId()]))
+            {
+                // The entity appears in cache
+                $cacheEntity = $cacheEntities[$sqlEntity->getId()];
+
+                if($sqlEntity != $cacheEntity)
+                {
+                    $unsyncedEntities["differing"][] = $sqlEntity;
+
+                    if($doRefresh)
+                    {
+                        // Sync the entity in cache with the one in SQL
+                        $this->cacheDataMapper->delete($cacheEntity);
+                        $this->cacheDataMapper->add($sqlEntity);
+                    }
+                }
+            }
+            else
+            {
+                // The entity was not in cache
+                $unsyncedEntities["missing"][] = $sqlEntity;
+
+                if($doRefresh)
+                {
+                    // Add the entity to cache
+                    $this->cacheDataMapper->add($sqlEntity);
+                }
+            }
+        }
+
+        // Find entities that only appear in cache
+        $cacheOnlyIds = array_diff(array_keys($cacheEntities), array_keys($sqlEntities));
+
+        foreach($cacheOnlyIds as $entityId)
+        {
+            $cacheEntity = $cacheEntities[$entityId];
+            $unsyncedEntities["additional"][] = $cacheEntity;
+
+            if($doRefresh)
+            {
+                // Remove the entity that only appears in cache
+                $this->cacheDataMapper->delete($cacheEntity);
+            }
+        }
+
+        return $unsyncedEntities;
     }
 
     /**

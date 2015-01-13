@@ -19,6 +19,17 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
     public function commit();
 
     /**
+     * Gets a list of entities that differ in cache and the SQL database
+     *
+     * @return ORM\IEntity[] The list of entities that were not already synced
+     *      The "missing" list contains the entities that were not in cache
+     *      The "differing" list contains the entities in cache that were not the same as SQL
+     *      The "additional" list contains entities in cache that were not at all in SQL
+     * @throws ORM\ORMException Thrown if there was an error getting the unsynced entities
+     */
+    public function getUnsyncedEntities();
+
+    /**
      * Refreshes the data in cache with the data from the SQL data mapper
      *
      * @return ORM\IEntity[] The list of entities that were not already synced
