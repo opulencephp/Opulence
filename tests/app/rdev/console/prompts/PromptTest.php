@@ -92,6 +92,52 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests an empty default answer to indexed choices
+     */
+    public function testEmptyDefaultAnswerToIndexedChoices()
+    {
+        $triggeredException = false;
+        $prompt = new Prompt($this->getInputStream(" "));
+        $question = new Questions\MultipleChoice("Dummy question", ["foo", "bar"]);
+        ob_start();
+
+        try
+        {
+            $prompt->ask($question, $this->response);
+        }
+        catch(\InvalidArgumentException $ex)
+        {
+            $triggeredException = true;
+            ob_end_clean();
+        }
+
+        $this->assertTrue($triggeredException);
+    }
+
+    /**
+     * Tests an empty default answer to keyed choices
+     */
+    public function testEmptyDefaultAnswerToKeyedChoices()
+    {
+        $triggeredException = false;
+        $prompt = new Prompt($this->getInputStream(" "));
+        $question = new Questions\MultipleChoice("Dummy question", ["foo" => "bar", "baz" => "blah"]);
+        ob_start();
+
+        try
+        {
+            $prompt->ask($question, $this->response);
+        }
+        catch(\InvalidArgumentException $ex)
+        {
+            $triggeredException = true;
+            ob_end_clean();
+        }
+
+        $this->assertTrue($triggeredException);
+    }
+
+    /**
      * Tests not receiving a response
      */
     public function testNotReceivingResponse()
