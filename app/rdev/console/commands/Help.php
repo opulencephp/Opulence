@@ -114,7 +114,7 @@ EOF;
     {
         if(count($this->command->getArguments()) == 0)
         {
-            return "No arguments";
+            return "   No arguments";
         }
 
         $argumentTexts = [];
@@ -139,7 +139,7 @@ EOF;
     {
         if(count($this->command->getOptions()) == 0)
         {
-            return "No options";
+            return "   No options";
         }
 
         $optionTexts = [];

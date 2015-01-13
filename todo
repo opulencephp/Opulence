@@ -29,9 +29,7 @@ Need to create session storage classes
         This would only include the basics: get(), set(), and delete()
 Do we really need repo interface examples in RDev?
     Is this best left for Project?
-Implement at least a basic console kernel
 Allow caching of routes/matches
 Need to write documentation on Request/Response
 Incorrect username entry is faster, allowing timing attacks
 Need to figure out where to store lifetime settings for login credentials in LoginController
-Need to determine how we hand out api keys
