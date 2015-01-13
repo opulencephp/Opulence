@@ -6,7 +6,7 @@
  */
 namespace RDev\HTTP;
 
-class Parameters extends \ArrayObject
+class Parameters implements \ArrayAccess, \Countable
 {
     /** @var array The list of parameters */
     protected $parameters = [];
