@@ -5,8 +5,9 @@
  * Defines an extension of the Predis library
  */
 namespace RDev\Databases\NoSQL\Redis;
+use Predis;
 
-class RDevPredis extends \Predis\Client implements IRedis
+class RDevPredis extends Predis\Client implements IRedis
 {
     use TRedis;
 
@@ -43,5 +44,15 @@ class RDevPredis extends \Predis\Client implements IRedis
     public function __destruct()
     {
         parent::quit();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function select($database)
+    {
+        parent::select($database);
+
+        $this->server->setDatabaseIndex($database);
     }
 } 

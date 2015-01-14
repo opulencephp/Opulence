@@ -19,16 +19,13 @@ HAS PRIORITY:
         Basically, allows us to define a section and give it default content
     Find way to display PHP variables inside tags
 
-Need to be able to select DB index for Redis after making connection
-    Right now, it's tied to the server object
-    So, what gets returned if we connect with a server object, change the DB index, and then request the server object?
 Need to add more TypeMapper methods
 Need to create session storage classes
     Need to think of how to assign session Ids
-    For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to to implement
+    For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to implement
         This would only include the basics: get(), set(), and delete()
 Do we really need repo interface examples in RDev?
-    Is this best left for Project?
+    No.  As soon as above items are done, move repo stuff to Project.
 Allow caching of routes/matches
 Need to write documentation on Request/Response
 Incorrect username entry is faster, allowing timing attacks

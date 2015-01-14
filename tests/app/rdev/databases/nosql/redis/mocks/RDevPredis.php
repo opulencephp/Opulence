@@ -25,4 +25,13 @@ class RDevPredis extends Redis\RDevPredis
     {
         // Do nothing
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function select($database)
+    {
+        // Don't actually select the database in Redis
+        $this->server->setDatabaseIndex($database);
+    }
 } 

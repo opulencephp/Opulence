@@ -35,4 +35,14 @@ class RDevPHPRedis extends \Redis implements IRedis
     {
         parent::close();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function select($database)
+    {
+        parent::select($database);
+
+        $this->server->setDatabaseIndex($database);
+    }
 }

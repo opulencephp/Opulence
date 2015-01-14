@@ -29,4 +29,16 @@ class RDevPHPRedisTest extends \PHPUnit_Framework_TestCase
         $redis = new Mocks\RDevPHPRedis($server, $typeMapper);
         $this->assertSame($typeMapper, $redis->getTypeMapper());
     }
+
+    /**
+     * Tests selecting the database
+     */
+    public function testSelectingDatabase()
+    {
+        $server = new Server();
+        $typeMapper = new TypeMapper();
+        $redis = new Mocks\RDevPHPRedis($server, $typeMapper);
+        $redis->select(724);
+        $this->assertEquals(724, $redis->getServer()->getDatabaseIndex());
+    }
 } 
