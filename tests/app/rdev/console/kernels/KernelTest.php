@@ -56,7 +56,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests handling a help option
+     * Tests handling a help command
      */
     public function testHandlingHelpCommand()
     {
@@ -134,6 +134,24 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $status = $this->kernel->handle($this->parser, "mockcommand", $this->response);
         $this->assertEquals("foo", ob_get_clean());
+        $this->assertEquals(StatusCodes::OK, $status);
+    }
+
+    /**
+     * Tests handling a version command
+     */
+    public function testHandlingVersionCommand()
+    {
+        // Try with short name
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "-v", $this->response);
+        ob_get_clean();
+        $this->assertEquals(StatusCodes::OK, $status);
+
+        // Try with long name
+        ob_start();
+        $status = $this->kernel->handle($this->parser, "--version", $this->response);
+        ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }
 }

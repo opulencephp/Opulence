@@ -67,6 +67,11 @@ class Kernel
                 // We are going to execute the help command
                 $compiledCommand = $this->getCompiledHelpCommand($request);
             }
+            elseif($this->isInvokingVersionCommand($request))
+            {
+                // We are going to execute the version command
+                $compiledCommand = new Commands\Version($this->applicationVersion);
+            }
             elseif($this->commands->has($request->getCommandName()))
             {
                 // We are going to execute the command that was entered
@@ -159,5 +164,16 @@ class Kernel
     private function isInvokingHelpCommand(Requests\IRequest $request)
     {
         return $request->getCommandName() == "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
+    }
+
+    /**
+     * Gets whether or not the input is invoking the version command
+     *
+     * @param Requests\IRequest $request The parsed request
+     * @return bool True if it is invoking the version command, otherwise false
+     */
+    private function isInvokingVersionCommand(Requests\IRequest $request)
+    {
+        return $request->optionIsSet("v") || $request->optionIsSet("version");
     }
 }
