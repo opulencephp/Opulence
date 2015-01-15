@@ -19,6 +19,14 @@ class Console extends Response
     /**
      * {@inheritdoc}
      */
+    public function clear()
+    {
+        $this->write(chr(27) . "[2J" . chr(27) . "[;H");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function doWrite($message, $includeNewLine)
     {
         fwrite($this->stream, $message . ($includeNewLine ? PHP_EOL : ""));

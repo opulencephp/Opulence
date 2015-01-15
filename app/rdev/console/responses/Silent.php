@@ -11,6 +11,14 @@ class Silent extends Response
     /**
      * {@inheritdoc}
      */
+    public function clear()
+    {
+        // Don't do anything
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function doWrite($message, $includeNewLine)
     {
         // Don't do anything

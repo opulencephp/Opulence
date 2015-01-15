@@ -7,7 +7,7 @@
 namespace RDev\Console\Responses;
 use RDev\Tests\Console\Responses\Mocks;
 
-class RequestTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Mocks\Response The response to use in tests */
     private $response = null;
@@ -18,6 +18,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->response = new Mocks\Response();
+    }
+
+    /**
+     * Tests clearing the response
+     */
+    public function testClearingResponse()
+    {
+        ob_start();
+        $this->response->clear();
+        $this->assertEquals(chr(27) . "[2J" . chr(27) . "[;H", ob_get_clean());
     }
 
     /**

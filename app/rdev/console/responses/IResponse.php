@@ -9,6 +9,11 @@ namespace RDev\Console\Responses;
 interface IResponse
 {
     /**
+     * Clears the response from view
+     */
+    public function clear();
+
+    /**
      * Writes to output
      *
      * @param string|array $messages The message or messages to display
