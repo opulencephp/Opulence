@@ -12,7 +12,7 @@ use RDev\Sessions;
 class Application
 {
     /** The current RDev version */
-    private static $version = "0.2.3";
+    private static $version = "0.2.4";
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
     /** @var Environments\Environment The environment the application is running on */
