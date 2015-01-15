@@ -1,5 +1,6 @@
 REPOS=(applications authentication console cryptography databases files http ioc orm sessions users views)
 SUBTREE_DIR="app/rdev"
+APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
 
 function commit()
 {
@@ -58,6 +59,16 @@ function tag()
 {
     read -p "   Tag Name: " tagname
     read -p "   Commit message: " message
+
+    # Update version
+    # Remove "v" from tag name
+    shorttagname=${tagname:1}
+    sed -i "s/private static \$version = \"[0-9\.]*\";/private static \$version = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
+
+    # Commit changes to application file
+    git commit -m "$message" $APPLICATION_CLASS_FILE
+    git push origin master
+    git subtree push --prefix=$SUBTREE_DIR/applications --rejoin applications master
 
     # Tag RDev
     git tag -a $tagname -m "$message"

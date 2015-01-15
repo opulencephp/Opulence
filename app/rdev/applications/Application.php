@@ -11,6 +11,8 @@ use RDev\Sessions;
 
 class Application
 {
+    /** The current RDev version */
+    private static $version = "0.2.3";
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
     /** @var Environments\Environment The environment the application is running on */
@@ -48,6 +50,14 @@ class Application
         $this->setEnvironment($environment);
         $this->setIoCContainer($container);
         $this->setSession($session);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getVersion()
+    {
+        return self::$version;
     }
 
     /**

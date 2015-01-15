@@ -12,9 +12,9 @@ class About extends Command
 {
     /** @var string The template for the output */
     private static $template = <<<EOF
------------------------
-About RDev Console
------------------------
+-----------------------------
+About RDev Console {{version}}
+-----------------------------
 Commands:
 {{commands}}
 EOF;
@@ -22,17 +22,21 @@ EOF;
     private $commands = null;
     /** @var Formatters\Padding The space padding formatter to use */
     private $spacePaddingFormatter  = null;
+    /** @var string The version number of the application */
+    private $applicationVersion = "Unknown";
 
     /**
      * @param Commands $commands The list of commands
      * @param Formatters\Padding $spacePaddingFormatter The space padding formatter to use
+     * @param string $applicationVersion The version number of the application
      */
-    public function __construct(Commands &$commands, Formatters\Padding $spacePaddingFormatter)
+    public function __construct(Commands &$commands, Formatters\Padding $spacePaddingFormatter, $applicationVersion)
     {
         parent::__construct();
 
         $this->commands = $commands;
         $this->spacePaddingFormatter = $spacePaddingFormatter;
+        $this->applicationVersion = $applicationVersion;
     }
 
     /**
@@ -44,6 +48,7 @@ EOF;
         $commandText = $this->getCommandText();
         $compiledTemplate = self::$template;
         $compiledTemplate = str_replace("{{commands}}", $commandText, $compiledTemplate);
+        $compiledTemplate = str_replace("{{version}}", $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
     }

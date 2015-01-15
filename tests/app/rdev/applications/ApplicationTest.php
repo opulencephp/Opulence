@@ -151,6 +151,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the application version
+     */
+    public function testGettingVersion()
+    {
+        $reflectionClass = new \ReflectionClass($this->application);
+        $property = $reflectionClass->getProperty("version");
+        $property->setAccessible(true);
+        $this->assertEquals($property->getValue(), Application::getVersion());
+    }
+
+    /**
      * Tests registering an invalid bootstrapper
      */
     public function testRegisteringInvalidBootstrapper()

@@ -21,17 +21,26 @@ class Kernel
     private $commands = null;
     /** @var Monolog\Logger The logger to use */
     private $logger = null;
+    /** @var string The version number of the application */
+    private $applicationVersion = "Unknown";
 
     /**
      * @param Compilers\ICompiler $commandCompiler The command compiler to use
      * @param Commands\Commands $commands The list of commands to choose from
      * @param Monolog\Logger $logger The logger to use
+     * @param string $applicationVersion The version number of the application
      */
-    public function __construct(Compilers\ICompiler $commandCompiler, Commands\Commands &$commands, Monolog\Logger $logger)
+    public function __construct(
+        Compilers\ICompiler $commandCompiler,
+        Commands\Commands &$commands,
+        Monolog\Logger $logger,
+        $applicationVersion = "Unknown"
+    )
     {
         $this->commandCompiler = $commandCompiler;
         $this->commands = $commands;
         $this->logger = $logger;
+        $this->applicationVersion = $applicationVersion;
     }
 
     /**
@@ -67,7 +76,7 @@ class Kernel
             else
             {
                 // We are defaulting to the About command
-                $compiledCommand = new Commands\About($this->commands, new Formatters\Padding());
+                $compiledCommand = new Commands\About($this->commands, new Formatters\Padding(), $this->applicationVersion);
             }
 
             $statusCode = $compiledCommand->execute($response);

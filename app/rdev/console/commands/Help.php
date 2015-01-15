@@ -13,9 +13,9 @@ class Help extends Command
 {
     /** @var string The template for the output */
     private static $template = <<<EOF
------------------------
+-----------------------------
 Command: {{name}}
------------------------
+-----------------------------
 {{command}}
 
 Description:
