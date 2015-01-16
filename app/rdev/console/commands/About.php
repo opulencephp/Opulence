@@ -69,7 +69,11 @@ EOF;
      */
     private function getCommandText()
     {
-        $text = "";
+        if(count($this->commands->getAll()) == 0)
+        {
+            return "   No commands";
+        }
+
         $commandTexts = [];
 
         // Figure out the longest command name
