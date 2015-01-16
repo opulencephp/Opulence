@@ -42,7 +42,16 @@ EOF;
     /**
      * {@inheritdoc}
      */
-    public function execute(Responses\IResponse $response)
+    protected function define()
+    {
+        $this->setName("about")
+            ->setDescription("Describes the RDev console application");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function doExecute(Responses\IResponse $response)
     {
         // Compile the template
         $commandText = $this->getCommandText();
@@ -51,15 +60,6 @@ EOF;
         $compiledTemplate = str_replace("{{version}}", $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function define()
-    {
-        $this->setName("about")
-            ->setDescription("Describes the RDev console application");
     }
 
     /**

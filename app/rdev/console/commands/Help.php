@@ -45,9 +45,33 @@ EOF;
     }
 
     /**
+     * Sets the command to help with
+     *
+     * @param ICommand $command The command to help with
+     */
+    public function setCommand(ICommand $command)
+    {
+        $this->command = $command;
+    }
+
+    /**
      * {@inheritdoc}
      */
-    public function execute(Responses\IResponse $response)
+    protected function define()
+    {
+        $this->setName("help")
+            ->setDescription("Displays information about a command")
+            ->addArgument(new Requests\Argument(
+                "command",
+                Requests\ArgumentTypes::OPTIONAL,
+                "The command to get help with"
+            ));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function doExecute(Responses\IResponse $response)
     {
         if($this->command === null)
         {
@@ -79,30 +103,6 @@ EOF;
 
             $response->writeln($compiledTemplate);
         }
-    }
-
-    /**
-     * Sets the command to help with
-     *
-     * @param ICommand $command The command to help with
-     */
-    public function setCommand(ICommand $command)
-    {
-        $this->command = $command;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function define()
-    {
-        $this->setName("help")
-            ->setDescription("Displays information about a command")
-            ->addArgument(new Requests\Argument(
-                "command",
-                Requests\ArgumentTypes::OPTIONAL,
-                "The command to get help with"
-            ));
     }
 
     /**

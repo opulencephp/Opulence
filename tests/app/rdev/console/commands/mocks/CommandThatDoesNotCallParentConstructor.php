@@ -2,15 +2,20 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Mocks a command with arguments and options
+ * Mocks a command that does not call the parent constructor
  */
 namespace RDev\Tests\Console\Commands\Mocks;
 use RDev\Console\Commands;
 use RDev\Console\Requests;
 use RDev\Console\Responses;
 
-class HappyHolidayCommand extends Commands\Command
+class CommandThatDoesNotCallParentConstructor extends Commands\Command
 {
+    public function __construct()
+    {
+        // Don't do anything
+    }
+
     /**
      * {@inheritdoc}
      */

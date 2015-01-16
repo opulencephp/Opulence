@@ -14,16 +14,16 @@ class NamelessCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    public function execute(Responses\IResponse $response)
+    protected function define()
     {
-        $response->write("foo");
+        // Don't do anything
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function define()
+    protected function doExecute(Responses\IResponse $response)
     {
-        // Don't do anything
+        $response->write("foo");
     }
 }

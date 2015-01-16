@@ -6,11 +6,12 @@
  */
 namespace RDev\Console\Commands;
 use RDev\Console\Requests;
-use RDev\Tests\Console\Commands\Mocks;
+use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
+use RDev\Tests\Console\Commands\Mocks as CommandMocks;
 
 class CommandTest extends \PHPUnit_Framework_TestCase 
 {
-    /** @var Mocks\SimpleCommand The command to use in tests */
+    /** @var CommandMocks\SimpleCommand The command to use in tests */
     private $command = null;
 
     /**
@@ -18,7 +19,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->command = new Mocks\SimpleCommand("foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol");
+        $this->command = new CommandMocks\SimpleCommand("foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol");
     }
 
     /**
@@ -90,11 +91,29 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests creating a command that does not construct its parent
+     */
+    public function testCreatingCommandThatDoesNotConstructParent()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $command = new CommandMocks\CommandThatDoesNotCallParentConstructor();
+        $command->execute(new ResponseMocks\Response());
+    }
+
+    /**
      * Tests getting the description
      */
     public function testGettingDescription()
     {
         $this->assertEquals("The foo command", $this->command->getDescription());
+    }
+
+    /**
+     * Tests Getting the help text
+     */
+    public function testGettingHelpText()
+    {
+        $this->assertEquals("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
     }
 
     /**
@@ -157,7 +176,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingNameInConstructor()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        new Mocks\NamelessCommand();
+        new CommandMocks\NamelessCommand();
     }
 
     /**
@@ -167,14 +186,6 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->command->setArgumentValue("foo", "bar");
         $this->assertEquals("bar", $this->command->getArgumentValue("foo"));
-    }
-
-    /**
-     * Tests Getting the help text
-     */
-    public function testGettingHelpText()
-    {
-        $this->assertEquals("Bob Loblaw's Law Blog no habla Espanol", $this->command->getHelpText());
     }
 
     /**

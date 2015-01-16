@@ -29,21 +29,21 @@ EOF;
     /**
      * {@inheritdoc}
      */
-    public function execute(Responses\IResponse $response)
+    protected function define()
+    {
+        $this->setName("version")
+            ->setDescription("Displays the application version");
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function doExecute(Responses\IResponse $response)
     {
         // Compile the template
         $compiledTemplate = self::$template;
         $compiledTemplate = str_replace("{{version}}", $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function define()
-    {
-        $this->setName("version")
-            ->setDescription("Displays the application version");
     }
 }

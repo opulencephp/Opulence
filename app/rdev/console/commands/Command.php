@@ -24,6 +24,8 @@ abstract class Command implements ICommand
     protected $optionValues = [];
     /** @var string The help text to be displayed in the help command */
     protected $helpText = "";
+    /** @var bool Whether or not the base class' constructor was called */
+    private $constructorCalled = false;
 
     /**
      * To ensure that the command is properly instantiated, be sure to
@@ -33,6 +35,8 @@ abstract class Command implements ICommand
      */
     public function __construct()
     {
+        $this->constructorCalled = true;
+
         // Define the command
         $this->define();
 
@@ -76,6 +80,19 @@ abstract class Command implements ICommand
     public function argumentValueIsSet($name)
     {
         return isset($this->argumentValues[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public final function execute(Responses\IResponse $response)
+    {
+        if(!$this->constructorCalled)
+        {
+            throw new \RuntimeException("Commands MUST call parent::__construct()");
+        }
+
+        return $this->doExecute($response);
     }
 
     /**
@@ -205,6 +222,14 @@ abstract class Command implements ICommand
      * Provides a convenient place to write down the definition for a command
      */
     abstract protected function define();
+
+    /**
+     * Actually performs the execution of the command
+     *
+     * @param Responses\IResponse $response The console response to write to
+     * @return int|null Null or the status code of the command
+     */
+    abstract protected function doExecute(Responses\IResponse $response);
 
     /**
      * Sets the description of the command

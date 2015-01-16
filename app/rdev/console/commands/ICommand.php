@@ -39,6 +39,7 @@ interface ICommand
      *
      * @param Responses\IResponse $response The console response to write to
      * @return int|null Null or the status code of the command
+     * @throws \RuntimeException Thrown if the command was not setup correctly or could not be executed
      */
     public function execute(Responses\IResponse $response);
 
