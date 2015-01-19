@@ -1,4 +1,4 @@
-REPOS=(applications authentication console cryptography databases files http ioc orm sessions users views)
+REPOS=(applications authentication console cryptography databases files framework http ioc orm sessions users views)
 SUBTREE_DIR="app/rdev"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
 
