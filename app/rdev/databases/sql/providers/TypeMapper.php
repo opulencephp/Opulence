@@ -64,6 +64,23 @@ class TypeMapper
     }
 
     /**
+     * Converts an SQL JSON string to a PHP array
+     *
+     * @param string $json The JSON string to convert
+     * @param Provider $provider The provider to convert from
+     * @return array The PHP array
+     */
+    public function fromSQLJSON($json, Provider $provider = null)
+    {
+        if($json === null)
+        {
+            return [];
+        }
+
+        return json_decode($json, true);
+    }
+
+    /**
      * Converts an SQL time with time zone to a PHP date time
      *
      * @param string $sqlTime The time to convert
@@ -210,6 +227,18 @@ class TypeMapper
         $this->setParameterProvider($provider);
 
         return $date->format($provider->getDateFormat());
+    }
+
+    /**
+     * Converts a PHP array to SQL JSON
+     *
+     * @param array $json The array to convert
+     * @param Provider $provider The provider to convert to
+     * @return string The SQL JSON string suitable for database storage
+     */
+    public function toSQLJSON(array $json, Provider $provider = null)
+    {
+        return json_encode($json);
     }
 
     /**

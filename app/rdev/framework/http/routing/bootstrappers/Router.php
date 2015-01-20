@@ -34,11 +34,7 @@ class Router implements Bootstrappers\IBootstrapper
         $dispatcher = new Dispatchers\Dispatcher($this->container);
         $parser = new Parsers\Parser();
         $compiler = new Compilers\Compiler($parser);
-        $router = new Routing\Router(
-            $dispatcher,
-            $compiler,
-            "Project\\HTTP\\Controllers\\Page"
-        );
+        $router = new Routing\Router($dispatcher, $compiler);
         $urlGenerator = new URL\URLGenerator($router->getRoutes(), $parser);
         $this->container->bind("RDev\\HTTP\\Routing\\URL\\URLGenerator", $urlGenerator);
         $this->container->bind("RDev\\HTTP\\Routing\\Router", $router);

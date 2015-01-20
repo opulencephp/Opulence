@@ -179,6 +179,31 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests converting JSON from null
+     */
+    public function testConvertingJSONFromNull()
+    {
+        $this->assertEquals([], $this->typeMapperWithNoProvider->fromSQLJSON(null, $this->provider));
+        $this->assertEquals([], $this->typeMapperWithProvider->fromSQLJSON(null));
+    }
+
+    /**
+     * Tests converting from SQL JSON
+     */
+    public function testConvertingJSONFromSQL()
+    {
+        $jsonArray = [
+            "foo" => "bar",
+            "baz" => [
+                "blah" => "dave"
+            ]
+        ];
+        $jsonString = json_encode($jsonArray);
+        $this->assertEquals($jsonArray, $this->typeMapperWithNoProvider->fromSQLJSON($jsonString, $this->provider));
+        $this->assertEquals($jsonArray, $this->typeMapperWithProvider->fromSQLJSON($jsonString));
+    }
+
+    /**
      * Tests converting from a null time with time zone returns null
      */
     public function testConvertingTimeWithTimeZoneFromNullReturnsNull()
@@ -231,6 +256,22 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
         $date = new \DateTime("now");
         $this->assertEquals($date->format($this->provider->getDateFormat()), $this->typeMapperWithNoProvider->toSQLDate($date, $this->provider));
         $this->assertEquals($date->format($this->provider->getDateFormat()), $this->typeMapperWithProvider->toSQLDate($date));
+    }
+
+    /**
+     * Tests converting to SQL JSON
+     */
+    public function testConvertingToSQLJSON()
+    {
+        $jsonArray = [
+            "foo" => "bar",
+            "baz" => [
+                "blah" => "dave"
+            ]
+        ];
+        $jsonString = json_encode($jsonArray);
+        $this->assertEquals($jsonString, $this->typeMapperWithNoProvider->toSQLJSON($jsonArray, $this->provider));
+        $this->assertEquals($jsonString, $this->typeMapperWithProvider->toSQLJSON($jsonArray));
     }
 
     /**

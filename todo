@@ -1,7 +1,6 @@
 HAS PRIORITY:
+    Add CommandTester class
     Add table formatter
-
-
     Idea:  Run statement compiler
         Cache results
         Run all other subcompilers
@@ -19,7 +18,6 @@ HAS PRIORITY:
         Basically, allows us to define a section and give it default content
     Find way to display PHP variables inside tags
 
-Need to add more TypeMapper methods
 Need to create session storage classes
     Need to think of how to assign session Ids
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to implement
