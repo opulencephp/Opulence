@@ -16,7 +16,10 @@ class Paths implements \ArrayAccess
      */
     public function __construct(array $paths)
     {
-        $this->paths = $paths;
+        foreach($paths as $key => $value)
+        {
+            $this->paths[$key] = realpath($value);
+        }
     }
 
     /**
@@ -45,7 +48,7 @@ class Paths implements \ArrayAccess
             throw new \InvalidArgumentException("Offset cannot be empty");
         }
 
-        $this->paths[$offset] = $value;
+        $this->paths[$offset] = realpath($value);
     }
 
     /**

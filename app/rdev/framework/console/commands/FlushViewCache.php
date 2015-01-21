@@ -16,13 +16,13 @@ class FlushViewCache extends Commands\Command
     private $cache = null;
 
     /**
-     * @param Cache\ICache $cache The view cache
+     * @param Cache\ICache $fileSystem The view cache
      */
-    public function __construct(Cache\ICache $cache)
+    public function __construct(Cache\ICache $fileSystem)
     {
         parent::__construct();
 
-        $this->cache = $cache;
+        $this->cache = $fileSystem;
     }
 
     /**

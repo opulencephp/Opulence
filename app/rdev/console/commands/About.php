@@ -74,10 +74,24 @@ EOF;
             return "   No commands";
         }
 
+        /**
+         * Sorts the commands by name
+         *
+         * @param ICommand $a
+         * @param ICommand $b
+         * @return int The result of the comparison
+         */
+        $sort = function($a, $b)
+        {
+            return $a->getName() < $b->getName() ? -1 : 1;
+        };
+
+        $commands = $this->commands->getAll();
+        usort($commands, $sort);
         $commandTexts = [];
 
         // Figure out the longest command name
-        foreach($this->commands->getAll() as $command)
+        foreach($commands as $command)
         {
             $commandTexts[] = [$command->getName(), " - " . $command->getDescription()];
         }

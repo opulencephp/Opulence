@@ -18,6 +18,29 @@ class PathsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the real path is what's stored when passing path through constructor
+     */
+    public function testRealPathInConstructor()
+    {
+        $path = __DIR__ . "/../";
+        $realPath = realpath($path);
+        $paths = new Paths(["foo" => $path]);
+        $this->assertEquals($realPath, $paths->offsetGet("foo"));
+    }
+
+    /**
+     * Tests that the real path is what's stored when passing path through setter
+     */
+    public function testRealPathInSetter()
+    {
+        $path = __DIR__ . "/../";
+        $realPath = realpath($path);
+        $paths = new Paths([]);
+        $paths->offsetSet("foo", $path);
+        $this->assertEquals($realPath, $paths->offsetGet("foo"));
+    }
+
+    /**
      * Tests setting a null offset
      */
     public function testSettingNullOffset()

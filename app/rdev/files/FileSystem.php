@@ -437,7 +437,7 @@ class FileSystem
      * @param string $path The path to the file to write to
      * @param mixed $data The string, array, or stream source to write to the file
      * @param int $flags The bitwise-OR'd flags to use (identical to PHP's file_put_contents() flags)
-     * @return int|bool The number of bytes written if successful, otherwise false
+     * @return int The number of bytes written
      * @throws FileSystemException Thrown if there was a problem writing to the file
      */
     public function write($path, $data, $flags = 0)
