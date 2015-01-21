@@ -94,6 +94,11 @@ abstract class RedisDataMapper implements ICacheDataMapper
      */
     protected function loadEntities(array $entityIds)
     {
+        if(count($entityIds) == 0)
+        {
+            return null;
+        }
+
         $entities = [];
 
         // Create and store the entities associated with each Id
