@@ -87,6 +87,32 @@ abstract class RedisDataMapper implements ICacheDataMapper
     abstract protected function loadEntity(array $hash);
 
     /**
+     * Loads multiple entities from their Ids
+     *
+     * @param array $entityIds The list of Ids of entities to load
+     * @return array|null The list of entities if they were all found in cache, otherwise null
+     */
+    protected function loadEntities(array $entityIds)
+    {
+        $entities = [];
+
+        // Create and store the entities associated with each Id
+        foreach($entityIds as $entityId)
+        {
+            $hash = $this->getEntityHashById($entityId);
+
+            if($hash === null)
+            {
+                return null;
+            }
+
+            $entities[] = $this->loadEntity($hash);
+        }
+
+        return $entities;
+    }
+
+    /**
      * Performs the read query for entity(ies) and returns any results
      * This assumes that the Ids for all the entities are stored in a set
      *
@@ -132,20 +158,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
                 return null;
         }
 
-        $entities = [];
-
-        // Create and store the entities associated with each Id
-        foreach($entityIds as $entityId)
-        {
-            $hash = $this->getEntityHashById($entityId);
-
-            if($hash === null)
-            {
-                return null;
-            }
-
-            $entities[] = $this->loadEntity($hash);
-        }
+        $entities = $this->loadEntities($entityIds);
 
         if($valueType == self::VALUE_TYPE_STRING)
         {
