@@ -7,15 +7,16 @@
 namespace RDev\Console\Kernels;
 use Monolog;
 use RDev\Console\Commands;
-use RDev\Console\Commands\Compilers;
+use RDev\Console\Commands\Compilers as CommandCompilers;
 use RDev\Console\Requests;
 use RDev\Console\Requests\Parsers;
 use RDev\Console\Responses;
+use RDev\Console\Responses\Compilers as ResponseCompilers;
 use RDev\Console\Responses\Formatters;
 
 class Kernel
 {
-    /** @var Compilers\ICompiler The command compiler to use */
+    /** @var CommandCompilers\ICompiler The command compiler to use */
     private $commandCompiler = null;
     /** @var Commands\Commands The list of commands to choose from */
     private $commands = null;
@@ -25,13 +26,13 @@ class Kernel
     private $applicationVersion = "Unknown";
 
     /**
-     * @param Compilers\ICompiler $commandCompiler The command compiler to use
+     * @param CommandCompilers\ICompiler $commandCompiler The command compiler to use
      * @param Commands\Commands $commands The list of commands to choose from
      * @param Monolog\Logger $logger The logger to use
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
-        Compilers\ICompiler $commandCompiler,
+        CommandCompilers\ICompiler $commandCompiler,
         Commands\Commands &$commands,
         Monolog\Logger $logger,
         $applicationVersion = "Unknown"
@@ -55,7 +56,7 @@ class Kernel
     {
         if($response === null)
         {
-            $response = new Responses\Console();
+            $response = new Responses\Console(new ResponseCompilers\Compiler());
         }
 
         try
@@ -95,19 +96,19 @@ class Kernel
         }
         catch(\InvalidArgumentException $ex)
         {
-            $response->writeln("Error: " . $ex->getMessage());
+            $response->writeln("<error>{$ex->getMessage()}</error>");
 
             return StatusCodes::ERROR;
         }
         catch(\RuntimeException $ex)
         {
-            $response->writeln("Fatal: " . $ex->getMessage());
+            $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
 
             return StatusCodes::FATAL;
         }
         catch(\Exception $ex)
         {
-            $response->writeln("Fatal: " . $ex->getMessage());
+            $response->writeln("<error>{$ex->getMessage()}</error>");
             $this->logger->addError($ex->getMessage());
 
             return StatusCodes::FATAL;

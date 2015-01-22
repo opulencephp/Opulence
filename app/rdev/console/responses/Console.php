@@ -11,8 +11,13 @@ class Console extends Response
     /** @var mixed The output stream */
     private $stream = null;
 
-    public function __construct()
+    /**
+     * @param Compilers\ICompiler $compiler The response compiler to use
+     */
+    public function __construct(Compilers\ICompiler $compiler)
     {
+        parent::__construct($compiler);
+
         $this->stream = fopen("php://stdout", "w");
     }
 

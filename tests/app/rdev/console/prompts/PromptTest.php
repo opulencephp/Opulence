@@ -5,6 +5,7 @@
  * Tests the console prompt
  */
 namespace RDev\Console\Prompts;
+use RDev\Console\Responses\Compilers;
 use RDev\Tests\Console\Responses\Mocks;
 
 class PromptTest extends \PHPUnit_Framework_TestCase
@@ -17,7 +18,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Mocks\Response();
+        $this->response = new Mocks\Response(new Compilers\Compiler());
     }
 
     /**
@@ -30,7 +31,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals($question->getText(), $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
         $this->assertEquals("Dave", $answer);
     }
 
@@ -44,7 +45,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("Pick" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " > ", $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " > ", $questionText);
         $this->assertEquals("bar", $answer);
     }
 
@@ -58,7 +59,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("Pick" . PHP_EOL . " a) b" . PHP_EOL . " c) d" . PHP_EOL . " > ", $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . " a) b" . PHP_EOL . " c) d" . PHP_EOL . " > ", $questionText);
         $this->assertEquals("d", $answer);
     }
 
@@ -73,7 +74,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("Pick" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " : ", $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " : ", $questionText);
         $this->assertEquals("foo", $answer);
     }
 
@@ -87,7 +88,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals($question->getText(), $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
         $this->assertEquals("Dave", $answer);
     }
 
@@ -147,7 +148,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals($question->getText(), $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m", $questionText);
         $this->assertEquals("unknown", $answer);
     }
 

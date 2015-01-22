@@ -35,7 +35,7 @@ class Prompt
      */
     public function ask(Questions\IQuestion $question, Responses\IResponse $response)
     {
-        $response->write($question->getText());
+        $response->write("<question>{$question->getText()}</question>");
 
         if($question instanceof Questions\MultipleChoice)
         {

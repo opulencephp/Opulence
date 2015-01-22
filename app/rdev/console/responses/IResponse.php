@@ -5,6 +5,7 @@
  * Defines the interface for console responses to implement
  */
 namespace RDev\Console\Responses;
+use RDev\Console\Responses\Formatters\Elements;
 
 interface IResponse
 {
@@ -14,9 +15,17 @@ interface IResponse
     public function clear();
 
     /**
+     * Gets element registry associated with this response
+     *
+     * @return Elements\ElementRegistry The element registry
+     */
+    public function getElementRegistry();
+
+    /**
      * Writes to output
      *
      * @param string|array $messages The message or messages to display
+     * @throws \RuntimeException Thrown if there was an issue writing the messages
      */
     public function write($messages);
 
@@ -24,6 +33,7 @@ interface IResponse
      * Writes to output with a newline character at the end
      *
      * @param string|array $messages The message or messages to display
+     * @throws \RuntimeException Thrown if there was an issue writing the messages
      */
     public function writeln($messages);
 }

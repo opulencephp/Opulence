@@ -1,7 +1,7 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- * 
+ *
  * Defines the about command
  */
 namespace RDev\Console\Commands;
@@ -13,9 +13,9 @@ class About extends Command
     /** @var string The template for the output */
     private static $template = <<<EOF
 -----------------------------
-About RDev Console {{version}}
+About <b>RDev Console</b> {{version}}
 -----------------------------
-Commands:
+<comment>Commands:</comment>
 {{commands}}
 EOF;
     /** @var Commands The list of commands registered */
@@ -71,7 +71,7 @@ EOF;
     {
         if(count($this->commands->getAll()) == 0)
         {
-            return "   No commands";
+            return "   <info>No commands</info>";
         }
 
         /**
@@ -93,7 +93,7 @@ EOF;
         // Figure out the longest command name
         foreach($commands as $command)
         {
-            $commandTexts[] = [$command->getName(), " - " . $command->getDescription()];
+            $commandTexts[] = ["<info>{$command->getName()}</info>", " - {$command->getDescription()}"];
         }
 
         return $this->spacePaddingFormatter->format($commandTexts, function($line)

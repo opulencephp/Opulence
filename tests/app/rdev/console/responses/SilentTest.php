@@ -16,7 +16,7 @@ class SilentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Silent();
+        $this->response = new Silent(new Compilers\Compiler());
     }
 
     /**

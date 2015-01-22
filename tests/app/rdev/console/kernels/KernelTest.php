@@ -7,16 +7,17 @@
 namespace RDev\Console\Kernels;
 use Monolog;
 use RDev\Console\Commands;
-use RDev\Console\Commands\Compilers;
+use RDev\Console\Commands\Compilers as CommandCompilers;
 use RDev\Console\Requests\Parsers;
 use RDev\Console\Requests\Parsers\Tokenizers;
+use RDev\Console\Responses\Compilers as ResponseCompilers;
 use RDev\Tests\Applications\Mocks as ApplicationMocks;
 use RDev\Tests\Console\Commands\Mocks as CommandMocks;
 use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
 
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
-    /** @var Compilers\Compiler The command compiler */
+    /** @var CommandCompilers\Compiler The command compiler */
     private $compiler = null;
     /** @var Commands\Commands The list of commands */
     private $commands = null;
@@ -34,12 +35,12 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         $logger = new Monolog\Logger("application");
         $logger->pushHandler(new ApplicationMocks\MonologHandler());
-        $this->compiler = new Compilers\Compiler();
+        $this->compiler = new CommandCompilers\Compiler();
         $this->commands = new Commands\Commands();
         $this->commands->add(new CommandMocks\SimpleCommand("mockcommand", "Mocks a command"));
         $this->commands->add(new CommandMocks\HappyHolidayCommand());
         $this->parser = new Parsers\String(new Tokenizers\String());
-        $this->response = new ResponseMocks\Response();
+        $this->response = new ResponseMocks\Response(new ResponseCompilers\Compiler());
         $this->kernel = new Kernel($this->compiler, $this->commands, $logger, "0.0.0");
     }
 
@@ -50,9 +51,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
         $status = $this->kernel->handle($this->parser, "unclosed quote '", $this->response);
-        $response = ob_get_clean();
+        ob_end_clean();
         $this->assertEquals(StatusCodes::FATAL, $status);
-        $this->assertEquals("Fatal: ", substr($response, 0, 7));
     }
 
     /**
@@ -92,9 +92,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         ob_start();
         $status = $this->kernel->handle($this->parser, "help fake", $this->response);
-        $response = ob_get_clean();
+        ob_end_clean();
         $this->assertEquals(StatusCodes::ERROR, $status);
-        $this->assertEquals("Error: ", substr($response, 0, 7));
     }
 
     /**

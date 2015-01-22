@@ -14,15 +14,15 @@ class Help extends Command
     /** @var string The template for the output */
     private static $template = <<<EOF
 -----------------------------
-Command: {{name}}
+Command: <info>{{name}}</info>
 -----------------------------
-{{command}}
+<b>{{command}}</b>
 
-Description:
+<comment>Description:</comment>
    {{description}}
-Arguments:
+<comment>Arguments:</comment>
 {{arguments}}
-Options:
+<comment>Options:</comment>
 {{options}}{{helpText}}
 EOF;
     /** @var ICommand The command to help with */
@@ -121,7 +121,10 @@ EOF;
 
         foreach($this->command->getArguments() as $argument)
         {
-            $argumentTexts[] = [$argument->getName(), " - " . $argument->getDescription()];
+            $argumentTexts[] = [
+                "<info>{$argument->getName()}</info>",
+                " - {$argument->getDescription()}"
+            ];
         }
 
         return $this->spacePaddingFormatter->format($argumentTexts, function($line)
@@ -146,7 +149,10 @@ EOF;
 
         foreach($this->command->getOptions() as $option)
         {
-            $optionTexts[] = [$this->getOptionsNames($option), " - " . $option->getDescription()];
+            $optionTexts[] = [
+                "<info>{$this->getOptionsNames($option)}</info>",
+                " - {$option->getDescription()}"
+            ];
         }
 
         return $this->spacePaddingFormatter->format($optionTexts, function($line)

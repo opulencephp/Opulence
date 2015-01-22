@@ -5,9 +5,40 @@
  * Defines a basic response
  */
 namespace RDev\Console\Responses;
+use RDev\Console\Responses\Formatters\Elements;
 
 abstract class Response implements IResponse
 {
+    /** @var Compilers\ICompiler The response compiler to use */
+    protected $compiler = null;
+    /** @var Elements\ElementRegistry The element registry */
+    protected $elementRegistry = [];
+
+    /**
+     * @param Compilers\ICompiler $compiler The response compiler to use
+     */
+    public function __construct(Compilers\ICompiler $compiler)
+    {
+        $this->compiler = $compiler;
+        // Register the built-in elements
+        $this->elementRegistry = new Elements\ElementRegistry();
+        $this->elementRegistry->registerElement(new Elements\Element("info", new Elements\Style("green")));
+        $this->elementRegistry->registerElement(new Elements\Element("error", new Elements\Style("black", "yellow")));
+        $this->elementRegistry->registerElement(new Elements\Element("fatal", new Elements\Style("white", "red")));
+        $this->elementRegistry->registerElement(new Elements\Element("question", new Elements\Style("white", "blue")));
+        $this->elementRegistry->registerElement(new Elements\Element("comment", new Elements\Style("yellow")));
+        $this->elementRegistry->registerElement(new Elements\Element("b", new Elements\Style(null, null, ["bold"])));
+        $this->elementRegistry->registerElement(new Elements\Element("u", new Elements\Style(null, null, ["underline"])));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getElementRegistry()
+    {
+        return $this->elementRegistry;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -20,7 +51,7 @@ abstract class Response implements IResponse
 
         foreach($messages as $message)
         {
-            $this->doWrite($message, false);
+            $this->doWrite($this->compiler->compile($message, $this->elementRegistry), false);
         }
     }
 
@@ -36,7 +67,7 @@ abstract class Response implements IResponse
 
         foreach($messages as $message)
         {
-            $this->doWrite($message, true);
+            $this->doWrite($this->compiler->compile($message, $this->elementRegistry), true);
         }
     }
 
