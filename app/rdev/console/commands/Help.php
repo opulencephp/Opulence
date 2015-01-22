@@ -89,7 +89,7 @@ EOF;
 
             if($this->command->getHelpText() != "")
             {
-                $helpText = PHP_EOL . "Help:" . PHP_EOL . "   " . $this->command->getHelpText();
+                $helpText = PHP_EOL . "<comment>Help:</comment>" . PHP_EOL . "   " . $this->command->getHelpText();
             }
 
             // Compile the template
