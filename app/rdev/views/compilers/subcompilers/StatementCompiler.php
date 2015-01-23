@@ -81,6 +81,7 @@ class StatementCompiler extends SubCompiler
             {
                 case "part":
                     $template->setPart($matches[3], $matches[4]);
+                    
                     break;
             }
 

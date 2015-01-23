@@ -150,6 +150,7 @@ abstract class ConnectionPool
         {
             case "master":
                 $this->servers["master"] = ["server" => $server, "connection" => null];
+
                 break;
             default:
                 $serverHashId = spl_object_hash($server);

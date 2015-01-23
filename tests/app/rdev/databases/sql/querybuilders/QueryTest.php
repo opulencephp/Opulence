@@ -141,6 +141,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
             if($parameterData[0] == "bar")
             {
                 $fooFound = true;
+
                 break;
             }
         }

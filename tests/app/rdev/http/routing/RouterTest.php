@@ -496,24 +496,31 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         {
             case Requests\Request::METHOD_DELETE:
                 $routeToHandle = $deleteRoute;
+
                 break;
             case Requests\Request::METHOD_GET:
                 $routeToHandle = $getRoute;
+
                 break;
             case Requests\Request::METHOD_POST:
                 $routeToHandle = $postRoute;
+
                 break;
             case Requests\Request::METHOD_PUT:
                 $routeToHandle = $putRoute;
+
                 break;
             case Requests\Request::METHOD_HEAD:
                 $routeToHandle = $headRoute;
+
                 break;
             case Requests\Request::METHOD_OPTIONS:
                 $routeToHandle = $optionsRoute;
+
                 break;
             case Requests\Request::METHOD_PATCH:
                 $routeToHandle = $patchRoute;
+
                 break;
         }
 

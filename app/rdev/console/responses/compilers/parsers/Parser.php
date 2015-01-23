@@ -24,11 +24,13 @@ class Parser implements IParser
             {
                 case Tokens\TokenTypes::T_WORD:
                     $ast->getCurrentNode()->addChild(new Nodes\WordNode($token->getValue()));
+
                     break;
                 case Tokens\TokenTypes::T_TAG_OPEN:
                     $childNode = new Nodes\TagNode($token->getValue());
                     $ast->getCurrentNode()->addChild($childNode);
                     $ast->setCurrentNode($childNode);
+
                     break;
                 case Tokens\TokenTypes::T_TAG_CLOSE:
                     if($ast->getCurrentNode()->getValue() != $token->getValue())

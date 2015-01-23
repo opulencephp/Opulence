@@ -215,36 +215,47 @@ class Request
         {
             case "delete":
                 $this->method = self::METHOD_DELETE;
+
                 break;
             case "get":
                 $this->method = self::METHOD_GET;
+
                 break;
             case "post":
                 $this->method = self::METHOD_POST;
+
                 break;
             case "put":
                 $this->method = self::METHOD_PUT;
+
                 break;
             case "head":
                 $this->method = self::METHOD_HEAD;
+
                 break;
             case "trace":
                 $this->method = self::METHOD_TRACE;
+
                 break;
             case "purge":
                 $this->method = self::METHOD_PURGE;
+
                 break;
             case "connect":
                 $this->method = self::METHOD_CONNECT;
+
                 break;
             case "patch":
                 $this->method = self::METHOD_PATCH;
+
                 break;
             case "options":
                 $this->method = self::METHOD_OPTIONS;
+
                 break;
             default:
                 $this->method = self::METHOD_GET;
+
                 break;
         }
     }
