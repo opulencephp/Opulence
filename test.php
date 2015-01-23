@@ -13,9 +13,9 @@ $parser = new Parser();
 $lexer = new Lexer();
 $compiler = new Compiler($lexer, $parser);
 $elementRegistry = new ElementRegistry();
-$elementRegistry->registerElement(new Element("foo", new Style("green", "white")));
-$elementRegistry->registerElement(new Element("bar", new Style("cyan")));
-echo $compiler->compile("<foo><bar>blah</bar></foo>", $elementRegistry);
+$elementRegistry->registerElement(new Element("y", new Style("green", "white")));
+$elementRegistry->registerElement(new Element("z", new Style("cyan")));
+echo $compiler->compile("<y>a<z>b</z>c</y>", $elementRegistry);
 /*$tokens =  [
     new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo"),
     new Tokens\Token(Tokens\TokenTypes::T_WORD, "baz"),

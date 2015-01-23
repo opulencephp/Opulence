@@ -4,7 +4,7 @@
  * 
  * Defines the interface for tokenizers to implement
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 interface ITokenizer
 {

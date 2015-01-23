@@ -15,5 +15,4 @@ class WordNode extends Node
     {
         return false;
     }
-
 }

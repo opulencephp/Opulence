@@ -61,7 +61,6 @@ class Compiler implements ICompiler
                 return "";
             }
 
-            // Apply the parent's style
             return $node->getValue();
         }
         else

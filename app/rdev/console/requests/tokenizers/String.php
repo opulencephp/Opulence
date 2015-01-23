@@ -4,7 +4,7 @@
  *
  * Defines the string tokenizer
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 class String implements ITokenizer
 {

@@ -4,7 +4,7 @@
  * 
  * Defines the argv tokenizer
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 class Argv implements ITokenizer
 {

@@ -9,7 +9,7 @@ use Monolog;
 use RDev\Console\Commands;
 use RDev\Console\Commands\Compilers as CommandCompilers;
 use RDev\Console\Requests\Parsers;
-use RDev\Console\Requests\Parsers\Tokenizers;
+use RDev\Console\Requests\Tokenizers;
 use RDev\Console\Responses\Compilers as ResponseCompilers;
 use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
 use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;

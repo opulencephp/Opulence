@@ -83,6 +83,27 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests lexing multiple lines
+     */
+    public function testLexingMultipleLines()
+    {
+        // We record the EOL length because it differs on OSs
+        $eolLength = strlen(PHP_EOL);
+        $text = "<foo>" . PHP_EOL . "bar" . PHP_EOL . "</foo>" . PHP_EOL . "baz";
+        $expectedOutput = [
+            new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 0),
+            new Tokens\Token(Tokens\TokenTypes::T_WORD, PHP_EOL . "bar" . PHP_EOL, 5),
+            new Tokens\Token(Tokens\TokenTypes::T_TAG_CLOSE, "foo", 8 + (2 * $eolLength)),
+            new Tokens\Token(Tokens\TokenTypes::T_WORD, PHP_EOL . "baz", 16),
+            new Tokens\Token(Tokens\TokenTypes::T_EOF, null, 19 + $eolLength)
+        ];
+        $this->assertEquals(
+            $expectedOutput,
+            $this->lexer->lex($text)
+        );
+    }
+
+    /**
      * Tests lexing nested elements
      */
     public function testLexingNestedElements()

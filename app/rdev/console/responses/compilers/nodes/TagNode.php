@@ -15,5 +15,4 @@ class TagNode extends Node
     {
         return true;
     }
-
 }

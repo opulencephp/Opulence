@@ -4,7 +4,7 @@
  * 
  * Defines the array list tokenizer
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 class ArrayList implements ITokenizer
 {

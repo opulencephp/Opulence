@@ -4,7 +4,7 @@
  * 
  * Tests the array list tokenizer
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 class ArrayListTest extends \PHPUnit_Framework_TestCase 
 {

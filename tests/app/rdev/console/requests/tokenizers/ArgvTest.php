@@ -4,7 +4,7 @@
  * 
  * Tests the argv tokenizer
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 class ArgvTest extends \PHPUnit_Framework_TestCase 
 {

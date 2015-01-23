@@ -4,11 +4,11 @@
  * 
  * Tests the string tokenizer
  */
-namespace RDev\Console\Requests\Parsers\Tokenizers;
+namespace RDev\Console\Requests\Tokenizers;
 
 class StringTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \RDev\Console\Requests\Parsers\Tokenizers\String The tokenizer to use in tests */
+    /** @var \RDev\Console\Requests\Tokenizers\String The tokenizer to use in tests */
     private $tokenizer = null;
 
     /**

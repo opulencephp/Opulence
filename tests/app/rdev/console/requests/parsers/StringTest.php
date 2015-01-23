@@ -5,6 +5,7 @@
  * Tests the string parser
  */
 namespace RDev\Console\Requests\Parsers;
+use RDev\Console\Requests\Tokenizers;
 
 class StringTest extends \PHPUnit_Framework_TestCase 
 {

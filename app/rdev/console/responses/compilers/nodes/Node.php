@@ -54,7 +54,7 @@ abstract class Node
     /**
      * Gets the parent node
      *
-     * @return null|Node The parent node if there is one, otherwise null
+     * @return Node The parent node
      */
     public function getParent()
     {

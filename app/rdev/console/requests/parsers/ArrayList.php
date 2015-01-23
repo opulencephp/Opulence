@@ -5,7 +5,7 @@
  * Defines the array list parser
  */
 namespace RDev\Console\Requests\Parsers;
-use RDev\Console\Requests;
+use RDev\Console\Requests\Tokenizers;
 
 class ArrayList extends Parser
 {

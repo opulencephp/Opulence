@@ -5,7 +5,7 @@
  * Defines the argv parser
  */
 namespace RDev\Console\Requests\Parsers;
-use RDev\Console\Requests;
+use RDev\Console\Requests\Tokenizers;
 
 class Argv extends Parser
 {
