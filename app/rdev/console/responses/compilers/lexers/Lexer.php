@@ -112,7 +112,7 @@ class Lexer implements ILexer
             }
         }
 
-        // Finish flushing the output buffer
+        // Finish flushing the word buffer
         if($wordBuffer !== "")
         {
             $tokens[] = new Tokens\Token(

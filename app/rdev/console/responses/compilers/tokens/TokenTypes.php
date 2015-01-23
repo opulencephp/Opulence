@@ -10,7 +10,7 @@ class TokenTypes
 {
     /** Defines an unknown token type */
     const T_UNKNOWN = 1;
-    /** The end of file token type */
+    /** Defines an end of file token type */
     const T_EOF = 2;
     /** Defines a word token type */
     const T_WORD = 3;

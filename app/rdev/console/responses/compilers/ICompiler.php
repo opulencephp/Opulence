@@ -13,9 +13,8 @@ interface ICompiler
      * Compiles a message
      *
      * @param string $message The message to compile
-     * @param Elements\ElementRegistry $elementRegistry The element registry associated with the response
      * @return string The compiled message
      * @throws \RuntimeException Thrown if there was an issue compiling the message
      */
-    public function compile($message, Elements\ElementRegistry $elementRegistry);
+    public function compile($message);
 }

@@ -15,14 +15,14 @@ class Style
      * @var array
      */
     private static $supportedForegroundColors = [
-        "black" => [30, 39],
-        "red" => [31, 39],
-        "green" => [32, 39],
-        "yellow" => [33, 39],
-        "blue" => [34, 39],
-        "magenta" => [35, 39],
-        "cyan" => [36, 39],
-        "white" => [37, 39]
+        Colors::BLACK => [30, 39],
+        Colors::RED => [31, 39],
+        Colors::GREEN => [32, 39],
+        Colors::YELLOW => [33, 39],
+        Colors::BLUE => [34, 39],
+        Colors::MAGENTA => [35, 39],
+        Colors::CYAN => [36, 39],
+        Colors::WHITE => [37, 39]
     ];
     /**
      * The list of possible background colors
@@ -31,14 +31,14 @@ class Style
      * @var array
      */
     private static $supportedBackgroundColors = [
-        "black" => [40, 49],
-        "red" => [41, 49],
-        "green" => [42, 49],
-        "yellow" => [43, 49],
-        "blue" => [44, 49],
-        "magenta" => [45, 49],
-        "cyan" => [46, 49],
-        "white" => [47, 49]
+        Colors::BLACK => [40, 49],
+        Colors::RED => [41, 49],
+        Colors::GREEN => [42, 49],
+        Colors::YELLOW => [43, 49],
+        Colors::BLUE => [44, 49],
+        Colors::MAGENTA => [45, 49],
+        Colors::CYAN => [46, 49],
+        Colors::WHITE => [47, 49]
     ];
     /**
      * The list of possible text styles
@@ -47,9 +47,9 @@ class Style
      * @var array
      */
     private static $supportedTextStyles = [
-        "bold" => [1, 22],
-        "underline" => [4, 24],
-        "blink" => [5, 25]
+        TextStyles::BOLD => [1, 22],
+        TextStyles::UNDERLINE => [4, 24],
+        TextStyles::BLINK => [5, 25]
     ];
     /** @var string|null The foreground color */
     private $foregroundColor = null;

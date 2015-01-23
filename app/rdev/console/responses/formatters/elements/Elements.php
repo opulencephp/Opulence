@@ -2,14 +2,33 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Defines the element registry
+ * Defines the element collection
  */
 namespace RDev\Console\Responses\Formatters\Elements;
 
-class ElementRegistry
+class Elements
 {
     /** @var Element[] The list of registered elements */
     private $elements = [];
+
+    /**
+     * Adds an element that can be displayed in the response
+     *
+     * @param Element|Element[] $elements The element or elements to add
+     */
+    public function add($elements)
+    {
+        if(!is_array($elements))
+        {
+            $elements = [$elements];
+        }
+
+        /** @var Element $element */
+        foreach($elements as $element)
+        {
+            $this->elements[$element->getName()] = $element;
+        }
+    }
 
     /**
      * Gets the registered element with the input name
@@ -20,7 +39,7 @@ class ElementRegistry
      */
     public function getElement($name)
     {
-        if(!$this->isRegistered($name))
+        if(!$this->has($name))
         {
             throw new \InvalidArgumentException("No element with name \"$name\" exists");
         }
@@ -44,18 +63,8 @@ class ElementRegistry
      * @param string $name The name to search for
      * @return bool True if an element is registered with the name, otherwise false
      */
-    public function isRegistered($name)
+    public function has($name)
     {
         return isset($this->elements[$name]);
-    }
-
-    /**
-     * Registers an element that can be displayed in the response
-     *
-     * @param Element $element The element to register
-     */
-    public function registerElement(Element $element)
-    {
-        $this->elements[$element->getName()] = $element;
     }
 }

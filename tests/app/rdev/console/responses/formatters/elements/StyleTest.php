@@ -34,10 +34,10 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testDoubleAddingTextStyle()
     {
         $style = new Style();
-        $style->addTextStyle("bold");
-        $style->addTextStyle("bold");
-        $style->addTextStyles(["underline", "underline"]);
-        $this->assertEquals(["bold", "underline"], $style->getTextStyles());
+        $style->addTextStyle(TextStyles::BOLD);
+        $style->addTextStyle(TextStyles::BOLD);
+        $style->addTextStyles([TextStyles::UNDERLINE, TextStyles::UNDERLINE]);
+        $this->assertEquals([TextStyles::BOLD, TextStyles::UNDERLINE], $style->getTextStyles());
     }
 
     /**
@@ -45,7 +45,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingStringWithAllStyles()
     {
-        $styles = new Style("red", "green", ["bold", "underline", "blink"]);
+        $styles = new Style(COLORS::RED, COLORS::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
         $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format("foo"));
     }
 
@@ -54,7 +54,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingEmptyString()
     {
-        $styles = new Style("red", "green", ["bold", "underline", "blink"]);
+        $styles = new Style(COLORS::RED, COLORS::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
         $this->assertEquals("", $styles->format(""));
     }
 
@@ -82,9 +82,9 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingColorsInConstructor()
     {
-        $style = new Style("blue", "green");
-        $this->assertEquals("blue", $style->getForegroundColor());
-        $this->assertEquals("green", $style->getBackgroundColor());
+        $style = new Style(COLORS::BLUE, COLORS::GREEN);
+        $this->assertEquals(COLORS::BLUE, $style->getForegroundColor());
+        $this->assertEquals(COLORS::GREEN, $style->getBackgroundColor());
     }
 
     /**
@@ -94,7 +94,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         $style = new Style();
-        $style->addTextStyle("bold");
+        $style->addTextStyle(TextStyles::BOLD);
         $style->removeTextStyle("foo");
     }
 
@@ -103,8 +103,8 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingTextStyle()
     {
-        $style = new Style(null, null, ["bold"]);
-        $style->removeTextStyle("bold");
+        $style = new Style(null, null, [TextStyles::BOLD]);
+        $style->removeTextStyle(TextStyles::BOLD);
         $this->assertEquals([], $style->getTextStyles());
     }
 
@@ -114,8 +114,8 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testSettingBackgroundColor()
     {
         $style = new Style();
-        $style->setBackgroundColor("green");
-        $this->assertEquals("green", $style->getBackgroundColor());
+        $style->setBackgroundColor(COLORS::GREEN);
+        $this->assertEquals(COLORS::GREEN, $style->getBackgroundColor());
     }
 
     /**
@@ -124,8 +124,8 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     public function testSettingForegroundColor()
     {
         $style = new Style();
-        $style->setForegroundColor("blue");
-        $this->assertEquals("blue", $style->getForegroundColor());
+        $style->setForegroundColor(COLORS::BLUE);
+        $this->assertEquals(COLORS::BLUE, $style->getForegroundColor());
     }
 
     /**

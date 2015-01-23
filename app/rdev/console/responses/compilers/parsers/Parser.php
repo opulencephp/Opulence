@@ -16,22 +16,22 @@ class Parser implements IParser
      */
     public function parse(array $tokens)
     {
-        $tree = new AbstractSyntaxTree();
+        $ast = new AbstractSyntaxTree();
 
         foreach($tokens as $token)
         {
             switch($token->getType())
             {
                 case Tokens\TokenTypes::T_WORD:
-                    $tree->getCurrentNode()->addChild(new Nodes\WordNode($token->getValue()));
+                    $ast->getCurrentNode()->addChild(new Nodes\WordNode($token->getValue()));
                     break;
                 case Tokens\TokenTypes::T_TAG_OPEN:
                     $childNode = new Nodes\TagNode($token->getValue());
-                    $tree->getCurrentNode()->addChild($childNode);
-                    $tree->setCurrentNode($childNode);
+                    $ast->getCurrentNode()->addChild($childNode);
+                    $ast->setCurrentNode($childNode);
                     break;
                 case Tokens\TokenTypes::T_TAG_CLOSE:
-                    if($tree->getCurrentNode()->getValue() != $token->getValue())
+                    if($ast->getCurrentNode()->getValue() != $token->getValue())
                     {
                         throw new \RuntimeException(
                             sprintf(
@@ -43,17 +43,17 @@ class Parser implements IParser
                     }
 
                     // Move up one in the tree
-                    $tree->setCurrentNode($tree->getCurrentNode()->getParent());
+                    $ast->setCurrentNode($ast->getCurrentNode()->getParent());
 
                     break;
                 case Tokens\TokenTypes::T_EOF:
-                    if(!$tree->getCurrentNode()->isRoot())
+                    if(!$ast->getCurrentNode()->isRoot())
                     {
                         throw new \RuntimeException(
                             sprintf(
                                 "Unclosed %s \"%s\"",
-                                $tree->getCurrentNode()->isTag() ? "tag" : "node",
-                                $tree->getCurrentNode()->getValue()
+                                $ast->getCurrentNode()->isTag() ? "tag" : "node",
+                                $ast->getCurrentNode()->getValue()
                             )
                         );
                     }
@@ -71,6 +71,6 @@ class Parser implements IParser
             }
         }
 
-        return $tree;
+        return $ast;
     }
 }

@@ -13,6 +13,8 @@ class Compiler implements ICompiler
     private $lexer = null;
     /** @var Parsers\IParser The parser to use */
     private $parser = null;
+    /** @var Elements\Elements The list of elements registered to the compiler */
+    private $elements = null;
 
     /**
      * @param Lexers\ILexer $lexer The lexer to use
@@ -22,19 +24,30 @@ class Compiler implements ICompiler
     {
         $this->lexer = $lexer;
         $this->parser = $parser;
+        // Register the built-in elements
+        $this->elements = new Elements\Elements();
+        $this->elements->add([
+            new Elements\Element("info", new Elements\Style(Elements\Colors::GREEN)),
+            new Elements\Element("error", new Elements\Style(Elements\Colors::BLACK, Elements\Colors::YELLOW)),
+            new Elements\Element("fatal", new Elements\Style(Elements\Colors::WHITE, Elements\Colors::RED)),
+            new Elements\Element("question", new Elements\Style(Elements\Colors::WHITE, Elements\Colors::BLUE)),
+            new Elements\Element("comment", new Elements\Style(Elements\Colors::YELLOW)),
+            new Elements\Element("b", new Elements\Style(null, null, [Elements\TextStyles::BOLD])),
+            new Elements\Element("u", new Elements\Style(null, null, [Elements\TextStyles::UNDERLINE]))
+        ]);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function compile($message, Elements\ElementRegistry $elementRegistry)
+    public function compile($message)
     {
         try
         {
             $tokens = $this->lexer->lex($message);
             $ast = $this->parser->parse($tokens);
 
-            return $this->compileNode($ast->getRootNode(), $elementRegistry);
+            return $this->compileNode($ast->getRootNode());
         }
         catch(\InvalidArgumentException $ex)
         {
@@ -43,15 +56,22 @@ class Compiler implements ICompiler
     }
 
     /**
+     * @return Elements\Elements
+     */
+    public function getElements()
+    {
+        return $this->elements;
+    }
+
+    /**
      * Recursively compiles a node and its children
      *
      * @param Nodes\Node $node The node to compile
-     * @param Elements\ElementRegistry $elementRegistry The element registry
      * @return string The compiled node
      * @throws \RuntimeException Thrown if there was an error compiling the node
      * @throws \InvalidArgumentException Thrown if there is no matching element for a particular tag
      */
-    private function compileNode(Nodes\Node $node, Elements\ElementRegistry $elementRegistry)
+    private function compileNode(Nodes\Node $node)
     {
         if($node->isLeaf())
         {
@@ -71,12 +91,12 @@ class Compiler implements ICompiler
             {
                 if($node->isTag())
                 {
-                    $element = $elementRegistry->getElement($node->getValue());
-                    $output .= $element->getStyle()->format($this->compileNode($childNode, $elementRegistry));
+                    $element = $this->elements->getElement($node->getValue());
+                    $output .= $element->getStyle()->format($this->compileNode($childNode));
                 }
                 else
                 {
-                    $output .= $this->compileNode($childNode, $elementRegistry);
+                    $output .= $this->compileNode($childNode);
                 }
             }
 

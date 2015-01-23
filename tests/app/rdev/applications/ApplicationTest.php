@@ -313,7 +313,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking if a shutdown application is no longer running
      */
-    public function testsCheckingIfAShutdownApplicationIsNotRunning()
+    public function testCheckingIfAShutdownApplicationIsNotRunning()
     {
         $this->application->start();
         $this->application->shutdown();
@@ -323,7 +323,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking if a started application is running
      */
-    public function testsCheckingIfAStartedApplicationIsRunning()
+    public function testCheckingIfAStartedApplicationIsRunning()
     {
         $this->application->start();
         $this->assertTrue($this->application->isRunning());

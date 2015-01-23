@@ -11,7 +11,7 @@ class Version extends Command
 {
     /** @var string The template for the output */
     private static $template = <<<EOF
-RDev Console {{version}}
+<info>RDev Console {{version}}</info>
 EOF;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";

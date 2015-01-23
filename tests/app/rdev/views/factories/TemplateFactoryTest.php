@@ -168,7 +168,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests registering a builder
      */
-    public function testsRegisteringBuilder()
+    public function testRegisteringBuilder()
     {
         $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
         {
@@ -181,7 +181,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests registering multiple builders
      */
-    public function testsRegisteringMultipleBuilders()
+    public function testRegisteringMultipleBuilders()
     {
         $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
             {

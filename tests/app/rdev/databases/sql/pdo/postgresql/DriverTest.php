@@ -13,7 +13,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests creating the DSN with an SSL mode specified
      */
-    public function testsCreatingDSNWithSSLMode()
+    public function testCreatingDSNWithSSLMode()
     {
         $server = new Mocks\Server();
         $driver = new Driver();
@@ -27,7 +27,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests creating the DSN without an SSL mode specified
      */
-    public function testsCreatingDSNWithoutSSLMode()
+    public function testCreatingDSNWithoutSSLMode()
     {
         $server = new Mocks\Server();
         $driver = new Driver();

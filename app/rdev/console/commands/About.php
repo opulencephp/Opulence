@@ -93,12 +93,12 @@ EOF;
         // Figure out the longest command name
         foreach($commands as $command)
         {
-            $commandTexts[] = ["<info>{$command->getName()}</info>", " - {$command->getDescription()}"];
+            $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
         return $this->spacePaddingFormatter->format($commandTexts, function($line)
         {
-            return "   " . $line[0] . $line[1];
+            return "   <info>{$line[0]}</info> - {line[1]}";
         });
     }
 }

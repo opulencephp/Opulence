@@ -34,23 +34,6 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the built-in elements
-     */
-    public function testGettingBuiltInElements()
-    {
-        $expectedElements = [
-            new Elements\Element("info", new Elements\Style("green")),
-            new Elements\Element("error", new Elements\Style("black", "yellow")),
-            new Elements\Element("fatal", new Elements\Style("white", "red")),
-            new Elements\Element("question", new Elements\Style("white", "blue")),
-            new Elements\Element("comment", new Elements\Style("yellow")),
-            new Elements\Element("b", new Elements\Style(null, null, ["bold"])),
-            new Elements\Element("u", new Elements\Style(null, null, ["underline"]))
-        ];
-        $this->assertEquals($expectedElements, $this->response->getElementRegistry()->getElements());
-    }
-
-    /**
      * Tests writing multiple messages with new lines
      */
     public function testWritingMultipleMessagesWithNewLines()

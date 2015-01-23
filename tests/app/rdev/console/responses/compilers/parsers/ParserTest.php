@@ -39,9 +39,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing adjacent elements
+     * Tests parsing adjacent elements
      */
-    public function testLexingAdjacentElements()
+    public function testParsingAdjacentElements()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 1),
@@ -66,9 +66,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing an element with no children
+     * Tests parsing an element with no children
      */
-    public function testLexingElementWithNoChildren()
+    public function testParsingElementWithNoChildren()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 1),
@@ -85,9 +85,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing an escaped tag at the beginning of the string
+     * Tests parsing an escaped tag at the beginning of the string
      */
-    public function testLexingEscapedTagAtBeginning()
+    public function testParsingEscapedTagAtBeginning()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_WORD, "<bar>", 1),
@@ -100,9 +100,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing an escaped tag in between tags
+     * Tests parsing an escaped tag in between tags
      */
-    public function testLexingEscapedTagInBetweenTags()
+    public function testParsingEscapedTagInBetweenTags()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 1),
@@ -118,9 +118,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing nested elements
+     * Tests parsing nested elements
      */
-    public function testLexingNestedElements()
+    public function testParsingNestedElements()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 1),
@@ -147,9 +147,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing nested elements surrounded by words
+     * Tests parsing nested elements surrounded by words
      */
-    public function testLexingNestedElementsSurroundedByWords()
+    public function testParsingNestedElementsSurroundedByWords()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_WORD, "dave", 1),
@@ -180,9 +180,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing nested elements with no children
+     * Tests parsing nested elements with no children
      */
-    public function testLexingNestedElementsWithNoChildren()
+    public function testParsingNestedElementsWithNoChildren()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 1),
@@ -202,9 +202,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing plain text
+     * Tests parsing plain text
      */
-    public function testLexingPlainText()
+    public function testParsingPlainText()
     {
         $tokens = [
             new Tokens\Token(Tokens\TokenTypes::T_WORD, "foobar", 1),
@@ -220,9 +220,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests lexing a single element
+     * Tests parsing a single element
      */
-    public function testLexingSingleElement()
+    public function testParsingSingleElement()
     {
         $tokens =  [
             new Tokens\Token(Tokens\TokenTypes::T_TAG_OPEN, "foo", 1),

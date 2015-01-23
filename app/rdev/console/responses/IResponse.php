@@ -15,13 +15,6 @@ interface IResponse
     public function clear();
 
     /**
-     * Gets element registry associated with this response
-     *
-     * @return Elements\ElementRegistry The element registry
-     */
-    public function getElementRegistry();
-
-    /**
      * Writes to output
      *
      * @param string|array $messages The message or messages to display

@@ -121,16 +121,31 @@ EOF;
 
         foreach($this->command->getArguments() as $argument)
         {
-            $argumentTexts[] = [
-                "<info>{$argument->getName()}</info>",
-                " - {$argument->getDescription()}"
-            ];
+            $argumentTexts[] = [$argument->getName(), $argument->getDescription()];
         }
 
         return $this->spacePaddingFormatter->format($argumentTexts, function($line)
         {
-            return "   " . $line[0] . $line[1];
+            return "   <info>{$line[0]}</info> - {$line[1]}";
         });
+    }
+
+    /**
+     * Gets the option names as a formatted string
+     *
+     * @param Requests\Option $option The option to convert to text
+     * @return string The option names as text
+     */
+    private function getOptionNames(Requests\Option $option)
+    {
+        $optionNames = "--{$option->getName()}";
+
+        if($option->getShortName() !== null)
+        {
+            $optionNames .= "|-{$option->getShortName()}";
+        }
+
+        return $optionNames;
     }
 
     /**
@@ -149,33 +164,12 @@ EOF;
 
         foreach($this->command->getOptions() as $option)
         {
-            $optionTexts[] = [
-                "<info>{$this->getOptionsNames($option)}</info>",
-                " - {$option->getDescription()}"
-            ];
+            $optionTexts[] = [$this->getOptionNames($option), $option->getDescription()];
         }
 
         return $this->spacePaddingFormatter->format($optionTexts, function($line)
         {
-            return "   " . $line[0] . $line[1];
+            return "   <info>{$line[0]}</info> - {$line[1]}";
         });
-    }
-
-    /**
-     * Gets the option names as a formatted string
-     *
-     * @param Requests\Option $option The option to convert to text
-     * @return string The option names as text
-     */
-    private function getOptionsNames(Requests\Option $option)
-    {
-        $optionNames = "--{$option->getName()}";
-
-        if($option->getShortName() !== null)
-        {
-            $optionNames .= "|-{$option->getShortName()}";
-        }
-
-        return $optionNames;
     }
 }
