@@ -5,6 +5,7 @@
  * Defines an element compiler
  */
 namespace RDev\Console\Responses\Compilers;
+use RDev\Console\Responses\Compilers\Parsers\Nodes;
 use RDev\Console\Responses\Formatters\Elements;
 
 class Compiler implements ICompiler

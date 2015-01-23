@@ -5,7 +5,6 @@
  * Defines a response syntax tree
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Nodes;
 
 class AbstractSyntaxTree
 {

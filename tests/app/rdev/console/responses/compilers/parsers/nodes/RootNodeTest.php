@@ -4,7 +4,7 @@
  * 
  * Tests the root node
  */
-namespace RDev\Console\Responses\Compilers\Nodes;
+namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
 
 class RootNodeTest extends \PHPUnit_Framework_TestCase 
 {

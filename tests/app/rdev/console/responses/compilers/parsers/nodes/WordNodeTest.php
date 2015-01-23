@@ -4,7 +4,7 @@
  *
  * Tests the word node
  */
-namespace RDev\Console\Responses\Compilers\Nodes;
+namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
 
 class WordNodeTest extends \PHPUnit_Framework_TestCase
 {

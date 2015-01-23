@@ -5,8 +5,7 @@
  * Tests the response abstract syntax tree
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Nodes;
-use RDev\Tests\Console\Responses\Compilers\Nodes\Mocks;
+use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
 
 class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase 
 {

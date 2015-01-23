@@ -5,7 +5,6 @@
  * Tests the response lexer
  */
 namespace RDev\Console\Responses\Compilers\Lexers;
-use RDev\Console\Responses\Compilers\Tokens;
 
 class LexerTest extends \PHPUnit_Framework_TestCase 
 {

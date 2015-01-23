@@ -4,7 +4,7 @@
  * 
  * Defines a tag node
  */
-namespace RDev\Console\Responses\Compilers\Nodes;
+namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
 
 class TagNode extends Node
 {

@@ -4,7 +4,7 @@
  *
  * Defines a word node
  */
-namespace RDev\Console\Responses\Compilers\Nodes;
+namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
 
 class WordNode extends Node
 {

@@ -4,7 +4,7 @@
  * 
  * Defines a response node
  */
-namespace RDev\Console\Responses\Compilers\Nodes;
+namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
 
 abstract class Node
 {

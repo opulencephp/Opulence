@@ -4,8 +4,8 @@
  * 
  * Tests the response node
  */
-namespace RDev\Console\Responses\Compilers\Nodes;
-use RDev\Tests\Console\Responses\Compilers\Nodes\Mocks;
+namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
+use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
 
 class NodeTest extends \PHPUnit_Framework_TestCase 
 {

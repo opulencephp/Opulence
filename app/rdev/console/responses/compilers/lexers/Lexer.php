@@ -5,7 +5,6 @@
  * Defines the response lexer
  */
 namespace RDev\Console\Responses\Compilers\Lexers;
-use RDev\Console\Responses\Compilers\Tokens;
 
 class Lexer implements ILexer
 {

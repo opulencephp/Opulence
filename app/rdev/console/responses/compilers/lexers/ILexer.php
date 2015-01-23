@@ -5,7 +5,6 @@
  * Defines the interface for response lexers to implement
  */
 namespace RDev\Console\Responses\Compilers\Lexers;
-use RDev\Console\Responses\Compilers\Tokens;
 
 interface ILexer 
 {

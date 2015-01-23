@@ -4,8 +4,8 @@
  * 
  * Mocks a node for use in testing
  */
-namespace RDev\Tests\Console\Responses\Compilers\Nodes\Mocks;
-use RDev\Console\Responses\Compilers\Nodes;
+namespace RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
+use RDev\Console\Responses\Compilers\Parsers\Nodes;
 
 class Node extends Nodes\Node
 {

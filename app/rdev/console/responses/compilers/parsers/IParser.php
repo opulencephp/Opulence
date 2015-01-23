@@ -5,7 +5,7 @@
  * Defines the interface for response parsers to implement
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Tokens;
+use RDev\Console\Responses\Compilers\Lexers\Tokens;
 
 interface IParser 
 {

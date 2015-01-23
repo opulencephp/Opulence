@@ -4,7 +4,7 @@
  * 
  * Defines a response token
  */
-namespace RDev\Console\Responses\Compilers\Tokens;
+namespace RDev\Console\Responses\Compilers\Lexers\Tokens;
 
 class Token
 {

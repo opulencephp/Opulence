@@ -4,7 +4,7 @@
  * 
  * Tests the response token
  */
-namespace RDev\Console\Responses\Compilers\Tokens;
+namespace RDev\Console\Responses\Compilers\Lexers\Tokens;
 
 class TokenTest extends \PHPUnit_Framework_TestCase 
 {

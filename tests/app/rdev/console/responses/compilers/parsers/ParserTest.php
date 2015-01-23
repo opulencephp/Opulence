@@ -5,8 +5,7 @@
  * Tests the response parser
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Nodes;
-use RDev\Console\Responses\Compilers\Tokens;
+use RDev\Console\Responses\Compilers\Lexers\Tokens;
 
 class ParserTest extends \PHPUnit_Framework_TestCase 
 {
