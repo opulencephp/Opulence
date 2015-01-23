@@ -5,6 +5,8 @@
  * Tests the silent response
  */
 namespace RDev\Console\Responses;
+use RDev\Console\Responses\Compilers\Lexers;
+use RDev\Console\Responses\Compilers\Parsers;
 
 class SilentTest extends \PHPUnit_Framework_TestCase 
 {
@@ -16,7 +18,7 @@ class SilentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Silent(new Compilers\Compiler());
+        $this->response = new Silent(new Compilers\Compiler(new Lexers\Lexer(), new Parsers\Parser()));
     }
 
     /**

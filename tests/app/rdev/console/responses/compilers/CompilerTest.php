@@ -5,6 +5,8 @@
  * Tests the element compiler
  */
 namespace RDev\Console\Responses\Compilers;
+use RDev\Console\Responses\Compilers\Lexers;
+use RDev\Console\Responses\Compilers\Parsers;
 use RDev\Console\Responses\Formatters\Elements;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase 
@@ -19,8 +21,36 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compiler = new Compiler();
+        $this->compiler = new Compiler(new Lexers\Lexer(), new Parsers\Parser());
         $this->elementRegistry = new Elements\ElementRegistry();
+    }
+
+    /**
+     * Tests compiling adjacent elements
+     */
+    public function testCompilingAdjacentElements()
+    {
+        $this->elementRegistry->registerElement(new Elements\Element("foo", new Elements\Style("green", "white")));
+        $this->elementRegistry->registerElement(new Elements\Element("bar", new Elements\Style("cyan")));
+        $expectedOutput =  "\033[32;47mbaz\033[39;49m\033[36mblah\033[39m";
+        $this->assertEquals(
+            $expectedOutput,
+            $this->compiler->compile("<foo>baz</foo><bar>blah</bar>", $this->elementRegistry)
+        );
+    }
+
+    /**
+     * Tests compiling an element with no children
+     */
+    public function testCompilingElementWithNoChildren()
+    {
+        $this->elementRegistry->registerElement(new Elements\Element("foo", new Elements\Style("green", "white")));
+        $this->elementRegistry->registerElement(new Elements\Element("bar", new Elements\Style("cyan")));
+        $expectedOutput =  "";
+        $this->assertEquals(
+            $expectedOutput,
+            $this->compiler->compile("<foo></foo>", $this->elementRegistry)
+        );
     }
 
     /**
@@ -50,10 +80,50 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->elementRegistry->registerElement(new Elements\Element("foo", new Elements\Style("green", "white")));
         $this->elementRegistry->registerElement(new Elements\Element("bar", new Elements\Style("cyan")));
+        $expectedOutput =  "\033[32;47m\033[36mbaz\033[39m\033[39;49m";
+        $this->assertEquals(
+            $expectedOutput,
+            $this->compiler->compile("<foo><bar>baz</bar></foo>", $this->elementRegistry)
+        );
+    }
+
+    /**
+     * Tests compiling nested elements with no children
+     */
+    public function testCompilingNestedElementsWithNoChildren()
+    {
+        $this->elementRegistry->registerElement(new Elements\Element("foo", new Elements\Style("green", "white")));
+        $this->elementRegistry->registerElement(new Elements\Element("bar", new Elements\Style("cyan")));
+        $expectedOutput =  "";
+        $this->assertEquals(
+            $expectedOutput,
+            $this->compiler->compile("<foo><bar></bar></foo>", $this->elementRegistry)
+        );
+    }
+
+    /**
+     * Tests compiling nested elements with words in between
+     */
+    public function testCompilingNestedElementsWithWordsInBetween()
+    {
+        $this->elementRegistry->registerElement(new Elements\Element("foo", new Elements\Style("green", "white")));
+        $this->elementRegistry->registerElement(new Elements\Element("bar", new Elements\Style("cyan")));
         $expectedOutput =  "\033[32;47mbar\033[39;49m\033[32;47m\033[36mblah\033[39m\033[39;49m\033[32;47mbaz\033[39;49m";
         $this->assertEquals(
             $expectedOutput,
             $this->compiler->compile("<foo>bar<bar>blah</bar>baz</foo>", $this->elementRegistry)
+        );
+    }
+
+    /**
+     * Tests compiling plain text
+     */
+    public function testCompilingPlainText()
+    {
+        $expectedOutput = "foobar";
+        $this->assertEquals(
+            $expectedOutput,
+            $this->compiler->compile("foobar", $this->elementRegistry)
         );
     }
 

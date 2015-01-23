@@ -20,7 +20,7 @@ class ElementRegistry
      */
     public function getElement($name)
     {
-        if(!isset($this->elements[$name]))
+        if(!$this->isRegistered($name))
         {
             throw new \InvalidArgumentException("No element with name \"$name\" exists");
         }
@@ -36,6 +36,17 @@ class ElementRegistry
     public function getElements()
     {
         return array_values($this->elements);
+    }
+
+    /**
+     * Gets whether or not an element with the input name is registered
+     *
+     * @param string $name The name to search for
+     * @return bool True if an element is registered with the name, otherwise false
+     */
+    public function isRegistered($name)
+    {
+        return isset($this->elements[$name]);
     }
 
     /**

@@ -6,6 +6,8 @@
  */
 namespace RDev\Console\Prompts;
 use RDev\Console\Responses\Compilers;
+use RDev\Console\Responses\Compilers\Lexers;
+use RDev\Console\Responses\Compilers\Parsers;
 use RDev\Tests\Console\Responses\Mocks;
 
 class PromptTest extends \PHPUnit_Framework_TestCase
@@ -18,7 +20,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Mocks\Response(new Compilers\Compiler());
+        $this->response = new Mocks\Response(new Compilers\Compiler(new Lexers\Lexer(), new Parsers\Parser()));
     }
 
     /**

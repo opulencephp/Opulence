@@ -9,140 +9,32 @@ use RDev\Console\Responses\Formatters\Elements;
 
 class Compiler implements ICompiler
 {
+    /** @var Lexers\ILexer The lexer to use */
+    private $lexer = null;
+    /** @var Parsers\IParser The parser to use */
+    private $parser = null;
+
+    /**
+     * @param Lexers\ILexer $lexer The lexer to use
+     * @param Parsers\IParser $parser The parser to use
+     */
+    public function __construct(Lexers\ILexer $lexer, Parsers\IParser $parser)
+    {
+        $this->lexer = $lexer;
+        $this->parser = $parser;
+    }
+
     /**
      * {@inheritdoc}
      */
     public function compile($message, Elements\ElementRegistry $elementRegistry)
     {
-        $output = "";
-        $outputBuffer = "";
-        $elementNameBuffer = "";
-        /** @var Elements\Element[] $elementStack */
-        $elementStack = [];
-        $messageLength = strlen($message);
-        $inOpenTag = false;
-        $inCloseTag = false;
-
         try
         {
-            for($charIter = 0;$charIter < $messageLength;$charIter++)
-            {
-                $char = $message[$charIter];
+            $tokens = $this->lexer->lex($message);
+            $ast = $this->parser->parse($tokens);
 
-                switch($char)
-                {
-                    case "<":
-                        if($this->lookBehind($message, $charIter) == "\\")
-                        {
-                            // This tag was escaped
-                            $outputBuffer .= $char;
-                        }
-                        else
-                        {
-
-                            // Check if this is a closing tag
-                            if($this->peek($message, $charIter) == "/")
-                            {
-                                $inCloseTag = true;
-                                $inOpenTag = false;
-                            }
-                            else
-                            {
-                                $inCloseTag = false;
-                                $inOpenTag = true;
-
-                                // Check if there are any styles to apply
-                                if(count($elementStack) > 0)
-                                {
-                                    $outputBuffer = $this->applyElementStyles($elementStack, $outputBuffer);
-                                }
-
-                                // Flush the output buffer
-                                $output .= $outputBuffer;
-                                $outputBuffer = "";
-                            }
-                        }
-
-                        break;
-                    case ">";
-                        if($inOpenTag || $inCloseTag)
-                        {
-                            if($inOpenTag)
-                            {
-                                $elementStack[] = $elementRegistry->getElement($elementNameBuffer);
-                            }
-                            else
-                            {
-                                // Apply the styles to this buffer
-                                $outputBuffer = $this->applyElementStyles($elementStack, $outputBuffer);
-                                $output .= $outputBuffer;
-                                $outputBuffer = "";
-                                $poppedElement = array_pop($elementStack);
-
-                                // Force proper nesting
-                                if(count($elementStack) > 0 && $poppedElement->getName() !== $elementNameBuffer)
-                                {
-                                    throw new \RuntimeException(
-                                        sprintf(
-                                            "Incorrect nesting of %s and %s tags",
-                                            $poppedElement->getName(),
-                                            $elementNameBuffer
-                                        )
-                                    );
-                                }
-                            }
-
-                            $elementNameBuffer = "";
-                            $inOpenTag = false;
-                            $inCloseTag = false;
-                        }
-                        else
-                        {
-                            $outputBuffer .= $char;
-                        }
-
-                        break;
-                    default:
-                        if($inOpenTag || $inCloseTag)
-                        {
-                            // We're in a tag, so buffer the element name
-                            if($char != "/")
-                            {
-                                $elementNameBuffer .= $char;
-                            }
-                        }
-                        else
-                        {
-                            // We're outside of a tag somewhere
-                            $outputBuffer .= $char;
-                        }
-
-                        break;
-                }
-            }
-
-            if(count($elementStack) > 0)
-            {
-                $names = [];
-
-                foreach($elementStack as $element)
-                {
-                    $names[] = $element->getName();
-                }
-
-                throw new \RuntimeException("Unclosed element tags: " . implode(", ", $names));
-            }
-            elseif($inOpenTag || $inCloseTag)
-            {
-                throw new \RuntimeException("Unfinished " . ($inOpenTag ? "open" : "close") . " tag");
-            }
-
-            // Finish flushing the output buffer
-            $output .= $outputBuffer;
-            // Remove any escape characters
-            $output = str_replace("\\<", "<", $output);
-
-            return $output;
+            return $this->compileNode($ast->getRootNode(), $elementRegistry);
         }
         catch(\InvalidArgumentException $ex)
         {
@@ -151,62 +43,45 @@ class Compiler implements ICompiler
     }
 
     /**
-     * Applies the a stack of elements' styles to the input text
+     * Recursively compiles a node and its children
      *
-     * @param Elements\Element[] $elementStack The stack of elements whose styles we're applying
-     * @param string $text The text to format
-     * @return string The formatted text
+     * @param Nodes\Node $node The node to compile
+     * @param Elements\ElementRegistry $elementRegistry The element registry
+     * @return string The compiled node
+     * @throws \RuntimeException Thrown if there was an error compiling the node
+     * @throws \InvalidArgumentException Thrown if there is no matching element for a particular tag
      */
-    private function applyElementStyles(array $elementStack, $text)
+    private function compileNode(Nodes\Node $node, Elements\ElementRegistry $elementRegistry)
     {
-        if(strlen($text) == 0)
+        if($node->isLeaf())
         {
-            return "";
+            // Don't compile a leaf that is a tag because that means it doesn't have any content
+            if($node->isTag())
+            {
+                return "";
+            }
+
+            // Apply the parent's style
+            return $node->getValue();
         }
-
-        $formattedText = $text;
-
-        // Loop backwards through the stack and apply each element's style
-        /** @var Elements\Element $element */
-        foreach(array_reverse($elementStack) as $element)
+        else
         {
-            $formattedText = $element->getStyle()->format($formattedText);
+            $output = "";
+
+            foreach($node->getChildren() as $childNode)
+            {
+                if($node->isTag())
+                {
+                    $element = $elementRegistry->getElement($node->getValue());
+                    $output .= $element->getStyle()->format($this->compileNode($childNode, $elementRegistry));
+                }
+                else
+                {
+                    $output .= $this->compileNode($childNode, $elementRegistry);
+                }
+            }
+
+            return $output;
         }
-
-        return $formattedText;
-    }
-
-    /**
-     * Looks back at the previous character in the string
-     *
-     * @param string $message The message to look behind in
-     * @param int $currPosition The current position
-     * @return string|null The previous character if there is one, otherwise null
-     */
-    private function lookBehind($message, $currPosition)
-    {
-        if(strlen($message) == 0 || $currPosition  == 0)
-        {
-            return null;
-        }
-
-        return $message[$currPosition - 1];
-    }
-
-    /**
-     * Peeks at the next character in the string
-     *
-     * @param string $message The message to peek
-     * @param int $currPosition The current position
-     * @return string|null The next character if there is one, otherwise null
-     */
-    private function peek($message, $currPosition)
-    {
-        if(strlen($message) == 0 || strlen($message) == $currPosition + 1)
-        {
-            return null;
-        }
-
-        return $message[$currPosition + 1];
     }
 }

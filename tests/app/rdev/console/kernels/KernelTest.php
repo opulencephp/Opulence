@@ -11,6 +11,8 @@ use RDev\Console\Commands\Compilers as CommandCompilers;
 use RDev\Console\Requests\Parsers;
 use RDev\Console\Requests\Parsers\Tokenizers;
 use RDev\Console\Responses\Compilers as ResponseCompilers;
+use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
+use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;
 use RDev\Tests\Applications\Mocks as ApplicationMocks;
 use RDev\Tests\Console\Commands\Mocks as CommandMocks;
 use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
@@ -40,7 +42,9 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $this->commands->add(new CommandMocks\SimpleCommand("mockcommand", "Mocks a command"));
         $this->commands->add(new CommandMocks\HappyHolidayCommand());
         $this->parser = new Parsers\String(new Tokenizers\String());
-        $this->response = new ResponseMocks\Response(new ResponseCompilers\Compiler());
+        $this->response = new ResponseMocks\Response(
+            new ResponseCompilers\Compiler(new ResponseLexers\Lexer(), new ResponseParsers\Parser())
+        );
         $this->kernel = new Kernel($this->compiler, $this->commands, $logger, "0.0.0");
     }
 

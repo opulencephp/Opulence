@@ -12,6 +12,8 @@ use RDev\Console\Requests;
 use RDev\Console\Requests\Parsers;
 use RDev\Console\Responses;
 use RDev\Console\Responses\Compilers as ResponseCompilers;
+use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
+use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;
 use RDev\Console\Responses\Formatters;
 
 class Kernel
@@ -56,7 +58,9 @@ class Kernel
     {
         if($response === null)
         {
-            $response = new Responses\Console(new ResponseCompilers\Compiler());
+            $response = new Responses\Console(
+                new ResponseCompilers\Compiler(new ResponseLexers\Lexer(), new ResponseParsers\Parser())
+            );
         }
 
         try

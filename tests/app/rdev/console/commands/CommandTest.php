@@ -7,6 +7,8 @@
 namespace RDev\Console\Commands;
 use RDev\Console\Requests;
 use RDev\Console\Responses\Compilers;
+use RDev\Console\Responses\Compilers\Lexers;
+use RDev\Console\Responses\Compilers\Parsers;
 use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
 use RDev\Tests\Console\Commands\Mocks as CommandMocks;
 
@@ -98,7 +100,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\RuntimeException");
         $command = new CommandMocks\CommandThatDoesNotCallParentConstructor();
-        $command->execute(new ResponseMocks\Response(new Compilers\Compiler()));
+        $command->execute(new ResponseMocks\Response(new Compilers\Compiler(new Lexers\Lexer(), new Parsers\Parser())));
     }
 
     /**

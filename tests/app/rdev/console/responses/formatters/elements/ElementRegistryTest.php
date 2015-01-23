@@ -25,6 +25,7 @@ class ElementRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentElement()
     {
         $this->setExpectedException("\\InvalidArgumentException");
+        $this->assertFalse($this->elementRegistry->isRegistered("foo"));
         $this->elementRegistry->getElement("foo");
     }
 
@@ -37,5 +38,6 @@ class ElementRegistryTest extends \PHPUnit_Framework_TestCase
         $this->elementRegistry->registerElement($element);
         $this->assertEquals([$element], $this->elementRegistry->getElements());
         $this->assertSame($element, $this->elementRegistry->getElement("foo"));
+        $this->assertTrue($this->elementRegistry->isRegistered("foo"));
     }
 }

@@ -50,6 +50,15 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests formatting an empty string
+     */
+    public function testFormattingEmptyString()
+    {
+        $styles = new Style("red", "green", ["bold", "underline", "blink"]);
+        $this->assertEquals("", $styles->format(""));
+    }
+
+    /**
      * Tests formatting a string without styles
      */
     public function testFormattingStringWithoutStyles()

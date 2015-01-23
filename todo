@@ -1,4 +1,5 @@
 HAS PRIORITY:
+    Test all colors, styles, and line breaks
     How do I override built-in interface bindings in Framework?
         For example, if I want to override the default console command compiler, I should be able to easily do so
     Add CommandTester class

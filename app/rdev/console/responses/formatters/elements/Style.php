@@ -112,6 +112,11 @@ class Style
      */
     public function format($text)
     {
+        if($text === "")
+        {
+            return $text;
+        }
+
         $startCodes = [];
         $endCodes = [];
 
