@@ -98,7 +98,7 @@ EOF;
 
         return $this->spacePaddingFormatter->format($commandTexts, function($line)
         {
-            return "   <info>{$line[0]}</info> - {line[1]}";
+            return "   <info>{$line[0]}</info> - {$line[1]}";
         });
     }
 }
