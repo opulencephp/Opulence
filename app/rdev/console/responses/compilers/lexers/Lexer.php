@@ -33,8 +33,19 @@ class Lexer implements ILexer
                         // Don't include the preceding slash
                         $wordBuffer = substr($wordBuffer, 0, -1) . $char;
                     }
+                    elseif($inOpenTag || $inCloseTag)
+                    {
+                        throw new \RuntimeException(
+                            sprintf(
+                                "Invalid tags near \"%s\", character #%d",
+                                $this->getSurroundingText($text, $charIter),
+                                $charIter
+                            )
+                        );
+                    }
                     else
                     {
+
                         // Check if this is a closing tag
                         if($this->peek($text, $charIter) == "/")
                         {
@@ -124,6 +135,28 @@ class Lexer implements ILexer
         $tokens[] = new Tokens\Token(Tokens\TokenTypes::T_EOF, null, $textLength);
 
         return $tokens;
+    }
+
+    /**
+     * Gets text around a certain position for use in exceptions
+     *
+     * @param string $text The full text
+     * @param int $position The numerical position to grab text around
+     * @return string The surrounding text
+     */
+    private function getSurroundingText($text, $position)
+    {
+        if(strlen($text) <= 3)
+        {
+            return $text;
+        }
+
+        if($position <= 3)
+        {
+            return substr($text, 0, 4);
+        }
+
+        return substr($text, $position - 3, 4);
     }
 
     /**

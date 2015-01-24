@@ -142,6 +142,24 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests lexing input with an close tag inside of another close tag
+     */
+    public function testLexingOpenTagInsideOfCloseTag()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $this->lexer->lex("<foo></<bar>foo>");
+    }
+
+    /**
+     * Tests lexing input with an open tag inside of another open tag
+     */
+    public function testLexingOpenTagInsideOfOpenTag()
+    {
+        $this->setExpectedException("\\RuntimeException");
+        $this->lexer->lex("<foo<bar>>");
+    }
+
+    /**
      * Tests lexing plain text
      */
     public function testLexingPlainText()

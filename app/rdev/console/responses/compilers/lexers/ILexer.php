@@ -13,6 +13,7 @@ interface ILexer
      *
      * @param string $text The text to lex
      * @return Tokens\Token[] The list of tokens
+     * @throws \RuntimeException Thrown if there was an error lexing the text
      */
     public function lex($text);
 }

@@ -9,13 +9,13 @@ namespace RDev\Console\Responses\Compilers\Lexers\Tokens;
 class TokenTypes
 {
     /** Defines an unknown token type */
-    const T_UNKNOWN = 1;
+    const T_UNKNOWN = "T_UNKNOWN";
     /** Defines an end of file token type */
-    const T_EOF = 2;
+    const T_EOF = "T_EOF";
     /** Defines a word token type */
-    const T_WORD = 3;
+    const T_WORD = "T_WORD";
     /** Defines an open tag token type */
-    const T_TAG_OPEN = 4;
+    const T_TAG_OPEN = "T_TAG_OPEN";
     /** Defines a close tag token type */
-    const T_TAG_CLOSE = 5;
+    const T_TAG_CLOSE = "T_TAG_CLOSE";
 }
