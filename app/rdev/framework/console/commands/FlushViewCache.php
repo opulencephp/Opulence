@@ -6,7 +6,6 @@
  */
 namespace RDev\Framework\Console\Commands;
 use RDev\Console\Commands;
-use RDev\Console\Requests;
 use RDev\Console\Responses;
 use RDev\Views\Cache;
 

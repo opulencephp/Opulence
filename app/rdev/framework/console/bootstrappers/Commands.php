@@ -14,6 +14,7 @@ class Commands implements Bootstrappers\IBootstrapper
 {
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
+        "RDev\\Framework\\Console\\Commands\\AppEnvironment",
         "RDev\\Framework\\Console\\Commands\\FlushViewCache",
         "RDev\\Framework\\Console\\Commands\\RenameApp"
     ];
