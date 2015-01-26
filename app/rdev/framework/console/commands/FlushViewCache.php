@@ -13,16 +13,16 @@ use RDev\Views\Cache;
 class FlushViewCache extends Commands\Command
 {
     /** @var Cache\ICache The view cache */
-    private $cache = null;
+    private $viewCache = null;
 
     /**
-     * @param Cache\ICache $fileSystem The view cache
+     * @param Cache\ICache $viewCache The view cache
      */
-    public function __construct(Cache\ICache $fileSystem)
+    public function __construct(Cache\ICache $viewCache)
     {
         parent::__construct();
 
-        $this->cache = $fileSystem;
+        $this->viewCache = $viewCache;
     }
 
     /**
@@ -39,7 +39,7 @@ class FlushViewCache extends Commands\Command
      */
     protected function doExecute(Responses\IResponse $response)
     {
-        $this->cache->flush();
-        $response->writeln("<info>Cache flushed</info>");
+        $this->viewCache->flush();
+        $response->writeln("<success>Cache flushed</success>");
     }
 }

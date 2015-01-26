@@ -59,7 +59,7 @@ class RenameApp extends Commands\Command
         $this->updateAppDirectory();
         $this->updateNamespaces();
         $this->updateConfigs();
-        $response->writeln("<info>Updated name successfully</info>");
+        $response->writeln("<success>Updated name successfully</success>");
         $response->writeln("<comment>Run \"composer dump-autoload -o\" to update the autoloader</comment>");
     }
 
