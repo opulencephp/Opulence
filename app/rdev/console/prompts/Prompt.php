@@ -63,7 +63,7 @@ class Prompt
 
             $response->writeln($this->paddingFormatter->format($choiceTexts, function($line)
             {
-                return " {$line[0]} {$line[1]}";
+                return "  {$line[0]} {$line[1]}";
             }));
             $response->write($question->getAnswerLineString());
         }

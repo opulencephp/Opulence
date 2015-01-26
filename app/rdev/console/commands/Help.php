@@ -19,7 +19,7 @@ Command: <info>{{name}}</info>
 <b>{{command}}</b>
 
 <comment>Description:</comment>
-   {{description}}
+  {{description}}
 <comment>Arguments:</comment>
 {{arguments}}
 <comment>Options:</comment>
@@ -89,7 +89,7 @@ EOF;
 
             if($this->command->getHelpText() != "")
             {
-                $helpText = PHP_EOL . "<comment>Help:</comment>" . PHP_EOL . "   " . $this->command->getHelpText();
+                $helpText = PHP_EOL . "<comment>Help:</comment>" . PHP_EOL . "  " . $this->command->getHelpText();
             }
 
             // Compile the template
@@ -114,7 +114,7 @@ EOF;
     {
         if(count($this->command->getArguments()) == 0)
         {
-            return "   No arguments";
+            return "  No arguments";
         }
 
         $argumentTexts = [];
@@ -126,7 +126,7 @@ EOF;
 
         return $this->paddingFormatter->format($argumentTexts, function($line)
         {
-            return "   <info>{$line[0]}</info> - {$line[1]}";
+            return "  <info>{$line[0]}</info> - {$line[1]}";
         });
     }
 
@@ -157,7 +157,7 @@ EOF;
     {
         if(count($this->command->getOptions()) == 0)
         {
-            return "   No options";
+            return "  No options";
         }
 
         $optionTexts = [];
@@ -169,7 +169,7 @@ EOF;
 
         return $this->paddingFormatter->format($optionTexts, function($line)
         {
-            return "   <info>{$line[0]}</info> - {$line[1]}";
+            return "  <info>{$line[0]}</info> - {$line[1]}";
         });
     }
 }

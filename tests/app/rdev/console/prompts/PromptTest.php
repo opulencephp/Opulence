@@ -51,7 +51,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " > ", $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . "  1) foo" . PHP_EOL . "  2) bar" . PHP_EOL . "  > ", $questionText);
         $this->assertEquals("bar", $answer);
     }
 
@@ -65,7 +65,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . " a) b" . PHP_EOL . " c) d" . PHP_EOL . " > ", $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . "  a) b" . PHP_EOL . "  c) d" . PHP_EOL . "  > ", $questionText);
         $this->assertEquals("d", $answer);
     }
 
@@ -76,11 +76,11 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("1"));
         $question = new Questions\MultipleChoice("Pick", ["foo", "bar"]);
-        $question->setAnswerLineString(" : ");
+        $question->setAnswerLineString("  : ");
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
-        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . " 1) foo" . PHP_EOL . " 2) bar" . PHP_EOL . " : ", $questionText);
+        $this->assertEquals("\033[37;44m{$question->getText()}\033[39;49m" . PHP_EOL . "  1) foo" . PHP_EOL . "  2) bar" . PHP_EOL . "  : ", $questionText);
         $this->assertEquals("foo", $answer);
     }
 

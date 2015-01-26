@@ -71,7 +71,7 @@ EOF;
     {
         if(count($this->commands->getAll()) == 0)
         {
-            return "   <info>No commands</info>";
+            return " <info>No commands</info>";
         }
 
         /**
@@ -98,7 +98,7 @@ EOF;
 
         return $this->paddingFormatter->format($commandTexts, function($line)
         {
-            return "   <info>{$line[0]}</info> - {$line[1]}";
+            return "  <info>{$line[0]}</info> - {$line[1]}";
         });
     }
 }
