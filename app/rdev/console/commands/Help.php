@@ -75,7 +75,7 @@ EOF;
     {
         if($this->command === null)
         {
-            $response->writeln("Pass in the name of the command you'd like help with");
+            $response->writeln("<comment>Pass in the name of the command you'd like help with</comment>");
         }
         else
         {

@@ -112,7 +112,7 @@ class Kernel
         }
         catch(\Exception $ex)
         {
-            $response->writeln("<error>{$ex->getMessage()}</error>");
+            $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
             $this->logger->addError($ex->getMessage());
 
             return StatusCodes::FATAL;
@@ -146,7 +146,7 @@ class Kernel
         }
 
         // Set the command only if it was passed as an argument to the help command
-        if($commandName !== null)
+        if($commandName !== null && $commandName !== "")
         {
             if(!$this->commands->has($commandName))
             {
