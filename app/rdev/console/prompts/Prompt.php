@@ -6,17 +6,23 @@
  */
 namespace RDev\Console\Prompts;
 use RDev\Console\Responses;
+use RDev\Console\Responses\Formatters;
 
 class Prompt
 {
+    /** @var Formatters\Padding The space padding formatter to use */
+    private $paddingFormatter  = null;
     /** @var resource The input stream to look for answers in */
     private $inputStream = null;
 
     /***
+     * @param Formatters\Padding $paddingFormatter The space padding formatter to use
      * @param resource|null $inputStream The input stream to look for answers in
      */
-    public function __construct($inputStream = null)
+    public function __construct(Formatters\Padding $paddingFormatter, $inputStream = null)
     {
+        $this->paddingFormatter = $paddingFormatter;
+
         if($inputStream === null)
         {
             $inputStream = STDIN;
@@ -42,6 +48,7 @@ class Prompt
             /** @var Questions\MultipleChoice $question */
             $response->writeln("");
             $choicesAreAssociative = $question->choicesAreAssociative();
+            $choiceTexts = [];
 
             foreach($question->getChoices() as $key => $choice)
             {
@@ -51,9 +58,13 @@ class Prompt
                     $key += 1;
                 }
 
-                $response->writeln(" $key) $choice");
+                $choiceTexts[] = [$key . ")", $choice];
             }
 
+            $response->writeln($this->paddingFormatter->format($choiceTexts, function($line)
+            {
+                return " {$line[0]} {$line[1]}";
+            }));
             $response->write($question->getAnswerLineString());
         }
 

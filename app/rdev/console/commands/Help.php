@@ -30,18 +30,18 @@ EOF;
     /** @var Formatters\Command The formatter that converts a command object to text */
     private $commandFormatter = null;
     /** @var Formatters\Padding The space padding formatter to use */
-    private $spacePaddingFormatter  = null;
+    private $paddingFormatter  = null;
 
     /**
      * @param Formatters\Command $commandFormatter The formatter that converts a command object to text
-     * @param Formatters\Padding $spacePaddingFormatter The space padding formatter to use
+     * @param Formatters\Padding $paddingFormatter The space padding formatter to use
      */
-    public function __construct(Formatters\Command $commandFormatter, Formatters\Padding $spacePaddingFormatter)
+    public function __construct(Formatters\Command $commandFormatter, Formatters\Padding $paddingFormatter)
     {
         parent::__construct();
 
         $this->commandFormatter = $commandFormatter;
-        $this->spacePaddingFormatter = $spacePaddingFormatter;
+        $this->paddingFormatter = $paddingFormatter;
     }
 
     /**
@@ -124,7 +124,7 @@ EOF;
             $argumentTexts[] = [$argument->getName(), $argument->getDescription()];
         }
 
-        return $this->spacePaddingFormatter->format($argumentTexts, function($line)
+        return $this->paddingFormatter->format($argumentTexts, function($line)
         {
             return "   <info>{$line[0]}</info> - {$line[1]}";
         });
@@ -167,7 +167,7 @@ EOF;
             $optionTexts[] = [$this->getOptionNames($option), $option->getDescription()];
         }
 
-        return $this->spacePaddingFormatter->format($optionTexts, function($line)
+        return $this->paddingFormatter->format($optionTexts, function($line)
         {
             return "   <info>{$line[0]}</info> - {$line[1]}";
         });

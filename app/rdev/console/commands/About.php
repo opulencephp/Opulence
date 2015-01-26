@@ -21,21 +21,21 @@ EOF;
     /** @var Commands The list of commands registered */
     private $commands = null;
     /** @var Formatters\Padding The space padding formatter to use */
-    private $spacePaddingFormatter  = null;
+    private $paddingFormatter  = null;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";
 
     /**
      * @param Commands $commands The list of commands
-     * @param Formatters\Padding $spacePaddingFormatter The space padding formatter to use
+     * @param Formatters\Padding $paddingFormatter The space padding formatter to use
      * @param string $applicationVersion The version number of the application
      */
-    public function __construct(Commands &$commands, Formatters\Padding $spacePaddingFormatter, $applicationVersion)
+    public function __construct(Commands &$commands, Formatters\Padding $paddingFormatter, $applicationVersion)
     {
         parent::__construct();
 
         $this->commands = $commands;
-        $this->spacePaddingFormatter = $spacePaddingFormatter;
+        $this->paddingFormatter = $paddingFormatter;
         $this->applicationVersion = $applicationVersion;
     }
 
@@ -96,7 +96,7 @@ EOF;
             $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
-        return $this->spacePaddingFormatter->format($commandTexts, function($line)
+        return $this->paddingFormatter->format($commandTexts, function($line)
         {
             return "   <info>{$line[0]}</info> - {$line[1]}";
         });

@@ -28,6 +28,7 @@ class Compiler implements ICompiler
         // Register the built-in elements
         $this->elements = new Elements\Elements();
         $this->elements->add([
+            new Elements\Element("success", new Elements\Style(Elements\Colors::BLACK, Elements\Colors::GREEN)),
             new Elements\Element("info", new Elements\Style(Elements\Colors::GREEN)),
             new Elements\Element("error", new Elements\Style(Elements\Colors::BLACK, Elements\Colors::YELLOW)),
             new Elements\Element("fatal", new Elements\Style(Elements\Colors::WHITE, Elements\Colors::RED)),
