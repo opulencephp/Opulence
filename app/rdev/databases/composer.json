@@ -21,9 +21,23 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "alecesaro/phpredis": "dev-master",
+    "phpredis": "2.2.7",
     "predis/predis": "1.1.*@dev"
   },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "phpredis",
+        "version": "2.2.7",
+        "source": {
+          "url": "git://github.com/phpredis/phpredis.git",
+          "type": "git",
+          "reference": "2.2.7"
+        }
+      }
+    }
+  ],
   "extra": {
     "branch-alias": {
       "dev-master": "0.2.x-dev"
