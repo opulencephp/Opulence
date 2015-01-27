@@ -239,7 +239,7 @@ class UnitOfWork
     /**
      * @param SQL\IConnection $connection
      */
-    public function setConnection($connection)
+    public function setConnection(SQL\IConnection $connection)
     {
         $this->connection = $connection;
     }

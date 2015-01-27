@@ -37,7 +37,7 @@ abstract class Bootstrapper implements IBootstrapper
 
     /**
      * NOTE:  Because the following function accepts a variable number of parameters, we do not define it inside
-     * the interface.  However, bootstrappers MUST implement this method
+     * this class.  However, bootstrappers MUST implement this method
      *
      * abstract public function run();
      */

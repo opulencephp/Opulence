@@ -29,7 +29,7 @@ class TemplateFactory implements ITemplateFactory
 
         if($rootTemplateDirectory !== null)
         {
-            $this->rootTemplateDirectory = rtrim($rootTemplateDirectory, "/");
+            $this->setRootTemplateDirectory($rootTemplateDirectory);
         }
     }
 

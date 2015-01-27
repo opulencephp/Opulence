@@ -12,6 +12,9 @@ use RDev\IoC;
 
 class Commands extends Bootstrappers\Bootstrapper
 {
+    /** @var ConsoleCommands\Commands The list of console commands */
+    private $commands = null;
+
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
         "RDev\\Framework\\Console\\Commands\\AppEnvironment",
@@ -26,22 +29,21 @@ class Commands extends Bootstrappers\Bootstrapper
     {
         $compiler = new Compilers\Compiler();
         $container->bind("RDev\\Console\\Commands\\Compilers\\ICompiler", $compiler);
-        $commands = new ConsoleCommands\Commands();
-        $container->bind("RDev\\Console\\Commands\\Commands", $commands);
+        $this->commands = new ConsoleCommands\Commands();
+        $container->bind("RDev\\Console\\Commands\\Commands", $this->commands);
     }
 
     /**
      * Adds built-in commands to our list
      *
      * @param IoC\IContainer $container The dependency injection container to use
-     * @param ConsoleCommands\Commands $commands The commands to add to
      */
-    public function run(IoC\IContainer $container, ConsoleCommands\Commands $commands)
+    public function run(IoC\IContainer $container)
     {
         // Instantiate each command class
         foreach(self::$commandClasses as $commandClass)
         {
-            $commands->add($container->makeShared($commandClass));
+            $this->commands->add($container->makeShared($commandClass));
         }
     }
 }

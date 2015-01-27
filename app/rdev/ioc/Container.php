@@ -53,18 +53,16 @@ class Container implements IContainer
     /**
      * {@inheritdoc}
      */
-    public function call($instance, $methodName, array $argumentPrimitives = [], $ignoreMissing = false, $forceNewInstance = false)
+    public function call($instance, $methodName, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false)
     {
         if(!method_exists($instance, $methodName))
         {
-            if($ignoreMissing)
-            {
-                return null;
-            }
-            else
+            if(!$ignoreMissing)
             {
                 throw new IoCException(get_class($instance) . "::$methodName does not exist");
             }
+
+            return null;
         }
 
         // Resolve all the method parameters
@@ -72,9 +70,10 @@ class Container implements IContainer
         $methodParameters = $this->getResolvedParameters(
             get_class($instance),
             $reflectionMethod->getParameters(),
-            $argumentPrimitives,
+            $primitives,
             $forceNewInstance
         );
+
         return call_user_func_array([$instance, $methodName], $methodParameters);
     }
 

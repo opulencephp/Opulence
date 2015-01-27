@@ -10,15 +10,25 @@ class ConstructorWithSetters
 {
     /** @var string A primitive */
     private $primitive = "";
-    /** @var IFoo A dependency */
-    private $dependency = null;
+    /** @var IFoo An interface dependency */
+    private $interface = null;
+    /** @var Bar A concrete dependency */
+    private $concrete = null;
+
+    /**
+     * @return Bar
+     */
+    public function getConcrete()
+    {
+        return $this->concrete;
+    }
 
     /**
      * @return IFoo
      */
-    public function getDependency()
+    public function getInterface()
     {
-        return $this->dependency;
+        return $this->interface;
     }
 
     /**
@@ -30,21 +40,29 @@ class ConstructorWithSetters
     }
 
     /**
-     * @param IFoo $dependency The dependency to set
+     * @param IFoo $interface The dependency to set
      * @param mixed $primitive The primitive to set
      */
-    public function setBoth(IFoo $dependency, $primitive)
+    public function setBoth(IFoo $interface, $primitive)
     {
-        $this->setDependency($dependency);
+        $this->setInterface($interface);
         $this->setPrimitive($primitive);
     }
 
     /**
-     * @param IFoo $dependency
+     * @param Bar $concrete
      */
-    public function setDependency(IFoo $dependency)
+    public function setConcrete($concrete)
     {
-        $this->dependency = $dependency;
+        $this->concrete = $concrete;
+    }
+
+    /**
+     * @param IFoo $interface
+     */
+    public function setInterface(IFoo $interface)
+    {
+        $this->interface = $interface;
     }
 
     /**

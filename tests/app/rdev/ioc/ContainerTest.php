@@ -95,7 +95,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $instance = new Mocks\ConstructorWithSetters();
         $this->container->call($instance, "setBoth", ["foo"]);
-        $this->assertInstanceOf($this->concreteFoo, $instance->getDependency());
+        $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
         $this->assertSame("foo", $instance->getPrimitive());
     }
 
@@ -106,8 +106,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $instance = new Mocks\ConstructorWithSetters();
-        $this->container->call($instance, "setDependency");
-        $this->assertInstanceOf($this->concreteFoo, $instance->getDependency());
+        $this->container->call($instance, "setInterface");
+        $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
     }
 
     /**
@@ -188,13 +188,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $methodCalls = [
             "setPrimitive" => ["myPrimitive"],
-            "setDependency" => []
+            "setInterface" => []
         ];
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         /** @var Mocks\ConstructorWithSetters $newInstance */
         $newInstance = $this->container->makeNew($this->constructorWithSetters, [], $methodCalls);
         $this->assertEquals("myPrimitive", $newInstance->getPrimitive());
-        $this->assertInstanceOf($this->concreteFoo, $newInstance->getDependency());
+        $this->assertInstanceOf($this->concreteFoo, $newInstance->getInterface());
     }
 
     /**
@@ -272,13 +272,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $methodCalls = [
             "setPrimitive" => ["myPrimitive"],
-            "setDependency" => []
+            "setInterface" => []
         ];
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         /** @var Mocks\ConstructorWithSetters $sharedInstance */
         $sharedInstance = $this->container->makeShared($this->constructorWithSetters, [], $methodCalls);
         $this->assertEquals("myPrimitive", $sharedInstance->getPrimitive());
-        $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getDependency());
+        $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getInterface());
     }
 
     /**

@@ -16,7 +16,6 @@ class Requests extends Bootstrappers\Bootstrapper
      */
     public function registerBindings(IoC\IContainer $container)
     {
-        $parser = new Parsers\Argv();
-        $container->bind("RDev\\Console\\Requests\\Parsers\\IParser", $parser);
+        $container->bind("RDev\\Console\\Requests\\Parsers\\IParser", new Parsers\Argv());
     }
 }
