@@ -12,15 +12,14 @@ use RDev\IoC;
 
 class Commands extends Bootstrappers\Bootstrapper
 {
-    /** @var ConsoleCommands\Commands The list of console commands */
-    private $commands = null;
-
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
         "RDev\\Framework\\Console\\Commands\\AppEnvironment",
         "RDev\\Framework\\Console\\Commands\\FlushViewCache",
         "RDev\\Framework\\Console\\Commands\\RenameApp"
     ];
+    /** @var ConsoleCommands\Commands The list of console commands */
+    private $commands = null;
 
     /**
      * {@inheritdoc}
