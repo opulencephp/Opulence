@@ -17,9 +17,9 @@ use RDev\Views\Filters;
 class Template extends Bootstrappers\Bootstrapper
 {
     /** @var Cache\Cache The view cache */
-    private $viewCache;
+    private $viewCache = null;
     /** @var Factories\TemplateFactory The template factory */
-    private $templateFactory;
+    private $templateFactory = null;
 
     /**
      * {@inheritdoc}
