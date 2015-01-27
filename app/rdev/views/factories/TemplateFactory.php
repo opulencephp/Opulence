@@ -21,12 +21,16 @@ class TemplateFactory implements ITemplateFactory
 
     /**
      * @param Files\FileSystem $fileSystem The file system to read templates with
-     * @param string $rootTemplateDirectory The root directory of the templates
+     * @param string|null $rootTemplateDirectory The root directory of the templates if it's known, otherwise null
      */
-    public function __construct(Files\FileSystem $fileSystem, $rootTemplateDirectory)
+    public function __construct(Files\FileSystem $fileSystem, $rootTemplateDirectory = null)
     {
         $this->fileSystem = $fileSystem;
-        $this->rootTemplateDirectory = rtrim($rootTemplateDirectory, "/");
+
+        if($rootTemplateDirectory !== null)
+        {
+            $this->rootTemplateDirectory = rtrim($rootTemplateDirectory, "/");
+        }
     }
 
     /**
@@ -83,6 +87,14 @@ class TemplateFactory implements ITemplateFactory
 
             $this->builders[$name][] = $callback;
         }
+    }
+
+    /**
+     * @param string $rootTemplateDirectory
+     */
+    public function setRootTemplateDirectory($rootTemplateDirectory)
+    {
+        $this->rootTemplateDirectory = rtrim($rootTemplateDirectory, "/");
     }
 
     /**

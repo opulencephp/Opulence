@@ -30,6 +30,16 @@ class ConstructorWithSetters
     }
 
     /**
+     * @param IFoo $dependency The dependency to set
+     * @param mixed $primitive The primitive to set
+     */
+    public function setBoth(IFoo $dependency, $primitive)
+    {
+        $this->setDependency($dependency);
+        $this->setPrimitive($primitive);
+    }
+
+    /**
      * @param IFoo $dependency
      */
     public function setDependency(IFoo $dependency)

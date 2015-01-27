@@ -34,13 +34,17 @@ class UnitOfWork
     private $aggregateRootChildren = [];
 
     /**
-     * @param SQL\IConnection $connection The connection to use in our unit of work
      * @param IEntityRegistry $entityRegistry The entity registry to use
+     * @param SQL\IConnection $connection The connection to use in our unit of work
      */
-    public function __construct(SQL\IConnection $connection, IEntityRegistry $entityRegistry)
+    public function __construct(IEntityRegistry $entityRegistry, SQL\IConnection $connection = null)
     {
-        $this->connection = $connection;
         $this->entityRegistry = $entityRegistry;
+
+        if($connection !== null)
+        {
+            $this->setConnection($connection);
+        }
     }
 
     /**
@@ -50,6 +54,11 @@ class UnitOfWork
      */
     public function commit()
     {
+        if(!$this->connection instanceof SQL\IConnection)
+        {
+            throw new ORMException("Connection not set");
+        }
+
         $this->checkForUpdates();
         $this->preCommit();
         $this->connection->beginTransaction();
@@ -225,6 +234,14 @@ class UnitOfWork
     public function scheduleForUpdate(IEntity $entity)
     {
         $this->scheduledForUpdate[$this->entityRegistry->getObjectHashId($entity)] = $entity;
+    }
+
+    /**
+     * @param SQL\IConnection $connection
+     */
+    public function setConnection($connection)
+    {
+        $this->connection = $connection;
     }
 
     /**

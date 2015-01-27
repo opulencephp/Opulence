@@ -33,7 +33,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $server = new SQLMocks\Server();
         $connection = new SQLMocks\Connection($server);
         $this->entityRegistry = new EntityRegistry();
-        $this->unitOfWork = new UnitOfWork($connection, $this->entityRegistry);
+        $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
         $this->dataMapper = new DataMapperMocks\SQLDataMapper();
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
@@ -167,6 +167,16 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
         $this->assertFalse(in_array($this->entity1, $scheduledFoUpdate));
+    }
+
+    /**
+     * Tests not setting the connection
+     */
+    public function testNotSettingConnection()
+    {
+        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $unitOfWork = new UnitOfWork($this->entityRegistry);
+        $unitOfWork->commit();
     }
 
     /**
@@ -342,7 +352,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $server = new SQLMocks\Server();
             $connection = new SQLMocks\Connection($server);
             $connection->setToFailOnPurpose(true);
-            $this->unitOfWork = new UnitOfWork($connection, $this->entityRegistry);
+            $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
             $this->dataMapper = new DataMapperMocks\SQLDataMapper();
             $this->entity1 = new Mocks\User(1, "foo");
             $this->entity2 = new Mocks\User(2, "bar");

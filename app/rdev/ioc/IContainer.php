@@ -18,6 +18,19 @@ interface IContainer
     public function bind($interface, $concreteClass, $targetClass = null);
 
     /**
+     * Calls a method on an object and automatically resolves any type hinted arguments
+     *
+     * @param object $instance The object to call on
+     * @param string $methodName The name of the method to call
+     * @param array $argumentPrimitives The list of any argument primitives
+     * @param bool $ignoreMissing True if we will accept it when the method is missing, otherwise false
+     * @param bool $forceNewInstance True if we are going to force a new instance, otherwise false
+     * @return mixed|null The return value of the method if there was one, otherwise null
+     * @throws IoCException Thrown if there was an error calling the method
+     */
+    public function call($instance, $methodName, array $argumentPrimitives = [], $ignoreMissing = false, $forceNewInstance = false);
+
+    /**
      * Gets the name of the concrete class bound to the interface
      * If a target is specified, but nothing has been explicitly bound to it, then the universal binding is returned
      *

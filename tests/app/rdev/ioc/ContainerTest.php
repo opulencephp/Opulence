@@ -68,6 +68,68 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests calling a method with primitive types
+     */
+    public function testCallingMethodWithPrimitiveTypes()
+    {
+        $instance = new Mocks\ConstructorWithSetters();
+        $this->container->call($instance, "setPrimitive", ["foo"]);
+        $this->assertSame("foo", $instance->getPrimitive());
+    }
+
+    /**
+     * Tests calling a method with primitive types without specifying a value
+     */
+    public function testCallingMethodWithPrimitiveTypesWithoutSpecifyingValue()
+    {
+        $this->setExpectedException("RDev\\IoC\\IoCException");
+        $instance = new Mocks\ConstructorWithSetters();
+        $this->container->call($instance, "setPrimitive");
+    }
+
+    /**
+     * Tests calling a method with type-hinted and primitive types
+     */
+    public function testCallingMethodWithTypeHintedAndPrimitiveTypes()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $instance = new Mocks\ConstructorWithSetters();
+        $this->container->call($instance, "setBoth", ["foo"]);
+        $this->assertInstanceOf($this->concreteFoo, $instance->getDependency());
+        $this->assertSame("foo", $instance->getPrimitive());
+    }
+
+    /**
+     * Tests calling a method with type hints
+     */
+    public function testCallingMethodWithTypeHints()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $instance = new Mocks\ConstructorWithSetters();
+        $this->container->call($instance, "setDependency");
+        $this->assertInstanceOf($this->concreteFoo, $instance->getDependency());
+    }
+
+    /**
+     * Tests calling a non-existent method
+     */
+    public function testCallingNonExistentMethod()
+    {
+        $this->setExpectedException("RDev\\IoC\\IoCException");
+        $instance = new Mocks\ConstructorWithSetters();
+        $this->container->call($instance, "foobar");
+    }
+
+    /**
+     * Tests calling a non-existent method and ignoring that it is missing
+     */
+    public function testCallingNonExistentMethodAndIgnoringThatItIsMissing()
+    {
+        $instance = new Mocks\ConstructorWithSetters();
+        $this->assertNull($this->container->call($instance, "foobar", [], true));
+    }
+
+    /**
      * Tests if a target-bound interface is bound
      */
     public function testCheckingIfTargetBoundInterfaceIsBound()

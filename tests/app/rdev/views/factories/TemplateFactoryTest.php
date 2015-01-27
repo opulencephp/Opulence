@@ -90,6 +90,19 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering a builder
+     */
+    public function testRegisteringBuilder()
+    {
+        $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
+        $this->assertEquals("bar", $template->getTag("foo"));
+    }
+
+    /**
      * Tests registering a builder to an alias
      */
     public function testRegisteringBuilderToAlias()
@@ -166,19 +179,6 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests registering a builder
-     */
-    public function testRegisteringBuilder()
-    {
-        $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
-        {
-            return new Mocks\FooBuilder();
-        });
-        $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
-        $this->assertEquals("bar", $template->getTag("foo"));
-    }
-
-    /**
      * Tests registering multiple builders
      */
     public function testRegisteringMultipleBuilders()
@@ -194,5 +194,14 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $this->assertEquals("bar", $template->getTag("foo"));
         $this->assertEquals("baz", $template->getTag("bar"));
+    }
+
+    /**
+     * Tests passing in a root directory without a trailing slash
+     */
+    public function testSettingRootWithoutTrailingSlash()
+    {
+        $this->templateFactory->setRootTemplateDirectory(__DIR__ . "/../files");
+        $this->testPassingInRootWithoutTrailingSlash();
     }
 }

@@ -10,32 +10,20 @@ use RDev\HTTP\Routing\URL;
 use RDev\Views;
 use RDev\Views\Compilers;
 
-class TemplateFunctions implements Bootstrappers\IBootstrapper
+class TemplateFunctions extends Bootstrappers\Bootstrapper
 {
-    /** @var Compilers\ICompiler The template compiler */
-    private $compiler = null;
-    /** @var URL\URLGenerator What generates URLs from routes */
-    private $urlGenerator = null;
-
     /**
+     * Registers template functions
+     *
      * @param Compilers\ICompiler $compiler The compiler to use
      * @param URL\URLGenerator $urlGenerator What generates URLs from routes
      */
-    public function __construct(Compilers\ICompiler $compiler, URL\URLGenerator $urlGenerator)
-    {
-        $this->compiler = $compiler;
-        $this->urlGenerator = $urlGenerator;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function run()
+    public function run(Compilers\ICompiler $compiler, URL\URLGenerator $urlGenerator)
     {
         // Add the ability to generate URLs to named routes from templates
-        $this->compiler->registerTemplateFunction("route", function($routeName, $arguments = [])
+        $compiler->registerTemplateFunction("route", function($routeName, $arguments = []) use ($urlGenerator)
         {
-            return $this->urlGenerator->createFromName($routeName, $arguments);
+            return $urlGenerator->createFromName($routeName, $arguments);
         });
     }
 }

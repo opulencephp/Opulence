@@ -5,12 +5,21 @@
  * Defines the interface for bootstrappers
  */
 namespace RDev\Applications\Bootstrappers;
-use RDev\Applications;
+use RDev\IoC;;
 
 interface IBootstrapper
 {
     /**
-     * Runs the bootstrapper
+     * Registers bindings to the dependency injection container
+     *
+     * @param IoC\IContainer $container The container to register any bindings to
      */
-    public function run();
+    public function registerBindings(IoC\IContainer $container);
+
+    /**
+     * NOTE:  Because the following function accepts a variable number of parameters, we do not define it inside
+     * the interface.
+     *
+     * public function run();
+     */
 }

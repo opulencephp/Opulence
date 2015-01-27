@@ -31,6 +31,8 @@ class Application
     private $preShutdownTasks = [];
     /** @var callable[] The list of functions to execute after shutdown */
     private $postShutdownTasks = [];
+    /** @var array The list of bootstrapper classes registered to the application */
+    private $bootstrapperClasses = [];
 
     /**
      * @param Monolog\Logger $logger The logger to use throughout the application
@@ -50,6 +52,7 @@ class Application
         $this->setEnvironment($environment);
         $this->setIoCContainer($container);
         $this->setSession($session);
+        $this->registerBootstrapperTask();
     }
 
     /**
@@ -109,20 +112,7 @@ class Application
      */
     public function registerBootstrappers(array $bootstrapperClasses)
     {
-        $this->registerPreStartTask(function () use ($bootstrapperClasses)
-        {
-            foreach($bootstrapperClasses as $bootstrapperClass)
-            {
-                $bootstrapper = $this->container->makeNew($bootstrapperClass);
-
-                if(!$bootstrapper instanceof Bootstrappers\IBootstrapper)
-                {
-                    throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
-                }
-
-                $bootstrapper->run();
-            }
-        });
+        $this->bootstrapperClasses = array_merge($this->bootstrapperClasses, $bootstrapperClasses);
     }
 
     /**
@@ -262,5 +252,35 @@ class Application
         {
             throw new \RuntimeException("Failed to run tasks: " . $ex->getMessage());
         }
+    }
+
+    /**
+     * Registers the task that will run the bootstrappers
+     */
+    private function registerBootstrapperTask()
+    {
+        $this->registerPreStartTask(function ()
+        {
+            $bootstrapperObjects = [];
+
+            foreach($this->bootstrapperClasses as $bootstrapperClass)
+            {
+                $bootstrapper = $this->container->makeNew($bootstrapperClass);
+
+                if(!$bootstrapper instanceof Bootstrappers\IBootstrapper)
+                {
+                    throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
+                }
+
+                $bootstrapper->registerBindings($this->container);
+                $bootstrapperObjects[] = $bootstrapper;
+            }
+
+            /** @var Bootstrappers\IBootstrapper $bootstrapper */
+            foreach($bootstrapperObjects as $bootstrapper)
+            {
+                $this->container->call($bootstrapper, "run", [], true);
+            }
+        });
     }
 } 

@@ -53,6 +53,34 @@ class Container implements IContainer
     /**
      * {@inheritdoc}
      */
+    public function call($instance, $methodName, array $argumentPrimitives = [], $ignoreMissing = false, $forceNewInstance = false)
+    {
+        if(!method_exists($instance, $methodName))
+        {
+            if($ignoreMissing)
+            {
+                return null;
+            }
+            else
+            {
+                throw new IoCException(get_class($instance) . "::$methodName does not exist");
+            }
+        }
+
+        // Resolve all the method parameters
+        $reflectionMethod = new \ReflectionMethod($instance, $methodName);
+        $methodParameters = $this->getResolvedParameters(
+            get_class($instance),
+            $reflectionMethod->getParameters(),
+            $argumentPrimitives,
+            $forceNewInstance
+        );
+        return call_user_func_array([$instance, $methodName], $methodParameters);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getBinding($interface, $targetClass = null)
     {
         if($targetClass === null)
@@ -202,15 +230,7 @@ class Container implements IContainer
         // Call any methods
         foreach($methodCalls as $methodName => $methodPrimitives)
         {
-            // Resolve all the method parameters
-            $reflectionMethod = new \ReflectionMethod($instance, $methodName);
-            $methodParameters = $this->getResolvedParameters(
-                get_class($instance),
-                $reflectionMethod->getParameters(),
-                $methodPrimitives,
-                $forceNewInstance
-            );
-            call_user_func_array([$instance, $methodName], $methodParameters);
+            $this->call($instance, $methodName, $methodPrimitives, false, $forceNewInstance);
         }
     }
 

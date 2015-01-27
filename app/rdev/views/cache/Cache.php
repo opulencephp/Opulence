@@ -22,29 +22,28 @@ class Cache implements ICache
 
     /**
      * @param Files\FileSystem $fileSystem The file system to use to read cached template
-     * @param string $path The path to store the cached templates at
+     * @param string|null $path The path to store the cached templates at, or null if the path is not yet set
      * @param int $lifetime The number of seconds cached templates should live
      * @param int $gcChance The chance (out of the total) that garbage collection will be run
      * @param int $gcTotal The number the chance will be divided by to calculate the probability
      */
     public function __construct(
         Files\FileSystem $fileSystem,
-        $path,
+        $path = null,
         $lifetime = self::DEFAULT_LIFETIME,
         $gcChance = self::DEFAULT_GC_CHANCE,
         $gcTotal = self::DEFAULT_GC_TOTAL
     )
     {
         $this->fileSystem = $fileSystem;
-        $this->path = rtrim($path, "/");
+
+        if($path !== null)
+        {
+            $this->setPath($path);
+        }
+
         $this->setLifetime($lifetime);
         $this->setGCChance($gcChance, $gcTotal);
-
-        // Make sure the path exists
-        if(!$this->fileSystem->exists($this->path))
-        {
-            $this->fileSystem->makeDirectory($this->path);
-        }
     }
 
     /**
@@ -164,6 +163,20 @@ class Cache implements ICache
     public function setLifetime($lifetime)
     {
         $this->lifetime = $lifetime;
+    }
+
+    /**
+     * @param string $path
+     */
+    public function setPath($path)
+    {
+        $this->path = rtrim($path, "/");
+
+        // Make sure the path exists
+        if(!$this->fileSystem->exists($this->path))
+        {
+            $this->fileSystem->makeDirectory($this->path);
+        }
     }
 
     /**

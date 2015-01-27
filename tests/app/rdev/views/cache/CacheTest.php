@@ -158,4 +158,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->cache->setLifetime(12);
         $this->assertEquals(12, $this->cache->getLifetime());
     }
+
+    /**
+     * Tests setting a path and checking for a template
+     */
+    public function testSettingPathCheckingForExistingTemplate()
+    {
+        // I know this is also done in setUp(), but we're specifically testing that it works after setting the path
+        $this->cache->setPath(__DIR__ . "/tmp");
+        $this->testCheckingForExistingTemplate();
+    }
 }

@@ -11,57 +11,51 @@ use RDev\Framework;
 use RDev\IoC;
 use RDev\Views\Cache;
 use RDev\Views\Compilers;
+use RDev\Views\Factories;
 use RDev\Views\Filters;
 
-class Template implements Bootstrappers\IBootstrapper
+class Template extends Bootstrappers\Bootstrapper
 {
-    /** @var IoC\IContainer The dependency injection container to use */
-    private $container = null;
-    /** @var Environments\Environment The application environment */
-    private $environment = null;
-    /** @var Framework\Paths The application paths */
-    private $paths = null;
-
-    /**
-     * @param IoC\IContainer $container The dependency injection container to use
-     * @param Environments\Environment $environment The application environment
-     * @param Framework\Paths $paths The application paths
-     */
-    public function __construct(IoC\IContainer $container, Environments\Environment $environment, Framework\Paths $paths)
-    {
-        $this->container = $container;
-        $this->environment = $environment;
-        $this->paths = $paths;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function registerBindings(IoC\IContainer $container)
     {
-        /** @var Cache\Cache $cache */
-        $cache = $this->container->makeShared("RDev\\Views\\Cache\\Cache", [
-            // The path to store compiled templates
-            // Make sure this path is writable
-            $this->paths["compiledViews"],
-            // The lifetime of cached templates
-            3600,
-            // The chance that garbage collection will be run
-            1,
-            // The number the chance will be divided by to calculate the probability (default is 1 in 100 chance)
-            100
-        ]);
-        $templateFactory = $this->container->makeShared("RDev\\Views\\Factories\\TemplateFactory", [
-            // The path to the template directory
-            $this->paths["views"]
-        ]);
+        $cache = $container->makeShared("RDev\\Views\\Cache\\Cache");
+        $templateFactory = $container->makeShared("RDev\\Views\\Factories\\TemplateFactory");
         $compiler = new Compilers\Compiler($cache, $templateFactory, new Filters\XSS());
-        $this->container->bind("RDev\\Views\\Cache\\ICache", $cache);
-        $this->container->bind("RDev\\Views\\Compilers\\ICompiler", $compiler);
-        $this->container->bind("RDev\\Views\\Factories\\ITemplateFactory", $templateFactory);
+        $container->bind("RDev\\Views\\Cache\\ICache", $cache);
+        // Bind to the concrete class, too
+        $container->bind("RDev\\Views\\Cache\\Cache", $cache);
+        $container->bind("RDev\\Views\\Compilers\\ICompiler", $compiler);
+        $container->bind("RDev\\Views\\Factories\\ITemplateFactory", $templateFactory);
+        // Bind to the concrete class, too
+        $container->bind("RDev\\Views\\Factories\\TemplateFactory", $templateFactory);
+    }
+
+    /**
+     * Finishes setting necessary properties for template components
+     *
+     * @param Cache\Cache $cache The view cache
+     * @param Factories\TemplateFactory $templateFactory The template factory
+     * @param Environments\Environment $environment The application environment
+     * @param Framework\Paths $paths The application paths
+     */
+    public function run(
+        Cache\Cache $cache,
+        Factories\TemplateFactory $templateFactory,
+        Environments\Environment $environment,
+        Framework\Paths $paths
+    )
+    {
+        // It does look like we're simply binding and that this should go in registerBindings()
+        // However, we do need Paths to be bound before we can register the bindings, so it must go in run()
+        /** @var Cache\Cache $cache */
+        $cache->setPath($paths["compiledViews"]);
+        $templateFactory->setRootTemplateDirectory($paths["views"]);
 
         // If we're developing, wipe out the view cache
-        if($this->environment->getName() == Environments\Environment::DEVELOPMENT)
+        if($environment->getName() == Environments\Environment::DEVELOPMENT)
         {
             $cache->flush();
         }
