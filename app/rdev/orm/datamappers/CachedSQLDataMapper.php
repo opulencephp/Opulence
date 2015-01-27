@@ -104,9 +104,25 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
+    public function getCacheDataMapper()
+    {
+        return $this->cacheDataMapper;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getIdGenerator()
     {
         return $this->sqlDataMapper->getIdGenerator();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getSqlDataMapper()
+    {
+        return $this->sqlDataMapper;
     }
 
     /**

@@ -19,6 +19,20 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
     public function commit();
 
     /**
+     * Gets the cache data mapper
+     *
+     * @return ICacheDataMapper The cache data mapper
+     */
+    public function getCacheDataMapper();
+
+    /**
+     * Gets the SQL data mapper
+     *
+     * @return ISQLDataMapper The SQL data mapper
+     */
+    public function getSQLDataMapper();
+
+    /**
      * Gets a list of entities that differ in cache and the SQL database
      *
      * @return ORM\IEntity[] The list of entities that were not already synced

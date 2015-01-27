@@ -190,8 +190,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->entityRegistry->register($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->commit();
-        $this->assertEquals($this->entity1, $dataMapper->getSQLDataMapperForTests()->getById($this->entity1->getId()));
-        $this->assertEquals($this->entity1, $dataMapper->getCacheDataMapperForTests()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
 
     /**

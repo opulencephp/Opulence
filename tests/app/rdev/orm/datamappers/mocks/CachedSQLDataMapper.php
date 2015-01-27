@@ -50,22 +50,6 @@ class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
     }
 
     /**
-     * @return SQLDataMapper
-     */
-    public function getCacheDataMapperForTests()
-    {
-        return $this->cacheDataMapper;
-    }
-
-    /**
-     * @return SQLDataMapper
-     */
-    public function getSQLDataMapperForTests()
-    {
-        return $this->sqlDataMapper;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function loadEntity(array $hash)
