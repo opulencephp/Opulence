@@ -39,6 +39,6 @@ class FlushViewCache extends Commands\Command
     protected function doExecute(Responses\IResponse $response)
     {
         $this->viewCache->flush();
-        $response->writeln("<success>Cache flushed</success>");
+        $response->writeln("<success>View cache flushed</success>");
     }
 }

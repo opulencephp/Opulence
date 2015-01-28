@@ -4,7 +4,7 @@
  * 
  * Tests the framework paths
  */
-namespace RDev\Framework;
+namespace RDev\Applications;
 
 class PathsTest extends \PHPUnit_Framework_TestCase 
 {

@@ -25,6 +25,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $logger->pushHandler(new Mocks\MonologHandler());
         $container = new IoC\Container();
         $this->application = new Application(
+            new Paths(["foo" => "bar"]),
             $logger,
             new Environments\Environment("staging"),
             $container,
@@ -110,6 +111,25 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if a shutdown application is no longer running
+     */
+    public function testCheckingIfAShutdownApplicationIsNotRunning()
+    {
+        $this->application->start();
+        $this->application->shutdown();
+        $this->assertFalse($this->application->isRunning());
+    }
+
+    /**
+     * Tests checking if a started application is running
+     */
+    public function testCheckingIfAStartedApplicationIsRunning()
+    {
+        $this->application->start();
+        $this->assertTrue($this->application->isRunning());
+    }
+
+    /**
      * Tests checking if an application that wasn't ever started is running
      */
     public function testCheckingIfUnstartedApplicationIsRunning()
@@ -140,6 +160,15 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testGettingLog()
     {
         $this->assertInstanceOf("Monolog\\Logger", $this->application->getLogger());
+    }
+
+    /**
+     * Tests getting paths
+     */
+    public function testGettingPaths()
+    {
+        $paths = new Paths(["foo" => "bar"]);
+        $this->assertEquals($paths, $this->application->getPaths());
     }
 
     /**
@@ -301,6 +330,16 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting paths
+     */
+    public function testSettingPaths()
+    {
+        $paths = new Paths(["baz" => "blah"]);
+        $this->application->setPaths($paths);
+        $this->assertSame($paths, $this->application->getPaths());
+    }
+
+    /**
      * Tests setting the session
      */
     public function testSettingSession()
@@ -308,24 +347,5 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $session = new Sessions\Session();
         $this->application->setSession($session);
         $this->assertSame($session, $this->application->getSession());
-    }
-
-    /**
-     * Tests checking if a shutdown application is no longer running
-     */
-    public function testCheckingIfAShutdownApplicationIsNotRunning()
-    {
-        $this->application->start();
-        $this->application->shutdown();
-        $this->assertFalse($this->application->isRunning());
-    }
-
-    /**
-     * Tests checking if a started application is running
-     */
-    public function testCheckingIfAStartedApplicationIsRunning()
-    {
-        $this->application->start();
-        $this->assertTrue($this->application->isRunning());
     }
 } 

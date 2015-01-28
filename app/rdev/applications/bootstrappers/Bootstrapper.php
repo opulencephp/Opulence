@@ -5,10 +5,36 @@
  * Defines the base bootstrapper
  */
 namespace RDev\Applications\Bootstrappers;
+use RDev\Applications;
+use RDev\Applications\Environments;
 use RDev\IoC;
+use RDev\Sessions;
 
-abstract class Bootstrapper implements IBootstrapper
+abstract class Bootstrapper
 {
+    /** @var Applications\Paths The paths to various directories used by RDev */
+    protected $paths = null;
+    /** @var Environments\Environment The current environment */
+    protected $environment = null;
+    /** @var Sessions\ISession The current session */
+    protected $session = null;
+
+    /**
+     * @param Applications\Paths $paths The paths to various directories used by RDev
+     * @param Environments\Environment $environment The current environment
+     * @param Sessions\ISession $session The current session
+     */
+    public final function __construct(
+        Applications\Paths $paths,
+        Environments\Environment $environment,
+        Sessions\ISession $session
+    )
+    {
+        $this->paths = $paths;
+        $this->environment = $environment;
+        $this->session = $session;
+    }
+
     /**
      * Attempts to call the "run" method on the bootstrapper
      *

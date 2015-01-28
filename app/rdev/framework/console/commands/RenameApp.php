@@ -5,24 +5,24 @@
  * Defines the command that renames an application
  */
 namespace RDev\Framework\Console\Commands;
+use RDev\Applications;
 use RDev\Console\Commands;
 use RDev\Console\Requests;
 use RDev\Console\Responses;
 use RDev\Files;
-use RDev\Framework;
 
 class RenameApp extends Commands\Command
 {
     /** @var Files\FileSystem The filesystem to use to write to files */
     private $fileSystem = null;
-    /** @var Framework\Paths The paths of the application */
+    /** @var Applications\Paths The paths of the application */
     private $paths = null;
 
     /**
      * @param Files\FileSystem $fileSystem The filesystem to use to write to files
-     * @param Framework\Paths $paths The paths of the application
+     * @param Applications\Paths $paths The paths of the application
      */
-    public function __construct(Files\FileSystem $fileSystem, Framework\Paths $paths)
+    public function __construct(Files\FileSystem $fileSystem, Applications\Paths $paths)
     {
         parent::__construct();
 

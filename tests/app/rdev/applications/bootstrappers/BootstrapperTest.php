@@ -5,6 +5,10 @@
  * Tests the bootstrapper
  */
 namespace RDev\Applications\Bootstrappers;
+use Monolog;
+use RDev\Applications;
+use RDev\Applications\Environments;
+use RDev\Sessions;
 use RDev\Tests\Applications\Bootstrappers\Mocks;
 
 class BootstrapperTest extends \PHPUnit_Framework_TestCase 
@@ -17,7 +21,11 @@ class BootstrapperTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->bootstrapper = new Mocks\Bootstrapper();
+        $this->bootstrapper = new Mocks\Bootstrapper(
+            new Applications\Paths([]),
+            new Environments\Environment("testing"),
+            new Sessions\Session()
+        );
     }
 
     /**

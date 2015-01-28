@@ -4,7 +4,7 @@
  * 
  * Defines the list of paths used by RDev
  */
-namespace RDev\Framework;
+namespace RDev\Applications;
 
 class Paths implements \ArrayAccess
 {

@@ -13,6 +13,8 @@ class Application
 {
     /** The current RDev version */
     private static $version = "0.2.6";
+    /** @var Paths The paths to various directories used by RDev */
+    private $paths = null;
     /** @var Monolog\Logger The logger used by this application */
     private $logger = null;
     /** @var Environments\Environment The environment the application is running on */
@@ -23,24 +25,25 @@ class Application
     private $session = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
-    /** @var callable[] The list of functions to execute before startup */
-    private $preStartTasks = [];
-    /** @var callable[] The list of functions to execute after startup */
-    private $postStartTasks = [];
-    /** @var callable[] The list of functions to execute before shutdown */
-    private $preShutdownTasks = [];
-    /** @var callable[] The list of functions to execute after shutdown */
-    private $postShutdownTasks = [];
+    /** @var array The list of task callbacks */
+    private $tasks = [
+        "preStart" => [],
+        "postStart" => [],
+        "preShutdown" => [],
+        "postShutdown" => []
+    ];
     /** @var array The list of bootstrapper classes registered to the application */
     private $bootstrapperClasses = [];
 
     /**
+     * @param Paths $paths The paths to various directories used by RDev
      * @param Monolog\Logger $logger The logger to use throughout the application
      * @param Environments\Environment $environment The current environment
      * @param IoC\IContainer $container The IoC container to use
      * @param Sessions\ISession $session The current user's session
      */
     public function __construct(
+        Paths $paths,
         Monolog\Logger $logger,
         Environments\Environment $environment,
         IoC\IContainer $container,
@@ -48,11 +51,12 @@ class Application
     )
     {
         // Order here is important
+        $this->setPaths($paths);
         $this->setLogger($logger);
         $this->setEnvironment($environment);
         $this->setIoCContainer($container);
         $this->setSession($session);
-        $this->registerBootstrapperTask();
+        $this->registerBootstrappersTask();
     }
 
     /**
@@ -85,6 +89,14 @@ class Application
     public function getLogger()
     {
         return $this->logger;
+    }
+
+    /**
+     * @return Paths
+     */
+    public function getPaths()
+    {
+        return $this->paths;
     }
 
     /**
@@ -122,7 +134,7 @@ class Application
      */
     public function registerPostShutdownTask(callable $task)
     {
-        $this->postShutdownTasks[] = $task;
+        $this->tasks["postShutdown"][] = $task;
     }
 
     /**
@@ -132,7 +144,7 @@ class Application
      */
     public function registerPostStartTask(callable $task)
     {
-        $this->postStartTasks[] = $task;
+        $this->tasks["postStart"][] = $task;
     }
 
     /**
@@ -142,7 +154,7 @@ class Application
      */
     public function registerPreShutdownTask(callable $task)
     {
-        $this->preShutdownTasks[] = $task;
+        $this->tasks["preShutdown"][] = $task;
     }
 
     /**
@@ -152,7 +164,7 @@ class Application
      */
     public function registerPreStartTask(callable $task)
     {
-        $this->preStartTasks[] = $task;
+        $this->tasks["preStart"][] = $task;
     }
 
     /**
@@ -180,6 +192,14 @@ class Application
     }
 
     /**
+     * @param Paths $paths
+     */
+    public function setPaths($paths)
+    {
+        $this->paths = $paths;
+    }
+
+    /**
      * @param Sessions\ISession $session
      */
     public function setSession(Sessions\ISession $session)
@@ -199,9 +219,9 @@ class Application
         {
             try
             {
-                $this->doTasks($this->preShutdownTasks);
+                $this->doTasks($this->tasks["preShutdown"]);
                 $this->isRunning = false;
-                $this->doTasks($this->postShutdownTasks);
+                $this->doTasks($this->tasks["postShutdown"]);
             }
             catch(\Exception $ex)
             {
@@ -221,9 +241,9 @@ class Application
         {
             try
             {
-                $this->doTasks($this->preStartTasks);
+                $this->doTasks($this->tasks["preStart"]);
                 $this->isRunning = true;
-                $this->doTasks($this->postStartTasks);
+                $this->doTasks($this->tasks["postStart"]);
             }
             catch(\Exception $ex)
             {
@@ -257,7 +277,7 @@ class Application
     /**
      * Registers the task that will run the bootstrappers
      */
-    private function registerBootstrapperTask()
+    private function registerBootstrappersTask()
     {
         $this->registerPreStartTask(function ()
         {
@@ -265,18 +285,18 @@ class Application
 
             foreach($this->bootstrapperClasses as $bootstrapperClass)
             {
-                $bootstrapper = $this->container->makeNew($bootstrapperClass);
+                $bootstrapper = new $bootstrapperClass($this->paths, $this->environment, $this->session);
 
-                if(!$bootstrapper instanceof Bootstrappers\IBootstrapper)
+                if(!$bootstrapper instanceof Bootstrappers\Bootstrapper)
                 {
-                    throw new \RuntimeException("Bootstrapper does not implement IBootstrapper");
+                    throw new \RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
                 }
 
                 $bootstrapper->registerBindings($this->container);
                 $bootstrapperObjects[] = $bootstrapper;
             }
 
-            /** @var Bootstrappers\IBootstrapper $bootstrapper */
+            /** @var Bootstrappers\Bootstrapper $bootstrapper */
             foreach($bootstrapperObjects as $bootstrapper)
             {
                 $this->container->call($bootstrapper, "run", [], true);
