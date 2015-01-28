@@ -21,12 +21,11 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "monolog/monolog": "1.11.*@dev",
     "rdev/applications": "0.2.*",
     "rdev/console": "0.2.*",
+    "rdev/files": "0.2.*",
     "rdev/http": "0.2.*",
     "rdev/ioc": "0.2.*",
-    "rdev/orm": "0.2.*",
     "rdev/views": "0.2.*"
   },
   "extra": {
