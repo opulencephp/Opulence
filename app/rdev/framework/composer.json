@@ -1,6 +1,6 @@
 {
   "name": "rdev/framework",
-  "description": "The RDev framework library",
+  "description": "The RDev main framework library",
   "keywords": [
     "PHP",
     "application",
