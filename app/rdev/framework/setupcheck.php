@@ -5,12 +5,16 @@
  * Checks that the environment is correctly configured to run RDev
  */
 /**
+ * ----------------------------------------------------------
  * Don't display errors to the browser
+ * ----------------------------------------------------------
  */
 ini_set("display_errors", "off");
 
 /**
+ * ----------------------------------------------------------
  * Force the mbstring extension to be installed
+ * ----------------------------------------------------------
  */
 if(!extension_loaded("mbstring"))
 {
@@ -18,7 +22,9 @@ if(!extension_loaded("mbstring"))
 }
 
 /**
+ * ----------------------------------------------------------
  * Force a default timezone
+ * ----------------------------------------------------------
  */
 if(ini_get("date.timezone") === false || date_default_timezone_get() == "UTC")
 {

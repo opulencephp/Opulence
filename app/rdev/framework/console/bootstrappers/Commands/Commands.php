@@ -4,7 +4,7 @@
  *
  * Defines the command bootstrapper
  */
-namespace RDev\Framework\Console\Bootstrappers;
+namespace RDev\Framework\Console\Bootstrappers\Commands;
 use RDev\Applications\Bootstrappers;
 use RDev\Console\Commands as ConsoleCommands;
 use RDev\Console\Commands\Compilers;
@@ -26,7 +26,7 @@ class Commands extends Bootstrappers\Bootstrapper
      */
     public function registerBindings(IoC\IContainer $container)
     {
-        $compiler = new Compilers\Compiler();
+        $compiler = $this->getCommandCompiler($container);
         $container->bind("RDev\\Console\\Commands\\Compilers\\ICompiler", $compiler);
         $this->commands = new ConsoleCommands\Commands();
         $container->bind("RDev\\Console\\Commands\\Commands", $this->commands);
@@ -44,5 +44,17 @@ class Commands extends Bootstrappers\Bootstrapper
         {
             $this->commands->add($container->makeShared($commandClass));
         }
+    }
+
+    /**
+     * Gets the command compiler
+     * To use a different command compiler than the one returned here, extend this class and override this method
+     *
+     * @param IoC\IContainer $container The dependency injection container
+     * @return Compilers\ICompiler The command compiler
+     */
+    protected function getCommandCompiler(IoC\IContainer $container)
+    {
+        return new Compilers\Compiler();
     }
 }

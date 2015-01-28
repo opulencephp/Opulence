@@ -3,6 +3,7 @@
  * Copyright (C) 2015 David Young
  * 
  * Defines the base bootstrapper
+ * Note:  This class also accepts a run() method with a variable number of parameters
  */
 namespace RDev\Applications\Bootstrappers;
 use RDev\Applications;
@@ -60,11 +61,4 @@ abstract class Bootstrapper
     {
         // Let extending classes define this
     }
-
-    /**
-     * NOTE:  Because the following function accepts a variable number of parameters, we do not define it inside
-     * this class.  However, bootstrappers MUST implement this method
-     *
-     * abstract public function run();
-     */
 }

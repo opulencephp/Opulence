@@ -57,7 +57,7 @@ class Environment
     /**
      * Gets whether or not the application is running in a console
      *
-     * @return bool true if the application is running in a console, otherwise false
+     * @return bool True if the application is running in a console, otherwise false
      */
     public function isRunningInConsole()
     {
