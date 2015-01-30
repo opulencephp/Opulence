@@ -7,6 +7,8 @@
 namespace RDev\Framework\Console\Commands;
 use RDev\Applications;
 use RDev\Console\Commands;
+use RDev\Console\Prompts;
+use RDev\Console\Prompts\Questions;
 use RDev\Console\Requests;
 use RDev\Console\Responses;
 use RDev\Files;
@@ -15,18 +17,22 @@ class RenameApp extends Commands\Command
 {
     /** @var Files\FileSystem The filesystem to use to write to files */
     private $fileSystem = null;
+    /** @var Prompts\Prompt The prompt to confirm things with the user */
+    private $prompt = null;
     /** @var Applications\Paths The paths of the application */
     private $paths = null;
 
     /**
      * @param Files\FileSystem $fileSystem The filesystem to use to write to files
+     * @param Prompts\Prompt $prompt The prompt to confirm things with the user
      * @param Applications\Paths $paths The paths of the application
      */
-    public function __construct(Files\FileSystem $fileSystem, Applications\Paths $paths)
+    public function __construct(Files\FileSystem $fileSystem, Prompts\Prompt $prompt, Applications\Paths $paths)
     {
         parent::__construct();
 
         $this->fileSystem = $fileSystem;
+        $this->prompt = $prompt;
         $this->paths = $paths;
     }
 
@@ -55,12 +61,23 @@ class RenameApp extends Commands\Command
      */
     protected function doExecute(Responses\IResponse $response)
     {
-        $this->updateComposer();
-        $this->updateAppDirectory();
-        $this->updateNamespaces();
-        $this->updateConfigs();
-        $response->writeln("<success>Updated name successfully</success>");
-        $response->writeln("<comment>Run \"composer dump-autoload -o\" to update the autoloader</comment>");
+        $confirmationQuestion = new Questions\Confirmation(
+            sprintf(
+                "Are you sure you want to rename \"%s\" to \"%s\"?",
+                $this->getArgumentValue("currName"),
+                $this->getArgumentValue("newName")
+            )
+        );
+
+        if($this->prompt->ask($confirmationQuestion, $response))
+        {
+            $this->updateComposer();
+            $this->updateAppDirectory();
+            $this->updateNamespaces();
+            $this->updateConfigs();
+            $response->writeln("<success>Updated name successfully</success>");
+            $response->writeln("<comment>Run \"composer dump-autoload -o\" to update the autoloader</comment>");
+        }
     }
 
     /**
@@ -68,10 +85,25 @@ class RenameApp extends Commands\Command
      */
     private function updateAppDirectory()
     {
+        // Move the directory to the new name
         $this->fileSystem->move(
             $this->paths["app"] . "/" . strtolower($this->getArgumentValue("currName")),
             $this->paths["app"] . "/" . strtolower($this->getArgumentValue("newName"))
         );
+
+        // Rename any references to the new namespace
+        $appFiles = $this->fileSystem->getFiles($this->paths["app"], true);
+
+        foreach($appFiles as $file)
+        {
+            $currentContents = $this->fileSystem->read($file);
+            $updatedContents = str_replace(
+                $this->getArgumentValue("currName") . "\\",
+                $this->getArgumentValue("newName") . "\\",
+                $currentContents
+            );
+            $this->fileSystem->write($file, $updatedContents);
+        }
     }
 
     /**
