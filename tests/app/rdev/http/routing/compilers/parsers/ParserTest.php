@@ -37,7 +37,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)"
+                    preg_quote("/", "/") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "/") . "(?P<blah>[^\/]+)"
                 )
             )
         );
@@ -87,7 +87,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)"
+                    preg_quote("/", "/") . "(?P<foo>[^\/]+)"
                 )
             )
         );
@@ -110,7 +110,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)"
+                    preg_quote("/", "/") . "(?P<foo>[^\/]+)"
                 )
             )
         );
@@ -254,7 +254,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
+                    preg_quote("/", "/") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "/") . "(?P<blah>[^\/]+)?"
                 )
             )
         );
@@ -277,7 +277,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>.+)" . preg_quote("/bar/", "/") . "(?P<blah>.+)?"
+                    preg_quote("/", "/") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "/") . "(?P<blah>[^\/]+)?"
                 )
             )
         );

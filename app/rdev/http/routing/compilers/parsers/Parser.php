@@ -90,7 +90,7 @@ class Parser implements IParser
             if($variableRegex === null)
             {
                 // Add a default regex
-                $variableRegex = ".+";
+                $variableRegex = "[^\/]+";
             }
 
             // Insert the regex for this variable back into the regex
