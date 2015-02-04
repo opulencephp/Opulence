@@ -94,6 +94,15 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying a short name that is not an alphabet character
+     */
+    public function testNonAlphabeticShortName()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        new Option("foo", "-", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
+    }
+
+    /**
      * Tests setting the type to both optional and no value
      */
     public function testSettingTypeToOptionalAndNoValue()
@@ -118,5 +127,14 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("\\InvalidArgumentException");
         new Option("foo", "f", OptionTypes::REQUIRED_VALUE | OptionTypes::NO_VALUE, "Foo argument");
+    }
+
+    /**
+     * Tests specifying a short name that is too long
+     */
+    public function testTooLongShortName()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        new Option("foo", "foo", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
     }
 }

@@ -33,9 +33,23 @@ class Option
         {
             throw new \InvalidArgumentException("Option type cannot be both optional and required");
         }
-        elseif(($type & 5) === 5 || ($type & 6) === 6)
+
+        if(($type & 5) === 5 || ($type & 6) === 6)
         {
             throw new \InvalidArgumentException("Option cannot have a value and not have a value");
+        }
+
+        if($shortName !== null)
+        {
+            if(strlen($shortName) != 1)
+            {
+                throw new \InvalidArgumentException("Short names must be one character in length");
+            }
+
+            if(!ctype_alpha($shortName))
+            {
+                throw new \InvalidArgumentException("Short names must be an alphabet character");
+            }
         }
 
         $this->name = $name;
