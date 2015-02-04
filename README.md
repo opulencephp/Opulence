@@ -36,6 +36,9 @@
 ### File System
 1. [File System](https://github.com/ramblingsofadev/docs/blob/master/files.md)
 
+### HTTP Requests and Responses
+1. [HTTP Requests and Responses](https://github.com/ramblingsofadev/docs/blob/master/http.md)
+
 ### Console Applications
 1. [Running Console Applications](https://github.com/ramblingsofadev/docs/blob/master/console.md)
 
