@@ -23,13 +23,19 @@ class RenameApp extends Commands\Command
     private $paths = null;
 
     /**
+     * @param Commands\Commands $commands The list of registered commands
      * @param Files\FileSystem $fileSystem The filesystem to use to write to files
      * @param Prompts\Prompt $prompt The prompt to confirm things with the user
      * @param Applications\Paths $paths The paths of the application
      */
-    public function __construct(Files\FileSystem $fileSystem, Prompts\Prompt $prompt, Applications\Paths $paths)
+    public function __construct(
+        Commands\Commands $commands,
+        Files\FileSystem $fileSystem,
+        Prompts\Prompt $prompt,
+        Applications\Paths $paths
+    )
     {
-        parent::__construct();
+        parent::__construct($commands);
 
         $this->fileSystem = $fileSystem;
         $this->prompt = $prompt;

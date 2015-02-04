@@ -6,7 +6,6 @@
  */
 namespace RDev\ORM\DataMappers;
 use RDev\Databases\SQL;
-use RDev\Exceptions;
 use RDev\ORM;
 use RDev\ORM\Ids;
 
