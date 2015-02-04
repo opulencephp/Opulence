@@ -17,11 +17,12 @@ EOF;
     private $applicationVersion = "Unknown";
 
     /**
+     * @param Commands $commands The list of registered commands
      * @param string $applicationVersion The version number of the application
      */
-    public function __construct($applicationVersion)
+    public function __construct(Commands $commands, $applicationVersion)
     {
-        parent::__construct();
+        parent::__construct($commands);
 
         $this->applicationVersion = $applicationVersion;
     }

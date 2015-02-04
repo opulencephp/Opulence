@@ -6,6 +6,7 @@
  */
 namespace RDev\Console\Commands;
 use RDev\Console\Requests;
+use RDev\Console\Responses;
 use RDev\Console\Responses\Compilers;
 use RDev\Console\Responses\Compilers\Lexers;
 use RDev\Console\Responses\Compilers\Parsers;
@@ -16,13 +17,19 @@ class CommandTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CommandMocks\SimpleCommand The command to use in tests */
     private $command = null;
+    /** @var Commands The list of registered commands */
+    private $commands = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->command = new CommandMocks\SimpleCommand("foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol");
+        $this->commands = new Commands();
+        $this->commands->add(new CommandMocks\HappyHolidayCommand($this->commands));
+        $this->command = new CommandMocks\SimpleCommand(
+            $this->commands, "foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol"
+        );
     }
 
     /**
@@ -47,6 +54,26 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $returnValue = $this->command->addOption($option);
         $this->assertSame($returnValue, $this->command);
         $this->assertSame($option, $this->command->getOption("foo"));
+    }
+
+    /**
+     * Tests calling a command
+     */
+    public function testCallingCommand()
+    {
+        $response = new ResponseMocks\Response(new Compilers\Compiler(new Lexers\Lexer(), new Parsers\Parser()));
+        ob_start();
+        $this->command->call("holiday", ["Easter"], ["-y"], $response);
+        $this->assertEquals("Happy Easter!", ob_get_clean());
+    }
+
+    /**
+     * Tests trying to call a non-existent command
+     */
+    public function testCallingNonExistentCommand()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->command->call("fake", [], [], new Responses\Silent());
     }
 
     /**
@@ -179,7 +206,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingNameInConstructor()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        new CommandMocks\NamelessCommand();
+        new CommandMocks\NamelessCommand(new Commands());
     }
 
     /**

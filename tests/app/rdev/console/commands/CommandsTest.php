@@ -25,7 +25,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $command = new Mocks\SimpleCommand("foo", "The foo command");
+        $command = new Mocks\SimpleCommand($this->commands, "foo", "The foo command");
         $this->commands->add($command);
         $this->assertSame($command, $this->commands->get("foo"));
     }
@@ -36,8 +36,8 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
     public function testAddingDuplicateNames()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->commands->add(new Mocks\SimpleCommand("foo", "The foo command"));
-        $this->commands->add(new Mocks\SimpleCommand("foo", "The foo command copy"));
+        $this->commands->add(new Mocks\SimpleCommand($this->commands, "foo", "The foo command"));
+        $this->commands->add(new Mocks\SimpleCommand($this->commands, "foo", "The foo command copy"));
     }
 
     /**
@@ -45,7 +45,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfCommandExists()
     {
-        $this->commands->add(new Mocks\SimpleCommand("foo", "The foo command"));
+        $this->commands->add(new Mocks\SimpleCommand($this->commands, "foo", "The foo command"));
         $this->assertTrue($this->commands->has("foo"));
         $this->assertFalse($this->commands->has("bar"));
     }
@@ -55,8 +55,8 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAll()
     {
-        $fooCommand = new Mocks\SimpleCommand("foo", "The foo command");
-        $barCommand = new Mocks\SimpleCommand("bar", "The bar command");
+        $fooCommand = new Mocks\SimpleCommand($this->commands, "foo", "The foo command");
+        $barCommand = new Mocks\SimpleCommand($this->commands, "bar", "The bar command");
         $this->commands->add($fooCommand);
         $this->commands->add($barCommand);
         $this->assertEquals([$fooCommand, $barCommand], $this->commands->getAll());

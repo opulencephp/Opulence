@@ -33,12 +33,13 @@ EOF;
     private $paddingFormatter  = null;
 
     /**
+     * @param Commands $commands The list of registered commands
      * @param Formatters\Command $commandFormatter The formatter that converts a command object to text
      * @param Formatters\Padding $paddingFormatter The space padding formatter to use
      */
-    public function __construct(Formatters\Command $commandFormatter, Formatters\Padding $paddingFormatter)
+    public function __construct(Commands $commands, Formatters\Command $commandFormatter, Formatters\Padding $paddingFormatter)
     {
-        parent::__construct();
+        parent::__construct($commands);
 
         $this->commandFormatter = $commandFormatter;
         $this->paddingFormatter = $paddingFormatter;

@@ -1,4 +1,9 @@
 HAS PRIORITY:
+    Allow caching of routes/matches
+        Compiler needs to store parsed routes
+        Router needs to check if cached routes exist
+            If not, loop through ALL routes, parse them, cache them
+            If so, loop through cached routes and compile them to match them
     Add CommandTester class
     Write up Console
         Be sure to include how nested elements work (eg inheritance)
@@ -26,7 +31,5 @@ Need to create session storage classes
         This would only include the basics: get(), set(), and delete()
 Do we really need repo interface examples in RDev?
     No.  As soon as above items are done, move repo stuff to Project.
-Allow caching of routes/matches
-Need to write documentation on Request/Response
 Incorrect username entry is faster, allowing timing attacks
 Need to figure out where to store lifetime settings for login credentials in LoginController

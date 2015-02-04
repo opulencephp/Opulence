@@ -18,8 +18,6 @@ About <b>RDev Console</b> {{version}}
 <comment>Commands:</comment>
 {{commands}}
 EOF;
-    /** @var Commands The list of commands registered */
-    private $commands = null;
     /** @var Formatters\Padding The space padding formatter to use */
     private $paddingFormatter  = null;
     /** @var string The version number of the application */
@@ -32,9 +30,8 @@ EOF;
      */
     public function __construct(Commands &$commands, Formatters\Padding $paddingFormatter, $applicationVersion)
     {
-        parent::__construct();
+        parent::__construct($commands);
 
-        $this->commands = $commands;
         $this->paddingFormatter = $paddingFormatter;
         $this->applicationVersion = $applicationVersion;
     }
