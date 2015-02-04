@@ -210,6 +210,16 @@ class Route
     }
 
     /**
+     * Gets the regexes for path parameters
+     *
+     * @return array The mapping of variable names to regexes
+     */
+    public function getVariableRegexes()
+    {
+        return $this->variableRegexes;
+    }
+
+    /**
      * @return boolean
      */
     public function isSecure()
@@ -277,6 +287,19 @@ class Route
     }
 
     /**
+     * Sets regexes variables must satisfy
+     *
+     * @param array $regexes The mapping of variable names to their regexes
+     */
+    public function setVariableRegexes(array $regexes)
+    {
+        foreach($regexes as $variableName => $regex)
+        {
+            $this->setVariableRegex($variableName, $regex);
+        }
+    }
+
+    /**
      * Sets the controller name and method from the raw string
      *
      * @param string $controllerString The string to set the variables from
@@ -294,18 +317,5 @@ class Route
 
         $this->controllerName = substr($controllerString, 0, $atCharPos);
         $this->controllerMethod = substr($controllerString, $atCharPos + 1);
-    }
-
-    /**
-     * Sets route variable regexes
-     *
-     * @param array $variableRegexes The mapping of variable names to their regexes
-     */
-    protected function setVariableRegexes(array $variableRegexes)
-    {
-        foreach($variableRegexes as $variableName => $regex)
-        {
-            $this->setVariableRegex($variableName, $regex);
-        }
     }
 } 

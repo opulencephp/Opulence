@@ -63,37 +63,6 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests not setting HTTPS
-     */
-    public function testNotSettingHTTPS()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $this->assertFalse($route->isSecure());
-    }
-
-    /**
-     * Tests setting HTTPS
-     */
-    public function testSettingHTTPS()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "https" => false
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $this->assertFalse($route->isSecure());
-        $options = [
-            "controller" => "foo@bar",
-            "https" => true
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $this->assertTrue($route->isSecure());
-    }
-
-    /**
      * Tests adding a single post-filter
      */
     public function testAddingSinglePostFilter()
@@ -266,6 +235,18 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not setting HTTPS
+     */
+    public function testNotSettingHTTPS()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertFalse($route->isSecure());
+    }
+
+    /**
      * Tests passing in a controller with no method
      */
     public function testPassingControllerWithNoMethod()
@@ -380,6 +361,39 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting HTTPS
+     */
+    public function testSettingHTTPS()
+    {
+        $options = [
+            "controller" => "foo@bar",
+            "https" => false
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertFalse($route->isSecure());
+        $options = [
+            "controller" => "foo@bar",
+            "https" => true
+        ];
+        $route = new Route("get", "/{foo}", $options);
+        $this->assertTrue($route->isSecure());
+    }
+
+    /**
+     * Tests setting multiple variable regexes
+     */
+    public function testSettingMultipleVariableRegexes()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route("get", "/{foo}/{bar}", $options);
+        $regexes = ["foo" => "\d+", "bar" => "\w+"];
+        $route->setVariableRegexes($regexes);
+        $this->assertEquals($regexes, $route->getVariableRegexes());
+    }
+
+    /**
      * Tests setting the name
      */
     public function testSettingName()
@@ -451,6 +465,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Route("get", "/{foo}", $options);
         $route->setVariableRegex("foo", "\d+");
+        $this->assertEquals(["foo" => "\d+"], $route->getVariableRegexes());
         $this->assertEquals("\d+", $route->getVariableRegex("foo"));
     }
 } 

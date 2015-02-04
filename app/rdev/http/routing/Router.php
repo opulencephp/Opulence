@@ -244,6 +244,8 @@ class Router
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
         $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
         $route->setSecure($this->isGroupSecure() || $route->isSecure());
+        // The route's variable regexes take precedence over group regexes
+        $route->setVariableRegexes(array_merge($this->getVariableRegexes(), $route->getVariableRegexes()));
         $groupPreFilters = $this->getGroupFilters("pre");
         $groupPostFilters = $this->getGroupFilters("post");
 
@@ -323,6 +325,26 @@ class Router
         }
 
         return $filters;
+    }
+
+    /**
+     * Gets the variable regexes from the current group stack
+     *
+     * @return array The The mapping of variable names to regexes
+     */
+    private function getVariableRegexes()
+    {
+        $variableRegexes = [];
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["variables"]))
+            {
+                $variableRegexes = array_merge($variableRegexes, $groupOptions["variables"]);
+            }
+        }
+
+        return $variableRegexes;
     }
 
     /**

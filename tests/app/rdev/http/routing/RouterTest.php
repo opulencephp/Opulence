@@ -47,6 +47,24 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a group with variable regexes
+     */
+    public function testGroupWithVariableRegexes()
+    {
+        $this->router->group(["path" => "/users/{userId}", "variables" => ["id" => "\d+"]], function ()
+        {
+            $this->router->get("/foo", ["controller" => "foo@bar"]);
+            $this->router->post("/foo", ["controller" => "foo@bar"]);
+        });
+        /** @var Routes\Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
+        /** @var Routes\Route[] $postRoutes */
+        $postRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_POST);
+        $this->assertEquals("\d+", $getRoutes[0]->getVariableRegex("id"));
+        $this->assertEquals("\d+", $postRoutes[0]->getVariableRegex("id"));
+    }
+
+    /**
      * Tests grouping routes
      */
     public function testGroupingRoutes()
@@ -224,6 +242,29 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller", $deleteRoutes[0]->getControllerName());
         $this->assertEquals(["pre1", "pre2"], $deleteRoutes[0]->getPreFilters());
         $this->assertEquals(["post1", "post2"], $deleteRoutes[0]->getPostFilters());
+    }
+
+    /**
+     * Tests that nested groups with variable regexes overwrite one another
+     */
+    public function testNestingGroupVariableRegexesOverwriteOneAnother()
+    {
+        $this->router->group(["path" => "/users/{userId}", "variables" => ["id" => "\d*"]], function ()
+        {
+            $this->router->get("/foo", ["controller" => "foo@bar"]);
+            // This route's variable regex should take precedence
+            $this->router->get("/bam", ["controller" => "foo@bam", "variables" => ["id" => "\w+"]]);
+
+            $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function()
+            {
+                $this->router->get("/baz", ["controller" => "bar@baz"]);
+            });
+        });
+        /** @var Routes\Route[] $getRoutes */
+        $getRoutes = $this->router->getRoutes()->get(Requests\Request::METHOD_GET);
+        $this->assertEquals("\d*", $getRoutes[0]->getVariableRegex("id"));
+        $this->assertEquals("\w+", $getRoutes[1]->getVariableRegex("id"));
+        $this->assertEquals("\d+", $getRoutes[2]->getVariableRegex("id"));
     }
 
     /**
