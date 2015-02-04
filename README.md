@@ -36,6 +36,9 @@
 ### File System
 1. [File System](https://github.com/ramblingsofadev/docs/blob/master/files.md)
 
+### Console Applications
+1. [Running Console Applications](https://github.com/ramblingsofadev/docs/blob/master/console.md)
+
 ## Introduction
 **RDev** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With RDev, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested. RDev is split into components, which can be installed separately or bundled together.
 
