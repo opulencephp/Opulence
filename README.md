@@ -53,23 +53,19 @@ composer create-project rdev/project --prefer-dist
 ```
 
 You can also install the components of RDev individually.  The following is a list of all the components available for installation:
-```javascript
-{
-    "require": {
-        "rdev/applications": "0.2.*@dev",
-        "rdev/authentication": "0.2.*@dev",
-        "rdev/console": "0.2.*@dev",
-        "rdev/cryptography": "0.2.*@dev",
-        "rdev/databases": "0.2.*@dev",
-        "rdev/files": "0.2.*@dev",
-        "rdev/http": "0.2.*@dev",
-        "rdev/ioc": "0.2.*@dev",
-        "rdev/orm": "0.2.*@dev",
-        "rdev/sessions": "0.2.*@dev",
-        "rdev/users": "0.2.*@dev",
-        "rdev/views": "0.2.*@dev"
-    }
-}
+
+```
+rdev/authentication
+rdev/console
+rdev/cryptography
+rdev/databases
+rdev/files
+rdev/http
+rdev/ioc
+rdev/orm
+rdev/sessions
+rdev/users
+rdev/views
 ```
 
 ## Documentation
