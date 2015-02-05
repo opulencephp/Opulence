@@ -26,8 +26,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->compiler = new Compiler();
-        $this->commands = new Commands\Commands();
-        $this->command = new Mocks\SimpleCommand($this->commands, "Foo", "The foo command");
+        $this->commands = new Commands\Commands($this->compiler);
+        $this->command = new Mocks\SimpleCommand("Foo", "The foo command");
         $this->request = new Requests\Request();
     }
 

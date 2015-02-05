@@ -12,18 +12,17 @@ use RDev\Console\Responses;
 class SimpleCommand extends Commands\Command
 {
     /**
-     * @param Commands\Commands $commands The list of registered commands
      * @param string $name The name of the command
      * @param string $description A brief description of the command
      * @param string $helpText The help text of the command
      */
-    public function __construct(Commands\Commands $commands, $name, $description, $helpText = "")
+    public function __construct($name, $description, $helpText = "")
     {
         $this->setName($name);
         $this->setDescription($description);
         $this->setHelpText($helpText);
 
-        parent::__construct($commands);
+        parent::__construct();
     }
 
     /**

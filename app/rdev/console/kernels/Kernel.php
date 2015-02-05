@@ -75,7 +75,7 @@ class Kernel
             elseif($this->isInvokingVersionCommand($request))
             {
                 // We are going to execute the version command
-                $compiledCommand = new Commands\Version($this->commands, $this->applicationVersion);
+                $compiledCommand = new Commands\Version($this->applicationVersion);
             }
             elseif($this->commands->has($request->getCommandName()))
             {
@@ -128,7 +128,7 @@ class Kernel
      */
     private function getCompiledHelpCommand(Requests\IRequest $request)
     {
-        $helpCommand = new Commands\Help($this->commands, new Formatters\Command(), new Formatters\Padding());
+        $helpCommand = new Commands\Help(new Formatters\Command(), new Formatters\Padding());
         $commandName = null;
 
         if($request->getCommandName() == "help")

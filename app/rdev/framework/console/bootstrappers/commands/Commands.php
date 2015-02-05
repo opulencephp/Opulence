@@ -28,7 +28,7 @@ class Commands extends Bootstrappers\Bootstrapper
     {
         $compiler = $this->getCommandCompiler($container);
         $container->bind("RDev\\Console\\Commands\\Compilers\\ICompiler", $compiler);
-        $this->commands = new ConsoleCommands\Commands();
+        $this->commands = new ConsoleCommands\Commands($compiler);
         $container->bind("RDev\\Console\\Commands\\Commands", $this->commands);
     }
 

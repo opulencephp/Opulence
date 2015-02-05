@@ -34,13 +34,11 @@ abstract class Command implements ICommand
      * To ensure that the command is properly instantiated, be sure to
      * always call parent::__construct() in child command classes
      *
-     * @param Commands $commands The list of registered commands
      * @throws \InvalidArgumentException Thrown if the name is not set
      */
-    public function __construct(Commands &$commands)
+    public function __construct()
     {
         $this->constructorCalled = true;
-        $this->commands = $commands;
 
         // Define the command
         $this->define();
@@ -85,19 +83,6 @@ abstract class Command implements ICommand
     public function argumentValueIsSet($name)
     {
         return isset($this->argumentValues[$name]);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function call($commandName, array $arguments, array $options, Responses\IResponse $response)
-    {
-        $parser = new Parsers\ArrayList();
-        $compiler = new Compilers\Compiler();
-        $request = $parser->parse(["name" => $commandName, "arguments" => $arguments, "options" => $options]);
-        $compiledCommand = $compiler->compile($this->commands->get($commandName), $request);
-
-        return $compiledCommand->execute($response);
     }
 
     /**
@@ -225,6 +210,14 @@ abstract class Command implements ICommand
     public function setArgumentValue($name, $value)
     {
         $this->argumentValues[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setCommands(Commands &$commands)
+    {
+        $this->commands = $commands;
     }
 
     /**

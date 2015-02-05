@@ -35,18 +35,6 @@ interface ICommand
     public function argumentValueIsSet($name);
 
     /**
-     * Calls a command and writes its output to the input response
-     *
-     * @param string $commandName The name of the command to run
-     * @param array $arguments The list of arguments
-     * @param array $options The list of options
-     * @param Responses\IResponse $response The response to write output to
-     * @return int The status code of the command
-     * @throws \InvalidArgumentException Thrown if no command exists with the input name
-     */
-    public function call($commandName, array $arguments, array $options, Responses\IResponse $response);
-
-    /**
      * Executes the command
      *
      * @param Responses\IResponse $response The console response to write to
@@ -142,6 +130,13 @@ interface ICommand
      * @param mixed $value The value to set
      */
     public function setArgumentValue($name, $value);
+
+    /**
+     * Sets the list of registered commands
+     *
+     * @param Commands $commands The list of registered commands
+     */
+    public function setCommands(Commands &$commands);
 
     /**
      * Sets the value of an option

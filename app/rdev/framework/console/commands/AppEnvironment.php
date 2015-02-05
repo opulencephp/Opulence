@@ -15,12 +15,11 @@ class AppEnvironment extends Commands\Command
     private $environment = null;
 
     /**
-     * @param Commands\Commands $commands The list of registered commands
      * @param Environments\Environment $environment The current environment
      */
-    public function __construct(Commands\Commands $commands, Environments\Environment $environment)
+    public function __construct(Environments\Environment $environment)
     {
-        parent::__construct($commands);
+        parent::__construct();
 
         $this->environment = $environment;
     }

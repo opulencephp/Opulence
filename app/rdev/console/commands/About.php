@@ -30,8 +30,9 @@ EOF;
      */
     public function __construct(Commands &$commands, Formatters\Padding $paddingFormatter, $applicationVersion)
     {
-        parent::__construct($commands);
+        parent::__construct();
 
+        $this->setCommands($commands);
         $this->paddingFormatter = $paddingFormatter;
         $this->applicationVersion = $applicationVersion;
     }

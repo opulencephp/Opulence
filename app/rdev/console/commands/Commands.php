@@ -5,11 +5,26 @@
  * Defines the console commands container
  */
 namespace RDev\Console\Commands;
+use RDev\Console\Requests\Parsers;
+use RDev\Console\Responses;
 
 class Commands
 {
     /** @var ICommand[] The list of commands */
     private $commands = [];
+    /** @var Compilers\ICompiler The command compiler */
+    private $commandCompiler = null;
+    /** @var Parsers\ArrayList The request parser */
+    private $requestParser = null;
+
+    /**
+     * @param Compilers\ICompiler $compiler The command compiler
+     */
+    public function __construct(Compilers\ICompiler $compiler)
+    {
+        $this->commandCompiler = $compiler;
+        $this->requestParser = new Parsers\ArrayList();
+    }
 
     /**
      * Adds a command
@@ -24,7 +39,26 @@ class Commands
             throw new \InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
         }
 
+        $command->setCommands($this);
         $this->commands[$command->getName()] = $command;
+    }
+
+    /**
+     * Calls a command and writes its output to the input response
+     *
+     * @param string $commandName The name of the command to run
+     * @param array $arguments The list of arguments
+     * @param array $options The list of options
+     * @param Responses\IResponse $response The response to write output to
+     * @return int The status code of the command
+     * @throws \InvalidArgumentException Thrown if no command exists with the input name
+     */
+    public function call($commandName, array $arguments, array $options, Responses\IResponse $response)
+    {
+        $request = $this->requestParser->parse(["name" => $commandName, "arguments" => $arguments, "options" => $options]);
+        $compiledCommand = $this->commandCompiler->compile($this->get($commandName), $request);
+
+        return $compiledCommand->execute($response);
     }
 
     /**

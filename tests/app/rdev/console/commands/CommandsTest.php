@@ -5,7 +5,12 @@
  * Tests the commands class
  */
 namespace RDev\Console\Commands;
-use RDev\Tests\Console\Commands\Mocks;
+use RDev\Console\Responses;
+use RDev\Console\Responses\Compilers as ResponseCompilers;
+use RDev\Console\Responses\Compilers\Lexers;
+use RDev\Console\Responses\Compilers\Parsers;
+use RDev\Tests\Console\Commands\Mocks as CommandMocks;
+use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
 
 class CommandsTest extends \PHPUnit_Framework_TestCase 
 {
@@ -17,7 +22,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->commands = new Commands();
+        $this->commands = new Commands(new Compilers\Compiler());
     }
 
     /**
@@ -25,7 +30,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "The foo command");
+        $command = new CommandMocks\SimpleCommand("foo", "The foo command");
         $this->commands->add($command);
         $this->assertSame($command, $this->commands->get("foo"));
     }
@@ -36,8 +41,31 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
     public function testAddingDuplicateNames()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->commands->add(new Mocks\SimpleCommand($this->commands, "foo", "The foo command"));
-        $this->commands->add(new Mocks\SimpleCommand($this->commands, "foo", "The foo command copy"));
+        $this->commands->add(new CommandMocks\SimpleCommand("foo", "The foo command"));
+        $this->commands->add(new CommandMocks\SimpleCommand("foo", "The foo command copy"));
+    }
+
+    /**
+     * Tests calling a command
+     */
+    public function testCallingCommand()
+    {
+        $this->commands->add(new CommandMocks\HappyHolidayCommand());
+        $response = new ResponseMocks\Response(
+            new ResponseCompilers\Compiler(new Lexers\Lexer(), new Parsers\Parser())
+        );
+        ob_start();
+        $this->commands->call("holiday", ["Easter"], ["-y"], $response);
+        $this->assertEquals("Happy Easter!", ob_get_clean());
+    }
+
+    /**
+     * Tests trying to call a non-existent command
+     */
+    public function testCallingNonExistentCommand()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->commands->call("fake", [], [], new Responses\Silent());
     }
 
     /**
@@ -45,7 +73,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfCommandExists()
     {
-        $this->commands->add(new Mocks\SimpleCommand($this->commands, "foo", "The foo command"));
+        $this->commands->add(new CommandMocks\SimpleCommand("foo", "The foo command"));
         $this->assertTrue($this->commands->has("foo"));
         $this->assertFalse($this->commands->has("bar"));
     }
@@ -55,8 +83,8 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAll()
     {
-        $fooCommand = new Mocks\SimpleCommand($this->commands, "foo", "The foo command");
-        $barCommand = new Mocks\SimpleCommand($this->commands, "bar", "The bar command");
+        $fooCommand = new CommandMocks\SimpleCommand("foo", "The foo command");
+        $barCommand = new CommandMocks\SimpleCommand("bar", "The bar command");
         $this->commands->add($fooCommand);
         $this->commands->add($barCommand);
         $this->assertEquals([$fooCommand, $barCommand], $this->commands->getAll());

@@ -38,8 +38,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $logger = new Monolog\Logger("application");
         $logger->pushHandler(new ApplicationMocks\MonologHandler());
         $this->compiler = new CommandCompilers\Compiler();
-        $this->commands = new Commands\Commands();
-        $this->commands->add(new CommandMocks\SimpleCommand($this->commands, "mockcommand", "Mocks a command"));
+        $this->commands = new Commands\Commands($this->compiler);
+        $this->commands->add(new CommandMocks\SimpleCommand("mockcommand", "Mocks a command"));
         $this->commands->add(new CommandMocks\HappyHolidayCommand($this->commands));
         $this->parser = new Parsers\String(new Tokenizers\String());
         $this->response = new ResponseMocks\Response(

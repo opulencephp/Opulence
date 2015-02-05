@@ -15,12 +15,11 @@ class FlushViewCache extends Commands\Command
     private $viewCache = null;
 
     /**
-     * @param Commands\Commands $commands The list of registered commands
      * @param Cache\ICache $viewCache The view cache
      */
-    public function __construct(Commands\Commands $commands, Cache\ICache $viewCache)
+    public function __construct(Cache\ICache $viewCache)
     {
-        parent::__construct($commands);
+        parent::__construct();
 
         $this->viewCache = $viewCache;
     }

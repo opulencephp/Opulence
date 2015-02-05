@@ -6,6 +6,7 @@
  */
 namespace RDev\Console\Responses\Formatters;
 use RDev\Console\Commands;
+use RDev\Console\Commands\Compilers;
 use RDev\Console\Requests;
 use RDev\Tests\Console\Commands\Mocks;
 
@@ -22,7 +23,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->formatter = new Command();
-        $this->commands = new Commands\Commands();
+        $this->commands = new Commands\Commands(new Compilers\Compiler());
     }
 
     /**
@@ -30,7 +31,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithMixOfArguments()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addArgument(new Requests\Argument(
             "bar",
             Requests\ArgumentTypes::REQUIRED,
@@ -54,7 +55,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithMultipleArguments()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addArgument(new Requests\Argument(
             "bar",
             Requests\ArgumentTypes::REQUIRED,
@@ -73,7 +74,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithNoArgumentsOrOptions()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $this->assertEquals("foo [--help|-h]", $this->formatter->format($command));
     }
 
@@ -82,7 +83,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithOneArgument()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addArgument(new Requests\Argument(
             "bar",
             Requests\ArgumentTypes::REQUIRED,
@@ -96,7 +97,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithOneOptionWithDefaultValue()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addOption(new Requests\Option(
             "bar",
             "b",
@@ -112,7 +113,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithOneOptionWithDefaultValueButNoShortName()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addOption(new Requests\Option(
             "bar",
             null,
@@ -128,7 +129,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithOneOptionWithoutShortName()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addOption(new Requests\Option(
             "bar",
             null,
@@ -143,7 +144,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithOneOptionalArgument()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addArgument(new Requests\Argument(
             "bar",
             Requests\ArgumentTypes::OPTIONAL,
@@ -157,7 +158,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingCommandWithOptionalArrayArgument()
     {
-        $command = new Mocks\SimpleCommand($this->commands, "foo", "Foo command");
+        $command = new Mocks\SimpleCommand("foo", "Foo command");
         $command->addArgument(new Requests\Argument(
             "blah",
             Requests\ArgumentTypes::IS_ARRAY | Requests\ArgumentTypes::OPTIONAL,

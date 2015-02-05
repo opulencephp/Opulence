@@ -20,9 +20,9 @@ EOF;
      * @param Commands $commands The list of registered commands
      * @param string $applicationVersion The version number of the application
      */
-    public function __construct(Commands $commands, $applicationVersion)
+    public function __construct($applicationVersion)
     {
-        parent::__construct($commands);
+        parent::__construct();
 
         $this->applicationVersion = $applicationVersion;
     }
