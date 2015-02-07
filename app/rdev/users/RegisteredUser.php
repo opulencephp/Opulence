@@ -8,7 +8,7 @@ namespace RDev\Users;
 
 class RegisteredUser extends User implements IRegisteredUser
 {
-    /** @var string The username of the user (for now, it'll be the same as the username) */
+    /** @var string The username of the user */
     protected $username = "";
 
     /**

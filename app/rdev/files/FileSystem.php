@@ -339,6 +339,27 @@ class FileSystem
     }
 
     /**
+     * Finds files that match a pattern
+     * @link http://php.net/manual/function.glob.php
+     *
+     * @param string $pattern The pattern to match on
+     * @param int $flags The glob flags to use
+     * @return array The list of matched files
+     * @throws FileSystemException Thrown if the search failed
+     */
+    public function glob($pattern, $flags = 0)
+    {
+        $files = glob($pattern, $flags);
+
+        if($files === false)
+        {
+            throw new FileSystemException("Glob failed for pattern \"$pattern\" with flags $flags");
+        }
+
+        return $files;
+    }
+
+    /**
      * Gets whether or not a path points to a directory
      *
      * @param string $path The path to check

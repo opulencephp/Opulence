@@ -179,6 +179,16 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting files with glob
+     */
+    public function testGettingFilesWithGlob()
+    {
+        $this->assertTrue(count(array_diff([
+                __DIR__ . "/subdirectory/foo.txt"
+            ], $this->fileSystem->glob(__DIR__ . "/subdirectory/*.txt"))) == 0);
+    }
+
+    /**
      * Tests getting the files with an invalid path
      */
     public function testGettingFilesWithInvalidPath()
