@@ -140,6 +140,8 @@ class Dispatcher implements IDispatcher
             throw new Routing\RouteException("Controller class $controllerName does not extend the base controller");
         }
 
+        $controller->setRequest($request);
+
         return $controller;
     }
 

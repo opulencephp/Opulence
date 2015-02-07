@@ -18,7 +18,8 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->controller = new Controller(Requests\Request::createFromGlobals());
+        $this->controller = new Controller();
+        $this->controller->setRequest(Requests\Request::createFromGlobals());
     }
 
     /**

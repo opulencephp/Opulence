@@ -20,14 +20,6 @@ class Controller
     protected $request = null;
 
     /**
-     * @param Requests\Request $request The HTTP request
-     */
-    public function __construct(Requests\Request $request)
-    {
-        $this->request = $request;
-    }
-
-    /**
      * Actually calls the method in the controller
      * Rather than calling the method directly from the route dispatcher, call this method
      *
@@ -47,6 +39,14 @@ class Controller
         }
 
         return $response;
+    }
+
+    /**
+     * @param Requests\Request $request
+     */
+    public function setRequest(Requests\Request $request)
+    {
+        $this->request = $request;
     }
 
     /**
