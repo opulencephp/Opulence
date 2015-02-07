@@ -55,7 +55,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
             new ResponseCompilers\Compiler(new Lexers\Lexer(), new Parsers\Parser())
         );
         ob_start();
-        $this->commands->call("holiday", ["Easter"], ["-y"], $response);
+        $this->commands->call("holiday", $response, ["Easter"], ["-y"]);
         $this->assertEquals("Happy Easter!", ob_get_clean());
     }
 
@@ -65,7 +65,7 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentCommand()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->commands->call("fake", [], [], new Responses\Silent());
+        $this->commands->call("fake", new Responses\Silent(), [], []);
     }
 
     /**
