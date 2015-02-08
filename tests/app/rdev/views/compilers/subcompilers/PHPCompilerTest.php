@@ -71,6 +71,28 @@ class PHPCompilerTest extends Tests\Compiler
     }
 
     /**
+     * Tests compiling a variable inside tags
+     */
+    public function testCompilingVariableInsideTags()
+    {
+        $delimiters = [
+            [
+                Views\Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
+                Views\Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+            ],
+            [
+                Views\Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
+                Views\Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+            ]
+        ];
+        $templateContents = '<?php foreach(["foo"] as $v): ?>%s$v%s<?php endforeach; ?>';
+        $this->template->setContents(sprintf($templateContents, $delimiters[0][0], $delimiters[0][1]));
+        $this->assertEquals("{{foo}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->template->setContents(sprintf($templateContents, $delimiters[1][0], $delimiters[1][1]));
+        $this->assertEquals("{{!foo!}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
+
+    /**
      * Tests compiling a template with a function that spans multiple lines
      */
     public function testFunctionThatSpansMultipleLines()

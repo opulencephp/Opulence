@@ -40,6 +40,40 @@ class TagCompilerTest extends Tests\Compiler
     }
 
     /**
+     * Tests compiling a string literal
+     */
+    public function testCompilingStringLiteral()
+    {
+        $this->template->setContents("{{'foo'}}");
+        $this->assertEquals("foo", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->template->setContents('{{"foo"}}');
+        $this->assertEquals("foo", $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
+
+    /**
+     * Tests compiling a string literal with escaped quotes
+     */
+    public function testCompilingStringLiteralWithEscapedQuotes()
+    {
+        // Test escaped strings
+        $this->template->setContents("{{'fo\'o'}}");
+        $this->assertTrue($this->stringsWithEncodedCharactersEqual(
+            "fo\&#039;o",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        ));
+        $this->template->setContents('{{"fo\"o"}}');
+        $this->assertTrue($this->stringsWithEncodedCharactersEqual(
+            'fo\&quot;o',
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        ));
+        // Test unescaped strings
+        $this->template->setContents("{{!'fo'o'!}}");
+        $this->assertEquals("fo'o", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->template->setContents('{{!"fo"o"!}}');
+        $this->assertEquals('fo"o', $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
+
+    /**
      * Tests compiling a tag whose value is another tag
      */
     public function testCompilingTagWhoseValueIsAnotherTag()

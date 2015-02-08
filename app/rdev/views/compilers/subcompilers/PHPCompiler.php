@@ -79,6 +79,29 @@ class PHPCompiler extends SubCompiler
                 -1,
                 $unescapedCount
             );
+            // Replace any variables inside escaped tags
+            $variableTagRegex = '/(%s\s*)\$(%s)(\s*%s)/';
+            $content = preg_replace(
+                sprintf(
+                    $variableTagRegex,
+                    preg_quote($escapedDelimiters[0], "/"),
+                    "[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*",
+                    preg_quote($escapedDelimiters[1], "/")
+                ),
+                '$1<?php echo $$2;?>$3',
+                $content
+            );
+            // Replace any variables inside unescaped tags
+            $content = preg_replace(
+                sprintf(
+                    $variableTagRegex,
+                    preg_quote($unescapedDelimiters[0], "/"),
+                    "[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*",
+                    preg_quote($unescapedDelimiters[1], "/")
+                ),
+                '$1<?php echo $$2;?>$3',
+                $content
+            );
 
             // Notice the little hack inside eval() to compile inline PHP
             if(eval("?>" . $content) === false)
