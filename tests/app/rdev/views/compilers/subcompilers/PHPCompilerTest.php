@@ -87,9 +87,9 @@ class PHPCompilerTest extends Tests\Compiler
         ];
         $templateContents = '<?php foreach(["foo"] as $v): ?>%s$v%s<?php endforeach; ?>';
         $this->template->setContents(sprintf($templateContents, $delimiters[0][0], $delimiters[0][1]));
-        $this->assertEquals("{{foo}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->assertEquals("{{\"foo\"}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->template->setContents(sprintf($templateContents, $delimiters[1][0], $delimiters[1][1]));
-        $this->assertEquals("{{!foo!}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->assertEquals("{{!\"foo\"!}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**

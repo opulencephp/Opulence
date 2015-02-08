@@ -57,6 +57,7 @@ class TagCompilerTest extends Tests\Compiler
     {
         // Test escaped strings
         $this->template->setContents("{{'fo\'o'}}");
+        error_log($this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
             "fo\&#039;o",
             $this->subCompiler->compile($this->template, $this->template->getContents())
