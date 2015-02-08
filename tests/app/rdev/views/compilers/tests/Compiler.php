@@ -121,9 +121,9 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
         // Convert single quote
         $string1 = str_replace("&#039", "&#39", $string1);
         $string2 = str_replace("&#039", "&#39", $string2);
-
-        error_log($string1);
-        error_log($string2);
+        // Convert double quotes
+        $string1 = str_replace("&quot;", "&#34;", $string1);
+        $string2 = str_replace("&quot;", "&#34;", $string2);
 
         return $string1 === $string2;
     }
