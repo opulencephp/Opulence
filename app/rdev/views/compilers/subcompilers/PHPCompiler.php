@@ -51,11 +51,15 @@ class PHPCompiler extends SubCompiler
             $startOBLevel = ob_get_level();
             ob_start();
 
-            // We allow any valid php function name
-            /** @link http://php.net/manual/en/functions.user-defined.php */
+            /**
+             * Replace any function calls inside tags
+             * This compiles things like {{foo()}} and {{!bar()!}}
+             * We allow any valid php function name
+             * @link http://php.net/manual/en/functions.user-defined.php
+             */
             $regex = "/%s\s*([a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*)\(\s*((?:(?!\)\s*%s).)*)\s*\)\s*%s/";
             $functionCallString = 'call_user_func_array($templateFunctions["\1"], [\2])';
-            // Replace function calls in escaped tags
+            // Escaped tags
             $content = preg_replace(
                 sprintf(
                     $regex,
@@ -67,7 +71,7 @@ class PHPCompiler extends SubCompiler
                 -1,
                 $escapedCount
             );
-            // Replace function calls in unescaped tags
+            // Unescaped tags
             $content = preg_replace(
                 sprintf(
                     $regex,
@@ -79,27 +83,35 @@ class PHPCompiler extends SubCompiler
                 -1,
                 $unescapedCount
             );
-            // Replace any variables inside escaped tags
-            $variableTagRegex = '/(%s\s*)\$(%s)(\s*%s)/';
+
+            /**
+             * Replace variables inside tags
+             * This compiles things like {{$foo}} and {{$foo["bar"]}}
+             */
+            // Escaped tags
+            $variableTagRegex = '/(%s\s*)\$(%s((?!%s).)*)(\s*%s)/';
+            $variableRegex = "[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*";
             $content = preg_replace(
                 sprintf(
                     $variableTagRegex,
                     preg_quote($escapedDelimiters[0], "/"),
-                    "[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*",
+                    $variableRegex,
+                    preg_quote($escapedDelimiters[1], "/"),
                     preg_quote($escapedDelimiters[1], "/")
                 ),
-                '$1"<?php echo addcslashes($$2, \'"\'); ?>"$3',
+                '$1"<?php echo addcslashes($$2, \'"\'); ?>"$4',
                 $content
             );
-            // Replace any variables inside unescaped tags
+            // Unescaped tags
             $content = preg_replace(
                 sprintf(
                     $variableTagRegex,
                     preg_quote($unescapedDelimiters[0], "/"),
-                    "[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*",
+                    $variableRegex,
+                    preg_quote($unescapedDelimiters[1], "/"),
                     preg_quote($unescapedDelimiters[1], "/")
                 ),
-                '$1"<?php echo addcslashes($$2, \'"\'); ?>"$3',
+                '$1"<?php echo addcslashes($$2, \'"\'); ?>"$4',
                 $content
             );
 

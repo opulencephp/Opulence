@@ -25,6 +25,28 @@ class PHPCompilerTest extends Tests\Compiler
     }
 
     /**
+     * Tests compiling an array variable inside tags
+     */
+    public function testCompilingArrayVariableInsideTags()
+    {
+        $delimiters = [
+            [
+                Views\Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
+                Views\Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+            ],
+            [
+                Views\Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
+                Views\Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+            ]
+        ];
+        $templateContents = '<?php foreach(["foo" => ["bar", "baz"]] as $v): ?>%s$v[1]%s<?php endforeach; ?>';
+        $this->template->setContents(sprintf($templateContents, $delimiters[0][0], $delimiters[0][1]));
+        $this->assertEquals("{{\"baz\"}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->template->setContents(sprintf($templateContents, $delimiters[1][0], $delimiters[1][1]));
+        $this->assertEquals("{{!\"baz\"!}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
+
+    /**
      * Tests compiling a function inside escaped tags
      */
     public function testCompilingFunctionInsideEscapedTags()
@@ -68,6 +90,27 @@ class PHPCompilerTest extends Tests\Compiler
         error_reporting(0);
         $this->subCompiler->compile($this->template, $this->template->getContents());
         error_reporting($originalErrorReporting);
+    }
+
+    /**
+     * Tests compiling a template with PHP code
+     */
+    public function testCompilingTemplateWithPHPCode()
+    {
+        $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_PHP_CODE);
+        $this->template->setContents($contents);
+        $user1 = new Mocks\User(1, "foo");
+        $user2 = new Mocks\User(2, "bar");
+        $this->template->setTag("listDescription", "usernames");
+        $this->template->setVar("users", [$user1, $user2]);
+        $this->template->setVar("coolestGuy", "Dave");
+        $functionResult = $this->registerFunction();
+        $this->assertEquals(
+            'TEST List of {{!listDescription!}} on ' . $functionResult . ':
+<ul>
+    <li>foo</li><li>bar</li></ul> 2 items
+<br>Dave is a pretty cool guy. Alternative syntax works! I agree. Fake closing PHP tag: ?>',
+            $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**
@@ -120,27 +163,6 @@ class PHPCompilerTest extends Tests\Compiler
             echo $input;
         });
         $this->assertEquals("bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
-    }
-
-    /**
-     * Tests compiling a template with PHP code
-     */
-    public function testCompilingTemplateWithPHPCode()
-    {
-        $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_PHP_CODE);
-        $this->template->setContents($contents);
-        $user1 = new Mocks\User(1, "foo");
-        $user2 = new Mocks\User(2, "bar");
-        $this->template->setTag("listDescription", "usernames");
-        $this->template->setVar("users", [$user1, $user2]);
-        $this->template->setVar("coolestGuy", "Dave");
-        $functionResult = $this->registerFunction();
-        $this->assertEquals(
-            'TEST List of {{!listDescription!}} on ' . $functionResult . ':
-<ul>
-    <li>foo</li><li>bar</li></ul> 2 items
-<br>Dave is a pretty cool guy. Alternative syntax works! I agree. Fake closing PHP tag: ?>',
-            $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**

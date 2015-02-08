@@ -72,8 +72,8 @@ rdev/views
 For complete documentation, [visit the docs repository](https://github.com/ramblingsofadev/docs).
 
 ## Requirements
-* PHP 5.5, 5.6, or HHVM >= 3.3.0
-* OpenSSL enabled
+* PHP 5.5, 5.6, or HHVM >= 3.4.0
+* OpenSSL
 * mbstring
 * A default PHP timezone set in the PHP.ini
 
