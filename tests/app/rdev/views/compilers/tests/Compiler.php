@@ -115,8 +115,12 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
      */
     protected function stringsWithEncodedCharactersEqual($string1, $string2)
     {
+        // Convert ampersand
         $string1 = str_replace("&#38;", "&amp;", $string1);
         $string2 = str_replace("&#38;", "&amp;", $string2);
+        // Convert single quote
+        $string1 = str_replace("&#039", "&#39", $string1);
+        $string2 = str_replace("&#039", "&#39", $string2);
 
         return $string1 === $string2;
     }
