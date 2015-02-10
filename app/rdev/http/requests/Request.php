@@ -166,6 +166,26 @@ class Request
     }
 
     /**
+     * Gets whether or not the current path matches the input path or regular expression
+     *
+     * @param string $path The path or regular expression to match against
+     *      If the path is a regular expression, it should not include regex delimiters
+     * @param bool $isRegex True if the path is a regular expression, otherwise false
+     * @return bool True if the current path matched the path, otherwise false
+     */
+    public function isPath($path, $isRegex = false)
+    {
+        if($isRegex)
+        {
+            return preg_match("#" . $path . "#", $this->path) === 1;
+        }
+        else
+        {
+            return $this->path == $path;
+        }
+    }
+
+    /**
      * Gets whether or not the request was made through HTTPS
      *
      * @return bool True if the request is secure, otherwise false

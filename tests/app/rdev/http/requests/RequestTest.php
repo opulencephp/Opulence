@@ -104,6 +104,26 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that checking that a correct path returns true
+     */
+    public function testCorrectPathReturnsTrue()
+    {
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
+        $request = Request::createFromGlobals();
+        $this->assertTrue($request->isPath("/foo/bar/baz"));
+    }
+
+    /**
+     * Tests that checking that a correct regex path returns true
+     */
+    public function testCorrectRegexPathReturnsTrue()
+    {
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
+        $request = Request::createFromGlobals();
+        $this->assertTrue($request->isPath(".*/bar/baz", true));
+    }
+
+    /**
      * Tests creating from globals
      */
     public function testCreatingFromGlobals()
@@ -436,5 +456,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         // Test for IIS
         $this->request->getServer()->set("HTTPS", "on");
         $this->assertTrue($this->request->isSecure());
+    }
+
+    /**
+     * Tests that checking that an incorrect path returns false
+     */
+    public function testIncorrectPathReturnsFalse()
+    {
+        $_SERVER["REQUEST_URI"] = "/foo/bar";
+        $request = Request::createFromGlobals();
+        $this->assertFalse($request->isPath("/foo"));
     }
 } 
