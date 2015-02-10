@@ -199,4 +199,16 @@ class PHPCompilerTest extends Tests\Compiler
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
     }
+
+    /**
+     * Tests that only outer quotes are stripped from string literals
+     */
+    public function testOnlyOuterQuotesGetStrippedFromStringLiterals()
+    {
+        $this->template->setVar("foo", true);
+        $this->template->setContents('{{!$foo ? \' class="bar"\' : \'\'!}}');
+        $this->assertEquals('{{!" class="bar""!}}', $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->template->setContents("{{!\$foo ? \" class='bar'\" : \"\"!}}");
+        $this->assertEquals("{{!\" class='bar'\"!}}", $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
 }

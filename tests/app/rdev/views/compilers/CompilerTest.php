@@ -64,6 +64,18 @@ class CompilerTest extends CompilerTests\Compiler
     }
 
     /**
+     * Tests compiling an expression that outputs quotes
+     */
+    public function testCompilingExpressionThatOutputsQuotes()
+    {
+        $this->template->setVar("foo", true);
+        $this->template->setContents('{{!$foo ? \' class="bar"\' : \'\'!}}');
+        $this->assertEquals(' class="bar"', $this->compiler->compile($this->template));
+        $this->template->setContents("{{!\$foo ? \" class='bar'\" : \"\"!}}");
+        $this->assertEquals(" class='bar'", $this->compiler->compile($this->template));
+    }
+
+    /**
      * Tests compiling a part whose value calls a template function
      */
     public function testCompilingPartWhoseValueCallsTemplateFunction()

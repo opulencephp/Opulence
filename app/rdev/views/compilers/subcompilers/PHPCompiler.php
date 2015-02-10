@@ -99,7 +99,7 @@ class PHPCompiler extends SubCompiler
                     preg_quote($escapedDelimiters[1], "/"),
                     preg_quote($escapedDelimiters[1], "/")
                 ),
-                '$1"<?php echo addcslashes($$2, \'"\'); ?>"$4',
+                '$1"<?php echo $$2; ?>"$4',
                 $content
             );
             // Unescaped tags
@@ -111,7 +111,7 @@ class PHPCompiler extends SubCompiler
                     preg_quote($unescapedDelimiters[1], "/"),
                     preg_quote($unescapedDelimiters[1], "/")
                 ),
-                '$1"<?php echo addcslashes($$2, \'"\'); ?>"$4',
+                '$1"<?php echo $$2; ?>"$4',
                 $content
             );
 

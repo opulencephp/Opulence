@@ -119,7 +119,7 @@ class TagCompiler extends SubCompiler
                 "delimiters" => $escapedDelimiters,
                 "stringLiteralCallback" => function ($stringLiteral) use ($template)
                 {
-                    return $this->xssFilter->run(trim($stringLiteral, $stringLiteral[0]));
+                    return $this->xssFilter->run($this->trimOuter($stringLiteral, $stringLiteral[0]));
                 },
                 "tagNameCallback" => function ($tagName) use ($template)
                 {
@@ -130,7 +130,7 @@ class TagCompiler extends SubCompiler
                 "delimiters" => $unescapedDelimiters,
                 "stringLiteralCallback" => function ($stringLiteral) use ($template)
                 {
-                    return trim($stringLiteral, $stringLiteral[0]);
+                    return $this->trimOuter($stringLiteral, $stringLiteral[0]);
                 },
                 "tagNameCallback" => function ($tagName) use ($template)
                 {
@@ -193,5 +193,25 @@ class TagCompiler extends SubCompiler
         while($count > 0);
 
         return $content;
+    }
+
+    /**
+     * Trims only the outer-most input characters off a string
+     *
+     * @param string $string The string to quote
+     * @param string $trimmedCharacter The character to trim off
+     * @return string The trimmed string
+     */
+    private function trimOuter($string, $trimmedCharacter)
+    {
+        return preg_replace(
+            sprintf(
+                "/^%s(.*)%s$/",
+                preg_quote($trimmedCharacter, "/"),
+                preg_quote($trimmedCharacter, "/")
+            ),
+            "$1",
+            $string
+        );
     }
 }
