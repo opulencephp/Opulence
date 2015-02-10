@@ -177,7 +177,7 @@ class Request
     {
         if($isRegex)
         {
-            return preg_match("#" . $path . "#", $this->path) === 1;
+            return preg_match("#^" . $path . "$#", $this->path) === 1;
         }
         else
         {
