@@ -169,8 +169,11 @@ class TagCompiler extends SubCompiler
                         }
                         else
                         {
-                            // Assume it's an ordinary PHP function
-                            if(!function_exists($token[1]))
+                            $previousToken = $this->lookBehind($phpTokens, $index);
+
+                            if(
+                                is_array($previousToken) && $previousToken[0] !== T_OBJECT_OPERATOR &&
+                                $previousToken[0] !== T_DOUBLE_COLON && !function_exists($token[1]))
                             {
                                 throw new Compilers\ViewCompilerException(
                                     "Template function \"{$token[1]}\" does not exist"
@@ -256,6 +259,23 @@ class TagCompiler extends SubCompiler
         }
 
         return $tagData;
+    }
+
+    /**
+     * Looks behind at the previous token
+     *
+     * @param array $tokens The list of all tokens
+     * @param int $currIndex The index of the current token
+     * @return null|array|string The previous token if there was one, otherwise null
+     */
+    private function lookBehind(array $tokens, $currIndex)
+    {
+        if($currIndex == 0)
+        {
+            return null;
+        }
+
+        return $tokens[$currIndex - 1];
     }
 
     /**

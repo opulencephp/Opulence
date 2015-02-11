@@ -5,6 +5,7 @@
  * Tests the tag sub-compiler
  */
 namespace RDev\Views\Compilers\SubCompilers;
+use RDev\HTTP\Requests;
 use RDev\Tests\Mocks;
 use RDev\Tests\Views\Compilers\Tests;
 use RDev\Views;
@@ -22,6 +23,22 @@ class TagCompilerTest extends Tests\Compiler
         parent::setUp();
 
         $this->subCompiler = new TagCompiler($this->compiler, $this->xssFilter);
+    }
+
+    /**
+     * Tests calling a function on a variable
+     */
+    public function testCallingFunctionOnVariable()
+    {
+        // Test object
+        $this->template->setVar("request", Requests\Request::createFromGlobals());
+        $this->template->setContents('{{!$request->isPath("foo") ? "foo" : "bar"!}}');
+        $this->assertEquals("bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        // Test class
+        $this->template->setContents(
+            '{{!RDev\Tests\Views\Compilers\SubCompilers\Mocks\ClassWithStaticMethod::foo() == "bar" ? "y" : "n"!}}'
+        );
+        $this->assertEquals("y", $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**
@@ -208,6 +225,15 @@ class TagCompilerTest extends Tests\Compiler
             'No params, No params, Param 1 set, Param 2 set, Both params set',
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
+    }
+
+    /**
+     * Tests compiling nested PHP functions
+     */
+    public function testNestedPHPFunctions()
+    {
+        $this->template->setContents('{{!date(strtoupper("y"))!}}');
+        $this->assertEquals(date("Y"), $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**
