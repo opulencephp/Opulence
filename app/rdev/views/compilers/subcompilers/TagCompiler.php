@@ -64,28 +64,19 @@ class TagCompiler extends SubCompiler
                 }while($replacementCount > 0);
             }
 
-            // Reset the count
-            $replacementCount = 1;
-
             // Strip escape characters from escaped tags
             foreach($tagData as $tagDataByType)
             {
-                // Handle tags whose values are tags
-                do
-                {
-                    $content = preg_replace(
-                        sprintf(
-                            "/%s(%s\s*.*\s*%s)/sU",
-                            preg_quote("\\", "/"),
-                            preg_quote($tagDataByType["delimiters"][0], "/"),
-                            preg_quote($tagDataByType["delimiters"][1], "/")
-                        ),
-                        "$1",
-                        $content,
-                        -1,
-                        $replacementCount
-                    );
-                }while($replacementCount > 0);
+                $content = preg_replace(
+                    sprintf(
+                        "/%s(%s\s*.*\s*%s)/sU",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["delimiters"][0], "/"),
+                        preg_quote($tagDataByType["delimiters"][1], "/")
+                    ),
+                    "$1",
+                    $content
+                );
             }
 
             // Create local variables for use in eval()

@@ -32,8 +32,8 @@ class TagCompilerTest extends Tests\Compiler
     {
         // Test object
         $this->template->setVar("request", Requests\Request::createFromGlobals());
-        $this->template->setContents('{{!$request->isPath("foo") ? "foo" : "bar"!}}');
-        $this->assertEquals("bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
+        $this->template->setContents('{{!$request->isPath("/foo/.*", true) ? \' class="current"\' : ""!}}');
+        $this->assertEquals("", $this->subCompiler->compile($this->template, $this->template->getContents()));
         // Test class
         $this->template->setContents(
             '{{!RDev\Tests\Views\Compilers\SubCompilers\Mocks\ClassWithStaticMethod::foo() == "bar" ? "y" : "n"!}}'
@@ -182,6 +182,15 @@ class TagCompilerTest extends Tests\Compiler
                 $this->subCompiler->compile($this->template, $this->template->getContents())
             )
         );
+    }
+
+    /**
+     * Tests an escaped tag with quotes
+     */
+    public function testEscapedTagWithQuotes()
+    {
+        $this->template->setContents('\{{" "}}"');
+        $this->assertEquals('{{" "}}"', $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**
