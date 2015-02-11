@@ -1,8 +1,8 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- *
- * Defines the RDev tag sub-compiler
+ * 
+ * Defines the tag sub-compiler
  */
 namespace RDev\Views\Compilers\SubCompilers;
 use RDev\Views;
@@ -30,188 +30,248 @@ class TagCompiler extends SubCompiler
      */
     public function compile(Views\ITemplate $template, $content)
     {
-        $content = $this->compileTags($template, $content);
+        // Store some data about our callbacks
+        // Store the template functions to a local variable so they can be used when we eval() the generated PHP code
+        $templateFunctions = $this->parentCompiler->getTemplateFunctions();
+        $tagData = $this->getTagData($template);
 
-        return $this->cleanupTags($template, $content);
+        // Keep track of our output buffer level so we know how many to clean when we're done
+        $startOBLevel = ob_get_level();
+        ob_start();
+
+        try
+        {
+            // Compile tag contents
+            foreach($tagData as $tagDataByType)
+            {
+                $content = preg_replace_callback(
+                    sprintf(
+                        "/(?<!%s)%s\s*(.*)\s*%s/sU",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["delimiters"][0], "/"),
+                        preg_quote($tagDataByType["delimiters"][1], "/")
+                    ),
+                    $tagDataByType["callback"],
+                    $content
+                );
+            }
+
+            // Strip escape characters from escaped tags
+            foreach($tagData as $tagDataByType)
+            {
+                $content = preg_replace(
+                    sprintf(
+                        "/%s(%s\s*.*\s*%s)/sU",
+                        preg_quote("\\", "/"),
+                        preg_quote($tagDataByType["delimiters"][0], "/"),
+                        preg_quote($tagDataByType["delimiters"][1], "/")
+                    ),
+                    "$1",
+                    $content
+                );
+            }
+
+            // Create local variables for use in eval()
+            extract($template->getVars());
+
+            if(eval("?>" . $content) === false)
+            {
+                throw new Compilers\ViewCompilerException("Invalid PHP inside template");
+            }
+        }
+        catch(Compilers\ViewCompilerException $ex)
+        {
+            // Prevent an invalid template from displaying
+            while(ob_get_level() > $startOBLevel)
+            {
+                ob_end_clean();
+            }
+
+            throw $ex;
+        }
+
+        return ob_get_clean();
     }
 
     /**
-     * Cleans up unused tags and escape characters before tags in a template
+     * Gets the PHP code from a tag
      *
-     * @param Views\ITemplate $template The template whose tags we're compiling
-     * @param string $content The actual content to compile
-     * @return string The compiled template
+     * @param Views\ITemplate $template The template being compiled
+     * @param string $tagContents The tag contents
+     * @return string The PHP code
+     * @throws Compilers\ViewCompilerException Thrown if there was an error generating the PHP
      */
-    private function cleanupTags(Views\ITemplate $template, $content)
+    private function generatePHP(Views\ITemplate $template, $tagContents)
+    {
+        if(empty($tagContents))
+        {
+            return "";
+        }
+
+        $matches = [];
+
+        // Check if the contents are simply a tag name
+        if(
+            preg_match(
+                sprintf(
+                    // Account for multiple lines before and after tag name
+                    "/^[%s\s]*([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[%s\s]*$/",
+                    preg_quote(PHP_EOL, "/"),
+                    preg_quote(PHP_EOL, "/")
+                ),
+                $tagContents, $matches
+            ) === 1
+        )
+        {
+            $value = $template->getTag($matches[1]);
+
+            // There was no tag with this name
+            if($value === null)
+            {
+                return "";
+            }
+
+            // We need to escape any double quotes because the return value is surrounded by double quotes
+            return '"' . addcslashes($value, '"') . '"';
+        }
+
+        $phpTokens = token_get_all("<?php $tagContents ?>");
+        $rDevTokens = [];
+        $templateFunctionNames = array_keys($this->parentCompiler->getTemplateFunctions());
+
+        foreach($phpTokens as $index => $token)
+        {
+            if(is_string($token))
+            {
+                // Convert the simple token to an array for uniformity
+                $rDevTokens[] = [T_STRING, $token, 0];
+
+                continue;
+            }
+
+            switch($token[0])
+            {
+                case T_STRING:
+                    // If this is a function
+                    if($this->peek($phpTokens, $index) == "(")
+                    {
+                        // If this is a template function
+                        if(in_array($token[1], $templateFunctionNames))
+                        {
+                            // Add $templateFunctions
+                            $rDevTokens[] = [T_VARIABLE, "\$templateFunctions", $token[2]];
+                            // Add [
+                            $rDevTokens[] = [T_STRING, "[", $token[2]];
+                            // Add function name
+                            $rDevTokens[] = [T_STRING, '"' . $token[1] . '"', $token[2]];
+                            // Add ]
+                            $rDevTokens[] = [T_STRING, "]", $token[2]];
+                        }
+                        else
+                        {
+                            // Assume it's an ordinary PHP function
+                            if(!function_exists($token[1]))
+                            {
+                                throw new Compilers\ViewCompilerException(
+                                    "Template function \"{$token[1]}\" does not exist"
+                                );
+                            }
+
+                            $rDevTokens[] = $token;
+                        }
+                    }
+                    else
+                    {
+                        $rDevTokens[] = $token;
+                    }
+
+                    break;
+                default:
+                    $rDevTokens[] = $token;
+
+                    break;
+            }
+        }
+
+        // Remove php open/close tags
+        array_shift($rDevTokens);
+        array_pop($rDevTokens);
+
+        // Rejoin token values
+        return implode(" ", array_column($rDevTokens, 1));
+    }
+
+    /**
+     * Gets an array of data with details about how to compile each type of tag
+     *
+     * @param Views\ITemplate $template The template that is being compiled
+     * @return array The array of tag data
+     */
+    private function getTagData(Views\ITemplate $template)
     {
         $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
         $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
-        // Holds the tags, with the longest-length opening tag first
-        $tags = [];
+        $escapedTagData = [
+            "delimiters" => [$escapedDelimiters[0], $escapedDelimiters[1]],
+            "callback" => function(array $matches) use ($template)
+            {
+                $code = $this->generatePHP($template, $matches[1]);
+
+                if($code == "")
+                {
+                    return "";
+                }
+
+                // In the case of code being a string literal eg "foo", we don't want to sanitize the quotes
+                // So, we set a temporary variable to the string literal, then sanitize the variable
+                return '<?php $__rdevCompilerTmp = ' . $code . '; echo $this->xssFilter->run($__rdevCompilerTmp); ?>';
+            }
+        ];
+        $unescapedTagData = [
+            "delimiters" => [$unescapedDelimiters[0], $unescapedDelimiters[1]],
+            "callback" => function(array $matches) use ($template)
+            {
+                $code = $this->generatePHP($template, $matches[1]);
+
+                if($code == "")
+                {
+                    return "";
+                }
+
+                return "<?php echo $code; ?>";
+            }
+        ];
 
         // In the case that one open tag is a substring of another (eg "{{" and "{{{"), handle the longer one first
         // If they're the same length, they cannot be substrings of one another unless they're equal
         if(strlen($escapedDelimiters[0]) > strlen($unescapedDelimiters[0]))
         {
-            $tags[] = [$escapedDelimiters[0], $escapedDelimiters[1]];
-            $tags[] = [$unescapedDelimiters[0], $unescapedDelimiters[1]];
+            $tagData[] = $escapedTagData;
+            $tagData[] = $unescapedTagData;
         }
         else
         {
-            $tags[] = [$unescapedDelimiters[0], $unescapedDelimiters[1]];
-            $tags[] = [$escapedDelimiters[0], $escapedDelimiters[1]];
+            $tagData[] = $unescapedTagData;
+            $tagData[] = $escapedTagData;
         }
 
-        /**
-         * The reason we cannot combine this loop and the next is that we must remove all unused tags before
-         * removing their escape characters
-         */
-        foreach($tags as $tagsByType)
-        {
-            // Remove unused tags
-            $content = preg_replace(
-                sprintf(
-                    "/(?<!%s)%s((?!%s).)*%s/",
-                    preg_quote("\\", "/"),
-                    preg_quote($tagsByType[0], "/"),
-                    preg_quote($tagsByType[1], "/"),
-                    preg_quote($tagsByType[1], "/")
-                ),
-                "",
-                $content
-            );
-        }
-
-        foreach($tags as $tagsByType)
-        {
-            // Remove the escape character (eg "\" from "\{{foo}}")
-            $content = preg_replace(
-                sprintf(
-                    "/%s(%s\s*((?!%s).)*\s*%s)/U",
-                    preg_quote("\\", "/"),
-                    preg_quote($tagsByType[0], "/"),
-                    preg_quote($tagsByType[1], "/"),
-                    preg_quote($tagsByType[1], "/")
-                ),
-                "$1",
-                $content
-            );
-        }
-
-        return $content;
+        return $tagData;
     }
 
     /**
-     * Compiles tags in a template
+     * Peeks at the next token
      *
-     * @param Views\ITemplate $template The template whose tags we're compiling
-     * @param string $content The actual content to compile
-     * @return string The compiled template
+     * @param array $tokens The list of all tokens
+     * @param int $currIndex The index of the current token
+     * @return null|array|string The next token if there was one, otherwise null
      */
-    private function compileTags(Views\ITemplate $template, $content)
+    private function peek(array $tokens, $currIndex)
     {
-        $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
-        $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
-
-        // Holds the tags as well as the callbacks to callbacks to execute in the case of string literals or tag names
-        $tagData = [
-            [
-                "delimiters" => $escapedDelimiters,
-                "stringLiteralCallback" => function ($stringLiteral) use ($template)
-                {
-                    return $this->xssFilter->run($this->trimOuter($stringLiteral, $stringLiteral[0]));
-                },
-                "tagNameCallback" => function ($tagName) use ($template)
-                {
-                    return $this->xssFilter->run($template->getTag($tagName));
-                }
-            ],
-            [
-                "delimiters" => $unescapedDelimiters,
-                "stringLiteralCallback" => function ($stringLiteral) use ($template)
-                {
-                    return $this->trimOuter($stringLiteral, $stringLiteral[0]);
-                },
-                "tagNameCallback" => function ($tagName) use ($template)
-                {
-                    return $template->getTag($tagName);
-                }
-            ]
-        ];
-
-        $count = 0;
-
-        // By putting this in a loop, we handle the case that a tag's value is another tag
-        do
+        if(count($tokens) == $currIndex + 1)
         {
-            foreach($tagData as $tagDataByType)
-            {
-                // Create the regexes to find escaped tags with bookends
-                $arrayMapCallback = function ($tagName) use ($content, $tagDataByType)
-                {
-                    return sprintf(
-                        "/(?<!%s)%s\s*(%s)\s*%s/U",
-                        preg_quote("\\", "/"),
-                        preg_quote($tagDataByType["delimiters"][0], "/"),
-                        preg_quote($tagName, "/"),
-                        preg_quote($tagDataByType["delimiters"][1], "/")
-                    );
-                };
-
-                // Filter the values
-                $regexCallback = function ($matches) use ($tagDataByType)
-                {
-                    $tagName = $matches[1];
-
-                    // If the tag name is a string literal
-                    if(isset($tagName) && $tagName[0] == $tagName[strlen($tagName) - 1]
-                        && ($tagName[0] == "'" || $tagName[0] == '"')
-                    )
-                    {
-                        return call_user_func_array($tagDataByType["stringLiteralCallback"], [$tagName]);
-                    }
-
-                    return call_user_func_array($tagDataByType["tagNameCallback"], [$tagName]);
-                };
-
-                // Replace string literals
-                $content = preg_replace_callback(
-                    sprintf(
-                        "/(?<!%s)%s\s*((([\"'])[^\\3]*\\3))\s*%s/U",
-                        preg_quote("\\", "/"),
-                        preg_quote($tagDataByType["delimiters"][0], "/"),
-                        preg_quote($tagDataByType["delimiters"][1], "/")
-                    ),
-                    $regexCallback,
-                    $content
-                );
-                // Replace the tags with their values
-                $regexes = array_map($arrayMapCallback, array_keys($template->getTags()));
-                $content = preg_replace_callback($regexes, $regexCallback, $content, -1, $count);
-            }
+            return null;
         }
-        while($count > 0);
 
-        return $content;
-    }
-
-    /**
-     * Trims only the outer-most input characters off a string
-     *
-     * @param string $string The string to quote
-     * @param string $trimmedCharacter The character to trim off
-     * @return string The trimmed string
-     */
-    private function trimOuter($string, $trimmedCharacter)
-    {
-        return preg_replace(
-            sprintf(
-                "/^%s(.*)%s$/",
-                preg_quote($trimmedCharacter, "/"),
-                preg_quote($trimmedCharacter, "/")
-            ),
-            "$1",
-            $string
-        );
+        return $tokens[$currIndex + 1];
     }
 }

@@ -38,8 +38,9 @@ class Compiler implements ICompiler
 
         // Order here matters
         $this->registerSubCompiler(new SubCompilers\StatementCompiler($this, $templateFactory), null, true);
-        $this->registerSubCompiler(new SubCompilers\PHPCompiler($this, $xssFilter));
         $this->registerSubCompiler(new SubCompilers\TagCompiler($this, $xssFilter));
+        /*$this->registerSubCompiler(new SubCompilers\PHPCompiler($this, $xssFilter));
+        $this->registerSubCompiler(new SubCompilers\TagCompiler($this, $xssFilter));*/
         $templateFunctionRegistrant = new BuiltInTemplateFunctionRegistrant();
         $templateFunctionRegistrant->registerTemplateFunctions($this);
     }

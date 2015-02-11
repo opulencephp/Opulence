@@ -125,6 +125,15 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
         $string1 = str_replace("&quot;", "&#34;", $string1);
         $string2 = str_replace("&quot;", "&#34;", $string2);
 
-        return $string1 === $string2;
+        if($string1 === $string2)
+        {
+            return true;
+        }
+        else
+        {
+            error_log($string1 . "::" . $string2);
+
+            return false;
+        }
     }
 }

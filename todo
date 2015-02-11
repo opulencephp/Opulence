@@ -5,8 +5,6 @@ HAS PRIORITY:
             If not, loop through ALL routes, parse them, cache them
             If so, loop through cached routes and compile them to match them
     Add CommandTester class
-    Write up Console
-        Be sure to include how nested elements work (eg inheritance)
     Add table formatter
     Idea:  Run statement compiler
         Cache results
@@ -23,7 +21,6 @@ HAS PRIORITY:
             Is all this really worth it?
     Add ability to start a section and show it
         Basically, allows us to define a section and give it default content
-    Find way to display PHP variables inside tags
 
 Need to create session storage classes
     Need to think of how to assign session Ids
