@@ -69,6 +69,22 @@ class TagCompilerTest extends Tests\Compiler
     }
 
     /**
+     * Tests compiling an escaped tag whose value is an unescaped tag
+     */
+    public function testCompilingEscapedTagWhoseValueIsUnescapedTag()
+    {
+        // Order here is important
+        // We're testing setting the inner-most tag first, and then the outer tag
+        $this->template->setContents("{{!content!}}");
+        $this->template->setTag("message", "world");
+        $this->template->setTag("content", "Hello, {{message}}!");
+        $this->assertEquals(
+            "Hello, world!",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+    }
+
+    /**
      * Tests compiling invalid PHP
      */
     public function testCompilingInvalidPHP()
@@ -81,6 +97,22 @@ class TagCompilerTest extends Tests\Compiler
         error_reporting(0);
         $this->subCompiler->compile($this->template, $this->template->getContents());
         error_reporting($originalErrorReporting);
+    }
+
+    /**
+     * Tests compiling a tag whose value is another tag
+     */
+    public function testCompilingTagWhoseValueIsAnotherTag()
+    {
+        // Order here is important
+        // We're testing setting the inner-most tag first, and then the outer tag
+        $this->template->setContents("{{!content!}}");
+        $this->template->setTag("message", "world");
+        $this->template->setTag("content", "Hello, {{!message!}}!");
+        $this->assertEquals(
+            "Hello, world!",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
     }
 
     /**

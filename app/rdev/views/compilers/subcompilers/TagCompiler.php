@@ -41,34 +41,51 @@ class TagCompiler extends SubCompiler
 
         try
         {
+            $replacementCount = 1;
+
             // Compile tag contents
             foreach($tagData as $tagDataByType)
             {
-                $content = preg_replace_callback(
-                    sprintf(
-                        "/(?<!%s)%s\s*(.*)\s*%s/sU",
-                        preg_quote("\\", "/"),
-                        preg_quote($tagDataByType["delimiters"][0], "/"),
-                        preg_quote($tagDataByType["delimiters"][1], "/")
-                    ),
-                    $tagDataByType["callback"],
-                    $content
-                );
+                // Handle tags whose values are tags
+                do
+                {
+                    $content = preg_replace_callback(
+                        sprintf(
+                            "/(?<!%s)%s\s*(.*)\s*%s/sU",
+                            preg_quote("\\", "/"),
+                            preg_quote($tagDataByType["delimiters"][0], "/"),
+                            preg_quote($tagDataByType["delimiters"][1], "/")
+                        ),
+                        $tagDataByType["callback"],
+                        $content,
+                        -1,
+                        $replacementCount
+                    );
+                }while($replacementCount > 0);
             }
+
+            // Reset the count
+            $replacementCount = 1;
 
             // Strip escape characters from escaped tags
             foreach($tagData as $tagDataByType)
             {
-                $content = preg_replace(
-                    sprintf(
-                        "/%s(%s\s*.*\s*%s)/sU",
-                        preg_quote("\\", "/"),
-                        preg_quote($tagDataByType["delimiters"][0], "/"),
-                        preg_quote($tagDataByType["delimiters"][1], "/")
-                    ),
-                    "$1",
-                    $content
-                );
+                // Handle tags whose values are tags
+                do
+                {
+                    $content = preg_replace(
+                        sprintf(
+                            "/%s(%s\s*.*\s*%s)/sU",
+                            preg_quote("\\", "/"),
+                            preg_quote($tagDataByType["delimiters"][0], "/"),
+                            preg_quote($tagDataByType["delimiters"][1], "/")
+                        ),
+                        "$1",
+                        $content,
+                        -1,
+                        $replacementCount
+                    );
+                }while($replacementCount > 0);
             }
 
             // Create local variables for use in eval()
@@ -96,12 +113,11 @@ class TagCompiler extends SubCompiler
     /**
      * Gets the PHP code from a tag
      *
-     * @param Views\ITemplate $template The template being compiled
      * @param string $tagContents The tag contents
      * @return string The PHP code
      * @throws Compilers\ViewCompilerException Thrown if there was an error generating the PHP
      */
-    private function generatePHP(Views\ITemplate $template, $tagContents)
+    private function generatePHP($tagContents)
     {
         if(empty($tagContents))
         {
@@ -196,7 +212,7 @@ class TagCompiler extends SubCompiler
                     return $this->xssFilter->run($tagValue);
                 }
 
-                if(($code = $this->generatePHP($template, $matches[1])) == "")
+                if(($code = $this->generatePHP($matches[1])) == "")
                 {
                     return "";
                 }
@@ -215,7 +231,7 @@ class TagCompiler extends SubCompiler
                     return $tagValue;
                 }
 
-                if(($code = $this->generatePHP($template, $matches[1])) == "")
+                if(($code = $this->generatePHP($matches[1])) == "")
                 {
                     return "";
                 }
