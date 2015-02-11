@@ -20,6 +20,10 @@ class Headers extends Parameters
             {
                 $this->set(substr($key, 5), $value);
             }
+            elseif(strpos($key, "CONTENT_") === 0)
+            {
+                $this->set($key, $value);
+            }
         }
 
         /**

@@ -38,6 +38,12 @@ class Request
     private $query = null;
     /** @var HTTP\Parameters The list of POST parameters */
     private $post = null;
+    /** @var HTTP\Parameters The list of PUT parameters */
+    private $put = null;
+    /** @var HTTP\Parameters The list of PATCH parameters */
+    private $patch = null;
+    /** @var HTTP\Parameters The list of DELETE parameters */
+    private $delete = null;
     /** @var HTTP\Headers The list of headers */
     private $headers = null;
     /** @var HTTP\Parameters The list of SERVER parameters */
@@ -50,6 +56,8 @@ class Request
     private $cookies = null;
     /** @var string The path of the request, which does not include the query string */
     private $path = "";
+    /** @var string The raw body of the request */
+    private $rawBody = null;
 
     /**
      * @param array $query The GET parameters
@@ -63,6 +71,9 @@ class Request
     {
         $this->query = new HTTP\Parameters($query);
         $this->post = new HTTP\Parameters($post);
+        $this->put = new HTTP\Parameters([]);
+        $this->patch = new HTTP\Parameters([]);
+        $this->delete = new HTTP\Parameters([]);
         $this->cookies = new HTTP\Parameters($cookies);
         $this->server = new HTTP\Parameters($server);
         $this->headers = new HTTP\Headers($server);
@@ -71,6 +82,8 @@ class Request
         $this->setMethod();
         $this->setIPAddress();
         $this->setPath();
+        // This must go here because it relies on other things being set first
+        $this->setUnsupportedMethodsParameters();
     }
 
     /**
@@ -80,6 +93,17 @@ class Request
      */
     public static function createFromGlobals()
     {
+        // Handle the a bug that does not set CONTENT_TYPE or CONTENT_LENGTH headers
+        if(array_key_exists("HTTP_CONTENT_LENGTH", $_SERVER))
+        {
+            $_SERVER["CONTENT_LENGTH"] = $_SERVER["HTTP_CONTENT_LENGTH"];
+        }
+
+        if(array_key_exists("HTTP_CONTENT_TYPE", $_SERVER))
+        {
+            $_SERVER["CONTENT_TYPE"] = $_SERVER["HTTP_CONTENT_TYPE"];
+        }
+
         return new static($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
     }
 
@@ -89,6 +113,14 @@ class Request
     public function getCookies()
     {
         return $this->cookies;
+    }
+
+    /**
+     * @return HTTP\Parameters
+     */
+    public function getDelete()
+    {
+        return $this->delete;
     }
 
     /**
@@ -124,6 +156,24 @@ class Request
     }
 
     /**
+     * Gets the raw body as a JSON array
+     *
+     * @return array The JSON-decoded body
+     * @throws HTTP\HTTPException Thrown if the body could not be decoded
+     */
+    public function getJSONBody()
+    {
+        $json = json_decode($this->getRawBody(), true);
+
+        if($json === null)
+        {
+            throw new HTTP\HTTPException("Body could not be decoded as JSON");
+        }
+
+        return $json;
+    }
+
+    /**
      * Gets the method used in the request
      *
      * @return string The method used in the request
@@ -131,6 +181,14 @@ class Request
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * @return HTTP\Parameters
+     */
+    public function getPatch()
+    {
+        return $this->patch;
     }
 
     /**
@@ -152,9 +210,32 @@ class Request
     /**
      * @return HTTP\Parameters
      */
+    public function getPut()
+    {
+        return $this->put;
+    }
+
+    /**
+     * @return HTTP\Parameters
+     */
     public function getQuery()
     {
         return $this->query;
+    }
+
+    /**
+     * Gets the raw body
+     *
+     * @return string The raw body
+     */
+    public function getRawBody()
+    {
+        if($this->rawBody === null)
+        {
+            $this->rawBody = file_get_contents("php://input");
+        }
+
+        return $this->rawBody;
     }
 
     /**
@@ -163,6 +244,16 @@ class Request
     public function getServer()
     {
         return $this->server;
+    }
+
+    /**
+     * Gets whether or not a call was made by AJAX
+     *
+     * @return bool True if the request was made by AJAX, otherwise false
+     */
+    public function isAJAX()
+    {
+        return $this->headers->get("X_REQUESTED_WITH") == "XMLHttpRequest";
     }
 
     /**
@@ -296,6 +387,41 @@ class Request
         {
             $uriParts = explode("?", $uri);
             $this->path = $uriParts[0];
+        }
+    }
+
+    /**
+     * Sets PUT/PATCH/DELETE parameters, if they exist
+     */
+    private function setUnsupportedMethodsParameters()
+    {
+        /**
+         * PHP doesn't pass in data from PUT/PATCH/DELETE requests through globals
+         * So, we have to manually read from the input stream to grab their data
+         * If the content is not from a form, we don't bother and just let users look the data up in the raw body
+         */
+        if(
+            strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
+            in_array($this->method, [self::METHOD_PUT, self::METHOD_PATCH, self::METHOD_DELETE])
+        )
+        {
+            parse_str($this->getRawBody(), $parameters);
+
+            switch($this->method)
+            {
+                case self::METHOD_PUT:
+                    $this->put->exchangeArray($parameters);
+
+                    break;
+                case self::METHOD_PATCH:
+                    $this->patch->exchangeArray($parameters);
+
+                    break;
+                case self::METHOD_DELETE:
+                    $this->delete->exchangeArray($parameters);
+
+                    break;
+            }
         }
     }
 } 

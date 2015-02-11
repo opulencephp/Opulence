@@ -5,6 +5,7 @@
  * Tests the HTTP request
  */
 namespace RDev\HTTP\Requests;
+use RDev\Tests\HTTP\Requests\Mocks;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,6 +48,26 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER = self::$serverClone;
         $_GET = self::$getClone;
         $_POST = self::$postClone;
+    }
+
+    /**
+     * Tests the bug with PHP that writes CONTENT_ headers to HTTP_CONTENT_
+     */
+    public function testBugWithHTTPContentHeaders()
+    {
+        $_SERVER["HTTP_CONTENT_TYPE"] = "application/json";
+        $_SERVER["HTTP_CONTENT_LENGTH"] = 24;
+        $request = Request::createFromGlobals();
+        $this->assertEquals("application/json", $request->getHeaders()->get("CONTENT_TYPE"));
+        $this->assertEquals(24, $request->getHeaders()->get("CONTENT_LENGTH"));
+    }
+
+    /**
+     * Tests checking that an unset DELETE variable is not set
+     */
+    public function testCheckingIfDeletePostVarIsNotSet()
+    {
+        $this->assertFalse($this->request->getDelete()->has("foo"));
     }
 
     /**
@@ -96,11 +117,27 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking that an unset PATCH variable is not set
+     */
+    public function testCheckingIfUnsetPatchVarIsNotSet()
+    {
+        $this->assertFalse($this->request->getPatch()->has("foo"));
+    }
+
+    /**
      * Tests checking that an unset POST variable is not set
      */
     public function testCheckingIfUnsetPostVarIsNotSet()
     {
         $this->assertFalse($this->request->getPost()->has("foo"));
+    }
+
+    /**
+     * Tests checking that an unset PUT variable is not set
+     */
+    public function testCheckingIfUnsetPutVarIsNotSet()
+    {
+        $this->assertFalse($this->request->getPut()->has("foo"));
     }
 
     /**
@@ -148,6 +185,44 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingCookies()
     {
         $this->assertSame($_COOKIE, $this->request->getCookies()->getAll());
+    }
+
+    /**
+     * Tests getting data from put, patch, and delete methods
+     */
+    public function testGettingDataFromPutPatchDeleteMethods()
+    {
+        $methods = ["PUT", "PATCH", "DELETE"];
+
+        foreach($methods as $method)
+        {
+            $_SERVER["REQUEST_METHOD"] = $method;
+            $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+            $request = Mocks\FormURLEncodedRequest::createFromGlobals();
+            $this->assertEquals("foo=bar", $request->getRawBody());
+
+            switch($method)
+            {
+                case "PUT":
+                    $this->assertEquals("bar", $request->getPut()->get("foo"));
+                    $this->assertNull($request->getPatch()->get("foo"));
+                    $this->assertNull($request->getDelete()->get("foo"));
+
+                    break;
+                case "PATCH":
+                    $this->assertEquals("bar", $request->getPatch()->get("foo"));
+                    $this->assertNull($request->getPut()->get("foo"));
+                    $this->assertNull($request->getDelete()->get("foo"));
+
+                    break;
+                case "DELETE":
+                    $this->assertEquals("bar", $request->getDelete()->get("foo"));
+                    $this->assertNull($request->getPut()->get("foo"));
+                    $this->assertNull($request->getPatch()->get("foo"));
+
+                    break;
+            }
+        }
     }
 
     /**
@@ -228,6 +303,25 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());
             unset($_SERVER[$key]);
         }
+    }
+
+    /**
+     * Tests getting the JSON body
+     */
+    public function testGettingJSONBody()
+    {
+        $request = Mocks\JSONRequest::createFromGlobals();
+        $this->assertEquals(["foo" => "bar"], $request->getJSONBody());
+    }
+
+    /**
+     * Tests getting the JSON body when the content is not JSON
+     */
+    public function testGettingJSONBodyWhenContentIsNotJSON()
+    {
+        $this->setExpectedException("RDev\\HTTP\\HTTPException");
+        $request = Mocks\FormURLEncodedRequest::createFromGlobals();
+        $request->getJSONBody();
     }
 
     /**
@@ -347,6 +441,14 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the raw body
+     */
+    public function testGettingRawBody()
+    {
+        $this->assertEmpty($this->request->getRawBody());
+    }
+
+    /**
      * Tests getting the request URI
      */
     public function testGettingRequestURI()
@@ -438,6 +540,18 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that any headers without the HTTP_ prefix are set
+     */
+    public function testHeadersWithoutHTTPPrefixAreSet()
+    {
+        $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+        $_SERVER["CONTENT_LENGTH"] = 24;
+        $request = Request::createFromGlobals();
+        $this->assertEquals("application/x-www-form-urlencoded", $request->getHeaders()->get("CONTENT_TYPE"));
+        $this->assertEquals(24, $request->getHeaders()->get("CONTENT_LENGTH"));
+    }
+
+    /**
      * Tests checking if an insecure request is secure
      */
     public function testIfInsecureRequestIsSecure()
@@ -466,5 +580,28 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_URI"] = "/foo/bar";
         $request = Request::createFromGlobals();
         $this->assertFalse($request->isPath("/foo"));
+    }
+
+    /**
+     * Tests checking if a request was made by AJAX
+     */
+    public function testIsAJAX()
+    {
+        $this->request->getHeaders()->set("X_REQUESTED_WITH", "XMLHttpRequest");
+        $this->assertTrue($this->request->isAJAX());
+        $this->request->getHeaders()->remove("X_REQUESTED_WITH");
+        $this->assertFalse($this->request->isAJAX());
+    }
+
+    /**
+     * Tests that POST data is not overwritten on POST request
+     */
+    public function testPostDataNotOverwrittenOnPostRequest()
+    {
+        $_POST["foo"] = "blahblahblah";
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+        $request = Mocks\FormURLEncodedRequest::createFromGlobals();
+        $this->assertEquals("blahblahblah", $request->getPost()->get("foo"));
     }
 } 

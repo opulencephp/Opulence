@@ -13,6 +13,8 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     /** @var array The server array to use */
     private $serverArray = [
         "NON_HEADER" => "foo",
+        "CONTENT_LENGTH" => 4,
+        "CONTENT_TYPE" => "foo",
         "HTTP_ACCEPT" => "accept",
         "HTTP_ACCEPT_CHARSET" => "accept_charset",
         "HTTP_ACCEPT_ENCODING" => "accept_encoding",
@@ -48,6 +50,15 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
                 }
 
                 $headerParameters[substr($key, 5)] = $value;
+            }
+            elseif(strpos($key, "CONTENT_") === 0)
+            {
+                if(!is_array($value))
+                {
+                    $value = [$value];
+                }
+
+                $headerParameters[$key] = $value;
             }
         }
 
