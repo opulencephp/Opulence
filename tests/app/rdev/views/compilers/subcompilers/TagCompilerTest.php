@@ -323,6 +323,16 @@ class TagCompilerTest extends Tests\Compiler
     }
 
     /**
+     * Tests tag whose value is PHP code
+     */
+    public function testTagWithPHPValue()
+    {
+        $this->template->setTag("foo", '$bar->blah();');
+        $this->template->setContents('{{!foo!}}');
+        $this->assertEquals('$bar->blah();', $this->subCompiler->compile($this->template, $this->template->getContents()));
+    }
+
+    /**
      * Tests compiling template function
      */
     public function testTemplateFunction()

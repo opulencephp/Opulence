@@ -108,33 +108,6 @@ class TagCompiler extends SubCompiler
             return "";
         }
 
-        $matches = [];
-
-        // Check if the contents are simply a tag name
-        if(
-            preg_match(
-                sprintf(
-                    // Account for multiple lines before and after tag name
-                    "/^[%s\s]*([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[%s\s]*$/",
-                    preg_quote(PHP_EOL, "/"),
-                    preg_quote(PHP_EOL, "/")
-                ),
-                $tagContents, $matches
-            ) === 1
-        )
-        {
-            $value = $template->getTag($matches[1]);
-
-            // There was no tag with this name
-            if($value === null)
-            {
-                return "";
-            }
-
-            // We need to escape any double quotes because the return value is surrounded by double quotes
-            return '"' . addcslashes($value, '"') . '"';
-        }
-
         $phpTokens = token_get_all("<?php $tagContents ?>");
         $rDevTokens = [];
         $templateFunctionNames = array_keys($this->parentCompiler->getTemplateFunctions());
@@ -218,9 +191,12 @@ class TagCompiler extends SubCompiler
             "delimiters" => [$escapedDelimiters[0], $escapedDelimiters[1]],
             "callback" => function(array $matches) use ($template)
             {
-                $code = $this->generatePHP($template, $matches[1]);
+                if(($tagValue = $this->getTagValue($template, $matches[1])) !== null)
+                {
+                    return $this->xssFilter->run($tagValue);
+                }
 
-                if($code == "")
+                if(($code = $this->generatePHP($template, $matches[1])) == "")
                 {
                     return "";
                 }
@@ -234,9 +210,12 @@ class TagCompiler extends SubCompiler
             "delimiters" => [$unescapedDelimiters[0], $unescapedDelimiters[1]],
             "callback" => function(array $matches) use ($template)
             {
-                $code = $this->generatePHP($template, $matches[1]);
+                if(($tagValue = $this->getTagValue($template, $matches[1])) !== null)
+                {
+                    return $tagValue;
+                }
 
-                if($code == "")
+                if(($code = $this->generatePHP($template, $matches[1])) == "")
                 {
                     return "";
                 }
@@ -259,6 +238,45 @@ class TagCompiler extends SubCompiler
         }
 
         return $tagData;
+    }
+
+    /**
+     * Gets the value of a tag, if there is one
+     *
+     * @param Views\ITemplate $template The template being compiled
+     * @param string $tagContents The contents of the tag
+     * @return mixed|null|string The tag value if there was one, otherwise null
+     */
+    private function getTagValue(Views\ITemplate $template, $tagContents)
+    {
+        $matches = [];
+
+        // Check if the contents are simply a tag name
+        if(
+            preg_match(
+                sprintf(
+                // Account for multiple lines before and after tag name
+                    "/^[%s\s]*([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[%s\s]*$/",
+                    preg_quote(PHP_EOL, "/"),
+                    preg_quote(PHP_EOL, "/")
+                ),
+                $tagContents, $matches
+            ) === 1
+        )
+        {
+            $value = $template->getTag($matches[1]);
+
+            // There was no tag with this name
+            if($value === null)
+            {
+                return "";
+            }
+
+            return $value;
+        }
+
+        // This was not a tag name
+        return null;
     }
 
     /**
