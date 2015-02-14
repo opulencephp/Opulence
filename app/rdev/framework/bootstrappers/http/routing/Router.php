@@ -4,7 +4,7 @@
  *
  * Defines the routing bootstrapper
  */
-namespace RDev\Framework\HTTP\Bootstrappers\Routing;
+namespace RDev\Framework\Bootstrappers\HTTP\Routing;
 use RDev\Applications\Bootstrappers;
 use RDev\HTTP\Routing;
 use RDev\HTTP\Routing\Compilers;

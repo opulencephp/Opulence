@@ -4,7 +4,7 @@
  *
  * Defines the template functions bootstrapper
  */
-namespace RDev\Framework\HTTP\Bootstrappers\Views;
+namespace RDev\Framework\Bootstrappers\HTTP\Views;
 use RDev\Applications\Bootstrappers;
 use RDev\HTTP\Routing\URL;
 use RDev\Views\Compilers;

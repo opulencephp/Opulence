@@ -4,7 +4,7 @@
  *
  * Defines the template bootstrapper
  */
-namespace RDev\Framework\HTTP\Bootstrappers\Views;
+namespace RDev\Framework\Bootstrappers\HTTP\Views;
 use RDev\Applications\Environments;
 use RDev\Applications\Bootstrappers;
 use RDev\Framework;

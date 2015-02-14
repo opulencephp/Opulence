@@ -4,7 +4,7 @@
  *
  * Defines the command bootstrapper
  */
-namespace RDev\Framework\Console\Bootstrappers\Commands;
+namespace RDev\Framework\Bootstrappers\Console\Commands;
 use RDev\Applications\Bootstrappers;
 use RDev\Console\Commands as ConsoleCommands;
 use RDev\Console\Commands\Compilers;

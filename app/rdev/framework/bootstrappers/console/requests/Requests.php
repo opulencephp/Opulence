@@ -4,7 +4,7 @@
  *
  * Defines the request bootstrapper
  */
-namespace RDev\Framework\Console\Bootstrappers\Requests;
+namespace RDev\Framework\Bootstrappers\Console\Requests;
 use RDev\Applications\Bootstrappers;
 use RDev\Console\Requests\Parsers;
 use RDev\IoC;

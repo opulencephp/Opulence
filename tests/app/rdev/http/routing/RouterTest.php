@@ -71,8 +71,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $groupOptions = [
             "path" => "/foo",
-            "middleware" => ["foo1", "foo2"],
-            "post" => ["post1", "post2"]
+            "middleware" => ["foo1", "foo2"]
         ];
         $this->router->group($groupOptions, function ()
         {
