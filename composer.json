@@ -1,0 +1,31 @@
+{
+  "name": "rdev/pipelines",
+  "description": "The RDev pipeline library",
+  "keywords": [
+    "PHP",
+    "pipeline"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "RDev\\Pipelines\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "rdev/ioc": "0.2.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.2.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
