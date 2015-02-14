@@ -11,20 +11,20 @@ class Pipeline implements IPipeline
 {
     /** @var IoC\IContainer The dependency injection container to use */
     private $container;
-    /** @var array The list of pipes to send input through */
-    private $pipes = [];
-    /** @var string The method to call if the pipes are not closures */
+    /** @var array The list of stages to send input through */
+    private $stages = [];
+    /** @var string The method to call if the stages are not closures */
     private $methodToCall = null;
 
     /**
      * @param IoC\IContainer $container The dependency injection container to use
-     * @param \Closure[]|array $pipes The list of pipes to send input through
+     * @param \Closure[]|array $stages The list of stages to send input through
      * @param string $methodToCall The method to call if the pipes are not closures
      */
-    public function __construct(IoC\IContainer $container, array $pipes, $methodToCall = null)
+    public function __construct(IoC\IContainer $container, array $stages, $methodToCall = null)
     {
         $this->container = $container;
-        $this->setPipes($pipes, $methodToCall);
+        $this->setStages($stages, $methodToCall);
     }
 
     /**
@@ -34,8 +34,8 @@ class Pipeline implements IPipeline
     {
         return call_user_func(
             array_reduce(
-                array_reverse($this->pipes),
-                $this->createPipeCallback(),
+                array_reverse($this->stages),
+                $this->createStageCallback(),
                 function ($input) use ($callback)
                 {
                     if($callback === null)
@@ -53,27 +53,27 @@ class Pipeline implements IPipeline
     /**
      * {@inheritdoc}
      */
-    public function setPipes(array $pipes, $methodToCall = null)
+    public function setStages(array $stages, $methodToCall = null)
     {
-        $this->pipes = $pipes;
+        $this->stages = $stages;
         $this->methodToCall = $methodToCall;
     }
 
     /**
-     * Creates a callback for an individual pipe
+     * Creates a callback for an individual stage
      *
      * @return \Closure The callback
-     * @throws PipelineException Thrown if there was a problem creating a pipe
+     * @throws PipelineException Thrown if there was a problem creating a stage
      */
-    private function createPipeCallback()
+    private function createStageCallback()
     {
-        return function($pipes, $pipe)
+        return function($stages, $stage)
         {
-            return function($input) use ($pipes, $pipe)
+            return function($input) use ($stages, $stage)
             {
-                if($pipe instanceof \Closure)
+                if($stage instanceof \Closure)
                 {
-                    return call_user_func($pipe, $input, $pipes);
+                    return call_user_func($stage, $input, $stages);
                 }
                 else
                 {
@@ -84,19 +84,19 @@ class Pipeline implements IPipeline
 
                     try
                     {
-                        if(is_string($pipe))
+                        if(is_string($stage))
                         {
-                            $pipe = $this->container->makeShared($pipe);
+                            $stage = $this->container->makeShared($stage);
                         }
 
-                        if(!method_exists($pipe, $this->methodToCall))
+                        if(!method_exists($stage, $this->methodToCall))
                         {
-                            throw new PipelineException(get_class($pipe) . "::{$this->methodToCall} does not exist");
+                            throw new PipelineException(get_class($stage) . "::{$this->methodToCall} does not exist");
                         }
 
                         return call_user_func_array(
-                            [$pipe, $this->methodToCall],
-                            [$input, $pipes]
+                            [$stage, $this->methodToCall],
+                            [$input, $stages]
                         );
                     }
                     catch(IoC\IoCException $ex)

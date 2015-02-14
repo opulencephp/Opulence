@@ -20,10 +20,10 @@ interface IPipeline
     public function send($input, \Closure $callback = null);
 
     /**
-     * Sets the list of pipes in the pipeline
+     * Sets the list of stages in the pipeline
      *
-     * @param \Closure[]|array $pipes The list of pipes in the pipeline
-     * @param string $methodToCall Sets the method to call if the pipes are a list of objects (and not closures)
+     * @param \Closure[]|array $stages The list of stages in the pipeline
+     * @param string $methodToCall Sets the method to call if the stages are a list of objects or class names
      */
-    public function setPipes(array $pipes, $methodToCall = null);
+    public function setStages(array $stages, $methodToCall = null);
 }
