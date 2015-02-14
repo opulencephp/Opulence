@@ -27,8 +27,7 @@ class ParsedRoute extends Route
         $this->setName($route->getName());
         $this->setRawHost($route->getRawHost());
         $this->setRawPath($route->getRawPath());
-        $this->addPreFilters($route->getPreFilters());
-        $this->addPostFilters($route->getPostFilters());
+        $this->addMiddleware($route->getMiddleware());
         $this->setSecure($route->isSecure());
         $this->setVariableRegexes($route->variableRegexes);
     }

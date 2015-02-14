@@ -26,8 +26,7 @@ class ParsedRouteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($route->getControllerMethod(), $parsedRoute->getControllerMethod());
         $this->assertEquals($route->getName(), $parsedRoute->getName());
         $this->assertEquals($route->isSecure(), $parsedRoute->isSecure());
-        $this->assertEquals($route->getPreFilters(), $parsedRoute->getPreFilters());
-        $this->assertEquals($route->getPostFilters(), $parsedRoute->getPostFilters());
+        $this->assertEquals($route->getMiddleware(), $parsedRoute->getMiddleware());
         $this->assertEquals($route->getRawHost(), $parsedRoute->getRawHost());
         $this->assertEquals($route->getRawPath(), $parsedRoute->getRawPath());
         $this->assertEquals($route->getVariableRegex("bar"), $parsedRoute->getVariableRegex("bar"));

@@ -100,8 +100,9 @@ class Router
      * @param array $options The list of options common to all routes added in the closure
      *      It can contain the following keys:
      *          "path" => The common path to be prepended to all the grouped routes,
-     *          "pre" => The pre-filters to be added to all the grouped routes,
-     *          "post" => The post-filters to be added to all the grouped routes
+     *          "middleware" => The middleware to be added to all the grouped routes,
+     *          "https" => Whether or not all the grouped routes are HTTPS,
+     *          "variables" => The list of path variable regular expressions all the routes must match
      * @param callable $closure A function that adds routes to the router
      */
     public function group(array $options, callable $closure)
@@ -246,17 +247,11 @@ class Router
         $route->setSecure($this->isGroupSecure() || $route->isSecure());
         // The route's variable regexes take precedence over group regexes
         $route->setVariableRegexes(array_merge($this->getVariableRegexes(), $route->getVariableRegexes()));
-        $groupPreFilters = $this->getGroupFilters("pre");
-        $groupPostFilters = $this->getGroupFilters("post");
+        $groupMiddleware = $this->getGroupMiddleware();
 
-        if(count($groupPreFilters) > 0)
+        if(count($groupMiddleware) > 0)
         {
-            $route->addPreFilters($groupPreFilters, true);
-        }
-
-        if(count($groupPostFilters) > 0)
-        {
-            $route->addPostFilters($groupPostFilters, true);
+            $route->addMiddleware($groupMiddleware, true);
         }
 
         return $route;
@@ -302,52 +297,6 @@ class Router
     }
 
     /**
-     * Gets the filters in the current group stack
-     *
-     * @param string $filterType The type of filter ("pre" or "post")
-     * @return array The list of filters of all the groups
-     */
-    private function getGroupFilters($filterType)
-    {
-        $filters = [];
-
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions[$filterType]))
-            {
-                if(!is_array($groupOptions[$filterType]))
-                {
-                    $groupOptions[$filterType] = [$groupOptions[$filterType]];
-                }
-
-                $filters = array_merge($filters, $groupOptions[$filterType]);
-            }
-        }
-
-        return $filters;
-    }
-
-    /**
-     * Gets the variable regexes from the current group stack
-     *
-     * @return array The The mapping of variable names to regexes
-     */
-    private function getVariableRegexes()
-    {
-        $variableRegexes = [];
-
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["variables"]))
-            {
-                $variableRegexes = array_merge($variableRegexes, $groupOptions["variables"]);
-            }
-        }
-
-        return $variableRegexes;
-    }
-
-    /**
      * Gets the host from the current group stack
      *
      * @return string The host
@@ -365,6 +314,31 @@ class Router
         }
 
         return $host;
+    }
+
+    /**
+     * Gets the middleware in the current group stack
+     *
+     * @return array The list of middleware of all the groups
+     */
+    private function getGroupMiddleware()
+    {
+        $middleware = [];
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["middleware"]))
+            {
+                if(!is_array($groupOptions["middleware"]))
+                {
+                    $groupOptions["middleware"] = [$groupOptions["middleware"]];
+                }
+
+                $middleware = array_merge($middleware, $groupOptions["middleware"]);
+            }
+        }
+
+        return $middleware;
     }
 
     /**
@@ -396,6 +370,26 @@ class Router
     private function getMissingRouteResponse(Requests\Request $request)
     {
         return $this->dispatcher->dispatch(new Routes\MissingRoute($this->missedRouteControllerName), $request, []);
+    }
+
+    /**
+     * Gets the variable regexes from the current group stack
+     *
+     * @return array The The mapping of variable names to regexes
+     */
+    private function getVariableRegexes()
+    {
+        $variableRegexes = [];
+
+        foreach($this->groupOptionsStack as $groupOptions)
+        {
+            if(isset($groupOptions["variables"]))
+            {
+                $variableRegexes = array_merge($variableRegexes, $groupOptions["variables"]);
+            }
+        }
+
+        return $variableRegexes;
     }
 
     /**

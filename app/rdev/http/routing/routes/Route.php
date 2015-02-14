@@ -24,10 +24,8 @@ class Route
     protected $isSecure = false;
     /** @var array The mapping of route variable names to their regexes */
     protected $variableRegexes = [];
-    /** @var array The list of filters to run before dispatching a route */
-    protected $preFilters = [];
-    /** @var array The list of filters to run after dispatching a route */
-    protected $postFilters = [];
+    /** @var array The list of middleware to run when dispatching this route */
+    protected $middleware = [];
 
     /**
      * @param string|array $methods The HTTP method or list of methods this route matches on
@@ -58,14 +56,9 @@ class Route
             $this->setVariableRegexes($options["variables"]);
         }
 
-        if(isset($options["pre"]))
+        if(isset($options["middleware"]))
         {
-            $this->addPreFilters($options["pre"]);
-        }
-
-        if(isset($options["post"]))
-        {
-            $this->addPostFilters($options["post"]);
+            $this->addMiddleware($options["middleware"]);
         }
 
         if(isset($options["host"]))
@@ -85,37 +78,12 @@ class Route
     }
 
     /**
-     * Adds post-filters to this route
-     *
-     * @param string|array $filters The filter or list of post-filters to add
-     * @param bool $prepend True if we want to prepend the filters (give them higher priority), otherwise false
-     */
-    public function addPostFilters($filters, $prepend = false)
-    {
-        if(!is_array($filters))
-        {
-            $filters = [$filters];
-        }
-
-        if($prepend)
-        {
-            $this->postFilters = array_merge($filters, $this->postFilters);
-        }
-        else
-        {
-            $this->postFilters = array_merge($this->postFilters, $filters);
-        }
-
-        $this->postFilters = array_unique($this->postFilters);
-    }
-
-    /**
      * Adds pre-filters to this route
      *
      * @param string|array $filters The filter or list of pre-filters to add
      * @param bool $prepend True if we want to prepend the filters (give them higher priority), otherwise false
      */
-    public function addPreFilters($filters, $prepend = false)
+    public function addMiddleware($filters, $prepend = false)
     {
         if(!is_array($filters))
         {
@@ -124,14 +92,14 @@ class Route
 
         if($prepend)
         {
-            $this->preFilters = array_merge($filters, $this->preFilters);
+            $this->middleware = array_merge($filters, $this->middleware);
         }
         else
         {
-            $this->preFilters = array_merge($this->preFilters, $filters);
+            $this->middleware = array_merge($this->middleware, $filters);
         }
 
-        $this->preFilters = array_unique($this->preFilters);
+        $this->middleware = array_unique($this->middleware);
     }
 
     /**
@@ -159,27 +127,19 @@ class Route
     }
 
     /**
+     * @return array
+     */
+    public function getMiddleware()
+    {
+        return $this->middleware;
+    }
+
+    /**
      * @return string
      */
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPostFilters()
-    {
-        return $this->postFilters;
-    }
-
-    /**
-     * @return array
-     */
-    public function getPreFilters()
-    {
-        return $this->preFilters;
     }
 
     /**

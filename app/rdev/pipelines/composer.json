@@ -1,12 +1,9 @@
 {
-  "name": "rdev/http",
-  "description": "The RDev HTTP library",
+  "name": "rdev/pipelines",
+  "description": "The RDev pipeline library",
   "keywords": [
     "PHP",
-    "http",
-    "response",
-    "request",
-    "cookies"
+    "pipeline"
   ],
   "authors": [
     {
@@ -18,14 +15,12 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\HTTP\\": ""
+      "RDev\\Pipelines\\": ""
     }
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/ioc": "0.2.*",
-    "rdev/pipelines": "0.2.*",
-    "rdev/views": "0.2.*"
+    "rdev/ioc": "0.2.*"
   },
   "extra": {
     "branch-alias": {

@@ -8,9 +8,9 @@ namespace RDev\HTTP\Routing\Dispatchers;
 use RDev\HTTP\Requests;
 use RDev\HTTP\Responses;
 use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Filters;
 use RDev\HTTP\Routing\Routes;
 use RDev\IoC;
+use RDev\Pipelines;
 
 class Dispatcher implements IDispatcher
 {
@@ -30,25 +30,29 @@ class Dispatcher implements IDispatcher
      */
     public function dispatch(Routes\CompiledRoute $route, Requests\Request $request)
     {
-        $controller = $this->createController($route->getControllerName(), $request);
+        $pipeline = new Pipelines\Pipeline($this->container, $route->getMiddleware(), "handle");
 
-        // Do our pre-filters
-        if(($preFilterReturnValue = $this->doPreFilters($route, $request)) !== null)
+        try
         {
-            return $preFilterReturnValue;
+            $response = $pipeline->send($request, function (Requests\Request $request) use ($route)
+            {
+                $controller = $this->createController($route->getControllerName(), $request);
+
+                return $this->callController($controller, $route);
+            });
+
+            if($response === null)
+            {
+                // Nothing returned a value, so return a basic HTTP response
+                return new Responses\Response();
+            }
+
+            return $response;
         }
-
-        // Call our controller
-        $controllerResponse = $this->callController($controller, $route);
-
-        // Do our post-filters
-        if(($postFilterReturnValue = $this->doPostFilters($route, $request, $controllerResponse)) !== null)
+        catch(Pipelines\PipelineException $ex)
         {
-            return $postFilterReturnValue;
+            throw new Routing\RouteException("Failed to dispatch route: " . $ex->getMessage());
         }
-
-        // Nothing returned a value, so return a basic HTTP response
-        return new Responses\Response();
     }
 
     /**
@@ -98,7 +102,7 @@ class Dispatcher implements IDispatcher
 
             return call_user_func_array([$controller, "callMethod"], [$route->getControllerMethod(), $parameters]);
         }
-        catch(\ReflectionException $ex)
+        catch(\Exception $ex)
         {
             throw new Routing\RouteException(
                 sprintf(
@@ -143,64 +147,5 @@ class Dispatcher implements IDispatcher
         $controller->setRequest($request);
 
         return $controller;
-    }
-
-    /**
-     * Executes a route's post-filters
-     *
-     * @param Routes\CompiledRoute $route The route that is being dispatched
-     * @param Requests\Request $request The request made by the user
-     * @param Responses\Response $response The response returned by the controller
-     * @return Responses\Response|null The response if any filter returned one, otherwise null
-     * @throws Routing\RouteException Thrown if the filter is not of the correct type
-     */
-    private function doPostFilters(Routes\CompiledRoute $route, Requests\Request $request, Responses\Response $response = null)
-    {
-        foreach($route->getPostFilters() as $filterClassName)
-        {
-            $filter = $this->container->makeShared($filterClassName);
-
-            if(!$filter instanceof Filters\IFilter)
-            {
-                throw new Routing\RouteException("Filter $filterClassName does not implement IFilter");
-            }
-
-            // Don't send this response to the next filter if it didn't return anything
-            if(($thisResponse = $filter->run($route, $request, $response)) !== null)
-            {
-                $response = $thisResponse;
-            }
-        }
-
-        return $response;
-    }
-
-    /**
-     * Executes a route's pre-filters
-     *
-     * @param Routes\CompiledRoute $route The route that is being dispatched
-     * @param Requests\Request $request The request made by the user
-     * @return Responses\Response|null The response if any filter returned one, otherwise null
-     * @throws Routing\RouteException Thrown if the filter is not of the correct type
-     */
-    private function doPreFilters(Routes\CompiledRoute $route, Requests\Request $request)
-    {
-        foreach($route->getPreFilters() as $filterClassName)
-        {
-            $filter = $this->container->makeShared($filterClassName);
-
-            if(!$filter instanceof Filters\IFilter)
-            {
-                throw new Routing\RouteException("Filter $filterClassName does not implement IFilter");
-            }
-
-            // If the filter returned anything, return it right away
-            if(($response = $filter->run($route, $request)) !== null)
-            {
-                return $response;
-            }
-        }
-
-        return null;
     }
 } 

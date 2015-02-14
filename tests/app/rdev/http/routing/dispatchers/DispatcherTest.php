@@ -86,15 +86,15 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests chaining post-filters that do and do not return something
+     * Tests chaining middleware that do and do not return something
      */
-    public function testChainingPostFiltersThatDoAndDoNotReturnSomething()
+    public function testChainingMiddlewareThatDoAndDoNotReturnSomething()
     {
         $options = [
             "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
-            "post" => [
-                "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingFilter",
-                "RDev\\Tests\\HTTP\\Routing\\Mocks\\DoesNotReturnSomethingFilter"
+            "middleware" => [
+                "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingMiddleware",
+                "RDev\\Tests\\HTTP\\Routing\\Mocks\\DoesNotReturnSomethingMiddleware"
             ]
         ];
         $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
@@ -105,27 +105,27 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests specifying an invalid filter
+     * Tests specifying an invalid middleware
      */
-    public function testInvalidFilter()
+    public function testInvalidMiddleware()
     {
         $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
         $options = [
             "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@returnsNothing",
-            "post" => get_class($this)
+            "middleware" => get_class($this)
         ];
         $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
         $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
-     * Tests using a post-filter that returns something with a controller that also returns something
+     * Tests using a middleware that returns something with a controller that also returns something
      */
-    public function testPostFilterThatAddsToControllerResponse()
+    public function testMiddlewareThatAddsToControllerResponse()
     {
         $options = [
             "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
-            "post" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingFilter"
+            "middleware" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingMiddleware"
         ];
         $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
         $this->assertEquals(
@@ -135,52 +135,26 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests using a post-filter that does not return anything
+     * Tests using a middleware that does not return anything
      */
-    public function testUsingPostFilterThatDoesNotReturnAnything()
+    public function testUsingMiddlewareThatDoesNotReturnAnything()
     {
         $options = [
             "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@returnsNothing",
-            "post" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\DoesNotReturnSomethingFilter"
+            "middleware" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\DoesNotReturnSomethingMiddleware"
         ];
         $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
         $this->assertEquals(new Responses\Response(), $this->dispatcher->dispatch($route, $this->request));
     }
 
     /**
-     * Tests using a post-filter that returns something
+     * Tests using a middleware that returns something
      */
-    public function testUsingPostFilterThatReturnsSomething()
+    public function testUsingMiddlewareThatReturnsSomething()
     {
         $options = [
             "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@returnsNothing",
-            "post" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingFilter"
-        ];
-        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
-        $this->assertEquals(new Responses\RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request));
-    }
-
-    /**
-     * Tests using a pre-filter that does not return anything
-     */
-    public function testUsingPreFilterThatDoesNotReturnAnything()
-    {
-        $options = [
-            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
-            "pre" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\DoesNotReturnSomethingFilter"
-        ];
-        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
-        $this->assertEquals("noParameters", $this->dispatcher->dispatch($route, $this->request)->getContent());
-    }
-
-    /**
-     * Tests using a pre-filter that returns something
-     */
-    public function testUsingPreFilterThatReturnsSomething()
-    {
-        $options = [
-            "controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters",
-            "pre" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingFilter"
+            "middleware" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\ReturnsSomethingMiddleware"
         ];
         $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
         $this->assertEquals(new Responses\RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request));

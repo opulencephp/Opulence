@@ -388,6 +388,24 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests making a new non-existent class
+     */
+    public function testMakingNewNonExistentClass()
+    {
+        $this->setExpectedException("RDev\\IoC\\IoCException");
+        $this->container->makeNew("DoesNotExist");
+    }
+
+    /**
+     * Tests making a non-existent class
+     */
+    public function testMakingNonExistentClass()
+    {
+        $this->setExpectedException("RDev\\IoC\\IoCException");
+        $this->container->make("DoesNotExist", false);
+    }
+
+    /**
      * Tests making an object
      */
     public function testMakingObject()
@@ -399,6 +417,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($this->constructorWithIFoo, $sharedInstance);
         $this->assertNotSame($newInstance, $sharedInstance);
         $this->assertSame($sharedInstance, $this->container->make($this->constructorWithIFoo, false));
+    }
+
+    /**
+     * Tests making a shared non-existent class
+     */
+    public function testMakingSharedNonExistentClass()
+    {
+        $this->setExpectedException("RDev\\IoC\\IoCException");
+        $this->container->makeShared("DoesNotExist");
     }
 
     /**

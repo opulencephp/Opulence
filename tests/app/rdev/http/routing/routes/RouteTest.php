@@ -9,83 +9,43 @@ namespace RDev\HTTP\Routing\Routes;
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * Tests adding multiple post-filters
+     * Tests adding multiple middleware
      */
-    public function testAddingMultiplePostFilters()
+    public function testAddingMultipleMiddleware()
     {
         $options = [
             "controller" => "foo@bar"
         ];
         $route = new Route("get", "/{foo}", $options);
-        $route->addPostFilters(["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $route->getPostFilters());
+        $route->addMiddleware(["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $route->getMiddleware());
     }
 
     /**
-     * Tests adding multiple pre-filters
+     * Tests adding non-unique middleware
      */
-    public function testAddingMultiplePreFilters()
+    public function testAddingNonUniqueMiddleware()
     {
         $options = [
             "controller" => "foo@bar"
         ];
         $route = new Route("get", "/{foo}", $options);
-        $route->addPreFilters(["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $route->getPreFilters());
+        $route->addMiddleware("foo");
+        $route->addMiddleware("foo");
+        $this->assertEquals(["foo"], $route->getMiddleware());
     }
 
     /**
-     * Tests adding non-unique post-filters
+     * Tests adding a single middleware
      */
-    public function testAddingNonUniquePostFilters()
+    public function testAddingSingleMiddleware()
     {
         $options = [
             "controller" => "foo@bar"
         ];
         $route = new Route("get", "/{foo}", $options);
-        $route->addPostFilters("foo");
-        $route->addPostFilters("foo");
-        $this->assertEquals(["foo"], $route->getPostFilters());
-    }
-
-    /**
-     * Tests adding non-unique pre-filters
-     */
-    public function testAddingNonUniquePreFilters()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $route->addPreFilters("foo");
-        $route->addPreFilters("foo");
-        $this->assertEquals(["foo"], $route->getPreFilters());
-    }
-
-    /**
-     * Tests adding a single post-filter
-     */
-    public function testAddingSinglePostFilter()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $route->addPostFilters("foo");
-        $this->assertEquals(["foo"], $route->getPostFilters());
-    }
-
-    /**
-     * Tests adding a single pre-filter
-     */
-    public function testAddingSinglePreFilter()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $route->addPreFilters("foo");
-        $this->assertEquals(["foo"], $route->getPreFilters());
+        $route->addMiddleware("foo");
+        $this->assertEquals(["foo"], $route->getMiddleware());
     }
 
     /**
@@ -125,55 +85,29 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the post-filter when it is a string
+     * Tests getting the middleware when it is a string
      */
-    public function testGettingPostFilterWhenItIsAString()
+    public function testGettingMiddlewareWhenItIsAString()
     {
         $options = [
             "controller" => "foo@bar",
-            "post" => "foo"
+            "middleware" => "foo"
         ];
         $route = new Route("get", "/foo", $options);
-        $this->assertEquals(["foo"], $route->getPostFilters());
+        $this->assertEquals(["foo"], $route->getMiddleware());
     }
 
     /**
-     * Tests getting the post-filters when they are an array
+     * Tests getting the middleware when they are an array
      */
-    public function testGettingPostFiltersWhenTheyAreAnArray()
+    public function testGettingMiddlewareWhenTheyAreAnArray()
     {
         $options = [
             "controller" => "foo@bar",
-            "post" => ["foo", "bar"]
+            "middleware" => ["foo", "bar"]
         ];
         $route = new Route("get", "/foo", $options);
-        $this->assertEquals(["foo", "bar"], $route->getPostFilters());
-    }
-
-    /**
-     * Tests getting the pre-filter when it is a string
-     */
-    public function testGettingPreFilterWhenItIsAString()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "pre" => "foo"
-        ];
-        $route = new Route("get", "/foo", $options);
-        $this->assertEquals(["foo"], $route->getPreFilters());
-    }
-
-    /**
-     * Tests getting the pre-filters when they are an array
-     */
-    public function testGettingPreFiltersWhenTheyAreAnArray()
-    {
-        $options = [
-            "controller" => "foo@bar",
-            "pre" => ["foo", "bar"]
-        ];
-        $route = new Route("get", "/foo", $options);
-        $this->assertEquals(["foo", "bar"], $route->getPreFilters());
+        $this->assertEquals(["foo", "bar"], $route->getMiddleware());
     }
 
     /**
@@ -307,31 +241,17 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test prepending a post-filter
+     * Test prepending a middleware
      */
-    public function testPrependingPostFilter()
+    public function testPrependingMiddleware()
     {
         $options = [
             "controller" => "foo@bar"
         ];
         $route = new Route("get", "/{foo}", $options);
-        $route->addPostFilters("foo", false);
-        $route->addPostFilters("bar", true);
-        $this->assertEquals(["bar", "foo"], $route->getPostFilters());
-    }
-
-    /**
-     * Test prepending a pre-filter
-     */
-    public function testPrependingPreFilter()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route("get", "/{foo}", $options);
-        $route->addPreFilters("foo", false);
-        $route->addPreFilters("bar", true);
-        $this->assertEquals(["bar", "foo"], $route->getPreFilters());
+        $route->addMiddleware("foo", false);
+        $route->addMiddleware("bar", true);
+        $this->assertEquals(["bar", "foo"], $route->getMiddleware());
     }
 
     /**

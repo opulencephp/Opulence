@@ -112,54 +112,61 @@ class Container implements IContainer
      */
     public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        $concreteClass = $this->getConcreteClass($component);
-
-        // If we're creating a shared instance, check to see if we've already instantiated it
-        if(!$forceNewInstance)
+        try
         {
-            $instance = $this->getInstance($concreteClass, $constructorPrimitives, $methodCalls);
+            $concreteClass = $this->getConcreteClass($component);
 
-            if($instance !== null)
+            // If we're creating a shared instance, check to see if we've already instantiated it
+            if(!$forceNewInstance)
             {
-                return $instance;
+                $instance = $this->getInstance($concreteClass, $constructorPrimitives, $methodCalls);
+
+                if($instance !== null)
+                {
+                    return $instance;
+                }
             }
+
+            $reflectionClass = new \ReflectionClass($concreteClass);
+
+            if(!$reflectionClass->isInstantiable())
+            {
+                throw new IoCException("$concreteClass is not instantiable");
+            }
+
+            $constructor = $reflectionClass->getConstructor();
+
+            if($constructor === null)
+            {
+                // No constructor, so instantiating is easy
+                $instance = new $concreteClass;
+            }
+            else
+            {
+                // Resolve all of the constructor parameters
+                $constructorParameters = $this->getResolvedParameters(
+                    $concreteClass,
+                    $constructor->getParameters(),
+                    $constructorPrimitives,
+                    false
+                );
+                $instance = $reflectionClass->newInstanceArgs($constructorParameters);
+            }
+
+            $this->callMethods($instance, $methodCalls, false);
+
+            if(!$forceNewInstance)
+            {
+                // Register this instance for next time
+                $this->registerInstance($instance, $constructorPrimitives, $methodCalls);
+            }
+
+            return $instance;
         }
-
-        $reflectionClass = new \ReflectionClass($concreteClass);
-
-        if(!$reflectionClass->isInstantiable())
+        catch(\ReflectionException $ex)
         {
-            throw new IoCException("$concreteClass is not instantiable");
+            throw new IoCException("Failed to make object: " . $ex->getMessage());
         }
-
-        $constructor = $reflectionClass->getConstructor();
-
-        if($constructor === null)
-        {
-            // No constructor, so instantiating is easy
-            $instance = new $concreteClass;
-        }
-        else
-        {
-            // Resolve all of the constructor parameters
-            $constructorParameters = $this->getResolvedParameters(
-                $concreteClass,
-                $constructor->getParameters(),
-                $constructorPrimitives,
-                false
-            );
-            $instance = $reflectionClass->newInstanceArgs($constructorParameters);
-        }
-
-        $this->callMethods($instance, $methodCalls, false);
-
-        if(!$forceNewInstance)
-        {
-            // Register this instance for next time
-            $this->registerInstance($instance, $constructorPrimitives, $methodCalls);
-        }
-
-        return $instance;
     }
 
     /**
