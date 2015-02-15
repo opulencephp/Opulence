@@ -34,6 +34,15 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting a string value
+     */
+    public function testAddingStringValue()
+    {
+        $this->headers->add("foo", "bar");
+        $this->assertEquals("bar", $this->headers->get("foo"));
+    }
+
+    /**
      * Tests getting all the headers after setting them in the constructor
      */
     public function testGettingAllAfterSettingInConstructor()

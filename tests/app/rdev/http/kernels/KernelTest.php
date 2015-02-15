@@ -43,6 +43,43 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests handling a request with middleware
+     */
+    public function testHandlingWithMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        $kernel->addMiddleware("RDev\\Tests\\HTTP\\Middleware\\Mocks\\HeaderSetter");
+        $request = Requests\Request::createFromGlobals();
+        $response = $kernel->handle($request);
+        $this->assertEquals("bar", $response->getHeaders()->get("foo"));
+    }
+
+    /**
+     * Tests getting middleware
+     */
+    public function testGettingMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        $this->assertEquals([], $kernel->getMiddleware());
+        $kernel->addMiddleware("foo");
+        $this->assertEquals(["foo"], $kernel->getMiddleware());
+    }
+
+    /**
+     * Tests adding middleware
+     */
+    public function testAddingMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        // Test a single middleware
+        $kernel->addMiddleware("foo");
+        $this->assertEquals(["foo"], $kernel->getMiddleware());
+        // Test multiple middleware
+        $kernel->addMiddleware(["bar", "baz"]);
+        $this->assertEquals(["foo", "bar", "baz"], $kernel->getMiddleware());
+    }
+
+    /**
      * Gets a kernel to use in testing
      *
      * @param bool $shouldThrowException True if the router should throw an exception, otherwise false
@@ -50,24 +87,25 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     private function getKernel($shouldThrowException)
     {
+        $container = new IoC\Container();
         $routeCompiler = new Compilers\Compiler(new Parsers\Parser());
 
         if($shouldThrowException)
         {
             $router = new RoutingMocks\ExceptionalRouter(
-                new Dispatchers\Dispatcher(new IoC\Container()),
+                new Dispatchers\Dispatcher($container),
                 $routeCompiler
             );
         }
         else
         {
-            $router = new Routing\Router(new Dispatchers\Dispatcher(new IoC\Container()), $routeCompiler);
+            $router = new Routing\Router(new Dispatchers\Dispatcher($container), $routeCompiler);
         }
 
         $router->any("/", ["controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"]);
         $logger = new Monolog\Logger("kernelTest");
         $logger->pushHandler(new ApplicationMocks\MonologHandler());
 
-        return new Kernel($router, $logger);
+        return new Kernel($container, $router, $logger);
     }
 }

@@ -35,6 +35,18 @@ class Headers extends Parameters
     }
 
     /**
+     * Headers are allowed to have multiple values, so we must add support for that
+     *
+     * {@inheritdoc}
+     * @param string|array $values The value or values
+     * @param bool $shouldReplace Whether or not to replace the value
+     */
+    public function add($name, $values, $shouldReplace = true)
+    {
+        $this->set($name, $values, $shouldReplace);
+    }
+
+    /**
      * {@inheritdoc}
      * @param bool $onlyReturnFirst True if we only want the first header, otherwise we'll return all of them
      */
