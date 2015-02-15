@@ -12,7 +12,7 @@ use RDev\Sessions;
 class Application
 {
     /** The current RDev version */
-    private static $version = "0.2.10";
+    private static $version = "0.3.0";
     /** @var Paths The paths to various directories used by RDev */
     private $paths = null;
     /** @var Monolog\Logger The logger used by this application */
