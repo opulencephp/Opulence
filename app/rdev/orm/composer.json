@@ -23,11 +23,11 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/databases": "0.2.*"
+    "rdev/databases": "0.3.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.2.x-dev"
+      "dev-master": "0.3.x-dev"
     }
   },
   "minimum-stability": "dev"
