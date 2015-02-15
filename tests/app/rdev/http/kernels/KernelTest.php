@@ -19,15 +19,38 @@ use RDev\Tests\HTTP\Routing\Mocks as RoutingMocks;
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
     /**
-     * Tests handling a request
+     * Tests adding empty middleware
      */
-    public function testHandlingRequest()
+    public function testAddingEmptyMiddleware()
     {
         $kernel = $this->getKernel(false);
-        $request = Requests\Request::createFromGlobals();
-        $response = $kernel->handle($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $kernel->addMiddleware([]);
+        $this->assertEquals([], $kernel->getMiddleware());
+    }
+
+    /**
+     * Tests adding middleware
+     */
+    public function testAddingMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        // Test a single middleware
+        $kernel->addMiddleware("foo");
+        $this->assertEquals(["foo"], $kernel->getMiddleware());
+        // Test multiple middleware
+        $kernel->addMiddleware(["bar", "baz"]);
+        $this->assertEquals(["foo", "bar", "baz"], $kernel->getMiddleware());
+    }
+
+    /**
+     * Tests getting middleware
+     */
+    public function testGettingMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        $this->assertEquals([], $kernel->getMiddleware());
+        $kernel->addMiddleware("foo");
+        $this->assertEquals(["foo"], $kernel->getMiddleware());
     }
 
     /**
@@ -43,6 +66,18 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests handling a request
+     */
+    public function testHandlingRequest()
+    {
+        $kernel = $this->getKernel(false);
+        $request = Requests\Request::createFromGlobals();
+        $response = $kernel->handle($request);
+        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertEquals(Responses\ResponseHeaders::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
      * Tests handling a request with middleware
      */
     public function testHandlingWithMiddleware()
@@ -52,31 +87,6 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $request = Requests\Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertEquals("bar", $response->getHeaders()->get("foo"));
-    }
-
-    /**
-     * Tests getting middleware
-     */
-    public function testGettingMiddleware()
-    {
-        $kernel = $this->getKernel(false);
-        $this->assertEquals([], $kernel->getMiddleware());
-        $kernel->addMiddleware("foo");
-        $this->assertEquals(["foo"], $kernel->getMiddleware());
-    }
-
-    /**
-     * Tests adding middleware
-     */
-    public function testAddingMiddleware()
-    {
-        $kernel = $this->getKernel(false);
-        // Test a single middleware
-        $kernel->addMiddleware("foo");
-        $this->assertEquals(["foo"], $kernel->getMiddleware());
-        // Test multiple middleware
-        $kernel->addMiddleware(["bar", "baz"]);
-        $this->assertEquals(["foo", "bar", "baz"], $kernel->getMiddleware());
     }
 
     /**
