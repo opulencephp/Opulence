@@ -45,7 +45,7 @@ interface ICompiler
      *      If no priority is given, the sub-compiler will be executed in the order it was registered
      * @param bool $isPreCache If true, this sub-compiler will be run before attempting to look up a template in cache
      *      If true, the priority argument is ignored and it is executed in the order it was added
-     * @throw new \InvalidArgumentException Thrown if the sub-compiler is not callable or if the priority is invalid
+     * @throws \InvalidArgumentException Thrown if the sub-compiler is not callable or if the priority is invalid
      */
     public function registerSubCompiler(SubCompilers\ISubCompiler $subCompiler, $priority = null, $isPreCache = false);
 
