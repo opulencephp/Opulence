@@ -85,7 +85,7 @@ class Kernel
             }
             else
             {
-                // We are defaulting to the About command
+                // We are defaulting to the about command
                 $compiledCommand = new Commands\About($this->commands, new Formatters\Padding(), $this->applicationVersion);
             }
 

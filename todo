@@ -1,4 +1,9 @@
 HAS PRIORITY:
+    Need to write docs about how to actually use sql dm and redis dm
+    Switch view compilers to use pipeline
+         Question is how do we allow template, content, and next as parameters?
+
+
     Allow caching of routes/matches
         Compiler needs to store parsed routes
         Router needs to check if cached routes exist
