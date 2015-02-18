@@ -111,6 +111,33 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering a bad shutdown task
+     */
+    public function testBadShutdownTask()
+    {
+        $this->application->start();
+        $this->application->shutdown(function ()
+        {
+            // Throw anything other than a runtime exception
+            throw new \InvalidArgumentException("foobar");
+        });
+        $this->assertFalse($this->application->isRunning());
+    }
+
+    /**
+     * Tests registering a bad start task
+     */
+    public function testBadStartTask()
+    {
+        $this->application->start(function ()
+        {
+            // Throw anything other than a runtime exception
+            throw new \InvalidArgumentException("foobar");
+        });
+        $this->assertFalse($this->application->isRunning());
+    }
+
+    /**
      * Tests checking if a shutdown application is no longer running
      */
     public function testCheckingIfAShutdownApplicationIsNotRunning()
@@ -271,31 +298,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests registering a start task
-     */
-    public function testRegisteringStartTasks()
-    {
-        $preStartValue = "";
-        $startValue = "";
-        $postStartValue = "";
-        $this->application->registerPreStartTask(function () use (&$preStartValue)
-        {
-            $preStartValue = "foo";
-        });
-        $this->application->registerPostStartTask(function () use (&$postStartValue)
-        {
-            $postStartValue = "bar";
-        });
-        $this->application->start(function () use (&$startValue)
-        {
-            $startValue = "baz";
-        });
-        $this->assertEquals("foo", $preStartValue);
-        $this->assertEquals("baz", $startValue);
-        $this->assertEquals("bar", $postStartValue);
-    }
-
-    /**
      * Tests registering pre-shutdown tasks
      */
     public function testRegisteringPreShutdownTask()
@@ -322,6 +324,57 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         });
         $this->application->start();
         $this->assertEquals("foo", $value);
+    }
+
+    /**
+     * Tests registering a shutdown task
+     */
+    public function testRegisteringShutdownTask()
+    {
+        $preShutdownValue = "";
+        $shutdownValue = "";
+        $postShutdownValue = "";
+        $this->application->registerPreShutdownTask(function () use (&$preShutdownValue)
+        {
+            $preShutdownValue = "foo";
+        });
+        $this->application->registerPostShutdownTask(function () use (&$postShutdownValue)
+        {
+            $postShutdownValue = "bar";
+        });
+        $this->application->start();
+        $this->application->shutdown(function () use (&$shutdownValue)
+        {
+            $shutdownValue = "baz";
+        });
+        $this->assertEquals("foo", $preShutdownValue);
+        $this->assertEquals("baz", $shutdownValue);
+        $this->assertEquals("bar", $postShutdownValue);
+    }
+
+    /**
+     * Tests registering a start task
+     */
+    public function testRegisteringStartTask()
+    {
+        $preStartValue = "";
+        $startValue = "";
+        $postStartValue = "";
+        $this->application->registerPreStartTask(function () use (&$preStartValue)
+        {
+            $preStartValue = "foo";
+        });
+        $this->application->registerPostStartTask(function () use (&$postStartValue)
+        {
+            $postStartValue = "bar";
+        });
+        $this->application->start(function () use (&$startValue)
+        {
+            $startValue = "baz";
+        });
+        $this->assertEquals("foo", $preStartValue);
+        $this->assertEquals("baz", $startValue);
+        $this->assertEquals("bar", $postStartValue);
     }
 
     /**

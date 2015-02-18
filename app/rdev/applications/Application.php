@@ -210,9 +210,10 @@ class Application
     /**
      * Shuts down this application
      *
+     * @param \Closure $shutdownTask The task to perform on shutdown
      * @throws \RuntimeException Thrown if there was an error shutting down the application
      */
-    public function shutdown()
+    public function shutdown(\Closure $shutdownTask = null)
     {
         // Don't shutdown a shutdown application
         if($this->isRunning)
@@ -221,6 +222,12 @@ class Application
             {
                 $this->doTasks($this->tasks["preShutdown"]);
                 $this->isRunning = false;
+
+                if($shutdownTask !== null)
+                {
+                    call_user_func($shutdownTask);
+                }
+
                 $this->doTasks($this->tasks["postShutdown"]);
             }
             catch(\Exception $ex)
