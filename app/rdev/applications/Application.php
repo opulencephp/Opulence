@@ -233,8 +233,10 @@ class Application
 
     /**
      * Starts this application
+     *
+     * @param \Closure $startTask The task to perform on startup
      */
-    public function start()
+    public function start(\Closure $startTask = null)
     {
         // Don't start a running application
         if(!$this->isRunning)
@@ -243,6 +245,12 @@ class Application
             {
                 $this->doTasks($this->tasks["preStart"]);
                 $this->isRunning = true;
+
+                if($startTask !== null)
+                {
+                    call_user_func($startTask);
+                }
+
                 $this->doTasks($this->tasks["postStart"]);
             }
             catch(\Exception $ex)

@@ -271,6 +271,31 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering a start task
+     */
+    public function testRegisteringStartTasks()
+    {
+        $preStartValue = "";
+        $startValue = "";
+        $postStartValue = "";
+        $this->application->registerPreStartTask(function () use (&$preStartValue)
+        {
+            $preStartValue = "foo";
+        });
+        $this->application->registerPostStartTask(function () use (&$postStartValue)
+        {
+            $postStartValue = "bar";
+        });
+        $this->application->start(function () use (&$startValue)
+        {
+            $startValue = "baz";
+        });
+        $this->assertEquals("foo", $preStartValue);
+        $this->assertEquals("baz", $startValue);
+        $this->assertEquals("bar", $postStartValue);
+    }
+
+    /**
      * Tests registering pre-shutdown tasks
      */
     public function testRegisteringPreShutdownTask()
