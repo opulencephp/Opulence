@@ -211,10 +211,13 @@ class Application
      * Shuts down this application
      *
      * @param \Closure $shutdownTask The task to perform on shutdown
+     * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws \RuntimeException Thrown if there was an error shutting down the application
      */
     public function shutdown(\Closure $shutdownTask = null)
     {
+        $taskReturnValue = null;
+
         // Don't shutdown a shutdown application
         if($this->isRunning)
         {
@@ -225,7 +228,7 @@ class Application
 
                 if($shutdownTask !== null)
                 {
-                    call_user_func($shutdownTask);
+                    $taskReturnValue = call_user_func($shutdownTask);
                 }
 
                 $this->doTasks($this->tasks["postShutdown"]);
@@ -236,15 +239,20 @@ class Application
                 $this->isRunning = false;
             }
         }
+
+        return $taskReturnValue;
     }
 
     /**
      * Starts this application
      *
      * @param \Closure $startTask The task to perform on startup
+     * @return mixed|null The return value of the task if there was one, otherwise null
      */
     public function start(\Closure $startTask = null)
     {
+        $taskReturnValue = null;
+
         // Don't start a running application
         if(!$this->isRunning)
         {
@@ -255,7 +263,7 @@ class Application
 
                 if($startTask !== null)
                 {
-                    call_user_func($startTask);
+                    $taskReturnValue = call_user_func($startTask);
                 }
 
                 $this->doTasks($this->tasks["postStart"]);
@@ -266,6 +274,8 @@ class Application
                 $this->shutdown();
             }
         }
+
+        return $taskReturnValue;
     }
 
     /**

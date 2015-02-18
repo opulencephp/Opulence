@@ -76,8 +76,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             // Throw anything other than a runtime exception
             throw new \InvalidArgumentException("foobar");
         });
-        $this->application->start();
-        $this->application->shutdown();
+        $this->assertNull($this->application->start());
+        $this->assertNull($this->application->shutdown());
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -91,7 +91,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             // Throw anything other than a runtime exception
             throw new \InvalidArgumentException("foobar");
         });
-        $this->application->start();
+        $this->assertNull($this->application->start());
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -105,8 +105,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             // Throw anything other than a runtime exception
             throw new \InvalidArgumentException("foobar");
         });
-        $this->application->start();
-        $this->application->shutdown();
+        $this->assertNull($this->application->start());
+        $this->assertNull($this->application->shutdown());
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -115,12 +115,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadShutdownTask()
     {
-        $this->application->start();
-        $this->application->shutdown(function ()
+        $this->assertNull($this->application->start());
+        $this->assertNull($this->application->shutdown(function ()
         {
             // Throw anything other than a runtime exception
             throw new \InvalidArgumentException("foobar");
-        });
+        }));
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -129,11 +129,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadStartTask()
     {
-        $this->application->start(function ()
+        $this->assertNull($this->application->start(function ()
         {
             // Throw anything other than a runtime exception
             throw new \InvalidArgumentException("foobar");
-        });
+        }));
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -343,10 +343,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $postShutdownValue = "bar";
         });
         $this->application->start();
-        $this->application->shutdown(function () use (&$shutdownValue)
+        $this->assertNull($this->application->shutdown(function () use (&$shutdownValue)
         {
             $shutdownValue = "baz";
-        });
+        }));
         $this->assertEquals("foo", $preShutdownValue);
         $this->assertEquals("baz", $shutdownValue);
         $this->assertEquals("bar", $postShutdownValue);
@@ -368,10 +368,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         {
             $postStartValue = "bar";
         });
-        $this->application->start(function () use (&$startValue)
+        $this->assertNull($this->application->start(function () use (&$startValue)
         {
             $startValue = "baz";
-        });
+        }));
         $this->assertEquals("foo", $preStartValue);
         $this->assertEquals("baz", $startValue);
         $this->assertEquals("bar", $postStartValue);
@@ -425,5 +425,28 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $session = new Sessions\Session();
         $this->application->setSession($session);
         $this->assertSame($session, $this->application->getSession());
+    }
+
+    /**
+     * Tests a shutdown task that returns something
+     */
+    public function testShutdownTaskThatReturnsSomething()
+    {
+        $this->application->start();
+        $this->assertEquals("foo", $this->application->shutdown(function ()
+        {
+            return "foo";
+        }));
+    }
+
+    /**
+     * Tests a start task that returns something
+     */
+    public function testStartTaskThatReturnsSomething()
+    {
+        $this->assertEquals("foo", $this->application->start(function ()
+        {
+            return "foo";
+        }));
     }
 } 
