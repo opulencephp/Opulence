@@ -47,6 +47,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the matched route when there is none
+     */
+    public function testGettingMatchedRouteWhenThereIsNone()
+    {
+        $this->assertNull($this->router->getMatchedRoute());
+    }
+
+    /**
      * Tests a group with variable regexes
      */
     public function testGroupWithVariableRegexes()
@@ -301,6 +309,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ], [], []);
         $response = $this->router->route($request);
         $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertNull($this->router->getMatchedRoute());
         $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
         $this->assertEmpty($response->getContent());
     }
@@ -550,6 +559,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $compiledRoute = $this->compiler->compile($routeToHandle, $request);
         $this->assertEquals($compiledRoute, $mockRouter->route($request));
+        $this->assertEquals($compiledRoute, $mockRouter->getMatchedRoute());
     }
 
     /**
