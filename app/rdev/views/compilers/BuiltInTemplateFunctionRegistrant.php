@@ -23,17 +23,12 @@ class BuiltInTemplateFunctionRegistrant
         // Register the CSS function
         $compiler->registerTemplateFunction("css", function ($paths)
         {
-            if(!is_array($paths))
-            {
-                $paths = [$paths];
-            }
-
             $callback = function($path)
             {
                 return '<link href="' . $path . '" rel="stylesheet">';
             };
 
-            return implode("\n", array_map($callback, $paths));
+            return implode("\n", array_map($callback, (array)$paths));
         });
         // Register the favicon function
         $compiler->registerTemplateFunction("favicon", function ($path)
@@ -63,17 +58,12 @@ class BuiltInTemplateFunctionRegistrant
         // Register the script function
         $compiler->registerTemplateFunction("script", function ($paths, $type = "text/javascript")
         {
-            if(!is_array($paths))
-            {
-                $paths = [$paths];
-            }
-
             $callback = function($path) use ($type)
             {
                 return '<script type="' . $type . '" src="' . $path . '"></script>';
             };
 
-            return implode("\n", array_map($callback, $paths));
+            return implode("\n", array_map($callback, (array)$paths));
         });
     }
 }

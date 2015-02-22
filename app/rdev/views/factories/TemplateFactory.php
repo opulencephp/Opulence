@@ -73,12 +73,7 @@ class TemplateFactory implements ITemplateFactory
      */
     public function registerBuilder($names, callable $callback)
     {
-        if(!is_array($names))
-        {
-            $names = [$names];
-        }
-
-        foreach($names as $name)
+        foreach((array)$names as $name)
         {
             if(!isset($this->builders[$name]))
             {

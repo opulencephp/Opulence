@@ -42,12 +42,7 @@ class Kernel
      */
     public function addMiddleware($middleware)
     {
-        if(!is_array($middleware))
-        {
-            $middleware = [$middleware];
-        }
-
-        $this->middleware = array_merge($this->middleware, $middleware);
+        $this->middleware = array_merge($this->middleware, (array)$middleware);
     }
 
     /**

@@ -39,12 +39,7 @@ class EnvironmentDetector implements IEnvironmentDetector
         // Loop through all the environments and find the one that matches this server
         foreach($environments as $name => $hosts)
         {
-            if(!is_array($hosts))
-            {
-                $hosts = [$hosts];
-            }
-
-            foreach($hosts as $host)
+            foreach((array)$hosts as $host)
             {
                 if(is_string($host))
                 {

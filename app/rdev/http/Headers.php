@@ -78,10 +78,7 @@ class Headers extends Parameters
      */
     public function set($name, $values, $shouldReplace = true)
     {
-        if(!is_array($values))
-        {
-            $values = [$values];
-        }
+        $values = (array)$values;
 
         if($shouldReplace || !$this->has($name))
         {

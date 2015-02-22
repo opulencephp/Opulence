@@ -25,12 +25,7 @@ abstract class Response implements IResponse
      */
     public function write($messages)
     {
-        if(!is_array($messages))
-        {
-            $messages = [$messages];
-        }
-
-        foreach($messages as $message)
+        foreach((array)$messages as $message)
         {
             $this->doWrite($this->compiler->compile($message), false);
         }
@@ -41,12 +36,7 @@ abstract class Response implements IResponse
      */
     public function writeln($messages)
     {
-        if(!is_array($messages))
-        {
-            $messages = [$messages];
-        }
-
-        foreach($messages as $message)
+        foreach((array)$messages as $message)
         {
             $this->doWrite($this->compiler->compile($message), true);
         }

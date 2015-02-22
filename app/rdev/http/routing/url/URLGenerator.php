@@ -42,11 +42,7 @@ class URLGenerator
             return "";
         }
 
-        if(!is_array($values))
-        {
-            $values = [$values];
-        }
-
+        $values = (array)$values;
         $parsedRoute = $this->parser->parse($route);
 
         return $this->generateHost($parsedRoute, $values) . $this->generatePath($parsedRoute, $values);

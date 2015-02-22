@@ -36,12 +36,7 @@ class Route
      */
     public function __construct($methods, $rawPath, array $options)
     {
-        if(!is_array($methods))
-        {
-            $methods = [$methods];
-        }
-
-        $this->methods = $methods;
+        $this->methods = (array)$methods;
         $this->rawPath = $rawPath;
 
         if(!isset($options["controller"]))
@@ -85,10 +80,7 @@ class Route
      */
     public function addMiddleware($filters, $prepend = false)
     {
-        if(!is_array($filters))
-        {
-            $filters = [$filters];
-        }
+        $filters = (array)$filters;
 
         if($prepend)
         {

@@ -162,7 +162,7 @@ class Composer
             return null;
         }
 
-        return (array)$this->rawConfig["autoload"]["psr-4"][$rootNamespace . "\\"];
+        return (array)$this->get("autoload.psr-4")[$rootNamespace . "\\"];
     }
 
     /**
