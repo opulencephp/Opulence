@@ -1,0 +1,27 @@
+<?php
+namespace {{namespace}};
+use RDev\Console\Commands;
+use RDev\Console\Responses;
+
+class {{class}} extends Commands\Command
+{
+    /**
+     * Sets the arguments and options for this command
+     * Provides a convenient place to write down the definition for a command
+     */
+    protected function define()
+    {
+
+    }
+
+    /**
+     * Actually executes of the command
+     *
+     * @param Responses\IResponse $response The console response to write to
+     * @return int|null Null or the status code of the command
+     */
+    protected function doExecute(Responses\IResponse $response)
+    {
+
+    }
+}

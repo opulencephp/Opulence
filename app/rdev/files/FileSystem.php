@@ -413,7 +413,11 @@ class FileSystem
      */
     public function makeDirectory($path, $mode = 0777, $isRecursive = false)
     {
-        return mkdir($path, $mode, $isRecursive);
+        $result = mkdir($path, $mode, $isRecursive);
+        // The directory might not get the correct mode due to umask, so we have to chmod it
+        chmod($path, $mode);
+
+        return $result;
     }
 
     /**

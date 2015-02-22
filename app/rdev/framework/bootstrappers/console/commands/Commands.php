@@ -16,6 +16,11 @@ class Commands extends Bootstrappers\Bootstrapper
     private static $commandClasses = [
         "RDev\\Framework\\Console\\Commands\\AppEnvironment",
         "RDev\\Framework\\Console\\Commands\\FlushViewCache",
+        "RDev\\Framework\\Console\\Commands\\MakeCommand",
+        "RDev\\Framework\\Console\\Commands\\MakeController",
+        "RDev\\Framework\\Console\\Commands\\MakeDataMapper",
+        "RDev\\Framework\\Console\\Commands\\MakeEntity",
+        "RDev\\Framework\\Console\\Commands\\MakeHTTPMiddleware",
         "RDev\\Framework\\Console\\Commands\\RenameApp"
     ];
     /** @var ConsoleCommands\Commands The list of console commands */

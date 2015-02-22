@@ -235,7 +235,7 @@ abstract class Command implements ICommand
     abstract protected function define();
 
     /**
-     * Actually performs the execution of the command
+     * Actually executes the command
      *
      * @param Responses\IResponse $response The console response to write to
      * @return int|null Null or the status code of the command

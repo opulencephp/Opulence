@@ -1,0 +1,20 @@
+<?php
+namespace {{namespace}};
+use RDev\HTTP\Middleware;
+use RDev\HTTP\Requests;
+use RDev\HTTP\Responses;
+
+class {{class}} implements Middleware\IMiddleware
+{
+    /**
+     * Handles the request
+     *
+     * @param Requests\Request $request The request to handle
+     * @param \Closure $next The next stage in the pipeline
+     * @return Responses\Response The response
+     */
+    public function handle(Requests\Request $request, \Closure $next)
+    {
+        return $next($request);
+    }
+}

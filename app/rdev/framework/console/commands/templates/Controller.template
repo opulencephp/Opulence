@@ -1,0 +1,60 @@
+<?php
+namespace {{namespace}};
+use RDev\HTTP\Responses;
+use RDev\HTTP\Routing;
+
+class {{class}} extends Routing\Controller
+{
+    /**
+     * Creates a entity
+     *
+     * @return Responses\Response The response
+     */
+    public function create()
+    {
+
+    }
+
+    /**
+     * Deletes an entity
+     *
+     * @param mixed $id The Id of the entity
+     * @return Responses\Response The response
+     */
+    public function delete($id)
+    {
+
+    }
+
+    /**
+     * Shows an entity
+     *
+     * @param mixed $id The Id of the entity
+     * @return Responses\Response The response
+     */
+    public function show($id)
+    {
+
+    }
+
+    /**
+     * Shows all the entities
+     *
+     * @return Responses\Response The response
+     */
+    public function showAll()
+    {
+
+    }
+
+    /**
+     * Updates an entity
+     *
+     * @param mixed $id The Id of the entity
+     * @return Responses\Response The response
+     */
+    public function update($id)
+    {
+
+    }
+}
