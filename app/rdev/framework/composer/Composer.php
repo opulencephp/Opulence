@@ -88,7 +88,7 @@ class Composer
         $parts = explode("\\", $fullyQualifiedClassName);
         $path = array_Slice($parts, 0, -1);
         // The directories are stored in lower case
-        $path = array_map("strtolower", $path);
+        $path = array_map("mb_strtolower", $path);
         $path[] = end($parts) . ".php";
         array_unshift($path, $this->paths["app"]);
 
@@ -107,7 +107,7 @@ class Composer
         $rootNamespace = $this->getRootNamespace();
 
         // If the class name is already fully-qualified
-        if(strpos($className, $rootNamespace) === 0)
+        if(mb_strpos($className, $rootNamespace) === 0)
         {
             return $className;
         }
@@ -130,17 +130,17 @@ class Composer
      */
     public function getRootNamespace()
     {
-        if(!array_key_exists("autoload", $this->rawConfig) || !array_key_exists("psr-4", $this->rawConfig["autoload"]))
+        if(($psr4 = $this->get("autoload.psr-4")) === null)
         {
             return null;
         }
 
-        foreach($this->rawConfig["autoload"]["psr-4"] as $namespace => $namespacePaths)
+        foreach($psr4 as $namespace => $namespacePaths)
         {
             foreach((array)$namespacePaths as $namespacePath)
             {
                 // The namespace path should be a subdirectory of the "app"directory
-                if(strpos(realpath($this->paths["root"] . "/" . $namespacePath), realpath($this->paths["app"])) === 0)
+                if(mb_strpos(realpath($this->paths["root"] . "/" . $namespacePath), realpath($this->paths["app"])) === 0)
                 {
                     return rtrim($namespace, "\\");
                 }

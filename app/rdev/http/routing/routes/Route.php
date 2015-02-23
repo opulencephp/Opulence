@@ -262,7 +262,7 @@ class Route
         $atCharPos = strpos($controllerString, "@");
 
         // Make sure the "@" is somewhere in the middle of the string
-        if($atCharPos === false || $atCharPos === 0 || $atCharPos === strlen($controllerString) - 1)
+        if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controllerString) - 1)
         {
             throw new \InvalidArgumentException("Controller string is not formatted correctly");
         }

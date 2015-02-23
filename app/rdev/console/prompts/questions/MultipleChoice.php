@@ -53,7 +53,7 @@ class MultipleChoice extends Question
         $hasMultipleAnswers = false;
         $answer = str_replace(" ", "", $answer);
 
-        if(strpos($answer, ",") === false)
+        if(mb_strpos($answer, ",") === false)
         {
             // The answer is not a list of answers
             $answers = [$answer];

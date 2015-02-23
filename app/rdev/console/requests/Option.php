@@ -41,7 +41,7 @@ class Option
 
         if($shortName !== null)
         {
-            if(strlen($shortName) != 1)
+            if(mb_strlen($shortName) != 1)
             {
                 throw new \InvalidArgumentException("Short names must be one character in length");
             }

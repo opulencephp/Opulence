@@ -16,7 +16,7 @@ class String implements ITokenizer
         $input = trim($input);
         $inDoubleQuotes = false;
         $inSingleQuotes = false;
-        $inputLength = strlen($input);
+        $inputLength = mb_strlen($input);
         $previousChar = "";
         $buffer = "";
         $tokens = [];
@@ -52,7 +52,7 @@ class String implements ITokenizer
                     {
                         $buffer .= $char;
                     }
-                    elseif($char == " " && $previousChar != " " && strlen($buffer) > 0)
+                    elseif($char == " " && $previousChar != " " && mb_strlen($buffer) > 0)
                     {
                         // We've hit a space outside a quoted string, so flush the buffer
                         $tokens[] = $buffer;
@@ -64,7 +64,7 @@ class String implements ITokenizer
         }
 
         // Flush out the buffer
-        if(strlen($buffer) > 0)
+        if(mb_strlen($buffer) > 0)
         {
             $tokens[] = $buffer;
         }

@@ -322,7 +322,7 @@ class Request
      */
     private function setMethod()
     {
-        switch(strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET)))
+        switch(mb_strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET)))
         {
             case "delete":
                 $this->method = self::METHOD_DELETE;
@@ -401,7 +401,7 @@ class Request
          * If the content is not from a form, we don't bother and just let users look the data up in the raw body
          */
         if(
-            strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
+            mb_strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
             in_array($this->method, [self::METHOD_PUT, self::METHOD_PATCH, self::METHOD_DELETE])
         )
         {

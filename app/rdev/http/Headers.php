@@ -16,11 +16,11 @@ class Headers extends Parameters
         // Grab all of the server parameters that begin with "HTTP_"
         foreach($parameters as $key => $value)
         {
-            if(strpos($key, "HTTP_") === 0)
+            if(mb_strpos($key, "HTTP_") === 0)
             {
-                $this->set(substr($key, 5), $value);
+                $this->set(mb_substr($key, 5), $value);
             }
-            elseif(strpos($key, "CONTENT_") === 0)
+            elseif(mb_strpos($key, "CONTENT_") === 0)
             {
                 $this->set($key, $value);
             }

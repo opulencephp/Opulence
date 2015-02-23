@@ -87,8 +87,8 @@ class RenameApp extends Commands\Command
     {
         // Move the directory to the new name
         $this->fileSystem->move(
-            $this->paths["app"] . "/" . strtolower($this->getArgumentValue("currName")),
-            $this->paths["app"] . "/" . strtolower($this->getArgumentValue("newName"))
+            $this->paths["app"] . "/" . mb_strtolower($this->getArgumentValue("currName")),
+            $this->paths["app"] . "/" . mb_strtolower($this->getArgumentValue("newName"))
         );
 
         // Rename any references to the new namespace
@@ -120,8 +120,8 @@ class RenameApp extends Commands\Command
         );
         // Change the PSR-4 directory
         $updatedComposerContents = str_replace(
-            "app/" . strtolower($this->getArgumentValue("currName")),
-            "app/" . strtolower($this->getArgumentValue("newName")),
+            "app/" . mb_strtolower($this->getArgumentValue("currName")),
+            "app/" . mb_strtolower($this->getArgumentValue("newName")),
             $updatedComposerContents
         );
         $this->fileSystem->write($this->paths["root"] . "/composer.json", $updatedComposerContents);

@@ -58,17 +58,17 @@ class Parser implements IParser
             $isOptional = false;
 
             // Set the default value
-            if(($equalPos = strpos($match[2], "=")) !== false)
+            if(($equalPos = mb_strpos($match[2], "=")) !== false)
             {
-                $variableName = substr($match[2], 0, $equalPos);
-                $defaultValue = substr($match[2], $equalPos + 1);
+                $variableName = mb_substr($match[2], 0, $equalPos);
+                $defaultValue = mb_substr($match[2], $equalPos + 1);
             }
 
             // Check if the variable is marked as optional
-            if(strpos($variableName, "?") !== false)
+            if(mb_strpos($variableName, "?") !== false)
             {
                 $isOptional = true;
-                $variableName = substr($variableName, 0, -1);
+                $variableName = mb_substr($variableName, 0, -1);
             }
 
             // Check that the variable name is a valid PHP variable name
@@ -115,7 +115,7 @@ class Parser implements IParser
     private function quoteStaticText($string)
     {
         $quotedString = "";
-        $stringLength = strlen($string);
+        $stringLength = mb_strlen($string);
         $braceDepth = 0;
         $quoteBuffer = "";
 
@@ -126,7 +126,7 @@ class Parser implements IParser
             if($char == "{")
             {
                 // Flush out the quote buffer
-                if($braceDepth == 0 && strlen($quoteBuffer) > 0)
+                if($braceDepth == 0 && mb_strlen($quoteBuffer) > 0)
                 {
                     $quotedString .= preg_quote($quoteBuffer, "/");
                     $quoteBuffer = "";
@@ -151,7 +151,7 @@ class Parser implements IParser
         }
 
         // Flush out the buffer
-        if(strlen($quoteBuffer) > 0)
+        if(mb_strlen($quoteBuffer) > 0)
         {
             $quotedString .= preg_quote($quoteBuffer, "/");
         }

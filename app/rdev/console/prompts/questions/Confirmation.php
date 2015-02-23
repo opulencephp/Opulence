@@ -28,6 +28,6 @@ class Confirmation extends Question
         }
 
         // Accept anything that begins with "y" like "y", "yes", and "YES"
-        return strtolower($answer[0]) == "y";
+        return mb_strtolower($answer[0]) == "y";
     }
 }

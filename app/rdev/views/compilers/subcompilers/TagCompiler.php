@@ -233,7 +233,7 @@ class TagCompiler extends SubCompiler
 
         // In the case that one open tag is a substring of another (eg "{{" and "{{{"), handle the longer one first
         // If they're the same length, they cannot be substrings of one another unless they're equal
-        if(strlen($escapedDelimiters[0]) > strlen($unescapedDelimiters[0]))
+        if(mb_strlen($escapedDelimiters[0]) > mb_strlen($unescapedDelimiters[0]))
         {
             $tagData[] = $escapedTagData;
             $tagData[] = $unescapedTagData;

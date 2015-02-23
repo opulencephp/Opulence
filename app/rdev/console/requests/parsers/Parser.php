@@ -30,15 +30,15 @@ abstract class Parser implements IParser
      */
     protected function parseLongOption($token, array &$remainingTokens)
     {
-        if(substr($token, 0, 2) !== "--")
+        if(mb_substr($token, 0, 2) !== "--")
         {
             throw new \RuntimeException("Invalid long option \"$token\"");
         }
 
         // Trim the "--"
-        $option = substr($token, 2);
+        $option = mb_substr($token, 2);
 
-        if(strpos($option, "=") === false)
+        if(mb_strpos($option, "=") === false)
         {
             /**
              * The option is either of the form "--foo bar" or "--foo -b" or "--foo --bar"
@@ -47,7 +47,7 @@ abstract class Parser implements IParser
             $nextToken = array_shift($remainingTokens);
 
             // Check if the next token is also an option
-            if(substr($nextToken, 0, 1) == "-")
+            if(mb_substr($nextToken, 0, 1) == "-")
             {
                 // The option must have not had a value, so put the next token back
                 array_unshift($remainingTokens, $nextToken);
@@ -74,18 +74,18 @@ abstract class Parser implements IParser
      */
     protected function parseShortOption($token)
     {
-        if(substr($token, 0, 1) !== "-")
+        if(mb_substr($token, 0, 1) !== "-")
         {
             throw new \RuntimeException("Invalid short option \"$token\"");
         }
 
         // Trim the "-"
-        $token = substr($token, 1);
+        $token = mb_substr($token, 1);
 
         $options = [];
 
         // Each character in a short option is an option
-        for($charIter = 0;$charIter < strlen($token);$charIter++)
+        for($charIter = 0;$charIter < mb_strlen($token);$charIter++)
         {
             $options[] = [$token[$charIter], null];
         }
@@ -106,12 +106,12 @@ abstract class Parser implements IParser
 
         while($token = array_shift($tokens))
         {
-            if(substr($token, 0, 2) == "--")
+            if(mb_substr($token, 0, 2) == "--")
             {
                 $option = $this->parseLongOption($token, $tokens);
                 $request->addOptionValue($option[0], $option[1]);
             }
-            elseif(substr($token, 0, 1) == "-")
+            elseif(mb_substr($token, 0, 1) == "-")
             {
                 $options = $this->parseShortOption($token);
 
@@ -148,7 +148,7 @@ abstract class Parser implements IParser
     protected function trimQuotes($token)
     {
         // Trim any quotes
-        if(($firstValueChar = substr($token, 0, 1)) == substr($token, -1))
+        if(($firstValueChar = mb_substr($token, 0, 1)) == mb_substr($token, -1))
         {
             if($firstValueChar == "'")
             {

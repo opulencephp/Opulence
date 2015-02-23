@@ -296,7 +296,7 @@ class Router
             if(isset($groupOptions["controllerNamespace"]))
             {
                 // Add trailing slashes if they're not there already
-                if(substr($groupOptions["controllerNamespace"], -1) != "\\")
+                if(mb_substr($groupOptions["controllerNamespace"], -1) != "\\")
                 {
                     $groupOptions["controllerNamespace"] .= "\\";
                 }

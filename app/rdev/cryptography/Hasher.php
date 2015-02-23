@@ -27,7 +27,7 @@ abstract class Hasher implements IHasher
         if($length % 2 == 1)
         {
             // Slice off one character to make it the appropriate odd length
-            $string = substr($string, 1);
+            $string = mb_substr($string, 1);
         }
 
         return $string;

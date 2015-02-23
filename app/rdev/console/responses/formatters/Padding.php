@@ -66,7 +66,7 @@ class Padding
             }
 
             $line[0] = trim($line[0]);
-            $maxLength = max($maxLength, strlen($line[0]));
+            $maxLength = max($maxLength, mb_strlen($line[0]));
         }
 
         // Format the lines
@@ -94,7 +94,7 @@ class Padding
         foreach($lines as &$line)
         {
             $line = trim($line);
-            $maxLength = max($maxLength, strlen($line));
+            $maxLength = max($maxLength, mb_strlen($line));
         }
 
         // Format the lines

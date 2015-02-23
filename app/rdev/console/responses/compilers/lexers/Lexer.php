@@ -16,7 +16,7 @@ class Lexer implements ILexer
         $tokens = [];
         $wordBuffer = "";
         $elementNameBuffer = "";
-        $textLength = strlen($text);
+        $textLength = mb_strlen($text);
         $inOpenTag = false;
         $inCloseTag = false;
 
@@ -31,7 +31,7 @@ class Lexer implements ILexer
                     {
                         // This tag was escaped
                         // Don't include the preceding slash
-                        $wordBuffer = substr($wordBuffer, 0, -1) . $char;
+                        $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
                     }
                     elseif($inOpenTag || $inCloseTag)
                     {
@@ -64,7 +64,7 @@ class Lexer implements ILexer
                             $tokens[] = new Tokens\Token(
                                 Tokens\TokenTypes::T_WORD,
                                 $wordBuffer,
-                                $charIter - strlen($wordBuffer)
+                                $charIter - mb_strlen($wordBuffer)
                             );
                             $wordBuffer = "";
                         }
@@ -80,7 +80,7 @@ class Lexer implements ILexer
                                 Tokens\TokenTypes::T_TAG_OPEN,
                                 $elementNameBuffer,
                                 // Need to get the position of the beginning of the open tag
-                                $charIter - strlen($elementNameBuffer) - 1
+                                $charIter - mb_strlen($elementNameBuffer) - 1
                             );
                         }
                         else
@@ -89,7 +89,7 @@ class Lexer implements ILexer
                                 Tokens\TokenTypes::T_TAG_CLOSE,
                                 $elementNameBuffer,
                                 // Need to get the position of the beginning of the close tag
-                                $charIter - strlen($elementNameBuffer) - 2
+                                $charIter - mb_strlen($elementNameBuffer) - 2
                             );
                         }
 
@@ -128,7 +128,7 @@ class Lexer implements ILexer
             $tokens[] = new Tokens\Token(
                 Tokens\TokenTypes::T_WORD,
                 $wordBuffer,
-                $textLength - strlen($wordBuffer)
+                $textLength - mb_strlen($wordBuffer)
             );
         }
 
@@ -146,17 +146,17 @@ class Lexer implements ILexer
      */
     private function getSurroundingText($text, $position)
     {
-        if(strlen($text) <= 3)
+        if(mb_strlen($text) <= 3)
         {
             return $text;
         }
 
         if($position <= 3)
         {
-            return substr($text, 0, 4);
+            return mb_substr($text, 0, 4);
         }
 
-        return substr($text, $position - 3, 4);
+        return mb_substr($text, $position - 3, 4);
     }
 
     /**
@@ -168,7 +168,7 @@ class Lexer implements ILexer
      */
     private function lookBehind($text, $currPosition)
     {
-        if(strlen($text) == 0 || $currPosition  == 0)
+        if(mb_strlen($text) == 0 || $currPosition  == 0)
         {
             return null;
         }
@@ -185,7 +185,7 @@ class Lexer implements ILexer
      */
     private function peek($text, $currPosition)
     {
-        if(strlen($text) == 0 || strlen($text) == $currPosition + 1)
+        if(mb_strlen($text) == 0 || mb_strlen($text) == $currPosition + 1)
         {
             return null;
         }
