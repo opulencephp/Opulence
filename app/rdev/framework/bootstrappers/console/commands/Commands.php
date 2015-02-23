@@ -15,6 +15,7 @@ class Commands extends Bootstrappers\Bootstrapper
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
         "RDev\\Framework\\Console\\Commands\\AppEnvironment",
+        "RDev\\Framework\\Console\\Commands\\ComposerUpdate",
         "RDev\\Framework\\Console\\Commands\\FlushViewCache",
         "RDev\\Framework\\Console\\Commands\\MakeCommand",
         "RDev\\Framework\\Console\\Commands\\MakeController",
