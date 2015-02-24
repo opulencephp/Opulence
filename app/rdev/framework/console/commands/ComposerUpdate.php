@@ -38,7 +38,7 @@ class ComposerUpdate extends Commands\Command
      */
     protected function doExecute(Responses\IResponse $response)
     {
-        $response->write($this->composer->update());
-        $response->write($this->composer->dumpAutoload("-o"));
+        $response->write($this->composer->getExecutable()->update());
+        $response->write($this->composer->getExecutable()->dumpAutoload("-o"));
     }
 }
