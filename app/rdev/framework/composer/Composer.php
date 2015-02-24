@@ -11,48 +11,35 @@ class Composer
 {
     /** @var array The raw config */
     private $rawConfig = [];
-    /** @var Executable The Composer executable */
-    private $executable;
     /** @var Applications\Paths The paths of the application */
     private $paths = null;
 
     /**
      * @param array $config The raw config
-     * @param Executable $executable The Composer executable
      * @param Applications\Paths $paths The paths of the application
      */
-    public function __construct(array $config, Executable $executable, Applications\Paths $paths)
+    public function __construct(array $config, Applications\Paths $paths)
     {
         $this->rawConfig = $config;
-        $this->executable = $executable;
         $this->paths = $paths;
-    }
-
-    /**
-     * @return Executable
-     */
-    public function getExecutable()
-    {
-        return $this->executable;
     }
 
     /**
      * Creates an instance of this class from a raw Composer config file
      *
-     * @param Executable $executable The Composer executable
      * @param Applications\Paths $paths The paths of the application
      * @return Composer An instance of this class
      */
-    public static function createFromRawConfig(Executable $executable, Applications\Paths $paths)
+    public static function createFromRawConfig(Applications\Paths $paths)
     {
         $composerPath = $paths["root"] . "/composer.json";
 
         if(file_exists($composerPath))
         {
-            return new Composer(json_decode(file_get_contents($composerPath), true), $executable, $paths);
+            return new Composer(json_decode(file_get_contents($composerPath), true), $paths);
         }
 
-        return new Composer([], $executable, $paths);
+        return new Composer([], $paths);
     }
 
     /**
@@ -141,7 +128,7 @@ class Composer
         {
             foreach((array)$namespacePaths as $namespacePath)
             {
-                // The namespace path should be a subdirectory of the "app"directory
+                // The namespace path should be a subdirectory of the "app" directory
                 if(mb_strpos(realpath($this->paths["root"] . "/" . $namespacePath), realpath($this->paths["app"])) === 0)
                 {
                     return rtrim($namespace, "\\");

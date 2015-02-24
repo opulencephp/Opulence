@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Defines the update command
+ * Defines the Composer update command
  */
 namespace RDev\Framework\Console\Commands;
 use RDev\Console\Commands;
@@ -11,17 +11,17 @@ use RDev\Framework\Composer;
 
 class ComposerUpdate extends Commands\Command
 {
-    /** @var Composer\Composer The Composer wrapper */
-    private $composer = null;
+    /** @var Composer\Executable The executable wrapper */
+    private $executable = null;
 
     /**
-     * @param Composer\Composer $composer The Composer wrapper
+     * @param Composer\Executable $executable The Composer executable
      */
-    public function __construct(Composer\Composer $composer)
+    public function __construct(Composer\Executable $executable)
     {
         parent::__construct();
 
-        $this->composer = $composer;
+        $this->executable = $executable;
     }
 
     /**
@@ -38,7 +38,7 @@ class ComposerUpdate extends Commands\Command
      */
     protected function doExecute(Responses\IResponse $response)
     {
-        $response->write($this->composer->getExecutable()->update());
-        $response->write($this->composer->getExecutable()->dumpAutoload("-o"));
+        $response->write($this->executable->update());
+        $response->write($this->executable->dumpAutoload("-o"));
     }
 }

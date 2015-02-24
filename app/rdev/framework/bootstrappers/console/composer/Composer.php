@@ -16,8 +16,9 @@ class Composer extends Bootstrappers\Bootstrapper
      */
     public function registerBindings(IoC\IContainer $container)
     {
+        $composer = ComposerWrapper\Composer::createFromRawConfig($this->paths);
         $executable = new ComposerWrapper\Executable($this->paths);
-        $composer = ComposerWrapper\Composer::createFromRawConfig($executable, $this->paths);
         $container->bind("RDev\\Framework\\Composer\\Composer", $composer);
+        $container->bind("RDev\\Framework\\Composer\\Executable", $executable);
     }
 }

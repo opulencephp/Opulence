@@ -33,8 +33,6 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     ];
     /** @var Applications\Paths The application paths */
     private $paths = null;
-    /** @var Executable The Composer executable */
-    private $executable = null;
     /** @var Composer The Composer with a fully-loaded config */
     private $composer = null;
 
@@ -47,8 +45,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             "root" => __DIR__ . "/../../../../..",
             "app" => __DIR__ . "/../../../../../app"
         ]);
-        $this->executable = new Executable($this->paths);
-        $this->composer = new Composer(self::$fullyLoadedConfig, $this->executable, $this->paths);
+        $this->composer = new Composer(self::$fullyLoadedConfig, $this->paths);
     }
 
     /**
@@ -56,17 +53,9 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingConfigFromRawConfig()
     {
-        $composer = Composer::createFromRawConfig($this->executable, $this->paths);
+        $composer = Composer::createFromRawConfig($this->paths);
         $composerFileContents = json_decode(file_get_contents($this->paths["root"] . "/composer.json"), true);
         $this->assertEquals($composerFileContents, $composer->getRawConfig());
-    }
-
-    /**
-     * Tests getting the executable
-     */
-    public function testGettingExecutable()
-    {
-        $this->assertSame($this->executable, $this->composer->getExecutable());
     }
 
     /**
@@ -111,7 +100,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentRootNamespace()
     {
-        $composer = new Composer(["foo" => "bar"], $this->executable, $this->paths);
+        $composer = new Composer(["foo" => "bar"], $this->paths);
         $this->assertNull($composer->getRootNamespace());
     }
 
@@ -120,7 +109,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentRootNamespacePaths()
     {
-        $composer = new Composer(["foo" => "bar"], $this->executable, $this->paths);
+        $composer = new Composer(["foo" => "bar"], $this->paths);
         $this->assertNull($composer->getRootNamespacePaths());
     }
 
@@ -166,7 +155,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     public function testGettingRawConfigFromNonExistentComposerConfig()
     {
         $this->paths["root"] = __DIR__;
-        $composer = Composer::createFromRawConfig($this->executable, $this->paths);
+        $composer = Composer::createFromRawConfig($this->paths);
         $this->assertEquals([], $composer->getRawConfig());
     }
 
@@ -191,7 +180,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespacePathsWithStringNamespace()
     {
-        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->executable, $this->paths);
+        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->paths);
         $this->assertEquals(["app/rdev"], $composer->getRootNamespacePaths());
     }
 
@@ -200,7 +189,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespaceWithStringNamespace()
     {
-        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->executable, $this->paths);
+        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->paths);
         $this->assertEquals("RDev", $composer->getRootNamespace());
     }
 
