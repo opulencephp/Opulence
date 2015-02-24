@@ -1,14 +1,14 @@
 <?php
 namespace {{namespace}};
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Routing\Controller;
 
-class {{class}} extends Routing\Controller
+class {{class}} extends Controller
 {
     /**
      * Creates a entity
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function create()
     {
@@ -19,7 +19,7 @@ class {{class}} extends Routing\Controller
      * Deletes an entity
      *
      * @param mixed $id The Id of the entity
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function delete($id)
     {
@@ -30,7 +30,7 @@ class {{class}} extends Routing\Controller
      * Shows an entity
      *
      * @param mixed $id The Id of the entity
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function show($id)
     {
@@ -40,7 +40,7 @@ class {{class}} extends Routing\Controller
     /**
      * Shows all the entities
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function showAll()
     {
@@ -51,7 +51,7 @@ class {{class}} extends Routing\Controller
      * Updates an entity
      *
      * @param mixed $id The Id of the entity
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function update($id)
     {

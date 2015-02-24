@@ -33,6 +33,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     ];
     /** @var Applications\Paths The application paths */
     private $paths = null;
+    /** @var Executable The Composer executable */
+    private $executable = null;
     /** @var Composer The Composer with a fully-loaded config */
     private $composer = null;
 
@@ -45,7 +47,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             "root" => __DIR__ . "/../../../../..",
             "app" => __DIR__ . "/../../../../../app"
         ]);
-        $this->composer = new Composer(self::$fullyLoadedConfig, $this->paths);
+        $this->executable = new Executable($this->paths);
+        $this->composer = new Composer(self::$fullyLoadedConfig, $this->executable, $this->paths);
     }
 
     /**
@@ -53,25 +56,35 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingConfigFromRawConfig()
     {
-        $composer = Composer::createFromRawConfig($this->paths);
+        $composer = Composer::createFromRawConfig($this->executable, $this->paths);
         $composerFileContents = json_decode(file_get_contents($this->paths["root"] . "/composer.json"), true);
         $this->assertEquals($composerFileContents, $composer->getRawConfig());
     }
 
     /**
-     * Tests getting a single property
+     * Tests getting the executable
      */
-    public function testGettingSingleProperty()
+    public function testGettingExecutable()
     {
-        $this->assertEquals("__name__", $this->composer->get("name"));
+        $this->assertSame($this->executable, $this->composer->getExecutable());
     }
 
     /**
-     * Tests getting a non-existent single property
+     * Tests getting the fully qualified class name
      */
-    public function testGettingNonExistentSingleProperty()
+    public function testGettingFullyQualifiedClassName()
     {
-        $this->assertNull($this->composer->get("doesNotExist"));
+        $this->assertEquals("RDev\\Bar", $this->composer->getFullyQualifiedClassName("Bar", "RDev"));
+        $this->assertEquals("RDev\\Foo\\Bar", $this->composer->getFullyQualifiedClassName("Bar", "RDev\\Foo"));
+        $this->assertEquals("RDev\\Bar", $this->composer->getFullyQualifiedClassName("Bar", "RDev\\"));
+    }
+
+    /**
+     * Tests getting the fully qualified class name of a fully-qualified class
+     */
+    public function testGettingFullyQualifiedClassNameOfAFullyQualifiedClass()
+    {
+        $this->assertEquals("RDev\\Foo\\Bar", $this->composer->getFullyQualifiedClassName("RDev\\Foo\\Bar", "RDev"));
     }
 
     /**
@@ -94,29 +107,11 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the fully qualified class name
-     */
-    public function testGettingFullyQualifiedClassName()
-    {
-        $this->assertEquals("RDev\\Bar", $this->composer->getFullyQualifiedClassName("Bar", "RDev"));
-        $this->assertEquals("RDev\\Foo\\Bar", $this->composer->getFullyQualifiedClassName("Bar", "RDev\\Foo"));
-        $this->assertEquals("RDev\\Bar", $this->composer->getFullyQualifiedClassName("Bar", "RDev\\"));
-    }
-
-    /**
-     * Tests getting the fully qualified class name of a fully-qualified class
-     */
-    public function testGettingFullyQualifiedClassNameOfAFullyQualifiedClass()
-    {
-        $this->assertEquals("RDev\\Foo\\Bar", $this->composer->getFullyQualifiedClassName("RDev\\Foo\\Bar", "RDev"));
-    }
-
-    /**
      * Tests getting a non-existent root namespace
      */
     public function testGettingNonExistentRootNamespace()
     {
-        $composer = new Composer(["foo" => "bar"], $this->paths);
+        $composer = new Composer(["foo" => "bar"], $this->executable, $this->paths);
         $this->assertNull($composer->getRootNamespace());
     }
 
@@ -125,8 +120,16 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentRootNamespacePaths()
     {
-        $composer = new Composer(["foo" => "bar"], $this->paths);
+        $composer = new Composer(["foo" => "bar"], $this->executable, $this->paths);
         $this->assertNull($composer->getRootNamespacePaths());
+    }
+
+    /**
+     * Tests getting a non-existent single property
+     */
+    public function testGettingNonExistentSingleProperty()
+    {
+        $this->assertNull($this->composer->get("doesNotExist"));
     }
 
     /**
@@ -163,7 +166,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     public function testGettingRawConfigFromNonExistentComposerConfig()
     {
         $this->paths["root"] = __DIR__;
-        $composer = Composer::createFromRawConfig($this->paths);
+        $composer = Composer::createFromRawConfig($this->executable, $this->paths);
         $this->assertEquals([], $composer->getRawConfig());
     }
 
@@ -188,7 +191,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespacePathsWithStringNamespace()
     {
-        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->paths);
+        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->executable, $this->paths);
         $this->assertEquals(["app/rdev"], $composer->getRootNamespacePaths());
     }
 
@@ -197,7 +200,15 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespaceWithStringNamespace()
     {
-        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->paths);
+        $composer = new Composer(["autoload" => ["psr-4" => ["RDev\\" => "app/rdev"]]], $this->executable, $this->paths);
         $this->assertEquals("RDev", $composer->getRootNamespace());
+    }
+
+    /**
+     * Tests getting a single property
+     */
+    public function testGettingSingleProperty()
+    {
+        $this->assertEquals("__name__", $this->composer->get("name"));
     }
 }

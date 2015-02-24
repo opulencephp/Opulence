@@ -11,46 +11,48 @@ class Composer
 {
     /** @var array The raw config */
     private $rawConfig = [];
+    /** @var Executable The Composer executable */
+    private $executable;
     /** @var Applications\Paths The paths of the application */
     private $paths = null;
 
     /**
      * @param array $config The raw config
+     * @param Executable $executable The Composer executable
      * @param Applications\Paths $paths The paths of the application
      */
-    public function __construct(array $config, Applications\Paths $paths)
+    public function __construct(array $config, Executable $executable, Applications\Paths $paths)
     {
         $this->rawConfig = $config;
+        $this->executable = $executable;
         $this->paths = $paths;
+    }
+
+    /**
+     * @return Executable
+     */
+    public function getExecutable()
+    {
+        return $this->executable;
     }
 
     /**
      * Creates an instance of this class from a raw Composer config file
      *
+     * @param Executable $executable The Composer executable
      * @param Applications\Paths $paths The paths of the application
      * @return Composer An instance of this class
      */
-    public static function createFromRawConfig(Applications\Paths $paths)
+    public static function createFromRawConfig(Executable $executable, Applications\Paths $paths)
     {
         $composerPath = $paths["root"] . "/composer.json";
 
         if(file_exists($composerPath))
         {
-            return new Composer(json_decode(file_get_contents($composerPath), true), $paths);
+            return new Composer(json_decode(file_get_contents($composerPath), true), $executable, $paths);
         }
 
-        return new Composer([], $paths);
-    }
-
-    /**
-     * Performs a dump-autoload
-     *
-     * @param string $options The options to run
-     * @return string The output of the autoload
-     */
-    public function dumpAutoload($options = "")
-    {
-        return shell_exec("{$this->getExecutable()} dump-autoload $options");
+        return new Composer([], $executable, $paths);
     }
 
     /**
@@ -86,7 +88,7 @@ class Composer
     public function getClassPath($fullyQualifiedClassName)
     {
         $parts = explode("\\", $fullyQualifiedClassName);
-        $path = array_Slice($parts, 0, -1);
+        $path = array_slice($parts, 0, -1);
         // The directories are stored in lower case
         $path = array_map("mb_strtolower", $path);
         $path[] = end($parts) . ".php";
@@ -163,33 +165,5 @@ class Composer
         }
 
         return (array)$this->get("autoload.psr-4")[$rootNamespace . "\\"];
-    }
-
-    /**
-     * Performs an update
-     *
-     * @param string $options The options to run
-     * @return string The output of the update
-     */
-    public function update($options = "")
-    {
-        return shell_exec("{$this->getExecutable()} update $options");
-    }
-
-    /**
-     * Gets the script that can execute Composer
-     *
-     * @return string The script that calls Composer
-     */
-    private function getExecutable()
-    {
-        if(file_exists($this->paths["root"] . "/composer.phar"))
-        {
-            return '"' . PHP_BINARY . '" composer.phar';
-        }
-        else
-        {
-            return "composer";
-        }
     }
 }

@@ -1,9 +1,9 @@
 <?php
 namespace {{namespace}};
-use RDev\Console\Commands;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Responses\IResponse;
 
-class {{class}} extends Commands\Command
+class {{class}} extends Command
 {
     /**
      * Sets the arguments and options for this command
@@ -17,10 +17,10 @@ class {{class}} extends Commands\Command
     /**
      * Actually executes of the command
      *
-     * @param Responses\IResponse $response The console response to write to
+     * @param IResponse $response The console response to write to
      * @return int|null Null or the status code of the command
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
 
     }

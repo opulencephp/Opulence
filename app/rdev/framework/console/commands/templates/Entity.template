@@ -1,8 +1,8 @@
 <?php
 namespace {{namespace}};
-use RDev\ORM;
+use RDev\ORM\IEntity;
 
-class {{class}} implements ORM\IEntity
+class {{class}} implements IEntity
 {
     /** @var int|string The Id of the entity */
     private $id;
