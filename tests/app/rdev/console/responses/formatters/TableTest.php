@@ -98,6 +98,20 @@ class TableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests formatting a table with a custom padding string
+     */
+    public function testFormattingTableWithCustomPaddingString()
+    {
+        $rows = [["a"]];
+        $this->table->setCellPaddingString("__");
+        $expected =
+            "+-----+" . PHP_EOL .
+            "|__a__|" . PHP_EOL .
+            "+-----+";
+        $this->assertEquals($expected, $this->table->format($rows));
+    }
+
+    /**
      * Tests formatting a table with headers but without rows
      */
     public function testFormattingTableWithHeadersButWithoutRows()

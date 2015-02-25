@@ -47,10 +47,10 @@ class Table
         }
 
         // If there are headers, we want them to be formatted along with the rows
-        $lines = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
-        $maxLengths = $this->padding->getMaxLengths($lines);
+        $headersAndRows = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
+        $maxLengths = $this->padding->equalizeLineLengths($headersAndRows);
         $eolChar = $this->padding->getEOLChar();
-        $rowText = explode($eolChar, $this->padding->format($lines, function($line)
+        $rowText = explode($eolChar, $this->padding->format($headersAndRows, function($line)
         {
             return sprintf(
                 "%s%s%s%s%s",
@@ -67,17 +67,11 @@ class Table
 
         foreach($maxLengths as $maxLength)
         {
-            $borders[] = str_repeat($this->horizontalBorderChar, $maxLength + 2);
+            $borders[] = str_repeat($this->horizontalBorderChar, $maxLength + 2 * mb_strlen($this->cellPaddingString));
         }
 
         $borderText = $this->intersectionChar . implode($this->intersectionChar, $borders) .$this->intersectionChar;
-        $headerText = "";
-
-        if(count($headers) > 0)
-        {
-            $headerText .= array_shift($rowText) . $eolChar;
-            $headerText .= $borderText . $eolChar;
-        }
+        $headerText = count($headers) > 0 ? array_shift($rowText) . $eolChar . $borderText . $eolChar : "";
 
         return $borderText . $eolChar . $headerText . implode($eolChar, $rowText) . $eolChar . $borderText;
     }

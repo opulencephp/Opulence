@@ -19,28 +19,40 @@ class Padding
      * Equalizes the length of each line in an array
      *
      * @param array $lines The lines to pad
-     * @return int The max length
+     * @return array The max length of each column
      */
     public function equalizeLineLengths(array &$lines)
     {
-        $maxLength = 0;
+        $maxNumColumns = 0;
 
         // Find the max length
         foreach($lines as $line)
         {
-            if(count($line) > $maxLength)
+            if(count($line) > $maxNumColumns)
             {
-                $maxLength = count($line);
+                $maxNumColumns = count($line);
             }
         }
 
         // Equalize the lengths
         foreach($lines as &$line)
         {
-            $line = array_pad($line, $maxLength, "");
+            $line = array_pad($line, $maxNumColumns, "");
         }
 
-        return $maxLength;
+        $maxLengths = array_pad([], $maxNumColumns, 0);
+
+        // Get the max lengths
+        foreach($lines as &$line)
+        {
+            foreach($line as $index => &$item)
+            {
+                $item = trim($item);
+                $maxLengths[$index] = max($maxLengths[$index], mb_strlen($item));
+            }
+        }
+
+        return $maxLengths;
     }
 
     /**
@@ -57,11 +69,11 @@ class Padding
     {
         if(count($lines) > 0 && is_array($lines[0]))
         {
-            $formattedLines = $this->formatLineArrays($lines, $this->padAfter, $this->paddingString);
+            $formattedLines = $this->formatLineArrays($lines);
         }
         else
         {
-            $formattedLines = $this->formatLineStrings($lines, $this->padAfter, $this->paddingString);
+            $formattedLines = $this->formatLineStrings($lines);
         }
 
         $formattedText = "";
@@ -83,30 +95,6 @@ class Padding
     public function getEOLChar()
     {
         return $this->eolChar;
-    }
-
-    /**
-     * Gets the maximum length of each column in a list of lines
-     *
-     * @param array $lines The lines to measure
-     * @return array The max lengths for each column
-     */
-    public function getMaxLengths(array &$lines)
-    {
-        $numItems = $this->equalizeLineLengths($lines);
-        $maxLengths = array_pad([], $numItems, 0);
-
-        // Get the max lengths
-        foreach($lines as &$line)
-        {
-            foreach($line as $index => &$item)
-            {
-                $item = trim($item);
-                $maxLengths[$index] = max($maxLengths[$index], mb_strlen($item));
-            }
-        }
-
-        return $maxLengths;
     }
 
     /**
@@ -137,21 +125,19 @@ class Padding
      * Formats lines of text so that all items in each line has an equal amount of spacing around them
      *
      * @param array $lines The list of array lines
-     * @param bool $addPaddingAfter True if we are going to add padding after the string, otherwise we'll add it before
-     * @param string $paddingString The string to pad with
      * @return array The formatted lines
      */
-    private function formatLineArrays(array $lines, $addPaddingAfter, $paddingString)
+    private function formatLineArrays(array $lines)
     {
-        $maxLengths = $this->getMaxLengths($lines);
-        $paddingType = $addPaddingAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
+        $maxLengths = $this->equalizeLineLengths($lines);
+        $paddingType = $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
 
         // Format the lines
         foreach($lines as &$line)
         {
             foreach($line as $index => &$item)
             {
-                $item = str_pad($item, $maxLengths[$index], $paddingString, $paddingType);
+                $item = str_pad($item, $maxLengths[$index], $this->paddingString, $paddingType);
             }
         }
 
@@ -162,11 +148,9 @@ class Padding
      * Formats lines of text so that each line has an equal amount of spacing around it
      *
      * @param array $lines The list of string lines
-     * @param bool $addPaddingAfter True if we are going to add padding after the string, otherwise we'll add it before
-     * @param string $paddingString The string to pad with
      * @return array The formatted lines
      */
-    private function formatLineStrings(array $lines, $addPaddingAfter, $paddingString)
+    private function formatLineStrings(array $lines)
     {
         $maxLength = 0;
 
@@ -180,7 +164,7 @@ class Padding
         // Format the lines
         foreach($lines as &$line)
         {
-            $line = str_pad($line, $maxLength, $paddingString, $addPaddingAfter ? STR_PAD_RIGHT : STR_PAD_LEFT);
+            $line = str_pad($line, $maxLength, $this->paddingString, $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT);
         }
 
         return $lines;

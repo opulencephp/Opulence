@@ -96,24 +96,6 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests equalizing line lengths
-     */
-    public function testEqualizingLineLengths()
-    {
-        $lines = [
-            ["foo"],
-            ["foo", "bar"],
-            ["foo", "bar", "baz"]
-        ];
-        $this->assertEquals(3, $this->formatter->equalizeLineLengths($lines));
-        $this->assertEquals([
-            ["foo", "", ""],
-            ["foo", "bar", ""],
-            ["foo", "bar", "baz"]
-        ], $lines);
-    }
-
-    /**
      * Tests getting the EOL char
      */
     public function testGettingEOLChar()
@@ -123,9 +105,9 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the max lengths
+     * Tests equalizing the line lengths
      */
-    public function testGettingMaxLengths()
+    public function testEqualizingLineLengths()
     {
         $lines = [
             ["a"],
@@ -133,7 +115,14 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             ["aaa", "bbb", "ccc"],
             ["aaa", "bbb", "ccc", "ddddd"]
         ];
-        $this->assertEquals([3, 4, 3, 5], $this->formatter->getMaxLengths($lines));
+        $expected = [
+            ["a", "", "", ""],
+            ["aa", "bbbb", "", ""],
+            ["aaa", "bbb", "ccc", ""],
+            ["aaa", "bbb", "ccc", "ddddd"]
+        ];
+        $this->assertEquals([3, 4, 3, 5], $this->formatter->equalizeLineLengths($lines));
+        $this->assertEquals($expected, $lines);
     }
 
     /**
