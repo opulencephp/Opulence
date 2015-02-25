@@ -48,15 +48,15 @@ class Table
 
         // If there are headers, we want them to be formatted along with the rows
         $headersAndRows = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
-        $maxLengths = $this->padding->equalizeLineLengths($headersAndRows);
+        $maxLengths = $this->padding->equalizeColumns($headersAndRows);
         $eolChar = $this->padding->getEOLChar();
-        $rowText = explode($eolChar, $this->padding->format($headersAndRows, function($line)
+        $rowText = explode($eolChar, $this->padding->format($headersAndRows, function($row)
         {
             return sprintf(
                 "%s%s%s%s%s",
                 $this->verticalBorderChar,
                 $this->cellPaddingString,
-                implode($this->cellPaddingString . $this->verticalBorderChar . $this->cellPaddingString, $line),
+                implode($this->cellPaddingString . $this->verticalBorderChar . $this->cellPaddingString, $row),
                 $this->cellPaddingString,
                 $this->verticalBorderChar
             );

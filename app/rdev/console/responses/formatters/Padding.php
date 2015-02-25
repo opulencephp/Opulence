@@ -16,39 +16,36 @@ class Padding
     private $eolChar = PHP_EOL;
 
     /**
-     * Equalizes the length of each line in an array
+     * Equalizes the number of columns in each row
      *
-     * @param array $lines The lines to pad
+     * @param array $rows The rows to equalize
      * @return array The max length of each column
      */
-    public function equalizeLineLengths(array &$lines)
+    public function equalizeColumns(array &$rows)
     {
         $maxNumColumns = 0;
 
-        // Find the max length
-        foreach($lines as $line)
+        // Find the max number of columns that appear in any given row
+        foreach($rows as $row)
         {
-            if(count($line) > $maxNumColumns)
-            {
-                $maxNumColumns = count($line);
-            }
-        }
-
-        // Equalize the lengths
-        foreach($lines as &$line)
-        {
-            $line = array_pad($line, $maxNumColumns, "");
+            $maxNumColumns = max($maxNumColumns, count($row));
         }
 
         $maxLengths = array_pad([], $maxNumColumns, 0);
 
-        // Get the max lengths
-        foreach($lines as &$line)
+        // Equalize the number of columns in each row
+        foreach($rows as &$row)
         {
-            foreach($line as $index => &$item)
+            $row = array_pad($row, $maxNumColumns, "");
+        }
+
+        // Get the length of the longest value in each column
+        foreach($rows as &$row)
+        {
+            foreach($row as $column => &$value)
             {
-                $item = trim($item);
-                $maxLengths[$index] = max($maxLengths[$index], mb_strlen($item));
+                $value = trim($value);
+                $maxLengths[$column] = max($maxLengths[$column], mb_strlen($value));
             }
         }
 
@@ -56,31 +53,36 @@ class Padding
     }
 
     /**
-     * Formats lines of text so that the first item in each line has an equal amount of padding around it
+     * Formats rows of text so that each column is the same width
      *
-     * @param array $lines The list of lines, which can have the following formats:
-     *      A string of items to pad,
-     *      An array with two entries:  the string to pad and the text that comes after it
-     * @param callable $callback The callback that returns a formatted single line of text
-     * @return array A list of formatted lines
-     * @throws \InvalidArgumentException Thrown if the input lines are not of the correct format
+     * @param array $rows The rows to pad
+     * @param callable $callback The callback that returns a formatted row of text
+     * @return array A list of formatted rows
      */
-    public function format(array $lines, callable $callback)
+    public function format(array $rows, callable $callback)
     {
-        if(count($lines) > 0 && is_array($lines[0]))
+        foreach($rows as &$row)
         {
-            $formattedLines = $this->formatLineArrays($lines);
+            $row = (array)$row;
         }
-        else
+
+        $maxLengths = $this->equalizeColumns($rows);
+        $paddingType = $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
+
+        // Format the rows
+        foreach($rows as &$row)
         {
-            $formattedLines = $this->formatLineStrings($lines);
+            foreach($row as $index => &$item)
+            {
+                $item = str_pad($item, $maxLengths[$index], $this->paddingString, $paddingType);
+            }
         }
 
         $formattedText = "";
 
-        foreach($formattedLines as $formattedLine)
+        foreach($rows as &$row)
         {
-            $formattedText .= call_user_func($callback, $formattedLine) . $this->eolChar;
+            $formattedText .= call_user_func($callback, $row) . $this->eolChar;
         }
 
         // Trim the excess separator
@@ -119,54 +121,5 @@ class Padding
     public function setPaddingString($paddingString)
     {
         $this->paddingString = $paddingString;
-    }
-
-    /**
-     * Formats lines of text so that all items in each line has an equal amount of spacing around them
-     *
-     * @param array $lines The list of array lines
-     * @return array The formatted lines
-     */
-    private function formatLineArrays(array $lines)
-    {
-        $maxLengths = $this->equalizeLineLengths($lines);
-        $paddingType = $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
-
-        // Format the lines
-        foreach($lines as &$line)
-        {
-            foreach($line as $index => &$item)
-            {
-                $item = str_pad($item, $maxLengths[$index], $this->paddingString, $paddingType);
-            }
-        }
-
-        return $lines;
-    }
-
-    /**
-     * Formats lines of text so that each line has an equal amount of spacing around it
-     *
-     * @param array $lines The list of string lines
-     * @return array The formatted lines
-     */
-    private function formatLineStrings(array $lines)
-    {
-        $maxLength = 0;
-
-        // Get the max length
-        foreach($lines as &$line)
-        {
-            $line = trim($line);
-            $maxLength = max($maxLength, mb_strlen($line));
-        }
-
-        // Format the lines
-        foreach($lines as &$line)
-        {
-            $line = str_pad($line, $maxLength, $this->paddingString, $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT);
-        }
-
-        return $lines;
     }
 }

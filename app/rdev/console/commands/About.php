@@ -101,18 +101,18 @@ EOF;
             $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
-        return $this->paddingFormatter->format($commandTexts, function($line) use ($firstCommandNamesToCategories)
+        return $this->paddingFormatter->format($commandTexts, function($row) use ($firstCommandNamesToCategories)
         {
             $output = "";
-            $commandNameParts = explode(":", $line[0]);
+            $commandNameParts = explode(":", $row[0]);
 
             // If this is the first command of its category, display the category
-            if(count($commandNameParts) > 1 && isset($firstCommandNamesToCategories[trim($line[0])]))
+            if(count($commandNameParts) > 1 && isset($firstCommandNamesToCategories[trim($row[0])]))
             {
-                $output .= "<comment>{$firstCommandNamesToCategories[trim($line[0])]}</comment>" . PHP_EOL;
+                $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>" . PHP_EOL;
             }
 
-            return $output . "  <info>{$line[0]}</info> - {$line[1]}";
+            return $output . "  <info>{$row[0]}</info> - {$row[1]}";
         });
     }
 }

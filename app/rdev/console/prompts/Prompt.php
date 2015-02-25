@@ -61,9 +61,9 @@ class Prompt
                 $choiceTexts[] = [$key . ")", $choice];
             }
 
-            $response->writeln($this->paddingFormatter->format($choiceTexts, function($line)
+            $response->writeln($this->paddingFormatter->format($choiceTexts, function($row)
             {
-                return "  {$line[0]} {$line[1]}";
+                return "  {$row[0]} {$row[1]}";
             }));
             $response->write($question->getAnswerLineString());
         }

@@ -186,7 +186,8 @@ class TableTest extends \PHPUnit_Framework_TestCase
      * Tests setting the rows to non-array values
      */
     public function testSettingRowsWithNonArrayValues()
-    {$expected =
+    {
+        $expected =
         "+-----+" . PHP_EOL .
         "| foo |" . PHP_EOL .
         "| bar |" . PHP_EOL .
