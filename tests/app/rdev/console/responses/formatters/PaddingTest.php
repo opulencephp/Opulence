@@ -25,16 +25,16 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
     public function testCustomLineSeparatorWithArrayLines()
     {
         $lines = [
-            ["a", "b"],
-            ["cd", "e"],
-            [" fg ", "h"],
-            ["ijk", "l"]
+            ["a", "  b"],
+            ["cd", " ee"],
+            [" fg ", "hhh"],
+            ["ijk", " ll"]
         ];
         $formattedText = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
         }, true, " ", "<br>");
-        $this->assertEquals("a  -b<br>cd -e<br>fg -h<br>ijk-l", $formattedText);
+        $this->assertEquals("a  -b  <br>cd -ee <br>fg -hhh<br>ijk-ll ", $formattedText);
     }
 
     /**
@@ -61,16 +61,16 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
     public function testCustomPaddingStringWithArrayLines()
     {
         $lines = [
-            ["a", "b"],
-            ["cd", "e"],
-            [" fg ", "h"],
-            ["ijk", "l"]
+            ["a", "b "],
+            ["cd", " ee"],
+            [" fg ", "hhh"],
+            ["ijk", "ll "]
         ];
         $formattedText = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
         }, true, "+", PHP_EOL);
-        $this->assertEquals("a++-b" . PHP_EOL . "cd+-e" . PHP_EOL . "fg+-h" . PHP_EOL . "ijk-l", $formattedText);
+        $this->assertEquals("a++-b++" . PHP_EOL . "cd+-ee+" . PHP_EOL . "fg+-hhh" . PHP_EOL . "ijk-ll+", $formattedText);
     }
 
     /**
@@ -92,28 +92,60 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests equalizing line lengths
+     */
+    public function testEqualizingLineLengths()
+    {
+        $lines = [
+            ["foo"],
+            ["foo", "bar"],
+            ["foo", "bar", "baz"]
+        ];
+        $this->assertEquals(3, $this->formatter->equalizeLineLengths($lines));
+        $this->assertEquals([
+            ["foo", "", ""],
+            ["foo", "bar", ""],
+            ["foo", "bar", "baz"]
+        ], $lines);
+    }
+
+    /**
+     * Tests getting the max lengths
+     */
+    public function testGettingMaxLengths()
+    {
+        $lines = [
+            ["a"],
+            ["aa", "bbbb"],
+            ["aaa", "bbb", "ccc"],
+            ["aaa", "bbb", "ccc", "ddddd"]
+        ];
+        $this->assertEquals([3, 4, 3, 5], $this->formatter->getMaxLengths($lines));
+    }
+
+    /**
      * Tests padding array lines
      */
     public function testPaddingArrayLines()
     {
         $lines = [
             ["a", "b"],
-            ["cd", "e"],
-            [" fg ", "h"],
-            ["ijk", "l"]
+            ["cd", "ee "],
+            [" fg ", "hhh"],
+            ["ijk", " ll"]
         ];
         // Format with the padding after the string
         $formattedLines = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
         }, true);
-        $this->assertEquals("a  -b" . PHP_EOL . "cd -e" . PHP_EOL . "fg -h" . PHP_EOL . "ijk-l", $formattedLines);
+        $this->assertEquals("a  -b  " . PHP_EOL . "cd -ee " . PHP_EOL . "fg -hhh" . PHP_EOL . "ijk-ll ", $formattedLines);
         // Format with the padding before the string
         $formattedLines = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
         }, false);
-        $this->assertEquals("  a-b" . PHP_EOL . " cd-e" . PHP_EOL . " fg-h" . PHP_EOL . "ijk-l", $formattedLines);
+        $this->assertEquals("  a-  b" . PHP_EOL . " cd- ee" . PHP_EOL . " fg-hhh" . PHP_EOL . "ijk- ll", $formattedLines);
     }
 
     /**
@@ -172,17 +204,5 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             return $line;
         }, false);
         $this->assertEquals("  a" . PHP_EOL . " cd" . PHP_EOL . " fg" . PHP_EOL . "ijk", $formattedLines);
-    }
-
-    /**
-     * Tests passing lines with incorrectly set items
-     */
-    public function testPassingLinesWithIncorrectlySetItems()
-    {
-        $this->setExpectedException("\\InvalidArgumentException");
-        $this->formatter->format([["foo"]], function($line)
-        {
-            return $line;
-        });
     }
 }

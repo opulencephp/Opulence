@@ -36,8 +36,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "/") . "(?P<blah>[^\/]+)"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)"
                 )
             )
         );
@@ -63,8 +63,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>\d+)" . preg_quote("/bar/", "/") . "(?P<blah>[a-z]{3})"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>\d+)" . preg_quote("/bar/", "#") . "(?P<blah>[a-z]{3})"
                 )
             )
         );
@@ -86,8 +86,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>[^\/]+)"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)"
                 )
             )
         );
@@ -109,8 +109,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>[^\/]+)"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)"
                 )
             )
         );
@@ -134,8 +134,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>\d+)"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>\d+)"
                 )
             )
         );
@@ -157,8 +157,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote($rawString, "/")
+                    "#^%s$#",
+                    preg_quote($rawString, "#")
                 )
             )
         );
@@ -234,7 +234,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Routes\Route(["get"], "/foo", $options);
         $parsedRoute = $this->parser->parse($route);
-        $this->assertEquals("/^.*$/", $parsedRoute->getHostRegex());
+        $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
     }
 
     /**
@@ -253,8 +253,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "/") . "(?P<blah>[^\/]+)?"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
                 )
             )
         );
@@ -276,8 +276,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             $this->regexesMach(
                 $parsedRoute,
                 sprintf(
-                    "/^%s$/",
-                    preg_quote("/", "/") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "/") . "(?P<blah>[^\/]+)?"
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
                 )
             )
         );
@@ -294,7 +294,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Routes\Route(["get"], "", $options);
         $parsedRoute = $this->parser->parse($route);
-        $this->assertEquals("/^.*$/", $parsedRoute->getPathRegex());
+        $this->assertEquals("#^.*$#", $parsedRoute->getPathRegex());
     }
 
     /**

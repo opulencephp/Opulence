@@ -9,6 +9,34 @@ namespace RDev\Console\Responses\Formatters;
 class Padding
 {
     /**
+     * Equalizes the length of each line in an array
+     *
+     * @param array $lines The lines to pad
+     * @return int The max length
+     */
+    public function equalizeLineLengths(array &$lines)
+    {
+        $maxLength = 0;
+
+        // Find the max length
+        foreach($lines as $line)
+        {
+            if(count($line) > $maxLength)
+            {
+                $maxLength = count($line);
+            }
+        }
+
+        // Equalize the lengths
+        foreach($lines as &$line)
+        {
+            $line = array_pad($line, $maxLength, "");
+        }
+
+        return $maxLength;
+    }
+
+    /**
      * Formats lines of text so that the first item in each line has an equal amount of padding around it
      *
      * @param array $lines The list of lines, which can have the following formats:
@@ -46,7 +74,31 @@ class Padding
     }
 
     /**
-     * Formats lines of text so that the first item in each line has an equal amount of spacing around it
+     * Gets the maximum length of each column in a list of lines
+     *
+     * @param array $lines The lines to measure
+     * @return array The max lengths for each column
+     */
+    public function getMaxLengths(array &$lines)
+    {
+        $numItems = $this->equalizeLineLengths($lines);
+        $maxLengths = array_pad([], $numItems, 0);
+
+        // Get the max lengths
+        foreach($lines as &$line)
+        {
+            foreach($line as $index => &$item)
+            {
+                $item = trim($item);
+                $maxLengths[$index] = max($maxLengths[$index], mb_strlen($item));
+            }
+        }
+
+        return $maxLengths;
+    }
+
+    /**
+     * Formats lines of text so that all items in each line has an equal amount of spacing around them
      *
      * @param array $lines The list of array lines
      * @param bool $addPaddingAfter True if we are going to add padding after the string, otherwise we'll add it before
@@ -55,24 +107,16 @@ class Padding
      */
     private function formatLineArrays(array $lines, $addPaddingAfter, $paddingString)
     {
-        $maxLength = 0;
-
-        // Get the max length and validate lines
-        foreach($lines as &$line)
-        {
-            if(count($line) != 2)
-            {
-                throw new \InvalidArgumentException("Each line must be an array with 2 items");
-            }
-
-            $line[0] = trim($line[0]);
-            $maxLength = max($maxLength, mb_strlen($line[0]));
-        }
+        $maxLengths = $this->getMaxLengths($lines);
+        $paddingType = $addPaddingAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
 
         // Format the lines
         foreach($lines as &$line)
         {
-            $line[0] = str_pad($line[0], $maxLength, $paddingString, $addPaddingAfter ? STR_PAD_RIGHT : STR_PAD_LEFT);
+            foreach($line as $index => &$item)
+            {
+                $item = str_pad($item, $maxLengths[$index], $paddingString, $paddingType);
+            }
         }
 
         return $lines;

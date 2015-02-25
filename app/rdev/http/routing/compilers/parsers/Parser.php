@@ -42,7 +42,7 @@ class Parser implements IParser
     {
         if(empty($rawString))
         {
-            return "/^.*$/";
+            return "#^.*$#";
         }
 
         $regex = $this->quoteStaticText($rawString);
@@ -102,7 +102,7 @@ class Parser implements IParser
             );
         }
 
-        return sprintf("/^%s$/", $regex);
+        return sprintf("#^%s$#", $regex);
     }
 
     /**
@@ -128,7 +128,7 @@ class Parser implements IParser
                 // Flush out the quote buffer
                 if($braceDepth == 0 && mb_strlen($quoteBuffer) > 0)
                 {
-                    $quotedString .= preg_quote($quoteBuffer, "/");
+                    $quotedString .= preg_quote($quoteBuffer, "#");
                     $quoteBuffer = "";
                 }
 
@@ -153,7 +153,7 @@ class Parser implements IParser
         // Flush out the buffer
         if(mb_strlen($quoteBuffer) > 0)
         {
-            $quotedString .= preg_quote($quoteBuffer, "/");
+            $quotedString .= preg_quote($quoteBuffer, "#");
         }
 
         if($braceDepth != 0)

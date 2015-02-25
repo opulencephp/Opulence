@@ -15,7 +15,6 @@ class About extends Command
 -----------------------------
 About <b>RDev Console</b> {{version}}
 -----------------------------
-<comment>Commands:</comment>
 {{commands}}
 EOF;
     /** @var Formatters\Padding The space padding formatter to use */
@@ -52,9 +51,8 @@ EOF;
     protected function doExecute(Responses\IResponse $response)
     {
         // Compile the template
-        $commandText = $this->getCommandText();
         $compiledTemplate = self::$template;
-        $compiledTemplate = str_replace("{{commands}}", $commandText, $compiledTemplate);
+        $compiledTemplate = str_replace("{{commands}}", $this->getCommandText(), $compiledTemplate);
         $compiledTemplate = str_replace("{{version}}", $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
@@ -69,7 +67,7 @@ EOF;
     {
         if(count($this->commands->getAll()) == 0)
         {
-            return " <info>No commands</info>";
+            return "  <info>No commands</info>";
         }
 
         /**
@@ -87,16 +85,34 @@ EOF;
         $commands = $this->commands->getAll();
         usort($commands, $sort);
         $commandTexts = [];
+        $firstCommandNamesToCategories = [];
 
         // Figure out the longest command name
         foreach($commands as $command)
         {
+            $commandNameParts = explode(":", $command->getName());
+
+            // If this command belongs to a category
+            if(count($commandNameParts) > 0 && !in_array($commandNameParts[0], $firstCommandNamesToCategories))
+            {
+                $firstCommandNamesToCategories[$command->getName()] = $commandNameParts[0];
+            }
+
             $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
-        return $this->paddingFormatter->format($commandTexts, function($line)
+        return $this->paddingFormatter->format($commandTexts, function($line) use ($firstCommandNamesToCategories)
         {
-            return "  <info>{$line[0]}</info> - {$line[1]}";
+            $output = "";
+            $commandNameParts = explode(":", $line[0]);
+
+            // If this is the first command of its category, display the category
+            if(count($commandNameParts) > 0 && isset($firstCommandNamesToCategories[trim($line[0])]))
+            {
+                $output .= "<comment>{$firstCommandNamesToCategories[trim($line[0])]}</comment>" . PHP_EOL;
+            }
+
+            return $output . "  <info>{$line[0]}</info> - {$line[1]}";
         });
     }
 }

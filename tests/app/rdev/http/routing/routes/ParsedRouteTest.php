@@ -52,7 +52,7 @@ class ParsedRouteTest extends \PHPUnit_Framework_TestCase
     {
         $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
         $parsedRoute = new ParsedRoute($route);
-        $this->assertEquals("/^.*$/", $parsedRoute->getHostRegex());
+        $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
     }
 
     /**
@@ -76,8 +76,8 @@ class ParsedRouteTest extends \PHPUnit_Framework_TestCase
     {
         $route = new Route("get", "/foo", ["controller" => "foo@bar"]);
         $parsedRoute = new ParsedRoute($route);
-        $parsedRoute->setHostRegex("google\.com");
-        $this->assertEquals("google\.com", $parsedRoute->getHostRegex());
+        $parsedRoute->setHostRegex("#google\.com#");
+        $this->assertEquals("#google\.com#", $parsedRoute->getHostRegex());
     }
 
     /**

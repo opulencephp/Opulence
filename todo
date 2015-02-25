@@ -1,5 +1,4 @@
 HAS PRIORITY:
-    Need to write docs about how to actually use sql dm and redis dm
     Switch view compilers to use pipeline
          Question is how do we allow template, content, and next as parameters?
 
@@ -10,7 +9,6 @@ HAS PRIORITY:
             If not, loop through ALL routes, parse them, cache them
             If so, loop through cached routes and compile them to match them
     Add CommandTester class
-    Add table formatter
     Idea:  Run statement compiler
         Cache results
         Run all other subcompilers
