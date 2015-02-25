@@ -93,7 +93,7 @@ EOF;
             $commandNameParts = explode(":", $command->getName());
 
             // If this command belongs to a category
-            if(count($commandNameParts) > 0 && !in_array($commandNameParts[0], $firstCommandNamesToCategories))
+            if(count($commandNameParts) > 1 && !in_array($commandNameParts[0], $firstCommandNamesToCategories))
             {
                 $firstCommandNamesToCategories[$command->getName()] = $commandNameParts[0];
             }
@@ -107,7 +107,7 @@ EOF;
             $commandNameParts = explode(":", $line[0]);
 
             // If this is the first command of its category, display the category
-            if(count($commandNameParts) > 0 && isset($firstCommandNamesToCategories[trim($line[0])]))
+            if(count($commandNameParts) > 1 && isset($firstCommandNamesToCategories[trim($line[0])]))
             {
                 $output .= "<comment>{$firstCommandNamesToCategories[trim($line[0])]}</comment>" . PHP_EOL;
             }
