@@ -20,33 +20,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests adding a header
-     */
-    public function testAddingHeader()
-    {
-        $headers = ["foo", "bar"];
-        $this->table->setHeaders($headers);
-        $this->table->addHeader("baz");
-        $this->assertEquals(["foo", "bar", "baz"], $this->table->getHeaders());
-    }
-
-    /**
-     * Tests adding a row
-     */
-    public function testAddingRow()
-    {
-        $rows = [["foo"], ["bar"]];
-        $this->table->setRows($rows);
-        $this->table->addRow(["baz"]);
-        $this->assertEquals([["foo"], ["bar"], ["baz"]], $this->table->getRows());
-    }
-
-    /**
      * Tests formatting an empty table
      */
     public function testFormattingEmptyTable()
     {
-        $this->assertEmpty($this->table->format());
+        $this->assertEmpty($this->table->format([]));
     }
 
     /**
@@ -56,15 +34,13 @@ class TableTest extends \PHPUnit_Framework_TestCase
     {
         $headers = ["foo"];
         $rows = [["a"]];
-        $this->table->setHeaders($headers);
-        $this->table->setRows($rows);
         $expected =
             "+-----+" . PHP_EOL .
             "| foo |" . PHP_EOL .
             "+-----+" . PHP_EOL .
             "| a   |" . PHP_EOL .
             "+-----+";
-        $this->assertEquals($expected, $this->table->format());
+        $this->assertEquals($expected, $this->table->format($rows, $headers));
     }
 
     /**
@@ -73,12 +49,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testFormattingSingleRow()
     {
         $rows = [["a", "bb", "ccc"]];
-        $this->table->setRows($rows);
         $expected =
             "+---+----+-----+" . PHP_EOL .
             "| a | bb | ccc |" . PHP_EOL .
             "+---+----+-----+";
-        $this->assertEquals($expected, $this->table->format());
+        $this->assertEquals($expected, $this->table->format($rows));
     }
 
     /**
@@ -87,12 +62,11 @@ class TableTest extends \PHPUnit_Framework_TestCase
     public function testFormattingSingleRowAndColumn()
     {
         $rows = [["a"]];
-        $this->table->setRows($rows);
         $expected =
             "+---+" . PHP_EOL .
             "| a |" . PHP_EOL .
             "+---+";
-        $this->assertEquals($expected, $this->table->format());
+        $this->assertEquals($expected, $this->table->format($rows));
     }
 
     /**
@@ -106,8 +80,12 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ["aa", "bb"],
             ["aaa", "bbb", "ccc"]
         ];
-        $this->table->setHeaders($headers);
-        $this->table->setRows($rows);
+        $this->table->setPadAfter(false);
+        $this->table->setCellPaddingString("_");
+        $this->table->setEOLChar("<br>");
+        $this->table->setVerticalBorderChar("I");
+        $this->table->setHorizontalBorderChar("=");
+        $this->table->setIntersectionChar("*");
         $expected =
             "*=====*=====*=====*<br>".
             "I_foo_I_bar_I_   _I<br>" .
@@ -116,7 +94,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             "I_ aa_I_ bb_I_   _I<br>" .
             "I_aaa_I_bbb_I_ccc_I<br>" .
             "*=====*=====*=====*";
-        $this->assertEquals($expected, $this->table->format(false, "_", "<br>", "I", "=", "*"));
+        $this->assertEquals($expected, $this->table->format($rows, $headers));
     }
 
     /**
@@ -124,8 +102,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
      */
     public function testFormattingTableWithHeadersButWithoutRows()
     {
-        $this->table->setHeaders(["foo", "bar"]);
-        $this->assertEmpty($this->table->format());
+        $this->assertEmpty($this->table->format([], ["foo", "bar"]));
     }
 
     /**
@@ -139,8 +116,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ["aa", "bb"],
             ["aaa", "bbb", "ccc"]
         ];
-        $this->table->setHeaders($headers);
-        $this->table->setRows($rows);
         $expected =
             "+-----+-----+-----+------+" . PHP_EOL .
             "| foo | bar | baz | blah |" . PHP_EOL .
@@ -149,7 +124,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             "| aa  | bb  |     |      |" . PHP_EOL .
             "| aaa | bbb | ccc |      |" . PHP_EOL .
             "+-----+-----+-----+------+";
-        $this->assertEquals($expected, $this->table->format());
+        $this->assertEquals($expected, $this->table->format($rows, $headers));
     }
 
     /**
@@ -163,8 +138,6 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ["aa", "bb"],
             ["aaa", "bbb", "ccc"]
         ];
-        $this->table->setHeaders($headers);
-        $this->table->setRows($rows);
         $expected =
             "+-----+-----+-----+" . PHP_EOL .
             "| foo | bar |     |" . PHP_EOL .
@@ -173,7 +146,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
             "| aa  | bb  |     |" . PHP_EOL .
             "| aaa | bbb | ccc |" . PHP_EOL .
             "+-----+-----+-----+";
-        $this->assertEquals($expected, $this->table->format());
+        $this->assertEquals($expected, $this->table->format($rows, $headers));
     }
 
     /**
@@ -186,50 +159,24 @@ class TableTest extends \PHPUnit_Framework_TestCase
             ["aa", "bb"],
             ["aaa", "bbb", "ccc"]
         ];
-        $this->table->setRows($rows);
         $expected =
             "+-----+-----+-----+" . PHP_EOL .
             "| a   |     |     |" . PHP_EOL .
             "| aa  | bb  |     |" . PHP_EOL .
             "| aaa | bbb | ccc |" . PHP_EOL .
             "+-----+-----+-----+";
-        $this->assertEquals($expected, $this->table->format());
-    }
-
-    /**
-     * Tests getting the rows
-     */
-    public function testGettingRows()
-    {
-        $this->assertEquals([], $this->table->getRows());
-    }
-
-    /**
-     * Tests setting the headers
-     */
-    public function testSettingHeaders()
-    {
-        $headers = ["foo", "bar"];
-        $this->table->setHeaders($headers);
-        $this->assertEquals($headers, $this->table->getHeaders());
-    }
-
-    /**
-     * Tests setting the rows
-     */
-    public function testSettingRows()
-    {
-        $rows = [["foo"], ["bar"]];
-        $this->table->setRows($rows);
-        $this->assertEquals($rows, $this->table->getRows());
+        $this->assertEquals($expected, $this->table->format($rows));
     }
 
     /**
      * Tests setting the rows to non-array values
      */
     public function testSettingRowsWithNonArrayValues()
-    {
-        $this->table->setRows(["foo", "bar"]);
-        $this->assertEquals([["foo"], ["bar"]], $this->table->getRows());
+    {$expected =
+        "+-----+" . PHP_EOL .
+        "| foo |" . PHP_EOL .
+        "| bar |" . PHP_EOL .
+        "+-----+";
+        $this->assertEquals($expected, $this->table->format(["foo", "bar"]));
     }
 }

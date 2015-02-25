@@ -30,10 +30,11 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             [" fg ", "hhh"],
             ["ijk", " ll"]
         ];
+        $this->formatter->setEOLChar("<br>");
         $formattedText = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
-        }, true, " ", "<br>");
+        });
         $this->assertEquals("a  -b  <br>cd -ee <br>fg -hhh<br>ijk-ll ", $formattedText);
     }
 
@@ -48,10 +49,11 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             " fg ",
             "ijk"
         ];
+        $this->formatter->setEOLChar("<br>");
         $formattedText = $this->formatter->format($lines, function($line)
         {
             return $line;
-        }, true, " ", "<br>");
+        });
         $this->assertEquals("a  <br>cd <br>fg <br>ijk", $formattedText);
     }
 
@@ -66,10 +68,11 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             [" fg ", "hhh"],
             ["ijk", "ll "]
         ];
+        $this->formatter->setPaddingString("+");
         $formattedText = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
-        }, true, "+", PHP_EOL);
+        });
         $this->assertEquals("a++-b++" . PHP_EOL . "cd+-ee+" . PHP_EOL . "fg+-hhh" . PHP_EOL . "ijk-ll+", $formattedText);
     }
 
@@ -84,10 +87,11 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             " fg ",
             "ijk"
         ];
+        $this->formatter->setPaddingString("+");
         $formattedText = $this->formatter->format($lines, function($line)
         {
             return $line;
-        }, true, "+", PHP_EOL);
+        });
         $this->assertEquals("a++" . PHP_EOL . "cd+" . PHP_EOL . "fg+" . PHP_EOL . "ijk", $formattedText);
     }
 
@@ -107,6 +111,15 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             ["foo", "bar", ""],
             ["foo", "bar", "baz"]
         ], $lines);
+    }
+
+    /**
+     * Tests getting the EOL char
+     */
+    public function testGettingEOLChar()
+    {
+        $this->formatter->setEOLChar("foo");
+        $this->assertEquals("foo", $this->formatter->getEOLChar());
     }
 
     /**
@@ -135,16 +148,18 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             ["ijk", " ll"]
         ];
         // Format with the padding after the string
+        $this->formatter->setPadAfter(true);
         $formattedLines = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
-        }, true);
+        });
         $this->assertEquals("a  -b  " . PHP_EOL . "cd -ee " . PHP_EOL . "fg -hhh" . PHP_EOL . "ijk-ll ", $formattedLines);
         // Format with the padding before the string
+        $this->formatter->setPadAfter(false);
         $formattedLines = $this->formatter->format($lines, function($line)
         {
             return $line[0] . "-" . $line[1];
-        }, false);
+        });
         $this->assertEquals("  a-  b" . PHP_EOL . " cd- ee" . PHP_EOL . " fg-hhh" . PHP_EOL . "ijk- ll", $formattedLines);
     }
 
@@ -193,16 +208,18 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             "ijk"
         ];
         // Format with the padding after the string
+        $this->formatter->setPadAfter(true);
         $formattedLines = $this->formatter->format($lines, function($line)
         {
             return $line;
-        }, true);
+        });
         $this->assertEquals("a  " . PHP_EOL . "cd " . PHP_EOL . "fg " . PHP_EOL . "ijk", $formattedLines);
         // Format with the padding before the string
+        $this->formatter->setPadAfter(false);
         $formattedLines = $this->formatter->format($lines, function($line)
         {
             return $line;
-        }, false);
+        });
         $this->assertEquals("  a" . PHP_EOL . " cd" . PHP_EOL . " fg" . PHP_EOL . "ijk", $formattedLines);
     }
 }

@@ -8,6 +8,13 @@ namespace RDev\Console\Responses\Formatters;
 
 class Padding
 {
+    /** @var bool Whether or not to pad after the string */
+    private $padAfter = true;
+    /** @var string The padding string */
+    private $paddingString = " ";
+    /** @var string The end-of-line character */
+    private $eolChar = PHP_EOL;
+
     /**
      * Equalizes the length of each line in an array
      *
@@ -43,34 +50,39 @@ class Padding
      *      A string of items to pad,
      *      An array with two entries:  the string to pad and the text that comes after it
      * @param callable $callback The callback that returns a formatted single line of text
-     * @param bool $padAfter True if we are going to add padding after the string, otherwise we'll add it before
-     * @param string $paddingString The string to pad with
-     * @param string $eolChar The string to insert in between each line
      * @return array A list of formatted lines
      * @throws \InvalidArgumentException Thrown if the input lines are not of the correct format
      */
-    public function format(array $lines, callable $callback, $padAfter = true, $paddingString = " ", $eolChar = PHP_EOL)
+    public function format(array $lines, callable $callback)
     {
         if(count($lines) > 0 && is_array($lines[0]))
         {
-            $formattedLines = $this->formatLineArrays($lines, $padAfter, $paddingString);
+            $formattedLines = $this->formatLineArrays($lines, $this->padAfter, $this->paddingString);
         }
         else
         {
-            $formattedLines = $this->formatLineStrings($lines, $padAfter, $paddingString);
+            $formattedLines = $this->formatLineStrings($lines, $this->padAfter, $this->paddingString);
         }
 
         $formattedText = "";
 
         foreach($formattedLines as $formattedLine)
         {
-            $formattedText .= call_user_func($callback, $formattedLine) . $eolChar;
+            $formattedText .= call_user_func($callback, $formattedLine) . $this->eolChar;
         }
 
         // Trim the excess separator
-        $formattedText = preg_replace("/" . preg_quote($eolChar, "/") . "$/", "", $formattedText);
+        $formattedText = preg_replace("/" . preg_quote($this->eolChar, "/") . "$/", "", $formattedText);
 
         return $formattedText;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEOLChar()
+    {
+        return $this->eolChar;
     }
 
     /**
@@ -95,6 +107,30 @@ class Padding
         }
 
         return $maxLengths;
+    }
+
+    /**
+     * @param string $eolChar
+     */
+    public function setEOLChar($eolChar)
+    {
+        $this->eolChar = $eolChar;
+    }
+
+    /**
+     * @param boolean $padAfter
+     */
+    public function setPadAfter($padAfter)
+    {
+        $this->padAfter = $padAfter;
+    }
+
+    /**
+     * @param string $paddingString
+     */
+    public function setPaddingString($paddingString)
+    {
+        $this->paddingString = $paddingString;
     }
 
     /**

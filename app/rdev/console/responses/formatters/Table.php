@@ -10,10 +10,14 @@ class Table
 {
     /** @var Padding The padding formatter */
     private $padding = null;
-    /** @var array The list of headers */
-    private $headers = [];
-    /** @var array The list of rows */
-    private $rows = [];
+    /** @var string The padding string */
+    private $cellPaddingString = " ";
+    /** @var string The character to use for vertical borders */
+    private $verticalBorderChar = "|";
+    /** @var string The character to use for horizontal borders */
+    private $horizontalBorderChar = "-";
+    /** @var string The character to use for row/column intersections */
+    private $intersectionChar = "+";
 
     /**
      * @param Padding $padding The padding formatter
@@ -24,72 +28,52 @@ class Table
     }
 
     /**
-     * Adds a header
-     *
-     * @param string $header The header to add
-     */
-    public function addHeader($header)
-    {
-        $this->headers[] = $header;
-    }
-
-    /**
-     * Adds a row
-     *
-     * @param array $row The row to add
-     */
-    public function addRow(array $row)
-    {
-        $this->rows[] = $row;
-    }
-
-    /**
      * Formats the table into a string
      *
-     * @param bool $padAfter True if we are going to add padding after the string, otherwise we'll add it before
-     * @param string $paddingString The string to pad with
-     * @param string $eolChar The string to insert in between each line
-     * @param string $verticalBorder The character to use for vertical borders
-     * @param string $horizontalBorder The character to use for horizontal borders
-     * @param string $intersection The character to use for row/column intersections
+     * @param array $rows The list of rows
+     * @param array $headers The list of headers
      * @return string The formatted table
      */
-    public function format(
-        $padAfter = true,
-        $paddingString = " ",
-        $eolChar = PHP_EOL,
-        $verticalBorder = "|",
-        $horizontalBorder = "-",
-        $intersection = "+"
-    )
+    public function format(array $rows, array $headers = [])
     {
-        if(count($this->rows) == 0)
+        if(count($rows) == 0)
         {
             return "";
         }
 
-        // If there are headers, we want them to be formatted along with the rows
-        $lines = count($this->headers) == 0 ? $this->rows : array_merge([$this->headers], $this->rows);
-        $maxLengths = $this->padding->getMaxLengths($lines);
-        $rowText = explode($eolChar, $this->padding->format($lines, function($line) use ($paddingString, $verticalBorder)
+        foreach($rows as &$row)
         {
-            $innerText = implode($paddingString . $verticalBorder . $paddingString, $line);
+            $row = (array)$row;
+        }
 
-            return $verticalBorder . $paddingString . $innerText . $paddingString . $verticalBorder;
-        }, $padAfter, " ", $eolChar));
+        // If there are headers, we want them to be formatted along with the rows
+        $lines = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
+        $maxLengths = $this->padding->getMaxLengths($lines);
+        $eolChar = $this->padding->getEOLChar();
+        $rowText = explode($eolChar, $this->padding->format($lines, function($line)
+        {
+            return sprintf(
+                "%s%s%s%s%s",
+                $this->verticalBorderChar,
+                $this->cellPaddingString,
+                implode($this->cellPaddingString . $this->verticalBorderChar . $this->cellPaddingString, $line),
+                $this->cellPaddingString,
+                $this->verticalBorderChar
+            );
+        }));
 
         // Create the borders
         $borders = [];
 
         foreach($maxLengths as $maxLength)
         {
-            $borders[] = str_repeat($horizontalBorder, $maxLength + 2);
+            $borders[] = str_repeat($this->horizontalBorderChar, $maxLength + 2);
         }
 
-        $borderText = $intersection . implode($intersection, $borders) .$intersection;
+        $borderText = $this->intersectionChar . implode($this->intersectionChar, $borders) .$this->intersectionChar;
         $headerText = "";
 
-        if(count($this->headers) > 0)
+        if(count($headers) > 0)
         {
             $headerText .= array_shift($rowText) . $eolChar;
             $headerText .= $borderText . $eolChar;
@@ -99,39 +83,50 @@ class Table
     }
 
     /**
-     * @return array
+     * @param string $cellPaddingString
      */
-    public function getHeaders()
+    public function setCellPaddingString($cellPaddingString)
     {
-        return $this->headers;
+        $this->cellPaddingString = $cellPaddingString;
     }
 
     /**
-     * @return array
+     * @param string $eolChar
      */
-    public function getRows()
+    public function setEOLChar($eolChar)
     {
-        return $this->rows;
+        $this->padding->setEOLChar($eolChar);
     }
 
     /**
-     * @param array $headers
+     * @param string $horizontalBorderChar
      */
-    public function setHeaders(array $headers)
+    public function setHorizontalBorderChar($horizontalBorderChar)
     {
-        $this->headers = $headers;
+        $this->horizontalBorderChar = $horizontalBorderChar;
     }
 
     /**
-     * @param array $rows
+     * @param string $intersectionChar
      */
-    public function setRows(array $rows)
+    public function setIntersectionChar($intersectionChar)
     {
-        foreach($rows as &$row)
-        {
-            $row = (array)$row;
-        }
+        $this->intersectionChar = $intersectionChar;
+    }
 
-        $this->rows = $rows;
+    /**
+     * @param boolean $padAfter
+     */
+    public function setPadAfter($padAfter)
+    {
+        $this->padding->setPadAfter($padAfter);
+    }
+
+    /**
+     * @param string $verticalBorderChar
+     */
+    public function setVerticalBorderChar($verticalBorderChar)
+    {
+        $this->verticalBorderChar = $verticalBorderChar;
     }
 }
