@@ -48,7 +48,7 @@ class Table
 
         // If there are headers, we want them to be formatted along with the rows
         $headersAndRows = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
-        $maxLengths = $this->padding->equalizeColumns($headersAndRows);
+        $maxLengths = $this->padding->normalizeColumns($headersAndRows);
         $eolChar = $this->padding->getEOLChar();
         $rowText = explode($eolChar, $this->padding->format($headersAndRows, function($row)
         {
@@ -70,7 +70,7 @@ class Table
             $borders[] = str_repeat($this->horizontalBorderChar, $maxLength + 2 * mb_strlen($this->cellPaddingString));
         }
 
-        $borderText = $this->intersectionChar . implode($this->intersectionChar, $borders) .$this->intersectionChar;
+        $borderText = $this->intersectionChar . implode($this->intersectionChar, $borders) . $this->intersectionChar;
         $headerText = count($headers) > 0 ? array_shift($rowText) . $eolChar . $borderText . $eolChar : "";
 
         return $borderText . $eolChar . $headerText . implode($eolChar, $rowText) . $eolChar . $borderText;

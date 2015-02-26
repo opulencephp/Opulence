@@ -96,9 +96,18 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests equalizing the columns
+     * Tests getting the EOL char
      */
-    public function testEqualizingColumns()
+    public function testGettingEOLChar()
+    {
+        $this->formatter->setEOLChar("foo");
+        $this->assertEquals("foo", $this->formatter->getEOLChar());
+    }
+
+    /**
+     * Tests normalizing the columns
+     */
+    public function testNormalizingColumns()
     {
         $rows = [
             ["a"],
@@ -112,17 +121,8 @@ class PaddingTest extends \PHPUnit_Framework_TestCase
             ["aaa", "bbb", "ccc", ""],
             ["aaa", "bbb", "ccc", "ddddd"]
         ];
-        $this->assertEquals([3, 4, 3, 5], $this->formatter->equalizeColumns($rows));
+        $this->assertEquals([3, 4, 3, 5], $this->formatter->normalizeColumns($rows));
         $this->assertEquals($expected, $rows);
-    }
-
-    /**
-     * Tests getting the EOL char
-     */
-    public function testGettingEOLChar()
-    {
-        $this->formatter->setEOLChar("foo");
-        $this->assertEquals("foo", $this->formatter->getEOLChar());
     }
 
     /**

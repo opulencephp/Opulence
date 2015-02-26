@@ -16,43 +16,6 @@ class Padding
     private $eolChar = PHP_EOL;
 
     /**
-     * Equalizes the number of columns in each row
-     *
-     * @param array $rows The rows to equalize
-     * @return array The max length of each column
-     */
-    public function equalizeColumns(array &$rows)
-    {
-        $maxNumColumns = 0;
-
-        // Find the max number of columns that appear in any given row
-        foreach($rows as $row)
-        {
-            $maxNumColumns = max($maxNumColumns, count($row));
-        }
-
-        $maxLengths = array_pad([], $maxNumColumns, 0);
-
-        // Equalize the number of columns in each row
-        foreach($rows as &$row)
-        {
-            $row = array_pad($row, $maxNumColumns, "");
-        }
-
-        // Get the length of the longest value in each column
-        foreach($rows as &$row)
-        {
-            foreach($row as $column => &$value)
-            {
-                $value = trim($value);
-                $maxLengths[$column] = max($maxLengths[$column], mb_strlen($value));
-            }
-        }
-
-        return $maxLengths;
-    }
-
-    /**
      * Formats rows of text so that each column is the same width
      *
      * @param array $rows The rows to pad
@@ -66,7 +29,7 @@ class Padding
             $row = (array)$row;
         }
 
-        $maxLengths = $this->equalizeColumns($rows);
+        $maxLengths = $this->normalizeColumns($rows);
         $paddingType = $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
 
         // Format the rows
@@ -97,6 +60,43 @@ class Padding
     public function getEOLChar()
     {
         return $this->eolChar;
+    }
+
+    /**
+     * Normalizes the number of columns in each row
+     *
+     * @param array $rows The rows to equalize
+     * @return array The max length of each column
+     */
+    public function normalizeColumns(array &$rows)
+    {
+        $maxNumColumns = 0;
+
+        // Find the max number of columns that appear in any given row
+        foreach($rows as $row)
+        {
+            $maxNumColumns = max($maxNumColumns, count($row));
+        }
+
+        $maxLengths = array_pad([], $maxNumColumns, 0);
+
+        // Normalize the number of columns in each row
+        foreach($rows as &$row)
+        {
+            $row = array_pad($row, $maxNumColumns, "");
+        }
+
+        // Get the length of the longest value in each column
+        foreach($rows as &$row)
+        {
+            foreach($row as $column => &$value)
+            {
+                $value = trim($value);
+                $maxLengths[$column] = max($maxLengths[$column], mb_strlen($value));
+            }
+        }
+
+        return $maxLengths;
     }
 
     /**
