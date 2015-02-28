@@ -20,6 +20,8 @@
   },
   "require": {
     "php": ">=5.5.10",
+    "ext-openssl": "*",
+    "symfony/security-core": "2.6.*",
     "rdev/orm": "0.3.*"
   },
   "extra": {

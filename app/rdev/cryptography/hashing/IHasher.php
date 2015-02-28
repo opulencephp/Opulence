@@ -4,18 +4,10 @@
  *
  * Defines a cryptographic hasher
  */
-namespace RDev\Cryptography;
+namespace RDev\Cryptography\Hashing;
 
 interface IHasher
 {
-    /**
-     * Creates a cryptographically-strong random string
-     *
-     * @param int $length The desired length of the string
-     * @return string The random string
-     */
-    public static function generateRandomString($length);
-
     /**
      * Verifies that an unhashed value matches the hashed value
      *

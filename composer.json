@@ -29,7 +29,11 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "monolog/monolog": "1.12.*@dev"
+    "ext-openssl": "*",
+    "ext-mcrypt": "*",
+    "ext-mbstring": "*",
+    "monolog/monolog": "1.12.*@dev",
+    "symfony/security-core": "2.6.*"
   },
   "require-dev": {
     "phpredis": "2.2.7",

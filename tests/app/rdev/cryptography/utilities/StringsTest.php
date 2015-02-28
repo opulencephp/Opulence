@@ -1,20 +1,31 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- *
- * Tests the hasher class
+ * 
+ * Tests the strings utility
  */
-namespace RDev\Cryptography;
+namespace RDev\Cryptography\Utilities;
 
-class HasherTest extends \PHPUnit_Framework_TestCase
+class StringsTest extends \PHPUnit_Framework_TestCase
 {
+    /** @var Strings The string utility to use in tests */
+    private $strings = null;
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->strings = new Strings();
+    }
+
     /**
      * Tests creating an even-length token and checking its length
      */
     public function testEvenTokenLength()
     {
         $tokenLength = 64;
-        $randomString = Hasher::generateRandomString($tokenLength);
+        $randomString = $this->strings->generateRandomString($tokenLength);
         $this->assertEquals($tokenLength, strlen($randomString));
     }
 
@@ -24,7 +35,7 @@ class HasherTest extends \PHPUnit_Framework_TestCase
     public function testOddTokenLength()
     {
         $tokenLength = 63;
-        $randomString = Hasher::generateRandomString($tokenLength);
+        $randomString = $this->strings->generateRandomString($tokenLength);
         $this->assertEquals($tokenLength, strlen($randomString));
     }
-} 
+}

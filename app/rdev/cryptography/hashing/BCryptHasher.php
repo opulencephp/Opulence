@@ -4,7 +4,7 @@
  *
  * Defines the BCrypt cryptographic hasher
  */
-namespace RDev\Cryptography;
+namespace RDev\Cryptography\Hashing;
 
 class BCryptHasher extends Hasher
 {

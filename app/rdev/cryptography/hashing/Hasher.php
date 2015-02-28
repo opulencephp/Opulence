@@ -4,33 +4,23 @@
  *
  * Defines a base cryptographic hasher
  */
-namespace RDev\Cryptography;
+namespace RDev\Cryptography\Hashing;
+use RDev\Cryptography\Utilities;
 
 abstract class Hasher implements IHasher
 {
     /** @var int The hash algorithm constant used by this hasher */
     protected $hashAlgorithm = -1;
-
-    public function __construct()
-    {
-        $this->setHashAlgorithm();
-    }
+    /** @var Utilities\Strings The string utility */
+    private $strings = null;
 
     /**
-     * {@inheritdoc}
+     * @param Utilities\Strings $strings The string utility
      */
-    public static function generateRandomString($length)
+    public function __construct(Utilities\Strings $strings)
     {
-        // N bytes becomes 2N characters in bin2hex(), hence the division by 2
-        $string = bin2hex(openssl_random_pseudo_bytes(ceil($length / 2)));
-
-        if($length % 2 == 1)
-        {
-            // Slice off one character to make it the appropriate odd length
-            $string = mb_substr($string, 1);
-        }
-
-        return $string;
+        $this->setHashAlgorithm();
+        $this->strings = $strings;
     }
 
     /**
