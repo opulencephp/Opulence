@@ -17,7 +17,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->encrypter = new Encrypter("foo", new Utilities\Strings());
+        $this->encrypter = new Encrypter("abcdefghijklmnoq", new Utilities\Strings());
     }
 
     /**
