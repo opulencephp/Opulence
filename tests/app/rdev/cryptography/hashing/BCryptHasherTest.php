@@ -2,14 +2,14 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Tests the BCrypt hasher
+ * Tests the Bcrypt hasher
  */
 namespace RDev\Cryptography\Hashing;
 use RDev\Cryptography\Utilities;
 
-class BCryptHasherTest extends \PHPUnit_Framework_TestCase
+class BcryptHasherTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var BCryptHasher The hasher to use in the tests */
+    /** @var BcryptHasher The hasher to use in the tests */
     private $hasher = null;
 
     /**
@@ -17,7 +17,7 @@ class BCryptHasherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->hasher = new BCryptHasher(new Utilities\Strings());
+        $this->hasher = new BcryptHasher(new Utilities\Strings());
     }
 
     /**
@@ -25,7 +25,7 @@ class BCryptHasherTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDefaultCost()
     {
-        $this->assertEquals(10, BCryptHasher::DEFAULT_COST);
+        $this->assertEquals(10, BcryptHasher::DEFAULT_COST);
     }
 
     /**
@@ -52,7 +52,7 @@ class BCryptHasherTest extends \PHPUnit_Framework_TestCase
     public function testVerifyingCorrectHash()
     {
         $hashedValue = $this->hasher->generate("foo", ["cost" => 4]);
-        $this->assertTrue(BCryptHasher::verify($hashedValue, "foo"));
+        $this->assertTrue(BcryptHasher::verify($hashedValue, "foo"));
     }
 
     /**
@@ -61,7 +61,7 @@ class BCryptHasherTest extends \PHPUnit_Framework_TestCase
     public function testVerifyingCorrectHashWithPepper()
     {
         $hashedValue = $this->hasher->generate("foo", ["cost" => 4], "pepper");
-        $this->assertTrue(BCryptHasher::verify($hashedValue, "foo", "pepper"));
+        $this->assertTrue(BcryptHasher::verify($hashedValue, "foo", "pepper"));
     }
 
     /**
@@ -70,7 +70,7 @@ class BCryptHasherTest extends \PHPUnit_Framework_TestCase
     public function testVerifyingIncorrectHash()
     {
         $hashedValue = $this->hasher->generate("foo", ["cost" => 4]);
-        $this->assertFalse(BCryptHasher::verify($hashedValue, "bar"));
+        $this->assertFalse(BcryptHasher::verify($hashedValue, "bar"));
     }
 
     /**
@@ -79,6 +79,6 @@ class BCryptHasherTest extends \PHPUnit_Framework_TestCase
     public function testVerifyingIncorrectHashWithPepper()
     {
         $hashedValue = $this->hasher->generate("foo", ["cost" => 4], "pepper");
-        $this->assertFalse(BCryptHasher::verify($hashedValue, "bar"));
+        $this->assertFalse(BcryptHasher::verify($hashedValue, "bar"));
     }
 } 

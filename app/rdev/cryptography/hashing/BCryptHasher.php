@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the BCrypt cryptographic hasher
+ * Defines the Bcrypt cryptographic hasher
  */
 namespace RDev\Cryptography\Hashing;
 
-class BCryptHasher extends Hasher
+class BcryptHasher extends Hasher
 {
     /** The default cost used by this hasher */
     const DEFAULT_COST = 10;
