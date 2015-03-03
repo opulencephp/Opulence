@@ -18,32 +18,32 @@ class Cryptography extends Bootstrappers\Bootstrapper
      */
     public function registerBindings(IoC\IContainer $container)
     {
-        $stringUtility = $this->getStringUtility();
-        $container->bind("RDev\\Cryptography\\Encryption\\Encrypter", $this->getEncrypter($stringUtility));
-        $container->bind("RDev\\Cryptography\\Hashing\\IHasher", $this->getHasher($stringUtility));
-        $container->bind("RDev\\Cryptography\\Utilities\\Strings", $stringUtility);
+        $strings = $this->getStringUtility();
+        $container->bind("RDev\\Cryptography\\Encryption\\IEncrypter", $this->getEncrypter($strings));
+        $container->bind("RDev\\Cryptography\\Hashing\\IHasher", $this->getHasher($strings));
+        $container->bind("RDev\\Cryptography\\Utilities\\Strings", $strings);
     }
 
     /**
      * Gets the encrypter to use
      *
-     * @param Utilities\Strings $stringUtility The string utility
+     * @param Utilities\Strings $strings The string utility
      * @return Encryption\Encrypter The encrypter
      */
-    protected function getEncrypter(Utilities\Strings $stringUtility)
+    protected function getEncrypter(Utilities\Strings $strings)
     {
-        return new Encryption\Encrypter($this->environment->getVariable("ENCRYPTION_KEY"), $stringUtility);
+        return new Encryption\Encrypter($this->environment->getVariable("ENCRYPTION_KEY"), $strings);
     }
 
     /**
      * Gets the hasher to use
      *
-     * @param Utilities\Strings $stringUtility The string utility
+     * @param Utilities\Strings $strings The string utility
      * @return Hashing\IHasher The hasher to use
      */
-    protected function getHasher(Utilities\Strings $stringUtility)
+    protected function getHasher(Utilities\Strings $strings)
     {
-        return new Hashing\BcryptHasher($stringUtility);
+        return new Hashing\BcryptHasher($strings);
     }
 
     /**

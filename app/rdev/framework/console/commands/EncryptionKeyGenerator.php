@@ -14,19 +14,19 @@ use RDev\Console\Responses;
 class EncryptionKeyGenerator extends Commands\Command
 {
     /** @var Utilities\Strings The string utility */
-    private $stringUtility = null;
+    private $strings = null;
     /** @var Applications\Paths The application paths */
     private $paths = null;
 
     /**
-     * @param Utilities\Strings $stringUtility The string utility
+     * @param Utilities\Strings $strings The string utility
      * @param Applications\Paths $paths The application paths
      */
-    public function __construct(Utilities\Strings $stringUtility, Applications\Paths $paths)
+    public function __construct(Utilities\Strings $strings, Applications\Paths $paths)
     {
         parent::__construct();
 
-        $this->stringUtility = $stringUtility;
+        $this->strings = $strings;
         $this->paths = $paths;
     }
 
@@ -50,7 +50,7 @@ class EncryptionKeyGenerator extends Commands\Command
      */
     protected function doExecute(Responses\IResponse $response)
     {
-        $key = $this->stringUtility->generateRandomString(32);
+        $key = $this->strings->generateRandomString(32);
         $environmentConfigPath = $this->paths["configs"] . "/environment/.env.app.php";
 
         if(!$this->optionIsSet("show") && file_exists($environmentConfigPath))
