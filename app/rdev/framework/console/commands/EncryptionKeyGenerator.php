@@ -56,7 +56,7 @@ class EncryptionKeyGenerator extends Commands\Command
         if(!$this->optionIsSet("show") && file_exists($environmentConfigPath))
         {
             $contents = file_get_contents($environmentConfigPath);
-            $newContents = preg_replace("/(\"ENCRYPTION_KEY\",\s*\")[^\"]*(\")/U", "$1$key$2", $contents);
+            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"', $contents);
             file_put_contents($environmentConfigPath, $newContents);
         }
 
