@@ -45,6 +45,15 @@ class ArgvTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests parsing option with no value
+     */
+    public function testParsingOptionWithNoValue()
+    {
+        $request = $this->parser->parse(["rdev", "foo", "--name"]);
+        $this->assertNull($request->getOptionValue("name"));
+    }
+
+    /**
      * Tests passing in an invalid input type
      */
     public function testPassingInvalidInputType()

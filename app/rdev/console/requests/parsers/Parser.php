@@ -41,13 +41,13 @@ abstract class Parser implements IParser
         if(mb_strpos($option, "=") === false)
         {
             /**
-             * The option is either of the form "--foo bar" or "--foo -b" or "--foo --bar"
+             * The option is either of the form "--foo" or "--foo bar" or "--foo -b" or "--foo --bar"
              * So, we need to determine if the option has a value
              */
             $nextToken = array_shift($remainingTokens);
 
             // Check if the next token is also an option
-            if(mb_substr($nextToken, 0, 1) == "-")
+            if(mb_substr($nextToken, 0, 1) == "-" || empty($nextToken))
             {
                 // The option must have not had a value, so put the next token back
                 array_unshift($remainingTokens, $nextToken);

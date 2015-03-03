@@ -16,6 +16,7 @@ class Commands extends Bootstrappers\Bootstrapper
     private static $commandClasses = [
         "RDev\\Framework\\Console\\Commands\\AppEnvironment",
         "RDev\\Framework\\Console\\Commands\\ComposerUpdate",
+        "RDev\\Framework\\Console\\Commands\\EncryptionKeyGenerator",
         "RDev\\Framework\\Console\\Commands\\FlushViewCache",
         "RDev\\Framework\\Console\\Commands\\MakeCommand",
         "RDev\\Framework\\Console\\Commands\\MakeController",
