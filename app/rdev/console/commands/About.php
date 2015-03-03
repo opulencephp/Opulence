@@ -72,6 +72,7 @@ EOF;
 
         /**
          * Sorts the commands by name
+         * Uncategorized (commands without ":" in their names) always come first
          *
          * @param ICommand $a
          * @param ICommand $b
@@ -79,35 +80,64 @@ EOF;
          */
         $sort = function($a, $b)
         {
-            return $a->getName() < $b->getName() ? -1 : 1;
+            if(strpos($a->getName(), ":") === false)
+            {
+                if(strpos($b->getName(), ":") === false)
+                {
+                    // They're both uncategorized
+                    return $a->getName() < $b->getName() ? -1 : 1;
+                }
+                else
+                {
+                    // B is categorized
+                    return -1;
+                }
+            }
+            else
+            {
+                if(strpos($b->getName(), ":") === false)
+                {
+                    // A is categorized
+                    return 1;
+                }
+                else
+                {
+                    // They're both categorized
+                    return $a->getName() < $b->getName() ? -1 : 1;
+                }
+            }
         };
 
         $commands = $this->commands->getAll();
         usort($commands, $sort);
+        $categorizedCommandNames = [];
         $commandTexts = [];
         $firstCommandNamesToCategories = [];
 
-        // Figure out the longest command name
         foreach($commands as $command)
         {
             $commandNameParts = explode(":", $command->getName());
 
-            // If this command belongs to a category
             if(count($commandNameParts) > 1 && !in_array($commandNameParts[0], $firstCommandNamesToCategories))
             {
-                $firstCommandNamesToCategories[$command->getName()] = $commandNameParts[0];
+                $categorizedCommandNames[] = $command->getName();
+
+                // If this is the first command for this category
+                if(!in_array($commandNameParts[0], $firstCommandNamesToCategories))
+                {
+                    $firstCommandNamesToCategories[$command->getName()] = $commandNameParts[0];
+                }
             }
 
             $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
-        return $this->paddingFormatter->format($commandTexts, function($row) use ($firstCommandNamesToCategories)
+        return $this->paddingFormatter->format($commandTexts, function($row) use ($categorizedCommandNames, $firstCommandNamesToCategories)
         {
             $output = "";
-            $commandNameParts = explode(":", $row[0]);
 
             // If this is the first command of its category, display the category
-            if(count($commandNameParts) > 1 && isset($firstCommandNamesToCategories[trim($row[0])]))
+            if(in_array(trim($row[0]), $categorizedCommandNames) && isset($firstCommandNamesToCategories[trim($row[0])]))
             {
                 $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>" . PHP_EOL;
             }
