@@ -221,7 +221,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringInvalidBootstrapper()
     {
-        $this->application->registerBootstrappers([get_class($this)]);
+        $bootstrapperName = "RDev\\Tests\\Applications\\Bootstrappers\\Mocks\\InvalidBootstrapper";
+        $this->application->registerBootstrappers([$bootstrapperName]);
         $this->application->start();
         $this->assertFalse($this->application->isRunning());
     }
