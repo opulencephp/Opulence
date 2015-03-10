@@ -307,6 +307,7 @@ class Application
         $this->registerPreStartTask(function ()
         {
             $bootstrapperObjects = [];
+            error_log(print_r($this->bootstrapperClasses, true));
 
             foreach($this->bootstrapperClasses as $bootstrapperClass)
             {
