@@ -100,7 +100,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertingResponseHasStatusCode()
     {
         $this->httpApplication->route("GET", "/badgateway");
-        $this->httpApplication->assertResponseStatusCode(Responses\ResponseHeaders::HTTP_BAD_GATEWAY);
+        $this->httpApplication->assertResponseStatusCodeEquals(Responses\ResponseHeaders::HTTP_BAD_GATEWAY);
     }
 
     /**
@@ -109,7 +109,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertingResponseIsInternalServerError()
     {
         $this->httpApplication->route("GET", "/ise");
-        $this->httpApplication->assertResponseInternalServerError();
+        $this->httpApplication->assertResponseIsInternalServerError();
     }
 
     /**
@@ -118,7 +118,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertingResponseIsNotFound()
     {
         $this->httpApplication->route("GET", "/notfound");
-        $this->httpApplication->assertResponseNotFound();
+        $this->httpApplication->assertResponseIsNotFound();
     }
 
     /**
@@ -127,7 +127,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertingResponseIsOK()
     {
         $this->httpApplication->route("GET", "/ok");
-        $this->httpApplication->assertResponseOK();
+        $this->httpApplication->assertResponseIsOK();
     }
 
     /**
@@ -136,7 +136,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertingResponseIsUnauthorized()
     {
         $this->httpApplication->route("GET", "/unauthorized");
-        $this->httpApplication->assertResponseUnauthorized();
+        $this->httpApplication->assertResponseIsUnauthorized();
     }
 
     /**

@@ -124,7 +124,7 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is an internal server error
      */
-    public function assertResponseInternalServerError()
+    public function assertResponseIsInternalServerError()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $this->response->getStatusCode());
@@ -133,7 +133,7 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is not found
      */
-    public function assertResponseNotFound()
+    public function assertResponseIsNotFound()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $this->response->getStatusCode());
@@ -142,18 +142,18 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is OK
      */
-    public function assertResponseOK()
+    public function assertResponseIsOK()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(Responses\ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
     }
 
     /**
-     * Asserts that the response is OK
+     * Asserts that the response status code equals a particular value
      *
      * @param int $statusCode The expected status code
      */
-    public function assertResponseStatusCode($statusCode)
+    public function assertResponseStatusCodeEquals($statusCode)
     {
         $this->checkResponseIsSet();
         $this->assertEquals($statusCode, $this->response->getStatusCode());
@@ -162,7 +162,7 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is unauthorized
      */
-    public function assertResponseUnauthorized()
+    public function assertResponseIsUnauthorized()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(Responses\ResponseHeaders::HTTP_UNAUTHORIZED, $this->response->getStatusCode());
@@ -251,12 +251,12 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
         if($request === null)
         {
             $request = $this->defaultRequest;
-            $parsedURL = parse_url($url);
-            $request->setPath($parsedURL["path"]);
-            $request->setMethod(strtoupper($method));
-            $request->getHeaders()->set("HOST", isset($parsedURL["host"]) ? $parsedURL["host"] : "");
         }
 
+        $parsedURL = parse_url($url);
+        $request->setPath($parsedURL["path"]);
+        $request->setMethod(strtoupper($method));
+        $request->getHeaders()->set("HOST", isset($parsedURL["host"]) ? $parsedURL["host"] : "");
         $this->response = $this->router->route($request);
 
         return $this->response;
