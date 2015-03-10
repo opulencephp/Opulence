@@ -25,8 +25,6 @@ class HTTPApplicationTestCase extends Tests\HTTPApplicationTestCase
 
     public function __construct()
     {
-        parent::__construct();
-
         $this->setUp();
     }
 
