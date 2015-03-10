@@ -20,6 +20,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->httpApplication = new Mocks\HTTPApplicationTestCase();
+        $this->httpApplication->setUp();
         $router = $this->httpApplication->getRouter();
         $router->group(["controllerNamespace" => "RDev\\Tests\\HTTP\\Routing\\Mocks"], function() use ($router)
         {

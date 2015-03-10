@@ -26,16 +26,6 @@ class HTTPApplicationTestCase extends Tests\HTTPApplicationTestCase
     /**
      * {@inheritdoc}
      */
-    public function __construct($name = null, array $data = [], $dataName = "")
-    {
-        parent::__construct($name, $data, $dataName);
-
-        $this->setUp();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     protected function setApplication()
     {
         // Create and bind all of the components of our application
