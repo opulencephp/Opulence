@@ -116,8 +116,6 @@ class Container implements IContainer
     {
         try
         {
-            if(isset($this->universalBindings[$component])){error_log("BINDING:" .var_export($this->universalBindings[$component], true));}
-            error_log(var_export($this->universalBindings, true));
             $concreteClass = $this->getConcreteClass($component);
 
             // If we're creating a shared instance, check to see if we've already instantiated it

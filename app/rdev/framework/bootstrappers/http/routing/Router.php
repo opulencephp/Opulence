@@ -23,14 +23,23 @@ class Router extends Bootstrappers\Bootstrapper
      */
     public function registerBindings(IoC\IContainer $container)
     {
+        error_log(1);
         $dispatcher = $this->getRouteDispatcher($container);
+        error_log(2);
         $this->parser = $this->getRouteParser($container);
+        error_log(3);
         $compiler = $this->getRouteCompiler($container);
+        error_log(4);
         $router = new Routing\Router($dispatcher, $compiler);
+        error_log(5);
         $urlGenerator = new URL\URLGenerator($router->getRoutes(), $this->parser);
+        error_log(6);
         $container->bind("RDev\\HTTP\\Routing\\Dispatchers\\IDispatcher", $dispatcher);
+        error_log(7);
         $container->bind("RDev\\HTTP\\Routing\\Compilers\\ICompiler", $compiler);
+        error_log(8);
         $container->bind("RDev\\HTTP\\Routing\\Router", $router);
+        error_log(9);
         $container->bind("RDev\\HTTP\\Routing\\URL\\URLGenerator", $urlGenerator);
     }
 
