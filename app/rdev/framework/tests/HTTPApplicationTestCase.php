@@ -278,7 +278,7 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
         catch(\Exception $ex)
         {
             error_log($ex);
-            error_log($ex->getTraceAsString());
+            error_log(var_export($this->application->getIoCContainer(), true));
         }
     }
 
