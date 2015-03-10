@@ -1,15 +1,15 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- * 
- * Defines the Composer update command
+ *
+ * Defines the Composer dump autoload command
  */
 namespace RDev\Framework\Console\Commands;
 use RDev\Console\Commands;
 use RDev\Console\Responses;
 use RDev\Framework\Composer;
 
-class ComposerUpdate extends Commands\Command
+class ComposerDumpAutoload extends Commands\Command
 {
     /** @var Composer\Executable The executable wrapper */
     private $executable = null;
@@ -29,8 +29,8 @@ class ComposerUpdate extends Commands\Command
      */
     protected function define()
     {
-        $this->setName("composer:update")
-            ->setDescription("Updates any Composer dependencies");
+        $this->setName("composer:dump-autoload")
+            ->setDescription("Dumps the Composer autoload");
     }
 
     /**
@@ -38,7 +38,6 @@ class ComposerUpdate extends Commands\Command
      */
     protected function doExecute(Responses\IResponse $response)
     {
-        $response->write($this->executable->update());
-        $this->commands->call("composer:dump-autoload", $response);
+        $response->write($this->executable->dumpAutoload("-o"));
     }
 }

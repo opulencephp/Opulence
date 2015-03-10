@@ -6,6 +6,7 @@
  */
 namespace RDev\Tests\Routing\Dispatchers\Mocks;
 use RDev\HTTP\Requests;
+use RDev\HTTP\Routing;
 use RDev\HTTP\Routing\Dispatchers;
 use RDev\HTTP\Routing\Routes;
 
@@ -17,10 +18,13 @@ class Dispatcher extends Dispatchers\Dispatcher
      *
      * @param Routes\CompiledRoute $route The route to be dispatched
      * @param Requests\Request $request The request made by the user
+     * @param Routing\Controller|null $controller Will be set to the instance of the controller that was matched
      * @return Routes\Route The chosen route
      */
-    public function dispatch(Routes\CompiledRoute $route, Requests\Request $request)
+    public function dispatch(Routes\CompiledRoute $route, Requests\Request $request, Routing\Controller &$controller = null)
     {
+        $controller = new Routing\Controller();
+
         return $route;
     }
 } 

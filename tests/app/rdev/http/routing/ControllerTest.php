@@ -23,6 +23,14 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the template
+     */
+    public function testGettingTemplate()
+    {
+        $this->assertNull($this->controller->getTemplate());
+    }
+
+    /**
      * Tests showing an HTTP error
      */
     public function testShowingHTTPError()

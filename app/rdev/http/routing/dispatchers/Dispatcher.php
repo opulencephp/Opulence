@@ -28,13 +28,13 @@ class Dispatcher implements IDispatcher
     /**
      * {@inheritdoc}
      */
-    public function dispatch(Routes\CompiledRoute $route, Requests\Request $request)
+    public function dispatch(Routes\CompiledRoute $route, Requests\Request $request, Routing\Controller &$controller = null)
     {
         $pipeline = new Pipelines\Pipeline($this->container, $route->getMiddleware(), "handle");
 
         try
         {
-            $response = $pipeline->send($request, function (Requests\Request $request) use ($route)
+            $response = $pipeline->send($request, function (Requests\Request $request) use ($route, &$controller)
             {
                 $controller = $this->createController($route->getControllerName(), $request);
 

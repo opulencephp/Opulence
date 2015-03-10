@@ -51,6 +51,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests automatically detecting the method
+     */
+    public function testAutomaticallyDetectingMethod()
+    {
+        $_SERVER["REQUEST_METHOD"] = "PUT";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("PUT", $request->getMethod());
+    }
+
+    /**
      * Tests the bug with PHP that writes CONTENT_ headers to HTTP_CONTENT_
      */
     public function testBugWithHTTPContentHeaders()
@@ -603,5 +613,23 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
         $request = Mocks\FormURLEncodedRequest::createFromGlobals();
         $this->assertEquals("blahblahblah", $request->getPost()->get("foo"));
+    }
+
+    /**
+     * Tests setting the method
+     */
+    public function testSettingMethod()
+    {
+        $this->request->setMethod("foo");
+        $this->assertEquals("foo", $this->request->getMethod());
+    }
+
+    /**
+     * Tests setting the path
+     */
+    public function testSettingPath()
+    {
+        $this->request->setPath("/foo");
+        $this->assertEquals("/foo", $this->request->getPath());
     }
 } 

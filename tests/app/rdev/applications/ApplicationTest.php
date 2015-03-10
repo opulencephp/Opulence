@@ -23,12 +23,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $logger = new Monolog\Logger("application");
         $logger->pushHandler(new Mocks\MonologHandler());
-        $container = new IoC\Container();
         $this->application = new Application(
             new Paths(["foo" => "bar"]),
             $logger,
             new Environments\Environment("staging"),
-            $container,
+            new IoC\Container(),
             new Sessions\Session()
         );
     }

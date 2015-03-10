@@ -174,6 +174,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the matched controller is null before routing
+     */
+    public function testMatchedControllerIsNullBeforeRouting()
+    {
+        $this->assertNull($this->router->getMatchedController());
+    }
+
+    /**
      * Tests mixing HTTPS on nested groups
      */
     public function testMixingHTTPSOnNestedGroups()
@@ -309,6 +317,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ], [], []);
         $response = $this->router->route($request);
         $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertInstanceOf("RDev\\HTTP\\Routing\\Controller", $this->router->getMatchedController());
         $this->assertNull($this->router->getMatchedRoute());
         $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
         $this->assertEmpty($response->getContent());
@@ -560,6 +569,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $compiledRoute = $this->compiler->compile($routeToHandle, $request);
         $this->assertEquals($compiledRoute, $mockRouter->route($request));
         $this->assertEquals($compiledRoute, $mockRouter->getMatchedRoute());
+        // The mock router does not actually instantiate the input controller
+        // Instead, its dispatcher always sets the controller to the same object every time
+        $this->assertInstanceOf("RDev\\HTTP\\Routing\\Controller", $mockRouter->getMatchedController());
     }
 
     /**

@@ -19,7 +19,6 @@ class Response
     protected $statusCode = ResponseHeaders::HTTP_OK;
     /** @var string The status text of this response */
     protected $statusText = "OK";
-    /** @var string The status text of this response */
     /** @var string The HTTP version of this response */
     protected $httpVersion = "1.1";
 

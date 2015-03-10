@@ -135,6 +135,19 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that controller is set
+     */
+    public function testThatControllerIsSet()
+    {
+        $controller = null;
+        $expectedControllerClass = "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller";
+        $options = ["controller" => "$expectedControllerClass@returnsNothing"];
+        $route = $this->getCompiledRoute(new Routes\Route(["GET"], "/foo", $options));
+        $this->assertEquals(new Responses\Response(), $this->dispatcher->dispatch($route, $this->request, $controller));
+        $this->assertInstanceOf($expectedControllerClass, $controller);
+    }
+
+    /**
      * Tests using a middleware that does not return anything
      */
     public function testUsingMiddlewareThatDoesNotReturnAnything()

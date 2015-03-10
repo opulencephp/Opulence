@@ -42,6 +42,14 @@ class Controller
     }
 
     /**
+     * @return Views\ITemplate
+     */
+    public function getTemplate()
+    {
+        return $this->template;
+    }
+
+    /**
      * @param Requests\Request $request
      */
     public function setRequest(Requests\Request $request)

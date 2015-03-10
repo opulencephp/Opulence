@@ -16,11 +16,11 @@ use RDev\Files;
 class RenameApp extends Commands\Command
 {
     /** @var Files\FileSystem The filesystem to use to write to files */
-    private $fileSystem = null;
+    protected $fileSystem = null;
     /** @var Prompts\Prompt The prompt to confirm things with the user */
-    private $prompt = null;
+    protected $prompt = null;
     /** @var Applications\Paths The paths of the application */
-    private $paths = null;
+    protected $paths = null;
 
     /**
      * @param Files\FileSystem $fileSystem The filesystem to use to write to files
@@ -63,7 +63,7 @@ class RenameApp extends Commands\Command
     {
         $confirmationQuestion = new Questions\Confirmation(
             sprintf(
-                "Are you sure you want to rename \"%s\" to \"%s\"?",
+                "Are you sure you want to rename \"%s\" to \"%s\"? ",
                 $this->getArgumentValue("currName"),
                 $this->getArgumentValue("newName")
             )
@@ -72,44 +72,18 @@ class RenameApp extends Commands\Command
         if($this->prompt->ask($confirmationQuestion, $response))
         {
             $this->updateComposer();
-            $this->updateAppDirectory();
+            $this->updateDirectories();
             $this->updateNamespaces();
             $this->updateConfigs();
             $response->writeln("<success>Updated name successfully</success>");
-            $response->writeln("<comment>Run \"composer dump-autoload -o\" to update the autoloader</comment>");
-        }
-    }
-
-    /**
-     * Updates the app directory
-     */
-    private function updateAppDirectory()
-    {
-        // Move the directory to the new name
-        $this->fileSystem->move(
-            $this->paths["app"] . "/" . mb_strtolower($this->getArgumentValue("currName")),
-            $this->paths["app"] . "/" . mb_strtolower($this->getArgumentValue("newName"))
-        );
-
-        // Rename any references to the new namespace
-        $appFiles = $this->fileSystem->getFiles($this->paths["app"], true);
-
-        foreach($appFiles as $file)
-        {
-            $currentContents = $this->fileSystem->read($file);
-            $updatedContents = str_replace(
-                $this->getArgumentValue("currName") . "\\",
-                $this->getArgumentValue("newName") . "\\",
-                $currentContents
-            );
-            $this->fileSystem->write($file, $updatedContents);
+            $this->commands->call("composer:dump-autoload", $response);
         }
     }
 
     /**
      * Updates the Composer config
      */
-    private function updateComposer()
+    protected function updateComposer()
     {
         $currComposerContents = $this->fileSystem->read($this->paths["root"] . "/composer.json");
         // Change the PSR-4 namespace
@@ -130,7 +104,7 @@ class RenameApp extends Commands\Command
     /**
      * Updates any class names that appear configs
      */
-    private function updateConfigs()
+    protected function updateConfigs()
     {
         $configFiles = $this->fileSystem->getFiles($this->paths["configs"], true);
 
@@ -147,40 +121,72 @@ class RenameApp extends Commands\Command
     }
 
     /**
+     * Updates the app and test directories
+     */
+    protected function updateDirectories()
+    {
+        foreach(["app", "tests"] as $pathToUpdate)
+        {
+            // Move the directory to the new name
+            $this->fileSystem->move(
+                $this->paths[$pathToUpdate] . "/" . mb_strtolower($this->getArgumentValue("currName")),
+                $this->paths[$pathToUpdate] . "/" . mb_strtolower($this->getArgumentValue("newName"))
+            );
+
+            // Rename any references to the new namespace
+            $appFiles = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
+
+            foreach($appFiles as $file)
+            {
+                $currentContents = $this->fileSystem->read($file);
+                $updatedContents = str_replace(
+                    $this->getArgumentValue("currName") . "\\",
+                    $this->getArgumentValue("newName") . "\\",
+                    $currentContents
+                );
+                $this->fileSystem->write($file, $updatedContents);
+            }
+        }
+    }
+
+    /**
      * Updates the namespaces
      */
-    private function updateNamespaces()
+    protected function updateNamespaces()
     {
-        $files = $this->fileSystem->getFiles($this->paths["app"], true);
-
-        foreach($files as $file)
+        foreach(["app", "tests"] as $pathToUpdate)
         {
-            $currContents = $this->fileSystem->read($file);
-            // Change the "namespace" statements
-            $updatedContents = str_replace(
-                [
-                    "namespace " . $this->getArgumentValue("currName") . ";",
-                    "namespace " . $this->getArgumentValue("currName") . "\\"
-                ],
-                [
-                    "namespace " . $this->getArgumentValue("newName") . ";",
-                    "namespace " . $this->getArgumentValue("newName") . "\\"
-                ],
-                $currContents
-            );
-            // Change the "use" statements
-            $updatedContents = str_replace(
-                [
-                    "use " . $this->getArgumentValue("currName") . ";",
-                    "use " . $this->getArgumentValue("currName") . "\\"
-                ],
-                [
-                    "use " . $this->getArgumentValue("newName") . ";",
-                    "use " . $this->getArgumentValue("newName") . "\\"
-                ],
-                $updatedContents
-            );
-            $this->fileSystem->write($file, $updatedContents);
+            $files = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);;
+
+            foreach($files as $file)
+            {
+                $currContents = $this->fileSystem->read($file);
+                // Change the "namespace" statements
+                $updatedContents = str_replace(
+                    [
+                        "namespace " . $this->getArgumentValue("currName") . ";",
+                        "namespace " . $this->getArgumentValue("currName") . "\\"
+                    ],
+                    [
+                        "namespace " . $this->getArgumentValue("newName") . ";",
+                        "namespace " . $this->getArgumentValue("newName") . "\\"
+                    ],
+                    $currContents
+                );
+                // Change the "use" statements
+                $updatedContents = str_replace(
+                    [
+                        "use " . $this->getArgumentValue("currName") . ";",
+                        "use " . $this->getArgumentValue("currName") . "\\"
+                    ],
+                    [
+                        "use " . $this->getArgumentValue("newName") . ";",
+                        "use " . $this->getArgumentValue("newName") . "\\"
+                    ],
+                    $updatedContents
+                );
+                $this->fileSystem->write($file, $updatedContents);
+            }
         }
     }
 }

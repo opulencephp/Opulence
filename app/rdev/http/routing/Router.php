@@ -19,6 +19,8 @@ class Router
     protected $routes = null;
     /** @var Routes\Route|null The matched route if there is one, otherwise null */
     protected $matchedRoute = null;
+    /** @var Controller|null The matched controller if there is one, otherwise null */
+    protected $matchedController = null;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
     /** @var string The name of the controller class that will handle missing routes */
@@ -86,6 +88,14 @@ class Router
     {
         $route = $this->createRoute(Requests\Request::METHOD_GET, $path, $options);
         $this->addRoute($route);
+    }
+
+    /**
+     * @return null|Controller
+     */
+    public function getMatchedController()
+    {
+        return $this->matchedController;
     }
 
     /**
@@ -218,7 +228,7 @@ class Router
             {
                 $this->matchedRoute = $compiledRoute;
 
-                return $this->dispatcher->dispatch($compiledRoute, $request);
+                return $this->dispatcher->dispatch($this->matchedRoute, $request, $this->matchedController);
             }
         }
 
@@ -376,7 +386,11 @@ class Router
      */
     private function getMissingRouteResponse(Requests\Request $request)
     {
-        return $this->dispatcher->dispatch(new Routes\MissingRoute($this->missedRouteControllerName), $request, []);
+        return $this->dispatcher->dispatch(
+            new Routes\MissingRoute($this->missedRouteControllerName),
+            $request,
+            $this->matchedController
+        );
     }
 
     /**

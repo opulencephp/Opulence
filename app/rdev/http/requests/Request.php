@@ -287,6 +287,99 @@ class Request
     }
 
     /**
+     * Sets the method
+     * If no input is specified, then it is automatically set using headers
+     *
+     * @param string|null $method The method to set, otherwise null to automatically set the method
+     */
+    public function setMethod($method = null)
+    {
+        if($method === null)
+        {
+            switch(mb_strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET)))
+            {
+                case "delete":
+                    $this->method = self::METHOD_DELETE;
+
+                    break;
+                case "get":
+                    $this->method = self::METHOD_GET;
+
+                    break;
+                case "post":
+                    $this->method = self::METHOD_POST;
+
+                    break;
+                case "put":
+                    $this->method = self::METHOD_PUT;
+
+                    break;
+                case "head":
+                    $this->method = self::METHOD_HEAD;
+
+                    break;
+                case "trace":
+                    $this->method = self::METHOD_TRACE;
+
+                    break;
+                case "purge":
+                    $this->method = self::METHOD_PURGE;
+
+                    break;
+                case "connect":
+                    $this->method = self::METHOD_CONNECT;
+
+                    break;
+                case "patch":
+                    $this->method = self::METHOD_PATCH;
+
+                    break;
+                case "options":
+                    $this->method = self::METHOD_OPTIONS;
+
+                    break;
+                default:
+                    $this->method = self::METHOD_GET;
+
+                    break;
+            }
+        }
+        else
+        {
+            $this->method = $method;
+        }
+    }
+
+    /**
+     * Sets the path of this request, which does not include the query string
+     * If no input is specified, then it is automatically set using headers
+     *
+     * @param string|null $path The path to set, otherwise null to automatically set the path
+     */
+    public function setPath($path = null)
+    {
+        if($path === null)
+        {
+            $uri = $this->server->get("REQUEST_URI");
+
+            if(empty($uri))
+            {
+                // Default to a slash
+                $this->path = "/";
+            }
+            else
+            {
+                $uriParts = explode("?", $uri);
+                $this->path = $uriParts[0];
+            }
+        }
+        else
+        {
+            $this->path = $path;
+        }
+    }
+
+    /**
      * Sets the IP address attribute
      */
     private function setIPAddress()
@@ -315,79 +408,6 @@ class Request
         }
 
         $this->ipAddress = $this->server->get("REMOTE_ADDR", "");
-    }
-
-    /**
-     * Sets the method
-     */
-    private function setMethod()
-    {
-        switch(mb_strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET)))
-        {
-            case "delete":
-                $this->method = self::METHOD_DELETE;
-
-                break;
-            case "get":
-                $this->method = self::METHOD_GET;
-
-                break;
-            case "post":
-                $this->method = self::METHOD_POST;
-
-                break;
-            case "put":
-                $this->method = self::METHOD_PUT;
-
-                break;
-            case "head":
-                $this->method = self::METHOD_HEAD;
-
-                break;
-            case "trace":
-                $this->method = self::METHOD_TRACE;
-
-                break;
-            case "purge":
-                $this->method = self::METHOD_PURGE;
-
-                break;
-            case "connect":
-                $this->method = self::METHOD_CONNECT;
-
-                break;
-            case "patch":
-                $this->method = self::METHOD_PATCH;
-
-                break;
-            case "options":
-                $this->method = self::METHOD_OPTIONS;
-
-                break;
-            default:
-                $this->method = self::METHOD_GET;
-
-                break;
-        }
-    }
-
-    /**
-     * Sets the path of this request, which does not include the query string
-     */
-    private function setPath()
-    {
-        $uri = $this->server->get("REQUEST_URI");
-
-        if(empty($uri))
-        {
-            // Default to a slash
-            $this->path = "/";
-        }
-        else
-        {
-            $uriParts = explode("?", $uri);
-            $this->path = $uriParts[0];
-        }
     }
 
     /**
