@@ -21,9 +21,11 @@ class URLGenerator
      */
     public function __construct(Routes\Routes &$routes, Parsers\IParser $parser)
     {
+        error_log("PRE SET");
         $this->routes = $routes;
+        error_log("SET ROUTES");
         $this->parser = $parser;
-        error_log("URLGenerator created");
+        error_log("SET PARSER");
     }
 
     /**
