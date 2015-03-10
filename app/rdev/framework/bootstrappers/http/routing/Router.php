@@ -32,6 +32,8 @@ class Router extends Bootstrappers\Bootstrapper
         error_log(4);
         $router = new Routing\Router($dispatcher, $compiler);
         error_log(5);
+        error_log(var_export($router->getRoutes(), true));
+        error_log(var_export($this->parser, true));
         $urlGenerator = new URL\URLGenerator($router->getRoutes(), $this->parser);
         error_log(6);
         $container->bind("RDev\\HTTP\\Routing\\Dispatchers\\IDispatcher", $dispatcher);

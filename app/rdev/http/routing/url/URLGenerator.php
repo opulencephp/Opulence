@@ -23,6 +23,7 @@ class URLGenerator
     {
         $this->routes = $routes;
         $this->parser = $parser;
+        error_log("URLGenerator created");
     }
 
     /**
