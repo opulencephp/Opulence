@@ -48,6 +48,8 @@ class Container implements IContainer
         {
             $this->bindToTarget($interface, $concreteClass, $targetClass);
         }
+
+        error_log("BINDINGS: " . print_r($this->universalBindings, true));
     }
 
     /**
