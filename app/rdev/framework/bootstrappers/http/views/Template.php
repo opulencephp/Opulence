@@ -7,7 +7,6 @@
 namespace RDev\Framework\Bootstrappers\HTTP\Views;
 use RDev\Applications\Environments;
 use RDev\Applications\Bootstrappers;
-use RDev\Framework;
 use RDev\IoC;
 use RDev\Views\Cache;
 use RDev\Views\Compilers;
