@@ -268,9 +268,7 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->setApplication();
-        error_log("STARTING");
         $this->application->start();
-        error_log("STARTED");
         $this->router = $this->application->getIoCContainer()->makeShared("RDev\\HTTP\\Routing\\Router");
         $this->kernel = $this->application->getIoCContainer()->makeShared("RDev\\HTTP\\Kernels\\Kernel");
         $this->defaultRequest = new Requests\Request([], [], [], [], [], []);

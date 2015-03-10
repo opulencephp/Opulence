@@ -115,6 +115,8 @@ class Container implements IContainer
         try
         {
             $concreteClass = $this->getConcreteClass($component);
+            error_log("Component: $component");
+            error_log("Concrete: $concreteClass");
 
             // If we're creating a shared instance, check to see if we've already instantiated it
             if(!$forceNewInstance)

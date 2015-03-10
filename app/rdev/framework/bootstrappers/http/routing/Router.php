@@ -28,7 +28,9 @@ class Router extends Bootstrappers\Bootstrapper
         $compiler = $this->getRouteCompiler($container);
         $router = new Routing\Router($dispatcher, $compiler);
         $urlGenerator = new URL\URLGenerator($router->getRoutes(), $this->parser);
-        $container->bind("RDev\\HTTP\\Routing\\Dispatchers\\IDispatcher", $dispatcher);
+        error_log("B:".get_class($dispatcher));
+        $container->bind("RDev\\HTTP\\Routing\\Dispatchers", $dispatcher);
+        error_log("C:".get_class($container->makeShared("RDev\\HTTP\\Routing\\Dispatchers")));
         $container->bind("RDev\\HTTP\\Routing\\Compilers\\ICompiler", $compiler);
         $container->bind("RDev\\HTTP\\Routing\\Router", $router);
         $container->bind("RDev\\HTTP\\Routing\\URL\\URLGenerator", $urlGenerator);
