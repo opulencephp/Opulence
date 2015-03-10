@@ -27,6 +27,8 @@ class Container implements IContainer
     /** @var array The universal list of interface => concrete class names */
     protected $universalBindings = [];
 
+    public function __sleep(){return "";}
+
     /**
      * {@inheritdoc}
      */
@@ -48,8 +50,6 @@ class Container implements IContainer
         {
             $this->bindToTarget($interface, $concreteClass, $targetClass);
         }
-
-        error_log("BINDINGS: " . print_r($this->universalBindings, true));
     }
 
     /**
