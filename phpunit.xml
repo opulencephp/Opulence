@@ -1,6 +1,9 @@
 <phpunit
         bootstrap="configs/phpunit.php"
-        colors="true">
+        colors="true"
+        convertErrorsToExceptions="true"
+        convertNoticesToExceptions="true"
+        convertWarningsToExceptions="true">
     <testsuite name="RDev">
         <directory>tests</directory>
     </testsuite>
