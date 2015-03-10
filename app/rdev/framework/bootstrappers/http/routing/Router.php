@@ -32,11 +32,11 @@ class Router extends Bootstrappers\Bootstrapper
         error_log(4);
         $compiler = $this->getRouteCompiler($container);
         error_log(5);
-        $router = new Routing\Router($dispatcher, $compiler);
-        error_log(6);
-        $urlGenerator = new URL\URLGenerator($router->getRoutes(), $this->parser);
-        error_log(7);
         $container->bind("RDev\\HTTP\\Routing\\Compilers\\ICompiler", $compiler);
+        error_log(6);
+        $router = new Routing\Router($dispatcher, $compiler);
+        error_log(7);
+        $urlGenerator = new URL\URLGenerator($router->getRoutes(), $this->parser);
         error_log(8);
         $container->bind("RDev\\HTTP\\Routing\\Router", $router);
         error_log(9);
