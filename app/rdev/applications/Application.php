@@ -311,6 +311,7 @@ class Application
             foreach($this->bootstrapperClasses as $bootstrapperClass)
             {
                 $bootstrapper = new $bootstrapperClass($this->paths, $this->environment, $this->session);
+                error_log(var_export($bootstrapper, true));
 
                 if(!$bootstrapper instanceof Bootstrappers\Bootstrapper)
                 {

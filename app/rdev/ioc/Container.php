@@ -115,7 +115,6 @@ class Container implements IContainer
         try
         {
             $concreteClass = $this->getConcreteClass($component);
-            error_log(print_r($this->universalBindings, true));
 
             // If we're creating a shared instance, check to see if we've already instantiated it
             if(!$forceNewInstance)
