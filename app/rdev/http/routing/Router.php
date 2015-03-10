@@ -107,9 +107,11 @@ class Router
     }
 
     /**
+     * Gets the reference to the list of routes
+     *
      * @return Routes\Routes
      */
-    public function getRoutes()
+    public function &getRoutes()
     {
         return $this->routes;
     }

@@ -125,8 +125,6 @@ class Application
     public function registerBootstrappers(array $bootstrapperClasses)
     {
         $this->bootstrapperClasses = array_merge($this->bootstrapperClasses, $bootstrapperClasses);
-        error_log("P: " . print_r($bootstrapperClasses, true));
-        error_log("C: " . print_r($this->bootstrapperClasses, true));
     }
 
     /**
