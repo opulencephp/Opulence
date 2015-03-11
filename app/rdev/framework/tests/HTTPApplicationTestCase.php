@@ -5,16 +5,13 @@
  * Defines the HTTP application test case
  */
 namespace RDev\Framework\Tests;
-use RDev\Applications;
 use RDev\HTTP\Kernels;
 use RDev\HTTP\Requests;
 use RDev\HTTP\Responses;
 use RDev\HTTP\Routing;
 
-abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
+abstract class HTTPApplicationTestCase extends ApplicationTestCase
 {
-    /** @var Applications\Application The application */
-    protected $application = null;
     /** @var Routing\Router The router */
     protected $router = null;
     /** @var Requests\Request The default request */
@@ -215,14 +212,6 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return Applications\Application
-     */
-    public function getApplication()
-    {
-        return $this->application;
-    }
-
-    /**
      * @return Kernels\Kernel
      */
     public function getKernel()
@@ -257,7 +246,7 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
         $request->setPath($parsedURL["path"]);
         $request->setMethod(strtoupper($method));
         $request->getHeaders()->set("HOST", isset($parsedURL["host"]) ? $parsedURL["host"] : "");
-        $this->response = $this->router->route($request);
+        $this->response = $this->kernel->handle($request);
 
         return $this->response;
     }
@@ -269,23 +258,11 @@ abstract class HTTPApplicationTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->setApplication();
         $this->application->start();
-        $this->router = $this->application->getIoCContainer()->makeShared("RDev\\HTTP\\Routing\\Router");
-        $this->kernel = $this->application->getIoCContainer()->makeShared("RDev\\HTTP\\Kernels\\Kernel");
+        $container = $this->application->getIoCContainer();
+        $this->router = $container->makeShared("RDev\\HTTP\\Routing\\Router");
+        $this->kernel = $container->makeShared("RDev\\HTTP\\Kernels\\Kernel");
         $this->defaultRequest = new Requests\Request([], [], [], [], [], []);
     }
-
-    /**
-     * Tears down the tests
-     */
-    public function tearDown()
-    {
-        $this->application->shutdown();
-    }
-
-    /**
-     * Sets the instance of the application to use in tests
-     */
-    abstract protected function setApplication();
 
     /**
      * Checks if the response was set

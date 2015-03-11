@@ -23,6 +23,14 @@ abstract class Response implements IResponse
     /**
      * {@inheritdoc}
      */
+    public function setStyled($isStyled)
+    {
+        $this->compiler->setStyled($isStyled);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function write($messages)
     {
         foreach((array)$messages as $message)

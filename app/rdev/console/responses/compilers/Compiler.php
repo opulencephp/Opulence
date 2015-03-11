@@ -16,6 +16,8 @@ class Compiler implements ICompiler
     private $parser = null;
     /** @var Elements\Elements The list of elements registered to the compiler */
     private $elements = null;
+    /** @var bool Whether or not messages should be styled */
+    private $isStyled = true;
 
     /**
      * @param Lexers\ILexer $lexer The lexer to use
@@ -44,6 +46,11 @@ class Compiler implements ICompiler
      */
     public function compile($message)
     {
+        if(!$this->isStyled)
+        {
+            return strip_tags($message);
+        }
+
         try
         {
             $tokens = $this->lexer->lex($message);
@@ -63,6 +70,14 @@ class Compiler implements ICompiler
     public function getElements()
     {
         return $this->elements;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStyled($isStyled)
+    {
+        $this->isStyled = $isStyled;
     }
 
     /**

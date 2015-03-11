@@ -30,11 +30,12 @@ class Commands
      * Adds a command
      *
      * @param ICommand $command The command to add
+     * @param bool $overwrite True if we will overwrite a command with the same name if it already exists
      * @throws \InvalidArgumentException Thrown if a command with the input name already exists
      */
-    public function add(ICommand $command)
+    public function add(ICommand $command, $overwrite = false)
     {
-        if($this->has($command->getName()))
+        if(!$overwrite && $this->has($command->getName()))
         {
             throw new \InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
         }

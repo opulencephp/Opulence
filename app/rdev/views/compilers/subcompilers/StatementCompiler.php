@@ -231,7 +231,7 @@ class StatementCompiler extends SubCompiler
         }
 
         $regex = $openStatementRegex;
-        $sPrintFArgs = [
+        $sprintfArgs = [
             preg_quote("\\", "/"),
             preg_quote($statementDelimiters[0], "/"),
             $statement,
@@ -241,13 +241,13 @@ class StatementCompiler extends SubCompiler
         if(!$isSelfClosed)
         {
             $regex .= $closeStatementRegex;
-            $sPrintFArgs[] = preg_quote($statementDelimiters[0], "/");
-            $sPrintFArgs[] = preg_quote($statementDelimiters[1], "/");
+            $sprintfArgs[] = preg_quote($statementDelimiters[0], "/");
+            $sprintfArgs[] = preg_quote($statementDelimiters[1], "/");
         }
 
         // Add the regex to the beginning of the argument list
-        array_unshift($sPrintFArgs, $regex);
-        $regex = call_user_func_array("sprintf", $sPrintFArgs);
+        array_unshift($sprintfArgs, $regex);
+        $regex = call_user_func_array("sprintf", $sprintfArgs);
         $regex = '/' . $regex . '/sU';
 
         return $regex;

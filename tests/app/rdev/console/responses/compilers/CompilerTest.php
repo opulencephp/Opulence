@@ -51,6 +51,17 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests compiling an element without applying styles
+     */
+    public function testCompilingElementWithoutApplyingStyles()
+    {
+        $this->compiler->setStyled(false);
+        $this->compiler->getElements()->add(new Elements\Element("foo", new Elements\Style("green", "white")));
+        $this->compiler->getElements()->add(new Elements\Element("bar", new Elements\Style("cyan")));
+        $this->assertEquals("bazblah", $this->compiler->compile("<foo>baz</foo><bar>blah</bar>"));
+    }
+
+    /**
      * Tests compiling an escaped tag at the beginning of the string
      */
     public function testCompilingEscapedTagAtBeginning()

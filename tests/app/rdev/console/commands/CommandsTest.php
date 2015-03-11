@@ -98,4 +98,16 @@ class CommandsTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException("\\InvalidArgumentException");
         $this->commands->get("foo");
     }
+
+    /**
+     * Tests overwriting a command that already exists
+     */
+    public function testOverwritingExistingCommand()
+    {
+        $originalCommand = new CommandMocks\SimpleCommand("foo", "The foo command");
+        $overwritingCommand = new CommandMocks\SimpleCommand("foo", "The foo command copy");
+        $this->commands->add($originalCommand);
+        $this->commands->add($overwritingCommand, true);
+        $this->assertSame($overwritingCommand, $this->commands->get("foo"));
+    }
 }

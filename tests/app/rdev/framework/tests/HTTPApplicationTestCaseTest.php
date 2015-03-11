@@ -12,16 +12,16 @@ use RDev\Tests\Framework\Tests\Mocks;
 class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Mocks\HTTPApplicationTestCase The HTTP application to use in tests */
-    private $httpApplication = null;
+    private $application = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->httpApplication = new Mocks\HTTPApplicationTestCase();
-        $this->httpApplication->setUp();
-        $router = $this->httpApplication->getRouter();
+        $this->application = new Mocks\HTTPApplicationTestCase();
+        $this->application->setUp();
+        $router = $this->application->getRouter();
         $router->group(["controllerNamespace" => "RDev\\Tests\\HTTP\\Routing\\Mocks"], function() use ($router)
         {
             $router->get("/badgateway", ["controller" => "HTTPApplicationTestController@setBadGateway"]);
@@ -42,9 +42,9 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertTemplateHasTag()
     {
-        $this->httpApplication->route("GET", "/settag");
-        $this->httpApplication->assertTemplateHasTag("foo");
-        $this->httpApplication->assertTemplateTagEquals("foo", "bar");
+        $this->application->route("GET", "/settag");
+        $this->application->assertTemplateHasTag("foo");
+        $this->application->assertTemplateTagEquals("foo", "bar");
     }
 
     /**
@@ -52,9 +52,9 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertTemplateHasVariable()
     {
-        $this->httpApplication->route("GET", "/setvar");
-        $this->httpApplication->assertTemplateHasVar("foo");
-        $this->httpApplication->assertTemplateVarEquals("foo", "bar");
+        $this->application->route("GET", "/setvar");
+        $this->application->assertTemplateHasVar("foo");
+        $this->application->assertTemplateVarEquals("foo", "bar");
     }
 
     /**
@@ -62,8 +62,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingRedirect()
     {
-        $this->httpApplication->route("GET", "/redirect");
-        $this->httpApplication->assertRedirectsTo("/redirectedPath");
+        $this->application->route("GET", "/redirect");
+        $this->application->assertRedirectsTo("/redirectedPath");
     }
 
     /**
@@ -71,8 +71,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasContent()
     {
-        $this->httpApplication->route("GET", "/foobar");
-        $this->httpApplication->assertResponseContentEquals("FooBar");
+        $this->application->route("GET", "/foobar");
+        $this->application->assertResponseContentEquals("FooBar");
     }
 
     /**
@@ -80,9 +80,9 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasCookie()
     {
-        $this->httpApplication->route("GET", "/cookie");
-        $this->httpApplication->assertResponseHasCookie("foo");
-        $this->httpApplication->assertResponseCookieValueEquals("foo", "bar");
+        $this->application->route("GET", "/cookie");
+        $this->application->assertResponseHasCookie("foo");
+        $this->application->assertResponseCookieValueEquals("foo", "bar");
     }
 
     /**
@@ -90,9 +90,9 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasHeader()
     {
-        $this->httpApplication->route("GET", "/header");
-        $this->httpApplication->assertResponseHasHeader("foo");
-        $this->httpApplication->assertResponseHeaderEquals("foo", "bar");
+        $this->application->route("GET", "/header");
+        $this->application->assertResponseHasHeader("foo");
+        $this->application->assertResponseHeaderEquals("foo", "bar");
     }
 
     /**
@@ -100,8 +100,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasStatusCode()
     {
-        $this->httpApplication->route("GET", "/badgateway");
-        $this->httpApplication->assertResponseStatusCodeEquals(Responses\ResponseHeaders::HTTP_BAD_GATEWAY);
+        $this->application->route("GET", "/badgateway");
+        $this->application->assertResponseStatusCodeEquals(Responses\ResponseHeaders::HTTP_BAD_GATEWAY);
     }
 
     /**
@@ -109,8 +109,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsInternalServerError()
     {
-        $this->httpApplication->route("GET", "/ise");
-        $this->httpApplication->assertResponseIsInternalServerError();
+        $this->application->route("GET", "/ise");
+        $this->application->assertResponseIsInternalServerError();
     }
 
     /**
@@ -118,8 +118,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsNotFound()
     {
-        $this->httpApplication->route("GET", "/notfound");
-        $this->httpApplication->assertResponseIsNotFound();
+        $this->application->route("GET", "/notfound");
+        $this->application->assertResponseIsNotFound();
     }
 
     /**
@@ -127,8 +127,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsOK()
     {
-        $this->httpApplication->route("GET", "/ok");
-        $this->httpApplication->assertResponseIsOK();
+        $this->application->route("GET", "/ok");
+        $this->application->assertResponseIsOK();
     }
 
     /**
@@ -136,8 +136,8 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsUnauthorized()
     {
-        $this->httpApplication->route("GET", "/unauthorized");
-        $this->httpApplication->assertResponseIsUnauthorized();
+        $this->application->route("GET", "/unauthorized");
+        $this->application->assertResponseIsUnauthorized();
     }
 
     /**
@@ -145,7 +145,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingApplication()
     {
-        $this->assertInstanceOf("RDev\\Applications\\Application", $this->httpApplication->getApplication());
+        $this->assertInstanceOf("RDev\\Applications\\Application", $this->application->getApplication());
     }
 
     /**
@@ -153,7 +153,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingKernel()
     {
-        $this->assertInstanceOf("RDev\\HTTP\\Kernels\\Kernel", $this->httpApplication->getKernel());
+        $this->assertInstanceOf("RDev\\HTTP\\Kernels\\Kernel", $this->application->getKernel());
     }
 
     /**
@@ -161,6 +161,6 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouter()
     {
-        $this->assertInstanceOf("RDev\\HTTP\\Routing\\Router", $this->httpApplication->getRouter());
+        $this->assertInstanceOf("RDev\\HTTP\\Routing\\Router", $this->application->getRouter());
     }
 }

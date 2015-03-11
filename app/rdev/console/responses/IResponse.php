@@ -15,6 +15,13 @@ interface IResponse
     public function clear();
 
     /**
+     * Sets whether or not messages should be styled
+     *
+     * @param bool $isStyled Whether or not messages should be styled
+     */
+    public function setStyled($isStyled);
+
+    /**
      * Writes to output
      *
      * @param string|array $messages The message or messages to display

@@ -8,7 +8,6 @@ HAS PRIORITY:
         Router needs to check if cached routes exist
             If not, loop through ALL routes, parse them, cache them
             If so, loop through cached routes and compile them to match them
-    Add CommandTester class
     Idea:  Run statement compiler
         Cache results
         Run all other subcompilers

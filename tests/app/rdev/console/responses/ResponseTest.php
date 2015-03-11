@@ -72,4 +72,15 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->response->write("foo");
         $this->assertEquals("foo", ob_get_clean());
     }
+
+    /**
+     * Tests writing a styled message with styling disabled
+     */
+    public function testWritingStyledMessageWithStylingDisabled()
+    {
+        ob_start();
+        $this->response->setStyled(false);
+        $this->response->write("<b>foo</b>");
+        $this->assertEquals("foo", ob_get_clean());
+    }
 }

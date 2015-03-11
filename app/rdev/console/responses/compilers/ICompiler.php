@@ -17,4 +17,11 @@ interface ICompiler
      * @throws \RuntimeException Thrown if there was an issue compiling the message
      */
     public function compile($message);
+
+    /**
+     * Sets whether or not messages should be styled
+     *
+     * @param bool $isStyled Whether or not messages should be styled
+     */
+    public function setStyled($isStyled);
 }
