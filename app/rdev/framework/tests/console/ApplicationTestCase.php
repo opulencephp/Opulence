@@ -4,7 +4,7 @@
  * 
  * Defines the console application test case
  */
-namespace RDev\Framework\Tests;
+namespace RDev\Framework\Tests\Console;
 use RDev\Console\Commands;
 use RDev\Console\Commands\Compilers as CommandCompilers;
 use RDev\Console\Kernels;
@@ -14,8 +14,9 @@ use RDev\Console\Responses\Compilers as ResponseCompilers;
 use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
 use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;
 use RDev\Console\Responses\Formatters;
+use RDev\Framework\Tests;
 
-abstract class ConsoleApplicationTestCase extends ApplicationTestCase
+abstract class ApplicationTestCase extends Tests\ApplicationTestCase
 {
     /** @var Commands\Commands The list of registered commands */
     protected $commands = null;
@@ -97,7 +98,6 @@ abstract class ConsoleApplicationTestCase extends ApplicationTestCase
      * @param array|string $promptAnswers The answer or list of answers to use in any prompts
      * @param bool $isStyled Whether or not the output should be styled
      * @return int The status code of the command
-     * @throws \InvalidArgumentException Thrown if no command exists with the input name
      */
     public function call(
         $commandName,
@@ -114,10 +114,10 @@ abstract class ConsoleApplicationTestCase extends ApplicationTestCase
             $this->setPromptAnswers($commandName, $promptAnswers);
         }
 
-        // We instantiate the response every time so that it's fresh every time a new command is called
+        // We instantiate the response every time so that it's fresh whenever a new command is called
         $this->response = new Responses\Stream(fopen("php://memory", "w"), $this->responseCompiler);
-        $input = ["name" => $commandName, "arguments" => $arguments, "options" => $options];
         $this->response->setStyled($isStyled);
+        $input = ["name" => $commandName, "arguments" => $arguments, "options" => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);
 
         return $this->statusCode;
@@ -178,7 +178,7 @@ abstract class ConsoleApplicationTestCase extends ApplicationTestCase
     {
         if($this->response === null)
         {
-            $this->fail("Must call route() before assertions");
+            $this->fail("Must call call() before assertions");
         }
     }
 

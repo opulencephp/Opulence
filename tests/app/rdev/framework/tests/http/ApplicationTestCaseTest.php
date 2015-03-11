@@ -4,14 +4,14 @@
  * 
  * Tests the HTTP application tester
  */
-namespace RDev\Framework\Tests;
+namespace RDev\Framework\Tests\HTTP;
 use RDev\HTTP\Responses;
 use RDev\HTTP\Routing\Routes;
-use RDev\Tests\Framework\Tests\Mocks;
+use RDev\Tests\Framework\Tests\HTTP\Mocks;
 
-class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
+class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\HTTPApplicationTestCase The HTTP application to use in tests */
+    /** @var Mocks\ApplicationTestCase The HTTP application to use in tests */
     private $application = null;
 
     /**
@@ -19,7 +19,7 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->application = new Mocks\HTTPApplicationTestCase();
+        $this->application = new Mocks\ApplicationTestCase();
         $this->application->setUp();
         $router = $this->application->getRouter();
         $router->group(["controllerNamespace" => "RDev\\Tests\\HTTP\\Routing\\Mocks"], function() use ($router)

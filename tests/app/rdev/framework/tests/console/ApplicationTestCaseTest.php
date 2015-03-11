@@ -4,16 +4,16 @@
  * 
  * Tests the console application tester
  */
-namespace RDev\Framework\Tests;
+namespace RDev\Framework\Tests\Console;
 use RDev\Console\Kernels;
 use RDev\Console\Prompts;
 use RDev\Console\Responses\Formatters;
 use RDev\Tests\Console\Commands\Mocks as CommandMocks;
-use RDev\Tests\Framework\Tests\Mocks as TestMocks;
+use RDev\Tests\Framework\Tests\Console\Mocks as TestMocks;
 
-class ConsoleApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
+class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var TestMocks\ConsoleApplicationTestCase The console application to use in tests */
+    /** @var TestMocks\ApplicationTestCase The console application to use in tests */
     private $application = null;
 
     /**
@@ -21,7 +21,7 @@ class ConsoleApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->application = new TestMocks\ConsoleApplicationTestCase();
+        $this->application = new TestMocks\ApplicationTestCase();
         $this->application->setUp();
         $prompt = new Prompts\Prompt(new Formatters\Padding());
         $this->application->getCommands()->add(new CommandMocks\SimpleCommand("simple", "Simple command"));
@@ -97,6 +97,16 @@ class ConsoleApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->application->assertOutputEquals("Very good");
         $this->application->call("singleprompt", [], [], "Bread");
         $this->application->assertOutputEquals("Wrong");
+    }
+
+    /**
+     * Tests calling a non-existent command
+     */
+    public function testCallingNonExistentCommand()
+    {
+        $this->application->call("doesnotexist");
+        // The About command should be run in this case
+        $this->application->assertStatusCodeIsOK();
     }
 
     /**

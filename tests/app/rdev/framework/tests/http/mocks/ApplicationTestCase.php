@@ -1,25 +1,26 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- *
- * Mocks the console application for use in testing
+ * 
+ * Mocks the HTTP application for use in testing
  */
-namespace RDev\Tests\Framework\Tests\Mocks;
+namespace RDev\Tests\Framework\Tests\HTTP\Mocks;
 use Monolog;
 use RDev\Applications;
 use RDev\Applications\Environments;
-use RDev\Framework\Tests;
+use RDev\Framework\Tests\HTTP;
 use RDev\IoC;
 use RDev\Sessions;
 use RDev\Tests\Applications\Mocks;
 
-class ConsoleApplicationTestCase extends Tests\ConsoleApplicationTestCase
+class ApplicationTestCase extends HTTP\ApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
+        "RDev\\Framework\\Bootstrappers\\HTTP\\Requests\\Request",
         "RDev\\Framework\\Bootstrappers\\HTTP\\Views\\Template",
-        "RDev\\Framework\\Bootstrappers\\Console\\Commands\\Commands",
-        "RDev\\Framework\\Bootstrappers\\Console\\Composer\\Composer",
+        "RDev\\Framework\\Bootstrappers\\HTTP\\Routing\\Router",
+        "RDev\\Framework\\Bootstrappers\\HTTP\\Views\\TemplateFunctions"
     ];
 
     /**
@@ -29,7 +30,7 @@ class ConsoleApplicationTestCase extends Tests\ConsoleApplicationTestCase
     {
         // Create and bind all of the components of our application
         $paths = new Applications\Paths([
-            "configs" => __DIR__ . "/../configs"
+            "configs" => __DIR__ . "/../../configs"
         ]);
         $logger = new Monolog\Logger("application");
         $logger->pushHandler(new Mocks\MonologHandler());

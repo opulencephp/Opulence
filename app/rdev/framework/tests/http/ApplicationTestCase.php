@@ -4,13 +4,14 @@
  * 
  * Defines the HTTP application test case
  */
-namespace RDev\Framework\Tests;
+namespace RDev\Framework\Tests\HTTP;
+use RDev\Framework\Tests;
 use RDev\HTTP\Kernels;
 use RDev\HTTP\Requests;
 use RDev\HTTP\Responses;
 use RDev\HTTP\Routing;
 
-abstract class HTTPApplicationTestCase extends ApplicationTestCase
+abstract class ApplicationTestCase extends Tests\ApplicationTestCase
 {
     /** @var Routing\Router The router */
     protected $router = null;
@@ -36,7 +37,7 @@ abstract class HTTPApplicationTestCase extends ApplicationTestCase
 	}
 
     /**
-     * Asserts that the response contents' matches the input
+     * Asserts that the response's contents match the input
      *
      * @param mixed $expected The expected value
      */
@@ -98,7 +99,7 @@ abstract class HTTPApplicationTestCase extends ApplicationTestCase
     /**
      * Asserts that the response has a header
      *
-     * @param string $name The name of the cookie to search for
+     * @param string $name The name of the header to search for
      */
     public function assertResponseHasHeader($name)
     {
