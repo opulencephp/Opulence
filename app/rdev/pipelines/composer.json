@@ -20,11 +20,11 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/ioc": "0.3.*"
+    "rdev/ioc": "0.4.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.3.x-dev"
+      "dev-master": "0.4.x-dev"
     }
   },
   "minimum-stability": "dev"

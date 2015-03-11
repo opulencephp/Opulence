@@ -21,16 +21,16 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/applications": "0.3.*",
-    "rdev/console": "0.3.*",
-    "rdev/files": "0.3.*",
-    "rdev/http": "0.3.*",
-    "rdev/ioc": "0.3.*",
-    "rdev/views": "0.3.*"
+    "rdev/applications": "0.4.*",
+    "rdev/console": "0.4.*",
+    "rdev/files": "0.4.*",
+    "rdev/http": "0.4.*",
+    "rdev/ioc": "0.4.*",
+    "rdev/views": "0.4.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.3.x-dev"
+      "dev-master": "0.4.x-dev"
     }
   },
   "minimum-stability": "dev"
