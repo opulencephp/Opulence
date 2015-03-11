@@ -100,6 +100,14 @@ class ConsoleApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the commands
+     */
+    public function testGettingCommands()
+    {
+        $this->assertInstanceOf("RDev\\Console\\Commands\\Commands", $this->application->getCommands());
+    }
+
+    /**
      * Tests getting the output of a command without an option
      */
     public function testGettingOutputOfOptionlessCommand()

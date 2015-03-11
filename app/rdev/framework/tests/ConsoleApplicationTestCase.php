@@ -124,27 +124,11 @@ abstract class ConsoleApplicationTestCase extends ApplicationTestCase
     }
 
     /**
-     * @return CommandCompilers\ICompiler
-     */
-    public function getCommandCompiler()
-    {
-        return $this->commandCompiler;
-    }
-
-    /**
      * @return Commands\Commands
      */
     public function getCommands()
     {
         return $this->commands;
-    }
-
-    /**
-     * @return Kernels\Kernel
-     */
-    public function getKernel()
-    {
-        return $this->kernel;
     }
 
     /**
@@ -158,14 +142,6 @@ abstract class ConsoleApplicationTestCase extends ApplicationTestCase
         rewind($this->response->getStream());
 
         return stream_get_contents($this->response->getStream());
-    }
-
-    /**
-     * @return RequestParsers\IParser
-     */
-    public function getRequestParser()
-    {
-        return $this->requestParser;
     }
 
     /**

@@ -149,14 +149,6 @@ class HTTPApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the kernel
-     */
-    public function testGettingKernel()
-    {
-        $this->assertInstanceOf("RDev\\HTTP\\Kernels\\Kernel", $this->application->getKernel());
-    }
-
-    /**
      * Tests getting the router
      */
     public function testGettingRouter()

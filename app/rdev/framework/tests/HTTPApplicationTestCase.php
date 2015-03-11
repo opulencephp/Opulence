@@ -212,14 +212,6 @@ abstract class HTTPApplicationTestCase extends ApplicationTestCase
     }
 
     /**
-     * @return Kernels\Kernel
-     */
-    public function getKernel()
-    {
-        return $this->kernel;
-    }
-
-    /**
      * @return Routing\Router
      */
     public function getRouter()
