@@ -34,7 +34,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
             $this->response instanceof Responses\RedirectResponse &&
             $this->response->getTargetURL() == $url
         );
-	}
+    }
 
     /**
      * Asserts that the response's contents match the input
