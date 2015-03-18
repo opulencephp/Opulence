@@ -20,6 +20,16 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     const TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS = "/../files/TestWithCustomTagDelimiters.html";
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_PHP_CODE = "/../files/TestWithPHP.html";
+    /** The path to the test template with a part defined */
+    const TEMPLATE_PATH_WITH_PART_DEFINED = "/../files/MasterWithPartDefined.html";
+    /** The path to the test template with a part undefined */
+    const TEMPLATE_PATH_WITH_PART_UNDEFINED = "/../files/MasterWithPartUndefined.html";
+    /** The path to the test template that calls its parent's part */
+    const TEMPLATE_PATH_THAT_CALLS_PARENT_PART = "/../files/ChildWithDefinedParentStatement.html";
+    /** The path to the test template that calls its parent's undefined part */
+    const TEMPLATE_PATH_THAT_CALLS_PARENT_UNDEFINED_PART = "/../files/ChildWithUndefinedParentStatement.html";
+    /** The path to the test template that just extends another */
+    const TEMPLATE_PATH_THAT_ONLY_EXTENDS_ANOTHER = "/../files/EmptyChild.html";
     /** The path to the test template with PHP code */
     const TEMPLATE_PATH_WITH_INVALID_PHP_CODE = "/../files/TestWithInvalidPHP.html";
     /** the path to the test template with an extend statement */

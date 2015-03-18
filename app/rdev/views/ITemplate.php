@@ -31,6 +31,13 @@ interface ITemplate
     public function getDelimiters($type);
 
     /**
+     * Gets the parent template if there is one
+     *
+     * @return ITemplate|null The parent template if there is one, otherwise null
+     */
+    public function getParent();
+
+    /**
      * Gets the contents of a template part
      *
      * @param string $name The name of the template part to get
@@ -96,6 +103,13 @@ interface ITemplate
     public function setDelimiters($type, array $values);
 
     /**
+     * Sets the parent of this template
+     *
+     * @param ITemplate $parent The parent of this template
+     */
+    public function setParent(ITemplate $parent);
+
+    /**
      * Sets the content of a template part
      *
      * @param string $name The name of the part to set
@@ -131,7 +145,7 @@ interface ITemplate
      *
      * @param string $name The name of the variable whose value we're setting
      *      For example, if we are setting the value of a variable named "$email" in the template, pass in "email"
-     * @param mixed $value
+     * @param mixed $value The value of the variable
      */
     public function setVar($name, $value);
 

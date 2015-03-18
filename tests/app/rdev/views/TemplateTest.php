@@ -51,6 +51,50 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting an inherited part from the parent
+     */
+    public function testGettingInheritedPartFromParent()
+    {
+        $parent = clone $this->template;
+        $parent->setPart("foo", "bar");
+        $this->template->setParent($parent);
+        $this->assertEquals("bar", $this->template->getPart("foo"));
+        $this->assertEquals(["foo" => "bar"], $this->template->getParts());
+    }
+
+    /**
+     * Tests getting an inherited tag from the parent
+     */
+    public function testGettingInheritedTagFromParent()
+    {
+        $parent = clone $this->template;
+        $parent->setTag("foo", "bar");
+        $this->template->setParent($parent);
+        $this->assertEquals("bar", $this->template->getTag("foo"));
+        $this->assertEquals(["foo" => "bar"], $this->template->getTags());
+    }
+
+    /**
+     * Tests getting an inherited tag from the parent
+     */
+    public function testGettingInheritedVarFromParent()
+    {
+        $parent = clone $this->template;
+        $parent->setVar("foo", "bar");
+        $this->template->setParent($parent);
+        $this->assertEquals("bar", $this->template->getVar("foo"));
+        $this->assertEquals(["foo" => "bar"], $this->template->getVars());
+    }
+
+    /**
+     * Tests getting a non-existent parent
+     */
+    public function testGettingNonExistentParent()
+    {
+        $this->assertNull($this->template->getParent());
+    }
+
+    /**
      * Tests getting a non-existent tag
      */
     public function testGettingNonExistentTag()
@@ -64,6 +108,18 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentVariable()
     {
         $this->assertNull($this->template->getVar("foo"));
+    }
+
+    /**
+     * Tests pushing a parent part
+     */
+    public function testGettingPartFromParent()
+    {
+        $parent = clone $this->template;
+        $parent->setPart("foo", "bar");
+        $this->template->setParent($parent);
+        $this->assertEquals("bar", $this->template->getPart("foo"));
+        $this->assertEquals(["foo" => "bar"], $this->template->getParts());
     }
 
     /**
@@ -194,6 +250,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $vars = $property->getValue($this->template);
         $this->assertEquals(["foo" => "bar", "abc" => ["xyz"]], $vars);
+    }
+
+    /**
+     * Tests setting the parent
+     */
+    public function testSettingParent()
+    {
+        $parent = clone $this->template;
+        $this->template->setParent($parent);
+        $this->assertSame($parent, $this->template->getParent());
     }
 
     /**

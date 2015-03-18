@@ -34,11 +34,11 @@ class StatementCompiler extends SubCompiler
      */
     public function compile(Views\ITemplate $template, $content)
     {
-        // Need to compile the extends before the parts so that we have all part statements in the template
         $content = $this->compileExtendStatements($template, $content);
         $content = $this->compileIncludeStatements($template, $content);
         $content = $this->compileControlStructures($template, $content);
         $content = $this->compileShowStatements($template, $content);
+        $content = $this->compileParentStatements($template, $content);
 
         return $this->cleanupStatements($template, $content);
     }
@@ -102,18 +102,14 @@ class StatementCompiler extends SubCompiler
      */
     private function compileExtendStatements(Views\ITemplate $template, $content)
     {
-        /**
-         * We don't want the parents to overwrite values in the child
-         * So, we push a clone with all the original data to the inheritance stack
-         * This way, none of the original data from the child will be overwritten by parents
-         */
-        $inheritanceStack = [clone $template];
-        $callback = function($matches) use (&$inheritanceStack)
+        $parentStack = [];
+        $callback = function($matches) use (&$parentStack)
         {
             $parentTemplate = $this->templateFactory->create($matches[3]);
-            $inheritanceStack[] = $parentTemplate;
+            $parentContents = $this->compileControlStructures($parentTemplate, $parentTemplate->getContents());
+            $parentStack[] = $parentTemplate;
 
-            return $parentTemplate->getContents();
+            return $parentContents;
         };
         $regex = $this->getStatementRegex($template, "extends", true, true);
 
@@ -128,15 +124,16 @@ class StatementCompiler extends SubCompiler
         }
         while($count > 0);
 
+        $currChildTemplate = $template;
+
         // Inherit the parents' parts, tags, and vars
         // The nearest parents' tags and values take precedence over further ones
-        while(count($inheritanceStack) > 0)
+        while(count($parentStack) > 0)
         {
             /** @var Views\ITemplate $parentTemplate */
-            $parentTemplate = array_pop($inheritanceStack);
-            $template->setParts($parentTemplate->getParts());
-            $template->setTags($parentTemplate->getTags());
-            $template->setVars($parentTemplate->getVars());
+            $parentTemplate = array_shift($parentStack);
+            $currChildTemplate->setParent($parentTemplate);
+            $currChildTemplate = $parentTemplate;
         }
 
         return $content;
@@ -166,6 +163,48 @@ class StatementCompiler extends SubCompiler
 
         do
         {
+            $content = preg_replace_callback($regex, $callback, $content, -1, $count);
+        }
+        while($count > 0);
+
+        return $content;
+    }
+
+    /**
+     * Compiles parent statements
+     *
+     * @param Views\ITemplate $template The template to compile
+     * @param string $content The compiled contents
+     * @return string The compiled contents
+     */
+    private function compileParentStatements(Views\ITemplate $template, $content)
+    {
+        $count = 1;
+
+        // Doing this in a loop allows us to compile statements that return statements
+        do
+        {
+            $callback = function ($matches) use ($template)
+            {
+                $currTemplate = $template;
+
+                while($currTemplate->getParent() !== null)
+                {
+                    foreach($currTemplate->getParent()->getParts() as $name => $content)
+                    {
+                        if($matches[3] == $name)
+                        {
+                            // In the case that the content contains a call to a higher-up parent, compile the content
+                            return $this->compileParentStatements($currTemplate->getParent(), $content);
+                        }
+                    }
+
+                    $currTemplate = $currTemplate->getParent();
+                }
+
+                return "";
+            };
+            $regex = $this->getStatementRegex($template, "parent", true, true);
             $content = preg_replace_callback($regex, $callback, $content, -1, $count);
         }
         while($count > 0);

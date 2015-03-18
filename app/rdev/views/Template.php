@@ -29,7 +29,9 @@ class Template implements ITemplate
     protected $vars = [];
     /** @var array The mapping of template part names to their contents */
     protected $parts = [];
-    /** @var array The mapping of delimiter types to values */
+    /** @var ITemplate|null The parent template if there is one, otherwise false */
+    protected $parent;
+    /** @var array The stack of parent delimiter types to values */
     private $delimiters = [
         self::DELIMITER_TYPE_UNESCAPED_TAG => [
             self::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
@@ -77,9 +79,26 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function getPart($name)
     {
-        return isset($this->parts[$name]) ? $this->parts[$name] : "";
+        if(isset($this->parts[$name]))
+        {
+            return $this->parts[$name];
+        }
+        elseif($this->parent !== null)
+        {
+            return $this->parent->getPart($name);
+        }
+
+        return "";
     }
 
     /**
@@ -87,7 +106,23 @@ class Template implements ITemplate
      */
     public function getParts()
     {
-        return $this->parts;
+        $parts = $this->parts;
+        $currParent = $this->parent;
+
+        while($currParent !== null)
+        {
+            foreach($this->parent->getParts() as $name => $content)
+            {
+                if(!array_key_exists($name, $this->parts))
+                {
+                    $parts[$name] = $content;
+                }
+            }
+
+            $currParent = $this->parent->getParent();
+        }
+
+        return $parts;
     }
 
     /**
@@ -99,6 +134,10 @@ class Template implements ITemplate
         {
             return $this->tags[$name];
         }
+        elseif($this->parent !== null)
+        {
+            return $this->parent->getTag($name);
+        }
 
         return null;
     }
@@ -108,7 +147,23 @@ class Template implements ITemplate
      */
     public function getTags()
     {
-        return $this->tags;
+        $tags = $this->tags;
+        $currParent = $this->parent;
+
+        while($currParent !== null)
+        {
+            foreach($this->parent->getTags() as $name => $value)
+            {
+                if(!array_key_exists($name, $this->tags))
+                {
+                    $tags[$name] = $value;
+                }
+            }
+
+            $currParent = $this->parent->getParent();
+        }
+
+        return $tags;
     }
 
     /**
@@ -120,6 +175,10 @@ class Template implements ITemplate
         {
             return $this->vars[$name];
         }
+        elseif($this->parent !== null)
+        {
+            return $this->parent->getVar($name);
+        }
 
         return null;
     }
@@ -129,7 +188,23 @@ class Template implements ITemplate
      */
     public function getVars()
     {
-        return $this->vars;
+        $vars = $this->vars;
+        $currParent = $this->parent;
+
+        while($currParent !== null)
+        {
+            foreach($this->parent->getVars() as $name => $value)
+            {
+                if(!array_key_exists($name, $this->vars))
+                {
+                    $vars[$name] = $value;
+                }
+            }
+
+            $currParent = $this->parent->getParent();
+        }
+
+        return $vars;
     }
 
     /**
@@ -159,6 +234,14 @@ class Template implements ITemplate
     public function setDelimiters($type, array $values)
     {
         $this->delimiters[$type] = $values;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setParent(ITemplate $parent)
+    {
+        $this->parent = $parent;
     }
 
     /**

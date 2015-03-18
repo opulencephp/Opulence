@@ -124,31 +124,26 @@ This is the content
     }
 
     /**
-     * Tests multiple show statements with the same part
+     * Tests a parent statement that reaches back to the grandparent
      */
-    public function testMultipleShowStatementsWithSamePart()
+    public function testGrandparentInheritanceInParentStatement()
     {
-        $this->template->setContents('{% show("foo") %} {% show("foo") %}');
-        $this->template->setPart("foo", "bar");
-        $this->assertEquals("bar bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
-    }
-
-    /**
-     * Tests that a child's tag is not overwritten by a parent's tag
-     */
-    public function testParentTagDoesNotOverwriteChildTag()
-    {
-        $this->templateFactory->registerBuilder("Header.html", function()
-        {
-            return new Mocks\ParentBuilder();
-        });
-        $this->templateFactory->registerBuilder("TestWithExtendStatement.html", function()
-        {
-            return new Mocks\FooBuilder();
-        });
-        $this->template = $this->templateFactory->create("TestWithExtendStatement.html");
-        $this->compiler->compile($this->template);
-        $this->assertEquals("bar", $this->template->getTag("foo"));
+        // Try a child that directly inherits from its grandparent
+        $this->template->setContents(
+            '{% extends("EmptyChild.html") %}{% part("foo") %}{% parent("foo") %}baz{% endpart %}'
+        );
+        $this->assertEquals(
+            "Foobaz",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+        // Try a child that inherits from its parent, which inherits from the grandparent
+        $this->template->setContents(
+            '{% extends("ChildWithDefinedParentStatement.html") %}{% part("foo") %}{% parent("foo") %}baz{% endpart %}'
+        );
+        $this->assertEquals(
+            "Foobarbaz",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
     }
 
     /**
@@ -166,17 +161,13 @@ This is the content
     }
 
     /**
-     * Tests including a template that includes a template
+     * Tests multiple show statements with the same part
      */
-    public function testNestedIncludeStatements()
+    public function testMultipleShowStatementsWithSamePart()
     {
-        $this->template->setContents(
-            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS)
-        );
-        $this->assertEquals(
-            'FooBarBaz',
-            $this->subCompiler->compile($this->template, $this->template->getContents())
-        );
+        $this->template->setContents('{% show("foo") %} {% show("foo") %}');
+        $this->template->setPart("foo", "bar");
+        $this->assertEquals("bar bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
     /**
@@ -206,6 +197,52 @@ This is the content
         );
         $this->assertEquals("blah", $this->template->getTag("foo"));
         $this->assertEquals(true, $this->template->getVar("bar"));
+    }
+
+    /**
+     * Tests including a template that includes a template
+     */
+    public function testNestedIncludeStatements()
+    {
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS)
+        );
+        $this->assertEquals(
+            'FooBarBaz',
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+    }
+
+    /**
+     * Tests parent statement
+     */
+    public function testParentStatement()
+    {
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_THAT_CALLS_PARENT_PART)
+        );
+        $this->assertEquals(
+            "Foobar",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
+    }
+
+    /**
+     * Tests that a child's tag is not overwritten by a parent's tag
+     */
+    public function testParentTagDoesNotOverwriteChildTag()
+    {
+        $this->templateFactory->registerBuilder("Header.html", function()
+        {
+            return new Mocks\ParentBuilder();
+        });
+        $this->templateFactory->registerBuilder("TestWithExtendStatement.html", function()
+        {
+            return new Mocks\FooBuilder();
+        });
+        $this->template = $this->templateFactory->create("TestWithExtendStatement.html");
+        $this->compiler->compile($this->template);
+        $this->assertEquals("bar", $this->template->getTag("foo"));
     }
 
     /**
@@ -246,5 +283,19 @@ This is the content
         );
         $this->subCompiler->compile($this->template, $this->template->getContents());
         $this->assertEquals("bar", $this->template->getTag("foo"));
+    }
+
+    /**
+     * Tests a parent statement that is not defined
+     */
+    public function testUndefinedParentStatement()
+    {
+        $this->template->setContents(
+            $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_THAT_CALLS_PARENT_UNDEFINED_PART)
+        );
+        $this->assertEquals(
+            "bar",
+            $this->subCompiler->compile($this->template, $this->template->getContents())
+        );
     }
 }
