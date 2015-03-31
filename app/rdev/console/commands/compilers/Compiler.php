@@ -5,15 +5,16 @@
  * Defines a command compiler
  */
 namespace RDev\Console\Commands\Compilers;
-use RDev\Console\Commands;
-use RDev\Console\Requests;
+use RuntimeException;
+use RDev\Console\Commands\ICommand;
+use RDev\Console\Requests\IRequest;
 
 class Compiler implements ICompiler
 {
     /**
      * {@inheritdoc}
      */
-    public function compile(Commands\ICommand $command, Requests\IRequest $request)
+    public function compile(ICommand $command, IRequest $request)
     {
         $this->compileArguments($command, $request);
         $this->compileOptions($command, $request);
@@ -24,18 +25,18 @@ class Compiler implements ICompiler
     /**
      * Compiles arguments in a command
      *
-     * @param Commands\ICommand $command The command to compile
-     * @param Requests\IRequest $request The user request
-     * @throws \RuntimeException Thrown if there are too many arguments
+     * @param ICommand $command The command to compile
+     * @param IRequest $request The user request
+     * @throws RuntimeException Thrown if there are too many arguments
      */
-    protected function compileArguments(Commands\ICommand &$command, Requests\IRequest $request)
+    protected function compileArguments(ICommand &$command, IRequest $request)
     {
         $argumentValues = $request->getArgumentValues();
         $commandArguments = $command->getArguments();
 
         if($this->hasTooManyArguments($argumentValues, $commandArguments))
         {
-            throw new \RuntimeException("Too many arguments");
+            throw new RuntimeException("Too many arguments");
         }
 
         $hasSetArrayArgument = false;
@@ -46,7 +47,7 @@ class Compiler implements ICompiler
             {
                 if(!$argument->isOptional())
                 {
-                    throw new \RuntimeException("Argument \"{$argument->getName()}\" does not have default value");
+                    throw new RuntimeException("Argument \"{$argument->getName()}\" does not have default value");
                 }
 
                 $command->setArgumentValue($argument->getName(), $argument->getDefaultValue());
@@ -55,7 +56,7 @@ class Compiler implements ICompiler
             {
                 if($hasSetArrayArgument)
                 {
-                    throw new \RuntimeException("Array argument must appear at end of list of arguments");
+                    throw new RuntimeException("Array argument must appear at end of list of arguments");
                 }
 
                 if($argument->isArray())
@@ -82,10 +83,10 @@ class Compiler implements ICompiler
     /**
      * Compiles options in a command
      *
-     * @param Commands\ICommand $command The command to compile
-     * @param Requests\IRequest $request The user request
+     * @param ICommand $command The command to compile
+     * @param IRequest $request The user request
      */
-    protected function compileOptions(Commands\ICommand &$command, Requests\IRequest $request)
+    protected function compileOptions(ICommand &$command, IRequest $request)
     {
         foreach($command->getOptions() as $option)
         {
@@ -106,12 +107,12 @@ class Compiler implements ICompiler
 
                 if(!$option->valueIsPermitted() && $value !== null)
                 {
-                    throw new \RuntimeException("Option \"{$option->getName()}\" does not permit a value");
+                    throw new RuntimeException("Option \"{$option->getName()}\" does not permit a value");
                 }
 
                 if($option->valueIsRequired() && $value === null)
                 {
-                    throw new \RuntimeException("Option \"{$option->getName()}\" requires a value");
+                    throw new RuntimeException("Option \"{$option->getName()}\" requires a value");
                 }
 
                 if($option->valueIsOptional() && $value == null)
@@ -128,7 +129,7 @@ class Compiler implements ICompiler
      * Gets whether or not there are too many argument values
      *
      * @param array $argumentValues The list of argument values
-     * @param Commands\ICommand[] $commandArguments The list of command arguments
+     * @param ICommand[] $commandArguments The list of command arguments
      * @return bool True if there are too many arguments, otherwise false
      */
     private function hasTooManyArguments(array $argumentValues, array $commandArguments)

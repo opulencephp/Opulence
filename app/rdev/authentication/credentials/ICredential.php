@@ -5,10 +5,10 @@
  * Defines the interface for a single credential
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Cryptography;
-use RDev\ORM;
+use RDev\Cryptography\IToken;
+use RDev\ORM\IEntity;
 
-interface ICredential extends ORM\IEntity
+interface ICredential extends IEntity
 {
     /**
      * Deactivates this credential
@@ -32,7 +32,7 @@ interface ICredential extends ORM\IEntity
     /**
      * Gets the token contained in this credential
      *
-     * @return Cryptography\IToken The token contained in this credential
+     * @return IToken The token contained in this credential
      */
     public function getToken();
 

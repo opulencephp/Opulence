@@ -5,21 +5,23 @@
  * Defines the HTTP application test case
  */
 namespace RDev\Framework\Tests\HTTP;
-use RDev\Framework\Tests;
-use RDev\HTTP\Kernels;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
+use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
+use RDev\HTTP\Kernels\Kernel;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\RedirectResponse;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Responses\ResponseHeaders;
+use RDev\HTTP\Routing\Router;
 
-abstract class ApplicationTestCase extends Tests\ApplicationTestCase
+abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
-    /** @var Routing\Router The router */
+    /** @var Router The router */
     protected $router = null;
-    /** @var Requests\Request The default request */
+    /** @var Request The default request */
     protected $defaultRequest = null;
-    /** @var Kernels\Kernel The HTTP kernel */
+    /** @var Kernel The HTTP kernel */
     protected $kernel = null;
-    /** @var Responses\Response The response from the last route */
+    /** @var Response The response from the last route */
     protected $response = null;
 
     /**
@@ -31,7 +33,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     {
         $this->checkResponseIsSet();
         $this->assertTrue(
-            $this->response instanceof Responses\RedirectResponse &&
+            $this->response instanceof RedirectResponse &&
             $this->response->getTargetURL() == $url
         );
     }
@@ -125,7 +127,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     public function assertResponseIsInternalServerError()
     {
         $this->checkResponseIsSet();
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $this->response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $this->response->getStatusCode());
     }
 
     /**
@@ -134,7 +136,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     public function assertResponseIsNotFound()
     {
         $this->checkResponseIsSet();
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $this->response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $this->response->getStatusCode());
     }
 
     /**
@@ -143,7 +145,16 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     public function assertResponseIsOK()
     {
         $this->checkResponseIsSet();
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
+    }
+
+    /**
+     * Asserts that the response is unauthorized
+     */
+    public function assertResponseIsUnauthorized()
+    {
+        $this->checkResponseIsSet();
+        $this->assertEquals(ResponseHeaders::HTTP_UNAUTHORIZED, $this->response->getStatusCode());
     }
 
     /**
@@ -155,15 +166,6 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     {
         $this->checkResponseIsSet();
         $this->assertEquals($statusCode, $this->response->getStatusCode());
-    }
-
-    /**
-     * Asserts that the response is unauthorized
-     */
-    public function assertResponseIsUnauthorized()
-    {
-        $this->checkResponseIsSet();
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_UNAUTHORIZED, $this->response->getStatusCode());
     }
 
     /**
@@ -213,7 +215,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     }
 
     /**
-     * @return Routing\Router
+     * @return Router
      */
     public function getRouter()
     {
@@ -225,10 +227,10 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
      *
      * @param string $method The HTTP method to use
      * @param string $url The URL to route
-     * @param Requests\Request|null $request The request to use
-     * @return Responses\Response The response
+     * @param Request|null $request The request to use
+     * @return Response The response
      */
-    public function route($method, $url, Requests\Request $request = null)
+    public function route($method, $url, Request $request = null)
     {
         if($request === null)
         {
@@ -254,7 +256,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
         $container = $this->application->getIoCContainer();
         $this->router = $container->makeShared("RDev\\HTTP\\Routing\\Router");
         $this->kernel = $container->makeShared("RDev\\HTTP\\Kernels\\Kernel");
-        $this->defaultRequest = new Requests\Request([], [], [], [], [], []);
+        $this->defaultRequest = new Request([], [], [], [], [], []);
     }
 
     /**

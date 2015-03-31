@@ -5,8 +5,8 @@
  * Defines an Id generator that uses an integer sequence to generate Ids
  */
 namespace RDev\ORM\Ids;
-use RDev\Databases\SQL;
-use RDev\ORM;
+use RDev\Databases\SQL\IConnection;
+use RDev\ORM\IEntity;
 
 class IntSequenceIdGenerator extends IdGenerator
 {
@@ -24,7 +24,7 @@ class IntSequenceIdGenerator extends IdGenerator
     /**
      * {@inheritdoc}
      */
-    public function generate(ORM\IEntity $entity, SQL\IConnection $connection)
+    public function generate(IEntity $entity, IConnection $connection)
     {
         return (int)$connection->lastInsertId($this->sequenceName);
     }

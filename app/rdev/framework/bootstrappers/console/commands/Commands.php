@@ -5,52 +5,53 @@
  * Defines the command bootstrapper
  */
 namespace RDev\Framework\Bootstrappers\Console\Commands;
-use RDev\Applications\Bootstrappers;
-use RDev\Console\Commands as ConsoleCommands;
-use RDev\Console\Commands\Compilers;
-use RDev\IoC;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Console\Commands\CommandCollection;
+use RDev\Console\Commands\Compilers\Compiler;
+use RDev\Console\Commands\Compilers\ICompiler;
+use RDev\IoC\IContainer;
 
-class Commands extends Bootstrappers\Bootstrapper
+class Commands extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
-        "RDev\\Framework\\Console\\Commands\\AppEnvironment",
-        "RDev\\Framework\\Console\\Commands\\ComposerDumpAutoload",
-        "RDev\\Framework\\Console\\Commands\\ComposerUpdate",
-        "RDev\\Framework\\Console\\Commands\\EncryptionKeyGenerator",
-        "RDev\\Framework\\Console\\Commands\\FlushViewCache",
-        "RDev\\Framework\\Console\\Commands\\MakeCommand",
-        "RDev\\Framework\\Console\\Commands\\MakeController",
-        "RDev\\Framework\\Console\\Commands\\MakeDataMapper",
-        "RDev\\Framework\\Console\\Commands\\MakeEntity",
-        "RDev\\Framework\\Console\\Commands\\MakeHTTPMiddleware",
-        "RDev\\Framework\\Console\\Commands\\RenameApp"
+        "RDev\\Framework\\Console\\Commands\\AppEnvironmentCommand",
+        "RDev\\Framework\\Console\\Commands\\ComposerDumpAutoloadCommand",
+        "RDev\\Framework\\Console\\Commands\\ComposerUpdateCommand",
+        "RDev\\Framework\\Console\\Commands\\EncryptionKeyGenerationCommand",
+        "RDev\\Framework\\Console\\Commands\\FlushViewCacheCommand",
+        "RDev\\Framework\\Console\\Commands\\MakeCommandCommand",
+        "RDev\\Framework\\Console\\Commands\\MakeControllerCommand",
+        "RDev\\Framework\\Console\\Commands\\MakeDataMapperCommand",
+        "RDev\\Framework\\Console\\Commands\\MakeEntityCommand",
+        "RDev\\Framework\\Console\\Commands\\MakeHTTPMiddlewareCommand",
+        "RDev\\Framework\\Console\\Commands\\RenameAppCommand"
     ];
-    /** @var ConsoleCommands\Commands The list of console commands */
-    private $commands = null;
+    /** @var CommandCollection The list of console commands */
+    private $commandCollection = null;
 
     /**
      * {@inheritdoc}
      */
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
         $compiler = $this->getCommandCompiler($container);
         $container->bind("RDev\\Console\\Commands\\Compilers\\ICompiler", $compiler);
-        $this->commands = new ConsoleCommands\Commands($compiler);
-        $container->bind("RDev\\Console\\Commands\\Commands", $this->commands);
+        $this->commandCollection = new CommandCollection($compiler);
+        $container->bind("RDev\\Console\\Commands\\CommandCollection", $this->commandCollection);
     }
 
     /**
      * Adds built-in commands to our list
      *
-     * @param IoC\IContainer $container The dependency injection container to use
+     * @param IContainer $container The dependency injection container to use
      */
-    public function run(IoC\IContainer $container)
+    public function run(IContainer $container)
     {
         // Instantiate each command class
         foreach(self::$commandClasses as $commandClass)
         {
-            $this->commands->add($container->makeShared($commandClass));
+            $this->commandCollection->add($container->makeShared($commandClass));
         }
     }
 
@@ -58,11 +59,11 @@ class Commands extends Bootstrappers\Bootstrapper
      * Gets the command compiler
      * To use a different command compiler than the one returned here, extend this class and override this method
      *
-     * @param IoC\IContainer $container The dependency injection container
-     * @return Compilers\ICompiler The command compiler
+     * @param IContainer $container The dependency injection container
+     * @return ICompiler The command compiler
      */
-    protected function getCommandCompiler(IoC\IContainer $container)
+    protected function getCommandCompiler(IContainer $container)
     {
-        return new Compilers\Compiler();
+        return new Compiler();
     }
 }

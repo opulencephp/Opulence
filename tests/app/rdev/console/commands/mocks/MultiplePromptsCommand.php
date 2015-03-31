@@ -5,20 +5,20 @@
  * Mocks a command with multiple prompts
  */
 namespace RDev\Tests\Console\Commands\Mocks;
-use RDev\Console\Commands;
-use RDev\Console\Prompts;
-use RDev\Console\Prompts\Questions;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Prompts\Prompt;
+use RDev\Console\Prompts\Questions\Question;
+use RDev\Console\Responses\IResponse;
 
-class MultiplePromptsCommand extends Commands\Command
+class MultiplePromptsCommand extends Command
 {
-    /** @var Prompts\Prompt The prompt to use */
+    /** @var Prompt The prompt to use */
     private $prompt = null;
 
     /**
-     * @param Prompts\Prompt $prompt The prompt to use
+     * @param Prompt $prompt The prompt to use
      */
-    public function __construct(Prompts\Prompt $prompt)
+    public function __construct(Prompt $prompt)
     {
         parent::__construct();
 
@@ -37,10 +37,10 @@ class MultiplePromptsCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
-        $question1 = new Questions\Question("Q1", "default1");
-        $question2 = new Questions\Question("Q2", "default2");
+        $question1 = new Question("Q1", "default1");
+        $question2 = new Question("Q2", "default2");
         $answer1 = $this->prompt->ask($question1, $response);
         $answer2 = $this->prompt->ask($question2, $response);
 

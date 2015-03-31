@@ -5,9 +5,9 @@
  * Builds a select query
  */
 namespace RDev\Databases\SQL\QueryBuilders\MySQL;
-use RDev\Databases\SQL\QueryBuilders;
+use RDev\Databases\SQL\QueryBuilders\SelectQuery as BaseSelectQuery;
 
-class SelectQuery extends QueryBuilders\SelectQuery
+class SelectQuery extends BaseSelectQuery
 {
     // Don't do anything
 }

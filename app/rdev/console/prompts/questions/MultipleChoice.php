@@ -5,6 +5,7 @@
  * Defines a multiple choice question
  */
 namespace RDev\Console\Prompts\Questions;
+use InvalidArgumentException;
 
 class MultipleChoice extends Question
 {
@@ -62,7 +63,7 @@ class MultipleChoice extends Question
         {
             if(!$this->allowsMultipleChoices)
             {
-                throw new \InvalidArgumentException("Multiple choices are not allowed");
+                throw new InvalidArgumentException("Multiple choices are not allowed");
             }
 
             $hasMultipleAnswers = true;
@@ -80,7 +81,7 @@ class MultipleChoice extends Question
 
         if(count($selectedChoices) == 0)
         {
-            throw new \InvalidArgumentException("Invalid choice");
+            throw new InvalidArgumentException("Invalid choice");
         }
 
         if($hasMultipleAnswers)
@@ -151,7 +152,7 @@ class MultipleChoice extends Question
      *
      * @param array $answers The list of answers
      * @return array The list of selected choices
-     * @throws \InvalidArgumentException Thrown if the answers are not of the correct type
+     * @throws InvalidArgumentException Thrown if the answers are not of the correct type
      */
     private function getSelectedIndexChoices(array $answers)
     {
@@ -161,14 +162,14 @@ class MultipleChoice extends Question
         {
             if(!ctype_digit($answer))
             {
-                throw new \InvalidArgumentException("Answer is not an integer");
+                throw new InvalidArgumentException("Answer is not an integer");
             }
 
             $answer = (int)$answer;
 
             if($answer < 1 || $answer > count($this->choices))
             {
-                throw new \InvalidArgumentException("Choice must be between 1 and " . count($this->choices));
+                throw new InvalidArgumentException("Choice must be between 1 and " . count($this->choices));
             }
 
             // Answers are 1-indexed

@@ -5,20 +5,20 @@
  * Defines a wrapper around Composer
  */
 namespace RDev\Framework\Composer;
-use RDev\Applications;
+use RDev\Applications\Paths;
 
 class Composer
 {
     /** @var array The raw config */
     private $rawConfig = [];
-    /** @var Applications\Paths The paths of the application */
+    /** @var Paths The paths of the application */
     private $paths = null;
 
     /**
      * @param array $config The raw config
-     * @param Applications\Paths $paths The paths of the application
+     * @param Paths $paths The paths of the application
      */
-    public function __construct(array $config, Applications\Paths $paths)
+    public function __construct(array $config, Paths $paths)
     {
         $this->rawConfig = $config;
         $this->paths = $paths;
@@ -27,10 +27,10 @@ class Composer
     /**
      * Creates an instance of this class from a raw Composer config file
      *
-     * @param Applications\Paths $paths The paths of the application
+     * @param Paths $paths The paths of the application
      * @return Composer An instance of this class
      */
-    public static function createFromRawConfig(Applications\Paths $paths)
+    public static function createFromRawConfig(Paths $paths)
     {
         $composerPath = $paths["root"] . "/composer.json";
 

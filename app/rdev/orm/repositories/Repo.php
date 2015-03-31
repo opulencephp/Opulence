@@ -5,24 +5,26 @@
  * Defines a generic entity repository that can be extended
  */
 namespace RDev\ORM\Repositories;
-use RDev\ORM;
-use RDev\ORM\DataMappers;
+use RDev\ORM\DataMappers\IDataMapper;
+use RDev\ORM\IEntity;
+use RDev\ORM\ORMException;
+use RDev\ORM\UnitOfWork;
 
 class Repo implements IRepo
 {
     /** @var string The name of the class whose objects this repo is getting */
     protected $className = "";
-    /** @var DataMappers\IDataMapper The data mapper to use in this repo */
+    /** @var IDataMapper The data mapper to use in this repo */
     protected $dataMapper = null;
-    /** @var ORM\UnitOfWork The unit of work to use in this repo */
+    /** @var UnitOfWork The unit of work to use in this repo */
     protected $unitOfWork = null;
 
     /**
      * @param string $className The name of the class whose objects this repo is getting
-     * @param DataMappers\IDataMapper $dataMapper The data mapper to use in this repo
-     * @param ORM\UnitOfWork $unitOfWork The unit of work to use in this repo
+     * @param IDataMapper $dataMapper The data mapper to use in this repo
+     * @param UnitOfWork $unitOfWork The unit of work to use in this repo
      */
-    public function __construct($className, DataMappers\IDataMapper $dataMapper, ORM\UnitOfWork $unitOfWork)
+    public function __construct($className, IDataMapper $dataMapper, UnitOfWork $unitOfWork)
     {
         $this->className = $className;
         $this->unitOfWork = $unitOfWork;
@@ -32,7 +34,7 @@ class Repo implements IRepo
     /**
      * {@inheritdoc}
      */
-    public function add(ORM\IEntity &$entity)
+    public function add(IEntity &$entity)
     {
         $this->unitOfWork->scheduleForInsertion($entity);
     }
@@ -40,7 +42,7 @@ class Repo implements IRepo
     /**
      * {@inheritdoc}
      */
-    public function delete(ORM\IEntity &$entity)
+    public function delete(IEntity &$entity)
     {
         $this->unitOfWork->scheduleForDeletion($entity);
     }
@@ -60,7 +62,7 @@ class Repo implements IRepo
     {
         $entity = $this->unitOfWork->getEntityRegistry()->getEntity($this->className, $id);
 
-        if($entity instanceof ORM\IEntity)
+        if($entity instanceof IEntity)
         {
             return $entity;
         }
@@ -87,7 +89,7 @@ class Repo implements IRepo
     /**
      * {@inheritdoc}
      */
-    public function setDataMapper($dataMapper)
+    public function setDataMapper(IDataMapper $dataMapper)
     {
         $this->dataMapper = $dataMapper;
         $this->unitOfWork->registerDataMapper($this->className, $this->dataMapper);
@@ -98,8 +100,8 @@ class Repo implements IRepo
      *
      * @param string $functionName The name of the function to call in the data mapper
      * @param array $args The list of arguments to pass into the data mapper
-     * @return ORM\IEntity|ORM\IEntity[] The entity or list of entities
-     * @throws ORM\ORMException Thrown if there was an error getting the entity(ies)
+     * @return IEntity|IEntity[] The entity or list of entities
+     * @throws ORMException Thrown if there was an error getting the entity(ies)
      */
     protected function getFromDataMapper($functionName, array $args = [])
     {
@@ -110,13 +112,13 @@ class Repo implements IRepo
             // Passing by reference here is important because that reference may be updated in the unit of work
             foreach($entities as &$entity)
             {
-                if($entity instanceof ORM\IEntity)
+                if($entity instanceof IEntity)
                 {
                     $this->unitOfWork->getEntityRegistry()->register($entity);
                 }
             }
         }
-        elseif($entities instanceof ORM\IEntity)
+        elseif($entities instanceof IEntity)
         {
             $this->unitOfWork->getEntityRegistry()->register($entities);
         }

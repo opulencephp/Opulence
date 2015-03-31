@@ -5,11 +5,11 @@
  * Defines the Cache data mapper implemented by the Predis library
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Redis;
+use RDev\Databases\NoSQL\Redis\RDevPredis;
 
 abstract class PredisDataMapper extends RedisDataMapper
 {
-    /** @var Redis\RDevPredis The Redis cache to use for queries */
+    /** @var RDevPredis The Redis cache to use for queries */
     protected $redis = null;
 
     /**

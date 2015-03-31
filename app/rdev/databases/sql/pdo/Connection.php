@@ -6,19 +6,23 @@
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
 namespace RDev\Databases\SQL\PDO;
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\Providers;
+use PDO;
+use PDOException;
+use RDev\Databases\SQL\IConnection;
+use RDev\Databases\SQL\Providers\Provider;
+use RDev\Databases\SQL\Providers\TypeMapper;
+use RDev\Databases\SQL\Server;
 
-class Connection extends \PDO implements SQL\IConnection
+class Connection extends PDO implements IConnection
 {
     /** The name of the PDOStatement class to use */
     const PDO_STATEMENT_CLASS = "Statement";
 
-    /** @var Providers\TypeMapper The database type mapper this connection uses */
+    /** @var TypeMapper The database type mapper this connection uses */
     private $typeMapper = null;
-    /** @var Providers\Provider The database provider this connection uses */
+    /** @var Provider The database provider this connection uses */
     private $provider = null;
-    /** @var SQL\Server The server we're connecting to */
+    /** @var Server The server we're connecting to */
     private $server = null;
     /** @var string The Data Name Source to connect with */
     private $dsn = "";
@@ -35,14 +39,14 @@ class Connection extends \PDO implements SQL\IConnection
     private $transactionCounter = 0;
 
     /**
-     * @param Providers\Provider $provider The database provider this connection uses
-     * @param SQL\Server $server The server we're connecting to
+     * @param Provider $provider The database provider this connection uses
+     * @param Server $server The server we're connecting to
      * @param string $dsn The Data Name Source to connect with
      * @param array $driverOptions The list of driver options to use
      */
-    public function __construct(Providers\Provider $provider, SQL\Server $server, $dsn, array $driverOptions = [])
+    public function __construct(Provider $provider, Server $server, $dsn, array $driverOptions = [])
     {
-        $this->typeMapper = new Providers\TypeMapper($provider);
+        $this->typeMapper = new TypeMapper($provider);
         $this->provider = $provider;
         $this->server = $server;
         $this->dsn = $dsn;
@@ -53,7 +57,7 @@ class Connection extends \PDO implements SQL\IConnection
      * Nested transactions are permitted
      * {@inheritdoc}
      *
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function beginTransaction()
     {
@@ -69,7 +73,7 @@ class Connection extends \PDO implements SQL\IConnection
      * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
      * {@inheritdoc}
      *
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function commit()
     {
@@ -81,7 +85,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorCode()
     {
@@ -92,7 +96,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorInfo()
     {
@@ -103,7 +107,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function exec($statement)
     {
@@ -114,7 +118,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function getAttribute($attribute)
     {
@@ -149,7 +153,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function inTransaction()
     {
@@ -160,7 +164,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function lastInsertId($sequenceName = null)
     {
@@ -172,7 +176,7 @@ class Connection extends \PDO implements SQL\IConnection
     /**
      * {@inheritdoc}
      * @return Statement
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function prepare($statement, $driverOptions = [])
     {
@@ -183,7 +187,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function query($statement)
     {
@@ -194,7 +198,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function quote($string, $parameterType = \PDO::PARAM_STR)
     {
@@ -205,7 +209,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function rollBack()
     {
@@ -219,7 +223,7 @@ class Connection extends \PDO implements SQL\IConnection
 
     /**
      * {@inheritdoc}
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function setAttribute($attribute, $value)
     {
@@ -231,15 +235,15 @@ class Connection extends \PDO implements SQL\IConnection
     /**
      * Attempts to connect to the server, which is done via lazy-connecting
      *
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     private function connect()
     {
         if(!$this->isConnected)
         {
             parent::__construct($this->dsn, $this->server->getUsername(), $this->server->getPassword(), $this->driverOptions);
-            parent::setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-            parent::setAttribute(\PDO::ATTR_STATEMENT_CLASS, [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
+            parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            parent::setAttribute(PDO::ATTR_STATEMENT_CLASS, [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
 
             $this->isConnected = true;
         }

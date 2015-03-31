@@ -5,11 +5,10 @@
  * Mocks a simple command for use in testing
  */
 namespace RDev\Tests\Console\Commands\Mocks;
-use RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Responses\IResponse;
 
-class SimpleCommand extends Commands\Command
+class SimpleCommand extends Command
 {
     /**
      * @param string $name The name of the command
@@ -36,7 +35,7 @@ class SimpleCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
         $response->write("foo");
     }

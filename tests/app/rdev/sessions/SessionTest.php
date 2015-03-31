@@ -18,7 +18,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $session = new Session();
         $user = new Users\GuestUser();
-        $credentials = new Credentials\Credentials($user->getId(), Authentication\EntityTypes::USER);
+        $credentials = new Credentials\CredentialCollection($user->getId(), Authentication\EntityTypes::USER);
         $this->assertEquals($credentials, $session->getCredentials());
     }
 
@@ -37,7 +37,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSettingCredentials()
     {
         $session = new Session();
-        $credentials = new Credentials\Credentials();
+        $credentials = new Credentials\CredentialCollection();
         $session->setCredentials($credentials);
         $this->assertSame($credentials, $session->getCredentials());
     }

@@ -5,16 +5,17 @@
  * Defines the request bootstrapper
  */
 namespace RDev\Framework\Bootstrappers\Console\Requests;
-use RDev\Applications\Bootstrappers;
-use RDev\Console\Requests\Parsers;
-use RDev\IoC;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Console\Requests\Parsers\ArgvParser;
+use RDev\Console\Requests\Parsers\IParser;
+use RDev\IoC\IContainer;
 
-class Requests extends Bootstrappers\Bootstrapper
+class Requests extends Bootstrapper
 {
     /**
      * {@inheritdoc}
      */
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
         $container->bind("RDev\\Console\\Requests\\Parsers\\IParser", $this->getRequestParser($container));
     }
@@ -23,11 +24,11 @@ class Requests extends Bootstrappers\Bootstrapper
      * Gets the requests parser
      * To use a different request parser than the one returned here, extend this class and override this method
      *
-     * @param IoC\IContainer $container The dependency injection container
-     * @return Parsers\IParser The request parser
+     * @param IContainer $container The dependency injection container
+     * @return IParser The request parser
      */
-    protected function getRequestParser(IoC\IContainer $container)
+    protected function getRequestParser(IContainer $container)
     {
-        return new Parsers\Argv();
+        return new ArgvParser();
     }
 }

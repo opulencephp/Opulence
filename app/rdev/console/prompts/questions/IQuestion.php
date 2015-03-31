@@ -5,6 +5,7 @@
  * Defines the interface for questions to implement
  */
 namespace RDev\Console\Prompts\Questions;
+use InvalidArgumentException;
 
 interface IQuestion
 {
@@ -14,7 +15,7 @@ interface IQuestion
      *
      * @param mixed $answer The answer to format
      * @return mixed The formatted answer
-     * @throws \InvalidArgumentException Thrown if the answer is not of the correct type
+     * @throws InvalidArgumentException Thrown if the answer is not of the correct type
      */
     public function formatAnswer($answer);
 

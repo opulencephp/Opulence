@@ -5,30 +5,32 @@
  * Defines the HTTP kernel
  */
 namespace RDev\HTTP\Kernels;
-use Monolog;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
-use RDev\IoC;
-use RDev\Pipelines;
+use Exception;
+use Monolog\Logger;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Responses\ResponseHeaders;
+use RDev\HTTP\Routing\Router;
+use RDev\IoC\IContainer;
+use RDev\Pipelines\Pipeline;
 
 class Kernel
 {
-    /** @var IoC\IContainer The dependency injection container */
+    /** @var IContainer The dependency injection container */
     private $container = null;
-    /** @var Routing\Router The router to use for requests */
+    /** @var Router The router to use for requests */
     private $router = null;
-    /** @var Monolog\Logger The logger to use */
+    /** @var Logger The logger to use */
     private $logger = null;
     /** @var array The list of global middleware */
     private $middleware = [];
 
     /**
-     * @param IoC\IContainer $container The dependency injection container
-     * @param Routing\Router $router The router to use
-     * @param Monolog\Logger $logger The logger to use
+     * @param IContainer $container The dependency injection container
+     * @param Router $router The router to use
+     * @param Logger $logger The logger to use
      */
-    public function __construct(IoC\IContainer $container, Routing\Router $router, Monolog\Logger $logger)
+    public function __construct(IContainer $container, Router $router, Logger $logger)
     {
         $this->container = $container;
         $this->router = $router;
@@ -56,25 +58,25 @@ class Kernel
     /**
      * Handles an HTTP request
      *
-     * @param Requests\Request $request The HTTP request to handle
-     * @return Responses\Response The HTTP response
+     * @param Request $request The HTTP request to handle
+     * @return Response The HTTP response
      */
-    public function handle(Requests\Request $request)
+    public function handle(Request $request)
     {
         try
         {
-            $pipeline = new Pipelines\Pipeline($this->container, $this->middleware, "handle");
+            $pipeline = new Pipeline($this->container, $this->middleware, "handle");
 
             return $pipeline->send($request, function($request)
             {
                 return $this->router->route($request);
             });
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
             $this->logger->addError("Failed to handle request: $ex");
 
-            return new Responses\Response("", Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+            return new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

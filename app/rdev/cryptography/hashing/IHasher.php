@@ -5,6 +5,7 @@
  * Defines a cryptographic hasher
  */
 namespace RDev\Cryptography\Hashing;
+use RuntimeException;
 
 interface IHasher
 {
@@ -25,7 +26,7 @@ interface IHasher
      * @param array $options The list of algorithm-dependent options
      * @param string $pepper The optional pepper to append prior to hashing the value
      * @return string The hashed value
-     * @throws \RuntimeException Thrown if the hashing failed
+     * @throws RuntimeException Thrown if the hashing failed
      */
     public function generate($unhashedValue, array $options = [], $pepper = "");
 

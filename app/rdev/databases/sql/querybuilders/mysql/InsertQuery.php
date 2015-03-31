@@ -5,9 +5,9 @@
  * Builds an insert query
  */
 namespace RDev\Databases\SQL\QueryBuilders\MySQL;
-use RDev\Databases\SQL\QueryBuilders;
+use RDev\Databases\SQL\QueryBuilders\InsertQuery as BaseInsertQuery;
 
-class InsertQuery extends QueryBuilders\InsertQuery
+class InsertQuery extends BaseInsertQuery
 {
     /** @var array The list of column names to values in case of a "ON DUPLICATE KEY UPDATE" clause */
     private $duplicateKeyUpdateColumnNamesToValues = [];

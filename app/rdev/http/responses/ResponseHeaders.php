@@ -5,9 +5,10 @@
  * Defines the response headers
  */
 namespace RDev\HTTP\Responses;
-use RDev\HTTP;
+use DateTime;
+use RDev\HTTP\Headers;
 
-class ResponseHeaders extends HTTP\Headers
+class ResponseHeaders extends Headers
 {
     /** HTML content type */
     const CONTENT_TYPE_HTML = "text/html";
@@ -162,7 +163,7 @@ class ResponseHeaders extends HTTP\Headers
     public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHTTPOnly = true)
     {
         // Remove the cookie from the response
-        $this->setCookie(new Cookie($name, "", new \DateTime("-1 year"), $path, $domain, $isSecure, $isHTTPOnly));
+        $this->setCookie(new Cookie($name, "", new DateTime("-1 year"), $path, $domain, $isSecure, $isHTTPOnly));
     }
 
     /**
@@ -186,7 +187,7 @@ class ResponseHeaders extends HTTP\Headers
                 foreach($cookiesByPath as $name => $cookie)
                 {
                     // Only include active cookies
-                    if($includeDeletedCookies || $cookie->getExpiration() >= new \DateTime("now"))
+                    if($includeDeletedCookies || $cookie->getExpiration() >= new DateTime("now"))
                     {
                         $cookies[] = $cookie;
                     }

@@ -8,7 +8,7 @@ namespace RDev\Views\Compilers;
 use RDev\Files;
 use RDev\Tests\Views\Compilers\SubCompilers\Mocks;
 use RDev\Views;
-use RDev\Views\Cache;
+use RDev\Views\Caching;
 use RDev\Views\Factories;
 use RDev\Views\Filters;
 
@@ -52,7 +52,7 @@ class BuiltInTemplateFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $xssFilter = new Filters\XSS();
         $fileSystem = new Files\FileSystem();
-        $cache = new Cache\Cache($fileSystem, __DIR__ . "/tmp");
+        $cache = new Caching\Cache($fileSystem, __DIR__ . "/tmp");
         $this->compiler = new Compiler($cache, new Factories\TemplateFactory($fileSystem, __DIR__), $xssFilter);
         $this->template = new Views\Template();
     }

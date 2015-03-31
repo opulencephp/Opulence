@@ -5,20 +5,20 @@
  * Mocks a command with a single prompt
  */
 namespace RDev\Tests\Console\Commands\Mocks;
-use RDev\Console\Commands;
-use RDev\Console\Prompts;
-use RDev\Console\Prompts\Questions;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Prompts\Prompt;
+use RDev\Console\Prompts\Questions\Question;
+use RDev\Console\Responses\IResponse;
 
-class SinglePromptCommand extends Commands\Command
+class SinglePromptCommand extends Command
 {
-    /** @var Prompts\Prompt The prompt to use */
+    /** @var Prompt The prompt to use */
     private $prompt = null;
 
     /**
-     * @param Prompts\Prompt $prompt The prompt to use
+     * @param Prompt $prompt The prompt to use
      */
-    public function __construct(Prompts\Prompt $prompt)
+    public function __construct(Prompt $prompt)
     {
         parent::__construct();
 
@@ -37,9 +37,9 @@ class SinglePromptCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
-        $question = new Questions\Question("What else floats", "Very small rocks");
+        $question = new Question("What else floats", "Very small rocks");
         $answer = $this->prompt->ask($question, $response);
 
         if($answer == "A duck")

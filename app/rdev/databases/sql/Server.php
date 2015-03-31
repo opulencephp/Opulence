@@ -5,9 +5,9 @@
  * Provides a skeleton for database servers to extend
  */
 namespace RDev\Databases\SQL;
-use RDev\Databases;
+use RDev\Databases\Server as BaseServer;
 
-class Server extends Databases\Server
+class Server extends BaseServer
 {
     /** @var string The username to log in to the server */
     protected $username = "";

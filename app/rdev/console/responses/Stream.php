@@ -5,6 +5,8 @@
  * Defines the stream response
  */
 namespace RDev\Console\Responses;
+use InvalidArgumentException;
+use RDev\Console\Responses\Compilers\ICompiler;
 
 class Stream extends Response
 {
@@ -13,14 +15,14 @@ class Stream extends Response
 
     /**
      * @param resource $stream The stream to write to
-     * @param Compilers\ICompiler $compiler The response compiler to use
-     * @throws \InvalidArgumentException Thrown if the stream is not a resource
+     * @param ICompiler $compiler The response compiler to use
+     * @throws InvalidArgumentException Thrown if the stream is not a resource
      */
-    public function __construct($stream, Compilers\ICompiler $compiler)
+    public function __construct($stream, ICompiler $compiler)
     {
         if(!is_resource($stream))
         {
-            throw new \InvalidArgumentException("The stream must be a resource");
+            throw new InvalidArgumentException("The stream must be a resource");
         }
 
         parent::__construct($compiler);

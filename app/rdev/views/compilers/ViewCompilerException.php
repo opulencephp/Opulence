@@ -5,8 +5,9 @@
  * Defines a view compiler exception
  */
 namespace RDev\Views\Compilers;
+use Exception;
 
-class ViewCompilerException extends \Exception
+class ViewCompilerException extends Exception
 {
     // Don't do anything
 }

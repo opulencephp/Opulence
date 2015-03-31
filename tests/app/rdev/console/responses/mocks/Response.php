@@ -5,9 +5,9 @@
  * Mocks the console response for use in tests
  */
 namespace RDev\Tests\Console\Responses\Mocks;
-use RDev\Console\Responses;
+use RDev\Console\Responses\Response as BaseResponse;
 
-class Response extends Responses\Response
+class Response extends BaseResponse
 {
     /**
      * Clears the response buffer

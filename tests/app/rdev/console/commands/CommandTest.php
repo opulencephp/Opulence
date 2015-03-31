@@ -5,31 +5,35 @@
  * Tests the console command
  */
 namespace RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
-use RDev\Console\Responses\Compilers as ResponseCompilers;
-use RDev\Console\Responses\Compilers\Lexers;
-use RDev\Console\Responses\Compilers\Parsers;
-use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
-use RDev\Tests\Console\Commands\Mocks as CommandMocks;
+use RDev\Console\Commands\Compilers\Compiler as CommandCompiler;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\ArgumentTypes;
+use RDev\Console\Requests\Option;
+use RDev\Console\Requests\OptionTypes;
+use RDev\Console\Responses\Compilers\Compiler as ResponseCompiler;
+use RDev\Console\Responses\Compilers\Lexers\Lexer;
+use RDev\Console\Responses\Compilers\Parsers\Parser;
+use RDev\Tests\Console\Commands\Mocks\CommandThatDoesNotCallParentConstructor;
+use RDev\Tests\Console\Commands\Mocks\HappyHolidayCommand;
+use RDev\Tests\Console\Commands\Mocks\NamelessCommand;
+use RDev\Tests\Console\Commands\Mocks\SimpleCommand;
+use RDev\Tests\Console\Responses\Mocks\Response;
 
 class CommandTest extends \PHPUnit_Framework_TestCase 
 {
-    /** @var CommandMocks\SimpleCommand The command to use in tests */
+    /** @var SimpleCommand The command to use in tests */
     private $command = null;
-    /** @var Commands The list of registered commands */
-    private $commands = null;
+    /** @var CommandCollection The list of registered commands */
+    private $commandCollection = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->commands = new Commands(new Compilers\Compiler());
-        $this->commands->add(new CommandMocks\HappyHolidayCommand($this->commands));
-        $this->command = new CommandMocks\SimpleCommand(
-            "foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol"
-        );
+        $this->commandCollection = new CommandCollection(new CommandCompiler());
+        $this->commandCollection->add(new HappyHolidayCommand($this->commandCollection));
+        $this->command = new SimpleCommand("foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol");
     }
 
     /**
@@ -38,7 +42,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testAddingArgument()
     {
         $this->assertEquals([], $this->command->getArguments());
-        $argument = new Requests\Argument("foo", Requests\ArgumentTypes::OPTIONAL, "bar", null);
+        $argument = new Argument("foo", ArgumentTypes::OPTIONAL, "bar", null);
         $returnValue = $this->command->addArgument($argument);
         $this->assertSame($returnValue, $this->command);
         $this->assertSame($argument, $this->command->getArgument("foo"));
@@ -50,7 +54,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingOption()
     {
-        $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "bar", null);
+        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "bar", null);
         $returnValue = $this->command->addOption($option);
         $this->assertSame($returnValue, $this->command);
         $this->assertSame($option, $this->command->getOption("foo"));
@@ -61,8 +65,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfArgumentHasValue()
     {
-        $noValueArgument = new Requests\Argument("novalue", Requests\ArgumentTypes::OPTIONAL, "No value");
-        $hasValueArgument = new Requests\Argument("hasvalue", Requests\ArgumentTypes::REQUIRED, "Has value");
+        $noValueArgument = new Argument("novalue", ArgumentTypes::OPTIONAL, "No value");
+        $hasValueArgument = new Argument("hasvalue", ArgumentTypes::REQUIRED, "Has value");
         $this->command->addArgument($noValueArgument)
             ->addArgument($hasValueArgument)
             ->setArgumentValue("hasvalue", "foo");
@@ -75,7 +79,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfSetOptionIsSet()
     {
-        $option = new Requests\Option("foo", "f", Requests\OptionTypes::REQUIRED_VALUE, "Foo command");
+        $option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo command");
         $this->command->addOption($option);
         $this->command->setOptionValue("foo", "bar");
         $this->assertTrue($this->command->optionIsSet("foo"));
@@ -86,7 +90,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfSetOptionWithoutValueIsSet()
     {
-        $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "Foo command");
+        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command");
         $this->command->addOption($option);
         $this->command->setOptionValue("foo", null);
         $this->assertTrue($this->command->optionIsSet("foo"));
@@ -106,10 +110,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testCreatingCommandThatDoesNotConstructParent()
     {
         $this->setExpectedException("\\RuntimeException");
-        $command = new CommandMocks\CommandThatDoesNotCallParentConstructor();
-        $command->execute(new ResponseMocks\Response(
-            new ResponseCompilers\Compiler(new Lexers\Lexer(), new Parsers\Parser())
-        ));
+        $command = new CommandThatDoesNotCallParentConstructor();
+        $command->execute(new Response(new ResponseCompiler(new Lexer(), new Parser())));
     }
 
     /**
@@ -177,7 +179,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValueOfOptionWithDefaultValue()
     {
-        $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
+        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
         $this->command->addOption($option);
         $this->assertNull($this->command->getOptionValue("foo"));
     }
@@ -188,7 +190,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingNameInConstructor()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        new CommandMocks\NamelessCommand(new Commands(new Compilers\Compiler()));
+        new NamelessCommand(new CommandCollection(new CommandCompiler()));
     }
 
     /**
@@ -205,7 +207,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingOptionValue()
     {
-        $option = new Requests\Option("foo", "f", Requests\OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
+        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
         $this->command->addOption($option);
         $this->command->setOptionValue("foo", "bar");
         $this->assertEquals("bar", $this->command->getOptionValue("foo"));

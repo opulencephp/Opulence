@@ -5,7 +5,7 @@
  * Defines a wrapper for the Composer executable
  */
 namespace RDev\Framework\Composer;
-use RDev\Applications;
+use RDev\Applications\Paths;
 
 class Executable
 {
@@ -13,9 +13,9 @@ class Executable
     private $executable = "";
 
     /**
-     * @param Applications\Paths $paths The paths of the application
+     * @param Paths $paths The paths of the application
      */
-    public function __construct(Applications\Paths $paths)
+    public function __construct(Paths $paths)
     {
         if(file_exists($paths["root"] . "/composer.phar"))
         {

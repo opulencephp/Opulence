@@ -5,11 +5,10 @@
  * Defines a command without a name
  */
 namespace RDev\Tests\Console\Commands\Mocks;
-use RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Responses\IResponse;
 
-class NamelessCommand extends Commands\Command
+class NamelessCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -22,7 +21,7 @@ class NamelessCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
         $response->write("foo");
     }

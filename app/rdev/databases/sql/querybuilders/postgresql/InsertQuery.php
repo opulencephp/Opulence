@@ -5,9 +5,9 @@
  * Builds an insert query
  */
 namespace RDev\Databases\SQL\QueryBuilders\PostgreSQL;
-use RDev\Databases\SQL\QueryBuilders;
+use RDev\Databases\SQL\QueryBuilders\InsertQuery as BaseInsertQuery;
 
-class InsertQuery extends QueryBuilders\InsertQuery
+class InsertQuery extends BaseInsertQuery
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
     protected $augmentingQueryBuilder = null;

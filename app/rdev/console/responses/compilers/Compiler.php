@@ -5,39 +5,47 @@
  * Defines an element compiler
  */
 namespace RDev\Console\Responses\Compilers;
-use RDev\Console\Responses\Compilers\Parsers\Nodes;
-use RDev\Console\Responses\Formatters\Elements;
+use InvalidArgumentException;
+use RuntimeException;
+use RDev\Console\Responses\Compilers\Lexers\ILexer;
+use RDev\Console\Responses\Compilers\Parsers\IParser;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\Node;
+use RDev\Console\Responses\Formatters\Elements\Colors;
+use RDev\Console\Responses\Formatters\Elements\Element;
+use RDev\Console\Responses\Formatters\Elements\ElementCollection;
+use RDev\Console\Responses\Formatters\Elements\Style;
+use RDev\Console\Responses\Formatters\Elements\TextStyles;
 
 class Compiler implements ICompiler
 {
-    /** @var Lexers\ILexer The lexer to use */
+    /** @var ILexer The lexer to use */
     private $lexer = null;
-    /** @var Parsers\IParser The parser to use */
+    /** @var IParser The parser to use */
     private $parser = null;
-    /** @var Elements\Elements The list of elements registered to the compiler */
+    /** @var ElementCollection The list of elements registered to the compiler */
     private $elements = null;
     /** @var bool Whether or not messages should be styled */
     private $isStyled = true;
 
     /**
-     * @param Lexers\ILexer $lexer The lexer to use
-     * @param Parsers\IParser $parser The parser to use
+     * @param ILexer $lexer The lexer to use
+     * @param IParser $parser The parser to use
      */
-    public function __construct(Lexers\ILexer $lexer, Parsers\IParser $parser)
+    public function __construct(ILexer $lexer, IParser $parser)
     {
         $this->lexer = $lexer;
         $this->parser = $parser;
         // Register the built-in elements
-        $this->elements = new Elements\Elements();
+        $this->elements = new ElementCollection();
         $this->elements->add([
-            new Elements\Element("success", new Elements\Style(Elements\Colors::BLACK, Elements\Colors::GREEN)),
-            new Elements\Element("info", new Elements\Style(Elements\Colors::GREEN)),
-            new Elements\Element("error", new Elements\Style(Elements\Colors::BLACK, Elements\Colors::YELLOW)),
-            new Elements\Element("fatal", new Elements\Style(Elements\Colors::WHITE, Elements\Colors::RED)),
-            new Elements\Element("question", new Elements\Style(Elements\Colors::WHITE, Elements\Colors::BLUE)),
-            new Elements\Element("comment", new Elements\Style(Elements\Colors::YELLOW)),
-            new Elements\Element("b", new Elements\Style(null, null, [Elements\TextStyles::BOLD])),
-            new Elements\Element("u", new Elements\Style(null, null, [Elements\TextStyles::UNDERLINE]))
+            new Element("success", new Style(Colors::BLACK, Colors::GREEN)),
+            new Element("info", new Style(Colors::GREEN)),
+            new Element("error", new Style(Colors::BLACK, Colors::YELLOW)),
+            new Element("fatal", new Style(Colors::WHITE, Colors::RED)),
+            new Element("question", new Style(Colors::WHITE, Colors::BLUE)),
+            new Element("comment", new Style(Colors::YELLOW)),
+            new Element("b", new Style(null, null, [TextStyles::BOLD])),
+            new Element("u", new Style(null, null, [TextStyles::UNDERLINE]))
         ]);
     }
 
@@ -58,14 +66,14 @@ class Compiler implements ICompiler
 
             return $this->compileNode($ast->getRootNode());
         }
-        catch(\InvalidArgumentException $ex)
+        catch(InvalidArgumentException $ex)
         {
-            throw new \RuntimeException($ex->getMessage());
+            throw new RuntimeException($ex->getMessage());
         }
     }
 
     /**
-     * @return Elements\Elements
+     * @return ElementCollection
      */
     public function getElements()
     {
@@ -83,12 +91,12 @@ class Compiler implements ICompiler
     /**
      * Recursively compiles a node and its children
      *
-     * @param Nodes\Node $node The node to compile
+     * @param Node $node The node to compile
      * @return string The compiled node
-     * @throws \RuntimeException Thrown if there was an error compiling the node
-     * @throws \InvalidArgumentException Thrown if there is no matching element for a particular tag
+     * @throws RuntimeException Thrown if there was an error compiling the node
+     * @throws InvalidArgumentException Thrown if there is no matching element for a particular tag
      */
-    private function compileNode(Nodes\Node $node)
+    private function compileNode(Node $node)
     {
         if($node->isLeaf())
         {

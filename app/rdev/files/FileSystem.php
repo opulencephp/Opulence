@@ -5,6 +5,11 @@
  * Defines methods for interacting with the file system
  */
 namespace RDev\Files;
+use DateTime;
+use FilesystemIterator;
+use InvalidArgumentException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
 class FileSystem
 {
@@ -46,10 +51,10 @@ class FileSystem
 
         if($flags === null)
         {
-            $flags = \FilesystemIterator::SKIP_DOTS;
+            $flags = FilesystemIterator::SKIP_DOTS;
         }
 
-        $items = new \FilesystemIterator($source, $flags);
+        $items = new FilesystemIterator($source, $flags);
 
         foreach($items as $item)
         {
@@ -98,7 +103,7 @@ class FileSystem
             return false;
         }
 
-        $items = new \FilesystemIterator($path);
+        $items = new FilesystemIterator($path);
 
         foreach($items as $item)
         {
@@ -180,10 +185,10 @@ class FileSystem
         }
 
         $directories = [];
-        $iter = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST,
-            \RecursiveIteratorIterator::CATCH_GET_CHILD
+        $iter = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST,
+            RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
         if(!$isRecursive)
@@ -292,10 +297,10 @@ class FileSystem
         }
 
         $files = [];
-        $iter = new \RecursiveIteratorIterator(
-            new \RecursiveDirectoryIterator($path, \RecursiveDirectoryIterator::SKIP_DOTS),
-            \RecursiveIteratorIterator::SELF_FIRST,
-            \RecursiveIteratorIterator::CATCH_GET_CHILD
+        $iter = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST,
+            RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
         if(!$isRecursive)
@@ -318,7 +323,7 @@ class FileSystem
      * Gets the last modified time
      *
      * @param string $path The path to check
-     * @return \DateTime The last modified time
+     * @return DateTime The last modified time
      * @throws FileSystemException Thrown if the file was not found or if the modified time was not readable
      */
     public function getLastModified($path)
@@ -335,7 +340,7 @@ class FileSystem
             throw new FileSystemException("Failed to get last modified time of $path");
         }
 
-        return \DateTime::createFromFormat("U", $modifiedTimestamp);
+        return DateTime::createFromFormat("U", $modifiedTimestamp);
     }
 
     /**
@@ -439,13 +444,13 @@ class FileSystem
      * @param string $path The path of the file whose contents we want
      * @return string The contents of the file
      * @throws FileSystemException Thrown if the path was not a valid path
-     * @throws \InvalidArgumentException Thrown if the path was not a string
+     * @throws InvalidArgumentException Thrown if the path was not a string
      */
     public function read($path)
     {
         if(!is_string($path))
         {
-            throw new \InvalidArgumentException("Path is not a string");
+            throw new InvalidArgumentException("Path is not a string");
         }
 
         if(!$this->isFile($path))

@@ -5,8 +5,8 @@
  * Defines the interface for view factories to implement
  */
 namespace RDev\Views\Factories;
-use RDev\Files;
-use RDev\Views;
+use RDev\Files\FileSystemException;
+use RDev\Views\ITemplate;
 
 interface ITemplateFactory
 {
@@ -24,8 +24,8 @@ interface ITemplateFactory
      * If any builders are registered for this template, they're run too
      *
      * @param string $name The alias or path relative to the root template directory
-     * @return Views\ITemplate The template with the contents from the path
-     * @throws Files\FileSystemException Thrown if the template does not exist
+     * @return ITemplate The template with the contents from the path
+     * @throws FileSystemException Thrown if the template does not exist
      */
     public function create($name);
 

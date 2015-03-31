@@ -5,6 +5,7 @@
  * Defines a console command option
  */
 namespace RDev\Console\Requests;
+use InvalidArgumentException;
 
 class Option
 {
@@ -25,30 +26,30 @@ class Option
      * @param int $type The type of option this is
      * @param string $description A brief description of the option
      * @param mixed $defaultValue The default value for the option if it's optional
-     * @throws \InvalidArgumentException Thrown if the type is invalid
+     * @throws InvalidArgumentException Thrown if the type is invalid
      */
     public function __construct($name, $shortName, $type, $description, $defaultValue = null)
     {
         if(($type & 3) === 3)
         {
-            throw new \InvalidArgumentException("Option type cannot be both optional and required");
+            throw new InvalidArgumentException("Option type cannot be both optional and required");
         }
 
         if(($type & 5) === 5 || ($type & 6) === 6)
         {
-            throw new \InvalidArgumentException("Option cannot have a value and not have a value");
+            throw new InvalidArgumentException("Option cannot have a value and not have a value");
         }
 
         if($shortName !== null)
         {
             if(mb_strlen($shortName) != 1)
             {
-                throw new \InvalidArgumentException("Short names must be one character in length");
+                throw new InvalidArgumentException("Short names must be one character in length");
             }
 
             if(!ctype_alpha($shortName))
             {
-                throw new \InvalidArgumentException("Short names must be an alphabet character");
+                throw new InvalidArgumentException("Short names must be an alphabet character");
             }
         }
 

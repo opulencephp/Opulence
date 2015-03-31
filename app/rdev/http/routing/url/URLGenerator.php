@@ -5,21 +5,22 @@
  * Defines a routing URL generator
  */
 namespace RDev\HTTP\Routing\URL;
-use RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Routing\Compilers\Parsers\IParser;
+use RDev\HTTP\Routing\Routes\ParsedRoute;
+use RDev\HTTP\Routing\Routes\RouteCollection;
 
 class URLGenerator
 {
-    /** @var Routes\Routes The list of routes */
+    /** @var RouteCollection The list of routes */
     private $routes = null;
-    /** @var Parsers\IParser The parser to use */
+    /** @var IParser The parser to use */
     private $parser = null;
 
     /**
-     * @param Routes\Routes $routes The list of routes
-     * @param Parsers\IParser $parser The parser to use
+     * @param RouteCollection $routes The list of routes
+     * @param IParser $parser The parser to use
      */
-    public function __construct(Routes\Routes &$routes, Parsers\IParser $parser)
+    public function __construct(RouteCollection &$routes, IParser $parser)
     {
         $this->routes = $routes;
         $this->parser = $parser;
@@ -51,12 +52,12 @@ class URLGenerator
     /**
      * Generates the host portion of a URL for a route
      *
-     * @param Routes\ParsedRoute $route The route whose URL we're generating
+     * @param ParsedRoute $route The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated host value
      * @throws URLException Thrown if the generated host is not valid
      */
-    private function generateHost(Routes\ParsedRoute $route, &$values)
+    private function generateHost(ParsedRoute $route, &$values)
     {
         $generatedHost = "";
         $variableMatchingRegex = $this->parser->getVariableMatchingRegex();
@@ -98,12 +99,12 @@ class URLGenerator
     /**
      * Generates the path portion of a URL for a route
      *
-     * @param Routes\ParsedRoute $route The route whose URL we're generating
+     * @param ParsedRoute $route The route whose URL we're generating
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated path value
      * @throws URLException Thrown if the generated path is not valid
      */
-    private function generatePath(Routes\ParsedRoute $route, &$values)
+    private function generatePath(ParsedRoute $route, &$values)
     {
         $generatedPath = $route->getRawPath();
         $variableMatchingRegex = $this->parser->getVariableMatchingRegex();

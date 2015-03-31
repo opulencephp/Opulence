@@ -5,18 +5,18 @@
  * Defines a base controller
  */
 namespace RDev\HTTP\Routing;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\Views;
-use RDev\Views\Compilers;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
+use RDev\Views\Compilers\ICompiler;
+use RDev\Views\ITemplate;
 
 class Controller
 {
-    /** @var Views\ITemplate The template used in the response */
+    /** @var ITemplate The template used in the response */
     protected $template = null;
-    /** @var Compilers\ICompiler The template compiler to use */
+    /** @var ICompiler The template compiler to use */
     protected $compiler = null;
-    /** @var Requests\Request The HTTP request */
+    /** @var Request The HTTP request */
     protected $request = null;
 
     /**
@@ -25,15 +25,15 @@ class Controller
      *
      * @param string $methodName The name of the method in $this to call
      * @param array $parameters The list of parameters to pass into the action method
-     * @return Responses\Response The HTTP response returned by the method
+     * @return Response The HTTP response returned by the method
      */
     public function callMethod($methodName, array $parameters)
     {
         $this->setUpTemplate();
-        /** @var Responses\Response $response */
+        /** @var Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if($response === null && $this->compiler instanceof Compilers\ICompiler && $this->template !== null)
+        if($response === null && $this->compiler instanceof ICompiler && $this->template !== null)
         {
             $response->setContent($this->compiler->compile($this->template));
         }
@@ -42,7 +42,7 @@ class Controller
     }
 
     /**
-     * @return Views\ITemplate
+     * @return ITemplate|null
      */
     public function getTemplate()
     {
@@ -50,9 +50,9 @@ class Controller
     }
 
     /**
-     * @param Requests\Request $request
+     * @param Request $request
      */
-    public function setRequest(Requests\Request $request)
+    public function setRequest(Request $request)
     {
         $this->request = $request;
     }
@@ -62,11 +62,11 @@ class Controller
      * To customize error messages, override this method
      *
      * @param int $statusCode The HTTP status code of the error
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function showHTTPError($statusCode)
     {
-        return new Responses\Response("", $statusCode);
+        return new Response("", $statusCode);
     }
 
     /**

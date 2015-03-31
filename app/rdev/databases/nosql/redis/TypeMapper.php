@@ -5,6 +5,7 @@
  * Defines a type mapper that can go back and forth between Redis types and PHP types
  */
 namespace RDev\Databases\NoSQL\Redis;
+use DateTime;
 
 class TypeMapper
 {
@@ -23,11 +24,11 @@ class TypeMapper
      * Converts a Redis Unix timestamp to a PHP timestamp
      *
      * @param int $timestamp The Unix timestamp to convert from
-     * @return \DateTime The PHP timestamp
+     * @return DateTime The PHP timestamp
      */
     public function fromRedisTimestamp($timestamp)
     {
-        return \DateTime::createFromFormat("U", $timestamp);
+        return DateTime::createFromFormat("U", $timestamp);
     }
 
     /**
@@ -51,10 +52,10 @@ class TypeMapper
     /**
      * Converts a PHP timestamp to a Redis Unix timestamp
      *
-     * @param \DateTime $timestamp The PHP timestamp to convert
+     * @param DateTime $timestamp The PHP timestamp to convert
      * @return int The Unix timestamp
      */
-    public function toRedisTimestamp(\DateTime $timestamp)
+    public function toRedisTimestamp(DateTime $timestamp)
     {
         return $timestamp->getTimestamp();
     }

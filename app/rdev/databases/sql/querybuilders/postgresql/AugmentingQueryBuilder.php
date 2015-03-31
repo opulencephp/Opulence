@@ -5,9 +5,9 @@
  * Adds PostgreSQL-specific functionality for augmenting queries
  */
 namespace RDev\Databases\SQL\QueryBuilders\PostgreSQL;
-use RDev\Databases\SQL\QueryBuilders;
+use RDev\Databases\SQL\QueryBuilders\AugmentingQueryBuilder as BaseAugmentingQueryBuilder;
 
-class AugmentingQueryBuilder extends QueryBuilders\AugmentingQueryBuilder
+class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
 {
     /** @var array The list of columns whose value we want to return */
     protected $returningExpressions = [];

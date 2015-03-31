@@ -5,11 +5,13 @@
  * Defines the pipeline
  */
 namespace RDev\Pipelines;
-use RDev\IoC;
+use Closure;
+use RDev\IoC\IoCException;
+use RDev\IoC\IContainer;
 
 class Pipeline implements IPipeline
 {
-    /** @var IoC\IContainer The dependency injection container to use */
+    /** @var IContainer The dependency injection container to use */
     private $container;
     /** @var array The list of stages to send input through */
     private $stages = [];
@@ -17,11 +19,11 @@ class Pipeline implements IPipeline
     private $methodToCall = null;
 
     /**
-     * @param IoC\IContainer $container The dependency injection container to use
-     * @param \Closure[]|array $stages The list of stages to send input through
+     * @param IContainer $container The dependency injection container to use
+     * @param Closure[]|array $stages The list of stages to send input through
      * @param string $methodToCall The method to call if the pipes are not closures
      */
-    public function __construct(IoC\IContainer $container, array $stages, $methodToCall = null)
+    public function __construct(IContainer $container, array $stages, $methodToCall = null)
     {
         $this->container = $container;
         $this->setStages($stages, $methodToCall);
@@ -30,7 +32,7 @@ class Pipeline implements IPipeline
     /**
      * {@inheritdoc}
      */
-    public function send($input, \Closure $callback = null)
+    public function send($input, Closure $callback = null)
     {
         return call_user_func(
             array_reduce(
@@ -62,7 +64,7 @@ class Pipeline implements IPipeline
     /**
      * Creates a callback for an individual stage
      *
-     * @return \Closure The callback
+     * @return Closure The callback
      * @throws PipelineException Thrown if there was a problem creating a stage
      */
     private function createStageCallback()
@@ -71,7 +73,7 @@ class Pipeline implements IPipeline
         {
             return function($input) use ($stages, $stage)
             {
-                if($stage instanceof \Closure)
+                if($stage instanceof Closure)
                 {
                     return call_user_func($stage, $input, $stages);
                 }
@@ -99,7 +101,7 @@ class Pipeline implements IPipeline
                             [$input, $stages]
                         );
                     }
-                    catch(IoC\IoCException $ex)
+                    catch(IoCException $ex)
                     {
                         throw new PipelineException("Failed to pipeline input: " . $ex->getMessage());
                     }

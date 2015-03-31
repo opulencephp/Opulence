@@ -5,7 +5,7 @@
  * Defines the interface for response compilers to implement
  */
 namespace RDev\Console\Responses\Compilers;
-use RDev\Console\Responses\Formatters\Elements;
+use RuntimeException;
 
 interface ICompiler 
 {
@@ -14,7 +14,7 @@ interface ICompiler
      *
      * @param string $message The message to compile
      * @return string The compiled message
-     * @throws \RuntimeException Thrown if there was an issue compiling the message
+     * @throws RuntimeException Thrown if there was an issue compiling the message
      */
     public function compile($message);
 

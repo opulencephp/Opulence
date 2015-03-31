@@ -5,29 +5,32 @@
  * Defines the routing bootstrapper
  */
 namespace RDev\Framework\Bootstrappers\HTTP\Routing;
-use RDev\Applications\Bootstrappers;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\Dispatchers;
-use RDev\HTTP\Routing\URL;
-use RDev\IoC;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\HTTP\Routing\Router as HTTPRouter;
+use RDev\HTTP\Routing\Compilers\Compiler;
+use RDev\HTTP\Routing\Compilers\ICompiler;
+use RDev\HTTP\Routing\Compilers\Parsers\IParser;
+use RDev\HTTP\Routing\Compilers\Parsers\Parser;
+use RDev\HTTP\Routing\Dispatchers\Dispatcher;
+use RDev\HTTP\Routing\Dispatchers\IDispatcher;
+use RDev\HTTP\Routing\URL\URLGenerator;
+use RDev\IoC\IContainer;
 
-class Router extends Bootstrappers\Bootstrapper
+class Router extends Bootstrapper
 {
-    /** @var Parsers\IParser The route parser */
+    /** @var IParser The route parser */
     protected $parser = null;
 
     /**
      * {@inheritdoc}
      */
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
         $dispatcher = $this->getRouteDispatcher($container);
         $this->parser = $this->getRouteParser($container);
         $compiler = $this->getRouteCompiler($container);
-        $router = new Routing\Router($dispatcher, $compiler);
-        $urlGenerator = new URL\URLGenerator($router->getRoutes(), $this->parser);
+        $router = new HTTPRouter($dispatcher, $compiler);
+        $urlGenerator = new URLGenerator($router->getRouteCollection(), $this->parser);
         $container->bind("RDev\\HTTP\\Routing\\Dispatchers\\IDispatcher", $dispatcher);
         $container->bind("RDev\\HTTP\\Routing\\Compilers\\ICompiler", $compiler);
         $container->bind("RDev\\HTTP\\Routing\\Router", $router);
@@ -38,35 +41,35 @@ class Router extends Bootstrappers\Bootstrapper
      * Gets the route compiler
      * To use a different route compiler than the one returned here, extend this class and override this method
      *
-     * @param IoC\IContainer $container The dependency injection container
-     * @return Compilers\ICompiler The route compiler
+     * @param IContainer $container The dependency injection container
+     * @return ICompiler The route compiler
      */
-    protected function getRouteCompiler(IoC\IContainer $container)
+    protected function getRouteCompiler(IContainer $container)
     {
-        return new Compilers\Compiler($this->parser);
+        return new Compiler($this->parser);
     }
 
     /**
      * Gets the route dispatcher
      * To use a different route dispatcher than the one returned here, extend this class and override this method
      *
-     * @param IoC\IContainer $container The dependency injection container
-     * @return Dispatchers\IDispatcher The route dispatcher
+     * @param IContainer $container The dependency injection container
+     * @return IDispatcher The route dispatcher
      */
-    protected function getRouteDispatcher(IoC\IContainer $container)
+    protected function getRouteDispatcher(IContainer $container)
     {
-        return new Dispatchers\Dispatcher($container);
+        return new Dispatcher($container);
     }
 
     /**
      * Gets the route parser
      * To use a different route parser than the one returned here, extend this class and override this method
      *
-     * @param IoC\IContainer $container The dependency injection container
-     * @return Parsers\IParser The route parser
+     * @param IContainer $container The dependency injection container
+     * @return IParser The route parser
      */
-    protected function getRouteParser(IoC\IContainer $container)
+    protected function getRouteParser(IContainer $container)
     {
-        return new Parsers\Parser();
+        return new Parser();
     }
 }

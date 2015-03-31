@@ -5,12 +5,14 @@
  * Defines the template factory
  */
 namespace RDev\Views\Factories;
-use RDev\Files;
-use RDev\Views;
+use RDev\Files\FileSystem;
+use RDev\Views\IBuilder;
+use RDev\Views\ITemplate;
+use RDev\Views\Template;
 
 class TemplateFactory implements ITemplateFactory
 {
-    /** @var Files\FileSystem The file system to read templates with */
+    /** @var FileSystem The file system to read templates with */
     private $fileSystem = null;
     /** @var string The root directory of the templates */
     private $rootTemplateDirectory = "";
@@ -20,10 +22,10 @@ class TemplateFactory implements ITemplateFactory
     private $aliases = [];
 
     /**
-     * @param Files\FileSystem $fileSystem The file system to read templates with
+     * @param FileSystem $fileSystem The file system to read templates with
      * @param string|null $rootTemplateDirectory The root directory of the templates if it's known, otherwise null
      */
-    public function __construct(Files\FileSystem $fileSystem, $rootTemplateDirectory = null)
+    public function __construct(FileSystem $fileSystem, $rootTemplateDirectory = null)
     {
         $this->fileSystem = $fileSystem;
 
@@ -56,7 +58,7 @@ class TemplateFactory implements ITemplateFactory
 
         $templatePath = ltrim($templatePath, "/");
         $content = $this->fileSystem->read($this->rootTemplateDirectory . "/" . $templatePath);
-        $template = new Views\Template($content);
+        $template = new Template($content);
         $template = $this->runBuilders($templatePath, $template);
 
         if($isAlias)
@@ -107,16 +109,16 @@ class TemplateFactory implements ITemplateFactory
      * Runs the builders for a template (if there any)
      *
      * @param string $templatePath The path of the template relative to the root template directory
-     * @param Views\ITemplate $template The template to run builders on
-     * @return Views\ITemplate The built template
+     * @param ITemplate $template The template to run builders on
+     * @return ITemplate The built template
      */
-    private function runBuilders($templatePath, Views\ITemplate $template)
+    private function runBuilders($templatePath, ITemplate $template)
     {
         if(isset($this->builders[$templatePath]))
         {
             foreach($this->builders[$templatePath] as $callback)
             {
-                /** @var Views\IBuilder $builder */
+                /** @var IBuilder $builder */
                 $builder = $callback();
                 $template = $builder->build($template);
             }

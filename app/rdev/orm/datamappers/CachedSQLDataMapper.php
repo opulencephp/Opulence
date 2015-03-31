@@ -5,8 +5,9 @@
  * Defines a data mapper that uses cache with SQL as a backup
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\SQL;
-use RDev\ORM;
+use RDev\Databases\SQL\ConnectionPool;
+use RDev\ORM\IEntity;
+use RDev\ORM\ORMException;
 
 abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 {
@@ -14,18 +15,18 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     protected $cacheDataMapper = null;
     /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
-    /** @var ORM\IEntity[] The list of entities scheduled for insertion */
+    /** @var IEntity[] The list of entities scheduled for insertion */
     protected $scheduledForCacheInsertion = [];
-    /** @var ORM\IEntity[] The list of entities scheduled for update */
+    /** @var IEntity[] The list of entities scheduled for update */
     protected $scheduledForCacheUpdate = [];
-    /** @var ORM\IEntity[] The list of entities scheduled for deletion */
+    /** @var IEntity[] The list of entities scheduled for deletion */
     protected $scheduledForCacheDeletion = [];
 
     /**
      * @param mixed $cache The cache object used in the cache data mapper
-     * @param SQL\ConnectionPool $connectionPool The connection pool used in the SQL data mapper
+     * @param ConnectionPool $connectionPool The connection pool used in the SQL data mapper
      */
-    public function __construct($cache, SQL\ConnectionPool $connectionPool)
+    public function __construct($cache, ConnectionPool $connectionPool)
     {
         $this->setCacheDataMapper($cache);
         $this->setSQLDataMapper($connectionPool);
@@ -34,7 +35,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
-    public function add(ORM\IEntity &$entity)
+    public function add(IEntity &$entity)
     {
         $this->sqlDataMapper->add($entity);
         $this->scheduleForCacheInsertion($entity);
@@ -67,7 +68,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         }
         catch(\Exception $ex)
         {
-            throw new ORM\ORMException($ex->getMessage());
+            throw new ORMException($ex->getMessage());
         }
 
         // Clear our schedules
@@ -79,7 +80,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
-    public function delete(ORM\IEntity &$entity)
+    public function delete(IEntity &$entity)
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
@@ -166,7 +167,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
-    public function update(ORM\IEntity &$entity)
+    public function update(IEntity &$entity)
     {
         $this->sqlDataMapper->update($entity);
         $this->scheduleForCacheUpdate($entity);
@@ -182,9 +183,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Sets the SQL data mapper to use in this repo
      *
-     * @param SQL\ConnectionPool $connectionPool The connection pool used in the data mapper
+     * @param ConnectionPool $connectionPool The connection pool used in the data mapper
      */
-    abstract protected function setSQLDataMapper(SQL\ConnectionPool $connectionPool);
+    abstract protected function setSQLDataMapper(ConnectionPool $connectionPool);
 
     /**
      * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database
@@ -193,7 +194,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * @param array $getFuncArgs The array of function arguments to pass in to our entity retrieval functions
      * @param bool $addDataToCacheOnMiss True if we want to add the entity from the database to cache in case of a cache miss
      * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a cache miss
-     * @return ORM\IEntity|array|null The entity(ies) if it was found, otherwise null
+     * @return IEntity|array|null The entity(ies) if it was found, otherwise null
      */
     protected function read($funcName, array $getFuncArgs = [], $addDataToCacheOnMiss = true, array $setFuncArgs = [])
     {
@@ -237,9 +238,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Schedules an entity for deletion from cache
      *
-     * @param ORM\IEntity $entity The entity to schedule
+     * @param IEntity $entity The entity to schedule
      */
-    protected function scheduleForCacheDeletion(ORM\IEntity $entity)
+    protected function scheduleForCacheDeletion(IEntity $entity)
     {
         $this->scheduledForCacheDeletion[] = $entity;
     }
@@ -247,9 +248,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Schedules an entity for insertion into cache
      *
-     * @param ORM\IEntity $entity The entity to schedule
+     * @param IEntity $entity The entity to schedule
      */
-    protected function scheduleForCacheInsertion(ORM\IEntity $entity)
+    protected function scheduleForCacheInsertion(IEntity $entity)
     {
         $this->scheduledForCacheInsertion[] = $entity;
     }
@@ -257,9 +258,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Schedules an entity for update in cache
      *
-     * @param ORM\IEntity $entity The entity to schedule
+     * @param IEntity $entity The entity to schedule
      */
-    protected function scheduleForCacheUpdate(ORM\IEntity $entity)
+    protected function scheduleForCacheUpdate(IEntity $entity)
     {
         $this->scheduledForCacheUpdate[] = $entity;
     }
@@ -269,11 +270,11 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * Also performs refresh if the user chooses to do so
      *
      * @param bool $doRefresh Whether or not to refresh any unsynced entities
-     * @return ORM\IEntity[] The list of entities that were not already synced
+     * @return IEntity[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws ORM\ORMException Thrown if there was an error getting the unsynced entities
+     * @throws ORMException Thrown if there was an error getting the unsynced entities
      */
     private function compareCacheAndSQLEntities($doRefresh)
     {
@@ -348,8 +349,8 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * Converts a list of entities to a keyed array of those entities
      * The keys are the entity Ids
      *
-     * @param ORM\IEntity[] $entities The list of entities
-     * @return ORM\IEntity[] The keyed array
+     * @param IEntity[] $entities The list of entities
+     * @return IEntity[] The keyed array
      */
     private function keyEntityArray(array $entities)
     {

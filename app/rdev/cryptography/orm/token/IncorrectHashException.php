@@ -5,8 +5,9 @@
  * Defines an incorrect-hash exception
  */
 namespace RDev\Cryptography\ORM\Token;
+use Exception;
 
-class IncorrectHashException extends \Exception
+class IncorrectHashException extends Exception
 {
     // Don't do anything
 } 

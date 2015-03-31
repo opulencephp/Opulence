@@ -5,18 +5,19 @@
  * Defines the cryptography bootstrapper
  */
 namespace RDev\Framework\Bootstrappers\Cryptography;
-use RDev\Applications\Bootstrappers;
-use RDev\Cryptography\Encryption;
-use RDev\Cryptography\Hashing;
-use RDev\Cryptography\Utilities;
-use RDev\IoC;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Cryptography\Encryption\Encrypter;
+use RDev\Cryptography\Hashing\BcryptHasher;
+use RDev\Cryptography\Hashing\IHasher;
+use RDev\Cryptography\Utilities\Strings;
+use RDev\IoC\IContainer;
 
-class Cryptography extends Bootstrappers\Bootstrapper
+class Cryptography extends Bootstrapper
 {
     /**
      * {@inheritdoc}
      */
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
         $strings = $this->getStringUtility();
         $container->bind("RDev\\Cryptography\\Encryption\\IEncrypter", $this->getEncrypter($strings));
@@ -27,32 +28,32 @@ class Cryptography extends Bootstrappers\Bootstrapper
     /**
      * Gets the encrypter to use
      *
-     * @param Utilities\Strings $strings The string utility
-     * @return Encryption\Encrypter The encrypter
+     * @param Strings $strings The string utility
+     * @return Encrypter The encrypter
      */
-    protected function getEncrypter(Utilities\Strings $strings)
+    protected function getEncrypter(Strings $strings)
     {
-        return new Encryption\Encrypter($this->environment->getVariable("ENCRYPTION_KEY"), $strings);
+        return new Encrypter($this->environment->getVariable("ENCRYPTION_KEY"), $strings);
     }
 
     /**
      * Gets the hasher to use
      *
-     * @param Utilities\Strings $strings The string utility
-     * @return Hashing\IHasher The hasher to use
+     * @param Strings $strings The string utility
+     * @return IHasher The hasher to use
      */
-    protected function getHasher(Utilities\Strings $strings)
+    protected function getHasher(Strings $strings)
     {
-        return new Hashing\BcryptHasher($strings);
+        return new BcryptHasher($strings);
     }
 
     /**
      * Gets the string utility to use
      *
-     * @return Utilities\Strings The string utility
+     * @return Strings The string utility
      */
     protected function getStringUtility()
     {
-        return new Utilities\Strings();
+        return new Strings();
     }
 }

@@ -5,20 +5,21 @@
  * Defines the tag sub-compiler
  */
 namespace RDev\Views\Compilers\SubCompilers;
-use RDev\Views;
-use RDev\Views\Compilers;
-use RDev\Views\Filters;
+use RDev\Views\Compilers\ICompiler;
+use RDev\Views\Compilers\ViewCompilerException;
+use RDev\Views\Filters\IFilter;
+use RDev\Views\ITemplate;
 
 class TagCompiler extends SubCompiler
 {
-    /** @var Filters\IFilter The cross-site scripting filter */
+    /** @var IFilter The cross-site scripting filter */
     private $xssFilter = null;
 
     /**
      * {@inheritdoc}
-     * @param Filters\IFilter $xssFilter The cross-site scripting filter
+     * @param IFilter $xssFilter The cross-site scripting filter
      */
-    public function __construct(Compilers\ICompiler $parentCompiler, Filters\IFilter $xssFilter)
+    public function __construct(ICompiler $parentCompiler, IFilter $xssFilter)
     {
         parent::__construct($parentCompiler);
 
@@ -28,7 +29,7 @@ class TagCompiler extends SubCompiler
     /**
      * {@inheritdoc}
      */
-    public function compile(Views\ITemplate $template, $content)
+    public function compile(ITemplate $template, $content)
     {
         // Store some data about our callbacks
         // Store the template functions to a local variable so they can be used when we eval() the generated PHP code
@@ -84,10 +85,10 @@ class TagCompiler extends SubCompiler
 
             if(eval("?>" . $content) === false)
             {
-                throw new Compilers\ViewCompilerException("Invalid PHP inside template");
+                throw new ViewCompilerException("Invalid PHP inside template");
             }
         }
-        catch(Compilers\ViewCompilerException $ex)
+        catch(ViewCompilerException $ex)
         {
             // Prevent an invalid template from displaying
             while(ob_get_level() > $startOBLevel)
@@ -106,7 +107,7 @@ class TagCompiler extends SubCompiler
      *
      * @param string $tagContents The tag contents
      * @return string The PHP code
-     * @throws Compilers\ViewCompilerException Thrown if there was an error generating the PHP
+     * @throws ViewCompilerException Thrown if there was an error generating the PHP
      */
     private function generatePHP($tagContents)
     {
@@ -155,7 +156,7 @@ class TagCompiler extends SubCompiler
                                 is_array($previousToken) && $previousToken[0] !== T_OBJECT_OPERATOR &&
                                 $previousToken[0] !== T_DOUBLE_COLON && !function_exists($token[1]))
                             {
-                                throw new Compilers\ViewCompilerException(
+                                throw new ViewCompilerException(
                                     "Template function \"{$token[1]}\" does not exist"
                                 );
                             }
@@ -187,13 +188,13 @@ class TagCompiler extends SubCompiler
     /**
      * Gets an array of data with details about how to compile each type of tag
      *
-     * @param Views\ITemplate $template The template that is being compiled
+     * @param ITemplate $template The template that is being compiled
      * @return array The array of tag data
      */
-    private function getTagData(Views\ITemplate $template)
+    private function getTagData(ITemplate $template)
     {
-        $escapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
-        $unescapedDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
+        $escapedDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
+        $unescapedDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
         $escapedTagData = [
             "delimiters" => [$escapedDelimiters[0], $escapedDelimiters[1]],
             "callback" => function(array $matches) use ($template)
@@ -250,11 +251,11 @@ class TagCompiler extends SubCompiler
     /**
      * Gets the value of a tag, if there is one
      *
-     * @param Views\ITemplate $template The template being compiled
+     * @param ITemplate $template The template being compiled
      * @param string $tagContents The contents of the tag
      * @return mixed|null|string The tag value if there was one, otherwise null
      */
-    private function getTagValue(Views\ITemplate $template, $tagContents)
+    private function getTagValue(ITemplate $template, $tagContents)
     {
         $matches = [];
 

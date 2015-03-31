@@ -21,12 +21,12 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/authentication": "0.4.*",
-    "rdev/users": "0.4.*"
+    "rdev/authentication": "0.5.*",
+    "rdev/users": "0.5.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.4.x-dev"
+      "dev-master": "0.5.x-dev"
     }
   },
   "minimum-stability": "dev"

@@ -5,23 +5,28 @@
  * Defines an application
  */
 namespace RDev\Applications;
-use Monolog;
-use RDev\IoC;
-use RDev\Sessions;
+use Closure;
+use Exception;
+use Monolog\Logger;
+use RuntimeException;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Applications\Environments\Environment;
+use RDev\IoC\IContainer;
+use RDev\Sessions\ISession;
 
 class Application
 {
     /** The current RDev version */
-    private static $version = "0.4.0";
+    private static $version = "0.5.0";
     /** @var Paths The paths to various directories used by RDev */
     private $paths = null;
-    /** @var Monolog\Logger The logger used by this application */
+    /** @var Logger The logger used by this application */
     private $logger = null;
-    /** @var Environments\Environment The environment the application is running on */
+    /** @var Environment The environment the application is running on */
     private $environment = null;
-    /** @var IoC\IContainer The dependency injection container to use throughout the application */
+    /** @var IContainer The dependency injection container to use throughout the application */
     private $container = null;
-    /** @var Sessions\ISession The current user's session */
+    /** @var ISession The current user's session */
     private $session = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
@@ -37,17 +42,17 @@ class Application
 
     /**
      * @param Paths $paths The paths to various directories used by RDev
-     * @param Monolog\Logger $logger The logger to use throughout the application
-     * @param Environments\Environment $environment The current environment
-     * @param IoC\IContainer $container The IoC container to use
-     * @param Sessions\ISession $session The current user's session
+     * @param Logger $logger The logger to use throughout the application
+     * @param Environment $environment The current environment
+     * @param IContainer $container The IoC container to use
+     * @param ISession $session The current user's session
      */
     public function __construct(
         Paths $paths,
-        Monolog\Logger $logger,
-        Environments\Environment $environment,
-        IoC\IContainer $container,
-        Sessions\ISession $session
+        Logger $logger,
+        Environment $environment,
+        IContainer $container,
+        ISession $session
     )
     {
         // Order here is important
@@ -68,7 +73,7 @@ class Application
     }
 
     /**
-     * @return Environments\Environment
+     * @return Environment
      */
     public function getEnvironment()
     {
@@ -76,7 +81,7 @@ class Application
     }
 
     /**
-     * @return IoC\IContainer
+     * @return IContainer
      */
     public function getIoCContainer()
     {
@@ -84,7 +89,7 @@ class Application
     }
 
     /**
-     * @return Monolog\Logger
+     * @return Logger
      */
     public function getLogger()
     {
@@ -100,7 +105,7 @@ class Application
     }
 
     /**
-     * @return Sessions\ISession
+     * @return ISession
      */
     public function getSession()
     {
@@ -120,7 +125,7 @@ class Application
      * This should be called before the application is started
      *
      * @param array $bootstrapperClasses The list of class names of bootstrappers
-     * @throws \RuntimeException Thrown if the bootstrapper is of the incorrect class
+     * @throws RuntimeException Thrown if the bootstrapper is of the incorrect class
      */
     public function registerBootstrappers(array $bootstrapperClasses)
     {
@@ -168,25 +173,25 @@ class Application
     }
 
     /**
-     * @param Environments\Environment $environment
+     * @param Environment $environment
      */
-    public function setEnvironment(Environments\Environment $environment)
+    public function setEnvironment(Environment $environment)
     {
         $this->environment = $environment;
     }
 
     /**
-     * @param IoC\IContainer $container
+     * @param IContainer $container
      */
-    public function setIoCContainer(IoC\IContainer $container)
+    public function setIoCContainer(IContainer $container)
     {
         $this->container = $container;
     }
 
     /**
-     * @param Monolog\Logger $logger
+     * @param Logger $logger
      */
-    public function setLogger(Monolog\Logger $logger)
+    public function setLogger(Logger $logger)
     {
         $this->logger = $logger;
     }
@@ -200,9 +205,9 @@ class Application
     }
 
     /**
-     * @param Sessions\ISession $session
+     * @param ISession $session
      */
-    public function setSession(Sessions\ISession $session)
+    public function setSession(ISession $session)
     {
         $this->session = $session;
     }
@@ -210,11 +215,11 @@ class Application
     /**
      * Shuts down this application
      *
-     * @param \Closure $shutdownTask The task to perform on shutdown
+     * @param Closure $shutdownTask The task to perform on shutdown
      * @return mixed|null The return value of the task if there was one, otherwise null
-     * @throws \RuntimeException Thrown if there was an error shutting down the application
+     * @throws RuntimeException Thrown if there was an error shutting down the application
      */
-    public function shutdown(\Closure $shutdownTask = null)
+    public function shutdown(Closure $shutdownTask = null)
     {
         $taskReturnValue = null;
 
@@ -282,7 +287,7 @@ class Application
      * Runs a list of tasks
      *
      * @param callable[] $taskList The list of tasks to run
-     * @throws \RuntimeException Thrown if any of the tasks error out
+     * @throws RuntimeException Thrown if any of the tasks error out
      */
     protected function doTasks(array $taskList)
     {
@@ -293,9 +298,9 @@ class Application
                 call_user_func($task);
             }
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
-            throw new \RuntimeException("Failed to run tasks: " . $ex->getMessage());
+            throw new RuntimeException("Failed to run tasks: " . $ex->getMessage());
         }
     }
 
@@ -314,14 +319,14 @@ class Application
 
                 if(!$bootstrapper instanceof Bootstrappers\Bootstrapper)
                 {
-                    throw new \RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
+                    throw new RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
                 }
 
                 $bootstrapper->registerBindings($this->container);
                 $bootstrapperObjects[] = $bootstrapper;
             }
 
-            /** @var Bootstrappers\Bootstrapper $bootstrapper */
+            /** @var Bootstrapper $bootstrapper */
             foreach($bootstrapperObjects as $bootstrapper)
             {
                 $this->container->call($bootstrapper, "run", [], true);

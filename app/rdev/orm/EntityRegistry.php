@@ -5,6 +5,7 @@
  * Defines an entity registry
  */
 namespace RDev\ORM;
+use ReflectionClass;
 
 class EntityRegistry implements IEntityRegistry
 {
@@ -215,11 +216,11 @@ class EntityRegistry implements IEntityRegistry
     {
         // Get all the properties in the original entity and the current one
         $objectHashId = $this->getObjectHashId($entity);
-        $currentEntityReflection = new \ReflectionClass($entity);
+        $currentEntityReflection = new ReflectionClass($entity);
         $currentProperties = $currentEntityReflection->getProperties();
         $currentPropertiesAsHash = [];
         $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
-        $originalEntityReflection = new \ReflectionClass($originalData);
+        $originalEntityReflection = new ReflectionClass($originalData);
         $originalProperties = $originalEntityReflection->getProperties();
         $originalPropertiesAsHash = [];
 

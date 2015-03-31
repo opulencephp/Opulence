@@ -20,13 +20,13 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/cryptography": "0.4.*",
-    "rdev/http": "0.4.*",
-    "rdev/orm": "0.4.*"
+    "rdev/cryptography": "0.5.*",
+    "rdev/http": "0.5.*",
+    "rdev/orm": "0.5.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.4.x-dev"
+      "dev-master": "0.5.x-dev"
     }
   },
   "minimum-stability": "dev"

@@ -5,17 +5,20 @@
  * Tests the console prompt
  */
 namespace RDev\Console\Prompts;
-use RDev\Console\Responses\Compilers;
-use RDev\Console\Responses\Compilers\Lexers;
-use RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Formatters;
-use RDev\Tests\Console\Responses\Mocks;
+use InvalidArgumentException;
+use RDev\Console\Prompts\Questions\MultipleChoice;
+use RDev\Console\Prompts\Questions\Question;
+use RDev\Console\Responses\Compilers\Compiler;
+use RDev\Console\Responses\Compilers\Lexers\Lexer;
+use RDev\Console\Responses\Compilers\Parsers\Parser;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Tests\Console\Responses\Mocks\Response;
 
 class PromptTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Mocks\Response The response to use in tests */
+    /** @var Response The response to use in tests */
     private $response = null;
-    /** @var Formatters\Padding The space padding formatter to use in tests */
+    /** @var PaddingFormatter The space padding formatter to use in tests */
     private $paddingFormatter  = null;
 
     /**
@@ -23,8 +26,8 @@ class PromptTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Mocks\Response(new Compilers\Compiler(new Lexers\Lexer(), new Parsers\Parser()));
-        $this->paddingFormatter = new Formatters\Padding();
+        $this->response = new Response(new Compiler(new Lexer(), new Parser()));
+        $this->paddingFormatter = new PaddingFormatter();
     }
 
     /**
@@ -33,7 +36,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     public function testAnsweringWithSpaces()
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("  Dave  "));
-        $question = new Questions\Question("Name of dev", "unknown");
+        $question = new Question("Name of dev", "unknown");
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
@@ -47,7 +50,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     public function testAskingIndexedMultipleChoiceQuestion()
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("2"));
-        $question = new Questions\MultipleChoice("Pick", ["foo", "bar"]);
+        $question = new MultipleChoice("Pick", ["foo", "bar"]);
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
@@ -61,7 +64,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     public function testAskingKeyedMultipleChoiceQuestion()
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("c"));
-        $question = new Questions\MultipleChoice("Pick", ["a" => "b", "c" => "d"]);
+        $question = new MultipleChoice("Pick", ["a" => "b", "c" => "d"]);
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
@@ -75,7 +78,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     public function testAskingMultipleChoiceQuestionWithCustomAnswerLineString()
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("1"));
-        $question = new Questions\MultipleChoice("Pick", ["foo", "bar"]);
+        $question = new MultipleChoice("Pick", ["foo", "bar"]);
         $question->setAnswerLineString("  : ");
         ob_start();
         $answer = $prompt->ask($question, $this->response);
@@ -90,7 +93,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     public function testAskingQuestion()
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("Dave"));
-        $question = new Questions\Question("Name of dev", "unknown");
+        $question = new Question("Name of dev", "unknown");
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();
@@ -105,14 +108,14 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     {
         $triggeredException = false;
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(" "));
-        $question = new Questions\MultipleChoice("Dummy question", ["foo", "bar"]);
+        $question = new MultipleChoice("Dummy question", ["foo", "bar"]);
         ob_start();
 
         try
         {
             $prompt->ask($question, $this->response);
         }
-        catch(\InvalidArgumentException $ex)
+        catch(InvalidArgumentException $ex)
         {
             $triggeredException = true;
             ob_end_clean();
@@ -128,14 +131,14 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     {
         $triggeredException = false;
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(" "));
-        $question = new Questions\MultipleChoice("Dummy question", ["foo" => "bar", "baz" => "blah"]);
+        $question = new MultipleChoice("Dummy question", ["foo" => "bar", "baz" => "blah"]);
         ob_start();
 
         try
         {
             $prompt->ask($question, $this->response);
         }
-        catch(\InvalidArgumentException $ex)
+        catch(InvalidArgumentException $ex)
         {
             $triggeredException = true;
             ob_end_clean();
@@ -150,7 +153,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
     public function testNotReceivingResponse()
     {
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream(" "));
-        $question = new Questions\Question("Name of dev", "unknown");
+        $question = new Question("Name of dev", "unknown");
         ob_start();
         $answer = $prompt->ask($question, $this->response);
         $questionText = ob_get_clean();

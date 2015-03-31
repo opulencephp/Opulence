@@ -5,11 +5,11 @@
  * Defines the Cache data mapper implemented by the PHPRedis library
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Redis;
+use RDev\Databases\NoSQL\Redis\RDevPHPRedis;
 
 abstract class PHPRedisDataMapper extends RedisDataMapper
 {
-    /** @var Redis\RDevPHPRedis The Redis cache to use for queries */
+    /** @var RDevPHPRedis The Redis cache to use for queries */
     protected $redis = null;
 
     /**

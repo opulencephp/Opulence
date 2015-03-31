@@ -5,8 +5,10 @@
  * Defines the base class for HTTP connection parameters
  */
 namespace RDev\HTTP;
+use ArrayAccess;
+use Countable;
 
-class Parameters implements \ArrayAccess, \Countable
+class Parameters implements ArrayAccess, Countable
 {
     /** @var array The list of parameters */
     protected $parameters = [];

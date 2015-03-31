@@ -5,13 +5,13 @@
  * Defines the RDev statement sub-compiler
  */
 namespace RDev\Views\Compilers\SubCompilers;
-use RDev\Views;
-use RDev\Views\Compilers;
-use RDev\Views\Factories;
+use RDev\Views\Compilers\ICompiler;
+use RDev\Views\Factories\ITemplateFactory;
+use RDev\Views\ITemplate;
 
 class StatementCompiler extends SubCompiler
 {
-    /** @var Factories\ITemplateFactory The factory that creates templates */
+    /** @var ITemplateFactory The factory that creates templates */
     private $templateFactory = null;
     /** @var array The list of control structures */
     private $controlStructures = [
@@ -20,9 +20,9 @@ class StatementCompiler extends SubCompiler
 
     /**
      * {@inheritdoc}
-     * @param Factories\ITemplateFactory $templateFactory The factory that creates templates
+     * @param ITemplateFactory $templateFactory The factory that creates templates
      */
-    public function __construct(Compilers\ICompiler $parentCompiler, Factories\ITemplateFactory $templateFactory)
+    public function __construct(ICompiler $parentCompiler, ITemplateFactory $templateFactory)
     {
         parent::__construct($parentCompiler);
 
@@ -32,7 +32,7 @@ class StatementCompiler extends SubCompiler
     /**
      * {@inheritdoc}
      */
-    public function compile(Views\ITemplate $template, $content)
+    public function compile(ITemplate $template, $content)
     {
         $content = $this->compileExtendStatements($template, $content);
         $content = $this->compileIncludeStatements($template, $content);
@@ -46,14 +46,14 @@ class StatementCompiler extends SubCompiler
     /**
      * Cleans up any un-executed statements
      *
-     * @param Views\ITemplate $template The template to cleanup
+     * @param ITemplate $template The template to cleanup
      * @param string $content The content to cleanup
      * @return string The cleaned up contents
      */
-    private function cleanupStatements(Views\ITemplate $template, $content)
+    private function cleanupStatements(ITemplate $template, $content)
     {
         // Match anything
-        $closeStatementDelimiter = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_STATEMENT)[1];
+        $closeStatementDelimiter = $template->getDelimiters(ITemplate::DELIMITER_TYPE_STATEMENT)[1];
         $statement = sprintf(
             "(?:(?:(?!%s).)*)",
             preg_quote($closeStatementDelimiter)
@@ -69,11 +69,11 @@ class StatementCompiler extends SubCompiler
     /**
      * Compiles control structures
      *
-     * @param Views\ITemplate $template The template to compile
+     * @param ITemplate $template The template to compile
      * @param string $content The compiled contents
      * @return string The compiled contents
      */
-    private function compileControlStructures(Views\ITemplate $template, $content)
+    private function compileControlStructures(ITemplate $template, $content)
     {
         $callback = function($matches) use ($template)
         {
@@ -96,11 +96,11 @@ class StatementCompiler extends SubCompiler
     /**
      * Compiles extend statements
      *
-     * @param Views\ITemplate $template The template to compile
+     * @param ITemplate $template The template to compile
      * @param string $content The compiled contents
      * @return string The compiled contents
      */
-    private function compileExtendStatements(Views\ITemplate $template, $content)
+    private function compileExtendStatements(ITemplate $template, $content)
     {
         $parentStack = [];
         $callback = function($matches) use (&$parentStack)
@@ -130,7 +130,7 @@ class StatementCompiler extends SubCompiler
         // The nearest parents' tags and values take precedence over further ones
         while(count($parentStack) > 0)
         {
-            /** @var Views\ITemplate $parentTemplate */
+            /** @var ITemplate $parentTemplate */
             $parentTemplate = array_shift($parentStack);
             $currChildTemplate->setParent($parentTemplate);
             $currChildTemplate = $parentTemplate;
@@ -142,11 +142,11 @@ class StatementCompiler extends SubCompiler
     /**
      * Compiles include statements
      *
-     * @param Views\ITemplate $template The template to compile
+     * @param ITemplate $template The template to compile
      * @param string $content The compiled contents
      * @return string The compiled contents
      */
-    private function compileIncludeStatements(Views\ITemplate $template, $content)
+    private function compileIncludeStatements(ITemplate $template, $content)
     {
         $callback = function($matches) use (&$inheritanceStack)
         {
@@ -173,11 +173,11 @@ class StatementCompiler extends SubCompiler
     /**
      * Compiles parent statements
      *
-     * @param Views\ITemplate $template The template to compile
+     * @param ITemplate $template The template to compile
      * @param string $content The compiled contents
      * @return string The compiled contents
      */
-    private function compileParentStatements(Views\ITemplate $template, $content)
+    private function compileParentStatements(ITemplate $template, $content)
     {
         $count = 1;
 
@@ -215,11 +215,11 @@ class StatementCompiler extends SubCompiler
     /**
      * Compiles show statements
      *
-     * @param Views\ITemplate $template The template to compile
+     * @param ITemplate $template The template to compile
      * @param string $content The compiled contents
      * @return string The compiled contents
      */
-    private function compileShowStatements(Views\ITemplate $template, $content)
+    private function compileShowStatements(ITemplate $template, $content)
     {
         $count = 1;
 
@@ -241,17 +241,17 @@ class StatementCompiler extends SubCompiler
     /**
      * Gets the regex to compile a statement
      *
-     * @param Views\ITemplate $template The template whose statements we're compiling
+     * @param ITemplate $template The template whose statements we're compiling
      * @param string|array $statement The statement or list of statements whose regex we are building
      * @param bool $escapeStatement Whether or not we want to escape the statement in the regex
      * @param bool $isSelfClosed Whether or not the statement is self-closed
      * @return string The regex
      */
-    private function getStatementRegex(Views\ITemplate $template, $statement, $escapeStatement, $isSelfClosed)
+    private function getStatementRegex(ITemplate $template, $statement, $escapeStatement, $isSelfClosed)
     {
         $openStatementRegex = '(?<!%s)%s\s*(%s)\((?:(["|\'])([^\2]+)\2)?\)\s*%s';
         $closeStatementRegex = '(.*)%s\s*end\1\s*%s';
-        $statementDelimiters = $template->getDelimiters(Views\ITemplate::DELIMITER_TYPE_STATEMENT);
+        $statementDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_STATEMENT);
 
         if(is_array($statement))
         {

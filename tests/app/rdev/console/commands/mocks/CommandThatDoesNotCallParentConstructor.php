@@ -5,11 +5,14 @@
  * Mocks a command that does not call the parent constructor
  */
 namespace RDev\Tests\Console\Commands\Mocks;
-use RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\ArgumentTypes;
+use RDev\Console\Requests\Option;
+use RDev\Console\Requests\OptionTypes;
+use RDev\Console\Responses\IResponse;
 
-class CommandThatDoesNotCallParentConstructor extends Commands\Command
+class CommandThatDoesNotCallParentConstructor extends Command
 {
     public function __construct()
     {
@@ -23,15 +26,15 @@ class CommandThatDoesNotCallParentConstructor extends Commands\Command
     {
         $this->setName("holiday");
         $this->setDescription("Wishes someone a happy holiday");
-        $this->addArgument(new Requests\Argument(
+        $this->addArgument(new Argument(
             "holiday",
-            Requests\ArgumentTypes::REQUIRED,
+            ArgumentTypes::REQUIRED,
             "Holiday to wish someone"
         ));
-        $this->addOption(new Requests\Option(
+        $this->addOption(new Option(
             "yell",
             "y",
-            Requests\OptionTypes::OPTIONAL_VALUE,
+            OptionTypes::OPTIONAL_VALUE,
             "Whether or not we yell",
             "yes"
         ));
@@ -40,7 +43,7 @@ class CommandThatDoesNotCallParentConstructor extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
         $message = "Happy " . $this->getArgumentValue("holiday");
 

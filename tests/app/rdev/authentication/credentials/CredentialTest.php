@@ -5,7 +5,7 @@
  * Tests the credential class
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Tests\Cryptography\Mocks;
+use RDev\Tests\Cryptography\Mocks\Token;
 
 class CredentialTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
     private $entityId = -1;
     /** @var int The Id of the type of entity whose credential this is */
     private $entityTypeId = -1;
-    /** @var Mocks\Token The token to use in tests */
+    /** @var Token The token to use in tests */
     private $token = null;
     /** @var int The type of credential */
     private $type = -1;
@@ -31,7 +31,7 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
         $this->type = CredentialTypes::LOGIN;
         $this->entityId = 1;
         $this->entityTypeId = 844;
-        $this->token = Mocks\Token::create();
+        $this->token = Token::create();
         $this->credential = new Credential($this->id, $this->type, $this->entityId, $this->entityTypeId, $this->token);
     }
 

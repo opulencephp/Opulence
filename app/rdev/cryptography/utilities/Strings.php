@@ -5,8 +5,8 @@
  * Defines some string utilities
  */
 namespace RDev\Cryptography\Utilities;
-use RDev\Cryptography;
-use Symfony\Component\Security\Core\Util;
+use RDev\Cryptography\CryptographicException;
+use Symfony\Component\Security\Core\Util\StringUtils;
 
 class Strings
 {
@@ -15,7 +15,7 @@ class Strings
      *
      * @param int $length The desired length of the string
      * @return string The random string
-     * @throws Cryptography\CryptographicException Thrown if there was an error generating the hash
+     * @throws CryptographicException Thrown if there was an error generating the hash
      */
     public function generateRandomString($length)
     {
@@ -24,7 +24,7 @@ class Strings
 
         if($string === false || !$isStrong)
         {
-            throw new Cryptography\CryptographicException("Generated hash was not secure");
+            throw new CryptographicException("Generated hash was not secure");
         }
 
         if($length % 2 == 1)
@@ -45,6 +45,6 @@ class Strings
      */
     public function isEqual($knownString, $userString)
     {
-        return Util\StringUtils::equals($knownString, $userString);
+        return StringUtils::equals($knownString, $userString);
     }
 }

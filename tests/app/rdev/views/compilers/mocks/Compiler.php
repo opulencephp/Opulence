@@ -5,7 +5,7 @@
  * Mocks a compiler for use in testing
  */
 namespace RDev\Tests\Views\Compilers\Mocks;
-use RDev\Views\Cache;
+use RDev\Views\Caching;
 use RDev\Views\Compilers;
 use RDev\Views\Filters;
 

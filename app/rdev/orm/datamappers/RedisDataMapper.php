@@ -5,8 +5,8 @@
  * Defines a data mapper that maps domain data to and from Redis
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Redis;
-use RDev\ORM;
+use RDev\Databases\NoSQL\Redis\IRedis;
+use RDev\ORM\IEntity;
 
 abstract class RedisDataMapper implements ICacheDataMapper
 {
@@ -17,13 +17,13 @@ abstract class RedisDataMapper implements ICacheDataMapper
     /** Defines a sorted set value */
     const VALUE_TYPE_SORTED_SET = 2;
 
-    /** @var Redis\IRedis The Redis cache to use for queries */
+    /** @var IRedis The Redis cache to use for queries */
     protected $redis = null;
 
     /**
-     * @param Redis\IRedis $redis The Redis cache to use for queries
+     * @param IRedis $redis The Redis cache to use for queries
      */
-    public function __construct(Redis\IRedis $redis)
+    public function __construct(IRedis $redis)
     {
         $this->redis = $redis;
     }
@@ -82,7 +82,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @return ORM\IEntity The entity
+     * @return IEntity The entity
      */
     abstract protected function loadEntity(array $hash);
 

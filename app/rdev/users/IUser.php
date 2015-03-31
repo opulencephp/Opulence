@@ -5,14 +5,15 @@
  * Defines the user interface
  */
 namespace RDev\Users;
-use RDev\ORM;
+use DateTime;
+use RDev\ORM\IEntity;
 
-interface IUser extends ORM\IEntity
+interface IUser extends IEntity
 {
     /**
      * Gets the date the user was created
      *
-     * @return \DateTime The date the user was created
+     * @return DateTime The date the user was created
      */
     public function getDateCreated();
 

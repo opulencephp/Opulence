@@ -5,19 +5,20 @@
  * Defines a base cryptographic hasher
  */
 namespace RDev\Cryptography\Hashing;
-use RDev\Cryptography\Utilities;
+use RuntimeException;
+use RDev\Cryptography\Utilities\Strings;
 
 abstract class Hasher implements IHasher
 {
     /** @var int The hash algorithm constant used by this hasher */
     protected $hashAlgorithm = -1;
-    /** @var Utilities\Strings The string utility */
+    /** @var Strings The string utility */
     private $strings = null;
 
     /**
-     * @param Utilities\Strings $strings The string utility
+     * @param Strings $strings The string utility
      */
-    public function __construct(Utilities\Strings $strings)
+    public function __construct(Strings $strings)
     {
         $this->setHashAlgorithm();
         $this->strings = $strings;
@@ -40,7 +41,7 @@ abstract class Hasher implements IHasher
 
         if($hashedValue === false)
         {
-            throw new \RuntimeException("Failed to generate hash for algorithm {$this->hashAlgorithm}");
+            throw new RuntimeException("Failed to generate hash for algorithm {$this->hashAlgorithm}");
         }
 
         return $hashedValue;

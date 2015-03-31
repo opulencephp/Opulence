@@ -5,12 +5,13 @@
  * Defines the base class for PDO drivers
  */
 namespace RDev\Databases\SQL\PDO;
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\Providers;
+use RDev\Databases\SQL\IDriver;
+use RDev\Databases\SQL\Server;
+use RDev\Databases\SQL\Providers\Provider;
 
-abstract class Driver implements SQL\IDriver
+abstract class Driver implements IDriver
 {
-    /** @var Providers\Provider The provider this driver uses */
+    /** @var Provider The provider this driver uses */
     protected $provider = null;
 
     public function __construct()
@@ -22,7 +23,7 @@ abstract class Driver implements SQL\IDriver
      * {@inheritdoc}
      * @return Connection The PDO connection
      */
-    public function connect(SQL\Server $server, array $connectionOptions = [], array $driverOptions = [])
+    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = [])
     {
         $dsn = $this->getDSN($server, $connectionOptions);
 
@@ -32,11 +33,11 @@ abstract class Driver implements SQL\IDriver
     /**
      * Gets the DSN string to connect to a server through PDO
      *
-     * @param SQL\Server $server The server to connect to
+     * @param Server $server The server to connect to
      * @param array $options The list of driver-specific options
      * @return string The DSN to use to connect to PDO
      */
-    abstract protected function getDSN(SQL\Server $server, array $options = []);
+    abstract protected function getDSN(Server $server, array $options = []);
 
     /**
      * Sets the provider used by this driver's connections

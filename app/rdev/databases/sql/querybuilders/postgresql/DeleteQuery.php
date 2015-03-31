@@ -5,9 +5,9 @@
  * Builds a delete query
  */
 namespace RDev\Databases\SQL\QueryBuilders\PostgreSQL;
-use RDev\Databases\SQL\QueryBuilders;
+use RDev\Databases\SQL\QueryBuilders\DeleteQuery as BaseDeleteQuery;
 
-class DeleteQuery extends QueryBuilders\DeleteQuery
+class DeleteQuery extends BaseDeleteQuery
 {
     // Don't do anything
 } 

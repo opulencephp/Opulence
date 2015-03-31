@@ -5,6 +5,8 @@
  * Defines an individual route
  */
 namespace RDev\HTTP\Routing\Routes;
+use InvalidArgumentException;
+use RuntimeException;
 
 class Route
 {
@@ -31,8 +33,8 @@ class Route
      * @param string|array $methods The HTTP method or list of methods this route matches on
      * @param string $rawPath The raw path to match on
      * @param array $options The list of options
-     * @throws \RuntimeException Thrown if there is no controller specified in the options
-     * @throws \InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
+     * @throws RuntimeException Thrown if there is no controller specified in the options
+     * @throws InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
      */
     public function __construct($methods, $rawPath, array $options)
     {
@@ -41,7 +43,7 @@ class Route
 
         if(!isset($options["controller"]))
         {
-            throw new \RuntimeException("No controller specified for route");
+            throw new RuntimeException("No controller specified for route");
         }
 
         $this->setControllerVariables($options["controller"]);
@@ -255,7 +257,7 @@ class Route
      * Sets the controller name and method from the raw string
      *
      * @param string $controllerString The string to set the variables from
-     * @throws \InvalidArgumentException Thrown if the controller string is not formatted correctly
+     * @throws InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
     protected function setControllerVariables($controllerString)
     {
@@ -264,7 +266,7 @@ class Route
         // Make sure the "@" is somewhere in the middle of the string
         if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controllerString) - 1)
         {
-            throw new \InvalidArgumentException("Controller string is not formatted correctly");
+            throw new InvalidArgumentException("Controller string is not formatted correctly");
         }
 
         $this->controllerName = substr($controllerString, 0, $atCharPos);

@@ -5,27 +5,28 @@
  * Tests the console kernel
  */
 namespace RDev\Console\Kernels;
-use Monolog;
-use RDev\Console\Commands;
-use RDev\Console\Commands\Compilers as CommandCompilers;
-use RDev\Console\Requests\Parsers;
-use RDev\Console\Requests\Tokenizers;
-use RDev\Console\Responses\Compilers as ResponseCompilers;
-use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
-use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;
-use RDev\Tests\Applications\Mocks as ApplicationMocks;
-use RDev\Tests\Console\Commands\Mocks as CommandMocks;
-use RDev\Tests\Console\Responses\Mocks as ResponseMocks;
+use Monolog\Logger;
+use RDev\Console\Commands\CommandCollection;
+use RDev\Console\Commands\Compilers\Compiler as CommandCompiler;
+use RDev\Console\Requests\Parsers\StringParser;
+use RDev\Console\Requests\Tokenizers\StringTokenizer;
+use RDev\Console\Responses\Compilers\Compiler as ResponseCompiler;
+use RDev\Console\Responses\Compilers\Lexers\Lexer;
+use RDev\Console\Responses\Compilers\Parsers\Parser;
+use RDev\Tests\Applications\Mocks\MonologHandler;
+use RDev\Tests\Console\Commands\Mocks\HappyHolidayCommand;
+use RDev\Tests\Console\Commands\Mocks\SimpleCommand;
+use RDev\Tests\Console\Responses\Mocks\Response;
 
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
-    /** @var CommandCompilers\Compiler The command compiler */
+    /** @var CommandCompiler The command compiler */
     private $compiler = null;
-    /** @var Commands\Commands The list of commands */
+    /** @var CommandCollection The list of commands */
     private $commands = null;
-    /** @var Parsers\String The request parser */
+    /** @var StringParser The request parser */
     private $parser = null;
-    /** @var ResponseMocks\Response The response to use in tests */
+    /** @var Response The response to use in tests */
     private $response = null;
     /** @var Kernel The kernel to use in tests */
     private $kernel = null;
@@ -35,16 +36,14 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $logger = new Monolog\Logger("application");
-        $logger->pushHandler(new ApplicationMocks\MonologHandler());
-        $this->compiler = new CommandCompilers\Compiler();
-        $this->commands = new Commands\Commands($this->compiler);
-        $this->commands->add(new CommandMocks\SimpleCommand("mockcommand", "Mocks a command"));
-        $this->commands->add(new CommandMocks\HappyHolidayCommand($this->commands));
-        $this->parser = new Parsers\String(new Tokenizers\String());
-        $this->response = new ResponseMocks\Response(
-            new ResponseCompilers\Compiler(new ResponseLexers\Lexer(), new ResponseParsers\Parser())
-        );
+        $logger = new Logger("application");
+        $logger->pushHandler(new MonologHandler());
+        $this->compiler = new CommandCompiler();
+        $this->commands = new CommandCollection($this->compiler);
+        $this->commands->add(new SimpleCommand("mockcommand", "Mocks a command"));
+        $this->commands->add(new HappyHolidayCommand($this->commands));
+        $this->parser = new StringParser(new StringTokenizer());
+        $this->response = new Response(new ResponseCompiler(new Lexer(), new Parser()));
         $this->kernel = new Kernel($this->parser, $this->compiler, $this->commands, $logger, "0.0.0");
     }
 

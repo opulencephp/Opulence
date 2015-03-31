@@ -5,11 +5,10 @@
  * Mocks a command with styled output
  */
 namespace RDev\Tests\Console\Commands\Mocks;
-use RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
+use RDev\Console\Commands\Command;
+use RDev\Console\Responses\IResponse;
 
-class StyledCommand extends Commands\Command
+class StyledCommand extends Command
 {
     /**
      * {@inheritdoc}
@@ -23,7 +22,7 @@ class StyledCommand extends Commands\Command
     /**
      * {@inheritdoc}
      */
-    protected function doExecute(Responses\IResponse $response)
+    protected function doExecute(IResponse $response)
     {
         $response->write("<b>I've got style</b>");
     }

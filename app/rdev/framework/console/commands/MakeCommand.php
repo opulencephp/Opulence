@@ -2,36 +2,131 @@
 /**
  * Copyright (C) 2015 David Young
  * 
- * Makes a command class
+ * Defines the base class for "Make:" commands to extend
  */
 namespace RDev\Framework\Console\Commands;
+use RDev\Console\Commands\Command;
+use RDev\Console\Kernels\StatusCodes;
+use RDev\Console\Prompts\Prompt;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\ArgumentTypes;
+use RDev\Console\Responses\IResponse;
+use RDev\Files\FileSystem;
+use RDev\Framework\Composer\Composer;
 
-class MakeCommand extends Make
+abstract class MakeCommand extends Command
 {
+    /** @var Prompt The console prompt */
+    protected $prompt = null;
+    /** @var FileSystem The file system */
+    protected $fileSystem = null;
+    /** @var Composer The Composer wrapper */
+    protected $composer = null;
+
+    /**
+     * @param Prompt $prompt The console prompt
+     * @param FileSystem $fileSystem The file system
+     * @param Composer $composer The Composer wrapper
+     */
+    public function __construct(Prompt $prompt, FileSystem $fileSystem, Composer $composer)
+    {
+        parent::__construct();
+
+        $this->prompt = $prompt;
+        $this->fileSystem = $fileSystem;
+        $this->composer = $composer;
+    }
+
+    /**
+     * Gets the path to the template
+     *
+     * @return string The template path
+     */
+    abstract protected function getFileTemplatePath();
+
+    /**
+     * Compiles a template
+     *
+     * @param string $templateContents The template to compile
+     * @param string $fullyQualifiedClassName The fully-qualified class name
+     * @return string the compiled template
+     */
+    protected function compile($templateContents, $fullyQualifiedClassName)
+    {
+        $explodedClass = explode("\\", $fullyQualifiedClassName);
+        $namespace = implode("\\", array_slice($explodedClass, 0, -1));
+        $className = end($explodedClass);
+        $compiledTemplate = str_replace("{{namespace}}", $namespace, $templateContents);
+        $compiledTemplate = str_replace("{{class}}", $className, $compiledTemplate);
+
+        return $compiledTemplate;
+    }
+
     /**
      * {@inheritdoc}
      */
     protected function define()
     {
-        parent::define();
-
-        $this->setName("make:command")
-            ->setDescription("Creates a command class");
+        $this->addArgument(new Argument(
+            "class",
+            ArgumentTypes::REQUIRED,
+            "The name of the class to create"
+        ));
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getFileTemplatePath()
+    protected function doExecute(IResponse $response)
     {
-        return __DIR__ . "/templates/ConsoleCommand.template";
+        $fullyQualifiedClassName = $this->composer->getFullyQualifiedClassName(
+            $this->getArgumentValue("class"),
+            $this->getDefaultNamespace($this->composer->getRootNamespace())
+        );
+        $path = $this->composer->getClassPath($fullyQualifiedClassName);
+
+        if($this->fileSystem->exists($path))
+        {
+            $response->writeln("<error>File already exists</error>");
+
+            return StatusCodes::ERROR;
+        }
+
+        $this->makeDirectories($path);
+        $compiledTemplate = $this->compile(
+            $this->fileSystem->read($this->getFileTemplatePath()),
+            $fullyQualifiedClassName
+        );
+        $this->fileSystem->write($path, $compiledTemplate);
+        $response->writeln("<success>File was created</success>");
+
+        return StatusCodes::OK;
     }
 
     /**
-     * {@inheritdoc}
+     * Gets the default namespace for a class
+     * Let extending classes override this if they need to
+     *
+     * @param string $rootNamespace The root namespace
+     * @return string The default namespace
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . "\\Console\\Commands";
+        return $rootNamespace;
+    }
+
+    /**
+     * Makes the necessary directories for a class
+     *
+     * @param string $path The fully-qualified class name
+     */
+    protected function makeDirectories($path)
+    {
+        $directoryName = dirname($path);
+
+        if(!$this->fileSystem->isDirectory($directoryName))
+        {
+            $this->fileSystem->makeDirectory($directoryName, 0777, true);
+        }
     }
 }

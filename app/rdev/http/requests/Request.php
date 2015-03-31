@@ -5,7 +5,9 @@
  * Defines an HTTP request
  */
 namespace RDev\HTTP\Requests;
-use RDev\HTTP;
+use RDev\HTTP\Headers;
+use RDev\HTTP\HTTPException;
+use RDev\HTTP\Parameters;
 
 class Request
 {
@@ -34,25 +36,25 @@ class Request
     private $method = "";
     /** @var string The client's IP address */
     private $ipAddress = "";
-    /** @var HTTP\Parameters The list of GET parameters */
+    /** @var Parameters The list of GET parameters */
     private $query = null;
-    /** @var HTTP\Parameters The list of POST parameters */
+    /** @var Parameters The list of POST parameters */
     private $post = null;
-    /** @var HTTP\Parameters The list of PUT parameters */
+    /** @var Parameters The list of PUT parameters */
     private $put = null;
-    /** @var HTTP\Parameters The list of PATCH parameters */
+    /** @var Parameters The list of PATCH parameters */
     private $patch = null;
-    /** @var HTTP\Parameters The list of DELETE parameters */
+    /** @var Parameters The list of DELETE parameters */
     private $delete = null;
-    /** @var HTTP\Headers The list of headers */
+    /** @var Headers The list of headers */
     private $headers = null;
-    /** @var HTTP\Parameters The list of SERVER parameters */
+    /** @var Parameters The list of SERVER parameters */
     private $server = null;
-    /** @var HTTP\Parameters The list of FILES parameters */
+    /** @var Parameters The list of FILES parameters */
     private $files = null;
-    /** @var HTTP\Parameters The list of ENV parameters */
+    /** @var Parameters The list of ENV parameters */
     private $env = null;
-    /** @var HTTP\Parameters The list of cookies */
+    /** @var Parameters The list of cookies */
     private $cookies = null;
     /** @var string The path of the request, which does not include the query string */
     private $path = "";
@@ -69,16 +71,16 @@ class Request
      */
     public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env)
     {
-        $this->query = new HTTP\Parameters($query);
-        $this->post = new HTTP\Parameters($post);
-        $this->put = new HTTP\Parameters([]);
-        $this->patch = new HTTP\Parameters([]);
-        $this->delete = new HTTP\Parameters([]);
-        $this->cookies = new HTTP\Parameters($cookies);
-        $this->server = new HTTP\Parameters($server);
-        $this->headers = new HTTP\Headers($server);
-        $this->files = new HTTP\Parameters($files);
-        $this->env = new HTTP\Parameters($env);
+        $this->query = new Parameters($query);
+        $this->post = new Parameters($post);
+        $this->put = new Parameters([]);
+        $this->patch = new Parameters([]);
+        $this->delete = new Parameters([]);
+        $this->cookies = new Parameters($cookies);
+        $this->server = new Parameters($server);
+        $this->headers = new Headers($server);
+        $this->files = new Parameters($files);
+        $this->env = new Parameters($env);
         $this->setMethod();
         $this->setIPAddress();
         $this->setPath();
@@ -108,7 +110,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getCookies()
     {
@@ -116,7 +118,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getDelete()
     {
@@ -124,7 +126,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getEnv()
     {
@@ -132,7 +134,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getFiles()
     {
@@ -140,7 +142,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Headers
+     * @return Headers
      */
     public function getHeaders()
     {
@@ -159,7 +161,7 @@ class Request
      * Gets the raw body as a JSON array
      *
      * @return array The JSON-decoded body
-     * @throws HTTP\HTTPException Thrown if the body could not be decoded
+     * @throws HTTPException Thrown if the body could not be decoded
      */
     public function getJSONBody()
     {
@@ -167,7 +169,7 @@ class Request
 
         if($json === null)
         {
-            throw new HTTP\HTTPException("Body could not be decoded as JSON");
+            throw new HTTPException("Body could not be decoded as JSON");
         }
 
         return $json;
@@ -184,7 +186,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getPatch()
     {
@@ -200,7 +202,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getPost()
     {
@@ -208,7 +210,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getPut()
     {
@@ -216,7 +218,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getQuery()
     {
@@ -239,7 +241,7 @@ class Request
     }
 
     /**
-     * @return HTTP\Parameters
+     * @return Parameters
      */
     public function getServer()
     {

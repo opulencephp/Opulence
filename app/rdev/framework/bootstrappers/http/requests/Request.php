@@ -5,17 +5,17 @@
  * Defines the request bootstrapper
  */
 namespace RDev\Framework\Bootstrappers\HTTP\Requests;
-use RDev\Applications\Bootstrappers;
-use RDev\HTTP\Requests;
-use RDev\IoC;
+use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\HTTP\Requests\Request as HTTPRequest;
+use RDev\IoC\IContainer;
 
-class Request extends Bootstrappers\Bootstrapper
+class Request extends Bootstrapper
 {
     /**
      * {@inheritdoc}
      */
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
-        $container->bind("RDev\\HTTP\\Requests\\Request", Requests\Request::createFromGlobals());
+        $container->bind("RDev\\HTTP\\Requests\\Request", HTTPRequest::createFromGlobals());
     }
 }

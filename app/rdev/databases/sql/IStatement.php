@@ -5,6 +5,7 @@
  * Defines the interface for database statements to implement
  */
 namespace RDev\Databases\SQL;
+use PDO;
 
 interface IStatement
 {
@@ -17,7 +18,7 @@ interface IStatement
      * @param int|null $length Length of the data type
      * @return bool True if successful, otherwise false
      */
-    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null);
+    public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null);
 
     /**
      * Binds a value to the statement
@@ -27,7 +28,7 @@ interface IStatement
      * @param int $dataType The PDO type indicating the type of data we're binding
      * @return bool True if successful, otherwise false
      */
-    public function bindValue($parameter, $value, $dataType = \PDO::PARAM_STR);
+    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR);
 
     /**
      * Binds a list of values to the statement
@@ -79,18 +80,18 @@ interface IStatement
     /**
      * Fetches the next row from a result set
      *
-     * @param int $fetchStyle The \PDO::FETCH_* constant that specifies how the next row will be returned
+     * @param int $fetchStyle The PDO::FETCH_* constant that specifies how the next row will be returned
      * @return array|bool The row if successful, otherwise false
      */
-    public function fetch($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE);
+    public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE);
 
     /**
      * Fetches all the result rows
      *
-     * @param int $fetchStyle The \PDO::FETCH_* constant that specifies how the next row will be returned
+     * @param int $fetchStyle The PDO::FETCH_* constant that specifies how the next row will be returned
      * @return array The list of result rows if successful, otherwise false
      */
-    public function fetchAll($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE);
+    public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE);
 
     /**
      * Gets a single column from the next row of a result set
@@ -110,7 +111,7 @@ interface IStatement
     /**
      * Sets the fetch mode to be used for all fetch* methods
      *
-     * @param int $fetchMode The \PDO::FETCH_* constant that specifies how the next row will be returned
+     * @param int $fetchMode The PDO::FETCH_* constant that specifies how the next row will be returned
      * @return bool True if successful, otherwise false
      */
     public function setFetchMode($fetchMode);

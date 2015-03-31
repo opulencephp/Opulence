@@ -7,7 +7,7 @@
 namespace RDev\Tests\Views\Compilers\Tests;
 use RDev\Files;
 use RDev\Views;
-use RDev\Views\Cache;
+use RDev\Views\Caching;
 use RDev\Views\Compilers;
 use RDev\Views\Factories;
 use RDev\Views\Filters;
@@ -45,7 +45,7 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     /** the path to the test template with nested include statements */
     const TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS = "/../files/TestWithNestedIncludeStatements.html";
 
-    /** @var Cache\Cache The view cache */
+    /** @var Caching\Cache The view cache */
     protected $cache = null;
     /** @var Filters\IFilter The cross-site scripting filter to use */
     protected $xssFilter = null;
@@ -91,7 +91,7 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     {
         $this->xssFilter = new Filters\XSS();
         $this->fileSystem = new Files\FileSystem();
-        $this->cache = new Cache\Cache($this->fileSystem, __DIR__ . "/tmp");
+        $this->cache = new Caching\Cache($this->fileSystem, __DIR__ . "/tmp");
         $this->templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/../../files");
         $this->compiler = new Compilers\Compiler($this->cache, $this->templateFactory, $this->xssFilter);
         $this->template = new Views\Template();

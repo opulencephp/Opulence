@@ -5,22 +5,25 @@
  * Dispatches routes to the appropriate controllers
  */
 namespace RDev\HTTP\Routing\Dispatchers;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Routes;
-use RDev\IoC;
-use RDev\Pipelines;
+use Exception;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Routing\Controller;
+use RDev\HTTP\Routing\Routes\CompiledRoute;
+use RDev\HTTP\Routing\RouteException;
+use RDev\IoC\IContainer;
+use RDev\Pipelines\Pipeline;
+use RDev\Pipelines\PipelineException;
 
 class Dispatcher implements IDispatcher
 {
-    /** @var IoC\IContainer The dependency injection container */
+    /** @var IContainer The dependency injection container */
     private $container = null;
 
     /**
-     * @param IoC\IContainer $container The dependency injection container
+     * @param IContainer $container The dependency injection container
      */
-    public function __construct(IoC\IContainer $container)
+    public function __construct(IContainer $container)
     {
         $this->container = $container;
     }
@@ -28,13 +31,13 @@ class Dispatcher implements IDispatcher
     /**
      * {@inheritdoc}
      */
-    public function dispatch(Routes\CompiledRoute $route, Requests\Request $request, Routing\Controller &$controller = null)
+    public function dispatch(CompiledRoute $route, Request $request, Controller &$controller = null)
     {
-        $pipeline = new Pipelines\Pipeline($this->container, $route->getMiddleware(), "handle");
+        $pipeline = new Pipeline($this->container, $route->getMiddleware(), "handle");
 
         try
         {
-            $response = $pipeline->send($request, function (Requests\Request $request) use ($route, &$controller)
+            $response = $pipeline->send($request, function (Request $request) use ($route, &$controller)
             {
                 $controller = $this->createController($route->getControllerName(), $request);
 
@@ -44,26 +47,26 @@ class Dispatcher implements IDispatcher
             if($response === null)
             {
                 // Nothing returned a value, so return a basic HTTP response
-                return new Responses\Response();
+                return new Response();
             }
 
             return $response;
         }
-        catch(Pipelines\PipelineException $ex)
+        catch(PipelineException $ex)
         {
-            throw new Routing\RouteException("Failed to dispatch route: " . $ex->getMessage());
+            throw new RouteException("Failed to dispatch route: " . $ex->getMessage());
         }
     }
 
     /**
      * Calls the method on the input controller
      *
-     * @param Routing\Controller $controller The instance of the controller to call
-     * @param Routes\CompiledRoute $route The route being dispatched
-     * @return Responses\Response Returns the value from the controller method
-     * @throws Routing\RouteException Thrown if the method could not be called on the controller
+     * @param Controller $controller The instance of the controller to call
+     * @param CompiledRoute $route The route being dispatched
+     * @return Response Returns the value from the controller method
+     * @throws RouteException Thrown if the method could not be called on the controller
      */
-    private function callController(Routing\Controller $controller, Routes\CompiledRoute $route)
+    private function callController(Controller $controller, CompiledRoute $route)
     {
         $parameters = [];
 
@@ -73,7 +76,7 @@ class Dispatcher implements IDispatcher
 
             if($reflection->isPrivate())
             {
-                throw new Routing\RouteException("Method {$route->getControllerMethod()} is private");
+                throw new RouteException("Method {$route->getControllerMethod()} is private");
             }
 
             $pathVariables = $route->getPathVariables();
@@ -94,7 +97,7 @@ class Dispatcher implements IDispatcher
                 elseif(!$parameter->isDefaultValueAvailable())
                 {
                     // There is no value/default value for this variable
-                    throw new Routing\RouteException(
+                    throw new RouteException(
                         "No value set for parameter {$parameter->getName()}"
                     );
                 }
@@ -102,9 +105,9 @@ class Dispatcher implements IDispatcher
 
             return call_user_func_array([$controller, "callMethod"], [$route->getControllerMethod(), $parameters]);
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
-            throw new Routing\RouteException(
+            throw new RouteException(
                 sprintf(
                     "Reflection failed for method %s in controller %s: %s",
                     $route->getControllerMethod(),
@@ -119,15 +122,15 @@ class Dispatcher implements IDispatcher
      * Creates an instance of the input controller
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
-     * @param Requests\Request $request The request that's being routed
-     * @return Routing\Controller The instantiated controller
-     * @throws Routing\RouteException Thrown if the controller could not be instantiated
+     * @param Request $request The request that's being routed
+     * @return Controller The instantiated controller
+     * @throws RouteException Thrown if the controller could not be instantiated
      */
-    private function createController($controllerName, Requests\Request $request)
+    private function createController($controllerName, Request $request)
     {
         if(!class_exists($controllerName))
         {
-            throw new Routing\RouteException("Controller class $controllerName does not exist");
+            throw new RouteException("Controller class $controllerName does not exist");
         }
 
         // Just in case the request hasn't already been bound, bind it
@@ -139,9 +142,9 @@ class Dispatcher implements IDispatcher
 
         $controller = $this->container->makeShared($controllerName);
 
-        if(!$controller instanceof Routing\Controller)
+        if(!$controller instanceof Controller)
         {
-            throw new Routing\RouteException("Controller class $controllerName does not extend the base controller");
+            throw new RouteException("Controller class $controllerName does not extend the base controller");
         }
 
         $controller->setRequest($request);

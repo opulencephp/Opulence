@@ -5,11 +5,15 @@
  * Defines a unit of work that tracks changes made to entities and atomically persists them
  */
 namespace RDev\ORM;
-use RDev\Databases\SQL;
+use Exception;
+use RuntimeException;
+use RDev\Databases\SQL\IConnection;
+use RDev\ORM\DataMappers\ICachedSQLDataMapper;
+use RDev\ORM\DataMappers\IDataMapper;
 
 class UnitOfWork
 {
-    /** @var SQL\IConnection The connection to use in our unit of work */
+    /** @var IConnection The connection to use in our unit of work */
     private $connection = null;
     /** @var IEntityRegistry What manages/tracks entities for our unit of work */
     private $entityRegistry = null;
@@ -35,9 +39,9 @@ class UnitOfWork
 
     /**
      * @param IEntityRegistry $entityRegistry The entity registry to use
-     * @param SQL\IConnection $connection The connection to use in our unit of work
+     * @param IConnection $connection The connection to use in our unit of work
      */
-    public function __construct(IEntityRegistry $entityRegistry, SQL\IConnection $connection = null)
+    public function __construct(IEntityRegistry $entityRegistry, IConnection $connection = null)
     {
         $this->entityRegistry = $entityRegistry;
 
@@ -54,7 +58,7 @@ class UnitOfWork
      */
     public function commit()
     {
-        if(!$this->connection instanceof SQL\IConnection)
+        if(!$this->connection instanceof IConnection)
         {
             throw new ORMException("Connection not set");
         }
@@ -70,7 +74,7 @@ class UnitOfWork
             $this->delete();
             $this->connection->commit();
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
             $this->connection->rollBack();
             $this->postRollback();
@@ -117,14 +121,14 @@ class UnitOfWork
      * Gets the data mapper for the input class
      *
      * @param string $className The name of the class whose data mapper we're searching for
-     * @return DataMappers\SQLDataMapper The data mapper for the input class
-     * @throws \RuntimeException Thrown if there was no data mapper for the input class name
+     * @return IDataMapper The data mapper for the input class
+     * @throws RuntimeException Thrown if there was no data mapper for the input class name
      */
     public function getDataMapper($className)
     {
         if(!isset($this->dataMappers[$className]))
         {
-            throw new \RuntimeException("No data mapper for " . $className);
+            throw new RuntimeException("No data mapper for " . $className);
         }
 
         return $this->dataMappers[$className];
@@ -197,9 +201,9 @@ class UnitOfWork
      * Registering a data mapper for a class will overwrite any previously-set data mapper for that class
      *
      * @param string $className The name of the class whose data mapper we're registering
-     * @param DataMappers\IDataMapper $dataMapper The data mapper for the class
+     * @param IDataMapper $dataMapper The data mapper for the class
      */
-    public function registerDataMapper($className, DataMappers\IDataMapper $dataMapper)
+    public function registerDataMapper($className, IDataMapper $dataMapper)
     {
         $this->dataMappers[$className] = $dataMapper;
     }
@@ -237,9 +241,9 @@ class UnitOfWork
     }
 
     /**
-     * @param SQL\IConnection $connection
+     * @param IConnection $connection
      */
-    public function setConnection(SQL\IConnection $connection)
+    public function setConnection(IConnection $connection)
     {
         $this->connection = $connection;
     }
@@ -251,14 +255,14 @@ class UnitOfWork
     {
         /**
          * @var string $className
-         * @var DataMappers\IDataMapper $dataMapper
+         * @var IDataMapper $dataMapper
          */
         foreach($this->dataMappers as $className => $dataMapper)
         {
-            if($dataMapper instanceof DataMappers\ICachedSQLDataMapper)
+            if($dataMapper instanceof ICachedSQLDataMapper)
             {
                 // Now that the database writes have been committed, we can write to cache
-                /** @var DataMappers\ICachedSQLDataMapper $dataMapper */
+                /** @var ICachedSQLDataMapper $dataMapper */
                 $dataMapper->commit();
             }
         }

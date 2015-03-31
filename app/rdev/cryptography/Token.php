@@ -5,6 +5,7 @@
  * Defines a cryptographic token used for security
  */
 namespace RDev\Cryptography;
+use DateTime;
 
 class Token implements IToken
 {
@@ -12,9 +13,9 @@ class Token implements IToken
     protected $id = -1;
     /** @var string The hashed value */
     protected $hashedValue = "";
-    /** @var \DateTime The valid-from date */
+    /** @var DateTime The valid-from date */
     protected $validFrom = null;
-    /** @var \DateTime The valid-to date */
+    /** @var DateTime The valid-to date */
     protected $validTo = null;
     /** @var bool Whether or not this token is active */
     protected $isActive = false;
@@ -22,11 +23,11 @@ class Token implements IToken
     /**
      * @param int $id The database Id of this token
      * @param string $hashedValue The hashed value
-     * @param \DateTime $validFrom The valid-from date
-     * @param \DateTime $validTo The valid-to date
+     * @param DateTime $validFrom The valid-from date
+     * @param DateTime $validTo The valid-to date
      * @param bool $isActive Whether or not this token is active
      */
-    public function __construct($id, $hashedValue, \DateTime $validFrom, \DateTime $validTo, $isActive)
+    public function __construct($id, $hashedValue, DateTime $validFrom, DateTime $validTo, $isActive)
     {
         $this->id = $id;
         $this->hashedValue = $hashedValue;
@@ -80,7 +81,7 @@ class Token implements IToken
      */
     public function isActive()
     {
-        $now = new \DateTime("now");
+        $now = new DateTime("now");
 
         return $this->isActive && $this->validFrom <= $now && $now < $this->validTo;
     }

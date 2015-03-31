@@ -5,13 +5,14 @@
  * Defines an encrypter
  */
 namespace RDev\Cryptography\Encryption;
-use RDev\Cryptography\Utilities;
+use Exception;
+use RDev\Cryptography\Utilities\Strings;
 
 class Encrypter implements IEncrypter
 {
     /** @var string The encryption key */
     private $key = "";
-    /** @var Utilities\Strings The string utility */
+    /** @var Strings The string utility */
     private $strings = null;
     /** @var string The encryption cipher */
     private $cipher = MCRYPT_RIJNDAEL_128;
@@ -22,11 +23,11 @@ class Encrypter implements IEncrypter
 
     /**
      * @param string $key The encryption key
-     * @param Utilities\Strings $strings The string utility
+     * @param Strings $strings The string utility
      * @param string $cipher The encryption cipher
      * @param string $mode The encryption mode
      */
-    public function __construct($key, Utilities\Strings $strings, $cipher = MCRYPT_RIJNDAEL_128, $mode = MCRYPT_MODE_CBC)
+    public function __construct($key, Strings $strings, $cipher = MCRYPT_RIJNDAEL_128, $mode = MCRYPT_MODE_CBC)
     {
         $this->setKey($key);
         $this->strings = $strings;
@@ -57,7 +58,7 @@ class Encrypter implements IEncrypter
                 throw new EncryptionException("Failed to decrypt data");
             }
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
             throw new EncryptionException($ex->getMessage());
         }

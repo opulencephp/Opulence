@@ -5,8 +5,9 @@
  * Defines the cryptographic exception
  */
 namespace RDev\Cryptography;
+use Exception;
 
-class CryptographicException extends \Exception
+class CryptographicException extends Exception
 {
     // Don't do anything
 }

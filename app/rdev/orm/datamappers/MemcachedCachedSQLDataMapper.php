@@ -5,16 +5,16 @@
  * Defines the Memcached-cached SQL data mapper
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Memcached;
-use RDev\Databases\SQL;
+use RDev\Databases\NoSQL\Memcached\RDevMemcached;
+use RDev\Databases\SQL\ConnectionPool;
 
 abstract class MemcachedCachedSQLDataMapper extends CachedSQLDataMapper
 {
     /**
-     * @param Memcached\RDevMemcached $cache The cache object used in the cache data mapper
-     * @param SQL\ConnectionPool $connectionPool The connection pool used in the SQL data mapper
+     * @param RDevMemcached $cache The cache object used in the cache data mapper
+     * @param ConnectionPool $connectionPool The connection pool used in the SQL data mapper
      */
-    public function __construct(Memcached\RDevMemcached $cache, SQL\ConnectionPool $connectionPool)
+    public function __construct(RDevMemcached $cache, ConnectionPool $connectionPool)
     {
         parent::__construct($cache, $connectionPool);
     }

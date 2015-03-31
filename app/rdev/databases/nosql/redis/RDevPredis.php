@@ -5,9 +5,9 @@
  * Defines an extension of the Predis library
  */
 namespace RDev\Databases\NoSQL\Redis;
-use Predis;
+use Predis\Client;
 
-class RDevPredis extends Predis\Client implements IRedis
+class RDevPredis extends Client implements IRedis
 {
     use TRedis;
 

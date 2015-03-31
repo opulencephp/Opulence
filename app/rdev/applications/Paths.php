@@ -5,8 +5,10 @@
  * Defines the list of paths used by RDev
  */
 namespace RDev\Applications;
+use ArrayAccess;
+use InvalidArgumentException;
 
-class Paths implements \ArrayAccess
+class Paths implements ArrayAccess
 {
     /** @var array The mapping of path names to values */
     private $paths = [];
@@ -45,7 +47,7 @@ class Paths implements \ArrayAccess
     {
         if(is_null($offset))
         {
-            throw new \InvalidArgumentException("Offset cannot be empty");
+            throw new InvalidArgumentException("Offset cannot be empty");
         }
 
         $this->paths[$offset] = realpath($value);

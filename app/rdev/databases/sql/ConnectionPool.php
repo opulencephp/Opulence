@@ -6,6 +6,7 @@
  * This can handle multiple server setups or simple single server setups
  */
 namespace RDev\Databases\SQL;
+use RuntimeException;
 
 abstract class ConnectionPool
 {
@@ -75,7 +76,7 @@ abstract class ConnectionPool
      *
      * @param Server $preferredServer The preferred server to use
      * @return IConnection The connection to use for reads
-     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
+     * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     public function getReadConnection(Server $preferredServer = null)
     {
@@ -97,7 +98,7 @@ abstract class ConnectionPool
      *
      * @param Server $preferredServer The preferred server to use
      * @return IConnection The connection to use for writes
-     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
+     * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     public function getWriteConnection(Server $preferredServer = null)
     {
@@ -126,7 +127,7 @@ abstract class ConnectionPool
      * Sets the connection to use for read queries
      *
      * @param Server $preferredServer The preferred server to connect to
-     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
+     * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     abstract protected function setReadConnection(Server $preferredServer = null);
 
@@ -134,7 +135,7 @@ abstract class ConnectionPool
      * Sets the connection to use for write queries
      *
      * @param Server $preferredServer The preferred server to connect to
-     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
+     * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     abstract protected function setWriteConnection(Server $preferredServer = null);
 
@@ -181,7 +182,7 @@ abstract class ConnectionPool
      * @param string $type The type of server we're trying to connect to, eg "master", "custom"
      * @param Server $server The server we want to connect to
      * @return IConnection The connection to the server
-     * @throws \RuntimeException Thrown if the connection pool wasn't configured correctly
+     * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
     protected function getConnection($type, Server $server)
     {
@@ -190,7 +191,7 @@ abstract class ConnectionPool
             case "master":
                 if($this->servers["master"]["server"] == null)
                 {
-                    throw new \RuntimeException("No master specified");
+                    throw new RuntimeException("No master specified");
                 }
 
                 if($this->servers["master"]["connection"] == null)
@@ -206,7 +207,7 @@ abstract class ConnectionPool
                     || $this->servers[$type][$serverHashId]["server"] == null
                 )
                 {
-                    throw new \RuntimeException("Server of type '" . $type . "' not added to connection pool");
+                    throw new RuntimeException("Server of type '" . $type . "' not added to connection pool");
                 }
 
                 if($this->servers[$type][$serverHashId]["connection"] == null)

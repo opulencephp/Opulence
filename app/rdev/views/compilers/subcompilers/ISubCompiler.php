@@ -5,18 +5,18 @@
  * Defines the interface for view sub-compilers to implement
  */
 namespace RDev\Views\Compilers\SubCompilers;
-use RDev\Views;
-use RDev\Views\Compilers;
+use RDev\Views\Compilers\ViewCompilerException;
+use RDev\Views\ITemplate;
 
 interface ISubCompiler
 {
     /**
      * Gets the compiled template
      *
-     * @param Views\ITemplate $template The template to render
+     * @param ITemplate $template The template to render
      * @param string $content The content to compile
      * @return string The compiled template
-     * @throws Compilers\ViewCompilerException Thrown if there was an error compiling the template
+     * @throws ViewCompilerException Thrown if there was an error compiling the template
      */
-    public function compile(Views\ITemplate $template, $content);
+    public function compile(ITemplate $template, $content);
 }

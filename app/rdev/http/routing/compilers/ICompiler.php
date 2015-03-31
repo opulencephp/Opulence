@@ -5,17 +5,18 @@
  * Defines the interface for route compilers to implement
  */
 namespace RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Routing\Routes\CompiledRoute;
+use RDev\HTTP\Routing\Routes\Route;
 
 interface ICompiler
 {
     /**
      * Compiles a route
      *
-     * @param Routes\Route $route The route to compile
-     * @param Requests\Request $request The request
-     * @return Routes\CompiledRoute The compiled route
+     * @param Route $route The route to compile
+     * @param Request $request The request
+     * @return CompiledRoute The compiled route
      */
-    public function compile(Routes\Route $route, Requests\Request $request);
+    public function compile(Route $route, Request $request);
 }

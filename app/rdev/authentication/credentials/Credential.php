@@ -5,7 +5,7 @@
  * Defines a single credential
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Cryptography;
+use RDev\Cryptography\IToken;
 
 class Credential implements ICredential
 {
@@ -15,7 +15,7 @@ class Credential implements ICredential
     private $entityId = -1;
     /** @var int The Id of the type of entity whose credential this is */
     private $entityTypeId = -1;
-    /** @var Cryptography\IToken The token contained in this credential */
+    /** @var IToken The token contained in this credential */
     private $token = null;
     /** @var int The type of credential this is */
     private $typeId = -1;
@@ -25,9 +25,9 @@ class Credential implements ICredential
      * @param int $typeId The type of credential this is
      * @param int $entityId The Id of the entity whose credential this is
      * @param int $entityTypeId The Id of the type of entity whose credential this is
-     * @param Cryptography\IToken $token The contained in this credential
+     * @param IToken $token The contained in this credential
      */
-    public function __construct($id, $typeId, $entityId, $entityTypeId, Cryptography\IToken $token)
+    public function __construct($id, $typeId, $entityId, $entityTypeId, IToken $token)
     {
         $this->setId($id);
         $this->typeId = $typeId;

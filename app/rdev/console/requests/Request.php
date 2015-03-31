@@ -5,6 +5,7 @@
  * Defines a basic console request
  */
 namespace RDev\Console\Requests;
+use InvalidArgumentException;
 
 class Request implements IRequest
 {
@@ -67,7 +68,7 @@ class Request implements IRequest
     {
         if(!$this->optionIsSet($name))
         {
-            throw new \InvalidArgumentException("Option with name \"$name\" does not exist");
+            throw new InvalidArgumentException("Option with name \"$name\" does not exist");
         }
 
         return $this->options[$name];

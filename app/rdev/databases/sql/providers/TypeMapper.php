@@ -5,6 +5,10 @@
  * Defines a type mapper that can go back and forth between provider types and PHP types
  */
 namespace RDev\Databases\SQL\Providers;
+use DateTime;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
 
 class TypeMapper
 {
@@ -41,8 +45,8 @@ class TypeMapper
      *
      * @param string $sqlDate The date to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date
-     * @throws \InvalidArgumentException Thrown if the input date couldn't be cast to a PHP date
+     * @return DateTime|null The PHP date
+     * @throws InvalidArgumentException Thrown if the input date couldn't be cast to a PHP date
      */
     public function fromSQLDate($sqlDate, Provider $provider = null)
     {
@@ -53,7 +57,7 @@ class TypeMapper
 
         $this->setParameterProvider($provider);
         // The "!" zeroes out the hours, minutes, and seconds
-        $phpDate = \DateTime::createFromFormat("!" . $provider->getDateFormat(), $sqlDate);
+        $phpDate = DateTime::createFromFormat("!" . $provider->getDateFormat(), $sqlDate);
 
         if($phpDate === false)
         {
@@ -85,8 +89,8 @@ class TypeMapper
      *
      * @param string $sqlTime The time to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP time
-     * @throws \InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
+     * @return DateTime|null The PHP time
+     * @throws InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
     public function fromSQLTimeWithTimeZone($sqlTime, Provider $provider = null)
     {
@@ -96,7 +100,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpTime = \DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime);
+        $phpTime = DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime);
 
         if($phpTime === false)
         {
@@ -111,8 +115,8 @@ class TypeMapper
      *
      * @param string $sqlTime The time to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP time
-     * @throws \InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
+     * @return DateTime|null The PHP time
+     * @throws InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
     public function fromSQLTimeWithoutTimeZone($sqlTime, Provider $provider = null)
     {
@@ -122,7 +126,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpTime = \DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime);
+        $phpTime = DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime);
 
         if($phpTime === false)
         {
@@ -137,8 +141,8 @@ class TypeMapper
      *
      * @param string $sqlTimestamp The timestamp with time zone to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date time
-     * @throws \InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
+     * @return DateTime|null The PHP date time
+     * @throws InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
     public function fromSQLTimestampWithTimeZone($sqlTimestamp, Provider $provider = null)
     {
@@ -149,7 +153,7 @@ class TypeMapper
 
         $this->setParameterProvider($provider);
 
-        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(), $sqlTimestamp);
+        $phpTimestamp = DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(), $sqlTimestamp);
 
         if($phpTimestamp === false)
         {
@@ -164,8 +168,8 @@ class TypeMapper
      *
      * @param string $sqlTimestamp The timestamp without time zone to convert
      * @param Provider $provider The provider to convert from
-     * @return \DateTime|null The PHP date time
-     * @throws \InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
+     * @return DateTime|null The PHP date time
+     * @throws InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
     public function fromSQLTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null)
     {
@@ -175,7 +179,7 @@ class TypeMapper
         }
 
         $this->setParameterProvider($provider);
-        $phpTimestamp = \DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp);
+        $phpTimestamp = DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp);
 
         if($phpTimestamp === false)
         {
@@ -218,11 +222,11 @@ class TypeMapper
     /**
      * Converts a PHP date time to an SQL date
      *
-     * @param \DateTime $date The date time to convert
+     * @param DateTime $date The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL date suitable for database storage
      */
-    public function toSQLDate(\DateTime $date, Provider $provider = null)
+    public function toSQLDate(DateTime $date, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -244,11 +248,11 @@ class TypeMapper
     /**
      * Converts a PHP date time with time zone to an SQL time
      *
-     * @param \DateTime $time The date time to convert
+     * @param DateTime $time The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL time suitable for database storage
      */
-    public function toSQLTimeWithTimeZone(\DateTime $time, Provider $provider = null)
+    public function toSQLTimeWithTimeZone(DateTime $time, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -258,11 +262,11 @@ class TypeMapper
     /**
      * Converts a PHP date time without time zone to an SQL time
      *
-     * @param \DateTime $time The date time to convert
+     * @param DateTime $time The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL time suitable for database storage
      */
-    public function toSQLTimeWithoutTimeZone(\DateTime $time, Provider $provider = null)
+    public function toSQLTimeWithoutTimeZone(DateTime $time, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -272,11 +276,11 @@ class TypeMapper
     /**
      * Converts a PHP date time to an SQL timestamp with time zone
      *
-     * @param \DateTime $timestamp The date time to convert
+     * @param DateTime $timestamp The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL timestamp with time zone suitable for database storage
      */
-    public function toSQLTimestampWithTimeZone(\DateTime $timestamp, Provider $provider = null)
+    public function toSQLTimestampWithTimeZone(DateTime $timestamp, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -286,11 +290,11 @@ class TypeMapper
     /**
      * Converts a PHP date time to an SQL timestamp without time zone
      *
-     * @param \DateTime $timestamp The date time to convert
+     * @param DateTime $timestamp The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL timestamp without time zone suitable for database storage
      */
-    public function toSQLTimestampWithoutTimeZone(\DateTime $timestamp, Provider $provider = null)
+    public function toSQLTimestampWithoutTimeZone(DateTime $timestamp, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -301,18 +305,18 @@ class TypeMapper
      * Attempts to parse an unknown date/time format
      *
      * @param string $sqlDateTime The date/time to parse
-     * @return \DateTime The PHP date time
-     * @throws \InvalidArgumentException Thrown if the input time could not be parsed
+     * @return DateTime The PHP date time
+     * @throws InvalidArgumentException Thrown if the input time could not be parsed
      */
     protected function parseUnknownDateTimeFormat($sqlDateTime)
     {
         try
         {
-            return new \DateTime($sqlDateTime);
+            return new DateTime($sqlDateTime);
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
-            throw new \InvalidArgumentException("Unable to cast timestamp: " . $ex->getMessage());
+            throw new InvalidArgumentException("Unable to cast timestamp: " . $ex->getMessage());
         }
     }
 
@@ -321,7 +325,7 @@ class TypeMapper
      * If the input provider is not set, then it is set by reference to the object's provider
      *
      * @param Provider $provider The provider to set
-     * @throws \RuntimeException Thrown if neither the input provider nor the object provider are specified
+     * @throws RuntimeException Thrown if neither the input provider nor the object provider are specified
      */
     protected function setParameterProvider(Provider &$provider = null)
     {
@@ -329,7 +333,7 @@ class TypeMapper
         {
             if(is_null($this->provider))
             {
-                throw new \RuntimeException("No provider specified");
+                throw new RuntimeException("No provider specified");
             }
 
             $provider = $this->provider;

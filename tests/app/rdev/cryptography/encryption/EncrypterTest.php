@@ -5,7 +5,7 @@
  * Tests the encrypter
  */
 namespace RDev\Cryptography\Encryption;
-use RDev\Cryptography\Utilities;
+use RDev\Cryptography\Utilities\Strings;
 
 class EncrypterTest extends \PHPUnit_Framework_TestCase 
 {
@@ -17,7 +17,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->encrypter = new Encrypter("abcdefghijklmnoq", new Utilities\Strings());
+        $this->encrypter = new Encrypter("abcdefghijklmnoq", new Strings());
     }
 
     /**

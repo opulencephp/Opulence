@@ -5,6 +5,7 @@
  * Defines methods common to all website page files
  */
 namespace RDev\Views;
+use InvalidArgumentException;
 
 class Template implements ITemplate
 {
@@ -222,7 +223,7 @@ class Template implements ITemplate
     {
         if(!is_string($contents))
         {
-            throw new \InvalidArgumentException("Contents are not a string");
+            throw new InvalidArgumentException("Contents are not a string");
         }
 
         $this->contents = $contents;

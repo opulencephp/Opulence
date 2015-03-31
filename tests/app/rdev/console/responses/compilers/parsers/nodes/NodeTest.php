@@ -5,7 +5,7 @@
  * Tests the response node
  */
 namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
-use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
+use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 
 class NodeTest extends \PHPUnit_Framework_TestCase 
 {
@@ -14,8 +14,8 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingChild()
     {
-        $parent = new Mocks\Node("foo");
-        $child = new Mocks\Node("bar");
+        $parent = new Node("foo");
+        $child = new Node("bar");
         $parent->addChild($child);
         $this->assertEquals([$child], $parent->getChildren());
         $this->assertSame($parent, $child->getParent());
@@ -26,8 +26,8 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfLeaves()
     {
-        $parent = new Mocks\Node("foo");
-        $child = new Mocks\Node("bar");
+        $parent = new Node("foo");
+        $child = new Node("bar");
         $parent->addChild($child);
         $this->assertFalse($parent->isLeaf());
         $this->assertTrue($child->isLeaf());
@@ -38,8 +38,8 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfRoots()
     {
-        $parent = new Mocks\Node("foo");
-        $child = new Mocks\Node("bar");
+        $parent = new Node("foo");
+        $child = new Node("bar");
         $parent->addChild($child);
         $this->assertTrue($parent->isRoot());
         $this->assertFalse($child->isRoot());
@@ -50,7 +50,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValue()
     {
-        $node = new Mocks\Node("foo");
+        $node = new Node("foo");
         $this->assertEquals("foo", $node->getValue());
     }
 }

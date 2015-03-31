@@ -5,6 +5,10 @@
  * Defines an inversion of control container
  */
 namespace RDev\IoC;
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
+use ReflectionParameter;
 
 class Container implements IContainer
 {
@@ -68,7 +72,7 @@ class Container implements IContainer
         }
 
         // Resolve all the method parameters
-        $reflectionMethod = new \ReflectionMethod($instance, $methodName);
+        $reflectionMethod = new ReflectionMethod($instance, $methodName);
         $methodParameters = $this->getResolvedParameters(
             get_class($instance),
             $reflectionMethod->getParameters(),
@@ -129,7 +133,7 @@ class Container implements IContainer
                 }
             }
 
-            $reflectionClass = new \ReflectionClass($concreteClass);
+            $reflectionClass = new ReflectionClass($concreteClass);
 
             if(!$reflectionClass->isInstantiable())
             {
@@ -165,7 +169,7 @@ class Container implements IContainer
 
             return $instance;
         }
-        catch(\ReflectionException $ex)
+        catch(ReflectionException $ex)
         {
             throw new IoCException("Failed to make object: " . $ex->getMessage());
         }
@@ -279,7 +283,7 @@ class Container implements IContainer
      * Gets a list of parameters for a function call with all the dependencies resolved
      *
      * @param string $callingClass The name of the class whose parameters we're resolving
-     * @param \ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
+     * @param ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
      * @param array $primitives The list of primitive values
      * @param bool $forceNewInstances True if the dependencies should be new instances, otherwise they'll be shared
      * @return array The list of parameters with all the dependencies resolved
@@ -432,12 +436,12 @@ class Container implements IContainer
     /**
      * Resolves a primitive parameter
      *
-     * @param \ReflectionParameter $parameter The primitive parameter to resolve
+     * @param ReflectionParameter $parameter The primitive parameter to resolve
      * @param array $primitives The list of primitive values
      * @return mixed The resolved primitive
      * @throws IoCException Thrown if there was a problem resolving the primitive
      */
-    protected function resolvePrimitive(\ReflectionParameter $parameter, array &$primitives)
+    protected function resolvePrimitive(ReflectionParameter $parameter, array &$primitives)
     {
         if(count($primitives) > 0)
         {

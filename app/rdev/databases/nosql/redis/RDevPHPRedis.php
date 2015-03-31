@@ -5,8 +5,9 @@
  * Defines an extension of the PHPRedis library
  */
 namespace RDev\Databases\NoSQL\Redis;
+use Redis;
 
-class RDevPHPRedis extends \Redis implements IRedis
+class RDevPHPRedis extends Redis implements IRedis
 {
     use TRedis;
 

@@ -5,26 +5,28 @@
  * Defines the interface for console commands to implement
  */
 namespace RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Responses;
+use InvalidArgumentException;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\Option;
+use RDev\Console\Responses\IResponse;
 
 interface ICommand
 {
     /**
      * Adds an argument to the command
      *
-     * @param Requests\Argument $argument The argument to add
+     * @param Argument $argument The argument to add
      * @return ICommand For method chaining
      */
-    public function addArgument(Requests\Argument $argument);
+    public function addArgument(Argument $argument);
 
     /**
      * Adds an option to the command
      *
-     * @param Requests\Option $option The option to add
+     * @param Option $option The option to add
      * @return ICommand For method chaining
      */
-    public function addOption(Requests\Option $option);
+    public function addOption(Option $option);
 
     /**
      * Gets whether or not an argument has a value
@@ -37,18 +39,18 @@ interface ICommand
     /**
      * Executes the command
      *
-     * @param Responses\IResponse $response The console response to write to
+     * @param IResponse $response The console response to write to
      * @return int|null Null or the status code of the command
-     * @throws \RuntimeException Thrown if the command was not setup correctly or could not be executed
+     * @throws RuntimeException Thrown if the command was not setup correctly or could not be executed
      */
-    public function execute(Responses\IResponse $response);
+    public function execute(IResponse $response);
 
     /**
      * Gets the argument with the input name
      *
      * @param string $name The name to look for
-     * @return Requests\Argument The argument with the input name
-     * @throws \InvalidArgumentException Thrown if no argument exists with that name
+     * @return Argument The argument with the input name
+     * @throws InvalidArgumentException Thrown if no argument exists with that name
      */
     public function getArgument($name);
 
@@ -57,14 +59,14 @@ interface ICommand
      *
      * @param string $name The name of the argument to get
      * @return mixed The value of the argument
-     * @throws \InvalidArgumentException Thrown if there is no argument with the input name
+     * @throws InvalidArgumentException Thrown if there is no argument with the input name
      */
     public function getArgumentValue($name);
 
     /**
      * Gets the list of arguments this command accepts
      *
-     * @return Requests\Argument[] The list of arguments
+     * @return Argument[] The list of arguments
      */
     public function getArguments();
 
@@ -93,8 +95,8 @@ interface ICommand
      * Gets the option with the input name
      *
      * @param string $name The name to look for
-     * @return Requests\Option The option with the input name
-     * @throws \InvalidArgumentException Thrown if no option exists with that name
+     * @return Option The option with the input name
+     * @throws InvalidArgumentException Thrown if no option exists with that name
      */
     public function getOption($name);
 
@@ -103,14 +105,14 @@ interface ICommand
      *
      * @param string $name The name of the option to get
      * @return mixed The value of the option
-     * @throws \InvalidArgumentException Thrown if there is no option with the input name
+     * @throws InvalidArgumentException Thrown if there is no option with the input name
      */
     public function getOptionValue($name);
 
     /**
      * Gets the list of options this command accepts
      *
-     * @return Requests\Option[] The list of options
+     * @return Option[] The list of options
      */
     public function getOptions();
 
@@ -134,9 +136,9 @@ interface ICommand
     /**
      * Sets the list of registered commands
      *
-     * @param Commands $commands The list of registered commands
+     * @param CommandCollection $commandCollection The list of registered commands
      */
-    public function setCommands(Commands &$commands);
+    public function setCommandCollection(CommandCollection &$commandCollection);
 
     /**
      * Sets the value of an option

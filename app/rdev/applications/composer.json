@@ -21,12 +21,12 @@
   "require": {
     "php": ">=5.5.10",
     "monolog/monolog": "1.12.*@dev",
-    "rdev/ioc": "0.4.*",
-    "rdev/sessions": "0.4.*"
+    "rdev/ioc": "0.5.*",
+    "rdev/sessions": "0.5.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.4.x-dev"
+      "dev-master": "0.5.x-dev"
     }
   },
   "minimum-stability": "dev"

@@ -5,8 +5,8 @@
  * Tests the stream response
  */
 namespace RDev\Console\Responses;
-use RDev\Console\Responses\Compilers\Lexers;
-use RDev\Console\Responses\Compilers\Parsers;
+use RDev\Console\Responses\Compilers\Lexers\Lexer;
+use RDev\Console\Responses\Compilers\Parsers\Parser;
 
 class StreamTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +20,7 @@ class StreamTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compiler = new Compilers\Compiler(new Lexers\Lexer(), new Parsers\Parser());
+        $this->compiler = new Compilers\Compiler(new Lexer(), new Parser());
         $this->response = new Stream(fopen("php://memory", "w"), $this->compiler);
     }
 

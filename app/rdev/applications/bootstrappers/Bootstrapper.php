@@ -6,29 +6,30 @@
  * Note:  This class also accepts a run() method with a variable number of parameters
  */
 namespace RDev\Applications\Bootstrappers;
-use RDev\Applications;
-use RDev\Applications\Environments;
-use RDev\IoC;
-use RDev\Sessions;
+use BadMethodCallException;
+use RDev\Applications\Environments\Environment;
+use RDev\Applications\Paths;
+use RDev\IoC\IContainer;
+use RDev\Sessions\ISession;
 
 abstract class Bootstrapper
 {
-    /** @var Applications\Paths The paths to various directories used by RDev */
+    /** @var Paths The paths to various directories used by RDev */
     protected $paths = null;
-    /** @var Environments\Environment The current environment */
+    /** @var Environment The current environment */
     protected $environment = null;
-    /** @var Sessions\ISession The current session */
+    /** @var ISession The current session */
     protected $session = null;
 
     /**
-     * @param Applications\Paths $paths The paths to various directories used by RDev
-     * @param Environments\Environment $environment The current environment
-     * @param Sessions\ISession $session The current session
+     * @param Paths $paths The paths to various directories used by RDev
+     * @param Environment $environment The current environment
+     * @param ISession $session The current session
      */
     public final function __construct(
-        Applications\Paths $paths,
-        Environments\Environment $environment,
-        Sessions\ISession $session
+        Paths $paths,
+        Environment $environment,
+        ISession $session
     )
     {
         $this->paths = $paths;
@@ -41,13 +42,13 @@ abstract class Bootstrapper
      *
      * @param string $name The name of the method to call
      * @param array $arguments The list of arguments to pass in
-     * @throws \BadMethodCallException Thrown if a method other than "run" is called
+     * @throws BadMethodCallException Thrown if a method other than "run" is called
      */
     public function __call($name, array $arguments)
     {
         if($name !== "run")
         {
-            throw new \BadMethodCallException("Only Bootstrapper::run is supported");
+            throw new BadMethodCallException("Only Bootstrapper::run is supported");
         }
 
         // The user must have not specified a "run" function, so just return
@@ -57,7 +58,7 @@ abstract class Bootstrapper
     /**
      * {@inheritdoc}
      */
-    public function registerBindings(IoC\IContainer $container)
+    public function registerBindings(IContainer $container)
     {
         // Let extending classes define this
     }

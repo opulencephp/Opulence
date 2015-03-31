@@ -5,24 +5,26 @@
  * Defines a response syntax tree
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\Node;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\RootNode;
 
 class AbstractSyntaxTree
 {
-    /** @var Nodes\RootNode The root node */
+    /** @var RootNode The root node */
     private $rootNode = null;
-    /** @var Nodes\Node The current node */
+    /** @var Node The current node */
     private $currentNode = null;
 
     public function __construct()
     {
-        $this->rootNode = new Nodes\RootNode();
+        $this->rootNode = new RootNode();
         $this->setCurrentNode($this->rootNode);
     }
 
     /**
      * Gets the current node
      *
-     * @return Nodes\Node The current node
+     * @return Node The current node
      */
     public function getCurrentNode()
     {
@@ -32,7 +34,7 @@ class AbstractSyntaxTree
     /**
      * Gets the root node
      *
-     * @return Nodes\RootNode The root node
+     * @return RootNode The root node
      */
     public function getRootNode()
     {
@@ -42,9 +44,9 @@ class AbstractSyntaxTree
     /**
      * Sets the current node
      *
-     * @param Nodes\Node $node The node to set
+     * @param Node $node The node to set
      */
-    public function setCurrentNode(Nodes\Node $node)
+    public function setCurrentNode(Node $node)
     {
         $this->currentNode = $node;
     }

@@ -5,7 +5,8 @@
  * Tests the response abstract syntax tree
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\RootNode;
+use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 
 class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase 
 {
@@ -25,7 +26,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingCurrentNodeWhenNoneIsSet()
     {
-        $this->assertEquals(new Nodes\RootNode(), $this->tree->getCurrentNode());
+        $this->assertEquals(new RootNode(), $this->tree->getCurrentNode());
     }
 
     /**
@@ -33,7 +34,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNode()
     {
-        $this->assertEquals(new Nodes\RootNode(), $this->tree->getRootNode());
+        $this->assertEquals(new RootNode(), $this->tree->getRootNode());
     }
 
     /**
@@ -41,7 +42,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingCurrentNode()
     {
-        $currentNode = new Mocks\Node("foo");
+        $currentNode = new Node("foo");
         $this->tree->setCurrentNode($currentNode);
         $this->assertSame($currentNode, $this->tree->getCurrentNode());
     }

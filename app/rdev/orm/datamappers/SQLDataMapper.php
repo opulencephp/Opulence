@@ -5,28 +5,32 @@
  * Defines the base SQL data mapper class
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\SQL;
-use RDev\ORM;
-use RDev\ORM\Ids;
+use PDO;
+use PDOException;
+use RDev\Databases\SQL\ConnectionPool;
+use RDev\Databases\SQL\IConnection;
+use RDev\ORM\IEntity;
+use RDev\ORM\Ids\IdGenerator;
+use RDev\ORM\ORMException;
 
 abstract class SQLDataMapper implements ISQLDataMapper
 {
-    /** @var SQL\ConnectionPool The connection pool to use for queries */
+    /** @var ConnectionPool The connection pool to use for queries */
     protected $connectionPool = null;
-    /** @var Ids\IdGenerator The Id generator this data mapper uses to create new Ids */
+    /** @var IdGenerator The Id generator this data mapper uses to create new Ids */
     protected $idGenerator = null;
 
     /**
-     * @param SQL\ConnectionPool $connectionPool The connection pool to use for queries
+     * @param ConnectionPool $connectionPool The connection pool to use for queries
      */
-    public function __construct(SQL\ConnectionPool $connectionPool)
+    public function __construct(ConnectionPool $connectionPool)
     {
         $this->connectionPool = $connectionPool;
         $this->setIdGenerator();
     }
 
     /**
-     * @return Ids\IdGenerator
+     * @return IdGenerator
      */
     public function getIdGenerator()
     {
@@ -37,10 +41,10 @@ abstract class SQLDataMapper implements ISQLDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @param SQL\IConnection $connection The connection used to load the entity
-     * @return ORM\IEntity The entity
+     * @param IConnection $connection The connection used to load the entity
+     * @return IEntity The entity
      */
-    abstract protected function loadEntity(array $hash, SQL\IConnection $connection);
+    abstract protected function loadEntity(array $hash, IConnection $connection);
 
     /**
      * Sets the Id generator used by this data mapper
@@ -54,7 +58,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
      * @param array $sqlParameters The list of SQL parameters
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
-     * @throws ORM\ORMException Thrown if there was an error querying the entities
+     * @throws ORMException Thrown if there was an error querying the entities
      */
     protected function read($sql, array $sqlParameters, $expectSingleResult)
     {
@@ -67,11 +71,11 @@ abstract class SQLDataMapper implements ISQLDataMapper
 
             if($expectSingleResult && $statement->rowCount() != 1)
             {
-                throw new ORM\ORMException("Failed to find entity");
+                throw new ORMException("Failed to find entity");
             }
 
             $entities = [];
-            $rows = $statement->fetchAll(\PDO::FETCH_BOTH);
+            $rows = $statement->fetchAll(PDO::FETCH_BOTH);
 
             foreach($rows as $row)
             {
@@ -87,9 +91,9 @@ abstract class SQLDataMapper implements ISQLDataMapper
                 return $entities;
             }
         }
-        catch(\PDOException $ex)
+        catch(PDOException $ex)
         {
-            throw new ORM\ORMException("Unable to query entities: " . $ex);
+            throw new ORMException("Unable to query entities: " . $ex);
         }
     }
 } 

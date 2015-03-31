@@ -23,13 +23,13 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->application = new TestMocks\ApplicationTestCase();
         $this->application->setUp();
-        $prompt = new Prompts\Prompt(new Formatters\Padding());
-        $this->application->getCommands()->add(new CommandMocks\SimpleCommand("simple", "Simple command"));
-        $this->application->getCommands()->add(new CommandMocks\StyledCommand());
-        $this->application->getCommands()->add(new CommandMocks\HappyHolidayCommand());
-        $this->application->getCommands()->add(new CommandMocks\StatusCodeCommand());
-        $this->application->getCommands()->add(new CommandMocks\SinglePromptCommand($prompt));
-        $this->application->getCommands()->add(new CommandMocks\MultiplePromptsCommand($prompt));
+        $prompt = new Prompts\Prompt(new Formatters\PaddingFormatter());
+        $this->application->getCommandCollection()->add(new CommandMocks\SimpleCommand("simple", "Simple command"));
+        $this->application->getCommandCollection()->add(new CommandMocks\StyledCommand());
+        $this->application->getCommandCollection()->add(new CommandMocks\HappyHolidayCommand());
+        $this->application->getCommandCollection()->add(new CommandMocks\StatusCodeCommand());
+        $this->application->getCommandCollection()->add(new CommandMocks\SinglePromptCommand($prompt));
+        $this->application->getCommandCollection()->add(new CommandMocks\MultiplePromptsCommand($prompt));
     }
 
     /**
@@ -114,7 +114,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingCommands()
     {
-        $this->assertInstanceOf("RDev\\Console\\Commands\\Commands", $this->application->getCommands());
+        $this->assertInstanceOf("RDev\\Console\\Commands\\CommandCollection", $this->application->getCommandCollection());
     }
 
     /**

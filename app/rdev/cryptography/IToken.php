@@ -5,9 +5,10 @@
  * Defines the interface for cryptographic tokens
  */
 namespace RDev\Cryptography;
-use RDev\ORM;
+use DateTime;
+use RDev\ORM\IEntity;
 
-interface IToken extends ORM\IEntity
+interface IToken extends IEntity
 {
     /**
      * Marks this token is inactive
@@ -24,14 +25,14 @@ interface IToken extends ORM\IEntity
     /**
      * Gets the valid-from date of this token
      *
-     * @return \DateTime The valid-from date
+     * @return DateTime The valid-from date
      */
     public function getValidFrom();
 
     /**
      * Gets the valid-to date of this token
      *
-     * @return \DateTime The valid-to date
+     * @return DateTime The valid-to date
      */
     public function getValidTo();
 

@@ -5,15 +5,16 @@
  * Defines the base application test case
  */
 namespace RDev\Framework\Tests;
-use RDev\Applications;
+use PHPUnit_Framework_TestCase;
+use RDev\Applications\Application;
 
-abstract class ApplicationTestCase extends \PHPUnit_Framework_TestCase
+abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
 {
-    /** @var Applications\Application The application */
+    /** @var Application The application */
     protected $application = null;
 
     /**
-     * @return Applications\Application
+     * @return Application
      */
     public function getApplication()
     {

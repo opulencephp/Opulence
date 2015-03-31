@@ -23,13 +23,13 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "rdev/ioc": "0.4.*",
-    "rdev/pipelines": "0.4.*",
-    "rdev/views": "0.4.*"
+    "rdev/ioc": "0.5.*",
+    "rdev/pipelines": "0.5.*",
+    "rdev/views": "0.5.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.4.x-dev"
+      "dev-master": "0.5.x-dev"
     }
   },
   "minimum-stability": "dev"

@@ -5,14 +5,14 @@
  * Defines the interface for cache data mappers to implement
  */
 namespace RDev\ORM\DataMappers;
-use RDev\ORM;
+use RDev\ORM\ORMException;
 
 interface ICacheDataMapper extends IDataMapper
 {
     /**
      * Flushes entities stored by this data mapper from cache
      *
-     * @throws ORM\ORMException Thrown if the cache couldn't be flushed
+     * @throws ORMException Thrown if the cache couldn't be flushed
      */
     public function flush();
 } 

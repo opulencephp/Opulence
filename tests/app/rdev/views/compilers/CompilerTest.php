@@ -10,7 +10,7 @@ use RDev\Tests\Views\Compilers\Mocks as CompilerMocks;
 use RDev\Tests\Views\Compilers\SubCompilers\Mocks as SubCompilerMocks;
 use RDev\Tests\Views\Compilers\Tests as CompilerTests;
 use RDev\Views;
-use RDev\Views\Cache;
+use RDev\Views\Caching;
 use RDev\Views\Factories;
 use RDev\Views\Filters;
 
@@ -27,7 +27,7 @@ class CompilerTest extends CompilerTests\Compiler
         $templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/tests/tmp");
         // The compiler needs the new template factory because it uses a different path than the built-in one
         $this->compiler = new Compiler(
-            new Cache\Cache($this->fileSystem, __DIR__ . "/tmp"),
+            new Caching\Cache($this->fileSystem, __DIR__ . "/tmp"),
             $templateFactory,
             $this->xssFilter
         );

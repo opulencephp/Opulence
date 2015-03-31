@@ -5,9 +5,9 @@
  * Defines a Redis server
  */
 namespace RDev\Databases\NoSQL\Redis;
-use RDev\Databases;
+use RDev\Databases\Server as BaseServer;
 
-class Server extends Databases\Server
+class Server extends BaseServer
 {
     /** {@inheritdoc} */
     protected $port = 6379;

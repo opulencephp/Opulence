@@ -5,8 +5,9 @@
  * Defines the parser for a route
  */
 namespace RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Routing\RouteException;
+use RDev\HTTP\Routing\Routes\ParsedRoute;
+use RDev\HTTP\Routing\Routes\Route;
 
 class Parser implements IParser
 {
@@ -21,9 +22,9 @@ class Parser implements IParser
     /**
      * {@inheritdoc}
      */
-    public function parse(Routes\Route $route)
+    public function parse(Route $route)
     {
-        $parsedRoute = new Routes\ParsedRoute($route);
+        $parsedRoute = new ParsedRoute($route);
         $parsedRoute->setPathRegex($this->convertRawStringToRegex($parsedRoute, $parsedRoute->getRawPath()));
         $parsedRoute->setHostRegex($this->convertRawStringToRegex($parsedRoute, $parsedRoute->getRawHost()));
 
@@ -33,12 +34,12 @@ class Parser implements IParser
     /**
      * Converts a raw string with variables to a regex
      *
-     * @param Routes\ParsedRoute $parsedRoute The route whose string we're converting
+     * @param ParsedRoute $parsedRoute The route whose string we're converting
      * @param string $rawString The raw string to convert
      * @return string The regex
-     * @throws Routing\RouteException
+     * @throws RouteException
      */
-    private function convertRawStringToRegex(Routes\ParsedRoute &$parsedRoute, $rawString)
+    private function convertRawStringToRegex(ParsedRoute &$parsedRoute, $rawString)
     {
         if(empty($rawString))
         {
@@ -75,12 +76,12 @@ class Parser implements IParser
             // @link http://php.net/manual/en/language.variables.basics.php
             if(!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/", $variableName))
             {
-                throw new Routing\RouteException("Invalid variable name \"$variableName\"");
+                throw new RouteException("Invalid variable name \"$variableName\"");
             }
 
             if(in_array($variableName, $routeVariables))
             {
-                throw new Routing\RouteException("Route uses multiple references to \"$variableName\"");
+                throw new RouteException("Route uses multiple references to \"$variableName\"");
             }
 
             $routeVariables[] = $variableName;
@@ -110,7 +111,7 @@ class Parser implements IParser
      *
      * @param string $string The string to quote
      * @return string The string with the static text quoted
-     * @throws Routing\RouteException Thrown if the braces are not nested correctly
+     * @throws RouteException Thrown if the braces are not nested correctly
      */
     private function quoteStaticText($string)
     {
@@ -160,7 +161,7 @@ class Parser implements IParser
         {
             $message = "Route has " . ($braceDepth > 0 ? "unclosed" : "unopened") . " braces";
 
-            throw new Routing\RouteException($message);
+            throw new RouteException($message);
         }
 
         return $quotedString;

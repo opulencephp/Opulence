@@ -5,9 +5,9 @@
  * Defines a Memcached server
  */
 namespace RDev\Databases\NoSQL\Memcached;
-use RDev\Databases;
+use RDev\Databases\Server as BaseServer;
 
-class Server extends Databases\Server
+class Server extends BaseServer
 {
     /** {@inheritdoc} */
     protected $port = 11211;

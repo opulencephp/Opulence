@@ -5,17 +5,17 @@
  * Defines a basic response
  */
 namespace RDev\Console\Responses;
-use RDev\Console\Responses\Formatters\Elements;
+use RDev\Console\Responses\Compilers\ICompiler;
 
 abstract class Response implements IResponse
 {
-    /** @var Compilers\ICompiler The response compiler to use */
+    /** @var ICompiler The response compiler to use */
     protected $compiler = null;
 
     /**
-     * @param Compilers\ICompiler $compiler The response compiler to use
+     * @param ICompiler $compiler The response compiler to use
      */
-    public function __construct(Compilers\ICompiler $compiler)
+    public function __construct(ICompiler $compiler)
     {
         $this->compiler = $compiler;
     }

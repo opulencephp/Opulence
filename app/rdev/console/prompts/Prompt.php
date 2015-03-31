@@ -5,21 +5,25 @@
  * Defines a console prompt
  */
 namespace RDev\Console\Prompts;
-use RDev\Console\Responses;
-use RDev\Console\Responses\Formatters;
+use InvalidArgumentException;
+use RuntimeException;
+use RDev\Console\Prompts\Questions\IQuestion;
+use RDev\Console\Prompts\Questions\MultipleChoice;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Console\Responses\IResponse;
 
 class Prompt
 {
-    /** @var Formatters\Padding The space padding formatter to use */
+    /** @var PaddingFormatter The space padding formatter to use */
     private $paddingFormatter  = null;
     /** @var resource The input stream to look for answers in */
     private $inputStream = null;
 
     /***
-     * @param Formatters\Padding $paddingFormatter The space padding formatter to use
+     * @param PaddingFormatter $paddingFormatter The space padding formatter to use
      * @param resource|null $inputStream The input stream to look for answers in
      */
-    public function __construct(Formatters\Padding $paddingFormatter, $inputStream = null)
+    public function __construct(PaddingFormatter $paddingFormatter, $inputStream = null)
     {
         $this->paddingFormatter = $paddingFormatter;
 
@@ -34,18 +38,18 @@ class Prompt
     /**
      * Prompts the user to answer a question
      *
-     * @param Questions\IQuestion $question The question to ask
-     * @param Responses\IResponse $response The response to write output to
+     * @param IQuestion $question The question to ask
+     * @param IResponse $response The response to write output to
      * @return mixed The user's answer to the question
-     * @throws \RuntimeException Thrown if we failed to get the user's answer
+     * @throws RuntimeException Thrown if we failed to get the user's answer
      */
-    public function ask(Questions\IQuestion $question, Responses\IResponse $response)
+    public function ask(IQuestion $question, IResponse $response)
     {
         $response->write("<question>{$question->getText()}</question>");
 
         if($question instanceof Questions\MultipleChoice)
         {
-            /** @var Questions\MultipleChoice $question */
+            /** @var MultipleChoice $question */
             $response->writeln("");
             $choicesAreAssociative = $question->choicesAreAssociative();
             $choiceTexts = [];
@@ -72,7 +76,7 @@ class Prompt
 
         if($answer === false)
         {
-            throw new \RuntimeException("Failed to get answer");
+            throw new RuntimeException("Failed to get answer");
         }
 
         $answer = trim($answer);
@@ -89,13 +93,13 @@ class Prompt
      * Sets the input stream
      *
      * @param resource $inputStream The input stream to look for answers in
-     * @throws \InvalidArgumentException Thrown if the input stream is not a resource
+     * @throws InvalidArgumentException Thrown if the input stream is not a resource
      */
     public function setInputStream($inputStream)
     {
         if(!is_resource($inputStream))
         {
-            throw new \InvalidArgumentException("Input stream must be resource");
+            throw new InvalidArgumentException("Input stream must be resource");
         }
 
         $this->inputStream = $inputStream;

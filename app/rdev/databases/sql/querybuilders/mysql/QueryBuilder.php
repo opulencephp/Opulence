@@ -5,9 +5,9 @@
  * Programmatically builds up a PostgreSQL query
  */
 namespace RDev\Databases\SQL\QueryBuilders\MySQL;
-use RDev\Databases\SQL\QueryBuilders;
+use RDev\Databases\SQL\QueryBuilders\QueryBuilder as BaseQueryBuilder;
 
-class QueryBuilder extends QueryBuilders\QueryBuilder
+class QueryBuilder extends BaseQueryBuilder
 {
     /**
      * {@inheritdoc}
@@ -27,7 +27,7 @@ class QueryBuilder extends QueryBuilders\QueryBuilder
 
     /**
      * {@inheritdoc}
-     * @return QueryBuilders\MySQL\SelectQuery
+     * @return SelectQuery
      */
     public function select($expression)
     {

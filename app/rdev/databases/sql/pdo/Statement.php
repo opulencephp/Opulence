@@ -5,9 +5,11 @@
  * Defines an extension of PDOStatement
  */
 namespace RDev\Databases\SQL\PDO;
-use RDev\Databases\SQL;
+use PDO;
+use PDOStatement;
+use RDev\Databases\SQL\IStatement;
 
-class Statement extends \PDOStatement implements SQL\IStatement
+class Statement extends PDOStatement implements IStatement
 {
     /**
      * We need this because PDO is expecting a private/protected constructor in PDOStatement
@@ -20,7 +22,7 @@ class Statement extends \PDOStatement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null, $driverOptions = null)
+    public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null, $driverOptions = null)
     {
         return parent::bindParam($parameter, $variable, $dataType, $length, $driverOptions);
     }
@@ -28,7 +30,7 @@ class Statement extends \PDOStatement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function bindValue($parameter, $value, $dataType = \PDO::PARAM_STR)
+    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR)
     {
         return parent::bindValue($parameter, $value, $dataType);
     }
@@ -48,7 +50,7 @@ class Statement extends \PDOStatement implements SQL\IStatement
         {
             if(!is_array($value))
             {
-                $value = [$value, \PDO::PARAM_STR];
+                $value = [$value, PDO::PARAM_STR];
             }
 
             // If this is an indexed array, we need to offset the parameter name by 1 because it's 1-indexed
@@ -77,7 +79,7 @@ class Statement extends \PDOStatement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function fetch($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
+    public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
     {
         if($fetchStyle === null && $cursorOrientation === null && $cursorOffset === null)
         {
@@ -100,7 +102,7 @@ class Statement extends \PDOStatement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function fetchAll($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)
+    public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)
     {
         if($fetchStyle === null && $fetchArgument === null && $ctorArgs === null)
         {

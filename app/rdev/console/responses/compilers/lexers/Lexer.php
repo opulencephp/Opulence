@@ -5,6 +5,9 @@
  * Defines the response lexer
  */
 namespace RDev\Console\Responses\Compilers\Lexers;
+use RuntimeException;
+use RDev\Console\Responses\Compilers\Lexers\Tokens\Token;
+use RDev\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
 
 class Lexer implements ILexer
 {
@@ -35,7 +38,7 @@ class Lexer implements ILexer
                     }
                     elseif($inOpenTag || $inCloseTag)
                     {
-                        throw new \RuntimeException(
+                        throw new RuntimeException(
                             sprintf(
                                 "Invalid tags near \"%s\", character #%d",
                                 $this->getSurroundingText($text, $charIter),
@@ -61,8 +64,8 @@ class Lexer implements ILexer
                         // Flush the word buffer
                         if($wordBuffer != "")
                         {
-                            $tokens[] = new Tokens\Token(
-                                Tokens\TokenTypes::T_WORD,
+                            $tokens[] = new Token(
+                                TokenTypes::T_WORD,
                                 $wordBuffer,
                                 $charIter - mb_strlen($wordBuffer)
                             );
@@ -76,8 +79,8 @@ class Lexer implements ILexer
                     {
                         if($inOpenTag)
                         {
-                            $tokens[] = new Tokens\Token(
-                                Tokens\TokenTypes::T_TAG_OPEN,
+                            $tokens[] = new Token(
+                                TokenTypes::T_TAG_OPEN,
                                 $elementNameBuffer,
                                 // Need to get the position of the beginning of the open tag
                                 $charIter - mb_strlen($elementNameBuffer) - 1
@@ -85,8 +88,8 @@ class Lexer implements ILexer
                         }
                         else
                         {
-                            $tokens[] = new Tokens\Token(
-                                Tokens\TokenTypes::T_TAG_CLOSE,
+                            $tokens[] = new Token(
+                                TokenTypes::T_TAG_CLOSE,
                                 $elementNameBuffer,
                                 // Need to get the position of the beginning of the close tag
                                 $charIter - mb_strlen($elementNameBuffer) - 2
@@ -125,14 +128,14 @@ class Lexer implements ILexer
         // Finish flushing the word buffer
         if($wordBuffer !== "")
         {
-            $tokens[] = new Tokens\Token(
-                Tokens\TokenTypes::T_WORD,
+            $tokens[] = new Token(
+                TokenTypes::T_WORD,
                 $wordBuffer,
                 $textLength - mb_strlen($wordBuffer)
             );
         }
 
-        $tokens[] = new Tokens\Token(Tokens\TokenTypes::T_EOF, null, $textLength);
+        $tokens[] = new Token(TokenTypes::T_EOF, null, $textLength);
 
         return $tokens;
     }

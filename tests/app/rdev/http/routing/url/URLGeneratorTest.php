@@ -126,7 +126,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         ];
-        $routes = new Routes\Routes();
+        $routes = new Routes\RouteCollection();
 
         foreach($namedRoutes as $name => $route)
         {

@@ -5,17 +5,18 @@
  * Defines the interface for HTTP middleware to implement
  */
 namespace RDev\HTTP\Middleware;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
+use Closure;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
 
 interface IMiddleware
 {
     /**
      * Handles a request
      *
-     * @param Requests\Request $request The request to handle
-     * @param \Closure $next The next middleware item
-     * @return Responses\Response The response after the middleware was run
+     * @param Request $request The request to handle
+     * @param Closure $next The next middleware item
+     * @return Response The response after the middleware was run
      */
-    public function handle(Requests\Request $request, \Closure $next);
+    public function handle(Request $request, Closure $next);
 }

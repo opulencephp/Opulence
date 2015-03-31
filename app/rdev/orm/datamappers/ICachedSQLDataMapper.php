@@ -5,7 +5,8 @@
  * Defines the interface for data mappers whose data is cached
  */
 namespace RDev\ORM\DataMappers;
-use RDev\ORM;
+use RDev\ORM\IEntity;
+use RDev\ORM\ORMException;
 
 interface ICachedSQLDataMapper extends ISQLDataMapper
 {
@@ -14,7 +15,7 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
      * This is best used when committing an SQL data mapper via a unit of work, and then calling this method after
      * the commit successfully finishes
      *
-     * @throws ORM\ORMException Thrown if there was an error committing to cache
+     * @throws ORMException Thrown if there was an error committing to cache
      */
     public function commit();
 
@@ -35,22 +36,22 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
     /**
      * Gets a list of entities that differ in cache and the SQL database
      *
-     * @return ORM\IEntity[] The list of entities that were not already synced
+     * @return IEntity[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws ORM\ORMException Thrown if there was an error getting the unsynced entities
+     * @throws ORMException Thrown if there was an error getting the unsynced entities
      */
     public function getUnsyncedEntities();
 
     /**
      * Refreshes the data in cache with the data from the SQL data mapper
      *
-     * @return ORM\IEntity[] The list of entities that were not already synced
+     * @return IEntity[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws ORM\ORMException Thrown if there was an error refreshing the cache
+     * @throws ORMException Thrown if there was an error refreshing the cache
      */
     public function refreshCache();
 
@@ -58,7 +59,7 @@ interface ICachedSQLDataMapper extends ISQLDataMapper
      * Refreshes an entity in cache with the entity from the SQL data mapper
      *
      * @param int|string $id The Id of the entity to sync
-     * @throws ORM\ORMException Thrown if there was an error refreshing the entity
+     * @throws ORMException Thrown if there was an error refreshing the entity
      */
     public function refreshEntity($id);
 } 

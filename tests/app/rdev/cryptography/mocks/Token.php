@@ -5,9 +5,9 @@
  * Mocks the token for use in testing
  */
 namespace RDev\Tests\Cryptography\Mocks;
-use RDev\Cryptography;
+use RDev\Cryptography\Token as BaseToken;
 
-class Token extends Cryptography\Token
+class Token extends BaseToken
 {
     /**
      * Creates a new token for use in testing

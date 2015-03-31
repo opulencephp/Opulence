@@ -5,18 +5,20 @@
  * Defines a route compiler
  */
 namespace RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Routing\Compilers\Parsers\IParser;
+use RDev\HTTP\Routing\Routes\CompiledRoute;
+use RDev\HTTP\Routing\Routes\Route;
 
 class Compiler implements ICompiler
 {
-    /** @var Parsers\IParser The route parser */
+    /** @var IParser The route parser */
     private $parser = null;
 
     /**
-     * @param Parsers\IParser $parser The route parser
+     * @param IParser $parser The route parser
      */
-    public function __construct(Parsers\IParser $parser)
+    public function __construct(IParser $parser)
     {
         $this->parser = $parser;
     }
@@ -24,7 +26,7 @@ class Compiler implements ICompiler
     /**
      * {@inheritdoc}
      */
-    public function compile(Routes\Route $route, Requests\Request $request)
+    public function compile(Route $route, Request $request)
     {
         $parsedRoute = $this->parser->parse($route);
         $hostMatches = [];
@@ -41,11 +43,11 @@ class Compiler implements ICompiler
             array_shift($pathMatches);
             $pathVariables = array_merge($hostMatches, $pathMatches);
 
-            return new Routes\CompiledRoute($parsedRoute, true, $pathVariables);
+            return new CompiledRoute($parsedRoute, true, $pathVariables);
         }
         else
         {
-            return new Routes\CompiledRoute($parsedRoute, false);
+            return new CompiledRoute($parsedRoute, false);
         }
     }
 }

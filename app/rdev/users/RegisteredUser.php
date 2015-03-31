@@ -5,6 +5,7 @@
  * Defines a registered user
  */
 namespace RDev\Users;
+use DateTime;
 
 class RegisteredUser extends User implements IRegisteredUser
 {
@@ -14,10 +15,10 @@ class RegisteredUser extends User implements IRegisteredUser
     /**
      * @param int $id The database Id of this user
      * @param string $username The username of the user
-     * @param \DateTime $dateCreated The date this user was created
+     * @param DateTime $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
      */
-    public function __construct($id, $username, \DateTime $dateCreated, array $roles)
+    public function __construct($id, $username, DateTime $dateCreated, array $roles)
     {
         parent::__construct($id, $dateCreated, $roles);
 

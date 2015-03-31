@@ -5,8 +5,9 @@
  * Defines a pipeline exception
  */
 namespace RDev\Pipelines;
+use Exception;
 
-class PipelineException extends \Exception
+class PipelineException extends Exception
 {
     // Don't do anything
 }

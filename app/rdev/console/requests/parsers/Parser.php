@@ -5,7 +5,8 @@
  * Defines a base request parser
  */
 namespace RDev\Console\Requests\Parsers;
-use RDev\Console\Requests;
+use RuntimeException;
+use RDev\Console\Requests\Request;
 
 abstract class Parser implements IParser
 {
@@ -26,13 +27,13 @@ abstract class Parser implements IParser
      * @param string $token The token to parse
      * @param array $remainingTokens The list of remaining tokens
      * @return array The name of the option mapped to its value
-     * @throws \RuntimeException Thrown if the option could not be parsed
+     * @throws RuntimeException Thrown if the option could not be parsed
      */
     protected function parseLongOption($token, array &$remainingTokens)
     {
         if(mb_substr($token, 0, 2) !== "--")
         {
-            throw new \RuntimeException("Invalid long option \"$token\"");
+            throw new RuntimeException("Invalid long option \"$token\"");
         }
 
         // Trim the "--"
@@ -70,13 +71,13 @@ abstract class Parser implements IParser
      *
      * @param string $token The token to parse
      * @return array The name of the option mapped to its value
-     * @throws \RuntimeException Thrown if the option could not be parsed
+     * @throws RuntimeException Thrown if the option could not be parsed
      */
     protected function parseShortOption($token)
     {
         if(mb_substr($token, 0, 1) !== "-")
         {
-            throw new \RuntimeException("Invalid short option \"$token\"");
+            throw new RuntimeException("Invalid short option \"$token\"");
         }
 
         // Trim the "-"
@@ -97,11 +98,11 @@ abstract class Parser implements IParser
      * Parses a list of tokens into a request
      *
      * @param array $tokens The tokens to parse
-     * @return Requests\Request The parsed request
+     * @return Request The parsed request
      */
     protected function parseTokens(array $tokens)
     {
-        $request = new Requests\Request();
+        $request = new Request();
         $hasParsedCommandName = false;
 
         while($token = array_shift($tokens))

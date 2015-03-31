@@ -5,8 +5,9 @@
  * Defines an extension of Memcached
  */
 namespace RDev\Databases\NoSQL\Memcached;
+use Memcached;
 
-class RDevMemcached extends \Memcached
+class RDevMemcached extends Memcached
 {
     /** @var Server[] The server we're connecting to */
     protected $servers = null;

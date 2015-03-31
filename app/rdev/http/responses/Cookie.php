@@ -5,6 +5,7 @@
  * Defines a cookie
  */
 namespace RDev\HTTP\Responses;
+use DateTime;
 
 class Cookie
 {
@@ -12,7 +13,7 @@ class Cookie
     private $name = "";
     /** @var mixed The value of the cookie */
     private $value = "";
-    /** @var \DateTime The expiration of the cookie */
+    /** @var DateTime The expiration of the cookie */
     private $expiration = null;
     /** @var string The path the cookie is valid on */
     private $path = "/";
@@ -26,13 +27,13 @@ class Cookie
     /**
      * @param string $name The name of the cookie
      * @param mixed $value The value of the cookie
-     * @param \DateTime $expiration The expiration of the cookie
+     * @param DateTime $expiration The expiration of the cookie
      * @param string $path The path the cookie is valid on
      * @param string $domain The domain the cookie is valid on
      * @param bool $isSecure Whether or not this cookie is on HTTPS
      * @param bool $isHTTPOnly Whether or not this cookie is HTTP only
      */
-    public function __construct($name, $value, \DateTime $expiration, $path = "/", $domain = "", $isSecure = false,
+    public function __construct($name, $value, DateTime $expiration, $path = "/", $domain = "", $isSecure = false,
                                 $isHTTPOnly = true)
     {
         $this->name = $name;
@@ -53,7 +54,7 @@ class Cookie
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
     public function getExpiration()
     {
@@ -109,7 +110,7 @@ class Cookie
     }
 
     /**
-     * @param \DateTime $expiration
+     * @param DateTime $expiration
      */
     public function setExpiration($expiration)
     {

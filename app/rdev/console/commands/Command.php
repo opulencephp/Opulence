@@ -5,9 +5,12 @@
  * Defines a basic command
  */
 namespace RDev\Console\Commands;
-use RDev\Console\Requests;
-use RDev\Console\Requests\Parsers;
-use RDev\Console\Responses;
+use InvalidArgumentException;
+use RuntimeException;
+use RDev\Console\Requests\Argument;
+use RDev\Console\Requests\Option;
+use RDev\Console\Requests\OptionTypes;
+use RDev\Console\Responses\IResponse;
 
 abstract class Command implements ICommand
 {
@@ -15,9 +18,9 @@ abstract class Command implements ICommand
     protected $name = "";
     /** @var string A brief description of the command */
     protected $description = "";
-    /** @var Requests\Argument[] The list of arguments */
+    /** @var Argument[] The list of arguments */
     protected $arguments = [];
-    /** @var Requests\Option[] The list of options */
+    /** @var Option[] The list of options */
     protected $options = [];
     /** @var array The mapping of argument names to values */
     protected $argumentValues = [];
@@ -25,8 +28,8 @@ abstract class Command implements ICommand
     protected $optionValues = [];
     /** @var string The help text to be displayed in the help command */
     protected $helpText = "";
-    /** @var Commands The list of registered commands */
-    protected $commands = null;
+    /** @var CommandCollection The list of registered commands */
+    protected $commandCollection = null;
     /** @var bool Whether or not the base class' constructor was called */
     private $constructorCalled = false;
 
@@ -34,7 +37,7 @@ abstract class Command implements ICommand
      * To ensure that the command is properly instantiated, be sure to
      * always call parent::__construct() in child command classes
      *
-     * @throws \InvalidArgumentException Thrown if the name is not set
+     * @throws InvalidArgumentException Thrown if the name is not set
      */
     public function __construct()
     {
@@ -45,14 +48,14 @@ abstract class Command implements ICommand
 
         if(empty($this->name))
         {
-            throw new \InvalidArgumentException("Command name cannot be empty");
+            throw new InvalidArgumentException("Command name cannot be empty");
         }
 
         // This adds a help option to all commands
-        $this->addOption(new Requests\Option(
+        $this->addOption(new Option(
             "help",
             "h",
-            Requests\OptionTypes::NO_VALUE,
+            OptionTypes::NO_VALUE,
             "Displays info about the command"
         ));
     }
@@ -60,7 +63,7 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
-    public function addArgument(Requests\Argument $argument)
+    public function addArgument(Argument $argument)
     {
         $this->arguments[$argument->getName()] = $argument;
 
@@ -70,7 +73,7 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
-    public function addOption(Requests\Option $option)
+    public function addOption(Option $option)
     {
         $this->options[$option->getName()] = $option;
 
@@ -88,11 +91,11 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
-    public final function execute(Responses\IResponse $response)
+    public final function execute(IResponse $response)
     {
         if(!$this->constructorCalled)
         {
-            throw new \RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");
+            throw new RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");
         }
 
         return $this->doExecute($response);
@@ -105,7 +108,7 @@ abstract class Command implements ICommand
     {
         if(!isset($this->arguments[$name]))
         {
-            throw new \InvalidArgumentException("No argument with name \"$name\" exists");
+            throw new InvalidArgumentException("No argument with name \"$name\" exists");
         }
 
         return $this->arguments[$name];
@@ -118,7 +121,7 @@ abstract class Command implements ICommand
     {
         if(!$this->argumentValueIsSet($name))
         {
-            throw new \InvalidArgumentException("No argument with name \"$name\" exists");
+            throw new InvalidArgumentException("No argument with name \"$name\" exists");
         }
 
         return $this->argumentValues[$name];
@@ -163,7 +166,7 @@ abstract class Command implements ICommand
     {
         if(!isset($this->options[$name]))
         {
-            throw new \InvalidArgumentException("No option with name \"$name\" exists");
+            throw new InvalidArgumentException("No option with name \"$name\" exists");
         }
 
         return $this->options[$name];
@@ -176,7 +179,7 @@ abstract class Command implements ICommand
     {
         if(!isset($this->options[$name]))
         {
-            throw new \InvalidArgumentException("No option with name \"$name\" exists");
+            throw new InvalidArgumentException("No option with name \"$name\" exists");
         }
 
         if(!isset($this->optionValues[$name]))
@@ -215,9 +218,9 @@ abstract class Command implements ICommand
     /**
      * {@inheritdoc}
      */
-    public function setCommands(Commands &$commands)
+    public function setCommandCollection(CommandCollection &$commandCollection)
     {
-        $this->commands = $commands;
+        $this->commandCollection = $commandCollection;
     }
 
     /**
@@ -237,10 +240,10 @@ abstract class Command implements ICommand
     /**
      * Actually executes the command
      *
-     * @param Responses\IResponse $response The console response to write to
+     * @param IResponse $response The console response to write to
      * @return int|null Null or the status code of the command
      */
-    abstract protected function doExecute(Responses\IResponse $response);
+    abstract protected function doExecute(IResponse $response);
 
     /**
      * Sets the description of the command

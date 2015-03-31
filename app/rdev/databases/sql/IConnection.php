@@ -6,6 +6,9 @@
  * as a database connection in this application
  */
 namespace RDev\Databases\SQL;
+use PDOException;
+use RDev\Databases\SQL\Providers\Provider;
+use RDev\Databases\SQL\Providers\TypeMapper;
 
 interface IConnection
 {
@@ -13,7 +16,7 @@ interface IConnection
      * Begins a transaction
      * Nested transactions are permitted
      *
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function beginTransaction();
 
@@ -21,7 +24,7 @@ interface IConnection
      * Commits a transaction
      * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
      *
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function commit();
 
@@ -29,7 +32,7 @@ interface IConnection
      * Gets the SQLSTATE of the last query, if there was one
      *
      * @return string|null The error code, if one was set, otherwise false
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorCode();
 
@@ -37,7 +40,7 @@ interface IConnection
      * Gets information about the last query error
      *
      * @return array The array of information about the last operation
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorInfo();
 
@@ -46,14 +49,14 @@ interface IConnection
      *
      * @param string $statement The SQL statement to execute
      * @return int The number of rows affected by the statement
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function exec($statement);
 
     /**
      * Gets the database provider used by this connection
      *
-     * @return Providers\Provider The database provider used by this connection
+     * @return Provider The database provider used by this connection
      */
     public function getDatabaseProvider();
 
@@ -65,7 +68,7 @@ interface IConnection
     public function getServer();
 
     /**
-     * @return Providers\TypeMapper
+     * @return TypeMapper
      */
     public function getTypeMapper();
 
@@ -73,7 +76,7 @@ interface IConnection
      * Gets whether or not we're in a transaction
      *
      * @return bool True if we're in a transaction, otherwise false
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function inTransaction();
 
@@ -90,7 +93,7 @@ interface IConnection
      *
      * @param string $statement The SQL statement to execute
      * @return IStatement The statement
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function prepare($statement);
 
@@ -99,7 +102,7 @@ interface IConnection
      *
      * @param string $statement The SQL statement to execute
      * @return IStatement The statement
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function query($statement);
 
@@ -109,14 +112,14 @@ interface IConnection
      * @param string $string The string to quote
      * @param int $parameterType The PDO constant that indicates the type of the parameter
      * @return string The quoted string
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function quote($string, $parameterType = \PDO::PARAM_STR);
 
     /**
      * Rolls back the transaction
      *
-     * @throws \PDOException Thrown if there was an error connecting to the database
+     * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function rollBack();
 } 

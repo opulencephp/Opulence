@@ -5,19 +5,24 @@
  * Defines a router for URL requests
  */
 namespace RDev\HTTP\Routing;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\IoC;
+use InvalidArgumentException;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Routing\Dispatchers\IDispatcher;
+use RDev\HTTP\Routing\Compilers\ICompiler;
+use RDev\HTTP\Routing\Routes\MissingRoute;
+use RDev\HTTP\Routing\Routes\Route;
+use RDev\HTTP\Routing\Routes\RouteCollection;
 
 class Router
 {
-    /** @var Compilers\ICompiler The compiler used by this router */
+    /** @var ICompiler The compiler used by this router */
     protected $compiler = null;
-    /** @var Dispatchers\IDispatcher The route dispatcher */
+    /** @var IDispatcher The route dispatcher */
     protected $dispatcher = null;
-    /** @var Routes\Routes The list of routes */
-    protected $routes = null;
-    /** @var Routes\Route|null The matched route if there is one, otherwise null */
+    /** @var RouteCollection The list of routes */
+    protected $routeCollection = null;
+    /** @var Route|null The matched route if there is one, otherwise null */
     protected $matchedRoute = null;
     /** @var Controller|null The matched controller if there is one, otherwise null */
     protected $matchedController = null;
@@ -27,32 +32,32 @@ class Router
     protected $missedRouteControllerName = "";
 
     /**
-     * @param Dispatchers\IDispatcher $dispatcher The route dispatcher
-     * @param Compilers\ICompiler $compiler The route compiler
+     * @param IDispatcher $dispatcher The route dispatcher
+     * @param ICompiler $compiler The route compiler
      * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
-     * @throws \InvalidArgumentException Thrown if the controller name does not exist
+     * @throws InvalidArgumentException Thrown if the controller name does not exist
      */
     public function __construct(
-        Dispatchers\IDispatcher $dispatcher,
-        Compilers\ICompiler $compiler,
+        IDispatcher $dispatcher,
+        ICompiler $compiler,
         $missedRouteControllerName = "RDev\\HTTP\\Routing\\Controller"
     )
     {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
-        $this->routes = new Routes\Routes();
+        $this->routeCollection = new RouteCollection();
         $this->setMissedRouteControllerName($missedRouteControllerName);
     }
 
     /**
      * Adds a route to the router
      *
-     * @param Routes\Route $route The route to add
+     * @param Route $route The route to add
      */
-    public function addRoute(Routes\Route $route)
+    public function addRoute(Route $route)
     {
         $route = $this->applyGroupSettings($route);
-        $this->routes->add($route);
+        $this->routeCollection->add($route);
     }
 
     /**
@@ -63,7 +68,7 @@ class Router
      */
     public function any($path, array $options)
     {
-        $this->multiple($this->routes->getMethods(), $path, $options);
+        $this->multiple($this->routeCollection->getMethods(), $path, $options);
     }
 
     /**
@@ -74,7 +79,7 @@ class Router
      */
     public function delete($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_DELETE, $path, $options);
+        $route = $this->createRoute(Request::METHOD_DELETE, $path, $options);
         $this->addRoute($route);
     }
 
@@ -86,12 +91,12 @@ class Router
      */
     public function get($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_GET, $path, $options);
+        $route = $this->createRoute(Request::METHOD_GET, $path, $options);
         $this->addRoute($route);
     }
 
     /**
-     * @return null|Controller
+     * @return Controller|null
      */
     public function getMatchedController()
     {
@@ -99,7 +104,7 @@ class Router
     }
 
     /**
-     * @return Routes\Route|null
+     * @return Route|null
      */
     public function getMatchedRoute()
     {
@@ -109,11 +114,11 @@ class Router
     /**
      * Gets the reference to the list of routes
      *
-     * @return Routes\Routes
+     * @return RouteCollection
      */
-    public function &getRoutes()
+    public function &getRouteCollection()
     {
-        return $this->routes;
+        return $this->routeCollection;
     }
 
     /**
@@ -142,7 +147,7 @@ class Router
      */
     public function head($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_HEAD, $path, $options);
+        $route = $this->createRoute(Request::METHOD_HEAD, $path, $options);
         $this->addRoute($route);
     }
 
@@ -170,7 +175,7 @@ class Router
      */
     public function options($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_OPTIONS, $path, $options);
+        $route = $this->createRoute(Request::METHOD_OPTIONS, $path, $options);
         $this->addRoute($route);
     }
 
@@ -182,7 +187,7 @@ class Router
      */
     public function patch($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_PATCH, $path, $options);
+        $route = $this->createRoute(Request::METHOD_PATCH, $path, $options);
         $this->addRoute($route);
     }
 
@@ -194,7 +199,7 @@ class Router
      */
     public function post($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_POST, $path, $options);
+        $route = $this->createRoute(Request::METHOD_POST, $path, $options);
         $this->addRoute($route);
     }
 
@@ -206,23 +211,23 @@ class Router
      */
     public function put($path, array $options)
     {
-        $route = $this->createRoute(Requests\Request::METHOD_PUT, $path, $options);
+        $route = $this->createRoute(Request::METHOD_PUT, $path, $options);
         $this->addRoute($route);
     }
 
     /**
      * Routes a request
      *
-     * @param Requests\Request $request The request to route
-     * @return Responses\Response The response from the controller
+     * @param Request $request The request to route
+     * @return Response The response from the controller
      * @throws RouteException Thrown if the controller or method could not be called
      */
-    public function route(Requests\Request $request)
+    public function route(Request $request)
     {
         $method = $request->getMethod();
 
-        /** @var Routes\Route $route */
-        foreach($this->routes->get($method) as $route)
+        /** @var Route $route */
+        foreach($this->routeCollection->get($method) as $route)
         {
             $compiledRoute = $this->compiler->compile($route, $request);
 
@@ -240,13 +245,13 @@ class Router
 
     /**
      * @param string $missedRouteControllerName
-     * @throws \InvalidArgumentException Thrown if the controller name does not exist
+     * @throws InvalidArgumentException Thrown if the controller name does not exist
      */
     public function setMissedRouteControllerName($missedRouteControllerName)
     {
         if(!class_exists($missedRouteControllerName))
         {
-            throw new \InvalidArgumentException(
+            throw new InvalidArgumentException(
                 sprintf(
                     "Missed route controller class \"%s\" does not exist",
                     $missedRouteControllerName
@@ -260,10 +265,10 @@ class Router
     /**
      * Applies any group settings to a route
      *
-     * @param Routes\Route $route The route to apply the settings to
-     * @return Routes\Route The route with the applied settings
+     * @param Route $route The route to apply the settings to
+     * @return Route The route with the applied settings
      */
-    private function applyGroupSettings(Routes\Route $route)
+    private function applyGroupSettings(Route $route)
     {
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
@@ -287,11 +292,11 @@ class Router
      * @param string $method The method whose route this is
      * @param string $path The path to match on
      * @param array $options The list of options for this path
-     * @return Routes\Route The route from the input
+     * @return Route The route from the input
      */
     private function createRoute($method, $path, array $options)
     {
-        return new Routes\Route([$method], $path, $options);
+        return new Route([$method], $path, $options);
     }
 
     /**
@@ -383,13 +388,13 @@ class Router
     /**
      * Gets the response for a missing route
      *
-     * @param Requests\Request $request
-     * @return Responses\Response The response
+     * @param Request $request
+     * @return Response The response
      */
-    private function getMissingRouteResponse(Requests\Request $request)
+    private function getMissingRouteResponse(Request $request)
     {
         return $this->dispatcher->dispatch(
-            new Routes\MissingRoute($this->missedRouteControllerName),
+            new MissingRoute($this->missedRouteControllerName),
             $request,
             $this->matchedController
         );

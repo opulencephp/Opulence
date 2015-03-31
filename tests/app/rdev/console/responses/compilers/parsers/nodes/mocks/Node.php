@@ -5,9 +5,9 @@
  * Mocks a node for use in testing
  */
 namespace RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
-use RDev\Console\Responses\Compilers\Parsers\Nodes;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\Node as BaseNode;
 
-class Node extends Nodes\Node
+class Node extends BaseNode
 {
     /**
      * {@inheritdoc}

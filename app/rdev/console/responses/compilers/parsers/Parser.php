@@ -5,13 +5,17 @@
  * Defines the response parser
  */
 namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Lexers\Tokens;
+use RuntimeException;
+use RDev\Console\Responses\Compilers\Lexers\Tokens\Token;
+use RDev\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\TagNode;
+use RDev\Console\Responses\Compilers\Parsers\Nodes\WordNode;
 
 class Parser implements IParser
 {
     /**
      * {@inheritdoc}
-     * @param Tokens\Token[] $tokens The list of tokens to parse
+     * @param Token[] $tokens The list of tokens to parse
      */
     public function parse(array $tokens)
     {
@@ -21,20 +25,20 @@ class Parser implements IParser
         {
             switch($token->getType())
             {
-                case Tokens\TokenTypes::T_WORD:
-                    $ast->getCurrentNode()->addChild(new Nodes\WordNode($token->getValue()));
+                case TokenTypes::T_WORD:
+                    $ast->getCurrentNode()->addChild(new WordNode($token->getValue()));
 
                     break;
-                case Tokens\TokenTypes::T_TAG_OPEN:
-                    $childNode = new Nodes\TagNode($token->getValue());
+                case TokenTypes::T_TAG_OPEN:
+                    $childNode = new TagNode($token->getValue());
                     $ast->getCurrentNode()->addChild($childNode);
                     $ast->setCurrentNode($childNode);
 
                     break;
-                case Tokens\TokenTypes::T_TAG_CLOSE:
+                case TokenTypes::T_TAG_CLOSE:
                     if($ast->getCurrentNode()->getValue() != $token->getValue())
                     {
-                        throw new \RuntimeException(
+                        throw new RuntimeException(
                             sprintf(
                                 "Improperly nested tag \"%s\" near character #%d",
                                 $token->getValue(),
@@ -47,10 +51,10 @@ class Parser implements IParser
                     $ast->setCurrentNode($ast->getCurrentNode()->getParent());
 
                     break;
-                case Tokens\TokenTypes::T_EOF:
+                case TokenTypes::T_EOF:
                     if(!$ast->getCurrentNode()->isRoot())
                     {
-                        throw new \RuntimeException(
+                        throw new RuntimeException(
                             sprintf(
                                 "Unclosed %s \"%s\"",
                                 $ast->getCurrentNode()->isTag() ? "tag" : "node",
@@ -61,7 +65,7 @@ class Parser implements IParser
 
                     break;
                 default:
-                    throw new \RuntimeException(
+                    throw new RuntimeException(
                         sprintf(
                             "Unknown token type \"%s\" with value \"%s\" near character #%d",
                             $token->getType(),

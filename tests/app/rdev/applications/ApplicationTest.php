@@ -5,11 +5,11 @@
  * Tests the application class
  */
 namespace RDev\Applications;
-use Monolog;
-use RDev\IoC;
-use RDev\Tests\Mocks as ModelMocks;
-use RDev\Sessions;
-use RDev\Tests\Applications\Mocks;
+use Monolog\Logger;
+use RDev\Applications\Environments\Environment;
+use RDev\IoC\Container;
+use RDev\Sessions\Session;
+use RDev\Tests\Applications\Mocks\MonologHandler;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,14 +21,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $logger = new Monolog\Logger("application");
-        $logger->pushHandler(new Mocks\MonologHandler());
+        $logger = new Logger("application");
+        $logger->pushHandler(new MonologHandler());
         $this->application = new Application(
             new Paths(["foo" => "bar"]),
             $logger,
-            new Environments\Environment("staging"),
-            new IoC\Container(),
-            new Sessions\Session()
+            new Environment("staging"),
+            new Container(),
+            new Session()
         );
     }
 
@@ -202,7 +202,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSession()
     {
-        $this->assertEquals(new Sessions\Session, $this->application->getSession());
+        $this->assertEquals(new Session, $this->application->getSession());
     }
 
     /**
@@ -382,7 +382,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContainer()
     {
-        $container = new IoC\Container();
+        $container = new Container();
         $this->application->setIoCContainer($container);
         $this->assertSame($container, $this->application->getIoCContainer());
     }
@@ -402,7 +402,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingLogger()
     {
-        $logger = new Monolog\Logger("test");
+        $logger = new Logger("test");
         $this->application->setLogger($logger);
         $this->assertSame($logger, $this->application->getLogger());
     }
@@ -422,7 +422,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingSession()
     {
-        $session = new Sessions\Session();
+        $session = new Session();
         $this->application->setSession($session);
         $this->assertSame($session, $this->application->getSession());
     }

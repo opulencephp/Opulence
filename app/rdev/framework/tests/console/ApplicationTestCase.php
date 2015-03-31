@@ -5,34 +5,38 @@
  * Defines the console application test case
  */
 namespace RDev\Framework\Tests\Console;
-use RDev\Console\Commands;
-use RDev\Console\Commands\Compilers as CommandCompilers;
-use RDev\Console\Kernels;
-use RDev\Console\Requests\Parsers as RequestParsers;
-use RDev\Console\Responses;
-use RDev\Console\Responses\Compilers as ResponseCompilers;
-use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
-use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;
-use RDev\Console\Responses\Formatters;
-use RDev\Framework\Tests;
+use PHPUnit_Framework_MockObject_MockObject;
+use RDev\Console\Commands\CommandCollection;
+use RDev\Console\Commands\Compilers\ICompiler;
+use RDev\Console\Kernels\Kernel;
+use RDev\Console\Kernels\StatusCodes;
+use RDev\Console\Requests\Parsers\ArrayListParser;
+use RDev\Console\Requests\Parsers\IParser as IRequestParser;
+use RDev\Console\Responses\Compilers\Compiler as ResponseCompiler;
+use RDev\Console\Responses\Compilers\ICompiler as IResponseCompiler;
+use RDev\Console\Responses\Compilers\Lexers\Lexer as ResponseLexer;
+use RDev\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Console\Responses\Stream;
+use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
 
-abstract class ApplicationTestCase extends Tests\ApplicationTestCase
+abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
-    /** @var Commands\Commands The list of registered commands */
-    protected $commands = null;
-    /** @var CommandCompilers\ICompiler The command compiler */
+    /** @var CommandCollection The list of registered commands */
+    protected $commandCollection = null;
+    /** @var ICompiler The command compiler */
     protected $commandCompiler = null;
-    /** @var ResponseCompilers\ICompiler The response compiler */
+    /** @var IResponseCompiler The response compiler */
     protected $responseCompiler = null;
-    /** @var Kernels\Kernel The console kernel */
+    /** @var Kernel The console kernel */
     protected $kernel = null;
-    /** @var RequestParsers\IParser The request parser */
+    /** @var IRequestParser The request parser */
     protected $requestParser = null;
-    /** @var Responses\Stream The response stream */
+    /** @var Stream The response stream */
     protected $response = null;
     /** @var int The status code */
     protected $statusCode = 0;
-    /** @var \PHPUnit_Framework_MockObject_MockObject The prompt to use in tests */
+    /** @var PHPUnit_Framework_MockObject_MockObject The prompt to use in tests */
     protected $prompt = null;
 
     /**
@@ -62,7 +66,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
      */
     public function assertStatusCodeIsError()
     {
-        $this->assertStatusCodeEquals(Kernels\StatusCodes::ERROR);
+        $this->assertStatusCodeEquals(StatusCodes::ERROR);
     }
 
     /**
@@ -70,7 +74,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
      */
     public function assertStatusCodeIsFatal()
     {
-        $this->assertStatusCodeEquals(Kernels\StatusCodes::FATAL);
+        $this->assertStatusCodeEquals(StatusCodes::FATAL);
     }
 
     /**
@@ -78,7 +82,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
      */
     public function assertStatusCodeIsOK()
     {
-        $this->assertStatusCodeEquals(Kernels\StatusCodes::OK);
+        $this->assertStatusCodeEquals(StatusCodes::OK);
     }
 
     /**
@@ -86,7 +90,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
      */
     public function assertStatusCodeIsWarning()
     {
-        $this->assertStatusCodeEquals(Kernels\StatusCodes::WARNING);
+        $this->assertStatusCodeEquals(StatusCodes::WARNING);
     }
 
     /**
@@ -115,7 +119,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
         }
 
         // We instantiate the response every time so that it's fresh whenever a new command is called
-        $this->response = new Responses\Stream(fopen("php://memory", "w"), $this->responseCompiler);
+        $this->response = new Stream(fopen("php://memory", "w"), $this->responseCompiler);
         $this->response->setStyled($isStyled);
         $input = ["name" => $commandName, "arguments" => $arguments, "options" => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);
@@ -124,11 +128,11 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     }
 
     /**
-     * @return Commands\Commands
+     * @return CommandCollection
      */
-    public function getCommands()
+    public function getCommandCollection()
     {
-        return $this->commands;
+        return $this->commandCollection;
     }
 
     /**
@@ -151,22 +155,22 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
     {
         $this->setApplication();
         $this->application->start();
-        $this->requestParser = new RequestParsers\ArrayList();
+        $this->requestParser = new ArrayListParser();
         $container = $this->application->getIoCContainer();
-        $this->commands = $container->makeShared("RDev\\Console\\Commands\\Commands");
+        $this->commandCollection = $container->makeShared("RDev\\Console\\Commands\\CommandCollection");
         $this->commandCompiler = $container->makeShared("RDev\\Console\\Commands\\Compilers\\ICompiler");
-        $this->responseCompiler = new ResponseCompilers\Compiler(new ResponseLexers\Lexer(), new ResponseParsers\Parser());
-        $this->kernel = new Kernels\Kernel(
+        $this->responseCompiler = new ResponseCompiler(new ResponseLexer(), new ResponseParser());
+        $this->kernel = new Kernel(
             $this->requestParser,
             $this->commandCompiler,
-            $this->commands,
+            $this->commandCollection,
             $this->application->getLogger(),
             $this->application->getVersion()
         );
 
         // Bind a mock prompt that can output pre-determined answers
         $promptClassName = "RDev\\Console\\Prompts\\Prompt";
-        $this->prompt = $this->getMock($promptClassName, ["ask"], [new Formatters\Padding()]);
+        $this->prompt = $this->getMock($promptClassName, ["ask"], [new PaddingFormatter()]);
         $this->application->getIoCContainer()->bind($promptClassName, $this->prompt);
     }
 
@@ -190,7 +194,7 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
      */
     private function setPromptAnswers($commandName, array $answers)
     {
-        $commandClassName = get_class($this->commands->get($commandName));
+        $commandClassName = get_class($this->commandCollection->get($commandName));
 
         foreach($answers as $index => $answer)
         {
@@ -200,6 +204,6 @@ abstract class ApplicationTestCase extends Tests\ApplicationTestCase
         }
 
         // Remake the command to have this latest binding
-        $this->commands->add($this->application->getIoCContainer()->makeShared($commandClassName), true);
+        $this->commandCollection->add($this->application->getIoCContainer()->makeShared($commandClassName), true);
     }
 }

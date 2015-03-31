@@ -5,16 +5,16 @@
  * Defines the PDO driver for a PostgreSQL database
  */
 namespace RDev\Databases\SQL\PDO\PostgreSQL;
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\PDO;
-use RDev\Databases\SQL\Providers;
+use RDev\Databases\SQL\Server;
+use RDev\Databases\SQL\PDO\Driver as BaseDriver;
+use RDev\Databases\SQL\Providers\PostgreSQLProvider;
 
-class Driver extends PDO\Driver
+class Driver extends BaseDriver
 {
     /**
      * {@inheritdoc}
      */
-    protected function getDSN(SQL\Server $server, array $options = [])
+    protected function getDSN(Server $server, array $options = [])
     {
         $dsn = "pgsql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
@@ -32,6 +32,6 @@ class Driver extends PDO\Driver
      */
     protected function setProvider()
     {
-        $this->provider = new Providers\PostgreSQL();
+        $this->provider = new PostgreSQLProvider();
     }
 } 

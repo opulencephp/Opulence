@@ -5,8 +5,9 @@
  * Defines the interface for route parsers to implement
  */
 namespace RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Routing\Routes\Route;
+use RDev\HTTP\Routing\RouteException;
+use RDev\HTTP\Routing\Routes\ParsedRoute;
 
 interface IParser
 {
@@ -20,9 +21,9 @@ interface IParser
     /**
      * Parses a route into regular expressions
      *
-     * @param Routes\Route $route The route to parse
-     * @return Routes\ParsedRoute The parsed route
-     * @throws Routing\RouteException Thrown if the route is not valid
+     * @param Route $route The route to parse
+     * @return ParsedRoute The parsed route
+     * @throws RouteException Thrown if the route is not valid
      */
-    public function parse(Routes\Route $route);
+    public function parse(Route $route);
 } 

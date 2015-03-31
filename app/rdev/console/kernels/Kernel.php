@@ -5,48 +5,57 @@
  * Defines the console kernel
  */
 namespace RDev\Console\Kernels;
-use Monolog;
-use RDev\Console\Commands;
-use RDev\Console\Commands\Compilers as CommandCompilers;
-use RDev\Console\Requests;
-use RDev\Console\Requests\Parsers;
-use RDev\Console\Responses;
-use RDev\Console\Responses\Compilers as ResponseCompilers;
-use RDev\Console\Responses\Compilers\Lexers as ResponseLexers;
-use RDev\Console\Responses\Compilers\Parsers as ResponseParsers;
-use RDev\Console\Responses\Formatters;
+use Exception;
+use InvalidArgumentException;
+use Monolog\Logger;
+use RuntimeException;
+use RDev\Console\Commands\AboutCommand;
+use RDev\Console\Commands\CommandCollection;
+use RDev\Console\Commands\Compilers\ICompiler as ICommandCompiler;
+use RDev\Console\Commands\HelpCommand;
+use RDev\Console\Commands\ICommand;
+use RDev\Console\Commands\VersionCommand;
+use RDev\Console\Requests\IRequest;
+use RDev\Console\Requests\Parsers\IParser;
+use RDev\Console\Responses\Compilers\Compiler;
+use RDev\Console\Responses\Compilers\Lexers\Lexer;
+use RDev\Console\Responses\Compilers\Parsers\Parser;
+use RDev\Console\Responses\Console;
+use RDev\Console\Responses\Formatters\CommandFormatter;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Console\Responses\IResponse;
 
 class Kernel
 {
-    /** @var Parsers\IParser The request parser to use */
+    /** @var IParser The request parser to use */
     private $requestParser = null;
-    /** @var CommandCompilers\ICompiler The command compiler to use */
+    /** @var ICommandCompiler The command compiler to use */
     private $commandCompiler = null;
-    /** @var Commands\Commands The list of commands to choose from */
-    private $commands = null;
-    /** @var Monolog\Logger The logger to use */
+    /** @var CommandCollection The list of commands to choose from */
+    private $commandCollection = null;
+    /** @var Logger The logger to use */
     private $logger = null;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";
 
     /**
-     * @param Parsers\IParser $requestParser The request parser to use
-     * @param CommandCompilers\ICompiler $commandCompiler The command compiler to use
-     * @param Commands\Commands $commands The list of commands to choose from
-     * @param Monolog\Logger $logger The logger to use
+     * @param IParser $requestParser The request parser to use
+     * @param ICommandCompiler $commandCompiler The command compiler to use
+     * @param CommandCollection $commandCollection The list of commands to choose from
+     * @param Logger $logger The logger to use
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
-        Parsers\IParser $requestParser,
-        CommandCompilers\ICompiler $commandCompiler,
-        Commands\Commands &$commands,
-        Monolog\Logger $logger,
+        IParser $requestParser,
+        ICommandCompiler $commandCompiler,
+        CommandCollection &$commandCollection,
+        Logger $logger,
         $applicationVersion = "Unknown"
     )
     {
         $this->requestParser = $requestParser;
         $this->commandCompiler = $commandCompiler;
-        $this->commands = $commands;
+        $this->commandCollection = $commandCollection;
         $this->logger = $logger;
         $this->applicationVersion = $applicationVersion;
     }
@@ -55,16 +64,14 @@ class Kernel
      * Handles a console command
      *
      * @param mixed $input The raw input to parse
-     * @param Responses\IResponse $response The response to write to
+     * @param IResponse $response The response to write to
      * @return int The status code
      */
-    public function handle($input, Responses\IResponse $response = null)
+    public function handle($input, IResponse $response = null)
     {
         if($response === null)
         {
-            $response = new Responses\Console(
-                new ResponseCompilers\Compiler(new ResponseLexers\Lexer(), new ResponseParsers\Parser())
-            );
+            $response = new Console(new Compiler(new Lexer(), new Parser()));
         }
 
         try
@@ -79,18 +86,18 @@ class Kernel
             elseif($this->isInvokingVersionCommand($request))
             {
                 // We are going to execute the version command
-                $compiledCommand = new Commands\Version($this->applicationVersion);
+                $compiledCommand = new VersionCommand($this->applicationVersion);
             }
-            elseif($this->commands->has($request->getCommandName()))
+            elseif($this->commandCollection->has($request->getCommandName()))
             {
                 // We are going to execute the command that was entered
-                $command = $this->commands->get($request->getCommandName());
+                $command = $this->commandCollection->get($request->getCommandName());
                 $compiledCommand = $this->commandCompiler->compile($command, $request);
             }
             else
             {
                 // We are defaulting to the about command
-                $compiledCommand = new Commands\About($this->commands, new Formatters\Padding(), $this->applicationVersion);
+                $compiledCommand = new AboutCommand($this->commandCollection, new PaddingFormatter(), $this->applicationVersion);
             }
 
             $statusCode = $compiledCommand->execute($response);
@@ -102,19 +109,19 @@ class Kernel
 
             return $statusCode;
         }
-        catch(\InvalidArgumentException $ex)
+        catch(InvalidArgumentException $ex)
         {
             $response->writeln("<error>{$ex->getMessage()}</error>");
 
             return StatusCodes::ERROR;
         }
-        catch(\RuntimeException $ex)
+        catch(RuntimeException $ex)
         {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
 
             return StatusCodes::FATAL;
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
             $this->logger->addError($ex->getMessage());
@@ -126,13 +133,13 @@ class Kernel
     /**
      * Gets the compiled help command
      *
-     * @param Requests\IRequest $request The parsed request
-     * @return Commands\ICommand The compiled help command
-     * @throws \InvalidArgumentException Thrown if the command that is requesting help does not exist
+     * @param IRequest $request The parsed request
+     * @return ICommand The compiled help command
+     * @throws InvalidArgumentException Thrown if the command that is requesting help does not exist
      */
-    private function getCompiledHelpCommand(Requests\IRequest $request)
+    private function getCompiledHelpCommand(IRequest $request)
     {
-        $helpCommand = new Commands\Help(new Formatters\Command(), new Formatters\Padding());
+        $helpCommand = new HelpCommand(new CommandFormatter(), new PaddingFormatter());
         $commandName = null;
 
         if($request->getCommandName() == "help")
@@ -152,12 +159,12 @@ class Kernel
         // Set the command only if it was passed as an argument to the help command
         if($commandName !== null && $commandName !== "")
         {
-            if(!$this->commands->has($commandName))
+            if(!$this->commandCollection->has($commandName))
             {
-                throw new \InvalidArgumentException("No command with name \"$commandName\" exists");
+                throw new InvalidArgumentException("No command with name \"$commandName\" exists");
             }
 
-            $command = $this->commands->get($commandName);
+            $command = $this->commandCollection->get($commandName);
             $helpCommand->setCommand($command);
         }
 
@@ -167,10 +174,10 @@ class Kernel
     /**
      * Gets whether or not the input is invoking the help command
      *
-     * @param Requests\IRequest $request The parsed request
+     * @param IRequest $request The parsed request
      * @return bool True if it is invoking the help command, otherwise false
      */
-    private function isInvokingHelpCommand(Requests\IRequest $request)
+    private function isInvokingHelpCommand(IRequest $request)
     {
         return $request->getCommandName() == "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
     }
@@ -178,10 +185,10 @@ class Kernel
     /**
      * Gets whether or not the input is invoking the version command
      *
-     * @param Requests\IRequest $request The parsed request
+     * @param IRequest $request The parsed request
      * @return bool True if it is invoking the version command, otherwise false
      */
-    private function isInvokingVersionCommand(Requests\IRequest $request)
+    private function isInvokingVersionCommand(IRequest $request)
     {
         return $request->optionIsSet("v") || $request->optionIsSet("version");
     }

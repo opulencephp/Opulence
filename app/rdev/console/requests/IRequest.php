@@ -5,6 +5,7 @@
  * Defines the interface for console requests to implement
  */
 namespace RDev\Console\Requests;
+use InvalidArgumentException;
 
 interface IRequest
 {
@@ -44,7 +45,7 @@ interface IRequest
      *
      * @param string $name The name of the option
      * @return mixed The value of the option
-     * @throws \InvalidArgumentException Thrown if the option does not exist
+     * @throws InvalidArgumentException Thrown if the option does not exist
      */
     public function getOptionValue($name);
 

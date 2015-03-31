@@ -5,18 +5,19 @@
  * Creates user objects
  */
 namespace RDev\Users\Factories;
-use RDev\Users;
+use DateTime;
+use RDev\Users\User;
 
 class UserFactory
 {
     /**
      * @param int $id The database Id of this user
-     * @param \DateTime $dateCreated The date this user was created
+     * @param DateTime $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
-     * @return Users\User A user object
+     * @return User A user object
      */
-    public function createUser($id, \DateTime $dateCreated, array $roles)
+    public function createUser($id, DateTime $dateCreated, array $roles)
     {
-        return new Users\User($id, $dateCreated, $roles);
+        return new User($id, $dateCreated, $roles);
     }
 } 

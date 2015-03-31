@@ -5,31 +5,33 @@
  * Defines a session that persists throughout a transaction on a page
  */
 namespace RDev\Sessions;
-use RDev\Authentication\Credentials;
+use RDev\Authentication\Credentials\CredentialCollection;
+use RDev\Authentication\Credentials\ICredentialCollection;
 use RDev\Authentication;
-use RDev\Users;
+use RDev\Users\GuestUser;
+use RDev\Users\IUser;
 
 class Session implements ISession
 {
-    /** @var Users\IUser The current user */
+    /** @var IUser The current user */
     private $user = null;
-    /** @var Credentials\ICredentials The current user's credentials */
+    /** @var ICredentialCollection The current user's credentials */
     private $credentials = null;
 
     /**
-     * @param Users\IUser $user The current user
-     * @param Credentials\ICredentials $credentials The current user's credentials
+     * @param IUser $user The current user
+     * @param ICredentialCollection $credentials The current user's credentials
      */
-    public function __construct(Users\IUser $user = null, Credentials\ICredentials $credentials = null)
+    public function __construct(IUser $user = null, ICredentialCollection $credentials = null)
     {
         if($user === null)
         {
-            $user = new Users\GuestUser();
+            $user = new GuestUser();
         }
 
         if($credentials === null)
         {
-            $credentials = new Credentials\Credentials($user->getId(), Authentication\EntityTypes::USER);
+            $credentials = new CredentialCollection($user->getId(), Authentication\EntityTypes::USER);
         }
 
         $this->setUser($user);
@@ -55,7 +57,7 @@ class Session implements ISession
     /**
      * {@inheritdoc}
      */
-    public function setCredentials(Credentials\ICredentials $credentials)
+    public function setCredentials(ICredentialCollection $credentials)
     {
         $this->credentials = $credentials;
     }
@@ -63,7 +65,7 @@ class Session implements ISession
     /**
      * {@inheritdoc}
      */
-    public function setUser(Users\IUser $user)
+    public function setUser(IUser $user)
     {
         $this->user = $user;
     }
