@@ -5,6 +5,7 @@
  * Defines common functionality for query classes
  */
 namespace RDev\Databases\SQL\QueryBuilders;
+use PDO;
 
 abstract class Query
 {
@@ -40,7 +41,7 @@ abstract class Query
      * @return $this
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addNamedPlaceholderValue($placeholderName, $value, $dataType = \PDO::PARAM_STR)
+    public function addNamedPlaceholderValue($placeholderName, $value, $dataType = PDO::PARAM_STR)
     {
         if($this->usingUnnamedPlaceholders === true)
         {
@@ -95,7 +96,7 @@ abstract class Query
      * @return $this
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addUnnamedPlaceholderValue($value, $dataType = \PDO::PARAM_STR)
+    public function addUnnamedPlaceholderValue($value, $dataType = PDO::PARAM_STR)
     {
         if($this->usingUnnamedPlaceholders === false)
         {

@@ -5,6 +5,7 @@
  * Tests the query class
  */
 namespace RDev\Databases\SQL\QueryBuilders;
+use PDO;
 
 class QueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,7 +27,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->addNamedPlaceholderValue("name", "foo");
         $this->assertEquals([
-            "name" => ["foo", \PDO::PARAM_STR]
+            "name" => ["foo", PDO::PARAM_STR]
         ], $this->query->getParameters());
     }
 
@@ -45,9 +46,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderWithDataType()
     {
-        $this->query->addNamedPlaceholderValue("userId", 18175, \PDO::PARAM_INT);
+        $this->query->addNamedPlaceholderValue("userId", 18175, PDO::PARAM_INT);
         $this->assertEquals([
-            "userId" => [18175, \PDO::PARAM_INT]
+            "userId" => [18175, PDO::PARAM_INT]
         ], $this->query->getParameters());
     }
 
@@ -67,7 +68,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
     {
         $this->query->addUnnamedPlaceholderValue("foo");
         $this->assertEquals([
-            ["foo", \PDO::PARAM_STR]
+            ["foo", PDO::PARAM_STR]
         ], $this->query->getParameters());
     }
 
@@ -86,9 +87,9 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderWithDataType()
     {
-        $this->query->addUnnamedPlaceholderValue(18175, \PDO::PARAM_INT);
+        $this->query->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
         $this->assertEquals([
-            [18175, \PDO::PARAM_INT]
+            [18175, PDO::PARAM_INT]
         ], $this->query->getParameters());
     }
 

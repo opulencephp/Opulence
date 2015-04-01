@@ -5,6 +5,7 @@
  * Tests the insert query
  */
 namespace RDev\Databases\SQL\QueryBuilders\MySQL;
+use PDO;
 
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,8 +20,8 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
             $query->getSQL());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ["dave", PDO::PARAM_STR],
+            ["foo@bar.com", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -32,8 +33,8 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
         $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSQL());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ["dave", PDO::PARAM_STR],
+            ["foo@bar.com", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -48,8 +49,8 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
             $query->getSQL());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ["dave", PDO::PARAM_STR],
+            ["foo@bar.com", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -63,8 +64,8 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?) ON DUPLICATE KEY UPDATE name = ?, email = ?",
             $query->getSQL());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ["dave", PDO::PARAM_STR],
+            ["foo@bar.com", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 } 

@@ -200,7 +200,7 @@ class Connection extends PDO implements IConnection
      * {@inheritdoc}
      * @throws PDOException Thrown if there was an error connecting to the database
      */
-    public function quote($string, $parameterType = \PDO::PARAM_STR)
+    public function quote($string, $parameterType = PDO::PARAM_STR)
     {
         $this->connect();
 

@@ -18,7 +18,7 @@ composer create-project rdev/project --prefer-dist
 For complete documentation, <a href="http://www.rdevphp.com" target="_blank">visit the official website</a>.
 
 ## Requirements
-* PHP 5.5, 5.6, or HHVM >= 3.4.0
+* PHP 5.5, 5.6, 7.0, or HHVM >= 3.4.0
 * OpenSSL
 * mbstring
 * A default PHP timezone set in the PHP.ini

@@ -6,6 +6,7 @@
  * as a database connection in this application
  */
 namespace RDev\Databases\SQL;
+use PDO;
 use PDOException;
 use RDev\Databases\SQL\Providers\Provider;
 use RDev\Databases\SQL\Providers\TypeMapper;
@@ -114,7 +115,7 @@ interface IConnection
      * @return string The quoted string
      * @throws PDOException Thrown if there was an error connecting to the database
      */
-    public function quote($string, $parameterType = \PDO::PARAM_STR);
+    public function quote($string, $parameterType = PDO::PARAM_STR);
 
     /**
      * Rolls back the transaction

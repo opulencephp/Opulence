@@ -6,7 +6,7 @@
  */
 namespace RDev\Framework\Bootstrappers\HTTP\Views;
 use RDev\Applications\Environments\Environment;
-use RDev\Applications\Bootstrappers;
+use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\IoC\IContainer;
 use RDev\Views\Caching\Cache;
 use RDev\Views\Caching\ICache;
@@ -16,7 +16,7 @@ use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Factories\ITemplateFactory;
 use RDev\Views\Filters\XSSFilter;
 
-class Template extends Bootstrappers\Bootstrapper
+class Template extends Bootstrapper
 {
     /** @var ICache The view cache */
     protected $viewCache = null;

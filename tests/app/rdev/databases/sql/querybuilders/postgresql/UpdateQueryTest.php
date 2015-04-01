@@ -5,6 +5,7 @@
  * Tests the update query
  */
 namespace RDev\Databases\SQL\QueryBuilders\PostgreSQL;
+use PDO;
 
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -18,7 +19,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->addReturning("name");
         $this->assertEquals("UPDATE users SET name = ? RETURNING id, name", $query->getSQL());
         $this->assertEquals([
-            ["david", \PDO::PARAM_STR]
+            ["david", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -34,14 +35,14 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
             ->returning("u.id")
             ->addReturning("u.name")
-            ->addUnnamedPlaceholderValues([[18175, \PDO::PARAM_INT], "foo@bar.com", "dave"]);
+            ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], "foo@bar.com", "dave"]);
         $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name", $query->getSQL());
         $this->assertEquals([
-            ["david", \PDO::PARAM_STR],
-            ["bar@foo.com", \PDO::PARAM_STR],
-            [18175, \PDO::PARAM_INT],
-            ["foo@bar.com", \PDO::PARAM_STR],
-            ["dave", \PDO::PARAM_STR]
+            ["david", PDO::PARAM_STR],
+            ["bar@foo.com", PDO::PARAM_STR],
+            [18175, PDO::PARAM_INT],
+            ["foo@bar.com", PDO::PARAM_STR],
+            ["dave", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -54,7 +55,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query->returning("id");
         $this->assertEquals("UPDATE users SET name = ? RETURNING id", $query->getSQL());
         $this->assertEquals([
-            ["david", \PDO::PARAM_STR]
+            ["david", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 } 

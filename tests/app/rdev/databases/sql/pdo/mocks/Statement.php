@@ -5,9 +5,10 @@
  * Mocks the PDO statement for use in testing
  */
 namespace RDev\Tests\Databases\SQL\PDO\Mocks;
-use RDev\Databases\SQL\PDO;
+use PDO;
+use RDev\Databases\SQL\PDO\Statement as BaseStatement;
 
-class Statement extends PDO\Statement
+class Statement extends BaseStatement
 {
     public function __construct()
     {
@@ -24,7 +25,7 @@ class Statement extends PDO\Statement
         {
             if(!is_array($value))
             {
-                $value = [$value, \PDO::PARAM_STR];
+                $value = [$value, PDO::PARAM_STR];
             }
 
             // Here we don't actually attempt to bind the value

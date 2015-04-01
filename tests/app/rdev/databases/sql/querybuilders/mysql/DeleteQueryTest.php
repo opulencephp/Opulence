@@ -5,6 +5,7 @@
  * Tests the delete query
  */
 namespace RDev\Databases\SQL\QueryBuilders\MySQL;
+use PDO;
 
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,14 +18,14 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
         $query->where("u.id = :userId")
             ->andWhere("u.name = :name")
             ->orWhere("u.id = 10")
-            ->addNamedPlaceholderValues(["userId" => [18175, \PDO::PARAM_INT]])
+            ->addNamedPlaceholderValues(["userId" => [18175, PDO::PARAM_INT]])
             ->addNamedPlaceholderValue("name", "dave")
             ->limit(1);
         $this->assertEquals("DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1",
             $query->getSQL());
         $this->assertEquals([
-            "userId" => [18175, \PDO::PARAM_INT],
-            "name" => ["dave", \PDO::PARAM_STR]
+            "userId" => [18175, PDO::PARAM_INT],
+            "name" => ["dave", PDO::PARAM_STR]
         ], $query->getParameters());
     }
 

@@ -251,10 +251,10 @@ class Application
     /**
      * Starts this application
      *
-     * @param \Closure $startTask The task to perform on startup
+     * @param Closure $startTask The task to perform on startup
      * @return mixed|null The return value of the task if there was one, otherwise null
      */
-    public function start(\Closure $startTask = null)
+    public function start(Closure $startTask = null)
     {
         $taskReturnValue = null;
 
@@ -317,7 +317,7 @@ class Application
             {
                 $bootstrapper = new $bootstrapperClass($this->paths, $this->environment, $this->session);
 
-                if(!$bootstrapper instanceof Bootstrappers\Bootstrapper)
+                if(!$bootstrapper instanceof Bootstrapper)
                 {
                     throw new RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
                 }

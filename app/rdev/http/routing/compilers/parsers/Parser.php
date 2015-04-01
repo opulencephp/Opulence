@@ -5,9 +5,9 @@
  * Defines the parser for a route
  */
 namespace RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\RouteException;
 use RDev\HTTP\Routing\Routes\ParsedRoute;
 use RDev\HTTP\Routing\Routes\Route;
+use RDev\HTTP\Routing\RouteException;
 
 class Parser implements IParser
 {
@@ -37,7 +37,7 @@ class Parser implements IParser
      * @param ParsedRoute $parsedRoute The route whose string we're converting
      * @param string $rawString The raw string to convert
      * @return string The regex
-     * @throws RouteException
+     * @throws RouteException Thrown if the route variables are not correctly defined
      */
     private function convertRawStringToRegex(ParsedRoute &$parsedRoute, $rawString)
     {

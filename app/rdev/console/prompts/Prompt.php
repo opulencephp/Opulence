@@ -47,7 +47,7 @@ class Prompt
     {
         $response->write("<question>{$question->getText()}</question>");
 
-        if($question instanceof Questions\MultipleChoice)
+        if($question instanceof MultipleChoice)
         {
             /** @var MultipleChoice $question */
             $response->writeln("");

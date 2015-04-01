@@ -5,6 +5,7 @@
  * Defines a JSON response
  */
 namespace RDev\HTTP\Responses;
+use ArrayObject;
 use InvalidArgumentException;
 
 class JSONResponse extends Response
@@ -30,7 +31,7 @@ class JSONResponse extends Response
      */
     public function setContent($content)
     {
-        if($content instanceof \ArrayObject)
+        if($content instanceof ArrayObject)
         {
             $content = $content->getArrayCopy();
         }
