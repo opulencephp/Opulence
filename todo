@@ -1,11 +1,7 @@
 HAS PRIORITY:
-    Convert tests to fully-qualified class names
-        Commit
-        Get rid of dependence on HTTP Request in Credential stuff
-        Get rid of dependence on FileSystem in View ICache
-        Finish form stuff
-    Switch view compilers to use pipeline
-         Question is how do we allow template, content, and next as parameters?
+    Get rid of dependence on HTTP Request in Credential stuff
+    Get rid of dependence on FileSystem in View ICache
+    Finish form stuff
 
 
     Allow caching of routes/matches

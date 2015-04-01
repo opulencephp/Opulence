@@ -6,7 +6,7 @@
  */
 namespace RDev\Databases\SQL\PDO\MySQL;
 use RDev\Databases\SQL;
-use RDev\Tests\Databases\SQL\Mocks;
+use RDev\Tests\Databases\SQL\Mocks\Server;
 
 class DriverTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingDSNWithUnixSocket()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $driver = new Driver();
         $unixSocket = "fakesocket";
         $expectedResult = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
@@ -29,7 +29,7 @@ class DriverTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingDSNWithoutUnixSocket()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $driver = new Driver();
         $expectedResult = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
             . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";";
@@ -40,11 +40,11 @@ class DriverTest extends \PHPUnit_Framework_TestCase
      * Gets the DSN for the input driver and server
      *
      * @param Driver $driver The driver to connect with
-     * @param SQL\Server $server The server to connect to
+     * @param Server $server The server to connect to
      * @param array $connectionOptions The connection options
      * @return string The DSN for the input driver and server
      */
-    private function getDSN(Driver $driver, SQL\Server $server, array $connectionOptions = [])
+    private function getDSN(Driver $driver, Server $server, array $connectionOptions = [])
     {
         $class = new \ReflectionClass(get_class($driver));
         $method = $class->getMethod("getDSN");

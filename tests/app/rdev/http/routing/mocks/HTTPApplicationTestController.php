@@ -5,41 +5,45 @@
  * Defines the controller used by the HTTP application test
  */
 namespace RDev\Tests\HTTP\Routing\Mocks;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
-use RDev\Views;
+use DateTime;
+use RDev\HTTP\Responses\Cookie;
+use RDev\HTTP\Responses\RedirectResponse;
+use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Responses\ResponseHeaders;
+use RDev\HTTP\Routing\Controller;
+use RDev\Views\Template;
 
-class HTTPApplicationTestController extends Routing\Controller
+class HTTPApplicationTestController extends Controller
 {
     /**
      * Creates a redirect response
      *
-     * @return Responses\RedirectResponse The response
+     * @return RedirectResponse The response
      */
     public function redirect()
     {
-        return new Responses\RedirectResponse("/redirectedPath");
+        return new RedirectResponse("/redirectedPath");
     }
 
     /**
      * Sets a bad gateway status code in the response
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function setBadGateway()
     {
-        return new Responses\Response("FooBar", Responses\ResponseHeaders::HTTP_BAD_GATEWAY);
+        return new Response("FooBar", ResponseHeaders::HTTP_BAD_GATEWAY);
     }
 
     /**
      * Sets a cookie in the response
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function setCookie()
     {
-        $response = new Responses\Response("FooBar");
-        $response->getHeaders()->setCookie(new Responses\Cookie("foo", "bar", new \DateTime()));
+        $response = new Response("FooBar");
+        $response->getHeaders()->setCookie(new Cookie("foo", "bar", new DateTime()));
 
         return $response;
     }
@@ -47,79 +51,79 @@ class HTTPApplicationTestController extends Routing\Controller
     /**
      * Sets a header in the response
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function setHeader()
     {
-        $response = new Responses\Response("FooBar");
+        $response = new Response("FooBar");
         $response->getHeaders()->set("foo", "bar");
 
         return $response;
     }
 
     /**
-     * Sets a tag in the template
-     *
-     * @return Responses\Response The response
-     */
-    public function setTag()
-    {
-        $this->template = new Views\Template("thecontent");
-        $this->template->setTag("foo", "bar");
-
-        return new Responses\Response("FooBar");
-    }
-
-    /**
-     * Sets a variable in the template
-     *
-     * @return Responses\Response The response
-     */
-    public function setVar()
-    {
-        $this->template = new Views\Template("thecontent");
-        $this->template->setVar("foo", "bar");
-
-        return new Responses\Response("FooBar");
-    }
-
-    /**
      * Sets an internal server error in the response
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function setISE()
     {
-        return new Responses\Response("FooBar", Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+        return new Response("FooBar", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
     }
 
     /**
      * Sets an OK response
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function setOK()
     {
-        return new Responses\Response("FooBar", Responses\ResponseHeaders::HTTP_OK);
+        return new Response("FooBar", ResponseHeaders::HTTP_OK);
+    }
+
+    /**
+     * Sets a tag in the template
+     *
+     * @return Response The response
+     */
+    public function setTag()
+    {
+        $this->template = new Template("thecontent");
+        $this->template->setTag("foo", "bar");
+
+        return new Response("FooBar");
     }
 
     /**
      * Sets an unauthorized response
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function setUnauthorized()
     {
-        return new Responses\Response("FooBar", Responses\ResponseHeaders::HTTP_UNAUTHORIZED);
+        return new Response("FooBar", ResponseHeaders::HTTP_UNAUTHORIZED);
+    }
+
+    /**
+     * Sets a variable in the template
+     *
+     * @return Response The response
+     */
+    public function setVar()
+    {
+        $this->template = new Template("thecontent");
+        $this->template->setVar("foo", "bar");
+
+        return new Response("FooBar");
     }
 
     /**
      * Shows "FooBar" in the response content
      *
-     * @return Responses\Response The response
+     * @return Response The response
      */
     public function showFooBar()
     {
-        return new Responses\Response("FooBar");
+        return new Response("FooBar");
     }
 }

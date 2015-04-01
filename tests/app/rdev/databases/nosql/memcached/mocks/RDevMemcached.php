@@ -5,7 +5,8 @@
  * Mocks the Memcached class for use in testing
  */
 namespace RDev\Tests\Databases\NoSQL\Memcached\Mocks;
-use RDev\Databases\NoSQL\Memcached as MemcachedNamespace;
+use RDev\Databases\NoSQL\Memcached\RDevMemcached as BaseRDevMemcached;
+use RDev\Databases\NoSQL\Memcached\TypeMapper;
 
 // To get around having to install Memcached just to run tests, include a mock Memcached class
 if(!class_exists("Memcached"))
@@ -13,12 +14,12 @@ if(!class_exists("Memcached"))
     require_once __DIR__ . "/Memcached.php";
 }
 
-class RDevMemcached extends MemcachedNamespace\RDevMemcached
+class RDevMemcached extends BaseRDevMemcached
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(MemcachedNamespace\TypeMapper $typeMapper)
+    public function __construct(TypeMapper $typeMapper)
     {
         $this->typeMapper = $typeMapper;
     }

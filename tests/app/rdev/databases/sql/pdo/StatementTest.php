@@ -5,7 +5,8 @@
  * Tests the PDO statement
  */
 namespace RDev\Databases\SQL\PDO;
-use RDev\Tests\Databases\SQL\PDO\Mocks;
+use PDO;
+use RDev\Tests\Databases\SQL\PDO\Mocks\Statement;
 
 class StatementTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,8 +15,8 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingInvalidAssociativeArray()
     {
-        $statement = new Mocks\Statement();
-        $values = ["foo" => "bar", "id" => [1, \PDO::PARAM_INT, "this argument shouldn't be here"]];
+        $statement = new Statement();
+        $values = ["foo" => "bar", "id" => [1, PDO::PARAM_INT, "this argument shouldn't be here"]];
         $this->assertFalse($statement->bindValues($values));
     }
 
@@ -24,8 +25,8 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingInvalidIndexedArray()
     {
-        $statement = new Mocks\Statement();
-        $values = ["bar", [1, \PDO::PARAM_INT, "this argument shouldn't be here"]];
+        $statement = new Statement();
+        $values = ["bar", [1, PDO::PARAM_INT, "this argument shouldn't be here"]];
         $this->assertFalse($statement->bindValues($values));
     }
 
@@ -34,8 +35,8 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingValidAssociativeArray()
     {
-        $statement = new Mocks\Statement();
-        $values = ["foo" => "bar", "id" => [1, \PDO::PARAM_INT]];
+        $statement = new Statement();
+        $values = ["foo" => "bar", "id" => [1, PDO::PARAM_INT]];
         $this->assertTrue($statement->bindValues($values));
     }
 
@@ -44,8 +45,8 @@ class StatementTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingValidIndexedArray()
     {
-        $statement = new Mocks\Statement();
-        $values = ["bar", 1, \PDO::PARAM_INT];
+        $statement = new Statement();
+        $values = ["bar", 1, PDO::PARAM_INT];
         $this->assertTrue($statement->bindValues($values));
     }
 } 

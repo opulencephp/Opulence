@@ -5,12 +5,13 @@
  * Tests the template factory
  */
 namespace RDev\Views\Factories;
-use RDev\Files;
-use RDev\Tests\Views\Mocks;
+use RDev\Files\FileSystem;
+use RDev\Tests\Views\Mocks\BarBuilder;
+use RDev\Tests\Views\Mocks\FooBuilder;
 
 class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Files\FileSystem The file system to use in tests */
+    /** @var FileSystem The file system to use in tests */
     private $fileSystem = null;
     /** @var TemplateFactory The template factory to use in tests */
     private $templateFactory = null;
@@ -20,7 +21,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->fileSystem = new Files\FileSystem();
+        $this->fileSystem = new FileSystem();
         $this->templateFactory = new TemplateFactory($this->fileSystem, __DIR__ . "/../files");
     }
 
@@ -96,7 +97,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $this->assertEquals("bar", $template->getTag("foo"));
@@ -110,7 +111,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
         $this->templateFactory->registerBuilder("foo", function ()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $template = $this->templateFactory->create("foo");
         $this->assertEquals("bar", $template->getTag("foo"));
@@ -124,7 +125,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
         $this->templateFactory->registerBuilder(["foo", "TestWithCustomTagDelimiters.html"], function()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $fooTemplate = $this->templateFactory->create("foo");
         $customTagTemplate = $this->templateFactory->create("TestWithCustomTagDelimiters.html");
@@ -141,7 +142,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $this->templateFactory->alias("bar", "TestWithCustomTagDelimiters.html");
         $this->templateFactory->registerBuilder(["foo", "bar"], function()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $fooTemplate = $this->templateFactory->create("foo");
         $barTemplate = $this->templateFactory->create("bar");
@@ -156,7 +157,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->templateFactory->registerBuilder(["TestWithDefaultTagDelimiters.html", "TestWithCustomTagDelimiters.html"], function()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $defaultTagsTemplate = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $customTagsTemplate = $this->templateFactory->create("TestWithCustomTagDelimiters.html");
@@ -172,7 +173,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
         $this->templateFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
         $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $template = $this->templateFactory->create("foo");
         $this->assertEquals("bar", $template->getTag("foo"));
@@ -185,11 +186,11 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
             {
-                return new Mocks\FooBuilder();
+                return new FooBuilder();
             });
         $this->templateFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
             {
-                return new Mocks\BarBuilder();
+                return new BarBuilder();
             });
         $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $this->assertEquals("bar", $template->getTag("foo"));

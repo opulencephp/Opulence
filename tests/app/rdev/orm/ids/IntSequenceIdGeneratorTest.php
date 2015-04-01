@@ -5,8 +5,9 @@
  * Tests the integer sequence Id generator
  */
 namespace RDev\ORM\Ids;
-use RDev\Tests\Mocks as ModelMocks;
-use RDev\Tests\Databases\SQL\Mocks as SQLMocks;
+use RDev\Tests\Mocks\User;
+use RDev\Tests\Databases\SQL\Mocks\Connection;
+use RDev\Tests\Databases\SQL\Mocks\Server;
 
 class IntSequenceIdGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,9 +16,9 @@ class IntSequenceIdGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingId()
     {
-        $server = new SQLMocks\Server();
-        $connection = new SQLMocks\Connection($server);
-        $entity = new ModelMocks\User(-1, "foo");
+        $server = new Server();
+        $connection = new Connection($server);
+        $entity = new User(-1, "foo");
         $idGenerator = new IntSequenceIdGenerator("foo");
         $this->assertSame(1, $idGenerator->generate($entity, $connection));
         $this->assertSame(2, $idGenerator->generate($entity, $connection));

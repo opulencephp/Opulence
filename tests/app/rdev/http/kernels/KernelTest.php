@@ -5,16 +5,16 @@
  * Tests the HTTP kernel
  */
 namespace RDev\HTTP\Kernels;
-use Monolog;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\Dispatchers;
-use RDev\IoC;
-use RDev\Tests\Applications\Mocks as ApplicationMocks;
-use RDev\Tests\HTTP\Routing\Mocks as RoutingMocks;
+use Monolog\Logger;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\ResponseHeaders;
+use RDev\HTTP\Routing\Router;
+use RDev\HTTP\Routing\Compilers\Compiler;
+use RDev\HTTP\Routing\Compilers\Parsers\Parser;
+use RDev\HTTP\Routing\Dispatchers\Dispatcher;
+use RDev\IoC\Container;
+use RDev\Tests\Applications\Mocks\MonologHandler;
+use RDev\Tests\HTTP\Routing\Mocks\ExceptionalRouter;
 
 class KernelTest extends \PHPUnit_Framework_TestCase 
 {
@@ -59,10 +59,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testHandlingExceptionalRequest()
     {
         $kernel = $this->getKernel(true);
-        $request = Requests\Request::createFromGlobals();
+        $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     /**
@@ -71,10 +71,10 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testHandlingRequest()
     {
         $kernel = $this->getKernel(false);
-        $request = Requests\Request::createFromGlobals();
+        $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_OK, $response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
     /**
@@ -84,7 +84,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         $kernel = $this->getKernel(false);
         $kernel->addMiddleware("RDev\\Tests\\HTTP\\Middleware\\Mocks\\HeaderSetter");
-        $request = Requests\Request::createFromGlobals();
+        $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertEquals("bar", $response->getHeaders()->get("foo"));
     }
@@ -97,24 +97,21 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     private function getKernel($shouldThrowException)
     {
-        $container = new IoC\Container();
-        $routeCompiler = new Compilers\Compiler(new Parsers\Parser());
+        $container = new Container();
+        $routeCompiler = new Compiler(new Parser());
 
         if($shouldThrowException)
         {
-            $router = new RoutingMocks\ExceptionalRouter(
-                new Dispatchers\Dispatcher($container),
-                $routeCompiler
-            );
+            $router = new ExceptionalRouter(new Dispatcher($container), $routeCompiler);
         }
         else
         {
-            $router = new Routing\Router(new Dispatchers\Dispatcher($container), $routeCompiler);
+            $router = new Router(new Dispatcher($container), $routeCompiler);
         }
 
         $router->any("/", ["controller" => "RDev\\Tests\\HTTP\\Routing\\Mocks\\Controller@noParameters"]);
-        $logger = new Monolog\Logger("kernelTest");
-        $logger->pushHandler(new ApplicationMocks\MonologHandler());
+        $logger = new Logger("kernelTest");
+        $logger->pushHandler(new MonologHandler());
 
         return new Kernel($container, $router, $logger);
     }

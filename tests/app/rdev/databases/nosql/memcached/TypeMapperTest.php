@@ -5,6 +5,7 @@
  * Tests the Memcached type mapper class
  */
 namespace RDev\Databases\NoSQL\Memcached;
+use DateTime;
 
 class TypeMapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromMemcachedTimestamp()
     {
-        $time = new \DateTime("now");
+        $time = new DateTime("now");
         $this->assertEquals($time->getTimestamp(),
             $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp())->getTimestamp());
     }
@@ -58,7 +59,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingToMemcachedTimestamp()
     {
-        $time = new \DateTime("now");
+        $time = new DateTime("now");
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 

@@ -5,7 +5,8 @@
  * Tests the route parser
  */
 namespace RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\HTTP\Routing\Routes;
+use RDev\HTTP\Routing\Routes\ParsedRoute;
+use RDev\HTTP\Routing\Routes\Route;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -21,6 +22,87 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the variable matching regex
+     */
+    public function testGettingVariableMatchingRegex()
+    {
+        $this->assertEquals("/(\{([^\}]+)\})/", $this->parser->getVariableMatchingRegex());
+    }
+
+    /**
+     * Tests using a route variable with a name that isn't a valid PHP variable name
+     */
+    public function testInvalidPHPVariableName()
+    {
+        $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/{123foo}/bar", $options);
+        $this->parser->parse($route);
+    }
+
+    /**
+     * Tests not specifying a host
+     */
+    public function testNotSpecifyingHost()
+    {
+        $options = [
+            "controller" => "foo@bar"
+        ];
+        $route = new Route(["get"], "/foo", $options);
+        $parsedRoute = $this->parser->parse($route);
+        $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
+    }
+
+    /**
+     * Tests an optional variable
+     */
+    public function testOptionalVariable()
+    {
+        $rawString = "/{foo}/bar/{blah?}";
+        $options = [
+            "controller" => "foo@bar",
+            "host" => $rawString
+        ];
+        $route = new Route(["get"], $rawString, $options);
+        $parsedRoute = $this->parser->parse($route);
+        $this->assertTrue(
+            $this->regexesMach(
+                $parsedRoute,
+                sprintf(
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
+                )
+            )
+        );
+    }
+
+    /**
+     * Tests an optional variable with a default value
+     */
+    public function testOptionalVariableWithDefaultValue()
+    {
+        $rawString = "/{foo}/bar/{blah?=123}";
+        $options = [
+            "controller" => "foo@bar",
+            "host" => $rawString
+        ];
+        $route = new Route(["get"], $rawString, $options);
+        $parsedRoute = $this->parser->parse($route);
+        $this->assertTrue(
+            $this->regexesMach(
+                $parsedRoute,
+                sprintf(
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
+                )
+            )
+        );
+        $this->assertEquals("123", $parsedRoute->getDefaultValue("blah"));
+    }
+
+    /**
      * Tests parsing a path with multiple variables
      */
     public function testParsingMultipleVariables()
@@ -30,7 +112,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Routes\Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -57,7 +139,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             ],
             "host" => $rawString
         ];
-        $route = new Routes\Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -80,7 +162,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Routes\Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -103,7 +185,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Routes\Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -128,7 +210,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             "variables" => ["foo" => "\d+"],
             "host" => $rawString
         ];
-        $route = new Routes\Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -151,7 +233,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Routes\Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -173,7 +255,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Routes\Route(["get"], "/{foo}/{foo}", $options);
+        $route = new Route(["get"], "/{foo}/{foo}", $options);
         $this->parser->parse($route);
     }
 
@@ -186,7 +268,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Routes\Route(["get"], "/{foo}/{bar", $options);
+        $route = new Route(["get"], "/{foo}/{bar", $options);
         $this->parser->parse($route);
     }
 
@@ -199,89 +281,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Routes\Route(["get"], "/{foo}/{bar}}", $options);
+        $route = new Route(["get"], "/{foo}/{bar}}", $options);
         $this->parser->parse($route);
-    }
-
-    /**
-     * Tests getting the variable matching regex
-     */
-    public function testGettingVariableMatchingRegex()
-    {
-        $this->assertEquals("/(\{([^\}]+)\})/", $this->parser->getVariableMatchingRegex());
-    }
-
-    /**
-     * Tests using a route variable with a name that isn't a valid PHP variable name
-     */
-    public function testInvalidPHPVariableName()
-    {
-        $this->setExpectedException("RDev\\HTTP\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routes\Route(["get"], "/{123foo}/bar", $options);
-        $this->parser->parse($route);
-    }
-
-    /**
-     * Tests not specifying a host
-     */
-    public function testNotSpecifyingHost()
-    {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Routes\Route(["get"], "/foo", $options);
-        $parsedRoute = $this->parser->parse($route);
-        $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
-    }
-
-    /**
-     * Tests an optional variable
-     */
-    public function testOptionalVariable()
-    {
-        $rawString = "/{foo}/bar/{blah?}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routes\Route(["get"], $rawString, $options);
-        $parsedRoute = $this->parser->parse($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $parsedRoute,
-                sprintf(
-                    "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
-                )
-            )
-        );
-    }
-
-    /**
-     * Tests an optional variable with a default value
-     */
-    public function testOptionalVariableWithDefaultValue()
-    {
-        $rawString = "/{foo}/bar/{blah?=123}";
-        $options = [
-            "controller" => "foo@bar",
-            "host" => $rawString
-        ];
-        $route = new Routes\Route(["get"], $rawString, $options);
-        $parsedRoute = $this->parser->parse($route);
-        $this->assertTrue(
-            $this->regexesMach(
-                $parsedRoute,
-                sprintf(
-                    "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
-                )
-            )
-        );
-        $this->assertEquals("123", $parsedRoute->getDefaultValue("blah"));
     }
 
     /**
@@ -292,7 +293,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $options = [
             "controller" => "foo@bar"
         ];
-        $route = new Routes\Route(["get"], "", $options);
+        $route = new Route(["get"], "", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertEquals("#^.*$#", $parsedRoute->getPathRegex());
     }
@@ -300,11 +301,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * Gets whether or not a route's regexes match the input regex
      *
-     * @param Routes\ParsedRoute $route The route whose regexes we're matching
+     * @param ParsedRoute $route The route whose regexes we're matching
      * @param string $regex The expected regex
      * @return bool True if the regexes match, otherwise false
      */
-    private function regexesMach(Routes\ParsedRoute $route, $regex)
+    private function regexesMach(ParsedRoute $route, $regex)
     {
         return $route->getPathRegex() == $regex && $route->getHostRegex() == $regex;
     }

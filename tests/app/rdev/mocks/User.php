@@ -5,9 +5,9 @@
  * Mocks a user object for use in testing
  */
 namespace RDev\Tests\Mocks;
-use RDev\ORM;
+use RDev\ORM\IEntity;
 
-class User implements ORM\IEntity
+class User implements IEntity
 {
     /** @var int The user Id */
     private $id = -1;

@@ -27,7 +27,8 @@ v0.5.0
   * `RDev\HTTP\Routing\Routes\Routes` renamed to `RDev\HTTP\Routing\Routes\RouteCollection`
   * `RDev\HTTP\Routing\Router::routes` renamed to `routeCollection`
   * `RDev\HTTP\Routing\Router::getRoutes()` renamed to `getRouteCollection()`
-  * `RDev\Views\Cache` namespace has been renamed `RDev\Views\Caching`
+  * `RDev\Views\Cache` namespace renamed to `RDev\Views\Caching`
+  * `RDev\Views\Filters\XSS` renamed to `RDev\Views\Filters\XSSFilter`
 
 v0.4.0
 <hr>

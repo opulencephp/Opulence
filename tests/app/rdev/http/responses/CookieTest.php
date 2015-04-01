@@ -5,6 +5,7 @@
  * Tests the cookie class
  */
 namespace RDev\HTTP\Responses;
+use DateTime;
 
 class CookieTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +15,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     private $name = "";
     /** @var mixed The value of the cookie */
     private $value = "";
-    /** @var \DateTime The expiration of the cookie */
+    /** @var DateTime The expiration of the cookie */
     private $expiration = null;
     /** @var string The path the cookie is valid on */
     private $path = "/";
@@ -32,7 +33,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     {
         $this->name = "foo";
         $this->value = "bar";
-        $this->expiration = new \DateTime("+1 week");
+        $this->expiration = new DateTime("+1 week");
         $this->path = "/foo";
         $this->domain = "foo.com";
         $this->isSecure = true;
@@ -111,7 +112,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingExpiration()
     {
-        $expiration = new \DateTime("+1 day");
+        $expiration = new DateTime("+1 day");
         $this->cookie->setExpiration($expiration);
         $this->assertEquals($expiration, $this->cookie->getExpiration());
     }

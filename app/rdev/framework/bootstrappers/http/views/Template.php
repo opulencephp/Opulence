@@ -14,7 +14,7 @@ use RDev\Views\Compilers\Compiler;
 use RDev\Views\Compilers\ICompiler;
 use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Factories\ITemplateFactory;
-use RDev\Views\Filters\XSS;
+use RDev\Views\Filters\XSSFilter;
 
 class Template extends Bootstrappers\Bootstrapper
 {
@@ -92,6 +92,6 @@ class Template extends Bootstrappers\Bootstrapper
      */
     protected function getViewCompiler(IContainer $container)
     {
-        return new Compiler($this->viewCache, $this->templateFactory, new XSS());
+        return new Compiler($this->viewCache, $this->templateFactory, new XSSFilter());
     }
 }

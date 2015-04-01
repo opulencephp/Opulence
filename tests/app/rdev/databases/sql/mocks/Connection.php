@@ -5,16 +5,20 @@
  * Mocks the connection class for use in testing
  */
 namespace RDev\Tests\Databases\SQL\Mocks;
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\Providers;
+use Exception;
+use PDO;
+use RDev\Databases\SQL\IConnection;
+use RDev\Databases\SQL\Providers\Provider;
+use RDev\Databases\SQL\Providers\TypeMapper;
+use RDev\Databases\SQL\Server as RealServer;
 
-class Connection implements SQL\IConnection
+class Connection implements IConnection
 {
-    /** @var Providers\TypeMapper The type mapper used by this connection */
+    /** @var TypeMapper The type mapper used by this connection */
     private $typeMapper = null;
-    /** @var Providers\Provider The provider used by this connection */
+    /** @var Provider The provider used by this connection */
     private $provider = null;
-    /** @var SQL\Server The server to connect to */
+    /** @var RealServer The server to connect to */
     private $server = null;
     /** @var bool Whether or not we're in a transaction */
     private $inTransaction = false;
@@ -24,12 +28,12 @@ class Connection implements SQL\IConnection
     private $shouldFailOnPurpose = false;
 
     /**
-     * @param SQL\Server $server The server to connect to
+     * @param RealServer $server The server to connect to
      */
-    public function __construct(SQL\Server $server)
+    public function __construct(RealServer $server)
     {
-        $this->typeMapper = new Providers\TypeMapper();
-        $this->provider = new Providers\Provider();
+        $this->typeMapper = new TypeMapper();
+        $this->provider = new Provider();
         $this->server = $server;
     }
 
@@ -50,7 +54,7 @@ class Connection implements SQL\IConnection
 
         if($this->shouldFailOnPurpose)
         {
-            throw new \Exception("Commit failed");
+            throw new Exception("Commit failed");
         }
     }
 
@@ -144,7 +148,7 @@ class Connection implements SQL\IConnection
     /**
      * {@inheritdoc}
      */
-    public function quote($string, $parameterType = \PDO::PARAM_STR)
+    public function quote($string, $parameterType = PDO::PARAM_STR)
     {
         return $string;
     }
@@ -158,7 +162,7 @@ class Connection implements SQL\IConnection
     }
 
     /**
-     * @param boolean $shouldFailOnPurpose
+     * @param bool $shouldFailOnPurpose
      */
     public function setToFailOnPurpose($shouldFailOnPurpose)
     {

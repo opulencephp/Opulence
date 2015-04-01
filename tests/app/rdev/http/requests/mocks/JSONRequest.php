@@ -5,9 +5,9 @@
  * Mocks a JSON request class for use in testing
  */
 namespace RDev\Tests\HTTP\Requests\Mocks;
-use RDev\HTTP\Requests;
+use RDev\HTTP\Requests\Request;
 
-class JSONRequest extends Requests\Request
+class JSONRequest extends Request
 {
     /**
      * {@inheritdoc}

@@ -6,7 +6,7 @@
  */
 namespace RDev\Views\Filters;
 
-class XSS implements IFilter
+class XSSFilter implements IFilter
 {
     /**
      * Filters the input parameter for XSS attacks

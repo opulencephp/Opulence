@@ -5,7 +5,12 @@
  * Tests the dependency injection controller
  */
 namespace RDev\IoC;
-use RDev\Tests\IoC\Mocks;
+use RDev\Tests\IoC\Mocks\Bar;
+use RDev\Tests\IoC\Mocks\ConstructorWithInterfaceAndSetters;
+use RDev\Tests\IoC\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
+use RDev\Tests\IoC\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
+use RDev\Tests\IoC\Mocks\ConstructorWithReference;
+use RDev\Tests\IoC\Mocks\ConstructorWithSetters;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -72,7 +77,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingMethodWithPrimitiveTypes()
     {
-        $instance = new Mocks\ConstructorWithSetters();
+        $instance = new ConstructorWithSetters();
         $this->container->call($instance, "setPrimitive", ["foo"]);
         $this->assertSame("foo", $instance->getPrimitive());
     }
@@ -83,7 +88,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingMethodWithPrimitiveTypesWithoutSpecifyingValue()
     {
         $this->setExpectedException("RDev\\IoC\\IoCException");
-        $instance = new Mocks\ConstructorWithSetters();
+        $instance = new ConstructorWithSetters();
         $this->container->call($instance, "setPrimitive");
     }
 
@@ -93,7 +98,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingMethodWithTypeHintedAndPrimitiveTypes()
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        $instance = new Mocks\ConstructorWithSetters();
+        $instance = new ConstructorWithSetters();
         $this->container->call($instance, "setBoth", ["foo"]);
         $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
         $this->assertSame("foo", $instance->getPrimitive());
@@ -105,7 +110,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingMethodWithTypeHints()
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        $instance = new Mocks\ConstructorWithSetters();
+        $instance = new ConstructorWithSetters();
         $this->container->call($instance, "setInterface");
         $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
     }
@@ -116,7 +121,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentMethod()
     {
         $this->setExpectedException("RDev\\IoC\\IoCException");
-        $instance = new Mocks\ConstructorWithSetters();
+        $instance = new ConstructorWithSetters();
         $this->container->call($instance, "foobar");
     }
 
@@ -125,7 +130,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentMethodAndIgnoringThatItIsMissing()
     {
-        $instance = new Mocks\ConstructorWithSetters();
+        $instance = new ConstructorWithSetters();
         $this->assertNull($this->container->call($instance, "foobar", [], true));
     }
 
@@ -175,7 +180,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $methodCalls = [
             "setSetterDependency" => []
         ];
-        /** @var Mocks\ConstructorWithInterfaceAndSetters $newInstance */
+        /** @var ConstructorWithInterfaceAndSetters $newInstance */
         $newInstance = $this->container->makeNew($this->constructorWithIFooAndSetters, [], $methodCalls);
         $this->assertInstanceOf($this->concreteFoo, $newInstance->getConstructorDependency());
         $this->assertInstanceOf($this->concretePerson, $newInstance->getSetterDependency());
@@ -191,7 +196,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             "setInterface" => []
         ];
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        /** @var Mocks\ConstructorWithSetters $newInstance */
+        /** @var ConstructorWithSetters $newInstance */
         $newInstance = $this->container->makeNew($this->constructorWithSetters, [], $methodCalls);
         $this->assertEquals("myPrimitive", $newInstance->getPrimitive());
         $this->assertInstanceOf($this->concreteFoo, $newInstance->getInterface());
@@ -259,7 +264,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $methodCalls = [
             "setSetterDependency" => []
         ];
-        /** @var Mocks\ConstructorWithInterfaceAndSetters $sharedInstance */
+        /** @var ConstructorWithInterfaceAndSetters $sharedInstance */
         $sharedInstance = $this->container->makeShared($this->constructorWithIFooAndSetters, [], $methodCalls);
         $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getConstructorDependency());
         $this->assertInstanceOf($this->concretePerson, $sharedInstance->getSetterDependency());
@@ -275,7 +280,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             "setInterface" => []
         ];
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        /** @var Mocks\ConstructorWithSetters $sharedInstance */
+        /** @var ConstructorWithSetters $sharedInstance */
         $sharedInstance = $this->container->makeShared($this->constructorWithSetters, [], $methodCalls);
         $this->assertEquals("myPrimitive", $sharedInstance->getPrimitive());
         $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getInterface());
@@ -379,9 +384,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingClassWithReferenceParameter()
     {
-        $bar = new Mocks\Bar();
+        $bar = new Bar();
         $this->container->bind($this->fooInterface, $bar);
-        /** @var Mocks\ConstructorWithReference $object */
+        /** @var ConstructorWithReference $object */
         $object = $this->container->makeShared($this->constructorWithReference);
         $this->assertInstanceOf($this->constructorWithReference, $object);
         $this->assertSame($bar, $object->getFoo());
@@ -433,9 +438,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMixOfConcreteClassesAndPrimitivesInConstructor()
     {
-        /** @var Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives $sharedInstance */
+        /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $sharedInstance */
         $sharedInstance = $this->container->makeShared($this->constructorWithConcreteClassesAndPrimitives, [23]);
-        /** @var Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
+        /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
         $newInstance = $this->container->makeNew($this->constructorWithConcreteClassesAndPrimitives, [23]);
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $sharedInstance);
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $newInstance);
@@ -450,9 +455,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $sharedInstance */
+        /** @var ConstructorWithMixOfInterfacesAndPrimitives $sharedInstance */
         $sharedInstance = $this->container->makeShared($this->constructorWithInterfacesAndPrimitives, [23]);
-        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance */
+        /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance */
         $newInstance = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
         $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $sharedInstance);
         $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $newInstance);
@@ -467,9 +472,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance1 */
+        /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance1 */
         $newInstance1 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
-        /** @var Mocks\ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
+        /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
         $newInstance2 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
         $this->assertSame($newInstance1->getFoo(), $newInstance2->getFoo());
         $this->assertSame($newInstance1->getPerson(), $newInstance2->getPerson());

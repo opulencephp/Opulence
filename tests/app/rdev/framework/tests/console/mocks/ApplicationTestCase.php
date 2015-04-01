@@ -5,15 +5,16 @@
  * Mocks the console application for use in testing
  */
 namespace RDev\Tests\Framework\Tests\Console\Mocks;
-use Monolog;
-use RDev\Applications;
-use RDev\Applications\Environments;
-use RDev\Framework\Tests\Console;
-use RDev\IoC;
-use RDev\Sessions;
-use RDev\Tests\Applications\Mocks;
+use Monolog\Logger;
+use RDev\Applications\Application;
+use RDev\Applications\Paths;
+use RDev\Applications\Environments\Environment;
+use RDev\Framework\Tests\Console\ApplicationTestCase as BaseApplicationTestCase;
+use RDev\IoC\Container;
+use RDev\Sessions\Session;
+use RDev\Tests\Applications\Mocks\MonologHandler;
 
-class ApplicationTestCase extends Console\ApplicationTestCase
+class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
@@ -28,14 +29,14 @@ class ApplicationTestCase extends Console\ApplicationTestCase
     protected function setApplication()
     {
         // Create and bind all of the components of our application
-        $paths = new Applications\Paths([
+        $paths = new Paths([
             "configs" => __DIR__ . "/../../configs"
         ]);
-        $logger = new Monolog\Logger("application");
-        $logger->pushHandler(new Mocks\MonologHandler());
-        $environment = new Environments\Environment(Environments\Environment::TESTING);
-        $container = new IoC\Container();
-        $session = new Sessions\Session();
+        $logger = new Logger("application");
+        $logger->pushHandler(new MonologHandler());
+        $environment = new Environment(Environment::TESTING);
+        $container = new Container();
+        $session = new Session();
         $container->bind("RDev\\Applications\\Paths", $paths);
         $container->bind("Monolog\\Logger", $logger);
         $container->bind("RDev\\Applications\\Environments\\Environment", $environment);
@@ -43,13 +44,7 @@ class ApplicationTestCase extends Console\ApplicationTestCase
         $container->bind("RDev\\Sessions\\ISession", $session);
 
         // Actually set the application
-        $this->application = new Applications\Application(
-            $paths,
-            $logger,
-            $environment,
-            $container,
-            $session
-        );
+        $this->application = new Application($paths, $logger, $environment, $container, $session);
         $this->application->registerBootstrappers(self::$bootstrappers);
     }
 }

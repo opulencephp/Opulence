@@ -5,10 +5,11 @@
  * Tests the unit of work
  */
 namespace RDev\ORM;
-use RDev\Users;
-use RDev\Tests\Mocks;
-use RDev\Tests\Databases\SQL\Mocks as SQLMocks;
-use RDev\Tests\ORM\DataMappers\Mocks as DataMapperMocks;
+use RDev\Tests\Mocks\User;
+use RDev\Tests\Databases\SQL\Mocks\Connection;
+use RDev\Tests\Databases\SQL\Mocks\Server;
+use RDev\Tests\ORM\DataMappers\Mocks\CachedSQLDataMapper;
+use RDev\Tests\ORM\DataMappers\Mocks\SQLDataMapper;
 
 class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,13 +17,13 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     private $unitOfWork = null;
     /** @var EntityRegistry The entity registry to use in tests */
     private $entityRegistry = null;
-    /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
+    /** @var SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
-    /** @var Mocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity1 = null;
-    /** @var Mocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity2 = null;
-    /** @var Mocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity3 = null;
 
     /**
@@ -30,20 +31,20 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $server = new SQLMocks\Server();
-        $connection = new SQLMocks\Connection($server);
+        $server = new Server();
+        $connection = new Connection($server);
         $this->entityRegistry = new EntityRegistry();
         $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
-        $this->dataMapper = new DataMapperMocks\SQLDataMapper();
+        $this->dataMapper = new SQLDataMapper();
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
          * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
          * set to the Ids
          */
-        $this->entity1 = new Mocks\User(724, "foo");
-        $this->entity2 = new Mocks\User(1987, "bar");
-        $this->entity3 = new Mocks\User(345, "baz");
+        $this->entity1 = new User(724, "foo");
+        $this->entity2 = new User(1987, "bar");
+        $this->entity3 = new User(345, "baz");
     }
 
     /**
@@ -185,7 +186,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testPostCommitOnCachedDataMapper()
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
-        $dataMapper = new DataMapperMocks\CachedSQLDataMapper();
+        $dataMapper = new CachedSQLDataMapper();
         $this->unitOfWork->registerDataMapper($className, $dataMapper);
         $this->entityRegistry->register($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
@@ -270,8 +271,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity2);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
         {
-            /** @var Mocks\User $aggregateRoot */
-            /** @var Mocks\User $child */
+            /** @var User $aggregateRoot */
+            /** @var User $child */
             $child->setAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->commit();
@@ -291,8 +292,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForUpdate($this->entity2);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
         {
-            /** @var Mocks\User $aggregateRoot */
-            /** @var Mocks\User $child */
+            /** @var User $aggregateRoot */
+            /** @var User $child */
             $child->setAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->commit();
@@ -314,14 +315,14 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity3);
         $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity3, function ($aggregateRoot, $child)
         {
-            /** @var Mocks\User $aggregateRoot */
-            /** @var Mocks\User $child */
+            /** @var User $aggregateRoot */
+            /** @var User $child */
             $child->setAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->registerAggregateRootChild($this->entity2, $this->entity3, function ($aggregateRoot, $child)
         {
-            /** @var Mocks\User $aggregateRoot */
-            /** @var Mocks\User $child */
+            /** @var User $aggregateRoot */
+            /** @var User $child */
             $child->setSecondAggregateRootId($aggregateRoot->getId());
         });
         $this->unitOfWork->commit();
@@ -349,13 +350,13 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 
         try
         {
-            $server = new SQLMocks\Server();
-            $connection = new SQLMocks\Connection($server);
+            $server = new Server();
+            $connection = new Connection($server);
             $connection->setToFailOnPurpose(true);
             $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
-            $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-            $this->entity1 = new Mocks\User(1, "foo");
-            $this->entity2 = new Mocks\User(2, "bar");
+            $this->dataMapper = new SQLDataMapper();
+            $this->entity1 = new User(1, "foo");
+            $this->entity2 = new User(2, "bar");
             $className = $this->entityRegistry->getClassName($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
             $this->unitOfWork->scheduleForInsertion($this->entity1);
@@ -375,14 +376,14 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     /**
      * Gets the entity after committing it
      *
-     * @return Mocks\User The entity from the data mapper
+     * @return User The entity from the data mapper
      * @throws ORMException Thrown if there was an error committing the transaction
      */
     private function getInsertedEntity()
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $foo = new Mocks\User(18175, "blah");
+        $foo = new User(18175, "blah");
         $this->unitOfWork->scheduleForInsertion($foo);
         $this->unitOfWork->commit();
 

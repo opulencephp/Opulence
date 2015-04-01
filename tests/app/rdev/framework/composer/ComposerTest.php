@@ -5,7 +5,7 @@
  * Tests the Composer wrapper
  */
 namespace RDev\Framework\Composer;
-use RDev\Applications;
+use RDev\Applications\Paths;
 
 class ComposerTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,7 +31,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
             ]
         ]
     ];
-    /** @var Applications\Paths The application paths */
+    /** @var Paths The application paths */
     private $paths = null;
     /** @var Composer The Composer with a fully-loaded config */
     private $composer = null;
@@ -41,7 +41,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->paths = new Applications\Paths([
+        $this->paths = new Paths([
             "root" => __DIR__ . "/../../../../..",
             "app" => __DIR__ . "/../../../../../app"
         ]);

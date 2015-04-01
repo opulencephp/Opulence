@@ -5,7 +5,7 @@
  * Tests the Predis class
  */
 namespace RDev\Databases\NoSQL\Redis;
-use RDev\Tests\Databases\NoSQL\Redis\Mocks;
+use RDev\Tests\Databases\NoSQL\Redis\Mocks\RDevPredis;
 
 class RDevPredisTest extends \PHPUnit_Framework_TestCase
 {
@@ -15,7 +15,7 @@ class RDevPredisTest extends \PHPUnit_Framework_TestCase
     public function testGettingServer()
     {
         $server = new Server();
-        $redis = new Mocks\RDevPredis($server, new TypeMapper());
+        $redis = new RDevPredis($server, new TypeMapper());
         $this->assertSame($server, $redis->getServer());
     }
 
@@ -26,7 +26,7 @@ class RDevPredisTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
         $typeMapper = new TypeMapper();
-        $redis = new Mocks\RDevPredis($server, $typeMapper);
+        $redis = new RDevPredis($server, $typeMapper);
         $this->assertSame($typeMapper, $redis->getTypeMapper());
     }
 
@@ -37,7 +37,7 @@ class RDevPredisTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
         $typeMapper = new TypeMapper();
-        $redis = new Mocks\RDevPredis($server, $typeMapper);
+        $redis = new RDevPredis($server, $typeMapper);
         $redis->select(724);
         $this->assertEquals(724, $redis->getServer()->getDatabaseIndex());
     }

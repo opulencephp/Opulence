@@ -5,6 +5,7 @@
  * Tests the response class
  */
 namespace RDev\Console\Responses;
+use RDev\Console\Responses\Compilers\Compiler;
 use RDev\Console\Responses\Compilers\Lexers\Lexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser;
 use RDev\Tests\Console\Responses\Mocks\Response;
@@ -19,7 +20,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Response(new Compilers\Compiler(new Lexer(), new Parser()));
+        $this->response = new Response(new Compiler(new Lexer(), new Parser()));
     }
 
     /**

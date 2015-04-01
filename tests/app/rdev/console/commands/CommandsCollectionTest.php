@@ -5,6 +5,7 @@
  * Tests the command collection class
  */
 namespace RDev\Console\Commands;
+use RDev\Console\Commands\Compilers\Compiler as CommandCompiler;
 use RDev\Console\Responses\Silent;
 use RDev\Console\Responses\Compilers\Compiler;
 use RDev\Console\Responses\Compilers\Lexers\Lexer;
@@ -23,7 +24,7 @@ class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->collection = new CommandCollection(new Compilers\Compiler());
+        $this->collection = new CommandCollection(new CommandCompiler());
     }
 
     /**

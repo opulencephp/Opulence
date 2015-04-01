@@ -5,16 +5,16 @@
  * Mocks the PDO driver for use in testing
  */
 namespace RDev\Tests\Databases\SQL\PDO\Mocks;
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\PDO;
-use RDev\Databases\SQL\Providers;
+use RDev\Databases\SQL\Server;
+use RDev\Databases\SQL\PDO\Driver as BaseDriver;
+use RDev\Databases\SQL\Providers\Provider;
 
-class Driver extends PDO\Driver
+class Driver extends BaseDriver
 {
     /**
      * {@inheritdoc}
      */
-    protected function getDSN(SQL\Server $server, array $options = [])
+    protected function getDSN(Server $server, array $options = [])
     {
         return "fakedsn";
     }
@@ -24,6 +24,6 @@ class Driver extends PDO\Driver
      */
     protected function setProvider()
     {
-        $this->provider = new Providers\Provider();
+        $this->provider = new Provider();
     }
 } 

@@ -6,14 +6,15 @@
  */
 namespace RDev\Databases\SQL\PDO;
 use RDev\Databases\SQL;
-use RDev\Databases\SQL\Providers;
-use RDev\Tests\Databases\SQL\Mocks;
+use RDev\Databases\SQL\Providers\Provider;
+use RDev\Databases\SQL\Providers\TypeMapper;
+use RDev\Tests\Databases\SQL\Mocks\Server;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Providers\Provider They provider this connection uses */
+    /** @var Provider They provider this connection uses */
     private $provider = null;
-    /** @var SQL\Server A database server to connect to */
+    /** @var Server A database server to connect to */
     private $server = null;
     /** @var Connection The Connection object we're connecting to */
     private $pdo = null;
@@ -23,8 +24,8 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->provider = new Providers\Provider();
-        $this->server = new Mocks\Server();
+        $this->provider = new Provider();
+        $this->server = new Server();
         $this->pdo = new Connection($this->provider, $this->server, "fakedsn", []);
     }
 
@@ -57,6 +58,6 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingTypeMapper()
     {
-        $this->assertEquals(new Providers\TypeMapper($this->provider), $this->pdo->getTypeMapper());
+        $this->assertEquals(new TypeMapper($this->provider), $this->pdo->getTypeMapper());
     }
 }

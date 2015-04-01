@@ -5,6 +5,7 @@
  * Tests the Redis type mapper class
  */
 namespace RDev\Databases\NoSQL\Redis;
+use DateTime;
 
 class TypeMapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingFromRedisTimestamp()
     {
-        $time = new \DateTime("now");
+        $time = new DateTime("now");
         $this->assertEquals($time->getTimestamp(),
             $this->typeMapper->fromRedisTimestamp($time->getTimestamp())->getTimestamp());
     }
@@ -58,7 +59,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertingToRedisTimestamp()
     {
-        $time = new \DateTime("now");
+        $time = new DateTime("now");
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 

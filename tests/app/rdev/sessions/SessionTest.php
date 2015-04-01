@@ -5,9 +5,11 @@
  * Tests the session class
  */
 namespace RDev\Sessions;
-use RDev\Authentication\Credentials;
-use RDev\Authentication;
-use RDev\Users;
+use DateTime;
+use RDev\Authentication\Credentials\CredentialCollection;
+use RDev\Authentication\EntityTypes;
+use RDev\Users\GuestUser;
+use RDev\Users\User;
 
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +19,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingCredentialsInConstructor()
     {
         $session = new Session();
-        $user = new Users\GuestUser();
-        $credentials = new Credentials\CredentialCollection($user->getId(), Authentication\EntityTypes::USER);
+        $user = new GuestUser();
+        $credentials = new CredentialCollection($user->getId(), EntityTypes::USER);
         $this->assertEquals($credentials, $session->getCredentials());
     }
 
@@ -28,7 +30,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingUserInConstructor()
     {
         $session = new Session();
-        $this->assertEquals(new Users\GuestUser(), $session->getUser());
+        $this->assertEquals(new GuestUser(), $session->getUser());
     }
 
     /**
@@ -37,7 +39,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSettingCredentials()
     {
         $session = new Session();
-        $credentials = new Credentials\CredentialCollection();
+        $credentials = new CredentialCollection();
         $session->setCredentials($credentials);
         $this->assertSame($credentials, $session->getCredentials());
     }
@@ -48,7 +50,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSettingUser()
     {
         $session = new Session();
-        $user = new Users\User(1, new \DateTime("now"), []);
+        $user = new User(1, new DateTime("now"), []);
         $session->setUser($user);
         $this->assertSame($user, $session->getUser());
     }

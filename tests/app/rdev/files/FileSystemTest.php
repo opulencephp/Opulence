@@ -5,6 +5,7 @@
  * Tests the file system
  */
 namespace RDev\Files;
+use DateTime;
 
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
@@ -222,7 +223,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGettingLastModifiedTime()
     {
         $path = __DIR__ . "/subdirectory/foo.txt";
-        $this->assertEquals(\DateTime::createFromFormat("U", filemtime($path)),
+        $this->assertEquals(DateTime::createFromFormat("U", filemtime($path)),
             $this->fileSystem->getLastModified($path));
         $this->setExpectedException("RDev\\Files\\FileSystemException");
         $this->fileSystem->getLastModified(__DIR__ . "/doesnotexist.txt");

@@ -5,12 +5,12 @@
  * Tests the tag sub-compiler
  */
 namespace RDev\Views\Compilers\SubCompilers;
-use RDev\HTTP\Requests;
-use RDev\Tests\Mocks;
-use RDev\Tests\Views\Compilers\Tests;
-use RDev\Views;
+use RDev\HTTP\Requests\Request;
+use RDev\Tests\Mocks\User;
+use RDev\Tests\Views\Compilers\Tests\Compiler as CompilerTest;
+use RDev\Views\Template;
 
-class TagCompilerTest extends Tests\Compiler
+class TagCompilerTest extends CompilerTest
 {
     /** @var TagCompiler The sub-compiler to test */
     private $subCompiler = null;
@@ -31,7 +31,7 @@ class TagCompilerTest extends Tests\Compiler
     public function testCallingFunctionOnVariable()
     {
         // Test object
-        $this->template->setVar("request", Requests\Request::createFromGlobals());
+        $this->template->setVar("request", Request::createFromGlobals());
         $this->template->setContents('{{!$request->isPath("/foo/.*", true) ? \' class="current"\' : ""!}}');
         $this->assertEquals("", $this->subCompiler->compile($this->template, $this->template->getContents()));
         // Test class
@@ -48,12 +48,12 @@ class TagCompilerTest extends Tests\Compiler
     {
         $delimiters = [
             [
-                Views\Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
-                Views\Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
             ],
             [
-                Views\Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
-                Views\Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
             ]
         ];
         $templateContents = '<?php foreach(["foo" => ["bar", "a&w"]] as $v): ?>%s$v[1]%s<?php endforeach; ?>';
@@ -122,8 +122,8 @@ class TagCompilerTest extends Tests\Compiler
     {
         $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_PHP_CODE);
         $this->template->setContents($contents);
-        $user1 = new Mocks\User(1, "foo");
-        $user2 = new Mocks\User(2, "bar");
+        $user1 = new User(1, "foo");
+        $user2 = new User(2, "bar");
         $this->template->setTag("listDescription", "usernames");
         $this->template->setVar("users", [$user1, $user2]);
         $this->template->setVar("coolestGuy", "Dave");
@@ -143,12 +143,12 @@ class TagCompilerTest extends Tests\Compiler
     {
         $delimiters = [
             [
-                Views\Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
-                Views\Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
             ],
             [
-                Views\Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
-                Views\Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
             ]
         ];
         $templateContents = '<?php foreach(["a&w"] as $v): ?>%s$v%s<?php endforeach; ?>';
@@ -413,9 +413,9 @@ class TagCompilerTest extends Tests\Compiler
     {
         $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");

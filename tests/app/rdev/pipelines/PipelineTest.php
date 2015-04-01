@@ -5,12 +5,13 @@
  * Tests the pipeline
  */
 namespace RDev\Pipelines;
-use RDev\IoC;
-use RDev\Tests\Pipelines\Mocks;
+use RDev\IoC\Container;
+use RDev\Tests\Pipelines\Mocks\Stage1;
+use RDev\Tests\Pipelines\Mocks\Stage2;
 
 class PipelineTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var IoC\Container The dependency injection container to use in tests */
+    /** @var Container The dependency injection container to use in tests */
     private $container = null;
 
     /**
@@ -18,7 +19,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->container = new IoC\Container();
+        $this->container = new Container();
     }
 
     /**
@@ -46,7 +47,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
             {
                 return $next($input . "3");
             },
-            new Mocks\Stage2()
+            new Stage2()
         ];
         $pipeline = new Pipeline($this->container, $stages, "run");
         $this->assertEquals("input132", $pipeline->send("input"));
@@ -136,7 +137,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultipleObjectStages()
     {
-        $stages = [new Mocks\Stage1(), new Mocks\Stage2()];
+        $stages = [new Stage1(), new Stage2()];
         $pipeline = new Pipeline($this->container, $stages, "run");
         $this->assertEquals("input12", $pipeline->send("input"));
     }
@@ -157,13 +158,48 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testObjectStagesWithCallback()
     {
-        $stages = [new Mocks\Stage1(), new Mocks\Stage2()];
+        $stages = [new Stage1(), new Stage2()];
         $callback = function($input)
         {
             return $input . "3";
         };
         $pipeline = new Pipeline($this->container, $stages, "run");
         $this->assertEquals("input123", $pipeline->send("input", $callback));
+    }
+
+    /**
+     * Tests a single class pipe
+     */
+    public function testSingleClassPipe()
+    {
+        $stages = ["RDev\\Tests\\Pipelines\\Mocks\\Stage1"];
+        $pipeline = new Pipeline($this->container, $stages, "run");
+        $this->assertEquals("input1", $pipeline->send("input"));
+    }
+
+    /**
+     * Tests a single closure pipe
+     */
+    public function testSingleClosurePipe()
+    {
+        $stages = [
+            function ($input, $next)
+            {
+                return $next($input . "1");
+            }
+        ];
+        $pipeline = new Pipeline($this->container, $stages);
+        $this->assertEquals("input1", $pipeline->send("input"));
+    }
+
+    /**
+     * Tests a single object pipe
+     */
+    public function testSingleObjectPipe()
+    {
+        $stages = [new Stage1()];
+        $pipeline = new Pipeline($this->container, $stages, "run");
+        $this->assertEquals("input1", $pipeline->send("input"));
     }
 
     /**
@@ -206,40 +242,5 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
         };
         $pipeline = new Pipeline($this->container, $stages);
         $this->assertEquals("input1", $pipeline->send("input", $callback));
-    }
-
-    /**
-     * Tests a single class pipe
-     */
-    public function testSingleClassPipe()
-    {
-        $stages = ["RDev\\Tests\\Pipelines\\Mocks\\Stage1"];
-        $pipeline = new Pipeline($this->container, $stages, "run");
-        $this->assertEquals("input1", $pipeline->send("input"));
-    }
-
-    /**
-     * Tests a single closure pipe
-     */
-    public function testSingleClosurePipe()
-    {
-        $stages = [
-            function($input, $next)
-            {
-                return $next($input . "1");
-            }
-        ];
-        $pipeline = new Pipeline($this->container, $stages);
-        $this->assertEquals("input1", $pipeline->send("input"));
-    }
-
-    /**
-     * Tests a single object pipe
-     */
-    public function testSingleObjectPipe()
-    {
-        $stages = [new Mocks\Stage1()];
-        $pipeline = new Pipeline($this->container, $stages, "run");
-        $this->assertEquals("input1", $pipeline->send("input"));
     }
 }

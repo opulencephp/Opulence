@@ -5,11 +5,11 @@
  * Tests the template cache
  */
 namespace RDev\Views\Caching;
-use RDev\Files;
+use RDev\Files\FileSystem;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Files\FileSystem The file system to use to read cached templates */
+    /** @var FileSystem The file system to use to read cached templates */
     private $fileSystem = null;
     /** @var Cache The cache to use in tests */
     private $cache = null;
@@ -45,7 +45,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->fileSystem = new Files\FileSystem();
+        $this->fileSystem = new FileSystem();
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 3600);
     }
 
@@ -94,7 +94,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testCheckingForExpiredTemplate()
     {
         // The negative expiration is a way of forcing everything to expire right away
-        $cache = new Cache(new Files\FileSystem(), __DIR__ . "/tmp", -1);
+        $cache = new Cache(new FileSystem(), __DIR__ . "/tmp", -1);
         $cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
         $this->assertFalse($cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
         $this->assertNull($cache->get("foo", ["bar" => "baz"], ["blah" => "asdf"]));

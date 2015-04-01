@@ -5,14 +5,15 @@
  * Mocks the connection pool class for use in testing
  */
 namespace RDev\Tests\Databases\SQL\Mocks;
-use RDev\Databases\SQL;
+use RDev\Databases\SQL\ConnectionPool as BaseConnectionPool;
+use RDev\Databases\SQL\Server;
 
-class ConnectionPool extends SQL\ConnectionPool
+class ConnectionPool extends BaseConnectionPool
 {
     /**
      * {@inheritdoc}
      */
-    protected function setReadConnection(SQL\Server $preferredServer = null)
+    protected function setReadConnection(Server $preferredServer = null)
     {
         if($preferredServer !== null)
         {
@@ -27,7 +28,7 @@ class ConnectionPool extends SQL\ConnectionPool
     /**
      * {@inheritdoc}
      */
-    protected function setWriteConnection(SQL\Server $preferredServer = null)
+    protected function setWriteConnection(Server $preferredServer = null)
     {
         if($preferredServer !== null)
         {

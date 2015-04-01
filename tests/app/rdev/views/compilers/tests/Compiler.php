@@ -5,12 +5,13 @@
  * Defines the base class for compiler tests
  */
 namespace RDev\Tests\Views\Compilers\Tests;
-use RDev\Files;
-use RDev\Views;
-use RDev\Views\Caching;
-use RDev\Views\Compilers;
-use RDev\Views\Factories;
-use RDev\Views\Filters;
+use DateTime;
+use RDev\Files\FileSystem;
+use RDev\Views\Caching\Cache;
+use RDev\Views\Compilers\Compiler as ViewCompiler;
+use RDev\Views\Factories\TemplateFactory;
+use RDev\Views\Filters\XSSFilter;
+use RDev\Views\Template;
 
 abstract class Compiler extends \PHPUnit_Framework_TestCase
 {
@@ -45,17 +46,17 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
     /** the path to the test template with nested include statements */
     const TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS = "/../files/TestWithNestedIncludeStatements.html";
 
-    /** @var Caching\Cache The view cache */
+    /** @var Cache The view cache */
     protected $cache = null;
-    /** @var Filters\IFilter The cross-site scripting filter to use */
+    /** @var XSSFilter The cross-site scripting filter to use */
     protected $xssFilter = null;
-    /** @var Factories\ITemplateFactory The template factory */
+    /** @var TemplateFactory The template factory */
     protected $templateFactory = null;
-    /** @var Compilers\Compiler $compiler The compiler to use in tests */
+    /** @var ViewCompiler $compiler The compiler to use in tests */
     protected $compiler = null;
-    /** @var Views\Template The template to use in the tests */
+    /** @var Template The template to use in the tests */
     protected $template = null;
-    /** @var Files\FileSystem The file system used to read templates */
+    /** @var FileSystem The file system used to read templates */
     protected $fileSystem = null;
 
     /**
@@ -89,12 +90,12 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->xssFilter = new Filters\XSS();
-        $this->fileSystem = new Files\FileSystem();
-        $this->cache = new Caching\Cache($this->fileSystem, __DIR__ . "/tmp");
-        $this->templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/../../files");
-        $this->compiler = new Compilers\Compiler($this->cache, $this->templateFactory, $this->xssFilter);
-        $this->template = new Views\Template();
+        $this->xssFilter = new XSSFilter();
+        $this->fileSystem = new FileSystem();
+        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp");
+        $this->templateFactory = new TemplateFactory($this->fileSystem, __DIR__ . "/../../files");
+        $this->compiler = new ViewCompiler($this->cache, $this->templateFactory, $this->xssFilter);
+        $this->template = new Template();
     }
 
     /**
@@ -104,11 +105,11 @@ abstract class Compiler extends \PHPUnit_Framework_TestCase
      */
     protected function registerFunction()
     {
-        $this->compiler->registerTemplateFunction("customDate", function (\DateTime $date, $format, array $someArray)
+        $this->compiler->registerTemplateFunction("customDate", function (DateTime $date, $format, array $someArray)
         {
             return $date->format($format) . " and count of array is " . count($someArray);
         });
-        $today = new \DateTime("now");
+        $today = new DateTime("now");
         $this->template->setVar("today", $today);
 
         return $today->format("m/d/Y") . " and count of array is 3";

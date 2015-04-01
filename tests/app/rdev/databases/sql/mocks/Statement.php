@@ -5,14 +5,15 @@
  * Mocks the statement class for use in testing
  */
 namespace RDev\Tests\Databases\SQL\Mocks;
-use RDev\Databases\SQL;
+use PDO;
+use RDev\Databases\SQL\IStatement;
 
-class Statement implements SQL\IStatement
+class Statement implements IStatement
 {
     /**
      * {@inheritdoc}
      */
-    public function bindParam($parameter, &$variable, $dataType = \PDO::PARAM_STR, $length = null)
+    public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null)
     {
         return true;
     }
@@ -20,7 +21,7 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function bindValue($parameter, $value, $dataType = \PDO::PARAM_STR)
+    public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR)
     {
         return true;
     }
@@ -76,7 +77,7 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function fetch($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE)
+    public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE)
     {
         return [];
     }
@@ -84,7 +85,7 @@ class Statement implements SQL\IStatement
     /**
      * {@inheritdoc}
      */
-    public function fetchAll($fetchStyle = \PDO::ATTR_DEFAULT_FETCH_MODE)
+    public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE)
     {
         return [];
     }

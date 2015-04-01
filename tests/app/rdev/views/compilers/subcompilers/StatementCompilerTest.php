@@ -5,12 +5,11 @@
  * Tests the RDev statement sub-compiler
  */
 namespace RDev\Views\Compilers\SubCompilers;
-use RDev\Files;
-use RDev\Tests\Views\Compilers\Tests;
-use RDev\Views\Factories;
-use RDev\Tests\Views\Mocks;
+use RDev\Tests\Views\Compilers\Tests\Compiler as CompilerTest;
+use RDev\Tests\Views\Mocks\FooBuilder;
+use RDev\Tests\Views\Mocks\ParentBuilder;
 
-class StatementCompilerTest extends Tests\Compiler
+class StatementCompilerTest extends CompilerTest
 {
     /** @var StatementCompiler The sub-compiler to test */
     private $subCompiler = null;
@@ -103,7 +102,7 @@ This is the content
     {
         $this->templateFactory->registerBuilder("Master.html", function()
         {
-            return new Mocks\ParentBuilder();
+            return new ParentBuilder();
         });
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT)
@@ -177,7 +176,7 @@ This is the content
     {
         $this->templateFactory->registerBuilder("Master.html", function()
         {
-            return new Mocks\ParentBuilder();
+            return new ParentBuilder();
         });
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS)
@@ -234,11 +233,11 @@ This is the content
     {
         $this->templateFactory->registerBuilder("Header.html", function()
         {
-            return new Mocks\ParentBuilder();
+            return new ParentBuilder();
         });
         $this->templateFactory->registerBuilder("TestWithExtendStatement.html", function()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $this->template = $this->templateFactory->create("TestWithExtendStatement.html");
         $this->compiler->compile($this->template);
@@ -272,11 +271,11 @@ This is the content
     {
         $this->templateFactory->registerBuilder("Master.html", function()
         {
-            return new Mocks\ParentBuilder();
+            return new ParentBuilder();
         });
         $this->templateFactory->registerBuilder("TestWithExtendAndPartStatements.html", function()
         {
-            return new Mocks\FooBuilder();
+            return new FooBuilder();
         });
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_EXTEND_STATEMENTS)

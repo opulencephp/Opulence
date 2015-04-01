@@ -5,18 +5,17 @@
  * Tests the built-in template function registrant
  */
 namespace RDev\Views\Compilers;
-use RDev\Files;
-use RDev\Tests\Views\Compilers\SubCompilers\Mocks;
-use RDev\Views;
-use RDev\Views\Caching;
-use RDev\Views\Factories;
-use RDev\Views\Filters;
+use RDev\Files\FileSystem;
+use RDev\Views\Caching\Cache;
+use RDev\Views\Factories\TemplateFactory;
+use RDev\Views\Filters\XSSFilter;
+use RDev\Views\Template;
 
 class BuiltInTemplateFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Compiler The compiler to use in tests */
     private $compiler = null;
-    /** @var Views\Template The template to use in the tests */
+    /** @var Template The template to use in the tests */
     private $template = null;
 
     /**
@@ -50,11 +49,11 @@ class BuiltInTemplateFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $xssFilter = new Filters\XSS();
-        $fileSystem = new Files\FileSystem();
-        $cache = new Caching\Cache($fileSystem, __DIR__ . "/tmp");
-        $this->compiler = new Compiler($cache, new Factories\TemplateFactory($fileSystem, __DIR__), $xssFilter);
-        $this->template = new Views\Template();
+        $xssFilter = new XSSFilter();
+        $fileSystem = new FileSystem();
+        $cache = new Cache($fileSystem, __DIR__ . "/tmp");
+        $this->compiler = new Compiler($cache, new TemplateFactory($fileSystem, __DIR__), $xssFilter);
+        $this->template = new Template();
     }
 
     /**

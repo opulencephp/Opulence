@@ -5,6 +5,7 @@
  * Tests the registered user
  */
 namespace RDev\Users;
+use DateTime;
 
 class RegisteredUserTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +17,7 @@ class RegisteredUserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->user = new RegisteredUser(1, "dave", new \DateTime("now"), []);
+        $this->user = new RegisteredUser(1, "dave", new DateTime("now"), []);
     }
 
     /**

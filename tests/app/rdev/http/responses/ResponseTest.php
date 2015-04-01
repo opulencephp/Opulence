@@ -5,6 +5,7 @@
  * Tests the HTTP response
  */
 namespace RDev\HTTP\Responses;
+use DateTime;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,7 +72,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingExpiration()
     {
-        $expiration = new \DateTime("now");
+        $expiration = new DateTime("now");
         $this->response->setExpiration($expiration);
         $this->assertEquals($expiration->format("r"), $this->response->getHeaders()->get("Expires"));
     }

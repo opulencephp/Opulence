@@ -5,7 +5,7 @@
  * Tests the template class
  */
 namespace RDev\Views;
-use RDev\Files;
+use RDev\Files\FileSystem;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
@@ -16,7 +16,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     /** @var Template The template to use in the tests */
     private $template = null;
-    /** @var Files\FileSystem The file system used to read templates */
+    /** @var FileSystem The file system used to read templates */
     private $fileSystem = null;
 
     /**
@@ -25,7 +25,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->template = new Template();
-        $this->fileSystem = new Files\FileSystem();
+        $this->fileSystem = new FileSystem();
     }
 
     /**

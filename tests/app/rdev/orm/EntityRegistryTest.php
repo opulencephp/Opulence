@@ -5,15 +5,15 @@
  * Tests the entity registry
  */
 namespace RDev\ORM;
-use RDev\Tests\Mocks;
+use RDev\Tests\Mocks\User;
 
 class EntityRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var EntityRegistry The entity registry to use in tests */
     private $entityRegistry = null;
-    /** @var Mocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity1 = null;
-    /** @var Mocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity2 = null;
     /** @var string Entity 1's object hash Id */
     private $entity1HashId;
@@ -32,8 +32,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
          * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
          * set to the Ids
          */
-        $this->entity1 = new Mocks\User(724, "foo");
-        $this->entity2 = new Mocks\User(1987, "bar");
+        $this->entity1 = new User(724, "foo");
+        $this->entity2 = new User(1987, "bar");
         $this->entity1HashId = $this->entityRegistry->getObjectHashId($this->entity1);
         $this->entity2HashId = $this->entityRegistry->getObjectHashId($this->entity2);
     }
@@ -49,8 +49,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->entity1->setUsername("not entity 1's username");
         $this->entityRegistry->registerComparisonFunction($className, function ($a, $b)
         {
-            /** @var Mocks\User $a */
-            /** @var Mocks\User $b */
+            /** @var User $a */
+            /** @var User $b */
             return $a->getId() == $b->getId();
         });
         $this->assertFalse($this->entityRegistry->hasChanged($this->entity1));

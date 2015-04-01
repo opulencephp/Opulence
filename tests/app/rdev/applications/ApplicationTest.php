@@ -5,6 +5,7 @@
  * Tests the application class
  */
 namespace RDev\Applications;
+use InvalidArgumentException;
 use Monolog\Logger;
 use RDev\Applications\Environments\Environment;
 use RDev\IoC\Container;
@@ -73,7 +74,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->registerPostShutdownTask(function ()
         {
             // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
+            throw new InvalidArgumentException("foobar");
         });
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutdown());
@@ -88,7 +89,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->registerPostStartTask(function ()
         {
             // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
+            throw new InvalidArgumentException("foobar");
         });
         $this->assertNull($this->application->start());
         $this->assertFalse($this->application->isRunning());
@@ -102,7 +103,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->application->registerPreShutdownTask(function ()
         {
             // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
+            throw new InvalidArgumentException("foobar");
         });
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutdown());
@@ -118,7 +119,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->application->shutdown(function ()
         {
             // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
+            throw new InvalidArgumentException("foobar");
         }));
         $this->assertFalse($this->application->isRunning());
     }
@@ -131,7 +132,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->application->start(function ()
         {
             // Throw anything other than a runtime exception
-            throw new \InvalidArgumentException("foobar");
+            throw new InvalidArgumentException("foobar");
         }));
         $this->assertFalse($this->application->isRunning());
     }
@@ -168,7 +169,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEnvironment()
     {
-        $expectedEnvironment = new Environments\Environment("staging");
+        $expectedEnvironment = new Environment("staging");
         $this->assertEquals($expectedEnvironment, $this->application->getEnvironment());
     }
 
@@ -392,7 +393,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingEnvironment()
     {
-        $environment = new Environments\Environment("foo");
+        $environment = new Environment("foo");
         $this->application->setEnvironment($environment);
         $this->assertEquals($environment, $this->application->getEnvironment());
     }

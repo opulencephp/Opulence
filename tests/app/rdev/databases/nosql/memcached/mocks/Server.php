@@ -5,9 +5,9 @@
  * Mocks the server class for use in testing
  */
 namespace RDev\Tests\Databases\NoSQL\Memcached\Mocks;
-use RDev\Databases\NoSQL\Memcached;
+use RDev\Databases\NoSQL\Memcached\Server as BaseServer;
 
-class Server extends Memcached\Server
+class Server extends BaseServer
 {
     /** {@inheritdoc} */
     protected $host = "";

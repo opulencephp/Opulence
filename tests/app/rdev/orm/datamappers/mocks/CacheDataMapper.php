@@ -5,12 +5,12 @@
  * Mocks the cache data mapper class for use in testing
  */
 namespace RDev\Tests\ORM\DataMappers\Mocks;
-use RDev\ORM;
-use RDev\ORM\DataMappers;
+use RDev\ORM\IEntity;
+use RDev\ORM\DataMappers\ICacheDataMapper;
 
-class CacheDataMapper implements DataMappers\ICacheDataMapper
+class CacheDataMapper implements ICacheDataMapper
 {
-    /** @var ORM\IEntity[] The list of entities added */
+    /** @var IEntity[] The list of entities added */
     protected $entities = [];
 
     public function __construct()
@@ -21,7 +21,7 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
     /**
      * {@inheritdoc}
      */
-    public function add(ORM\IEntity &$entity)
+    public function add(IEntity &$entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }
@@ -29,7 +29,7 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
     /**
      * {@inheritdoc}
      */
-    public function delete(ORM\IEntity &$entity)
+    public function delete(IEntity &$entity)
     {
         unset($this->entities[$entity->getId()]);
     }
@@ -66,7 +66,7 @@ class CacheDataMapper implements DataMappers\ICacheDataMapper
     /**
      * {@inheritdoc}
      */
-    public function update(ORM\IEntity &$entity)
+    public function update(IEntity &$entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }

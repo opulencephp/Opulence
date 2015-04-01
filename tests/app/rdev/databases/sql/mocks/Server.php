@@ -5,10 +5,9 @@
  * Mocks the server class for use in testing
  */
 namespace RDev\Tests\Databases\SQL\Mocks;
-use RDev\Databases\SQL;
-use RDev\Databases\SQL\Providers;
+use RDev\Databases\SQL\Server as BaseServer;
 
-class Server extends SQL\Server
+class Server extends BaseServer
 {
     protected $host = "1.2.3.4";
     protected $username = "foo";

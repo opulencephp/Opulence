@@ -12,17 +12,17 @@ use RDev\HTTP\Routing\Routes\RouteCollection;
 class URLGenerator
 {
     /** @var RouteCollection The list of routes */
-    private $routes = null;
+    private $routeCollection = null;
     /** @var IParser The parser to use */
     private $parser = null;
 
     /**
-     * @param RouteCollection $routes The list of routes
+     * @param RouteCollection $routeCollection The list of routes
      * @param IParser $parser The parser to use
      */
-    public function __construct(RouteCollection &$routes, IParser $parser)
+    public function __construct(RouteCollection &$routeCollection, IParser $parser)
     {
-        $this->routes = $routes;
+        $this->routeCollection = $routeCollection;
         $this->parser = $parser;
     }
 
@@ -36,7 +36,7 @@ class URLGenerator
      */
     public function createFromName($name, $values = [])
     {
-        $route = $this->routes->getNamedRoute($name);
+        $route = $this->routeCollection->getNamedRoute($name);
 
         if($route === null)
         {

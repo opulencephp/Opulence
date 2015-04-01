@@ -5,9 +5,9 @@
  * Mocks a form url-encoded request class for use in testing
  */
 namespace RDev\Tests\HTTP\Requests\Mocks;
-use RDev\HTTP\Requests;
+use RDev\HTTP\Requests\Request;
 
-class FormURLEncodedRequest extends Requests\Request
+class FormURLEncodedRequest extends Request
 {
     /**
      * {@inheritdoc}

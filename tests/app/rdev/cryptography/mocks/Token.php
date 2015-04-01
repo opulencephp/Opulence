@@ -5,6 +5,7 @@
  * Mocks the token for use in testing
  */
 namespace RDev\Tests\Cryptography\Mocks;
+use DateTime;
 use RDev\Cryptography\Token as BaseToken;
 
 class Token extends BaseToken
@@ -16,6 +17,6 @@ class Token extends BaseToken
      */
     public static function create()
     {
-        return new Token(1, "foo", new \DateTime("now"), new \DateTime("+1 week"), true);
+        return new Token(1, "foo", new DateTime("now"), new DateTime("+1 week"), true);
     }
 } 

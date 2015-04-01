@@ -5,14 +5,14 @@
  * Tests the Composer executable wrapper
  */
 namespace RDev\Framework\Composer;
-use RDev\Applications;
-use RDev\Tests\Framework\Composer\Mocks;
+use RDev\Applications\Paths;
+use RDev\Tests\Framework\Composer\Mocks\Executable;
 
 class ExecutableTest extends \PHPUnit_Framework_TestCase 
 {
-    /** @var Mocks\Executable The executable without a composer.phar to use in tests */
+    /** @var Executable The executable without a composer.phar to use in tests */
     private $executableWithoutPHAR = null;
-    /** @var Mocks\Executable The executable with a composer.phar to use in tests */
+    /** @var Executable The executable with a composer.phar to use in tests */
     private $executableWithPHAR = null;
 
     /**
@@ -20,10 +20,10 @@ class ExecutableTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $paths = new Applications\Paths(["root" => __DIR__]);
-        $this->executableWithoutPHAR = new Mocks\Executable($paths);
+        $paths = new Paths(["root" => __DIR__]);
+        $this->executableWithoutPHAR = new Executable($paths);
         $paths["root"] = __DIR__ . "/mocks";
-        $this->executableWithPHAR = new Mocks\Executable($paths);
+        $this->executableWithPHAR = new Executable($paths);
     }
 
     /**

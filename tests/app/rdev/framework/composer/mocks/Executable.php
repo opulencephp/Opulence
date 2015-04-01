@@ -5,9 +5,9 @@
  * Mocks the Composer executable for use in testing
  */
 namespace RDev\Tests\Framework\Composer\Mocks;
-use RDev\Framework\Composer;
+use RDev\Framework\Composer\Executable as BaseExecutable;
 
-class Executable extends Composer\Executable
+class Executable extends BaseExecutable
 {
     /**
      * {@inheritdoc}

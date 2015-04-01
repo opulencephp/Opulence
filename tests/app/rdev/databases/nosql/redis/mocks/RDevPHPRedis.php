@@ -5,7 +5,9 @@
  * Mocks the RDev PHP Redis class for use in testing
  */
 namespace RDev\Tests\Databases\NoSQL\Redis\Mocks;
-use RDev\Databases\NoSQL\Redis;
+use RDev\Databases\NoSQL\Redis\RDevPHPRedis as BaseRDevPHPRedis;
+use RDev\Databases\NoSQL\Redis\Server;
+use RDev\Databases\NoSQL\Redis\TypeMapper;
 
 // To get around having to install Redis just to run tests, include a mock Redis class
 if(!class_exists("Redis"))
@@ -13,12 +15,12 @@ if(!class_exists("Redis"))
     require_once __DIR__ . "/Redis.php";
 }
 
-class RDevPHPRedis extends Redis\RDevPHPRedis
+class RDevPHPRedis extends BaseRDevPHPRedis
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(Redis\Server $server, Redis\TypeMapper $typeMapper)
+    public function __construct(Server $server, TypeMapper $typeMapper)
     {
         $this->server = $server;
         $this->typeMapper = $typeMapper;

@@ -5,16 +5,16 @@
  * Tests the template compiler
  */
 namespace RDev\Views\Compilers;
-use RDev\Tests\Views\Mocks as ViewMocks;
-use RDev\Tests\Views\Compilers\Mocks as CompilerMocks;
-use RDev\Tests\Views\Compilers\SubCompilers\Mocks as SubCompilerMocks;
-use RDev\Tests\Views\Compilers\Tests as CompilerTests;
-use RDev\Views;
-use RDev\Views\Caching;
-use RDev\Views\Factories;
-use RDev\Views\Filters;
+use RDev\Views\Compilers\SubCompilers\StatementCompiler;
+use RDev\Tests\Views\Mocks\ParentBuilder;
+use RDev\Tests\Views\Compilers\Mocks\Compiler as MockCompiler;
+use RDev\Tests\Views\Compilers\SubCompilers\Mocks\SubCompiler;
+use RDev\Tests\Views\Compilers\Tests\Compiler as BaseCompilerTest;
+use RDev\Views\Caching\Cache;
+use RDev\Views\Factories\TemplateFactory;
+use RDev\Views\Template;
 
-class CompilerTest extends CompilerTests\Compiler
+class CompilerTest extends BaseCompilerTest
 {
     /**
      * Tests changing a parent template to make sure the child gets re-cached
@@ -24,10 +24,10 @@ class CompilerTest extends CompilerTests\Compiler
         // Create parent/child templates
         file_put_contents(__DIR__ . "/tests/tmp/Master.html", "Foo");
         file_put_contents(__DIR__ . "/tests/tmp/Child.html", '{% extends("Master.html") %}Bar');
-        $templateFactory = new Factories\TemplateFactory($this->fileSystem, __DIR__ . "/tests/tmp");
+        $templateFactory = new TemplateFactory($this->fileSystem, __DIR__ . "/tests/tmp");
         // The compiler needs the new template factory because it uses a different path than the built-in one
         $this->compiler = new Compiler(
-            new Caching\Cache($this->fileSystem, __DIR__ . "/tmp"),
+            new Cache($this->fileSystem, __DIR__ . "/tmp"),
             $templateFactory,
             $this->xssFilter
         );
@@ -43,20 +43,20 @@ class CompilerTest extends CompilerTests\Compiler
      */
     public function testCompilerPriority()
     {
-        $template = new Views\Template();
+        $template = new Template();
         $template->setContents("");
         // Although this one is registered first, it doesn't have priority
-        $this->compiler->registerSubCompiler(new SubCompilerMocks\SubCompiler($this->compiler, function ($template, $content)
+        $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content . "3";
         }));
         // This one has the second highest priority, so it should be compiled second
-        $this->compiler->registerSubCompiler(new SubCompilerMocks\SubCompiler($this->compiler, function ($template, $content)
+        $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content . "2";
         }), 2);
         // This one has the highest priority, so it should be compiled first
-        $this->compiler->registerSubCompiler(new SubCompilerMocks\SubCompiler($this->compiler, function ($template, $content)
+        $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content . "1";
         }), 1);
@@ -92,9 +92,9 @@ class CompilerTest extends CompilerTests\Compiler
     {
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
@@ -133,9 +133,9 @@ class CompilerTest extends CompilerTests\Compiler
     {
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
-        $this->template->setDelimiters(Views\Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
         $functionResult = $this->registerFunction();
         $this->assertTrue(
             $this->stringsWithEncodedCharactersEqual(
@@ -201,7 +201,7 @@ class CompilerTest extends CompilerTests\Compiler
     {
         $this->templateFactory->registerBuilder("Master.html", function()
         {
-            return new ViewMocks\ParentBuilder();
+            return new ParentBuilder();
         });
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT)
@@ -229,7 +229,7 @@ This is the content
         {
             echo "bar";
         };
-        $compiler = new CompilerMocks\Compiler();
+        $compiler = new MockCompiler();
         $compiler->registerTemplateFunction("foo", $foo);
         $compiler->registerTemplateFunction("bar", $bar);
         $this->assertEquals([
@@ -244,7 +244,7 @@ This is the content
     public function testIntegerLessThanOnePriority()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->compiler->registerSubCompiler(new SubCompilerMocks\SubCompiler($this->compiler, function ($template, $content)
+        $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content;
         }), 0);
@@ -256,7 +256,7 @@ This is the content
     public function testNonIntegerPriority()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->compiler->registerSubCompiler(new SubCompilerMocks\SubCompiler($this->compiler, function ($template, $content)
+        $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content;
         }), 1.5);
@@ -267,7 +267,7 @@ This is the content
      */
     public function testTemplateIsCachedAfterCompiling()
     {
-        $statementSubCompiler = new SubCompilers\StatementCompiler($this->compiler, $this->templateFactory);
+        $statementSubCompiler = new StatementCompiler($this->compiler, $this->templateFactory);
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_EXTEND_STATEMENT);
         $this->template->setContents($contents);
         $compiledStatements = $statementSubCompiler->compile($this->template, $this->template->getContents());

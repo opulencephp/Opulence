@@ -5,20 +5,21 @@
  * Tests the cached SQL data mapper
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Tests\Mocks as ModelMocks;
-use RDev\Tests\ORM\DataMappers\Mocks as DataMapperMocks;
+use RDev\Tests\Mocks\User;
+use RDev\Tests\ORM\DataMappers\Mocks\CacheDataMapperThatReturnsNull;
+use RDev\Tests\ORM\DataMappers\Mocks\CachedSQLDataMapper;
 
 class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var DataMapperMocks\CachedSQLDataMapper The data mapper to use for tests */
+    /** @var CachedSQLDataMapper The data mapper to use for tests */
     private $dataMapper = null;
-    /** @var ModelMocks\User An entity to use for tests */
+    /** @var User An entity to use for tests */
     private $entity1 = null;
-    /** @var ModelMocks\User An entity to use for tests */
+    /** @var User An entity to use for tests */
     private $entity2 = null;
-    /** @var ModelMocks\User An entity to use for tests */
+    /** @var User An entity to use for tests */
     private $entity3 = null;
-    /** @var ModelMocks\User An entity to use for tests */
+    /** @var User An entity to use for tests */
     private $entity4 = null;
 
     /**
@@ -26,11 +27,11 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper();
-        $this->entity1 = new ModelMocks\User(123, "foo");
-        $this->entity2 = new ModelMocks\User(456, "bar");
-        $this->entity3 = new ModelMocks\User(789, "baz");
-        $this->entity4 = new ModelMocks\User(101, "blah");
+        $this->dataMapper = new CachedSQLDataMapper();
+        $this->entity1 = new User(123, "foo");
+        $this->entity2 = new User(456, "bar");
+        $this->entity3 = new User(789, "baz");
+        $this->entity4 = new User(101, "blah");
     }
 
     /**
@@ -132,10 +133,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnsyncedEntitiesWhenGetAllReturnsNull()
     {
-        $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper(
-            null,
-            new DataMapperMocks\CacheDataMapperThatReturnsNull()
-        );
+        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull());
         $this->dataMapper->getSQLDataMapper()->add($this->entity1);
         $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
         $this->assertEquals([
@@ -185,10 +183,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshingCacheWhenGetAllReturnsNull()
     {
-        $this->dataMapper = new DataMapperMocks\CachedSQLDataMapper(
-            null,
-            new DataMapperMocks\CacheDataMapperThatReturnsNull()
-        );
+        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull());
         $this->dataMapper->getSQLDataMapper()->add($this->entity1);
         $unsyncedEntities = $this->dataMapper->refreshCache();
         $this->assertEquals([

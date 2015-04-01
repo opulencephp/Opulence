@@ -5,19 +5,18 @@
  * Mocks the cached SQL data mapper for use in tests
  */
 namespace RDev\Tests\ORM\DataMappers\Mocks;
-use RDev\Databases\SQL;
-use RDev\ORM\DataMappers;
+use RDev\Databases\SQL\ConnectionPool;
+use RDev\ORM\DataMappers\CachedSQLDataMapper as BaseCachedSQLDataMapper;
+use RDev\ORM\DataMappers\ICacheDataMapper;
+use RDev\ORM\DataMappers\ISQLDataMapper;
 
-class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
+class CachedSQLDataMapper extends BaseCachedSQLDataMapper
 {
     /**
-     * @param DataMappers\ISQLDataMapper $sqlDataMapper The SQL data mapper to use
-     * @param DataMappers\ICacheDataMapper $cacheDataMapper The cache data mapper to use
+     * @param ISQLDataMapper $sqlDataMapper The SQL data mapper to use
+     * @param ICacheDataMapper $cacheDataMapper The cache data mapper to use
      */
-    public function __construct(
-        DataMappers\ISQLDataMapper $sqlDataMapper = null,
-        DataMappers\ICacheDataMapper $cacheDataMapper = null
-    )
+    public function __construct(ISQLDataMapper $sqlDataMapper = null, ICacheDataMapper $cacheDataMapper = null)
     {
         if($sqlDataMapper === null)
         {
@@ -68,7 +67,7 @@ class CachedSQLDataMapper extends DataMappers\CachedSQLDataMapper
     /**
      * {@inheritdoc}
      */
-    protected function setSQLDataMapper(SQL\ConnectionPool $connectionPool)
+    protected function setSQLDataMapper(ConnectionPool $connectionPool)
     {
         $this->sqlDataMapper = new SQLDataMapper();
     }

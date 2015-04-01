@@ -5,21 +5,21 @@
  * Mocks the router for use in testing
  */
 namespace RDev\Tests\Routing\Mocks;
-use RDev\IoC;
-use RDev\HTTP\Routing;
-use RDev\HTTP\Routing\Compilers;
-use RDev\HTTP\Routing\Compilers\Parsers;
-use RDev\Tests\Routing\Dispatchers\Mocks;
+use RDev\IoC\Container;
+use RDev\HTTP\Routing\Compilers\Compiler;
+use RDev\HTTP\Routing\Compilers\Parsers\Parser;
+use RDev\HTTP\Routing\Router as BaseRouter;
+use RDev\Tests\Routing\Dispatchers\Mocks\Dispatcher;
 
-class Router extends Routing\Router
+class Router extends BaseRouter
 {
     /**
      * {@inheritdoc}
      */
     public function __construct()
     {
-        $compiler = new Compilers\Compiler(new Parsers\Parser());
+        $compiler = new Compiler(new Parser());
 
-        parent::__construct(new Mocks\Dispatcher(new IoC\Container()), $compiler);
+        parent::__construct(new Dispatcher(new Container()), $compiler);
     }
 } 

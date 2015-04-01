@@ -5,11 +5,9 @@
  * Mocks a compiler for use in testing
  */
 namespace RDev\Tests\Views\Compilers\Mocks;
-use RDev\Views\Caching;
-use RDev\Views\Compilers;
-use RDev\Views\Filters;
+use RDev\Views\Compilers\Compiler as BaseCompiler;
 
-class Compiler extends Compilers\Compiler
+class Compiler extends BaseCompiler
 {
     /**
      * {@inheritdoc}

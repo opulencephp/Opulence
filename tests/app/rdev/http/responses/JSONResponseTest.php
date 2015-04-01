@@ -5,6 +5,7 @@
  * Tests the JSON response
  */
 namespace RDev\HTTP\Responses;
+use ArrayObject;
 
 class JSONResponseTest extends \PHPUnit_Framework_TestCase
 {
@@ -71,7 +72,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentToArrayObjectInConstructor()
     {
-        $content = new \ArrayObject(["foo" => "bar"]);
+        $content = new ArrayObject(["foo" => "bar"]);
         $response = new JSONResponse($content);
         $this->assertEquals(json_encode($content->getArrayCopy()), $response->getContent());
     }
@@ -81,7 +82,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentToArrayObjectInSetter()
     {
-        $content = new \ArrayObject(["foo" => "bar"]);
+        $content = new ArrayObject(["foo" => "bar"]);
         $response = new JSONResponse();
         $response->setContent($content);
         $this->assertEquals(json_encode($content->getArrayCopy()), $response->getContent());

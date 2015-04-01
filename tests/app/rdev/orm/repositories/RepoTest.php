@@ -5,20 +5,22 @@
  * Tests the repository class
  */
 namespace RDev\ORM\Repositories;
-use RDev\ORM;
-use RDev\Tests\Databases\SQL\Mocks as SQLMocks;
-use RDev\Tests\Mocks as ModelMocks;
-use RDev\Tests\ORM\DataMappers\Mocks as DataMapperMocks;
+use RDev\ORM\EntityRegistry;
+use RDev\ORM\UnitOfWork;
+use RDev\Tests\Databases\SQL\Mocks\Connection;
+use RDev\Tests\Databases\SQL\Mocks\Server;
+use RDev\Tests\Mocks\User;
+use RDev\Tests\ORM\DataMappers\Mocks\SQLDataMapper;
 
 class RepoTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ModelMocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity1 = null;
-    /** @var ModelMocks\User An entity to use in the tests */
+    /** @var User An entity to use in the tests */
     private $entity2 = null;
-    /** @var ORM\UnitOfWork The unit of work to use in the tests */
+    /** @var UnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
-    /** @var DataMapperMocks\SQLDataMapper The data mapper to use in tests */
+    /** @var SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
     /** @var Repo The repository to test */
     private $repo = null;
@@ -28,13 +30,13 @@ class RepoTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $server = new SQLMocks\Server();
-        $connection = new SQLMocks\Connection($server);
-        $entityStateManager = new ORM\EntityRegistry();
-        $this->unitOfWork = new ORM\UnitOfWork($entityStateManager, $connection);
-        $this->dataMapper = new DataMapperMocks\SQLDataMapper();
-        $this->entity1 = new ModelMocks\User(1, "foo");
-        $this->entity2 = new ModelMocks\User(2, "bar");
+        $server = new Server();
+        $connection = new Connection($server);
+        $entityStateManager = new EntityRegistry();
+        $this->unitOfWork = new UnitOfWork($entityStateManager, $connection);
+        $this->dataMapper = new SQLDataMapper();
+        $this->entity1 = new User(1, "foo");
+        $this->entity2 = new User(2, "bar");
         $this->repo = new Repo(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
     }
 
@@ -101,11 +103,11 @@ class RepoTest extends \PHPUnit_Framework_TestCase
     {
         $this->repo->add($this->entity1);
         $this->unitOfWork->commit();
-        /** @var ModelMocks\User $entityFromGetById */
+        /** @var User $entityFromGetById */
         $entityFromGetById = $this->repo->getById($this->entity1->getId());
-        /** @var ModelMocks\User[] $allEntities */
+        /** @var User[] $allEntities */
         $allEntities = $this->repo->getAll();
-        /** @var ModelMocks\User $entityFromGetAll */
+        /** @var User $entityFromGetAll */
         $entityFromGetAll = null;
 
         foreach($allEntities as $entity)
@@ -159,7 +161,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingDataMapper()
     {
-        $dataMapper = new DataMapperMocks\SQLDataMapper();
+        $dataMapper = new SQLDataMapper();
         $this->repo->setDataMapper($dataMapper);
         $this->assertSame($dataMapper, $this->repo->getDataMapper());
         $this->repo->add($this->entity1);

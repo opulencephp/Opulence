@@ -5,14 +5,16 @@
  * Mocks the RDev Predis class for use in testing
  */
 namespace RDev\Tests\Databases\NoSQL\Redis\Mocks;
-use RDev\Databases\NoSQL\Redis;
+use RDev\Databases\NoSQL\Redis\RDevPredis as BaseRDevPredis;
+use RDev\Databases\NoSQL\Redis\Server;
+use RDev\Databases\NoSQL\Redis\TypeMapper;
 
-class RDevPredis extends Redis\RDevPredis
+class RDevPredis extends BaseRDevPredis
 {
     /**
      * {@inheritdoc}
      */
-    public function __construct(Redis\Server $server, Redis\TypeMapper $typeMapper)
+    public function __construct(Server $server, TypeMapper $typeMapper)
     {
         $this->server = $server;
         $this->typeMapper = $typeMapper;

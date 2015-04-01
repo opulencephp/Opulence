@@ -5,8 +5,8 @@
  * Tests the controller
  */
 namespace RDev\HTTP\Routing;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\ResponseHeaders;
 
 class ControllerTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +19,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->controller = new Controller();
-        $this->controller->setRequest(Requests\Request::createFromGlobals());
+        $this->controller->setRequest(Request::createFromGlobals());
     }
 
     /**
@@ -35,9 +35,9 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
      */
     public function testShowingHTTPError()
     {
-        $response = $this->controller->showHTTPError(Responses\ResponseHeaders::HTTP_NOT_FOUND);
+        $response = $this->controller->showHTTPError(ResponseHeaders::HTTP_NOT_FOUND);
         $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
         $this->assertEmpty($response->getContent());
-        $this->assertEquals(Responses\ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 }

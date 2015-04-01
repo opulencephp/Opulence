@@ -5,7 +5,9 @@
  * Tests the master/slave connection pool
  */
 namespace RDev\Databases\SQL;
-use RDev\Tests\Databases\SQL\Mocks;
+use RDev\Tests\Databases\SQL\Mocks\Connection;
+use RDev\Tests\Databases\SQL\Mocks\Driver;
+use RDev\Tests\Databases\SQL\Mocks\Server;
 
 class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
@@ -49,7 +51,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     {
         $master = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
-        $expectedConnection = new Mocks\Connection($master);
+        $expectedConnection = new Connection($master);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection());
     }
 
@@ -59,8 +61,8 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     public function testGettingReadConnectionWithPreferredServer()
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
-        $preferredServer = new Mocks\Server();
-        $expectedConnection = new Mocks\Connection($preferredServer);
+        $preferredServer = new Server();
+        $expectedConnection = new Connection($preferredServer);
         $this->assertEquals($expectedConnection, $connectionPool->getReadConnection($preferredServer));
     }
 
@@ -94,7 +96,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     {
         $master = $this->createServer();
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $master);
-        $expectedConnection = new Mocks\Connection($master);
+        $expectedConnection = new Connection($master);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection());
     }
 
@@ -105,7 +107,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     {
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer());
         $preferredServer = $this->createServer();
-        $expectedConnection = new Mocks\Connection($preferredServer);
+        $expectedConnection = new Connection($preferredServer);
         $this->assertEquals($expectedConnection, $connectionPool->getWriteConnection($preferredServer));
     }
 
@@ -126,20 +128,20 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     /**
      * Creates a driver for use in tests
      *
-     * @return Mocks\Driver A driver
+     * @return Driver A driver
      */
     private function createDriver()
     {
-        return new Mocks\Driver();
+        return new Driver();
     }
 
     /**
      * Creates a server for use in tests
      *
-     * @return Mocks\Server A server
+     * @return Server A server
      */
     private function createServer()
     {
-        return new Mocks\Server();
+        return new Server();
     }
 }

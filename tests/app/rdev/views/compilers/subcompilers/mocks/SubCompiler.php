@@ -5,11 +5,11 @@
  * Mocks a sub-compiler for use in testing
  */
 namespace RDev\Tests\Views\Compilers\SubCompilers\Mocks;
-use RDev\Views;
-use RDev\Views\Compilers;
-use RDev\Views\Compilers\SubCompilers;
+use RDev\Views\ITemplate;
+use RDev\Views\Compilers\ICompiler;
+use RDev\Views\Compilers\SubCompilers\SubCompiler as BaseSubCompiler;
 
-class SubCompiler extends SubCompilers\SubCompiler
+class SubCompiler extends BaseSubCompiler
 {
     /** @var callable The callback to execute when compiling */
     private $callback = null;
@@ -19,7 +19,7 @@ class SubCompiler extends SubCompilers\SubCompiler
      * @param callable $callback The callback to execute when compiling
      *      It must accept the template as the first parameter and the contents as the second
      */
-    public function __construct(Compilers\ICompiler $parentCompiler, callable $callback)
+    public function __construct(ICompiler $parentCompiler, callable $callback)
     {
         parent::__construct($parentCompiler);
 
@@ -29,7 +29,7 @@ class SubCompiler extends SubCompilers\SubCompiler
     /**
      * {@inheritdoc}
      */
-    public function compile(Views\ITemplate $template, $content)
+    public function compile(ITemplate $template, $content)
     {
         return call_user_func_array($this->callback, [$template, $content]);
     }

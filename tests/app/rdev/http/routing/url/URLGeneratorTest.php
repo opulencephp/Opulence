@@ -5,9 +5,10 @@
  * Tests the URL generator
  */
 namespace RDev\HTTP\Routing\URL;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Routing\Routes;
-use RDev\HTTP\Routing\Compilers\Parsers;
+use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Routing\Routes\Route;
+use RDev\HTTP\Routing\Routes\RouteCollection;
+use RDev\HTTP\Routing\Compilers\Parsers\Parser;
 
 class URLGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,40 +21,40 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $namedRoutes = [
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users",
                 [
                     "controller" => "foo@bar",
                     "name" => "pathNoParameters"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users/{userId}",
                 [
                     "controller" => "foo@bar",
                     "name" => "pathOneParameter"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users/{userId}/profile/{mode}",
                 [
                     "controller" => "foo@bar",
                     "name" => "pathTwoParameters"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users{foo?}",
                 [
                     "controller" => "foo@bar",
                     "name" => "pathOptionalVariable"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users/{userId}",
                 [
                     "controller" => "foo@bar",
@@ -61,8 +62,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "pathVariableRegex"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users",
                 [
                     "controller" => "foo@bar",
@@ -70,8 +71,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "hostNoParameters"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users",
                 [
                     "controller" => "foo@bar",
@@ -79,8 +80,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "hostOneParameter"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users",
                 [
                     "controller" => "foo@bar",
@@ -88,8 +89,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "hostTwoParameters"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users",
                 [
                     "controller" => "foo@bar",
@@ -97,8 +98,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "hostOptionalVariable"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users/{userId}/profile/{mode}",
                 [
                     "controller" => "foo@bar",
@@ -106,8 +107,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "hostAndPathMultipleParameters"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users{foo?}",
                 [
                     "controller" => "foo@bar",
@@ -115,8 +116,8 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                     "name" => "hostAndPathOptionalParameters"
                 ]
             ),
-            new Routes\Route(
-                Requests\Request::METHOD_GET,
+            new Route(
+                Request::METHOD_GET,
                 "/users",
                 [
                     "controller" => "foo@bar",
@@ -126,14 +127,14 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         ];
-        $routes = new Routes\RouteCollection();
+        $routeCollection = new RouteCollection();
 
         foreach($namedRoutes as $name => $route)
         {
-            $routes->add($route);
+            $routeCollection->add($route);
         }
 
-        $this->generator = new URLGenerator($routes, new Parsers\Parser());
+        $this->generator = new URLGenerator($routeCollection, new Parser());
     }
 
     /**

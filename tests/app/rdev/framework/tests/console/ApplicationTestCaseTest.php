@@ -5,31 +5,36 @@
  * Tests the console application tester
  */
 namespace RDev\Framework\Tests\Console;
-use RDev\Console\Kernels;
-use RDev\Console\Prompts;
-use RDev\Console\Responses\Formatters;
-use RDev\Tests\Console\Commands\Mocks as CommandMocks;
-use RDev\Tests\Framework\Tests\Console\Mocks as TestMocks;
+use RDev\Console\Kernels\StatusCodes;
+use RDev\Console\Prompts\Prompt;
+use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Tests\Console\Commands\Mocks\HappyHolidayCommand;
+use RDev\Tests\Console\Commands\Mocks\MultiplePromptsCommand;
+use RDev\Tests\Console\Commands\Mocks\SimpleCommand;
+use RDev\Tests\Console\Commands\Mocks\SinglePromptCommand;
+use RDev\Tests\Console\Commands\Mocks\StatusCodeCommand;
+use RDev\Tests\Console\Commands\Mocks\StyledCommand;
+use RDev\Tests\Framework\Tests\Console\Mocks\ApplicationTestCase;
 
 class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var TestMocks\ApplicationTestCase The console application to use in tests */
-    private $application = null;
+    /** @var ApplicationTestCase The console application to use in tests */
+    private $testCase = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->application = new TestMocks\ApplicationTestCase();
-        $this->application->setUp();
-        $prompt = new Prompts\Prompt(new Formatters\PaddingFormatter());
-        $this->application->getCommandCollection()->add(new CommandMocks\SimpleCommand("simple", "Simple command"));
-        $this->application->getCommandCollection()->add(new CommandMocks\StyledCommand());
-        $this->application->getCommandCollection()->add(new CommandMocks\HappyHolidayCommand());
-        $this->application->getCommandCollection()->add(new CommandMocks\StatusCodeCommand());
-        $this->application->getCommandCollection()->add(new CommandMocks\SinglePromptCommand($prompt));
-        $this->application->getCommandCollection()->add(new CommandMocks\MultiplePromptsCommand($prompt));
+        $this->testCase = new ApplicationTestCase();
+        $this->testCase->setUp();
+        $prompt = new Prompt(new PaddingFormatter());
+        $this->testCase->getCommandCollection()->add(new SimpleCommand("simple", "Simple command"));
+        $this->testCase->getCommandCollection()->add(new StyledCommand());
+        $this->testCase->getCommandCollection()->add(new HappyHolidayCommand());
+        $this->testCase->getCommandCollection()->add(new StatusCodeCommand());
+        $this->testCase->getCommandCollection()->add(new SinglePromptCommand($prompt));
+        $this->testCase->getCommandCollection()->add(new MultiplePromptsCommand($prompt));
     }
 
     /**
@@ -37,8 +42,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertStatusCodeIsError()
     {
-        $this->application->call("simple", [], ["--code=" . Kernels\StatusCodes::ERROR]);
-        $this->application->assertStatusCodeIsOK();
+        $this->testCase->call("simple", [], ["--code=" . StatusCodes::ERROR]);
+        $this->testCase->assertStatusCodeIsOK();
     }
 
     /**
@@ -46,8 +51,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertStatusCodeIsFatal()
     {
-        $this->application->call("simple", [], ["--code=" . Kernels\StatusCodes::FATAL]);
-        $this->application->assertStatusCodeIsOK();
+        $this->testCase->call("simple", [], ["--code=" . StatusCodes::FATAL]);
+        $this->testCase->assertStatusCodeIsOK();
     }
 
     /**
@@ -55,8 +60,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertStatusCodeIsOK()
     {
-        $this->application->call("simple", [], ["--code=" . Kernels\StatusCodes::OK]);
-        $this->application->assertStatusCodeIsOK();
+        $this->testCase->call("simple", [], ["--code=" . StatusCodes::OK]);
+        $this->testCase->assertStatusCodeIsOK();
     }
 
     /**
@@ -64,8 +69,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertStatusCodeIsWarning()
     {
-        $this->application->call("simple", [], ["--code=" . Kernels\StatusCodes::WARNING]);
-        $this->application->assertStatusCodeIsOK();
+        $this->testCase->call("simple", [], ["--code=" . StatusCodes::WARNING]);
+        $this->testCase->assertStatusCodeIsOK();
     }
 
     /**
@@ -73,8 +78,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingStatusCodeEquals()
     {
-        $this->application->call("simple");
-        $this->application->assertStatusCodeEquals(Kernels\StatusCodes::OK);
+        $this->testCase->call("simple");
+        $this->testCase->assertStatusCodeEquals(StatusCodes::OK);
     }
 
     /**
@@ -82,10 +87,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingCommandWithMultiplePrompts()
     {
-        $this->application->call("multipleprompts", [], [], ["foo", "bar"]);
-        $this->application->assertOutputEquals("Custom1Custom2");
-        $this->application->call("multipleprompts", [], [], ["default1", "default2"]);
-        $this->application->assertOutputEquals("Default1Default2");
+        $this->testCase->call("multipleprompts", [], [], ["foo", "bar"]);
+        $this->testCase->assertOutputEquals("Custom1Custom2");
+        $this->testCase->call("multipleprompts", [], [], ["default1", "default2"]);
+        $this->testCase->assertOutputEquals("Default1Default2");
     }
 
     /**
@@ -93,10 +98,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingCommandWithSinglePrompt()
     {
-        $this->application->call("singleprompt", [], [], "A duck");
-        $this->application->assertOutputEquals("Very good");
-        $this->application->call("singleprompt", [], [], "Bread");
-        $this->application->assertOutputEquals("Wrong");
+        $this->testCase->call("singleprompt", [], [], "A duck");
+        $this->testCase->assertOutputEquals("Very good");
+        $this->testCase->call("singleprompt", [], [], "Bread");
+        $this->testCase->assertOutputEquals("Wrong");
     }
 
     /**
@@ -104,9 +109,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentCommand()
     {
-        $this->application->call("doesnotexist");
+        $this->testCase->call("doesnotexist");
         // The About command should be run in this case
-        $this->application->assertStatusCodeIsOK();
+        $this->testCase->assertStatusCodeIsOK();
     }
 
     /**
@@ -114,7 +119,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingCommands()
     {
-        $this->assertInstanceOf("RDev\\Console\\Commands\\CommandCollection", $this->application->getCommandCollection());
+        $this->assertInstanceOf("RDev\\Console\\Commands\\CommandCollection", $this->testCase->getCommandCollection());
     }
 
     /**
@@ -122,9 +127,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOutputOfOptionlessCommand()
     {
-        $statusCode = $this->application->call("simple");
-        $this->assertEquals(Kernels\StatusCodes::OK, $statusCode);
-        $this->application->assertOutputEquals("foo");
+        $statusCode = $this->testCase->call("simple");
+        $this->assertEquals(StatusCodes::OK, $statusCode);
+        $this->testCase->assertOutputEquals("foo");
     }
 
     /**
@@ -132,9 +137,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOutputWithOption()
     {
-        $statusCode = $this->application->call("holiday", ["birthday"], ["--yell"]);
-        $this->assertEquals(Kernels\StatusCodes::OK, $statusCode);
-        $this->application->assertOutputEquals("Happy birthday!");
+        $statusCode = $this->testCase->call("holiday", ["birthday"], ["--yell"]);
+        $this->assertEquals(StatusCodes::OK, $statusCode);
+        $this->testCase->assertOutputEquals("Happy birthday!");
     }
 
     /**
@@ -142,10 +147,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testStylingAndUnstylingResponse()
     {
-        $this->application->call("stylish");
-        $this->assertEquals("\033[1mI've got style\033[22m", $this->application->getOutput());
-        $this->application->call("stylish", [], [], [], false);
-        $this->assertEquals("I've got style", $this->application->getOutput());
+        $this->testCase->call("stylish");
+        $this->assertEquals("\033[1mI've got style\033[22m", $this->testCase->getOutput());
+        $this->testCase->call("stylish", [], [], [], false);
+        $this->assertEquals("I've got style", $this->testCase->getOutput());
     }
 
     /**
@@ -153,9 +158,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatResponseIsClearedBeforeEachCommand()
     {
-        $this->application->call("stylish", [], [], [], false);
-        $this->application->assertOutputEquals("I've got style");
-        $this->application->call("stylish", [], [], [], false);
-        $this->application->assertOutputEquals("I've got style");
+        $this->testCase->call("stylish", [], [], [], false);
+        $this->testCase->assertOutputEquals("I've got style");
+        $this->testCase->call("stylish", [], [], [], false);
+        $this->testCase->assertOutputEquals("I've got style");
     }
 }

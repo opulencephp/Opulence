@@ -5,7 +5,7 @@
  * Tests the Memcached server
  */
 namespace RDev\Databases\NoSQL\Memcached;
-use RDev\Tests\Databases\NoSQL\Memcached\Mocks;
+use RDev\Tests\Databases\NoSQL\Memcached\Mocks\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingPort()
     {
-        $server = new Mocks\Server();
+        $server = new Server();
         $this->assertEquals(11211, $server->getPort());
     }
 
@@ -35,7 +35,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
     public function testSettingWeight()
     {
         $weight = 63;
-        $server = new Mocks\Server();
+        $server = new Server();
         $server->setWeight($weight);
         $this->assertEquals($weight, $server->getWeight());
     }

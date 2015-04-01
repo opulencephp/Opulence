@@ -5,7 +5,6 @@
  * Tests the Redis server
  */
 namespace RDev\Databases\NoSQL\Redis;
-use RDev\Tests\Databases\NoSQL\Redis\Mocks;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {

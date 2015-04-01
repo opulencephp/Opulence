@@ -5,7 +5,8 @@
  * Tests Memcached
  */
 namespace RDev\Databases\NoSQL\Memcached;
-use RDev\Tests\Databases\NoSQL\Memcached\Mocks as MemcachedMocks;
+use RDev\Tests\Databases\NoSQL\Memcached\Mocks\RDevMemcached;
+use RDev\Tests\Databases\NoSQL\Memcached\Mocks\Server;
 
 class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,11 +15,11 @@ class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingMultipleServers()
     {
-        $server1 = new MemcachedMocks\Server();
+        $server1 = new Server();
         $server1->setPort(2);
-        $server2 = new MemcachedMocks\Server();
+        $server2 = new Server();
         $server2->setPort(3);
-        $memcached = new MemcachedMocks\RDevMemcached(new TypeMapper());
+        $memcached = new RDevMemcached(new TypeMapper());
         $memcached->addServers([
             [
                 $server1->getHost(),
@@ -40,7 +41,7 @@ class RDevMemcachedTest extends \PHPUnit_Framework_TestCase
     public function testGettingTypeMapper()
     {
         $typeMapper = new TypeMapper();
-        $memcached = new MemcachedMocks\RDevMemcached($typeMapper);
+        $memcached = new RDevMemcached($typeMapper);
         $this->assertSame($typeMapper, $memcached->getTypeMapper());
     }
 }

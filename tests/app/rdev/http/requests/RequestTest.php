@@ -5,7 +5,8 @@
  * Tests the HTTP request
  */
 namespace RDev\HTTP\Requests;
-use RDev\Tests\HTTP\Requests\Mocks;
+use RDev\Tests\HTTP\Requests\Mocks\FormURLEncodedRequest;
+use RDev\Tests\HTTP\Requests\Mocks\JSONRequest;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -208,7 +209,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         {
             $_SERVER["REQUEST_METHOD"] = $method;
             $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
-            $request = Mocks\FormURLEncodedRequest::createFromGlobals();
+            $request = FormURLEncodedRequest::createFromGlobals();
             $this->assertEquals("foo=bar", $request->getRawBody());
 
             switch($method)
@@ -320,7 +321,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingJSONBody()
     {
-        $request = Mocks\JSONRequest::createFromGlobals();
+        $request = JSONRequest::createFromGlobals();
         $this->assertEquals(["foo" => "bar"], $request->getJSONBody());
     }
 
@@ -330,7 +331,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingJSONBodyWhenContentIsNotJSON()
     {
         $this->setExpectedException("RDev\\HTTP\\HTTPException");
-        $request = Mocks\FormURLEncodedRequest::createFromGlobals();
+        $request = FormURLEncodedRequest::createFromGlobals();
         $request->getJSONBody();
     }
 
@@ -611,7 +612,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_POST["foo"] = "blahblahblah";
         $_SERVER["REQUEST_METHOD"] = "POST";
         $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
-        $request = Mocks\FormURLEncodedRequest::createFromGlobals();
+        $request = FormURLEncodedRequest::createFromGlobals();
         $this->assertEquals("blahblahblah", $request->getPost()->get("foo"));
     }
 

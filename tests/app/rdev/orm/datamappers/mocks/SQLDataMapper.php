@@ -5,14 +5,15 @@
  * Mocks the data mapper class for use in testing
  */
 namespace RDev\Tests\ORM\DataMappers\Mocks;
-use RDev\Databases\SQL;
-use RDev\ORM;
-use RDev\ORM\DataMappers;
-use RDev\ORM\Ids;
+use RDev\Databases\SQL\IConnection;
+use RDev\ORM\DataMappers\SQLDataMapper as BaseSQLDataMapper;
+use RDev\ORM\Ids\IntSequenceIdGenerator;
+use RDev\ORM\IEntity;
+use RDev\ORM\ORMException;
 
-class SQLDataMapper extends DataMappers\SQLDataMapper
+class SQLDataMapper extends BaseSQLDataMapper
 {
-    /** @var ORM\IEntity[] The list of entities added */
+    /** @var IEntity[] The list of entities added */
     protected $entities = [];
     /** @var int The current Id */
     private $currId = 0;
@@ -25,7 +26,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     /**
      * {@inheritdoc}
      */
-    public function add(ORM\IEntity &$entity)
+    public function add(IEntity &$entity)
     {
         $this->currId++;
         $entity->setId($this->currId);
@@ -35,7 +36,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     /**
      * {@inheritdoc}
      */
-    public function delete(ORM\IEntity &$entity)
+    public function delete(IEntity &$entity)
     {
         unset($this->entities[$entity->getId()]);
     }
@@ -63,7 +64,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     {
         if(!isset($this->entities[$id]))
         {
-            throw new ORM\ORMException("No entity found with Id " . $id);
+            throw new ORMException("No entity found with Id " . $id);
         }
 
         return clone $this->entities[$id];
@@ -80,7 +81,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     /**
      * {@inheritdoc}
      */
-    public function update(ORM\IEntity &$entity)
+    public function update(IEntity &$entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }
@@ -88,7 +89,7 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
     /**
      * {@inheritdoc}
      */
-    protected function loadEntity(array $hash, SQL\IConnection $connection)
+    protected function loadEntity(array $hash, IConnection $connection)
     {
         // Don't do anything
     }
@@ -98,6 +99,6 @@ class SQLDataMapper extends DataMappers\SQLDataMapper
      */
     protected function setIdGenerator()
     {
-        $this->idGenerator = new Ids\IntSequenceIdGenerator("foo");
+        $this->idGenerator = new IntSequenceIdGenerator("foo");
     }
 } 

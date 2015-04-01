@@ -5,17 +5,16 @@
  * Mocks middleware that does not return something
  */
 namespace RDev\Tests\HTTP\Routing\Mocks;
-use RDev\HTTP\Middleware;
-use RDev\HTTP\Requests;
-use RDev\HTTP\Responses;
-use RDev\HTTP\Routing\Routes;
+use Closure;
+use RDev\HTTP\Middleware\IMiddleware;
+use RDev\HTTP\Requests\Request;
 
-class DoesNotReturnSomethingMiddleware implements Middleware\IMiddleware
+class DoesNotReturnSomethingMiddleware implements IMiddleware
 {
     /**
      * {@inheritdoc}
      */
-    public function handle(Requests\Request $request, \Closure $next)
+    public function handle(Request $request, Closure $next)
     {
         return $next($request);
     }
