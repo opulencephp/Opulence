@@ -5,7 +5,7 @@
  * Tests the Bcrypt hasher
  */
 namespace RDev\Cryptography\Hashing;
-use RDev\Cryptography\Utilities;
+use RDev\Cryptography\Utilities\Strings;
 
 class BcryptHasherTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class BcryptHasherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->hasher = new BcryptHasher(new Utilities\Strings());
+        $this->hasher = new BcryptHasher(new Strings());
     }
 
     /**
