@@ -6,8 +6,8 @@
  */
 namespace RDev\Databases\SQL\PDO;
 use RDev\Databases\SQL\IDriver;
-use RDev\Databases\SQL\Server;
 use RDev\Databases\SQL\Providers\Provider;
+use RDev\Databases\SQL\Server;
 
 abstract class Driver implements IDriver
 {

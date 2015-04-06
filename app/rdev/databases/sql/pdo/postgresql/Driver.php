@@ -5,9 +5,9 @@
  * Defines the PDO driver for a PostgreSQL database
  */
 namespace RDev\Databases\SQL\PDO\PostgreSQL;
-use RDev\Databases\SQL\Server;
-use RDev\Databases\SQL\PDO\Driver as BaseDriver;
 use RDev\Databases\SQL\Providers\PostgreSQLProvider;
+use RDev\Databases\SQL\PDO\Driver as BaseDriver;
+use RDev\Databases\SQL\Server;
 
 class Driver extends BaseDriver
 {

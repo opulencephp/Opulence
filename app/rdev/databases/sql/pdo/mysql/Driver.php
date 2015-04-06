@@ -5,9 +5,9 @@
  * Defines the PDO driver for a MySQL database
  */
 namespace RDev\Databases\SQL\PDO\MySQL;
-use RDev\Databases\SQL\Server;
-use RDev\Databases\SQL\PDO\Driver as BaseDriver;
 use RDev\Databases\SQL\Providers\MySQLProvider;
+use RDev\Databases\SQL\PDO\Driver as BaseDriver;
+use RDev\Databases\SQL\Server;
 
 class Driver extends BaseDriver
 {

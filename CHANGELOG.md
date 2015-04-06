@@ -13,9 +13,9 @@ v0.5.0
   * `RDev\Console\Requests\Parsers\Argv` renamed to `RDev\Console\Requests\Parsers\ArgvParser`
   * `RDev\Console\Requests\Parsers\ArrayList` renamed to `RDev\Console\Requests\Parsers\ArrayListParser`
   * `RDev\Console\Requests\Parsers\String` renamed to `RDev\Console\Requests\Parsers\StringParser`
-  * `RDev\Console\Requests\Tokenizers\Argv` renamed to `RDev\Console\Requests\Parsers\ArgvTokenizer`
-  * `RDev\Console\Requests\Tokenizers\ArrayList` renamed to `RDev\Console\Requests\Parsers\ArrayListTokenizer`
-  * `RDev\Console\Requests\Tokenizers\String` renamed to `RDev\Console\Requests\Parsers\StringTokenizer`
+  * `RDev\Console\Requests\Tokenizers\Argv` renamed to `RDev\Console\Requests\Tokenizers\ArgvTokenizer`
+  * `RDev\Console\Requests\Tokenizers\ArrayList` renamed to `RDev\Console\Requests\Tokenizers\ArrayListTokenizer`
+  * `RDev\Console\Requests\Tokenizers\String` renamed to `RDev\Console\Requests\Tokenizers\StringTokenizer`
   * `RDev\Console\Responses\Formatters\Command` renamed to `RDev\Console\Responses\Formatters\CommandFormatter`
   * `RDev\Console\Responses\Formatters\Elements\Elements` renamed to `RDev\Console\Responses\Formatters\Elements\ElementCollection`
   * `RDev\Console\Responses\Formatters\Padding` renamed to `RDev\Console\Responses\Formatters\PaddingFormatter`
