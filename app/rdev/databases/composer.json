@@ -20,9 +20,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
-    "phpredis": "2.2.7",
-    "predis/predis": "1.1.*@dev"
+    "php": ">=5.5.10"
   },
   "repositories": [
     {
@@ -38,6 +36,10 @@
       }
     }
   ],
+  "suggest": {
+    "phpredis": "Required for PHPRedis support",
+    "predis/predis": "Required for Predis support"
+  },
   "extra": {
     "branch-alias": {
       "dev-master": "0.5.x-dev"

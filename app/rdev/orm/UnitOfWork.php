@@ -10,6 +10,7 @@ use RuntimeException;
 use RDev\Databases\SQL\IConnection;
 use RDev\ORM\DataMappers\ICachedSQLDataMapper;
 use RDev\ORM\DataMappers\IDataMapper;
+use RDev\ORM\DataMappers\ISQLDataMapper;
 
 class UnitOfWork
 {
@@ -278,7 +279,11 @@ class UnitOfWork
         foreach($this->scheduledForInsertion as $objectHashId => $entity)
         {
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
-            $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
+
+            if($dataMapper instanceof ISQLDataMapper)
+            {
+                $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
+            }
         }
     }
 
@@ -359,7 +364,12 @@ class UnitOfWork
             $this->doAggregateRootFunctions($objectHashId, $entity);
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->add($entity);
-            $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
+
+            if($dataMapper instanceof ISQLDataMapper)
+            {
+                $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
+            }
+
             $this->entityRegistry->register($entity);
         }
     }
