@@ -7,13 +7,15 @@
  */
 namespace RDev\Databases\SQL;
 use RuntimeException;
+use RDev\Databases\SQL\PDO\MySQL\Driver as MySQLDriver;
+use RDev\Databases\SQL\PDO\PostgreSQL\Driver as PostgreSQLDriver;
 
 abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */
     public static $drivers = [
-        "pdo_mysql" => "RDev\\Databases\\SQL\\PDO\\MySQL\\Driver",
-        "pdo_pgsql" => "RDev\\Databases\\SQL\\PDO\\PostgreSQL\\Driver",
+        "pdo_mysql" => MySQLDriver::class,
+        "pdo_pgsql" => PostgreSQLDriver::class,
     ];
     /** @var array The servers in this pool */
     protected $servers = [

@@ -9,23 +9,34 @@ use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\Console\Commands\CommandCollection;
 use RDev\Console\Commands\Compilers\Compiler;
 use RDev\Console\Commands\Compilers\ICompiler;
+use RDev\Framework\Console\Commands\AppEnvironmentCommand;
+use RDev\Framework\Console\Commands\ComposerDumpAutoloadCommand;
+use RDev\Framework\Console\Commands\ComposerUpdateCommand;
+use RDev\Framework\Console\Commands\EncryptionKeyGenerationCommand;
+use RDev\Framework\Console\Commands\FlushViewCacheCommand;
+use RDev\Framework\Console\Commands\MakeCommandCommand;
+use RDev\Framework\Console\Commands\MakeControllerCommand;
+use RDev\Framework\Console\Commands\MakeDataMapperCommand;
+use RDev\Framework\Console\Commands\MakeEntityCommand;
+use RDev\Framework\Console\Commands\MakeHTTPMiddlewareCommand;
+use RDev\Framework\Console\Commands\RenameAppCommand;
 use RDev\IoC\IContainer;
 
 class Commands extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
-        "RDev\\Framework\\Console\\Commands\\AppEnvironmentCommand",
-        "RDev\\Framework\\Console\\Commands\\ComposerDumpAutoloadCommand",
-        "RDev\\Framework\\Console\\Commands\\ComposerUpdateCommand",
-        "RDev\\Framework\\Console\\Commands\\EncryptionKeyGenerationCommand",
-        "RDev\\Framework\\Console\\Commands\\FlushViewCacheCommand",
-        "RDev\\Framework\\Console\\Commands\\MakeCommandCommand",
-        "RDev\\Framework\\Console\\Commands\\MakeControllerCommand",
-        "RDev\\Framework\\Console\\Commands\\MakeDataMapperCommand",
-        "RDev\\Framework\\Console\\Commands\\MakeEntityCommand",
-        "RDev\\Framework\\Console\\Commands\\MakeHTTPMiddlewareCommand",
-        "RDev\\Framework\\Console\\Commands\\RenameAppCommand"
+        AppEnvironmentCommand::class,
+        ComposerDumpAutoloadCommand::class,
+        ComposerUpdateCommand::class,
+        EncryptionKeyGenerationCommand::class,
+        FlushViewCacheCommand::class,
+        MakeCommandCommand::class,
+        MakeControllerCommand::class,
+        MakeDataMapperCommand::class,
+        MakeEntityCommand::class,
+        MakeHTTPMiddlewareCommand::class,
+        RenameAppCommand::class
     ];
     /** @var CommandCollection The list of console commands */
     private $commandCollection = null;

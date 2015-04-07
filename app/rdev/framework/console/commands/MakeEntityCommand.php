@@ -6,7 +6,7 @@
  */
 namespace RDev\Framework\Console\Commands;
 
-class MakeCommandEntityCommand extends MakeCommand
+class MakeEntityCommand extends MakeCommand
 {
     /**
      * {@inheritdoc}

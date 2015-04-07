@@ -5,6 +5,7 @@
  * Programmatically builds up a PostgreSQL query
  */
 namespace RDev\Databases\SQL\QueryBuilders\MySQL;
+use ReflectionClass;
 use RDev\Databases\SQL\QueryBuilders\QueryBuilder as BaseQueryBuilder;
 
 class QueryBuilder extends BaseQueryBuilder
@@ -32,7 +33,7 @@ class QueryBuilder extends BaseQueryBuilder
     public function select($expression)
     {
         // This code allows us to pass a variable list of parameters to a class constructor
-        $queryClass = new \ReflectionClass("RDev\\Databases\\SQL\\QueryBuilders\\MySQL\\SelectQuery");
+        $queryClass = new ReflectionClass(SelectQuery::class);
 
         return $queryClass->newInstanceArgs(func_get_args());
     }

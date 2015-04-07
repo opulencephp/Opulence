@@ -6,6 +6,7 @@
  */
 namespace RDev\HTTP\Routing\Dispatchers;
 use Exception;
+use ReflectionMethod;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Routing\Controller;
@@ -72,7 +73,7 @@ class Dispatcher implements IDispatcher
 
         try
         {
-            $reflection = new \ReflectionMethod($controller, $route->getControllerMethod());
+            $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
 
             if($reflection->isPrivate())
             {

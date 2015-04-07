@@ -6,7 +6,7 @@
  */
 namespace RDev\Framework\Console\Commands;
 
-class MakeCommandHTTPMiddlewareCommand extends MakeCommand
+class MakeHTTPMiddlewareCommand extends MakeCommand
 {
     /**
      * {@inheritdoc}

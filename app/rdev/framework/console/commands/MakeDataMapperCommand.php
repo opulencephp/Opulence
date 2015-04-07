@@ -8,7 +8,7 @@ namespace RDev\Framework\Console\Commands;
 use RDev\Console\Prompts\Questions\MultipleChoice;
 use RDev\Console\Responses\IResponse;
 
-class MakeCommandDataMapperCommand extends MakeCommand
+class MakeDataMapperCommand extends MakeCommand
 {
     /** @var array The list of data mappers that can be made */
     private static $dataMapperTypes = [

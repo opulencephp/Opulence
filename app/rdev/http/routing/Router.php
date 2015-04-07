@@ -40,7 +40,7 @@ class Router
     public function __construct(
         IDispatcher $dispatcher,
         ICompiler $compiler,
-        $missedRouteControllerName = "RDev\\HTTP\\Routing\\Controller"
+        $missedRouteControllerName = Controller::class
     )
     {
         $this->dispatcher = $dispatcher;

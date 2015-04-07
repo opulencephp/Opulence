@@ -27,7 +27,7 @@ class XSSFilter implements IFilter
         }
 
         $filteredInput = mb_convert_encoding($filteredInput, "UTF-8", "UTF-8");
-        $filteredInput = filter_var($filteredInput, \FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+        $filteredInput = filter_var($filteredInput, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         return $filteredInput;
     }
