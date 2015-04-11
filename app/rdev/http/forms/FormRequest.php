@@ -21,7 +21,7 @@ abstract class FormRequest
     protected $serverRules = [];
     /**
      * The mapping of input names to the server sanitizer classes
-     * The value for each input can nafg82  either be a string or an array of strings
+     * The value for each input can either be a string or an array of strings
      *
      * @var array
      */
