@@ -1,5 +1,8 @@
 v0.5.0
 <hr>
+* Added `FileSessionHandler`
+* Added `ISession::getId()` and `ISession::setId()`
+* Removed `User` and `Credentials` from `ISession`
 * Now uses fully-qualified class names in `use` statements and PHPDoc
 * Changed class names to make them readable without having to be fully-qualified:
   * `RDev\Authentication\Credentials\Credentials` renamed to `RDev\Authentication\Credentials\CredentialCollection`

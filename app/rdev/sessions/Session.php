@@ -5,68 +5,147 @@
  * Defines a session that persists throughout a transaction on a page
  */
 namespace RDev\Sessions;
-use RDev\Authentication\Credentials\CredentialCollection;
-use RDev\Authentication\Credentials\ICredentialCollection;
-use RDev\Authentication;
-use RDev\Users\GuestUser;
-use RDev\Users\IUser;
+use InvalidArgumentException;
+use RDev\Cryptography\Utilities\Strings;
+use RDev\Sessions\Ids\IIdGenerator;
+use RDev\Sessions\Ids\IdGenerator;
 
 class Session implements ISession
 {
-    /** @var IUser The current user */
-    private $user = null;
-    /** @var ICredentialCollection The current user's credentials */
-    private $credentials = null;
+    /** @var int|string The session Id */
+    private $id = "";
+    /** @var IIdGenerator The Id generator to use */
+    private $idGenerator = null;
+    /** @var array The mapping of variable names to values */
+    private $variables = [];
+    /** @var bool Whether or not the session has started */
+    private $hasStarted = false;
 
     /**
-     * @param IUser $user The current user
-     * @param ICredentialCollection $credentials The current user's credentials
+     * @param int|string|null $id The Id of the session
+     * @param IIdGenerator $idGenerator The Id generator to use
      */
-    public function __construct(IUser $user = null, ICredentialCollection $credentials = null)
+    public function __construct($id = null, IIdGenerator $idGenerator = null)
     {
-        if($user === null)
+        if(!is_null($id))
         {
-            $user = new GuestUser();
+            $this->setId($id);
         }
 
-        if($credentials === null)
+        if(is_null($idGenerator))
         {
-            $credentials = new CredentialCollection($user->getId(), Authentication\EntityTypes::USER);
+            $idGenerator = new IdGenerator(new Strings());
         }
 
-        $this->setUser($user);
-        $this->setCredentials($credentials);
+        $this->idGenerator = $idGenerator;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getCredentials()
+    public function flush()
     {
-        return $this->credentials;
+        $this->variables = [];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function getUser()
+    public function get($name)
     {
-        return $this->user;
+        if(isset($this->variables[$name]))
+        {
+            return $this->variables[$name];
+        }
+
+        return null;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setCredentials(ICredentialCollection $credentials)
+    public function getId()
     {
-        $this->credentials = $credentials;
+        return $this->id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function hasStarted()
+    {
+        return $this->hasStarted;
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setUser(IUser $user)
+    public function offsetExists($name)
     {
-        $this->user = $user;
+        return isset($this->variables[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetGet($name)
+    {
+        return $this->get($name);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetSet($name, $value)
+    {
+        if(is_null($name))
+        {
+            throw new InvalidArgumentException("Name cannot be empty");
+        }
+
+        $this->set($name, $value);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function offsetUnset($name)
+    {
+        unset($this->variables[$name]);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function regenerateId()
+    {
+        $this->setId($this->idGenerator->generate());
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function set($name, $value)
+    {
+        $this->variables[$name] = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function start(array $variables = [])
+    {
+        $this->variables = $variables;
+        $this->hasStarted = true;
+
+        return $this->hasStarted;
     }
 } 

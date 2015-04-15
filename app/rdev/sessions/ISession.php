@@ -5,36 +5,62 @@
  * Defines the interface for sessions to implement
  */
 namespace RDev\Sessions;
-use RDev\Authentication\Credentials\ICredentialCollection;
-use RDev\Users\IUser;
+use ArrayAccess;
 
-interface ISession
+interface ISession extends ArrayAccess
 {
     /**
-     * Gets the current user's credentials
-     *
-     * @return ICredentialCollection The current user's credentials
+     * Flushes all the session variables
      */
-    public function getCredentials();
+    public function flush();
 
     /**
-     * Gets the current user
+     * Gets the value of a variable
      *
-     * @return IUser The current user
+     * @param string $name The name of the variable to get
+     * @return mixed|null The value of the variable if it exists, otherwise null
      */
-    public function getUser();
+    public function get($name);
 
     /**
-     * Sets the current user's credentials
+     * Gets the session Id
      *
-     * @param ICredentialCollection $credentials The credentials to use
+     * @return int|string The session Id
      */
-    public function setCredentials(ICredentialCollection $credentials);
+    public function getId();
 
     /**
-     * Sets the current user
+     * Gets whether or not the session has started
      *
-     * @param IUser $user The user to use
+     * @return bool True if the session has started, otherwise false
      */
-    public function setUser(IUser $user);
+    public function hasStarted();
+
+    /**
+     * Regenerates the Id
+     */
+    public function regenerateId();
+
+    /**
+     * Sets the value of a variable
+     *
+     * @param string $name The name of the variable to set
+     * @param mixed $value The value of the variable
+     */
+    public function set($name, $value);
+
+    /**
+     * Sets the session Id
+     *
+     * @param int|string $id The session Id
+     */
+    public function setId($id);
+
+    /**
+     * Starts the session
+     *
+     * @param array $variables The list of variables in this session
+     * @return bool True if the session started successfully
+     */
+    public function start(array $variables = []);
 } 

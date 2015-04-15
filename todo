@@ -1,4 +1,10 @@
 HAS PRIORITY:
+    Find way to flash data in session
+    Add more session handlers
+    Create default Bootstrapper for Session stuff
+        In run(), accept Application, register pre-start and pre-shutdown tasks to read/write session data using the bound SessionHandler
+        Add this to rdev/Project
+    Test the ever-loving god out of sessions in real-life scenarios
     Get rid of dependence on HTTP Request in Credential stuff
     Finish form stuff
 
@@ -25,10 +31,6 @@ HAS PRIORITY:
         Basically, allows us to define a section and give it default content
 
 Need to create session storage classes
-    Need SessionWriter/Reader class (should be a single class)
-        Probably instantiated in a bootstrapper
-        Where do we register the task to write the session data on application shutdown?
-    Need to think of how to assign session Ids
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to implement
         This would only include the basics: get(), set(), and delete()
 Do we really need repo interface examples in RDev?
