@@ -52,6 +52,22 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting a non-existent path variable
+     */
+    public function testGettingNonExistentPathVariable()
+    {
+        $this->assertNull($this->compiledRoute->getPathVariable("doesNotExist"));
+    }
+
+    /**
+     * Tests getting a single path variable
+     */
+    public function testGettingPathVariable()
+    {
+        $this->assertEquals("bar", $this->compiledRoute->getPathVariable("foo"));
+    }
+
+    /**
      * Tests getting the path variables
      */
     public function testGettingPathVariables()

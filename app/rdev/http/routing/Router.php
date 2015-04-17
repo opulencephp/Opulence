@@ -17,7 +17,7 @@ class Router
     protected $dispatcher = null;
     /** @var Routes\Routes The list of routes */
     protected $routes = null;
-    /** @var Routes\Route|null The matched route if there is one, otherwise null */
+    /** @var Routes\CompiledRoute|null The matched route if there is one, otherwise null */
     protected $matchedRoute = null;
     /** @var Controller|null The matched controller if there is one, otherwise null */
     protected $matchedController = null;
@@ -99,7 +99,7 @@ class Router
     }
 
     /**
-     * @return Routes\Route|null
+     * @return Routes\CompiledRoute|null
      */
     public function getMatchedRoute()
     {
