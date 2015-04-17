@@ -30,6 +30,22 @@ class CompiledRoute extends ParsedRoute
     }
 
     /**
+     * Gets the value of a path variable
+     *
+     * @param string $name The name of the variable to get
+     * @return mixed|null The value of the variable if it exists, otherwise null
+     */
+    public function getPathVariable($name)
+    {
+        if(isset($this->pathVariables[$name]))
+        {
+            return $this->pathVariables[$name];
+        }
+
+        return null;
+    }
+
+    /**
      * @return array
      */
     public function getPathVariables()

@@ -10,6 +10,7 @@ use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Routing\Compilers\ICompiler;
 use RDev\HTTP\Routing\Dispatchers\IDispatcher;
+use RDev\HTTP\Routing\Routes\CompiledRoute;
 use RDev\HTTP\Routing\Routes\MissingRoute;
 use RDev\HTTP\Routing\Routes\Route;
 use RDev\HTTP\Routing\Routes\RouteCollection;
@@ -22,7 +23,7 @@ class Router
     protected $dispatcher = null;
     /** @var RouteCollection The list of routes */
     protected $routeCollection = null;
-    /** @var Route|null The matched route if there is one, otherwise null */
+    /** @var CompiledRoute|null The matched route if there is one, otherwise null */
     protected $matchedRoute = null;
     /** @var Controller|null The matched controller if there is one, otherwise null */
     protected $matchedController = null;
@@ -104,7 +105,7 @@ class Router
     }
 
     /**
-     * @return Route|null
+     * @return CompiledRoute|null
      */
     public function getMatchedRoute()
     {
