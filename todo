@@ -6,6 +6,7 @@ HAS PRIORITY:
         Add this to rdev/Project
     Test the ever-loving god out of sessions in real-life scenarios
     Get rid of dependence on HTTP Request in Credential stuff
+    Write up nginx config in docs
     Finish form stuff
 
 
