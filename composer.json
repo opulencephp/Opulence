@@ -1,15 +1,11 @@
 {
-  "name": "rdev/rdev",
-  "description": "The RDev PHP framework",
+  "name": "rdev/routing",
+  "description": "The RDev routing library",
   "keywords": [
     "PHP",
-    "full stack",
-    "template",
-    "mvc",
-    "database",
-    "orm",
-    "console",
-    "framework"
+    "routing",
+    "http",
+    "mvc"
   ],
   "authors": [
     {
@@ -21,59 +17,15 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\": [
-        "app/rdev",
-        "tests/app/rdev"
-      ]
+      "RDev\\Routing\\": ""
     }
   },
   "require": {
     "php": ">=5.5.10",
-    "ext-openssl": "*",
-    "ext-mcrypt": "*",
-    "ext-mbstring": "*",
-    "monolog/monolog": "1.12.*@dev",
-    "symfony/security-core": "2.6.*"
-  },
-  "require-dev": {
-    "phpredis": "2.2.7",
-    "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "4.6.*",
-    "phpunit/php-file-iterator": ">=1.3.4",
-    "phpunit/php-token-stream": ">=1.4.0",
-    "phpunit/php-text-template": ">=1.2.0",
-    "phpunit/php-invoker": ">=1.1.3",
-    "phpunit/phpunit-selenium": ">=1.4",
-    "phpunit/phpunit-story": "*"
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "phpredis",
-        "version": "2.2.7",
-        "source": {
-          "url": "git://github.com/phpredis/phpredis.git",
-          "type": "git",
-          "reference": "2.2.7"
-        }
-      }
-    }
-  ],
-  "replace": {
-    "rdev/applications": "self.version",
-    "rdev/authentication": "self.version",
-    "rdev/console": "self.version",
-    "rdev/cryptography": "self.version",
-    "rdev/databases": "self.version",
-    "rdev/files": "self.version",
-    "rdev/framework": "self.version",
-    "rdev/http": "self.version",
-    "rdev/ioc": "self.version",
-    "rdev/orm": "self.version",
-    "rdev/sessions": "self.version",
-    "rdev/users": "self.version",
-    "rdev/views": "self.version"
+    "rdev/http": "0.5.*",
+    "rdev/ioc": "0.5.*",
+    "rdev/pipelines": "0.5.*",
+    "rdev/views": "0.5.*"
   },
   "extra": {
     "branch-alias": {
