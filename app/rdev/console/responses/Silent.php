@@ -5,12 +5,13 @@
  * Defines the silent response, which does not write anything
  */
 namespace RDev\Console\Responses;
+use RDev\Console\Responses\Compilers\MockCompiler;
 
 class Silent extends Response
 {
     public function __construct()
     {
-        // Don't do anything
+        parent::__construct(new MockCompiler());
     }
 
     /**

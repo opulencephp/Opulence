@@ -1,10 +1,35 @@
 v0.5.0
 <hr>
+<h3>Console</h3>
+* Added `RDev\Console\Responses\Compilers\MockCompiler` for use in the `Silent` response
+
+<h3>HTTP</h3>
+* Added `CompiledRoute::getPathVariable()`
+* Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
+
+<h3>Sessions</h3>
+* Removed session from the application and bootstrapper constructors
+  * Removed `Application::getSession()` and `Application::setSession()`
+* Added the following methods to `ISession` and `Session`:
+  * `ageFlashData()`
+  * `delete()`
+  * `flash()`
+  * `flush()`
+  * `get()`
+  * `getAll()`
+  * `getId()`
+  * `has()`
+  * `hasStarted()`
+  * `reflash()`
+  * `regenerateId()`
+  * `set()`
+  * `setId()`
+  * `start()`
 * Added `FileSessionHandler`
 * Added `ISession::getId()` and `ISession::setId()`
 * Removed `User` and `Credentials` from `ISession` and 'Session'
-* Added `CompiledRoute::getPathVariable()`
-* Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
+
+<h3>Miscellaneous</h3>
 * Now uses fully-qualified class names in `use` statements and PHPDoc
 * Changed class names to make them readable without having to be fully-qualified:
   * `RDev\Authentication\Credentials\Credentials` renamed to `RDev\Authentication\Credentials\CredentialCollection`

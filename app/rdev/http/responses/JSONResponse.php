@@ -18,10 +18,9 @@ class JSONResponse extends Response
      */
     public function __construct($content = [], $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
     {
-        $this->setContent($content);
-        $this->headers = new ResponseHeaders($headers);
+        parent::__construct($content, $statusCode, $headers);
+
         $this->headers->set("Content-Type", ResponseHeaders::CONTENT_TYPE_JSON);
-        $this->setStatusCode($statusCode);
     }
 
     /**

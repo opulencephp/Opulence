@@ -6,6 +6,7 @@
  */
 namespace RDev\Console\Commands;
 use InvalidArgumentException;
+use RuntimeException;
 use RDev\Console\Requests\Argument;
 use RDev\Console\Requests\Option;
 use RDev\Console\Responses\IResponse;
