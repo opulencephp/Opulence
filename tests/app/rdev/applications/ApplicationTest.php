@@ -9,7 +9,6 @@ use InvalidArgumentException;
 use Monolog\Logger;
 use RDev\Applications\Environments\Environment;
 use RDev\IoC\Container;
-use RDev\Sessions\Session;
 use RDev\Tests\Applications\Mocks\MonologHandler;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
@@ -28,8 +27,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             new Paths(["foo" => "bar"]),
             $logger,
             new Environment("staging"),
-            new Container(),
-            new Session()
+            new Container()
         );
     }
 
@@ -196,14 +194,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $paths = new Paths(["foo" => "bar"]);
         $this->assertEquals($paths, $this->application->getPaths());
-    }
-
-    /**
-     * Tests getting the session
-     */
-    public function testGettingSession()
-    {
-        $this->assertEquals(new Session, $this->application->getSession());
     }
 
     /**
@@ -416,16 +406,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $paths = new Paths(["baz" => "blah"]);
         $this->application->setPaths($paths);
         $this->assertSame($paths, $this->application->getPaths());
-    }
-
-    /**
-     * Tests setting the session
-     */
-    public function testSettingSession()
-    {
-        $session = new Session();
-        $this->application->setSession($session);
-        $this->assertSame($session, $this->application->getSession());
     }
 
     /**

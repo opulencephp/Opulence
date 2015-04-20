@@ -1,5 +1,6 @@
 HAS PRIORITY:
-    Find way to flash data in session
+    Need place to write session data
+        Should either be a Bootstrapper or Middleware (would need to add a method to run this code)
     Add more session handlers
     Create default Bootstrapper for Session stuff
         In run(), accept Application, register pre-start and pre-shutdown tasks to read/write session data using the bound SessionHandler

@@ -11,7 +11,6 @@ use RDev\Applications\Paths;
 use RDev\Applications\Environments\Environment;
 use RDev\Framework\Tests\HTTP\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\IoC\Container;
-use RDev\Sessions\Session;
 use RDev\Tests\Applications\Mocks\MonologHandler;
 
 class ApplicationTestCase extends BaseApplicationTestCase
@@ -37,15 +36,13 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $logger->pushHandler(new MonologHandler());
         $environment = new Environment(Environment::TESTING);
         $container = new Container();
-        $session = new Session();
         $container->bind("RDev\\Applications\\Paths", $paths);
         $container->bind("Monolog\\Logger", $logger);
         $container->bind("RDev\\Applications\\Environments\\Environment", $environment);
         $container->bind("RDev\\IoC\\IContainer", $container);
-        $container->bind("RDev\\Sessions\\ISession", $session);
 
         // Actually set the application
-        $this->application = new Application($paths, $logger, $environment, $container, $session);
+        $this->application = new Application($paths, $logger, $environment, $container);
         $this->application->registerBootstrappers(self::$bootstrappers);
     }
 }

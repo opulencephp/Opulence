@@ -39,7 +39,7 @@ interface ISession extends ArrayAccess
      *
      * @param string $key The name of the variable to get
      * @param mixed|null $defaultValue The default value to use if the variable does not exist
-     * @return mixed|null The value of the variable if it exists, otherwise null
+     * @return mixed|null The value of the variable if it exists, otherwise the default value
      */
     public function get($key, $defaultValue = null);
 

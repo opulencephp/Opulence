@@ -23,6 +23,9 @@
     "php": ">=5.5.10",
     "rdev/cryptography": "0.5.*"
   },
+  "suggest": {
+    "rdev/files": "Required for FileSessionHandler"
+  },
   "extra": {
     "branch-alias": {
       "dev-master": "0.5.x-dev"

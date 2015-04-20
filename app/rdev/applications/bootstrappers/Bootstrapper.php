@@ -10,7 +10,6 @@ use BadMethodCallException;
 use RDev\Applications\Environments\Environment;
 use RDev\Applications\Paths;
 use RDev\IoC\IContainer;
-use RDev\Sessions\ISession;
 
 abstract class Bootstrapper
 {
@@ -18,23 +17,15 @@ abstract class Bootstrapper
     protected $paths = null;
     /** @var Environment The current environment */
     protected $environment = null;
-    /** @var ISession The current session */
-    protected $session = null;
 
     /**
      * @param Paths $paths The paths to various directories used by RDev
      * @param Environment $environment The current environment
-     * @param ISession $session The current session
      */
-    public final function __construct(
-        Paths $paths,
-        Environment $environment,
-        ISession $session
-    )
+    public final function __construct(Paths $paths, Environment $environment)
     {
         $this->paths = $paths;
         $this->environment = $environment;
-        $this->session = $session;
     }
 
     /**

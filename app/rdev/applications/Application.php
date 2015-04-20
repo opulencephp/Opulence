@@ -12,7 +12,6 @@ use RuntimeException;
 use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\Applications\Environments\Environment;
 use RDev\IoC\IContainer;
-use RDev\Sessions\ISession;
 
 class Application
 {
@@ -26,8 +25,6 @@ class Application
     private $environment = null;
     /** @var IContainer The dependency injection container to use throughout the application */
     private $container = null;
-    /** @var ISession The current user's session */
-    private $session = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
     /** @var array The list of task callbacks */
@@ -45,22 +42,14 @@ class Application
      * @param Logger $logger The logger to use throughout the application
      * @param Environment $environment The current environment
      * @param IContainer $container The IoC container to use
-     * @param ISession $session The current user's session
      */
-    public function __construct(
-        Paths $paths,
-        Logger $logger,
-        Environment $environment,
-        IContainer $container,
-        ISession $session
-    )
+    public function __construct(Paths $paths, Logger $logger, Environment $environment, IContainer $container)
     {
         // Order here is important
         $this->setPaths($paths);
         $this->setLogger($logger);
         $this->setEnvironment($environment);
         $this->setIoCContainer($container);
-        $this->setSession($session);
         $this->registerBootstrappersTask();
     }
 
@@ -102,14 +91,6 @@ class Application
     public function getPaths()
     {
         return $this->paths;
-    }
-
-    /**
-     * @return ISession
-     */
-    public function getSession()
-    {
-        return $this->session;
     }
 
     /**
@@ -202,14 +183,6 @@ class Application
     public function setPaths($paths)
     {
         $this->paths = $paths;
-    }
-
-    /**
-     * @param ISession $session
-     */
-    public function setSession(ISession $session)
-    {
-        $this->session = $session;
     }
 
     /**
@@ -315,7 +288,7 @@ class Application
 
             foreach($this->bootstrapperClasses as $bootstrapperClass)
             {
-                $bootstrapper = new $bootstrapperClass($this->paths, $this->environment, $this->session);
+                $bootstrapper = new $bootstrapperClass($this->paths, $this->environment);
 
                 if(!$bootstrapper instanceof Bootstrapper)
                 {
