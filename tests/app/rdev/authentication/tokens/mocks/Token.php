@@ -4,9 +4,9 @@
  *
  * Mocks the token for use in testing
  */
-namespace RDev\Tests\Cryptography\Mocks;
+namespace RDev\Tests\Authentication\Tokens\Mocks;
 use DateTime;
-use RDev\Cryptography\Token as BaseToken;
+use RDev\Authentication\Tokens\Token as BaseToken;
 
 class Token extends BaseToken
 {

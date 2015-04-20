@@ -7,7 +7,7 @@
 namespace RDev\Authentication\Credentials;
 use RDev\HTTP\Responses\Response;
 use RDev\Tests\Authentication\Credentials\Storage\Mocks\CredentialStorage;
-use RDev\Tests\Cryptography\Mocks\Token;
+use RDev\Tests\Authentication\Tokens\Mocks\Token;
 
 class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
 {

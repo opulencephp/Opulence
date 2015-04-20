@@ -5,10 +5,9 @@
  * Defines the interface for a single credential
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Cryptography\IToken;
-use RDev\ORM\IEntity;
+use RDev\Authentication\Tokens\IToken;
 
-interface ICredential extends IEntity
+interface ICredential
 {
     /**
      * Deactivates this credential
@@ -28,6 +27,13 @@ interface ICredential extends IEntity
      * @return string|int The Id of the type of entity whose credential this is
      */
     public function getEntityTypeId();
+
+    /**
+     * Gets the database Id
+     *
+     * @return int|string The database Id
+     */
+    public function getId();
 
     /**
      * Gets the token contained in this credential
@@ -54,4 +60,11 @@ interface ICredential extends IEntity
      * @param int|string $entityId
      */
     public function setEntityId($entityId);
+
+    /**
+     * Sets the database Id of the credential
+     *
+     * @param int|string $id The database Id
+     */
+    public function setId($id);
 } 

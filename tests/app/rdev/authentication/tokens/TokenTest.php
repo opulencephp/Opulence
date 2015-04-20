@@ -4,9 +4,9 @@
  *
  * Tests the token class
  */
-namespace RDev\Cryptography;
+namespace RDev\Authentication\Tokens;
 use DateTime;
-use RDev\Tests\Cryptography\Mocks\Token;
+use RDev\Tests\Authentication\Tokens\Mocks\Token;
 
 class TokenTest extends \PHPUnit_Framework_TestCase
 {

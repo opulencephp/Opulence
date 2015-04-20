@@ -19,8 +19,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
-    "rdev/orm": "0.5.*"
+    "php": ">=5.5.10"
   },
   "extra": {
     "branch-alias": {

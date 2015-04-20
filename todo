@@ -35,7 +35,4 @@ HAS PRIORITY:
 Need to create session storage classes
     For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to implement
         This would only include the basics: get(), set(), and delete()
-Do we really need repo interface examples in RDev?
-    No.  As soon as above items are done, move repo stuff to Project.
-Incorrect username entry is faster, allowing timing attacks
 Need to figure out where to store lifetime settings for login credentials in LoginController

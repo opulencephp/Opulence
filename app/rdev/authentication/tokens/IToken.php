@@ -4,11 +4,10 @@
  *
  * Defines the interface for cryptographic tokens
  */
-namespace RDev\Cryptography;
+namespace RDev\Authentication\Tokens;
 use DateTime;
-use RDev\ORM\IEntity;
 
-interface IToken extends IEntity
+interface IToken
 {
     /**
      * Marks this token is inactive
@@ -21,6 +20,13 @@ interface IToken extends IEntity
      * @return string The hashed value
      */
     public function getHashedValue();
+
+    /**
+     * Gets the database Id
+     *
+     * @return int|string The database Id
+     */
+    public function getId();
 
     /**
      * Gets the valid-from date of this token
@@ -42,4 +48,11 @@ interface IToken extends IEntity
      * @return bool True if the token is active, otherwise false
      */
     public function isActive();
+
+    /**
+     * Sets the database Id of the token
+     *
+     * @param int|string $id The database Id
+     */
+    public function setId($id);
 }

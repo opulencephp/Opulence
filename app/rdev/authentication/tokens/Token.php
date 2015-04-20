@@ -4,12 +4,12 @@
  *
  * Defines a cryptographic token used for security
  */
-namespace RDev\Cryptography;
+namespace RDev\Authentication\Tokens;
 use DateTime;
 
 class Token implements IToken
 {
-    /** @var int The database Id of this token */
+    /** @var int|string The database Id of this token */
     protected $id = -1;
     /** @var string The hashed value */
     protected $hashedValue = "";
@@ -21,7 +21,7 @@ class Token implements IToken
     protected $isActive = false;
 
     /**
-     * @param int $id The database Id of this token
+     * @param int|string $id The database Id of this token
      * @param string $hashedValue The hashed value
      * @param DateTime $validFrom The valid-from date
      * @param DateTime $validTo The valid-to date

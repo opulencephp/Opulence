@@ -6,9 +6,8 @@
  */
 namespace RDev\Users;
 use DateTime;
-use RDev\ORM\IEntity;
 
-interface IUser extends IEntity
+interface IUser
 {
     /**
      * Gets the date the user was created
@@ -16,6 +15,13 @@ interface IUser extends IEntity
      * @return DateTime The date the user was created
      */
     public function getDateCreated();
+
+    /**
+     * Gets the database Id
+     *
+     * @return int|string The database Id
+     */
+    public function getId();
 
     /**
      * Gets the list of this user's roles
@@ -31,4 +37,11 @@ interface IUser extends IEntity
      * @return bool True if the user has the role, otherwise false
      */
     public function hasRole($role);
+
+    /**
+     * Sets the database Id of the user
+     *
+     * @param int|string $id The database Id
+     */
+    public function setId($id);
 } 

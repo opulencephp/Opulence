@@ -5,7 +5,7 @@
  * Tests the credential class
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Tests\Cryptography\Mocks\Token;
+use RDev\Tests\Authentication\Tokens\Mocks\Token;
 
 class CredentialTest extends \PHPUnit_Framework_TestCase
 {

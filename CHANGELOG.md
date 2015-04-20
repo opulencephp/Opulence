@@ -1,7 +1,10 @@
-v0.5.0
+<h2>v0.5.0</h2>
 <hr>
 <h3>Console</h3>
 * Added `RDev\Console\Responses\Compilers\MockCompiler` for use in the `Silent` response
+
+<h3>Cryptography</h3>
+* `RDev\Cryptography\IToken` and `Token` now under `RDev\Authentication\Tokens` namespace
 
 <h3>HTTP</h3>
 * Added `CompiledRoute::getPathVariable()`
@@ -60,7 +63,7 @@ v0.5.0
   * `RDev\Views\Cache` namespace renamed to `RDev\Views\Caching`
   * `RDev\Views\Filters\XSS` renamed to `RDev\Views\Filters\XSSFilter`
 
-v0.4.0
+<h2>v0.4.0</h2>
 <hr>
 * Added `RDev\Framework\Tests\HTTP\ApplicationTestCase`
 * Added `RDev\Framework\Tests\Console\ApplicationTestCase`
@@ -70,14 +73,14 @@ v0.4.0
 * Added `composer:dump-autoload` console command
 * Updated Composer dependencies
 
-v0.3.6
+<h2>v0.3.6</h2>
 <hr>
 * Fixed bug with `NO_VALUE` console option
 * Fixed formatting in About command
 * Added `encryption:generatekey` command
 * Added `RDev\Framework\Bootstrappers\Cryptography\Bootstrapper`
 
-v0.3.5
+<h2>v0.3.5</h2>
 <hr>
 * Moved `Hasher` classes to `RDev\Cryptography\Hashing` namespace
 * Added `RDev\Cryptography\Encryption\Encrypter`

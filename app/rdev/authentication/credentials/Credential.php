@@ -5,7 +5,7 @@
  * Defines a single credential
  */
 namespace RDev\Authentication\Credentials;
-use RDev\Cryptography\IToken;
+use RDev\Authentication\Tokens\IToken;
 
 class Credential implements ICredential
 {
