@@ -6,10 +6,10 @@
  */
 namespace RDev\Tests\Console\Commands\Mocks;
 use RDev\Console\Commands\Command;
-use RDev\Console\Kernels\StatusCodes;
 use RDev\Console\Requests\Option;
 use RDev\Console\Requests\OptionTypes;
 use RDev\Console\Responses\IResponse;
+use RDev\Framework\Console\StatusCodes;
 
 class StatusCodeCommand extends Command
 {

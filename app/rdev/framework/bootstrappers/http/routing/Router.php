@@ -6,15 +6,15 @@
  */
 namespace RDev\Framework\Bootstrappers\HTTP\Routing;
 use RDev\Applications\Bootstrappers\Bootstrapper;
-use RDev\HTTP\Routing\Router as HTTPRouter;
-use RDev\HTTP\Routing\Compilers\Compiler;
-use RDev\HTTP\Routing\Compilers\ICompiler;
-use RDev\HTTP\Routing\Compilers\Parsers\IParser;
-use RDev\HTTP\Routing\Compilers\Parsers\Parser;
-use RDev\HTTP\Routing\Dispatchers\Dispatcher;
-use RDev\HTTP\Routing\Dispatchers\IDispatcher;
-use RDev\HTTP\Routing\URL\URLGenerator;
 use RDev\IoC\IContainer;
+use RDev\Routing\Router as HTTPRouter;
+use RDev\Routing\Compilers\Compiler;
+use RDev\Routing\Compilers\ICompiler;
+use RDev\Routing\Compilers\Parsers\IParser;
+use RDev\Routing\Compilers\Parsers\Parser;
+use RDev\Routing\Dispatchers\Dispatcher;
+use RDev\Routing\Dispatchers\IDispatcher;
+use RDev\Routing\URL\URLGenerator;
 
 class Router extends Bootstrapper
 {
@@ -31,10 +31,10 @@ class Router extends Bootstrapper
         $compiler = $this->getRouteCompiler($container);
         $router = new HTTPRouter($dispatcher, $compiler);
         $urlGenerator = new URLGenerator($router->getRouteCollection(), $this->parser);
-        $container->bind("RDev\\HTTP\\Routing\\Dispatchers\\IDispatcher", $dispatcher);
-        $container->bind("RDev\\HTTP\\Routing\\Compilers\\ICompiler", $compiler);
-        $container->bind("RDev\\HTTP\\Routing\\Router", $router);
-        $container->bind("RDev\\HTTP\\Routing\\URL\\URLGenerator", $urlGenerator);
+        $container->bind("RDev\\Routing\\Dispatchers\\IDispatcher", $dispatcher);
+        $container->bind("RDev\\Routing\\Compilers\\ICompiler", $compiler);
+        $container->bind("RDev\\Routing\\Router", $router);
+        $container->bind("RDev\\Routing\\URL\\URLGenerator", $urlGenerator);
     }
 
     /**

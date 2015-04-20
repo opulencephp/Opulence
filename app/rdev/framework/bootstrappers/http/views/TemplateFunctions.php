@@ -6,7 +6,7 @@
  */
 namespace RDev\Framework\Bootstrappers\HTTP\Views;
 use RDev\Applications\Bootstrappers\Bootstrapper;
-use RDev\HTTP\Routing\URL\URLGenerator;
+use RDev\Routing\URL\URLGenerator;
 use RDev\Views\Compilers\ICompiler;
 
 class TemplateFunctions extends Bootstrapper

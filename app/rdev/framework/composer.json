@@ -26,6 +26,7 @@
     "rdev/files": "0.5.*",
     "rdev/http": "0.5.*",
     "rdev/ioc": "0.5.*",
+    "rdev/routing": "0.5.*",
     "rdev/views": "0.5.*"
   },
   "extra": {

@@ -5,13 +5,13 @@
  * Defines the HTTP application test case
  */
 namespace RDev\Framework\Tests\HTTP;
+use RDev\Framework\HTTP\Kernel;
 use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
-use RDev\HTTP\Kernels\Kernel;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\RedirectResponse;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
-use RDev\HTTP\Routing\Router;
+use RDev\Routing\Router;
 
 abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
@@ -254,8 +254,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->setApplication();
         $this->application->start();
         $container = $this->application->getIoCContainer();
-        $this->router = $container->makeShared("RDev\\HTTP\\Routing\\Router");
-        $this->kernel = $container->makeShared("RDev\\HTTP\\Kernels\\Kernel");
+        $this->router = $container->makeShared("RDev\\Routing\\Router");
+        $this->kernel = $container->makeShared("RDev\\Framework\\HTTP\\Kernel");
         $this->defaultRequest = new Request([], [], [], [], [], []);
     }
 

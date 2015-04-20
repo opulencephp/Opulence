@@ -5,9 +5,9 @@
  * Tests the console application tester
  */
 namespace RDev\Framework\Tests\Console;
-use RDev\Console\Kernels\StatusCodes;
 use RDev\Console\Prompts\Prompt;
 use RDev\Console\Responses\Formatters\PaddingFormatter;
+use RDev\Framework\Console\StatusCodes;
 use RDev\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use RDev\Tests\Console\Commands\Mocks\MultiplePromptsCommand;
 use RDev\Tests\Console\Commands\Mocks\SimpleCommand;

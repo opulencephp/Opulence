@@ -8,8 +8,6 @@ namespace RDev\Framework\Tests\Console;
 use PHPUnit_Framework_MockObject_MockObject;
 use RDev\Console\Commands\CommandCollection;
 use RDev\Console\Commands\Compilers\ICompiler;
-use RDev\Console\Kernels\Kernel;
-use RDev\Console\Kernels\StatusCodes;
 use RDev\Console\Requests\Parsers\ArrayListParser;
 use RDev\Console\Requests\Parsers\IParser as IRequestParser;
 use RDev\Console\Responses\Compilers\Compiler as ResponseCompiler;
@@ -18,6 +16,8 @@ use RDev\Console\Responses\Compilers\Lexers\Lexer as ResponseLexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
 use RDev\Console\Responses\Formatters\PaddingFormatter;
 use RDev\Console\Responses\Stream;
+use RDev\Framework\Console\Kernel;
+use RDev\Framework\Console\StatusCodes;
 use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
 
 abstract class ApplicationTestCase extends BaseApplicationTestCase

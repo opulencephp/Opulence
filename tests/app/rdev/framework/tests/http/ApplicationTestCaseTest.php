@@ -21,7 +21,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->testCase = new ApplicationTestCase();
         $this->testCase->setUp();
         $router = $this->testCase->getRouter();
-        $router->group(["controllerNamespace" => "RDev\\Tests\\HTTP\\Routing\\Mocks"], function() use ($router)
+        $router->group(["controllerNamespace" => "RDev\\Tests\\Routing\\Mocks"], function () use ($router)
         {
             $router->get("/badgateway", ["controller" => "HTTPApplicationTestController@setBadGateway"]);
             $router->get("/cookie", ["controller" => "HTTPApplicationTestController@setCookie"]);
@@ -152,6 +152,6 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouter()
     {
-        $this->assertInstanceOf("RDev\\HTTP\\Routing\\Router", $this->testCase->getRouter());
+        $this->assertInstanceOf("RDev\\Routing\\Router", $this->testCase->getRouter());
     }
 }

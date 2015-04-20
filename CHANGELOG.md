@@ -1,12 +1,15 @@
 <h2>v0.5.0</h2>
-<hr>
 <h3>Console</h3>
+* Moved `RDev\Console\Kernels\Kernel` to `RDev\Framework\Console\Kernel`
+* Moved `RDev\Console\Kernels\StatusCodes` to `RDev\Framework\Console\StatusCodes`
 * Added `RDev\Console\Responses\Compilers\MockCompiler` for use in the `Silent` response
 
 <h3>Cryptography</h3>
 * `RDev\Cryptography\IToken` and `Token` now under `RDev\Authentication\Tokens` namespace
 
 <h3>HTTP</h3>
+* Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
+* Moved `RDev\HTTP\Kernels\Kernel` to `RDev\Framework\HTTP\Kernel`
 * Added `CompiledRoute::getPathVariable()`
 * Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
 
@@ -64,7 +67,6 @@
   * `RDev\Views\Filters\XSS` renamed to `RDev\Views\Filters\XSSFilter`
 
 <h2>v0.4.0</h2>
-<hr>
 * Added `RDev\Framework\Tests\HTTP\ApplicationTestCase`
 * Added `RDev\Framework\Tests\Console\ApplicationTestCase`
 * Added `$controller` parameter to `IDispatcher::dispatch()` to be able to test the matched controller
@@ -74,14 +76,12 @@
 * Updated Composer dependencies
 
 <h2>v0.3.6</h2>
-<hr>
 * Fixed bug with `NO_VALUE` console option
 * Fixed formatting in About command
 * Added `encryption:generatekey` command
 * Added `RDev\Framework\Bootstrappers\Cryptography\Bootstrapper`
 
 <h2>v0.3.5</h2>
-<hr>
 * Moved `Hasher` classes to `RDev\Cryptography\Hashing` namespace
 * Added `RDev\Cryptography\Encryption\Encrypter`
 * Added `RDev\Cryptography\Utilities\Strings`

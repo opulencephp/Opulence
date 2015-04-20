@@ -128,6 +128,14 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $session->flash("foo", "bar");
         $this->assertTrue($session->has("foo"));
         $this->assertEquals("bar", $session->get("foo"));
+        $this->assertEquals(
+            [
+                "foo" => "bar",
+                $session::NEW_FLASH_KEYS_KEY => ["foo"],
+                $session::STALE_FLASH_KEYS_KEY => []
+            ],
+            $session->getAll()
+        );
     }
 
     /**
@@ -275,6 +283,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $session["foo"] = "bar";
         $this->assertEquals("bar", $session["foo"]);
         $this->assertEquals("bar", $session->get("foo"));
+        $this->assertEquals(["foo" => "bar"], $session->getAll());
     }
 
     /**

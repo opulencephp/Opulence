@@ -1,12 +1,11 @@
 {
-  "name": "rdev/http",
-  "description": "The RDev HTTP library",
+  "name": "rdev/routing",
+  "description": "The RDev routing library",
   "keywords": [
     "PHP",
+    "routing",
     "http",
-    "response",
-    "request",
-    "cookies"
+    "mvc"
   ],
   "authors": [
     {
@@ -18,11 +17,15 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\HTTP\\": ""
+      "RDev\\Routing\\": ""
     }
   },
   "require": {
-    "php": ">=5.5.10"
+    "php": ">=5.5.10",
+    "rdev/http": "0.5.*",
+    "rdev/ioc": "0.5.*",
+    "rdev/pipelines": "0.5.*",
+    "rdev/views": "0.5.*"
   },
   "extra": {
     "branch-alias": {

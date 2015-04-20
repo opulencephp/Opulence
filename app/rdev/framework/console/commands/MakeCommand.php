@@ -6,13 +6,13 @@
  */
 namespace RDev\Framework\Console\Commands;
 use RDev\Console\Commands\Command;
-use RDev\Console\Kernels\StatusCodes;
 use RDev\Console\Prompts\Prompt;
 use RDev\Console\Requests\Argument;
 use RDev\Console\Requests\ArgumentTypes;
 use RDev\Console\Responses\IResponse;
 use RDev\Files\FileSystem;
 use RDev\Framework\Composer\Composer;
+use RDev\Framework\Console\StatusCodes;
 
 abstract class MakeCommand extends Command
 {

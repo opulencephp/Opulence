@@ -1,7 +1,7 @@
 <?php
 namespace {{namespace}};
 use RDev\HTTP\Responses\Response;
-use RDev\HTTP\Routing\Controller;
+use RDev\Routing\Controller;
 
 class {{class}} extends Controller
 {
