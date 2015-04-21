@@ -18,9 +18,9 @@ interface IDispatcher
      *
      * @param CompiledRoute $route The route to dispatch
      * @param Request $request The request made by the user
-     * @param Controller|null $controller Will be set to the instance of the controller that was matched
+     * @param Controller|mixed|null $controller Will be set to the instance of the controller that was matched
      * @return Response The response from the controller or pre/post filters if there was one
      * @throws RouteException Thrown if the method could not be called on the controller
      */
-    public function dispatch(CompiledRoute $route, Request $request, Controller &$controller = null);
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null);
 }
