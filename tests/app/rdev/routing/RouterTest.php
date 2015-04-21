@@ -161,6 +161,25 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests specifying an invalid route controller method in the constructor
+     */
+    public function testInvalidMissedRouteControllerMethodInConstructor()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $compiler = new Compiler(new Parser());
+        new Router(new Dispatcher(new Container()), $compiler, NonRDevController::class, "doesNotExist");
+    }
+
+    /**
+     * Tests specifying an invalid route controller method in the setter
+     */
+    public function testInvalidMissedRouteControllerMethodInSetter()
+    {
+        $this->setExpectedException("\\InvalidArgumentException");
+        $this->router->setMissedRouteController(NonRDevController::class, "doesNotExist");
+    }
+
+    /**
      * Tests specifying an invalid route controller name in the constructor
      */
     public function testInvalidMissedRouteControllerNameInConstructor()

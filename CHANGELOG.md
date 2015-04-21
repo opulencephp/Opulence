@@ -33,7 +33,10 @@
   * `start()`
 * Added `FileSessionHandler`
 * Added `ISession::getId()` and `ISession::setId()`
-* Removed `User` and `Credentials` from `ISession` and 'Session'
+* Removed `User` and `Credentials` from `ISession` and `Session`
+
+<h3>Routing</h3>
+* Opened up routing to also accept non-RDev controllers
 
 <h3>Miscellaneous</h3>
 * Now uses fully-qualified class names in `use` statements and PHPDoc

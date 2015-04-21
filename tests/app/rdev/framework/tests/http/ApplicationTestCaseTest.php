@@ -33,6 +33,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
             $router->get("/settag", ["controller" => "HTTPApplicationTestController@setTag"]);
             $router->get("/setvar", ["controller" => "HTTPApplicationTestController@setVar"]);
             $router->get("/unauthorized", ["controller" => "HTTPApplicationTestController@setUnauthorized"]);
+            $router->get("/non-rdev-controller", ["controller" => "NonRDevController@showFoo"]);
         });
     }
 
@@ -153,5 +154,45 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testGettingRouter()
     {
         $this->assertInstanceOf("RDev\\Routing\\Router", $this->testCase->getRouter());
+    }
+
+    /**
+     * Tests that a logic exception is thrown if checking if a template has a tag when using a non-RDev controller
+     */
+    public function testLogicExceptionCheckingIfTemplateHasTagFromNonRDevController()
+    {
+        $this->setExpectedException("\\LogicException");
+        $this->testCase->route("GET", "/non-rdev-controller");
+        $this->testCase->assertTemplateHasTag("foo");
+    }
+
+    /**
+     * Tests that a logic exception is thrown if checking if a template has a variable when using a non-RDev controller
+     */
+    public function testLogicExceptionCheckingIfTemplateHasVariableFromNonRDevController()
+    {
+        $this->setExpectedException("\\LogicException");
+        $this->testCase->route("GET", "/non-rdev-controller");
+        $this->testCase->assertTemplateHasVar("foo");
+    }
+
+    /**
+     * Tests that a logic exception is thrown if getting a template tag when using a non-RDev controller
+     */
+    public function testLogicExceptionGettingTemplateTagFromNonRDevController()
+    {
+        $this->setExpectedException("\\LogicException");
+        $this->testCase->route("GET", "/non-rdev-controller");
+        $this->testCase->assertTemplateTagEquals("bar", "foo");
+    }
+
+    /**
+     * Tests that a logic exception is thrown if getting a template variable when using a non-RDev controller
+     */
+    public function testLogicExceptionGettingTemplateVariableFromNonRDevController()
+    {
+        $this->setExpectedException("\\LogicException");
+        $this->testCase->route("GET", "/non-rdev-controller");
+        $this->testCase->assertTemplateVarEquals("bar", "foo");
     }
 }

@@ -253,7 +253,7 @@ class Router
      *
      * @param string $missedRouteControllerName The name of the class
      * @param string $missedRouteControllerMethod The name of the method
-     * @throws InvalidArgumentException Thrown if the controller name does not exist
+     * @throws InvalidArgumentException Thrown if the controller name or method does not exist
      */
     public function setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod = "showHTTPError")
     {
@@ -263,6 +263,17 @@ class Router
                 sprintf(
                     "Missed route controller class \"%s\" does not exist",
                     $missedRouteControllerName
+                )
+            );
+        }
+
+        if(!method_exists($missedRouteControllerName, $missedRouteControllerMethod))
+        {
+            throw new InvalidArgumentException(
+                sprintf(
+                    "Missed route controller method %s::%s does not exist",
+                    $missedRouteControllerName,
+                    $missedRouteControllerMethod
                 )
             );
         }

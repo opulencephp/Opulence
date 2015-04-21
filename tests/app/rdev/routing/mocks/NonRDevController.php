@@ -42,4 +42,14 @@ class NonRDevController
     {
         return new Response("Id: $id");
     }
+
+    /**
+     * Gets a response with "foo"
+     *
+     * @return Response The response
+     */
+    public function showFoo()
+    {
+        return new Response("foo");
+    }
 }

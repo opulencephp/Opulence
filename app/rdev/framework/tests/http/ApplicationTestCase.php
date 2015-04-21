@@ -5,6 +5,7 @@
  * Defines the HTTP application test case
  */
 namespace RDev\Framework\Tests\HTTP;
+use LogicException;
 use RDev\Framework\HTTP\Kernel;
 use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\HTTP\Requests\Request;
@@ -12,6 +13,7 @@ use RDev\HTTP\Responses\RedirectResponse;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
 use RDev\Routing\Router;
+use RDev\Routing\Controller;
 
 abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
@@ -32,10 +34,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     public function assertRedirectsTo($url)
     {
         $this->checkResponseIsSet();
-        $this->assertTrue(
-            $this->response instanceof RedirectResponse &&
-            $this->response->getTargetURL() == $url
-        );
+        $this->assertTrue($this->response instanceof RedirectResponse && $this->response->getTargetURL() == $url);
     }
 
     /**
@@ -172,10 +171,17 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      * Asserts that the template has a tag
      *
      * @param string $name The name of the tag to search for
+     * @throws LogicException Thrown if the controller does not extend the base controller
      */
     public function assertTemplateHasTag($name)
     {
         $this->checkResponseIsSet();
+
+        if(!$this->router->getMatchedController() instanceof Controller)
+        {
+            throw new LogicException("Controller does not extend " . Controller::class);
+        }
+
         $this->assertNotNull($this->router->getMatchedController()->getTemplate()->getTag($name));
     }
 
@@ -183,10 +189,17 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      * Asserts that the template has a variable
      *
      * @param string $name The name of the variable to search for
+     * @throws LogicException Thrown if the controller does not extend the base controller
      */
     public function assertTemplateHasVar($name)
     {
         $this->checkResponseIsSet();
+
+        if(!$this->router->getMatchedController() instanceof Controller)
+        {
+            throw new LogicException("Controller does not extend " . Controller::class);
+        }
+
         $this->assertNotNull($this->router->getMatchedController()->getTemplate()->getVar($name));
     }
 
@@ -195,10 +208,17 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      *
      * @param string $name The name of the tag to search for
      * @param mixed $expected The expected value
+     * @throws LogicException Thrown if the controller does not extend the base controller
      */
     public function assertTemplateTagEquals($name, $expected)
     {
         $this->checkResponseIsSet();
+
+        if(!$this->router->getMatchedController() instanceof Controller)
+        {
+            throw new LogicException("Controller does not extend " . Controller::class);
+        }
+
         $this->assertEquals($expected, $this->router->getMatchedController()->getTemplate()->getTag($name));
     }
 
@@ -207,10 +227,17 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      *
      * @param string $name The name of the tag to search for
      * @param mixed $expected The expected value
+     * @throws LogicException Thrown if the controller does not extend the base controller
      */
     public function assertTemplateVarEquals($name, $expected)
     {
         $this->checkResponseIsSet();
+
+        if(!$this->router->getMatchedController() instanceof Controller)
+        {
+            throw new LogicException("Controller does not extend " . Controller::class);
+        }
+
         $this->assertEquals($expected, $this->router->getMatchedController()->getTemplate()->getVar($name));
     }
 
