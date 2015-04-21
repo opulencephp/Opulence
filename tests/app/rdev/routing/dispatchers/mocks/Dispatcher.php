@@ -19,10 +19,10 @@ class Dispatcher extends BaseDispatcher
      *
      * @param CompiledRoute $route The route to be dispatched
      * @param Request $request The request made by the user
-     * @param Controller|null $controller Will be set to the instance of the controller that was matched
+     * @param Controller|mixed|null $controller Will be set to the instance of the controller that was matched
      * @return Route The chosen route
      */
-    public function dispatch(CompiledRoute $route, Request $request, Controller &$controller = null)
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null)
     {
         $controller = new Controller();
 

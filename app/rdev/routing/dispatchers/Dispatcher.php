@@ -32,7 +32,7 @@ class Dispatcher implements IDispatcher
     /**
      * {@inheritdoc}
      */
-    public function dispatch(CompiledRoute $route, Request $request, Controller &$controller = null)
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null)
     {
         $pipeline = new Pipeline($this->container, $route->getMiddleware(), "handle");
 
@@ -62,12 +62,12 @@ class Dispatcher implements IDispatcher
     /**
      * Calls the method on the input controller
      *
-     * @param Controller $controller The instance of the controller to call
+     * @param Controller|mixed $controller The instance of the controller to call
      * @param CompiledRoute $route The route being dispatched
      * @return Response Returns the value from the controller method
      * @throws RouteException Thrown if the method could not be called on the controller
      */
-    private function callController(Controller $controller, CompiledRoute $route)
+    private function callController($controller, CompiledRoute $route)
     {
         $parameters = [];
 
@@ -104,7 +104,14 @@ class Dispatcher implements IDispatcher
                 }
             }
 
-            return call_user_func_array([$controller, "callMethod"], [$route->getControllerMethod(), $parameters]);
+            if($controller instanceof Controller)
+            {
+                return call_user_func_array([$controller, "callMethod"], [$route->getControllerMethod(), $parameters]);
+            }
+            else
+            {
+                return call_user_func_array([$controller, $route->getControllerMethod()], $parameters);
+            }
         }
         catch(Exception $ex)
         {
@@ -124,7 +131,7 @@ class Dispatcher implements IDispatcher
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
      * @param Request $request The request that's being routed
-     * @return Controller The instantiated controller
+     * @return Controller|mixed The instantiated controller
      * @throws RouteException Thrown if the controller could not be instantiated
      */
     private function createController($controllerName, Request $request)
@@ -143,12 +150,10 @@ class Dispatcher implements IDispatcher
 
         $controller = $this->container->makeShared($controllerName);
 
-        if(!$controller instanceof Controller)
+        if($controller instanceof Controller)
         {
-            throw new RouteException("Controller class $controllerName does not extend the base controller");
+            $controller->setRequest($request);
         }
-
-        $controller->setRequest($request);
 
         return $controller;
     }

@@ -12,8 +12,9 @@ class MissingRoute extends CompiledRoute
 {
     /**
      * @param string $controllerClass The name of the controller to call
+     * @param string $controllerMethod The name of the controller method
      */
-    public function __construct($controllerClass)
+    public function __construct($controllerClass, $controllerMethod = "showHTTPError")
     {
         $methods = [
             Requests\Request::METHOD_DELETE,
@@ -27,7 +28,7 @@ class MissingRoute extends CompiledRoute
             Requests\Request::METHOD_PATCH,
             Requests\Request::METHOD_OPTIONS
         ];
-        $route = new Route($methods, "", ["controller" => $controllerClass . "@showHTTPError"]);
+        $route = new Route($methods, "", ["controller" => "{$controllerClass}@{$controllerMethod}"]);
         parent::__construct(new ParsedRoute($route), true);
 
         $this->setDefaultValue("statusCode", Responses\ResponseHeaders::HTTP_NOT_FOUND);

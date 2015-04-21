@@ -24,8 +24,10 @@
     "php": ">=5.5.10",
     "rdev/http": "0.5.*",
     "rdev/ioc": "0.5.*",
-    "rdev/pipelines": "0.5.*",
-    "rdev/views": "0.5.*"
+    "rdev/pipelines": "0.5.*"
+  },
+  "suggest": {
+    "rdev/views": "Required if your controllers extend the base Controller class"
   },
   "extra": {
     "branch-alias": {

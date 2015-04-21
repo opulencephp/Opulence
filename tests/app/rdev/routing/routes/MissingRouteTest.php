@@ -30,6 +30,16 @@ class MissingRouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the controller options for a custom missing route
+     */
+    public function testGettingControllerOptionsForCustomMissingRoute()
+    {
+        $customMissingRoute = new MissingRoute("MyApp\\MyCustomController", "customMethod");
+        $this->assertEquals("MyApp\\MyCustomController", $customMissingRoute->getControllerName());
+        $this->assertEquals("customMethod", $customMissingRoute->getControllerMethod());
+    }
+
+    /**
      * Tests getting the default value
      */
     public function testGettingDefaultValue()

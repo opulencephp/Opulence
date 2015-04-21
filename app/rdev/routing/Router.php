@@ -25,29 +25,33 @@ class Router
     protected $routeCollection = null;
     /** @var CompiledRoute|null The matched route if there is one, otherwise null */
     protected $matchedRoute = null;
-    /** @var Controller|null The matched controller if there is one, otherwise null */
+    /** @var Controller|mixed|null The matched controller if there is one, otherwise null */
     protected $matchedController = null;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
     /** @var string The name of the controller class that will handle missing routes */
     protected $missedRouteControllerName = "";
+    /** @var string The name of the controller method that will handle missing routes */
+    protected $missedRouteControllerMethod = "";
 
     /**
      * @param IDispatcher $dispatcher The route dispatcher
      * @param ICompiler $compiler The route compiler
      * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
+     * @param string $missedRouteControllerMethod The name of the controller method that will handle missing routes
      * @throws InvalidArgumentException Thrown if the controller name does not exist
      */
     public function __construct(
         IDispatcher $dispatcher,
         ICompiler $compiler,
-        $missedRouteControllerName = Controller::class
+        $missedRouteControllerName = Controller::class,
+        $missedRouteControllerMethod = "showHTTPError"
     )
     {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
         $this->routeCollection = new RouteCollection();
-        $this->setMissedRouteControllerName($missedRouteControllerName);
+        $this->setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod);
     }
 
     /**
@@ -97,7 +101,7 @@ class Router
     }
 
     /**
-     * @return Controller|null
+     * @return Controller|mixed|null
      */
     public function getMatchedController()
     {
@@ -245,10 +249,13 @@ class Router
     }
 
     /**
-     * @param string $missedRouteControllerName
+     * Sets the missed route controller and method
+     *
+     * @param string $missedRouteControllerName The name of the class
+     * @param string $missedRouteControllerMethod The name of the method
      * @throws InvalidArgumentException Thrown if the controller name does not exist
      */
-    public function setMissedRouteControllerName($missedRouteControllerName)
+    public function setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod = "showHTTPError")
     {
         if(!class_exists($missedRouteControllerName))
         {
@@ -261,6 +268,7 @@ class Router
         }
 
         $this->missedRouteControllerName = $missedRouteControllerName;
+        $this->missedRouteControllerMethod = $missedRouteControllerMethod;
     }
 
     /**
@@ -395,7 +403,7 @@ class Router
     private function getMissingRouteResponse(Request $request)
     {
         return $this->dispatcher->dispatch(
-            new MissingRoute($this->missedRouteControllerName),
+            new MissingRoute($this->missedRouteControllerName, $this->missedRouteControllerMethod),
             $request,
             $this->matchedController
         );

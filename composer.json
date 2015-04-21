@@ -71,6 +71,7 @@
     "rdev/http": "self.version",
     "rdev/ioc": "self.version",
     "rdev/orm": "self.version",
+    "rdev/routing": "self.version",
     "rdev/sessions": "self.version",
     "rdev/users": "self.version",
     "rdev/views": "self.version"

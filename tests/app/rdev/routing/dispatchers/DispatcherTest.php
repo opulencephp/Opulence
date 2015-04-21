@@ -8,10 +8,11 @@ namespace RDev\Routing\Dispatchers;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\RedirectResponse;
 use RDev\HTTP\Responses\Response;
+use RDev\IoC\Container;
 use RDev\Routing\Routes\CompiledRoute;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\Route;
-use RDev\IoC\Container;
+use RDev\Tests\Routing\Mocks\NonRDevController;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,18 +28,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->dispatcher = new Dispatcher(new Container());
         $this->request = new Request([], [], [], [], [], []);
-    }
-
-    /**
-     * Tests calling a controller that does not extend the base controller
-     */
-    public function testCallingInvalidController()
-    {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
-        $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\InvalidController@foo"])
-        );
-        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**
@@ -63,6 +52,22 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
             new Route(["GET"], "/foo", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@doesNotExist"])
         );
         $this->dispatcher->dispatch($route, $this->request);
+    }
+
+    /**
+     * Tests calling a non-RDev controller
+     */
+    public function testCallingNonRDevController()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo/123", ["controller" => NonRDevController::class . "@index"])
+        );
+        $route->setPathVariables(["id" => "123"]);
+        $controller = null;
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf(NonRDevController::class, $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals("Id: 123", $response->getContent());
     }
 
     /**

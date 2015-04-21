@@ -6,6 +6,7 @@
  */
 namespace RDev\Routing;
 use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
 use RDev\Routing\Compilers\Compiler;
 use RDev\Routing\Compilers\Parsers\Parser;
@@ -13,6 +14,7 @@ use RDev\Routing\Dispatchers\Dispatcher;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\Routes\RouteCollection;
 use RDev\IoC\Container;
+use RDev\Tests\Routing\Mocks\NonRDevController;
 use RDev\Tests\Routing\Mocks\Router as MockRouter;
 
 class RouterTest extends \PHPUnit_Framework_TestCase
@@ -174,7 +176,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testInvalidMissedRouteControllerNameInSetter()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->router->setMissedRouteControllerName("Class\\That\\Does\\Not\\Exist");
+        $this->router->setMissedRouteController("Class\\That\\Does\\Not\\Exist", "foo");
     }
 
     /**
@@ -183,6 +185,26 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testMatchedControllerIsNullBeforeRouting()
     {
         $this->assertNull($this->router->getMatchedController());
+    }
+
+    /**
+     * Tests a missed route to a non-RDev controller
+     */
+    public function testMissedRouteToNonRDevController()
+    {
+        $options = ["controller" => NonRDevController::class . "@index"];
+        $this->router->setMissedRouteController(NonRDevController::class, "customHTTPError");
+        $this->router->get("/foo/{id}", $options);
+        $server = [
+            "REQUEST_METHOD" => Request::METHOD_GET,
+            "REQUEST_URI" => "/bar",
+            "HTTP_HOST" => ""
+        ];
+        $request = new Request([], [], [], $server, [], []);
+        $response = $this->router->route($request);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertInstanceOf(NonRDevController::class, $this->router->getMatchedController());
+        $this->assertEquals("Error: 404", $response->getContent());
     }
 
     /**
@@ -258,7 +280,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             // This route's variable regex should take precedence
             $this->router->get("/bam", ["controller" => "foo@bam", "variables" => ["id" => "\w+"]]);
 
-            $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function()
+            $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function ()
             {
                 $this->router->get("/baz", ["controller" => "bar@baz"]);
             });
@@ -336,7 +358,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
         ], [], []);
-        $this->router->setMissedRouteControllerName("RDev\\Tests\\Routing\\Mocks\\Controller");
+        $this->router->setMissedRouteController("RDev\\Tests\\Routing\\Mocks\\Controller");
         $response = $this->router->route($request);
         $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
@@ -392,6 +414,25 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testRoutingPutRequest()
     {
         $this->doTestForHTTPMethod(Request::METHOD_PUT);
+    }
+
+    /**
+     * Tests routing to a non-RDev controller
+     */
+    public function testRoutingToNonRDevController()
+    {
+        $options = ["controller" => NonRDevController::class . "@index"];
+        $this->router->get("/foo/{id}", $options);
+        $server = [
+            "REQUEST_METHOD" => Request::METHOD_GET,
+            "REQUEST_URI" => "/foo/123",
+            "HTTP_HOST" => ""
+        ];
+        $request = new Request([], [], [], $server, [], []);
+        $response = $this->router->route($request);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertInstanceOf(NonRDevController::class, $this->router->getMatchedController());
+        $this->assertEquals("Id: 123", $response->getContent());
     }
 
     /**
