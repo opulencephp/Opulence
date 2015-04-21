@@ -39,4 +39,12 @@ class BootstrapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->bootstrapper->run();
     }
+
+    /**
+     * Tests calling shutdown
+     */
+    public function testCallingShutdown()
+    {
+        $this->bootstrapper->shutdown();
+    }
 }

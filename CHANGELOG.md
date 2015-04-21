@@ -1,4 +1,7 @@
 <h2>v0.5.0</h2>
+<h3>Applications</h3>
+* Added `Bootstrapper::shutdown()` to handle any cleaning up that needs to be done on application shutdown
+
 <h3>Console</h3>
 * Moved `RDev\Console\Kernels\Kernel` to `RDev\Framework\Console\Kernel`
 * Moved `RDev\Console\Kernels\StatusCodes` to `RDev\Framework\Console\StatusCodes`
@@ -12,6 +15,9 @@
 * Moved `RDev\HTTP\Kernels\Kernel` to `RDev\Framework\HTTP\Kernel`
 * Added `CompiledRoute::getPathVariable()`
 * Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
+
+<h3>Routing</h3>
+* Opened up routing to also accept non-RDev controllers
 
 <h3>Sessions</h3>
 * Removed session from the application and bootstrapper constructors
@@ -34,9 +40,6 @@
 * Added `FileSessionHandler`
 * Added `ISession::getId()` and `ISession::setId()`
 * Removed `User` and `Credentials` from `ISession` and `Session`
-
-<h3>Routing</h3>
-* Opened up routing to also accept non-RDev controllers
 
 <h3>Miscellaneous</h3>
 * Now uses fully-qualified class names in `use` statements and PHPDoc

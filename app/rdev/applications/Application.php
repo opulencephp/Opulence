@@ -50,7 +50,7 @@ class Application
         $this->setLogger($logger);
         $this->setEnvironment($environment);
         $this->setIoCContainer($container);
-        $this->registerBootstrappersTask();
+        $this->registerBootstrappersTasks();
     }
 
     /**
@@ -211,7 +211,7 @@ class Application
 
                 $this->doTasks($this->tasks["postShutdown"]);
             }
-            catch(\Exception $ex)
+            catch(Exception $ex)
             {
                 $this->logger->addError("Failed to shut down properly: $ex");
                 $this->isRunning = false;
@@ -246,7 +246,7 @@ class Application
 
                 $this->doTasks($this->tasks["postStart"]);
             }
-            catch(\Exception $ex)
+            catch(Exception $ex)
             {
                 $this->logger->addError("Failed to start application: $ex");
                 $this->shutdown();
@@ -278,9 +278,9 @@ class Application
     }
 
     /**
-     * Registers the task that will run the bootstrappers
+     * Registers the task that will run and shutdown the bootstrappers
      */
-    private function registerBootstrappersTask()
+    private function registerBootstrappersTasks()
     {
         $this->registerPreStartTask(function ()
         {
@@ -299,11 +299,18 @@ class Application
                 $bootstrapperObjects[] = $bootstrapper;
             }
 
-            /** @var Bootstrapper $bootstrapper */
             foreach($bootstrapperObjects as $bootstrapper)
             {
                 $this->container->call($bootstrapper, "run", [], true);
             }
+
+            $this->registerPreShutdownTask(function () use ($bootstrapperObjects)
+            {
+                foreach($bootstrapperObjects as $bootstrapper)
+                {
+                    $this->container->call($bootstrapper, "shutdown", [], true);
+                }
+            });
         });
     }
 } 

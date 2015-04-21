@@ -29,7 +29,7 @@ abstract class Bootstrapper
     }
 
     /**
-     * Attempts to call the "run" method on the bootstrapper
+     * Handles the case that the bootstrapper did not implement the run() or shutdown() methods
      *
      * @param string $name The name of the method to call
      * @param array $arguments The list of arguments to pass in
@@ -37,12 +37,12 @@ abstract class Bootstrapper
      */
     public function __call($name, array $arguments)
     {
-        if($name !== "run")
+        if($name !== "run" && $name !== "shutdown")
         {
-            throw new BadMethodCallException("Only Bootstrapper::run is supported");
+            throw new BadMethodCallException("Only Bootstrapper::run() and Bootstrapper::shutdown() are supported");
         }
 
-        // The user must have not specified a "run" function, so just return
+        // The user must have not specified a "run" or "shutdown" function, so just return
         return;
     }
 

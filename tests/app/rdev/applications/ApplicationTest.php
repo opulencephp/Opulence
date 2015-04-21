@@ -9,12 +9,16 @@ use InvalidArgumentException;
 use Monolog\Logger;
 use RDev\Applications\Environments\Environment;
 use RDev\IoC\Container;
+use RDev\Tests\Applications\Bootstrappers\Mocks\EnvironmentBootstrapper;
 use RDev\Tests\Applications\Mocks\MonologHandler;
+use ReflectionClass;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
+    /** @var Environment The environment used by the application */
+    private $environment = null;
 
     /**
      * Sets up the tests
@@ -23,10 +27,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $logger = new Logger("application");
         $logger->pushHandler(new MonologHandler());
+        $this->environment = new Environment("testing");
         $this->application = new Application(
             new Paths(["foo" => "bar"]),
             $logger,
-            new Environment("staging"),
+            $this->environment,
             new Container()
         );
     }
@@ -167,7 +172,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEnvironment()
     {
-        $expectedEnvironment = new Environment("staging");
+        $expectedEnvironment = new Environment("testing");
         $this->assertEquals($expectedEnvironment, $this->application->getEnvironment());
     }
 
@@ -201,7 +206,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingVersion()
     {
-        $reflectionClass = new \ReflectionClass($this->application);
+        $reflectionClass = new ReflectionClass($this->application);
         $property = $reflectionClass->getProperty("version");
         $property->setAccessible(true);
         $this->assertEquals($property->getValue(), Application::getVersion());
@@ -366,6 +371,18 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("foo", $preStartValue);
         $this->assertEquals("baz", $startValue);
         $this->assertEquals("bar", $postStartValue);
+    }
+
+    /**
+     * Tests that run and shutdown are called on a registered bootstrapper
+     */
+    public function testRunAndShutdownAreCalledOnBootstrapper()
+    {
+        $this->application->registerBootstrappers([EnvironmentBootstrapper::class]);
+        $this->application->start();
+        $this->assertEquals("running", $this->environment->getName());
+        $this->application->shutdown();
+        $this->assertEquals("shutting down", $this->environment->getName());
     }
 
     /**

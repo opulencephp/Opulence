@@ -1,10 +1,7 @@
 HAS PRIORITY:
-    Need place to write session data
-        Should either be a Bootstrapper or Middleware (would need to add a method to run this code)
+    In Session bootstrapper, how do we pass session Id?
+        Probably needs to come from some intermediate (new) class
     Add more session handlers
-    Create default Bootstrapper for Session stuff
-        In run(), accept Application, register pre-start and pre-shutdown tasks to read/write session data using the bound SessionHandler
-        Add this to rdev/Project
     Test the ever-loving god out of sessions in real-life scenarios
     Get rid of dependence on HTTP Request in Credential stuff
     Write up nginx config in docs

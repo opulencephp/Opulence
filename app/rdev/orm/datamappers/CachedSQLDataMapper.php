@@ -5,6 +5,7 @@
  * Defines a data mapper that uses cache with SQL as a backup
  */
 namespace RDev\ORM\DataMappers;
+use Exception;
 use RDev\Databases\SQL\ConnectionPool;
 use RDev\ORM\IEntity;
 use RDev\ORM\ORMException;
@@ -66,7 +67,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
                 $this->cacheDataMapper->delete($entity);
             }
         }
-        catch(\Exception $ex)
+        catch(Exception $ex)
         {
             throw new ORMException($ex->getMessage());
         }
