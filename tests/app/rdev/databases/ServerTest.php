@@ -2,21 +2,54 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Tests the server
+ * Tests the relational database server
  */
 namespace RDev\Databases;
+use RDev\Tests\Databases\SQL\Mocks\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Server The mock to use in the tests */
-    private $serverMock = null;
+    /**
+     * Tests setting the character set
+     */
+    public function testSettingCharset()
+    {
+        $charset = 'foo';
+        $server = new Server();
+        $server->setCharset($charset);
+        $this->assertEquals($charset, $server->getCharset());
+    }
 
     /**
-     * Sets up the tests
+     * Tests setting the data in the constructor
      */
-    public function setUp()
+    public function testSettingDataInConstructor()
     {
-        $this->serverMock = $this->getMockForAbstractClass("RDev\\Databases\\Server");
+        $server = new Server(
+            "127.0.0.1",
+            "username",
+            "password",
+            "dbname",
+            123,
+            "charset"
+        );
+        $this->assertEquals("127.0.0.1", $server->getHost());
+        $this->assertEquals("username", $server->getUsername());
+        $this->assertEquals("password", $server->getPassword());
+        $this->assertEquals("dbname", $server->getDatabaseName());
+        $this->assertEquals(123, $server->getPort());
+        $this->assertEquals("charset", $server->getCharset());
+    }
+
+    /**
+     * Tests setting the database name
+     */
+    public function testSettingDatabaseName()
+    {
+        $databaseName = 'dbname';
+        $server = new Server();
+        $server->setDatabaseName($databaseName);
+        $this->assertEquals($databaseName, $server->getDatabaseName());
     }
 
     /**
@@ -24,8 +57,20 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingHost()
     {
-        $this->serverMock->setHost("127.0.0.1");
-        $this->assertEquals("127.0.0.1", $this->serverMock->getHost());
+        $server = new Server();
+        $server->setHost("127.0.0.1");
+        $this->assertEquals("127.0.0.1", $server->getHost());
+    }
+
+    /**
+     * Tests setting the password
+     */
+    public function testSettingPassword()
+    {
+        $password = 'bar';
+        $server = new Server();
+        $server->setPassword($password);
+        $this->assertEquals($password, $server->getPassword());
     }
 
     /**
@@ -33,7 +78,19 @@ class ServerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingPort()
     {
-        $this->serverMock->setPort(80);
-        $this->assertEquals(80, $this->serverMock->getPort());
+        $server = new Server();
+        $server->setPort(80);
+        $this->assertEquals(80, $server->getPort());
     }
-} 
+
+    /**
+     * Tests setting the username
+     */
+    public function testSettingUsername()
+    {
+        $name = 'foo';
+        $server = new Server();
+        $server->setUsername($name);
+        $this->assertEquals($name, $server->getUsername());
+    }
+}

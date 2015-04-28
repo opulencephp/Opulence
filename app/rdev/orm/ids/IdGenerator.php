@@ -5,7 +5,7 @@
  * Defines an Id generator, which is used to create Ids for entities
  */
 namespace RDev\ORM\Ids;
-use RDev\Databases\SQL\IConnection;
+use RDev\Databases\IConnection;
 use RDev\ORM\IEntity;
 
 abstract class IdGenerator

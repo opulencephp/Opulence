@@ -1,6 +1,6 @@
 <?php
 namespace {{namespace}};
-use RDev\Databases\SQL\IConnection;
+use RDev\Databases\IConnection;
 use RDev\ORM\DataMappers\SQLDataMapper;
 use RDev\ORM\IEntity;
 use RDev\ORM\ORMException;

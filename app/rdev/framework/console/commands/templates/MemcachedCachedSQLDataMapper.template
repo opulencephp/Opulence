@@ -1,7 +1,7 @@
 <?php
 namespace {{namespace}};
-use RDev\Databases\NoSQL\Memcached\RDevMemcached;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Databases\ConnectionPool;
+use RDev\Memcached\RDevMemcached;
 use RDev\ORM\DataMappers\MemcachedCachedSQLDataMapper;
 use RDev\ORM\IEntity;
 use RDev\ORM\ORMException;

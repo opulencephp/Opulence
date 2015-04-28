@@ -5,8 +5,8 @@
  * Defines the Memcached-cached SQL data mapper
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Memcached\RDevMemcached;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Memcached\RDevMemcached;
+use RDev\Databases\ConnectionPool;
 
 abstract class MemcachedCachedSQLDataMapper extends CachedSQLDataMapper
 {

@@ -5,7 +5,7 @@
  * Mocks the cached SQL data mapper for use in tests
  */
 namespace RDev\Tests\ORM\DataMappers\Mocks;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Databases\ConnectionPool;
 use RDev\ORM\DataMappers\CachedSQLDataMapper as BaseCachedSQLDataMapper;
 use RDev\ORM\DataMappers\ICacheDataMapper;
 use RDev\ORM\DataMappers\ISQLDataMapper;

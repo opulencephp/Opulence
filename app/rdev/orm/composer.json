@@ -30,5 +30,9 @@
       "dev-master": "0.5.x-dev"
     }
   },
+  "suggest": {
+    "rdev/memcached": "For Memcached data mappers",
+    "rdev/redis": "For Redis data mappers"
+  },
   "minimum-stability": "dev"
 }

@@ -6,7 +6,7 @@
  */
 namespace RDev\ORM\DataMappers;
 use Exception;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Databases\ConnectionPool;
 use RDev\ORM\IEntity;
 use RDev\ORM\ORMException;
 

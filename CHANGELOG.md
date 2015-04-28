@@ -10,6 +10,12 @@
 <h3>Cryptography</h3>
 * `RDev\Cryptography\IToken` and `Token` now under `RDev\Authentication\Tokens` namespace
 
+<h3>Databases</h3>
+* `RDev\Databases\NoSQL\Memcached` now under `RDev\Memcached` namespace
+* `RDev\Databases\NoSQL\Redis` now under `RDev\Redis` namespace
+* `RDev\Databases\SQL\QueryBuilders` now under `RDev\QueryBuilders` namespace
+* `RDev\Databases\SQL` now under `RDev\Databases` namespace
+
 <h3>HTTP</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
 * Moved `RDev\HTTP\Kernels\Kernel` to `RDev\Framework\HTTP\Kernel`
@@ -63,8 +69,8 @@
   * `RDev\Console\Responses\Formatters\Padding` renamed to `RDev\Console\Responses\Formatters\PaddingFormatter`
   * `RDev\Console\Responses\Formatters\Table` renamed to `RDev\Console\Responses\Formatters\TableFormatter`
   * All commands in `RDev\Framework\Console\Commands` appended with "Command"
-  * `RDev\Databases\SQL\Providers\MySQL` renamed to `RDev\Databases\SQL\Providers\MySQLProvider`
-  * `RDev\Databases\SQL\Providers\PostgreSQL` renamed to `RDev\Databases\SQL\Providers\PostgreSQLProvider`
+  * `RDev\Databases\Providers\MySQL` renamed to `RDev\Databases\Providers\MySQLProvider`
+  * `RDev\Databases\Providers\PostgreSQL` renamed to `RDev\Databases\Providers\PostgreSQLProvider`
   * `RDev\Framework\Tests\Console\ApplicationTestCase::getCommands()` renamed to `getCommandCollection()`
   * `RDev\HTTP\Routing\Routes\Routes` renamed to `RDev\HTTP\Routing\Routes\RouteCollection`
   * `RDev\HTTP\Routing\Router::routes` renamed to `routeCollection`

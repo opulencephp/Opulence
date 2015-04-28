@@ -5,7 +5,7 @@
  * Defines the Cache data mapper implemented by the Predis library
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Redis\RDevPredis;
+use RDev\Redis\RDevPredis;
 
 abstract class PredisDataMapper extends RedisDataMapper
 {

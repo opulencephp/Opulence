@@ -5,7 +5,7 @@
  * Defines a data mapper that maps domain data to and from Redis
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Redis\IRedis;
+use RDev\Redis\IRedis;
 use RDev\ORM\IEntity;
 
 abstract class RedisDataMapper implements ICacheDataMapper

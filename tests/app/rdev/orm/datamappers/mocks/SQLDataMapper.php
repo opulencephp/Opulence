@@ -5,7 +5,7 @@
  * Mocks the data mapper class for use in testing
  */
 namespace RDev\Tests\ORM\DataMappers\Mocks;
-use RDev\Databases\SQL\IConnection;
+use RDev\Databases\IConnection;
 use RDev\ORM\DataMappers\SQLDataMapper as BaseSQLDataMapper;
 use RDev\ORM\Ids\IntSequenceIdGenerator;
 use RDev\ORM\IEntity;

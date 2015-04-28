@@ -1,10 +1,10 @@
 <?php
 namespace {{namespace}};
-use RDev\Databases\NoSQL\Redis\IRedis;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Databases\ConnectionPool;
 use RDev\ORM\DataMappers\RedisCachedSQLDataMapper;
 use RDev\ORM\IEntity;
 use RDev\ORM\ORMException;
+use RDev\Redis\IRedis;
 
 class {{class}} extends RedisCachedSQLDataMapper
 {

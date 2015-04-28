@@ -4,7 +4,7 @@
   "keywords": [
     "PHP",
     "database",
-    "cache"
+    "pdo"
   ],
   "authors": [
     {
@@ -21,24 +21,6 @@
   },
   "require": {
     "php": ">=5.5.10"
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "phpredis",
-        "version": "2.2.7",
-        "source": {
-          "url": "git://github.com/phpredis/phpredis.git",
-          "type": "git",
-          "reference": "2.2.7"
-        }
-      }
-    }
-  ],
-  "suggest": {
-    "phpredis": "Required for PHPRedis support",
-    "predis/predis": "Required for Predis support"
   },
   "extra": {
     "branch-alias": {

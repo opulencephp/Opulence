@@ -7,7 +7,7 @@
 namespace RDev\ORM;
 use Exception;
 use RuntimeException;
-use RDev\Databases\SQL\IConnection;
+use RDev\Databases\IConnection;
 use RDev\ORM\DataMappers\ICachedSQLDataMapper;
 use RDev\ORM\DataMappers\IDataMapper;
 use RDev\ORM\DataMappers\ISQLDataMapper;

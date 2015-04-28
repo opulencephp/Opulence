@@ -5,8 +5,8 @@
  * Defines the Redis-cached SQL data mapper
  */
 namespace RDev\ORM\DataMappers;
-use RDev\Databases\NoSQL\Redis\IRedis;
-use RDev\Databases\SQL\ConnectionPool;
+use RDev\Redis\IRedis;
+use RDev\Databases\ConnectionPool;
 
 abstract class RedisCachedSQLDataMapper extends CachedSQLDataMapper
 {

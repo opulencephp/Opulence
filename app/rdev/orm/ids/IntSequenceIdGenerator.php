@@ -5,7 +5,7 @@
  * Defines an Id generator that uses an integer sequence to generate Ids
  */
 namespace RDev\ORM\Ids;
-use RDev\Databases\SQL\IConnection;
+use RDev\Databases\IConnection;
 use RDev\ORM\IEntity;
 
 class IntSequenceIdGenerator extends IdGenerator

@@ -7,8 +7,8 @@
 namespace RDev\ORM\DataMappers;
 use PDO;
 use PDOException;
-use RDev\Databases\SQL\ConnectionPool;
-use RDev\Databases\SQL\IConnection;
+use RDev\Databases\ConnectionPool;
+use RDev\Databases\IConnection;
 use RDev\ORM\IEntity;
 use RDev\ORM\Ids\IdGenerator;
 use RDev\ORM\ORMException;
