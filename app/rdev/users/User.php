@@ -21,7 +21,7 @@ class User implements IUser
      * @param DateTime $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
      */
-    public function __construct($id, DateTime $dateCreated, array $roles)
+    public function __construct($id, DateTime $dateCreated, array $roles = [])
     {
         $this->setId($id);
         $this->dateCreated = $dateCreated;

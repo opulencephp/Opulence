@@ -47,6 +47,9 @@
 * Added `ISession::getId()` and `ISession::setId()`
 * Removed `User` and `Credentials` from `ISession` and `Session`
 
+<h3>Users</h3>
+* Made `$roles` optional in `RDev\Users\User::__construct()`
+
 <h3>Miscellaneous</h3>
 * Now uses fully-qualified class names in `use` statements and PHPDoc
 * Changed class names to make them readable without having to be fully-qualified:

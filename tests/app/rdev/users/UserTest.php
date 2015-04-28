@@ -61,6 +61,15 @@ class UserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not setting any roles in constructor
+     */
+    public function testNotSettingRolesInConstructor()
+    {
+        $user = new User(18175, new DateTime());
+        $this->assertEquals([], $user->getRoles());
+    }
+
+    /**
      * Test setting the Id
      */
     public function testSettingId()
