@@ -20,7 +20,7 @@ use RDev\Console\Requests\Parsers\IParser;
 use RDev\Console\Responses\Compilers\Compiler;
 use RDev\Console\Responses\Compilers\Lexers\Lexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser;
-use RDev\Console\Responses\Console;
+use RDev\Console\Responses\ConsoleResponse;
 use RDev\Console\Responses\Formatters\CommandFormatter;
 use RDev\Console\Responses\Formatters\PaddingFormatter;
 use RDev\Console\Responses\IResponse;
@@ -71,7 +71,7 @@ class Kernel
     {
         if($response === null)
         {
-            $response = new Console(new Compiler(new Lexer(), new Parser()));
+            $response = new ConsoleResponse(new Compiler(new Lexer(), new Parser()));
         }
 
         try

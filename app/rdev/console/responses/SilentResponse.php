@@ -7,7 +7,7 @@
 namespace RDev\Console\Responses;
 use RDev\Console\Responses\Compilers\MockCompiler;
 
-class Silent extends Response
+class SilentResponse extends Response
 {
     public function __construct()
     {

@@ -6,7 +6,7 @@
  */
 namespace RDev\Console\Commands;
 use RDev\Console\Commands\Compilers\Compiler as CommandCompiler;
-use RDev\Console\Responses\Silent;
+use RDev\Console\Responses\SilentResponse;
 use RDev\Console\Responses\Compilers\Compiler;
 use RDev\Console\Responses\Compilers\Lexers\Lexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser;
@@ -65,7 +65,7 @@ class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentCommand()
     {
         $this->setExpectedException("\\InvalidArgumentException");
-        $this->collection->call("fake", new Silent(), [], []);
+        $this->collection->call("fake", new SilentResponse(), [], []);
     }
 
     /**

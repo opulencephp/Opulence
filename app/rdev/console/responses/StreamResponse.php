@@ -8,7 +8,7 @@ namespace RDev\Console\Responses;
 use InvalidArgumentException;
 use RDev\Console\Responses\Compilers\ICompiler;
 
-class Stream extends Response
+class StreamResponse extends Response
 {
     /** @var resource The output stream */
     protected $stream = null;

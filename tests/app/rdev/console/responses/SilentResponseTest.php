@@ -6,9 +6,9 @@
  */
 namespace RDev\Console\Responses;
 
-class SilentTest extends \PHPUnit_Framework_TestCase 
+class SilentResponseTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Silent The response to use in tests */
+    /** @var SilentResponse The response to use in tests */
     private $response = null;
 
     /**
@@ -16,7 +16,7 @@ class SilentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->response = new Silent();
+        $this->response = new SilentResponse();
     }
 
     /**

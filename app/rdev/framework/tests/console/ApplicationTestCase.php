@@ -15,7 +15,7 @@ use RDev\Console\Responses\Compilers\ICompiler as IResponseCompiler;
 use RDev\Console\Responses\Compilers\Lexers\Lexer as ResponseLexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
 use RDev\Console\Responses\Formatters\PaddingFormatter;
-use RDev\Console\Responses\Stream;
+use RDev\Console\Responses\StreamResponse;
 use RDev\Framework\Console\Kernel;
 use RDev\Framework\Console\StatusCodes;
 use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
@@ -32,7 +32,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     protected $kernel = null;
     /** @var IRequestParser The request parser */
     protected $requestParser = null;
-    /** @var Stream The response stream */
+    /** @var StreamResponse The response stream */
     protected $response = null;
     /** @var int The status code */
     protected $statusCode = 0;
@@ -119,7 +119,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         // We instantiate the response every time so that it's fresh whenever a new command is called
-        $this->response = new Stream(fopen("php://memory", "w"), $this->responseCompiler);
+        $this->response = new StreamResponse(fopen("php://memory", "w"), $this->responseCompiler);
         $this->response->setStyled($isStyled);
         $input = ["name" => $commandName, "arguments" => $arguments, "options" => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);

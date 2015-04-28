@@ -7,7 +7,7 @@
 namespace RDev\Console\Responses;
 use RDev\Console\Responses\Compilers\ICompiler;
 
-class Console extends Stream
+class ConsoleResponse extends StreamResponse
 {
     /**
      * @param ICompiler $compiler The response compiler to use
