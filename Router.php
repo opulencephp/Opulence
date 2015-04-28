@@ -21,7 +21,7 @@ class Router
     protected $compiler = null;
     /** @var IDispatcher The route dispatcher */
     protected $dispatcher = null;
-    /** @var RouteCollection dThe list of routes */
+    /** @var RouteCollection The list of routes */
     protected $routeCollection = null;
     /** @var CompiledRoute|null The matched route if there is one, otherwise null */
     protected $matchedRoute = null;
