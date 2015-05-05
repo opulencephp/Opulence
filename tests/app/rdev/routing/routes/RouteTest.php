@@ -40,6 +40,16 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that a route that uses a controller does not say it's using a closure
+     */
+    public function testControllerRouteDoesNotSayItsUsingClosure()
+    {
+        $route = new Route("get", "/{foo}", "foo@bar");
+        $this->assertFalse($route->usesClosure());
+        $this->assertEquals("foo@bar", $route->getController());
+    }
+
+    /**
      * Tests getting the controller method
      */
     public function testGettingControllerMethod()
@@ -55,6 +65,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     {
         $route = new Route("get", "/{foo}", "foo@bar");
         $this->assertEquals("foo", $route->getControllerName());
+        $this->assertEquals("foo@bar", $route->getController());
     }
 
     /**
@@ -202,6 +213,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route("get", "/{foo}", "foo@bar");
         $route->setControllerMethod("blah");
         $this->assertEquals("blah", $route->getControllerMethod());
+        $this->assertEquals("foo@blah", $route->getController());
     }
 
     /**
@@ -212,6 +224,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route("get", "/{foo}", "foo@bar");
         $route->setControllerName("blah");
         $this->assertEquals("blah", $route->getControllerName());
+        $this->assertEquals("blah@bar", $route->getController());
     }
 
     /**
@@ -305,5 +318,19 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route->setVariableRegex("foo", "\d+");
         $this->assertEquals(["foo" => "\d+"], $route->getVariableRegexes());
         $this->assertEquals("\d+", $route->getVariableRegex("foo"));
+    }
+
+    /**
+     * Tests using a closure
+     */
+    public function testUsingClosure()
+    {
+        $closure = function ()
+        {
+            return "foo";
+        };
+        $route = new Route("get", "/{foo}", $closure);
+        $this->assertTrue($route->usesClosure());
+        $this->assertEquals($closure, $route->getController());
     }
 } 

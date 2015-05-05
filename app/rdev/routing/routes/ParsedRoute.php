@@ -21,11 +21,7 @@ class ParsedRoute extends Route
      */
     public function __construct(Route $route)
     {
-        parent::__construct(
-            $route->getMethods(),
-            $route->getRawPath(),
-            "{$route->getControllerName()}@{$route->getControllerMethod()}"
-        );
+        parent::__construct($route->getMethods(), $route->getRawPath(), $route->getController());
 
         $this->setName($route->getName());
         $this->setRawHost($route->getRawHost());

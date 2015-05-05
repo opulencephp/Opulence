@@ -21,10 +21,14 @@ class Route
     protected $controllerName = "";
     /** @var string The name of the controller method this route calls */
     protected $controllerMethod = "";
+    /** @var string|Closure|null The controller/method or closure to be used as a controller */
+    protected $controller = null;
     /** @var string The name of this route, if it is a named route */
     protected $name = "";
     /** @var bool Whether or not this route only matches HTTPS requests */
     protected $isSecure = false;
+    /** @var bool Whether or not this route uses a closure as a controller */
+    protected $usesClosure = false;
     /** @var array The mapping of route variable names to their regexes */
     protected $variableRegexes = [];
     /** @var array The list of middleware to run when dispatching this route */
@@ -91,6 +95,14 @@ class Route
         }
 
         $this->middleware = array_unique($this->middleware);
+    }
+
+    /**
+     * @return Closure|string|null
+     */
+    public function getController()
+    {
+        return $this->controller;
     }
 
     /**
@@ -184,6 +196,7 @@ class Route
     public function setControllerMethod($controllerMethod)
     {
         $this->controllerMethod = $controllerMethod;
+        $this->controller = "{$this->controllerName}@{$this->controllerMethod}";
     }
 
     /**
@@ -192,6 +205,7 @@ class Route
     public function setControllerName($controllerName)
     {
         $this->controllerName = $controllerName;
+        $this->controller = "{$this->controllerName}@{$this->controllerMethod}";
     }
 
     /**
@@ -251,6 +265,14 @@ class Route
     }
 
     /**
+     * @return bool
+     */
+    public function usesClosure()
+    {
+        return $this->usesClosure;
+    }
+
+    /**
      * Sets the controller name and method from the raw string
      *
      * @param string|Closure $controller The name of the controller/method or the callback
@@ -258,15 +280,26 @@ class Route
      */
     protected function setControllerVariables($controller)
     {
-        $atCharPos = strpos($controller, "@");
+        $this->controller = $controller;
 
-        // Make sure the "@" is somewhere in the middle of the string
-        if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controller) - 1)
+        if(is_callable($controller))
         {
-            throw new InvalidArgumentException("Controller string is not formatted correctly");
+            $this->usesClosure = true;
+            $this->controller = $controller;
         }
+        else
+        {
+            $this->usesClosure = false;
+            $atCharPos = strpos($controller, "@");
 
-        $this->controllerName = substr($controller, 0, $atCharPos);
-        $this->controllerMethod = substr($controller, $atCharPos + 1);
+            // Make sure the "@" is somewhere in the middle of the string
+            if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controller) - 1)
+            {
+                throw new InvalidArgumentException("Controller string is not formatted correctly");
+            }
+
+            $this->controllerName = substr($controller, 0, $atCharPos);
+            $this->controllerMethod = substr($controller, $atCharPos + 1);
+        }
     }
 } 

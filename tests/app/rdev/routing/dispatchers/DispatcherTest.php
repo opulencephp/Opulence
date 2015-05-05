@@ -8,10 +8,12 @@ namespace RDev\Routing\Dispatchers;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\RedirectResponse;
 use RDev\HTTP\Responses\Response;
+use RDev\HTTP\Responses\ResponseHeaders;
 use RDev\IoC\Container;
 use RDev\Routing\Routes\CompiledRoute;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\Route;
+use RDev\Routing\RouteException;
 use RDev\Tests\Routing\Mocks\NonRDevController;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase
@@ -28,6 +30,24 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->dispatcher = new Dispatcher(new Container());
         $this->request = new Request([], [], [], [], [], []);
+    }
+
+    /**
+     * Tests calling a closure as a controller
+     */
+    public function testCallingClosure()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo", function ()
+            {
+                return new Response("Closure");
+            })
+        );
+        $controller = null;
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals("Closure", $response->getContent());
     }
 
     /**
@@ -113,6 +133,23 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that text from a closure response is wrapped into response object
+     */
+    public function testClosureResponseTextIsWrappedInObject()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo", function ()
+            {
+                return "Closure";
+            })
+        );
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals("Closure", $response->getContent());
+        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
      * Tests specifying an invalid middleware
      */
     public function testInvalidMiddleware()
@@ -143,6 +180,53 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests not passing required path variable to closure
+     */
+    public function testNotPassingRequiredPathVariableToClosure()
+    {
+        $this->setExpectedException(RouteException::class);
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo", function ($id)
+            {
+                return new Response("Closure: Id: $id");
+            })
+        );
+        $this->dispatcher->dispatch($route, $this->request, $controller);
+    }
+
+    /**
+     * Tests passing path variable to closure
+     */
+    public function testPassingPathVariableToClosure()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo/{id}", function ($id)
+            {
+                return new Response("Closure: Id: $id");
+            })
+        );
+        $route->setPathVariables(["id" => "123"]);
+        $controller = null;
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals("Closure: Id: 123", $response->getContent());
+    }
+
+    /**
+     * Tests that text returned by a controller is wrapped in a response object
+     */
+    public function testTextReturnedByControllerIsWrappedInResponseObject()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo", "RDev\\Tests\\Routing\\Mocks\\Controller@returnsText")
+        );
+        $response = $this->dispatcher->dispatch($route, $this->request);
+        $this->assertEquals("returnsText", $response->getContent());
+        $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
+    }
+
+    /**
      * Tests that controller is set
      */
     public function testThatControllerIsSet()
@@ -152,6 +236,24 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", "$expectedControllerClass@returnsNothing"));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request, $controller));
         $this->assertInstanceOf($expectedControllerClass, $controller);
+    }
+
+    /**
+     * Tests using default value for a path variable in a closure
+     */
+    public function testUsingDefaultValueForPathVariableInClosure()
+    {
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo/{id}", function ($id = "123")
+            {
+                return new Response("Closure: Id: $id");
+            })
+        );
+        $controller = null;
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals("Closure: Id: 123", $response->getContent());
     }
 
     /**

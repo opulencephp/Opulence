@@ -5,6 +5,7 @@
  * Tests the HTTP application tester
  */
 namespace RDev\Framework\Tests\HTTP;
+use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
 use RDev\Tests\Framework\Tests\HTTP\Mocks\ApplicationTestCase;
 
@@ -21,6 +22,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->testCase = new ApplicationTestCase();
         $this->testCase->setUp();
         $router = $this->testCase->getRouter();
+        $router->get("/closure-controller", function ()
+        {
+            return new Response("Closure");
+        });
         $router->group(["controllerNamespace" => "RDev\\Tests\\Routing\\Mocks"], function () use ($router)
         {
             $router->get("/badgateway", "HTTPApplicationTestController@setBadGateway");
@@ -154,6 +159,16 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testGettingRouter()
     {
         $this->assertInstanceOf("RDev\\Routing\\Router", $this->testCase->getRouter());
+    }
+
+    /**
+     * Tests that a logic exception is thrown if checking if a template has a tag when using a closure controller
+     */
+    public function testLogicExceptionCheckingIfTemplateHasTagFromNonClosureController()
+    {
+        $this->setExpectedException("\\LogicException");
+        $this->testCase->route("GET", "/closure-controller");
+        $this->testCase->assertTemplateHasTag("foo");
     }
 
     /**

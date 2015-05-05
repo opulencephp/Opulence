@@ -333,7 +333,12 @@ class Router
     {
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
-        $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
+
+        if(!$route->usesClosure())
+        {
+            $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
+        }
+
         $route->setSecure($this->isGroupSecure() || $route->isSecure());
         // The route's variable regexes take precedence over group regexes
         $route->setVariableRegexes(array_merge($this->getVariableRegexes(), $route->getVariableRegexes()));

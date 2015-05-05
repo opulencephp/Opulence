@@ -54,6 +54,14 @@ class Controller extends BaseController
     }
 
     /**
+     * Mocks a method that returns text
+     */
+    public function returnsText()
+    {
+        return "returnsText";
+    }
+
+    /**
      * Mocks a method that takes in several parameters
      *
      * @param mixed $foo The first parameter

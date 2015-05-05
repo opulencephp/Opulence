@@ -110,6 +110,24 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that grouped routes do not overwrite any controller settings for a closure route
+     */
+    public function testGroupedRoutesDoNotOverwriteControllerSettingsInClosureRoute()
+    {
+        $controller = function ()
+        {
+            return "Foo";
+        };
+        $closureRoute = $this->router->get("/foo", $controller);
+        $this->router->group(["controllerNamespace" => "MyApp"], function ()
+        {
+            $this->router->get("bar", "MyController@index");
+        });
+        $this->assertTrue($closureRoute->usesClosure());
+        $this->assertSame($controller, $closureRoute->getController());
+    }
+
+    /**
      * Tests grouping routes
      */
     public function testGroupingRoutes()
