@@ -301,14 +301,14 @@ class Application
 
             foreach($bootstrapperObjects as $bootstrapper)
             {
-                $this->container->call($bootstrapper, "run", [], true);
+                $this->container->call([$bootstrapper, "run"], [], true);
             }
 
             $this->registerPreShutdownTask(function () use ($bootstrapperObjects)
             {
                 foreach($bootstrapperObjects as $bootstrapper)
                 {
-                    $this->container->call($bootstrapper, "shutdown", [], true);
+                    $this->container->call([$bootstrapper, "shutdown"], [], true);
                 }
             });
         });

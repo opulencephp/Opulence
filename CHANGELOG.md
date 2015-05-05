@@ -56,6 +56,9 @@
 * Added `CompiledRoute::getPathVariable()`
 * Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
 
+<h3>IoC</h3>
+* Changed `RDev\IoC\IContainer::call()` and `RDev\IoC\Container::call()` to accept a `callable` rather than an instance and method name 
+
 <h3>Routing</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
 * `RDev\HTTP\Routing\Routes\Routes` renamed to `RDev\Routing\Routes\RouteCollection`

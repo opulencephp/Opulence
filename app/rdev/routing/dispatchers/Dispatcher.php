@@ -87,7 +87,8 @@ class Dispatcher implements IDispatcher
                 $parameters = $this->getResolvedControllerParameters(
                     $reflection->getParameters(),
                     $route->getPathVariables(),
-                    $route
+                    $route,
+                    true
                 );
 
                 $response = call_user_func_array($controller, $parameters);
@@ -98,7 +99,8 @@ class Dispatcher implements IDispatcher
                 $parameters = $this->getResolvedControllerParameters(
                     $reflection->getParameters(),
                     $route->getPathVariables(),
-                    $route
+                    $route,
+                    false
                 );
 
                 if($reflection->isPrivate())
@@ -173,13 +175,15 @@ class Dispatcher implements IDispatcher
      * @param ReflectionParameter[] $reflectionParameters The reflection parameters
      * @param array $pathVariables The route path variables
      * @param CompiledRoute $route The route whose parameters we're resolving
+     * @param bool $acceptObjectParameters Whether or not we'll accept objects as parameters
      * @return array The mapping of parameter names to their resolved values
      * @throws RouteException Thrown if the parameters could not be resolved
      */
     private function getResolvedControllerParameters(
         array $reflectionParameters,
         array $pathVariables,
-        CompiledRoute $route
+        CompiledRoute $route,
+        $acceptObjectParameters
     )
     {
         $resolvedParameters = [];
@@ -187,7 +191,12 @@ class Dispatcher implements IDispatcher
         // Match the route variables to the method parameters
         foreach($reflectionParameters as $parameter)
         {
-            if(isset($pathVariables[$parameter->getName()]))
+            if($acceptObjectParameters && $parameter->getClass() !== null)
+            {
+                $className = $parameter->getClass()->getName();
+                $resolvedParameters[$parameter->getPosition()] = $this->container->makeShared($className);
+            }
+            elseif(isset($pathVariables[$parameter->getName()]))
             {
                 // There is a value set in the route
                 $resolvedParameters[$parameter->getPosition()] = $pathVariables[$parameter->getName()];

@@ -20,15 +20,14 @@ interface IContainer
     /**
      * Calls a method on an object and automatically resolves any type hinted arguments
      *
-     * @param object $instance The object to call on
-     * @param string $methodName The name of the method to call
+     * @param callable|array $function The function to call
      * @param array $primitives The list of any argument primitives
      * @param bool $ignoreMissing True if we will accept it when the method is missing, otherwise false
      * @param bool $forceNewInstance True if we are going to force a new instance, otherwise false
      * @return mixed|null The return value of the method if there was one, otherwise null
      * @throws IoCException Thrown if there was an error calling the method
      */
-    public function call($instance, $methodName, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false);
+    public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false);
 
     /**
      * Gets the name of the concrete class bound to the interface

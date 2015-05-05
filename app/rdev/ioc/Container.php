@@ -5,8 +5,10 @@
  * Defines an inversion of control container
  */
 namespace RDev\IoC;
+use Closure;
 use ReflectionClass;
 use ReflectionException;
+use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
 
@@ -59,28 +61,38 @@ class Container implements IContainer
     /**
      * {@inheritdoc}
      */
-    public function call($instance, $methodName, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false)
+    public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false)
     {
-        if(!method_exists($instance, $methodName))
+        if(!is_callable($function))
         {
             if(!$ignoreMissing)
             {
-                throw new IoCException(get_class($instance) . "::$methodName does not exist");
+                throw new IoCException("Cannot call function");
             }
 
             return null;
         }
 
         // Resolve all the method parameters
-        $reflectionMethod = new ReflectionMethod($instance, $methodName);
+        if($function instanceof Closure)
+        {
+            $className = null;
+            $parameters = (new ReflectionFunction($function))->getParameters();
+        }
+        else
+        {
+            $className = get_class($function[0]);
+            $parameters = (new ReflectionMethod($function[0], $function[1]))->getParameters();
+        }
+
         $methodParameters = $this->getResolvedParameters(
-            get_class($instance),
-            $reflectionMethod->getParameters(),
+            $className,
+            $parameters,
             $primitives,
             $forceNewInstance
         );
 
-        return call_user_func_array([$instance, $methodName], $methodParameters);
+        return call_user_func_array($function, $methodParameters);
     }
 
     /**
@@ -242,7 +254,7 @@ class Container implements IContainer
         // Call any methods
         foreach($methodCalls as $methodName => $methodPrimitives)
         {
-            $this->call($instance, $methodName, $methodPrimitives, false, $forceNewInstance);
+            $this->call([$instance, $methodName], $methodPrimitives, false, $forceNewInstance);
         }
     }
 

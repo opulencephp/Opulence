@@ -11,6 +11,7 @@ use RDev\Tests\IoC\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
 use RDev\Tests\IoC\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
 use RDev\Tests\IoC\Mocks\ConstructorWithReference;
 use RDev\Tests\IoC\Mocks\ConstructorWithSetters;
+use RDev\Tests\IoC\Mocks\IFoo;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,8 +79,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingMethodWithPrimitiveTypes()
     {
         $instance = new ConstructorWithSetters();
-        $this->container->call($instance, "setPrimitive", ["foo"]);
+        $this->container->call([$instance, "setPrimitive"], ["foo"]);
         $this->assertSame("foo", $instance->getPrimitive());
+        $response = $this->container->call(
+            function ($primitive)
+            {
+                return $primitive;
+            },
+            ["foo"]
+        );
+        $this->assertEquals("foo", $response);
     }
 
     /**
@@ -89,7 +98,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("RDev\\IoC\\IoCException");
         $instance = new ConstructorWithSetters();
-        $this->container->call($instance, "setPrimitive");
+        $this->container->call([$instance, "setPrimitive"]);
     }
 
     /**
@@ -99,9 +108,17 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $instance = new ConstructorWithSetters();
-        $this->container->call($instance, "setBoth", ["foo"]);
+        $this->container->call([$instance, "setBoth"], ["foo"]);
         $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
         $this->assertSame("foo", $instance->getPrimitive());
+        $response = $this->container->call(
+            function (IFoo $interface, $primitive)
+            {
+                return get_class($interface) . ":" . $primitive;
+            },
+            ["foo"]
+        );
+        $this->assertEquals($this->concreteFoo . ":foo", $response);
     }
 
     /**
@@ -111,8 +128,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $instance = new ConstructorWithSetters();
-        $this->container->call($instance, "setInterface");
+        $this->container->call([$instance, "setInterface"]);
         $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
+        $response = $this->container->call(
+            function (IFoo $interface)
+            {
+                return get_class($interface);
+            }
+        );
+        $this->assertEquals($this->concreteFoo, $response);
     }
 
     /**
@@ -122,7 +146,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException("RDev\\IoC\\IoCException");
         $instance = new ConstructorWithSetters();
-        $this->container->call($instance, "foobar");
+        $this->container->call([$instance, "foobar"]);
     }
 
     /**
@@ -131,7 +155,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentMethodAndIgnoringThatItIsMissing()
     {
         $instance = new ConstructorWithSetters();
-        $this->assertNull($this->container->call($instance, "foobar", [], true));
+        $this->assertNull($this->container->call([$instance, "foobar"], [], true));
     }
 
     /**

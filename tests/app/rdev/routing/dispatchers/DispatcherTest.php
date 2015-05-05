@@ -22,13 +22,16 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     private $dispatcher = null;
     /** @var Request The request to use in tests */
     private $request = null;
+    /** @var Container The IoC container to use in tests */
+    private $container = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->dispatcher = new Dispatcher(new Container());
+        $this->container = new Container();
+        $this->dispatcher = new Dispatcher($this->container);
         $this->request = new Request([], [], [], [], [], []);
     }
 
@@ -48,6 +51,26 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Closure", $controller);
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals("Closure", $response->getContent());
+    }
+
+    /**
+     * Tests calling a closure with a dependency
+     */
+    public function testCallingClosureWithDependencies()
+    {
+        $this->container->bind(Request::class, $this->request);
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo/{primitive}", function (Request $request, $primitive)
+            {
+                return get_class($request) . ":" . $primitive;
+            })
+        );
+        $route->setPathVariables(["primitive" => 123]);
+        $controller = null;
+        $response = $this->dispatcher->dispatch($route, $this->request, $controller);
+        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf(Response::class, $response);
+        $this->assertEquals(Request::class . ":123", $response->getContent());
     }
 
     /**
