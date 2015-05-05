@@ -61,6 +61,17 @@
 * `RDev\HTTP\Routing\Routes\Routes` renamed to `RDev\Routing\Routes\RouteCollection`
 * `RDev\HTTP\Routing\Router::routes` renamed to `routeCollection`
 * `RDev\HTTP\Routing\Router::getRoutes()` renamed to `getRouteCollection()`
+* Controller/method names are now passed into the `Route` constructor directly rather than through the options array
+  * The following methods in `RDev\Routing\Router` have been changed to accept `$path`, `$controller`, and `$options`:
+    * `any()`
+    * `delete()`
+    * `get()`
+    * `head()`
+    * `options()`
+    * `patch()`
+    * `post()`
+    * `put()`
+  * `Router::multiple()` now accepts `$methods`, `$path`, `$controller`, and `$options`
 * Opened up routing to also accept non-RDev controllers
 
 <h3>Sessions</h3>

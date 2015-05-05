@@ -35,10 +35,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testInvalidPHPVariableName()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route(["get"], "/{123foo}/bar", $options);
+        $route = new Route(["get"], "/{123foo}/bar", "foo@bar");
         $this->parser->parse($route);
     }
 
@@ -47,10 +44,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSpecifyingHost()
     {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route(["get"], "/foo", $options);
+        $route = new Route(["get"], "/foo", "foo@bar");
         $parsedRoute = $this->parser->parse($route);
         $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
     }
@@ -62,10 +56,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo}/bar/{blah?}";
         $options = [
-            "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -85,10 +78,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo}/bar/{blah?=123}";
         $options = [
-            "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -109,10 +101,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo}/bar/{blah}";
         $options = [
-            "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -132,14 +123,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo}/bar/{blah}";
         $options = [
-            "controller" => "foo@bar",
             "variables" => [
                 "foo" => "\d+",
                 "blah" => "[a-z]{3}"
             ],
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -159,10 +149,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo}";
         $options = [
-            "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -182,10 +171,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo=23}";
         $options = [
-            "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -206,11 +194,10 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/{foo}";
         $options = [
-            "controller" => "foo@bar",
             "variables" => ["foo" => "\d+"],
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -230,10 +217,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/foo/bar/blah";
         $options = [
-            "controller" => "foo@bar",
             "host" => $rawString
         ];
-        $route = new Route(["get"], $rawString, $options);
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
         $parsedRoute = $this->parser->parse($route);
         $this->assertTrue(
             $this->regexesMach(
@@ -252,10 +238,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testParsingWithDuplicateVariables()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route(["get"], "/{foo}/{foo}", $options);
+        $route = new Route(["get"], "/{foo}/{foo}", "foo@bar");
         $this->parser->parse($route);
     }
 
@@ -265,10 +248,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testParsingWithUnclosedOpenBrace()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route(["get"], "/{foo}/{bar", $options);
+        $route = new Route(["get"], "/{foo}/{bar", "foo@bar");
         $this->parser->parse($route);
     }
 
@@ -278,10 +258,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testParsingWithUnopenedCloseBrace()
     {
         $this->setExpectedException("RDev\\Routing\\RouteException");
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route(["get"], "/{foo}/{bar}}", $options);
+        $route = new Route(["get"], "/{foo}/{bar}}", "foo@bar");
         $this->parser->parse($route);
     }
 
@@ -290,10 +267,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifyingEmptyPath()
     {
-        $options = [
-            "controller" => "foo@bar"
-        ];
-        $route = new Route(["get"], "", $options);
+        $route = new Route(["get"], "", "foo@bar");
         $parsedRoute = $this->parser->parse($route);
         $this->assertEquals("#^.*$#", $parsedRoute->getPathRegex());
     }

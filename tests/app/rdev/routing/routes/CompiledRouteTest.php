@@ -18,7 +18,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parsedRoute = new ParsedRoute(new Route("GET", "/", ["controller" => "foo@bar"]));
+        $this->parsedRoute = new ParsedRoute(new Route("GET", "/", "foo@bar"));
         $this->compiledRoute = new CompiledRoute($this->parsedRoute, true, ["foo" => "bar"]);
     }
 
@@ -34,8 +34,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingCompiledRoute()
     {
-        $route = new Route("GET", "/foo/{bar=baz}", [
-            "controller" => "foo@bar",
+        $route = new Route("GET", "/foo/{bar=baz}", "foo@bar", [
             "https" => true,
             "variables" => [
                 "bar" => "\d+"

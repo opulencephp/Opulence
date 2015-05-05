@@ -5,6 +5,7 @@
  * Defines an individual route
  */
 namespace RDev\Routing\Routes;
+use Closure;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -32,21 +33,17 @@ class Route
     /**
      * @param string|array $methods The HTTP method or list of methods this route matches on
      * @param string $rawPath The raw path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options
      * @throws RuntimeException Thrown if there is no controller specified in the options
      * @throws InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
      */
-    public function __construct($methods, $rawPath, array $options)
+    public function __construct($methods, $rawPath, $controller, array $options = [])
     {
         $this->methods = (array)$methods;
         $this->rawPath = $rawPath;
 
-        if(!isset($options["controller"]))
-        {
-            throw new RuntimeException("No controller specified for route");
-        }
-
-        $this->setControllerVariables($options["controller"]);
+        $this->setControllerVariables($controller);
 
         if(isset($options["variables"]))
         {
@@ -256,20 +253,20 @@ class Route
     /**
      * Sets the controller name and method from the raw string
      *
-     * @param string $controllerString The string to set the variables from
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @throws InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
-    protected function setControllerVariables($controllerString)
+    protected function setControllerVariables($controller)
     {
-        $atCharPos = strpos($controllerString, "@");
+        $atCharPos = strpos($controller, "@");
 
         // Make sure the "@" is somewhere in the middle of the string
-        if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controllerString) - 1)
+        if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controller) - 1)
         {
             throw new InvalidArgumentException("Controller string is not formatted correctly");
         }
 
-        $this->controllerName = substr($controllerString, 0, $atCharPos);
-        $this->controllerMethod = substr($controllerString, $atCharPos + 1);
+        $this->controllerName = substr($controller, 0, $atCharPos);
+        $this->controllerMethod = substr($controller, $atCharPos + 1);
     }
 } 

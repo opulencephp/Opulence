@@ -35,19 +35,36 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that adding a route returns the instance of the route
+     */
+    public function testAddingRouteReturnsInstance()
+    {
+        $path = "/foo";
+        $controller = "foo@bar";
+        $this->assertInstanceOf(Route::class, $this->router->addRoute(new Route(Request::METHOD_GET, $path, $controller)));
+        $this->assertInstanceOf(Route::class, $this->router->any($path, $controller)[0]);
+        $this->assertInstanceOf(Route::class, $this->router->delete($path, $controller));
+        $this->assertInstanceOf(Route::class, $this->router->get($path, $controller));
+        $this->assertInstanceOf(Route::class, $this->router->head($path, $controller));
+        $this->assertInstanceOf(Route::class, $this->router->multiple([Request::METHOD_GET], $path, $controller)[0]);
+        $this->assertInstanceOf(Route::class, $this->router->options($path, $controller));
+        $this->assertInstanceOf(Route::class, $this->router->patch($path, $controller));
+        $this->assertInstanceOf(Route::class, $this->router->post($path, $controller));
+        $this->assertInstanceOf(Route::class, $this->router->put($path, $controller));
+    }
+
+    /**
      * Tests adding routes through their specific methods
      */
     public function testAddingRoutesThroughTheirSpecificMethods()
     {
         $path = "/foo";
-        $options = [
-            "controller" => "foo@bar"
-        ];
+        $controller = "foo@bar";
 
         foreach(RouteCollection::getMethods() as $method)
         {
-            call_user_func_array([$this->router, strtolower($method)], [$path, $options]);
-            $expectedRoute = new Route($method, $path, $options);
+            call_user_func_array([$this->router, strtolower($method)], [$path, $controller]);
+            $expectedRoute = new Route($method, $path, $controller);
             $this->assertEquals([$expectedRoute], $this->router->getRouteCollection()->get($method));
         }
     }
@@ -61,14 +78,28 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that group settings are getting applied to returned routes
+     */
+    public function testGroupSettingsAreGettingAppliedToReturnedRoutes()
+    {
+        $getRoute = null;
+
+        $this->router->group(["path" => "/foo/{id}", "variables" => ["id" => "\d+"]], function () use (&$getRoute)
+        {
+            $getRoute = $this->router->get("/foo", "foo@bar");
+        });
+        $this->assertSame($getRoute, $this->router->getRouteCollection()->get(Request::METHOD_GET)[0]);
+    }
+
+    /**
      * Tests a group with variable regexes
      */
     public function testGroupWithVariableRegexes()
     {
         $this->router->group(["path" => "/users/{userId}", "variables" => ["id" => "\d+"]], function ()
         {
-            $this->router->get("/foo", ["controller" => "foo@bar"]);
-            $this->router->post("/foo", ["controller" => "foo@bar"]);
+            $this->router->get("/foo", "foo@bar");
+            $this->router->post("/foo", "foo@bar");
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -89,9 +120,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->router->group($groupOptions, function ()
         {
-            $routeOptions = ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"];
-            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $routeOptions));
-            $this->router->delete("/blah", $routeOptions);
+            $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller));
+            $this->router->delete("/blah", $controller);
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -108,20 +139,20 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupingRoutesThenAddingAnotherRoute()
     {
+        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
         $routeOptions = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
             "middleware" => ["foo3", "foo4"]
         ];
         $groupOptions = [
             "path" => "/foo",
             "middleware" => ["foo1", "foo2"]
         ];
-        $this->router->group($groupOptions, function () use ($routeOptions)
+        $this->router->group($groupOptions, function () use ($controller, $routeOptions)
         {
-            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $routeOptions));
-            $this->router->delete("/blah", $routeOptions);
+            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller, $routeOptions));
+            $this->router->delete("/blah", $controller, $routeOptions);
         });
-        $this->router->get("/asdf", $routeOptions);
+        $this->router->get("/asdf", $controller, $routeOptions);
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
         /** @var Route[] $deleteRoutes */
@@ -139,18 +170,18 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupingRoutesWithStringMiddleware()
     {
+        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
         $routeOptions = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
             "middleware" => "foo2"
         ];
         $groupOptions = [
             "path" => "/foo",
             "middleware" => "foo1"
         ];
-        $this->router->group($groupOptions, function () use ($routeOptions)
+        $this->router->group($groupOptions, function () use ($controller, $routeOptions)
         {
-            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $routeOptions));
-            $this->router->delete("/blah", $routeOptions);
+            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller, $routeOptions));
+            $this->router->delete("/blah", $controller, $routeOptions);
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -211,9 +242,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMissedRouteToNonRDevController()
     {
-        $options = ["controller" => NonRDevController::class . "@index"];
+        $controller = NonRDevController::class . "@index";
         $this->router->setMissedRouteController(NonRDevController::class, "customHTTPError");
-        $this->router->get("/foo/{id}", $options);
+        $this->router->get("/foo/{id}", $controller);
         $server = [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/bar",
@@ -235,8 +266,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         {
             $this->router->group(["https" => false], function ()
             {
-                $this->router->get("/foo", ["controller" => "foo@bar"]);
-                $this->router->post("/foo", ["controller" => "foo@bar"]);
+                $this->router->get("/foo", "foo@bar");
+                $this->router->post("/foo", "foo@bar");
             });
         });
         /** @var Route[] $getRoutes */
@@ -257,20 +288,20 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "controllerNamespace" => "RDev\\Tests\\Routing",
             "middleware" => ["foo1", "foo2"]
         ];
-        $outerRouteOptions = ["controller" => "Mocks\\Controller@noParameters"];
-        $innerRouteOptions = ["controller" => "Controller@noParameters"];
-        $this->router->group($outerGroupOptions, function () use ($outerRouteOptions, $innerRouteOptions)
+        $outerRouteController = "Mocks\\Controller@noParameters";
+        $innerRouteController = "Controller@noParameters";
+        $this->router->group($outerGroupOptions, function () use ($outerRouteController, $innerRouteController)
         {
-            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $outerRouteOptions));
-            $this->router->delete("/blah", $outerRouteOptions);
+            $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $outerRouteController));
+            $this->router->delete("/blah", $outerRouteController);
             $innerGroupOptions = [
                 "path" => "/asdf",
                 "controllerNamespace" => "Mocks",
                 "middleware" => ["foo3", "foo4"]
             ];
-            $this->router->group($innerGroupOptions, function () use ($innerRouteOptions)
+            $this->router->group($innerGroupOptions, function () use ($innerRouteController)
             {
-                $this->router->get("/jkl", $innerRouteOptions);
+                $this->router->get("/jkl", $innerRouteController);
             });
         });
         /** @var Route[] $getRoutes */
@@ -295,13 +326,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router->group(["path" => "/users/{userId}", "variables" => ["id" => "\d*"]], function ()
         {
-            $this->router->get("/foo", ["controller" => "foo@bar"]);
+            $this->router->get("/foo", "foo@bar");
             // This route's variable regex should take precedence
-            $this->router->get("/bam", ["controller" => "foo@bam", "variables" => ["id" => "\w+"]]);
+            $this->router->get("/bam", "foo@bam", ["variables" => ["id" => "\w+"]]);
 
             $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function ()
             {
-                $this->router->get("/baz", ["controller" => "bar@baz"]);
+                $this->router->get("/baz", "bar@baz");
             });
         });
         /** @var Route[] $getRoutes */
@@ -316,10 +347,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingAnyMethod()
     {
-        $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
-        ];
-        $this->router->any("/foo", $options);
+        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $this->router->any("/foo", $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
         $this->assertEquals(1, count($allRoutes[Request::METHOD_GET]));
         $this->assertEquals(1, count($allRoutes[Request::METHOD_POST]));
@@ -389,10 +418,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMultipleMethods()
     {
-        $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
-        ];
-        $this->router->multiple([Request::METHOD_GET, Request::METHOD_POST], "/foo", $options);
+        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $this->router->multiple([Request::METHOD_GET, Request::METHOD_POST], "/foo", $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
         $this->assertEquals(1, count($allRoutes[Request::METHOD_GET]));
         $this->assertEquals(1, count($allRoutes[Request::METHOD_POST]));
@@ -440,8 +467,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingToNonRDevController()
     {
-        $options = ["controller" => NonRDevController::class . "@index"];
-        $this->router->get("/foo/{id}", $options);
+        $controller = NonRDevController::class . "@index";
+        $this->router->get("/foo/{id}", $controller);
         $server = [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/123",
@@ -461,8 +488,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router->group(["https" => true], function ()
         {
-            $this->router->get("/foo", ["controller" => "foo@bar"]);
-            $this->router->post("/foo", ["controller" => "foo@bar"]);
+            $this->router->get("/foo", "foo@bar");
+            $this->router->post("/foo", "foo@bar");
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -479,8 +506,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router->group(["host" => "google.com"], function ()
         {
-            $this->router->get("/foo", ["controller" => "foo@bar"]);
-            $this->router->post("/foo", ["controller" => "foo@bar"]);
+            $this->router->get("/foo", "foo@bar");
+            $this->router->post("/foo", "foo@bar");
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -497,8 +524,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router->group(["controllerNamespace" => "MyApp\\Controllers\\"], function ()
         {
-            $this->router->get("/foo", ["controller" => "ControllerA@myMethod"]);
-            $this->router->post("/foo", ["controller" => "ControllerB@myMethod"]);
+            $this->router->get("/foo", "ControllerA@myMethod");
+            $this->router->post("/foo", "ControllerB@myMethod");
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -515,8 +542,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $this->router->group(["controllerNamespace" => "MyApp\\Controllers"], function ()
         {
-            $this->router->get("/foo", ["controller" => "ControllerA@myMethod"]);
-            $this->router->post("/foo", ["controller" => "ControllerB@myMethod"]);
+            $this->router->get("/foo", "ControllerA@myMethod");
+            $this->router->post("/foo", "ControllerB@myMethod");
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
@@ -535,8 +562,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         {
             $this->router->group(["host" => "mail."], function ()
             {
-                $this->router->get("/foo", ["controller" => "foo@bar"]);
-                $this->router->post("/foo", ["controller" => "foo@bar"]);
+                $this->router->get("/foo", "foo@bar");
+                $this->router->post("/foo", "foo@bar");
             });
         });
         /** @var Route[] $getRoutes */
@@ -568,21 +595,21 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $controllerMethod
     )
     {
+        $controller = "$controllerName@$controllerMethod";
         $options = [
-            "controller" => "$controllerName@$controllerMethod",
             "host" => $rawHost
         ];
 
         // The mock router will return the route used rather than the output of the route controller
         // This makes testing easier
         $mockRouter = new MockRouter();
-        $deleteRoute = new Route(Request::METHOD_DELETE, $rawPath, $options);
-        $getRoute = new Route(Request::METHOD_GET, $rawPath, $options);
-        $postRoute = new Route(Request::METHOD_POST, $rawPath, $options);
-        $putRoute = new Route(Request::METHOD_PUT, $rawPath, $options);
-        $headRoute = new Route(Request::METHOD_HEAD, $rawPath, $options);
-        $optionsRoute = new Route(Request::METHOD_OPTIONS, $rawPath, $options);
-        $patchRoute = new Route(Request::METHOD_PATCH, $rawPath, $options);
+        $deleteRoute = new Route(Request::METHOD_DELETE, $rawPath, $controller, $options);
+        $getRoute = new Route(Request::METHOD_GET, $rawPath, $controller, $options);
+        $postRoute = new Route(Request::METHOD_POST, $rawPath, $controller, $options);
+        $putRoute = new Route(Request::METHOD_PUT, $rawPath, $controller, $options);
+        $headRoute = new Route(Request::METHOD_HEAD, $rawPath, $controller, $options);
+        $optionsRoute = new Route(Request::METHOD_OPTIONS, $rawPath, $controller, $options);
+        $patchRoute = new Route(Request::METHOD_PATCH, $rawPath, $controller, $options);
         $mockRouter->addRoute($deleteRoute);
         $mockRouter->addRoute($getRoute);
         $mockRouter->addRoute($postRoute);

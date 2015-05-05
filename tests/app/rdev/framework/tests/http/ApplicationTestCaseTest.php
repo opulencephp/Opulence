@@ -23,17 +23,17 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $router = $this->testCase->getRouter();
         $router->group(["controllerNamespace" => "RDev\\Tests\\Routing\\Mocks"], function () use ($router)
         {
-            $router->get("/badgateway", ["controller" => "HTTPApplicationTestController@setBadGateway"]);
-            $router->get("/cookie", ["controller" => "HTTPApplicationTestController@setCookie"]);
-            $router->get("/foobar", ["controller" => "HTTPApplicationTestController@showFooBar"]);
-            $router->get("/header", ["controller" => "HTTPApplicationTestController@setHeader"]);
-            $router->get("/ise", ["controller" => "HTTPApplicationTestController@setISE"]);
-            $router->get("/ok", ["controller" => "HTTPApplicationTestController@setOK"]);
-            $router->get("/redirect", ["controller" => "HTTPApplicationTestController@redirect"]);
-            $router->get("/settag", ["controller" => "HTTPApplicationTestController@setTag"]);
-            $router->get("/setvar", ["controller" => "HTTPApplicationTestController@setVar"]);
-            $router->get("/unauthorized", ["controller" => "HTTPApplicationTestController@setUnauthorized"]);
-            $router->get("/non-rdev-controller", ["controller" => "NonRDevController@showFoo"]);
+            $router->get("/badgateway", "HTTPApplicationTestController@setBadGateway");
+            $router->get("/cookie", "HTTPApplicationTestController@setCookie");
+            $router->get("/foobar", "HTTPApplicationTestController@showFooBar");
+            $router->get("/header", "HTTPApplicationTestController@setHeader");
+            $router->get("/ise", "HTTPApplicationTestController@setISE");
+            $router->get("/ok", "HTTPApplicationTestController@setOK");
+            $router->get("/redirect", "HTTPApplicationTestController@redirect");
+            $router->get("/settag", "HTTPApplicationTestController@setTag");
+            $router->get("/setvar", "HTTPApplicationTestController@setVar");
+            $router->get("/unauthorized", "HTTPApplicationTestController@setUnauthorized");
+            $router->get("/non-rdev-controller", "NonRDevController@showFoo");
         });
     }
 

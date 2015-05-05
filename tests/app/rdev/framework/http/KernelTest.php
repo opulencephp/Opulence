@@ -109,7 +109,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
             $router = new Router(new Dispatcher($container), $routeCompiler);
         }
 
-        $router->any("/", ["controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"]);
+        $router->any("/", "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters");
         $logger = new Logger("kernelTest");
         $logger->pushHandler(new MonologHandler());
 

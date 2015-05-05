@@ -5,6 +5,7 @@
  * Defines a router for URL requests
  */
 namespace RDev\Routing;
+use Closure;
 use InvalidArgumentException;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\Response;
@@ -58,46 +59,59 @@ class Router
      * Adds a route to the router
      *
      * @param Route $route The route to add
+     * @return Route The route with the group settings applied
      */
     public function addRoute(Route $route)
     {
         $route = $this->applyGroupSettings($route);
         $this->routeCollection->add($route);
+
+        return $route;
     }
 
     /**
      * Adds a route for the any method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route[] The list of generated routes
      */
-    public function any($path, array $options)
+    public function any($path, $controller, array $options = [])
     {
-        $this->multiple($this->routeCollection->getMethods(), $path, $options);
+        return $this->multiple($this->routeCollection->getMethods(), $path, $controller, $options);
     }
 
     /**
      * Adds a route for the DELETE method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function delete($path, array $options)
+    public function delete($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_DELETE, $path, $options);
+        $route = $this->createRoute(Request::METHOD_DELETE, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
      * Adds a route for the GET method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function get($path, array $options)
+    public function get($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_GET, $path, $options);
+        $route = $this->createRoute(Request::METHOD_GET, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
@@ -148,12 +162,16 @@ class Router
      * Adds a route for the HEAD method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function head($path, array $options)
+    public function head($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_HEAD, $path, $options);
+        $route = $this->createRoute(Request::METHOD_HEAD, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
@@ -161,63 +179,86 @@ class Router
      *
      * @param array $methods The list of methods to match on
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route[] The list of routes generated
      */
-    public function multiple(array $methods, $path, array $options)
+    public function multiple(array $methods, $path, $controller, array $options = [])
     {
+        $routes = [];
+
         foreach($methods as $method)
         {
-            $route = $this->createRoute($method, $path, $options);
+            $route = $this->createRoute($method, $path, $controller, $options);
             $this->addRoute($route);
+            $routes[] = $route;
         }
+
+        return $routes;
     }
 
     /**
      * Adds a route for the OPTIONS method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function options($path, array $options)
+    public function options($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_OPTIONS, $path, $options);
+        $route = $this->createRoute(Request::METHOD_OPTIONS, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
      * Adds a route for the PATCH method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function patch($path, array $options)
+    public function patch($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_PATCH, $path, $options);
+        $route = $this->createRoute(Request::METHOD_PATCH, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
      * Adds a route for the POST method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function post($path, array $options)
+    public function post($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_POST, $path, $options);
+        $route = $this->createRoute(Request::METHOD_POST, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
      * Adds a route for the PUT method at the given path
      *
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
+     * @return Route The generated route
      */
-    public function put($path, array $options)
+    public function put($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_PUT, $path, $options);
+        $route = $this->createRoute(Request::METHOD_PUT, $path, $controller, $options);
         $this->addRoute($route);
+
+        return $route;
     }
 
     /**
@@ -311,12 +352,13 @@ class Router
      *
      * @param string $method The method whose route this is
      * @param string $path The path to match on
+     * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return Route The route from the input
      */
-    private function createRoute($method, $path, array $options)
+    private function createRoute($method, $path, $controller, array $options = [])
     {
-        return new Route([$method], $path, $options);
+        return new Route([$method], $path, $controller, $options);
     }
 
     /**

@@ -27,7 +27,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingInsecureRouteOnHTTPS()
     {
-        $route = new Route("GET", "/", ["controller" => "foo@bar"]);
+        $route = new Route("GET", "/", "foo@bar");
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/",
@@ -43,7 +43,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWitPathVariables()
     {
-        $route = new Route("GET", "/foo/{bar}/{baz}", ["controller" => "foo@bar"]);
+        $route = new Route("GET", "/foo/{bar}/{baz}", "foo@bar");
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/12/34"
@@ -64,7 +64,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWithOptionalVariable()
     {
-        $route = new Route("GET", "/foo/{bar?}", ["controller" => "foo@bar"]);
+        $route = new Route("GET", "/foo/{bar?}", "foo@bar");
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
@@ -79,7 +79,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWithOptionalVariableWithDefaultValue()
     {
-        $route = new Route("GET", "/bar/{foo?=23}", ["controller" => "foo@bar"]);
+        $route = new Route("GET", "/bar/{foo?=23}", "foo@bar");
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/bar/"
@@ -95,7 +95,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouteVariablesForUnmatchedRoute()
     {
-        $route = new Route("GET", "/foo", ["controller" => "foo@bar"]);
+        $route = new Route("GET", "/foo", "foo@bar");
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/bar"
@@ -109,7 +109,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchingSecureRoute()
     {
-        $route = new Route("GET", "/", ["controller" => "foo@bar", "https" => true]);
+        $route = new Route("GET", "/", "foo@bar", ["https" => true]);
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/",
@@ -125,7 +125,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotBeingHTTPSAndMatchingSecureRoute()
     {
-        $route = new Route("GET", "/", ["controller" => "foo@bar", "https" => true]);
+        $route = new Route("GET", "/", "foo@bar", ["https" => true]);
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/"

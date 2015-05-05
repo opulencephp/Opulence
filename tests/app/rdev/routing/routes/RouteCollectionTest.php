@@ -25,7 +25,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $route = new Route(Request::METHOD_GET, "/users", ["controller" => "foo@bar"]);
+        $route = new Route(Request::METHOD_GET, "/users", "foo@bar");
         $this->collection->add($route);
         $this->assertSame([$route], $this->collection->get(Request::METHOD_GET));
     }
@@ -35,8 +35,8 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $getRoute = new Route(Request::METHOD_GET, "/users", ["controller" => "foo@bar"]);
-        $postRoute = new Route(Request::METHOD_POST, "/users", ["controller" => "foo@bar"]);
+        $getRoute = new Route(Request::METHOD_GET, "/users", "foo@bar");
+        $postRoute = new Route(Request::METHOD_POST, "/users", "foo@bar");
         $expectedRoutes = [];
 
         foreach(RouteCollection::getMethods() as $method)
@@ -67,11 +67,11 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingNamedRoute()
     {
         $path = "/foo";
+        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
         $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters",
             "name" => "blah"
         ];
-        $expectedRoute = new Route(Request::METHOD_GET, $path, $options);
+        $expectedRoute = new Route(Request::METHOD_GET, $path, $controller, $options);
         $this->collection->add($expectedRoute);
         $this->assertSame($expectedRoute, $this->collection->getNamedRoute("blah"));
     }
@@ -82,10 +82,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentNamedRoute()
     {
         $path = "/foo";
-        $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
-        ];
-        $route = new Route(Request::METHOD_GET, $path, $options);
+        $route = new Route(Request::METHOD_GET, $path, "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters");
         $this->collection->add($route);
         $this->assertNull($this->collection->getNamedRoute("blah"));
     }
@@ -96,16 +93,14 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingRoutes()
     {
         $path = "/foo";
-        $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
-        ];
-        $deleteRoute = new Route(Request::METHOD_DELETE, $path, $options);
-        $getRoute = new Route(Request::METHOD_GET, $path, $options);
-        $postRoute = new Route(Request::METHOD_POST, $path, $options);
-        $putRoute = new Route(Request::METHOD_PUT, $path, $options);
-        $headRoute = new Route(Request::METHOD_HEAD, $path, $options);
-        $optionsRoute = new Route(Request::METHOD_OPTIONS, $path, $options);
-        $patchRoute = new Route(Request::METHOD_PATCH, $path, $options);
+        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $deleteRoute = new Route(Request::METHOD_DELETE, $path, $controller);
+        $getRoute = new Route(Request::METHOD_GET, $path, $controller);
+        $postRoute = new Route(Request::METHOD_POST, $path, $controller);
+        $putRoute = new Route(Request::METHOD_PUT, $path, $controller);
+        $headRoute = new Route(Request::METHOD_HEAD, $path, $controller);
+        $optionsRoute = new Route(Request::METHOD_OPTIONS, $path, $controller);
+        $patchRoute = new Route(Request::METHOD_PATCH, $path, $controller);
         $this->collection->add($deleteRoute);
         $this->collection->add($getRoute);
         $this->collection->add($postRoute);
@@ -137,10 +132,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingSpecificMethodRoutes()
     {
         $path = "/foo";
-        $options = [
-            "controller" => "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters"
-        ];
-        $getRoute = new Route(Request::METHOD_GET, $path, $options);
+        $getRoute = new Route(Request::METHOD_GET, $path, "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters");
         $this->collection->add($getRoute);
         $getRoutes = $this->collection->get(Request::METHOD_GET);
         $this->assertSame([$getRoute], $getRoutes);

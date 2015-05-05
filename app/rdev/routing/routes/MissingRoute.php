@@ -28,7 +28,7 @@ class MissingRoute extends CompiledRoute
             Requests\Request::METHOD_PATCH,
             Requests\Request::METHOD_OPTIONS
         ];
-        $route = new Route($methods, "", ["controller" => "{$controllerClass}@{$controllerMethod}"]);
+        $route = new Route($methods, "", "{$controllerClass}@{$controllerMethod}");
         parent::__construct(new ParsedRoute($route), true);
 
         $this->setDefaultValue("statusCode", Responses\ResponseHeaders::HTTP_NOT_FOUND);
