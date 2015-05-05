@@ -63,7 +63,12 @@ class Container implements IContainer
      */
     public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false)
     {
-        if(!is_callable($function))
+        // We have to check if the method exists in case the class implements a __call() magic method
+        // __call() will force all calls to is_callable() to return true
+        if(
+            !is_callable($function) ||
+            (is_array($function) && count($function) == 2 && !method_exists($function[0], $function[1]))
+        )
         {
             if(!$ignoreMissing)
             {

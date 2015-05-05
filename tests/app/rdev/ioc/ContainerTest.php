@@ -12,6 +12,7 @@ use RDev\Tests\IoC\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
 use RDev\Tests\IoC\Mocks\ConstructorWithReference;
 use RDev\Tests\IoC\Mocks\ConstructorWithSetters;
 use RDev\Tests\IoC\Mocks\IFoo;
+use RDev\Tests\IoC\Mocks\MagicCallMethod;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -155,6 +156,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentMethodAndIgnoringThatItIsMissing()
     {
         $instance = new ConstructorWithSetters();
+        $this->assertNull($this->container->call([$instance, "foobar"], [], true));
+    }
+
+    /**
+     * Tests calling a non-existent method on a class that has a magic call method
+     */
+    public function testCallingNonExistentMethodOnClassThatHasMagicCallMethod()
+    {
+        $instance = new MagicCallMethod();
         $this->assertNull($this->container->call([$instance, "foobar"], [], true));
     }
 
