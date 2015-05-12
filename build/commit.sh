@@ -12,17 +12,6 @@ function commit()
         git commit -m "$message"
         git push origin master
     fi
-
-    # Check if we need to commit components
-    for repo in ${REPOS[@]}
-    do
-        if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
-            echo "   No changes in $repo"
-        else
-            echo "   Pushing $repo"
-            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
-        fi
-    done
 }
 
 function split()
@@ -66,9 +55,20 @@ function tag()
     sed -i "s/private static \$version = \"[0-9\.]*\";/private static \$version = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
 
     # Commit changes to application file
-    git commit -m "$message" $APPLICATION_CLASS_FILE
+    git commit -m "Incrementing version" $APPLICATION_CLASS_FILE
     git push origin master
     git subtree push --prefix=$SUBTREE_DIR/applications --rejoin applications master
+
+    # Check if we need to commit components
+    for repo in ${REPOS[@]}
+    do
+        if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
+            echo "   No changes in $repo"
+        else
+            echo "   Pushing $repo"
+            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
+        fi
+    done
 
     # Tag RDev
     git tag -a $tagname -m "$message"
