@@ -7,6 +7,7 @@
 namespace RDev\Framework\Bootstrappers\HTTP\Views;
 use RDev\Applications\Environments\Environment;
 use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Files\FileSystem;
 use RDev\IoC\IContainer;
 use RDev\Views\Caching\Cache;
 use RDev\Views\Caching\ICache;
@@ -31,9 +32,9 @@ class Template extends Bootstrapper
         $this->viewCache = $this->getViewCache($container);
         $this->templateFactory = $this->getTemplateFactory($container);
         $compiler = $this->getViewCompiler($container);
-        $container->bind("RDev\\Views\\Caching\\ICache", $this->viewCache);
-        $container->bind("RDev\\Views\\Compilers\\ICompiler", $compiler);
-        $container->bind("RDev\\Views\\Factories\\ITemplateFactory", $this->templateFactory);
+        $container->bind(ICache::class, $this->viewCache);
+        $container->bind(ICompiler::class, $compiler);
+        $container->bind(ITemplateFactory::class, $this->templateFactory);
     }
 
     /**
@@ -57,7 +58,7 @@ class Template extends Bootstrapper
      */
     protected function getTemplateFactory(IContainer $container)
     {
-        $fileSystem = $container->makeShared("RDev\\Files\\FileSystem");
+        $fileSystem = $container->makeShared(FileSystem::class);
 
         return new TemplateFactory($fileSystem, $this->paths["views"]);
     }
@@ -71,7 +72,7 @@ class Template extends Bootstrapper
      */
     protected function getViewCache(IContainer $container)
     {
-        $fileSystem = $container->makeShared("RDev\\Files\\FileSystem");
+        $fileSystem = $container->makeShared(FileSystem::class);
         $cacheConfig = require_once $this->paths["configs"] . "/http/views.php";
 
         return new Cache(

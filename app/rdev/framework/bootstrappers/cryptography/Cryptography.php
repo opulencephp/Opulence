@@ -7,6 +7,7 @@
 namespace RDev\Framework\Bootstrappers\Cryptography;
 use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\Cryptography\Encryption\Encrypter;
+use RDev\Cryptography\Encryption\IEncrypter;
 use RDev\Cryptography\Hashing\BcryptHasher;
 use RDev\Cryptography\Hashing\IHasher;
 use RDev\Cryptography\Utilities\Strings;
@@ -20,16 +21,16 @@ class Cryptography extends Bootstrapper
     public function registerBindings(IContainer $container)
     {
         $strings = $this->getStringUtility();
-        $container->bind("RDev\\Cryptography\\Encryption\\IEncrypter", $this->getEncrypter($strings));
-        $container->bind("RDev\\Cryptography\\Hashing\\IHasher", $this->getHasher($strings));
-        $container->bind("RDev\\Cryptography\\Utilities\\Strings", $strings);
+        $container->bind(IEncrypter::class, $this->getEncrypter($strings));
+        $container->bind(IHasher::class, $this->getHasher($strings));
+        $container->bind(Strings::class, $strings);
     }
 
     /**
      * Gets the encrypter to use
      *
      * @param Strings $strings The string utility
-     * @return Encrypter The encrypter
+     * @return IEncrypter The encrypter
      */
     protected function getEncrypter(Strings $strings)
     {

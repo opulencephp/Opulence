@@ -19,7 +19,7 @@ class Composer extends Bootstrapper
     {
         $composer = ComposerWrapper::createFromRawConfig($this->paths);
         $executable = new Executable($this->paths);
-        $container->bind("RDev\\Framework\\Composer\\Composer", $composer);
-        $container->bind("RDev\\Framework\\Composer\\Executable", $executable);
+        $container->bind(ComposerWrapper::class, $composer);
+        $container->bind(Executable::class, $executable);
     }
 }

@@ -17,7 +17,7 @@ class Requests extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind("RDev\\Console\\Requests\\Parsers\\IParser", $this->getRequestParser($container));
+        $container->bind(IParser::class, $this->getRequestParser($container));
     }
 
     /**

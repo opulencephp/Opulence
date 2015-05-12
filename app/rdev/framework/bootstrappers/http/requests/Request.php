@@ -16,6 +16,6 @@ class Request extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind("RDev\\HTTP\\Requests\\Request", HTTPRequest::createFromGlobals());
+        $container->bind(HTTPRequest::class, HTTPRequest::createFromGlobals());
     }
 }

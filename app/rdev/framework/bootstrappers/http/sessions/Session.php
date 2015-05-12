@@ -29,8 +29,8 @@ class Session extends Bootstrapper
     {
         $this->session = $this->getSession();
         $this->sessionHandler = $this->getSessionHandler();
-        $container->bind("RDev\\Sessions\\ISession", $this->session);
-        $container->bind("\\SessionHandlerInterface", $this->sessionHandler);
+        $container->bind(ISession::class, $this->session);
+        $container->bind(SessionHandlerInterface::class, $this->sessionHandler);
     }
 
     /**

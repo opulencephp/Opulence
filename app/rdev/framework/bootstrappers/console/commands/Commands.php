@@ -47,9 +47,9 @@ class Commands extends Bootstrapper
     public function registerBindings(IContainer $container)
     {
         $compiler = $this->getCommandCompiler($container);
-        $container->bind("RDev\\Console\\Commands\\Compilers\\ICompiler", $compiler);
+        $container->bind(ICompiler::class, $compiler);
         $this->commandCollection = new CommandCollection($compiler);
-        $container->bind("RDev\\Console\\Commands\\CommandCollection", $this->commandCollection);
+        $container->bind(CommandCollection::class, $this->commandCollection);
     }
 
     /**
