@@ -242,7 +242,7 @@ class Session implements ISession
      */
     public function start(array $variables = [])
     {
-        $this->variables = $variables;
+        $this->setMany($variables);
         $this->hasStarted = true;
 
         return $this->hasStarted;

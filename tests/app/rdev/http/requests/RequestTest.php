@@ -152,6 +152,25 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests cloning the credential
+     */
+    public function testCloning()
+    {
+        $clone = clone $this->request;
+        $this->assertNotSame($clone, $this->request);
+        $this->assertNotSame($clone->getCookies(), $this->request->getCookies());
+        $this->assertNotSame($clone->getDelete(), $this->request->getDelete());
+        $this->assertNotSame($clone->getEnv(), $this->request->getEnv());
+        $this->assertNotSame($clone->getFiles(), $this->request->getFiles());
+        $this->assertNotSame($clone->getHeaders(), $this->request->getHeaders());
+        $this->assertNotSame($clone->getPatch(), $this->request->getPatch());
+        $this->assertNotSame($clone->getPost(), $this->request->getPost());
+        $this->assertNotSame($clone->getPut(), $this->request->getPut());
+        $this->assertNotSame($clone->getQuery(), $this->request->getQuery());
+        $this->assertNotSame($clone->getServer(), $this->request->getServer());
+    }
+
+    /**
      * Tests that checking that a correct path returns true
      */
     public function testCorrectPathReturnsTrue()

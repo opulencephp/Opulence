@@ -49,6 +49,8 @@
 <h3>Framework</h3>
 * All commands in `RDev\Framework\Console\Commands` appended with "Command"
 * `RDev\Framework\Tests\Console\ApplicationTestCase::getCommands()` renamed to `getCommandCollection()`
+* Added `RDev\Framework\Bootstrappers\HTTP\Sessions\Session`
+* Added `RDev\Framework\HTTP\Middleware\Session`
 
 <h3>HTTP</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`

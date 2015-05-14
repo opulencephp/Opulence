@@ -110,6 +110,23 @@ class Request
     }
 
     /**
+     * Clones the objects in the request
+     */
+    public function __clone()
+    {
+        $this->query = clone $this->query;
+        $this->post = clone $this->post;
+        $this->put = clone $this->put;
+        $this->patch = clone $this->patch;
+        $this->delete = clone $this->delete;
+        $this->cookies = clone $this->cookies;
+        $this->server = clone $this->server;
+        $this->headers = clone $this->headers;
+        $this->files = clone $this->files;
+        $this->env = clone $this->env;
+    }
+
+    /**
      * @return Parameters
      */
     public function getCookies()
