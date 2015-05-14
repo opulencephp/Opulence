@@ -30,6 +30,6 @@ HAS PRIORITY:
         Basically, allows us to define a section and give it default content
 
 Need to create session storage classes
-    For cache-backed sessions, maybe it's best to have a simple ICache for Redis and Memcached to implement
+    For cache-backed sessions, maybe it's best to have a simple ICacheProxy for Redis and Memcached to implement
         This would only include the basics: get(), set(), and delete()
 Need to figure out where to store lifetime settings for login credentials in LoginController

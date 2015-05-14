@@ -18,6 +18,8 @@ class Session implements ISession
     const STALE_FLASH_KEYS_KEY = "__RDEV_STALE_FLASH_KEYS";
     /** @var int|string The session Id */
     private $id = "";
+    /** @var string The session name */
+    private $name = "";
     /** @var IIdGenerator The Id generator to use */
     private $idGenerator = null;
     /** @var array The mapping of variable names to values */
@@ -75,9 +77,9 @@ class Session implements ISession
         $newFlashKeys = $this->getNewFlashKeys();
         $newFlashKeys[] = $key;
         $this->set(self::NEW_FLASH_KEYS_KEY, $newFlashKeys);
-        // Remove the data from the list of stale keys, if it was there
         $staleFlashKeys = $this->getStaleFlashKeys();
 
+        // Remove the data from the list of stale keys, if it was there
         if(($staleKey = array_search($key, $staleFlashKeys)) !== false)
         {
             unset($staleFlashKeys[$staleKey]);
@@ -121,6 +123,14 @@ class Session implements ISession
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**
@@ -209,6 +219,22 @@ class Session implements ISession
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMany(array $variables)
+    {
+        $this->variables = array_merge($this->variables, $variables);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
     }
 
     /**

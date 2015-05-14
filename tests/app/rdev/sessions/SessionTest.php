@@ -255,6 +255,16 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting and getting the name
+     */
+    public function testSettingAndGettingName()
+    {
+        $session = new Session();
+        $session->setName("foo");
+        $this->assertEquals("foo", $session->getName());
+    }
+
+    /**
      * Tests setting the Id
      */
     public function testSettingId()
@@ -262,6 +272,19 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $session = new Session(1, $this->getMock(IIdGenerator::class));
         $session->setId(2);
         $this->assertEquals(2, $session->getId());
+    }
+
+    /**
+     * Tests setting many variables
+     */
+    public function testSettingMany()
+    {
+        $session = new Session();
+        $session->set("foo", "bar");
+        $session->setMany(["baz" => "blah"]);
+        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $session->getAll());
+        $session->setMany(["foo" => "somethingnew"]);
+        $this->assertEquals(["foo" => "somethingnew", "baz" => "blah"], $session->getAll());
     }
 
     /**
@@ -317,6 +340,15 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $session = new Session();
         $this->assertFalse($session->hasStarted());
+    }
+
+    /**
+     * Tests that an unset name is an empty string
+     */
+    public function testUnsetNameIsEmptyString()
+    {
+        $session = new Session();
+        $this->assertEquals("", $session->getName());
     }
 
     /**

@@ -7,6 +7,7 @@
 namespace RDev\Framework\Bootstrappers\HTTP\Sessions;
 use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\Files\FileSystem;
+use RDev\HTTP\Requests\Request;
 use RDev\IoC\IContainer;
 use RDev\Sessions\Handlers\FileSessionHandler;
 use RDev\Sessions\ISession;
@@ -15,6 +16,8 @@ use SessionHandlerInterface;
 
 class Session extends Bootstrapper
 {
+    /** The default session cookie name */
+    const DEFAULT_COOKIE_NAME = "__rdev_session";
     /** The default path */
     const DEFAULT_PATH = "/tmp";
     /** @var ISession The session used by the application */
@@ -36,9 +39,12 @@ class Session extends Bootstrapper
     /**
      * {@inheritdoc}
      */
-    public function run()
+    public function run(Request $request)
     {
-        // TODO:  Implement creating of session
+        $this->session->setId($request->getCookies()->get($this->session->getName()));
+        $this->sessionHandler->open(/* TODO: IMPLEMENT */
+            null, $this->session->getId());
+        $this->session->start($this->sessionHandler->read($this->session->getId()));
     }
 
     /**
@@ -46,7 +52,8 @@ class Session extends Bootstrapper
      */
     public function shutdown()
     {
-        // TODO:  Implement shutting down of session
+        $this->session->ageFlashData();
+        $this->sessionHandler->write($this->session->getId(), serialize($this->session->getAll()));
     }
 
     /**
@@ -56,7 +63,10 @@ class Session extends Bootstrapper
      */
     protected function getSession()
     {
-        return new RDevSession();
+        $session = new RDevSession();
+        $session->setName(self::DEFAULT_COOKIE_NAME);
+
+        return $session;
     }
 
     /**

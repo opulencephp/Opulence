@@ -58,6 +58,13 @@ interface ISession extends ArrayAccess
     public function getId();
 
     /**
+     * Gets the session name
+     *
+     * @return string The session name
+     */
+    public function getName();
+
+    /**
      * Gets whether or not a session variable is set
      *
      * @param string $key The name of the variable to search for
@@ -96,6 +103,22 @@ interface ISession extends ArrayAccess
      * @param int|string $id The session Id
      */
     public function setId($id);
+
+    /**
+     * Sets the value of many variables
+     * This will merge the variables into the already-existing variables
+     * If a variable already exists, its value will be overwritten
+     *
+     * @param array $variables The name => value pairings of session variables
+     */
+    public function setMany(array $variables);
+
+    /**
+     * Sets the session name
+     *
+     * @param string $name The session name
+     */
+    public function setName($name);
 
     /**
      * Starts the session

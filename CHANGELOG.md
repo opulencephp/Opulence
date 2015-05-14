@@ -88,12 +88,15 @@
   * `get()`
   * `getAll()`
   * `getId()`
+  * `getName()`
   * `has()`
   * `hasStarted()`
   * `reflash()`
   * `regenerateId()`
   * `set()`
   * `setId()`
+  * `setMany()`
+  * `setName()`
   * `start()`
 * Added `FileSessionHandler`
 * Added `ISession::getId()` and `ISession::setId()`
