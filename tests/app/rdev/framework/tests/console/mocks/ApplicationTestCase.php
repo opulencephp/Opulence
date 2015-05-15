@@ -18,7 +18,6 @@ class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
-        "RDev\\Framework\\Bootstrappers\\HTTP\\Views\\Template",
         "RDev\\Framework\\Bootstrappers\\Console\\Commands\\Commands",
         "RDev\\Framework\\Bootstrappers\\Console\\Composer\\Composer",
     ];

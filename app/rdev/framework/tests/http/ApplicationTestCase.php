@@ -283,8 +283,16 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $container = $this->application->getIoCContainer();
         $this->router = $container->makeShared("RDev\\Routing\\Router");
         $this->kernel = $container->makeShared("RDev\\Framework\\HTTP\\Kernel");
+        $this->kernel->addMiddleware($this->getGlobalMiddleware());
         $this->defaultRequest = new Request([], [], [], [], [], []);
     }
+
+    /**
+     * Gets the list of global middleware
+     *
+     * @return array The list of global middleware classes
+     */
+    abstract protected function getGlobalMiddleware();
 
     /**
      * Checks if the response was set

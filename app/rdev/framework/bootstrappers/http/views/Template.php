@@ -9,7 +9,6 @@ use RDev\Applications\Environments\Environment;
 use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\Files\FileSystem;
 use RDev\IoC\IContainer;
-use RDev\Views\Caching\Cache;
 use RDev\Views\Caching\ICache;
 use RDev\Views\Compilers\Compiler;
 use RDev\Views\Compilers\ICompiler;
@@ -17,7 +16,7 @@ use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Factories\ITemplateFactory;
 use RDev\Views\Filters\XSSFilter;
 
-class Template extends Bootstrapper
+abstract class Template extends Bootstrapper
 {
     /** @var ICache The view cache */
     protected $viewCache = null;
@@ -50,6 +49,15 @@ class Template extends Bootstrapper
     }
 
     /**
+     * Gets the view cache
+     * To use a different view cache than the one returned here, extend this class and override this method
+     *
+     * @param IContainer $container The dependency injection container
+     * @return ICache The view cache
+     */
+    abstract protected function getViewCache(IContainer $container);
+
+    /**
      * Gets the view template factory
      * To use a different template factory than the one returned here, extend this class and override this method
      *
@@ -61,27 +69,6 @@ class Template extends Bootstrapper
         $fileSystem = $container->makeShared(FileSystem::class);
 
         return new TemplateFactory($fileSystem, $this->paths["views"]);
-    }
-
-    /**
-     * Gets the view cache
-     * To use a different view cache than the one returned here, extend this class and override this method
-     *
-     * @param IContainer $container The dependency injection container
-     * @return ICache The view cache
-     */
-    protected function getViewCache(IContainer $container)
-    {
-        $fileSystem = $container->makeShared(FileSystem::class);
-        $cacheConfig = require_once $this->paths["configs"] . "/http/views.php";
-
-        return new Cache(
-            $fileSystem,
-            $this->paths["compiledViews"],
-            $cacheConfig["cacheLifetime"],
-            $cacheConfig["gcChance"],
-            $cacheConfig["gcTotal"]
-        );
     }
 
     /**

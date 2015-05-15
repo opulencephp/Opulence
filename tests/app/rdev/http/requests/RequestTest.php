@@ -636,6 +636,28 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the previous URL is just the referrer header when it wasn't specifically set
+     */
+    public function testPreviousURLIsReferrerWhenItIsNotSet()
+    {
+        $_SERVER["HTTP_REFERER"] = "http://foo.com";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("http://foo.com", $request->getPreviousURL());
+        $this->assertEmpty($request->getPreviousURL(false));
+    }
+
+    /**
+     * Tests that the previous URL take precedence over the referrer header when it is set
+     */
+    public function testPreviousURLTakesPrecedenceOverReferrerWhenSet()
+    {
+        $_SERVER["HTTP_REFERER"] = "http://foo.com";
+        $request = Request::createFromGlobals();
+        $request->setPreviousURL("http://bar.com");
+        $this->assertEquals("http://bar.com", $request->getPreviousURL());
+    }
+
+    /**
      * Tests setting the method
      */
     public function testSettingMethod()

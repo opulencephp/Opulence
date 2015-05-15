@@ -166,8 +166,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingId()
     {
-        $session = new Session(1, $this->getMock(IIdGenerator::class));
-        $this->assertEquals(1, $session->getId());
+        $id = str_repeat(1, IIdGenerator::MIN_LENGTH);
+        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator->expects($this->any())->method("isIdValid")->willReturn(true);
+        $session = new Session($id, $idGenerator);
+        $this->assertEquals($id, $session->getId());
     }
 
     /**
@@ -236,11 +239,15 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegenerateId()
     {
+        $generatedId = str_repeat(1, IIdGenerator::MIN_LENGTH);
         $idGenerator = $this->getMock(IIdGenerator::class);
-        $idGenerator->expects($this->any())->method("generate")->willReturn("foobar");
+        $idGenerator->expects($this->at(0))->method("isIdValid")->willReturn(false);
+        $idGenerator->expects($this->at(2))->method("isIdValid")->willReturn(true);
+        $idGenerator->expects($this->at(4))->method("isIdValid")->willReturn(true);
+        $idGenerator->expects($this->any())->method("generate")->willReturn($generatedId);
         $session = new Session(null, $idGenerator);
         $session->regenerateId();
-        $this->assertEquals("foobar", $session->getId());
+        $this->assertEquals($generatedId, $session->getId());
     }
 
     /**
@@ -269,9 +276,30 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingId()
     {
-        $session = new Session(1, $this->getMock(IIdGenerator::class));
+        $constructorId = str_repeat(1, IIdGenerator::MIN_LENGTH);
+        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator->expects($this->any())->method("isIdValid")->willReturn(true);
+        $session = new Session($constructorId, $idGenerator);
+        $setterId = str_repeat(2, IIdGenerator::MIN_LENGTH);
+        $session->setId($setterId);
+        $this->assertEquals($setterId, $session->getId());
+    }
+
+    /**
+     * Tests that invalid Id causes a new Id to be generated
+     */
+    public function testSettingInvalidIdCausesNewIdToBeGenerated()
+    {
+        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator->expects($this->at(0))->method("isIdValid")->willReturn(false);
+        $idGenerator->expects($this->at(2))->method("isIdValid")->willReturn(true);
+        $idGenerator->expects($this->at(3))->method("isIdValid")->willReturn(false);
+        $idGenerator->expects($this->at(5))->method("isIdValid")->willReturn(true);
+        $idGenerator->expects($this->any())->method("generate")->willReturn(str_repeat(1, IIdGenerator::MIN_LENGTH));
+        $session = new Session(1, $idGenerator);
+        $this->assertNotEquals(1, $session->getId());
         $session->setId(2);
-        $this->assertEquals(2, $session->getId());
+        $this->assertNotEquals(2, $session->getId());
     }
 
     /**

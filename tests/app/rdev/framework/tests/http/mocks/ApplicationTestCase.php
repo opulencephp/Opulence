@@ -18,10 +18,17 @@ class ApplicationTestCase extends BaseApplicationTestCase
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
         "RDev\\Framework\\Bootstrappers\\HTTP\\Requests\\Request",
-        "RDev\\Framework\\Bootstrappers\\HTTP\\Views\\Template",
         "RDev\\Framework\\Bootstrappers\\HTTP\\Routing\\Router",
         "RDev\\Framework\\Bootstrappers\\HTTP\\Views\\TemplateFunctions"
     ];
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getGlobalMiddleware()
+    {
+        return [];
+    }
 
     /**
      * {@inheritdoc}

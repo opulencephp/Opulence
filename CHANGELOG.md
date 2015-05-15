@@ -55,8 +55,7 @@
 <h3>HTTP</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
 * Moved `RDev\HTTP\Kernels\Kernel` to `RDev\Framework\HTTP\Kernel`
-* Added `CompiledRoute::getPathVariable()`
-* Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
+* Added `Request::getPreviousURL()` and `Request::setPreviousURL()`
 
 <h3>IoC</h3>
 * Changed `RDev\IoC\IContainer::call()` and `RDev\IoC\Container::call()` to accept a `callable` rather than an instance and method name 
@@ -66,6 +65,8 @@
 * `RDev\HTTP\Routing\Routes\Routes` renamed to `RDev\Routing\Routes\RouteCollection`
 * `RDev\HTTP\Routing\Router::routes` renamed to `routeCollection`
 * `RDev\HTTP\Routing\Router::getRoutes()` renamed to `getRouteCollection()`
+* Added `CompiledRoute::getPathVariable()`
+* Fixed type-hint for `Router::getMatchedRoute()` to return type `CompiledRoute`
 * Controller/method names are now passed into the `Route` constructor directly rather than through the options array
   * The following methods in `RDev\Routing\Router` have been changed to accept `$path`, `$controller`, and `$options`:
     * `any()`

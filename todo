@@ -1,7 +1,12 @@
 HAS PRIORITY:
-    In Session bootstrapper, how do we pass session Id?
-        Probably needs to come from some intermediate (new) class
+    Need to implement way of getting the current URL from the request
+        http://stackoverflow.com/questions/6768793/get-the-full-url-in-php
+        Probably add a const PREVIOUS_URL_KEY to Session (same for CSRF_TOKEN_KEY)
+        Need to get/set the previous URL in Session and assign it in Request in middleware (make sure to only do it in non-AJAX GET requests)
+    Need to get/set csrf token
+    Need to document updates to Request
     Add more session handlers
+    Need to write session docs
     Test the ever-loving god out of sessions in real-life scenarios
     Get rid of dependence on HTTP Request in Credential stuff
     Write up nginx config in docs

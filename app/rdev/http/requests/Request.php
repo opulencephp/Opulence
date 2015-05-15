@@ -58,6 +58,8 @@ class Request
     private $cookies = null;
     /** @var string The path of the request, which does not include the query string */
     private $path = "";
+    /** @var string The previous URL */
+    private $previousURL = "";
     /** @var string The raw body of the request */
     private $rawBody = null;
 
@@ -224,6 +226,27 @@ class Request
     public function getPost()
     {
         return $this->post;
+    }
+
+    /**
+     * The previous URL, if one was set, otherwise the referrer header
+     *
+     * @param bool $fallBackToReferer True if we fall back to the HTTP referer header, otherwise false
+     * @return string The previous URL
+     */
+    public function getPreviousURL($fallBackToReferer = true)
+    {
+        if(!empty($this->previousURL))
+        {
+            return $this->previousURL;
+        }
+
+        if($fallBackToReferer)
+        {
+            return $this->headers->get("REFERER");
+        }
+
+        return "";
     }
 
     /**
@@ -396,6 +419,16 @@ class Request
         {
             $this->path = $path;
         }
+    }
+
+    /**
+     * Sets the previous URL
+     *
+     * @param string $previousURL The previous URL
+     */
+    public function setPreviousURL($previousURL)
+    {
+        $this->previousURL = $previousURL;
     }
 
     /**

@@ -16,6 +16,7 @@ class Session implements ISession
     const NEW_FLASH_KEYS_KEY = "__RDEV_NEW_FLASH_KEYS";
     /** The key for stale flash keys */
     const STALE_FLASH_KEYS_KEY = "__RDEV_STALE_FLASH_KEYS";
+
     /** @var int|string The session Id */
     private $id = "";
     /** @var string The session name */
@@ -33,17 +34,13 @@ class Session implements ISession
      */
     public function __construct($id = null, IIdGenerator $idGenerator = null)
     {
-        if(!is_null($id))
-        {
-            $this->setId($id);
-        }
-
         if(is_null($idGenerator))
         {
             $idGenerator = new IdGenerator(new Strings());
         }
 
         $this->idGenerator = $idGenerator;
+        $this->setId($id);
     }
 
     /**
@@ -218,7 +215,14 @@ class Session implements ISession
      */
     public function setId($id)
     {
-        $this->id = $id;
+        if($this->idGenerator->isIdValid($id))
+        {
+            $this->id = $id;
+        }
+        else
+        {
+            $this->regenerateId();
+        }
     }
 
     /**
