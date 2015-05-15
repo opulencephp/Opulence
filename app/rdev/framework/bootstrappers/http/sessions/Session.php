@@ -17,21 +17,23 @@ abstract class Session extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(ISession::class, $this->getSession());
-        $container->bind(SessionHandlerInterface::class, $this->getSessionHandler());
+        $container->bind(ISession::class, $this->getSession($container));
+        $container->bind(SessionHandlerInterface::class, $this->getSessionHandler($container));
     }
 
     /**
      * Gets the session object to use
      *
+     * @param IContainer $container The IoC Container
      * @return ISession The session to use
      */
-    abstract protected function getSession();
+    abstract protected function getSession(IContainer $container);
 
     /**
      * Gets the session handler object to use
      *
+     * @param IContainer $container The IoC Container
      * @return SessionHandlerInterface The session handler to use
      */
-    abstract protected function getSessionHandler();
+    abstract protected function getSessionHandler(IContainer $container);
 }
