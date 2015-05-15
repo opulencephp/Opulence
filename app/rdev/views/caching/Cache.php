@@ -19,21 +19,21 @@ class Cache implements ICache
     /** @var int The chance (out of the total) that garbage collection will be run */
     private $gcChance = self::DEFAULT_GC_CHANCE;
     /** @var int The number the chance will be divided by to calculate the probability */
-    private $gcTotal = self::DEFAULT_GC_TOTAL;
+    private $gcDivisor = self::DEFAULT_GC_DIVISOR;
 
     /**
      * @param FileSystem $fileSystem The file system to use to read cached template
      * @param string|null $path The path to store the cached templates at, or null if the path is not yet set
      * @param int $lifetime The number of seconds cached templates should live
      * @param int $gcChance The chance (out of the total) that garbage collection will be run
-     * @param int $gcTotal The number the chance will be divided by to calculate the probability
+     * @param int $gcDivisor The number the chance will be divided by to calculate the probability
      */
     public function __construct(
         FileSystem $fileSystem,
         $path = null,
         $lifetime = self::DEFAULT_LIFETIME,
         $gcChance = self::DEFAULT_GC_CHANCE,
-        $gcTotal = self::DEFAULT_GC_TOTAL
+        $gcDivisor = self::DEFAULT_GC_DIVISOR
     )
     {
         $this->fileSystem = $fileSystem;
@@ -44,7 +44,7 @@ class Cache implements ICache
         }
 
         $this->setLifetime($lifetime);
-        $this->setGCChance($gcChance, $gcTotal);
+        $this->setGCChance($gcChance, $gcDivisor);
     }
 
     /**
@@ -52,7 +52,7 @@ class Cache implements ICache
      */
     public function __destruct()
     {
-        if(rand(1, $this->gcTotal) <= $this->gcChance)
+        if(rand(1, $this->gcDivisor) <= $this->gcChance)
         {
             $this->gc();
         }
@@ -152,10 +152,10 @@ class Cache implements ICache
     /**
      * {@inheritdoc}
      */
-    public function setGCChance($chance, $total = 100)
+    public function setGCChance($chance, $divisor = 100)
     {
         $this->gcChance = $chance;
-        $this->gcTotal = $total;
+        $this->gcDivisor = $divisor;
     }
 
     /**

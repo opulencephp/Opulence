@@ -111,6 +111,7 @@
 <h3>Views</h3>
 * `RDev\Views\Cache` namespace renamed to `RDev\Views\Caching`
 * `RDev\Views\Filters\XSS` renamed to `RDev\Views\Filters\XSSFilter`
+* `RDev\Views\Caching\ICache::DEFAULT_GC_TOTAL` renamed to `DEFAULT_GC_DIVISOR`
 
 <h2>v0.4.0</h2>
 * Added `RDev\Framework\Tests\HTTP\ApplicationTestCase`

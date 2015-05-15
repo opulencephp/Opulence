@@ -13,7 +13,7 @@ interface ICache
     /** The default chance that garbage collection will be run in this instance */
     const DEFAULT_GC_CHANCE = 1;
     /** The default number the chance will be divided by to calculate the probability */
-    const DEFAULT_GC_TOTAL = 1000;
+    const DEFAULT_GC_DIVISOR = 1000;
 
     /**
      * Flushes all of the rendered templates from cache
@@ -68,9 +68,9 @@ interface ICache
      * For example, passing (123, 1000) means you will have a 123/1000 chance of having to perform garbage collection
      *
      * @param int $chance The chance (out of the total) that garbage collection will be run
-     * @param int $total The number the chance will be divided by to calculate the probability
+     * @param int $divisor The number the chance will be divided by to calculate the probability
      */
-    public function setGCChance($chance, $total = 100);
+    public function setGCChance($chance, $divisor = 100);
 
     /**
      * Sets the lifetime of cached templates
