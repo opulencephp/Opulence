@@ -58,7 +58,8 @@
 * Added `Request::getPreviousURL()` and `Request::setPreviousURL()`
 
 <h3>IoC</h3>
-* Changed `RDev\IoC\IContainer::call()` and `RDev\IoC\Container::call()` to accept a `callable` rather than an instance and method name 
+* Changed `RDev\IoC\IContainer::call()` and `RDev\IoC\Container::call()` to accept a `callable` rather than an instance and method name
+* Added support for callables in bindings
 
 <h3>Routing</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
