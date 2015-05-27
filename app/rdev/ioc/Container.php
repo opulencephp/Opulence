@@ -534,7 +534,7 @@ class Container implements IContainer
             throw new IoCException("Callback is invalid for $component");
         }
 
-        $instance = call_user_func($bindingData["callback"], $this);
+        $instance = call_user_func($bindingData["callback"]);
         $bindingData["concrete"] = get_class($instance);
         $bindingData["used"] = true;
 
@@ -575,14 +575,7 @@ class Container implements IContainer
             // If we are not forcing new instances, try finding a registered instance
             if(!$forceNewInstance)
             {
-                $concrete = $this->getConcrete($component);
-
-                if(!$concrete)
-                {
-                    $concrete = $component;
-                }
-
-                $instance = $this->getInstance($concrete);
+                $instance = $this->getInstance($this->getConcrete($component));
 
                 if($instance !== null)
                 {
