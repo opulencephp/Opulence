@@ -28,9 +28,25 @@ class Container implements IContainer
      * @var array
      */
     protected $instances = [];
-    /** @var array The list of target class names to interface => concrete class names */
+    /**
+     * The list of target class names to interface => [
+     *      "concrete" => Name of concrete class,
+     *      "callback" => The optional callable to create the instance,
+     *      "used" => Whether or not the binding has been used
+     * ]
+     *
+     * @var array The list of target class names to interface => concrete class names
+     */
     protected $targetedBindings = [];
-    /** @var array The universal list of interface => concrete class names */
+    /**
+     * The universal list of interface => [
+     *      "concrete" => Name of concrete class,
+     *      "callback" => The optional callable to create the instance,
+     *      "used" => Whether or not the binding has been used
+     * ]
+     *
+     * @var array
+     */
     protected $universalBindings = [];
 
     public function __sleep(){return "";}
@@ -40,21 +56,19 @@ class Container implements IContainer
      */
     public function bind($interface, $concrete, $targetClass = null)
     {
-        $concreteClass = $concrete;
-
-        if(!is_string($concrete))
+        if(!is_string($concrete) && !is_callable($concrete))
         {
-            $concreteClass = get_class($concrete);
             $this->registerInstance($concrete);
+            $concrete = get_class($concrete);
         }
 
         if($targetClass === null)
         {
-            $this->bindUniversally($interface, $concreteClass);
+            $this->bindUniversally($interface, $concrete);
         }
         else
         {
-            $this->bindToTarget($interface, $concreteClass, $targetClass);
+            $this->bindToTarget($interface, $concrete, $targetClass);
         }
     }
 
@@ -137,12 +151,12 @@ class Container implements IContainer
     {
         try
         {
-            $concreteClass = $this->getConcreteClass($component);
+            $concrete = $this->getConcrete($component);
 
             // If we're creating a shared instance, check to see if we've already instantiated it
             if(!$forceNewInstance)
             {
-                $instance = $this->getInstance($concreteClass, $constructorPrimitives, $methodCalls);
+                $instance = $this->getInstance($concrete, $constructorPrimitives, $methodCalls);
 
                 if($instance !== null)
                 {
@@ -150,30 +164,40 @@ class Container implements IContainer
                 }
             }
 
-            $reflectionClass = new ReflectionClass($concreteClass);
-
-            if(!$reflectionClass->isInstantiable())
+            if($this->usesCallback($component))
             {
-                throw new IoCException("$concreteClass is not instantiable");
-            }
-
-            $constructor = $reflectionClass->getConstructor();
-
-            if($constructor === null)
-            {
-                // No constructor, so instantiating is easy
-                $instance = new $concreteClass;
+                if($forceNewInstance || !$this->callbackWasUsed($component))
+                {
+                    $instance = $this->makeCallback($component);
+                }
             }
             else
             {
-                // Resolve all of the constructor parameters
-                $constructorParameters = $this->getResolvedParameters(
-                    $concreteClass,
-                    $constructor->getParameters(),
-                    $constructorPrimitives,
-                    false
-                );
-                $instance = $reflectionClass->newInstanceArgs($constructorParameters);
+                $reflectionClass = new ReflectionClass($concrete);
+
+                if(!$reflectionClass->isInstantiable())
+                {
+                    throw new IoCException("$concrete is not instantiable");
+                }
+
+                $constructor = $reflectionClass->getConstructor();
+
+                if($constructor === null)
+                {
+                    // No constructor, so instantiating is easy
+                    $instance = new $concrete;
+                }
+                else
+                {
+                    // Resolve all of the constructor parameters
+                    $constructorParameters = $this->getResolvedParameters(
+                        $concrete,
+                        $constructor->getParameters(),
+                        $constructorPrimitives,
+                        false
+                    );
+                    $instance = $reflectionClass->newInstanceArgs($constructorParameters);
+                }
             }
 
             $this->callMethods($instance, $methodCalls, false);
@@ -227,23 +251,31 @@ class Container implements IContainer
      * Creates a targeted binding
      *
      * @param string $interface The interface to bind to
-     * @param string $concreteClass The concrete class to bind
+     * @param string|callable $concrete The concrete class or callback to bind
      * @param string $targetClass The name of the target class to bind on
      */
-    protected function bindToTarget($interface, $concreteClass, $targetClass)
+    protected function bindToTarget($interface, $concrete, $targetClass)
     {
-        $this->targetedBindings[$targetClass][$interface] = $concreteClass;
+        $this->targetedBindings[$targetClass][$interface] = [
+            "concrete" => is_string($concrete) ? $concrete : "",
+            "callback" => is_callable($concrete) ? $concrete : null,
+            "used" => false
+        ];
     }
 
     /**
      * Creates a universal binding
      *
      * @param string $interface The interface to bind to
-     * @param string $concreteClass The concrete class to bind
+     * @param string|callable $concrete The concrete class or callback to bind
      */
-    protected function bindUniversally($interface, $concreteClass)
+    protected function bindUniversally($interface, $concrete)
     {
-        $this->universalBindings[$interface] = $concreteClass;
+        $this->universalBindings[$interface] = [
+            "concrete" => is_string($concrete) ? $concrete : "",
+            "callback" => is_callable($concrete) ? $concrete : null,
+            "used" => false
+        ];
     }
 
     /**
@@ -264,33 +296,81 @@ class Container implements IContainer
     }
 
     /**
+     * Gets whether or not a callback was already used for a component
+     *
+     * @param string $component The component whose callback we're checking
+     * @param string|null $targetClass The target class, if there was one
+     * @return bool True if the callback was used, otherwise false
+     */
+    protected function callbackWasUsed($component, $targetClass = null)
+    {
+        if($targetClass === null)
+        {
+            $bindingData =& $this->universalBindings[$component];
+        }
+        else
+        {
+            $bindingData =& $this->targetedBindings[$targetClass][$component];
+        }
+
+        return $bindingData["used"];
+    }
+
+    /**
      * Gets the name of the concrete class bound to an abstract class/interface
      *
      * @param string $component The name of the abstract class/interface whose concrete class we're looking for
+     * @param string|null $targetClass The target class
      * @return string The name of the concrete class bound to the component
      *      If the input was a concrete class, then it's returned
      */
-    protected function getConcreteClass($component)
+    protected function getConcrete($component, $targetClass = null)
     {
-        return isset($this->universalBindings[$component]) ? $this->universalBindings[$component] : $component;
+        if($targetClass === null)
+        {
+            if(isset($this->universalBindings[$component]))
+            {
+                return $this->universalBindings[$component]["concrete"];
+            }
+            else
+            {
+                return $component;
+            }
+        }
+        else
+        {
+            if(isset($this->targetedBindings[$targetClass][$component]))
+            {
+                return $this->targetedBindings[$targetClass][$component]["concrete"];
+            }
+            else
+            {
+                return $component;
+            }
+        }
     }
 
     /**
      * Attempts to get an already-instantiated input class
      *
-     * @param string $concreteClass The name of the concrete class whose instance we want
+     * @param string|callable $concrete The name of the concrete class or callable whose instance we want
      * @param array $constructorPrimitives The list of constructor primitives used to create the instance
      * @param array $methodCalls The list of method names to their primitives used to create the instance
      * @return mixed|null The instance if it exists, otherwise false
      */
-    protected function getInstance($concreteClass, array $constructorPrimitives = [], array $methodCalls = [])
+    protected function getInstance($concrete, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        if(isset($this->instances[$concreteClass]) &&
-            $this->instances[$concreteClass]["constructorPrimitives"] == $constructorPrimitives &&
-            $this->instances[$concreteClass]["methodCalls"] == $methodCalls
+        if(!is_string($concrete))
+        {
+            return null;
+        }
+
+        if(isset($this->instances[$concrete]) &&
+            $this->instances[$concrete]["constructorPrimitives"] == $constructorPrimitives &&
+            $this->instances[$concrete]["methodCalls"] == $methodCalls
         )
         {
-            return $this->instances[$concreteClass]["instance"];
+            return $this->instances[$concrete]["instance"];
         }
 
         return null;
@@ -354,13 +434,21 @@ class Container implements IContainer
      *
      * @param string $interface The name of the interface whose binding we want
      * @param string $targetClass The name of the target class whose binding we want
-     * @return string|null The name of the concrete class bound to the interface if it exists, otherwise null
+     * @return string|callable|null The name of the concrete class or callable bound to the interface if it exists,
+     *      otherwise null
      */
     protected function getTargetedBinding($interface, $targetClass)
     {
         if($this->isBoundToTarget($interface, $targetClass))
         {
-            return $this->targetedBindings[$targetClass][$interface];
+            $bindingData = $this->targetedBindings[$targetClass][$interface];
+
+            if(is_callable($bindingData["callback"]))
+            {
+                return $bindingData["callback"];
+            }
+
+            return $bindingData["concrete"];
         }
 
         // Fallback on the universal binding
@@ -371,13 +459,21 @@ class Container implements IContainer
      * Gets a universal binding
      *
      * @param string $interface The name of the interface whose binding we want
-     * @return string|null The name of the concrete class bound to the interface if it exists, otherwise null
+     * @return string|callable|null The name of the concrete class or callable bound to the interface if it exists,
+     *      otherwise null
      */
     protected function getUniversalBinding($interface)
     {
         if($this->isBound($interface))
         {
-            return $this->universalBindings[$interface];
+            $bindingData = $this->universalBindings[$interface];
+
+            if(is_callable($bindingData["callback"]))
+            {
+                return $bindingData["callback"];
+            }
+
+            return $this->universalBindings[$interface]["concrete"];
         }
 
         return null;
@@ -407,6 +503,45 @@ class Container implements IContainer
     }
 
     /**
+     * Makes a callback that was bound to a component
+     *
+     * @param string $component The component whose callback we're creating
+     * @param string|null $targetClass The target class, if there was one
+     * @return mixed The result of the callback
+     * @throws IoCException Thrown if the callback could not be called
+     */
+    protected function makeCallback($component, $targetClass = null)
+    {
+        if($targetClass === null)
+        {
+            $bindingData =& $this->universalBindings[$component];
+        }
+        else
+        {
+            // Fallback to universal bindings
+            if(isset($this->targetedBindings[$targetClass]) && $this->targetedBindings[$targetClass][$component] !== null)
+            {
+                $bindingData =& $this->targetedBindings[$targetClass][$component];
+            }
+            else
+            {
+                $bindingData =& $this->universalBindings[$component];
+            }
+        }
+
+        if(!is_callable($bindingData["callback"]))
+        {
+            throw new IoCException("Callback is invalid for $component");
+        }
+
+        $instance = call_user_func($bindingData["callback"], $this);
+        $bindingData["concrete"] = get_class($instance);
+        $bindingData["used"] = true;
+
+        return $instance;
+    }
+
+    /**
      * Registers a new instance of a class
      *
      * @param mixed $instance The instance of a class
@@ -433,20 +568,50 @@ class Container implements IContainer
      */
     protected function resolveClass($callingClass, $component, $forceNewInstance)
     {
-        $concreteClass = $this->getBinding($component, $callingClass);
+        $concrete = $this->getBinding($component, $callingClass);
 
-        if($concreteClass === null)
+        if(is_callable($concrete))
         {
-            $concreteClass = $component;
+            // If we are not forcing new instances, try finding a registered instance
+            if(!$forceNewInstance)
+            {
+                $concrete = $this->getConcrete($component);
+
+                if(!$concrete)
+                {
+                    $concrete = $component;
+                }
+
+                $instance = $this->getInstance($concrete);
+
+                if($instance !== null)
+                {
+                    return $instance;
+                }
+            }
+
+            $instance = $this->makeCallback($component, $callingClass);
+
+            // Register this for next time
+            if(!$forceNewInstance)
+            {
+                $this->registerInstance($instance);
+            }
+
+            return $instance;
+        }
+        elseif($concrete === null)
+        {
+            $concrete = $component;
         }
 
         if($forceNewInstance)
         {
-            return $this->makeNew($concreteClass);
+            return $this->makeNew($concrete);
         }
         else
         {
-            return $this->makeShared($concreteClass);
+            return $this->makeShared($concrete);
         }
     }
 
@@ -501,5 +666,26 @@ class Container implements IContainer
     protected function unbindUniversally($interface)
     {
         unset($this->universalBindings[$interface]);
+    }
+
+    /**
+     * Gets whether or not a component uses a callback to resolve a binding
+     *
+     * @param string $component The name of the abstract class/interface whose concrete class we're looking for
+     * @param string|null $targetClass The target class
+     * @return bool True if the component uses a callback, otherwise false
+     */
+    protected function usesCallback($component, $targetClass = null)
+    {
+        if($targetClass === null)
+        {
+            return isset($this->universalBindings[$component]) &&
+            is_callable($this->universalBindings[$component]["callback"]);
+        }
+        else
+        {
+            return isset($this->targetedBindings[$targetClass][$component]) &&
+            is_callable($this->targetedBindings[$targetClass][$component]["callback"]);
+        }
     }
 } 

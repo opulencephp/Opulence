@@ -63,6 +63,19 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests binding a targeted callback
+     */
+    public function testBindingTargetedCallback()
+    {
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        }, $this->constructorWithIFoo);
+        $object = $this->container->makeShared($this->constructorWithIFoo);
+        $this->assertInstanceOf($this->concreteFoo, $object->getFoo());
+    }
+
+    /**
      * Tests binding to an abstract class
      */
     public function testBindingToAbstractClass()
@@ -72,6 +85,23 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf($this->concreteFoo, $sharedInstance);
         $newInstance = $this->container->makeNew($this->baseClass);
         $this->assertInstanceOf($this->concreteFoo, $newInstance);
+    }
+
+    /**
+     * Tests binding a universal callback
+     */
+    public function testBindingUniversalCallback()
+    {
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $sharedInstance = $this->container->makeShared($this->fooInterface);
+        $newInstance = $this->container->makeNew($this->fooInterface);
+        $this->assertTrue(is_callable($this->container->getBinding($this->fooInterface)));
+        $this->assertInstanceOf($this->concreteFoo, $sharedInstance);
+        $this->assertInstanceOf($this->concreteFoo, $newInstance);
+        $this->assertNotSame($sharedInstance, $newInstance);
     }
 
     /**
@@ -175,6 +205,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo, $this->constructorWithIFoo);
         $this->assertTrue($this->container->isBound($this->fooInterface, $this->constructorWithIFoo));
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        }, $this->constructorWithIFoo);
+        $this->assertTrue($this->container->isBound($this->fooInterface, $this->constructorWithIFoo));
     }
 
     /**
@@ -183,6 +218,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfUniversallyBoundInterfaceIsBound()
     {
         $this->container->bind($this->fooInterface, $this->concreteFoo);
+        $this->assertTrue($this->container->isBound($this->fooInterface));
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
         $this->assertTrue($this->container->isBound($this->fooInterface));
     }
 
@@ -209,15 +249,28 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewInstanceWithInterfaceInConstructorAndSetters()
     {
+        $tests = function ()
+        {
+            /** @var ConstructorWithInterfaceAndSetters $newInstance */
+            $methodCalls = [
+                "setSetterDependency" => []
+            ];
+            $newInstance = $this->container->makeNew($this->constructorWithIFooAndSetters, [], $methodCalls);
+            $this->assertInstanceOf($this->concreteFoo, $newInstance->getConstructorDependency());
+            $this->assertInstanceOf($this->concretePerson, $newInstance->getSetterDependency());
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        $methodCalls = [
-            "setSetterDependency" => []
-        ];
-        /** @var ConstructorWithInterfaceAndSetters $newInstance */
-        $newInstance = $this->container->makeNew($this->constructorWithIFooAndSetters, [], $methodCalls);
-        $this->assertInstanceOf($this->concreteFoo, $newInstance->getConstructorDependency());
-        $this->assertInstanceOf($this->concretePerson, $newInstance->getSetterDependency());
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $this->container->bind($this->personInterface, function ()
+        {
+            return new $this->concretePerson;
+        });
+        $tests();
     }
 
     /**
@@ -225,15 +278,24 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewInstanceWithSetters()
     {
-        $methodCalls = [
-            "setPrimitive" => ["myPrimitive"],
-            "setInterface" => []
-        ];
+        $tests = function ()
+        {
+            $methodCalls = [
+                "setPrimitive" => ["myPrimitive"],
+                "setInterface" => []
+            ];
+            /** @var ConstructorWithSetters $newInstance */
+            $newInstance = $this->container->makeNew($this->constructorWithSetters, [], $methodCalls);
+            $this->assertEquals("myPrimitive", $newInstance->getPrimitive());
+            $this->assertInstanceOf($this->concreteFoo, $newInstance->getInterface());
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        /** @var ConstructorWithSetters $newInstance */
-        $newInstance = $this->container->makeNew($this->constructorWithSetters, [], $methodCalls);
-        $this->assertEquals("myPrimitive", $newInstance->getPrimitive());
-        $this->assertInstanceOf($this->concreteFoo, $newInstance->getInterface());
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $tests();
     }
 
     /**
@@ -293,15 +355,28 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSharedInstanceWithInterfaceInConstructorAndSetters()
     {
+        $tests = function ()
+        {
+            $methodCalls = [
+                "setSetterDependency" => []
+            ];
+            /** @var ConstructorWithInterfaceAndSetters $sharedInstance */
+            $sharedInstance = $this->container->makeShared($this->constructorWithIFooAndSetters, [], $methodCalls);
+            $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getConstructorDependency());
+            $this->assertInstanceOf($this->concretePerson, $sharedInstance->getSetterDependency());
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        $methodCalls = [
-            "setSetterDependency" => []
-        ];
-        /** @var ConstructorWithInterfaceAndSetters $sharedInstance */
-        $sharedInstance = $this->container->makeShared($this->constructorWithIFooAndSetters, [], $methodCalls);
-        $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getConstructorDependency());
-        $this->assertInstanceOf($this->concretePerson, $sharedInstance->getSetterDependency());
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $this->container->bind($this->personInterface, function ()
+        {
+            return new $this->concretePerson;
+        });
+        $tests();
     }
 
     /**
@@ -309,15 +384,24 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSharedInstanceWithSetters()
     {
-        $methodCalls = [
-            "setPrimitive" => ["myPrimitive"],
-            "setInterface" => []
-        ];
+        $tests = function ()
+        {
+            $methodCalls = [
+                "setPrimitive" => ["myPrimitive"],
+                "setInterface" => []
+            ];
+            /** @var ConstructorWithSetters $sharedInstance */
+            $sharedInstance = $this->container->makeShared($this->constructorWithSetters, [], $methodCalls);
+            $this->assertEquals("myPrimitive", $sharedInstance->getPrimitive());
+            $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getInterface());
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        /** @var ConstructorWithSetters $sharedInstance */
-        $sharedInstance = $this->container->makeShared($this->constructorWithSetters, [], $methodCalls);
-        $this->assertEquals("myPrimitive", $sharedInstance->getPrimitive());
-        $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getInterface());
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $tests();
     }
 
     /**
@@ -345,16 +429,29 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDependencyThatHasDependency()
     {
+        $tests = function ()
+        {
+            $this->assertInstanceOf(
+                $this->concreteFooWithIPersonDependency,
+                $this->container->makeShared($this->fooInterface)
+            );
+            $this->assertInstanceOf(
+                $this->concreteFooWithIPersonDependency,
+                $this->container->makeNew($this->fooInterface)
+            );
+        };
         $this->container->bind($this->fooInterface, $this->concreteFooWithIPersonDependency);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        $this->assertInstanceOf(
-            $this->concreteFooWithIPersonDependency,
-            $this->container->makeShared($this->fooInterface)
-        );
-        $this->assertInstanceOf(
-            $this->concreteFooWithIPersonDependency,
-            $this->container->makeNew($this->fooInterface)
-        );
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFooWithIPersonDependency(new $this->concretePerson);
+        });
+        $this->container->bind($this->personInterface, function ()
+        {
+            return new $this->concretePerson;
+        });
+        $tests();
     }
 
     /**
@@ -449,13 +546,22 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingObject()
     {
+        $tests = function ()
+        {
+            $newInstance = $this->container->make($this->constructorWithIFoo, true);
+            $sharedInstance = $this->container->make($this->constructorWithIFoo, false);
+            $this->assertInstanceOf($this->constructorWithIFoo, $newInstance);
+            $this->assertInstanceOf($this->constructorWithIFoo, $sharedInstance);
+            $this->assertNotSame($newInstance, $sharedInstance);
+            $this->assertSame($sharedInstance, $this->container->make($this->constructorWithIFoo, false));
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
-        $newInstance = $this->container->make($this->constructorWithIFoo, true);
-        $sharedInstance = $this->container->make($this->constructorWithIFoo, false);
-        $this->assertInstanceOf($this->constructorWithIFoo, $newInstance);
-        $this->assertInstanceOf($this->constructorWithIFoo, $sharedInstance);
-        $this->assertNotSame($newInstance, $sharedInstance);
-        $this->assertSame($sharedInstance, $this->container->make($this->constructorWithIFoo, false));
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $tests();
     }
 
     /**
@@ -487,16 +593,29 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMixOfInterfacesAndPrimitivesInConstructor()
     {
+        $tests = function ()
+        {
+            /** @var ConstructorWithMixOfInterfacesAndPrimitives $sharedInstance */
+            $sharedInstance = $this->container->makeShared($this->constructorWithInterfacesAndPrimitives, [23]);
+            /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance */
+            $newInstance = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
+            $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $sharedInstance);
+            $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $newInstance);
+            $this->assertEquals(23, $sharedInstance->getId());
+            $this->assertEquals(23, $newInstance->getId());
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        /** @var ConstructorWithMixOfInterfacesAndPrimitives $sharedInstance */
-        $sharedInstance = $this->container->makeShared($this->constructorWithInterfacesAndPrimitives, [23]);
-        /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance */
-        $newInstance = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
-        $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $sharedInstance);
-        $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $newInstance);
-        $this->assertEquals(23, $sharedInstance->getId());
-        $this->assertEquals(23, $newInstance->getId());
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $this->container->bind($this->personInterface, function ()
+        {
+            return new $this->concretePerson;
+        });
+        $tests();
     }
 
     /**
@@ -504,14 +623,41 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNewInstanceDependenciesAreShared()
     {
+        $tests = function ()
+        {
+            /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance1 */
+            $newInstance1 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
+            /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
+            $newInstance2 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
+            $this->assertSame($newInstance1->getFoo(), $newInstance2->getFoo());
+            $this->assertSame($newInstance1->getPerson(), $newInstance2->getPerson());
+        };
         $this->container->bind($this->fooInterface, $this->concreteFoo);
         $this->container->bind($this->personInterface, $this->concretePerson);
-        /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance1 */
-        $newInstance1 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
-        /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
-        $newInstance2 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
-        $this->assertSame($newInstance1->getFoo(), $newInstance2->getFoo());
-        $this->assertSame($newInstance1->getPerson(), $newInstance2->getPerson());
+        $tests();
+        $this->container->bind($this->fooInterface, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $this->container->bind($this->personInterface, function ()
+        {
+            return new $this->concretePerson;
+        });
+        $tests();
+    }
+
+    /**
+     * Tests that shared instances are the same when using callbacks
+     */
+    public function testSharedInstancesAreSameWhenUsingCallbacks()
+    {
+        $this->container->bind($this->baseClass, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $sharedInstance1 = $this->container->makeShared($this->baseClass);
+        $sharedInstance2 = $this->container->makeShared($this->baseClass);
+        $this->assertSame($sharedInstance1, $sharedInstance2);
     }
 
     /**
@@ -525,6 +671,19 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $this->container->bind($this->fooInterface, $this->secondConcreteIFoo);
         $sharedInstance = $this->container->makeShared($this->constructorWithIFoo);
         $this->assertSame($instance, $sharedInstance->getFoo());
+    }
+
+    /**
+     * Tests unbinding a callback
+     */
+    public function testUnbindingCallback()
+    {
+        $this->container->bind($this->baseClass, function ()
+        {
+            return new $this->concreteFoo;
+        });
+        $this->container->unbind($this->baseClass);
+        $this->assertNull($this->container->getBinding($this->baseClass));
     }
 
     /**
