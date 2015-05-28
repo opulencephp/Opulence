@@ -1,4 +1,6 @@
 HAS PRIORITY:
+    Need to implement Bootstrapper IO, Config, Dispatcher
+    Need to add a pre-start task for Dispatcher::dispatch (application will not be responsible for this anymore)
     Need to implement way of getting the current URL from the request
         http://stackoverflow.com/questions/6768793/get-the-full-url-in-php
         Probably add a const PREVIOUS_URL_KEY to Session (same for CSRF_TOKEN_KEY)

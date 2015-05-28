@@ -9,7 +9,6 @@ use InvalidArgumentException;
 use Monolog\Logger;
 use RDev\Applications\Environments\Environment;
 use RDev\IoC\Container;
-use RDev\Tests\Applications\Bootstrappers\Mocks\EnvironmentBootstrapper;
 use RDev\Tests\Applications\Mocks\MonologHandler;
 use ReflectionClass;
 
@@ -213,17 +212,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests registering an invalid bootstrapper
-     */
-    public function testRegisteringInvalidBootstrapper()
-    {
-        $bootstrapperName = "RDev\\Tests\\Applications\\Bootstrappers\\Mocks\\InvalidBootstrapper";
-        $this->application->registerBootstrappers([$bootstrapperName]);
-        $this->application->start();
-        $this->assertFalse($this->application->isRunning());
-    }
-
-    /**
      * Tests registering post-shutdown tasks
      */
     public function testRegisteringPostShutdownTask()
@@ -371,18 +359,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("foo", $preStartValue);
         $this->assertEquals("baz", $startValue);
         $this->assertEquals("bar", $postStartValue);
-    }
-
-    /**
-     * Tests that run and shutdown are called on a registered bootstrapper
-     */
-    public function testRunAndShutdownAreCalledOnBootstrapper()
-    {
-        $this->application->registerBootstrappers([EnvironmentBootstrapper::class]);
-        $this->application->start();
-        $this->assertEquals("running", $this->environment->getName());
-        $this->application->shutdown();
-        $this->assertEquals("shutting down", $this->environment->getName());
     }
 
     /**

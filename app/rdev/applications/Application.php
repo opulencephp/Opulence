@@ -9,7 +9,6 @@ use Closure;
 use Exception;
 use Monolog\Logger;
 use RuntimeException;
-use RDev\Applications\Bootstrappers\Bootstrapper;
 use RDev\Applications\Environments\Environment;
 use RDev\IoC\IContainer;
 
@@ -34,8 +33,6 @@ class Application
         "preShutdown" => [],
         "postShutdown" => []
     ];
-    /** @var array The list of bootstrapper classes registered to the application */
-    private $bootstrapperClasses = [];
 
     /**
      * @param Paths $paths The paths to various directories used by RDev
@@ -50,7 +47,6 @@ class Application
         $this->setLogger($logger);
         $this->setEnvironment($environment);
         $this->setIoCContainer($container);
-        $this->registerBootstrappersTasks();
     }
 
     /**
@@ -99,18 +95,6 @@ class Application
     public function isRunning()
     {
         return $this->isRunning;
-    }
-
-    /**
-     * Registers bootstrapper classes to run
-     * This should be called before the application is started
-     *
-     * @param array $bootstrapperClasses The list of class names of bootstrappers
-     * @throws RuntimeException Thrown if the bootstrapper is of the incorrect class
-     */
-    public function registerBootstrappers(array $bootstrapperClasses)
-    {
-        $this->bootstrapperClasses = array_merge($this->bootstrapperClasses, $bootstrapperClasses);
     }
 
     /**
@@ -275,42 +259,5 @@ class Application
         {
             throw new RuntimeException("Failed to run tasks: " . $ex->getMessage());
         }
-    }
-
-    /**
-     * Registers the task that will run and shutdown the bootstrappers
-     */
-    private function registerBootstrappersTasks()
-    {
-        $this->registerPreStartTask(function ()
-        {
-            $bootstrapperObjects = [];
-
-            foreach($this->bootstrapperClasses as $bootstrapperClass)
-            {
-                $bootstrapper = new $bootstrapperClass($this->paths, $this->environment);
-
-                if(!$bootstrapper instanceof Bootstrapper)
-                {
-                    throw new RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
-                }
-
-                $bootstrapper->registerBindings($this->container);
-                $bootstrapperObjects[] = $bootstrapper;
-            }
-
-            foreach($bootstrapperObjects as $bootstrapper)
-            {
-                $this->container->call([$bootstrapper, "run"], [], true);
-            }
-
-            $this->registerPreShutdownTask(function () use ($bootstrapperObjects)
-            {
-                foreach($bootstrapperObjects as $bootstrapper)
-                {
-                    $this->container->call([$bootstrapper, "shutdown"], [], true);
-                }
-            });
-        });
     }
 } 

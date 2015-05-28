@@ -7,8 +7,10 @@
 namespace RDev\Tests\Framework\Tests\Console\Mocks;
 use Monolog\Logger;
 use RDev\Applications\Application;
-use RDev\Applications\Paths;
+use RDev\Applications\Bootstrappers\BootstrapperRegistry;
+use RDev\Applications\Bootstrappers\Dispatchers\Dispatcher;
 use RDev\Applications\Environments\Environment;
+use RDev\Applications\Paths;
 use RDev\Framework\Tests\Console\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\IoC\Container;
 use RDev\Sessions\Session;
@@ -41,9 +43,15 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $container->bind("RDev\\Applications\\Environments\\Environment", $environment);
         $container->bind("RDev\\IoC\\IContainer", $container);
         $container->bind("RDev\\Sessions\\ISession", $session);
-
-        // Actually set the application
         $this->application = new Application($paths, $logger, $environment, $container, $session);
-        $this->application->registerBootstrappers(self::$bootstrappers);
+
+        // Setup the bootstrappers
+        $bootstrapperRegistry = new BootstrapperRegistry($paths, $environment);
+        $bootstrapperDispatcher = new Dispatcher($this->application);
+        $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
+        $this->application->registerPreStartTask(function () use ($bootstrapperDispatcher, $bootstrapperRegistry)
+        {
+            $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
+        });
     }
 }

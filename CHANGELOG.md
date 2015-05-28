@@ -6,6 +6,10 @@
 
 <h3>Applications</h3>
 * Added `Bootstrapper::shutdown()` to handle any cleaning up that needs to be done on application shutdown
+* Added ability to lazy-load bootstrappers by implementing `RDev\Applications\Bootstrappers\ILazyBootstrapper`
+* Removed `Application::registerBootstrapper()` and `Application::registerBootstrappersTask()`
+  * Added `RDev\Applications\Bootstrappers\IBootstrapperRegistry` and `BootstrapperRegistry` to act as the bootstrapper registry
+  * Added `RDev\Applications\Bootstrappers\Dispatcher\IDispatcher` and `Dispatcher` to actually dispatch bootstrappers
 
 <h3>Authentication</h3>
 * `RDev\Authentication\Credentials\Credentials` renamed to `RDev\Authentication\Credentials\CredentialCollection`
@@ -59,7 +63,7 @@
 
 <h3>IoC</h3>
 * Changed `RDev\IoC\IContainer::call()` and `RDev\IoC\Container::call()` to accept a `callable` rather than an instance and method name
-* Added support for callables in bindings
+* Added support for callbacks in bindings
 
 <h3>Routing</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
