@@ -1,6 +1,11 @@
 HAS PRIORITY:
-    Need to implement Bootstrapper IO, Config, Dispatcher
-    Need to add a pre-start task for Dispatcher::dispatch (application will not be responsible for this anymore)
+    Need to implement Bootstrapper IO
+        How do we actually use list of bootstrappers in bootstrappers.php?  If IO has never run, it needs to start with that.  So, this should probably go in the Registry, right?
+            Do I need something like BootstrapperRegistry::registerAllBootstrappers()?  How do we differentiate this from the other register*() methods in there?
+        Need to add console command to wipe out registry.json file
+        In Project, need to remove $application->registerBootstrapper, go with bootstrapper registry and dispatcher
+        Question:  Where do we instantiate these two classes?  bootstrappers.php is currently the list of bootstrappers used by the application (should stay this way)
+            So, we either need a way to combine bootstrappers.php with registry/dispatcher instantiation, or we need two separate files
     Need to implement way of getting the current URL from the request
         http://stackoverflow.com/questions/6768793/get-the-full-url-in-php
         Probably add a const PREVIOUS_URL_KEY to Session (same for CSRF_TOKEN_KEY)
@@ -37,5 +42,3 @@ HAS PRIORITY:
             Is all this really worth it?
     Add ability to start a section and show it
         Basically, allows us to define a section and give it default content
-
-Need to figure out where to store lifetime settings for login credentials in LoginController
