@@ -10,6 +10,7 @@
 * Removed `Application::registerBootstrapper()` and `Application::registerBootstrappersTask()`
   * Added `RDev\Applications\Bootstrappers\IBootstrapperRegistry` and `BootstrapperRegistry` to act as the bootstrapper registry
   * Added `RDev\Applications\Bootstrappers\Dispatcher\IDispatcher` and `Dispatcher` to actually dispatch bootstrappers
+  * Added `RDev\Applications\Bootstrappers\IO\BootstrapperIO` to read bootstrappers from storage
 
 <h3>Authentication</h3>
 * `RDev\Authentication\Credentials\Credentials` renamed to `RDev\Authentication\Credentials\CredentialCollection`
