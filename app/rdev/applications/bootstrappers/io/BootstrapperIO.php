@@ -13,8 +13,10 @@ use RDev\Applications\Paths;
 
 class BootstrapperIO
 {
-    /** The name of the cached registry file */
-    const CACHED_REGISTRY_FILE_NAME = "cachedRegistry.json";
+    /** The cached console bootstrapper registry file name */
+    const CACHED_CONSOLE_BOOTSTRAPPER_REGISTRY_FILE_NAME = "cachedConsoleBootstrapperRegistry.json";
+    /** The cached HTTP bootstrapper registry file name */
+    const CACHED_HTTP_BOOTSTRAPPER_REGISTRY_FILE_NAME = "cachedHTTPBootstrapperRegistry.json";
 
     /** @var Paths The application paths */
     private $paths = null;
@@ -34,22 +36,38 @@ class BootstrapperIO
     }
 
     /**
+     * Gets the cached registry file name
+     *
+     * @param string $fileName The filename
+     * @return string The cached registry file name
+     */
+    public function getCachedRegistryPath($fileName)
+    {
+        return "{$this->paths["tmp.framework"]}/$fileName";
+    }
+
+    /**
      * Reads the bootstrapper registry from cache, if it exists, otherwise it generates a registry from the list of
      * bootstrappers
      *
+     * @param string $fileName The cache registry filename
      * @return IBootstrapperRegistry The bootstrapper registry
      */
-    public function read()
+    public function read($fileName)
     {
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
 
-        if(file_exists($this->getCachedRegistryFileName()))
+        if(file_exists($this->getCachedRegistryPath($fileName)))
         {
-            return $this->loadRegistryFromCache($registry);
+            return $this->loadRegistryFromCache($fileName, $registry);
         }
         else
         {
-            return $this->loadRegistryFromBootstrapperClasses($registry);
+            // Write this for next time
+            $registry = $this->loadRegistryFromBootstrapperClasses($registry);
+            $this->write($fileName, $registry);
+
+            return $registry;
         }
     }
 
@@ -67,9 +85,10 @@ class BootstrapperIO
     /**
      * Writes the bootstrapper registry
      *
+     * @param string $fileName The cache registry filename
      * @param IBootstrapperRegistry $registry The config to write
      */
-    public function write(IBootstrapperRegistry $registry)
+    public function write($fileName, IBootstrapperRegistry $registry)
     {
         $data = [
             "eager" => $registry->getEagerBootstrapperClasses(),
@@ -81,17 +100,7 @@ class BootstrapperIO
             $data["lazy"][$boundClass] = $bootstrapperClass;
         }
 
-        file_put_contents($this->getCachedRegistryFileName(), json_encode($data));
-    }
-
-    /**
-     * Gets the cached registry file name
-     *
-     * @return string The cached registry file name
-     */
-    private function getCachedRegistryFileName()
-    {
-        return "{$this->paths["tmp.framework"]}/" . self::CACHED_REGISTRY_FILE_NAME;
+        file_put_contents($this->getCachedRegistryPath($fileName), json_encode($data));
     }
 
     /**
@@ -122,12 +131,13 @@ class BootstrapperIO
     /**
      * Loads a cached registry file's data into a registry
      *
+     * @param string $fileName The cache registry file name
      * @param IBootstrapperRegistry $registry The registry to load
      * @return IBootstrapperRegistry The registry
      */
-    private function loadRegistryFromCache(IBootstrapperRegistry $registry)
+    private function loadRegistryFromCache($fileName, IBootstrapperRegistry $registry)
     {
-        $rawContents = file_get_contents($this->getCachedRegistryFileName());
+        $rawContents = file_get_contents($this->getCachedRegistryPath($fileName));
         $decodedContents = json_decode($rawContents, true);
 
         foreach($decodedContents["eager"] as $eagerBootstrapperClass)

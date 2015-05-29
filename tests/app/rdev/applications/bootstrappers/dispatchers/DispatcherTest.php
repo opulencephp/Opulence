@@ -13,12 +13,14 @@ use RDev\Applications\Bootstrappers\BootstrapperRegistry;
 use RDev\Applications\Environments\Environment;
 use RDev\Applications\Paths;
 use RDev\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapper;
-use RDev\Tests\Applications\Bootstrappers\Mocks\EagerConcreteFoo;
+use RDev\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper;
 use RDev\Tests\Applications\Bootstrappers\Mocks\EagerFooInterface;
+use RDev\Tests\Applications\Bootstrappers\Mocks\EagerConcreteFoo;
 use RDev\Tests\Applications\Bootstrappers\Mocks\EnvironmentBootstrapper;
-use RDev\Tests\Applications\Bootstrappers\Mocks\LazyFooInterface;
 use RDev\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapper;
+use RDev\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper;
 use RDev\Tests\Applications\Bootstrappers\Mocks\LazyConcreteFoo;
+use RDev\Tests\Applications\Bootstrappers\Mocks\LazyFooInterface;
 use RDev\Tests\Applications\Mocks\MonologHandler;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase
@@ -58,6 +60,50 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->dispatcher->dispatch($this->registry);
         $this->assertEquals(LazyConcreteFoo::class, $this->container->getBinding(LazyFooInterface::class));
         $this->assertEquals(EagerConcreteFoo::class, $this->container->getBinding(EagerFooInterface::class));
+    }
+
+    /**
+     * Tests dispatching an eager bootstrapper that depends on a dependency set in a lazy bootstrapper
+     */
+    public function testDispatchingEagerDispatcherThatDependsOnDependencyFromLazyBootstrapper()
+    {
+        $this->registry->registerEagerBootstrapper(EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        ob_start();
+        $this->dispatcher->dispatch($this->registry);
+        $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
+    }
+
+    /**
+     * Tests dispatching a lazy bootstrapper (registered first) that depends on a dependency set in a lazy bootstrapper
+     */
+    public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItFirst()
+    {
+        $this->registry->registerLazyBootstrapper(
+            EagerFooInterface::class,
+            LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper::class
+        );
+        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        ob_start();
+        $this->dispatcher->dispatch($this->registry);
+        $this->container->makeNew(EagerFooInterface::class);
+        $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
+    }
+
+    /**
+     * Tests dispatching a lazy bootstrapper (registered second) that depends on a dependency set in a lazy bootstrapper
+     */
+    public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItSecond()
+    {
+        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper(
+            EagerFooInterface::class,
+            LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper::class
+        );
+        ob_start();
+        $this->dispatcher->dispatch($this->registry);
+        $this->container->makeNew(EagerFooInterface::class);
+        $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
     }
 
     /**

@@ -1,4 +1,5 @@
 HAS PRIORITY:
+    Document lazy bootstrappers, framework:flushcache command
     Need to implement way of getting the current URL from the request
         http://stackoverflow.com/questions/6768793/get-the-full-url-in-php
         Probably add a const PREVIOUS_URL_KEY to Session (same for CSRF_TOKEN_KEY)

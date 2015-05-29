@@ -44,8 +44,9 @@ class Dispatcher implements IDispatcher
         }
         else
         {
-            $this->dispatchEagerly($registry, $registry->getEagerBootstrapperClasses());
+            // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
             $this->dispatchLazily($registry, $registry->getBindingsToLazyBootstrapperClasses());
+            $this->dispatchEagerly($registry, $registry->getEagerBootstrapperClasses());
         }
     }
 
@@ -106,10 +107,14 @@ class Dispatcher implements IDispatcher
         {
             $this->container->bind(
                 $boundClass,
-                function () use ($registry, &$bootstrapperObjects, $boundClass, &$bootstrapperClass)
+                function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass)
                 {
                     $bootstrapper = $registry->getInstance($bootstrapperClass);
-                    $bootstrapperObjects[] = $bootstrapper;
+
+                    if(!in_array($bootstrapper, $bootstrapperObjects))
+                    {
+                        $bootstrapperObjects[] = $bootstrapper;
+                    }
 
                     if(!isset($this->runBootstrappers[$bootstrapperClass]))
                     {

@@ -6,12 +6,21 @@
  */
 namespace RDev\Framework\Bootstrappers\Console\Composer;
 use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Applications\Bootstrappers\ILazyBootstrapper;
 use RDev\Framework\Composer\Composer as ComposerWrapper;
 use RDev\Framework\Composer\Executable;
 use RDev\IoC\IContainer;
 
-class Composer extends Bootstrapper
+class Composer extends Bootstrapper implements ILazyBootstrapper
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getBoundClasses()
+    {
+        return [ComposerWrapper::class, Executable::class];
+    }
+
     /**
      * {@inheritdoc}
      */

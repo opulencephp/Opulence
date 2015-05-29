@@ -5,23 +5,32 @@
  * Defines the template bootstrapper
  */
 namespace RDev\Framework\Bootstrappers\HTTP\Views;
-use RDev\Applications\Environments\Environment;
 use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Applications\Bootstrappers\ILazyBootstrapper;
+use RDev\Applications\Environments\Environment;
 use RDev\Files\FileSystem;
 use RDev\IoC\IContainer;
 use RDev\Views\Caching\ICache;
 use RDev\Views\Compilers\Compiler;
 use RDev\Views\Compilers\ICompiler;
-use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Factories\ITemplateFactory;
+use RDev\Views\Factories\TemplateFactory;
 use RDev\Views\Filters\XSSFilter;
 
-abstract class Template extends Bootstrapper
+abstract class Template extends Bootstrapper implements ILazyBootstrapper
 {
     /** @var ICache The view cache */
     protected $viewCache = null;
     /** @var ITemplateFactory The template factory */
     protected $templateFactory = null;
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBoundClasses()
+    {
+        return [ICache::class, ICompiler::class, ITemplateFactory::class];
+    }
 
     /**
      * {@inheritdoc}

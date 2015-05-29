@@ -6,6 +6,7 @@
  */
 namespace RDev\Framework\Bootstrappers\Cryptography;
 use RDev\Applications\Bootstrappers\Bootstrapper;
+use RDev\Applications\Bootstrappers\ILazyBootstrapper;
 use RDev\Cryptography\Encryption\Encrypter;
 use RDev\Cryptography\Encryption\IEncrypter;
 use RDev\Cryptography\Hashing\BcryptHasher;
@@ -13,8 +14,16 @@ use RDev\Cryptography\Hashing\IHasher;
 use RDev\Cryptography\Utilities\Strings;
 use RDev\IoC\IContainer;
 
-class Cryptography extends Bootstrapper
+class Cryptography extends Bootstrapper implements ILazyBootstrapper
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function getBoundClasses()
+    {
+        return [IEncrypter::class, IHasher::class, Strings::class];
+    }
+
     /**
      * {@inheritdoc}
      */

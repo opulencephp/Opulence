@@ -15,6 +15,8 @@ use RDev\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapper;
 
 class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
 {
+    const CACHED_REGISTRY_FILE_NAME = "cachedRegistry.json";
+
     /** @var BootstrapperIO The reader/writer to use in tests */
     private $io = null;
     /** @var Paths The application paths */
@@ -39,10 +41,21 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        if(file_exists($this->getCachedRegistryFilePath()))
+        if(file_exists($this->io->getCachedRegistryPath(self::CACHED_REGISTRY_FILE_NAME)))
         {
-            @unlink($this->getCachedRegistryFilePath());
+            @unlink($this->io->getCachedRegistryPath(self::CACHED_REGISTRY_FILE_NAME));
         }
+    }
+
+    /**
+     * Tests getting the cached registry file name
+     */
+    public function testGettingCachedRegistryFileName()
+    {
+        $this->assertEquals(
+            "{$this->paths["tmp.framework"]}/" . self::CACHED_REGISTRY_FILE_NAME,
+            $this->io->getCachedRegistryPath(self::CACHED_REGISTRY_FILE_NAME)
+        );
     }
 
     /**
@@ -51,12 +64,20 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
     public function testReadingWhenNoCachedRegistryExists()
     {
         $this->io->registerBootstrapperClasses([EagerBootstrapper::class, LazyBootstrapper::class]);
-        $registry = $this->io->read();
+        $registry = $this->io->read(self::CACHED_REGISTRY_FILE_NAME);
         $this->assertInstanceOf(IBootstrapperRegistry::class, $registry);
         $this->assertEquals([EagerBootstrapper::class], $registry->getEagerBootstrapperClasses());
         $this->assertEquals(
             $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class),
             $registry->getBindingsToLazyBootstrapperClasses()
+        );
+        // Make sure that the information was cached
+        $this->assertEquals(
+            [
+                "eager" => [EagerBootstrapper::class],
+                "lazy" => $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+            ],
+            $this->readFromCachedRegistryFile()
         );
     }
 
@@ -69,7 +90,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
             "eager" => [EagerBootstrapper::class],
             "lazy" => $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
-        $registry = $this->io->read();
+        $registry = $this->io->read(self::CACHED_REGISTRY_FILE_NAME);
         $this->assertInstanceOf(IBootstrapperRegistry::class, $registry);
         $this->assertEquals([EagerBootstrapper::class], $registry->getEagerBootstrapperClasses());
         $this->assertEquals(
@@ -85,7 +106,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
     {
         $this->io->registerBootstrapperClasses([EagerBootstrapper::class]);
         $this->io->registerBootstrapperClasses([LazyBootstrapper::class]);
-        $registry = $this->io->read();
+        $registry = $this->io->read(self::CACHED_REGISTRY_FILE_NAME);
         $this->assertInstanceOf(IBootstrapperRegistry::class, $registry);
         $this->assertEquals([EagerBootstrapper::class], $registry->getEagerBootstrapperClasses());
         $this->assertEquals(
@@ -103,8 +124,8 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
         $registry->registerLazyBootstrapper($lazyBootstrapper->getBoundClasses(), LazyBootstrapper::class);
-        $this->io->write($registry);
-        $this->assertEquals($registry, $this->io->read());
+        $this->io->write(self::CACHED_REGISTRY_FILE_NAME, $registry);
+        $this->assertEquals($registry, $this->io->read(self::CACHED_REGISTRY_FILE_NAME));
     }
 
     /**
@@ -116,7 +137,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
         $registry->registerLazyBootstrapper($lazyBootstrapper->getBoundClasses(), LazyBootstrapper::class);
-        $this->io->write($registry);
+        $this->io->write(self::CACHED_REGISTRY_FILE_NAME, $registry);
         $this->assertEquals(
             [
                 "eager" => [EagerBootstrapper::class],
@@ -134,7 +155,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
         $lazyBootstrapper = new LazyBootstrapper($this->paths, $this->environment);
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
         $registry->registerLazyBootstrapper($lazyBootstrapper->getBoundClasses(), LazyBootstrapper::class);
-        $this->io->write($registry);
+        $this->io->write(self::CACHED_REGISTRY_FILE_NAME, $registry);
         $this->assertEquals(
             [
                 "eager" => [],
@@ -151,7 +172,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
     {
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $this->io->write($registry);
+        $this->io->write(self::CACHED_REGISTRY_FILE_NAME, $registry);
         $this->assertEquals(
             [
                 "eager" => [EagerBootstrapper::class],
@@ -187,23 +208,13 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Gets the cached registry file path
-     *
-     * @return string The cached registry file path
-     */
-    private function getCachedRegistryFilePath()
-    {
-        return $this->paths["tmp.framework"] . "/" . BootstrapperIO::CACHED_REGISTRY_FILE_NAME;
-    }
-
-    /**
      * Reads data from the cached registry file
      *
      * @return array The decoded data
      */
     private function readFromCachedRegistryFile()
     {
-        return json_decode(file_get_contents($this->getCachedRegistryFilePath()), true);
+        return json_decode(file_get_contents($this->io->getCachedRegistryPath(self::CACHED_REGISTRY_FILE_NAME)), true);
     }
 
     /**
@@ -213,6 +224,6 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
      */
     private function writeRegistry(array $data)
     {
-        file_put_contents($this->getCachedRegistryFilePath(), json_encode($data));
+        file_put_contents($this->io->getCachedRegistryPath(self::CACHED_REGISTRY_FILE_NAME), json_encode($data));
     }
 }

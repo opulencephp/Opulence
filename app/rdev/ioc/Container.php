@@ -360,7 +360,7 @@ class Container implements IContainer
      */
     protected function getInstance($concrete, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        if(!is_string($concrete))
+        if(!is_string($concrete) || strlen($concrete) == 0)
         {
             return null;
         }

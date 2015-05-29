@@ -13,6 +13,7 @@ use RDev\Framework\Console\Commands\AppEnvironmentCommand;
 use RDev\Framework\Console\Commands\ComposerDumpAutoloadCommand;
 use RDev\Framework\Console\Commands\ComposerUpdateCommand;
 use RDev\Framework\Console\Commands\EncryptionKeyGenerationCommand;
+use RDev\Framework\Console\Commands\FlushFrameworkCacheCommand;
 use RDev\Framework\Console\Commands\FlushViewCacheCommand;
 use RDev\Framework\Console\Commands\MakeCommandCommand;
 use RDev\Framework\Console\Commands\MakeControllerCommand;
@@ -30,6 +31,7 @@ class Commands extends Bootstrapper
         ComposerDumpAutoloadCommand::class,
         ComposerUpdateCommand::class,
         EncryptionKeyGenerationCommand::class,
+        FlushFrameworkCacheCommand::class,
         FlushViewCacheCommand::class,
         MakeCommandCommand::class,
         MakeControllerCommand::class,
