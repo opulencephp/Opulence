@@ -119,7 +119,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
     /**
      * Performs the read query for entity(ies) and returns any results
-     * This assumes that the Ids for all the entities are stored in a set
+     * This assumes that the Ids for all the entities are stored in a set, sorted set, or a string
      *
      * @param string $keyOfEntityIds The key that contains the Id(s) of the entities we're searching for
      * @param int $valueType The constant indicating the type of value at the key
