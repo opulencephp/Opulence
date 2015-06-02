@@ -11,13 +11,17 @@ class RedisBridge implements ICacheBridge
 {
     /** @var RDevPHPRedis The Redis driver */
     protected $redis = null;
+    /** @var string The prefix to use on all keys */
+    protected $keyPrefix = "";
 
     /**
      * @param RDevPHPRedis $redis The Redis driver
+     * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(RDevPHPRedis $redis)
+    public function __construct(RDevPHPRedis $redis, $keyPrefix = "")
     {
         $this->redis = $redis;
+        $this->keyPrefix = $keyPrefix;
     }
 
     /**
@@ -25,7 +29,7 @@ class RedisBridge implements ICacheBridge
      */
     public function decrement($key, $by = 1)
     {
-        return $this->redis->decrBy($key, $by);
+        return $this->redis->decrBy($this->getPrefixedKey($key), $by);
     }
 
     /**
@@ -33,7 +37,7 @@ class RedisBridge implements ICacheBridge
      */
     public function delete($key)
     {
-        $this->redis->del($key);
+        $this->redis->del($this->getPrefixedKey($key));
     }
 
     /**
@@ -49,7 +53,7 @@ class RedisBridge implements ICacheBridge
      */
     public function get($key)
     {
-        $value = $this->redis->get($key);
+        $value = $this->redis->get($this->getPrefixedKey($key));
 
         return $value === false ? null : $value;
     }
@@ -64,11 +68,19 @@ class RedisBridge implements ICacheBridge
     }
 
     /**
+     *{@inheritdoc}
+     */
+    public function has($key)
+    {
+        return $this->redis->get($this->getPrefixedKey($key)) !== false;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function increment($key, $by = 1)
     {
-        return $this->redis->incrBy($key, $by);
+        return $this->redis->incrBy($this->getPrefixedKey($key), $by);
     }
 
     /**
@@ -76,6 +88,17 @@ class RedisBridge implements ICacheBridge
      */
     public function set($key, $value)
     {
-        $this->redis->set($key, $value);
+        $this->redis->set($this->getPrefixedKey($key), $value);
+    }
+
+    /**
+     * Gets the key with the prefix
+     *
+     * @param string $key The key to prefix
+     * @return string The prefixed key
+     */
+    protected function getPrefixedKey($key)
+    {
+        return $this->keyPrefix . $key;
     }
 }
