@@ -86,9 +86,9 @@ class RedisBridge implements ICacheBridge
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value)
+    public function set($key, $value, $lifetime)
     {
-        $this->redis->set($this->getPrefixedKey($key), $value);
+        $this->redis->setEx($this->getPrefixedKey($key), $value, $lifetime);
     }
 
     /**

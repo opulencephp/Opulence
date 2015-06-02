@@ -65,7 +65,8 @@ interface ICacheBridge
      * Sets a value at the input key
      *
      * @param string $key The key to set
-     * @param mixed $value The value to set
+     * @param mixed $value The value to setICacheBridge
+     * @param int $lifetime The number of seconds to live in cache
      */
-    public function set($key, $value);
+    public function set($key, $value, $lifetime);
 }
