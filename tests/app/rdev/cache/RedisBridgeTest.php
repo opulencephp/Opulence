@@ -9,17 +9,11 @@ use RDev\Redis\Server;
 use RDev\Redis\TypeMapper;
 use RDev\Tests\Redis\Mocks\RDevPHPRedis;
 
-// To get around having to install Redis just to run tests, include a mock Redis class
-if(!class_exists("Redis"))
-{
-    require __DIR__ . "/../redis/mocks/Redis.php";
-}
-
 class RedisBridgeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var RedisBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var RDevPHPRedis The Redis driver */
+    /** @var mixed The Redis driver */
     private $redis = null;
 
     /**

@@ -31,7 +31,7 @@ class FileBridge implements ICacheBridge
     {
         $parsedData = $this->parseData($key);
         $incrementedValue = (int)$parsedData["d"] - $by;
-        $this->set($key, $incrementedValue, $parsedData["l"]);
+        $this->set($key, $incrementedValue, $parsedData["t"]);
 
         return $incrementedValue;
     }
@@ -83,7 +83,7 @@ class FileBridge implements ICacheBridge
 
         // We want to return true even if the data is null
         // So, we look at the lifetime property
-        return $parsedData["l"] !== 0;
+        return $parsedData["t"] !== 0;
     }
 
     /**
@@ -93,7 +93,7 @@ class FileBridge implements ICacheBridge
     {
         $parsedData = $this->parseData($key);
         $incrementedValue = (int)$parsedData["d"] + $by;
-        $this->set($key, $incrementedValue, $parsedData["l"]);
+        $this->set($key, $incrementedValue, $parsedData["t"]);
 
         return $incrementedValue;
     }
@@ -117,18 +117,18 @@ class FileBridge implements ICacheBridge
         if(file_exists("{$this->path}/$key"))
         {
             $rawData = json_decode(file_get_contents("{$this->path}/$key"), true);
-            $parsedData = ["d" => unserialize($rawData["d"]), "l" => $rawData["l"]];
+            $parsedData = ["d" => unserialize($rawData["d"]), "t" => $rawData["t"]];
         }
         else
         {
-            $parsedData = ["d" => null, "l" => 0];
+            $parsedData = ["d" => null, "t" => 0];
         }
 
-        if(time() > $parsedData["l"])
+        if(time() > $parsedData["t"])
         {
             $this->delete($key);
 
-            return ["d" => null, "l" => 0];
+            return ["d" => null, "t" => 0];
         }
 
         return $parsedData;
@@ -144,7 +144,7 @@ class FileBridge implements ICacheBridge
     protected function serialize($data, $lifetime)
     {
         return json_encode(
-            ["d" => serialize($data), "l" => time() + $lifetime]
+            ["d" => serialize($data), "t" => time() + $lifetime]
         );
     }
 
