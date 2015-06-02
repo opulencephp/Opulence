@@ -13,7 +13,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var RedisBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var mixed The Redis driver */
+    /** @var RDevPHPRedis The Redis driver */
     private $redis = null;
 
     /**
@@ -21,8 +21,9 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $methodsToMock = ["decrBy", "del", "flushAll", "get", "incrBy", "setEx"];
         $constructorParams = [$this->getMock(Server::class), $this->getMock(TypeMapper::class)];
-        $this->redis = $this->getMock(RDevPHPRedis::class, [], $constructorParams);
+        $this->redis = $this->getMock(RDevPHPRedis::class, $methodsToMock, $constructorParams);
         $this->bridge = new RedisBridge($this->redis, "dave:");
     }
 
