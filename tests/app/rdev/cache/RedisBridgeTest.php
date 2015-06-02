@@ -28,7 +28,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $constructorParams = [$this->getMock(Server::class), $this->getMock(TypeMapper::class)];
-        $this->redis = $this->getMock(RDevPHPRedis::class, [], $constructorParams, "", true, true, false);
+        $this->redis = $this->getMock(RDevPHPRedis::class, [], $constructorParams);
         $this->bridge = new RedisBridge($this->redis, "dave:");
     }
 

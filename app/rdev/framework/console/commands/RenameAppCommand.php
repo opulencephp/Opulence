@@ -157,7 +157,7 @@ class RenameAppCommand extends Command
     {
         foreach(["app", "tests"] as $pathToUpdate)
         {
-            $files = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);;
+            $files = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
 
             foreach($files as $file)
             {
