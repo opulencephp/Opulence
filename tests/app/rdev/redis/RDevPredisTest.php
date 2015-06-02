@@ -5,7 +5,7 @@
  * Tests the Predis class
  */
 namespace RDev\Redis;
-use RDev\Tests\Databases\NoSQL\Redis\Mocks\RDevPredis;
+use RDev\Tests\Redis\Mocks\RDevPredis;
 
 class RDevPredisTest extends \PHPUnit_Framework_TestCase
 {

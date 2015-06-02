@@ -5,7 +5,7 @@
  * Tests the Memcached server
  */
 namespace RDev\Memcached;
-use RDev\Tests\Databases\NoSQL\Memcached\Mocks\Server;
+use RDev\Tests\Memcached\Mocks\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase
 {

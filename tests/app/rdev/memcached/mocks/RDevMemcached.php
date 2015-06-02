@@ -4,7 +4,7 @@
  *
  * Mocks the Memcached class for use in testing
  */
-namespace RDev\Tests\Databases\NoSQL\Memcached\Mocks;
+namespace RDev\Tests\Memcached\Mocks;
 use RDev\Memcached\RDevMemcached as BaseRDevMemcached;
 use RDev\Memcached\TypeMapper;
 

@@ -4,7 +4,7 @@
  *
  * Mocks the server class for use in testing
  */
-namespace RDev\Tests\Databases\NoSQL\Memcached\Mocks;
+namespace RDev\Tests\Memcached\Mocks;
 use RDev\Memcached\Server as BaseServer;
 
 class Server extends BaseServer

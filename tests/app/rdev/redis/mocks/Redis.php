@@ -1,6 +1,6 @@
 <?php
 /**
- * Mocks the Memcached class for use in testing
+ * Mocks the Redis class for use in testing
  */
 
 // Start of Redis

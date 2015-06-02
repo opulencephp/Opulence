@@ -4,7 +4,7 @@
  *
  * Mocks the RDev Predis class for use in testing
  */
-namespace RDev\Tests\Databases\NoSQL\Redis\Mocks;
+namespace RDev\Tests\Redis\Mocks;
 use RDev\Redis\RDevPredis as BaseRDevPredis;
 use RDev\Redis\Server;
 use RDev\Redis\TypeMapper;

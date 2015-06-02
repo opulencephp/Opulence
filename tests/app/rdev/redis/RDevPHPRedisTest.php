@@ -5,7 +5,7 @@
  * Tests the PHPRedis class
  */
 namespace RDev\Redis;
-use RDev\Tests\Databases\NoSQL\Redis\Mocks\RDevPHPRedis;
+use RDev\Tests\Redis\Mocks\RDevPHPRedis;
 
 class RDevPHPRedisTest extends \PHPUnit_Framework_TestCase
 {
