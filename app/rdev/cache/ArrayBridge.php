@@ -79,7 +79,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value)
+    public function set($key, $value, $lifetime)
     {
         $this->storage[$key] = $value;
     }

@@ -26,10 +26,10 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertFalse($this->bridge->has("foo"));
         // Try a null value
-        $this->bridge->set("foo", null);
+        $this->bridge->set("foo", null, 60);
         $this->assertTrue($this->bridge->has("foo"));
         // Try an actual value
-        $this->bridge->set("foo", "bar");
+        $this->bridge->set("foo", "bar", 60);
         $this->assertTrue($this->bridge->has("foo"));
     }
 
@@ -38,7 +38,7 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecrementingValues()
     {
-        $this->bridge->set("foo", 11);
+        $this->bridge->set("foo", 11, 60);
         // Test using default value
         $this->assertEquals(10, $this->bridge->decrement("foo"));
         // Test using a custom value
@@ -50,7 +50,7 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeletingKey()
     {
-        $this->bridge->set("foo", "bar");
+        $this->bridge->set("foo", "bar", 60);
         $this->bridge->delete("foo");
         $this->assertFalse($this->bridge->has("foo"));
     }
@@ -68,8 +68,8 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFlushing()
     {
-        $this->bridge->set("foo", "bar");
-        $this->bridge->set("baz", "blah");
+        $this->bridge->set("foo", "bar", 60);
+        $this->bridge->set("baz", "blah", 60);
         $this->bridge->flush();
         $this->assertFalse($this->bridge->has("foo"));
         $this->assertFalse($this->bridge->has("baz"));
@@ -88,7 +88,7 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSetValue()
     {
-        $this->bridge->set("foo", "bar");
+        $this->bridge->set("foo", "bar", 60);
         $this->assertEquals("bar", $this->bridge->get("foo"));
     }
 
@@ -97,7 +97,7 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementingValues()
     {
-        $this->bridge->set("foo", 1);
+        $this->bridge->set("foo", 1, 60);
         // Test using default value
         $this->assertEquals(2, $this->bridge->increment("foo"));
         // Test using a custom value

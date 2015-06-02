@@ -24,6 +24,7 @@
     "rdev/cryptography": "0.5.*"
   },
   "suggest": {
+    "rdev/cache": "Required for CacheSessionHandler",
     "rdev/files": "Required for FileSessionHandler"
   },
   "extra": {

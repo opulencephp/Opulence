@@ -122,7 +122,7 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingValue()
     {
-        $this->memcached->expects($this->once())->method("set")->with("dave:foo", "bar");
-        $this->bridge->set("foo", "bar");
+        $this->memcached->expects($this->once())->method("set")->with("dave:foo", "bar", 60);
+        $this->bridge->set("foo", "bar", 60);
     }
 }

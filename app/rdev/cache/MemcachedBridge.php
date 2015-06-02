@@ -86,9 +86,9 @@ class MemcachedBridge
     /**
      * {@inheritdoc}
      */
-    public function set($key, $value)
+    public function set($key, $value, $lifetime)
     {
-        $this->memcached->set($this->getPrefixedKey($key), $value);
+        $this->memcached->set($this->getPrefixedKey($key), $value, $lifetime);
     }
 
     /**
