@@ -45,6 +45,14 @@ interface ICacheBridge
     public function getDriver();
 
     /**
+     * Gets whether or not a key exists
+     *
+     * @param string $key True if the key exists, otherwise false
+     * @return bool True if the key exists, otherwise false
+     */
+    public function has($key);
+
+    /**
      * Increments a value at a given key
      *
      * @param string $key The key to increment

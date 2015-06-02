@@ -23,7 +23,18 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
     {
         $constructorParams = [$this->getMock(Server::class), $this->getMock(TypeMapper::class)];
         $this->redis = $this->getMock(RDevPHPRedis::class, [], $constructorParams);
-        $this->bridge = new RedisBridge($this->redis);
+        $this->bridge = new RedisBridge($this->redis, "dave:");
+    }
+
+    /**
+     * Tests checking if a key exists
+     */
+    public function testCheckingIfKeyExists()
+    {
+        $this->redis->expects($this->at(0))->method("get")->will($this->returnValue(false));
+        $this->redis->expects($this->at(1))->method("get")->will($this->returnValue("bar"));
+        $this->assertFalse($this->bridge->has("foo"));
+        $this->assertTrue($this->bridge->has("foo"));
     }
 
     /**
@@ -31,8 +42,8 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecrementingReturnsCorrectValues()
     {
-        $this->redis->expects($this->at(0))->method("decrBy")->with("foo", 1)->will($this->returnValue(10));
-        $this->redis->expects($this->at(1))->method("decrBy")->with("foo", 5)->will($this->returnValue(5));
+        $this->redis->expects($this->at(0))->method("decrBy")->with("dave:foo", 1)->will($this->returnValue(10));
+        $this->redis->expects($this->at(1))->method("decrBy")->with("dave:foo", 5)->will($this->returnValue(5));
         // Test using default value
         $this->assertEquals(10, $this->bridge->decrement("foo"));
         // Test using a custom value
@@ -44,7 +55,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeletingKey()
     {
-        $this->redis->expects($this->once())->method("del")->with("foo");
+        $this->redis->expects($this->once())->method("del")->with("dave:foo");
         $this->bridge->delete("foo");
     }
 
@@ -79,8 +90,8 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementingReturnsCorrectValues()
     {
-        $this->redis->expects($this->at(0))->method("incrBy")->with("foo", 1)->will($this->returnValue(2));
-        $this->redis->expects($this->at(1))->method("incrBy")->with("foo", 5)->will($this->returnValue(7));
+        $this->redis->expects($this->at(0))->method("incrBy")->with("dave:foo", 1)->will($this->returnValue(2));
+        $this->redis->expects($this->at(1))->method("incrBy")->with("dave:foo", 5)->will($this->returnValue(7));
         // Test using default value
         $this->assertEquals(2, $this->bridge->increment("foo"));
         // Test using a custom value
@@ -101,7 +112,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingValue()
     {
-        $this->redis->expects($this->once())->method("set")->with("foo", "bar");
+        $this->redis->expects($this->once())->method("set")->with("dave:foo", "bar");
         $this->bridge->set("foo", "bar");
     }
 }

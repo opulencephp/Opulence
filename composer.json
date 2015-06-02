@@ -63,6 +63,7 @@
   "replace": {
     "rdev/applications": "self.version",
     "rdev/authentication": "self.version",
+    "rdev/cache": "self.version",
     "rdev/console": "self.version",
     "rdev/cryptography": "self.version",
     "rdev/databases": "self.version",
