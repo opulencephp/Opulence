@@ -12,7 +12,7 @@ use RDev\Tests\Redis\Mocks\RDevPHPRedis;
 // To get around having to install Redis just to run tests, include a mock Redis class
 if(!class_exists("Redis"))
 {
-    require_once __DIR__ . "/../redis/mocks/Redis.php";
+    require __DIR__ . "/../redis/mocks/Redis.php";
 }
 
 class RedisBridgeTest extends \PHPUnit_Framework_TestCase
@@ -28,7 +28,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $constructorParams = [$this->getMock(Server::class), $this->getMock(TypeMapper::class)];
-        $this->redis = $this->getMock(RDevPHPRedis::class, [], $constructorParams);
+        $this->redis = $this->getMock(RDevPHPRedis::class, [], $constructorParams, null, true, true, false);
         $this->bridge = new RedisBridge($this->redis, "dave:");
     }
 

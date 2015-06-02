@@ -12,7 +12,7 @@ use RDev\Redis\TypeMapper;
 // To get around having to install Redis just to run tests, include a mock Redis class
 if(!class_exists("Redis"))
 {
-    require_once __DIR__ . "/Redis.php";
+    require __DIR__ . "/Redis.php";
 }
 
 class RDevPHPRedis extends BaseRDevPHPRedis
