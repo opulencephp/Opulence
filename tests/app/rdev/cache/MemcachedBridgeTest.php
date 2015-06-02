@@ -20,8 +20,9 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
+        $methodsToMock = ["decrement", "delete", "flush", "get", "getResultCode", "increment", "set"];
         $constructorParams = [$this->getMock(TypeMapper::class)];
-        $this->memcached = $this->getMock(RDevMemcached::class, [], $constructorParams);
+        $this->memcached = $this->getMock(RDevMemcached::class, $methodsToMock, $constructorParams);
         $this->bridge = new MemcachedBridge($this->memcached, "dave:");
     }
 
