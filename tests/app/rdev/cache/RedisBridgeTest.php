@@ -12,7 +12,7 @@ use RDev\Tests\Redis\Mocks\RDevPHPRedis;
 // To get around having to install Redis just to run tests, include a mock Redis class
 if(!class_exists("Redis"))
 {
-    require_once __DIR__ . "/../redis/mocks/redis.php";
+    require_once __DIR__ . "/../redis/mocks/Redis.php";
 }
 
 class RedisBridgeTest extends \PHPUnit_Framework_TestCase
