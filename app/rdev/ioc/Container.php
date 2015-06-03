@@ -54,7 +54,7 @@ class Container implements IContainer
     /**
      * {@inheritdoc}
      */
-    public function bind($interface, $concrete, $targetClass = null)
+    public function bind($interfaces, $concrete, $targetClass = null)
     {
         if(!is_string($concrete) && !is_callable($concrete))
         {
@@ -64,11 +64,11 @@ class Container implements IContainer
 
         if($targetClass === null)
         {
-            $this->bindUniversally($interface, $concrete);
+            $this->bindUniversally((array)$interfaces, $concrete);
         }
         else
         {
-            $this->bindToTarget($interface, $concrete, $targetClass);
+            $this->bindToTarget((array)$interfaces, $concrete, $targetClass);
         }
     }
 
@@ -250,32 +250,42 @@ class Container implements IContainer
     /**
      * Creates a targeted binding
      *
-     * @param string $interface The interface to bind to
+     * @param array $interfaces The interfaces to bind to
      * @param string|callable $concrete The concrete class or callback to bind
      * @param string $targetClass The name of the target class to bind on
      */
-    protected function bindToTarget($interface, $concrete, $targetClass)
+    protected function bindToTarget(array $interfaces, $concrete, $targetClass)
     {
-        $this->targetedBindings[$targetClass][$interface] = [
+        $binding = [
             "concrete" => is_string($concrete) ? $concrete : "",
             "callback" => is_callable($concrete) ? $concrete : null,
             "used" => false
         ];
+
+        foreach($interfaces as $interface)
+        {
+            $this->targetedBindings[$targetClass][$interface] = $binding;
+        }
     }
 
     /**
      * Creates a universal binding
      *
-     * @param string $interface The interface to bind to
+     * @param array $interfaces The interfaces to bind to
      * @param string|callable $concrete The concrete class or callback to bind
      */
-    protected function bindUniversally($interface, $concrete)
+    protected function bindUniversally(array $interfaces, $concrete)
     {
-        $this->universalBindings[$interface] = [
+        $binding = [
             "concrete" => is_string($concrete) ? $concrete : "",
             "callback" => is_callable($concrete) ? $concrete : null,
             "used" => false
         ];
+
+        foreach($interfaces as $interface)
+        {
+            $this->universalBindings[$interface] = $binding;
+        }
     }
 
     /**

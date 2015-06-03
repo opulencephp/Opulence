@@ -11,11 +11,11 @@ interface IContainer
     /**
      * Binds a class to an interface or abstract class
      *
-     * @param string $interface The name of the interface to bind to
+     * @param string|array $interfaces The name of the interface or interfaces to bind to
      * @param string|callable|mixed $concrete Either the name of or an instance of the concrete class to bind
      * @param string|null $targetClass The name of the target class to bind on, or null if binding to all classes
      */
-    public function bind($interface, $concrete, $targetClass = null);
+    public function bind($interfaces, $concrete, $targetClass = null);
 
     /**
      * Calls a method on an object and automatically resolves any type hinted arguments

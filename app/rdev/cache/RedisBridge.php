@@ -59,10 +59,11 @@ class RedisBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
-     * @return RDevPHPRedis
+     * Gets the underlying Redis instance
+     *
+     * @return RDevPHPRedis The Redis instance
      */
-    public function getDriver()
+    public function getRedis()
     {
         return $this->redis;
     }

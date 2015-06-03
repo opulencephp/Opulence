@@ -56,14 +56,6 @@ class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that the driver is null
-     */
-    public function testDriverIsNull()
-    {
-        $this->assertNull($this->bridge->getDriver());
-    }
-
-    /**
      * Tests flushing
      */
     public function testFlushing()

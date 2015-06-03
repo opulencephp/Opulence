@@ -65,7 +65,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDriverIsCorrectInstance()
     {
-        $this->assertSame($this->redis, $this->bridge->getDriver());
+        $this->assertSame($this->redis, $this->bridge->getRedis());
     }
 
     /**

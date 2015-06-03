@@ -38,13 +38,6 @@ interface ICacheBridge
     public function get($key);
 
     /**
-     * Gets the driver used by the bridge
-     *
-     * @return mixed The driver used by the bridge
-     */
-    public function getDriver();
-
-    /**
      * Gets whether or not a key exists
      *
      * @param string $key True if the key exists, otherwise false

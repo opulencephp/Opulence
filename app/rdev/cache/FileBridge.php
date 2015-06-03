@@ -41,7 +41,7 @@ class FileBridge implements ICacheBridge
      */
     public function delete($key)
     {
-        @unlink("{$this->path}/$key");
+        @unlink($this->getPath($key));
     }
 
     /**
@@ -64,14 +64,6 @@ class FileBridge implements ICacheBridge
     public function get($key)
     {
         return $this->parseData($key)["d"];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDriver()
-    {
-        return null;
     }
 
     /**
@@ -103,7 +95,18 @@ class FileBridge implements ICacheBridge
      */
     public function set($key, $value, $lifetime)
     {
-        file_put_contents("{$this->path}/$key", $this->serialize($value, $lifetime));
+        file_put_contents($this->getPath($key), $this->serialize($value, $lifetime));
+    }
+
+    /**
+     * Gets the path for a given key
+     *
+     * @param string $key The key to get
+     * @return string The path to the key
+     */
+    protected function getPath($key)
+    {
+        return $this->path . "/" . md5($key);
     }
 
     /**
@@ -114,9 +117,9 @@ class FileBridge implements ICacheBridge
      */
     protected function parseData($key)
     {
-        if(file_exists("{$this->path}/$key"))
+        if(file_exists($this->getPath($key)))
         {
-            $rawData = json_decode(file_get_contents("{$this->path}/$key"), true);
+            $rawData = json_decode(file_get_contents($this->getPath($key)), true);
             $parsedData = ["d" => unserialize($rawData["d"]), "t" => $rawData["t"]];
         }
         else

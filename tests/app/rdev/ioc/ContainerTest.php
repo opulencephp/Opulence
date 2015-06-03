@@ -619,6 +619,26 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering multiple targeted bindings
+     */
+    public function testMultipleTargetedBindings()
+    {
+        $this->container->bind(["foo", "bar"], $this->concreteFoo, "baz");
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding("foo", "baz"));
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding("bar", "baz"));
+    }
+
+    /**
+     * Tests registering multiple universal bindings
+     */
+    public function testMultipleUniversalBindings()
+    {
+        $this->container->bind(["foo", "bar"], $this->concreteFoo);
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding("foo"));
+        $this->assertEquals($this->concreteFoo, $this->container->getBinding("bar"));
+    }
+
+    /**
      * Tests new instances' dependencies are shared instances
      */
     public function testNewInstanceDependenciesAreShared()

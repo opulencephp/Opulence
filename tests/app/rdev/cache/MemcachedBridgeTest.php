@@ -64,7 +64,7 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDriverIsCorrectInstance()
     {
-        $this->assertSame($this->memcached, $this->bridge->getDriver());
+        $this->assertSame($this->memcached, $this->bridge->getMemcached());
     }
 
     /**

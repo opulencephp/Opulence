@@ -59,10 +59,11 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
-     * @return RDevMemcached
+     * Gets the underlying Memcached instance
+     *
+     * @return RDevMemcached The memcached instance
      */
-    public function getDriver()
+    public function getMemcached()
     {
         return $this->memcached;
     }

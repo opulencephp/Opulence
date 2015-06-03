@@ -42,19 +42,11 @@ class ArrayBridge implements ICacheBridge
      */
     public function get($key)
     {
-        if(isset($this->storage[$key]))
+        if(array_key_exists($key, $this->storage))
         {
             return $this->storage[$key];
         }
 
-        return null;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDriver()
-    {
         return null;
     }
 
