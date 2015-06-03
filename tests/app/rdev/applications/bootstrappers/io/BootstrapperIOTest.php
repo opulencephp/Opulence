@@ -33,7 +33,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
             "tmp.framework" => __DIR__ . "/files"
         ]);
         $this->environment = new Environment(Environment::TESTING);
-        $this->io = new BootstrapperIO($this->paths, $this->environment);
+        $this->io = new BootstrapperIO($this->paths["tmp.framework"], $this->paths, $this->environment);
     }
 
     /**

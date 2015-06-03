@@ -18,6 +18,8 @@ class BootstrapperIO
     /** The cached HTTP bootstrapper registry file name */
     const CACHED_HTTP_BOOTSTRAPPER_REGISTRY_FILE_NAME = "cachedHTTPBootstrapperRegistry.json";
 
+    /** @var string The path to the cached registries */
+    private $path = "";
     /** @var Paths The application paths */
     private $paths = null;
     /** @var Environment The current environment */
@@ -26,11 +28,13 @@ class BootstrapperIO
     private $allBootstrappers = [];
 
     /**
+     * @param string $path The path to the cached registries
      * @param Paths $paths The application paths
      * @param Environment $environment The current environment
      */
-    public function __construct(Paths $paths, Environment $environment)
+    public function __construct($path, Paths $paths, Environment $environment)
     {
+        $this->path = $path;
         $this->paths = $paths;
         $this->environment = $environment;
     }
@@ -43,7 +47,7 @@ class BootstrapperIO
      */
     public function getCachedRegistryPath($fileName)
     {
-        return "{$this->paths["tmp.framework"]}/$fileName";
+        return "{$this->path}/$fileName";
     }
 
     /**
