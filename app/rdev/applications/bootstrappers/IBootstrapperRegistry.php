@@ -33,6 +33,14 @@ interface IBootstrapperRegistry
     public function getInstance($bootstrapperClass);
 
     /**
+     * Registers bootstrapper classes in the case that no cached registry was found
+     * In this case, all the bootstrappers in this list are instantiated and later written to a cached registry
+     *
+     * @param array $bootstrapperClasses The list of bootstrapper classes
+     */
+    public function registerBootstrapperClasses(array $bootstrapperClasses);
+
+    /**
      * Registers eager bootstrappers
      *
      * @param string|array $eagerBootstrapperClasses The eager bootstrapper classes
@@ -46,4 +54,9 @@ interface IBootstrapperRegistry
      * @param string $lazyBootstrapperClass The bootstrapper class
      */
     public function registerLazyBootstrapper($bindings, $lazyBootstrapperClass);
+
+    /**
+     * Sets the eager and lazy bootstrappers
+     */
+    public function setBootstrapperDetails();
 }

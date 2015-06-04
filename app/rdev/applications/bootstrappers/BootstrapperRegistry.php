@@ -15,6 +15,8 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     private $environment = null;
     /** @var Paths The application paths */
     private $paths = null;
+    /** @var array The list of all bootstrapper classes in the application */
+    private $allBootstrappers = [];
     /** @var array The list of deferred bootstrapper classes */
     private $bindingsToLazyBootstrapperClasses = [];
     /** @var array The list of expedited bootstrapper classes */
@@ -71,6 +73,14 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     /**
      * {@inheritdoc}
      */
+    public function registerBootstrapperClasses(array $bootstrapperClasses)
+    {
+        $this->allBootstrappers = array_merge($this->allBootstrappers, $bootstrapperClasses);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function registerEagerBootstrapper($eagerBootstrapperClasses)
     {
         $eagerBootstrapperClasses = (array)$eagerBootstrapperClasses;
@@ -87,6 +97,26 @@ class BootstrapperRegistry implements IBootstrapperRegistry
         foreach($bindings as $boundClass)
         {
             $this->bindingsToLazyBootstrapperClasses[$boundClass] = $lazyBootstrapperClass;
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setBootstrapperDetails()
+    {
+        foreach($this->allBootstrappers as $bootstrapperClass)
+        {
+            $bootstrapper = $this->getInstance($bootstrapperClass);
+
+            if($bootstrapper instanceof ILazyBootstrapper)
+            {
+                $this->registerLazyBootstrapper($bootstrapper->getBoundClasses(), $bootstrapperClass);
+            }
+            else
+            {
+                $this->registerEagerBootstrapper($bootstrapperClass);
+            }
         }
     }
 }

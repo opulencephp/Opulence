@@ -6,21 +6,26 @@
  */
 namespace RDev\Framework\Console\Commands;
 use RDev\Applications\Bootstrappers\IO\BootstrapperIO;
+use RDev\Applications\Paths;
 use RDev\Console\Commands\Command;
 use RDev\Console\Responses\IResponse;
 
 class FlushFrameworkCacheCommand extends Command
 {
+    /** @var Paths The application paths */
+    private $paths = null;
     /** @var BootstrapperIO The bootstrapper IO */
     private $bootstrapperIO = null;
 
     /**
+     * @param Paths $paths The application paths
      * @param BootstrapperIO $bootstrapperIO The bootstrapper IO
      */
-    public function __construct(BootstrapperIO $bootstrapperIO)
+    public function __construct(Paths $paths, BootstrapperIO $bootstrapperIO)
     {
         parent::__construct();
 
+        $this->paths = $paths;
         $this->bootstrapperIO = $bootstrapperIO;
     }
 
@@ -48,16 +53,23 @@ class FlushFrameworkCacheCommand extends Command
      */
     private function flushBootstrapperCache()
     {
-        $cachedRegistryFileNames = [
-            BootstrapperIO::CACHED_HTTP_BOOTSTRAPPER_REGISTRY_FILE_NAME,
-            BootstrapperIO::CACHED_CONSOLE_BOOTSTRAPPER_REGISTRY_FILE_NAME
-        ];
+        $fileNames = [];
 
-        foreach($cachedRegistryFileNames as $cachedRegistryFileName)
+        if(isset($this->paths["tmp.framework.console"]))
         {
-            if(file_exists($this->bootstrapperIO->getCachedRegistryPath($cachedRegistryFileName)))
+            $fileNames[] = $this->paths["tmp.framework.console"] . "cachedBootstrapperRegistry.json";
+        }
+
+        if(isset($this->paths["tmp.framework.http"]))
+        {
+            $fileNames[] = $this->paths["tmp.framework.http"] . "cachedBootstrapperRegistry.json";
+        }
+
+        foreach($fileNames as $cachedRegistryFileName)
+        {
+            if(file_exists($cachedRegistryFileName))
             {
-                @unlink($this->bootstrapperIO->getCachedRegistryPath($cachedRegistryFileName));
+                @unlink($cachedRegistryFileName);
             }
         }
     }
