@@ -12,7 +12,7 @@ use RDev\Applications\Paths;
 class BootstrapperIO
 {
     /** The default cached registry file name */
-    const DEFAULT_CACHED_REGISTRY_FILE_NAME = "cachedBootstrapper.json";
+    const DEFAULT_CACHED_REGISTRY_FILE_NAME = "cachedBootstrapperRegistry.json";
 
     /** @var Paths The application paths */
     private $paths = null;

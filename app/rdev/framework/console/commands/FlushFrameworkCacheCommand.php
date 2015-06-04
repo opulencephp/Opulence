@@ -57,12 +57,12 @@ class FlushFrameworkCacheCommand extends Command
 
         if(isset($this->paths["tmp.framework.console"]))
         {
-            $fileNames[] = $this->paths["tmp.framework.console"] . "cachedBootstrapperRegistry.json";
+            $fileNames[] = $this->paths["tmp.framework.console"] . "/" . BootstrapperIO::DEFAULT_CACHED_REGISTRY_FILE_NAME;
         }
 
         if(isset($this->paths["tmp.framework.http"]))
         {
-            $fileNames[] = $this->paths["tmp.framework.http"] . "cachedBootstrapperRegistry.json";
+            $fileNames[] = $this->paths["tmp.framework.http"] . "/" . BootstrapperIO::DEFAULT_CACHED_REGISTRY_FILE_NAME;
         }
 
         foreach($fileNames as $cachedRegistryFileName)
