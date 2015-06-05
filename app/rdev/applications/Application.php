@@ -7,9 +7,10 @@
 namespace RDev\Applications;
 use Closure;
 use Exception;
-use Monolog\Logger;
 use RuntimeException;
 use RDev\Applications\Environments\Environment;
+use RDev\Applications\Tasks\Dispatchers\IDispatcher;
+use RDev\Applications\Tasks\TaskTypes;
 use RDev\IoC\IContainer;
 
 class Application
@@ -18,35 +19,28 @@ class Application
     private static $version = "0.5.0";
     /** @var Paths The paths to various directories used by RDev */
     private $paths = null;
-    /** @var Logger The logger used by this application */
-    private $logger = null;
+    /** @var IDispatcher The task dispatcher */
+    private $taskDispatcher = null;
     /** @var Environment The environment the application is running on */
     private $environment = null;
-    /** @var IContainer The dependency injection container to use throughout the application */
+    /** @var IContainer The IoC container */
     private $container = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
-    /** @var array The list of task callbacks */
-    private $tasks = [
-        "preStart" => [],
-        "postStart" => [],
-        "preShutdown" => [],
-        "postShutdown" => []
-    ];
 
     /**
      * @param Paths $paths The paths to various directories used by RDev
-     * @param Logger $logger The logger to use throughout the application
+     * @param IDispatcher $taskDispatcher The task dispatcher
      * @param Environment $environment The current environment
-     * @param IContainer $container The IoC container to use
+     * @param IContainer $container The IoC container
      */
-    public function __construct(Paths $paths, Logger $logger, Environment $environment, IContainer $container)
+    public function __construct(Paths $paths, IDispatcher $taskDispatcher, Environment $environment, IContainer $container)
     {
         // Order here is important
         $this->setPaths($paths);
-        $this->setLogger($logger);
+        $this->taskDispatcher = $taskDispatcher;
         $this->setEnvironment($environment);
-        $this->setIoCContainer($container);
+        $this->container = $container;
     }
 
     /**
@@ -74,14 +68,6 @@ class Application
     }
 
     /**
-     * @return Logger
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-
-    /**
      * @return Paths
      */
     public function getPaths()
@@ -98,67 +84,11 @@ class Application
     }
 
     /**
-     * Registers a task to be run after the application shuts down
-     *
-     * @param callable $task The task to register
-     */
-    public function registerPostShutdownTask(callable $task)
-    {
-        $this->tasks["postShutdown"][] = $task;
-    }
-
-    /**
-     * Registers a task to be run after the application starts
-     *
-     * @param callable $task The task to register
-     */
-    public function registerPostStartTask(callable $task)
-    {
-        $this->tasks["postStart"][] = $task;
-    }
-
-    /**
-     * Registers a task to be run before the application shuts down
-     *
-     * @param callable $task The task to register
-     */
-    public function registerPreShutdownTask(callable $task)
-    {
-        $this->tasks["preShutdown"][] = $task;
-    }
-
-    /**
-     * Registers a task to be run before the application starts
-     *
-     * @param callable $task The task to register
-     */
-    public function registerPreStartTask(callable $task)
-    {
-        $this->tasks["preStart"][] = $task;
-    }
-
-    /**
      * @param Environment $environment
      */
     public function setEnvironment(Environment $environment)
     {
         $this->environment = $environment;
-    }
-
-    /**
-     * @param IContainer $container
-     */
-    public function setIoCContainer(IContainer $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @param Logger $logger
-     */
-    public function setLogger(Logger $logger)
-    {
-        $this->logger = $logger;
     }
 
     /**
@@ -185,7 +115,7 @@ class Application
         {
             try
             {
-                $this->doTasks($this->tasks["preShutdown"]);
+                $this->taskDispatcher->dispatch(TaskTypes::PRE_SHUTDOWN);
                 $this->isRunning = false;
 
                 if($shutdownTask !== null)
@@ -193,11 +123,10 @@ class Application
                     $taskReturnValue = call_user_func($shutdownTask);
                 }
 
-                $this->doTasks($this->tasks["postShutdown"]);
+                $this->taskDispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
             }
             catch(Exception $ex)
             {
-                $this->logger->addError("Failed to shut down properly: $ex");
                 $this->isRunning = false;
             }
         }
@@ -220,7 +149,7 @@ class Application
         {
             try
             {
-                $this->doTasks($this->tasks["preStart"]);
+                $this->taskDispatcher->dispatch(TaskTypes::PRE_START);
                 $this->isRunning = true;
 
                 if($startTask !== null)
@@ -228,36 +157,14 @@ class Application
                     $taskReturnValue = call_user_func($startTask);
                 }
 
-                $this->doTasks($this->tasks["postStart"]);
+                $this->taskDispatcher->dispatch(TaskTypes::POST_START);
             }
             catch(Exception $ex)
             {
-                $this->logger->addError("Failed to start application: $ex");
                 $this->shutdown();
             }
         }
 
         return $taskReturnValue;
-    }
-
-    /**
-     * Runs a list of tasks
-     *
-     * @param callable[] $taskList The list of tasks to run
-     * @throws RuntimeException Thrown if any of the tasks error out
-     */
-    protected function doTasks(array $taskList)
-    {
-        try
-        {
-            foreach($taskList as $task)
-            {
-                call_user_func($task);
-            }
-        }
-        catch(Exception $ex)
-        {
-            throw new RuntimeException("Failed to run tasks: " . $ex->getMessage());
-        }
     }
 } 

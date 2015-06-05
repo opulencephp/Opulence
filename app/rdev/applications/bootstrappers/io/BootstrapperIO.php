@@ -6,34 +6,23 @@
  */
 namespace RDev\Applications\Bootstrappers\IO;
 use RDev\Applications\Bootstrappers\IBootstrapperRegistry;
-use RDev\Applications\Environments\Environment;
 use RDev\Applications\Paths;
 
-class BootstrapperIO
+class BootstrapperIO implements IBootstrapperIO
 {
-    /** The default cached registry file name */
-    const DEFAULT_CACHED_REGISTRY_FILE_NAME = "cachedBootstrapperRegistry.json";
-
     /** @var Paths The application paths */
     private $paths = null;
-    /** @var Environment The current environment */
-    private $environment = null;
 
     /**
      * @param Paths $paths The application paths
-     * @param Environment $environment The current environment
      */
-    public function __construct(Paths $paths, Environment $environment)
+    public function __construct(Paths $paths)
     {
         $this->paths = $paths;
-        $this->environment = $environment;
     }
 
     /**
-     * Reads the bootstrapper details from cache, if it exists, otherwise manually sets the details and caches them
-     *
-     * @param string $filePath The cache registry file path
-     * @param IBootstrapperRegistry $registry The registry to read settings into
+     * {@inheritdoc}
      */
     public function read($filePath, IBootstrapperRegistry &$registry)
     {
@@ -50,10 +39,7 @@ class BootstrapperIO
     }
 
     /**
-     * Writes the bootstrapper registry
-     *
-     * @param string $filePath The cache registry file path
-     * @param IBootstrapperRegistry $registry The config to write
+     * {@inheritdoc}
      */
     public function write($filePath, IBootstrapperRegistry $registry)
     {
@@ -76,7 +62,7 @@ class BootstrapperIO
      * @param string $filePath The cache registry file path
      * @param IBootstrapperRegistry $registry The registry to read settings into
      */
-    private function loadRegistryFromCache($filePath, IBootstrapperRegistry &$registry)
+    protected function loadRegistryFromCache($filePath, IBootstrapperRegistry &$registry)
     {
         $rawContents = file_get_contents($filePath);
         $decodedContents = json_decode($rawContents, true);

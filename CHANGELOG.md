@@ -6,6 +6,11 @@
 
 <h3>Applications</h3>
 * Added `Bootstrapper::shutdown()` to handle any cleaning up that needs to be done on application shutdown
+* Removed logger from `Application` constructor
+  * Removed `getLogger()`, `setIoCContainer()`, and `setLogger()`
+* Removed `RDev\Applications\Application::registerPreStartTask()`, `registerPostStartTask()`, `registerPreShutdownTask()`, and `registerPostShutdownTask()`
+* Added `RDev\Tasks\Dispatchers\Dispatcher`
+  * This now handles pre/post-start and -shutdown tasks
 * Added ability to lazy-load bootstrappers by implementing `RDev\Applications\Bootstrappers\ILazyBootstrapper`
 * Removed `Application::registerBootstrapper()` and `Application::registerBootstrappersTask()`
   * Added `RDev\Applications\Bootstrappers\IBootstrapperRegistry` and `BootstrapperRegistry` to act as the bootstrapper registry

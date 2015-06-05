@@ -5,15 +5,16 @@
  * Defines the bootstrapper dispatcher
  */
 namespace RDev\Applications\Bootstrappers\Dispatchers;
-use RDev\Applications\Application;
 use RDev\Applications\Bootstrappers\IBootstrapperRegistry;
+use RDev\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
+use RDev\Applications\Tasks\TaskTypes;
 use RDev\IoC\IContainer;
 use RuntimeException;
 
 class Dispatcher implements IDispatcher
 {
-    /** @var Application The application */
-    private $application = null;
+    /** @var TaskDispatcher The task dispatcher */
+    private $taskDispatcher = null;
     /** @var IContainer The IoC container */
     private $container = null;
     /** @var bool Whether or not we force eager loading for all bootstrappers */
@@ -22,12 +23,13 @@ class Dispatcher implements IDispatcher
     private $runBootstrappers = [];
 
     /**
-     * @param Application $application The application
+     * @param TaskDispatcher $taskDispatcher The task dispatcher
+     * @param IContainer $container The IoC container
      */
-    public function __construct(Application $application)
+    public function __construct(TaskDispatcher $taskDispatcher, IContainer $container)
     {
-        $this->application = $application;
-        $this->container = $this->application->getIoCContainer();
+        $this->taskDispatcher = $taskDispatcher;
+        $this->container = $container;
     }
 
     /**
@@ -82,7 +84,7 @@ class Dispatcher implements IDispatcher
         }
 
         // Call the shutdown method
-        $this->application->registerPreShutdownTask(function () use ($bootstrapperObjects)
+        $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use ($bootstrapperObjects)
         {
             foreach($bootstrapperObjects as $bootstrapper)
             {
@@ -129,7 +131,7 @@ class Dispatcher implements IDispatcher
         }
 
         // Call the shutdown method
-        $this->application->registerPreShutdownTask(function () use (&$bootstrapperObjects)
+        $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$bootstrapperObjects)
         {
             foreach($bootstrapperObjects as $bootstrapper)
             {

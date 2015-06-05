@@ -6,12 +6,12 @@
  */
 namespace RDev\Applications\Bootstrappers\Dispatchers;
 use Closure;
-use Monolog\Logger;
 use RDev\IoC\Container;
 use RDev\Applications\Application;
 use RDev\Applications\Bootstrappers\BootstrapperRegistry;
 use RDev\Applications\Environments\Environment;
 use RDev\Applications\Paths;
+use RDev\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use RDev\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapper;
 use RDev\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper;
 use RDev\Tests\Applications\Bootstrappers\Mocks\EagerFooInterface;
@@ -21,7 +21,6 @@ use RDev\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapper;
 use RDev\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper;
 use RDev\Tests\Applications\Bootstrappers\Mocks\LazyConcreteFoo;
 use RDev\Tests\Applications\Bootstrappers\Mocks\LazyFooInterface;
-use RDev\Tests\Applications\Mocks\MonologHandler;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,13 +38,12 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $logger = new Logger("application");
-        $logger->pushHandler(new MonologHandler());
         $paths = new Paths([]);
+        $taskDispatcher = new TaskDispatcher();
         $environment = new Environment(Environment::TESTING);
         $this->container = new Container();
-        $this->application = new Application($paths, $logger, $environment, $this->container);
-        $this->dispatcher = new Dispatcher($this->application);
+        $this->application = new Application($paths, $taskDispatcher, $environment, $this->container);
+        $this->dispatcher = new Dispatcher($taskDispatcher, $this->container);
         $this->registry = new BootstrapperRegistry($paths, $environment);
     }
 

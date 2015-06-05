@@ -8,6 +8,7 @@ namespace RDev\Framework\Tests\Console;
 use PHPUnit_Framework_MockObject_MockObject;
 use RDev\Console\Commands\CommandCollection;
 use RDev\Console\Commands\Compilers\ICompiler;
+use RDev\Console\Prompts\Prompt;
 use RDev\Console\Requests\Parsers\ArrayListParser;
 use RDev\Console\Requests\Parsers\IParser as IRequestParser;
 use RDev\Console\Responses\Compilers\Compiler as ResponseCompiler;
@@ -164,14 +165,13 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
             $this->requestParser,
             $this->commandCompiler,
             $this->commandCollection,
-            $this->application->getLogger(),
+            $this->getKernelLogger(),
             $this->application->getVersion()
         );
 
         // Bind a mock prompt that can output pre-determined answers
-        $promptClassName = "RDev\\Console\\Prompts\\Prompt";
-        $this->prompt = $this->getMock($promptClassName, ["ask"], [new PaddingFormatter()]);
-        $this->application->getIoCContainer()->bind($promptClassName, $this->prompt);
+        $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
+        $this->application->getIoCContainer()->bind(Prompt::class, $this->prompt);
     }
 
     /**

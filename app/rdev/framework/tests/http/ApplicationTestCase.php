@@ -6,6 +6,7 @@
  */
 namespace RDev\Framework\Tests\HTTP;
 use LogicException;
+use Monolog\Logger;
 use RDev\Framework\HTTP\Kernel;
 use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\HTTP\Requests\Request;
@@ -281,8 +282,9 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->setApplication();
         $this->application->start();
         $container = $this->application->getIoCContainer();
-        $this->router = $container->makeShared("RDev\\Routing\\Router");
-        $this->kernel = $container->makeShared("RDev\\Framework\\HTTP\\Kernel");
+        $container->bind(Logger::class, $this->getKernelLogger());
+        $this->router = $container->makeShared(Router::class);
+        $this->kernel = $container->makeShared(Kernel::class);
         $this->kernel->addMiddleware($this->getGlobalMiddleware());
         $this->defaultRequest = new Request([], [], [], [], [], []);
     }

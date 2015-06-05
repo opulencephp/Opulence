@@ -6,16 +6,19 @@
  */
 namespace RDev\Applications;
 use InvalidArgumentException;
-use Monolog\Logger;
 use RDev\Applications\Environments\Environment;
+use RDev\Applications\Tasks\Dispatchers\IDispatcher;
+use RDev\Applications\Tasks\TaskTypes;
 use RDev\IoC\Container;
-use RDev\Tests\Applications\Mocks\MonologHandler;
+use RDev\IoC\IContainer;
 use ReflectionClass;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
+    /** @var IDispatcher The task dispatcher */
+    private $dispatcher = null;
     /** @var Environment The environment used by the application */
     private $environment = null;
 
@@ -24,12 +27,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $logger = new Logger("application");
-        $logger->pushHandler(new MonologHandler());
+        $this->dispatcher = $this->getMock(IDispatcher::class);
         $this->environment = new Environment("testing");
         $this->application = new Application(
             new Paths(["foo" => "bar"]),
-            $logger,
+            $this->dispatcher,
             $this->environment,
             new Container()
         );
@@ -40,16 +42,21 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplicationIsNotShutdownTwice()
     {
-        $shutdownIter = 0;
-        $this->application->registerPreShutdownTask(function () use (&$shutdownIter)
-        {
-            $shutdownIter++;
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
+        $this->dispatcher->expects($this->at(2))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_SHUTDOWN);
+        $this->dispatcher->expects($this->at(3))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
         $this->application->shutdown();
-        $this->assertEquals(1, $shutdownIter);
         $this->application->shutdown();
-        $this->assertEquals(1, $shutdownIter);
     }
 
     /**
@@ -57,15 +64,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testApplicationIsNotStartedTwice()
     {
-        $startIter = 0;
-        $this->application->registerPreStartTask(function () use (&$startIter)
-        {
-            $startIter++;
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
         $this->application->start();
-        $this->assertEquals(1, $startIter);
         $this->application->start();
-        $this->assertEquals(1, $startIter);
     }
 
     /**
@@ -73,11 +79,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPostShutdownTask()
     {
-        $this->application->registerPostShutdownTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new InvalidArgumentException("foobar");
-        });
+        $this->dispatcher
+            ->method("dispatch")
+            ->with(TaskTypes::POST_SHUTDOWN)
+            ->will($this->throwException(new InvalidArgumentException("foo")));
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutdown());
         $this->assertFalse($this->application->isRunning());
@@ -88,11 +93,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPostStartTask()
     {
-        $this->application->registerPostStartTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new InvalidArgumentException("foobar");
-        });
+        $this->dispatcher
+            ->expects($this->at(1))
+            ->method("dispatch")
+            ->will($this->throwException(new InvalidArgumentException("foo")));
         $this->assertNull($this->application->start());
         $this->assertFalse($this->application->isRunning());
     }
@@ -102,11 +106,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPreShutdownTask()
     {
-        $this->application->registerPreShutdownTask(function ()
-        {
-            // Throw anything other than a runtime exception
-            throw new InvalidArgumentException("foobar");
-        });
+        $this->dispatcher
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_SHUTDOWN)
+            ->will($this->throwException(new InvalidArgumentException("foo")));
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutdown());
         $this->assertFalse($this->application->isRunning());
@@ -180,15 +183,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingIoCContainer()
     {
-        $this->assertInstanceOf("RDev\\IoC\\IContainer", $this->application->getIoCContainer());
-    }
-
-    /**
-     * Tests getting the log
-     */
-    public function testGettingLog()
-    {
-        $this->assertInstanceOf("Monolog\\Logger", $this->application->getLogger());
+        $this->assertInstanceOf(IContainer::class, $this->application->getIoCContainer());
     }
 
     /**
@@ -216,14 +211,20 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringPostShutdownTask()
     {
-        $value = "";
-        $this->application->registerPostShutdownTask(function () use (&$value)
-        {
-            $value = "foo";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
+        $this->dispatcher->expects($this->at(2))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_SHUTDOWN);
+        $this->dispatcher->expects($this->at(3))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
         $this->application->shutdown();
-        $this->assertEquals("foo", $value);
     }
 
     /**
@@ -231,13 +232,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringPostStartTask()
     {
-        $value = "";
-        $this->application->registerPostStartTask(function () use (&$value)
-        {
-            $value = "foo";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
         $this->application->start();
-        $this->assertEquals("foo", $value);
     }
 
     /**
@@ -245,20 +246,20 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringPreAndPostShutdownTasks()
     {
-        $preShutdownValue = "";
-        $postShutdownValue = "";
-        $this->application->registerPreShutdownTask(function () use (&$preShutdownValue)
-        {
-            $preShutdownValue = "foo";
-        });
-        $this->application->registerPostShutdownTask(function () use (&$postShutdownValue)
-        {
-            $postShutdownValue = "bar";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
+        $this->dispatcher->expects($this->at(2))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_SHUTDOWN);
+        $this->dispatcher->expects($this->at(3))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
         $this->application->shutdown();
-        $this->assertEquals("foo", $preShutdownValue);
-        $this->assertEquals("bar", $postShutdownValue);
     }
 
     /**
@@ -266,19 +267,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringPreAndPostStartTasks()
     {
-        $preStartValue = "";
-        $postStartValue = "";
-        $this->application->registerPreStartTask(function () use (&$preStartValue)
-        {
-            $preStartValue = "foo";
-        });
-        $this->application->registerPostStartTask(function () use (&$postStartValue)
-        {
-            $postStartValue = "bar";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
         $this->application->start();
-        $this->assertEquals("foo", $preStartValue);
-        $this->assertEquals("bar", $postStartValue);
     }
 
     /**
@@ -286,14 +281,20 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringPreShutdownTask()
     {
-        $value = "";
-        $this->application->registerPreShutdownTask(function () use (&$value)
-        {
-            $value = "foo";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
+        $this->dispatcher->expects($this->at(2))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_SHUTDOWN);
+        $this->dispatcher->expects($this->at(3))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
         $this->application->shutdown();
-        $this->assertEquals("foo", $value);
     }
 
     /**
@@ -301,13 +302,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringPreStartTask()
     {
-        $value = "";
-        $this->application->registerPreStartTask(function () use (&$value)
-        {
-            $value = "foo";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
         $this->application->start();
-        $this->assertEquals("foo", $value);
     }
 
     /**
@@ -315,25 +316,25 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringShutdownTask()
     {
-        $preShutdownValue = "";
-        $shutdownValue = "";
-        $postShutdownValue = "";
-        $this->application->registerPreShutdownTask(function () use (&$preShutdownValue)
-        {
-            $preShutdownValue = "foo";
-        });
-        $this->application->registerPostShutdownTask(function () use (&$postShutdownValue)
-        {
-            $postShutdownValue = "bar";
-        });
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
+        $this->dispatcher->expects($this->at(2))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_SHUTDOWN);
+        $this->dispatcher->expects($this->at(3))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
+        $shutdownValue = null;
         $this->assertNull($this->application->shutdown(function () use (&$shutdownValue)
         {
             $shutdownValue = "baz";
         }));
-        $this->assertEquals("foo", $preShutdownValue);
         $this->assertEquals("baz", $shutdownValue);
-        $this->assertEquals("bar", $postShutdownValue);
     }
 
     /**
@@ -341,34 +342,18 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringStartTask()
     {
-        $preStartValue = "";
+        $this->dispatcher->expects($this->at(0))
+            ->method("dispatch")
+            ->with(TaskTypes::PRE_START);
+        $this->dispatcher->expects($this->at(1))
+            ->method("dispatch")
+            ->with(TaskTypes::POST_START);
         $startValue = "";
-        $postStartValue = "";
-        $this->application->registerPreStartTask(function () use (&$preStartValue)
-        {
-            $preStartValue = "foo";
-        });
-        $this->application->registerPostStartTask(function () use (&$postStartValue)
-        {
-            $postStartValue = "bar";
-        });
         $this->assertNull($this->application->start(function () use (&$startValue)
         {
             $startValue = "baz";
         }));
-        $this->assertEquals("foo", $preStartValue);
         $this->assertEquals("baz", $startValue);
-        $this->assertEquals("bar", $postStartValue);
-    }
-
-    /**
-     * Tests setting the container
-     */
-    public function testSettingContainer()
-    {
-        $container = new Container();
-        $this->application->setIoCContainer($container);
-        $this->assertSame($container, $this->application->getIoCContainer());
     }
 
     /**
@@ -379,16 +364,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $environment = new Environment("foo");
         $this->application->setEnvironment($environment);
         $this->assertEquals($environment, $this->application->getEnvironment());
-    }
-
-    /**
-     * Tests setting the logger
-     */
-    public function testSettingLogger()
-    {
-        $logger = new Logger("test");
-        $this->application->setLogger($logger);
-        $this->assertSame($logger, $this->application->getLogger());
     }
 
     /**
