@@ -5,6 +5,7 @@
  * Tests the Memcached bridge
  */
 namespace RDev\Cache;
+use Memcached;
 use RDev\Memcached\TypeMapper;
 use RDev\Tests\Memcached\Mocks\RDevMemcached;
 
@@ -125,5 +126,15 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
     {
         $this->memcached->expects($this->once())->method("set")->with("dave:foo", "bar", 60);
         $this->bridge->set("foo", "bar", 60);
+    }
+
+    /**
+     * Tests using a base Memcached instance
+     */
+    public function testUsingBaseMemcachedInstance()
+    {
+        $memcached = $this->getMock(Memcached::class, [], [null, null]);
+        $bridge = new MemcachedBridge($memcached);
+        $this->assertSame($memcached, $bridge->getMemcached());
     }
 }

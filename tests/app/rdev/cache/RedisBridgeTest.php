@@ -8,6 +8,7 @@ namespace RDev\Cache;
 use RDev\Redis\Server;
 use RDev\Redis\TypeMapper;
 use RDev\Tests\Redis\Mocks\RDevPHPRedis;
+use Redis;
 
 class RedisBridgeTest extends \PHPUnit_Framework_TestCase
 {
@@ -115,5 +116,15 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
     {
         $this->redis->expects($this->once())->method("setEx")->with("dave:foo", "bar", 60);
         $this->bridge->set("foo", "bar", 60);
+    }
+
+    /**
+     * Tests using a base Redis instance
+     */
+    public function testUsingBaseRedisInstance()
+    {
+        $redis = $this->getMock(Redis::class);
+        $bridge = new RedisBridge($redis);
+        $this->assertSame($redis, $bridge->getRedis());
     }
 }

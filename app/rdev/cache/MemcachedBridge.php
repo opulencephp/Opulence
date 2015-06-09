@@ -5,20 +5,20 @@
  * Defines the Memcached bridge
  */
 namespace RDev\Cache;
-use RDev\Memcached\RDevMemcached;
+use Memcached;
 
 class MemcachedBridge
 {
-    /** @var RDevMemcached The Memcached driver */
+    /** @var Memcached The Memcached driver */
     protected $memcached = null;
     /** @var string The prefix to use on all keys */
     protected $keyPrefix = "";
 
     /**
-     * @param RDevMemcached $memcached The Memcached driver
+     * @param Memcached $memcached The Memcached driver
      * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(RDevMemcached $memcached, $keyPrefix = "")
+    public function __construct(Memcached $memcached, $keyPrefix = "")
     {
         $this->memcached = $memcached;
         $this->keyPrefix = $keyPrefix;
@@ -61,7 +61,7 @@ class MemcachedBridge
     /**
      * Gets the underlying Memcached instance
      *
-     * @return RDevMemcached The memcached instance
+     * @return Memcached The memcached instance
      */
     public function getMemcached()
     {

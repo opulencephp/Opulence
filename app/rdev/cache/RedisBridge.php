@@ -5,20 +5,20 @@
  * Defines the Redis cache bridge
  */
 namespace RDev\Cache;
-use RDev\Redis\RDevPHPRedis;
+use Redis;
 
 class RedisBridge implements ICacheBridge
 {
-    /** @var RDevPHPRedis The Redis driver */
+    /** @var Redis The Redis driver */
     protected $redis = null;
     /** @var string The prefix to use on all keys */
     protected $keyPrefix = "";
 
     /**
-     * @param RDevPHPRedis $redis The Redis driver
+     * @param Redis $redis The Redis driver
      * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(RDevPHPRedis $redis, $keyPrefix = "")
+    public function __construct(Redis $redis, $keyPrefix = "")
     {
         $this->redis = $redis;
         $this->keyPrefix = $keyPrefix;
@@ -61,7 +61,7 @@ class RedisBridge implements ICacheBridge
     /**
      * Gets the underlying Redis instance
      *
-     * @return RDevPHPRedis The Redis instance
+     * @return Redis The Redis instance
      */
     public function getRedis()
     {

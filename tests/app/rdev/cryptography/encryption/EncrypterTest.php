@@ -31,7 +31,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests decrypting data without an HMAC
+     * Tests decrypting data without a MAC
      */
     public function testDecryptingDataWithoutMAC()
     {
@@ -48,6 +48,15 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(EncryptionException::class);
         $data = ["mac" => "foo", "iv" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
+    }
+
+    /**
+     * Tests decrypting that is not valid JSON
+     */
+    public function testDecryptingInvalidJSON()
+    {
+        $this->setExpectedException(EncryptionException::class);
+        $this->encrypter->decrypt("foo");
     }
 
     /**
