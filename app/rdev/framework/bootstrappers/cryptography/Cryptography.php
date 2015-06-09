@@ -19,7 +19,7 @@ class Cryptography extends Bootstrapper implements ILazyBootstrapper
     /**
      * {@inheritdoc}
      */
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [IEncrypter::class, IHasher::class, Strings::class];
     }

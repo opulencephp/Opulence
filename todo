@@ -4,8 +4,6 @@ HAS PRIORITY:
         Probably add a const PREVIOUS_URL_KEY to Session (same for CSRF_TOKEN_KEY)
         Need to get/set the previous URL in Session and assign it in Request in middleware (make sure to only do it in non-AJAX GET requests)
     Need to get/set csrf token
-    For cache-backed sessions, maybe it's best to have a simple ICacheProxy for Redis and Memcached to implement
-        This would only include the basics: get(), set(), and delete()
     Need to document updates to Request
     Get rid of dependence on HTTP Request in Credential stuff
     Finish form stuff

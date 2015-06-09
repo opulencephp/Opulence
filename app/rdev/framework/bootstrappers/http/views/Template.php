@@ -27,7 +27,7 @@ abstract class Template extends Bootstrapper implements ILazyBootstrapper
     /**
      * {@inheritdoc}
      */
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [ICache::class, ICompiler::class, ITemplateFactory::class];
     }

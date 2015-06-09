@@ -16,7 +16,7 @@ class Composer extends Bootstrapper implements ILazyBootstrapper
     /**
      * {@inheritdoc}
      */
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [ComposerWrapper::class, Executable::class];
     }

@@ -112,7 +112,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
         $lazyBootstrapper = new LazyBootstrapper($this->paths, $this->environment);
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $registry->registerLazyBootstrapper($lazyBootstrapper->getBoundClasses(), LazyBootstrapper::class);
+        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
         $this->io->write($this->cachedRegistryFilePath, $registry);
         $this->io->read($this->cachedRegistryFilePath, $this->registry);
         $this->assertEquals($registry, $this->registry);
@@ -126,7 +126,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
         $lazyBootstrapper = new LazyBootstrapper($this->paths, $this->environment);
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
         $registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $registry->registerLazyBootstrapper($lazyBootstrapper->getBoundClasses(), LazyBootstrapper::class);
+        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
         $this->io->write($this->cachedRegistryFilePath, $registry);
         $this->assertEquals(
             [
@@ -144,7 +144,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
     {
         $lazyBootstrapper = new LazyBootstrapper($this->paths, $this->environment);
         $registry = new BootstrapperRegistry($this->paths, $this->environment);
-        $registry->registerLazyBootstrapper($lazyBootstrapper->getBoundClasses(), LazyBootstrapper::class);
+        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
         $this->io->write($this->cachedRegistryFilePath, $registry);
         $this->assertEquals(
             [
@@ -188,7 +188,7 @@ class BootstrapperIOTest extends \PHPUnit_Framework_TestCase
             /** @var ILazyBootstrapper $lazyBootstrapper */
             $lazyBootstrapper = new $lazyBootstrapperClass($this->paths, $this->environment);
 
-            foreach($lazyBootstrapper->getBoundClasses() as $boundClass)
+            foreach($lazyBootstrapper->getBindings() as $boundClass)
             {
                 $bindingsToLazyBootstrappers[$boundClass] = LazyBootstrapper::class;
             }

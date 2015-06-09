@@ -14,7 +14,7 @@ class LazyBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
     /**
      * {@inheritdoc}
      */
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [LazyFooInterface::class];
     }

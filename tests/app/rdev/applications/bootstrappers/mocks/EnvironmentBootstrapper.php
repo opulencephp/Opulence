@@ -14,7 +14,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     /**
      * {@inheritdoc}
      */
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [LazyFooInterface::class];
     }

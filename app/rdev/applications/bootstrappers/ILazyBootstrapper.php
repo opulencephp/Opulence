@@ -9,9 +9,9 @@ namespace RDev\Applications\Bootstrappers;
 interface ILazyBootstrapper
 {
     /**
-     * Gets the list of classes bound by this bootstrapper to the IoC container
+     * Gets the list of classes and interfaces bound by this bootstrapper to the IoC container
      *
      * @return array The list of bound classes
      */
-    public function getBoundClasses();
+    public function getBindings();
 }

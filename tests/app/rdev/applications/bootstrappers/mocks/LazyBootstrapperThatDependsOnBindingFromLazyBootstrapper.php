@@ -14,7 +14,7 @@ class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBoots
     /**
      * {@inheritdoc}
      */
-    public function getBoundClasses()
+    public function getBindings()
     {
         return [EagerFooInterface::class];
     }
