@@ -30,7 +30,6 @@
   "require": {
     "php": ">=5.5.10",
     "ext-openssl": "*",
-    "ext-mcrypt": "*",
     "ext-mbstring": "*",
     "monolog/monolog": "1.12.*@dev",
     "symfony/security-core": "2.6.*"

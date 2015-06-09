@@ -25,7 +25,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingDataWithoutIV()
     {
-        $this->setExpectedException("RDev\\Cryptography\\Encryption\\EncryptionException");
+        $this->setExpectedException(EncryptionException::class);
         $data = ["mac" => "foo", "value" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
     }
@@ -35,7 +35,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingDataWithoutMAC()
     {
-        $this->setExpectedException("RDev\\Cryptography\\Encryption\\EncryptionException");
+        $this->setExpectedException(EncryptionException::class);
         $data = ["iv" => "foo", "value" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
     }
@@ -45,7 +45,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingDataWithoutValue()
     {
-        $this->setExpectedException("RDev\\Cryptography\\Encryption\\EncryptionException");
+        $this->setExpectedException(EncryptionException::class);
         $data = ["mac" => "foo", "iv" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
     }
@@ -66,10 +66,31 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncryptingAndDecryptingValueUsingCustomCipher()
     {
-        $this->encrypter->setCipher(MCRYPT_RIJNDAEL_256);
+        $this->encrypter->setCipher("AES-256-CBC");
         $decryptedValue = "foobar";
         $encryptedValue = $this->encrypter->encrypt($decryptedValue);
         $this->assertNotEquals($decryptedValue, $encryptedValue);
         $this->assertEquals($decryptedValue, $this->encrypter->decrypt($encryptedValue));
+    }
+
+    /**
+     * Tests passing a custom cipher through the constructor
+     */
+    public function testPassingCustomCipherThroughConstructor()
+    {
+        $encrypter = new Encrypter("abcdefghijklmnopq", new Strings(), "AES-256-CBC");
+        $decryptedValue = "foobar";
+        $encryptedValue = $encrypter->encrypt($decryptedValue);
+        $this->assertNotEquals($decryptedValue, $encryptedValue);
+        $this->assertEquals($decryptedValue, $encrypter->decrypt($encryptedValue));
+    }
+
+    /**
+     * Tests setting an invalid cipher
+     */
+    public function testSettingInvalidCipher()
+    {
+        $this->setExpectedException(EncryptionException::class);
+        $this->encrypter->setCipher("foo");
     }
 }

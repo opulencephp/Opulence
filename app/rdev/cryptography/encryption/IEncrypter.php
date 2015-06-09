@@ -30,6 +30,7 @@ interface IEncrypter
      * Sets the encryption cipher
      *
      * @param string $cipher The cipher
+     * @throws EncryptionException Thrown if the cipher was invalid
      */
     public function setCipher($cipher);
 
@@ -39,11 +40,4 @@ interface IEncrypter
      * @param string $key The key
      */
     public function setKey($key);
-
-    /**
-     * Sets the encryption mode
-     *
-     * @param string $mode The mode
-     */
-    public function setMode($mode);
 }

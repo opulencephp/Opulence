@@ -15,24 +15,18 @@ class Encrypter implements IEncrypter
     /** @var Strings The string utility */
     private $strings = null;
     /** @var string The encryption cipher */
-    private $cipher = MCRYPT_RIJNDAEL_128;
-    /** @var string The encryption mode */
-    private $mode = MCRYPT_MODE_CBC;
-    /** @var int The block size */
-    private $blockSize = 16;
+    private $cipher = "AES-128-CBC";
 
     /**
      * @param string $key The encryption key
      * @param Strings $strings The string utility
      * @param string $cipher The encryption cipher
-     * @param string $mode The encryption mode
      */
-    public function __construct($key, Strings $strings, $cipher = MCRYPT_RIJNDAEL_128, $mode = MCRYPT_MODE_CBC)
+    public function __construct($key, Strings $strings, $cipher = "AES-128-CBC")
     {
         $this->setKey($key);
         $this->strings = $strings;
         $this->setCipher($cipher);
-        $this->setMode($mode);
     }
 
     /**
@@ -47,11 +41,11 @@ class Encrypter implements IEncrypter
             throw new EncryptionException("Invalid MAC");
         }
 
-        $pieces = array_map("base64_decode", $pieces);
+        $pieces["iv"] = base64_decode($pieces["iv"]);
 
         try
         {
-            $decryptedData = mcrypt_decrypt($this->cipher, $this->key, $pieces["value"], $this->mode, $pieces["iv"]);
+            $decryptedData = openssl_decrypt($pieces["value"], $this->cipher, $this->key, 0, $pieces["iv"]);
 
             if($decryptedData === false)
             {
@@ -64,7 +58,7 @@ class Encrypter implements IEncrypter
         }
 
         // In case the data was not a primitive, unserialize it
-        return unserialize($this->removePadding($decryptedData));
+        return unserialize($decryptedData);
     }
 
     /**
@@ -72,25 +66,14 @@ class Encrypter implements IEncrypter
      */
     public function encrypt($data)
     {
-        // Figure out the source for the initialization vector
-        if(defined("MCRYPT_DEV_URANDOM"))
+        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->cipher));
+        $encryptedValue = openssl_encrypt(serialize($data), $this->cipher, $this->key, 0, $iv);
+
+        if($encryptedValue === false)
         {
-            $source = MCRYPT_DEV_URANDOM;
-        }
-        elseif(defined("MCRYPT_DEV_RANDOM"))
-        {
-            $source = MCRYPT_DEV_RANDOM;
-        }
-        else
-        {
-            // Seed the random number generator
-            mt_srand();
-            $source = MCRYPT_RAND;
+            throw new EncryptionException("Failed to encrypt the data");
         }
 
-        $data = serialize($data);
-        $iv = mcrypt_create_iv(mcrypt_get_iv_size($this->cipher, $this->mode), $source);
-        $encryptedValue = base64_encode(mcrypt_encrypt($this->cipher, $this->key, $this->pad($data), $this->mode, $iv));
         $iv = base64_encode($iv);
         $mac = $this->createHash($iv, $encryptedValue);
         $pieces = [
@@ -107,8 +90,12 @@ class Encrypter implements IEncrypter
      */
     public function setCipher($cipher)
     {
+        if(!in_array($cipher, openssl_get_cipher_methods()))
+        {
+            throw new EncryptionException("Invalid cipher \"$cipher\"");
+        }
+
         $this->cipher = $cipher;
-        $this->setBlockSize();
     }
 
     /**
@@ -117,15 +104,6 @@ class Encrypter implements IEncrypter
     public function setKey($key)
     {
         $this->key = $key;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setMode($mode)
-    {
-        $this->mode = $mode;
-        $this->setBlockSize();
     }
 
     /**
@@ -172,42 +150,5 @@ class Encrypter implements IEncrypter
         $generatedHMAC = hash_hmac("sha256", $this->createHash($pieces["iv"], $pieces["value"]), $randomBytes, true);
 
         return $this->strings->isEqual($correctHMAC, $generatedHMAC);
-    }
-
-    /**
-     * Adds PKCS7 padding
-     *
-     * @param string $data The data to pad
-     * @return string The padded string
-     * @link http://stackoverflow.com/questions/7314901/how-to-add-remove-pkcs7-padding-from-an-aes-encrypted-string
-     */
-    private function pad($data)
-    {
-        $pad = $this->blockSize - (strlen($data) % $this->blockSize);
-
-        return $data . str_repeat(chr($pad), $pad);
-    }
-
-    /**
-     * Removes padding from a value
-     *
-     * @param string $data The value to remove padding from
-     * @return string The value without the padding
-     * @link http://stackoverflow.com/questions/7314901/how-to-add-remove-pkcs7-padding-from-an-aes-encrypted-string
-     */
-    private function removePadding($data)
-    {
-        $length = strlen($data);
-        $pad = ord($data[$length - 1]);
-
-        return substr($data, 0, $length - $pad);
-    }
-
-    /**
-     * Sets the block size for the cipher and mode
-     */
-    private function setBlockSize()
-    {
-        $this->blockSize = mcrypt_get_iv_size($this->cipher, $this->mode);
     }
 }
