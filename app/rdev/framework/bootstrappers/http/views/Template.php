@@ -77,7 +77,7 @@ abstract class Template extends Bootstrapper implements ILazyBootstrapper
     {
         $fileSystem = $container->makeShared(FileSystem::class);
 
-        return new TemplateFactory($fileSystem, $this->paths["views"]);
+        return new TemplateFactory($fileSystem, $this->paths["views.raw"]);
     }
 
     /**
