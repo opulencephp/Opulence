@@ -47,6 +47,8 @@
 
 <h3>Cryptography</h3>
 * `RDev\Cryptography\IToken` and `Token` now under `RDev\Authentication\Tokens` namespace
+* Switched from `mcrypt` to `openssl` in `Encrypter`
+* Removed dependency on `mcrypt` library
 
 <h3>Databases</h3>
 * `RDev\Databases\NoSQL\Memcached` now under `RDev\Memcached` namespace

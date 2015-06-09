@@ -141,7 +141,7 @@ class Encrypter implements IEncrypter
      * Gets whether or not a MAC is valid
      *
      * @param array $pieces The pieces to validate
-     * @return bool True if the HMAC is valid, otherwise false
+     * @return bool True if the MAC is valid, otherwise false
      */
     private function isValidMAC(array $pieces)
     {
