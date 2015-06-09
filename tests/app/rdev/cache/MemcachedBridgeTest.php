@@ -133,7 +133,7 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingBaseMemcachedInstance()
     {
-        $memcached = $this->getMock(Memcached::class, [], [null, null]);
+        $memcached = $this->getMock(Memcached::class, [], [], "Foo", false);
         $bridge = new MemcachedBridge($memcached);
         $this->assertSame($memcached, $bridge->getMemcached());
     }
