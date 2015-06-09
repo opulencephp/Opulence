@@ -158,8 +158,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->application->start();
         $this->requestParser = new ArrayListParser();
         $container = $this->application->getIoCContainer();
-        $this->commandCollection = $container->makeShared("RDev\\Console\\Commands\\CommandCollection");
-        $this->commandCompiler = $container->makeShared("RDev\\Console\\Commands\\Compilers\\ICompiler");
+        $this->commandCollection = $container->makeShared(CommandCollection::class);
+        $this->commandCompiler = $container->makeShared(ICompiler::class);
         $this->responseCompiler = new ResponseCompiler(new ResponseLexer(), new ResponseParser());
         $this->kernel = new Kernel(
             $this->requestParser,

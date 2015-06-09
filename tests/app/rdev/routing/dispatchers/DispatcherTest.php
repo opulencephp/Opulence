@@ -14,7 +14,10 @@ use RDev\Routing\Routes\CompiledRoute;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\RouteException;
+use RDev\Tests\Routing\Mocks\Controller as MockController;
+use RDev\Tests\Routing\Mocks\DoesNotReturnSomethingMiddleware;
 use RDev\Tests\Routing\Mocks\NonRDevController;
+use RDev\Tests\Routing\Mocks\ReturnsSomethingMiddleware;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,7 +81,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentController()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo", "RDev\\Controller\\That\\Does\\Not\\Exist@foo")
         );
@@ -90,9 +93,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentMethod()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", "RDev\\Tests\\Routing\\Mocks\\Controller@doesNotExist")
+            new Route(["GET"], "/foo", MockController::class . "@doesNotExist")
         );
         $this->dispatcher->dispatch($route, $this->request);
     }
@@ -118,9 +121,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingPrivateMethod()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", "RDev\\Tests\\Routing\\Mocks\\Controller@privateMethod")
+            new Route(["GET"], "/foo", MockController::class . "@privateMethod")
         );
         $this->dispatcher->dispatch($route, $this->request);
     }
@@ -131,7 +134,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingProtectedMethod()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", "RDev\\Tests\\Routing\\Mocks\\Controller@protectedMethod")
+            new Route(["GET"], "/foo", MockController::class . "@protectedMethod")
         );
         $this->assertEquals("protectedMethod", $this->dispatcher->dispatch($route, $this->request)->getContent());
     }
@@ -141,11 +144,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testChainingMiddlewareThatDoAndDoNotReturnSomething()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@noParameters";
         $options = [
             "middleware" => [
-                "RDev\\Tests\\Routing\\Mocks\\ReturnsSomethingMiddleware",
-                "RDev\\Tests\\Routing\\Mocks\\DoesNotReturnSomethingMiddleware"
+                ReturnsSomethingMiddleware::class,
+                DoesNotReturnSomethingMiddleware::class
             ]
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
@@ -177,8 +180,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidMiddleware()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@returnsNothing";
+        $this->setExpectedException(RouteException::class);
+        $controller = MockController::class . "@returnsNothing";
         $options = [
             "middleware" => get_class($this)
         ];
@@ -191,9 +194,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testMiddlewareThatAddsToControllerResponse()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@noParameters";
         $options = [
-            "middleware" => "RDev\\Tests\\Routing\\Mocks\\ReturnsSomethingMiddleware"
+            "middleware" => ReturnsSomethingMiddleware::class
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
         $this->assertEquals(
@@ -242,7 +245,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testTextReturnedByControllerIsWrappedInResponseObject()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", "RDev\\Tests\\Routing\\Mocks\\Controller@returnsText")
+            new Route(["GET"], "/foo", MockController::class . "@returnsText")
         );
         $response = $this->dispatcher->dispatch($route, $this->request);
         $this->assertEquals("returnsText", $response->getContent());
@@ -255,7 +258,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testThatControllerIsSet()
     {
         $controller = null;
-        $expectedControllerClass = "RDev\\Tests\\Routing\\Mocks\\Controller";
+        $expectedControllerClass = MockController::class;
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", "$expectedControllerClass@returnsNothing"));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request, $controller));
         $this->assertInstanceOf($expectedControllerClass, $controller);
@@ -284,9 +287,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingMiddlewareThatDoesNotReturnAnything()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@returnsNothing";
+        $controller = MockController::class . "@returnsNothing";
         $options = [
-            "middleware" => "RDev\\Tests\\Routing\\Mocks\\DoesNotReturnSomethingMiddleware"
+            "middleware" => DoesNotReturnSomethingMiddleware::class
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request));
@@ -297,9 +300,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingMiddlewareThatReturnsSomething()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@returnsNothing";
+        $controller = MockController::class . "@returnsNothing";
         $options = [
-            "middleware" => "RDev\\Tests\\Routing\\Mocks\\ReturnsSomethingMiddleware"
+            "middleware" => ReturnsSomethingMiddleware::class
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
         $this->assertEquals(new RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request));

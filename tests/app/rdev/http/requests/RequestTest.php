@@ -5,6 +5,7 @@
  * Tests the HTTP request
  */
 namespace RDev\HTTP\Requests;
+use RDev\HTTP\HTTPException;
 use RDev\Tests\HTTP\Requests\Mocks\FormURLEncodedRequest;
 use RDev\Tests\HTTP\Requests\Mocks\JSONRequest;
 
@@ -349,7 +350,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingJSONBodyWhenContentIsNotJSON()
     {
-        $this->setExpectedException("RDev\\HTTP\\HTTPException");
+        $this->setExpectedException(HTTPException::class);
         $request = FormURLEncodedRequest::createFromGlobals();
         $request->getJSONBody();
     }

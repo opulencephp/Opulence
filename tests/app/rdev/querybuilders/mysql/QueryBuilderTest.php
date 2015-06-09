@@ -14,8 +14,10 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatDeleteReturnsDeleteQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RDev\\QueryBuilders\\MySQL\\DeleteQuery",
-            $queryBuilder->delete("tableName", "tableAlias"));
+        $this->assertInstanceOf(
+            DeleteQuery::class,
+            $queryBuilder->delete("tableName", "tableAlias")
+        );
     }
 
     /**
@@ -24,8 +26,10 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatInsertReturnsInsertQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RDev\\QueryBuilders\\MySQL\\InsertQuery",
-            $queryBuilder->insert("tableName", ["columnName" => "columnValue"]));
+        $this->assertInstanceOf(
+            InsertQuery::class,
+            $queryBuilder->insert("tableName", ["columnName" => "columnValue"])
+        );
     }
 
     /**
@@ -34,8 +38,10 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatSelectReturnsSelectQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RDev\\QueryBuilders\\MySQL\\SelectQuery",
-            $queryBuilder->select("tableName", "tableAlias"));
+        $this->assertInstanceOf(
+            SelectQuery::class,
+            $queryBuilder->select("tableName", "tableAlias")
+        );
     }
 
     /**
@@ -44,7 +50,9 @@ class QueryBuilderTest extends \PHPUnit_Framework_TestCase
     public function testThatUpdateReturnsUpdateQueryBuilder()
     {
         $queryBuilder = new QueryBuilder();
-        $this->assertInstanceOf("RDev\\QueryBuilders\\MySQL\\UpdateQuery",
-            $queryBuilder->update("tableName", "tableAlias", ["columnName" => "columnValue"]));
+        $this->assertInstanceOf(
+            UpdateQuery::class,
+            $queryBuilder->update("tableName", "tableAlias", ["columnName" => "columnValue"])
+        );
     }
 } 

@@ -6,6 +6,7 @@
  */
 namespace RDev\HTTP\Responses;
 use ArrayObject;
+use InvalidArgumentException;
 
 class JSONResponseTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,7 +33,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentOfIncorrectTypeInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new JSONResponse("\xB1\x31");
     }
 
@@ -41,7 +42,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentOfIncorrectTypeInSetter()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $response = new JSONResponse();
         $response->setContent("\xB1\x31");
     }

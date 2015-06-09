@@ -5,6 +5,7 @@
  * Tests the array list tokenizer
  */
 namespace RDev\Console\Requests\Tokenizers;
+use RuntimeException;
 
 class ArrayListTokenizerTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,7 +25,7 @@ class ArrayListTokenizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPassingCommandName()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->tokenizer->tokenize([
             "foo" => "bar"
         ]);

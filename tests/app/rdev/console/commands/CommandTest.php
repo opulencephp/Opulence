@@ -5,6 +5,7 @@
  * Tests the console command
  */
 namespace RDev\Console\Commands;
+use InvalidArgumentException;
 use RDev\Console\Commands\Compilers\Compiler as CommandCompiler;
 use RDev\Console\Requests\Argument;
 use RDev\Console\Requests\ArgumentTypes;
@@ -18,6 +19,7 @@ use RDev\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use RDev\Tests\Console\Commands\Mocks\NamelessCommand;
 use RDev\Tests\Console\Commands\Mocks\SimpleCommand;
 use RDev\Tests\Console\Responses\Mocks\Response;
+use RuntimeException;
 
 class CommandTest extends \PHPUnit_Framework_TestCase 
 {
@@ -109,7 +111,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingCommandThatDoesNotConstructParent()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $command = new CommandThatDoesNotCallParentConstructor();
         $command->execute(new Response(new ResponseCompiler(new Lexer(), new Parser())));
     }
@@ -143,7 +145,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentArgument()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->command->getArgumentValue("fake");
     }
 
@@ -152,7 +154,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentArgumentValue()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->command->getArgument("fake");
     }
 
@@ -161,7 +163,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentOption()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->command->getOption("fake");
     }
 
@@ -170,7 +172,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValueOfNonExistentOption()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->command->getOptionValue("fake");
     }
 
@@ -189,7 +191,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingNameInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new NamelessCommand(new CommandCollection(new CommandCompiler()));
     }
 

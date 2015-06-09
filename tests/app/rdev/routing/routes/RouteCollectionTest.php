@@ -6,6 +6,7 @@
  */
 namespace RDev\Routing\Routes;
 use RDev\HTTP\Requests\Request;
+use RDev\Tests\Routing\Mocks\Controller as MockController;
 
 class RouteCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +68,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingNamedRoute()
     {
         $path = "/foo";
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@@noParameters";
         $options = [
             "name" => "blah"
         ];
@@ -82,7 +83,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentNamedRoute()
     {
         $path = "/foo";
-        $route = new Route(Request::METHOD_GET, $path, "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters");
+        $route = new Route(Request::METHOD_GET, $path, MockController::class . "@@noParameters");
         $this->collection->add($route);
         $this->assertNull($this->collection->getNamedRoute("blah"));
     }
@@ -93,7 +94,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingRoutes()
     {
         $path = "/foo";
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@@noParameters";
         $deleteRoute = new Route(Request::METHOD_DELETE, $path, $controller);
         $getRoute = new Route(Request::METHOD_GET, $path, $controller);
         $postRoute = new Route(Request::METHOD_POST, $path, $controller);
@@ -132,7 +133,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingSpecificMethodRoutes()
     {
         $path = "/foo";
-        $getRoute = new Route(Request::METHOD_GET, $path, "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters");
+        $getRoute = new Route(Request::METHOD_GET, $path, MockController::class . "@@noParameters");
         $this->collection->add($getRoute);
         $getRoutes = $this->collection->get(Request::METHOD_GET);
         $this->assertSame([$getRoute], $getRoutes);

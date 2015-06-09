@@ -5,6 +5,7 @@
  * Tests the framework paths
  */
 namespace RDev\Applications;
+use InvalidArgumentException;
 
 class PathsTest extends \PHPUnit_Framework_TestCase 
 {
@@ -45,7 +46,7 @@ class PathsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNullOffset()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $paths = new Paths([]);
         $paths[] = "foo";
     }

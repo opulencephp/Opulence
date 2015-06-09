@@ -5,6 +5,7 @@
  * Tests the command collection class
  */
 namespace RDev\Console\Commands;
+use InvalidArgumentException;
 use RDev\Console\Commands\Compilers\Compiler as CommandCompiler;
 use RDev\Console\Responses\SilentResponse;
 use RDev\Console\Responses\Compilers\Compiler;
@@ -42,7 +43,7 @@ class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingDuplicateNames()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->collection->add(new SimpleCommand("foo", "The foo command"));
         $this->collection->add(new SimpleCommand("foo", "The foo command copy"));
     }
@@ -64,7 +65,7 @@ class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentCommand()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->collection->call("fake", new SilentResponse(), [], []);
     }
 
@@ -95,7 +96,7 @@ class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingCommandThatDoesNotExists()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->collection->get("foo");
     }
 

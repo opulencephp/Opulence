@@ -5,8 +5,11 @@
  * Tests the HTTP application tester
  */
 namespace RDev\Framework\Tests\HTTP;
+use LogicException;
+use RDev\Applications\Application;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
+use RDev\Routing\Router;
 use RDev\Tests\Framework\Tests\HTTP\Mocks\ApplicationTestCase;
 
 class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
@@ -150,7 +153,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingApplication()
     {
-        $this->assertInstanceOf("RDev\\Applications\\Application", $this->testCase->getApplication());
+        $this->assertInstanceOf(Application::class, $this->testCase->getApplication());
     }
 
     /**
@@ -158,7 +161,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouter()
     {
-        $this->assertInstanceOf("RDev\\Routing\\Router", $this->testCase->getRouter());
+        $this->assertInstanceOf(Router::class, $this->testCase->getRouter());
     }
 
     /**
@@ -166,7 +169,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionCheckingIfTemplateHasTagFromNonClosureController()
     {
-        $this->setExpectedException("\\LogicException");
+        $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/closure-controller");
         $this->testCase->assertTemplateHasTag("foo");
     }
@@ -176,7 +179,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionCheckingIfTemplateHasTagFromNonRDevController()
     {
-        $this->setExpectedException("\\LogicException");
+        $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-rdev-controller");
         $this->testCase->assertTemplateHasTag("foo");
     }
@@ -186,7 +189,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionCheckingIfTemplateHasVariableFromNonRDevController()
     {
-        $this->setExpectedException("\\LogicException");
+        $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-rdev-controller");
         $this->testCase->assertTemplateHasVar("foo");
     }
@@ -196,7 +199,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionGettingTemplateTagFromNonRDevController()
     {
-        $this->setExpectedException("\\LogicException");
+        $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-rdev-controller");
         $this->testCase->assertTemplateTagEquals("bar", "foo");
     }
@@ -206,7 +209,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionGettingTemplateVariableFromNonRDevController()
     {
-        $this->setExpectedException("\\LogicException");
+        $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-rdev-controller");
         $this->testCase->assertTemplateVarEquals("bar", "foo");
     }

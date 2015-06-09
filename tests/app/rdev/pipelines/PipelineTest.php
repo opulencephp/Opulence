@@ -27,7 +27,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testClassStagesWithCallback()
     {
-        $stages = ["RDev\\Tests\\Pipelines\\Mocks\\Stage1", "RDev\\Tests\\Pipelines\\Mocks\\Stage2"];
+        $stages = [Stage1::class, Stage2::class];
         $callback = function($input)
         {
             return $input . "3";
@@ -42,7 +42,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testClassThenClosureThenObjectStages()
     {
         $stages = [
-            "RDev\\Tests\\Pipelines\\Mocks\\Stage1",
+            Stage1::class,
             function($input, $next)
             {
                 return $next($input . "3");
@@ -63,7 +63,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
             {
                 return $next($input . "1");
             },
-            "RDev\\Tests\\Pipelines\\Mocks\\Stage2"
+            Stage2::class
         ];
         $pipeline = new Pipeline($this->container, $stages, "run");
         $this->assertEquals("input12", $pipeline->send("input"));
@@ -97,7 +97,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testIoCExceptionsAreConverted()
     {
-        $this->setExpectedException("RDev\\Pipelines\\PipelineException");
+        $this->setExpectedException(PipelineException::class);
         $stages = ["DoesNotExist"];
         $pipeline = new Pipeline($this->container, $stages, "foo");
         $pipeline->send("input");
@@ -108,7 +108,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultipleClassStages()
     {
-        $stages = ["RDev\\Tests\\Pipelines\\Mocks\\Stage1", "RDev\\Tests\\Pipelines\\Mocks\\Stage2"];
+        $stages = [Stage1::class, Stage2::class];
         $pipeline = new Pipeline($this->container, $stages, "run");
         $this->assertEquals("input12", $pipeline->send("input"));
     }
@@ -147,8 +147,8 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingMethodToCall()
     {
-        $this->setExpectedException("RDev\\Pipelines\\PipelineException");
-        $stages = ["RDev\\Tests\\Pipelines\\Mocks\\Stage1"];
+        $this->setExpectedException(PipelineException::class);
+        $stages = [Stage1::class];
         $pipeline = new Pipeline($this->container, $stages);
         $pipeline->send("input");
     }
@@ -172,7 +172,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testSingleClassPipe()
     {
-        $stages = ["RDev\\Tests\\Pipelines\\Mocks\\Stage1"];
+        $stages = [Stage1::class];
         $pipeline = new Pipeline($this->container, $stages, "run");
         $this->assertEquals("input1", $pipeline->send("input"));
     }

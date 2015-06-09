@@ -8,6 +8,7 @@ namespace RDev\Views\Compilers\SubCompilers;
 use RDev\HTTP\Requests\Request;
 use RDev\Tests\Mocks\User;
 use RDev\Tests\Views\Compilers\Tests\Compiler as CompilerTest;
+use RDev\Views\Compilers\ViewCompilerException;
 use RDev\Views\Template;
 
 class TagCompilerTest extends CompilerTest
@@ -89,7 +90,7 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCompilingInvalidPHP()
     {
-        $this->setExpectedException("RDev\\Views\\Compilers\\ViewCompilerException");
+        $this->setExpectedException(ViewCompilerException::class);
         $contents = $this->fileSystem->read(__DIR__ . "/../../files/TestWithInvalidPHP.html");
         $this->template->setContents($contents);
         // Temporarily disable error reporting to prevent stuff from being printed in the error logs
@@ -228,7 +229,7 @@ class TagCompilerTest extends CompilerTest
      */
     public function testInvalidFunction()
     {
-        $this->setExpectedException("RDev\\Views\\Compilers\\ViewCompilerException");
+        $this->setExpectedException(ViewCompilerException::class);
         $this->template->setContents('{{ foo() }}');
         $this->subCompiler->compile($this->template, $this->template->getContents());
     }

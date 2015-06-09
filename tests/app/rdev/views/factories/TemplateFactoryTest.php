@@ -6,8 +6,10 @@
  */
 namespace RDev\Views\Factories;
 use RDev\Files\FileSystem;
+use RDev\Files\FileSystemException;
 use RDev\Tests\Views\Mocks\BarBuilder;
 use RDev\Tests\Views\Mocks\FooBuilder;
+use RDev\Views\Template;
 
 class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,7 +46,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf("RDev\\Views\\Template", $template);
+        $this->assertInstanceOf(Template::class, $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 
@@ -55,7 +57,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf("RDev\\Views\\Template", $template);
+        $this->assertInstanceOf(Template::class, $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 
@@ -64,7 +66,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInTemplatePathThatDoesNotExist()
     {
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->templateFactory->create("doesNotExist.html");
     }
 
@@ -75,7 +77,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $template = $this->templateFactory->create("/TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf("RDev\\Views\\Template", $template);
+        $this->assertInstanceOf(Template::class, $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 
@@ -86,7 +88,7 @@ class TemplateFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $template = $this->templateFactory->create("TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf("RDev\\Views\\Template", $template);
+        $this->assertInstanceOf(Template::class, $template);
         $this->assertEquals($expectedContent, $template->getContents());
     }
 

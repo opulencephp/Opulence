@@ -13,6 +13,8 @@ use RDev\Applications\Environments\Environment;
 use RDev\Applications\Paths;
 use RDev\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use RDev\Applications\Tasks\TaskTypes;
+use RDev\Framework\Bootstrappers\Console\Commands\Commands;
+use RDev\Framework\Bootstrappers\Console\Composer\Composer;
 use RDev\Framework\Tests\Console\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\IoC\Container;
 use RDev\IoC\IContainer;
@@ -22,8 +24,8 @@ class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
-        "RDev\\Framework\\Bootstrappers\\Console\\Commands\\Commands",
-        "RDev\\Framework\\Bootstrappers\\Console\\Composer\\Composer",
+        Commands::class,
+        Composer::class,
     ];
 
     /**

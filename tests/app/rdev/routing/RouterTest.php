@@ -5,6 +5,7 @@
  * Tests the router
  */
 namespace RDev\Routing;
+use InvalidArgumentException;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
@@ -14,6 +15,7 @@ use RDev\Routing\Dispatchers\Dispatcher;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\Routes\RouteCollection;
 use RDev\IoC\Container;
+use RDev\Tests\Routing\Mocks\Controller as MockController;
 use RDev\Tests\Routing\Mocks\NonRDevController;
 use RDev\Tests\Routing\Mocks\Router as MockRouter;
 
@@ -138,7 +140,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->router->group($groupOptions, function ()
         {
-            $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+            $controller = MockController::class . "@noParameters";
             $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller));
             $this->router->delete("/blah", $controller);
         });
@@ -157,7 +159,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupingRoutesThenAddingAnotherRoute()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@noParameters";
         $routeOptions = [
             "middleware" => ["foo3", "foo4"]
         ];
@@ -188,7 +190,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupingRoutesWithStringMiddleware()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@noParameters";
         $routeOptions = [
             "middleware" => "foo2"
         ];
@@ -214,7 +216,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidMissedRouteControllerMethodInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $compiler = new Compiler(new Parser());
         new Router(new Dispatcher(new Container()), $compiler, NonRDevController::class, "doesNotExist");
     }
@@ -224,7 +226,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidMissedRouteControllerMethodInSetter()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->router->setMissedRouteController(NonRDevController::class, "doesNotExist");
     }
 
@@ -233,7 +235,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidMissedRouteControllerNameInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $compiler = new Compiler(new Parser());
         new Router(new Dispatcher(new Container()), $compiler, "Class\\That\\Does\\Not\\Exist");
     }
@@ -243,7 +245,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidMissedRouteControllerNameInSetter()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->router->setMissedRouteController("Class\\That\\Does\\Not\\Exist", "foo");
     }
 
@@ -327,13 +329,13 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         /** @var Route[] $deleteRoutes */
         $deleteRoutes = $this->router->getRouteCollection()->get(Request::METHOD_DELETE);
         $this->assertEquals("/foo/bar", $getRoutes[0]->getRawPath());
-        $this->assertEquals("RDev\\Tests\\Routing\\Mocks\\Controller", $getRoutes[0]->getControllerName());
+        $this->assertEquals(MockController::class, $getRoutes[0]->getControllerName());
         $this->assertEquals(["foo1", "foo2"], $getRoutes[0]->getMiddleware());
         $this->assertEquals("/foo/asdf/jkl", $getRoutes[1]->getRawPath());
-        $this->assertEquals("RDev\\Tests\\Routing\\Mocks\\Controller", $getRoutes[1]->getControllerName());
+        $this->assertEquals(MockController::class, $getRoutes[1]->getControllerName());
         $this->assertEquals(["foo1", "foo2", "foo3", "foo4"], $getRoutes[1]->getMiddleware());
         $this->assertEquals("/foo/blah", $deleteRoutes[0]->getRawPath());
-        $this->assertEquals("RDev\\Tests\\Routing\\Mocks\\Controller", $deleteRoutes[0]->getControllerName());
+        $this->assertEquals(MockController::class, $deleteRoutes[0]->getControllerName());
         $this->assertEquals(["foo1", "foo2"], $deleteRoutes[0]->getMiddleware());
     }
 
@@ -365,7 +367,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingAnyMethod()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@noParameters";
         $this->router->any("/foo", $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
         $this->assertEquals(1, count($allRoutes[Request::METHOD_GET]));
@@ -408,7 +410,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "REQUEST_URI" => "/foo/"
         ], [], []);
         $response = $this->router->route($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertInstanceOf("RDev\\Routing\\Controller", $this->router->getMatchedController());
         $this->assertNull($this->router->getMatchedRoute());
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
@@ -424,9 +426,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
         ], [], []);
-        $this->router->setMissedRouteController("RDev\\Tests\\Routing\\Mocks\\Controller");
+        $this->router->setMissedRouteController(MockController::class);
         $response = $this->router->route($request);
-        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
         $this->assertEquals("foo", $response->getContent());
     }
@@ -436,7 +438,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMultipleMethods()
     {
-        $controller = "RDev\\Tests\\Routing\\Mocks\\Controller@noParameters";
+        $controller = MockController::class . "@noParameters";
         $this->router->multiple([Request::METHOD_GET, Request::METHOD_POST], "/foo", $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
         $this->assertEquals(1, count($allRoutes[Request::METHOD_GET]));
@@ -696,7 +698,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "/foo",
             "google.com",
             "google.com",
-            "RDev\\Tests\\Routing\\Mocks\\Controller",
+            MockController::class,
             "noParameters"
         );
         $this->doRoute(
@@ -705,7 +707,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "/foo/123",
             "{bar}.google.com",
             "mail.google.com",
-            "RDev\\Tests\\Routing\\Mocks\\Controller",
+            MockController::class,
             "twoParameters"
         );
         $this->doRoute(
@@ -714,7 +716,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "/foo/123/456",
             "{baz}.{blah}.google.com",
             "u.mail.google.com",
-            "RDev\\Tests\\Routing\\Mocks\\Controller",
+            MockController::class,
             "severalParameters"
         );
     }

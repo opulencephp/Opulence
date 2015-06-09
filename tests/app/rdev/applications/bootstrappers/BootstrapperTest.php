@@ -5,6 +5,7 @@
  * Tests the bootstrapper
  */
 namespace RDev\Applications\Bootstrappers;
+use BadMethodCallException;
 use RDev\Applications\Paths;
 use RDev\Applications\Environments\Environment;
 use RDev\Sessions\Session;
@@ -28,7 +29,7 @@ class BootstrapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingBadMethod()
     {
-        $this->setExpectedException("\\BadMethodCallException");
+        $this->setExpectedException(BadMethodCallException::class);
         $this->bootstrapper->foo("bar");
     }
 

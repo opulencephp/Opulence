@@ -71,7 +71,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForChangesOnUnregisteredEntity()
     {
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->entityRegistry->hasChanged($this->entity1);
     }

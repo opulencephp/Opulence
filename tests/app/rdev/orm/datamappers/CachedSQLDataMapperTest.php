@@ -5,6 +5,7 @@
  * Tests the cached SQL data mapper
  */
 namespace RDev\ORM\DataMappers;
+use RDev\ORM\ORMException;
 use RDev\Tests\Mocks\User;
 use RDev\Tests\ORM\DataMappers\Mocks\CacheDataMapperThatReturnsNull;
 use RDev\Tests\ORM\DataMappers\Mocks\CachedSQLDataMapper;
@@ -73,7 +74,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper->add($this->entity1);
         $this->dataMapper->delete($this->entity1);
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->dataMapper->getSQLDataMapper()->getById($this->entity1->getId());
     }
 
@@ -82,7 +83,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingCacheDataMapper()
     {
-        $this->assertInstanceOf("RDev\\ORM\\DataMappers\\ICacheDataMapper", $this->dataMapper->getCacheDataMapper());
+        $this->assertInstanceOf(ICacheDataMapper::class, $this->dataMapper->getCacheDataMapper());
     }
 
     /**
@@ -90,7 +91,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSQLDataMapper()
     {
-        $this->assertInstanceOf("RDev\\ORM\\DataMappers\\ISQLDataMapper", $this->dataMapper->getSqlDataMapper());
+        $this->assertInstanceOf(ISQLDataMapper::class, $this->dataMapper->getSqlDataMapper());
     }
 
     /**
@@ -213,7 +214,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshingNullEntity()
     {
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->dataMapper->refreshEntity($this->entity1->getId());
     }
 

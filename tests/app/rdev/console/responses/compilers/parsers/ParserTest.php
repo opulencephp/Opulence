@@ -9,6 +9,7 @@ use RDev\Console\Responses\Compilers\Parsers\Nodes\TagNode;
 use RDev\Console\Responses\Compilers\Parsers\Nodes\WordNode;
 use RDev\Console\Responses\Compilers\Lexers\Tokens\Token;
 use RDev\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
+use RuntimeException;
 
 class ParserTest extends \PHPUnit_Framework_TestCase 
 {
@@ -28,7 +29,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncorrectlyNestedTags()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, "foo", 1),
             new Token(TokenTypes::T_TAG_OPEN, "bar", 1),
@@ -244,7 +245,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnclosedTag()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, "foo", 1),
             new Token(TokenTypes::T_WORD, "bar", 1),
@@ -258,7 +259,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnopenedTag()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_WORD, "foo", 0),
             new Token(TokenTypes::T_TAG_CLOSE, "bar", 3),

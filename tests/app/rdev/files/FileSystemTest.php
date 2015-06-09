@@ -6,6 +6,7 @@
  */
 namespace RDev\Files;
 use DateTime;
+use InvalidArgumentException;
 
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
@@ -114,7 +115,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGettingBasename()
     {
         $this->assertEquals("foo.txt", $this->fileSystem->getBasename(__DIR__ . "/subdirectory/foo.txt"));
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->fileSystem->getBasename(__DIR__ . "/doesnotexist.txt");
     }
 
@@ -144,7 +145,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(__DIR__ . "/subdirectory",
             $this->fileSystem->getDirectoryName(__DIR__ . "/subdirectory/foo.txt"));
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->fileSystem->getDirectoryName(__DIR__ . "/doesnotexist.txt");
     }
 
@@ -154,7 +155,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGettingExtension()
     {
         $this->assertEquals("txt", $this->fileSystem->getExtension(__DIR__ . "/subdirectory/foo.txt"));
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->fileSystem->getExtension(__DIR__ . "/doesnotexist.txt");
     }
 
@@ -164,7 +165,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGettingFileName()
     {
         $this->assertEquals("foo", $this->fileSystem->getFileName(__DIR__ . "/subdirectory/foo.txt"));
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->fileSystem->getFileName(__DIR__ . "/doesnotexist.txt");
     }
 
@@ -175,7 +176,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         $path = __DIR__ . "/subdirectory/foo.txt";
         $this->assertEquals(filesize($path), $this->fileSystem->getFileSize($path));
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->fileSystem->getFileSize(__DIR__ . "/doesnotexist.txt");
     }
 
@@ -225,7 +226,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
         $path = __DIR__ . "/subdirectory/foo.txt";
         $this->assertEquals(DateTime::createFromFormat("U", filemtime($path)),
             $this->fileSystem->getLastModified($path));
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->fileSystem->getLastModified(__DIR__ . "/doesnotexist.txt");
     }
 
@@ -294,7 +295,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadingFileThatDoesNotExist()
     {
-        $this->setExpectedException("RDev\\Files\\FileSystemException");
+        $this->setExpectedException(FileSystemException::class);
         $this->assertEquals("foo", $this->fileSystem->read(__DIR__ . "/doesnotexist.txt"));
     }
 
@@ -312,7 +313,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadingFromPathThatIsNotString()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->fileSystem->read(["not a string"]);
     }
 

@@ -227,7 +227,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLWithVariableThatDoesNotSatisfyRegex()
     {
-        $this->setExpectedException("RDev\\Routing\\URL\\URLException");
+        $this->setExpectedException(URLException::class);
         $this->generator->createFromName("pathVariableRegex", "notANumber");
     }
 
@@ -236,7 +236,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotFillingAllHostValues()
     {
-        $this->setExpectedException("RDev\\Routing\\URL\\URLException");
+        $this->setExpectedException(URLException::class);
         $this->generator->createFromName("hostOneParameter");
 
     }
@@ -246,7 +246,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotFillingAllPathValues()
     {
-        $this->setExpectedException("RDev\\Routing\\URL\\URLException");
+        $this->setExpectedException(URLException::class);
         $this->generator->createFromName("pathOneParameter");
     }
 

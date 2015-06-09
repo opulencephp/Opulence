@@ -5,6 +5,7 @@
  * Tests the multiple choice question
  */
 namespace RDev\Console\Prompts\Questions;
+use InvalidArgumentException;
 
 class MultipleChoiceTest extends \PHPUnit_Framework_TestCase 
 {
@@ -27,7 +28,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testAnswerOutOfBounds()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer(4);
     }
 
@@ -45,7 +46,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyAnswerForAssociativeChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->formatAnswer("");
     }
 
@@ -54,7 +55,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testEmptyAnswerForIndexedChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer("");
     }
 
@@ -63,7 +64,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testFloatAsAnswerToIndexedChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer(1.5);
     }
 
@@ -142,7 +143,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidAnswerForKeyedChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->formatAnswer("p");
     }
 
@@ -151,7 +152,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultipleIndexedChoicesWhenNotAllowed()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(false);
         $this->indexedChoiceQuestion->formatAnswer("1,2");
     }
@@ -161,7 +162,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultipleKeyedChoicesWhenNotAllowed()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(false);
         $this->keyedChoiceQuestion->formatAnswer("a,c");
     }
@@ -171,7 +172,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testNullAnswerToIndexedChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer(null);
     }
 
@@ -180,7 +181,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testNullAnswerToKeyedChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->formatAnswer(null);
     }
 
@@ -207,7 +208,7 @@ class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
      */
     public function testStringAsAnswerToIndexedChoices()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->formatAnswer("foo");
     }
 }

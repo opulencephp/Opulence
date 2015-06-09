@@ -5,6 +5,7 @@
  * Tests the console argument
  */
 namespace RDev\Console\Requests;
+use InvalidArgumentException;
 
 class ArgumentTest extends \PHPUnit_Framework_TestCase 
 {
@@ -91,7 +92,7 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTypeToOptionalAndRequired()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Argument("foo", ArgumentTypes::OPTIONAL | ArgumentTypes::REQUIRED, "Foo argument");
     }
 }

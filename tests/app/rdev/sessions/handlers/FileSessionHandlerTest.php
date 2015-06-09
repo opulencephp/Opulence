@@ -48,7 +48,7 @@ class FileSessionHandlerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->fileSystem = new FileSystem();
-        $this->handler = new FileSessionHandler($this->fileSystem, __DIR__ . "/" . self::$path);
+        $this->handler = new FileSessionHandler(__DIR__ . "/" . self::$path);
     }
 
     /**

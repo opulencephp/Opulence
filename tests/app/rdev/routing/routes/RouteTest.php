@@ -5,6 +5,7 @@
  * Tests the route class
  */
 namespace RDev\Routing\Routes;
+use InvalidArgumentException;
 
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
@@ -154,7 +155,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingControllerWithNoMethod()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Route("get", "/{foo}", "foo@");
     }
 
@@ -163,7 +164,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingControllerWithNoName()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Route("get", "/{foo}", "@bar");
     }
 
@@ -172,7 +173,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingIncorrectlyFormattedController()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Route("get", "/{foo}", "foo");
     }
 

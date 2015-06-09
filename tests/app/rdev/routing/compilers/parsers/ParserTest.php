@@ -5,6 +5,7 @@
  * Tests the route parser
  */
 namespace RDev\Routing\Compilers\Parsers;
+use RDev\Routing\RouteException;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\Route;
 
@@ -34,7 +35,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidPHPVariableName()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = new Route(["get"], "/{123foo}/bar", "foo@bar");
         $this->parser->parse($route);
     }
@@ -237,7 +238,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithDuplicateVariables()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = new Route(["get"], "/{foo}/{foo}", "foo@bar");
         $this->parser->parse($route);
     }
@@ -247,7 +248,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnclosedOpenBrace()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = new Route(["get"], "/{foo}/{bar", "foo@bar");
         $this->parser->parse($route);
     }
@@ -257,7 +258,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnopenedCloseBrace()
     {
-        $this->setExpectedException("RDev\\Routing\\RouteException");
+        $this->setExpectedException(RouteException::class);
         $route = new Route(["get"], "/{foo}/{bar}}", "foo@bar");
         $this->parser->parse($route);
     }

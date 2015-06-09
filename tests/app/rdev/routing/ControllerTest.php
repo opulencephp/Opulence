@@ -6,6 +6,7 @@
  */
 namespace RDev\Routing;
 use RDev\HTTP\Requests\Request;
+use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
 
 class ControllerTest extends \PHPUnit_Framework_TestCase
@@ -36,7 +37,7 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     public function testShowingHTTPError()
     {
         $response = $this->controller->showHTTPError(ResponseHeaders::HTTP_NOT_FOUND);
-        $this->assertInstanceOf("RDev\\HTTP\\Responses\\Response", $response);
+        $this->assertInstanceOf(Response::class, $response);
         $this->assertEmpty($response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
     }

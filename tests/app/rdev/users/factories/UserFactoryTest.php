@@ -6,6 +6,7 @@
  */
 namespace RDev\Users\Factories;
 use DateTime;
+use RDev\Users\User;
 
 class UserFactoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -26,6 +27,6 @@ class UserFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreatingUser()
     {
         $user = $this->userFactory->createUser(1, new DateTime("1776-07-04 12:34:56"), [1, 2, 3]);
-        $this->assertInstanceOf("RDev\\Users\\User", $user);
+        $this->assertInstanceOf(User::class, $user);
     }
 } 

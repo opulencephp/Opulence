@@ -5,6 +5,7 @@
  * Tests the string tokenizer
  */
 namespace RDev\Console\Requests\Tokenizers;
+use RuntimeException;
 
 class StringTokenizerTest extends \PHPUnit_Framework_TestCase
 {
@@ -78,7 +79,7 @@ class StringTokenizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenizingUnclosedDoubleQuote()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->tokenizer->tokenize('foo "blah');
     }
 
@@ -87,7 +88,7 @@ class StringTokenizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenizingUnclosedSingleQuote()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->tokenizer->tokenize("foo 'blah");
     }
 

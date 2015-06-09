@@ -5,6 +5,7 @@
  * Tests the session class
  */
 namespace RDev\Sessions;
+use InvalidArgumentException;
 use RDev\Sessions\Ids\IdGenerator;
 use RDev\Sessions\Ids\IIdGenerator;
 
@@ -320,7 +321,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNullOffset()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $session = new Session();
         $session[] = "foo";
     }

@@ -6,6 +6,7 @@
  */
 namespace RDev\ORM\Repositories;
 use RDev\ORM\EntityRegistry;
+use RDev\ORM\ORMException;
 use RDev\ORM\UnitOfWork;
 use RDev\Tests\Databases\SQL\Mocks\Connection;
 use RDev\Tests\Databases\SQL\Mocks\Server;
@@ -59,7 +60,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->repo->delete($this->entity1);
         $this->unitOfWork->commit();
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->repo->getById($this->entity1->getId());
     }
 
@@ -135,7 +136,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityThatDoesNotExistById()
     {
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->repo->getById(123);
     }
 

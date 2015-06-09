@@ -5,6 +5,7 @@
  * Tests the PDO driver
  */
 namespace RDev\Databases\PDO;
+use RDev\Tests\Databases\SQL\Mocks\Connection;
 use RDev\Tests\Databases\SQL\Mocks\Driver;
 use RDev\Tests\Databases\SQL\Mocks\Server;
 
@@ -17,6 +18,6 @@ class DriverTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
         $driver = new Driver();
-        $this->assertInstanceOf("RDev\\Tests\\Databases\\SQL\\Mocks\\Connection", $driver->connect($server));
+        $this->assertInstanceOf(Connection::class, $driver->connect($server));
     }
 } 

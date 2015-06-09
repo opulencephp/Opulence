@@ -6,23 +6,18 @@
  */
 namespace RDev\Sessions\Handlers;
 use DateTime;
-use RDev\Files\FileSystem;
 use SessionHandlerInterface;
 
 class FileSessionHandler implements SessionHandlerInterface
 {
-    /** @var FileSystem The file system to use to read/write files */
-    private $fileSystem = null;
     /** @var string The path to the session files */
     private $path = "";
 
     /**
-     * @param FileSystem $fileSystem The file system to use to read/write files
      * @param string $path The path to the session files
      */
-    public function __construct(FileSystem $fileSystem, $path)
+    public function __construct($path)
     {
-        $this->fileSystem = $fileSystem;
         $this->path = $path;
     }
 
@@ -39,7 +34,7 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function destroy($sessionId)
     {
-        $this->fileSystem->deleteFile("{$this->path}/$sessionId");
+        @unlink("{$this->path}/$sessionId");
     }
 
     /**
@@ -47,13 +42,15 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function gc($maxLifetime)
     {
-        $sessionFiles = $this->fileSystem->glob($this->path . "/*");
+        $sessionFiles = glob($this->path . "/*");
 
         foreach($sessionFiles as $sessionFile)
         {
-            if(new DateTime("$maxLifetime seconds ago") > $this->fileSystem->getLastModified($sessionFile))
+            $lastModified = DateTime::createFromFormat("U", filemtime($sessionFile));
+
+            if(new DateTime("$maxLifetime seconds ago") > $lastModified)
             {
-                $this->fileSystem->deleteFile($sessionFile);
+                @unlink($sessionFile);
             }
         }
     }
@@ -71,9 +68,9 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function read($sessionId)
     {
-        if($this->fileSystem->exists("{$this->path}/$sessionId"))
+        if(file_exists("{$this->path}/$sessionId"))
         {
-            return $this->fileSystem->read("{$this->path}/$sessionId");
+            return file_get_contents("{$this->path}/$sessionId");
         }
 
         return "";
@@ -84,6 +81,6 @@ class FileSessionHandler implements SessionHandlerInterface
      */
     public function write($sessionId, $sessionData)
     {
-        $this->fileSystem->write("{$this->path}/$sessionId", $sessionData, LOCK_EX);
+        file_put_contents("{$this->path}/$sessionId", $sessionData, LOCK_EX);
     }
 }

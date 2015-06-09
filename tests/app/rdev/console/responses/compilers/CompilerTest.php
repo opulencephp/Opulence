@@ -9,6 +9,7 @@ use RDev\Console\Responses\Compilers\Lexers\Lexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser;
 use RDev\Console\Responses\Formatters\Elements\Element;
 use RDev\Console\Responses\Formatters\Elements\Style;
+use RuntimeException;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase 
 {
@@ -151,7 +152,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingUnclosedElement()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->compiler->compile("<foo>bar");
     }
 
@@ -160,7 +161,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingUnregisteredElement()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->compiler->compile("<foo>bar</foo>");
     }
 
@@ -169,7 +170,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncorrectlyNestedElements()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->compiler->getElements()->add(new Element("foo", new Style("green")));
         $this->compiler->getElements()->add(new Element("bar", new Style("blue")));
         $this->compiler->compile("<foo><bar>blah</foo></bar>");

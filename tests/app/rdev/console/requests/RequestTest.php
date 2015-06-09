@@ -5,6 +5,7 @@
  * Tests the console request
  */
 namespace RDev\Console\Requests;
+use InvalidArgumentException;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,6 +18,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->request = new Request();
+    }
+
+    /**
+     * Tests adding multiple values for an option
+     */
+    public function testAddingMultipleValuesForOption()
+    {
+        $this->request->addOptionValue("foo", "bar");
+        $this->assertEquals("bar", $this->request->getOptionValue("foo"));
+        $this->request->addOptionValue("foo", "baz");
+        $this->assertEquals(["bar", "baz"], $this->request->getOptionValue("foo"));
     }
 
     /**
@@ -35,17 +47,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->request->addOptionValue("foo", null);
         $this->assertTrue($this->request->optionIsSet("foo"));
-    }
-
-    /**
-     * Tests adding multiple values for an option
-     */
-    public function testAddingMultipleValuesForOption()
-    {
-        $this->request->addOptionValue("foo", "bar");
-        $this->assertEquals("bar", $this->request->getOptionValue("foo"));
-        $this->request->addOptionValue("foo", "baz");
-        $this->assertEquals(["bar", "baz"], $this->request->getOptionValue("foo"));
     }
 
     /**
@@ -82,7 +83,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentOption()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->request->getOptionValue("foo");
     }
 

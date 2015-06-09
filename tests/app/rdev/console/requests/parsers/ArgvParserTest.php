@@ -5,6 +5,7 @@
  * Tests the argv parser
  */
 namespace RDev\Console\Requests\Parsers;
+use InvalidArgumentException;
 
 class ArgvParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -58,7 +59,7 @@ class ArgvParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidInputType()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->parser->parse("foo");
     }
 }

@@ -5,6 +5,7 @@
  * Tests the template compiler
  */
 namespace RDev\Views\Compilers;
+use InvalidArgumentException;
 use RDev\Views\Compilers\SubCompilers\StatementCompiler;
 use RDev\Tests\Views\Mocks\ParentBuilder;
 use RDev\Tests\Views\Compilers\Mocks\Compiler as MockCompiler;
@@ -166,7 +167,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingNonExistentTemplateFunction()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->executeTemplateFunction("nonExistentFunction");
     }
 
@@ -243,7 +244,7 @@ This is the content
      */
     public function testIntegerLessThanOnePriority()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content;
@@ -255,7 +256,7 @@ This is the content
      */
     public function testNonIntegerPriority()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
             return $content;

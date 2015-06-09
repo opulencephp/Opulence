@@ -5,6 +5,7 @@
  * Tests the console application tester
  */
 namespace RDev\Framework\Tests\Console;
+use RDev\Console\Commands\CommandCollection;
 use RDev\Console\Prompts\Prompt;
 use RDev\Console\Responses\Formatters\PaddingFormatter;
 use RDev\Framework\Console\StatusCodes;
@@ -119,7 +120,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingCommands()
     {
-        $this->assertInstanceOf("RDev\\Console\\Commands\\CommandCollection", $this->testCase->getCommandCollection());
+        $this->assertInstanceOf(CommandCollection::class, $this->testCase->getCommandCollection());
     }
 
     /**

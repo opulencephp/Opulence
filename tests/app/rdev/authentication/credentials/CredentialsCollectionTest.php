@@ -8,6 +8,7 @@ namespace RDev\Authentication\Credentials;
 use RDev\HTTP\Responses\Response;
 use RDev\Tests\Authentication\Credentials\Storage\Mocks\CredentialStorage;
 use RDev\Tests\Authentication\Tokens\Mocks\Token;
+use RuntimeException;
 
 class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +29,7 @@ class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingCredentialWithoutStorage()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $collection = new CredentialCollection(1, 369);
         $collection->add($credential);
@@ -176,7 +177,7 @@ class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testInstantiatingWithListOfCredentialsWithoutStorage()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         new CredentialCollection(1, 369, [], [$credential]);
     }
@@ -205,7 +206,7 @@ class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingCredentialThatDoesNotHaveStorage()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $collection = new CredentialCollection(1, 369);
         $collection->delete(new Response(), CredentialTypes::LOGIN);
     }
@@ -227,7 +228,7 @@ class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSavingCredentialWithNoStorageRegistered()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $collection = new CredentialCollection(1, 369);
         $credential = new Credential(321, CredentialTypes::LOGIN, 1, 844, Token::create());
         $collection->save(new Response(), $credential, "foo");

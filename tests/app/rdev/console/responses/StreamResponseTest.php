@@ -5,6 +5,7 @@
  * Tests the stream response
  */
 namespace RDev\Console\Responses;
+use InvalidArgumentException;
 use RDev\Console\Responses\Compilers\Compiler;
 use RDev\Console\Responses\Compilers\Lexers\Lexer;
 use RDev\Console\Responses\Compilers\Parsers\Parser;
@@ -38,7 +39,7 @@ class StreamResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidStream()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new StreamResponse("foo", $this->compiler);
     }
 

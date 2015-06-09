@@ -5,6 +5,7 @@
  * Tests the template class
  */
 namespace RDev\Views;
+use InvalidArgumentException;
 use RDev\Files\FileSystem;
 
 class TemplateTest extends \PHPUnit_Framework_TestCase
@@ -213,7 +214,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentsToNonString()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->template->setContents(["Not a string"]);
     }
 

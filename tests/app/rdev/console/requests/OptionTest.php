@@ -5,6 +5,7 @@
  * Tests the console option
  */
 namespace RDev\Console\Requests;
+use InvalidArgumentException;
 
 class OptionTest extends \PHPUnit_Framework_TestCase
 {
@@ -98,7 +99,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testNonAlphabeticShortName()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Option("foo", "-", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
     }
 
@@ -107,7 +108,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTypeToOptionalAndNoValue()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Option("foo", "f", OptionTypes::OPTIONAL_VALUE | OptionTypes::NO_VALUE, "Foo argument");
     }
 
@@ -116,7 +117,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTypeToOptionalAndRequired()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Option("foo", "f", OptionTypes::OPTIONAL_VALUE | OptionTypes::REQUIRED_VALUE, "Foo argument");
     }
 
@@ -125,7 +126,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTypeToRequiredAndNoValue()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Option("foo", "f", OptionTypes::REQUIRED_VALUE | OptionTypes::NO_VALUE, "Foo argument");
     }
 
@@ -134,7 +135,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testTooLongShortName()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Option("foo", "foo", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
     }
 }

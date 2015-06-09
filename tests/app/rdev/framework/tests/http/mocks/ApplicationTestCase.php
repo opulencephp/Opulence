@@ -13,6 +13,9 @@ use RDev\Applications\Environments\Environment;
 use RDev\Applications\Paths;
 use RDev\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use RDev\Applications\Tasks\TaskTypes;
+use RDev\Framework\Bootstrappers\HTTP\Requests\Request;
+use RDev\Framework\Bootstrappers\HTTP\Routing\Router;
+use RDev\Framework\Bootstrappers\HTTP\Views\TemplateFunctions;
 use RDev\Framework\Tests\HTTP\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\IoC\Container;
 use RDev\IoC\IContainer;
@@ -22,9 +25,9 @@ class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
-        "RDev\\Framework\\Bootstrappers\\HTTP\\Requests\\Request",
-        "RDev\\Framework\\Bootstrappers\\HTTP\\Routing\\Router",
-        "RDev\\Framework\\Bootstrappers\\HTTP\\Views\\TemplateFunctions"
+        Request::class,
+        Router::class,
+        TemplateFunctions::class
     ];
 
     /**

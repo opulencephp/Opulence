@@ -154,9 +154,9 @@ class Dispatcher implements IDispatcher
 
         // Just in case the request hasn't already been bound, bind it
         // This allows us to use it when resolving the controller class
-        if(!is_object($this->container->getBinding("RDev\\HTTP\\Request")))
+        if(!is_object($this->container->getBinding(Request::class)))
         {
-            $this->container->bind("RDev\\HTTP\\Request", $request);
+            $this->container->bind(Request::class, $request);
         }
 
         $controller = $this->container->makeShared($controllerName);

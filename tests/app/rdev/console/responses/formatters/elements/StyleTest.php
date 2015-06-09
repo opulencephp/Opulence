@@ -5,6 +5,7 @@
  * Tests the style class
  */
 namespace RDev\Console\Responses\Formatters\Elements;
+use InvalidArgumentException;
 
 class StyleTest extends \PHPUnit_Framework_TestCase 
 {
@@ -13,7 +14,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingInvalidTextStyle()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $style = new Style();
         $style->addTextStyle("foo");
     }
@@ -23,7 +24,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingInvalidTextStyles()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $style = new Style();
         $style->addTextStyles(["foo"]);
     }
@@ -41,21 +42,21 @@ class StyleTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests formatting a string with all styles
-     */
-    public function testFormattingStringWithAllStyles()
-    {
-        $styles = new Style(COLORS::RED, COLORS::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
-        $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format("foo"));
-    }
-
-    /**
      * Tests formatting an empty string
      */
     public function testFormattingEmptyString()
     {
         $styles = new Style(COLORS::RED, COLORS::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
         $this->assertEquals("", $styles->format(""));
+    }
+
+    /**
+     * Tests formatting a string with all styles
+     */
+    public function testFormattingStringWithAllStyles()
+    {
+        $styles = new Style(COLORS::RED, COLORS::GREEN, [TextStyles::BOLD, TextStyles::UNDERLINE, TextStyles::BLINK]);
+        $this->assertEquals("\033[31;42;1;4;5mfoo\033[39;49;22;24;25m", $styles->format("foo"));
     }
 
     /**
@@ -92,7 +93,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingInvalidTextStyle()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $style = new Style();
         $style->addTextStyle(TextStyles::BOLD);
         $style->removeTextStyle("foo");
@@ -133,7 +134,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidBackgroundColor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $style = new Style();
         $style->setBackgroundColor("foo");
     }
@@ -143,7 +144,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidBackgroundColorInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Style(null, "foo");
     }
 
@@ -152,7 +153,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidForegroundColor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $style = new Style();
         $style->setForegroundColor("foo");
     }
@@ -162,7 +163,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidForegroundColorInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Style("foo");
     }
 
@@ -171,7 +172,7 @@ class StyleTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidTextStylesInConstructor()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         new Style(null, null, ["foo"]);
     }
 

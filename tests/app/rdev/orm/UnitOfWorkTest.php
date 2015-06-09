@@ -150,7 +150,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -175,7 +175,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingConnection()
     {
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $unitOfWork = new UnitOfWork($this->entityRegistry);
         $unitOfWork->commit();
     }
@@ -211,7 +211,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->setExpectedException("RDev\\ORM\\ORMException");
+        $this->setExpectedException(ORMException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
 

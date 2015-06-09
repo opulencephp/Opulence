@@ -5,6 +5,7 @@
  * Tests the element registry
  */
 namespace RDev\Console\Responses\Formatters\Elements;
+use InvalidArgumentException;
 
 class ElementCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +52,7 @@ class ElementCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentElement()
     {
-        $this->setExpectedException("\\InvalidArgumentException");
+        $this->setExpectedException(InvalidArgumentException::class);
         $this->assertFalse($this->collection->has("foo"));
         $this->collection->getElement("foo");
     }

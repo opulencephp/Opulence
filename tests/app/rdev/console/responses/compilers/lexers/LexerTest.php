@@ -7,6 +7,7 @@
 namespace RDev\Console\Responses\Compilers\Lexers;
 use RDev\Console\Responses\Compilers\Lexers\Tokens\Token;
 use RDev\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
+use RuntimeException;
 
 class LexerTest extends \PHPUnit_Framework_TestCase 
 {
@@ -148,7 +149,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLexingOpenTagInsideOfCloseTag()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->lexer->lex("<foo></<bar>foo>");
     }
 
@@ -157,7 +158,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLexingOpenTagInsideOfOpenTag()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $this->lexer->lex("<foo<bar>>");
     }
 

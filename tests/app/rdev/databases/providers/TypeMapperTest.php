@@ -6,6 +6,7 @@
  */
 namespace RDev\Databases\Providers;
 use DateTime;
+use RuntimeException;
 
 class TypeMapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -337,7 +338,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingAnyProviders()
     {
-        $this->setExpectedException("\\RuntimeException");
+        $this->setExpectedException(RuntimeException::class);
         $typeMapper = new TypeMapper();
         $typeMapper->toSQLBoolean(true);
     }
