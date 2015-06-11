@@ -29,6 +29,7 @@ class StatementCompilerTest extends CompilerTest
      */
     public function testCleaningUpUnusedStatements()
     {
+        error_log(10);
         // Test closed statement
         $this->template->setContents('foo{% foo("hi") %}baz{% endfoo %}bar');
         $this->assertEquals("foobar", $this->subCompiler->compile($this->template, $this->template->getContents()));
@@ -42,6 +43,7 @@ class StatementCompilerTest extends CompilerTest
      */
     public function testCompilingNestedParts()
     {
+        error_log(11);
         $this->template->setPart("foo", '{% show("bar") %}blah');
         $this->template->setPart("bar", "baz");
         $this->template->setContents('{% show("foo") %}');
@@ -53,6 +55,7 @@ class StatementCompilerTest extends CompilerTest
      */
     public function testEscapingPartStatement()
     {
+        error_log(12);
         $contents = '\{% part("foo") %}bar{% endpart %}';
         $this->template->setContents($contents);
         $this->assertEquals($contents, $this->subCompiler->compile($this->template, $this->template->getContents()));
@@ -63,6 +66,7 @@ class StatementCompilerTest extends CompilerTest
      */
     public function testExtendStatement()
     {
+        error_log(13);
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_EXTEND_STATEMENT)
         );
@@ -78,6 +82,7 @@ Hello, world!",
      */
     public function testExtendStatementWithPartStatement()
     {
+        error_log(14);
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_EXTEND_AND_PART_STATEMENT)
         );
@@ -100,6 +105,7 @@ This is the content
      */
     public function testExtendingParentWithBuilder()
     {
+        error_log(15);
         $this->templateFactory->registerBuilder("Master.html", function()
         {
             return new ParentBuilder();
@@ -127,6 +133,7 @@ This is the content
      */
     public function testGrandparentInheritanceInParentStatement()
     {
+        error_log(16);
         // Try a child that directly inherits from its grandparent
         $this->template->setContents(
             '{% extends("EmptyChild.html") %}{% part("foo") %}{% parent("foo") %}baz{% endpart %}'
@@ -150,6 +157,7 @@ This is the content
      */
     public function testIncludeStatement()
     {
+        error_log(17);
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_INCLUDE_STATEMENT)
         );
@@ -164,6 +172,7 @@ This is the content
      */
     public function testMultipleShowStatementsWithSamePart()
     {
+        error_log(18);
         $this->template->setContents('{% show("foo") %} {% show("foo") %}');
         $this->template->setPart("foo", "bar");
         $this->assertEquals("bar bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
@@ -174,6 +183,7 @@ This is the content
      */
     public function testNestedExtendStatements()
     {
+        error_log(19);
         $this->templateFactory->registerBuilder("Master.html", function()
         {
             return new ParentBuilder();
@@ -203,6 +213,7 @@ This is the content
      */
     public function testNestedIncludeStatements()
     {
+        error_log(20);
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_NESTED_INCLUDE_STATEMENTS)
         );
@@ -217,6 +228,7 @@ This is the content
      */
     public function testParentStatement()
     {
+        error_log(21);
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_THAT_CALLS_PARENT_PART)
         );
@@ -231,6 +243,7 @@ This is the content
      */
     public function testParentTagDoesNotOverwriteChildTag()
     {
+        error_log(22);
         $this->templateFactory->registerBuilder("Header.html", function()
         {
             return new ParentBuilder();
@@ -249,6 +262,7 @@ This is the content
      */
     public function testPartStatementWithDoubleQuotes()
     {
+        error_log(23);
         $this->template->setContents('{{foo}} {% part("foo") %}bar{% endpart %}');
         $this->assertEquals("{{foo}} ", $this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->assertEquals("bar", $this->template->getPart("foo"));
@@ -259,6 +273,7 @@ This is the content
      */
     public function testPartStatementWithSingleQuotes()
     {
+        error_log(24);
         $this->template->setContents("{{foo}} {% part('foo') %}bar{% endpart %}");
         $this->assertEquals("{{foo}} ", $this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->assertEquals("bar", $this->template->getPart("foo"));
@@ -269,6 +284,7 @@ This is the content
      */
     public function testTagsInheritedInCorrectOrder()
     {
+        error_log(25);
         $this->templateFactory->registerBuilder("Master.html", function()
         {
             return new ParentBuilder();
@@ -289,6 +305,7 @@ This is the content
      */
     public function testUndefinedParentStatement()
     {
+        error_log(26);
         $this->template->setContents(
             $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_THAT_CALLS_PARENT_UNDEFINED_PART)
         );
