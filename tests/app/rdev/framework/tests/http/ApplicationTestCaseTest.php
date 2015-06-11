@@ -8,6 +8,7 @@ namespace RDev\Framework\Tests\HTTP;
 use LogicException;
 use RDev\Applications\Application;
 use RDev\Applications\Environments\Environment;
+use RDev\Framework\HTTP\Kernel;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
 use RDev\Routing\Router;
@@ -163,6 +164,14 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testGettingRouter()
     {
         $this->assertInstanceOf(Router::class, $this->testCase->getRouter());
+    }
+
+    /**
+     * Tests that the kernel instance is returned
+     */
+    public function testKernelInstanceIsReturned()
+    {
+        $this->assertInstanceOf(Kernel::class, $this->testCase->getKernel());
     }
 
     /**

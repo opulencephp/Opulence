@@ -46,6 +46,41 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests disabling all middleware
+     */
+    public function testDisablingAllMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        $kernel->addMiddleware("foo");
+        $kernel->disableAllMiddleware();
+        $this->assertEquals([], $kernel->getMiddleware());
+    }
+
+    /**
+     * Tests disabling certain middleware
+     */
+    public function testDisablingCertainMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        $kernel->addMiddleware("foo");
+        $kernel->addMiddleware("bar");
+        $kernel->onlyDisableMiddleware(["foo"]);
+        $this->assertEquals(["bar"], $kernel->getMiddleware());
+    }
+
+    /**
+     * Tests enabling certain middleware
+     */
+    public function testEnablingCertainMiddleware()
+    {
+        $kernel = $this->getKernel(false);
+        $kernel->addMiddleware("foo");
+        $kernel->addMiddleware("bar");
+        $kernel->onlyEnableMiddleware(["foo"]);
+        $this->assertEquals(["foo"], $kernel->getMiddleware());
+    }
+
+    /**
      * Tests getting middleware
      */
     public function testGettingMiddleware()

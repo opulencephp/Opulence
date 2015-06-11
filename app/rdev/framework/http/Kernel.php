@@ -24,6 +24,12 @@ class Kernel
     private $logger = null;
     /** @var array The list of global middleware */
     private $middleware = [];
+    /** @var bool Whether or not all middleware are disabled */
+    private $middlewareAreDisabled = false;
+    /** @var array The list of enabled middleware */
+    private $enabledMiddleware = [];
+    /** @var array The list of disabled middleware */
+    private $disabledMiddleware = [];
 
     /**
      * @param IContainer $container The dependency injection container
@@ -48,10 +54,33 @@ class Kernel
     }
 
     /**
+     * Disables all middleware
+     */
+    public function disableAllMiddleware()
+    {
+        $this->middlewareAreDisabled = true;
+    }
+
+    /**
      * @return array
      */
     public function getMiddleware()
     {
+        if($this->middlewareAreDisabled)
+        {
+            return [];
+        }
+
+        if(count($this->enabledMiddleware) > 0)
+        {
+            return $this->enabledMiddleware;
+        }
+
+        if(count($this->disabledMiddleware) > 0)
+        {
+            return array_values(array_diff($this->middleware, $this->disabledMiddleware));
+        }
+
         return $this->middleware;
     }
 
@@ -65,9 +94,9 @@ class Kernel
     {
         try
         {
-            $pipeline = new Pipeline($this->container, $this->middleware, "handle");
+            $pipeline = new Pipeline($this->container, $this->getMiddleware(), "handle");
 
-            return $pipeline->send($request, function($request)
+            return $pipeline->send($request, function ($request)
             {
                 return $this->router->route($request);
             });
@@ -78,5 +107,25 @@ class Kernel
 
             return new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    /**
+     * Disables the argument middleware
+     *
+     * @param array $middleware The list of middleware classes to disable
+     */
+    public function onlyDisableMiddleware(array $middleware)
+    {
+        $this->disabledMiddleware = $middleware;
+    }
+
+    /**
+     * Enables only the argument middleware
+     *
+     * @param array $middleware The list of middleware classes to enable
+     */
+    public function onlyEnableMiddleware(array $middleware)
+    {
+        $this->enabledMiddleware = $middleware;
     }
 }

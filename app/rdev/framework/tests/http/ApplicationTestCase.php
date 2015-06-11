@@ -244,6 +244,14 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
+     * @return Kernel
+     */
+    public function getKernel()
+    {
+        return $this->kernel;
+    }
+
+    /**
      * @return Router
      */
     public function getRouter()
