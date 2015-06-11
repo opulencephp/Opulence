@@ -6,9 +6,8 @@
  */
 namespace RDev\Sessions\Handlers;
 use RDev\Cache\ICacheBridge;
-use SessionHandlerInterface;
 
-class CacheSessionHandler implements SessionHandlerInterface
+class CacheSessionHandler extends SessionHandler
 {
     /** @var ICacheBridge The cache to use */
     private $cache = null;
@@ -60,7 +59,7 @@ class CacheSessionHandler implements SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function read($sessionId)
+    protected function doRead($sessionId)
     {
         return $this->cache->get($sessionId);
     }
@@ -68,7 +67,7 @@ class CacheSessionHandler implements SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function write($sessionId, $sessionData)
+    protected function doWrite($sessionId, $sessionData)
     {
         $this->cache->set($sessionId, $sessionData, $this->lifetime);
     }

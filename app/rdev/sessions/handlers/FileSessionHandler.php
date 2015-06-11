@@ -6,9 +6,8 @@
  */
 namespace RDev\Sessions\Handlers;
 use DateTime;
-use SessionHandlerInterface;
 
-class FileSessionHandler implements SessionHandlerInterface
+class FileSessionHandler extends SessionHandler
 {
     /** @var string The path to the session files */
     private $path = "";
@@ -66,7 +65,7 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function read($sessionId)
+    protected function doRead($sessionId)
     {
         if(file_exists("{$this->path}/$sessionId"))
         {
@@ -79,7 +78,7 @@ class FileSessionHandler implements SessionHandlerInterface
     /**
      * {@inheritdoc}
      */
-    public function write($sessionId, $sessionData)
+    protected function doWrite($sessionId, $sessionData)
     {
         file_put_contents("{$this->path}/$sessionId", $sessionData, LOCK_EX);
     }
