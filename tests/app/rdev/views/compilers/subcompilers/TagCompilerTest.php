@@ -90,7 +90,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCompilingTagWhoseValueIsAnotherTag()
     {
-        error_log(5);
         // Order here is important
         // We're testing setting the inner-most tag first, and then the outer tag
         $this->template->setContents("{{!content!}}");
@@ -107,7 +106,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCompilingTemplateWithPHPCode()
     {
-        error_log(6);
         $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_PHP_CODE);
         $this->template->setContents($contents);
         $user1 = new User(1, "foo");
@@ -129,7 +127,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCompilingVariableInsideTags()
     {
-        error_log(7);
         $delimiters = [
             [
                 Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
@@ -157,7 +154,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testEscapedString()
     {
-        error_log(8);
         $this->template->setContents('{{"a&w"}}');
         $this->assertTrue(
             $this->stringsWithEncodedCharactersEqual(
@@ -179,7 +175,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testEscapedTagWithQuotes()
     {
-        error_log(9);
         $this->template->setContents('\{{" "}}"');
         $this->assertEquals('{{" "}}"', $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
@@ -189,7 +184,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testFunctionThatSpansMultipleLines()
     {
-        error_log(10);
         $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return $input . "bar";
@@ -207,7 +201,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testFunctionWithSpacesBetweenTags()
     {
-        error_log(11);
         $this->template->setContents('{{! foo("bar") !}}');
         $this->compiler->registerTemplateFunction("foo", function ($input)
         {
@@ -221,7 +214,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testInvalidFunction()
     {
-        error_log(12);
         $this->setExpectedException(ViewCompilerException::class);
         $this->template->setContents('{{ foo() }}');
         $this->subCompiler->compile($this->template, $this->template->getContents());
@@ -232,7 +224,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testMultipleCallsOfSameFunction()
     {
-        error_log(13);
         $this->compiler->registerTemplateFunction("foo",
             function ($param1 = null, $param2 = null)
             {
@@ -268,7 +259,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testNestedPHPFunctions()
     {
-        error_log(14);
         $this->template->setContents('{{!date(strtoupper("y"))!}}');
         $this->assertEquals(date("Y"), $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
@@ -278,7 +268,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testNestedTemplateFunctions()
     {
-        error_log(15);
         $this->compiler->registerTemplateFunction("foo", function()
         {
             return "bar";
@@ -296,7 +285,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testOnlyOuterQuotesGetStrippedFromStringLiterals()
     {
-        error_log(16);
         $this->template->setVar("foo", true);
         $this->template->setContents('{{!$foo ? \' class="bar"\' : \'\'!}}');
         $this->assertEquals(' class="bar"', $this->subCompiler->compile($this->template, $this->template->getContents()));
@@ -309,7 +297,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testPHPFunction()
     {
-        error_log(17);
         $this->template->setContents('{{ date("Y") }}');
         $this->assertEquals(date("Y"), $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
@@ -319,7 +306,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testPHPFunctionWithTemplateFunction()
     {
-        error_log(18);
         $this->compiler->registerTemplateFunction("foo", function()
         {
             return "Y";
@@ -333,7 +319,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testStringLiteralWithEscapedQuotes()
     {
-        error_log(19);
         // Test escaped strings
         $this->template->setContents("{{'fo\'o'}}");
         $this->assertTrue($this->stringsWithEncodedCharactersEqual(
@@ -357,7 +342,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTagThatSpansMultipleLines()
     {
-        error_log(20);
         $this->template->setContents("{{
         foo
         }}");
@@ -370,7 +354,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTagWithPHPValue()
     {
-        error_log(21);
         $this->template->setTag("foo", '$bar->blah();');
         $this->template->setContents('{{!foo!}}');
         $this->assertEquals('$bar->blah();', $this->subCompiler->compile($this->template, $this->template->getContents()));
@@ -381,7 +364,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTemplateFunction()
     {
-        error_log(22);
         $this->compiler->registerTemplateFunction("foo", function()
         {
             return "a&w";
@@ -402,7 +384,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTemplateFunctionWithStringInput()
     {
-        error_log(23);
         $this->compiler->registerTemplateFunction("foo", function($input)
         {
             return strrev($input);
@@ -416,7 +397,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTemplateWithCustomDelimiters()
     {
-        error_log(24);
         $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
         $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
@@ -443,7 +423,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTemplateWithDefaultDelimiters()
     {
-        error_log(25);
         $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_DEFAULT_TAG_DELIMITERS);
         $this->template->setContents($contents);
         $this->template->setTag("foo", "Hello");
@@ -467,7 +446,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testTernaryOperator()
     {
-        error_log(26);
         $this->template->setVar("foo", true);
         $this->template->setContents('{{$foo ? "a&w" : ""}}');
         $this->assertTrue(
@@ -485,7 +463,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testUnescapedString()
     {
-        error_log(27);
         $this->template->setContents('{{!"foo"!}}');
         $this->assertEquals("foo", $this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->template->setContents("{{!'foo'!}}");
