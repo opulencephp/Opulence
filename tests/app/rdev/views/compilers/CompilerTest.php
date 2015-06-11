@@ -151,7 +151,6 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testCompilingTemplateWithUnsetTags()
     {
-        error_log("1");
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_TAG_DELIMITERS);
         $this->template->setContents($contents);
         $functionResult = $this->registerFunction();
@@ -168,7 +167,6 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingNonExistentTemplateFunction()
     {
-        error_log("2");
         $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->executeTemplateFunction("nonExistentFunction");
     }
@@ -178,7 +176,6 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingTemplateFunctionThatTakesNoParameters()
     {
-        error_log("3");
         $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "foobar";
@@ -191,7 +188,6 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingTemplateFunctionThatTakesParameters()
     {
-        error_log("4");
         $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return "foo" . $input;
@@ -204,7 +200,6 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExtendingParentWithBuilder()
     {
-        error_log("5");
         $this->templateFactory->registerBuilder("Master.html", function()
         {
             return new ParentBuilder();
@@ -227,7 +222,6 @@ This is the content
      */
     public function testGettingTemplateFunctions()
     {
-        error_log(6);
         $foo = function()
         {
             echo "foo";
@@ -250,7 +244,6 @@ This is the content
      */
     public function testIntegerLessThanOnePriority()
     {
-        error_log(7);
         $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
@@ -263,7 +256,6 @@ This is the content
      */
     public function testNonIntegerPriority()
     {
-        error_log(8);
         $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->registerSubCompiler(new SubCompiler($this->compiler, function ($template, $content)
         {
@@ -276,7 +268,6 @@ This is the content
      */
     public function testTemplateIsCachedAfterCompiling()
     {
-        error_log(9);
         $statementSubCompiler = new StatementCompiler($this->compiler, $this->templateFactory);
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_EXTEND_STATEMENT);
         $this->template->setContents($contents);
