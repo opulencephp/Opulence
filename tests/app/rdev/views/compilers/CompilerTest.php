@@ -151,6 +151,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testCompilingTemplateWithUnsetTags()
     {
+        error_log("1");
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_DEFAULT_TAG_DELIMITERS);
         $this->template->setContents($contents);
         $functionResult = $this->registerFunction();
@@ -167,6 +168,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingNonExistentTemplateFunction()
     {
+        error_log("2");
         $this->setExpectedException(InvalidArgumentException::class);
         $this->compiler->executeTemplateFunction("nonExistentFunction");
     }
@@ -176,6 +178,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingTemplateFunctionThatTakesNoParameters()
     {
+        error_log("3");
         $this->compiler->registerTemplateFunction("foo", function ()
         {
             return "foobar";
@@ -188,6 +191,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExecutingTemplateFunctionThatTakesParameters()
     {
+        error_log("4");
         $this->compiler->registerTemplateFunction("foo", function ($input)
         {
             return "foo" . $input;
