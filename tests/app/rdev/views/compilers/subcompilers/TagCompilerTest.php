@@ -31,7 +31,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCallingFunctionOnVariable()
     {
-        error_log(1);
         // Test object
         $this->template->setVar("request", Request::createFromGlobals());
         $this->template->setContents('{{!$request->isPath("/foo/.*", true) ? \' class="current"\' : ""!}}');
@@ -48,7 +47,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCompilingArrayVariableInsideTags()
     {
-        error_log(2);
         $delimiters = [
             [
                 Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
@@ -76,7 +74,6 @@ class TagCompilerTest extends CompilerTest
      */
     public function testCompilingEscapedTagWhoseValueIsUnescapedTag()
     {
-        error_log(3);
         // Order here is important
         // We're testing setting the inner-most tag first, and then the outer tag
         $this->template->setContents("{{!content!}}");
@@ -86,22 +83,6 @@ class TagCompilerTest extends CompilerTest
             "Hello, world!",
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
-    }
-
-    /**
-     * Tests compiling invalid PHP
-     */
-    public function testCompilingInvalidPHP()
-    {
-        error_log(4);
-        $this->setExpectedException(ViewCompilerException::class);
-        $contents = $this->fileSystem->read(__DIR__ . "/../../files/TestWithInvalidPHP.html");
-        $this->template->setContents($contents);
-        // Temporarily disable error reporting to prevent stuff from being printed in the error logs
-        $originalErrorReporting = error_reporting();
-        error_reporting(0);
-        $this->subCompiler->compile($this->template, $this->template->getContents());
-        error_reporting($originalErrorReporting);
     }
 
     /**
