@@ -204,6 +204,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testExtendingParentWithBuilder()
     {
+        error_log("5");
         $this->templateFactory->registerBuilder("Master.html", function()
         {
             return new ParentBuilder();
