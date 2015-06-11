@@ -5,6 +5,7 @@
  * Tests the console application tester
  */
 namespace RDev\Framework\Tests\Console;
+use RDev\Applications\Environments\Environment;
 use RDev\Console\Commands\CommandCollection;
 use RDev\Console\Prompts\Prompt;
 use RDev\Console\Responses\Formatters\PaddingFormatter;
@@ -152,6 +153,14 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("\033[1mI've got style\033[22m", $this->testCase->getOutput());
         $this->testCase->call("stylish", [], [], [], false);
         $this->assertEquals("I've got style", $this->testCase->getOutput());
+    }
+
+    /**
+     * Tests that the testing environment is set
+     */
+    public function testTestingEnvironmentIsSet()
+    {
+        $this->assertEquals(Environment::TESTING, $this->testCase->getApplication()->getEnvironment()->getName());
     }
 
     /**

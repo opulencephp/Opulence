@@ -7,6 +7,7 @@
 namespace RDev\Framework\Tests\HTTP;
 use LogicException;
 use RDev\Applications\Application;
+use RDev\Applications\Environments\Environment;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
 use RDev\Routing\Router;
@@ -212,5 +213,13 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-rdev-controller");
         $this->testCase->assertTemplateVarEquals("bar", "foo");
+    }
+
+    /**
+     * Tests that the testing environment is set
+     */
+    public function testTestingEnvironmentIsSet()
+    {
+        $this->assertEquals(Environment::TESTING, $this->testCase->getApplication()->getEnvironment()->getName());
     }
 }

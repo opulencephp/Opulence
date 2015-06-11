@@ -7,6 +7,7 @@
 namespace RDev\Framework\Tests\HTTP;
 use LogicException;
 use Monolog\Logger;
+use RDev\Applications\Environments\Environment;
 use RDev\Framework\HTTP\Kernel;
 use RDev\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
 use RDev\HTTP\Requests\Request;
@@ -280,6 +281,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     public function setUp()
     {
         $this->setApplication();
+        $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
         $container = $this->application->getIoCContainer();
         $container->bind(Logger::class, $this->getKernelLogger());

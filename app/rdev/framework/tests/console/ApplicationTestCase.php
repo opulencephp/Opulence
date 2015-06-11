@@ -6,6 +6,7 @@
  */
 namespace RDev\Framework\Tests\Console;
 use PHPUnit_Framework_MockObject_MockObject;
+use RDev\Applications\Environments\Environment;
 use RDev\Console\Commands\CommandCollection;
 use RDev\Console\Commands\Compilers\ICompiler;
 use RDev\Console\Prompts\Prompt;
@@ -155,6 +156,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     public function setUp()
     {
         $this->setApplication();
+        $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
         $container = $this->application->getIoCContainer();

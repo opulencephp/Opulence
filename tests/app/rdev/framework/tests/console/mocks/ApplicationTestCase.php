@@ -49,7 +49,8 @@ class ApplicationTestCase extends BaseApplicationTestCase
             "configs" => __DIR__ . "/../../configs"
         ]);
         $taskDispatcher = new TaskDispatcher();
-        $environment = new Environment(Environment::TESTING);
+        // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
+        $environment = new Environment("foo");
         $container = new Container();
         $container->bind(Paths::class, $paths);
         $container->bind(TaskDispatcher::class, $taskDispatcher);
