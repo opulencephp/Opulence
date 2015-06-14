@@ -5,6 +5,7 @@
  * Tests the HTTP request
  */
 namespace RDev\HTTP\Requests;
+use InvalidArgumentException;
 use RDev\HTTP\HTTPException;
 use RDev\Tests\HTTP\Requests\Mocks\FormURLEncodedRequest;
 use RDev\Tests\HTTP\Requests\Mocks\JSONRequest;
@@ -301,6 +302,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting a forbidden host
+     */
+    public function testGettingForbiddenHost()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $_SERVER["HTTP_HOST"] = "!";
+        $request = Request::createFromGlobals();
+        $request->getHost();
+    }
+
+    /**
      * Tests getting the get method
      */
     public function testGettingGetMethod()
@@ -308,6 +320,33 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_METHOD"] = "GET";
         $this->request->getServer()->exchangeArray($_SERVER);
         $this->assertEquals(Request::METHOD_GET, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting an HTTPS URL
+     */
+    public function testGettingHTTPSURL()
+    {
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["SERVER_PORT"] = 443;
+        $_SERVER["HTTPS"] = "on";
+        $_SERVER["SERVER_NAME"] = "foo.com";
+        $_SERVER["REQUEST_URI"] = "/bar";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("https://foo.com/bar", $request->getFullURL());
+    }
+
+    /**
+     * Tests getting an HTTP URL
+     */
+    public function testGettingHTTPURL()
+    {
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["SERVER_PORT"] = 80;
+        $_SERVER["SERVER_NAME"] = "foo.com";
+        $_SERVER["REQUEST_URI"] = "/bar";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("http://foo.com/bar", $request->getFullURL());
     }
 
     /**
@@ -327,6 +366,46 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertSame($headerParameters, $this->request->getHeaders()->getAll());
+    }
+
+    /**
+     * Tests getting the host from the HTTP_HOST header
+     */
+    public function testGettingHostFromHTTPHost()
+    {
+        $_SERVER["HTTP_HOST"] = "foo.com";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("foo.com", $request->getHost());
+    }
+
+    /**
+     * Tests getting the host from the SERVER_ADDR header
+     */
+    public function testGettingHostFromServerAddr()
+    {
+        $_SERVER["SERVER_ADDR"] = "foo.com";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("foo.com", $request->getHost());
+    }
+
+    /**
+     * Tests getting the host from the SERVER_NAME header
+     */
+    public function testGettingHostFromServerName()
+    {
+        $_SERVER["SERVER_NAME"] = "foo.com";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("foo.com", $request->getHost());
+    }
+
+    /**
+     * Tests getting the host from the X_FORWARDED_FOR header
+     */
+    public function testGettingHostFromXForwardedFor()
+    {
+        $_SERVER["HTTP_X_FORWARDED_FOR"] = "foo.com";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("foo.com", $request->getHost());
     }
 
     /**
@@ -383,6 +462,19 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting a non-standard port URL
+     */
+    public function testGettingNonStandardURL()
+    {
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["SERVER_PORT"] = 8080;
+        $_SERVER["SERVER_NAME"] = "foo.com";
+        $_SERVER["REQUEST_URI"] = "/bar";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("http://foo.com:8080/bar", $request->getFullURL());
+    }
+
+    /**
      * Tests getting the options method
      */
     public function testGettingOptionsMethod()
@@ -390,6 +482,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_METHOD"] = "OPTIONS";
         $this->request->getServer()->exchangeArray($_SERVER);
         $this->assertEquals(Request::METHOD_OPTIONS, $this->request->getServer()->get("REQUEST_METHOD"));
+    }
+
+    /**
+     * Tests getting the auth password
+     */
+    public function testGettingPassword()
+    {
+        $_SERVER["PHP_AUTH_PW"] = "myPassword";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("myPassword", $request->getPassword());
     }
 
     /**
@@ -565,6 +667,19 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting a URL with a query string
+     */
+    public function testGettingURLWithQueryString()
+    {
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["SERVER_PORT"] = 80;
+        $_SERVER["SERVER_NAME"] = "foo.com";
+        $_SERVER["REQUEST_URI"] = "/bar?baz=blah";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("http://foo.com/bar?baz=blah", $request->getFullURL());
+    }
+
+    /**
      * Tests getting an unset cookie
      */
     public function testGettingUnsetCookie()
@@ -586,6 +701,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingUnsetPostVar()
     {
         $this->assertNull($this->request->getPost()->get("foo"));
+    }
+
+    /**
+     * Tests getting the auth user
+     */
+    public function testGettingUser()
+    {
+        $_SERVER["PHP_AUTH_USER"] = "dave";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("dave", $request->getUser());
     }
 
     /**
@@ -755,5 +880,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $this->request->setPath("/foo");
         $this->assertEquals("/foo", $this->request->getPath());
+    }
+
+    /**
+     * Tests that the port is removed from the host
+     */
+    public function testThatPortIsRemovedFromHost()
+    {
+        $_SERVER["HTTP_HOST"] = "foo.com:8080";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("foo.com", $request->getHost());
     }
 } 

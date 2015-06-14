@@ -15,6 +15,9 @@ use SessionHandlerInterface;
 
 abstract class Session implements IMiddleware
 {
+    /** The key of the previous URL */
+    const PREVIOUS_URL_KEY = "__rdev_previous_url";
+
     /** @var Paths The application paths */
     protected $paths = null;
     /** @var ISession The session used by the application */
@@ -40,7 +43,21 @@ abstract class Session implements IMiddleware
     public function handle(Request $request, Closure $next)
     {
         $this->startSession($request);
+
+        // Set the previous URL in the request
+        if($previousURL = $this->session->get(self::PREVIOUS_URL_KEY) !== null)
+        {
+            $request->setPreviousURL($previousURL);
+        }
+
         $response = $next($request);
+
+        // Store the current URL for next time
+        if($request->getMethod() == Request::METHOD_GET && !$request->isAJAX())
+        {
+            $request->setPreviousURL($request->getFullURL());
+        }
+
         $this->writeSession($response);
 
         return $response;

@@ -5,6 +5,7 @@
  * Defines an HTTP request
  */
 namespace RDev\HTTP\Requests;
+use InvalidArgumentException;
 use RDev\HTTP\Headers;
 use RDev\HTTP\HTTPException;
 use RDev\HTTP\Parameters;
@@ -161,11 +162,77 @@ class Request
     }
 
     /**
+     * Gets the full URL for the current request
+     *
+     * @return string The full URL
+     * @link http://stackoverflow.com/questions/6768793/get-the-full-url-in-php#answer-8891890
+     */
+    public function getFullURL()
+    {
+        $isSecure = $this->isSecure();
+        $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
+        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . (($isSecure) ? "s" : "");
+        $port = $this->server->get("SERVER_PORT");
+        $host = $this->getHost();
+
+        // Prepend a colon if the port is non-standard
+        if(((!$isSecure && $port != "80") || ($isSecure && $port != "443")))
+        {
+            $port = ":$port";
+        }
+        else
+        {
+            $port = "";
+        }
+
+        return $parsedProtocol . '://' . $host . $port . $this->server->get("REQUEST_URI");
+    }
+
+    /**
      * @return Headers
      */
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * Gets the host name
+     *
+     * @return string The host
+     * @throws InvalidArgumentException Thrown if the host was invalid
+     */
+    public function getHost()
+    {
+        $host = $this->headers->get("X_FORWARDED_FOR");
+
+        if($host === null)
+        {
+            $host = $this->headers->get("HOST");
+        }
+
+        if($host === null)
+        {
+            $host = $this->server->get("SERVER_NAME");
+        }
+
+        if($host === null)
+        {
+            // Return an empty string by default so we can do string operations on it later
+            $host = $this->server->get("SERVER_ADDR", "");
+        }
+
+        // Remove the port number
+        $host = strtolower(preg_replace("/:\d+$/", "", trim($host)));
+
+        // Check for forbidden characters
+        // Credit: Symfony HttpFoundation
+        if(!empty($host) && !empty(preg_replace("/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/", "", $host)))
+        {
+            throw new InvalidArgumentException("Invalid host \"$host\"");
+        }
+
+        return $host;
     }
 
     /**
@@ -237,6 +304,16 @@ class Request
     public function getMethod()
     {
         return $this->method;
+    }
+
+    /**
+     * Gets the auth password
+     *
+     * @return string|null The auth password
+     */
+    public function getPassword()
+    {
+        return $this->server->get("PHP_AUTH_PW");
     }
 
     /**
@@ -321,6 +398,16 @@ class Request
     public function getServer()
     {
         return $this->server;
+    }
+
+    /**
+     * Gets the auth user
+     *
+     * @return string|null The auth user
+     */
+    public function getUser()
+    {
+        return $this->server->get("PHP_AUTH_USER");
     }
 
     /**

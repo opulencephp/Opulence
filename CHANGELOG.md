@@ -70,6 +70,9 @@
 <h3>HTTP</h3>
 * Moved `RDev\HTTP\Routing` namespace to new namespace `RDev\Routing`
 * Moved `RDev\HTTP\Kernels\Kernel` to `RDev\Framework\HTTP\Kernel`
+* Added `Request::getFullURL()`
+* Added `Request::getHost()`
+* Added `Request::getUser()` and `Request::getPassword()`
 * Added `Request::getPreviousURL()` and `Request::setPreviousURL()`
 
 <h3>IoC</h3>
