@@ -16,4 +16,12 @@ class JSONRequest extends Request
     {
         return json_encode(["foo" => "bar"]);
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function isJSON()
+    {
+        return true;
+    }
 }

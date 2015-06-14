@@ -1,9 +1,9 @@
 HAS PRIORITY:
+    Need to add way to test Middleware (1.0)
+    Need to write docs for CSRF
     Need to implement way of getting the current URL from the request
         http://stackoverflow.com/questions/6768793/get-the-full-url-in-php
-        Probably add a const PREVIOUS_URL_KEY to Session (same for CSRF_TOKEN_KEY)
         Need to get/set the previous URL in Session and assign it in Request in middleware (make sure to only do it in non-AJAX GET requests)
-    Need to get/set csrf token
     Need to document updates to Request
     Get rid of dependence on HTTP Request in Credential stuff
     Finish form stuff

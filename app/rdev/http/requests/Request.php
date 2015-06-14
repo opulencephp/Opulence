@@ -177,6 +177,41 @@ class Request
     }
 
     /**
+     * Gets the input from either GET or POST data
+     *
+     * @param string $name The name of the input to get
+     * @param null|mixed $default The default value to return if the input could not be found
+     * @return mixed The value of the input if it was found, otherwise the default value
+     */
+    public function getInput($name, $default = null)
+    {
+        if($this->isJSON())
+        {
+            $json = $this->getJSONBody();
+
+            if(array_key_exists($name, $json))
+            {
+                return $json[$name];
+            }
+            else
+            {
+                return $default;
+            }
+        }
+        else
+        {
+            if($this->method === self::METHOD_GET)
+            {
+                return $this->query->get($name, $default);
+            }
+            else
+            {
+                return $this->post->get($name, $default);
+            }
+        }
+    }
+
+    /**
      * Gets the raw body as a JSON array
      *
      * @return array The JSON-decoded body
@@ -296,6 +331,16 @@ class Request
     public function isAJAX()
     {
         return $this->headers->get("X_REQUESTED_WITH") == "XMLHttpRequest";
+    }
+
+    /**
+     * Gets whether or not the request body is JSON
+     *
+     * @return bool True if the request body was JSON, otherwise false
+     */
+    public function isJSON()
+    {
+        return $this->headers->get("CONTENT_TYPE") == "application/json";
     }
 
     /**

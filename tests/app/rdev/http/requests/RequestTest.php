@@ -201,6 +201,24 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that a custom default value is returned when no input is found
+     */
+    public function testCustomDefaultIsReturnedWhenNoInputFound()
+    {
+        $request = Request::createFromGlobals();
+        $this->assertEquals("bar", $request->getInput("foo", "bar"));
+    }
+
+    /**
+     * Tests that the default value is returned when getting non-existent input on a JSON request
+     */
+    public function testDefaultIsReturnedWhenGettingNonExistentInputOnJSONRequest()
+    {
+        $request = JSONRequest::createFromGlobals();
+        $this->assertEquals("blah", $request->getInput("baz", "blah"));
+    }
+
+    /**
      * Tests getting the connect method
      */
     public function testGettingConnectMethod()
@@ -625,6 +643,37 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if a request is JSON
+     */
+    public function testIsJSON()
+    {
+        $_SERVER["HTTP_CONTENT_TYPE"] = "text/plain";
+        $request = Request::createFromGlobals();
+        $this->assertFalse($request->isJSON());
+        $_SERVER["HTTP_CONTENT_TYPE"] = "application/json";
+        $request = Request::createFromGlobals();
+        $this->assertTrue($request->isJSON());
+    }
+
+    /**
+     * Tests that a property from JSON is returned when getting input from a JSON request
+     */
+    public function testJSONIsReturnedWhenGettingInputFromJSONRequest()
+    {
+        $request = JSONRequest::createFromGlobals();
+        $this->assertEquals("bar", $request->getInput("foo"));
+    }
+
+    /**
+     * Tests that null is returned when no input is found
+     */
+    public function testNullIsReturnedWhenNoInputFound()
+    {
+        $request = Request::createFromGlobals();
+        $this->assertNull($request->getInput("foo"));
+    }
+
+    /**
      * Tests that POST data is not overwritten on POST request
      */
     public function testPostDataNotOverwrittenOnPostRequest()
@@ -634,6 +683,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
         $request = FormURLEncodedRequest::createFromGlobals();
         $this->assertEquals("blahblahblah", $request->getPost()->get("foo"));
+    }
+
+    /**
+     * Tests that the post is returned when getting input
+     */
+    public function testPostIsReturnedFromInput()
+    {
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $_POST["foo"] = "bar";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("bar", $request->getInput("foo"));
     }
 
     /**
@@ -656,6 +716,27 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = Request::createFromGlobals();
         $request->setPreviousURL("http://bar.com");
         $this->assertEquals("http://bar.com", $request->getPreviousURL());
+    }
+
+    /**
+     * Tests that the query is given preference when getting input
+     */
+    public function testQueryIsGivenPreferenceWhenGettingInput()
+    {
+        $_GET["foo"] = "bar";
+        $_POST["foo"] = "baz";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("bar", $request->getInput("foo"));
+    }
+
+    /**
+     * Tests that the query is returned when getting input
+     */
+    public function testQueryIsReturnedFromInput()
+    {
+        $_GET["foo"] = "bar";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("bar", $request->getInput("foo"));
     }
 
     /**

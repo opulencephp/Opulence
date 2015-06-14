@@ -59,6 +59,9 @@
 * `RDev\Databases\SQL\Providers\PostgreSQL` renamed to `RDev\Databases\Providers\PostgreSQLProvider`
 
 <h3>Framework</h3>
+* Added CSRF token checking
+  * Added `RDev\Framework\HTTP\CSRFTokenChecker`
+  * Added `RDev\Framework\HTTP\Middleware\CheckCSRFToken`
 * All commands in `RDev\Framework\Console\Commands` appended with "Command"
 * `RDev\Framework\Tests\Console\ApplicationTestCase::getCommands()` renamed to `getCommandCollection()`
 * Added `RDev\Framework\Bootstrappers\HTTP\Sessions\Session`
@@ -122,6 +125,7 @@
 * Made `$roles` optional in `RDev\Users\User::__construct()`
 
 <h3>Views</h3>
+* added `csrfToken()` and `csrfInput()` template functions
 * `RDev\Views\Cache` namespace renamed to `RDev\Views\Caching`
 * `RDev\Views\Filters\XSS` renamed to `RDev\Views\Filters\XSSFilter`
 * `RDev\Views\Caching\ICache::DEFAULT_GC_TOTAL` renamed to `DEFAULT_GC_DIVISOR`

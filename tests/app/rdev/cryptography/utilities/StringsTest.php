@@ -20,6 +20,22 @@ class StringsTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking equal strings
+     */
+    public function testCheckingEqualStrings()
+    {
+        $this->assertTrue($this->strings->isEqual("foobar", "foobar"));
+    }
+
+    /**
+     * Tests checking unequal strings
+     */
+    public function testCheckingUnequalStrings()
+    {
+        $this->assertFalse($this->strings->isEqual("foobar", "foo"));
+    }
+
+    /**
      * Tests creating an even-length token and checking its length
      */
     public function testEvenTokenLength()
