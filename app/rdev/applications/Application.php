@@ -16,7 +16,7 @@ use RDev\IoC\IContainer;
 class Application
 {
     /** The current RDev version */
-    private static $version = "0.5.0";
+    private static $version = "0.5.1";
     /** @var Paths The paths to various directories used by RDev */
     private $paths = null;
     /** @var IDispatcher The task dispatcher */
