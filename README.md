@@ -11,7 +11,7 @@
 RDev can be installed using Composer:
 
 ```
-composer create-project rdev/project --prefer-dist
+composer create-project rdev/project DESIRED_SERVER_PATH --prefer-dist
 ```
 
 ## Documentation
