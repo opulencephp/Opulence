@@ -1,0 +1,30 @@
+{
+  "name": "rdev/events",
+  "description": "The RDev event system library",
+  "keywords": [
+    "PHP",
+    "events"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "RDev\\Events\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.5.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

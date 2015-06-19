@@ -66,6 +66,7 @@
     "rdev/console": "self.version",
     "rdev/cryptography": "self.version",
     "rdev/databases": "self.version",
+    "rdev/events": "self.version",
     "rdev/files": "self.version",
     "rdev/forms": "self.version",
     "rdev/framework": "self.version",

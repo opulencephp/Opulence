@@ -1,4 +1,4 @@
-REPOS=(applications authentication cache console cryptography databases files forms framework http ioc memcached orm pipelines querybuilders redis routing sessions users views)
+REPOS=(applications authentication cache console cryptography databases events files forms framework http ioc memcached orm pipelines querybuilders redis routing sessions users views)
 SUBTREE_DIR="app/rdev"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
 

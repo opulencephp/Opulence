@@ -1,3 +1,9 @@
+<h2>v0.5.1</h2>
+
+<h3>Events</h3>
+* Added all classes under `RDev\Events` namespace
+* Added `RDev\Framework\Bootstrappers\Events\Dispatcher`
+
 <h2>v0.5.0</h2>
 
 <h3>General</h3>
