@@ -1,3 +1,13 @@
+<h2>v0.5.3</h2>
+
+<h3>Events</h3>
+* Renamed `RDev\Events\Dispatchers\IDispatcher::addListener()` to `registerListener()`
+
+<h2>v0.5.2</h2>
+
+<h3>Events</h3>
+* Fixed missing library
+
 <h2>v0.5.1</h2>
 
 <h3>Events</h3>

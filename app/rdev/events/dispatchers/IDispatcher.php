@@ -10,14 +10,6 @@ use RDev\Events\IEvent;
 interface IDispatcher
 {
     /**
-     * Adds a listener for an event
-     *
-     * @param string $eventName The name of the event the listener listens to
-     * @param callable $listener The listener to add
-     */
-    public function addListener($eventName, callable $listener);
-
-    /**
      * Dispatches an event
      *
      * @param string $eventName The name of the event to dispatch
@@ -40,6 +32,14 @@ interface IDispatcher
      * @return bool Whether or not the event name has listeners
      */
     public function hasListeners($eventName);
+
+    /**
+     * Adds a listener for an event
+     *
+     * @param string $eventName The name of the event the listener listens to
+     * @param callable $listener The listener to add
+     */
+    public function registerListener($eventName, callable $listener);
 
     /**
      * Removes a listener from an event name

@@ -15,22 +15,6 @@ class Dispatcher implements IDispatcher
     /**
      * {@inheritdoc}
      */
-    public function addListener($eventName, callable $listener)
-    {
-        if(!isset($this->eventNamesToListeners[$eventName]))
-        {
-            $this->eventNamesToListeners[$eventName] = [];
-        }
-
-        if(!in_array($listener, $this->eventNamesToListeners[$eventName]))
-        {
-            $this->eventNamesToListeners[$eventName][] = $listener;
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function dispatch($eventName, IEvent $event)
     {
         if(isset($this->eventNamesToListeners[$eventName]))
@@ -66,6 +50,22 @@ class Dispatcher implements IDispatcher
     public function hasListeners($eventName)
     {
         return isset($this->eventNamesToListeners[$eventName]) && count($this->eventNamesToListeners[$eventName]) > 0;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function registerListener($eventName, callable $listener)
+    {
+        if(!isset($this->eventNamesToListeners[$eventName]))
+        {
+            $this->eventNamesToListeners[$eventName] = [];
+        }
+
+        if(!in_array($listener, $this->eventNamesToListeners[$eventName]))
+        {
+            $this->eventNamesToListeners[$eventName][] = $listener;
+        }
     }
 
     /**

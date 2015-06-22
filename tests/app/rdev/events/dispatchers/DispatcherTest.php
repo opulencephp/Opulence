@@ -34,10 +34,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $listener1 = [$this->listener, "doNothing1"];
         $listener2 = [$this->listener, "doNothing2"];
-        $this->dispatcher->addListener("foo", $listener1);
+        $this->dispatcher->registerListener("foo", $listener1);
         $this->assertEquals([$listener1], $this->dispatcher->getListeners("foo"));
         $this->assertTrue($this->dispatcher->hasListeners("foo"));
-        $this->dispatcher->addListener("foo", $listener2);
+        $this->dispatcher->registerListener("foo", $listener2);
         $this->assertEquals([$listener1, $listener2], $this->dispatcher->getListeners("foo"));
         $this->assertTrue($this->dispatcher->hasListeners("foo"));
     }
@@ -48,7 +48,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfEventHasListeners()
     {
         $this->assertFalse($this->dispatcher->hasListeners("foo"));
-        $this->dispatcher->addListener("foo", [$this->listener, "doNothing1"]);
+        $this->dispatcher->registerListener("foo", [$this->listener, "doNothing1"]);
         $this->assertTrue($this->dispatcher->hasListeners("foo"));
     }
 
@@ -57,8 +57,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchingToMultipleListeners()
     {
-        $this->dispatcher->addListener("foo", [$this->listener, "doNothing1"]);
-        $this->dispatcher->addListener("foo", [$this->listener, "doNothing2"]);
+        $this->dispatcher->registerListener("foo", [$this->listener, "doNothing1"]);
+        $this->dispatcher->registerListener("foo", [$this->listener, "doNothing2"]);
         $this->listener->expects($this->once())->method("doNothing1")->with($this->event, "foo", $this->dispatcher);
         $this->listener->expects($this->once())->method("doNothing2")->with($this->event, "foo", $this->dispatcher);
         $this->dispatcher->dispatch("foo", $this->event);
@@ -69,7 +69,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchingToSingleListener()
     {
-        $this->dispatcher->addListener("foo", [$this->listener, "doNothing1"]);
+        $this->dispatcher->registerListener("foo", [$this->listener, "doNothing1"]);
         $this->listener->expects($this->once())->method("doNothing1")->with($this->event, "foo", $this->dispatcher);
         $this->dispatcher->dispatch("foo", $this->event);
     }
@@ -90,8 +90,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([], $this->dispatcher->getListeners("foo"));
         $listener1 = [$this->listener, "doNothing1"];
         $listener2 = [$this->listener, "doNothing2"];
-        $this->dispatcher->addListener("foo", $listener1);
-        $this->dispatcher->addListener("foo", $listener2);
+        $this->dispatcher->registerListener("foo", $listener1);
+        $this->dispatcher->registerListener("foo", $listener2);
         $this->assertEquals([$listener1, $listener2], $this->dispatcher->getListeners("foo"));
     }
 
@@ -101,8 +101,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testListenerCannotBeAddedTwice()
     {
         $listener = [$this->listener, "doNothing1"];;
-        $this->dispatcher->addListener("foo", $listener);
-        $this->dispatcher->addListener("foo", $listener);
+        $this->dispatcher->registerListener("foo", $listener);
+        $this->dispatcher->registerListener("foo", $listener);
         $this->assertEquals([$listener], $this->dispatcher->getListeners("foo"));
     }
 
@@ -113,8 +113,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $listener1 = [$this->listener, "doNothing1"];
         $listener2 = [$this->listener, "doNothing2"];
-        $this->dispatcher->addListener("foo", $listener1);
-        $this->dispatcher->addListener("foo", $listener2);
+        $this->dispatcher->registerListener("foo", $listener1);
+        $this->dispatcher->registerListener("foo", $listener2);
         $this->dispatcher->removeListener("foo", $listener2);
         $this->assertEquals([$listener1], $this->dispatcher->getListeners("foo"));
         $this->assertTrue($this->dispatcher->hasListeners("foo"));
@@ -128,8 +128,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testSecondListenerIsNotCalledWhenEventPropagationIsStopped()
     {
-        $this->dispatcher->addListener("foo", [$this->listener, "stopsPropagation"]);
-        $this->dispatcher->addListener("foo", [$this->listener, "doNothing1"]);
+        $this->dispatcher->registerListener("foo", [$this->listener, "stopsPropagation"]);
+        $this->dispatcher->registerListener("foo", [$this->listener, "doNothing1"]);
         // Need to manually stop the event from propagating in the stub
         $this->listener->expects($this->once())
             ->method("stopsPropagation")

@@ -25,7 +25,7 @@ abstract class Dispatcher extends Bootstrapper
         {
             foreach($listeners as $listener)
             {
-                $dispatcher->addListener($eventName, $this->getEventListenerCallback($listener, $container));
+                $dispatcher->registerListener($eventName, $this->getEventListenerCallback($listener, $container));
             }
         }
 
