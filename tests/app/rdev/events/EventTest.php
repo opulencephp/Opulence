@@ -16,7 +16,7 @@ class EventTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->event = $this->getMock(Event::class);
+        $this->event = $this->getMock(Event::class, null);
     }
 
     /**
