@@ -1,3 +1,8 @@
+<h2>v0.5.4</h2>
+
+<h3>Events</h3>
+* Made `RDev\Events\Event` a concrete class
+
 <h2>v0.5.3</h2>
 
 <h3>Events</h3>
