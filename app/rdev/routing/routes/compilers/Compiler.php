@@ -50,9 +50,6 @@ class Compiler implements ICompiler
         }
 
         // If we've gotten here, then all the matchers matched
-        // Remove the subjects from the matches
-        array_shift($hostMatches);
-        array_shift($pathMatches);
         $pathVariables = array_merge($hostMatches, $pathMatches);
 
         return new CompiledRoute($route, true, $pathVariables);

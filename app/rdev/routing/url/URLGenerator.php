@@ -5,7 +5,6 @@
  * Defines a routing URL generator
  */
 namespace RDev\Routing\URL;
-use RDev\Routing\Routes\Compilers\Parsers\IParser;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\RouteCollection;
 
@@ -13,17 +12,17 @@ class URLGenerator
 {
     /** @var RouteCollection The list of routes */
     private $routeCollection = null;
-    /** @var IParser The parser to use */
-    private $parser = null;
+    /** @var string The regex used to match variables */
+    private $variableMatchingRegex = "";
 
     /**
      * @param RouteCollection $routeCollection The list of routes
-     * @param IParser $parser The parser to use
+     * @param string $variableMatchingRegex The regex used to match variables
      */
-    public function __construct(RouteCollection &$routeCollection, IParser $parser)
+    public function __construct(RouteCollection &$routeCollection, $variableMatchingRegex)
     {
         $this->routeCollection = $routeCollection;
-        $this->parser = $parser;
+        $this->variableMatchingRegex = $variableMatchingRegex;
     }
 
     /**
@@ -59,7 +58,7 @@ class URLGenerator
     private function generateHost(ParsedRoute $route, &$values)
     {
         $generatedHost = "";
-        $variableMatchingRegex = $this->parser->getVariableMatchingRegex();
+        $variableMatchingRegex = $this->variableMatchingRegex;
         $count = 1000;
 
         if(!empty($route->getRawHost()))
@@ -106,7 +105,7 @@ class URLGenerator
     private function generatePath(ParsedRoute $route, &$values)
     {
         $generatedPath = $route->getRawPath();
-        $variableMatchingRegex = $this->parser->getVariableMatchingRegex();
+        $variableMatchingRegex = $this->variableMatchingRegex;
         $count = 1000;
 
         while($count > 0 && count($values) > 0)
@@ -121,7 +120,7 @@ class URLGenerator
         }
 
         // Remove any leftover variables
-        $generatedPath = preg_replace($this->parser->getVariableMatchingRegex(), "", $generatedPath);
+        $generatedPath = preg_replace($this->variableMatchingRegex, "", $generatedPath);
 
         // Make sure what we just generated satisfies the regex
         if(!preg_match($route->getPathRegex(), $generatedPath))

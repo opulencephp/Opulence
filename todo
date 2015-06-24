@@ -2,13 +2,6 @@ HAS PRIORITY:
     Need to add way to test Middleware (1.0)
     Get rid of dependence on HTTP Request in Credential stuff
     Finish form stuff
-
-
-    Allow caching of routes/matches
-        Compiler needs to store parsed routes
-        Router needs to check if cached routes exist
-            If not, loop through ALL routes, parse them, cache them
-            If so, loop through cached routes and compile them to match them
     Idea:  Run statement compiler
         Cache results
         Run all other subcompilers

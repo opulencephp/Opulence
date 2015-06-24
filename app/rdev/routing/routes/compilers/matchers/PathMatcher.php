@@ -16,6 +16,10 @@ class PathMatcher implements IRouteMatcher
      */
     public function isMatch(ParsedRoute $route, Request $request, array &$matches = [])
     {
-        return preg_match($route->getPathRegex(), $request->getPath(), $matches) === 1;
+        $isMatch = preg_match($route->getPathRegex(), $request->getPath(), $matches) === 1;
+        // Remove the subject
+        array_shift($matches);
+
+        return $isMatch;
     }
 }
