@@ -21,7 +21,7 @@ class RouteCollection
     ];
     /** @var array The list of methods to their various routes */
     private $routes = [];
-    /** @var Route[] The mapping of route names to routes */
+    /** @var ParsedRoute[] The mapping of route names to routes */
     private $namedRoutes = [];
 
     public function __construct()
@@ -45,9 +45,9 @@ class RouteCollection
     /**
      * Adds a route to the collection
      *
-     * @param Route $route The route to add
+     * @param ParsedRoute $route The route to add
      */
-    public function add(Route $route)
+    public function add(ParsedRoute $route)
     {
         foreach($route->getMethods() as $method)
         {
@@ -65,7 +65,7 @@ class RouteCollection
      *
      * @param string|null $method If specified, the list of routes for that method will be returned
      *      If null, all routes will be returned, keyed by method
-     * @return Route[] The list of routes
+     * @return ParsedRoute[] The list of routes
      */
     public function get($method = null)
     {
@@ -87,7 +87,7 @@ class RouteCollection
      * Gets the route with the input name
      *
      * @param string $name The name to search for
-     * @return Route|null The route with the input name if one existed, otherwise null
+     * @return ParsedRoute|null The route with the input name if one existed, otherwise null
      */
     public function getNamedRoute($name)
     {

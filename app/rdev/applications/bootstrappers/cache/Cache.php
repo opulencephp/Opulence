@@ -2,29 +2,28 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the bootstrapper reader/writer
+ * Defines the bootstrapper cache
  */
-namespace RDev\Applications\Bootstrappers\IO;
+namespace RDev\Applications\Bootstrappers\Caching;
 use RDev\Applications\Bootstrappers\IBootstrapperRegistry;
-use RDev\Applications\Paths;
 
-class BootstrapperIO implements IBootstrapperIO
+class Cache implements ICache
 {
-    /** @var Paths The application paths */
-    private $paths = null;
-
     /**
-     * @param Paths $paths The application paths
+     * {@inheritdoc}
      */
-    public function __construct(Paths $paths)
+    public function flush($filePath)
     {
-        $this->paths = $paths;
+        if(file_exists($filePath))
+        {
+            @unlink($filePath);
+        }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function read($filePath, IBootstrapperRegistry &$registry)
+    public function get($filePath, IBootstrapperRegistry &$registry)
     {
         if(file_exists($filePath))
         {
@@ -34,14 +33,14 @@ class BootstrapperIO implements IBootstrapperIO
         {
             $registry->setBootstrapperDetails();
             // Write this for next time
-            $this->write($filePath, $registry);
+            $this->set($filePath, $registry);
         }
     }
 
     /**
      * {@inheritdoc}
      */
-    public function write($filePath, IBootstrapperRegistry $registry)
+    public function set($filePath, IBootstrapperRegistry $registry)
     {
         $data = [
             "eager" => $registry->getEagerBootstrapperClasses(),

@@ -6,9 +6,9 @@
  */
 namespace RDev\Routing\URL;
 use RDev\HTTP\Requests\Request;
+use RDev\Routing\Routes\Compilers\Parsers\Parser;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\Routes\RouteCollection;
-use RDev\Routing\Compilers\Parsers\Parser;
 
 class URLGeneratorTest extends \PHPUnit_Framework_TestCase
 {
@@ -120,10 +120,11 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
             )
         ];
         $routeCollection = new RouteCollection();
+        $parser = new Parser();
 
         foreach($namedRoutes as $name => $route)
         {
-            $routeCollection->add($route);
+            $routeCollection->add($parser->parse($route));
         }
 
         $this->generator = new URLGenerator($routeCollection, new Parser());

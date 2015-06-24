@@ -5,8 +5,8 @@
  * Tests the bootstrapper configurator
  */
 namespace RDev\Applications\Bootstrappers;
+use RDev\Applications\Bootstrappers\Caching\ICache;
 use RDev\Applications\Bootstrappers\Dispatchers\IDispatcher as IBootstrapperDispatcher;
-use RDev\Applications\Bootstrappers\IO\IBootstrapperIO;
 use RDev\Applications\Tasks\Dispatchers\IDispatcher as ITaskDispatcher;
 use RDev\Applications\Tasks\TaskTypes;
 
@@ -18,8 +18,8 @@ class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
     private $taskDispatcher = null;
     /** @var IBootstrapperDispatcher The bootstrapper dispatcher */
     private $bootstrapperDispatcher = null;
-    /** @var IBootstrapperIO The bootstrapper reader/writer */
-    private $bootstrapperIO = null;
+    /** @var ICache The bootstrapper cache */
+    private $bootstrapperCache = null;
     /** @var IBootstrapperRegistry The registry of bootstrappers */
     private $bootstrapperRegistry = null;
 
@@ -29,13 +29,13 @@ class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->taskDispatcher = $this->getMock(ITaskDispatcher::class);
-        $this->bootstrapperIO = $this->getMock(IBootstrapperIO::class);
+        $this->bootstrapperCache = $this->getMock(ICache::class);
         $this->bootstrapperDispatcher = $this->getMock(IBootstrapperDispatcher::class);
         $this->bootstrapperRegistry = $this->getMock(IBootstrapperRegistry::class);
         $this->applicationBinder = new ApplicationBinder(
             $this->bootstrapperRegistry,
             $this->bootstrapperDispatcher,
-            $this->bootstrapperIO,
+            $this->bootstrapperCache,
             $this->taskDispatcher,
             ["GLOBAL"]
         );

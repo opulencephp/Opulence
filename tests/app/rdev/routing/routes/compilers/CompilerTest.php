@@ -4,10 +4,12 @@
  * 
  * Tests the route compiler
  */
-namespace RDev\Routing\Compilers;
+namespace RDev\Routing\Routes\Compilers;
 use RDev\HTTP\Requests\Request;
-use RDev\Routing\Compilers\Parsers\Parser;
-use RDev\Routing\Routes\Route;
+use RDev\Routing\Routes\Compilers\Matchers\HostMatcher;
+use RDev\Routing\Routes\Compilers\Matchers\PathMatcher;
+use RDev\Routing\Routes\Compilers\Matchers\SchemeMatcher;
+use RDev\Routing\Routes\ParsedRoute;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
@@ -19,7 +21,12 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compiler = new Compiler(new Parser());
+        $routeMatchers = [
+            new SchemeMatcher(),
+            new HostMatcher(),
+            new PathMatcher()
+        ];
+        $this->compiler = new Compiler($routeMatchers);
     }
 
     /**
@@ -27,7 +34,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingInsecureRouteOnHTTPS()
     {
-        $route = new Route("GET", "/", "foo@bar");
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/",
@@ -43,7 +50,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWitPathVariables()
     {
-        $route = new Route("GET", "/foo/{bar}/{baz}", "foo@bar");
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/12/34"
@@ -64,7 +71,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWithOptionalVariable()
     {
-        $route = new Route("GET", "/foo/{bar?}", "foo@bar");
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/foo\/(?P<bar>[^\/]+)?');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
@@ -79,14 +86,13 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWithOptionalVariableWithDefaultValue()
     {
-        $route = new Route("GET", "/bar/{foo?=23}", "foo@bar");
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/bar\/(?P<foo>[^\/]+)?');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/bar/"
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
-        $this->assertEquals("23", $compiledRoute->getDefaultValue("foo"));
         $this->assertEquals([], $compiledRoute->getPathVariables());
     }
 
@@ -95,7 +101,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRouteVariablesForUnmatchedRoute()
     {
-        $route = new Route("GET", "/foo", "foo@bar");
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/foo');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/bar"
@@ -109,7 +115,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMatchingSecureRoute()
     {
-        $route = new Route("GET", "/", "foo@bar", ["https" => true]);
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", true, ".*", '\/');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/",
@@ -125,12 +131,34 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotBeingHTTPSAndMatchingSecureRoute()
     {
-        $route = new Route("GET", "/", "foo@bar", ["https" => true]);
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", true, ".*", '\/');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/"
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertFalse($compiledRoute->isMatch());
+    }
+
+    /**
+     * Gets a route for testing
+     *
+     * @param string $method The HTTP method
+     * @param string|callable $controller The controller
+     * @param bool $isSecure Whether or not the route is secure
+     * @param string $hostRegex The host regex
+     * @param string $pathRegex The path regex
+     * @return ParsedRoute|\PHPUnit_Framework_MockObject_MockObject The parsed route
+     */
+    private function getParsedRoute($method, $controller, $isSecure, $hostRegex, $pathRegex)
+    {
+        $route = $this->getMock(ParsedRoute::class, [], [], "", false);
+        $route->expects($this->any())->method("getMethod")->willReturn($method);
+        $route->expects($this->any())->method("isSecure")->willReturn($isSecure);
+        $route->expects($this->any())->method("getController")->willReturn($controller);
+        $route->expects($this->any())->method("getHostRegex")->willReturn("#^$hostRegex$#");
+        $route->expects($this->any())->method("getPathRegex")->willReturn("#^$pathRegex$#");
+
+        return $route;
     }
 }

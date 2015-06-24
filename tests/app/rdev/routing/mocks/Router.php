@@ -6,9 +6,12 @@
  */
 namespace RDev\Tests\Routing\Mocks;
 use RDev\IoC\Container;
-use RDev\Routing\Compilers\Compiler;
-use RDev\Routing\Compilers\Parsers\Parser;
 use RDev\Routing\Router as BaseRouter;
+use RDev\Routing\Routes\Compilers\Compiler;
+use RDev\Routing\Routes\Compilers\Matchers\HostMatcher;
+use RDev\Routing\Routes\Compilers\Matchers\PathMatcher;
+use RDev\Routing\Routes\Compilers\Matchers\SchemeMatcher;
+use RDev\Routing\Routes\Compilers\Parsers\Parser;
 use RDev\Tests\Routing\Dispatchers\Mocks\Dispatcher;
 
 class Router extends BaseRouter
@@ -18,8 +21,14 @@ class Router extends BaseRouter
      */
     public function __construct()
     {
-        $compiler = new Compiler(new Parser());
+        $routeMatchers = [
+            new SchemeMatcher(),
+            new HostMatcher(),
+            new PathMatcher()
+        ];
+        $parser = new Parser();
+        $compiler = new Compiler($routeMatchers);
 
-        parent::__construct(new Dispatcher(new Container()), $compiler);
+        parent::__construct(new Dispatcher(new Container()), $compiler, $parser);
     }
 } 

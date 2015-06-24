@@ -1,3 +1,21 @@
+<h2>v0.5.5</h2>
+
+<h3>Applications</h3>
+* Renamed `RDev\Applications\Bootstrappers\IO` namespace to `Caching`
+* Renamed `RDev\Applications\Bootstrappers\IO\IBootstrapperIO` to `ICache` and `BootstrapperIO` to `Cache`
+* Renamed `IBootstrapperIO::read()` to `get()` and `write()` to `set()`
+
+<h3>Framework</h3>
+* Added `RDev\Framework\Bootstrappers\Routing\Router::getRouteMatchers()`
+* Added ability to flush router and view cache with `php rdev framework:flushcache`
+
+<h3>Routing</h3>
+* Moved `RDev\Routing\Compilers` namespace to `RDev\Routing\Routes\Compilers`
+* Added `RDev\Routing\Routes\Compilers\Matchers` namespace and classes in it
+* Added `IRouteMatcher[]` parameter to `RDev\Routing\Routes\Compilers\Compiler::__construct()`
+* Added `IParser` to `RDev\Routing\Router::__construct()`
+* Removed `IParser` from `RDev\Routing\Routes\Compilers\Compiler::__construct()`
+
 <h2>v0.5.4</h2>
 
 <h3>Events</h3>

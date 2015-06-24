@@ -5,7 +5,7 @@
  * Defines a routing URL generator
  */
 namespace RDev\Routing\URL;
-use RDev\Routing\Compilers\Parsers\IParser;
+use RDev\Routing\Routes\Compilers\Parsers\IParser;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\RouteCollection;
 
@@ -44,9 +44,8 @@ class URLGenerator
         }
 
         $values = (array)$values;
-        $parsedRoute = $this->parser->parse($route);
 
-        return $this->generateHost($parsedRoute, $values) . $this->generatePath($parsedRoute, $values);
+        return $this->generateHost($route, $values) . $this->generatePath($route, $values);
     }
 
     /**

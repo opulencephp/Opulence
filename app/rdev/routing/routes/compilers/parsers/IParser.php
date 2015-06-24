@@ -4,7 +4,7 @@
  *
  * Defines the interface for route parsers to implement
  */
-namespace RDev\Routing\Compilers\Parsers;
+namespace RDev\Routing\Routes\Compilers\Parsers;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\RouteException;
 use RDev\Routing\Routes\ParsedRoute;

@@ -9,10 +9,12 @@ use Closure;
 use InvalidArgumentException;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\Response;
-use RDev\Routing\Compilers\ICompiler;
 use RDev\Routing\Dispatchers\IDispatcher;
+use RDev\Routing\Routes\Compilers\ICompiler;
 use RDev\Routing\Routes\CompiledRoute;
+use RDev\Routing\Routes\Compilers\Parsers\IParser;
 use RDev\Routing\Routes\MissingRoute;
+use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\Routes\RouteCollection;
 
@@ -20,6 +22,8 @@ class Router
 {
     /** @var ICompiler The compiler used by this router */
     protected $compiler = null;
+    /** @var IParser The parser used by this router */
+    protected $parser = null;
     /** @var IDispatcher The route dispatcher */
     protected $dispatcher = null;
     /** @var RouteCollection The list of routes */
@@ -38,6 +42,7 @@ class Router
     /**
      * @param IDispatcher $dispatcher The route dispatcher
      * @param ICompiler $compiler The route compiler
+     * @param IParser $parser The route parser
      * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
      * @param string $missedRouteControllerMethod The name of the controller method that will handle missing routes
      * @throws InvalidArgumentException Thrown if the controller name does not exist
@@ -45,12 +50,14 @@ class Router
     public function __construct(
         IDispatcher $dispatcher,
         ICompiler $compiler,
+        IParser $parser,
         $missedRouteControllerName = Controller::class,
         $missedRouteControllerMethod = "showHTTPError"
     )
     {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
+        $this->parser = $parser;
         $this->routeCollection = new RouteCollection();
         $this->setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod);
     }
@@ -59,14 +66,15 @@ class Router
      * Adds a route to the router
      *
      * @param Route $route The route to add
-     * @return Route The route with the group settings applied
+     * @return ParsedRoute The route with the group settings applied
      */
     public function addRoute(Route $route)
     {
         $route = $this->applyGroupSettings($route);
-        $this->routeCollection->add($route);
+        $parsedRoute = $this->parser->parse($route);
+        $this->routeCollection->add($parsedRoute);
 
-        return $route;
+        return $parsedRoute;
     }
 
     /**
@@ -75,7 +83,7 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route[] The list of generated routes
+     * @return ParsedRoute[] The list of generated routes
      */
     public function any($path, $controller, array $options = [])
     {
@@ -88,14 +96,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function delete($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_DELETE, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -104,14 +111,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function get($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_GET, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -164,14 +170,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function head($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_HEAD, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -181,7 +186,7 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route[] The list of routes generated
+     * @return ParsedRoute[] The list of routes generated
      */
     public function multiple(array $methods, $path, $controller, array $options = [])
     {
@@ -190,8 +195,8 @@ class Router
         foreach($methods as $method)
         {
             $route = $this->createRoute($method, $path, $controller, $options);
-            $this->addRoute($route);
-            $routes[] = $route;
+            $parsedRoute = $this->addRoute($route);
+            $routes[] = $parsedRoute;
         }
 
         return $routes;
@@ -203,14 +208,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function options($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_OPTIONS, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -219,14 +223,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function patch($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_PATCH, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -235,14 +238,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function post($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_POST, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -251,14 +253,13 @@ class Router
      * @param string $path The path to match on
      * @param string|Closure $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
-     * @return Route The generated route
+     * @return ParsedRoute The generated route
      */
     public function put($path, $controller, array $options = [])
     {
         $route = $this->createRoute(Request::METHOD_PUT, $path, $controller, $options);
-        $this->addRoute($route);
 
-        return $route;
+        return $this->addRoute($route);
     }
 
     /**
@@ -321,6 +322,14 @@ class Router
 
         $this->missedRouteControllerName = $missedRouteControllerName;
         $this->missedRouteControllerMethod = $missedRouteControllerMethod;
+    }
+
+    /**
+     * @param RouteCollection $routeCollection
+     */
+    public function setRouteCollection(RouteCollection $routeCollection)
+    {
+        $this->routeCollection = $routeCollection;
     }
 
     /**

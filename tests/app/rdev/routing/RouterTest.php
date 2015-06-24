@@ -9,9 +9,12 @@ use InvalidArgumentException;
 use RDev\HTTP\Requests\Request;
 use RDev\HTTP\Responses\Response;
 use RDev\HTTP\Responses\ResponseHeaders;
-use RDev\Routing\Compilers\Compiler;
-use RDev\Routing\Compilers\Parsers\Parser;
 use RDev\Routing\Dispatchers\Dispatcher;
+use RDev\Routing\Routes\Compilers\Compiler;
+use RDev\Routing\Routes\Compilers\Matchers\HostMatcher;
+use RDev\Routing\Routes\Compilers\Matchers\PathMatcher;
+use RDev\Routing\Routes\Compilers\Matchers\SchemeMatcher;
+use RDev\Routing\Routes\Compilers\Parsers\Parser;
 use RDev\Routing\Routes\Route;
 use RDev\Routing\Routes\RouteCollection;
 use RDev\IoC\Container;
@@ -23,6 +26,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Router The router to use in tests */
     private $router = null;
+    /** @var Parser The parser to use */
+    private $parser = null;
     /** @var Compiler The compiler to use */
     private $compiler = null;
 
@@ -32,8 +37,14 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $container = new Container();
-        $this->compiler = new Compiler(new Parser());
-        $this->router = new Router(new Dispatcher($container), $this->compiler);
+        $routeMatchers = [
+            new SchemeMatcher(),
+            new HostMatcher(),
+            new PathMatcher()
+        ];
+        $this->parser = new Parser();
+        $this->compiler = new Compiler($routeMatchers);
+        $this->router = new Router(new Dispatcher($container), $this->compiler, $this->parser);
     }
 
     /**
@@ -66,7 +77,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         foreach(RouteCollection::getMethods() as $method)
         {
             call_user_func_array([$this->router, strtolower($method)], [$path, $controller]);
-            $expectedRoute = new Route($method, $path, $controller);
+            $expectedRoute = $this->parser->parse(new Route($method, $path, $controller));
             $this->assertEquals([$expectedRoute], $this->router->getRouteCollection()->get($method));
         }
     }
@@ -217,8 +228,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testInvalidMissedRouteControllerMethodInConstructor()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $compiler = new Compiler(new Parser());
-        new Router(new Dispatcher(new Container()), $compiler, NonRDevController::class, "doesNotExist");
+        $parser = new Parser();
+        $compiler = new Compiler([]);
+        new Router(new Dispatcher(new Container()), $compiler, $parser, NonRDevController::class, "doesNotExist");
     }
 
     /**
@@ -236,8 +248,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testInvalidMissedRouteControllerNameInConstructor()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $compiler = new Compiler(new Parser());
-        new Router(new Dispatcher(new Container()), $compiler, "Class\\That\\Does\\Not\\Exist");
+        $parser = new Parser();
+        $compiler = new Compiler([]);
+        new Router(new Dispatcher(new Container()), $compiler, $parser, "Class\\That\\Does\\Not\\Exist");
     }
 
     /**
@@ -520,6 +533,16 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting the route collection
+     */
+    public function testSettingRouteCollection()
+    {
+        $collection = $this->getMock(RouteCollection::class);
+        $this->router->setRouteCollection($collection);
+        $this->assertSame($collection, $this->router->getRouteCollection());
+    }
+
+    /**
      * Tests specifying a group host
      */
     public function testSpecifyingGroupHost()
@@ -677,7 +700,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 break;
         }
 
-        $compiledRoute = $this->compiler->compile($routeToHandle, $request);
+        $parsedRoute = $this->parser->parse($routeToHandle);
+        $compiledRoute = $this->compiler->compile($parsedRoute, $request);
         $this->assertEquals($compiledRoute, $mockRouter->route($request));
         $this->assertEquals($compiledRoute, $mockRouter->getMatchedRoute());
         // The mock router does not actually instantiate the input controller
