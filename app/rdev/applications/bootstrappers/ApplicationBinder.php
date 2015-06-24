@@ -5,8 +5,8 @@
  * Defines the class that binds the bootstrapper library to the application
  */
 namespace RDev\Applications\Bootstrappers;
+use RDev\Applications\Bootstrappers\Caching\ICache;
 use RDev\Applications\Bootstrappers\Dispatchers\IDispatcher as IBootstrapperDispatcher;
-use RDev\Applications\Bootstrappers\IO\IBootstrapperIO;
 use RDev\Applications\Tasks\Dispatchers\IDispatcher as ITaskDispatcher;
 use RDev\Applications\Tasks\TaskTypes;
 
@@ -18,29 +18,29 @@ class ApplicationBinder
     private $bootstrapperDispatcher = null;
     /** @var ITaskDispatcher The task dispatcher */
     private $taskDispatcher = null;
-    /** @var IBootstrapperIO The bootstrapper reader/writer */
-    private $bootstrapperIO = null;
+    /** @var ICache The bootstrapper cache */
+    private $bootstrapperCache = null;
     /** @var array The list of global bootstrapper classes */
     private $globalBootstrapperClasses = [];
 
     /**
      * @param IBootstrapperRegistry $bootstrapperRegistry The registry of bootstrappers
      * @param IBootstrapperDispatcher $bootstrapperDispatcher The bootstrapper dispatcher
-     * @param IBootstrapperIO $bootstrapperIO The bootstrapper reader/writer
+     * @param ICache $bootstrapperCache The bootstrapper cache
      * @param ITaskDispatcher $taskDispatcher The task dispatcher
      * @param array $globalBootstrapperClasses The list of global bootstrapper classes
      */
     public function __construct(
         IBootstrapperRegistry $bootstrapperRegistry,
         IBootstrapperDispatcher $bootstrapperDispatcher,
-        IBootstrapperIO $bootstrapperIO,
+        ICache $bootstrapperCache,
         ITaskDispatcher $taskDispatcher,
         array $globalBootstrapperClasses
     )
     {
         $this->bootstrapperRegistry = $bootstrapperRegistry;
         $this->bootstrapperDispatcher = $bootstrapperDispatcher;
-        $this->bootstrapperIO = $bootstrapperIO;
+        $this->bootstrapperCache = $bootstrapperCache;
         $this->taskDispatcher = $taskDispatcher;
         $this->globalBootstrapperClasses = $globalBootstrapperClasses;
 
@@ -68,7 +68,7 @@ class ApplicationBinder
             {
                 if($useCache && !empty($cachedRegistryFilePath))
                 {
-                    $this->bootstrapperIO->read($cachedRegistryFilePath, $this->bootstrapperRegistry);
+                    $this->bootstrapperCache->get($cachedRegistryFilePath, $this->bootstrapperRegistry);
                 }
                 else
                 {

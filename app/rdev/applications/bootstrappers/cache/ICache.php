@@ -2,15 +2,22 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the interface for bootstrapper IO to implement
+ * Defines the interface for bootstrapper caches to implement
  */
-namespace RDev\Applications\Bootstrappers\IO;
+namespace RDev\Applications\Bootstrappers\Caching;
 use RDev\Applications\Bootstrappers\IBootstrapperRegistry;
 
-interface IBootstrapperIO
+interface ICache
 {
     /** The default cached registry file name */
     const DEFAULT_CACHED_REGISTRY_FILE_NAME = "cachedBootstrapperRegistry.json";
+
+    /**
+     * Flushes the cache
+     *
+     * @param string $filePath The cache registry file path
+     */
+    public function flush($filePath);
 
     /**
      * Reads the bootstrapper details from cache, if it exists, otherwise manually sets the details and caches them
@@ -18,7 +25,7 @@ interface IBootstrapperIO
      * @param string $filePath The cache registry file path
      * @param IBootstrapperRegistry $registry The registry to read settings into
      */
-    public function read($filePath, IBootstrapperRegistry &$registry);
+    public function get($filePath, IBootstrapperRegistry &$registry);
 
     /**
      * Writes the bootstrapper registry
@@ -26,5 +33,5 @@ interface IBootstrapperIO
      * @param string $filePath The cache registry file path
      * @param IBootstrapperRegistry $registry The config to write
      */
-    public function write($filePath, IBootstrapperRegistry $registry);
+    public function set($filePath, IBootstrapperRegistry $registry);
 }

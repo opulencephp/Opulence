@@ -4,7 +4,7 @@
  *
  * Tests the route parser
  */
-namespace RDev\Routing\Compilers\Parsers;
+namespace RDev\Routing\Routes\Compilers\Parsers;
 use RDev\Routing\RouteException;
 use RDev\Routing\Routes\ParsedRoute;
 use RDev\Routing\Routes\Route;
