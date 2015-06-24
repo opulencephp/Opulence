@@ -31,6 +31,7 @@
     "php": ">=5.5.10",
     "ext-openssl": "*",
     "ext-mbstring": "*",
+    "jeremeamia/superclosure": "~2.1",
     "monolog/monolog": "1.12.*@dev",
     "symfony/security-core": "2.6.*"
   },

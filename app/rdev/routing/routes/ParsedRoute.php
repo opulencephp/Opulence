@@ -6,6 +6,10 @@
  * This is different than a compiled route because this does not have the context of a particular request
  */
 namespace RDev\Routing\Routes;
+use ReflectionClass;
+use ReflectionProperty;
+use SuperClosure\Analyzer\AstAnalyzer;
+use SuperClosure\Serializer;
 
 class ParsedRoute extends Route
 {
@@ -28,6 +32,39 @@ class ParsedRoute extends Route
         $this->addMiddleware($route->getMiddleware());
         $this->setSecure($route->isSecure());
         $this->setVariableRegexes($route->variableRegexes);
+    }
+
+    /**
+     * Prepares the controller to be serialized
+     *
+     * @return array The list of properties to store
+     */
+    public function __sleep()
+    {
+        if($this->usesClosure())
+        {
+            $serializer = new Serializer(new AstAnalyzer());
+            $this->controller = $serializer->serialize($this->controller);
+        }
+
+        $properties = (new ReflectionClass($this))->getProperties();
+
+        return array_map(function (ReflectionProperty $property)
+        {
+            return $property->getName();
+        }, $properties);
+    }
+
+    /**
+     * Prepares the controller to be unserialized
+     */
+    public function __wakeup()
+    {
+        if($this->usesClosure())
+        {
+            $serializer = new Serializer(new AstAnalyzer());
+            $this->controller = $serializer->unserialize($this->controller);
+        }
     }
 
     /**
