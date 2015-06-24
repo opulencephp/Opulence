@@ -5,6 +5,7 @@
  * Tests the route class
  */
 namespace RDev\Routing\Routes;
+use Closure;
 use InvalidArgumentException;
 
 class RouteTest extends \PHPUnit_Framework_TestCase
@@ -204,6 +205,19 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route->addMiddleware("foo", false);
         $route->addMiddleware("bar", true);
         $this->assertEquals(["bar", "foo"], $route->getMiddleware());
+    }
+
+    /**
+     * Tests setting the controller closure
+     */
+    public function testSettingControllerClosure()
+    {
+        $route = new Route("get", "/", "foo@bar");
+        $route->setControllerClosure(function ()
+        {
+        });
+        $this->assertInstanceOf(Closure::class, $route->getController());
+        $this->assertTrue($route->usesClosure());
     }
 
     /**

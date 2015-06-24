@@ -5,6 +5,7 @@
  * Tests the routes
  */
 namespace RDev\Routing\Routes;
+use Closure;
 use RDev\HTTP\Requests\Request;
 use RDev\Tests\Routing\Mocks\Controller as MockController;
 
@@ -29,6 +30,17 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $route = new ParsedRoute(new Route(Request::METHOD_GET, "/users", "foo@bar"));
         $this->collection->add($route);
         $this->assertSame([$route], $this->collection->get(Request::METHOD_GET));
+    }
+
+    /**
+     * Tests deep cloning
+     */
+    public function testDeepCloning()
+    {
+        $route = new ParsedRoute(new Route(Request::METHOD_GET, "/users", "foo@bar"));
+        $this->collection->add($route);
+        $clonedCollection = clone $this->collection;
+        $this->assertNotSame($route, $clonedCollection->get(Request::METHOD_GET)[0]);
     }
 
     /**
@@ -137,5 +149,39 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $this->collection->add($getRoute);
         $getRoutes = $this->collection->get(Request::METHOD_GET);
         $this->assertSame([$getRoute], $getRoutes);
+    }
+
+    /**
+     * Tests that serializing works with a controller class
+     */
+    public function testSerializingWorksWithControllerClass()
+    {
+        $route = new Route("get", "/", "foo@bar");
+        $parsedRoute = new ParsedRoute($route);
+        $this->collection->add($parsedRoute);
+        $serializedCollection = serialize($this->collection);
+        $unserializedCollection = unserialize($serializedCollection);
+        /** @var ParsedRoute $unserializedRoute */
+        $unserializedRoute = $unserializedCollection->get("get")[0];
+        $this->assertEquals("foo@bar", $unserializedRoute->getController());
+    }
+
+    /**
+     * Tests that serializing works with controller classes
+     */
+    public function testSerializingWorksWithControllerClosure()
+    {
+        $route = new Route("get", "/", function ()
+        {
+            return "foo";
+        });
+        $parsedRoute = new ParsedRoute($route);
+        $this->collection->add($parsedRoute);
+        $serializedCollection = serialize($this->collection);
+        $unserializedCollection = unserialize($serializedCollection);
+        /** @var ParsedRoute $unserializedRoute */
+        $unserializedRoute = $unserializedCollection->get("get")[0];
+        $this->assertInstanceOf(Closure::class, $unserializedRoute->getController());
+        $this->assertEquals("foo", call_user_func($unserializedRoute->getController()));
     }
 }

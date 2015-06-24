@@ -5,7 +5,6 @@
  * Tests the parsed route
  */
 namespace RDev\Routing\Routes;
-use Closure;
 
 class ParsedRouteTest extends \PHPUnit_Framework_TestCase 
 {
@@ -52,35 +51,6 @@ class ParsedRouteTest extends \PHPUnit_Framework_TestCase
         $route = new Route("get", "/foo", "foo@bar");
         $parsedRoute = new ParsedRoute($route);
         $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
-    }
-
-    /**
-     * Tests that serializing works with a controller class
-     */
-    public function testSerializingWorksWithControllerClass()
-    {
-        $route = new Route("get", "/", "foo@bar");
-        $parsedRoute = new ParsedRoute($route);
-        $serializedRoute = serialize($parsedRoute);
-        $unserializedRoute = unserialize($serializedRoute);
-        $this->assertEquals("foo@bar", $unserializedRoute->getController());
-    }
-
-    /**
-     * Tests that serializing works with controller classes
-     */
-    public function testSerializingWorksWithControllerClosure()
-    {
-        $route = new Route("get", "/", function ()
-        {
-            return "foo";
-        });
-        $parsedRoute = new ParsedRoute($route);
-        $serializedRoute = serialize($parsedRoute);
-        $unserializedRoute = unserialize($serializedRoute);
-        $controller = $unserializedRoute->getController();
-        $this->assertInstanceOf(Closure::class, $controller);
-        $this->assertEquals("foo", call_user_func($controller));
     }
 
     /**

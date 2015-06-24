@@ -46,6 +46,7 @@ class Cache implements ICache
      */
     public function set($filePath, RouteCollection $routes)
     {
-        file_put_contents($filePath, base64_encode(serialize($routes)));
+        // Clone the routes so that serialization of closures can work correctly
+        file_put_contents($filePath, base64_encode(serialize(clone $routes)));
     }
 }

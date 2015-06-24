@@ -5,6 +5,8 @@
  * Defines a list of routes that can be used by a router
  */
 namespace RDev\Routing\Routes;
+use SuperClosure\Analyzer\AstAnalyzer;
+use SuperClosure\Serializer;
 use RDev\HTTP\Requests\Request;
 
 class RouteCollection
@@ -40,6 +42,64 @@ class RouteCollection
     public static function getMethods()
     {
         return self::$methods;
+    }
+
+    /**
+     * Performs a deep clone of the routes
+     */
+    public function __clone()
+    {
+        foreach($this->routes as $method => $routesByMethod)
+        {
+            foreach($routesByMethod as $index => $route)
+            {
+                $this->routes[$method][$index] = clone $route;
+            }
+        }
+    }
+
+    /**
+     * Prepares the controller closures to be serialized
+     *
+     * @return array The list of properties to store
+     */
+    public function __sleep()
+    {
+        $serializer = new Serializer(new AstAnalyzer());
+
+        foreach($this->routes as $method => $routesByMethod)
+        {
+            /** @var ParsedRoute $route */
+            foreach($routesByMethod as $route)
+            {
+                if($route->usesClosure())
+                {
+                    $route->setControllerClosure($serializer->serialize($route->getController()));
+                }
+            }
+        }
+
+        return array_keys(get_object_vars($this));
+    }
+
+    /**
+     * Prepares the controller closures to be unserialized
+     */
+    public function __wakeup()
+    {
+        $serializer = new Serializer(new AstAnalyzer());
+
+        foreach($this->routes as $method => $routesByMethod)
+        {
+            /** @var ParsedRoute $route */
+            foreach($routesByMethod as $route)
+            {
+                if($route->usesClosure())
+                {
+                    $route->setControllerClosure($serializer->unserialize($route->getController()));
+                }
+            }
+        }
     }
 
     /**

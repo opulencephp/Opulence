@@ -191,6 +191,15 @@ class Route
     }
 
     /**
+     * @param Closure $controller
+     */
+    public function setControllerClosure($controller)
+    {
+        $this->usesClosure = true;
+        $this->controller = $controller;
+    }
+
+    /**
      * @param string $controllerMethod
      */
     public function setControllerMethod($controllerMethod)
@@ -284,8 +293,7 @@ class Route
 
         if(is_callable($controller))
         {
-            $this->usesClosure = true;
-            $this->controller = $controller;
+            $this->setControllerClosure($controller);
         }
         else
         {
