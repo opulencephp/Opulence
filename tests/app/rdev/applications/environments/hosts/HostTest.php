@@ -14,7 +14,7 @@ class HostTest extends \PHPUnit_Framework_TestCase
     public function testAddingHost()
     {
         $host = new Host("localhost", false);
-        $this->assertEquals("localhost", $host->getHost());
+        $this->assertEquals("localhost", $host->getName());
         $this->assertFalse($host->usesRegex());
     }
 
@@ -24,7 +24,7 @@ class HostTest extends \PHPUnit_Framework_TestCase
     public function testAddingRegex()
     {
         $host = new Host(".*", true);
-        $this->assertEquals(".*", $host->getHost());
+        $this->assertEquals(".*", $host->getName());
         $this->assertTrue($host->usesRegex());
     }
 }

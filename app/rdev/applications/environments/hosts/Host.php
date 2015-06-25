@@ -8,18 +8,18 @@ namespace RDev\Applications\Environments\Hosts;
 
 class Host
 {
-    /** @var string The host */
-    private $host = "";
+    /** @var string The host name */
+    private $name = "";
     /** @var bool Whether or not this host uses a regex */
     private $usesRegex = false;
 
     /**
-     * @param string $host The host
+     * @param string $name The host name
      * @param bool $usesRegex Whether or not the host uses a regex
      */
-    public function __construct($host, $usesRegex)
+    public function __construct($name, $usesRegex)
     {
-        $this->host = $host;
+        $this->name = $name;
         $this->usesRegex = $usesRegex;
     }
 
@@ -28,9 +28,9 @@ class Host
      *
      * @return string The host
      */
-    public function getHost()
+    public function getName()
     {
-        return $this->host;
+        return $this->name;
     }
 
     /**

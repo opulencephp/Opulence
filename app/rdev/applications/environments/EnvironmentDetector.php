@@ -22,7 +22,7 @@ class EnvironmentDetector implements IEnvironmentDetector
             /** @var Host $host */
             foreach($hosts as $host)
             {
-                if(($host->usesRegex() && preg_match($host->getHost(), $hostName) === 1) || $host->getHost() === $hostName)
+                if(($host->usesRegex() && preg_match($host->getName(), $hostName) === 1) || $host->getName() === $hostName)
                 {
                     return $environmentName;
                 }
