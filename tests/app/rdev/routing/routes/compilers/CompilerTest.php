@@ -22,9 +22,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $routeMatchers = [
-            new SchemeMatcher(),
+            new PathMatcher(),
             new HostMatcher(),
-            new PathMatcher()
+            new SchemeMatcher()
         ];
         $this->compiler = new Compiler($routeMatchers);
     }

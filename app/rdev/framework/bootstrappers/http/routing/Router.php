@@ -103,9 +103,9 @@ class Router extends Bootstrapper
     protected function getRouteMatchers(IContainer $container)
     {
         return [
-            new SchemeMatcher(),
+            new PathMatcher(),
             new HostMatcher(),
-            new PathMatcher()
+            new SchemeMatcher()
         ];
     }
 

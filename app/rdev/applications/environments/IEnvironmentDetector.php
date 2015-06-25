@@ -5,14 +5,15 @@
  * Defines the interface for environment detectors to implement
  */
 namespace RDev\Applications\Environments;
+use RDev\Applications\Environments\Hosts\HostRegistry;
 
 interface IEnvironmentDetector
 {
     /**
      * Gets the environment the server belongs to, eg "production"
      *
-     * @param array|callable $config The list of environment names to rules or the callback that returns the name
+     * @param HostRegistry $hostRegistry The registry to check against
      * @return string The environment the server belongs to
      */
-    public function detect($config);
+    public function detect(HostRegistry $hostRegistry);
 }

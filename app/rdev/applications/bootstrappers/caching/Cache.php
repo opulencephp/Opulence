@@ -43,11 +43,11 @@ class Cache implements ICache
     public function set($filePath, IBootstrapperRegistry $registry)
     {
         $data = [
-            "eager" => $registry->getEagerBootstrapperClasses(),
+            "eager" => $registry->getEagerBootstrappers(),
             "lazy" => []
         ];
 
-        foreach($registry->getBindingsToLazyBootstrapperClasses() as $boundClass => $bootstrapperClass)
+        foreach($registry->getLazyBootstrapperBindings() as $boundClass => $bootstrapperClass)
         {
             $data["lazy"][$boundClass] = $bootstrapperClass;
         }

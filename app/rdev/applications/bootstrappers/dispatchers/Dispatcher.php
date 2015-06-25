@@ -39,16 +39,16 @@ class Dispatcher implements IDispatcher
     {
         if($this->forceEagerLoading)
         {
-            $eagerBootstrapperClasses = $registry->getEagerBootstrapperClasses();
-            $lazyBootstrapperClasses = array_unique(array_values($registry->getBindingsToLazyBootstrapperClasses()));
+            $eagerBootstrapperClasses = $registry->getEagerBootstrappers();
+            $lazyBootstrapperClasses = array_unique(array_values($registry->getLazyBootstrapperBindings()));
             $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
             $this->dispatchEagerly($registry, $bootstrapperClasses);
         }
         else
         {
             // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
-            $this->dispatchLazily($registry, $registry->getBindingsToLazyBootstrapperClasses());
-            $this->dispatchEagerly($registry, $registry->getEagerBootstrapperClasses());
+            $this->dispatchLazily($registry, $registry->getLazyBootstrapperBindings());
+            $this->dispatchEagerly($registry, $registry->getEagerBootstrappers());
         }
     }
 

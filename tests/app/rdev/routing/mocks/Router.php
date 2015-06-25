@@ -22,9 +22,9 @@ class Router extends BaseRouter
     public function __construct()
     {
         $routeMatchers = [
-            new SchemeMatcher(),
+            new PathMatcher(),
             new HostMatcher(),
-            new PathMatcher()
+            new SchemeMatcher()
         ];
         $parser = new Parser();
         $compiler = new Compiler($routeMatchers);

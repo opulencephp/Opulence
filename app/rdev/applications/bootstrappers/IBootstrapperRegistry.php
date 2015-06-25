@@ -10,18 +10,11 @@ use RuntimeException;
 interface IBootstrapperRegistry
 {
     /**
-     * Gets the mapping of bound classes to their bootstrapper classes
-     *
-     * @return array The mapping of bound classes to their bootstrapper classes
-     */
-    public function getBindingsToLazyBootstrapperClasses();
-
-    /**
      * Gets the list of eager bootstrapper classes
      *
      * @return array The list of eager bootstrapper classes
      */
-    public function getEagerBootstrapperClasses();
+    public function getEagerBootstrappers();
 
     /**
      * Gets an instance of the bootstrapper class
@@ -33,12 +26,19 @@ interface IBootstrapperRegistry
     public function getInstance($bootstrapperClass);
 
     /**
+     * Gets the mapping of bound classes to their bootstrapper classes
+     *
+     * @return array The mapping of bound classes to their bootstrapper classes
+     */
+    public function getLazyBootstrapperBindings();
+
+    /**
      * Registers bootstrapper classes in the case that no cached registry was found
      * In this case, all the bootstrappers in this list are instantiated and later written to a cached registry
      *
      * @param array $bootstrapperClasses The list of bootstrapper classes
      */
-    public function registerBootstrapperClasses(array $bootstrapperClasses);
+    public function registerBootstrappers(array $bootstrapperClasses);
 
     /**
      * Registers eager bootstrappers

@@ -1,3 +1,12 @@
+<h2>v0.5.6</h2>
+
+<h3>Applications</h3>
+* Renamed `RDev\Applications\Bootstrappers\IBootstrapperRegistry::registerBootstrapperClasses()` to `registerBootstrappers()`
+* Renamed `RDev\Applications\Bootstrappers\IBootstrapperRegistry::getBindingsToLazyBootstrapperClasses()` to `getLazyBootstrapperBindings()`
+* Renamed `RDev\Applications\Bootstrappers\IBootstrapperRegistry::getEagerBootstrapperClasses()` to `getEagerBootstrappers()`
+* Added `RDev\Applications\Environments\Hosts\Host` and `HostRegistry`
+* Updated `EnvironmentDetector::detect()` to accept `HostRegistry`
+
 <h2>v0.5.5</h2>
 
 <h3>Applications</h3>

@@ -37,15 +37,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     /**
      * {@inheritdoc}
      */
-    public function getBindingsToLazyBootstrapperClasses()
-    {
-        return $this->bindingsToLazyBootstrapperClasses;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getEagerBootstrapperClasses()
+    public function getEagerBootstrappers()
     {
         return $this->eagerBootstrapperClasses;
     }
@@ -73,7 +65,15 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     /**
      * {@inheritdoc}
      */
-    public function registerBootstrapperClasses(array $bootstrapperClasses)
+    public function getLazyBootstrapperBindings()
+    {
+        return $this->bindingsToLazyBootstrapperClasses;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function registerBootstrappers(array $bootstrapperClasses)
     {
         $this->allBootstrappers = array_merge($this->allBootstrappers, $bootstrapperClasses);
     }

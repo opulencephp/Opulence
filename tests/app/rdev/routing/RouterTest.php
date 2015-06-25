@@ -38,9 +38,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container();
         $routeMatchers = [
-            new SchemeMatcher(),
+            new PathMatcher(),
             new HostMatcher(),
-            new PathMatcher()
+            new SchemeMatcher()
         ];
         $this->parser = new Parser();
         $this->compiler = new Compiler($routeMatchers);

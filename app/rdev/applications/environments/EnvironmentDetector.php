@@ -5,61 +5,26 @@
  * Defines methods for fetching details about the environment
  */
 namespace RDev\Applications\Environments;
+use RDev\Applications\Environments\Hosts\Host;
+use RDev\Applications\Environments\Hosts\HostRegistry;
 
 class EnvironmentDetector implements IEnvironmentDetector
 {
     /**
      * {@inheritdoc}
      */
-    public function detect($config)
+    public function detect(HostRegistry $hostRegistry)
     {
-        // Allow a callback
-        if(is_callable($config))
-        {
-            return call_user_func($config);
-        }
+        $hostName = gethostname();
 
-        $thisHost = gethostname();
-        $environments = [];
-
-        // Include all the environments with set configs
-        foreach([
-                    Environment::PRODUCTION,
-                    Environment::STAGING,
-                    Environment::TESTING,
-                    Environment::DEVELOPMENT
-                ] as $name)
+        foreach($hostRegistry->getHosts() as $environmentName => $hosts)
         {
-            if(isset($config[$name]))
+            /** @var Host $host */
+            foreach($hosts as $host)
             {
-                $environments[$name] = $config[$name];
-            }
-        }
-
-        // Loop through all the environments and find the one that matches this server
-        foreach($environments as $name => $hosts)
-        {
-            foreach((array)$hosts as $host)
-            {
-                if(is_string($host))
+                if(($host->usesRegex() && preg_match($host->getHost(), $hostName) === 1) || $host->getHost() === $hostName)
                 {
-                    if($host == $thisHost)
-                    {
-                        return $name;
-                    }
-                }
-                elseif(is_array($host))
-                {
-                    switch($host["type"])
-                    {
-                        case "regex":
-                            if(preg_match($host["value"], $thisHost) === 1)
-                            {
-                                return $name;
-                            }
-
-                            break;
-                    }
+                    return $environmentName;
                 }
             }
         }

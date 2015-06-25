@@ -45,7 +45,7 @@ class ApplicationBinder
         $this->globalBootstrapperClasses = $globalBootstrapperClasses;
 
         // Global bootstrappers should always be registered first
-        $this->bootstrapperRegistry->registerBootstrapperClasses($this->globalBootstrapperClasses);
+        $this->bootstrapperRegistry->registerBootstrappers($this->globalBootstrapperClasses);
     }
 
     /**
@@ -59,7 +59,7 @@ class ApplicationBinder
     public function bindToApplication(array $kernelBootstrapperClasses, $forceEagerLoading, $useCache, $cachedRegistryFilePath = "")
     {
         $this->bootstrapperDispatcher->forceEagerLoading($forceEagerLoading);
-        $this->bootstrapperRegistry->registerBootstrapperClasses($kernelBootstrapperClasses);
+        $this->bootstrapperRegistry->registerBootstrappers($kernelBootstrapperClasses);
 
         // Register the task to dispatch the bootstrappers
         $this->taskDispatcher->registerTask(

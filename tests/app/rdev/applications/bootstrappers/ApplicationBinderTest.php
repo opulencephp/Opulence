@@ -62,7 +62,7 @@ class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
     public function testKernelBootstrappersAreRegistered()
     {
         $this->bootstrapperRegistry->expects($this->once())
-            ->method("registerBootstrapperClasses")
+            ->method("registerBootstrappers")
             ->with(["KERNEL"]);
         $this->applicationBinder->bindToApplication(["KERNEL"], false, true);
     }

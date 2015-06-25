@@ -55,12 +55,12 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadingRegistryFromBootstrapperClasses()
     {
-        $this->registry->registerBootstrapperClasses([EagerBootstrapper::class, LazyBootstrapper::class]);
+        $this->registry->registerBootstrappers([EagerBootstrapper::class, LazyBootstrapper::class]);
         $this->registry->setBootstrapperDetails();
-        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrapperClasses());
+        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrappers());
         $this->assertEquals(
             $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class),
-            $this->registry->getBindingsToLazyBootstrapperClasses()
+            $this->registry->getLazyBootstrapperBindings()
         );
     }
 
@@ -70,7 +70,7 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringAndGettingEagerBootstrapper()
     {
         $this->registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrapperClasses());
+        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrappers());
     }
 
     /**
@@ -85,7 +85,7 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
                 LazyFooInterface::class => LazyBootstrapper::class,
                 EagerFooInterface::class => LazyBootstrapper::class
             ],
-            $this->registry->getBindingsToLazyBootstrapperClasses()
+            $this->registry->getLazyBootstrapperBindings()
         );
     }
 
@@ -99,7 +99,7 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
             [
                 LazyFooInterface::class => LazyBootstrapper::class
             ],
-            $this->registry->getBindingsToLazyBootstrapperClasses()
+            $this->registry->getLazyBootstrapperBindings()
         );
     }
 

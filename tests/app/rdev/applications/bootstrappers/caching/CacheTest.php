@@ -65,12 +65,12 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadingWhenNoCachedRegistryExists()
     {
-        $this->registry->registerBootstrapperClasses([EagerBootstrapper::class, LazyBootstrapper::class]);
+        $this->registry->registerBootstrappers([EagerBootstrapper::class, LazyBootstrapper::class]);
         $this->cache->get($this->cachedRegistryFilePath, $this->registry);
-        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrapperClasses());
+        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrappers());
         $this->assertEquals(
             $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class),
-            $this->registry->getBindingsToLazyBootstrapperClasses()
+            $this->registry->getLazyBootstrapperBindings()
         );
         // Make sure that the information was cached
         $this->assertEquals(
@@ -92,10 +92,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             "lazy" => $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $this->cache->get($this->cachedRegistryFilePath, $this->registry);
-        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrapperClasses());
+        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrappers());
         $this->assertEquals(
             $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class),
-            $this->registry->getBindingsToLazyBootstrapperClasses()
+            $this->registry->getLazyBootstrapperBindings()
         );
     }
 
@@ -104,13 +104,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBootstrapperClassesMultipleTimes()
     {
-        $this->registry->registerBootstrapperClasses([EagerBootstrapper::class]);
-        $this->registry->registerBootstrapperClasses([LazyBootstrapper::class]);
+        $this->registry->registerBootstrappers([EagerBootstrapper::class]);
+        $this->registry->registerBootstrappers([LazyBootstrapper::class]);
         $this->cache->get($this->cachedRegistryFilePath, $this->registry);
-        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrapperClasses());
+        $this->assertEquals([EagerBootstrapper::class], $this->registry->getEagerBootstrappers());
         $this->assertEquals(
             $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class),
-            $this->registry->getBindingsToLazyBootstrapperClasses()
+            $this->registry->getLazyBootstrapperBindings()
         );
     }
 

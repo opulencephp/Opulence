@@ -273,7 +273,7 @@ class Router
     {
         $method = $request->getMethod();
 
-        /** @var Route $route */
+        /** @var ParsedRoute $route */
         foreach($this->routeCollection->get($method) as $route)
         {
             $compiledRoute = $this->compiler->compile($route, $request);
