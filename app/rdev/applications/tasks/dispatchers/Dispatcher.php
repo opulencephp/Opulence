@@ -32,7 +32,7 @@ class Dispatcher implements IDispatcher
         }
         catch(Exception $ex)
         {
-            throw new RuntimeException("Failed to run tasks: " . $ex->getMessage());
+            throw new RuntimeException("Failed to run tasks: {$ex->getMessage()}");
         }
     }
 

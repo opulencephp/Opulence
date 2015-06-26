@@ -23,10 +23,13 @@
     "php": ">=5.5.10",
     "rdev/applications": "0.5.*",
     "rdev/console": "0.5.*",
+    "rdev/cryptography": "0.5.*",
+    "rdev/events": "0.5.*",
     "rdev/files": "0.5.*",
     "rdev/http": "0.5.*",
     "rdev/ioc": "0.5.*",
     "rdev/routing": "0.5.*",
+    "rdev/sessions": "0.5.*",
     "rdev/views": "0.5.*"
   },
   "extra": {

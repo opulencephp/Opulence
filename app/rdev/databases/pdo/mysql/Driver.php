@@ -16,8 +16,12 @@ class Driver extends BaseDriver
      */
     protected function getDSN(Server $server, array $options = [])
     {
-        $dsn = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
-            . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";";
+        $dsn = implode(";", [
+                "mysql:host=" . $server->getHost(),
+                "dbname=" . $server->getDatabaseName(),
+                "port=" . $server->getPort(),
+                "charset=" . $server->getCharset()
+            ]) . ";";
 
         if(isset($options["unix_socket"]))
         {

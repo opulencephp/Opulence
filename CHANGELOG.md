@@ -4,8 +4,15 @@
 * Renamed `RDev\Applications\Bootstrappers\IBootstrapperRegistry::registerBootstrapperClasses()` to `registerBootstrappers()`
 * Renamed `RDev\Applications\Bootstrappers\IBootstrapperRegistry::getBindingsToLazyBootstrapperClasses()` to `getLazyBootstrapperBindings()`
 * Renamed `RDev\Applications\Bootstrappers\IBootstrapperRegistry::getEagerBootstrapperClasses()` to `getEagerBootstrappers()`
-* Added `RDev\Applications\Environments\Hosts\Host` and `HostRegistry`
-* Updated `EnvironmentDetector::detect()` to accept `HostRegistry`
+* Added `RDev\Applications\Environments\Host`
+* Added `RDev\Applications\Environments\EnvironmentDetector::registerHost()`
+* Updated `EnvironmentDetector::detect()` not accept parameters
+
+<h3>Cryptography</h3>
+* Renamed `RDev\Cryptography\Hashing\IHasher::generate()` to `hash()`
+
+<h3>View</h3>
+* Removed `RDev\Views\Caching\ICache::getLifetime()` and `setLifetime()`
 
 <h2>v0.5.5</h2>
 

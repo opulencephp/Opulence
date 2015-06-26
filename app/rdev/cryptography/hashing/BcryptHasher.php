@@ -14,14 +14,14 @@ class BcryptHasher extends Hasher
     /**
      * {@inheritdoc}
      */
-    public function generate($unhashedValue, array $options = [], $pepper = "")
+    public function hash($unhashedValue, array $options = [], $pepper = "")
     {
         if(!isset($options["cost"]))
         {
             $options["cost"] = self::DEFAULT_COST;
         }
 
-        return parent::generate($unhashedValue, $options, $pepper);
+        return parent::hash($unhashedValue, $options, $pepper);
     }
 
     /**

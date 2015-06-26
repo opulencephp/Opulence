@@ -35,7 +35,6 @@ class Compiler implements ICompiler
     public function __construct(ICache $cache, ITemplateFactory $templateFactory, IFilter $xssFilter)
     {
         $this->cache = $cache;
-
         // Order here matters
         $this->registerSubCompiler(new StatementCompiler($this, $templateFactory), null, true);
         $this->registerSubCompiler(new TagCompiler($this, $xssFilter));

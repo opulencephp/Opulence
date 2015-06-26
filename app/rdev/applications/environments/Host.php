@@ -4,7 +4,7 @@
  *
  * Defines a host
  */
-namespace RDev\Applications\Environments\Hosts;
+namespace RDev\Applications\Environments;
 
 class Host
 {

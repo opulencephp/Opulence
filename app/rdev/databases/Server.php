@@ -10,7 +10,7 @@ class Server
 {
     /** @var string The host of this server */
     protected $host = "";
-    /** @var int The port this server listens on */
+    /** @var int|null The port this server listens on */
     protected $port;
     /** @var string The username to log in to the server */
     protected $username = "";
@@ -102,7 +102,7 @@ class Server
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPort()
     {

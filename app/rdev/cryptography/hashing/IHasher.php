@@ -28,7 +28,7 @@ interface IHasher
      * @return string The hashed value
      * @throws RuntimeException Thrown if the hashing failed
      */
-    public function generate($unhashedValue, array $options = [], $pepper = "");
+    public function hash($unhashedValue, array $options = [], $pepper = "");
 
     /**
      * Checks if a hashed value was hashed with the input options

@@ -16,8 +16,12 @@ class Driver extends BaseDriver
      */
     protected function getDSN(Server $server, array $options = [])
     {
-        $dsn = "pgsql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
-            . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
+        $dsn = implode(";", [
+                "pgsql:host=" . $server->getHost(),
+                "dbname=" . $server->getDatabaseName(),
+                "port=" . $server->getPort(),
+                "options='--client_encoding=" . $server->getCharset() . "'"
+            ]) . ";";
 
         if(isset($options["sslmode"]))
         {

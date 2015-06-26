@@ -40,8 +40,10 @@ class ConditionalQueryBuilder
      */
     public function andWhere($condition)
     {
-        $this->whereConditions = call_user_func_array([$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "AND"], func_get_args()));
+        $this->whereConditions = call_user_func_array(
+            [$this, "addConditionToClause"],
+            array_merge([$this->whereConditions, "AND"], func_get_args())
+        );
 
         return $this;
     }

@@ -109,7 +109,7 @@ class TableFormatter
     }
 
     /**
-     * @param boolean $padAfter
+     * @param bool $padAfter
      */
     public function setPadAfter($padAfter)
     {

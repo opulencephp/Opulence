@@ -54,7 +54,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCachingWithNonPositiveLifetime()
     {
-        $this->cache->setLifetime(0);
+        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 0);
         $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
         $this->assertFalse($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
         $this->assertNull($this->cache->get("foo", ["bar" => "baz"], ["blah" => "asdf"]));
@@ -127,17 +127,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testGarbageCollection()
     {
         $this->fileSystem->write(__DIR__ . "/tmp/foo", "compiled");
-        $this->cache->setLifetime(-1);
+        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", -1);
         $this->cache->gc();
         $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . "/tmp"));
-    }
-
-    /**
-     * Tests getting the lifetime after setting it in the constructor
-     */
-    public function testGettingLifetimeAfterSettingInConstructor()
-    {
-        $this->assertEquals(3600, $this->cache->getLifetime());
     }
 
     /**
@@ -148,15 +140,6 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/verytemporarytmp", 3600);
         $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
         $this->assertTrue($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
-    }
-
-    /**
-     * Tests setting the lifetime
-     */
-    public function testSettingLifetime()
-    {
-        $this->cache->setLifetime(12);
-        $this->assertEquals(12, $this->cache->getLifetime());
     }
 
     /**

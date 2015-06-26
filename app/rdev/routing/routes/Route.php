@@ -183,7 +183,7 @@ class Route
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSecure()
     {

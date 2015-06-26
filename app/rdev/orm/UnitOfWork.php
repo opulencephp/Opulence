@@ -129,7 +129,7 @@ class UnitOfWork
     {
         if(!isset($this->dataMappers[$className]))
         {
-            throw new RuntimeException("No data mapper for " . $className);
+            throw new RuntimeException("No data mapper for {$className}");
         }
 
         return $this->dataMappers[$className];

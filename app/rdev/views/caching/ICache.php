@@ -36,13 +36,6 @@ interface ICache
     public function get($unrenderedTemplate, array $variables = [], array $tags = []);
 
     /**
-     * Gets the lifetime of a rendered template
-     *
-     * @return int The number of seconds a rendered template stays in cache
-     */
-    public function getLifetime();
-
-    /**
      * Gets whether or not the cache has the unrendered template with the input data
      *
      * @param string $unrenderedTemplate The unrendered template
@@ -71,11 +64,4 @@ interface ICache
      * @param int $divisor The number the chance will be divided by to calculate the probability
      */
     public function setGCChance($chance, $divisor = 100);
-
-    /**
-     * Sets the lifetime of cached templates
-     *
-     * @param int $lifetime The number of seconds a rendered template should stay cached
-     */
-    public function setLifetime($lifetime);
 }

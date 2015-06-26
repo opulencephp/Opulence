@@ -4,7 +4,7 @@
  *
  * Tests the host
  */
-namespace RDev\Applications\Environments\Hosts;
+namespace RDev\Applications\Environments;
 
 class HostTest extends \PHPUnit_Framework_TestCase
 {

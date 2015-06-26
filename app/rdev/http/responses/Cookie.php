@@ -86,7 +86,7 @@ class Cookie
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isHTTPOnly()
     {
@@ -94,7 +94,7 @@ class Cookie
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isSecure()
     {
@@ -118,7 +118,7 @@ class Cookie
     }
 
     /**
-     * @param boolean $isHTTPOnly
+     * @param bool $isHTTPOnly
      */
     public function setHTTPOnly($isHTTPOnly)
     {
@@ -142,7 +142,7 @@ class Cookie
     }
 
     /**
-     * @param boolean $isSecure
+     * @param bool $isSecure
      */
     public function setSecure($isSecure)
     {

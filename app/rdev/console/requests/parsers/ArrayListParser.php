@@ -25,7 +25,7 @@ class ArrayListParser extends Parser
     {
         if(!is_array($input))
         {
-            throw new InvalidArgumentException("ArrayListParser parser only accepts arrays as input");
+            throw new InvalidArgumentException(__METHOD__ . " only accepts arrays as input");
         }
 
         $tokens = $this->tokenizer->tokenize($input);

@@ -139,7 +139,7 @@ class Session implements ISession
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function hasStarted()
     {

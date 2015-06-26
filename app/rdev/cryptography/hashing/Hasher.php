@@ -35,7 +35,7 @@ abstract class Hasher implements IHasher
     /**
      * {@inheritdoc}
      */
-    public function generate($unhashedValue, array $options = [], $pepper = "")
+    public function hash($unhashedValue, array $options = [], $pepper = "")
     {
         $hashedValue = password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $options);
 

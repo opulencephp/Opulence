@@ -43,7 +43,7 @@ class Cache implements ICache
             $this->setPath($path);
         }
 
-        $this->setLifetime($lifetime);
+        $this->lifetime = $lifetime;
         $this->setGCChance($gcChance, $gcDivisor);
     }
 
@@ -103,14 +103,6 @@ class Cache implements ICache
     /**
      * {@inheritdoc}
      */
-    public function getLifetime()
-    {
-        return $this->lifetime;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function has($unrenderedTemplate, array $variables = [], array $tags = [])
     {
         if(!$this->cachingIsEnabled())
@@ -156,14 +148,6 @@ class Cache implements ICache
     {
         $this->gcChance = $chance;
         $this->gcDivisor = $divisor;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setLifetime($lifetime)
-    {
-        $this->lifetime = $lifetime;
     }
 
     /**

@@ -39,7 +39,7 @@ class Server
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getHost()
     {
@@ -47,7 +47,7 @@ class Server
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getPort()
     {
@@ -55,7 +55,7 @@ class Server
     }
 
     /**
-     * @return int
+     * @return int|null
      */
     public function getWeight()
     {

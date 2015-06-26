@@ -76,7 +76,7 @@ class Application
     }
 
     /**
-     * @return boolean
+     * @return bool
      */
     public function isRunning()
     {
