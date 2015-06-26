@@ -1,3 +1,9 @@
+<h2>v0.5.7</h2>
+
+<h3>Applications</h3>
+* Renamed `RDev\Applications\Environments\Host` to `HostName`
+* Added `RDev\Applications\Environments\IHost` and `HostRegex`
+
 <h2>v0.5.6</h2>
 
 <h3>Applications</h3>

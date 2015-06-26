@@ -25,8 +25,8 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringArrayOfHosts()
     {
         $hosts = [
-            new Host("8.8.8.8", false),
-            new Host(gethostname(), false)
+            new HostName("8.8.8.8"),
+            new HostName(gethostname())
         ];
         $this->detector->registerHost("development", $hosts);
         $this->assertEquals("development", $this->detector->detect());
@@ -47,13 +47,13 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringMultipleArraysOfHosts()
     {
         $developmentHosts = [
-            new Host("8.8.8.8", false),
-            new Host(gethostname(), false)
+            new HostName("8.8.8.8"),
+            new HostName(gethostname())
         ];
         $this->detector->registerHost("development", $developmentHosts);
         $stagingHosts = [
-            new Host("8.8.8.2", false),
-            new Host(gethostname(), false)
+            new HostName("8.8.8.2"),
+            new HostName(gethostname())
         ];
         $this->detector->registerHost("staging", $stagingHosts);
         $this->assertEquals("development", $this->detector->detect());
@@ -64,9 +64,9 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringMultipleHosts()
     {
-        $host1 = new Host("8.8.8.8", false);
-        $host2 = new Host(gethostname(), false);
-        $host3 = new Host("8.8.8.2", false);
+        $host1 = new HostName("8.8.8.8");
+        $host2 = new HostName(gethostname());
+        $host3 = new HostName("8.8.8.2");
         $this->detector->registerHost("foo", $host1);
         $this->detector->registerHost("bar", $host2);
         $this->detector->registerHost("baz", $host3);
@@ -78,7 +78,7 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringSingleHost()
     {
-        $this->detector->registerHost("development", new Host(gethostname(), false));
+        $this->detector->registerHost("development", new HostName(gethostname()));
         $this->assertEquals("development", $this->detector->detect());
     }
 
@@ -95,10 +95,10 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingDevelopmentEnvironment()
     {
-        $this->detector->registerHost("development", new Host(gethostname(), false));
-        $this->detector->registerHost("testing", new Host("8.8.8.2", false));
-        $this->detector->registerHost("staging", new Host("8.8.8.8", false));
-        $this->detector->registerHost("production", new Host("8.8.8.4", false));
+        $this->detector->registerHost("development", new HostName(gethostname()));
+        $this->detector->registerHost("testing", new HostName("8.8.8.2"));
+        $this->detector->registerHost("staging", new HostName("8.8.8.8"));
+        $this->detector->registerHost("production", new HostName("8.8.8.4"));
         $this->assertEquals("development", $this->detector->detect());
     }
 
@@ -107,10 +107,10 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingProductionEnvironment()
     {
-        $this->detector->registerHost("development", new Host("8.8.8.8", false));
-        $this->detector->registerHost("testing", new Host("8.8.8.2", false));
-        $this->detector->registerHost("staging", new Host("8.8.8.4", false));
-        $this->detector->registerHost("production", new Host(gethostname(), false));
+        $this->detector->registerHost("development", new HostName("8.8.8.8"));
+        $this->detector->registerHost("testing", new HostName("8.8.8.2"));
+        $this->detector->registerHost("staging", new HostName("8.8.8.4"));
+        $this->detector->registerHost("production", new HostName(gethostname()));
         $this->assertEquals("production", $this->detector->detect());
     }
 
@@ -119,10 +119,10 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingStagingEnvironment()
     {
-        $this->detector->registerHost("development", new Host("8.8.8.8", false));
-        $this->detector->registerHost("testing", new Host("8.8.8.2", false));
-        $this->detector->registerHost("staging", new Host(gethostname(), false));
-        $this->detector->registerHost("production", new Host("8.8.8.4", false));
+        $this->detector->registerHost("development", new HostName("8.8.8.8"));
+        $this->detector->registerHost("testing", new HostName("8.8.8.2"));
+        $this->detector->registerHost("staging", new HostName(gethostname()));
+        $this->detector->registerHost("production", new HostName("8.8.8.4"));
         $this->assertEquals("staging", $this->detector->detect());
     }
 
@@ -131,10 +131,10 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testThisServerBeingTestingEnvironment()
     {
-        $this->detector->registerHost("development", new Host("8.8.8.8", false));
-        $this->detector->registerHost("testing", new Host(gethostname(), false));
-        $this->detector->registerHost("staging", new Host("8.8.8.2", false));
-        $this->detector->registerHost("production", new Host("8.8.8.4", false));
+        $this->detector->registerHost("development", new HostName("8.8.8.8"));
+        $this->detector->registerHost("testing", new HostName(gethostname()));
+        $this->detector->registerHost("staging", new HostName("8.8.8.2"));
+        $this->detector->registerHost("production", new HostName("8.8.8.4"));
         $this->assertEquals("testing", $this->detector->detect());
     }
 
@@ -145,10 +145,10 @@ class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
     {
         // Truncate the last character of the host
         $truncatedHost = substr(gethostname(), 0, -1);
-        $this->detector->registerHost("development", new Host("8.8.8.8", false));
-        $this->detector->registerHost("testing", new Host("8.8.8.2", false));
-        $this->detector->registerHost("staging", new Host("/^" . preg_quote($truncatedHost, "/") . ".*$/", true));
-        $this->detector->registerHost("production", new Host("8.8.8.4", false));
+        $this->detector->registerHost("development", new HostName("8.8.8.8"));
+        $this->detector->registerHost("testing", new HostName("8.8.8.2"));
+        $this->detector->registerHost("staging", new HostRegex("^" . preg_quote($truncatedHost, "/") . ".*$", true));
+        $this->detector->registerHost("production", new HostName("8.8.8.4"));
         $this->assertEquals("staging", $this->detector->detect());
     }
 } 

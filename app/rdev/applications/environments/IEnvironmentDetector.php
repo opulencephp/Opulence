@@ -19,7 +19,7 @@ interface IEnvironmentDetector
      * Registers a host for a particular environment name
      *
      * @param string $environmentName The name of the environment this host belongs to
-     * @param Host|Host[] $hosts The host or hosts to add
+     * @param HostName|HostName[] $hosts The host or hosts to add
      */
     public function registerHost($environmentName, $hosts);
 }

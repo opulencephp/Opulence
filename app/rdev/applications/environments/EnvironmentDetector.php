@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines methods for fetching details about the environment
+ * Defines the environment detector
  */
 namespace RDev\Applications\Environments;
 
@@ -20,10 +20,17 @@ class EnvironmentDetector implements IEnvironmentDetector
 
         foreach($this->environmentsToHosts as $environmentName => $hosts)
         {
-            /** @var Host $host */
+            /** @var IHost $host */
             foreach($hosts as $host)
             {
-                if(($host->usesRegex() && preg_match($host->getName(), $hostName) === 1) || $host->getName() === $hostName)
+                if($host instanceof HostRegex)
+                {
+                    if(preg_match($host->getValue(), $hostName) === 1)
+                    {
+                        return $environmentName;
+                    }
+                }
+                elseif($host->getValue() === $hostName)
                 {
                     return $environmentName;
                 }
@@ -38,7 +45,7 @@ class EnvironmentDetector implements IEnvironmentDetector
      * Registers a host for a particular environment name
      *
      * @param string $environmentName The name of the environment this host belongs to
-     * @param Host|Host[] $hosts The host or hosts to add
+     * @param HostName|HostName[] $hosts The host or hosts to add
      */
     public function registerHost($environmentName, $hosts)
     {
