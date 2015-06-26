@@ -4,7 +4,7 @@
  *
  * Defines a host that uses a regex to match against the name
  */
-namespace RDev\Applications\Environments;
+namespace RDev\Applications\Environments\Hosts;
 
 class HostRegex extends HostName
 {

@@ -4,7 +4,7 @@
  *
  * Tests the host name
  */
-namespace RDev\Applications\Environments;
+namespace RDev\Applications\Environments\Hosts;
 
 class HostNameTest extends \PHPUnit_Framework_TestCase
 {

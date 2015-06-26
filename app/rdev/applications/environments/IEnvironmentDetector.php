@@ -5,6 +5,7 @@
  * Defines the interface for environment detectors to implement
  */
 namespace RDev\Applications\Environments;
+use RDev\Applications\Environments\Hosts\IHost;
 
 interface IEnvironmentDetector
 {
@@ -19,7 +20,7 @@ interface IEnvironmentDetector
      * Registers a host for a particular environment name
      *
      * @param string $environmentName The name of the environment this host belongs to
-     * @param HostName|HostName[] $hosts The host or hosts to add
+     * @param IHost|IHost[] $hosts The host or hosts to add
      */
     public function registerHost($environmentName, $hosts);
 }

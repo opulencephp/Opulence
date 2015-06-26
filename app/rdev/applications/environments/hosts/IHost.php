@@ -4,7 +4,7 @@
  *
  * Defines the interface for hosts to implement
  */
-namespace RDev\Applications\Environments;
+namespace RDev\Applications\Environments\Hosts;
 
 interface IHost
 {

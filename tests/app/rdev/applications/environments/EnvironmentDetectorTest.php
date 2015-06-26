@@ -5,6 +5,8 @@
  * Tests the environment detector class
  */
 namespace RDev\Applications\Environments;
+use RDev\Applications\Environments\Hosts\HostName;
+use RDev\Applications\Environments\Hosts\HostRegex;
 
 class EnvironmentDetectorTest extends \PHPUnit_Framework_TestCase
 {

@@ -4,7 +4,7 @@
  *
  * Defines a host
  */
-namespace RDev\Applications\Environments;
+namespace RDev\Applications\Environments\Hosts;
 
 class HostName implements IHost
 {

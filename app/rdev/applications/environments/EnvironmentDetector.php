@@ -5,6 +5,8 @@
  * Defines the environment detector
  */
 namespace RDev\Applications\Environments;
+use RDev\Applications\Environments\Hosts\HostRegex;
+use RDev\Applications\Environments\Hosts\IHost;
 
 class EnvironmentDetector implements IEnvironmentDetector
 {
@@ -42,10 +44,7 @@ class EnvironmentDetector implements IEnvironmentDetector
     }
 
     /**
-     * Registers a host for a particular environment name
-     *
-     * @param string $environmentName The name of the environment this host belongs to
-     * @param HostName|HostName[] $hosts The host or hosts to add
+     * {@inheritdoc}
      */
     public function registerHost($environmentName, $hosts)
     {
