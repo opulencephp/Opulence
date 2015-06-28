@@ -100,7 +100,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testListenerCannotBeAddedTwice()
     {
-        $listener = [$this->listener, "doNothing1"];;
+        $listener = [$this->listener, "doNothing1"];
         $this->dispatcher->registerListener("foo", $listener);
         $this->dispatcher->registerListener("foo", $listener);
         $this->assertEquals([$listener], $this->dispatcher->getListeners("foo"));
