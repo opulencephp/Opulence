@@ -30,10 +30,10 @@ class StatementCompilerTest extends CompilerTest
     public function testCleaningUpUnusedStatements()
     {
         // Test closed statement
-        $this->template->setContents('foo{% foo("hi") %}baz{% endfoo %}bar');
+        $this->template->setContents('foo<% foo("hi") %>baz<% endfoo %>bar');
         $this->assertEquals("foobar", $this->subCompiler->compile($this->template, $this->template->getContents()));
         // Test self-closed statement
-        $this->template->setContents('foo{% foo("hi") %}bar');
+        $this->template->setContents('foo<% foo("hi") %>bar');
         $this->assertEquals("foobar", $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
@@ -42,9 +42,9 @@ class StatementCompilerTest extends CompilerTest
      */
     public function testCompilingNestedParts()
     {
-        $this->template->setPart("foo", '{% show("bar") %}blah');
+        $this->template->setPart("foo", '<% show("bar") %>blah');
         $this->template->setPart("bar", "baz");
-        $this->template->setContents('{% show("foo") %}');
+        $this->template->setContents('<% show("foo") %>');
         $this->assertEquals("bazblah", $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
 
@@ -53,7 +53,7 @@ class StatementCompilerTest extends CompilerTest
      */
     public function testEscapingPartStatement()
     {
-        $contents = '\{% part("foo") %}bar{% endpart %}';
+        $contents = '\<% part("foo") %>bar<% endpart %>';
         $this->template->setContents($contents);
         $this->assertEquals($contents, $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
@@ -129,7 +129,7 @@ This is the content
     {
         // Try a child that directly inherits from its grandparent
         $this->template->setContents(
-            '{% extends("EmptyChild.html") %}{% part("foo") %}{% parent("foo") %}baz{% endpart %}'
+            '<% extends("EmptyChild.html") %><% part("foo") %><% parent("foo") %>baz<% endpart %>'
         );
         $this->assertEquals(
             "Foobaz",
@@ -137,7 +137,7 @@ This is the content
         );
         // Try a child that inherits from its parent, which inherits from the grandparent
         $this->template->setContents(
-            '{% extends("ChildWithDefinedParentStatement.html") %}{% part("foo") %}{% parent("foo") %}baz{% endpart %}'
+            '<% extends("ChildWithDefinedParentStatement.html") %><% part("foo") %><% parent("foo") %>baz<% endpart %>'
         );
         $this->assertEquals(
             "Foobarbaz",
@@ -164,7 +164,7 @@ This is the content
      */
     public function testMultipleShowStatementsWithSamePart()
     {
-        $this->template->setContents('{% show("foo") %} {% show("foo") %}');
+        $this->template->setContents('<% show("foo") %> <% show("foo") %>');
         $this->template->setPart("foo", "bar");
         $this->assertEquals("bar bar", $this->subCompiler->compile($this->template, $this->template->getContents()));
     }
@@ -249,7 +249,7 @@ This is the content
      */
     public function testPartStatementWithDoubleQuotes()
     {
-        $this->template->setContents('{{foo}} {% part("foo") %}bar{% endpart %}');
+        $this->template->setContents('{{foo}} <% part("foo") %>bar<% endpart %>');
         $this->assertEquals("{{foo}} ", $this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->assertEquals("bar", $this->template->getPart("foo"));
     }
@@ -259,7 +259,7 @@ This is the content
      */
     public function testPartStatementWithSingleQuotes()
     {
-        $this->template->setContents("{{foo}} {% part('foo') %}bar{% endpart %}");
+        $this->template->setContents("{{foo}} <% part('foo') %>bar<% endpart %>");
         $this->assertEquals("{{foo}} ", $this->subCompiler->compile($this->template, $this->template->getContents()));
         $this->assertEquals("bar", $this->template->getPart("foo"));
     }

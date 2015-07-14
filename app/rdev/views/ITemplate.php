@@ -8,12 +8,12 @@ namespace RDev\Views;
 
 interface ITemplate
 {
-    /** The statement delimiter */
-    const DELIMITER_TYPE_STATEMENT = 1;
-    /** The escaped tag delimiter */
-    const DELIMITER_TYPE_ESCAPED_TAG = 2;
-    /** The unescaped tag delimiter */
-    const DELIMITER_TYPE_UNESCAPED_TAG = 3;
+    /** The directive delimiter */
+    const DELIMITER_TYPE_DIRECTIVE = 1;
+    /** The sanitized tag delimiter */
+    const DELIMITER_TYPE_SANITIZED_TAG = 2;
+    /** The unsanitized tag delimiter */
+    const DELIMITER_TYPE_UNSANITIZED_TAG = 3;
 
     /**
      * Gets the uncompiled contents

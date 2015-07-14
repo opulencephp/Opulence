@@ -9,18 +9,18 @@ use InvalidArgumentException;
 
 class Template implements ITemplate
 {
-    /** The default open tag for unescaped delimiter  */
-    const DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER = "{{!";
-    /** The default close tag for unescaped delimiter  */
-    const DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER = "!}}";
-    /** The default open tag for escaped delimiter  */
-    const DEFAULT_OPEN_ESCAPED_TAG_DELIMITER = "{{";
-    /** The default close tag for escaped delimiter */
-    const DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER = "}}";
-    /** The default open tag for statement delimiter  */
-    const DEFAULT_OPEN_STATEMENT_DELIMITER = "{%";
-    /** The default close tag for statement delimiter */
-    const DEFAULT_CLOSE_STATEMENT_DELIMITER = "%}";
+    /** The default open tag for unsanitized delimiter  */
+    const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = "{{!";
+    /** The default close tag for unsanitized delimiter  */
+    const DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER = "!}}";
+    /** The default open tag for sanitized delimiter  */
+    const DEFAULT_OPEN_SANITIZED_TAG_DELIMITER = "{{";
+    /** The default close tag for sanitized delimiter */
+    const DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER = "}}";
+    /** The default open tag for directive delimiter  */
+    const DEFAULT_OPEN_DIRECTIVE_DELIMITER = "<%";
+    /** The default close tag for directive delimiter */
+    const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = "%>";
 
     /** @var string The uncompiled contents of the template */
     protected $contents = "";
@@ -34,17 +34,17 @@ class Template implements ITemplate
     protected $parent;
     /** @var array The stack of parent delimiter types to values */
     private $delimiters = [
-        self::DELIMITER_TYPE_UNESCAPED_TAG => [
-            self::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
-            self::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+        self::DELIMITER_TYPE_UNSANITIZED_TAG => [
+            self::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER,
+            self::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER
         ],
-        self::DELIMITER_TYPE_ESCAPED_TAG => [
-            self::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
-            self::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+        self::DELIMITER_TYPE_SANITIZED_TAG => [
+            self::DEFAULT_OPEN_SANITIZED_TAG_DELIMITER,
+            self::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER
         ],
-        self::DELIMITER_TYPE_STATEMENT => [
-            self::DEFAULT_OPEN_STATEMENT_DELIMITER,
-            self::DEFAULT_CLOSE_STATEMENT_DELIMITER
+        self::DELIMITER_TYPE_DIRECTIVE => [
+            self::DEFAULT_OPEN_DIRECTIVE_DELIMITER,
+            self::DEFAULT_CLOSE_DIRECTIVE_DELIMITER
         ]
     ];
 

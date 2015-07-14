@@ -49,12 +49,12 @@ class TagCompilerTest extends CompilerTest
     {
         $delimiters = [
             [
-                Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
-                Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_SANITIZED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER
             ],
             [
-                Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
-                Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER
             ]
         ];
         $templateContents = '<?php foreach(["foo" => ["bar", "a&w"]] as $v): ?>%s$v[1]%s<?php endforeach; ?>';
@@ -129,12 +129,12 @@ class TagCompilerTest extends CompilerTest
     {
         $delimiters = [
             [
-                Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER,
-                Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_SANITIZED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER
             ],
             [
-                Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER,
-                Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER
+                Template::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER,
+                Template::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER
             ]
         ];
         $templateContents = '<?php foreach(["a&w"] as $v): ?>%s$v%s<?php endforeach; ?>';
@@ -399,9 +399,9 @@ class TagCompilerTest extends CompilerTest
     {
         $contents = $this->fileSystem->read(__DIR__ . "/.." . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNSANITIZED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_SANITIZED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_DIRECTIVE, ["(*", "*)"]);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
@@ -435,7 +435,7 @@ class TagCompilerTest extends CompilerTest
         });
         $this->assertTrue(
             $this->stringsWithEncodedCharactersEqual(
-                'Hello, world! {%show("parttest")%}. {{!blah!}}. a&amp;b. me too. c&amp;d. e&f. {{"g&h"}}. {{ "i&j" }}. {{blah}}. Today escaped is foo and unescaped is foo. {%part("parttest")%}It worked{%endpart%}.',
+                'Hello, world! <%show("parttest")%>. {{!blah!}}. a&amp;b. me too. c&amp;d. e&f. {{"g&h"}}. {{ "i&j" }}. {{blah}}. Today escaped is foo and unescaped is foo. <%part("parttest")%>It worked<%endpart%>.',
                 $this->subCompiler->compile($this->template, $this->template->getContents())
             )
         );

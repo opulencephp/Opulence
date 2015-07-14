@@ -53,7 +53,7 @@ class StatementCompiler extends SubCompiler
     private function cleanupStatements(ITemplate $template, $content)
     {
         // Match anything
-        $closeStatementDelimiter = $template->getDelimiters(ITemplate::DELIMITER_TYPE_STATEMENT)[1];
+        $closeStatementDelimiter = $template->getDelimiters(ITemplate::DELIMITER_TYPE_DIRECTIVE)[1];
         $statement = sprintf(
             "(?:(?:(?!%s).)*)",
             preg_quote($closeStatementDelimiter)
@@ -251,7 +251,7 @@ class StatementCompiler extends SubCompiler
     {
         $openStatementRegex = '(?<!%s)%s\s*(%s)\((?:(["|\'])([^\2]+)\2)?\)\s*%s';
         $closeStatementRegex = '(.*)%s\s*end\1\s*%s';
-        $statementDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_STATEMENT);
+        $statementDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_DIRECTIVE);
 
         if(is_array($statement))
         {

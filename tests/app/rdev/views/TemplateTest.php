@@ -38,17 +38,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the escaped tag delimiters
+     * Tests getting the directive delimiters
      */
-    public function testGettingEscapedTagDelimiters()
+    public function testGettingDirectiveDelimiters()
     {
-        $escapedDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG);
-        $this->assertEquals(Template::DEFAULT_OPEN_ESCAPED_TAG_DELIMITER, $escapedDelimiters[0]);
-        $this->assertEquals(Template::DEFAULT_CLOSE_ESCAPED_TAG_DELIMITER, $escapedDelimiters[1]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["foo", "bar"]);
-        $escapedDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG);
-        $this->assertEquals("foo", $escapedDelimiters[0]);
-        $this->assertEquals("bar", $escapedDelimiters[1]);
+        $directiveDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_DIRECTIVE);
+        $this->assertEquals(Template::DEFAULT_OPEN_DIRECTIVE_DELIMITER, $directiveDelimiters[0]);
+        $this->assertEquals(Template::DEFAULT_CLOSE_DIRECTIVE_DELIMITER, $directiveDelimiters[1]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_DIRECTIVE, ["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $this->template->getDelimiters(Template::DELIMITER_TYPE_DIRECTIVE));
     }
 
     /**
@@ -124,15 +122,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the statement delimiters
+     * Tests getting the sanitized tag delimiters
      */
-    public function testGettingStatementDelimiters()
+    public function testGettingSanitizedTagDelimiters()
     {
-        $statementDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_STATEMENT);
-        $this->assertEquals(Template::DEFAULT_OPEN_STATEMENT_DELIMITER, $statementDelimiters[0]);
-        $this->assertEquals(Template::DEFAULT_CLOSE_STATEMENT_DELIMITER, $statementDelimiters[1]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $this->template->getDelimiters(Template::DELIMITER_TYPE_STATEMENT));
+        $sanitizedDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_SANITIZED_TAG);
+        $this->assertEquals(Template::DEFAULT_OPEN_SANITIZED_TAG_DELIMITER, $sanitizedDelimiters[0]);
+        $this->assertEquals(Template::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER, $sanitizedDelimiters[1]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_SANITIZED_TAG, ["foo", "bar"]);
+        $sanitizedDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_SANITIZED_TAG);
+        $this->assertEquals("foo", $sanitizedDelimiters[0]);
+        $this->assertEquals("bar", $sanitizedDelimiters[1]);
     }
 
     /**
@@ -154,15 +154,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the unescaped tag delimiters
+     * Tests getting the unsanitized tag delimiters
      */
-    public function testGettingUnescapedTagDelimiters()
+    public function testGettingUnsanitizedTagDelimiters()
     {
-        $unescapedTagDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG);
-        $this->assertEquals(Template::DEFAULT_OPEN_UNESCAPED_TAG_DELIMITER, $unescapedTagDelimiters[0]);
-        $this->assertEquals(Template::DEFAULT_CLOSE_UNESCAPED_TAG_DELIMITER, $unescapedTagDelimiters[1]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $this->template->getDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG));
+        $unsanitizedTagDelimiters = $this->template->getDelimiters(Template::DELIMITER_TYPE_UNSANITIZED_TAG);
+        $this->assertEquals(Template::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER, $unsanitizedTagDelimiters[0]);
+        $this->assertEquals(Template::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER, $unsanitizedTagDelimiters[1]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNSANITIZED_TAG, ["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $this->template->getDelimiters(Template::DELIMITER_TYPE_UNSANITIZED_TAG));
     }
 
     /**

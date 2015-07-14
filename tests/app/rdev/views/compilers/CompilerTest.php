@@ -24,7 +24,7 @@ class CompilerTest extends BaseCompilerTest
     {
         // Create parent/child templates
         file_put_contents(__DIR__ . "/tests/tmp/Master.html", "Foo");
-        file_put_contents(__DIR__ . "/tests/tmp/Child.html", '{% extends("Master.html") %}Bar');
+        file_put_contents(__DIR__ . "/tests/tmp/Child.html", '<% extends("Master.html") %>Bar');
         $templateFactory = new TemplateFactory($this->fileSystem, __DIR__ . "/tests/tmp");
         // The compiler needs the new template factory because it uses a different path than the built-in one
         $this->compiler = new Compiler(
@@ -81,7 +81,7 @@ class CompilerTest extends BaseCompilerTest
      */
     public function testCompilingPartWhoseValueCallsTemplateFunction()
     {
-        $this->template->setContents('{% show("content") %}{% part("content") %}{{round(2.1)}}{%endpart%}');
+        $this->template->setContents('<% show("content") %><% part("content") %>{{round(2.1)}}<%endpart%>');
         $this->compiler->compile($this->template);
         $this->assertEquals("2", $this->compiler->compile($this->template));
     }
@@ -93,9 +93,9 @@ class CompilerTest extends BaseCompilerTest
     {
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNSANITIZED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_SANITIZED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_DIRECTIVE, ["(*", "*)"]);
         $this->template->setTag("foo", "Hello");
         $this->template->setTag("bar", "world");
         $this->template->setTag("imSafe", "a&b");
@@ -134,9 +134,9 @@ class CompilerTest extends BaseCompilerTest
     {
         $contents = $this->fileSystem->read(__DIR__ . self::TEMPLATE_PATH_WITH_CUSTOM_TAG_DELIMITERS);
         $this->template->setContents($contents);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNESCAPED_TAG, ["^^", "$$"]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_ESCAPED_TAG, ["++", "--"]);
-        $this->template->setDelimiters(Template::DELIMITER_TYPE_STATEMENT, ["(*", "*)"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_UNSANITIZED_TAG, ["^^", "$$"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_SANITIZED_TAG, ["++", "--"]);
+        $this->template->setDelimiters(Template::DELIMITER_TYPE_DIRECTIVE, ["(*", "*)"]);
         $functionResult = $this->registerFunction();
         $this->assertTrue(
             $this->stringsWithEncodedCharactersEqual(

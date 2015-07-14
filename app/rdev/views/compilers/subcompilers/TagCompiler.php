@@ -193,8 +193,8 @@ class TagCompiler extends SubCompiler
      */
     private function getTagData(ITemplate $template)
     {
-        $escapedDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_ESCAPED_TAG);
-        $unescapedDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_UNESCAPED_TAG);
+        $escapedDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_SANITIZED_TAG);
+        $unescapedDelimiters = $template->getDelimiters(ITemplate::DELIMITER_TYPE_UNSANITIZED_TAG);
         $escapedTagData = [
             "delimiters" => [$escapedDelimiters[0], $escapedDelimiters[1]],
             "callback" => function(array $matches) use ($template)

@@ -1,3 +1,8 @@
+<h2>v0.6.0</h2>
+
+<h3>Views</h3>
+* Changed default statement delimiter from `{% %}` to `<% %>`
+
 <h2>v0.5.7</h2>
 
 <h3>Applications</h3>
