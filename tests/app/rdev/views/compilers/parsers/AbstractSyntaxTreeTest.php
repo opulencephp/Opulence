@@ -1,14 +1,14 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- * 
- * Tests the response abstract syntax tree
+ *
+ * Tests the view abstract syntax tree
  */
-namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Parsers\Nodes\RootNode;
-use RDev\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
+namespace RDev\Views\Compilers\Parsers;
+use RDev\Views\Compilers\Parsers\Nodes\Node;
+use RDev\Views\Compilers\Parsers\Nodes\RootNode;
 
-class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase 
+class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AbstractSyntaxTree The tree to use in tests */
     private $tree = null;
@@ -42,7 +42,8 @@ class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingCurrentNode()
     {
-        $currentNode = new Node("foo");
+        /** @var Node $currentNode */
+        $currentNode = $this->getMockForAbstractClass(Node::class, ["foo"]);
         $this->assertSame($currentNode, $this->tree->setCurrentNode($currentNode));
         $this->assertSame($currentNode, $this->tree->getCurrentNode());
     }

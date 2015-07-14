@@ -28,7 +28,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
     {
         $parent = new Node("foo");
         $child = new Node("bar");
-        $parent->addChild($child);
+        $this->assertSame($parent, $parent->addChild($child));
         $this->assertFalse($parent->isLeaf());
         $this->assertTrue($child->isLeaf());
     }

@@ -1,12 +1,12 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- * 
- * Defines a response syntax tree
+ *
+ * Defines a view abstract syntax tree
  */
-namespace RDev\Console\Responses\Compilers\Parsers;
-use RDev\Console\Responses\Compilers\Parsers\Nodes\Node;
-use RDev\Console\Responses\Compilers\Parsers\Nodes\RootNode;
+namespace RDev\Views\Compilers\Parsers;
+use RDev\Views\Compilers\Parsers\Nodes\Node;
+use RDev\Views\Compilers\Parsers\Nodes\RootNode;
 
 class AbstractSyntaxTree
 {

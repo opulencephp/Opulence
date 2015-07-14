@@ -1,10 +1,10 @@
 <?php
 /**
  * Copyright (C) 2015 David Young
- * 
- * Defines a response node
+ *
+ * Defines a view node
  */
-namespace RDev\Console\Responses\Compilers\Parsers\Nodes;
+namespace RDev\Views\Compilers\Parsers\Nodes;
 
 abstract class Node
 {
@@ -24,11 +24,39 @@ abstract class Node
     }
 
     /**
-     * Gets whether or not this is a tag node
+     * Gets whether or not this is a directive node
      *
-     * @return bool True if this is a tag node, otherwise false
+     * @return bool True if this is a directive node, otherwise false
      */
-    abstract public function isTag();
+    abstract public function isDirective();
+
+    /**
+     * Gets whether or not this is a directive name node
+     *
+     * @return bool True if this is a directive name node, otherwise false
+     */
+    abstract public function isDirectiveName();
+
+    /**
+     * Gets whether or not this is an expression node
+     *
+     * @return bool True if this is an expression node, otherwise false
+     */
+    abstract public function isExpression();
+
+    /**
+     * Gets whether or not this is a sanitized tag node
+     *
+     * @return bool True if this is a sanitized tag node, otherwise false
+     */
+    abstract public function isSanitizedTag();
+
+    /**
+     * Gets whether or not this is an unsanitized tag node
+     *
+     * @return bool True if this is an unsanitized tag node, otherwise false
+     */
+    abstract public function isUnsanitizedTag();
 
     /**
      * Adds a child to this node
