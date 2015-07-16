@@ -1,4 +1,5 @@
 HAS PRIORITY:
+    Run checksetup.php ONLY on post create-project script
     Need to add way to test Middleware (1.0)
     Get rid of dependence on HTTP Request in Credential stuff
     Finish form stuff

@@ -90,7 +90,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingBackslashInPHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_EXPRESSION, '<?php echo "\\"; ?>', 1)
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "\\";', 1),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<?php echo "\\"; ?>'));
     }
@@ -111,17 +113,34 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a directive inside PHP
+     */
+    public function testLexingDirectiveInsidePHP()
+    {
+        $expectedOutput = [
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "<%";', 1),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+        ];
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<?php echo "<%"; ?>'));
+    }
+
+    /**
      * Tests a directive surrounded by PHP
      */
     public function testLexingDirectiveSurroundedByPHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_EXPRESSION, '<?php echo "foo"; ?>', 1),
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "foo";', 1),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'show', 1),
             new Token(TokenTypes::T_EXPRESSION, '"bar"', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
-            new Token(TokenTypes::T_EXPRESSION, '<?php echo "baz"; ?>', 1)
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "baz";', 1),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
         ];
         $this->assertEquals(
             $expectedOutput,
@@ -183,6 +202,20 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 3)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, sprintf($text, '{{!', '!}}')));
+    }
+
+    /**
+     * Tests multiple lines of PHP
+     */
+    public function testLexingMultipleLinesOfPHP()
+    {
+        $expectedOutput = [
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "<%";', 2),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 3)
+        ];
+        $text = '<?php' . PHP_EOL . ' echo "<%"; ' . PHP_EOL . '?>';
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, $text));
     }
 
     /**
@@ -278,6 +311,39 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, sprintf($text, '{{!', '!}}')));
+    }
+
+    /**
+     * Tests lexing PHP
+     */
+    public function testLexingPHP()
+    {
+        $expectedOutput = [
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "foo";', 1),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+        ];
+        // Lex with long open tag and close tag
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<?php echo "foo"; ?>'));
+        // Lex with long open tag and without close tag
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<?php echo "foo";'));
+        // Lex with short open tag and close tag
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<? echo "foo"; ?>'));
+        // Lex with short open tag and without close tag
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<? echo "foo";'));
+    }
+
+    /**
+     * Tests lexing PHP without close tag
+     */
+    public function testLexingPHPWithoutCloseTag()
+    {
+        $expectedOutput = [
+            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo 1;', 1),
+            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+        ];
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->template, '<?php echo 1;'));
     }
 
     /**

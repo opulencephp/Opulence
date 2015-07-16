@@ -93,7 +93,9 @@ class Lexer
         $statements = [
             $this->directiveDelimiters[0] => "lexDirectiveStatement",
             $this->sanitizedTagDelimiters[0] => "lexSanitizedTagStatement",
-            $this->unsanitizedTagDelimiters[0] => "lexUnsanitizedTagStatement"
+            $this->unsanitizedTagDelimiters[0] => "lexUnsanitizedTagStatement",
+            "<?php" => "lexPHPStatement",
+            "<?" => "lexPHPStatement"
         ];
 
         /**
@@ -181,6 +183,81 @@ class Lexer
         $this->cursor = 0;
         $this->line = 1;
         $this->expressionBuffer = "";
+    }
+
+    /**
+     * Lexes an expression that is delimited with tags
+     *
+     * @param string $closeDelimiter The close delimiter
+     */
+    private function lexDelimitedExpression($closeDelimiter)
+    {
+        $expressionBuffer = "";
+        $newLinesAfterExpression = 0;
+
+        while(!$this->matches($closeDelimiter, false) && !$this->atEOF())
+        {
+            $currentChar = $this->getCurrentChar();
+
+            if($currentChar == PHP_EOL)
+            {
+                if(trim($expressionBuffer) == "")
+                {
+                    $this->line++;
+                }
+                else
+                {
+                    $newLinesAfterExpression++;
+                }
+            }
+
+            $expressionBuffer .= $currentChar;
+            $this->cursor++;
+        }
+
+        $expressionBuffer = trim($expressionBuffer);
+
+        if($expressionBuffer != "")
+        {
+            $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $expressionBuffer, $this->line);
+            $this->line += $newLinesAfterExpression;
+        }
+    }
+
+    /**
+     * Lexes a statement that is comprised of a delimited statement
+     *
+     * @param string $openTokenType The open token type
+     * @param string $openDelimiter The open delimiter
+     * @param string $closeTokenType The close token type
+     * @param string $closeDelimiter The close delimiter
+     * @param bool $closeDelimiterOptional Whether or not the close delimiter is optional
+     */
+    private function lexDelimitedExpressionStatement(
+        $openTokenType,
+        $openDelimiter,
+        $closeTokenType,
+        $closeDelimiter,
+        $closeDelimiterOptional
+    )
+    {
+        $this->flushExpressionBuffer();
+        $this->tokens[] = new Token($openTokenType, $openDelimiter, $this->line);
+        $this->lexDelimitedExpression($closeDelimiter);
+
+        if(!$this->matches($closeDelimiter) && !$closeDelimiterOptional)
+        {
+            throw new RuntimeException(
+                sprintf(
+                    "Expected %s, found %s on line %d",
+                    $closeDelimiter,
+                    $this->getStream($this->cursor, strlen($closeDelimiter)),
+                    $this->line
+                )
+            );
+        }
+
+        $this->tokens[] = new Token($closeTokenType, $closeDelimiter, $this->line);
     }
 
     /**
@@ -334,13 +411,17 @@ class Lexer
         {
             $matchedStatement = false;
 
-            foreach($statementMethods as $statementOpenDelimiter => $methodName)
+            // This is essentially a foreach loop that can be reset
+            while(list($statementOpenDelimiter, $methodName) = each($statementMethods))
             {
                 if($this->matches($statementOpenDelimiter))
                 {
                     // This is an unescaped statement
                     $matchedStatement = true;
                     $this->{$methodName}();
+
+                    // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
+                    reset($statementMethods);
                 }
                 elseif($this->getCurrentChar() == "\\")
                 {
@@ -374,86 +455,33 @@ class Lexer
     }
 
     /**
+     * Lexes a PHP statement
+     */
+    private function lexPHPStatement()
+    {
+        $this->lexDelimitedExpressionStatement(
+            TokenTypes::T_PHP_OPEN_TAG,
+            "<?php",
+            TokenTypes::T_PHP_CLOSE_TAG,
+            "?>",
+            true
+        );
+    }
+
+    /**
      * Lexes a sanitized tag statement
      *
      * @throws RuntimeException Thrown if the statement has an invalid token
      */
     private function lexSanitizedTagStatement()
     {
-        $this->lexTagStatement(
+        $this->lexDelimitedExpressionStatement(
             TokenTypes::T_SANITIZED_TAG_OPEN,
             $this->sanitizedTagDelimiters[0],
             TokenTypes::T_SANITIZED_TAG_CLOSE,
-            $this->sanitizedTagDelimiters[1]
+            $this->sanitizedTagDelimiters[1],
+            false
         );
-    }
-
-    /**
-     * Lexes a tag (sanitized or unsanitized) expression
-     *
-     * @param string $closeDelimiter The close delimiter
-     */
-    private function lexTagExpression($closeDelimiter)
-    {
-        $expressionBuffer = "";
-        $newLinesAfterExpression = 0;
-
-        while(!$this->matches($closeDelimiter, false) && !$this->atEOF())
-        {
-            $currentChar = $this->getCurrentChar();
-
-            if($currentChar == PHP_EOL)
-            {
-                if(trim($expressionBuffer) == "")
-                {
-                    $this->line++;
-                }
-                else
-                {
-                    $newLinesAfterExpression++;
-                }
-            }
-
-            $expressionBuffer .= $currentChar;
-            $this->cursor++;
-        }
-
-        $expressionBuffer = trim($expressionBuffer);
-
-        if($expressionBuffer != "")
-        {
-            $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $expressionBuffer, $this->line);
-            $this->line += $newLinesAfterExpression;
-        }
-    }
-
-    /**
-     * Lexes a tag (sanitized or unsanitized) statement
-     *
-     * @param string $openTokenType The open token type
-     * @param string $openDelimiter The open delimiter
-     * @param string $closeTokenType The close token type
-     * @param string $closeDelimiter The close delimiter
-     */
-    private function lexTagStatement($openTokenType, $openDelimiter, $closeTokenType, $closeDelimiter)
-    {
-        $this->flushExpressionBuffer();
-        $this->tokens[] = new Token($openTokenType, $openDelimiter, $this->line);
-        $this->lexTagExpression($closeDelimiter);
-
-        if(!$this->matches($closeDelimiter))
-        {
-            throw new RuntimeException(
-                sprintf(
-                    "Expected %s, found %s on line %d",
-                    $closeDelimiter,
-                    $this->getStream($this->cursor, strlen($closeDelimiter)),
-                    $this->line
-                )
-            );
-        }
-
-        $this->tokens[] = new Token($closeTokenType, $closeDelimiter, $this->line);
     }
 
     /**
@@ -463,11 +491,12 @@ class Lexer
      */
     private function lexUnsanitizedTagStatement()
     {
-        $this->lexTagStatement(
+        $this->lexDelimitedExpressionStatement(
             TokenTypes::T_UNSANITIZED_TAG_OPEN,
             $this->unsanitizedTagDelimiters[0],
             TokenTypes::T_UNSANITIZED_TAG_CLOSE,
-            $this->unsanitizedTagDelimiters[1]
+            $this->unsanitizedTagDelimiters[1],
+            false
         );
     }
 
