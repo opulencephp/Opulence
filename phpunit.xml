@@ -4,7 +4,7 @@
         convertErrorsToExceptions="true"
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true">
-    <testsuite name="RDev">
+    <testsuite name="Opulence">
         <directory>tests</directory>
     </testsuite>
 </phpunit>

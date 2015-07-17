@@ -1,6 +1,6 @@
 {
-  "name": "rdev/rdev",
-  "description": "The RDev PHP framework",
+  "name": "opulence/opulence",
+  "description": "The Opulence PHP framework",
   "keywords": [
     "PHP",
     "full stack",
@@ -21,9 +21,9 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "RDev\\": [
-        "app/rdev",
-        "tests/app/rdev"
+      "Opulence\\": [
+        "app/opulence",
+        "tests/app/opulence"
       ]
     }
   },
@@ -61,27 +61,27 @@
     }
   ],
   "replace": {
-    "rdev/applications": "self.version",
-    "rdev/authentication": "self.version",
-    "rdev/cache": "self.version",
-    "rdev/console": "self.version",
-    "rdev/cryptography": "self.version",
-    "rdev/databases": "self.version",
-    "rdev/events": "self.version",
-    "rdev/files": "self.version",
-    "rdev/forms": "self.version",
-    "rdev/framework": "self.version",
-    "rdev/http": "self.version",
-    "rdev/ioc": "self.version",
-    "rdev/memcached": "self.version",
-    "rdev/orm": "self.version",
-    "rdev/pipelines": "self.version",
-    "rdev/querybuilders": "self.version",
-    "rdev/redis": "self.version",
-    "rdev/routing": "self.version",
-    "rdev/sessions": "self.version",
-    "rdev/users": "self.version",
-    "rdev/views": "self.version"
+    "opulence/applications": "self.version",
+    "opulence/authentication": "self.version",
+    "opulence/cache": "self.version",
+    "opulence/console": "self.version",
+    "opulence/cryptography": "self.version",
+    "opulence/databases": "self.version",
+    "opulence/events": "self.version",
+    "opulence/files": "self.version",
+    "opulence/forms": "self.version",
+    "opulence/framework": "self.version",
+    "opulence/http": "self.version",
+    "opulence/ioc": "self.version",
+    "opulence/memcached": "self.version",
+    "opulence/orm": "self.version",
+    "opulence/pipelines": "self.version",
+    "opulence/querybuilders": "self.version",
+    "opulence/redis": "self.version",
+    "opulence/routing": "self.version",
+    "opulence/sessions": "self.version",
+    "opulence/users": "self.version",
+    "opulence/views": "self.version"
   },
   "extra": {
     "branch-alias": {

@@ -1,0 +1,30 @@
+{
+  "name": "opulence/users",
+  "description": "The Opulence user library",
+  "keywords": [
+    "PHP",
+    "user"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Users\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.5.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

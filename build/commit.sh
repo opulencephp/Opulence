@@ -1,10 +1,10 @@
 REPOS=(applications authentication cache console cryptography databases events files forms framework http ioc memcached orm pipelines querybuilders redis routing sessions users views)
-SUBTREE_DIR="app/rdev"
+SUBTREE_DIR="app/opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
 
 function commit()
 {
-    # Check if we need to commit RDev
+    # Check if we need to commit Opulence
     if ! git diff --quiet ; then
         read -p "   Commit message: " message
 
@@ -25,7 +25,7 @@ function split()
     git init --bare
 
     # Create branch from subtree directory, call it the same thing as the subtree directory
-    cd ../rdev
+    cd ../opulence
     git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
     git push ../$subtree $subtree:master
 
@@ -35,7 +35,7 @@ function split()
     git push origin master
 
     # Remove original code, which will be re-added shortly
-    cd ../rdev
+    cd ../opulence
     git rm -r $SUBTREE_DIR/$subtree
 
     # Setup subtree in main repo
@@ -70,7 +70,7 @@ function tag()
         fi
     done
 
-    # Tag RDev
+    # Tag Opulence
     git tag -a $tagname -m "$message"
     git push origin $tagname
 
@@ -85,7 +85,7 @@ function tag()
         git push origin $tagname
     done
 
-    cd ../rdev
+    cd ../opulence
 }
 
 while true; do

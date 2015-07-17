@@ -1,5 +1,17 @@
 <h2>v0.6.0</h2>
 
+<h3>General</h3>
+* Renamed RDev to Opulence, renamed all namespaces to `Opulence\...`
+* Renamed `app/rdev` directory to `app/opulence`
+* Renamed `tests/app/rdev` directory to `tests/app/rdev`
+
+<h3>Memcached</h3>
+* Renamed `RDevMemcached` to `OpulenceMemcached`
+
+<h3>Redis</h3>
+* Renamed `RDevPHPRedis` to `OpulenceRedis`
+* Renamed `RDevPredis` to `OpulencePredis`
+
 <h3>Views</h3>
 * Changed default statement delimiter from `{% %}` to `<% %>`
 
