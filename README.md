@@ -1,11 +1,11 @@
 # Opulence
-[![Build Status](https://travis-ci.org/ramblingsofadev/RDev.svg?branch=master)](https://travis-ci.org/ramblingsofadev/RDev)
+[![Build Status](https://travis-ci.org/opulencephp/Opulence.svg?branch=master)](https://travis-ci.org/opulencephp/Opulence)
 [![Latest Stable Version](https://poser.pugx.org/rdev/rdev/v/stable.svg)](https://packagist.org/packages/rdev/rdev)
 [![Latest Unstable Version](https://poser.pugx.org/rdev/rdev/v/unstable.svg)](https://packagist.org/packages/rdev/rdev)
 [![License](https://poser.pugx.org/rdev/rdev/license.svg)](https://packagist.org/packages/rdev/rdev)
 
 ## Introduction
-**Opulence** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With Opulence, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested. RDev is split into components, which can be installed separately or bundled together.
+**Opulence** is a PHP web application framework that simplifies the difficult parts of creating and maintaining a secure, scalable website.  With Opulence, things like database management, caching, ORM, page templates, and routing are a cinch.  It was written with customization, performance, and best-practices in mind.  Thanks to test-driven development (TDD), the framework is reliable and thoroughly tested. Opulence is split into components, which can be installed separately or bundled together.
 
 ## Installation
 Opulence can be installed using Composer:
@@ -27,7 +27,7 @@ For complete documentation, <a href="http://www.rdevphp.com" target="_blank">vis
 This software is licensed under the MIT license.  Please read the LICENSE for more information.
 
 ## History
-**Opulence** is written and maintained by David Young.  It started as a simple exercise to write a RESTful API router in early 2014, but it quickly turned into something else.  At my 9-5 job, I was struggling with complex SQL queries that were being concatenated/Frankenstein'd together, depending on various conditions.  I decided to write "query builder" classes that could programmatically build queries for me, which greatly simplified my problem at work.  The more I worked on the simple features, the more I got interested into diving into the more complex stuff like ORM.  Before I knew it, I had developed a suite of tools, which are coming together to become the framework that is **RDev**.  Why "Opulence"?  My Twitter handle is [@RamblingsOfADev](https://www.twitter.com/ramblingsofadev), which is also my GitHub name.  At first, I went with "RamODev", but I couldn't shake accidentally calling it "DevORama", so I shortened it to "RDev".
+**Opulence** is written and maintained by David Young.  It started as a simple exercise to write a RESTful API router in early 2014, but it quickly turned into something else.  At my 9-5 job, I was struggling with complex SQL queries that were being concatenated/Frankenstein'd together, depending on various conditions.  I decided to write "query builder" classes that could programmatically build queries for me, which greatly simplified my problem at work.  The more I worked on the simple features, the more I got interested into diving into the more complex stuff like ORM.  Before I knew it, I had developed a suite of tools, which are coming together to become the framework that was originally named **RDev**.  I used the name until mid-July 2015 when I decided to give it a proper name.  Why "Opulence"?  It's feature-rich, that's why.  Maybe it'll make you rich one day.
 
 ## About the Author
 I am a professional software developer and flight instructor.  I went to the University of Illinois at Urbana-Champaign and graduated with a degree in Math and Computer Science.  While in college, I obtained my commercial pilot license as well as my flight instructor licenses (CFI/CFII/MEI).  I'm active in [Angel Flight](http://angelflightcentral.org/), a charity organization that offers free flights to seriously ill people, in which I am a volunteer pilot.  When I'm not flying, you can find me playing classical piano, reading books about programming, writing code, or doing something in the great outdoors. My favorite books are:
