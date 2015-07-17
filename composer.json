@@ -1,0 +1,32 @@
+{
+  "name": "opulence/forms",
+  "description": "The Opulence HTML forms library",
+  "keywords": [
+    "PHP",
+    "forms",
+    "validation"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Forms\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/http": "0.5.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.5.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
