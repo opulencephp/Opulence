@@ -1,0 +1,27 @@
+<?php
+namespace {{namespace}};
+use Opulence\Console\Commands\Command;
+use Opulence\Console\Responses\IResponse;
+
+class {{class}} extends Command
+{
+    /**
+     * Sets the arguments and options for this command
+     * Provides a convenient place to write down the definition for a command
+     */
+    protected function define()
+    {
+
+    }
+
+    /**
+     * Actually executes of the command
+     *
+     * @param IResponse $response The console response to write to
+     * @return int|null Null or the status code of the command
+     */
+    protected function doExecute(IResponse $response)
+    {
+
+    }
+}
