@@ -211,7 +211,9 @@ class CompilerTest extends BaseCompilerTest
         $this->assertEquals(
             '<div>
 This is the content
-</div><div>blah</div><div>baz</div>
+</div>
+<div>blah</div>
+<div>baz</div>
 ',
             $this->compiler->compile($this->template)
         );

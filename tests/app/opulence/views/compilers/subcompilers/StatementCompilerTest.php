@@ -84,7 +84,9 @@ Hello, world!",
         $this->assertEquals(
             '<div>
 This is the content
-</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>
+</div>
+<div>{{foo}}</div>
+<div><?php if($bar):?>baz<?php endif; ?></div>
 ',
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
@@ -110,7 +112,9 @@ This is the content
         $this->assertEquals(
             '<div>
 This is the content
-</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>
+</div>
+<div>{{foo}}</div>
+<div><?php if($bar):?>baz<?php endif; ?></div>
 ',
             $this->subCompiler->compile($this->template, $this->template->getContents())
         );
@@ -184,7 +188,9 @@ This is the content
         $this->assertEquals(
             '<div>
 This is the content
-</div><div>{{foo}}</div><div><?php if($bar):?>baz<?php endif; ?></div>
+</div>
+<div>{{foo}}</div>
+<div><?php if($bar):?>baz<?php endif; ?></div>
 
 Foo',
             $this->subCompiler->compile($this->template, $this->template->getContents())
