@@ -12,6 +12,16 @@ use Opulence\Views\ITemplate;
 interface ICompiler
 {
     /**
+     * Calls a template function
+     *
+     * @param string $functionName The name of the template function to execute
+     * @param array $args The list of arguments to pass into the template function
+     * @return mixed The results of the template function
+     * @throws InvalidArgumentException Thrown if there is no function with the input name
+     */
+    public function callTemplateFunction($functionName, array $args = []);
+
+    /**
      * Gets the compiled template
      *
      * @param ITemplate $template The template to render
@@ -19,16 +29,6 @@ interface ICompiler
      * @throws ViewCompilerException Thrown if there was an error compiling the template
      */
     public function compile(ITemplate $template);
-
-    /**
-     * Executes a template function
-     *
-     * @param string $functionName The name of the template function to execute
-     * @param array $args The list of arguments to pass into the template function
-     * @return mixed The results of the template function
-     * @throws InvalidArgumentException Thrown if there is no function with the input name
-     */
-    public function executeTemplateFunction($functionName, array $args = []);
 
     /**
      * Gets a mapping of registered template function names to their callbacks
