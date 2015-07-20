@@ -7,6 +7,7 @@
 namespace Opulence\Views\Compilers;
 use InvalidArgumentException;
 use Opulence\Views\Caching\ICache;
+use Opulence\Views\Compilers\SubCompilers\Fortune\FortuneTemplateFunctionRegistrant;
 use Opulence\Views\Compilers\SubCompilers\ISubCompiler;
 use Opulence\Views\Compilers\SubCompilers\StatementCompiler;
 use Opulence\Views\Compilers\SubCompilers\TagCompiler;
@@ -38,8 +39,21 @@ class Compiler implements ICompiler
         // Order here matters
         $this->registerSubCompiler(new StatementCompiler($this, $templateFactory), null, true);
         $this->registerSubCompiler(new TagCompiler($this, $xssFilter));
-        $templateFunctionRegistrant = new BuiltInTemplateFunctionRegistrant();
+        $templateFunctionRegistrant = new FortuneTemplateFunctionRegistrant();
         $templateFunctionRegistrant->registerTemplateFunctions($this);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function callTemplateFunction($functionName, array $args = [])
+    {
+        if(!isset($this->templateFunctions[$functionName]))
+        {
+            throw new InvalidArgumentException("Template function \"$functionName\" does not exist");
+        }
+
+        return call_user_func_array($this->templateFunctions[$functionName], $args);
     }
 
     /**
@@ -66,19 +80,6 @@ class Compiler implements ICompiler
         }
 
         return $compiledContents;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function executeTemplateFunction($functionName, array $args = [])
-    {
-        if(!isset($this->templateFunctions[$functionName]))
-        {
-            throw new InvalidArgumentException("Template function \"$functionName\" does not exist");
-        }
-
-        return call_user_func_array($this->templateFunctions[$functionName], $args);
     }
 
     /**

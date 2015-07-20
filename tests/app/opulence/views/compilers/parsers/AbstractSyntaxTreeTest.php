@@ -22,6 +22,17 @@ class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests clearing the nodes
+     */
+    public function testClearingNodes()
+    {
+        $this->tree->getCurrentNode()->addChild($this->getMockForAbstractClass(Node::class));
+        $this->tree->clearNodes();
+        $this->assertInstanceOf(RootNode::class, $this->tree->getCurrentNode());
+        $this->assertEquals([], $this->tree->getRootNode()->getChildren());
+    }
+
+    /**
      * Tests getting the current node when none is set
      */
     public function testGettingCurrentNodeWhenNoneIsSet()

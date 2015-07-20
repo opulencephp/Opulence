@@ -10,7 +10,7 @@ use Opulence\Views\Compilers\Lexers\Tokens\TokenTypes;
 use Opulence\Views\ITemplate;
 use RuntimeException;
 
-class Lexer
+class Lexer implements ILexer
 {
     /** @var ITemplate The current template being lexed */
     private $template = null;

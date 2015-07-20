@@ -4,16 +4,16 @@
  *
  * Defines the registrant that creates the built-in functions
  */
-namespace Opulence\Views\Compilers;
+namespace Opulence\Views\Compilers\SubCompilers\Fortune;
 
-class BuiltInTemplateFunctionRegistrant
+class FortuneTemplateFunctionRegistrant
 {
     /**
      * Registers the built-in template functions
      *
-     * @param ICompiler $compiler The compiler to register to
+     * @param FortuneCompiler $compiler The compiler to register to
      */
-    public function registerTemplateFunctions(ICompiler &$compiler)
+    public function registerTemplateFunctions(FortuneCompiler &$compiler)
     {
         // Register the charset function
         $compiler->registerTemplateFunction("charset", function ($charset)
