@@ -12,7 +12,7 @@ class BcryptHasher extends Hasher
     const DEFAULT_COST = 10;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hash($unhashedValue, array $options = [], $pepper = "")
     {
@@ -25,7 +25,7 @@ class BcryptHasher extends Hasher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function needsRehash($hashedValue, array $options = [])
     {
@@ -38,7 +38,7 @@ class BcryptHasher extends Hasher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setHashAlgorithm()
     {

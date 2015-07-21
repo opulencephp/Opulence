@@ -30,7 +30,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function decrypt($data)
     {
@@ -62,7 +62,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function encrypt($data)
     {
@@ -86,7 +86,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCipher($cipher)
     {
@@ -99,7 +99,7 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setKey($key)
     {
