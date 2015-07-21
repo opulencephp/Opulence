@@ -14,7 +14,7 @@ trait TRedis
     protected $typeMapper = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deleteKeyPatterns($keyPatterns)
     {
@@ -36,7 +36,7 @@ trait TRedis
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getServer()
     {
@@ -44,7 +44,7 @@ trait TRedis
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTypeMapper()
     {

@@ -38,7 +38,7 @@ class OpulencePHPRedis extends Redis implements IRedis
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function select($database)
     {

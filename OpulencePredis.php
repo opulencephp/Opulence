@@ -47,7 +47,7 @@ class OpulencePredis extends Client implements IRedis
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function select($database)
     {
