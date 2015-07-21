@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the template functions bootstrapper
+ * Defines the view functions bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\HTTP\Views;
 use Opulence\Applications\Bootstrappers\Bootstrapper;
@@ -11,10 +11,10 @@ use Opulence\Routing\URL\URLGenerator;
 use Opulence\Sessions\ISession;
 use Opulence\Views\Compilers\ICompiler;
 
-class TemplateFunctions extends Bootstrapper
+class ViewFunctions extends Bootstrapper
 {
     /**
-     * Registers template functions
+     * Registers view functions
      *
      * @param ICompiler $compiler The compiler to use
      * @param URLGenerator $urlGenerator What generates URLs from routes
@@ -23,7 +23,7 @@ class TemplateFunctions extends Bootstrapper
     public function run(ICompiler $compiler, URLGenerator $urlGenerator, ISession $session)
     {
         // Add the ability to display a hidden input with the current CSRF token
-        $compiler->registerTemplateFunction("csrfInput", function () use ($session)
+        $compiler->registerViewFunction("csrfInput", function () use ($session)
         {
             return sprintf(
                 '<input type="hidden" name="%s" value="%s">',
@@ -32,12 +32,12 @@ class TemplateFunctions extends Bootstrapper
             );
         });
         // Add the ability to display the CSRF token
-        $compiler->registerTemplateFunction("csrfToken", function () use ($session)
+        $compiler->registerViewFunction("csrfToken", function () use ($session)
         {
             return $session->get(CSRFTokenChecker::TOKEN_INPUT_NAME);
         });
-        // Add the ability to generate URLs to named routes from templates
-        $compiler->registerTemplateFunction("route", function ($routeName, $arguments = []) use ($urlGenerator)
+        // Add the ability to generate URLs to named routes from views
+        $compiler->registerViewFunction("route", function ($routeName, $arguments = []) use ($urlGenerator)
         {
             return $urlGenerator->createFromName($routeName, $arguments);
         });
