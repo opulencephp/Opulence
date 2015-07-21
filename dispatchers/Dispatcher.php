@@ -33,7 +33,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function dispatch(CompiledRoute $route, Request $request, &$controller = null)
     {

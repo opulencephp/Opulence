@@ -12,7 +12,7 @@ use Opulence\Routing\RouteException;
 class Parser implements IParser
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getVariableMatchingRegex()
     {
@@ -20,7 +20,7 @@ class Parser implements IParser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function parse(Route $route)
     {

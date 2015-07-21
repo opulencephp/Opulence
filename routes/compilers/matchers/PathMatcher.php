@@ -11,7 +11,7 @@ use Opulence\Routing\Routes\ParsedRoute;
 class PathMatcher implements IRouteMatcher
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param array $matches The list of regex matches
      */
     public function isMatch(ParsedRoute $route, Request $request, array &$matches = [])

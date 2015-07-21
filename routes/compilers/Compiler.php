@@ -26,7 +26,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function compile(ParsedRoute $route, Request $request)
     {
