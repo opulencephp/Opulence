@@ -18,7 +18,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     protected $encrypter = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function read($sessionId)
     {
@@ -26,7 +26,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setEncrypter(IEncrypter $encrypter)
     {
@@ -34,7 +34,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function useEncryption($useEncryption)
     {
@@ -42,7 +42,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function write($sessionId, $sessionData)
     {

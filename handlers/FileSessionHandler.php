@@ -21,7 +21,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function close()
     {
@@ -29,7 +29,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function destroy($sessionId)
     {
@@ -37,7 +37,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function gc($maxLifetime)
     {
@@ -55,7 +55,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function open($savePath, $sessionId)
     {
@@ -63,7 +63,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doRead($sessionId)
     {
@@ -76,7 +76,7 @@ class FileSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doWrite($sessionId, $sessionData)
     {

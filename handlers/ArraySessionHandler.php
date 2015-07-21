@@ -12,7 +12,7 @@ class ArraySessionHandler extends SessionHandler
     private $storage = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function close()
     {
@@ -20,7 +20,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function destroy($sessionId)
     {
@@ -28,7 +28,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function gc($maxLifetime)
     {
@@ -36,7 +36,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function open($savePath, $sessionId)
     {
@@ -44,7 +44,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doRead($sessionId)
     {
@@ -57,7 +57,7 @@ class ArraySessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doWrite($sessionId, $sessionData)
     {
