@@ -10,7 +10,7 @@ use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 class Cache implements ICache
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush($filePath)
     {
@@ -21,7 +21,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($filePath, IBootstrapperRegistry &$registry)
     {
@@ -38,7 +38,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($filePath, IBootstrapperRegistry $registry)
     {

@@ -25,7 +25,7 @@ class Paths implements ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetExists($offset)
     {
@@ -33,7 +33,7 @@ class Paths implements ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetGet($offset)
     {
@@ -41,7 +41,7 @@ class Paths implements ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetSet($offset, $value)
     {
@@ -54,7 +54,7 @@ class Paths implements ArrayAccess
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetUnset($offset)
     {

@@ -19,7 +19,7 @@ class Dispatcher implements IDispatcher
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function dispatch($taskType)
     {
@@ -37,7 +37,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerTask($taskType, callable $task)
     {

@@ -33,7 +33,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function dispatch(IBootstrapperRegistry $registry)
     {
@@ -53,7 +53,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function forceEagerLoading($doForce)
     {

@@ -20,7 +20,7 @@ class HostName implements IHost
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getValue()
     {
