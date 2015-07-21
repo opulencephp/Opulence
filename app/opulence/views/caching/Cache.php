@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the cache for rendered templates
+ * Defines the cache for rendered views
  */
 namespace Opulence\Views\Caching;
 use DateTime;
@@ -10,11 +10,11 @@ use Opulence\Files\FileSystem;
 
 class Cache implements ICache
 {
-    /** @var FileSystem The file system to use to read cached templates */
+    /** @var FileSystem The file system to use to read cached views */
     private $fileSystem = null;
-    /** @var string The path to store the cached templates at */
+    /** @var string The path to store the cached views at */
     private $path = null;
-    /** @var int The number of seconds cached templates should live */
+    /** @var int The number of seconds cached views should live */
     private $lifetime = self::DEFAULT_LIFETIME;
     /** @var int The chance (out of the total) that garbage collection will be run */
     private $gcChance = self::DEFAULT_GC_CHANCE;
@@ -22,9 +22,9 @@ class Cache implements ICache
     private $gcDivisor = self::DEFAULT_GC_DIVISOR;
 
     /**
-     * @param FileSystem $fileSystem The file system to use to read cached template
-     * @param string|null $path The path to store the cached templates at, or null if the path is not yet set
-     * @param int $lifetime The number of seconds cached templates should live
+     * @param FileSystem $fileSystem The file system to use to read cached view
+     * @param string|null $path The path to store the cached views at, or null if the path is not yet set
+     * @param int $lifetime The number of seconds cached views should live
      * @param int $gcChance The chance (out of the total) that garbage collection will be run
      * @param int $gcDivisor The number the chance will be divided by to calculate the probability
      */
@@ -63,11 +63,11 @@ class Cache implements ICache
      */
     public function flush()
     {
-        $templatePaths = $this->fileSystem->getFiles($this->path);
+        $viewPaths = $this->fileSystem->getFiles($this->path);
 
-        foreach($templatePaths as $templatePath)
+        foreach($viewPaths as $viewPath)
         {
-            $this->fileSystem->deleteFile($templatePath);
+            $this->fileSystem->deleteFile($viewPath);
         }
     }
 
@@ -76,13 +76,13 @@ class Cache implements ICache
      */
     public function gc()
     {
-        $templatePaths = $this->fileSystem->getFiles($this->path);
+        $viewPaths = $this->fileSystem->getFiles($this->path);
 
-        foreach($templatePaths as $templatePath)
+        foreach($viewPaths as $viewPath)
         {
-            if($this->isExpired($templatePath))
+            if($this->isExpired($viewPath))
             {
-                $this->fileSystem->deleteFile($templatePath);
+                $this->fileSystem->deleteFile($viewPath);
             }
         }
     }
@@ -90,28 +90,28 @@ class Cache implements ICache
     /**
      * {@inheritdoc}
      */
-    public function get($unrenderedTemplate, array $variables = [], array $tags = [])
+    public function get($unrenderedView, array $variables = [], array $tags = [])
     {
-        if(!$this->has($unrenderedTemplate, $variables, $tags))
+        if(!$this->has($unrenderedView, $variables, $tags))
         {
             return null;
         }
 
-        return $this->fileSystem->read($this->getTemplatePath($unrenderedTemplate, $variables, $tags));
+        return $this->fileSystem->read($this->getViewPath($unrenderedView, $variables, $tags));
     }
 
     /**
      * {@inheritdoc}
      */
-    public function has($unrenderedTemplate, array $variables = [], array $tags = [])
+    public function has($unrenderedView, array $variables = [], array $tags = [])
     {
         if(!$this->cachingIsEnabled())
         {
             return false;
         }
 
-        $templatePath = $this->getTemplatePath($unrenderedTemplate, $variables, $tags);
-        $exists = $this->fileSystem->exists($templatePath);
+        $viewPath = $this->getViewPath($unrenderedView, $variables, $tags);
+        $exists = $this->fileSystem->exists($viewPath);
 
         if(!$exists)
         {
@@ -119,10 +119,10 @@ class Cache implements ICache
         }
 
         // Check the expiration
-        if($this->isExpired($templatePath))
+        if($this->isExpired($viewPath))
         {
             // Do some garbage collection
-            $this->fileSystem->deleteFile($templatePath);
+            $this->fileSystem->deleteFile($viewPath);
 
             return false;
         }
@@ -133,11 +133,11 @@ class Cache implements ICache
     /**
      * {@inheritdoc}
      */
-    public function set($renderedTemplate, $unrenderedTemplate, array $variables = [], array $tags = [])
+    public function set($renderedView, $unrenderedView, array $variables = [], array $tags = [])
     {
         if($this->cachingIsEnabled())
         {
-            $this->fileSystem->write($this->getTemplatePath($unrenderedTemplate, $variables, $tags), $renderedTemplate);
+            $this->fileSystem->write($this->getViewPath($unrenderedView, $variables, $tags), $renderedView);
         }
     }
 
@@ -175,30 +175,30 @@ class Cache implements ICache
     }
 
     /**
-     * Gets path to cached template
+     * Gets path to cached view
      *
-     * @param string $unrenderedTemplate The unrendered template
-     * @param array $variables The list of variables used by this template
-     * @param array $tags The list of tag values used by this template
-     * @return string The path to the cached template
+     * @param string $unrenderedView The unrendered view
+     * @param array $variables The list of variables used by this view
+     * @param array $tags The list of tag values used by this view
+     * @return string The path to the cached view
      */
-    private function getTemplatePath($unrenderedTemplate, array $variables, array $tags)
+    private function getViewPath($unrenderedView, array $variables, array $tags)
     {
         return $this->path . "/" . md5(http_build_query([
-            "u" => $unrenderedTemplate,
+            "u" => $unrenderedView,
             "v" => $variables,
             "t" => $tags
         ]));
     }
 
     /**
-     * Checks whether or not a template path is expired
+     * Checks whether or not a view path is expired
      *
-     * @param string $templatePath The template path to check
+     * @param string $viewPath The view path to check
      * @return bool True if the path is expired, otherwise false
      */
-    private function isExpired($templatePath)
+    private function isExpired($viewPath)
     {
-        return $this->fileSystem->getLastModified($templatePath) < new DateTime("-" . $this->lifetime . " seconds");
+        return $this->fileSystem->getLastModified($viewPath) < new DateTime("-" . $this->lifetime . " seconds");
     }
 }

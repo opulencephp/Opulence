@@ -6,17 +6,17 @@
  */
 namespace Opulence\Tests\Views\Mocks;
 use Opulence\Views\IBuilder;
-use Opulence\Views\ITemplate;
+use Opulence\Views\IFortuneView;
 
 class BarBuilder implements IBuilder
 {
     /**
      * {@inheritdoc}
      */
-    public function build(ITemplate $template)
+    public function build(IFortuneView $view)
     {
-        $template->setTag("bar", "baz");
+        $view->setTag("bar", "baz");
 
-        return $template;
+        return $view;
     }
 }

@@ -9,11 +9,11 @@ namespace Opulence\Views;
 interface IBuilder
 {
     /**
-     * Builds a template or a part of a template
-     * Useful for centralizing creation of common components in templates
+     * Builds a view or a part of a view
+     * Useful for centralizing creation of common components in views
      *
-     * @param ITemplate $template The template to build
-     * @return ITemplate The built template
+     * @param IView $view The view to build
+     * @return IView The built view
      */
-    public function build(ITemplate $template);
+    public function build(IView $view);
 }

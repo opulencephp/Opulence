@@ -24,11 +24,11 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the template
+     * Tests getting the view
      */
-    public function testGettingTemplate()
+    public function testGettingView()
     {
-        $this->assertNull($this->controller->getTemplate());
+        $this->assertNull($this->controller->getView());
     }
 
     /**

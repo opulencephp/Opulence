@@ -2,13 +2,13 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the interface for template caches to implement
+ * Defines the interface for view caches to implement
  */
 namespace Opulence\Views\Caching;
 
 interface ICache
 {
-    /** The default lifetime of a cached template */
+    /** The default lifetime of a cached view */
     const DEFAULT_LIFETIME = 3600;
     /** The default chance that garbage collection will be run in this instance */
     const DEFAULT_GC_CHANCE = 1;
@@ -16,45 +16,45 @@ interface ICache
     const DEFAULT_GC_DIVISOR = 1000;
 
     /**
-     * Flushes all of the rendered templates from cache
+     * Flushes all of the rendered views from cache
      */
     public function flush();
 
     /**
-     * Performs garbage collection of expired templates
+     * Performs garbage collection of expired views
      */
     public function gc();
 
     /**
-     * Gets the unrendered template with the input data
+     * Gets the unrendered view with the input data
      *
-     * @param string $unrenderedTemplate The unrendered template
+     * @param string $unrenderedView The unrendered view
      * @param array $variables The variables to match on
      * @param array $tags The tags to match on
-     * @return string|null The rendered template if it existed, otherwise null
+     * @return string|null The rendered view if it existed, otherwise null
      */
-    public function get($unrenderedTemplate, array $variables = [], array $tags = []);
+    public function get($unrenderedView, array $variables = [], array $tags = []);
 
     /**
-     * Gets whether or not the cache has the unrendered template with the input data
+     * Gets whether or not the cache has the unrendered view with the input data
      *
-     * @param string $unrenderedTemplate The unrendered template
+     * @param string $unrenderedView The unrendered view
      * @param array $variables The variables to match on
      * @param array $tags The tags to match on
-     * @return bool True if the cache has an unexpired rendered template, otherwise false
+     * @return bool True if the cache has an unexpired rendered view, otherwise false
      */
-    public function has($unrenderedTemplate, array $variables = [], array $tags = []);
+    public function has($unrenderedView, array $variables = [], array $tags = []);
 
     /**
-     * Stores a rendered template to cache
+     * Stores a rendered view to cache
      *
-     * @param string $renderedTemplate The rendered template
-     * @param string $unrenderedTemplate The unrendered template
+     * @param string $renderedView The rendered view
+     * @param string $unrenderedView The unrendered view
      * @param array $variables The variables to match on
      * @param array $tags The tags to match on
      * @return bool True if successful, otherwise false
      */
-    public function set($renderedTemplate, $unrenderedTemplate, array $variables = [], array $tags = []);
+    public function set($renderedView, $unrenderedView, array $variables = [], array $tags = []);
 
     /**
      * Sets the chance that garbage collection will be run

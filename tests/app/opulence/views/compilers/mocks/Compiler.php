@@ -11,7 +11,7 @@ class Compiler extends BaseCompiler
 {
     /**
      * {@inheritdoc}
-     * This mocks does not have any built-in template functions
+     * This mocks does not have any built-in view functions
      */
     public function __construct()
     {

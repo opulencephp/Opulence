@@ -10,7 +10,7 @@
  * ----------------------------------------------------------
  */
 return [
-    // The lifetime of cached templates
+    // The lifetime of cached views
     "cacheLifetime" => 3600,
     // The chance that garbage collection will be run
     "gcChance" => 1,

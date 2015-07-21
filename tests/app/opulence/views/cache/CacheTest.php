@@ -2,14 +2,14 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Tests the template cache
+ * Tests the view cache
  */
 namespace Opulence\Views\Caching;
 use Opulence\Files\FileSystem;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var FileSystem The file system to use to read cached templates */
+    /** @var FileSystem The file system to use to read cached views */
     private $fileSystem = null;
     /** @var Cache The cache to use in tests */
     private $cache = null;
@@ -50,7 +50,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests caching a template with a non-positive lifetime
+     * Tests caching a view with a non-positive lifetime
      */
     public function testCachingWithNonPositiveLifetime()
     {
@@ -61,9 +61,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests checking for a template that does exist
+     * Tests checking for a view that does exist
      */
-    public function testCheckingForExistingTemplate()
+    public function testCheckingForExistingView()
     {
         $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
         $this->assertTrue($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
@@ -71,27 +71,27 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests checking for a template that exists but doesn't match on tags
+     * Tests checking for a view that exists but doesn't match on tags
      */
-    public function testCheckingForExistingTemplateWithNoTagMatches()
+    public function testCheckingForExistingViewWithNoTagMatches()
     {
         $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
         $this->assertFalse($this->cache->has("foo", ["bar" => "baz"], ["wrong" => "ahh"]));
     }
 
     /**
-     * Tests checking for a template that exists but doesn't match on variables
+     * Tests checking for a view that exists but doesn't match on variables
      */
-    public function testCheckingForExistingTemplateWithNoVariableMatches()
+    public function testCheckingForExistingViewWithNoVariableMatches()
     {
         $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
         $this->assertFalse($this->cache->has("foo", ["wrong" => "ahh"], ["blah" => "asdf"]));
     }
 
     /**
-     * Tests checking for an expired template
+     * Tests checking for an expired view
      */
-    public function testCheckingForExpiredTemplate()
+    public function testCheckingForExpiredView()
     {
         // The negative expiration is a way of forcing everything to expire right away
         $cache = new Cache(new FileSystem(), __DIR__ . "/tmp", -1);
@@ -101,9 +101,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests checking for a non-existent template
+     * Tests checking for a non-existent view
      */
-    public function testCheckingForNonExistentTemplate()
+    public function testCheckingForNonExistentView()
     {
         $this->assertFalse($this->cache->has("foo"));
         $this->assertNull($this->cache->get("foo"));
@@ -143,12 +143,12 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting a path and checking for a template
+     * Tests setting a path and checking for a view
      */
-    public function testSettingPathCheckingForExistingTemplate()
+    public function testSettingPathCheckingForExistingView()
     {
         // I know this is also done in setUp(), but we're specifically testing that it works after setting the path
         $this->cache->setPath(__DIR__ . "/tmp");
-        $this->testCheckingForExistingTemplate();
+        $this->testCheckingForExistingView();
     }
 }

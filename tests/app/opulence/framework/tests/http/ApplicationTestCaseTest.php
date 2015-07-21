@@ -48,23 +48,23 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests asserting that a template has a tag
+     * Tests asserting that a view has a tag
      */
-    public function testAssertTemplateHasTag()
+    public function testAssertViewHasTag()
     {
         $this->testCase->route("GET", "/settag");
-        $this->testCase->assertTemplateHasTag("foo");
-        $this->testCase->assertTemplateTagEquals("foo", "bar");
+        $this->testCase->assertViewHasTag("foo");
+        $this->testCase->assertViewTagEquals("foo", "bar");
     }
 
     /**
-     * Tests asserting that a template has a variable
+     * Tests asserting that a view has a variable
      */
-    public function testAssertTemplateHasVariable()
+    public function testAssertViewHasVariable()
     {
         $this->testCase->route("GET", "/setvar");
-        $this->testCase->assertTemplateHasVar("foo");
-        $this->testCase->assertTemplateVarEquals("foo", "bar");
+        $this->testCase->assertViewHasVar("foo");
+        $this->testCase->assertViewVarEquals("foo", "bar");
     }
 
     /**
@@ -175,53 +175,53 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that a logic exception is thrown if checking if a template has a tag when using a closure controller
+     * Tests that a logic exception is thrown if checking if a view has a tag when using a closure controller
      */
-    public function testLogicExceptionCheckingIfTemplateHasTagFromNonClosureController()
+    public function testLogicExceptionCheckingIfViewHasTagFromNonClosureController()
     {
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/closure-controller");
-        $this->testCase->assertTemplateHasTag("foo");
+        $this->testCase->assertViewHasTag("foo");
     }
 
     /**
-     * Tests that a logic exception is thrown if checking if a template has a tag when using a non-Opulence controller
+     * Tests that a logic exception is thrown if checking if a view has a tag when using a non-Opulence controller
      */
-    public function testLogicExceptionCheckingIfTemplateHasTagFromNonOpulenceController()
+    public function testLogicExceptionCheckingIfViewHasTagFromNonOpulenceController()
     {
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertTemplateHasTag("foo");
+        $this->testCase->assertViewHasTag("foo");
     }
 
     /**
-     * Tests that a logic exception is thrown if checking if a template has a variable when using a non-Opulence controller
+     * Tests that a logic exception is thrown if checking if a view has a variable when using a non-Opulence controller
      */
-    public function testLogicExceptionCheckingIfTemplateHasVariableFromNonOpulenceController()
+    public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController()
     {
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertTemplateHasVar("foo");
+        $this->testCase->assertViewHasVar("foo");
     }
 
     /**
-     * Tests that a logic exception is thrown if getting a template tag when using a non-Opulence controller
+     * Tests that a logic exception is thrown if getting a view tag when using a non-Opulence controller
      */
-    public function testLogicExceptionGettingTemplateTagFromNonOpulenceController()
+    public function testLogicExceptionGettingViewTagFromNonOpulenceController()
     {
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertTemplateTagEquals("bar", "foo");
+        $this->testCase->assertViewTagEquals("bar", "foo");
     }
 
     /**
-     * Tests that a logic exception is thrown if getting a template variable when using a non-Opulence controller
+     * Tests that a logic exception is thrown if getting a view variable when using a non-Opulence controller
      */
-    public function testLogicExceptionGettingTemplateVariableFromNonOpulenceController()
+    public function testLogicExceptionGettingViewVariableFromNonOpulenceController()
     {
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertTemplateVarEquals("bar", "foo");
+        $this->testCase->assertViewVarEquals("bar", "foo");
     }
 
     /**

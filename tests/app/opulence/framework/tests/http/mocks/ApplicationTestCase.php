@@ -15,7 +15,7 @@ use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Framework\Bootstrappers\HTTP\Requests\Request;
 use Opulence\Framework\Bootstrappers\HTTP\Routing\Router;
-use Opulence\Framework\Bootstrappers\HTTP\Views\TemplateFunctions;
+use Opulence\Framework\Bootstrappers\HTTP\Views\ViewFunctions;
 use Opulence\Framework\Tests\HTTP\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\IoC\Container;
 use Opulence\IoC\IContainer;
@@ -27,7 +27,7 @@ class ApplicationTestCase extends BaseApplicationTestCase
     private static $bootstrappers = [
         Request::class,
         Router::class,
-        TemplateFunctions::class
+        ViewFunctions::class
     ];
 
     /**
