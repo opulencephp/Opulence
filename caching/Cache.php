@@ -59,7 +59,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush()
     {
@@ -72,7 +72,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function gc()
     {
@@ -88,7 +88,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($unrenderedView, array $variables = [], array $tags = [])
     {
@@ -101,7 +101,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function has($unrenderedView, array $variables = [], array $tags = [])
     {
@@ -131,7 +131,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($renderedView, $unrenderedView, array $variables = [], array $tags = [])
     {
@@ -142,7 +142,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setGCChance($chance, $divisor = 100)
     {

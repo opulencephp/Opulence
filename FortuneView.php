@@ -44,7 +44,7 @@ class FortuneView extends View implements IFortuneView
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDelimiters($type)
     {
@@ -57,7 +57,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getParent()
     {
@@ -65,7 +65,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getPart($name)
     {
@@ -82,7 +82,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getParts()
     {
@@ -106,7 +106,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTag($name)
     {
@@ -123,7 +123,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTags()
     {
@@ -147,7 +147,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getVar($name)
     {
@@ -164,7 +164,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getVars()
     {
@@ -188,7 +188,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function prepare()
     {
@@ -196,7 +196,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setDelimiters($type, array $values)
     {
@@ -204,7 +204,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setParent(IFortuneView $parent)
     {
@@ -212,7 +212,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setPart($name, $content)
     {
@@ -220,7 +220,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setParts(array $namesToContents)
     {
@@ -231,7 +231,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setTag($name, $value)
     {
@@ -239,7 +239,7 @@ class FortuneView extends View implements IFortuneView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setTags(array $namesToValues)
     {

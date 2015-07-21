@@ -11,15 +11,6 @@ use Opulence\Views\IView;
 interface IViewFactory
 {
     /**
-     * Aliases a view path
-     * Useful for registering builders for multiple views that use the same view
-     *
-     * @param string $alias The alias to use
-     * @param string $viewPath The path relative to the root view directory
-     */
-    public function alias($alias, $viewPath);
-
-    /**
      * Creates a view from the file at the input path
      * If any builders are registered for this view, they're run too
      *
