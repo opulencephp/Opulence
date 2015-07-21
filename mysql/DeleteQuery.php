@@ -13,7 +13,7 @@ class DeleteQuery extends BaseDeleteQuery
     protected $limit = -1;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {

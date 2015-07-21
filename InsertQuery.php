@@ -57,7 +57,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {
@@ -70,7 +70,7 @@ class InsertQuery extends Query
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setTable($tableName, $tableAlias = "")
     {

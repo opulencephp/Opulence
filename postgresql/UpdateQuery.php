@@ -39,7 +39,7 @@ class UpdateQuery extends BaseUpdateQuery
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {

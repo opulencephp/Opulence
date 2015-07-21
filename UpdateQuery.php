@@ -77,7 +77,7 @@ class UpdateQuery extends Query
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {

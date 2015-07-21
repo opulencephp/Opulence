@@ -51,7 +51,7 @@ class DeleteQuery extends Query
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {

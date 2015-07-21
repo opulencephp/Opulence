@@ -38,7 +38,7 @@ class InsertQuery extends BaseInsertQuery
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {
