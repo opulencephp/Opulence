@@ -61,7 +61,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addArgument(Argument $argument)
     {
@@ -71,7 +71,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addOption(Option $option)
     {
@@ -81,7 +81,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function argumentValueIsSet($name)
     {
@@ -89,7 +89,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public final function execute(IResponse $response)
     {
@@ -102,7 +102,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getArgument($name)
     {
@@ -115,7 +115,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getArgumentValue($name)
     {
@@ -128,7 +128,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getArguments()
     {
@@ -136,7 +136,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDescription()
     {
@@ -144,7 +144,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getHelpText()
     {
@@ -152,7 +152,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName()
     {
@@ -160,7 +160,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOption($name)
     {
@@ -173,7 +173,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOptionValue($name)
     {
@@ -191,7 +191,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOptions()
     {
@@ -199,7 +199,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function optionIsSet($name)
     {
@@ -208,7 +208,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setArgumentValue($name, $value)
     {
@@ -216,7 +216,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCommandCollection(CommandCollection &$commandCollection)
     {
@@ -224,7 +224,7 @@ abstract class Command implements ICommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setOptionValue($name, $value)
     {

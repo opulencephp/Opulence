@@ -19,7 +19,7 @@ class ArrayListParser extends Parser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function parse($input)
     {

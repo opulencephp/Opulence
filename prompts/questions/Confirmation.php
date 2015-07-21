@@ -18,7 +18,7 @@ class Confirmation extends Question
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function formatAnswer($answer)
     {

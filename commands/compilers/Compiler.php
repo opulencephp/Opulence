@@ -12,7 +12,7 @@ use RuntimeException;
 class Compiler implements ICompiler
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function compile(ICommand $command, IRequest $request)
     {

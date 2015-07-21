@@ -18,7 +18,7 @@ class ConsoleResponse extends StreamResponse
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function clear()
     {

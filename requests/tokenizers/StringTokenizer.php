@@ -10,7 +10,7 @@ use RuntimeException;
 class StringTokenizer implements ITokenizer
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function tokenize($input)
     {

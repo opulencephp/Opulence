@@ -12,7 +12,7 @@ use RuntimeException;
 class Lexer implements ILexer
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function lex($text)
     {

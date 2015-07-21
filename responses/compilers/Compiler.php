@@ -50,7 +50,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function compile($message)
     {
@@ -81,7 +81,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setStyled($isStyled)
     {

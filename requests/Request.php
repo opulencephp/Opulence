@@ -17,7 +17,7 @@ class Request implements IRequest
     private $options = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addArgumentValue($value)
     {
@@ -25,7 +25,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addOptionValue($name, $value)
     {
@@ -46,7 +46,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getArgumentValues()
     {
@@ -54,7 +54,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCommandName()
     {
@@ -62,7 +62,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOptionValue($name)
     {
@@ -75,7 +75,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getOptionValues()
     {
@@ -83,7 +83,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function optionIsSet($name)
     {
@@ -92,7 +92,7 @@ class Request implements IRequest
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setCommandName($name)
     {
