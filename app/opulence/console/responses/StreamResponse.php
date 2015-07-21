@@ -31,7 +31,7 @@ class StreamResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function clear()
     {
@@ -47,7 +47,7 @@ class StreamResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doWrite($message, $includeNewLine)
     {

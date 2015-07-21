@@ -24,7 +24,7 @@ class Question implements IQuestion
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function formatAnswer($answer)
     {
@@ -33,7 +33,7 @@ class Question implements IQuestion
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDefaultAnswer()
     {
@@ -41,7 +41,7 @@ class Question implements IQuestion
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getText()
     {

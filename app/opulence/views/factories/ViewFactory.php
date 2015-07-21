@@ -8,18 +8,15 @@ namespace Opulence\Views\Factories;
 use Opulence\Files\FileSystem;
 use Opulence\Views\IBuilder;
 use Opulence\Views\IView;
-use Opulence\Views\View;
 
-class ViewFactory implements IViewFactory
+abstract class ViewFactory implements IViewFactory
 {
     /** @var FileSystem The file system to read views with */
-    private $fileSystem = null;
+    protected $fileSystem = null;
     /** @var string The root directory of the views */
-    private $rootViewDirectory = "";
+    protected $rootViewDirectory = "";
     /** @var array The mapping of view paths to a list of builders to run whenever the view is created */
-    private $builders = [];
-    /** @var array The mapping of aliases to their view paths */
-    private $aliases = [];
+    protected $builders = [];
 
     /**
      * @param FileSystem $fileSystem The file system to read views with
@@ -36,42 +33,20 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function alias($alias, $viewPath)
-    {
-        $this->aliases[$alias] = $viewPath;
-    }
-
-    /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function create($name)
     {
-        $isAlias = $this->isAlias($name);
-        $viewPath = $name;
+        $name = ltrim($name, "/");
+        $viewPath = "$name.{$this->getExtension()}";
+        $content = $this->fileSystem->read("$this->rootViewDirectory/$viewPath");
+        $view = $this->createViewFromContent($content);
 
-        if($isAlias)
-        {
-            $viewPath = $this->aliases[$name];
-        }
-
-        $viewPath = ltrim($viewPath, "/");
-        $content = $this->fileSystem->read($this->rootViewDirectory . "/" . $viewPath);
-        $view = new FortuneView($content);
-        $view = $this->runBuilders($viewPath, $view);
-
-        if($isAlias)
-        {
-            // Run any builders registered to the alias
-            $view = $this->runBuilders($name, $view);
-        }
-
-        return $view;
+        return $this->runBuilders($name, $view);
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBuilder($names, callable $callback)
     {
@@ -95,28 +70,32 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * Gets whether or not something is an alias to a view path
+     * Creates a view from the contents of a file
      *
-     * @param string $name The item to check
-     * @return bool True if the input is an alias, otherwise false
+     * @param string $content The contents of the view
+     * @return IView The view
      */
-    private function isAlias($name)
-    {
-        return isset($this->aliases[$name]);
-    }
+    abstract protected function createViewFromContent($content);
+
+    /**
+     * Gets the extension of view files created by this factory
+     *
+     * @return string The extension
+     */
+    abstract protected function getExtension();
 
     /**
      * Runs the builders for a view (if there any)
      *
-     * @param string $viewPath The path of the view relative to the root view directory
+     * @param string $name The name of the view file
      * @param IView $view The view to run builders on
      * @return IView The built view
      */
-    private function runBuilders($viewPath, IView $view)
+    protected function runBuilders($name, IView $view)
     {
-        if(isset($this->builders[$viewPath]))
+        if(isset($this->builders[$name]))
         {
-            foreach($this->builders[$viewPath] as $callback)
+            foreach($this->builders[$name] as $callback)
             {
                 /** @var IBuilder $builder */
                 $builder = $callback();

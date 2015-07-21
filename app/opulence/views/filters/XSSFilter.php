@@ -11,7 +11,7 @@ class XSSFilter implements IFilter
     /**
      * Filters the input parameter for XSS attacks
      *
-     * {@inheritdoc}
+     * @inheritdoc
      * @param array $options The list of options with the following keys:
      *      "forURL" => true if the input is being filtered for use in a URL, otherwise false
      */

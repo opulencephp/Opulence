@@ -20,7 +20,7 @@ class CommandThatDoesNotCallParentConstructor extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -41,7 +41,7 @@ class CommandThatDoesNotCallParentConstructor extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

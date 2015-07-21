@@ -76,7 +76,7 @@ class Controller extends BaseController
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function showHTTPError($statusCode)
     {

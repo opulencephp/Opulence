@@ -10,7 +10,7 @@ use Opulence\HTTP\Requests\Request;
 class FormURLEncodedRequest extends Request
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getRawBody()
     {

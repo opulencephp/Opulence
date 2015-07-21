@@ -17,7 +17,7 @@ use Opulence\Tests\Routing\Dispatchers\Mocks\Dispatcher;
 class Router extends BaseRouter
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function __construct()
     {

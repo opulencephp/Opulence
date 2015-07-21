@@ -25,7 +25,7 @@ class OpulenceMemcached extends Memcached
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addServer($host, $port, $weight = 0)
     {
@@ -39,7 +39,7 @@ class OpulenceMemcached extends Memcached
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addServers(array $servers)
     {

@@ -55,7 +55,8 @@ class Connection extends PDO implements IConnection
 
     /**
      * Nested transactions are permitted
-     * {@inheritdoc}
+     *
+     * @inheritdoc
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
@@ -71,7 +72,8 @@ class Connection extends PDO implements IConnection
 
     /**
      * If we are in a nested transaction and this isn't the final commit of the nested transactions, nothing happens
-     * {@inheritdoc}
+     *
+     * @inheritdoc
      *
      * @throws PDOException Thrown if there was an error connecting to the database
      */
@@ -84,7 +86,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorCode()
@@ -95,7 +97,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function errorInfo()
@@ -106,7 +108,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function exec($statement)
@@ -117,7 +119,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function getAttribute($attribute)
@@ -128,7 +130,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDatabaseProvider()
     {
@@ -136,7 +138,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getServer()
     {
@@ -144,7 +146,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTypeMapper()
     {
@@ -152,7 +154,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function inTransaction()
@@ -163,7 +165,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function lastInsertId($sequenceName = null)
@@ -174,7 +176,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @return Statement
      * @throws PDOException Thrown if there was an error connecting to the database
      */
@@ -186,7 +188,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function query($statement)
@@ -197,7 +199,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function quote($string, $parameterType = PDO::PARAM_STR)
@@ -208,7 +210,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function rollBack()
@@ -222,7 +224,7 @@ class Connection extends PDO implements IConnection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function setAttribute($attribute, $value)

@@ -12,7 +12,7 @@ use Opulence\Databases\Server;
 class Driver extends BaseDriver
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getDSN(Server $server, array $options = [])
     {
@@ -32,7 +32,7 @@ class Driver extends BaseDriver
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setProvider()
     {

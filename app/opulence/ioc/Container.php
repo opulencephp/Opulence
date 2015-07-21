@@ -55,7 +55,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function bind($interfaces, $concrete, $targetClass = null)
     {
@@ -76,7 +76,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false)
     {
@@ -118,7 +118,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBinding($interface, $targetClass = null)
     {
@@ -133,7 +133,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isBound($interface, $targetClass = null)
     {
@@ -148,7 +148,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
     {
@@ -220,7 +220,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = [])
     {
@@ -228,7 +228,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = [])
     {
@@ -236,7 +236,7 @@ class Container implements IContainer
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function unbind($interface, $targetClass = null)
     {

@@ -11,7 +11,7 @@ use Opulence\IoC\IContainer;
 class EagerBootstrapper extends BaseBootstrapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

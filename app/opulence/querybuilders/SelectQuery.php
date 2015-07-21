@@ -115,7 +115,7 @@ class SelectQuery extends Query
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSQL()
     {

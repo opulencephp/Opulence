@@ -11,7 +11,7 @@ use Opulence\Console\Responses\IResponse;
 class StyledCommand extends Command
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -20,7 +20,7 @@ class StyledCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

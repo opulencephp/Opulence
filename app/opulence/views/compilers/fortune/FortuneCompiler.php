@@ -89,7 +89,7 @@ class FortuneCompiler implements ICompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param IFortuneView $view
      */
     public function compile(IView $view, $contents = null)
@@ -152,7 +152,7 @@ class FortuneCompiler implements ICompiler
     }
 
     /**
-     * Sanitized a value
+     * Sanitizes a value
      *
      * @param mixed $value The value to sanitize
      * @return string The sanitized value

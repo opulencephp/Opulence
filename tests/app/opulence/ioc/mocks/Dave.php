@@ -9,7 +9,7 @@ namespace Opulence\Tests\IoC\Mocks;
 class Dave implements IPerson
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getLastName()
     {

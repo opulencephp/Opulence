@@ -14,7 +14,7 @@ use Opulence\IoC\IContainer;
 class Composer extends Bootstrapper implements ILazyBootstrapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBindings()
     {
@@ -22,7 +22,7 @@ class Composer extends Bootstrapper implements ILazyBootstrapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

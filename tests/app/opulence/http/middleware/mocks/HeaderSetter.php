@@ -13,7 +13,7 @@ use Opulence\HTTP\Responses\Response;
 class HeaderSetter implements IMiddleware
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function handle(Request $request, Closure $next)
     {

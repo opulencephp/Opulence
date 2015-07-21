@@ -13,7 +13,7 @@ class Dispatcher implements IDispatcher
     protected $eventNamesToListeners = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function dispatch($eventName, IEvent $event)
     {
@@ -32,7 +32,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getListeners($eventName)
     {
@@ -45,7 +45,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasListeners($eventName)
     {
@@ -53,7 +53,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerListener($eventName, callable $listener)
     {
@@ -69,7 +69,7 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function removeListener($eventName, callable $listener)
     {

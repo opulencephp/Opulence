@@ -21,7 +21,7 @@ abstract class Response implements IResponse
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setStyled($isStyled)
     {
@@ -29,7 +29,7 @@ abstract class Response implements IResponse
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function write($messages)
     {
@@ -40,7 +40,7 @@ abstract class Response implements IResponse
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function writeln($messages)
     {

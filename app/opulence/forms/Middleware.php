@@ -23,7 +23,7 @@ class Middleware implements IMiddleware
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function handle(Request $request, Closure $next)
     {

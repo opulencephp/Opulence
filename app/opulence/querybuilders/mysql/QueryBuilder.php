@@ -11,7 +11,7 @@ use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;
 class QueryBuilder extends BaseQueryBuilder
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($tableName, $alias = "")
     {
@@ -19,7 +19,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function insert($tableName, array $columnNamesToValues)
     {
@@ -27,7 +27,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @return SelectQuery
      */
     public function select($expression)
@@ -39,7 +39,7 @@ class QueryBuilder extends BaseQueryBuilder
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function update($tableName, $alias, array $columnNamesToValues)
     {

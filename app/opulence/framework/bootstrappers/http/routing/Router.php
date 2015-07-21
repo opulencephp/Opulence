@@ -30,7 +30,7 @@ class Router extends Bootstrapper
     protected $parser = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

@@ -19,7 +19,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function add(IEntity &$entity)
     {
@@ -27,7 +27,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(IEntity &$entity)
     {
@@ -35,7 +35,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush()
     {
@@ -43,7 +43,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -51,7 +51,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById($id)
     {
@@ -64,7 +64,7 @@ class CacheDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function update(IEntity &$entity)
     {

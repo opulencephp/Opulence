@@ -13,7 +13,7 @@ use Opulence\IoC\IContainer;
 class Requests extends Bootstrapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

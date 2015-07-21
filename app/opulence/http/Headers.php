@@ -37,7 +37,7 @@ class Headers extends Parameters
     /**
      * Headers are allowed to have multiple values, so we must add support for that
      *
-     * {@inheritdoc}
+     * @inheritdoc
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
@@ -47,7 +47,7 @@ class Headers extends Parameters
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param bool $onlyReturnFirst True if we only want the first header, otherwise we'll return all of them
      */
     public function get($name, $default = null, $onlyReturnFirst = true)
@@ -72,7 +72,7 @@ class Headers extends Parameters
     /**
      * Headers are allowed to have multiple values, so we must add support for that
      *
-     * {@inheritdoc}
+     * @inheritdoc
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */

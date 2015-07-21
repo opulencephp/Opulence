@@ -29,7 +29,7 @@ class User implements IUser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDateCreated()
     {
@@ -37,7 +37,7 @@ class User implements IUser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId()
     {
@@ -45,7 +45,7 @@ class User implements IUser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getRoles()
     {
@@ -53,7 +53,7 @@ class User implements IUser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasRole($role)
     {
@@ -61,7 +61,7 @@ class User implements IUser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setId($id)
     {

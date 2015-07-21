@@ -6,16 +6,16 @@
  */
 namespace Opulence\Tests\Views\Mocks;
 use Opulence\Views\IBuilder;
-use Opulence\Views\IFortuneView;
+use Opulence\Views\IView;
 
 class ParentBuilder implements IBuilder
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function build(IFortuneView $view)
+    public function build(IView $view)
     {
-        $view->setTag("foo", "blah");
+        $view->setVar("foo", "blah");
         $view->setVar("bar", true);
 
         return $view;

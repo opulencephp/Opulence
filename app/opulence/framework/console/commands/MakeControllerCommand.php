@@ -9,7 +9,7 @@ namespace Opulence\Framework\Console\Commands;
 class MakeControllerCommand extends MakeCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -20,7 +20,7 @@ class MakeControllerCommand extends MakeCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getDefaultNamespace($rootNamespace)
     {
@@ -28,7 +28,7 @@ class MakeControllerCommand extends MakeCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getFileTemplatePath()
     {

@@ -17,7 +17,7 @@ class Foo implements IFoo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getClassName()
     {

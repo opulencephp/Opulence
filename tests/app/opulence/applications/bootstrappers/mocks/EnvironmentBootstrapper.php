@@ -12,7 +12,7 @@ use Opulence\IoC\IContainer;
 class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBindings()
     {
@@ -20,7 +20,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {
@@ -28,7 +28,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function run()
     {
@@ -36,7 +36,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function shutdown()
     {

@@ -44,7 +44,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function ageFlashData()
     {
@@ -58,7 +58,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($key)
     {
@@ -66,7 +66,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flash($key, $value)
     {
@@ -86,7 +86,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush()
     {
@@ -94,7 +94,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key, $defaultValue = null)
     {
@@ -107,7 +107,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -115,7 +115,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId()
     {
@@ -123,7 +123,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getName()
     {
@@ -131,7 +131,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function has($key)
     {
@@ -147,7 +147,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetExists($key)
     {
@@ -155,7 +155,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetGet($key)
     {
@@ -163,7 +163,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetSet($key, $value)
     {
@@ -176,7 +176,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetUnset($key)
     {
@@ -184,7 +184,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function reflash()
     {
@@ -195,7 +195,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function regenerateId()
     {
@@ -203,7 +203,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($key, $value)
     {
@@ -211,7 +211,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setId($id)
     {
@@ -226,7 +226,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setMany(array $variables)
     {
@@ -234,7 +234,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setName($name)
     {
@@ -242,7 +242,7 @@ class Session implements ISession
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function start(array $variables = [])
     {

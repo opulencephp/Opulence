@@ -14,7 +14,7 @@ class RootNode extends Node
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getParent()
     {

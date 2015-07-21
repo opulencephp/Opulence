@@ -11,7 +11,7 @@ use Opulence\Routing\Routes\ParsedRoute;
 class SchemeMatcher implements IRouteMatcher
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isMatch(ParsedRoute $route, Request $request)
     {

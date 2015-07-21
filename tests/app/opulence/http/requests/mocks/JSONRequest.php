@@ -10,7 +10,7 @@ use Opulence\HTTP\Requests\Request;
 class JSONRequest extends Request
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getRawBody()
     {
@@ -18,7 +18,7 @@ class JSONRequest extends Request
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isJSON()
     {

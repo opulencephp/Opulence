@@ -11,7 +11,7 @@ use Monolog\Handler\AbstractHandler;
 class MonologHandler extends AbstractHandler
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function handle(array $record)
     {

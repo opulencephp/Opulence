@@ -18,7 +18,7 @@ class StringParser extends Parser
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function parse($input)
     {

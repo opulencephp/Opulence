@@ -15,7 +15,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function clear()
     {
@@ -23,7 +23,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function write($messages)
     {
@@ -31,7 +31,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function writeln($messages)
     {
@@ -39,7 +39,7 @@ class SilentResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doWrite($message, $includeNewLine)
     {

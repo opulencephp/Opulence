@@ -10,7 +10,7 @@ use Opulence\Framework\Composer\Executable as BaseExecutable;
 class Executable extends BaseExecutable
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @return string The command itself
      */
     protected function execute($command)

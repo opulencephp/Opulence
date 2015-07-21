@@ -37,7 +37,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deactivate()
     {
@@ -45,7 +45,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getHashedValue()
     {
@@ -53,7 +53,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId()
     {
@@ -61,7 +61,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getValidFrom()
     {
@@ -69,7 +69,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getValidTo()
     {
@@ -77,7 +77,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isActive()
     {
@@ -87,7 +87,7 @@ class Token implements IToken
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setId($id)
     {

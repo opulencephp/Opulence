@@ -10,7 +10,7 @@ use Opulence\Views\Compilers\Compiler as BaseCompiler;
 class Compiler extends BaseCompiler
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * This mocks does not have any built-in view functions
      */
     public function __construct()

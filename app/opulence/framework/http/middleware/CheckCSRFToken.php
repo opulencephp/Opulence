@@ -36,7 +36,7 @@ abstract class CheckCSRFToken implements IMiddleware
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @throws InvalidCSRFTokenException Thrown if the CSRF token is invalid
      */
     public function handle(Request $request, Closure $next)

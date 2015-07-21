@@ -15,7 +15,7 @@ class SubCompiler extends BaseSubCompiler
     private $callback = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param callable $callback The callback to execute when compiling
      *      It must accept the view as the first parameter and the contents as the second
      */
@@ -27,7 +27,7 @@ class SubCompiler extends BaseSubCompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function compile(IFortuneView $view, $content)
     {

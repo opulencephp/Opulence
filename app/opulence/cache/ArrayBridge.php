@@ -12,7 +12,7 @@ class ArrayBridge implements ICacheBridge
     private $storage = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function decrement($key, $by = 1)
     {
@@ -22,7 +22,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($key)
     {
@@ -30,7 +30,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush()
     {
@@ -38,7 +38,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -51,7 +51,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function has($key)
     {
@@ -59,7 +59,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function increment($key, $by = 1)
     {
@@ -69,7 +69,7 @@ class ArrayBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($key, $value, $lifetime)
     {

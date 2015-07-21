@@ -9,35 +9,31 @@ use Opulence\Files\FileSystem;
 use Opulence\Files\FileSystemException;
 use Opulence\Tests\Views\Mocks\BarBuilder;
 use Opulence\Tests\Views\Mocks\FooBuilder;
-use Opulence\Views\FortuneView;
+use Opulence\Views\IView;
 
 class ViewFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FileSystem The file system to use in tests */
     private $fileSystem = null;
-    /** @var ViewFactory The view factory to use in tests */
+    /** @var ViewFactory|\PHPUnit_Framework_MockObject_MockObject The view factory to use in tests */
     private $viewFactory = null;
+    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    private $view = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->markTestSkipped();
         $this->fileSystem = new FileSystem();
-        $this->viewFactory = new ViewFactory($this->fileSystem, __DIR__ . "/../files");
-    }
-
-    /**
-     * Tests aliasing a view path
-     */
-    public function testAlias()
-    {
-        $this->viewFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
-        $this->assertEquals(
-            $this->viewFactory->create("foo"),
-            $this->viewFactory->create("TestWithDefaultTagDelimiters.html")
-        );
+        $this->viewFactory = $this->getMockForAbstractClass(ViewFactory::class, [$this->fileSystem, __DIR__ . "/../files"]);
+        $this->viewFactory->expects($this->any())
+            ->method("getExtension")
+            ->willReturn("html");
+        $this->view = $this->getMock(IView::class);
+        $this->viewFactory->expects($this->any())
+            ->method("createViewFromContent")
+            ->willReturn($this->view);
     }
 
     /**
@@ -45,10 +41,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithTrailingSlash()
     {
-        $view = $this->viewFactory->create("TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf(FortuneView::class, $view);
-        $this->assertEquals($expectedContent, $view->getContents());
+        $this->viewFactory->expects($this->any())
+            ->method("createViewFromContent")
+            ->with($expectedContent);
+        $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
     /**
@@ -56,10 +53,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithoutTrailingSlash()
     {
-        $view = $this->viewFactory->create("TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf(FortuneView::class, $view);
-        $this->assertEquals($expectedContent, $view->getContents());
+        $this->viewFactory->expects($this->any())
+            ->method("createViewFromContent")
+            ->with($expectedContent);
+        $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
     /**
@@ -76,10 +74,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInViewPathWithPrecedingSlash()
     {
-        $view = $this->viewFactory->create("/TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf(FortuneView::class, $view);
-        $this->assertEquals($expectedContent, $view->getContents());
+        $this->viewFactory->expects($this->any())
+            ->method("createViewFromContent")
+            ->with($expectedContent);
+        $this->viewFactory->create("/TestWithDefaultTagDelimiters");
     }
 
     /**
@@ -87,10 +86,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInViewPathWithoutPrecedingSlash()
     {
-        $view = $this->viewFactory->create("TestWithDefaultTagDelimiters.html");
         $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
-        $this->assertInstanceOf(FortuneView::class, $view);
-        $this->assertEquals($expectedContent, $view->getContents());
+        $this->viewFactory->expects($this->any())
+            ->method("createViewFromContent")
+            ->with($expectedContent);
+        $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
     /**
@@ -98,59 +98,14 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilder()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
         {
             return new FooBuilder();
         });
-        $view = $this->viewFactory->create("TestWithDefaultTagDelimiters.html");
-        $this->assertEquals("bar", $view->getTag("foo"));
-    }
-
-    /**
-     * Tests registering a builder to an alias
-     */
-    public function testRegisteringBuilderToAlias()
-    {
-        $this->viewFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
-        $this->viewFactory->registerBuilder("foo", function ()
-        {
-            return new FooBuilder();
-        });
-        $view = $this->viewFactory->create("foo");
-        $this->assertEquals("bar", $view->getTag("foo"));
-    }
-
-    /**
-     * Tests registering builders to mix of paths and aliases
-     */
-    public function testRegisteringBuilderToMixOfPathsAndAliases()
-    {
-        $this->viewFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
-        $this->viewFactory->registerBuilder(["foo", "TestWithCustomTagDelimiters.html"], function ()
-        {
-            return new FooBuilder();
-        });
-        $fooView = $this->viewFactory->create("foo");
-        $customTagView = $this->viewFactory->create("TestWithCustomTagDelimiters.html");
-        $this->assertEquals("bar", $fooView->getTag("foo"));
-        $this->assertEquals("bar", $customTagView->getTag("foo"));
-    }
-
-    /**
-     * Tests registering builders to multiple aliases
-     */
-    public function testRegisteringBuilderToMultipleAliases()
-    {
-        $this->viewFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
-        $this->viewFactory->alias("bar", "TestWithCustomTagDelimiters.html");
-        $this->viewFactory->registerBuilder(["foo", "bar"], function ()
-        {
-            return new FooBuilder();
-        });
-        $fooView = $this->viewFactory->create("foo");
-        $barView = $this->viewFactory->create("bar");
-        $this->assertEquals("bar", $fooView->getTag("foo"));
-        $this->assertEquals("bar", $barView->getTag("foo"));
+        $this->view->expects($this->any())
+            ->method("setVar")
+            ->with("foo", "bar");
+        $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
     /**
@@ -158,28 +113,18 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToMultiplePaths()
     {
-        $this->viewFactory->registerBuilder(["TestWithDefaultTagDelimiters.html", "TestWithCustomTagDelimiters.html"], function ()
+        $this->viewFactory->registerBuilder(["TestWithDefaultTagDelimiters", "TestWithCustomTagDelimiters"], function ()
         {
             return new FooBuilder();
         });
-        $defaultTagsView = $this->viewFactory->create("TestWithDefaultTagDelimiters.html");
-        $customTagsView = $this->viewFactory->create("TestWithCustomTagDelimiters.html");
-        $this->assertEquals("bar", $defaultTagsView->getTag("foo"));
-        $this->assertEquals("bar", $customTagsView->getTag("foo"));
-    }
-
-    /**
-     * Tests registering a builder to a path also registers to an alias
-     */
-    public function testRegisteringBuilderToPathAlsoRegistersToAlias()
-    {
-        $this->viewFactory->alias("foo", "TestWithDefaultTagDelimiters.html");
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
-        {
-            return new FooBuilder();
-        });
-        $view = $this->viewFactory->create("foo");
-        $this->assertEquals("bar", $view->getTag("foo"));
+        $this->view->expects($this->at(0))
+            ->method("setVar")
+            ->with("foo", "bar");
+        $this->view->expects($this->at(1))
+            ->method("setVar")
+            ->with("foo", "bar");
+        $this->viewFactory->create("TestWithDefaultTagDelimiters");
+        $this->viewFactory->create("TestWithCustomTagDelimiters");
     }
 
     /**
@@ -187,17 +132,21 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringMultipleBuilders()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
         {
             return new FooBuilder();
         });
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
         {
             return new BarBuilder();
         });
-        $view = $this->viewFactory->create("TestWithDefaultTagDelimiters.html");
-        $this->assertEquals("bar", $view->getTag("foo"));
-        $this->assertEquals("baz", $view->getTag("bar"));
+        $this->view->expects($this->at(0))
+            ->method("setVar")
+            ->with("foo", "bar");
+        $this->view->expects($this->at(1))
+            ->method("setVar")
+            ->with("bar", "baz");
+        $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
     /**

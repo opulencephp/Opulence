@@ -9,10 +9,10 @@ use Opulence\Memcached\Server as BaseServer;
 
 class Server extends BaseServer
 {
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected $host = "";
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected $port = 11211;
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected $weight = 0;
 } 

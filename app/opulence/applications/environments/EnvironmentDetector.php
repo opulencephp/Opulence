@@ -14,7 +14,7 @@ class EnvironmentDetector implements IEnvironmentDetector
     private $environmentsToHosts = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function detect()
     {
@@ -44,7 +44,7 @@ class EnvironmentDetector implements IEnvironmentDetector
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerHost($environmentName, $hosts)
     {

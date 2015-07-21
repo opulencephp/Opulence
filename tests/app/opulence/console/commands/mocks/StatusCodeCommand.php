@@ -14,7 +14,7 @@ use Opulence\Framework\Console\StatusCodes;
 class StatusCodeCommand extends Command
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -30,7 +30,7 @@ class StatusCodeCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

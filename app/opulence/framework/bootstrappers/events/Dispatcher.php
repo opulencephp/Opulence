@@ -15,7 +15,7 @@ use Opulence\IoC\IContainer;
 abstract class Dispatcher extends Bootstrapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

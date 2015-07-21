@@ -31,7 +31,7 @@ class ApplicationTestCase extends BaseApplicationTestCase
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getGlobalMiddleware()
     {
@@ -39,7 +39,7 @@ class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getKernelLogger()
     {
@@ -50,7 +50,7 @@ class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setApplication()
     {

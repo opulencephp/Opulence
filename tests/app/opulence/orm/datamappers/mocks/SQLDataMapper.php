@@ -24,7 +24,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function add(IEntity &$entity)
     {
@@ -34,7 +34,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(IEntity &$entity)
     {
@@ -42,7 +42,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -58,7 +58,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById($id)
     {
@@ -79,7 +79,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function update(IEntity &$entity)
     {
@@ -87,7 +87,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function loadEntity(array $hash, IConnection $connection)
     {
@@ -95,7 +95,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setIdGenerator()
     {

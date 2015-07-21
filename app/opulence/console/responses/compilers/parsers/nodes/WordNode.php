@@ -9,7 +9,7 @@ namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 class WordNode extends Node
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isTag()
     {

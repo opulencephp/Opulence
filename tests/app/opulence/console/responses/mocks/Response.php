@@ -18,7 +18,7 @@ class Response extends BaseResponse
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doWrite($message, $includeNewLine)
     {

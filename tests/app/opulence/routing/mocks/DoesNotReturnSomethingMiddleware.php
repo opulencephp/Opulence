@@ -12,7 +12,7 @@ use Opulence\HTTP\Requests\Request;
 class DoesNotReturnSomethingMiddleware implements IMiddleware
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function handle(Request $request, Closure $next)
     {

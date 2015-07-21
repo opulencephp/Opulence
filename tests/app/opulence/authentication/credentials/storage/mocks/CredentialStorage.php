@@ -17,7 +17,7 @@ class CredentialStorage implements ICredentialStorage
     private $unhashedToken = "";
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(Response $response)
     {
@@ -26,7 +26,7 @@ class CredentialStorage implements ICredentialStorage
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function exists()
     {
@@ -34,7 +34,7 @@ class CredentialStorage implements ICredentialStorage
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get()
     {
@@ -42,7 +42,7 @@ class CredentialStorage implements ICredentialStorage
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(Response $response, ICredential $credential, $unhashedToken)
     {

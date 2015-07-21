@@ -12,7 +12,7 @@ use Opulence\Routing\Router;
 class ExceptionalRouter extends Router
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function route(Request $request)
     {

@@ -25,7 +25,7 @@ abstract class Hasher implements IHasher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public static function verify($hashedValue, $unhashedValue, $pepper = "")
     {
@@ -33,7 +33,7 @@ abstract class Hasher implements IHasher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hash($unhashedValue, array $options = [], $pepper = "")
     {
@@ -48,7 +48,7 @@ abstract class Hasher implements IHasher
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function needsRehash($hashedValue, array $options = [])
     {

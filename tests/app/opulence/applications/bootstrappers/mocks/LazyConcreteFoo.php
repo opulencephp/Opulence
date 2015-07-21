@@ -9,7 +9,7 @@ namespace Opulence\Tests\Applications\Bootstrappers\Mocks;
 class LazyConcreteFoo implements LazyFooInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getClass()
     {

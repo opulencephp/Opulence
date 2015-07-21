@@ -25,7 +25,7 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function decrement($key, $by = 1)
     {
@@ -33,7 +33,7 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($key)
     {
@@ -41,7 +41,7 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush()
     {
@@ -49,7 +49,7 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -69,7 +69,7 @@ class MemcachedBridge
     }
 
     /**
-     *{@inheritdoc}
+     * @inheritdoc
      */
     public function has($key)
     {
@@ -77,7 +77,7 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function increment($key, $by = 1)
     {
@@ -85,7 +85,7 @@ class MemcachedBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($key, $value, $lifetime)
     {

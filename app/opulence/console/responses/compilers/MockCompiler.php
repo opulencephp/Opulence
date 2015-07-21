@@ -9,7 +9,7 @@ namespace Opulence\Console\Responses\Compilers;
 class MockCompiler implements ICompiler
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function compile($message)
     {
@@ -17,7 +17,7 @@ class MockCompiler implements ICompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setStyled($isStyled)
     {

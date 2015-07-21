@@ -93,7 +93,7 @@ class Parameters implements ArrayAccess, Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetExists($offset)
     {
@@ -101,7 +101,7 @@ class Parameters implements ArrayAccess, Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetGet($offset)
     {
@@ -109,7 +109,7 @@ class Parameters implements ArrayAccess, Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetSet($offset, $value)
     {
@@ -117,7 +117,7 @@ class Parameters implements ArrayAccess, Countable
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function offsetUnset($offset)
     {

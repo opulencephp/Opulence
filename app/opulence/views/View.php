@@ -23,7 +23,7 @@ class View implements IView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getContents()
     {
@@ -31,7 +31,7 @@ class View implements IView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getVar($name)
     {
@@ -44,7 +44,7 @@ class View implements IView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getVars()
     {
@@ -52,7 +52,7 @@ class View implements IView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setContents($contents)
     {
@@ -65,7 +65,7 @@ class View implements IView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setVar($name, $value)
     {
@@ -73,7 +73,7 @@ class View implements IView
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setVars(array $namesToValues)
     {

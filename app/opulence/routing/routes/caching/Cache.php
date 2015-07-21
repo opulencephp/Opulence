@@ -11,7 +11,7 @@ use Opulence\Routing\Routes\RouteCollection;
 class Cache implements ICache
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush($filePath)
     {
@@ -22,7 +22,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($cacheFilePath, Router &$router, $rawFilePath)
     {
@@ -42,7 +42,7 @@ class Cache implements ICache
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($filePath, RouteCollection $routes)
     {

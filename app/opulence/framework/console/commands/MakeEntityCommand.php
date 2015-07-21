@@ -9,7 +9,7 @@ namespace Opulence\Framework\Console\Commands;
 class MakeEntityCommand extends MakeCommand
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -20,7 +20,7 @@ class MakeEntityCommand extends MakeCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getFileTemplatePath()
     {

@@ -24,7 +24,7 @@ class EntityRegistry implements IEntityRegistry
     private $entities = [];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function clear()
     {
@@ -34,7 +34,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deregister(IEntity $entity)
     {
@@ -51,7 +51,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getClassName($object)
     {
@@ -59,7 +59,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntities()
     {
@@ -79,7 +79,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntity($className, $id)
     {
@@ -92,7 +92,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntityState(IEntity $entity)
     {
@@ -107,7 +107,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getObjectHashId($object)
     {
@@ -115,7 +115,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function hasChanged(IEntity $entity)
     {
@@ -141,7 +141,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isRegistered(IEntity $entity)
     {
@@ -150,7 +150,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function register(IEntity &$entity)
     {
@@ -177,7 +177,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerComparisonFunction($className, callable $function)
     {
@@ -185,7 +185,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setState(IEntity $entity, $entityState)
     {

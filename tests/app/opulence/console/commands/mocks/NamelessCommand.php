@@ -11,7 +11,7 @@ use Opulence\Console\Responses\IResponse;
 class NamelessCommand extends Command
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -19,7 +19,7 @@ class NamelessCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

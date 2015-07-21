@@ -14,7 +14,7 @@ use RuntimeException;
 class Parser implements IParser
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param Token[] $tokens The list of tokens to parse
      */
     public function parse(array $tokens)

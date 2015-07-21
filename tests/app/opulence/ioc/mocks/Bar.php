@@ -9,7 +9,7 @@ namespace Opulence\Tests\IoC\Mocks;
 class Bar implements IFoo
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getClassName()
     {

@@ -9,7 +9,7 @@ namespace Opulence\Tests\Applications\Bootstrappers\Mocks;
 class EagerConcreteFoo implements EagerFooInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getClass()
     {

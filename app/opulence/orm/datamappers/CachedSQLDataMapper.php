@@ -34,7 +34,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function add(IEntity &$entity)
     {
@@ -43,7 +43,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function commit()
     {
@@ -79,7 +79,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(IEntity &$entity)
     {
@@ -88,7 +88,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -96,7 +96,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById($id)
     {
@@ -104,7 +104,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getCacheDataMapper()
     {
@@ -112,7 +112,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getIdGenerator()
     {
@@ -120,7 +120,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getSqlDataMapper()
     {
@@ -128,7 +128,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getUnsyncedEntities()
     {
@@ -136,7 +136,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function refreshCache()
     {
@@ -144,7 +144,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function refreshEntity($id)
     {
@@ -166,7 +166,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function update(IEntity &$entity)
     {

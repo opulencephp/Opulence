@@ -30,7 +30,7 @@ class Pipeline implements IPipeline
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function send($input, Closure $callback = null)
     {
@@ -53,7 +53,7 @@ class Pipeline implements IPipeline
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setStages(array $stages, $methodToCall = null)
     {

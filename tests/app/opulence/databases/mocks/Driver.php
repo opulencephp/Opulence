@@ -11,7 +11,7 @@ use Opulence\Databases\Server;
 class Driver implements IDriver
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function connect(Server $server, array $connectionOptions = [], array $driverOptions = [])
     {

@@ -29,7 +29,7 @@ class CompilerRegistry implements ICompilerRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerCompiler($viewClass, ICompiler $compiler)
     {

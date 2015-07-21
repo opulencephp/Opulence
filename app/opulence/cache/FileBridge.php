@@ -25,7 +25,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function decrement($key, $by = 1)
     {
@@ -37,7 +37,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete($key)
     {
@@ -45,7 +45,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function flush()
     {
@@ -59,7 +59,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($key)
     {
@@ -67,7 +67,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function has($key)
     {
@@ -79,7 +79,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function increment($key, $by = 1)
     {
@@ -91,7 +91,7 @@ class FileBridge implements ICacheBridge
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function set($key, $value, $lifetime)
     {

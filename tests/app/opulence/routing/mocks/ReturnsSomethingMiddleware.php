@@ -14,7 +14,7 @@ use Opulence\HTTP\Responses\Response;
 class ReturnsSomethingMiddleware implements IMiddleware
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function handle(Request $request, Closure $next)
     {

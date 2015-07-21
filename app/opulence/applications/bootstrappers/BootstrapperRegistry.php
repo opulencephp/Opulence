@@ -35,7 +35,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEagerBootstrappers()
     {
@@ -43,7 +43,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getInstance($bootstrapperClass)
     {
@@ -63,7 +63,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getLazyBootstrapperBindings()
     {
@@ -71,7 +71,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBootstrappers(array $bootstrapperClasses)
     {
@@ -79,7 +79,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerEagerBootstrapper($eagerBootstrapperClasses)
     {
@@ -88,7 +88,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerLazyBootstrapper($bindings, $lazyBootstrapperClass)
     {
@@ -101,7 +101,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setBootstrapperDetails()
     {

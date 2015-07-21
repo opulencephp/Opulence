@@ -12,7 +12,7 @@ use Opulence\Redis\TypeMapper;
 class OpulencePredis extends BaseOpulencePredis
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function __construct(Server $server, TypeMapper $typeMapper)
     {
@@ -29,7 +29,7 @@ class OpulencePredis extends BaseOpulencePredis
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function select($database)
     {

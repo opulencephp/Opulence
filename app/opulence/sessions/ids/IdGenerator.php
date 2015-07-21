@@ -23,7 +23,7 @@ class IdGenerator implements IIdGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function generate($length = self::DEFAULT_LENGTH)
     {
@@ -31,7 +31,7 @@ class IdGenerator implements IIdGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isIdValid($id)
     {

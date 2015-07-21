@@ -11,7 +11,7 @@ use Opulence\Databases\IStatement;
 class Statement implements IStatement
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function bindParam($parameter, &$variable, $dataType = PDO::PARAM_STR, $length = null)
     {
@@ -19,7 +19,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function bindValue($parameter, $value, $dataType = PDO::PARAM_STR)
     {
@@ -27,7 +27,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function bindValues(array $values)
     {
@@ -35,7 +35,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function closeCursor()
     {
@@ -43,7 +43,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function columnCount()
     {
@@ -51,7 +51,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function errorCode()
     {
@@ -59,7 +59,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function errorInfo()
     {
@@ -67,7 +67,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function execute($parameters = null)
     {
@@ -75,7 +75,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE)
     {
@@ -83,7 +83,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE)
     {
@@ -91,7 +91,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function fetchColumn($columnNumber = 0)
     {
@@ -99,7 +99,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function rowCount()
     {
@@ -107,7 +107,7 @@ class Statement implements IStatement
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setFetchMode($fetchMode)
     {

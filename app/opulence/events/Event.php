@@ -12,7 +12,7 @@ class Event implements IEvent
     protected $propagationIsStopped = false;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function propagationIsStopped()
     {
@@ -20,7 +20,7 @@ class Event implements IEvent
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function stopPropagation()
     {

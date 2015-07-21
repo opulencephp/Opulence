@@ -13,7 +13,7 @@ use SessionHandlerInterface;
 abstract class Session extends Bootstrapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

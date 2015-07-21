@@ -10,7 +10,7 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\Node as BaseNode;
 class Node extends BaseNode
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isTag()
     {

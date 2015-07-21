@@ -25,7 +25,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function close()
     {
@@ -33,7 +33,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function destroy($sessionId)
     {
@@ -41,7 +41,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function gc($maxLifetime)
     {
@@ -49,7 +49,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function open($savePath, $sessionId)
     {
@@ -57,7 +57,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doRead($sessionId)
     {
@@ -65,7 +65,7 @@ class CacheSessionHandler extends SessionHandler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doWrite($sessionId, $sessionData)
     {

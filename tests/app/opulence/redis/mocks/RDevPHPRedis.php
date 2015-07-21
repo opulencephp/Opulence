@@ -18,7 +18,7 @@ if(!class_exists("Redis"))
 class OpulencePHPRedis extends BaseOpulencePHPRedis
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function __construct(Server $server, TypeMapper $typeMapper)
     {
@@ -35,7 +35,7 @@ class OpulencePHPRedis extends BaseOpulencePHPRedis
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function select($database)
     {

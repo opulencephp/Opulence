@@ -33,7 +33,7 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -41,7 +41,7 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById($id)
     {
@@ -49,7 +49,7 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function loadEntity(array $hash)
     {
@@ -57,7 +57,7 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setCacheDataMapper($cache)
     {
@@ -65,7 +65,7 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setSQLDataMapper(ConnectionPool $connectionPool)
     {

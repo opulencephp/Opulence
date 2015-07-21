@@ -15,7 +15,7 @@ use Opulence\Console\Responses\IResponse;
 class HappyHolidayCommand extends Command
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -36,7 +36,7 @@ class HappyHolidayCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

@@ -29,7 +29,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById($id)
     {

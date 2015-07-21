@@ -37,7 +37,7 @@ class User implements IEntity
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getId()
     {
@@ -69,7 +69,7 @@ class User implements IEntity
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setId($id)
     {

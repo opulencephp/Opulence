@@ -17,7 +17,7 @@ if(!class_exists("Memcached"))
 class OpulenceMemcached extends BaseOpulenceMemcached
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function __construct(TypeMapper $typeMapper)
     {
@@ -25,7 +25,7 @@ class OpulenceMemcached extends BaseOpulenceMemcached
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function addServer($host, $port, $weight = 0)
     {

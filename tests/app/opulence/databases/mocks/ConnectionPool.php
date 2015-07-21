@@ -11,7 +11,7 @@ use Opulence\Databases\Server;
 class ConnectionPool extends BaseConnectionPool
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -26,7 +26,7 @@ class ConnectionPool extends BaseConnectionPool
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {

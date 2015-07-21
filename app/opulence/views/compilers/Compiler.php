@@ -21,7 +21,7 @@ class Compiler implements ICompiler
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function compile(IView $view, $contents = null)
     {

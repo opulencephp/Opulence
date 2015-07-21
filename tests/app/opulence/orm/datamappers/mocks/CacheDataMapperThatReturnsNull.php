@@ -9,7 +9,7 @@ namespace Opulence\Tests\ORM\DataMappers\Mocks;
 class CacheDataMapperThatReturnsNull extends CacheDataMapper
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
