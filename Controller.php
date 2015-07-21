@@ -8,13 +8,13 @@ namespace Opulence\Routing;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
-use Opulence\Views\ITemplate;
+use Opulence\Views\IView;
 
 class Controller
 {
-    /** @var ITemplate The template used in the response */
-    protected $template = null;
-    /** @var ICompiler The template compiler to use */
+    /** @var IView The view used in the response */
+    protected $view = null;
+    /** @var ICompiler The view compiler to use */
     protected $compiler = null;
     /** @var Request The HTTP request */
     protected $request = null;
@@ -29,24 +29,24 @@ class Controller
      */
     public function callMethod($methodName, array $parameters)
     {
-        $this->setUpTemplate();
+        $this->setUpView();
         /** @var Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if($response === null && $this->compiler instanceof ICompiler && $this->template !== null)
+        if($response === null && $this->compiler instanceof ICompiler && $this->view !== null)
         {
-            $response->setContent($this->compiler->compile($this->template));
+            $response->setContent($this->compiler->compile($this->view));
         }
 
         return $response;
     }
 
     /**
-     * @return ITemplate|null
+     * @return IView|null
      */
-    public function getTemplate()
+    public function getView()
     {
-        return $this->template;
+        return $this->view;
     }
 
     /**
@@ -70,10 +70,10 @@ class Controller
     }
 
     /**
-     * Sets up the template
-     * Useful for setting up a template's components that are the same across controller methods
+     * Sets up the view
+     * Useful for setting up a view's components that are the same across controller methods
      */
-    protected function setUpTemplate()
+    protected function setUpView()
     {
         // Don't do anything
     }
