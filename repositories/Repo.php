@@ -32,7 +32,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function add(IEntity &$entity)
     {
@@ -40,7 +40,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(IEntity &$entity)
     {
@@ -48,7 +48,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -56,7 +56,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getById($id)
     {
@@ -71,7 +71,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getDataMapper()
     {
@@ -79,7 +79,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getUnitOfWork()
     {
@@ -87,7 +87,7 @@ class Repo implements IRepo
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setDataMapper(IDataMapper $dataMapper)
     {

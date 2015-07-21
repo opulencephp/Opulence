@@ -13,7 +13,7 @@ abstract class PredisDataMapper extends RedisDataMapper
     protected $redis = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getSetMembersFromRedis($key)
     {
@@ -21,7 +21,7 @@ abstract class PredisDataMapper extends RedisDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getSortedSetMembersFromRedis($key)
     {
@@ -29,7 +29,7 @@ abstract class PredisDataMapper extends RedisDataMapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getValueFromRedis($key)
     {

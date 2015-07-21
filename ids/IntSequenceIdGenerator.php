@@ -22,7 +22,7 @@ class IntSequenceIdGenerator extends IdGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function generate(IEntity $entity, IConnection $connection)
     {
@@ -30,7 +30,7 @@ class IntSequenceIdGenerator extends IdGenerator
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEmptyValue()
     {
