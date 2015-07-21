@@ -2,12 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines methods common to all website page files
+ * Defines methods common to all Fortune views
  */
 namespace Opulence\Views;
-use InvalidArgumentException;
 
-class Template implements ITemplate
+class FortuneView extends View implements IFortuneView
 {
     /** The default open tag for unsanitized delimiter  */
     const DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER = "{{!";
@@ -22,15 +21,11 @@ class Template implements ITemplate
     /** The default close tag for directive delimiter */
     const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = "%>";
 
-    /** @var string The uncompiled contents of the template */
-    protected $contents = "";
     /** @var array The mapping of tag names to their values */
     protected $tags = [];
-    /** @var array The mapping of PHP variable names to their values */
-    protected $vars = [];
-    /** @var array The mapping of template part names to their contents */
+    /** @var array The mapping of view part names to their contents */
     protected $parts = [];
-    /** @var ITemplate|null The parent template if there is one, otherwise false */
+    /** @var IFortuneView|null The parent view if there is one, otherwise false */
     protected $parent;
     /** @var array The stack of parent delimiter types to values */
     private $delimiters = [
@@ -47,22 +42,6 @@ class Template implements ITemplate
             self::DEFAULT_CLOSE_DIRECTIVE_DELIMITER
         ]
     ];
-
-    /**
-     * @param string $contents The contents of the template
-     */
-    public function __construct($contents = "")
-    {
-        $this->setContents($contents);
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getContents()
-    {
-        return $this->contents;
-    }
 
     /**
      * {@inheritdoc}
@@ -219,19 +198,6 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
-    public function setContents($contents)
-    {
-        if(!is_string($contents))
-        {
-            throw new InvalidArgumentException("Contents are not a string");
-        }
-
-        $this->contents = $contents;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function setDelimiters($type, array $values)
     {
         $this->delimiters[$type] = $values;
@@ -240,7 +206,7 @@ class Template implements ITemplate
     /**
      * {@inheritdoc}
      */
-    public function setParent(ITemplate $parent)
+    public function setParent(IFortuneView $parent)
     {
         $this->parent = $parent;
     }
@@ -280,25 +246,6 @@ class Template implements ITemplate
         foreach($namesToValues as $name => $value)
         {
             $this->setTag($name, $value);
-        }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVar($name, $value)
-    {
-        $this->vars[$name] = $value;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setVars(array $namesToValues)
-    {
-        foreach($namesToValues as $name => $value)
-        {
-            $this->setVar($name, $value);
         }
     }
 } 

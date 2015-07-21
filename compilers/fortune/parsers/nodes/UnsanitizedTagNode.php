@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines an expression node
+ * Defines an unsanitized tag node
  */
-namespace Opulence\Views\Compilers\Parsers\Nodes;
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
-class ExpressionNode extends Node
+class UnsanitizedTagNode extends Node
 {
     /**
      * @inheritDoc
@@ -29,7 +29,7 @@ class ExpressionNode extends Node
      */
     public function isExpression()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -45,6 +45,6 @@ class ExpressionNode extends Node
      */
     public function isUnsanitizedTag()
     {
-        return false;
+        return true;
     }
 }

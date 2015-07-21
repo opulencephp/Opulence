@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines a directive name node
+ * Defines an expression node
  */
-namespace Opulence\Views\Compilers\Parsers\Nodes;
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
-class DirectiveNameNode extends Node
+class ExpressionNode extends Node
 {
     /**
      * @inheritDoc
@@ -21,7 +21,7 @@ class DirectiveNameNode extends Node
      */
     public function isDirectiveName()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -29,7 +29,7 @@ class DirectiveNameNode extends Node
      */
     public function isExpression()
     {
-        return false;
+        return true;
     }
 
     /**

@@ -4,7 +4,7 @@
  *
  * Defines a directive node
  */
-namespace Opulence\Views\Compilers\Parsers\Nodes;
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
 class DirectiveNode extends Node
 {

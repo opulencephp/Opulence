@@ -4,7 +4,7 @@
  *
  * Defines the different token types
  */
-namespace Opulence\Views\Compilers\Lexers\Tokens;
+namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 
 class TokenTypes
 {

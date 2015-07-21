@@ -4,22 +4,23 @@
  *
  * Defines the Fortune compiler
  */
-namespace Opulence\Views\Compilers\SubCompilers\Fortune;
+namespace Opulence\Views\Compilers\Fortune;
 use InvalidArgumentException;
-use Opulence\Views\Compilers\SubCompilers\ISubCompiler;
+use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
+use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
+use Opulence\Views\Compilers\Fortune\Parsers\IParser;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use Opulence\Views\Filters\XSSFilter;
-use Opulence\Views\Compilers\Lexers\ILexer;
-use Opulence\Views\Compilers\Parsers\AbstractSyntaxTree;
-use Opulence\Views\Compilers\Parsers\IParser;
-use Opulence\Views\Compilers\Parsers\Nodes\DirectiveNode;
-use Opulence\Views\Compilers\Parsers\Nodes\ExpressionNode;
-use Opulence\Views\Compilers\Parsers\Nodes\Node;
-use Opulence\Views\Compilers\Parsers\Nodes\SanitizedTagNode;
-use Opulence\Views\Compilers\Parsers\Nodes\UnsanitizedTagNode;
-use Opulence\Views\ITemplate;
+use Opulence\Views\IFortuneView;
+use Opulence\Views\IView;
 use RuntimeException;
 
-class FortuneCompiler implements ISubCompiler
+class FortuneCompiler implements ICompiler
 {
     /** @var ILexer The view lexer */
     protected $lexer = null;
@@ -29,15 +30,15 @@ class FortuneCompiler implements ISubCompiler
     protected $xssFilter = null;
     /** @var callable[] The mapping of directive names to their compilers */
     protected $directiveCompilers = [];
-    /** @var callable[] The mapping of template function names to their definitions */
-    protected $templateFunctions = [];
+    /** @var callable[] The mapping of view function names to their definitions */
+    protected $viewFunctions = [];
     /** @var bool Whether or not we're in a parent part */
     protected $inParentPart = false;
     /** @var array The mapping of part names to their contents */
     protected $parts = [];
     /** @var array The stack of parts */
     protected $partStack = [];
-    /** @var array Any PHP appended to the end of the template */
+    /** @var array Any PHP appended to the end of the view */
     protected $appendedText = [];
 
     /**
@@ -50,10 +51,10 @@ class FortuneCompiler implements ISubCompiler
         $this->lexer = $lexer;
         $this->parser = $parser;
         $this->xssFilter = $xssFilter;
-        // Register built-in template functions
-        (new FortuneTemplateFunctionRegistrant())->registerTemplateFunctions($this);
+        // Register built-in view functions
+        (new ViewFunctionRegistrant())->registerViewFunctions($this);
         // Register built-in directives' compilers
-        (new FortuneDirectiveCompilerRegistrant)->registerDirectiveCompilers($this);
+        (new DirectiveCompilerRegistrant)->registerDirectiveCompilers($this);
     }
 
     /**
@@ -67,39 +68,35 @@ class FortuneCompiler implements ISubCompiler
     }
 
     /**
-     * Calls a template function
+     * Calls a view function
      * Pass in any arguments as the 2nd, 3rd, 4th, etc parameters
      *
      * @param string $functionName The name of the function to call
-     * @return mixed The output of the template function
+     * @return mixed The output of the view function
      * @throws InvalidArgumentException Thrown if the function name is invalid
      */
-    public function callTemplateFunction($functionName)
+    public function callViewFunction($functionName)
     {
-        if(!isset($this->templateFunctions[$functionName]))
+        if(!isset($this->viewFunctions[$functionName]))
         {
-            throw new InvalidArgumentException("Template function \"$functionName\" does not exist");
+            throw new InvalidArgumentException("View function \"$functionName\" does not exist");
         }
 
         $args = func_get_args();
         array_shift($args);
 
-        return call_user_func_array($this->templateFunctions[$functionName], $args);
+        return call_user_func_array($this->viewFunctions[$functionName], $args);
     }
 
     /**
-     * Compiles a template into raw PHP
-     *
-     * @param ITemplate $template The template to compile
-     * @param string $content The content to compile
-     * @return string The compiled PHP
-     * @throws RuntimeException Thrown if there was an error compiling the template
+     * {@inheritdoc}
+     * @param IFortuneView $view
      */
-    public function compile(ITemplate $template, $content)
+    public function compile(IView $view, $contents = null)
     {
-        $tokens = $this->lexer->lex($template, $content);
+        $tokens = $this->lexer->lex($view, $contents);
         $ast = $this->parser->parse($tokens);
-        $compiledContent = $this->compileNodes($template, $ast);
+        $compiledContent = $this->compileNodes($view, $ast);
 
         if(count($this->appendedText) > 0)
         {
@@ -111,7 +108,7 @@ class FortuneCompiler implements ISubCompiler
     }
 
     /**
-     * Ends a template part
+     * Ends a view part
      */
     public function endPart()
     {
@@ -142,11 +139,16 @@ class FortuneCompiler implements ISubCompiler
     }
 
     /**
-     * {@inheritdoc}
+     * Registers a function that appears in a view
+     * Useful for defining functions for consistent formatting in a view
+     *
+     * @param string $functionName The name of the function as it'll appear in the view
+     * @param callable $function The function that returns the replacement string for the function in a view
+     *      It must accept one parameter (the view's contents) and return a printable value
      */
-    public function registerTemplateFunction($functionName, callable $function)
+    public function registerViewFunction($functionName, callable $function)
     {
-        $this->templateFunctions[$functionName] = $function;
+        $this->viewFunctions[$functionName] = $function;
     }
 
     /**
@@ -161,7 +163,7 @@ class FortuneCompiler implements ISubCompiler
     }
 
     /**
-     * Shows a template part
+     * Shows a view part
      *
      * @param string $name The name of the part to show
      * @return string The content of the part
@@ -177,7 +179,7 @@ class FortuneCompiler implements ISubCompiler
     }
 
     /**
-     * Starts a template part
+     * Starts a view part
      *
      * @param string $name The name of the part to start
      */
@@ -207,7 +209,7 @@ class FortuneCompiler implements ISubCompiler
         }
 
         $directiveName = $children[0]->getValue();
-        $expression = count($children) == 2 ? $this->replaceTemplatefunctionCalls($children[1]->getValue()) : "";
+        $expression = count($children) == 2 ? $this->replaceFunctionCalls($children[1]->getValue()) : "";
 
         if(!isset($this->directiveCompilers[$directiveName]))
         {
@@ -236,14 +238,14 @@ class FortuneCompiler implements ISubCompiler
     /**
      * Compiles all nodes in an abstract syntax tree
      *
-     * @param ITemplate $template The template that's being compiled
+     * @param IFortuneView $view The view that's being compiled
      * @param AbstractSyntaxTree $ast The abstract syntax tree to compile
-     * @return string The template with compiled nodes
+     * @return string The view with compiled nodes
      * @throws RuntimeException Thrown if the nodes could not be compiled
      */
-    protected function compileNodes(ITemplate $template, AbstractSyntaxTree $ast)
+    protected function compileNodes(IFortuneView $view, AbstractSyntaxTree $ast)
     {
-        $compiledTemplate = "";
+        $compiledView = "";
         $rootNode = $ast->getRootNode();
 
         foreach($rootNode->getChildren() as $childNode)
@@ -251,19 +253,19 @@ class FortuneCompiler implements ISubCompiler
             switch(get_class($childNode))
             {
                 case DirectiveNode::class:
-                    $compiledTemplate .= $this->compileDirectiveNode($childNode);
+                    $compiledView .= $this->compileDirectiveNode($childNode);
 
                     break;
                 case SanitizedTagNode::class:
-                    $compiledTemplate .= $this->compileSanitizedTagNode($childNode, $template);
+                    $compiledView .= $this->compileSanitizedTagNode($childNode, $view);
 
                     break;
                 case UnsanitizedTagNode::class:
-                    $compiledTemplate .= $this->compileUnsanitizedTagNode($childNode, $template);
+                    $compiledView .= $this->compileUnsanitizedTagNode($childNode, $view);
 
                     break;
                 case ExpressionNode::class:
-                    $compiledTemplate .= $this->compileExpressionNode($childNode);
+                    $compiledView .= $this->compileExpressionNode($childNode);
 
                     break;
                 default:
@@ -276,48 +278,64 @@ class FortuneCompiler implements ISubCompiler
             }
         }
 
-        return $compiledTemplate;
+        return $compiledView;
     }
 
     /**
      * Compiles a sanitized tag node
      *
      * @param Node $node The node to compile
-     * @param ITemplate $template The template being compiled
+     * @param IFortuneView $view The view being compiled
      * @return string The compiled node
      */
-    protected function compileSanitizedTagNode(Node $node, ITemplate $template)
+    protected function compileSanitizedTagNode(Node $node, IFortuneView $view)
     {
-        $compiledExpression = $this->replaceTemplateFunctionCalls($node->getValue());
+        $compiledExpression = $this->replaceFunctionCalls($node->getValue());
 
-        return "<?php echo \$__opulenceFortuneCompiler->sanitize({$this->compileTagValue($template, $compiledExpression)}); ?>";
+        return "<?php echo \$__opulenceFortuneCompiler->sanitize({$this->compileTagValue($view, $compiledExpression)}); ?>";
     }
 
     /**
      * Compiles an unsanitized tag node
      *
      * @param Node $node The node to compile
-     * @param ITemplate $template The template being compiled
+     * @param IFortuneView $view The view being compiled
      * @return string The compiled node
      */
-    protected function compileUnsanitizedTagNode(Node $node, ITemplate $template)
+    protected function compileUnsanitizedTagNode(Node $node, IFortuneView $view)
     {
-        $compiledExpression = $this->replaceTemplateFunctionCalls($node->getValue());
+        $compiledExpression = $this->replaceFunctionCalls($node->getValue());
 
-        return "<?php echo {$this->compileTagValue($template, $compiledExpression)}; ?>";
+        return "<?php echo {$this->compileTagValue($view, $compiledExpression)}; ?>";
     }
 
     /**
-     * Replaces any template functions calls with calls to valid PHP functions
+     * Replaces any view functions calls with calls to valid PHP functions
      *
      * @param string $content The content to replace
      * @return string The replaced content
      */
-    protected function replaceTemplateFunctionCalls($content)
+    protected function replaceFunctionCalls($content)
     {
-        return preg_replace(
-            "/View::([^\(]+)\(/",
-            '$__opulenceFortuneCompiler->callTemplateFunction("$1", ',
+        $callback = function (array $matches)
+        {
+            if(function_exists($matches[1]))
+            {
+                // This was a PHP function
+                return $matches[1] . '(' . $this->replaceFunctionCalls($matches[3]) . ')';
+            }
+            else
+            {
+                // This was a view function
+                return '$__opulenceFortuneCompiler->callViewFunction(' .
+                '"' . $matches[1] . '", ' . $this->replaceFunctionCalls($matches[3]) .
+                ')';
+            }
+        };
+
+        return preg_replace_callback(
+            "/([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(\((((?>[^()]+)|(?2))*)\))/",
+            $callback,
             $content
         );
     }
@@ -327,11 +345,11 @@ class FortuneCompiler implements ISubCompiler
      * If the input is the name of a tag, that tag's contents are returned
      * If it's an expression, the expression is returned
      *
-     * @param ITemplate $template
+     * @param IFortuneView $view
      * @param mixed $value The value
      * @return string The compiled tag value
      */
-    private function compileTagValue(ITemplate $template, $value)
+    private function compileTagValue(IFortuneView $view, $value)
     {
         if(
             preg_match(
@@ -345,7 +363,7 @@ class FortuneCompiler implements ISubCompiler
             ) === 1
         )
         {
-            $value = $template->getTag($matches[1]);
+            $value = $view->getTag($matches[1]);
 
             // There was no tag with this name
             if($value === null)

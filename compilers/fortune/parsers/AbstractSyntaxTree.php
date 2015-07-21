@@ -4,9 +4,9 @@
  *
  * Defines a view abstract syntax tree
  */
-namespace Opulence\Views\Compilers\Parsers;
-use Opulence\Views\Compilers\Parsers\Nodes\Node;
-use Opulence\Views\Compilers\Parsers\Nodes\RootNode;
+namespace Opulence\Views\Compilers\Fortune\Parsers;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
 
 class AbstractSyntaxTree
 {

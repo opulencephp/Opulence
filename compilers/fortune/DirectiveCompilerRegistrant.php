@@ -4,9 +4,9 @@
  *
  * Defines the Fortune directive compile registrant
  */
-namespace Opulence\Views\Compilers\SubCompilers\Fortune;
+namespace Opulence\Views\Compilers\Fortune;
 
-class FortuneDirectiveCompilerRegistrant
+class DirectiveCompilerRegistrant
 {
     /**
      * Registers the Fortune directive compilers
@@ -49,8 +49,8 @@ class FortuneDirectiveCompilerRegistrant
         });
         $compiler->registerDirectiveCompiler("extends", function ($expression)
         {
-            $code = "<?php \$__opulenceParentTemplate = \$__opulenceTemplateFactory->create($expression);";
-            $code .= "\$__opulenceCompiler->compile(\$__opulenceParentTemplate, \$__opulenceParentTemplate->getContents()); ?>";
+            $code = "<?php \$__opulenceParentView = \$__opulenceViewFactory->create($expression);";
+            $code .= "\$__opulenceCompiler->compile(\$__opulenceParentView, \$__opulenceParentView->getContents()); ?>";
             $code = addcslashes($code, '"');
 
             return "<?php \$__opulenceFortuneCompiler->append(\"$code\"); ?>";
@@ -79,8 +79,8 @@ class FortuneDirectiveCompilerRegistrant
         });
         $compiler->registerDirectiveCompiler("include", function ($expression)
         {
-            $code = "<?php \$__opulenceIncludedTemplate = \$__opulenceTemplateFactory->create($expression);";
-            $code .= "\$__opulenceCompiler->compile(\$__opulenceIncludedTemplate, \$__opulenceIncludedTemplate->getContents()); ?>";
+            $code = "<?php \$__opulenceIncludedView = \$__opulenceViewFactory->create($expression);";
+            $code .= "\$__opulenceCompiler->compile(\$__opulenceIncludedView, \$__opulenceIncludedView->getContents()); ?>";
 
             return $code;
         });

@@ -4,7 +4,7 @@
  *
  * Defines a sanitized tag node
  */
-namespace Opulence\Views\Compilers\Parsers\Nodes;
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
 class SanitizedTagNode extends Node
 {

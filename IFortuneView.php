@@ -2,11 +2,11 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the interface for templates to implement
+ * Defines the interface for views to implement
  */
 namespace Opulence\Views;
 
-interface ITemplate
+interface IFortuneView extends IView
 {
     /** The directive delimiter */
     const DELIMITER_TYPE_DIRECTIVE = 1;
@@ -14,13 +14,6 @@ interface ITemplate
     const DELIMITER_TYPE_SANITIZED_TAG = 2;
     /** The unsanitized tag delimiter */
     const DELIMITER_TYPE_UNSANITIZED_TAG = 3;
-
-    /**
-     * Gets the uncompiled contents
-     *
-     * @return string The uncompiled contents
-     */
-    public function getContents();
 
     /**
      * Gets the open and close delimiters for a particular type
@@ -31,22 +24,22 @@ interface ITemplate
     public function getDelimiters($type);
 
     /**
-     * Gets the parent template if there is one
+     * Gets the parent view if there is one
      *
-     * @return ITemplate|null The parent template if there is one, otherwise null
+     * @return IFortuneView|null The parent view if there is one, otherwise null
      */
     public function getParent();
 
     /**
-     * Gets the contents of a template part
+     * Gets the contents of a view part
      *
-     * @param string $name The name of the template part to get
-     * @return string The contents of the template part
+     * @param string $name The name of the view part to get
+     * @return string The contents of the view part
      */
     public function getPart($name);
 
     /**
-     * Gets the list of template parts
+     * Gets the list of view parts
      *
      * @return array The part name => content mappings
      */
@@ -61,38 +54,16 @@ interface ITemplate
     public function getTag($name);
 
     /**
-     * Gets the list of tags defined in this template
+     * Gets the list of tags defined in this view
      *
      * @return array The tag name => value mappings
      */
     public function getTags();
 
     /**
-     * Gets the value for a variable
-     *
-     * @param string $name The name of the variable to get
-     * @return mixed|null The value of the variable if it exists, otherwise null
-     */
-    public function getVar($name);
-
-    /**
-     * Gets the list of variables defined in this template
-     *
-     * @return array The variable name => value mappings
-     */
-    public function getVars();
-
-    /**
-     * Prepares the template for compiling
+     * Prepares the view for compiling
      */
     public function prepare();
-
-    /**
-     * Sets the uncompiled contents of the template
-     *
-     * @param string $contents The uncompiled contents
-     */
-    public function setContents($contents);
 
     /**
      * Sets the values for a delimiter type
@@ -103,14 +74,14 @@ interface ITemplate
     public function setDelimiters($type, array $values);
 
     /**
-     * Sets the parent of this template
+     * Sets the parent of this view
      *
-     * @param ITemplate $parent The parent of this template
+     * @param IFortuneView $parent The parent of this view
      */
-    public function setParent(ITemplate $parent);
+    public function setParent(IFortuneView $parent);
 
     /**
-     * Sets the content of a template part
+     * Sets the content of a view part
      *
      * @param string $name The name of the part to set
      * @param string $content The content of the part
@@ -118,14 +89,14 @@ interface ITemplate
     public function setPart($name, $content);
 
     /**
-     * Sets multiple parts' contents in the template
+     * Sets multiple parts' contents in the view
      *
      * @param array $namesToContents The mapping of part names to their respective values
      */
     public function setParts(array $namesToContents);
 
     /**
-     * Sets the value for a tag in the template
+     * Sets the value for a tag in the view
      * If the value was previously set for this tag, it'll be overwritten
      *
      * @param string $name The name of the tag to replace
@@ -134,25 +105,9 @@ interface ITemplate
     public function setTag($name, $value);
 
     /**
-     * Sets multiple tags' values in the template
+     * Sets multiple tags' values in the view
      *
      * @param array $namesToValues The mapping of tag names to their respective values
      */
     public function setTags(array $namesToValues);
-
-    /**
-     * Sets the value for a variable in the template
-     *
-     * @param string $name The name of the variable whose value we're setting
-     *      For example, if we are setting the value of a variable named "$email" in the template, pass in "email"
-     * @param mixed $value The value of the variable
-     */
-    public function setVar($name, $value);
-
-    /**
-     * Sets multiple variables' values in the template
-     *
-     * @param array $namesToValues The mapping of variable names to their respective values
-     */
-    public function setVars(array $namesToValues);
 }

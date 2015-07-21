@@ -4,7 +4,7 @@
  *
  * Defines a view node
  */
-namespace Opulence\Views\Compilers\Parsers\Nodes;
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
 abstract class Node
 {

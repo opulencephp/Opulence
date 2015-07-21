@@ -2,12 +2,25 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines an unsanitized tag node
+ * Defines the root node
  */
-namespace Opulence\Views\Compilers\Parsers\Nodes;
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
-class UnsanitizedTagNode extends Node
+class RootNode extends Node
 {
+    public function __construct()
+    {
+        parent::__construct(null);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getParent()
+    {
+        return $this;
+    }
+
     /**
      * @inheritDoc
      */
@@ -45,6 +58,6 @@ class UnsanitizedTagNode extends Node
      */
     public function isUnsanitizedTag()
     {
-        return true;
+        return false;
     }
 }

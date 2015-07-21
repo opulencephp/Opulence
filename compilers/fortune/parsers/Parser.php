@@ -4,14 +4,14 @@
  *
  * Defines a view parser
  */
-namespace Opulence\Views\Compilers\Parsers;
-use Opulence\Views\Compilers\Parsers\Nodes\DirectiveNode;
-use Opulence\Views\Compilers\Parsers\Nodes\DirectiveNameNode;
-use Opulence\Views\Compilers\Parsers\Nodes\ExpressionNode;
-use Opulence\Views\Compilers\Parsers\Nodes\SanitizedTagNode;
-use Opulence\Views\Compilers\Parsers\Nodes\UnsanitizedTagNode;
-use Opulence\Views\Compilers\Lexers\Tokens\Token;
-use Opulence\Views\Compilers\Lexers\Tokens\TokenTypes;
+namespace Opulence\Views\Compilers\Fortune\Parsers;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNameNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
+use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
+use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use RuntimeException;
 
 class Parser implements IParser
