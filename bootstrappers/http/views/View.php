@@ -25,7 +25,7 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
     protected $viewFactory = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getBindings()
     {
@@ -33,7 +33,7 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

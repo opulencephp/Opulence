@@ -44,7 +44,7 @@ class Commands extends Bootstrapper
     private $commandCollection = null;
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {

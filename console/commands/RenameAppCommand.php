@@ -38,7 +38,7 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -58,7 +58,7 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

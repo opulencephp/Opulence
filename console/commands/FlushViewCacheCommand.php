@@ -25,7 +25,7 @@ class FlushViewCacheCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -34,7 +34,7 @@ class FlushViewCacheCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

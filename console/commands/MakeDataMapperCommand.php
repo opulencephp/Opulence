@@ -22,7 +22,7 @@ class MakeDataMapperCommand extends MakeCommand
     private $dataMapperType = "";
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -33,7 +33,7 @@ class MakeDataMapperCommand extends MakeCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {
@@ -46,7 +46,7 @@ class MakeDataMapperCommand extends MakeCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getDefaultNamespace($rootNamespace)
     {
@@ -54,7 +54,7 @@ class MakeDataMapperCommand extends MakeCommand
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function getFileTemplatePath()
     {

@@ -45,7 +45,7 @@ class FlushFrameworkCacheCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -54,7 +54,7 @@ class FlushFrameworkCacheCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

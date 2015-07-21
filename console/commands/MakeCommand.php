@@ -63,7 +63,7 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -75,7 +75,7 @@ abstract class MakeCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

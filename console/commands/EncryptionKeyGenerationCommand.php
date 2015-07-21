@@ -32,7 +32,7 @@ class EncryptionKeyGenerationCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -47,7 +47,7 @@ class EncryptionKeyGenerationCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {

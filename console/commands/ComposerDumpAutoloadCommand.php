@@ -25,7 +25,7 @@ class ComposerDumpAutoloadCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function define()
     {
@@ -34,7 +34,7 @@ class ComposerDumpAutoloadCommand extends Command
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function doExecute(IResponse $response)
     {
