@@ -24,7 +24,7 @@ class JSONResponse extends Response
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param mixed $content The content to set
      * @throws InvalidArgumentException Thrown if the input could not be JSON encoded
      */
