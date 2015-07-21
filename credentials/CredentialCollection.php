@@ -44,7 +44,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function add(ICredential $credential)
     {
@@ -60,7 +60,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function delete(Response $response, $type)
     {
@@ -75,7 +75,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function get($type)
     {
@@ -96,7 +96,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getAll()
     {
@@ -104,7 +104,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntityId()
     {
@@ -112,7 +112,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntityTypeId()
     {
@@ -120,7 +120,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTypes()
     {
@@ -128,7 +128,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function has($type)
     {
@@ -153,7 +153,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function registerStorage($type, Storage\ICredentialStorage $storage)
     {
@@ -161,7 +161,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function save(Response $response, ICredential $credential, $unhashedToken)
     {
@@ -174,7 +174,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setEntityId($entityId)
     {
@@ -182,7 +182,7 @@ class CredentialCollection implements ICredentialCollection
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setEntityTypeId($entityTypeId)
     {

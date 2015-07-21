@@ -45,7 +45,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function deactivate()
     {
@@ -53,7 +53,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntityId()
     {
@@ -61,7 +61,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getEntityTypeId()
     {
@@ -77,7 +77,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getToken()
     {
@@ -85,7 +85,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function getTypeId()
     {
@@ -93,7 +93,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function isActive()
     {
@@ -101,7 +101,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setEntityId($entityId)
     {
@@ -109,7 +109,7 @@ class Credential implements ICredential
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function setId($id)
     {
