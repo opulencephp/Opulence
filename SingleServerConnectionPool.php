@@ -9,7 +9,7 @@ namespace Opulence\Databases;
 class SingleServerConnectionPool extends ConnectionPool
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -24,7 +24,7 @@ class SingleServerConnectionPool extends ConnectionPool
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {

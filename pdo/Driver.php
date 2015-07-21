@@ -20,7 +20,7 @@ abstract class Driver implements IDriver
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @return Connection The PDO connection
      */
     public function connect(Server $server, array $connectionOptions = [], array $driverOptions = [])

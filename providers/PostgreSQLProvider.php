@@ -8,7 +8,7 @@ namespace Opulence\Databases\Providers;
 
 class PostgreSQLProvider extends Provider
 {
-    /** {@inheritdoc} */
+    /** @inheritdoc */
     protected $timestampWithTimeZoneFormat = "Y-m-d H:i:s O";
     /** @var array The list of acceptable "true" values in PostgreSQL */
     private $trueBooleanValues = [
@@ -30,7 +30,7 @@ class PostgreSQLProvider extends Provider
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function convertFromSQLBoolean($value)
     {
@@ -47,7 +47,7 @@ class PostgreSQLProvider extends Provider
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function convertToSQLBoolean($value)
     {

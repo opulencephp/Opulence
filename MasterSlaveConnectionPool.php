@@ -16,7 +16,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     ];
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      * @param Server[] $slaves The list of slave servers to use
      */
     public function __construct(
@@ -82,7 +82,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
@@ -103,7 +103,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {
