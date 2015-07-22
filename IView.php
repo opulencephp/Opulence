@@ -16,6 +16,13 @@ interface IView
     public function getContents();
 
     /**
+     * Gets the path of the raw view
+     *
+     * @return string The path of the raw view
+     */
+    public function getPath();
+
+    /**
      * Gets the value for a variable
      *
      * @param string $name The name of the variable to get
@@ -36,6 +43,13 @@ interface IView
      * @param string $contents The uncompiled contents
      */
     public function setContents($contents);
+
+    /**
+     * Sets the path of the raw view
+     *
+     * @param string $path The path of the raw view
+     */
+    public function setPath($path);
 
     /**
      * Sets the value for a variable in the view

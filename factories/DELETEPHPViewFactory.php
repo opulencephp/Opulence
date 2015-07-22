@@ -12,9 +12,9 @@ class PHPViewFactory extends ViewFactory
     /**
      * @inheritDoc
      */
-    protected function createViewFromContent($content)
+    protected function createView($path, $content)
     {
-        return new View($content);
+        return new View($path, $content);
     }
 
     /**

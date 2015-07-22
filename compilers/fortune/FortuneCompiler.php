@@ -96,7 +96,7 @@ class FortuneCompiler implements ICompiler
     {
         $tokens = $this->lexer->lex($view, $contents);
         $ast = $this->parser->parse($tokens);
-        $compiledContent = $this->compileNodes($view, $ast);
+        $compiledContent = $this->compileNodes($ast);
 
         if(count($this->appendedText) > 0)
         {
@@ -238,12 +238,11 @@ class FortuneCompiler implements ICompiler
     /**
      * Compiles all nodes in an abstract syntax tree
      *
-     * @param IFortuneView $view The view that's being compiled
      * @param AbstractSyntaxTree $ast The abstract syntax tree to compile
      * @return string The view with compiled nodes
      * @throws RuntimeException Thrown if the nodes could not be compiled
      */
-    protected function compileNodes(IFortuneView $view, AbstractSyntaxTree $ast)
+    protected function compileNodes(AbstractSyntaxTree $ast)
     {
         $compiledView = "";
         $rootNode = $ast->getRootNode();
@@ -257,11 +256,11 @@ class FortuneCompiler implements ICompiler
 
                     break;
                 case SanitizedTagNode::class:
-                    $compiledView .= $this->compileSanitizedTagNode($childNode, $view);
+                    $compiledView .= $this->compileSanitizedTagNode($childNode);
 
                     break;
                 case UnsanitizedTagNode::class:
-                    $compiledView .= $this->compileUnsanitizedTagNode($childNode, $view);
+                    $compiledView .= $this->compileUnsanitizedTagNode($childNode);
 
                     break;
                 case ExpressionNode::class:
@@ -285,28 +284,22 @@ class FortuneCompiler implements ICompiler
      * Compiles a sanitized tag node
      *
      * @param Node $node The node to compile
-     * @param IFortuneView $view The view being compiled
      * @return string The compiled node
      */
-    protected function compileSanitizedTagNode(Node $node, IFortuneView $view)
+    protected function compileSanitizedTagNode(Node $node)
     {
-        $compiledExpression = $this->replaceFunctionCalls($node->getValue());
-
-        return "<?php echo \$__opulenceFortuneCompiler->sanitize({$this->compileTagValue($view, $compiledExpression)}); ?>";
+        return "<?php echo \$__opulenceFortuneCompiler->sanitize({$this->replaceFunctionCalls($node->getValue())}); ?>";
     }
 
     /**
      * Compiles an unsanitized tag node
      *
      * @param Node $node The node to compile
-     * @param IFortuneView $view The view being compiled
      * @return string The compiled node
      */
-    protected function compileUnsanitizedTagNode(Node $node, IFortuneView $view)
+    protected function compileUnsanitizedTagNode(Node $node)
     {
-        $compiledExpression = $this->replaceFunctionCalls($node->getValue());
-
-        return "<?php echo {$this->compileTagValue($view, $compiledExpression)}; ?>";
+        return "<?php echo {$this->replaceFunctionCalls($node->getValue())}; ?>";
     }
 
     /**
@@ -338,42 +331,5 @@ class FortuneCompiler implements ICompiler
             $callback,
             $content
         );
-    }
-
-    /**
-     * Gets the value of a tag
-     * If the input is the name of a tag, that tag's contents are returned
-     * If it's an expression, the expression is returned
-     *
-     * @param IFortuneView $view
-     * @param mixed $value The value
-     * @return string The compiled tag value
-     */
-    private function compileTagValue(IFortuneView $view, $value)
-    {
-        if(
-            preg_match(
-                sprintf(
-                // Account for multiple lines before and after tag name
-                    "/^[%s\s]*([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)[%s\s]*$/",
-                    preg_quote(PHP_EOL, "/"),
-                    preg_quote(PHP_EOL, "/")
-                ),
-                $value, $matches
-            ) === 1
-        )
-        {
-            $value = $view->getTag($matches[1]);
-
-            // There was no tag with this name
-            if($value === null)
-            {
-                return "";
-            }
-
-            return '"' . addslashes($value) . '"';
-        }
-
-        return $value;
     }
 }

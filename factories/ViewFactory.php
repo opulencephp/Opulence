@@ -38,9 +38,9 @@ abstract class ViewFactory implements IViewFactory
     public function create($name)
     {
         $name = ltrim($name, "/");
-        $viewPath = "$name.{$this->getExtension()}";
-        $content = $this->fileSystem->read("$this->rootViewDirectory/$viewPath");
-        $view = $this->createViewFromContent($content);
+        $path = "{$this->rootViewDirectory}/$name.{$this->getExtension()}";
+        $content = $this->fileSystem->read($path);
+        $view = $this->createView($path, $content);
 
         return $this->runBuilders($name, $view);
     }
@@ -70,12 +70,13 @@ abstract class ViewFactory implements IViewFactory
     }
 
     /**
-     * Creates a view from the contents of a file
+     * Creates a view from the path and contents of a raw view
      *
+     * @param string $path The path to the raw view
      * @param string $content The contents of the view
      * @return IView The view
      */
-    abstract protected function createViewFromContent($content);
+    abstract protected function createView($path, $content);
 
     /**
      * Gets the extension of view files created by this factory

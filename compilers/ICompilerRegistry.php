@@ -20,10 +20,10 @@ interface ICompilerRegistry
     public function get(IView $view);
 
     /**
-     * Registers a compiler for all instances of the input view class
+     * Registers a compiler for all view files with the input extension
      *
-     * @param string $viewClass The class name of the view that this compiler handles
+     * @param string $extension The extension (without preceding period) this compiler compiles
      * @param ICompiler $compiler The compiler for the input view class
      */
-    public function registerCompiler($viewClass, ICompiler $compiler);
+    public function registerCompiler($extension, ICompiler $compiler);
 }

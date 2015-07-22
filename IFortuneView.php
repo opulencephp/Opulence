@@ -46,26 +46,6 @@ interface IFortuneView extends IView
     public function getParts();
 
     /**
-     * Gets the value for a tag
-     *
-     * @param string $name The name of the tag to get
-     * @return mixed|null The value of the tag if it exists, otherwise null
-     */
-    public function getTag($name);
-
-    /**
-     * Gets the list of tags defined in this view
-     *
-     * @return array The tag name => value mappings
-     */
-    public function getTags();
-
-    /**
-     * Prepares the view for compiling
-     */
-    public function prepare();
-
-    /**
      * Sets the values for a delimiter type
      *
      * @param mixed $type The type of delimiter to set
@@ -94,20 +74,4 @@ interface IFortuneView extends IView
      * @param array $namesToContents The mapping of part names to their respective values
      */
     public function setParts(array $namesToContents);
-
-    /**
-     * Sets the value for a tag in the view
-     * If the value was previously set for this tag, it'll be overwritten
-     *
-     * @param string $name The name of the tag to replace
-     * @param mixed $value The value with which to replace the tag name
-     */
-    public function setTag($name, $value);
-
-    /**
-     * Sets multiple tags' values in the view
-     *
-     * @param array $namesToValues The mapping of tag names to their respective values
-     */
-    public function setTags(array $namesToValues);
 }
