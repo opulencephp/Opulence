@@ -116,25 +116,6 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests compiling a sanitized tag whose contents are a tag name
-     */
-    public function testCompilingSanitizedTagWhoseContentsAreTagName()
-    {
-        $this->view->setContents('{{foo}}');
-        $this->view->expects($this->any())
-            ->method("getTag")
-            ->with("foo")
-            ->willReturn('bar"baz');
-        $tagNode = new SanitizedTagNode("foo");
-        $this->ast->getCurrentNode()
-            ->addChild($tagNode);
-        $this->assertEquals(
-            '<?php echo $__opulenceFortuneCompiler->sanitize("bar\"baz"); ?>',
-            $this->compiler->compile($this->view, $this->view->getContents())
-        );
-    }
-
-    /**
      * Tests compiling an unsanitized tag whose contents are an expression
      */
     public function testCompilingUnsanitizedTagWhoseContentsAreExpression()
@@ -144,24 +125,6 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
             ->addChild($tagNode);
         $this->assertEquals(
             '<?php echo $foo ? "bar" : "baz"; ?>',
-            $this->compiler->compile($this->view, $this->view->getContents())
-        );
-    }
-
-    /**
-     * Tests compiling an unsanitized tag whose contents are a tag name
-     */
-    public function testCompilingUnsanitizedTagWhoseContentsAreTagName()
-    {
-        $this->view->expects($this->any())
-            ->method("getTag")
-            ->with("foo")
-            ->willReturn('bar"baz');
-        $tagNode = new UnsanitizedTagNode("foo");
-        $this->ast->getCurrentNode()
-            ->addChild($tagNode);
-        $this->assertEquals(
-            '<?php echo "bar\"baz"; ?>',
             $this->compiler->compile($this->view, $this->view->getContents())
         );
     }

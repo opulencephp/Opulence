@@ -28,7 +28,10 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(InvalidArgumentException::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class, [], [], "MockView");
+        $view = $this->getMock(IView::class);
+        $view->expects($this->any())
+            ->method("getPath")
+            ->willReturn("foo");
         $this->registry->get($view);
     }
 
@@ -40,8 +43,11 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
         $compiler = $this->getMock(ICompiler::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class, [], [], "MockView");
-        $this->registry->registerCompiler("MockView", $compiler);
+        $view = $this->getMock(IView::class);
+        $view->expects($this->any())
+            ->method("getPath")
+            ->willReturn("php");
+        $this->registry->registerCompiler("php", $compiler);
         $this->assertSame($compiler, $this->registry->get($view));
     }
 }

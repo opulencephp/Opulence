@@ -12,9 +12,9 @@ class FortuneViewFactory extends ViewFactory
     /**
      * @inheritDoc
      */
-    protected function createViewFromContent($content)
+    protected function createView($path, $content)
     {
-        return new FortuneView($content);
+        return new FortuneView($path, $content);
     }
 
     /**

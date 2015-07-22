@@ -11,14 +11,18 @@ class View implements IView
 {
     /** @var string The uncompiled contents of the view */
     protected $contents = "";
+    /** @var string The path to the raw view */
+    protected $path = "";
     /** @var array The mapping of PHP variable names to their values */
     protected $vars = [];
 
     /**
+     * @param string $path The path to the raw view
      * @param string $contents The contents of the view
      */
-    public function __construct($contents = "")
+    public function __construct($path = "", $contents = "")
     {
+        $this->setPath($path);
         $this->setContents($contents);
     }
 
@@ -28,6 +32,14 @@ class View implements IView
     public function getContents()
     {
         return $this->contents;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getPath()
+    {
+        return $this->path;
     }
 
     /**
@@ -62,6 +74,14 @@ class View implements IView
         }
 
         $this->contents = $contents;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function setPath($path)
+    {
+        $this->path = $path;
     }
 
     /**

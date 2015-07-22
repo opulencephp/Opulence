@@ -21,8 +21,6 @@ class FortuneView extends View implements IFortuneView
     /** The default close tag for directive delimiter */
     const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = "%>";
 
-    /** @var array The mapping of tag names to their values */
-    protected $tags = [];
     /** @var array The mapping of view part names to their contents */
     protected $parts = [];
     /** @var IFortuneView|null The parent view if there is one, otherwise false */
@@ -108,47 +106,6 @@ class FortuneView extends View implements IFortuneView
     /**
      * @inheritdoc
      */
-    public function getTag($name)
-    {
-        if(isset($this->tags[$name]))
-        {
-            return $this->tags[$name];
-        }
-        elseif($this->parent !== null)
-        {
-            return $this->parent->getTag($name);
-        }
-
-        return null;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTags()
-    {
-        $tags = $this->tags;
-        $currParent = $this->parent;
-
-        while($currParent !== null)
-        {
-            foreach($this->parent->getTags() as $name => $value)
-            {
-                if(!array_key_exists($name, $this->tags))
-                {
-                    $tags[$name] = $value;
-                }
-            }
-
-            $currParent = $this->parent->getParent();
-        }
-
-        return $tags;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getVar($name)
     {
         if(isset($this->vars[$name]))
@@ -190,14 +147,6 @@ class FortuneView extends View implements IFortuneView
     /**
      * @inheritdoc
      */
-    public function prepare()
-    {
-        // Don't do anything
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setDelimiters($type, array $values)
     {
         $this->delimiters[$type] = $values;
@@ -227,25 +176,6 @@ class FortuneView extends View implements IFortuneView
         foreach($namesToContents as $name => $content)
         {
             $this->setPart($name, $content);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTag($name, $value)
-    {
-        $this->tags[$name] = $value;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setTags(array $namesToValues)
-    {
-        foreach($namesToValues as $name => $value)
-        {
-            $this->setTag($name, $value);
         }
     }
 } 

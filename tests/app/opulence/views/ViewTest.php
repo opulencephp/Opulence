@@ -68,8 +68,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentsInConstructor()
     {
-        $view = new View("foo");
-        $this->assertEquals("foo", $view->getContents());
+        $view = new View("foo", "bar");
+        $this->assertEquals("bar", $view->getContents());
     }
 
     /**
@@ -92,6 +92,24 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $vars = $property->getValue($this->view);
         $this->assertEquals(["foo" => "bar", "abc" => ["xyz"]], $vars);
+    }
+
+    /**
+     * Tests setting the path in the constructor
+     */
+    public function testSettingPathInConstructor()
+    {
+        $view = new View("foo");
+        $this->assertEquals("foo", $view->getPath());
+    }
+
+    /**
+     * Tests setting the path in the setter
+     */
+    public function testSettingPathInSetter()
+    {
+        $this->view->setPath("foo");
+        $this->assertEquals("foo", $this->view->getPath());
     }
 
     /**

@@ -40,21 +40,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
             $router->get("/ise", "HTTPApplicationTestController@setISE");
             $router->get("/ok", "HTTPApplicationTestController@setOK");
             $router->get("/redirect", "HTTPApplicationTestController@redirect");
-            $router->get("/settag", "HTTPApplicationTestController@setTag");
             $router->get("/setvar", "HTTPApplicationTestController@setVar");
             $router->get("/unauthorized", "HTTPApplicationTestController@setUnauthorized");
             $router->get("/non-opulence-controller", "NonOpulenceController@showFoo");
         });
-    }
-
-    /**
-     * Tests asserting that a view has a tag
-     */
-    public function testAssertViewHasTag()
-    {
-        $this->testCase->route("GET", "/settag");
-        $this->testCase->assertViewHasTag("foo");
-        $this->testCase->assertViewTagEquals("foo", "bar");
     }
 
     /**
@@ -175,26 +164,6 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that a logic exception is thrown if checking if a view has a tag when using a closure controller
-     */
-    public function testLogicExceptionCheckingIfViewHasTagFromNonClosureController()
-    {
-        $this->setExpectedException(LogicException::class);
-        $this->testCase->route("GET", "/closure-controller");
-        $this->testCase->assertViewHasTag("foo");
-    }
-
-    /**
-     * Tests that a logic exception is thrown if checking if a view has a tag when using a non-Opulence controller
-     */
-    public function testLogicExceptionCheckingIfViewHasTagFromNonOpulenceController()
-    {
-        $this->setExpectedException(LogicException::class);
-        $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertViewHasTag("foo");
-    }
-
-    /**
      * Tests that a logic exception is thrown if checking if a view has a variable when using a non-Opulence controller
      */
     public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController()
@@ -202,16 +171,6 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-opulence-controller");
         $this->testCase->assertViewHasVar("foo");
-    }
-
-    /**
-     * Tests that a logic exception is thrown if getting a view tag when using a non-Opulence controller
-     */
-    public function testLogicExceptionGettingViewTagFromNonOpulenceController()
-    {
-        $this->setExpectedException(LogicException::class);
-        $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertViewTagEquals("bar", "foo");
     }
 
     /**

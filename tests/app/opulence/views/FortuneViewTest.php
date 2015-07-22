@@ -64,18 +64,6 @@ class FortuneViewTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting an inherited tag from the parent
      */
-    public function testGettingInheritedTagFromParent()
-    {
-        $parent = clone $this->view;
-        $parent->setTag("foo", "bar");
-        $this->view->setParent($parent);
-        $this->assertEquals("bar", $this->view->getTag("foo"));
-        $this->assertEquals(["foo" => "bar"], $this->view->getTags());
-    }
-
-    /**
-     * Tests getting an inherited tag from the parent
-     */
     public function testGettingInheritedVarFromParent()
     {
         $parent = clone $this->view;
@@ -91,14 +79,6 @@ class FortuneViewTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentParent()
     {
         $this->assertNull($this->view->getParent());
-    }
-
-    /**
-     * Tests getting a non-existent tag
-     */
-    public function testGettingNonExistentTag()
-    {
-        $this->assertNull($this->view->getTag("foo"));
     }
 
     /**
@@ -133,24 +113,6 @@ class FortuneViewTest extends \PHPUnit_Framework_TestCase
         $sanitizedDelimiters = $this->view->getDelimiters(FortuneView::DELIMITER_TYPE_SANITIZED_TAG);
         $this->assertEquals("foo", $sanitizedDelimiters[0]);
         $this->assertEquals("bar", $sanitizedDelimiters[1]);
-    }
-
-    /**
-     * Tests getting a tag
-     */
-    public function testGettingTag()
-    {
-        $this->view->setTag("foo", "bar");
-        $this->assertEquals("bar", $this->view->getTag("foo"));
-    }
-
-    /**
-     * Tests getting the tags
-     */
-    public function testGettingTags()
-    {
-        $this->view->setTag("foo", "bar");
-        $this->assertEquals(["foo" => "bar"], $this->view->getTags());
     }
 
     /**
@@ -193,19 +155,6 @@ class FortuneViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting multiple tags in a view
-     */
-    public function testSettingMultipleTags()
-    {
-        $this->view->setTags(["foo" => "bar", "abc" => "xyz"]);
-        $reflectionObject = new \ReflectionObject($this->view);
-        $property = $reflectionObject->getProperty("tags");
-        $property->setAccessible(true);
-        $tags = $property->getValue($this->view);
-        $this->assertEquals(["foo" => "bar", "abc" => "xyz"], $tags);
-    }
-
-    /**
      * Tests setting multiple variables in a view
      */
     public function testSettingMultipleVariables()
@@ -235,19 +184,6 @@ class FortuneViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setPart("foo", "bar");
         $this->assertEquals("bar", $this->view->getPart("foo"));
-    }
-
-    /**
-     * Tests setting a tag in a view
-     */
-    public function testSettingSingleTag()
-    {
-        $this->view->setTag("foo", "bar");
-        $reflectionObject = new \ReflectionObject($this->view);
-        $property = $reflectionObject->getProperty("tags");
-        $property->setAccessible(true);
-        $tags = $property->getValue($this->view);
-        $this->assertEquals(["foo" => "bar"], $tags);
     }
 
     /**

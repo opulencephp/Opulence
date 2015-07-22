@@ -32,7 +32,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
             ->willReturn("html");
         $this->view = $this->getMock(IView::class);
         $this->viewFactory->expects($this->any())
-            ->method("createViewFromContent")
+            ->method("createView")
             ->willReturn($this->view);
     }
 
@@ -41,10 +41,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithTrailingSlash()
     {
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
+        $path = __DIR__ . "/../files/TestWithDefaultTagDelimiters.html";
+        $expectedContent = $this->fileSystem->read($path);
         $this->viewFactory->expects($this->any())
-            ->method("createViewFromContent")
-            ->with($expectedContent);
+            ->method("createView")
+            ->with($path, $expectedContent);
         $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
@@ -53,10 +54,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInRootWithoutTrailingSlash()
     {
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
+        $path = __DIR__ . "/../files/TestWithDefaultTagDelimiters.html";
+        $expectedContent = $this->fileSystem->read($path);
         $this->viewFactory->expects($this->any())
-            ->method("createViewFromContent")
-            ->with($expectedContent);
+            ->method("createView")
+            ->with($path, $expectedContent);
         $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 
@@ -74,10 +76,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInViewPathWithPrecedingSlash()
     {
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
+        $path = __DIR__ . "/../files/TestWithDefaultTagDelimiters.html";
+        $expectedContent = $this->fileSystem->read($path);
         $this->viewFactory->expects($this->any())
-            ->method("createViewFromContent")
-            ->with($expectedContent);
+            ->method("createView")
+            ->with($path, $expectedContent);
         $this->viewFactory->create("/TestWithDefaultTagDelimiters");
     }
 
@@ -86,10 +89,11 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInViewPathWithoutPrecedingSlash()
     {
-        $expectedContent = $this->fileSystem->read(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
+        $path = __DIR__ . "/../files/TestWithDefaultTagDelimiters.html";
+        $expectedContent = $this->fileSystem->read($path);
         $this->viewFactory->expects($this->any())
-            ->method("createViewFromContent")
-            ->with($expectedContent);
+            ->method("createView")
+            ->with($path, $expectedContent);
         $this->viewFactory->create("TestWithDefaultTagDelimiters");
     }
 

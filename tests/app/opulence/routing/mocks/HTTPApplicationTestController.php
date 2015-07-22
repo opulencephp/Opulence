@@ -82,19 +82,6 @@ class HTTPApplicationTestController extends BaseController
     }
 
     /**
-     * Sets a tag in the view
-     *
-     * @return Response The response
-     */
-    public function setTag()
-    {
-        $this->view = new FortuneView("thecontent");
-        $this->view->setTag("foo", "bar");
-
-        return new Response("FooBar");
-    }
-
-    /**
      * Sets an unauthorized response
      *
      * @return Response The response

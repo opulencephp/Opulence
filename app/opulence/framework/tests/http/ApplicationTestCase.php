@@ -170,24 +170,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
-     * Asserts that the view has a tag
-     *
-     * @param string $name The name of the tag to search for
-     * @throws LogicException Thrown if the controller does not extend the base controller
-     */
-    public function assertViewHasTag($name)
-    {
-        $this->checkResponseIsSet();
-
-        if(!$this->router->getMatchedController() instanceof Controller)
-        {
-            throw new LogicException("Controller does not extend " . Controller::class);
-        }
-
-        $this->assertNotNull($this->router->getMatchedController()->getView()->getTag($name));
-    }
-
-    /**
      * Asserts that the view has a variable
      *
      * @param string $name The name of the variable to search for
@@ -203,25 +185,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         $this->assertNotNull($this->router->getMatchedController()->getView()->getVar($name));
-    }
-
-    /**
-     * Asserts that the view has a tag with a certain value
-     *
-     * @param string $name The name of the tag to search for
-     * @param mixed $expected The expected value
-     * @throws LogicException Thrown if the controller does not extend the base controller
-     */
-    public function assertViewTagEquals($name, $expected)
-    {
-        $this->checkResponseIsSet();
-
-        if(!$this->router->getMatchedController() instanceof Controller)
-        {
-            throw new LogicException("Controller does not extend " . Controller::class);
-        }
-
-        $this->assertEquals($expected, $this->router->getMatchedController()->getView()->getTag($name));
     }
 
     /**

@@ -10,7 +10,7 @@ use Opulence\Views\IView;
 
 class CompilerRegistry implements ICompilerRegistry
 {
-    /** @var ICompiler[] The mapping of view classes to compiler instances */
+    /** @var ICompiler[] The mapping of extensions to compiler instances */
     protected $compilers = [];
 
     /**
@@ -18,21 +18,44 @@ class CompilerRegistry implements ICompilerRegistry
      */
     public function get(IView $view)
     {
-        $viewClass = get_class($view);
+        $extension = $this->getExtension($view);
 
-        if(!isset($this->compilers[$viewClass]))
+        if(!isset($this->compilers[$extension]))
         {
-            throw new InvalidArgumentException("No compiler registered for view class $viewClass");
+            throw new InvalidArgumentException("No compiler registered for extension $extension");
         }
 
-        return $this->compilers[$viewClass];
+        return $this->compilers[$extension];
     }
 
     /**
      * @inheritdoc
      */
-    public function registerCompiler($viewClass, ICompiler $compiler)
+    public function registerCompiler($extension, ICompiler $compiler)
     {
-        $this->compilers[$viewClass] = $compiler;
+        $this->compilers[$extension] = $compiler;
+    }
+
+    /**
+     * Gets the extension for a view
+     *
+     * @param IView $view The view whose extension we're getting
+     * @return string The view's extension
+     * @throws InvalidArgumentException Thrown if no extension was found
+     */
+    protected function getExtension(IView $view)
+    {
+        // Find a registered extension that the view's path ends with
+        foreach(array_keys($this->compilers) as $extension)
+        {
+            $lengthDifference = strlen($view->getPath()) - strlen($extension);
+
+            if($lengthDifference >= 0 && strpos($view->getPath(), $extension, $lengthDifference) !== false)
+            {
+                return $extension;
+            }
+        }
+
+        throw new InvalidArgumentException("No extension registered for path \"{$view->getPath()}\"");
     }
 }
