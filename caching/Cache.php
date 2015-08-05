@@ -90,27 +90,27 @@ class Cache implements ICache
     /**
      * @inheritdoc
      */
-    public function get($unrenderedView, array $variables = [], array $tags = [])
+    public function get($unrenderedView, array $variables = [])
     {
-        if(!$this->has($unrenderedView, $variables, $tags))
+        if(!$this->has($unrenderedView, $variables))
         {
             return null;
         }
 
-        return $this->fileSystem->read($this->getViewPath($unrenderedView, $variables, $tags));
+        return $this->fileSystem->read($this->getViewPath($unrenderedView, $variables));
     }
 
     /**
      * @inheritdoc
      */
-    public function has($unrenderedView, array $variables = [], array $tags = [])
+    public function has($unrenderedView, array $variables = [])
     {
         if(!$this->cachingIsEnabled())
         {
             return false;
         }
 
-        $viewPath = $this->getViewPath($unrenderedView, $variables, $tags);
+        $viewPath = $this->getViewPath($unrenderedView, $variables);
         $exists = $this->fileSystem->exists($viewPath);
 
         if(!$exists)
@@ -133,11 +133,11 @@ class Cache implements ICache
     /**
      * @inheritdoc
      */
-    public function set($renderedView, $unrenderedView, array $variables = [], array $tags = [])
+    public function set($renderedView, $unrenderedView, array $variables = [])
     {
         if($this->cachingIsEnabled())
         {
-            $this->fileSystem->write($this->getViewPath($unrenderedView, $variables, $tags), $renderedView);
+            $this->fileSystem->write($this->getViewPath($unrenderedView, $variables), $renderedView);
         }
     }
 
@@ -179,15 +179,13 @@ class Cache implements ICache
      *
      * @param string $unrenderedView The unrendered view
      * @param array $variables The list of variables used by this view
-     * @param array $tags The list of tag values used by this view
      * @return string The path to the cached view
      */
-    private function getViewPath($unrenderedView, array $variables, array $tags)
+    private function getViewPath($unrenderedView, array $variables)
     {
         return $this->path . "/" . md5(http_build_query([
             "u" => $unrenderedView,
-            "v" => $variables,
-            "t" => $tags
+            "v" => $variables
         ]));
     }
 

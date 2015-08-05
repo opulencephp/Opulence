@@ -30,20 +30,18 @@ interface ICache
      *
      * @param string $unrenderedView The unrendered view
      * @param array $variables The variables to match on
-     * @param array $tags The tags to match on
      * @return string|null The rendered view if it existed, otherwise null
      */
-    public function get($unrenderedView, array $variables = [], array $tags = []);
+    public function get($unrenderedView, array $variables = []);
 
     /**
      * Gets whether or not the cache has the unrendered view with the input data
      *
      * @param string $unrenderedView The unrendered view
      * @param array $variables The variables to match on
-     * @param array $tags The tags to match on
      * @return bool True if the cache has an unexpired rendered view, otherwise false
      */
-    public function has($unrenderedView, array $variables = [], array $tags = []);
+    public function has($unrenderedView, array $variables = []);
 
     /**
      * Stores a rendered view to cache
@@ -51,10 +49,9 @@ interface ICache
      * @param string $renderedView The rendered view
      * @param string $unrenderedView The unrendered view
      * @param array $variables The variables to match on
-     * @param array $tags The tags to match on
      * @return bool True if successful, otherwise false
      */
-    public function set($renderedView, $unrenderedView, array $variables = [], array $tags = []);
+    public function set($renderedView, $unrenderedView, array $variables = []);
 
     /**
      * Sets the chance that garbage collection will be run
