@@ -12,8 +12,15 @@ use Opulence\Files\FileSystem;
 use Opulence\IoC\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
+use Opulence\Views\Compilers\CompilerRegistry;
+use Opulence\Views\Compilers\Fortune\FortuneCompiler;
+use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
+use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Compilers\PHP\PHPCompiler;
+use Opulence\Views\Factories\FileViewNameResolver;
 use Opulence\Views\Factories\IViewFactory;
+use Opulence\Views\Factories\IViewNameResolver;
 use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XSSFilter;
 
@@ -29,7 +36,7 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
      */
     public function getBindings()
     {
-        return [ICache::class, ICompiler::class, IViewFactory::class];
+        return [ICache::class, ICompiler::class, IViewFactory::class, IViewNameResolver::class];
     }
 
     /**
@@ -40,7 +47,6 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
         $this->viewCache = $this->getViewCache($container);
         $this->viewFactory = $this->getViewFactory($container);
         $compiler = $this->getViewCompiler($container);
-        $container->bind(ICache::class, $this->viewCache);
         $container->bind(ICompiler::class, $compiler);
         $container->bind(IViewFactory::class, $this->viewFactory);
     }
@@ -75,7 +81,12 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
      */
     protected function getViewCompiler(IContainer $container)
     {
-        return new Compiler($this->viewCache, $this->viewFactory, new XSSFilter());
+        $registry = new CompilerRegistry();
+        $fortuneCompiler = new FortuneCompiler(new Lexer(), new Parser(), new XSSFilter());
+        $registry->registerCompiler("fortune", $fortuneCompiler);
+        $registry->registerCompiler("php", new PHPCompiler());
+
+        return new Compiler($registry, $this->viewCache);
     }
 
     /**
@@ -87,8 +98,12 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
      */
     protected function getViewFactory(IContainer $container)
     {
-        $fileSystem = $container->makeShared(FileSystem::class);
+        $resolver = new FileViewNameResolver();
+        $resolver->registerPath($this->paths["views.raw"]);
+        $resolver->registerExtension("php");
+        $resolver->registerExtension("fortune");
+        $container->bind(IViewNameResolver::class, $resolver);
 
-        return new ViewFactory($fileSystem, $this->paths["views.raw"]);
+        return new ViewFactory($resolver, $container->makeShared(FileSystem::class));
     }
 }
