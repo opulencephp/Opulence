@@ -11,7 +11,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 
 class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var FortuneCompiler The compiler to use in tests */
+    /** @var Transpiler The compiler to use in tests */
     private $compiler = null;
 
     /**
@@ -20,7 +20,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $xssFilter = new XSSFilter();
-        $this->compiler = new FortuneCompiler(new Lexer(), new Parser(), $xssFilter);
+        $this->compiler = new Transpiler(new Lexer(), new Parser(), $xssFilter);
     }
 
     /**

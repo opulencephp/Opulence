@@ -7,7 +7,7 @@
 namespace Opulence\Views\Compilers\Fortune\Lexers;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
-use Opulence\Views\IFortuneView;
+use Opulence\Views\IView;
 use RuntimeException;
 
 class Lexer implements ILexer
@@ -34,14 +34,9 @@ class Lexer implements ILexer
     private $streamCache = ["cursor" => PHP_INT_MAX, "length" => null, "stream" => ""];
 
     /**
-     * Lexes input into a list of tokens
-     *
-     * @param IFortuneView $view The view that's being lexed
-     * @param string $input The input to lex
-     * @return Token[] The list of tokens
-     * @throws RuntimeException Thrown if there was an invalid token
+     * @inheritdoc
      */
-    public function lex(IFortuneView $view, $input)
+    public function lex(IView $view, $input)
     {
         $this->initializeVariables($view, $input);
         $this->lexExpression();
@@ -169,15 +164,15 @@ class Lexer implements ILexer
     /**
      * Initializes instance variables for lexing
      *
-     * @param IFortuneView $view The view that's being lexed
+     * @param IView $view The view that's being lexed
      * @param string $input The input to lex
      */
-    private function initializeVariables(IFortuneView $view, $input)
+    private function initializeVariables(IView $view, $input)
     {
         $this->view = $view;
-        $this->directiveDelimiters = $this->view->getDelimiters(IFortuneView::DELIMITER_TYPE_DIRECTIVE);
-        $this->sanitizedTagDelimiters = $this->view->getDelimiters(IFortuneView::DELIMITER_TYPE_SANITIZED_TAG);
-        $this->unsanitizedTagDelimiters = $this->view->getDelimiters(IFortuneView::DELIMITER_TYPE_UNSANITIZED_TAG);
+        $this->directiveDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_DIRECTIVE);
+        $this->sanitizedTagDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG);
+        $this->unsanitizedTagDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG);
         $this->input = $input;
         $this->tokens = [];
         $this->cursor = 0;
@@ -460,9 +455,9 @@ class Lexer implements ILexer
     private function lexPHPStatement()
     {
         $this->lexDelimitedExpressionStatement(
-            TokenTypes::T_PHP_OPEN_TAG,
+            TokenTypes::T_PHP_TAG_OPEN,
             "<?php",
-            TokenTypes::T_PHP_CLOSE_TAG,
+            TokenTypes::T_PHP_TAG_CLOSE,
             "?>",
             true
         );

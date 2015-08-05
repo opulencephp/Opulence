@@ -202,6 +202,23 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests parsing a PHP expression
+     */
+    public function testParsingPHPExpression()
+    {
+        $tokens = [
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'echo "foo";', 1),
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
+        ];
+        $this->ast->getCurrentNode()
+            ->addChild(new ExpressionNode('<?php'))
+            ->addChild(new ExpressionNode('echo "foo";'))
+            ->addChild(new ExpressionNode('?>'));
+        $this->assertEquals($this->ast, $this->parser->parse($tokens));
+    }
+
+    /**
      * Tests parsing a sanitized tag
      */
     public function testParsingSanitizedTag()

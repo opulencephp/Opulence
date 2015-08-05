@@ -11,7 +11,7 @@ use Opulence\HTTP\Responses\RedirectResponse;
 use Opulence\HTTP\Responses\Response;
 use Opulence\HTTP\Responses\ResponseHeaders;
 use Opulence\Routing\Controller as BaseController;
-use Opulence\Views\FortuneView;
+use Opulence\Views\View;
 
 class HTTPApplicationTestController extends BaseController
 {
@@ -98,7 +98,7 @@ class HTTPApplicationTestController extends BaseController
      */
     public function setVar()
     {
-        $this->view = new FortuneView("thecontent");
+        $this->view = new View("thecontent");
         $this->view->setVar("foo", "bar");
 
         return new Response("FooBar");

@@ -7,14 +7,14 @@
 namespace Opulence\Views\Compilers\Fortune\Lexers;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
-use Opulence\Views\FortuneView;
+use Opulence\Views\View;
 use RuntimeException;
 
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Lexer The lexer to use in tests */
     private $lexer = null;
-    /** @var FortuneView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    /** @var View|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
     private $view = null;
 
     /**
@@ -23,7 +23,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->lexer = new Lexer();
-        $this->view = $this->getMock(FortuneView::class, null);
+        $this->view = $this->getMock(View::class, null);
     }
 
     /**
@@ -90,9 +90,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingBackslashInPHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "\\";', 1),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<?php echo "\\"; ?>'));
     }
@@ -118,9 +118,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingDirectiveInsidePHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "<%";', 1),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<?php echo "<%"; ?>'));
     }
@@ -131,16 +131,16 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingDirectiveSurroundedByPHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "foo";', 1),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1),
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'show', 1),
             new Token(TokenTypes::T_EXPRESSION, '"bar"', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "baz";', 1),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
         ];
         $this->assertEquals(
             $expectedOutput,
@@ -210,9 +210,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingMultipleLinesOfPHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "<%";', 2),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 3)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 3)
         ];
         $text = '<?php' . PHP_EOL . ' echo "<%"; ' . PHP_EOL . '?>';
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, $text));
@@ -319,9 +319,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingPHP()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "foo";', 1),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
         ];
         // Lex with long open tag and close tag
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<?php echo "foo"; ?>'));
@@ -339,9 +339,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingPHPWithoutCloseTag()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_PHP_OPEN_TAG, '<?php', 1),
+            new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo 1;', 1),
-            new Token(TokenTypes::T_PHP_CLOSE_TAG, '?>', 1)
+            new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<?php echo 1;'));
     }
@@ -365,9 +365,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLexingStatementsWhoseDelimitersAreSubstringsOfOthers()
     {
-        $this->view->setDelimiters(FortuneView::DELIMITER_TYPE_DIRECTIVE, ["{{{", "}}}"]);
-        $this->view->setDelimiters(FortuneView::DELIMITER_TYPE_SANITIZED_TAG, ["{{", "}}"]);
-        $this->view->setDelimiters(FortuneView::DELIMITER_TYPE_UNSANITIZED_TAG, ["{{!", "!}}"]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ["{{{", "}}}"]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["{{", "}}"]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["{{!", "!}}"]);
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '{{{', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 1),

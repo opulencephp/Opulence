@@ -40,6 +40,9 @@ class Compiler implements ICompiler
             return $this->cache->get($contents, $view->getVars());
         }
 
-        return $this->registry->get($view)->compile($view, $contents);
+        $compiledContents = $this->registry->get($view)->compile($view, $contents);
+        $this->cache->set($compiledContents, $contents, $view->getVars());
+
+        return $compiledContents;
     }
 } 

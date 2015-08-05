@@ -51,19 +51,23 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilerIsCalledWhenViewIsNotFoundInCache()
     {
-        $this->cache->expects($this->any())
+        $this->cache->expects($this->once())
             ->method("has")
             ->willReturn(false);
+        $this->cache->expects($this->once())
+            ->method("set")
+            ->with("bar", "foo", []);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class, [], [], "MockView");
-        $view->expects($this->once())
+        $view->expects($this->any())
             ->method("getVars")
             ->willReturn([]);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
         $compiler = $this->getMock(ICompiler::class);
         $compiler->expects($this->once())
             ->method("compile")
-            ->with($view, "foo");
+            ->with($view, "foo")
+            ->willReturn("bar");
         $this->registry->expects($this->once())
             ->method("get")
             ->with($view)
