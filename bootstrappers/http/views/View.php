@@ -14,6 +14,7 @@ use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
 use Opulence\Views\Compilers\CompilerRegistry;
 use Opulence\Views\Compilers\Fortune\FortuneCompiler;
+use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\ICompiler;
@@ -82,11 +83,15 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
     protected function getViewCompiler(IContainer $container)
     {
         $registry = new CompilerRegistry();
-        $fortuneCompiler = new FortuneCompiler(new Lexer(), new Parser(), new XSSFilter());
+        $viewCompiler = new Compiler($registry, $this->viewCache);
+
+        // Setup our various sub-compilers
+        $transpiler = new Transpiler(new Lexer(), new Parser(), new XSSFilter());
+        $fortuneCompiler = new FortuneCompiler($transpiler, $viewCompiler, $this->viewFactory);
         $registry->registerCompiler("fortune", $fortuneCompiler);
         $registry->registerCompiler("php", new PHPCompiler());
 
-        return new Compiler($registry, $this->viewCache);
+        return $viewCompiler;
     }
 
     /**
