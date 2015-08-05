@@ -11,9 +11,9 @@ class TokenTypes
     /** Defines an expression token type */
     const T_EXPRESSION = "T_EXPRESSION";
     /** Defines a PHP open tag token type */
-    const T_PHP_OPEN_TAG = "T_PHP_OPEN_TAG";
+    const T_PHP_TAG_OPEN = "T_PHP_TAG_OPEN";
     /** Defines a PHP close tag token type */
-    const T_PHP_CLOSE_TAG = "T_PHP_CLOSE_TAG";
+    const T_PHP_TAG_CLOSE = "T_PHP_TAG_CLOSE";
     /** Defines a directive open token type */
     const T_DIRECTIVE_OPEN = "T_DIRECTIVE_OPEN";
     /** Defines a directive name token type */

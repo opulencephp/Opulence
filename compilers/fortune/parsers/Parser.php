@@ -96,6 +96,14 @@ class Parser implements IParser
                     $ast->setCurrentNode($ast->getCurrentNode()->getParent());
 
                     break;
+                case TokenTypes::T_PHP_TAG_OPEN:
+                    $ast->getCurrentNode()->addChild(new ExpressionNode($token->getValue()));
+
+                    break;
+                case TokenTypes::T_PHP_TAG_CLOSE:
+                    $ast->getCurrentNode()->addChild(new ExpressionNode($token->getValue()));
+
+                    break;
                 default:
                     throw new RuntimeException(
                         sprintf(
