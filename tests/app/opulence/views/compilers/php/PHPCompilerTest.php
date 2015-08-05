@@ -4,7 +4,8 @@
  *
  * Tests the PHP compiler
  */
-namespace Opulence\Views\Compilers;
+namespace Opulence\Views\Compilers\PHP;
+use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 
 class PHPCompilerTest extends \PHPUnit_Framework_TestCase

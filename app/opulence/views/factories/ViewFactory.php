@@ -8,28 +8,25 @@ namespace Opulence\Views\Factories;
 use Opulence\Files\FileSystem;
 use Opulence\Views\IBuilder;
 use Opulence\Views\IView;
+use Opulence\Views\View;
 
-abstract class ViewFactory implements IViewFactory
+class ViewFactory implements IViewFactory
 {
+    /** @var IViewNameResolver The view name resolver used to get paths to views */
+    protected $viewNameResolver = null;
     /** @var FileSystem The file system to read views with */
     protected $fileSystem = null;
-    /** @var string The root directory of the views */
-    protected $rootViewDirectory = "";
     /** @var array The mapping of view paths to a list of builders to run whenever the view is created */
     protected $builders = [];
 
     /**
+     * @param IViewNameResolver $viewNameResolver The view name resolver used to get paths to views
      * @param FileSystem $fileSystem The file system to read views with
-     * @param string|null $rootViewDirectory The root directory of the views if it's known, otherwise null
      */
-    public function __construct(FileSystem $fileSystem, $rootViewDirectory = null)
+    public function __construct(IViewNameResolver $viewNameResolver, FileSystem $fileSystem)
     {
+        $this->viewNameResolver = $viewNameResolver;
         $this->fileSystem = $fileSystem;
-
-        if($rootViewDirectory !== null)
-        {
-            $this->setRootViewDirectory($rootViewDirectory);
-        }
     }
 
     /**
@@ -37,10 +34,9 @@ abstract class ViewFactory implements IViewFactory
      */
     public function create($name)
     {
-        $name = ltrim($name, "/");
-        $path = "{$this->rootViewDirectory}/$name.{$this->getExtension()}";
-        $content = $this->fileSystem->read($path);
-        $view = $this->createView($path, $content);
+        $resolvedPath = $this->viewNameResolver->resolve($name);
+        $content = $this->fileSystem->read($resolvedPath);
+        $view = new View($resolvedPath, $content);
 
         return $this->runBuilders($name, $view);
     }
@@ -60,30 +56,6 @@ abstract class ViewFactory implements IViewFactory
             $this->builders[$name][] = $callback;
         }
     }
-
-    /**
-     * @param string $rootViewDirectory
-     */
-    public function setRootViewDirectory($rootViewDirectory)
-    {
-        $this->rootViewDirectory = rtrim($rootViewDirectory, "/");
-    }
-
-    /**
-     * Creates a view from the path and contents of a raw view
-     *
-     * @param string $path The path to the raw view
-     * @param string $content The contents of the view
-     * @return IView The view
-     */
-    abstract protected function createView($path, $content);
-
-    /**
-     * Gets the extension of view files created by this factory
-     *
-     * @return string The extension
-     */
-    abstract protected function getExtension();
 
     /**
      * Runs the builders for a view (if there any)

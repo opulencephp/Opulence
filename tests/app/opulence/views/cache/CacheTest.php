@@ -55,9 +55,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testCachingWithNonPositiveLifetime()
     {
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 0);
-        $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
-        $this->assertFalse($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
-        $this->assertNull($this->cache->get("foo", ["bar" => "baz"], ["blah" => "asdf"]));
+        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
+        $this->assertFalse($this->cache->has("foo", ["bar" => "baz"]));
+        $this->assertNull($this->cache->get("foo", ["bar" => "baz"]));
     }
 
     /**
@@ -65,18 +65,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForExistingView()
     {
-        $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
-        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
-        $this->assertEquals("compiled", $this->cache->get("foo", ["bar" => "baz"], ["blah" => "asdf"]));
-    }
-
-    /**
-     * Tests checking for a view that exists but doesn't match on tags
-     */
-    public function testCheckingForExistingViewWithNoTagMatches()
-    {
-        $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
-        $this->assertFalse($this->cache->has("foo", ["bar" => "baz"], ["wrong" => "ahh"]));
+        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
+        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"]));
+        $this->assertEquals("compiled", $this->cache->get("foo", ["bar" => "baz"]));
     }
 
     /**
@@ -84,8 +75,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForExistingViewWithNoVariableMatches()
     {
-        $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
-        $this->assertFalse($this->cache->has("foo", ["wrong" => "ahh"], ["blah" => "asdf"]));
+        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
+        $this->assertFalse($this->cache->has("foo", ["wrong" => "ahh"]));
     }
 
     /**
@@ -95,9 +86,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         // The negative expiration is a way of forcing everything to expire right away
         $cache = new Cache(new FileSystem(), __DIR__ . "/tmp", -1);
-        $cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
-        $this->assertFalse($cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
-        $this->assertNull($cache->get("foo", ["bar" => "baz"], ["blah" => "asdf"]));
+        $cache->set("compiled", "foo", ["bar" => "baz"]);
+        $this->assertFalse($cache->has("foo", ["bar" => "baz"]));
+        $this->assertNull($cache->get("foo", ["bar" => "baz"]));
     }
 
     /**
@@ -114,11 +105,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testFlushingCache()
     {
-        $this->cache->set("compiled1", "foo", ["bar1" => "baz"], ["blah1" => "asdf"]);
-        $this->cache->set("compiled2", "foo", ["bar2" => "baz"], ["blah2" => "asdf"]);
+        $this->cache->set("compiled1", "foo", ["bar1" => "baz"]);
+        $this->cache->set("compiled2", "foo", ["bar2" => "baz"]);
         $this->cache->flush();
-        $this->assertFalse($this->cache->has("foo", ["bar1" => "baz"], ["blah1" => "asdf"]));
-        $this->assertFalse($this->cache->has("foo", ["bar2" => "baz"], ["blah2" => "asdf"]));
+        $this->assertFalse($this->cache->has("foo", ["bar1" => "baz"]));
+        $this->assertFalse($this->cache->has("foo", ["bar2" => "baz"]));
     }
 
     /**
@@ -138,8 +129,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testNotCreatingDirectoryBeforeCaching()
     {
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/verytemporarytmp", 3600);
-        $this->cache->set("compiled", "foo", ["bar" => "baz"], ["blah" => "asdf"]);
-        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"], ["blah" => "asdf"]));
+        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
+        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"]));
     }
 
     /**

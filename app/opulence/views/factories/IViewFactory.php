@@ -5,7 +5,7 @@
  * Defines the interface for view factories to implement
  */
 namespace Opulence\Views\Factories;
-use Opulence\Files\FileSystemException;
+use InvalidArgumentException;
 use Opulence\Views\IView;
 
 interface IViewFactory
@@ -14,9 +14,9 @@ interface IViewFactory
      * Creates a view from the file at the input path
      * If any builders are registered for this view, they're run too
      *
-     * @param string $name The alias or path relative to the root view directory
+     * @param string $name The path relative to the root view directory
      * @return IView The view with the contents from the path
-     * @throws FileSystemException Thrown if the view does not exist
+     * @throws InvalidArgumentException Thrown if the view does not exist
      */
     public function create($name);
 
