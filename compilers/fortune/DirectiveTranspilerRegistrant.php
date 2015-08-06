@@ -47,14 +47,13 @@ class DirectiveTranspilerRegistrant
         {
             return "<?php endwhile; ?>";
         });
-        $transpiler->registerDirectiveTranspiler("extends", function ($expression)
+        $transpiler->registerDirectiveTranspiler("extends", function ($expression) use ($transpiler)
         {
             $code = "<?php \$__opulenceParentView = \$__opulenceViewFactory->create($expression);";
-            $code .= "\$__opulenceViewCompiler->compile(\$__opulenceParentView, \$__opulenceParentView->getContents()); ?>";
-            $code = addcslashes($code, '"');
+            $code .= "echo \$__opulenceViewCompiler->compile(\$__opulenceParentView); ?>";
+            $transpiler->append($code);
 
-            return "<?php \$__opulenceFortuneTranspiler->append(\"$code\"); ?>";
-
+            return "";
         });
         $transpiler->registerDirectiveTranspiler("for", function ($expression)
         {
@@ -80,7 +79,7 @@ class DirectiveTranspilerRegistrant
         $transpiler->registerDirectiveTranspiler("include", function ($expression)
         {
             $code = "<?php \$__opulenceIncludedView = \$__opulenceViewFactory->create($expression);";
-            $code .= "\$__opulenceViewCompiler->compile(\$__opulenceIncludedView, \$__opulenceIncludedView->getContents()); ?>";
+            $code .= "echo \$__opulenceViewCompiler->compile(\$__opulenceIncludedView); ?>";
 
             return $code;
         });
