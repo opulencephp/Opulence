@@ -65,20 +65,6 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests appending text
-     */
-    public function testAppendingText()
-    {
-        $this->ast->getCurrentNode()
-            ->addChild(new ExpressionNode("foo"));
-        $this->transpiler->append("bar");
-        $this->assertEquals(
-            "foo" . PHP_EOL . "bar",
-            $this->transpiler->transpile($this->view, $this->view->getContents())
-        );
-    }
-
-    /**
      * Tests calling a view function that takes no parameters
      */
     public function testCallingViewFunctionThatTakesNoParameters()

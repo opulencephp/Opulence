@@ -176,6 +176,7 @@ class Transpiler implements ITranspiler
      */
     public function transpile(IView $view, $contents = null)
     {
+        $this->appendedText = [];
         $tokens = $this->lexer->lex($view, $contents);
         $ast = $this->parser->parse($tokens);
         $transpiledContent = $this->transpileNodes($ast);

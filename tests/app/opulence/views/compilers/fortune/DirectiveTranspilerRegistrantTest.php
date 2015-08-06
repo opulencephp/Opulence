@@ -132,10 +132,9 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% extends("foo.php") %>bar');
         $code = '<?php $__opulenceParentView = $__opulenceViewFactory->create("foo.php");';
-        $code .= '$__opulenceViewCompiler->compile($__opulenceParentView, $__opulenceParentView->getContents()); ?>';
-        $code = addcslashes($code, '"');
+        $code .= 'echo $__opulenceViewCompiler->compile($__opulenceParentView); ?>';
         $this->assertEquals(
-            "<?php \$__opulenceFortuneTranspiler->append(\"$code\"); ?>bar",
+            "bar" . PHP_EOL . $code,
             $this->transpiler->transpile($this->view, $this->view->getContents())
         );
     }
@@ -197,7 +196,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include("foo.php") %>bar');
         $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
-        $code .= '$__opulenceViewCompiler->compile($__opulenceIncludedView, $__opulenceIncludedView->getContents()); ?>';
+        $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
         $this->assertEquals(
             "{$code}bar",
             $this->transpiler->transpile($this->view, $this->view->getContents())
