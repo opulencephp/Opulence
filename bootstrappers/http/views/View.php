@@ -50,6 +50,7 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
         $this->viewFactory = $this->getViewFactory($container);
         $compiler = $this->getViewCompiler($container);
         $container->bind(ICompiler::class, $compiler);
+        $container->bind(ICache::class, $this->viewCache);
         $container->bind(IViewFactory::class, $this->viewFactory);
     }
 
