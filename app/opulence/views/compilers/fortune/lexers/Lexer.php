@@ -12,7 +12,7 @@ use RuntimeException;
 
 class Lexer implements ILexer
 {
-    /** @var IFortuneView The current view being lexed */
+    /** @var IView The current view being lexed */
     private $view = null;
     /** @var string The current input being lexed */
     private $input = "";
@@ -262,63 +262,61 @@ class Lexer implements ILexer
     {
         $this->lexDirectiveName();
 
-        if($this->matches("("))
+        $parenthesisLevel = 0;
+        $newLinesAfterExpression = 0;
+        $expressionBuffer = "";
+
+        while(!$this->matches($this->directiveDelimiters[1], false) && !$this->atEOF())
         {
-            $parenthesisLevel = 1;
-            $newLinesAfterExpression = 0;
-            $expressionBuffer = "";
+            $currentChar = $this->getCurrentChar();
 
-            while(!$this->matches($this->directiveDelimiters[1], false))
+            if($currentChar == "(")
             {
-                $currentChar = $this->getCurrentChar();
-
-                if($currentChar == "(")
+                $expressionBuffer .= $currentChar;
+                $parenthesisLevel++;
+            }
+            elseif($currentChar == ")")
+            {
+                $parenthesisLevel--;
+                $expressionBuffer .= $currentChar;
+            }
+            elseif($currentChar == PHP_EOL)
+            {
+                if(trim($expressionBuffer) == "")
                 {
-                    $expressionBuffer .= $currentChar;
-                    $parenthesisLevel++;
-                }
-                elseif($currentChar == ")")
-                {
-                    $parenthesisLevel--;
-
-                    if($parenthesisLevel != 0)
-                    {
-                        $expressionBuffer .= $currentChar;
-                    }
-                }
-                elseif($currentChar == PHP_EOL)
-                {
-                    if(trim($expressionBuffer) == "")
-                    {
-                        $this->line++;
-                    }
-                    else
-                    {
-                        $newLinesAfterExpression++;
-                    }
+                    $this->line++;
                 }
                 else
                 {
-                    $expressionBuffer .= $currentChar;
+                    $newLinesAfterExpression++;
                 }
-
-                $this->cursor++;
             }
-
-            if($parenthesisLevel != 0)
+            else
             {
-                throw new RuntimeException(
-                    sprintf(
-                        "Unmatched parenthesis on line %d",
-                        $this->line
-                    )
-                );
+                $expressionBuffer .= $currentChar;
             }
 
-            $expressionBuffer = trim($expressionBuffer);
-            $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $expressionBuffer, $this->line);
-            $this->line += $newLinesAfterExpression;
+            $this->cursor++;
         }
+
+        if($parenthesisLevel != 0)
+        {
+            throw new RuntimeException(
+                sprintf(
+                    "Unmatched parenthesis on line %d",
+                    $this->line
+                )
+            );
+        }
+
+        $expressionBuffer = trim($expressionBuffer);
+
+        if(!empty($expressionBuffer))
+        {
+            $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $expressionBuffer, $this->line);
+        }
+
+        $this->line += $newLinesAfterExpression;
     }
 
     /**

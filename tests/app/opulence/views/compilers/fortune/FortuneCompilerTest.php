@@ -382,6 +382,18 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that PHP user input is not evaluated
+     */
+    public function testPHPInputIsNotEvaluated()
+    {
+        $this->view->setVar("foo", '<?php exit; ?>');
+        $this->assertEquals(
+            '<?php exit; ?>',
+            $this->fortuneCompiler->compile($this->view, '<?php echo $foo; ?>')
+        );
+    }
+
+    /**
      * Tests that the transpiler is called
      */
     public function testTranspilerIsCalled()

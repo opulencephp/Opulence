@@ -152,12 +152,12 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $tokens = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 1),
-            new Token(TokenTypes::T_EXPRESSION, '"bar"', 1),
+            new Token(TokenTypes::T_EXPRESSION, '("bar")', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
         ];
         $directiveNode = new DirectiveNode();
         $directiveNode->addChild(new DirectiveNameNode("foo"));
-        $directiveNode->addChild(new ExpressionNode('"bar"'));
+        $directiveNode->addChild(new ExpressionNode('("bar")'));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
         $this->assertEquals($this->ast, $this->parser->parse($tokens));
@@ -248,7 +248,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_EXPRESSION, "c", 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, "d", 1),
-            new Token(TokenTypes::T_EXPRESSION, "e", 1),
+            new Token(TokenTypes::T_EXPRESSION, "(e)", 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, "%>", 1),
             new Token(TokenTypes::T_EXPRESSION, "f", 1),
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1),
@@ -263,7 +263,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->ast->getCurrentNode()->addChild(new ExpressionNode("c"));
         $directiveNode = new DirectiveNode();
         $directiveNode->addChild(new DirectiveNameNode("d"));
-        $directiveNode->addChild(new ExpressionNode("e"));
+        $directiveNode->addChild(new ExpressionNode("(e)"));
         $this->ast->getCurrentNode()->addChild($directiveNode);
         $this->ast->getCurrentNode()->addChild(new ExpressionNode("f"));
         $unsanitizedTagNode = new UnsanitizedTagNode();

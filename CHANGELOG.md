@@ -13,8 +13,9 @@
 * Renamed `RDevPredis` to `OpulencePredis`
 
 <h3>Views</h3>
-* Added `Opulence\Views\View`
+* Renamed `Opulence\Views\Templates` to `Opulence\Views\View` and `ITemplate` to `IView`
 * Renamed `Opulence\Views\Factories\ITemplateFactory` to `IViewFactory` and `TemplateFactory` to `ViewFactory`
+* Added `Opulence\Views\Compilers\Fortune` namespace
 * Changed default statement delimiter from `{% %}` to `<% %>`
 
 <h2>v0.5.7</h2>

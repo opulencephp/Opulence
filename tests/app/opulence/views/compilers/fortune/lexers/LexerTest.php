@@ -105,7 +105,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'show', 1),
-            new Token(TokenTypes::T_EXPRESSION, '"foo"', 1),
+            new Token(TokenTypes::T_EXPRESSION, '("foo")', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<%show("foo")%>'));
@@ -136,7 +136,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'show', 1),
-            new Token(TokenTypes::T_EXPRESSION, '"bar"', 1),
+            new Token(TokenTypes::T_EXPRESSION, '("bar")', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
             new Token(TokenTypes::T_EXPRESSION, 'echo "baz";', 1),
@@ -294,7 +294,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'show', 1),
-            new Token(TokenTypes::T_EXPRESSION, 'foo(bar("baz"))', 1),
+            new Token(TokenTypes::T_EXPRESSION, '(foo(bar("baz")))', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1)
         ];
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<% show(foo(bar("baz"))) %>'));
@@ -414,7 +414,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'show', 1),
-            new Token(TokenTypes::T_EXPRESSION, '"bar"', 1),
+            new Token(TokenTypes::T_EXPRESSION, '("bar")', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
             new Token(TokenTypes::T_EXPRESSION, 'baz', 1)
         ];
@@ -451,7 +451,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_EXPRESSION, 'a' . PHP_EOL, 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 2),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'b', 3),
-            new Token(TokenTypes::T_EXPRESSION, 'foo', 5),
+            new Token(TokenTypes::T_EXPRESSION, '(foo)', 4),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 7),
             new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'c' . PHP_EOL, 7),
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 9),
