@@ -327,6 +327,7 @@ class Lexer implements ILexer
         $name = "";
         $newLinesAfterName = 0;
 
+        // Loop while there's still a directive name or until we encounter the first space after the name
         do
         {
             $currentChar = $this->getCurrentChar();
@@ -346,7 +347,10 @@ class Lexer implements ILexer
 
             $name .= $currentChar;
             $this->cursor++;
-        }while(preg_match("/^[a-zA-Z0-9_\s]$/", $this->getCurrentChar()) === 1);
+        }while(
+            preg_match("/^[a-zA-Z0-9_\s]$/", $this->getCurrentChar()) === 1 &&
+            ($this->getCurrentChar() != " " || trim($name) == "")
+        );
 
         $name = trim($name);
 
