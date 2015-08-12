@@ -40,6 +40,20 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a directive with a non-parenthesis-enclosed expression
+     */
+    public function testDirectiveWithNonParenthesisEnclosedExpression()
+    {
+        $expectedOutput = [
+            new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
+            new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1)
+        ];
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view, '<% foo bar %>'));
+    }
+
+    /**
      * Tests that an exception is thrown with an unclosed directive
      */
     public function testExceptionThrownWithUnclosedDirective()
