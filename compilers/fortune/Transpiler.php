@@ -199,38 +199,6 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Replaces any view functions calls with calls to valid PHP functions
-     *
-     * @param string $content The content to replace
-     * @return string The replaced content
-     */
-    protected function replaceFunctionCalls($content)
-    {
-        $callback = function (array $matches)
-        {
-            if(function_exists($matches[1]))
-            {
-                // This was a PHP function
-                return $matches[1] . '(' . $this->replaceFunctionCalls($matches[3]) . ')';
-            }
-            else
-            {
-                // This was a view function
-                return '$__opulenceFortuneTranspiler->callViewFunction(' .
-                '"' . $matches[1] . '"' . (empty($matches[3]) ? '' : ', ' . $this->replaceFunctionCalls($matches[3])) .
-                ')';
-            }
-        };
-
-        // Don't replace methods (foo->bar() or foo::bar())
-        return preg_replace_callback(
-            "/\b(?<!(?:->|::))([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(\((((?>[^()]+)|(?2))*)\))/",
-            $callback,
-            $content
-        );
-    }
-
-    /**
      * Transpiles a directive node
      *
      * @param Node $node The node to transpile
@@ -247,7 +215,7 @@ class Transpiler implements ITranspiler
         }
 
         $directiveName = $children[0]->getValue();
-        $expression = count($children) == 2 ? $this->replaceFunctionCalls($children[1]->getValue()) : "";
+        $expression = count($children) == 2 ? $children[1]->getValue() : "";
 
         if(!isset($this->directiveTranspilers[$directiveName]))
         {
@@ -341,10 +309,7 @@ class Transpiler implements ITranspiler
 
         foreach($node->getChildren() as $childNode)
         {
-            $code .= sprintf(
-                '<?php echo $__opulenceFortuneTranspiler->sanitize(%s); ?>',
-                $this->replaceFunctionCalls($childNode->getValue())
-            );
+            $code .= '<?php echo $__opulenceFortuneTranspiler->sanitize(' . $childNode->getValue() . '); ?>';
         }
 
         return $code;
@@ -362,10 +327,7 @@ class Transpiler implements ITranspiler
 
         foreach($node->getChildren() as $childNode)
         {
-            $code .= sprintf(
-                '<?php echo %s; ?>',
-                $this->replaceFunctionCalls($childNode->getValue())
-            );
+            $code .= '<?php echo ' . $childNode->getValue() . '; ?>';
         }
 
         return $code;

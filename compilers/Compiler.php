@@ -39,7 +39,7 @@ class Compiler implements ICompiler
 
         if($this->cache->has($contents, $varsBeforeCompiling))
         {
-            return $this->cache->get($contents, $view->getVars());
+            return $this->cache->get($contents, $varsBeforeCompiling);
         }
 
         $compiledContents = $this->registry->get($view)->compile($view, $contents);

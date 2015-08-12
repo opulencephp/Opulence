@@ -214,7 +214,11 @@ class Lexer implements ILexer
 
         if($expressionBuffer != "")
         {
-            $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $expressionBuffer, $this->line);
+            $this->tokens[] = new Token(
+                TokenTypes::T_EXPRESSION,
+                $this->replaceViewFunctionCalls($expressionBuffer),
+                $this->line
+            );
             $this->line += $newLinesAfterExpression;
         }
     }
@@ -310,6 +314,7 @@ class Lexer implements ILexer
         }
 
         $expressionBuffer = trim($expressionBuffer);
+        $expressionBuffer = $this->replaceViewFunctionCalls($expressionBuffer);
 
         if(!empty($expressionBuffer))
         {
@@ -406,6 +411,7 @@ class Lexer implements ILexer
 
         while(!$this->atEOF())
         {
+            reset($statementMethods);
             $matchedStatement = false;
 
             // This is essentially a foreach loop that can be reset
@@ -443,12 +449,15 @@ class Lexer implements ILexer
                     $this->expressionBuffer .= $this->getCurrentChar();
                     $this->cursor++;
                 }
-
-                $this->lexExpression();
             }
-
-            $this->flushExpressionBuffer();
+            else
+            {
+                $this->flushExpressionBuffer();
+            }
         }
+
+        // Flush anything left over in the buffer
+        $this->flushExpressionBuffer();
     }
 
     /**
@@ -521,5 +530,113 @@ class Lexer implements ILexer
         }
 
         return false;
+    }
+
+    /**
+     * Replaces view function calls with valid PHP calls
+     *
+     * @param string $expression The expression to replace calls in
+     * @return string The expression with replaced calls
+     */
+    private function replaceViewFunctionCalls($expression)
+    {
+        $phpTokens = token_get_all('<?php ' . $expression . ' ?>');
+        $opulenceTokens = [];
+
+        // This is essentially a foreach loop that can be fast-forwarded
+        while(list($index, $token) = each($phpTokens))
+        {
+            if(is_string($token))
+            {
+                // Convert the simple token to an array for uniformity
+                $opulenceTokens[] = [T_STRING, $token, 0];
+
+                continue;
+            }
+
+            switch($token[0])
+            {
+                case T_STRING:
+                    // If this is a function
+                    if(count($phpTokens) > $index && $phpTokens[$index + 1] == "(")
+                    {
+                        $prevToken = $index > 0 ? $phpTokens[$index - 1] : null;
+
+                        // If this is a native PHP function or is really a method call, don't convert it
+                        if(
+                            function_exists($token[1]) ||
+                            (
+                                is_array($prevToken) &&
+                                ($prevToken[0] == T_OBJECT_OPERATOR || $prevToken[0] == T_DOUBLE_COLON)
+                            )
+                        )
+                        {
+                            $opulenceTokens[] = $token;
+                        }
+                        else
+                        {
+                            // This is a view function
+                            // Add $__opulenceFortuneTranspiler
+                            $opulenceTokens[] = [T_VARIABLE, '$__opulenceFortuneTranspiler', $token[2]];
+                            // Add ->
+                            $opulenceTokens[] = [T_OBJECT_OPERATOR, '->', $token[2]];
+                            // Add callViewFunction("FUNCTION_NAME")
+                            $opulenceTokens[] = [T_STRING, 'callViewFunction("' . $token[1] . '")', $token[2]];
+                        }
+                    }
+                    else
+                    {
+                        $opulenceTokens[] = $token;
+                    }
+
+                    break;
+                default:
+                    $opulenceTokens[] = $token;
+
+                    break;
+            }
+        }
+
+        // Remove php open/close PHP tags
+        array_shift($opulenceTokens);
+        array_pop($opulenceTokens);
+
+        // Rejoin the tokens
+        $joinedTokens = implode("", array_column($opulenceTokens, 1));
+
+        $replacementCount = 0;
+        $callback = function (array $matches)
+        {
+            if($matches[2] == ")")
+            {
+                // There were no parameters
+                return $matches[1] . ")";
+            }
+            else
+            {
+                // There were parameters
+                return $matches[1] . ", " . $matches[2];
+            }
+        };
+
+        /**
+         * View functions are left in a broken state
+         * For example, 'foo()' will currently look like '...->callViewFunction("foo")()'
+         * This should be converted to '...->callViewFunction("foo")'
+         * Similarly, 'foo("bar")' will currently look like '...->callViewFunction("foo")("bar")'
+         * This should be converted to '...->callViewFunction("foo", "bar")'
+         */
+        do
+        {
+            $joinedTokens = preg_replace_callback(
+                '/(\$__opulenceFortuneTranspiler->callViewFunction\([^\)]+)\)\((.)/',
+                $callback,
+                $joinedTokens,
+                -1,
+                $replacementCount
+            );
+        }while($replacementCount > 0);
+
+        return trim($joinedTokens);
     }
 }
