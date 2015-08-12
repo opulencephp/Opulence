@@ -222,8 +222,9 @@ class Transpiler implements ITranspiler
             }
         };
 
+        // Don't replace methods (foo->bar() or foo::bar())
         return preg_replace_callback(
-            "/([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(\((((?>[^()]+)|(?2))*)\))/",
+            "/\b(?<!(?:->|::))([a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*)(\((((?>[^()]+)|(?2))*)\))/",
             $callback,
             $content
         );
