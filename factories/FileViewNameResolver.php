@@ -15,7 +15,7 @@ class FileViewNameResolver implements IViewNameResolver
     protected $extensions = [];
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function registerExtension($extension, $priority = -1)
     {
@@ -23,7 +23,7 @@ class FileViewNameResolver implements IViewNameResolver
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function registerPath($path, $priority = -1)
     {
@@ -31,7 +31,7 @@ class FileViewNameResolver implements IViewNameResolver
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function resolve($name)
     {

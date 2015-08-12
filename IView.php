@@ -31,28 +31,6 @@ interface IView
     public function getDelimiters($type);
 
     /**
-     * Gets the parent view if there is one
-     *
-     * @return IView|null The parent view if there is one, otherwise null
-     */
-    public function getParent();
-
-    /**
-     * Gets the contents of a view part
-     *
-     * @param string $name The name of the view part to get
-     * @return string The contents of the view part
-     */
-    public function getPart($name);
-
-    /**
-     * Gets the list of view parts
-     *
-     * @return array The part name => content mappings
-     */
-    public function getParts();
-
-    /**
      * Gets the path of the raw view
      *
      * @return string The path of the raw view
@@ -75,6 +53,14 @@ interface IView
     public function getVars();
 
     /**
+     * Gets whether or not a variable is set in the view
+     *
+     * @param string $name The name of the variable to search for
+     * @return bool True if the view as the variable, otherwise false
+     */
+    public function hasVar($name);
+
+    /**
      * Sets the uncompiled contents of the view
      *
      * @param string $contents The uncompiled contents
@@ -88,28 +74,6 @@ interface IView
      * @param array $values An array containing the open and close delimiter values
      */
     public function setDelimiters($type, array $values);
-
-    /**
-     * Sets the parent of this view
-     *
-     * @param IView $parent The parent of this view
-     */
-    public function setParent(IView $parent);
-
-    /**
-     * Sets the content of a view part
-     *
-     * @param string $name The name of the part to set
-     * @param string $content The content of the part
-     */
-    public function setPart($name, $content);
-
-    /**
-     * Sets multiple parts' contents in the view
-     *
-     * @param array $namesToContents The mapping of part names to their respective values
-     */
-    public function setParts(array $namesToContents);
 
     /**
      * Sets the path of the raw view

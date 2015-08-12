@@ -22,7 +22,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isDirective()
     {
@@ -30,7 +30,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isDirectiveName()
     {
@@ -38,7 +38,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isExpression()
     {
@@ -46,7 +46,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isSanitizedTag()
     {
@@ -54,7 +54,7 @@ class RootNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isUnsanitizedTag()
     {

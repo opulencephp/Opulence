@@ -17,7 +17,7 @@ use RuntimeException;
 class Parser implements IParser
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function parse(array $tokens)
     {

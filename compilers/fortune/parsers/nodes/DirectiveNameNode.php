@@ -9,7 +9,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 class DirectiveNameNode extends Node
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isDirective()
     {
@@ -17,7 +17,7 @@ class DirectiveNameNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isDirectiveName()
     {
@@ -25,7 +25,7 @@ class DirectiveNameNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isExpression()
     {
@@ -33,7 +33,7 @@ class DirectiveNameNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isSanitizedTag()
     {
@@ -41,7 +41,7 @@ class DirectiveNameNode extends Node
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isUnsanitizedTag()
     {
