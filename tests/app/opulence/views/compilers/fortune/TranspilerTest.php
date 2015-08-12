@@ -316,15 +316,16 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             return $expression;
         });
         $expressionContent = sprintf(
-            'blah $__opulenceFortuneTranspiler->callViewFunction("%s", date(%s)) baz',
+            'blah $__opulenceFortuneTranspiler->callViewFunction("%s", date(%s)) %s',
             'bar',
-            '$__opulenceFortuneTranspiler->callViewFunction("myDate", \'Y\')'
+            '$__opulenceFortuneTranspiler->callViewFunction("myDate", \'Y\')',
+            '$__opulenceFortuneTranspiler->callViewFunction("baz")'
         );
 
         // Test transpiling in a directive
         $node = new DirectiveNode();
         $node->addChild(new DirectiveNameNode("foo"));
-        $node->addChild(new ExpressionNode("blah bar(date(myDate('Y'))) baz"));
+        $node->addChild(new ExpressionNode("blah bar(date(myDate('Y'))) baz()"));
         $this->ast->getCurrentNode()
             ->addChild($node);
         $this->assertEquals(
@@ -335,7 +336,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         // Test transpiling in a sanitized tag
         $this->ast->clearNodes();
         $node = new SanitizedTagNode();
-        $node->addChild(new ExpressionNode("blah bar(date(myDate('Y'))) baz"));
+        $node->addChild(new ExpressionNode("blah bar(date(myDate('Y'))) baz()"));
         $this->ast->getCurrentNode()
             ->addChild($node);
         $this->assertEquals(
@@ -346,7 +347,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         // Test transpiling in an unsanitized tag
         $this->ast->clearNodes();
         $node = new UnsanitizedTagNode();
-        $node->addChild(new ExpressionNode("blah bar(date(myDate('Y'))) baz"));
+        $node->addChild(new ExpressionNode("blah bar(date(myDate('Y'))) baz()"));
         $this->ast->getCurrentNode()
             ->addChild($node);
         $this->assertEquals(

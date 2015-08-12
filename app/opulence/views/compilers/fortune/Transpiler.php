@@ -217,7 +217,7 @@ class Transpiler implements ITranspiler
             {
                 // This was a view function
                 return '$__opulenceFortuneTranspiler->callViewFunction(' .
-                '"' . $matches[1] . '", ' . $this->replaceFunctionCalls($matches[3]) .
+                '"' . $matches[1] . '"' . (empty($matches[3]) ? '' : ', ' . $this->replaceFunctionCalls($matches[3])) .
                 ')';
             }
         };
