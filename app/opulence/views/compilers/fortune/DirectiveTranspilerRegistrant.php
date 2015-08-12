@@ -100,7 +100,7 @@ class DirectiveTranspilerRegistrant
                 $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create' . $expression . ';';
             }
 
-            $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
+            $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
 
             return $code;
         });

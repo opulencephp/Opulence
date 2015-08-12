@@ -200,7 +200,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include("foo.php") %>bar');
         $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
-        $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
         $this->assertEquals(
             "{$code}bar",
             $this->transpiler->transpile($this->view, $this->view->getContents())
@@ -215,7 +215,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
         $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
         $code .= '$__opulenceIncludedView->setVars(["foo" => "bar"]);';
-        $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
         $this->assertEquals(
             "{$code}baz",
             $this->transpiler->transpile($this->view, $this->view->getContents())
