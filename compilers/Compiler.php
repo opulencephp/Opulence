@@ -35,13 +35,15 @@ class Compiler implements ICompiler
             $contents = $view->getContents();
         }
 
-        if($this->cache->has($contents, $view->getVars()))
+        $varsBeforeCompiling = $view->getVars();
+
+        if($this->cache->has($contents, $varsBeforeCompiling))
         {
             return $this->cache->get($contents, $view->getVars());
         }
 
         $compiledContents = $this->registry->get($view)->compile($view, $contents);
-        $this->cache->set($compiledContents, $contents, $view->getVars());
+        $this->cache->set($compiledContents, $contents, $varsBeforeCompiling);
 
         return $compiledContents;
     }
