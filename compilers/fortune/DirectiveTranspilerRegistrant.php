@@ -21,7 +21,7 @@ class DirectiveTranspilerRegistrant
         });
         $transpiler->registerDirectiveTranspiler("elseif", function ($expression)
         {
-            return '<?php elseif(' . $expression . '): ?>';
+            return '<?php elseif' . $expression . ': ?>';
         });
         $transpiler->registerDirectiveTranspiler("forelse", function ()
         {
@@ -50,7 +50,7 @@ class DirectiveTranspilerRegistrant
         $transpiler->registerDirectiveTranspiler("extends", function ($expression) use ($transpiler)
         {
             // Create the parent
-            $code = '$__opulenceViewParent = $__opulenceViewFactory->create(' . $expression . ');';
+            $code = '$__opulenceViewParent = $__opulenceViewFactory->create' . $expression . ';';
             $code .= '$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);';
             $code .= 'extract($__opulenceView->getVars());';
             $transpiler->prepend('<?php ' . $code . ' ?>');
@@ -68,36 +68,36 @@ class DirectiveTranspilerRegistrant
         });
         $transpiler->registerDirectiveTranspiler("for", function ($expression)
         {
-            return '<?php for(' . $expression . '): ?>';
+            return '<?php for' . $expression . ': ?>';
         });
         $transpiler->registerDirectiveTranspiler("foreach", function ($expression)
         {
-            return '<?php foreach(' . $expression . '): ?>';
+            return '<?php foreach' . $expression . ': ?>';
         });
         $transpiler->registerDirectiveTranspiler("forif", function ($expression)
         {
             $code = '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;';
             $code .= '$__opulenceForElseEmpty[] = true;';
-            $code .= 'foreach(' . $expression . '):';
+            $code .= 'foreach' . $expression . ':';
             $code .= '$__opulenceForElseEmpty[count($__opulenceForElseEmpty) - 1] = false; ?>';
 
             return $code;
         });
         $transpiler->registerDirectiveTranspiler("if", function ($expression)
         {
-            return '<?php if(' . $expression . '): ?>';
+            return '<?php if' . $expression . ': ?>';
         });
         $transpiler->registerDirectiveTranspiler("include", function ($expression)
         {
             // Check if a list of variables were passed in as a second parameter
-            if(preg_match("/^(('|\")(.*)\\2),\s*(.+)$/", $expression, $matches) === 1)
+            if(preg_match("/^\((('|\")(.*)\\2),\s*(.+)\)$/", $expression, $matches) === 1)
             {
                 $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create(' . $matches[1] . ');';
                 $code .= '$__opulenceIncludedView->setVars(' . $matches[4] . ');';
             }
             else
             {
-                $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create(' . $expression . ');';
+                $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create' . $expression . ';';
             }
 
             $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
@@ -111,15 +111,15 @@ class DirectiveTranspilerRegistrant
         });
         $transpiler->registerDirectiveTranspiler("part", function ($expression)
         {
-            return '<?php $__opulenceFortuneTranspiler->startPart(' . $expression . '); ?>';
+            return '<?php $__opulenceFortuneTranspiler->startPart' . $expression . '; ?>';
         });
         $transpiler->registerDirectiveTranspiler("show", function ($expression)
         {
-            return '<?php echo $__opulenceFortuneTranspiler->showPart(' . $expression . '); ?>';
+            return '<?php echo $__opulenceFortuneTranspiler->showPart' . $expression . '; ?>';
         });
         $transpiler->registerDirectiveTranspiler("while", function ($expression)
         {
-            return '<?php while(' . $expression . '): ?>';
+            return '<?php while' . $expression . ': ?>';
         });
     }
 }
