@@ -276,9 +276,9 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests compiling a template that uses custom tag delimiters
+     * Tests compiling a view that uses custom tag delimiters
      */
-    public function testCompilingTemplateWithCustomTags()
+    public function testCompilingViewWithCustomTags()
     {
         $this->view->setContents('^^"A&W"$$ ++"A&W"-- (* if(true) *)foo(* endif *)');
         $this->view->setDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG, ["^^", "$$"]);
