@@ -14,7 +14,7 @@ class CompilerRegistry implements ICompilerRegistry
     protected $compilers = [];
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function get(IView $view)
     {

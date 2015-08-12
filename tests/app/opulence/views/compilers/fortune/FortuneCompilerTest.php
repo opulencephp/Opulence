@@ -13,6 +13,7 @@ use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ICompilerRegistry;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\IView;
 use Opulence\Views\View;
 
 class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
@@ -52,6 +53,35 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that a child inherits parent's variables
+     */
+    public function testChildInheritsParentsVariables()
+    {
+        $parentView = new View("Foo", "");
+        $parentView->setVar("foo", "bar");
+        $this->viewFactory->expects($this->once())
+            ->method("create")
+            ->with("Foo")
+            ->willReturn($parentView);
+        $this->assertEquals(
+            "bar",
+            $this->fortuneCompiler->compile($this->view, '<% extends("Foo") %>{{$foo}}')
+        );
+    }
+
+    /**
+     * Tests compiling a custom view function
+     */
+    public function testCompilingCustomViewFunction()
+    {
+        $this->transpiler->registerViewFunction("foo", function ($input)
+        {
+            return "foo: $input";
+        });
+        $this->assertEquals("foo: bar", $this->fortuneCompiler->compile($this->view, '{{!foo("bar")!}}'));
+    }
+
+    /**
      * Tests compiling an else-if statement
      */
     public function testCompilingElseIfStatement()
@@ -78,17 +108,28 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests compiling a for-else loop
+     * Tests compiling escaped structures
      */
-    public function testCompilingForElseLoop()
+    public function testCompilingEscapedStructures()
+    {
+        $this->assertEquals(
+            "{{foo}}{{!bar!}}<% baz %>",
+            $this->fortuneCompiler->compile($this->view, '\{{foo}}\{{!bar!}}\<% baz %>')
+        );
+    }
+
+    /**
+     * Tests compiling a for-if loop
+     */
+    public function testCompilingForIfLoop()
     {
         $this->assertEquals(
             "01",
-            $this->fortuneCompiler->compile($this->view, '<% forelse([0, 1] as $item) %>{{$item}}<% elseifempty %>empty<% endif %>')
+            $this->fortuneCompiler->compile($this->view, '<% forif([0, 1] as $item) %>{{$item}}<% forelse %>empty<% endif %>')
         );
         $this->assertEquals(
             "empty",
-            $this->fortuneCompiler->compile($this->view, '<% forelse([] as $item) %>{{$item}}<% elseifempty %>empty<% endif %>')
+            $this->fortuneCompiler->compile($this->view, '<% forif([] as $item) %>{{$item}}<% forelse %>empty<% endif %>')
         );
     }
 
@@ -99,7 +140,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "01",
-            $this->fortuneCompiler->compile($this->view, '<% for($i=0;$i<2;$i++) %>{{$i}}<% endfor %>')
+            $this->fortuneCompiler->compile($this->view, '<% for($i=0;$i<2;$i++) %><?php echo $i; ?><% endfor %>')
         );
     }
 
@@ -110,7 +151,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "01",
-            $this->fortuneCompiler->compile($this->view, '<% foreach([0, 1] as $item) %>{{$item}}<% endforeach %>')
+            $this->fortuneCompiler->compile($this->view, '<% foreach([0, 1] as $item) %><?php echo $item; ?><% endforeach %>')
         );
     }
 
@@ -145,21 +186,40 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests compiling nested for-else loops
+     * Tests compiling nested for-if loops
      */
-    public function testCompilingNestedForElseLoops()
+    public function testCompilingNestedForIfLoops()
     {
         $this->assertEquals(
             "02031213",
-            $this->fortuneCompiler->compile($this->view, '<% forelse([0, 1] as $x) %><% forelse([2, 3] as $y) %>{{$x}}{{$y}}<% elseifempty %>empty2<% endif %><% elseifempty %>empty1<% endif %>')
+            $this->fortuneCompiler->compile($this->view, '<% forif([0, 1] as $x) %><% forif([2, 3] as $y) %>{{$x}}{{$y}}<% forelse %>empty2<% endif %><% forelse %>empty1<% endif %>')
         );
         $this->assertEquals(
             "empty1",
-            $this->fortuneCompiler->compile($this->view, '<% forelse([] as $x) %><% forelse([] as $y) %>{{$x}}{{$y}}<% elseifempty %>empty2<% endif %><% elseifempty %>empty1<% endif %>')
+            $this->fortuneCompiler->compile($this->view, '<% forif([] as $x) %><% forif([] as $y) %>{{$x}}{{$y}}<% forelse %>empty2<% endif %><% forelse %>empty1<% endif %>')
         );
         $this->assertEquals(
             "empty2empty2",
-            $this->fortuneCompiler->compile($this->view, '<% forelse([0, 1] as $x) %><% forelse([] as $y) %>{{$x}}{{$y}}<% elseifempty %>empty2<% endif %><% elseifempty %>empty1<% endif %>')
+            $this->fortuneCompiler->compile($this->view, '<% forif([0, 1] as $x) %><% forif([] as $y) %>{{$x}}{{$y}}<% forelse %>empty2<% endif %><% forelse %>empty1<% endif %>')
+        );
+    }
+
+    /**
+     * Tests compiling nested include statements
+     */
+    public function testCompilingNestedIncludeStatements()
+    {
+        $includedView1 = new View("Foo", 'foo<% include("Bar") %>');
+        $includedView2 = new View("Bar", 'bar');
+        $this->viewFactory->expects($this->at(0))
+            ->method("create")
+            ->willReturn($includedView1);
+        $this->viewFactory->expects($this->at(1))
+            ->method("create")
+            ->willReturn($includedView2);
+        $this->assertEquals(
+            "foobarbaz",
+            $this->fortuneCompiler->compile($this->view, '<% include("Foo") %>baz')
         );
     }
 
@@ -189,11 +249,11 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingParentStatement()
     {
-        $includedView = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
+        $parentView = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
         $this->viewFactory->expects($this->once())
             ->method("create")
             ->with("Foo")
-            ->willReturn($includedView);
+            ->willReturn($parentView);
         $this->assertEquals(
             "barbaz",
             $this->fortuneCompiler->compile($this->view, '<% extends("Foo") %><% part("foo") %><% parent %>baz<% endpart %>')
@@ -216,6 +276,23 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests compiling a template that uses custom tag delimiters
+     */
+    public function testCompilingTemplateWithCustomTags()
+    {
+        $this->view->setContents('^^"A&W"$$ ++"A&W"-- (* if(true) *)foo(* endif *)');
+        $this->view->setDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG, ["^^", "$$"]);
+        $this->view->setDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG, ["++", "--"]);
+        $this->view->setDelimiters(IView::DELIMITER_TYPE_DIRECTIVE, ["(*", "*)"]);
+        $this->assertTrue(
+            $this->stringsWithEncodedCharactersEqual(
+                "A&W A&amp;W foo",
+                $this->fortuneCompiler->compile($this->view, $this->view->getContents())
+            )
+        );
+    }
+
+    /**
      * Tests compiling a while loop
      */
     public function testCompilingWhileLoop()
@@ -227,7 +304,69 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests overwriting a parent's part
+     * Tests overriding a grandparent's part
+     */
+    public function testOverridingGrandparentPart()
+    {
+        $grandparentView = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
+        $parentView = new View("Foo", '<% extends("Grandparent") %><% part("foo") %>baz<% endpart %>');
+        $this->viewFactory->expects($this->at(0))
+            ->method("create")
+            ->with("Parent")
+            ->willReturn($parentView);
+        $this->viewFactory->expects($this->at(1))
+            ->method("create")
+            ->with("Grandparent")
+            ->willReturn($grandparentView);
+        $this->assertEquals(
+            "blah",
+            $this->fortuneCompiler->compile($this->view, '<% extends("Parent") %><% part("foo") %>blah<% endpart %>')
+        );
+    }
+
+    /**
+     * Tests overriding a grandparent's variable
+     */
+    public function testOverridingGrandparentVariable()
+    {
+        $grandparentView = new View("Foo", '{{$foo}}');
+        $grandparentView->setVar("foo", "bar");
+        $parentView = new View("Foo", '<% extends("Grandparent") %>');
+        $this->viewFactory->expects($this->at(0))
+            ->method("create")
+            ->with("Parent")
+            ->willReturn($parentView);
+        $this->viewFactory->expects($this->at(1))
+            ->method("create")
+            ->with("Grandparent")
+            ->willReturn($grandparentView);
+        $this->view->setVar("foo", "baz");
+        $this->assertEquals(
+            "baz",
+            $this->fortuneCompiler->compile($this->view, '<% extends("Parent") %>')
+        );
+    }
+
+    /**
+     * Tests overriding a parent's variable
+     */
+    public function testOverridingParentVariable()
+    {
+        $parentView = new View("Foo", '{{$foo}}');
+        $parentView->setVar("foo", "bar");
+        $this->viewFactory->expects($this->once())
+            ->method("create")
+            ->with("Foo")
+            ->willReturn($parentView);
+        $this->view->setVar("foo", "baz");
+        $this->assertEquals(
+            "baz",
+            $this->fortuneCompiler->compile($this->view, '<% extends("Foo") %>')
+        );
+    }
+
+    /**
+     * Tests overriding a parent's part
      */
     public function testOverwritingParentPart()
     {
@@ -260,5 +399,37 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->mainCompiler, $this->view->getVar("__opulenceViewCompiler"));
         $this->assertSame($viewFactory, $this->view->getVar("__opulenceViewFactory"));
         $this->assertSame($transpiler, $this->view->getVar("__opulenceFortuneTranspiler"));
+    }
+
+    /**
+     * Checks if two strings with encoded characters are equal
+     * This is necessary because, for example, HHVM encodes "&" to "&#38;" whereas PHP 5.6 encodes to "&amp;"
+     * This method makes those two alternate characters equivalent
+     *
+     * @param string $string1 The first string to compare
+     * @param string $string2 The second string to compare
+     * @return bool True if the strings are equal, otherwise false
+     */
+    protected function stringsWithEncodedCharactersEqual($string1, $string2)
+    {
+        // Convert ampersand
+        $string1 = str_replace("&#38;", "&amp;", $string1);
+        $string2 = str_replace("&#38;", "&amp;", $string2);
+        // Convert single quote
+        $string1 = str_replace("&#039", "&#39", $string1);
+        $string2 = str_replace("&#039", "&#39", $string2);
+        // Convert double quotes
+        $string1 = str_replace("&quot;", "&#34;", $string1);
+        $string2 = str_replace("&quot;", "&#34;", $string2);
+        if($string1 === $string2)
+        {
+            return true;
+        }
+        else
+        {
+            error_log($string1 . "::" . $string2);
+
+            return false;
+        }
     }
 }

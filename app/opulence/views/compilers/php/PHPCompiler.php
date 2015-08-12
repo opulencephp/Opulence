@@ -13,7 +13,7 @@ use Opulence\Views\IView;
 class PHPCompiler implements ICompiler
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function compile(IView $view, $contents = null)
     {

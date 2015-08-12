@@ -36,6 +36,8 @@ class Transpiler implements ITranspiler
     protected $parts = [];
     /** @var array The stack of parts */
     protected $partStack = [];
+    /** @var array Any PHP prepended to the beginning of the view */
+    protected $prependedText = [];
     /** @var array Any PHP appended to the end of the view */
     protected $appendedText = [];
 
@@ -56,9 +58,21 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Appends text to the end of the transpiled contents
-     *
-     * @param string $text The text to append
+     * @inheritdoc
+     */
+    public function addParent(IView $parent, IView $child)
+    {
+        foreach($parent->getVars() as $name => $value)
+        {
+            if(!$child->hasVar($name))
+            {
+                $child->setVar($name, $value);
+            }
+        }
+    }
+
+    /**
+     * @inheritdoc
      */
     public function append($text)
     {
@@ -66,12 +80,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Calls a view function
-     * Pass in any arguments as the 2nd, 3rd, 4th, etc parameters
-     *
-     * @param string $functionName The name of the function to call
-     * @return mixed The output of the view function
-     * @throws InvalidArgumentException Thrown if the function name is invalid
+     * @inheritdoc
      */
     public function callViewFunction($functionName)
     {
@@ -87,7 +96,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Ends a view part
+     * @inheritdoc
      */
     public function endPart()
     {
@@ -107,10 +116,15 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Registers a directive transpiler
-     *
-     * @param string $name The name of the directive whose transpiler we're registering
-     * @param callable $transpiler The transpiler, which accepts an optional expression from the directive
+     * @inheritdoc
+     */
+    public function prepend($text)
+    {
+        $this->prependedText[] = $text;
+    }
+
+    /**
+     * @inheritdoc
      */
     public function registerDirectiveTranspiler($name, callable $transpiler)
     {
@@ -118,12 +132,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Registers a function that appears in a view
-     * Useful for defining functions for consistent formatting in a view
-     *
-     * @param string $functionName The name of the function as it'll appear in the view
-     * @param callable $function The function that returns the replacement string for the function in a view
-     *      It must accept one parameter (the view's contents) and return a printable value
+     * @inheritdoc
      */
     public function registerViewFunction($functionName, callable $function)
     {
@@ -131,10 +140,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Sanitizes a value
-     *
-     * @param mixed $value The value to sanitize
-     * @return string The sanitized value
+     * @inheritdoc
      */
     public function sanitize($value)
     {
@@ -142,10 +148,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Shows a view part
-     *
-     * @param string $name The name of the part to show
-     * @return string The content of the part
+     * @inheritdoc
      */
     public function showPart($name)
     {
@@ -158,9 +161,7 @@ class Transpiler implements ITranspiler
     }
 
     /**
-     * Starts a view part
-     *
-     * @param string $name The name of the part to start
+     * @inheritdoc
      */
     public function startPart($name)
     {
@@ -177,14 +178,21 @@ class Transpiler implements ITranspiler
     public function transpile(IView $view, $contents = null)
     {
         $this->appendedText = [];
+        $this->prependedText = [];
         $tokens = $this->lexer->lex($view, $contents);
         $ast = $this->parser->parse($tokens);
         $transpiledContent = $this->transpileNodes($ast);
 
+        if(count($this->prependedText) > 0)
+        {
+            // Format the content nicely
+            $transpiledContent = trim(implode(PHP_EOL, $this->prependedText), PHP_EOL) . PHP_EOL . $transpiledContent;
+        }
+
         if(count($this->appendedText) > 0)
         {
             // Format the content nicely
-            $transpiledContent = ltrim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
+            $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
         }
 
         return $transpiledContent;

@@ -11,8 +11,8 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 
 class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Transpiler The compiler to use in tests */
-    private $compiler = null;
+    /** @var Transpiler The transpiler to use in tests */
+    private $transpiler = null;
 
     /**
      * Sets up the tests
@@ -20,7 +20,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $xssFilter = new XSSFilter();
-        $this->compiler = new Transpiler(new Lexer(), new Parser(), $xssFilter);
+        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $xssFilter);
     }
 
     /**
@@ -31,7 +31,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         // Test a single value
         $this->assertEquals(
             '<link href="foo" rel="stylesheet">',
-            $this->compiler->callViewFunction("css", "foo")
+            $this->transpiler->callViewFunction("css", "foo")
         );
 
         // Test multiple values
@@ -39,7 +39,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
             '<link href="foo" rel="stylesheet">' .
             "\n" .
             '<link href="bar" rel="stylesheet">',
-            $this->compiler->callViewFunction("css", ["foo", "bar"])
+            $this->transpiler->callViewFunction("css", ["foo", "bar"])
         );
     }
 
@@ -51,7 +51,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         $charset = "utf-8";
         $this->assertEquals(
             '<meta charset="' . $charset . '">',
-            $this->compiler->callViewFunction("charset", $charset)
+            $this->transpiler->callViewFunction("charset", $charset)
         );
     }
 
@@ -63,7 +63,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         $path = "foo";
         $this->assertEquals(
             '<link href="' . $path . '" rel="shortcut icon">',
-            $this->compiler->callViewFunction("favicon", $path)
+            $this->transpiler->callViewFunction("favicon", $path)
         );
     }
 
@@ -76,7 +76,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         $value = 30;
         $this->assertEquals(
             '<meta http-equiv="' . $name . '" content="' . $value . '">',
-            $this->compiler->callViewFunction("httpEquiv", $name, $value)
+            $this->transpiler->callViewFunction("httpEquiv", $name, $value)
         );
     }
 
@@ -88,7 +88,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         $metaDescription = "A&W is a root beer";
         $this->assertEquals(
             '<meta name="description" content="' . htmlentities($metaDescription) . '">',
-            $this->compiler->callViewFunction("metaDescription", $metaDescription)
+            $this->transpiler->callViewFunction("metaDescription", $metaDescription)
         );
     }
 
@@ -100,7 +100,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         $metaKeywords = ["A&W", "root beer"];
         $this->assertEquals(
             '<meta name="keywords" content="' . implode(",", array_map("htmlentities", $metaKeywords)) . '">',
-            $this->compiler->callViewFunction("metaKeywords", $metaKeywords)
+            $this->transpiler->callViewFunction("metaKeywords", $metaKeywords)
         );
     }
 
@@ -112,7 +112,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         // Test a single value
         $this->assertEquals(
             '<script type="text/javascript" src="foo"></script>',
-            $this->compiler->callViewFunction("script", "foo")
+            $this->transpiler->callViewFunction("script", "foo")
         );
 
         // Test multiple values
@@ -120,13 +120,13 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
             '<script type="text/javascript" src="foo"></script>' .
             PHP_EOL .
             '<script type="text/javascript" src="bar"></script>',
-            $this->compiler->callViewFunction("script", ["foo", "bar"])
+            $this->transpiler->callViewFunction("script", ["foo", "bar"])
         );
 
         // Test a single value with a type
         $this->assertEquals(
             '<script type="text/ecmascript" src="foo"></script>',
-            $this->compiler->callViewFunction("script", "foo", "text/ecmascript")
+            $this->transpiler->callViewFunction("script", "foo", "text/ecmascript")
         );
 
         // Test multiple values with a type
@@ -134,7 +134,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
             '<script type="text/ecmascript" src="foo"></script>' .
             "\n" .
             '<script type="text/ecmascript" src="bar"></script>',
-            $this->compiler->callViewFunction("script", ["foo", "bar"], "text/ecmascript")
+            $this->transpiler->callViewFunction("script", ["foo", "bar"], "text/ecmascript")
         );
     }
 
@@ -146,7 +146,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
         $title = "A&W";
         $this->assertEquals(
             '<title>' . htmlentities($title) . '</title>',
-            $this->compiler->callViewFunction("pageTitle", $title)
+            $this->transpiler->callViewFunction("pageTitle", $title)
         );
     }
 }

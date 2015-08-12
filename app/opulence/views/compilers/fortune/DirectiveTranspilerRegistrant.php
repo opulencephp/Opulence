@@ -17,69 +17,90 @@ class DirectiveTranspilerRegistrant
     {
         $transpiler->registerDirectiveTranspiler("else", function ()
         {
-            return "<?php else: ?>";
+            return '<?php else: ?>';
         });
         $transpiler->registerDirectiveTranspiler("elseif", function ($expression)
         {
-            return "<?php elseif($expression): ?>";
+            return '<?php elseif(' . $expression . '): ?>';
         });
-        $transpiler->registerDirectiveTranspiler("elseifempty", function ()
+        $transpiler->registerDirectiveTranspiler("forelse", function ()
         {
-            return "<?php endforeach; if(array_pop(\$__opulenceForElseEmpty)): ?>";
+            return '<?php endforeach; if(array_pop($__opulenceForElseEmpty)): ?>';
         });
         $transpiler->registerDirectiveTranspiler("endforeach", function ()
         {
-            return "<?php endforeach; ?>";
+            return '<?php endforeach; ?>';
         });
         $transpiler->registerDirectiveTranspiler("endif", function ()
         {
-            return "<?php endif; ?>";
+            return '<?php endif; ?>';
         });
         $transpiler->registerDirectiveTranspiler("endfor", function ()
         {
-            return "<?php endfor; ?>";
+            return '<?php endfor; ?>';
         });
         $transpiler->registerDirectiveTranspiler("endpart", function ()
         {
-            return "<?php \$__opulenceFortuneTranspiler->endPart(); ?>";
+            return '<?php $__opulenceFortuneTranspiler->endPart(); ?>';
         });
         $transpiler->registerDirectiveTranspiler("endwhile", function ()
         {
-            return "<?php endwhile; ?>";
+            return '<?php endwhile; ?>';
         });
         $transpiler->registerDirectiveTranspiler("extends", function ($expression) use ($transpiler)
         {
-            $code = "<?php \$__opulenceParentView = \$__opulenceViewFactory->create($expression);";
-            $code .= "echo \$__opulenceViewCompiler->compile(\$__opulenceParentView); ?>";
-            $transpiler->append($code);
+            // Create the parent
+            $code = '$__opulenceViewParent = $__opulenceViewFactory->create(' . $expression . ');';
+            $code .= '$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);';
+            $code .= 'extract($__opulenceView->getVars());';
+            $transpiler->prepend('<?php ' . $code . ' ?>');
+
+            // Compile the parent, keep track of the contents, and echo them in the appended text
+            $code = '$__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];';
+            $code .= '$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent, $__opulenceViewParent->getContents());';
+            $transpiler->prepend('<?php ' . $code . ' ?>');
+
+            // Echo the contents at the end of the content
+            $code = 'echo eval("?>" . array_shift($__opulenceParentContents));';
+            $transpiler->append('<?php ' . $code . ' ?>');
 
             return "";
         });
         $transpiler->registerDirectiveTranspiler("for", function ($expression)
         {
-            return "<?php for($expression): ?>";
+            return '<?php for(' . $expression . '): ?>';
         });
         $transpiler->registerDirectiveTranspiler("foreach", function ($expression)
         {
-            return "<?php foreach($expression): ?>";
+            return '<?php foreach(' . $expression . '): ?>';
         });
-        $transpiler->registerDirectiveTranspiler("forelse", function ($expression)
+        $transpiler->registerDirectiveTranspiler("forif", function ($expression)
         {
-            $code = "<?php if(!isset(\$__opulenceForElseEmpty)): \$__opulenceForElseEmpty = []; endif;";
-            $code .= "\$__opulenceForElseEmpty[] = true;";
-            $code .= "foreach($expression):";
-            $code .= "\$__opulenceForElseEmpty[count(\$__opulenceForElseEmpty) - 1] = false; ?>";
+            $code = '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;';
+            $code .= '$__opulenceForElseEmpty[] = true;';
+            $code .= 'foreach(' . $expression . '):';
+            $code .= '$__opulenceForElseEmpty[count($__opulenceForElseEmpty) - 1] = false; ?>';
 
             return $code;
         });
         $transpiler->registerDirectiveTranspiler("if", function ($expression)
         {
-            return "<?php if($expression): ?>";
+            return '<?php if(' . $expression . '): ?>';
         });
         $transpiler->registerDirectiveTranspiler("include", function ($expression)
         {
-            $code = "<?php \$__opulenceIncludedView = \$__opulenceViewFactory->create($expression);";
-            $code .= "echo \$__opulenceViewCompiler->compile(\$__opulenceIncludedView); ?>";
+            // Check if a list of variables were passed in as a second parameter
+            if(preg_match("/^(('|\")(.*)\\2),\s*(.+)$/", $expression, $matches) === 1)
+            {
+                $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create(' . $matches[1] . ');';
+                $code .= '$__opulenceIncludedView->setVars(' . $matches[4] . ');';
+            }
+            else
+            {
+                $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create(' . $expression . ');';
+            }
+
+            $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
 
             return $code;
         });
@@ -90,15 +111,15 @@ class DirectiveTranspilerRegistrant
         });
         $transpiler->registerDirectiveTranspiler("part", function ($expression)
         {
-            return "<?php \$__opulenceFortuneTranspiler->startPart($expression); ?>";
+            return '<?php $__opulenceFortuneTranspiler->startPart(' . $expression . '); ?>';
         });
         $transpiler->registerDirectiveTranspiler("show", function ($expression)
         {
-            return "<?php echo \$__opulenceFortuneTranspiler->showPart($expression); ?>";
+            return '<?php echo $__opulenceFortuneTranspiler->showPart(' . $expression . '); ?>';
         });
         $transpiler->registerDirectiveTranspiler("while", function ($expression)
         {
-            return "<?php while($expression): ?>";
+            return '<?php while(' . $expression . '): ?>';
         });
     }
 }

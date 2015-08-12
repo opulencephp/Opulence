@@ -11,6 +11,14 @@ use Opulence\Views\IView;
 interface ITranspiler
 {
     /**
+     * Adds a parent to the current view
+     *
+     * @param IView $parent The parent to add
+     * @param IView $child The child to add parents to
+     */
+    public function addParent(IView $parent, IView $child);
+
+    /**
      * Appends text to the end of the transpiled contents
      *
      * @param string $text The text to append
@@ -31,6 +39,13 @@ interface ITranspiler
      * Ends a view part
      */
     public function endPart();
+
+    /**
+     * Prepends text to the beginning of the transpiled contents
+     *
+     * @param string $text The text to prepend
+     */
+    public function prepend($text);
 
     /**
      * Registers a directive transpiler

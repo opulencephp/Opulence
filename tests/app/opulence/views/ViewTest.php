@@ -51,55 +51,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting an inherited part from the parent
-     */
-    public function testGettingInheritedPartFromParent()
-    {
-        $parent = clone $this->view;
-        $parent->setPart("foo", "bar");
-        $this->view->setParent($parent);
-        $this->assertEquals("bar", $this->view->getPart("foo"));
-        $this->assertEquals(["foo" => "bar"], $this->view->getParts());
-    }
-
-    /**
-     * Tests getting an inherited tag from the parent
-     */
-    public function testGettingInheritedVarFromParent()
-    {
-        $parent = clone $this->view;
-        $parent->setVar("foo", "bar");
-        $this->view->setParent($parent);
-        $this->assertEquals("bar", $this->view->getVar("foo"));
-        $this->assertEquals(["foo" => "bar"], $this->view->getVars());
-    }
-
-    /**
-     * Tests getting a non-existent parent
-     */
-    public function testGettingNonExistentParent()
-    {
-        $this->assertNull($this->view->getParent());
-    }
-
-    /**
      * Tests getting a non-existent variable
      */
     public function testGettingNonExistentVariable()
     {
         $this->assertNull($this->view->getVar("foo"));
-    }
-
-    /**
-     * Tests pushing a parent part
-     */
-    public function testGettingPartFromParent()
-    {
-        $parent = clone $this->view;
-        $parent->setPart("foo", "bar");
-        $this->view->setParent($parent);
-        $this->assertEquals("bar", $this->view->getPart("foo"));
-        $this->assertEquals(["foo" => "bar"], $this->view->getParts());
     }
 
     /**
@@ -144,6 +100,20 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setVar("foo", "bar");
         $this->assertEquals(["foo" => "bar"], $this->view->getVars());
+    }
+
+    /**
+     * Tests checking if a view has a variable
+     */
+    public function testHasVar()
+    {
+        $this->assertFalse($this->view->hasVar("foo"));
+        // Try a null value
+        $this->view->setVar("bar", null);
+        $this->assertTrue($this->view->hasVar("bar"));
+        // Try a normal value
+        $this->view->setVar("baz", 123);
+        $this->assertTrue($this->view->hasVar("baz"));
     }
 
     /**
@@ -201,25 +171,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $property->setAccessible(true);
         $vars = $property->getValue($this->view);
         $this->assertEquals(["foo" => "bar", "abc" => ["xyz"]], $vars);
-    }
-
-    /**
-     * Tests setting the parent
-     */
-    public function testSettingParent()
-    {
-        $parent = clone $this->view;
-        $this->view->setParent($parent);
-        $this->assertSame($parent, $this->view->getParent());
-    }
-
-    /**
-     * Tests setting a view part
-     */
-    public function testSettingPart()
-    {
-        $this->view->setPart("foo", "bar");
-        $this->assertEquals("bar", $this->view->getPart("foo"));
     }
 
     /**

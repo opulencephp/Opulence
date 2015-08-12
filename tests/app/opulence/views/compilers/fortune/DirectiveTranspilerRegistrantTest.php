@@ -54,18 +54,6 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests transpiling an else-if-empty directive
-     */
-    public function testTranspilingElseIfEmpty()
-    {
-        $this->view->setContents('<% elseifempty %>');
-        $this->assertEquals(
-            '<?php endforeach; if(array_pop($__opulenceForElseEmpty)): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
-        );
-    }
-
-    /**
      * Tests transpiling an end-for directive
      */
     public function testTranspilingEndFor()
@@ -131,10 +119,14 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     public function testTranspilingExtend()
     {
         $this->view->setContents('<% extends("foo.php") %>bar');
-        $code = '<?php $__opulenceParentView = $__opulenceViewFactory->create("foo.php");';
-        $code .= 'echo $__opulenceViewCompiler->compile($__opulenceParentView); ?>';
+        $expected = [
+            '<?php $__opulenceViewParent = $__opulenceViewFactory->create("foo.php");$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);extract($__opulenceView->getVars()); ?>',
+            '<?php $__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent, $__opulenceViewParent->getContents()); ?>',
+            'bar',
+            '<?php echo eval("?>" . array_shift($__opulenceParentContents)); ?>'
+        ];
         $this->assertEquals(
-            "bar" . PHP_EOL . $code,
+            implode(PHP_EOL, $expected),
             $this->transpiler->transpile($this->view, $this->view->getContents())
         );
     }
@@ -156,7 +148,19 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranspilingForElse()
     {
-        $this->view->setContents('<% forelse($foo as $bar) %>');
+        $this->view->setContents('<% forelse %>');
+        $this->assertEquals(
+            '<?php endforeach; if(array_pop($__opulenceForElseEmpty)): ?>',
+            $this->transpiler->transpile($this->view, $this->view->getContents())
+        );
+    }
+
+    /**
+     * Tests transpiling a for-if directive
+     */
+    public function testTranspilingForIf()
+    {
+        $this->view->setContents('<% forif($foo as $bar) %>');
         $this->assertEquals(
             '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;$__opulenceForElseEmpty[] = true;' .
             'foreach($foo as $bar):' .
@@ -199,6 +203,21 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
         $this->assertEquals(
             "{$code}bar",
+            $this->transpiler->transpile($this->view, $this->view->getContents())
+        );
+    }
+
+    /**
+     * Tests transpiling an include directive with passed variables
+     */
+    public function testTranspilingIncludeWithPassedVariables()
+    {
+        $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
+        $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
+        $code .= '$__opulenceIncludedView->setVars(["foo" => "bar"]);';
+        $code .= 'echo $__opulenceViewCompiler->compile($__opulenceIncludedView); ?>';
+        $this->assertEquals(
+            "{$code}baz",
             $this->transpiler->transpile($this->view, $this->view->getContents())
         );
     }

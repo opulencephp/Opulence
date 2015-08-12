@@ -1,20 +1,11 @@
 HAS PRIORITY:
+    Add ability to start a section and show it
+        Basically, allows us to define a section and give it default content
+    PROBLEM:  We call "extract()" BEFORE we've run the "addParent()" calls prepended by the transpiler.  So, the child view's variables are not getting extracted before everything is getting compiled.  We'd have to potentially re-extract vars (seems sloppy).  Need to investigate more.
+        Need to inherit vars BEFORE transpile() returns.  Cannot simply transpile to PHP code because we cannot reference the view being transpiled.  Don't want to write that to variable for fear of concurrency issues when compiling parent views.
+
+    Add support for multiple server objects in Redis.  Also add support for cluster.
     Run checksetup.php ONLY on post create-project script
     Need to add way to test Middleware (1.0)
     Get rid of dependence on HTTP Request in Credential stuff
     Finish form stuff
-    Idea:  Run statement compiler
-        Cache results
-        Run all other subcompilers
-        Cache results
-        Next time the template needs to be rendered, look it up in cache
-            If it's there, grab it, then check if it is also in cache with the input tags/vars
-
-        ** WOULD NEED TO INHERIT VARS/TAGS/PARTS FROM PARENTS AFTER VIEW IS PARSED
-            If we do this inside the Statement subcompiler, we couldn't handle the case when {{username}} was set in a builder for the parent template
-                The cached template would always use the inherited tags/vars/parts from the template in cache, which is not at all what we want
-            So, we'd need to parse the statements and keep track of the inheritance stack somewhere
-                This would also involve running builders AFTER template has been parsed
-            Is all this really worth it?
-    Add ability to start a section and show it
-        Basically, allows us to define a section and give it default content

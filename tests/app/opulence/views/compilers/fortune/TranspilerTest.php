@@ -17,6 +17,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use Opulence\Views\IView;
+use Opulence\Views\View;
 use RuntimeException;
 
 class TranspilerTest extends \PHPUnit_Framework_TestCase
@@ -113,12 +114,89 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that an exception is thrown when there's no transpiler for a directive
+     */
+    public function testExceptionThrownWhenNoTranspilerRegisteredForDirective()
+    {
+        $this->setExpectedException(RuntimeException::class);
+        $directiveNode = new DirectiveNode();
+        $directiveNode->addChild(new DirectiveNameNode("foo"));
+        $directiveNode->addChild(new ExpressionNode("bar"));
+        $this->ast->getCurrentNode()
+            ->addChild($directiveNode);
+        $this->transpiler->transpile($this->view, $this->view->getContents());
+    }
+
+    /**
      * Tests that an exception is thrown with an invalid view function name
      */
     public function testExceptionThrownWithInvalidViewFunctionName()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $this->assertEquals("foobar", $this->transpiler->callViewFunction("foo"));
+        $this->transpiler->callViewFunction("foo");
+    }
+
+    /**
+     * Tests that the first value of a variable that is inherited twice is used
+     */
+    public function testFirstValueOfVariableThatIsInheritedTwiceIsUsed()
+    {
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        $parent1 = $this->getMock(IView::class);
+        $parent1->expects($this->once())
+            ->method("getVars")
+            ->willReturn(["foo" => "bar"]);
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent2 */
+        $parent2 = $this->getMock(IView::class);
+        $parent2->expects($this->once())
+            ->method("getVars")
+            ->willReturn(["foo" => "baz"]);
+        $child = new View();
+        $this->transpiler->addParent($parent1, $child);
+        $this->transpiler->addParent($parent2, $child);
+        $this->transpiler->transpile($child, "");
+        $this->assertEquals("bar", $child->getVar("foo"));
+    }
+
+    /**
+     * Tests passing a variable that was already defined
+     */
+    public function testPassingVariableThatWasAlreadyDefined()
+    {
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        $parent1 = $this->getMock(IView::class);
+        $parent1->expects($this->once())
+            ->method("getVars")
+            ->willReturn(["foo" => "bar"]);
+        $this->view->expects($this->never())
+            ->method("setVar");
+        $this->view->expects($this->once())
+            ->method("hasVar")
+            ->with("foo")
+            ->willReturn(true);
+        $this->transpiler->addParent($parent1, $this->view);
+        $this->transpiler->transpile($this->view, $this->view->getContents());
+    }
+
+    /**
+     * Tests passing a variable that was not defined
+     */
+    public function testPassingVariableThatWasNotDefined()
+    {
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $parent1 */
+        $parent1 = $this->getMock(IView::class);
+        $parent1->expects($this->once())
+            ->method("getVars")
+            ->willReturn(["foo" => "bar"]);
+        $this->view->expects($this->once())
+            ->method("setVar")
+            ->with("foo", "bar");
+        $this->view->expects($this->once())
+            ->method("hasVar")
+            ->with("foo")
+            ->willReturn(false);
+        $this->transpiler->addParent($parent1, $this->view);
+        $this->transpiler->transpile($this->view, $this->view->getContents());
     }
 
     /**
