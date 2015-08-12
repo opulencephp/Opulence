@@ -9,21 +9,21 @@ use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Framework\HTTP\CSRFTokenChecker;
 use Opulence\Routing\URL\URLGenerator;
 use Opulence\Sessions\ISession;
-use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Compilers\Fortune\ITranspiler;
 
 class ViewFunctions extends Bootstrapper
 {
     /**
      * Registers view functions
      *
-     * @param ICompiler $compiler The compiler to use
+     * @param ITranspiler $transpiler The transpiler to register to
      * @param URLGenerator $urlGenerator What generates URLs from routes
      * @param ISession $session The current session
      */
-    public function run(ICompiler $compiler, URLGenerator $urlGenerator, ISession $session)
+    public function run(ITranspiler $transpiler, URLGenerator $urlGenerator, ISession $session)
     {
         // Add the ability to display a hidden input with the current CSRF token
-        $compiler->registerViewFunction("csrfInput", function () use ($session)
+        $transpiler->registerViewFunction("csrfInput", function () use ($session)
         {
             return sprintf(
                 '<input type="hidden" name="%s" value="%s">',
@@ -32,12 +32,12 @@ class ViewFunctions extends Bootstrapper
             );
         });
         // Add the ability to display the CSRF token
-        $compiler->registerViewFunction("csrfToken", function () use ($session)
+        $transpiler->registerViewFunction("csrfToken", function () use ($session)
         {
             return $session->get(CSRFTokenChecker::TOKEN_INPUT_NAME);
         });
         // Add the ability to generate URLs to named routes from views
-        $compiler->registerViewFunction("route", function ($routeName, $arguments = []) use ($urlGenerator)
+        $transpiler->registerViewFunction("route", function ($routeName, $arguments = []) use ($urlGenerator)
         {
             return $urlGenerator->createFromName($routeName, $arguments);
         });
