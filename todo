@@ -1,6 +1,8 @@
-HUGE PROBLEM:  How do we only search for functions to replace that are actual function calls and not calls in the middle of strings?
-    For example, '$request->isPath("/docs(/.*)?", true)' is trying to run a view function "docs", which isn't correct at all
-    This is a big problem.  Really need to think this through and determine if there's a solution or if I have to rethink how I lex views.
+Problem:  compiling view adds more variables to view
+    When caching, we use the vars set BEFORE compilation
+    Issue is when we retrieve from cache, we still only have the vars set BEFORE compilation
+    Ideally, we'd cache views with vars set BEFORE compilation, but also store vars set after compilation
+    Is there a better way??
 Add ability to start a section and show it
     Basically, allows us to define a section and give it default content
 Need to finalize view library name, console name
