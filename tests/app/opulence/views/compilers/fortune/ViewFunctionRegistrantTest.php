@@ -5,6 +5,7 @@
  * Tests the Fortune view function registrant
  */
 namespace Opulence\Views\Compilers\Fortune;
+use Opulence\Views\Caching\ICache;
 use Opulence\Views\Filters\XSSFilter;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
@@ -20,7 +21,12 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $xssFilter = new XSSFilter();
-        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $xssFilter);
+        /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
+        $cache = $this->getMock(ICache::class);
+        $cache->expects($this->any())
+            ->method("has")
+            ->willReturn(false);
+        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, $xssFilter);
     }
 
     /**

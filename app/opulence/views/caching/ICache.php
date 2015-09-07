@@ -16,7 +16,7 @@ interface ICache
     const DEFAULT_GC_DIVISOR = 1000;
 
     /**
-     * Flushes all of the rendered views from cache
+     * Flushes all of the compiled views from cache
      */
     public function flush();
 
@@ -26,32 +26,32 @@ interface ICache
     public function gc();
 
     /**
-     * Gets the unrendered view with the input data
+     * Gets the uncompiled view with the input data
      *
-     * @param string $unrenderedView The unrendered view
+     * @param string $uncompiledView The uncompiled view
      * @param array $variables The variables to match on
-     * @return string|null The rendered view if it existed, otherwise null
+     * @return string|null The compiled view if it existed, otherwise null
      */
-    public function get($unrenderedView, array $variables = []);
+    public function get($uncompiledView, array $variables = []);
 
     /**
-     * Gets whether or not the cache has the unrendered view with the input data
+     * Gets whether or not the cache has the uncompiled view with the input data
      *
-     * @param string $unrenderedView The unrendered view
+     * @param string $uncompiledView The uncompiled view
      * @param array $variables The variables to match on
-     * @return bool True if the cache has an unexpired rendered view, otherwise false
+     * @return bool True if the cache has an unexpired compiled view, otherwise false
      */
-    public function has($unrenderedView, array $variables = []);
+    public function has($uncompiledView, array $variables = []);
 
     /**
-     * Stores a rendered view to cache
+     * Stores a compiled view to cache
      *
-     * @param string $renderedView The rendered view
-     * @param string $unrenderedView The unrendered view
+     * @param string $compiledView The compiled view
+     * @param string $uncompiledView The uncompiled view
      * @param array $variables The variables to match on
      * @return bool True if successful, otherwise false
      */
-    public function set($renderedView, $unrenderedView, array $variables = []);
+    public function set($compiledView, $uncompiledView, array $variables = []);
 
     /**
      * Sets the chance that garbage collection will be run

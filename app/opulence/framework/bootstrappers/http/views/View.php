@@ -85,10 +85,10 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
     protected function getViewCompiler(IContainer $container)
     {
         $registry = new CompilerRegistry();
-        $viewCompiler = new Compiler($registry, $this->viewCache);
+        $viewCompiler = new Compiler($registry);
 
         // Setup our various sub-compilers
-        $transpiler = new Transpiler(new Lexer(), new Parser(), new XSSFilter());
+        $transpiler = new Transpiler(new Lexer(), new Parser(), $this->viewCache, new XSSFilter());
         $container->bind(ITranspiler::class, $transpiler);
         $fortuneCompiler = new FortuneCompiler($transpiler, $viewCompiler, $this->viewFactory);
         $registry->registerCompiler("fortune", $fortuneCompiler);

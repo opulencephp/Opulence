@@ -5,6 +5,7 @@
  * Test the Fortune directive transpiler registrant
  */
 namespace Opulence\Views\Compilers\Fortune;
+use Opulence\Views\Caching\ICache;
 use Opulence\Views\Filters\XSSFilter;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
@@ -26,7 +27,12 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view = new View();
         $this->registrant = new DirectiveTranspilerRegistrant();
-        $this->transpiler = new Transpiler(new Lexer(), new Parser(), new XSSFilter());
+        /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
+        $cache = $this->getMock(ICache::class);
+        $cache->expects($this->any())
+            ->method("has")
+            ->willReturn(false);
+        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XSSFilter());
     }
 
     /**

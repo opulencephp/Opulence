@@ -1,8 +1,3 @@
-Problem:  compiling view adds more variables to view
-    When caching, we use the vars set BEFORE compilation
-    Issue is when we retrieve from cache, we still only have the vars set BEFORE compilation
-    Ideally, we'd cache views with vars set BEFORE compilation, but also store vars set after compilation
-    Is there a better way??
 Add ability to start a section and show it
     Basically, allows us to define a section and give it default content
 Need to finalize view library name, console name

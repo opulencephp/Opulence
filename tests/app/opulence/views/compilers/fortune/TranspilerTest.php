@@ -6,6 +6,7 @@
  */
 namespace Opulence\Views\Compilers\Fortune;
 use InvalidArgumentException;
+use Opulence\Views\Caching\ICache;
 use Opulence\Views\Filters\XSSFilter;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
@@ -30,6 +31,8 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
     private $parser = null;
     /** @var AbstractSyntaxTree The AST to use in tests */
     private $ast = null;
+    /** @var ICache|\PHPUnit_Framework_MockObject_MockObject The view cache to use in tests */
+    private $cache = null;
     /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
     private $view = null;
     /** @var XSSFilter The filter to use in tests */
@@ -42,12 +45,16 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->lexer = $this->getMock(ILexer::class);
         $this->parser = $this->getMock(IParser::class);
+        $this->cache = $this->getMock(ICache::class);
         $this->xssFilter = new XSSFilter();
-        $this->transpiler = new Transpiler($this->lexer, $this->parser, $this->xssFilter);
+        $this->transpiler = new Transpiler($this->lexer, $this->parser, $this->cache, $this->xssFilter);
         $this->ast = new AbstractSyntaxTree();
         $this->lexer->expects($this->any())->method("lex")->willReturn([]);
         $this->parser->expects($this->any())->method("parse")->willReturn($this->ast);
         $this->view = $this->getMock(IView::class);
+        $this->view->expects($this->any())
+            ->method("getVars")
+            ->willReturn([]);
     }
 
     /**
@@ -63,6 +70,27 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             '<?php echo "foo"; ?>',
             $this->transpiler->transpile($this->view, $this->view->getContents())
         );
+    }
+
+    /**
+     * Tests that cache is used when it has a view
+     */
+    public function testCacheIsUsedWhenItHasView()
+    {
+        $this->cache->expects($this->once())
+            ->method("has")
+            ->with("foo", ["bar" => "baz"])
+            ->willReturn(true);
+        $this->cache->expects($this->once())
+            ->method("get")
+            ->with("foo", ["bar" => "baz"])
+            ->willReturn("transpiled");
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        $view = $this->getMock(IView::class);
+        $view->expects($this->any())
+            ->method("getVars")
+            ->willReturn(["bar" => "baz"]);
+        $this->assertEquals("transpiled", $this->transpiler->transpile($view, "foo"));
     }
 
     /**
@@ -260,6 +288,25 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         echo "blah";
         $this->transpiler->endPart();
         $this->assertEquals("blahbarbaz", $this->transpiler->showPart("foo"));
+    }
+
+    /**
+     * Tests that the transpiled contents are cached
+     */
+    public function testTranspiledContentsAreCached()
+    {
+        $this->cache->expects($this->once())
+            ->method("has")
+            ->willReturn(false);
+        $this->cache->expects($this->once())
+            ->method("set")
+            ->with("", "foo", ["bar" => "baz"]);
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        $view = $this->getMock(IView::class);
+        $view->expects($this->any())
+            ->method("getVars")
+            ->willReturn(["bar" => "baz"]);
+        $this->transpiler->transpile($view, "foo");
     }
 
     /**

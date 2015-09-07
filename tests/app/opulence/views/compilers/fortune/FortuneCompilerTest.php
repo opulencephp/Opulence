@@ -34,7 +34,6 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->transpiler = new Transpiler(new Lexer(), new Parser(), new XSSFilter());
         /** @var ICompilerRegistry|\PHPUnit_Framework_MockObject_MockObject $registry */
         $registry = $this->getMock(ICompilerRegistry::class);
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
@@ -42,7 +41,8 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $cache->expects($this->any())
             ->method("has")
             ->willReturn(false);
-        $this->mainCompiler = new Compiler($registry, $cache);
+        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XSSFilter());
+        $this->mainCompiler = new Compiler($registry);
         $this->viewFactory = $this->getMock(IViewFactory::class);
         $this->fortuneCompiler = new FortuneCompiler($this->transpiler, $this->mainCompiler, $this->viewFactory);
         $this->view = new View();
