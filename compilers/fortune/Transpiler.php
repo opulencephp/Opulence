@@ -6,6 +6,7 @@
  */
 namespace Opulence\Views\Compilers\Fortune;
 use InvalidArgumentException;
+use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Parsers\IParser;
@@ -24,6 +25,8 @@ class Transpiler implements ITranspiler
     protected $lexer = null;
     /** @var IParser The view parser */
     protected $parser = null;
+    /** @var ICache The transpiled view cache */
+    protected $cache = null;
     /** @var XSSFilter The XSS filter to use to sanitize text */
     protected $xssFilter = null;
     /** @var callable[] The mapping of directive names to their transpilers */
@@ -44,12 +47,14 @@ class Transpiler implements ITranspiler
     /**
      * @param ILexer $lexer The view lexer
      * @param IParser $parser The view parser
+     * @param ICache $cache The view cache
      * @param XSSFilter $xssFilter The XSS filter
      */
-    public function __construct(ILexer $lexer, IParser $parser, XSSFilter $xssFilter)
+    public function __construct(ILexer $lexer, IParser $parser, ICache $cache, XSSFilter $xssFilter)
     {
         $this->lexer = $lexer;
         $this->parser = $parser;
+        $this->cache = $cache;
         $this->xssFilter = $xssFilter;
         // Register built-in view functions
         (new ViewFunctionRegistrant())->registerViewFunctions($this);
@@ -179,6 +184,12 @@ class Transpiler implements ITranspiler
     {
         $this->appendedText = [];
         $this->prependedText = [];
+
+        if($this->cache->has($contents, $view->getVars()))
+        {
+            return $this->cache->get($contents, $view->getVars());
+        }
+
         $tokens = $this->lexer->lex($view, $contents);
         $ast = $this->parser->parse($tokens);
         $transpiledContent = $this->transpileNodes($ast);
@@ -194,6 +205,8 @@ class Transpiler implements ITranspiler
             // Format the content nicely
             $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
         }
+
+        $this->cache->set($transpiledContent, $contents, $view->getVars());
 
         return $transpiledContent;
     }

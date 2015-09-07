@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the cache for rendered views
+ * Defines the cache for compiled views
  */
 namespace Opulence\Views\Caching;
 use DateTime;
@@ -22,7 +22,7 @@ class Cache implements ICache
     private $gcDivisor = self::DEFAULT_GC_DIVISOR;
 
     /**
-     * @param FileSystem $fileSystem The file system to use to read cached view
+     * @param FileSystem $fileSystem The file system to use to read cached views
      * @param string|null $path The path to store the cached views at, or null if the path is not yet set
      * @param int $lifetime The number of seconds cached views should live
      * @param int $gcChance The chance (out of the total) that garbage collection will be run
@@ -90,27 +90,27 @@ class Cache implements ICache
     /**
      * @inheritdoc
      */
-    public function get($unrenderedView, array $variables = [])
+    public function get($uncompiledView, array $variables = [])
     {
-        if(!$this->has($unrenderedView, $variables))
+        if(!$this->has($uncompiledView, $variables))
         {
             return null;
         }
 
-        return $this->fileSystem->read($this->getViewPath($unrenderedView, $variables));
+        return $this->fileSystem->read($this->getViewPath($uncompiledView, $variables));
     }
 
     /**
      * @inheritdoc
      */
-    public function has($unrenderedView, array $variables = [])
+    public function has($uncompiledView, array $variables = [])
     {
         if(!$this->cachingIsEnabled())
         {
             return false;
         }
 
-        $viewPath = $this->getViewPath($unrenderedView, $variables);
+        $viewPath = $this->getViewPath($uncompiledView, $variables);
         $exists = $this->fileSystem->exists($viewPath);
 
         if(!$exists)
@@ -133,11 +133,11 @@ class Cache implements ICache
     /**
      * @inheritdoc
      */
-    public function set($renderedView, $unrenderedView, array $variables = [])
+    public function set($compiledView, $uncompiledView, array $variables = [])
     {
         if($this->cachingIsEnabled())
         {
-            $this->fileSystem->write($this->getViewPath($unrenderedView, $variables), $renderedView);
+            $this->fileSystem->write($this->getViewPath($uncompiledView, $variables), $compiledView);
         }
     }
 
@@ -177,14 +177,14 @@ class Cache implements ICache
     /**
      * Gets path to cached view
      *
-     * @param string $unrenderedView The unrendered view
+     * @param string $uncompiledView The uncompiled view
      * @param array $variables The list of variables used by this view
      * @return string The path to the cached view
      */
-    private function getViewPath($unrenderedView, array $variables)
+    private function getViewPath($uncompiledView, array $variables)
     {
         return $this->path . "/" . md5(http_build_query([
-            "u" => $unrenderedView,
+            "u" => $uncompiledView,
             "v" => $variables
         ]));
     }
