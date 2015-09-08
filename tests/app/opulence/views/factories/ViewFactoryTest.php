@@ -6,8 +6,8 @@
  */
 namespace Opulence\Views\Factories;
 use Opulence\Files\FileSystem;
-use Opulence\Tests\Views\Mocks\BarBuilder;
-use Opulence\Tests\Views\Mocks\FooBuilder;
+use Opulence\Tests\Views\Factories\Mocks\BarBuilder;
+use Opulence\Tests\Views\Factories\Mocks\FooBuilder;
 
 class ViewFactoryTest extends \PHPUnit_Framework_TestCase
 {

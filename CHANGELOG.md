@@ -15,6 +15,7 @@
 <h3>Views</h3>
 * Renamed `Opulence\Views\Templates` to `Opulence\Views\View` and `ITemplate` to `IView`
 * Renamed `Opulence\Views\Factories\ITemplateFactory` to `IViewFactory` and `TemplateFactory` to `ViewFactory`
+* Renamed `Opulence\Views\IBuilder` to `Opulence\Views\Factories\IViewBuilder`
 * Added `Opulence\Views\Compilers\Fortune` namespace
 * Changed default statement delimiter from `{% %}` to `<% %>`
 

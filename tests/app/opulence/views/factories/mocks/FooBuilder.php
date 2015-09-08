@@ -4,18 +4,18 @@
  *
  * Mocks a builder for use in testing
  */
-namespace Opulence\Tests\Views\Mocks;
-use Opulence\Views\IBuilder;
+namespace Opulence\Tests\Views\Factories\Mocks;
+use Opulence\Views\Factories\IViewBuilder;
 use Opulence\Views\IView;
 
-class BarBuilder implements IBuilder
+class FooBuilder implements IViewBuilder
 {
     /**
      * @inheritdoc
      */
     public function build(IView $view)
     {
-        $view->setVar("bar", "baz");
+        $view->setVar("foo", "bar");
 
         return $view;
     }

@@ -4,11 +4,11 @@
  *
  * Mocks a builder that builds a parent for use in testing
  */
-namespace Opulence\Tests\Views\Mocks;
-use Opulence\Views\IBuilder;
+namespace Opulence\Tests\Views\Factories\Mocks;
+use Opulence\Views\Factories\IViewBuilder;
 use Opulence\Views\IView;
 
-class ParentBuilder implements IBuilder
+class ParentBuilder implements IViewBuilder
 {
     /**
      * @inheritdoc
