@@ -4,9 +4,10 @@
  *
  * Defines the interface for view builders to implement
  */
-namespace Opulence\Views;
+namespace Opulence\Views\Factories;
+use Opulence\Views\IView;
 
-interface IBuilder
+interface IViewBuilder
 {
     /**
      * Builds a view or a part of a view
