@@ -7,6 +7,7 @@
 namespace Opulence\Views\Caching;
 use DateTime;
 use Opulence\Files\FileSystem;
+use Opulence\Views\IView;
 
 class Cache implements ICache
 {
@@ -90,27 +91,27 @@ class Cache implements ICache
     /**
      * @inheritdoc
      */
-    public function get($uncompiledView, array $variables = [])
+    public function get(IView $view)
     {
-        if(!$this->has($uncompiledView, $variables))
+        if(!$this->has($view))
         {
             return null;
         }
 
-        return $this->fileSystem->read($this->getViewPath($uncompiledView, $variables));
+        return $this->fileSystem->read($this->getViewPath($view));
     }
 
     /**
      * @inheritdoc
      */
-    public function has($uncompiledView, array $variables = [])
+    public function has(IView $view)
     {
         if(!$this->cachingIsEnabled())
         {
             return false;
         }
 
-        $viewPath = $this->getViewPath($uncompiledView, $variables);
+        $viewPath = $this->getViewPath($view);
         $exists = $this->fileSystem->exists($viewPath);
 
         if(!$exists)
@@ -133,11 +134,11 @@ class Cache implements ICache
     /**
      * @inheritdoc
      */
-    public function set($compiledView, $uncompiledView, array $variables = [])
+    public function set(IView $view, $compiledContents)
     {
         if($this->cachingIsEnabled())
         {
-            $this->fileSystem->write($this->getViewPath($uncompiledView, $variables), $compiledView);
+            $this->fileSystem->write($this->getViewPath($view), $compiledContents);
         }
     }
 
@@ -177,15 +178,14 @@ class Cache implements ICache
     /**
      * Gets path to cached view
      *
-     * @param string $uncompiledView The uncompiled view
-     * @param array $variables The list of variables used by this view
+     * @param IView $view The view whose cached file path we want
      * @return string The path to the cached view
      */
-    private function getViewPath($uncompiledView, array $variables)
+    private function getViewPath(IView $view)
     {
         return $this->path . "/" . md5(http_build_query([
-            "u" => $uncompiledView,
-            "v" => $variables
+            "u" => $view->getContents(),
+            "v" => $view->getVars()
         ]));
     }
 

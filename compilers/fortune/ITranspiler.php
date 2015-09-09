@@ -89,7 +89,10 @@ interface ITranspiler
     public function startPart($name);
 
     /**
-     * @inheritdoc
+     * Transpiles a view to PHP code
+     *
+     * @param IView $view The view to compile
+     * @return string The transpiled PHP code
      */
-    public function transpile(IView $view, $contents = null);
+    public function transpile(IView $view);
 }

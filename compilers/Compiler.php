@@ -23,13 +23,8 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view, $contents = null)
+    public function compile(IView $view)
     {
-        if($contents === null)
-        {
-            $contents = $view->getContents();
-        }
-
-        return $this->registry->get($view)->compile($view, $contents);
+        return $this->registry->get($view)->compile($view);
     }
 } 
