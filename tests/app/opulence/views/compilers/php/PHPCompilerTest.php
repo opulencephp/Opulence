@@ -30,9 +30,12 @@ class PHPCompilerTest extends \PHPUnit_Framework_TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())
+            ->method("getContents")
+            ->willReturn('<?php ob_start();throw new \Exception("foo"); ?>');
+        $view->expects($this->any())
             ->method("getVars")
             ->willReturn([]);
-        $this->compiler->compile($view, '<?php ob_start();throw new \Exception("foo"); ?>');
+        $this->compiler->compile($view);
     }
 
     /**
@@ -43,13 +46,16 @@ class PHPCompilerTest extends \PHPUnit_Framework_TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())
+            ->method("getContents")
+            ->willReturn('<?php ob_start();throw new ' . ViewCompilerException::class . '("foo"); ?>');
+        $view->expects($this->any())
             ->method("getVars")
             ->willReturn([]);
         $obStartLevel = ob_get_level();
 
         try
         {
-            $this->compiler->compile($view, '<?php ob_start();throw new ' . ViewCompilerException::class . '("foo"); ?>');
+            $this->compiler->compile($view);
         }
         catch(ViewCompilerException $ex)
         {
@@ -67,8 +73,11 @@ class PHPCompilerTest extends \PHPUnit_Framework_TestCase
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())
+            ->method("getContents")
+            ->willReturn('<?php echo "$foo, $bar"; ?>');
+        $view->expects($this->any())
             ->method("getVars")
             ->willReturn(["foo" => "Hello", "bar" => "world"]);
-        $this->assertEquals('Hello, world', $this->compiler->compile($view, '<?php echo "$foo, $bar"; ?>'));
+        $this->assertEquals('Hello, world', $this->compiler->compile($view));
     }
 }

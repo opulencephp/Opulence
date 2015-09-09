@@ -43,7 +43,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% else %>');
         $this->assertEquals(
             '<?php else: ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -55,7 +55,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% elseif(true) %>');
         $this->assertEquals(
             '<?php elseif(true): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -67,7 +67,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% endfor %>');
         $this->assertEquals(
             '<?php endfor; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -79,7 +79,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% endforeach %>');
         $this->assertEquals(
             '<?php endforeach; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -91,7 +91,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% endif %>');
         $this->assertEquals(
             '<?php endif; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -103,7 +103,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% endpart %>');
         $this->assertEquals(
             '<?php $__opulenceFortuneTranspiler->endPart(); ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -115,7 +115,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% endwhile %>');
         $this->assertEquals(
             '<?php endwhile; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -133,7 +133,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals(
             implode(PHP_EOL, $expected),
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -145,7 +145,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% for($i=0;$i<10;$i++) %>');
         $this->assertEquals(
             '<?php for($i=0;$i<10;$i++): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -157,7 +157,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% forelse %>');
         $this->assertEquals(
             '<?php endforeach; if(array_pop($__opulenceForElseEmpty)): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -171,7 +171,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
             '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;$__opulenceForElseEmpty[] = true;' .
             'foreach($foo as $bar):' .
             '$__opulenceForElseEmpty[count($__opulenceForElseEmpty) - 1] = false; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -183,7 +183,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% foreach($foo as $bar) %>');
         $this->assertEquals(
             '<?php foreach($foo as $bar): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -195,7 +195,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% if(true) %>');
         $this->assertEquals(
             '<?php if(true): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -209,7 +209,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
         $this->assertEquals(
             "{$code}bar",
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -224,7 +224,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
         $this->assertEquals(
             "{$code}baz",
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -236,7 +236,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% parent %>');
         $this->assertEquals(
             '__opulenceParentPlaceholder',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -248,7 +248,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% part("foo") %>');
         $this->assertEquals(
             '<?php $__opulenceFortuneTranspiler->startPart("foo"); ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -260,7 +260,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% show("foo") %>');
         $this->assertEquals(
             '<?php echo $__opulenceFortuneTranspiler->showPart("foo"); ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -272,7 +272,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% while(true) %>');
         $this->assertEquals(
             '<?php while(true): ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 }

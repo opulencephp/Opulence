@@ -23,11 +23,11 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "opulence/databases": "0.5.*"
+    "opulence/databases": "0.6.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.5.x-dev"
+      "dev-master": "0.6.x-dev"
     }
   },
   "suggest": {

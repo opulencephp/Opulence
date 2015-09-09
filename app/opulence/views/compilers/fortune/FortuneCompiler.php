@@ -34,10 +34,10 @@ class FortuneCompiler extends PHPCompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view, $contents = null)
+    public function compile(IView $view)
     {
-        $phpCode = $this->transpiler->transpile($view, $contents);
         // Set some variables that will be used by the transpiled code
+        $view->setContents($this->transpiler->transpile($view));
         $view->setVars([
             "__opulenceView" => $view,
             "__opulenceViewCompiler" => $this->parentCompiler,
@@ -45,6 +45,6 @@ class FortuneCompiler extends PHPCompiler
             "__opulenceViewFactory" => $this->viewFactory
         ]);
 
-        return parent::compile($view, $phpCode);
+        return parent::compile($view);
     }
 }

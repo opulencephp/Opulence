@@ -180,17 +180,17 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function transpile(IView $view, $contents = null)
+    public function transpile(IView $view)
     {
         $this->appendedText = [];
         $this->prependedText = [];
 
-        if($this->cache->has($contents, $view->getVars()))
+        if($this->cache->has($view))
         {
-            return $this->cache->get($contents, $view->getVars());
+            return $this->cache->get($view);
         }
 
-        $tokens = $this->lexer->lex($view, $contents);
+        $tokens = $this->lexer->lex($view, $view->getContents());
         $ast = $this->parser->parse($tokens);
         $transpiledContent = $this->transpileNodes($ast);
 
@@ -206,7 +206,7 @@ class Transpiler implements ITranspiler
             $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
         }
 
-        $this->cache->set($transpiledContent, $contents, $view->getVars());
+        $this->cache->set($view, $transpiledContent);
 
         return $transpiledContent;
     }

@@ -24,39 +24,15 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that the compiler is called when the view is not found in cache
+     * Tests that the correct compiler is used
      */
-    public function testCompilerIsCalledWhenViewIsNotFoundInCache()
+    public function testCorrectCompilerIsUsed()
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class, [], [], "MockView");
         $view->expects($this->any())
-            ->method("getVars")
-            ->willReturn([]);
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
-        $compiler = $this->getMock(ICompiler::class);
-        $compiler->expects($this->once())
-            ->method("compile")
-            ->with($view, "foo")
-            ->willReturn("bar");
-        $this->registry->expects($this->once())
-            ->method("get")
-            ->with($view)
-            ->willReturn($compiler);
-        $this->registry->registerCompiler("MockView", $compiler);
-        $this->compiler->compile($view, "foo");
-    }
-
-    /**
-     * Tests not passing contents to compile
-     */
-    public function testNotPassingContentsToCompile()
-    {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class, [], [], "MockView");
-        $view->expects($this->once())
             ->method("getContents")
-            ->willReturn("bar");
+            ->willReturn("foo");
         $view->expects($this->any())
             ->method("getVars")
             ->willReturn([]);
@@ -64,34 +40,13 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $compiler = $this->getMock(ICompiler::class);
         $compiler->expects($this->once())
             ->method("compile")
-            ->with($view, "bar");
+            ->with($view)
+            ->willReturn("bar");
         $this->registry->expects($this->once())
             ->method("get")
             ->with($view)
             ->willReturn($compiler);
         $this->registry->registerCompiler("MockView", $compiler);
         $this->compiler->compile($view);
-    }
-
-    /**
-     * Tests passing contents to compile
-     */
-    public function testPassingContentsToCompile()
-    {
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class, [], [], "MockView");
-        $view->expects($this->never())
-            ->method("getContents");
-        $view->expects($this->any())
-            ->method("getVars")
-            ->willReturn([]);
-        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
-        $compiler = $this->getMock(ICompiler::class);
-        $this->registry->expects($this->once())
-            ->method("get")
-            ->with($view)
-            ->willReturn($compiler);
-        $this->registry->registerCompiler("MockView", $compiler);
-        $this->compiler->compile($view, "foo");
     }
 }

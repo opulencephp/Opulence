@@ -6,7 +6,6 @@
  */
 namespace Opulence\Views\Factories;
 use Opulence\Files\FileSystem;
-use Opulence\Views\IBuilder;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 
@@ -38,7 +37,7 @@ class ViewFactory implements IViewFactory
         $content = $this->fileSystem->read($resolvedPath);
         $view = new View($resolvedPath, $content);
 
-        return $this->runBuilders($name, $view);
+        return $this->runBuilders($name, $resolvedPath, $view);
     }
 
     /**
@@ -61,16 +60,44 @@ class ViewFactory implements IViewFactory
      * Runs the builders for a view (if there any)
      *
      * @param string $name The name of the view file
+     * @param string $resolvedPath The resolved path to the view file
      * @param IView $view The view to run builders on
      * @return IView The built view
      */
-    protected function runBuilders($name, IView $view)
+    protected function runBuilders($name, $resolvedPath, IView $view)
     {
+        $builders = null;
+
+        // If there's a builder registered to the same name as the view
         if(isset($this->builders[$name]))
         {
-            foreach($this->builders[$name] as $callback)
+            $builders = $this->builders[$name];
+        }
+        else
+        {
+            $pathInfo = pathinfo($resolvedPath);
+            $filename = $pathInfo["filename"];
+            $basename = $pathInfo["basename"];
+
+            /**
+             * If there's a builder registered without the extension and it resolves to the correct view file path
+             * Else if there's a builder registered with the extension and it resolves to the correct view file path
+             */
+            if(isset($this->builders[$filename]) && $this->viewNameResolver->resolve($filename) == $resolvedPath)
             {
-                /** @var IBuilder $builder */
+                $builders = $this->builders[$filename];
+            }
+            elseif(isset($this->builders[$basename]) && $this->viewNameResolver->resolve($basename) == $resolvedPath)
+            {
+                $builders = $this->builders[$basename];
+            }
+        }
+
+        if($builders !== null)
+        {
+            foreach($builders as $callback)
+            {
+                /** @var IViewBuilder $builder */
                 $builder = $callback();
                 $view = $builder->build($view);
             }

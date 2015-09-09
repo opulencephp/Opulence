@@ -6,6 +6,7 @@
  */
 namespace Opulence\Views\Caching;
 use Opulence\Files\FileSystem;
+use Opulence\Views\IView;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -13,6 +14,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     private $fileSystem = null;
     /** @var Cache The cache to use in tests */
     private $cache = null;
+    /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
+    private $view = null;
 
     /**
      * Does some setup before any tests
@@ -47,6 +50,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->fileSystem = new FileSystem();
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 3600);
+        $this->view = $this->getMock(IView::class);
     }
 
     /**
@@ -55,9 +59,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testCachingWithNonPositiveLifetime()
     {
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 0);
-        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
-        $this->assertFalse($this->cache->has("foo", ["bar" => "baz"]));
-        $this->assertNull($this->cache->get("foo", ["bar" => "baz"]));
+        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
+        $this->cache->set($this->view, "compiled");
+        $this->assertFalse($this->cache->has($this->view));
+        $this->assertNull($this->cache->get($this->view));
     }
 
     /**
@@ -65,9 +70,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForExistingView()
     {
-        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
-        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"]));
-        $this->assertEquals("compiled", $this->cache->get("foo", ["bar" => "baz"]));
+        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
+        $this->cache->set($this->view, "compiled");
+        $this->assertTrue($this->cache->has($this->view));
+        $this->assertEquals("compiled", $this->cache->get($this->view));
     }
 
     /**
@@ -75,8 +81,17 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForExistingViewWithNoVariableMatches()
     {
-        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
-        $this->assertFalse($this->cache->has("foo", ["wrong" => "ahh"]));
+        $this->view->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $this->view->expects($this->at(0))
+            ->method("getVars")
+            ->willReturn(["bar" => "baz"]);
+        $this->view->expects($this->at(1))
+            ->method("getVars")
+            ->willReturn(["wrong" => "ahh"]);
+        $this->cache->set($this->view, "compiled");
+        $this->assertFalse($this->cache->has($this->view));
     }
 
     /**
@@ -86,9 +101,10 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     {
         // The negative expiration is a way of forcing everything to expire right away
         $cache = new Cache(new FileSystem(), __DIR__ . "/tmp", -1);
-        $cache->set("compiled", "foo", ["bar" => "baz"]);
-        $this->assertFalse($cache->has("foo", ["bar" => "baz"]));
-        $this->assertNull($cache->get("foo", ["bar" => "baz"]));
+        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
+        $cache->set($this->view, "compiled");
+        $this->assertFalse($cache->has($this->view));
+        $this->assertNull($cache->get($this->view));
     }
 
     /**
@@ -96,8 +112,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForNonExistentView()
     {
-        $this->assertFalse($this->cache->has("foo"));
-        $this->assertNull($this->cache->get("foo"));
+        $this->setViewContentsAndVars("foo", []);
+        $this->assertFalse($this->cache->has($this->view));
+        $this->assertNull($this->cache->get($this->view));
     }
 
     /**
@@ -105,11 +122,26 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testFlushingCache()
     {
-        $this->cache->set("compiled1", "foo", ["bar1" => "baz"]);
-        $this->cache->set("compiled2", "foo", ["bar2" => "baz"]);
+        $this->view->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $this->view->expects($this->at(0))
+            ->method("getVars")
+            ->willReturn(["bar1" => "baz"]);
+        $this->view->expects($this->at(1))
+            ->method("getVars")
+            ->willReturn(["bar1" => "baz"]);
+        $this->view->expects($this->at(2))
+            ->method("getVars")
+            ->willReturn(["bar2" => "baz"]);
+        $this->view->expects($this->at(3))
+            ->method("getVars")
+            ->willReturn(["bar2" => "baz"]);
+        $this->cache->set($this->view, "compiled1");
+        $this->cache->set($this->view, "compiled2");
         $this->cache->flush();
-        $this->assertFalse($this->cache->has("foo", ["bar1" => "baz"]));
-        $this->assertFalse($this->cache->has("foo", ["bar2" => "baz"]));
+        $this->assertFalse($this->cache->has($this->view));
+        $this->assertFalse($this->cache->has($this->view));
     }
 
     /**
@@ -129,8 +161,9 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testNotCreatingDirectoryBeforeCaching()
     {
         $this->cache = new Cache($this->fileSystem, __DIR__ . "/verytemporarytmp", 3600);
-        $this->cache->set("compiled", "foo", ["bar" => "baz"]);
-        $this->assertTrue($this->cache->has("foo", ["bar" => "baz"]));
+        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
+        $this->cache->set($this->view, "compiled");
+        $this->assertTrue($this->cache->has($this->view));
     }
 
     /**
@@ -141,5 +174,21 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         // I know this is also done in setUp(), but we're specifically testing that it works after setting the path
         $this->cache->setPath(__DIR__ . "/tmp");
         $this->testCheckingForExistingView();
+    }
+
+    /**
+     * Sets the contents and vars in a view
+     *
+     * @param string $contents The contents to set
+     * @param array $vars The vars to set
+     */
+    private function setViewContentsAndVars($contents, array $vars)
+    {
+        $this->view->expects($this->any())
+            ->method("getContents")
+            ->willReturn($contents);
+        $this->view->expects($this->any())
+            ->method("getVars")
+            ->willReturn($vars);
     }
 }

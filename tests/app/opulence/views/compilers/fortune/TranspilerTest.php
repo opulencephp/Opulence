@@ -68,7 +68,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->addChild(new ExpressionNode('?>'));
         $this->assertEquals(
             '<?php echo "foo"; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -77,20 +77,23 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCacheIsUsedWhenItHasView()
     {
-        $this->cache->expects($this->once())
-            ->method("has")
-            ->with("foo", ["bar" => "baz"])
-            ->willReturn(true);
-        $this->cache->expects($this->once())
-            ->method("get")
-            ->with("foo", ["bar" => "baz"])
-            ->willReturn("transpiled");
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $view->expects($this->any())
             ->method("getVars")
             ->willReturn(["bar" => "baz"]);
-        $this->assertEquals("transpiled", $this->transpiler->transpile($view, "foo"));
+        $this->cache->expects($this->once())
+            ->method("has")
+            ->with($view)
+            ->willReturn(true);
+        $this->cache->expects($this->once())
+            ->method("get")
+            ->with($view)
+            ->willReturn("transpiled");
+        $this->assertEquals("transpiled", $this->transpiler->transpile($view));
     }
 
     /**
@@ -138,7 +141,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         $invalidNode = $this->getMockForAbstractClass(Node::class, [], "FakeNode");
         $this->ast->getCurrentNode()
             ->addChild($invalidNode);
-        $this->transpiler->transpile($this->view, $this->view->getContents());
+        $this->transpiler->transpile($this->view);
     }
 
     /**
@@ -152,7 +155,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         $directiveNode->addChild(new ExpressionNode("bar"));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
-        $this->transpiler->transpile($this->view, $this->view->getContents());
+        $this->transpiler->transpile($this->view);
     }
 
     /**
@@ -182,7 +185,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         $child = new View();
         $this->transpiler->addParent($parent1, $child);
         $this->transpiler->addParent($parent2, $child);
-        $this->transpiler->transpile($child, "");
+        $this->transpiler->transpile($child);
         $this->assertEquals("bar", $child->getVar("foo"));
     }
 
@@ -203,7 +206,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->with("foo")
             ->willReturn(true);
         $this->transpiler->addParent($parent1, $this->view);
-        $this->transpiler->transpile($this->view, $this->view->getContents());
+        $this->transpiler->transpile($this->view);
     }
 
     /**
@@ -224,7 +227,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->with("foo")
             ->willReturn(false);
         $this->transpiler->addParent($parent1, $this->view);
-        $this->transpiler->transpile($this->view, $this->view->getContents());
+        $this->transpiler->transpile($this->view);
     }
 
     /**
@@ -243,7 +246,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->addChild($directiveNode);
         $this->assertEquals(
             '<?php foo bar ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -295,18 +298,21 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTranspiledContentsAreCached()
     {
+        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
+        $view = $this->getMock(IView::class);
+        $view->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $view->expects($this->any())
+            ->method("getVars")
+            ->willReturn(["bar" => "baz"]);
         $this->cache->expects($this->once())
             ->method("has")
             ->willReturn(false);
         $this->cache->expects($this->once())
             ->method("set")
-            ->with("", "foo", ["bar" => "baz"]);
-        /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class);
-        $view->expects($this->any())
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
-        $this->transpiler->transpile($view, "foo");
+            ->with($view, "");
+        $this->transpiler->transpile($view);
     }
 
     /**
@@ -319,7 +325,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->addChild($node);
         $this->assertEquals(
             '<?php echo "foo"; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -334,7 +340,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->addChild($tagNode);
         $this->assertEquals(
             '<?php echo $__opulenceFortuneTranspiler->sanitize($foo ? "bar" : "baz"); ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 
@@ -349,7 +355,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->addChild($tagNode);
         $this->assertEquals(
             '<?php echo $foo ? "bar" : "baz"; ?>',
-            $this->transpiler->transpile($this->view, $this->view->getContents())
+            $this->transpiler->transpile($this->view)
         );
     }
 }

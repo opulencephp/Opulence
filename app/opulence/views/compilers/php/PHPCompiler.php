@@ -15,7 +15,7 @@ class PHPCompiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view, $contents = null)
+    public function compile(IView $view)
     {
         $obStartLevel = ob_get_level();
         ob_start();
@@ -23,7 +23,7 @@ class PHPCompiler implements ICompiler
 
         try
         {
-            if(eval('?>' . $contents) === false)
+            if(eval('?>' . $view->getContents()) === false)
             {
                 throw new ViewCompilerException("Invalid PHP in view");
             }
