@@ -185,9 +185,9 @@ class Transpiler implements ITranspiler
         $this->appendedText = [];
         $this->prependedText = [];
 
-        if($this->cache->has($view))
+        if(($transpiledContent = $this->cache->get($view)) !== null)
         {
-            return $this->cache->get($view);
+            return $transpiledContent;
         }
 
         $tokens = $this->lexer->lex($view, $view->getContents());
