@@ -1,10 +1,13 @@
-See if we can remove unnecessary line breaks that occur before doctype (try trimming child AND parent in transpiler)
+Need to add cluster AND multiple-client support for Redis (two different things)
+    Issue is that this will potentially require multiple Client objects
+    Currently, my Predis EXTENDS the Client class.  It'll need to change to CONTAIN one/many Client classes, and resort to magic methods to pass onto the correct Client objects depending on which connection is being queried.
+    Add ability to set prefixes in Server objects
+        Add ability to set ANY option in array, use this array to set all the appropriate data in Redis
 Review view docs, move some inline code into paragraphs to make it easier to read
 Add ability to start a section and show it
     Basically, allows us to define a section and give it default content
     Also, look into whatever is forcing us to copy/paste JS code on opulence's main website
 Need to finalize view library name, console name
-Add support for multiple server objects in Redis.  Also add support for cluster.
 Run checksetup.php ONLY on post create-project script
 Need to add way to test Middleware (1.0)
 Get rid of dependence on HTTP Request in Credential stuff

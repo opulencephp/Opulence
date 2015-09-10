@@ -326,6 +326,15 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that line breaks are trimmed after compiling
+     */
+    public function testLineBreaksAreTrimmedAfterCompiling()
+    {
+        $this->view->setContents(PHP_EOL . PHP_EOL . 'foo' . PHP_EOL . PHP_EOL);
+        $this->assertEquals('foo', $this->fortuneCompiler->compile($this->view));
+    }
+
+    /**
      * Tests overriding a grandparent's part
      */
     public function testOverridingGrandparentPart()

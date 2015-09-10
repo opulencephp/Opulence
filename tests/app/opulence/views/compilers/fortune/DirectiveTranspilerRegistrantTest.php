@@ -127,7 +127,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% extends("foo.php") %>bar');
         $expected = [
             '<?php $__opulenceViewParent = $__opulenceViewFactory->create("foo.php");$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);extract($__opulenceView->getVars()); ?>',
-            '<?php $__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent, $__opulenceViewParent->getContents()); ?>',
+            '<?php $__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent); ?>',
             'bar',
             '<?php echo eval("?>" . array_shift($__opulenceParentContents)); ?>'
         ];
@@ -206,7 +206,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include("foo.php") %>bar');
         $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
-        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView)); ?>';
         $this->assertEquals(
             "{$code}bar",
             $this->transpiler->transpile($this->view)
@@ -221,7 +221,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
         $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
         $code .= '$__opulenceIncludedView->setVars(["foo" => "bar"]);';
-        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView)); ?>';
         $this->assertEquals(
             "{$code}baz",
             $this->transpiler->transpile($this->view)

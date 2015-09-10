@@ -57,7 +57,7 @@ class DirectiveTranspilerRegistrant
 
             // Compile the parent, keep track of the contents, and echo them in the appended text
             $code = '$__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];';
-            $code .= '$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent, $__opulenceViewParent->getContents());';
+            $code .= '$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent);';
             $transpiler->prepend('<?php ' . $code . ' ?>');
 
             // Echo the contents at the end of the content
@@ -100,7 +100,7 @@ class DirectiveTranspilerRegistrant
                 $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create' . $expression . ';';
             }
 
-            $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView, $__opulenceIncludedView->getContents())); ?>';
+            $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView)); ?>';
 
             return $code;
         });

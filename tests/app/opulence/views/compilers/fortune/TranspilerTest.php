@@ -86,10 +86,6 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->method("getVars")
             ->willReturn(["bar" => "baz"]);
         $this->cache->expects($this->once())
-            ->method("has")
-            ->with($view)
-            ->willReturn(true);
-        $this->cache->expects($this->once())
             ->method("get")
             ->with($view)
             ->willReturn("transpiled");
@@ -307,8 +303,8 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->method("getVars")
             ->willReturn(["bar" => "baz"]);
         $this->cache->expects($this->once())
-            ->method("has")
-            ->willReturn(false);
+            ->method("get")
+            ->willReturn(null);
         $this->cache->expects($this->once())
             ->method("set")
             ->with($view, "");
