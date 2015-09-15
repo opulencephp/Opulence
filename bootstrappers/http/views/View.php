@@ -90,7 +90,7 @@ abstract class View extends Bootstrapper implements ILazyBootstrapper
         // Setup our various sub-compilers
         $transpiler = new Transpiler(new Lexer(), new Parser(), $this->viewCache, new XSSFilter());
         $container->bind(ITranspiler::class, $transpiler);
-        $fortuneCompiler = new FortuneCompiler($transpiler, $viewCompiler, $this->viewFactory);
+        $fortuneCompiler = new FortuneCompiler($transpiler, $this->viewFactory);
         $registry->registerCompiler("fortune", $fortuneCompiler);
         $registry->registerCompiler("php", new PHPCompiler());
 
