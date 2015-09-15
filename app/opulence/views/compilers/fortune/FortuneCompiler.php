@@ -45,6 +45,6 @@ class FortuneCompiler extends PHPCompiler
             "__opulenceViewFactory" => $this->viewFactory
         ]);
 
-        return trim(parent::compile($view), PHP_EOL);
+        return trim(parent::compile($view));
     }
 }
