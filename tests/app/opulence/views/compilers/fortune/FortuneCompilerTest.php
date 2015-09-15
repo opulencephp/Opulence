@@ -6,10 +6,8 @@
  */
 namespace Opulence\Views\Compilers\Fortune;
 use Opulence\Views\Caching\ICache;
-use Opulence\Views\Compilers\Compiler;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
-use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ICompilerRegistry;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\Filters\XSSFilter;
@@ -22,8 +20,6 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     private $fortuneCompiler = null;
     /** @var Transpiler The transpiler to use in tests */
     private $transpiler = null;
-    /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject The main view compiler to use in tests */
-    private $mainCompiler = null;
     /** @var IViewFactory|\PHPUnit_Framework_MockObject_MockObject The view factory to use in tests */
     private $viewFactory = null;
     /** @var View The view to use in tests */
@@ -42,9 +38,8 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
             ->method("has")
             ->willReturn(false);
         $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XSSFilter());
-        $this->mainCompiler = new Compiler($registry);
         $this->viewFactory = $this->getMock(IViewFactory::class);
-        $this->fortuneCompiler = new FortuneCompiler($this->transpiler, $this->mainCompiler, $this->viewFactory);
+        $this->fortuneCompiler = new FortuneCompiler($this->transpiler, $this->viewFactory);
         $this->view = new View();
         // Need to make sure we always return the Fortune compiler
         $registry->expects($this->any())
@@ -443,9 +438,8 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         /** @var IViewFactory|\PHPUnit_Framework_MockObject_MockObject $viewFactory */
         $viewFactory = $this->getMock(IViewFactory::class);
         $this->view->setContents('foo');
-        $compiler = new FortuneCompiler($transpiler, $this->mainCompiler, $viewFactory);
+        $compiler = new FortuneCompiler($transpiler, $viewFactory);
         $this->assertEquals("bar", $compiler->compile($this->view));
-        $this->assertSame($this->mainCompiler, $this->view->getVar("__opulenceViewCompiler"));
         $this->assertSame($viewFactory, $this->view->getVar("__opulenceViewFactory"));
         $this->assertSame($transpiler, $this->view->getVar("__opulenceFortuneTranspiler"));
     }
