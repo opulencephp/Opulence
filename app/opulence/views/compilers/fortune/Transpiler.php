@@ -190,7 +190,7 @@ class Transpiler implements ITranspiler
             return $transpiledContent;
         }
 
-        $tokens = $this->lexer->lex($view, $view->getContents());
+        $tokens = $this->lexer->lex($view);
         $ast = $this->parser->parse($tokens);
         $transpiledContent = $this->transpileNodes($ast);
 

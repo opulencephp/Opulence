@@ -36,9 +36,9 @@ class Lexer implements ILexer
     /**
      * @inheritdoc
      */
-    public function lex(IView $view, $input)
+    public function lex(IView $view)
     {
-        $this->initializeVariables($view, $input);
+        $this->initializeVariables($view);
         $this->lexExpression();
 
         return $this->tokens;
@@ -165,15 +165,14 @@ class Lexer implements ILexer
      * Initializes instance variables for lexing
      *
      * @param IView $view The view that's being lexed
-     * @param string $input The input to lex
      */
-    private function initializeVariables(IView $view, $input)
+    private function initializeVariables(IView $view)
     {
         $this->view = $view;
         $this->directiveDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_DIRECTIVE);
         $this->sanitizedTagDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG);
         $this->unsanitizedTagDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG);
-        $this->input = $input;
+        $this->input = $this->view->getContents();
         $this->tokens = [];
         $this->cursor = 0;
         $this->line = 1;
