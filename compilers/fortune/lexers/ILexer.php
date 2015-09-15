@@ -14,8 +14,7 @@ interface ILexer
      * Lexes input text and returns a list of tokens
      *
      * @param IView $view The view to lex
-     * @param string $content The text to lex
      * @return Token[] The list of tokens
      */
-    public function lex(IView $view, $content);
+    public function lex(IView $view);
 }
