@@ -24,6 +24,13 @@ abstract class Node
     }
 
     /**
+     * Gets whether or not this is a comment node
+     *
+     * @return bool True if this is a comment node, otherwise false
+     */
+    abstract public function isComment();
+
+    /**
      * Gets whether or not this is a directive node
      *
      * @return bool True if this is a directive node, otherwise false

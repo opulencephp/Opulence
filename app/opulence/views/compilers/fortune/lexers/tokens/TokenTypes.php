@@ -28,4 +28,8 @@ class TokenTypes
     const T_UNSANITIZED_TAG_OPEN = "T_UNSANITIZED_TAG_OPEN";
     /** Defines an unsanitized tag close token type */
     const T_UNSANITIZED_TAG_CLOSE = "T_UNSANITIZED_TAG_CLOSE";
+    /** Defines a comment open tag token type */
+    const T_COMMENT_OPEN = "T_COMMENT_OPEN";
+    /** Defines a comment close tag token type */
+    const T_COMMENT_CLOSE = "T_COMMENT_CLOSE";
 }

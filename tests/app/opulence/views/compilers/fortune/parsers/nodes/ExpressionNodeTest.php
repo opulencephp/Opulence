@@ -14,6 +14,7 @@ class ExpressionNodeTest extends \PHPUnit_Framework_TestCase
     public function testIsAMethods()
     {
         $node = new ExpressionNode();
+        $this->assertFalse($node->isComment());
         $this->assertFalse($node->isDirective());
         $this->assertFalse($node->isDirectiveName());
         $this->assertTrue($node->isExpression());

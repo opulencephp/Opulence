@@ -31,6 +31,18 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the comment delimiters
+     */
+    public function testGettingCommentDelimiters()
+    {
+        $directiveDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT);
+        $this->assertEquals(View::DEFAULT_OPEN_COMMENT_DELIMITER, $directiveDelimiters[0]);
+        $this->assertEquals(View::DEFAULT_CLOSE_COMMENT_DELIMITER, $directiveDelimiters[1]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT));
+    }
+
+    /**
      * Tests getting the delimiters for a type that does not have any
      */
     public function testGettingDelimitersForTypeThatDoesNotHaveAny()

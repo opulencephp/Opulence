@@ -14,6 +14,7 @@ class DirectiveNameNodeTest extends \PHPUnit_Framework_TestCase
     public function testIsAMethods()
     {
         $node = new DirectiveNameNode();
+        $this->assertFalse($node->isComment());
         $this->assertFalse($node->isDirective());
         $this->assertTrue($node->isDirectiveName());
         $this->assertFalse($node->isExpression());

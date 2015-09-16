@@ -56,6 +56,16 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that an exception is thrown with an unclosed comment tag
+     */
+    public function testExceptionThrownWithUnclosedCommentTag()
+    {
+        $this->setExpectedException(RuntimeException::class);
+        $this->view->setContents('{# foo');
+        $this->lexer->lex($this->view);
+    }
+
+    /**
      * Tests that an exception is thrown with an unclosed directive
      */
     public function testExceptionThrownWithUnclosedDirective()
@@ -116,6 +126,22 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_PHP_TAG_CLOSE, '?>', 1)
         ];
         $this->view->setContents('<?php echo "\\a"; ?>');
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
+    }
+
+    /**
+     * Tests a comment
+     */
+    public function testLexingComment()
+    {
+        $expectedOutput = [
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1)
+        ];
+        $this->view->setContents('{#foo#}');
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
+        $this->view->setContents('{# foo #}');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
@@ -188,8 +214,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLexingEscapedStatements()
     {
-        $texts = ['\<%foo%>', '\{{foo}}', '\{{!foo!}}'];
-        $expectedValues = ['<%foo%>', '{{foo}}', '{{!foo!}}'];
+        $texts = ['\<%foo%>', '\{{foo}}', '\{{!foo!}}', '\{#foo#}'];
+        $expectedValues = ['<%foo%>', '{{foo}}', '{{!foo!}}', '{#foo#}'];
 
         foreach($texts as $index => $text)
         {
@@ -229,6 +255,13 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 3)
         ];
         $this->view->setContents(sprintf($text, '{{!', '!}}'));
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
+        $expectedOutput = [
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'foo', 2),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 3)
+        ];
+        $this->view->setContents(sprintf($text, '{#', '#}'));
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
@@ -274,9 +307,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function testLexingNeighboringEscapedStatements()
     {
         $expectedOutput = [
-            new Token(TokenTypes::T_EXPRESSION, '{{foo}}{{!bar!}}<%baz%>', 1)
+            new Token(TokenTypes::T_EXPRESSION, '{{foo}}{{!bar!}}<%baz%>{#blah#}', 1)
         ];
-        $this->view->setContents('\{{foo}}\{{!bar!}}\<%baz%>');
+        $this->view->setContents('\{{foo}}\{{!bar!}}\<%baz%>\{#blah#}');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
@@ -292,12 +325,15 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
             new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'baz', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
-            new Token(TokenTypes::T_DIRECTIVE_NAME, 'baz', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'blah', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
-            new Token(TokenTypes::T_EXPRESSION, 'blah', 1)
+            new Token(TokenTypes::T_EXPRESSION, 'dave', 1)
         ];
-        $this->view->setContents('{{foo}}{{!bar!}}<%baz%>blah');
+        $this->view->setContents('{{foo}}{{!bar!}}{#baz#}<%blah%>dave');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
         $expectedOutput = [
             new Token(TokenTypes::T_EXPRESSION, 'a', 1),
@@ -309,12 +345,16 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
             new Token(TokenTypes::T_EXPRESSION, 'c', 1),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'baz', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'd', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
-            new Token(TokenTypes::T_DIRECTIVE_NAME, 'baz', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'blah', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
-            new Token(TokenTypes::T_EXPRESSION, 'd', 1)
+            new Token(TokenTypes::T_EXPRESSION, 'e', 1)
         ];
-        $this->view->setContents('a{{foo}}b{{!bar!}}c<%baz%>d');
+        $this->view->setContents('a{{foo}}b{{!bar!}}c{#baz#}d<%blah%>e');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
@@ -346,6 +386,13 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)
         ];
         $this->view->setContents(sprintf($text, '{{!', '!}}'));
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
+        $expectedOutput = [
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, $expectedExpression, 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1)
+        ];
+        $this->view->setContents(sprintf($text, '{#', '#}'));
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
@@ -388,7 +435,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests a sanitized tag with an expression
+     * Tests a sanitized tag
      */
     public function testLexingSanitizedTag()
     {
@@ -411,6 +458,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ["{{{", "}}}"]);
         $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["{{", "}}"]);
         $this->view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["{{!", "!}}"]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["{{#", "#}}"]);
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '{{{', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 1),
@@ -420,22 +468,28 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
             new Token(TokenTypes::T_EXPRESSION, 'baz', 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)
+            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'blah', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}}', 1)
         ];
-        $this->view->setContents('{{{foo}}}{{bar}}{{!baz!}}');
+        $this->view->setContents('{{{foo}}}{{bar}}{{!baz!}}{{#blah#}}');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
         $expectedOutput = [
-            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{{#', 1),
             new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}}', 1),
+            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
-            new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'baz', 1),
             new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '{{{', 1),
-            new Token(TokenTypes::T_DIRECTIVE_NAME, 'baz', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'blah', 1),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '}}}', 1)
         ];
-        $this->view->setContents('{{!foo!}}{{bar}}{{{baz}}}');
+        $this->view->setContents('{{#foo#}}{{!bar!}}{{baz}}{{{blah}}}');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
@@ -483,7 +537,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests an unsanitized tag with an expression
+     * Tests an unsanitized tag
      */
     public function testLexingUnsanitizedTag()
     {
@@ -509,7 +563,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             '{{' . PHP_EOL . 'd' . PHP_EOL . '}}' . PHP_EOL .
             'e' . PHP_EOL .
             '{{!' . PHP_EOL . 'f' . PHP_EOL . '!}}' . PHP_EOL .
-            'g';
+            'g' . PHP_EOL .
+            '{#' . PHP_EOL . 'h' . PHP_EOL . '#}' . PHP_EOL .
+            'i';
         $expectedOutput = [
             new Token(TokenTypes::T_EXPRESSION, 'a' . PHP_EOL, 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 2),
@@ -524,7 +580,11 @@ class LexerTest extends \PHPUnit_Framework_TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 13),
             new Token(TokenTypes::T_EXPRESSION, 'f', 14),
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 15),
-            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'g', 15)
+            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'g' . PHP_EOL, 15),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 17),
+            new Token(TokenTypes::T_EXPRESSION, 'h', 18),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 19),
+            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'i', 19)
         ];
         $this->view->setContents($text);
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
@@ -557,6 +617,16 @@ class LexerTest extends \PHPUnit_Framework_TestCase
                 new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
                 new Token(TokenTypes::T_EXPRESSION, $convertedExpression, 1),
                 new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)
+            ],
+            $this->lexer->lex($this->view)
+        );
+        // Test comments
+        $this->view->setContents(sprintf('%s ' . $expression . ' %s', '{#', '#}'));
+        $this->assertEquals(
+            [
+                new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+                new Token(TokenTypes::T_EXPRESSION, $convertedExpression, 1),
+                new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1)
             ],
             $this->lexer->lex($this->view)
         );

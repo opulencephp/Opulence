@@ -10,6 +10,7 @@ use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Parsers\IParser;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
@@ -212,6 +213,24 @@ class Transpiler implements ITranspiler
     }
 
     /**
+     * Transpiles a comment node
+     *
+     * @param Node $node The node to transpile
+     * @return string The transpiled node
+     */
+    protected function transpileCommentNode(Node $node)
+    {
+        $code = "";
+
+        foreach($node->getChildren() as $childNode)
+        {
+            $code .= '<?php /* ' . $childNode->getValue() . ' */ ?>';
+        }
+
+        return $code;
+    }
+
+    /**
      * Transpiles a directive node
      *
      * @param Node $node The node to transpile
@@ -283,6 +302,11 @@ class Transpiler implements ITranspiler
                     break;
                 case UnsanitizedTagNode::class:
                     $transpiledView .= $this->transpileUnsanitizedTagNode($childNode);
+                    $previousNodeWasExpression = false;
+
+                    break;
+                case CommentNode::class:
+                    $transpiledView .= $this->transpileCommentNode($childNode);
                     $previousNodeWasExpression = false;
 
                     break;

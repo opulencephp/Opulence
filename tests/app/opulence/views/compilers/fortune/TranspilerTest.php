@@ -7,6 +7,7 @@
 namespace Opulence\Views\Compilers\Fortune;
 use InvalidArgumentException;
 use Opulence\Views\Caching\ICache;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
 use Opulence\Views\Filters\XSSFilter;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
@@ -309,6 +310,21 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
             ->method("set")
             ->with($view, "");
         $this->transpiler->transpile($view);
+    }
+
+    /**
+     * Tests transpiling a comment whose contents are an expression
+     */
+    public function testTranspilingCommentWhoseContentsAreExpression()
+    {
+        $commentNode = new CommentNode();
+        $commentNode->addChild(new ExpressionNode('This is my comment'));
+        $this->ast->getCurrentNode()
+            ->addChild($commentNode);
+        $this->assertEquals(
+            '<?php /* This is my comment */ ?>',
+            $this->transpiler->transpile($this->view)
+        );
     }
 
     /**

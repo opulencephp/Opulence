@@ -445,6 +445,15 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that view comments are not displayed
+     */
+    public function testViewCommentsAreNotDisplayed()
+    {
+        $this->view->setContents('{# Testing #}');
+        $this->assertEquals('', $this->fortuneCompiler->compile($this->view));
+    }
+
+    /**
      * Checks if two strings with encoded characters are equal
      * This is necessary because, for example, HHVM encodes "&" to "&#38;" whereas PHP 5.6 encodes to "&amp;"
      * This method makes those two alternate characters equivalent

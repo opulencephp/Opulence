@@ -24,6 +24,7 @@ class RootNodeTest extends \PHPUnit_Framework_TestCase
     {
         $node = new RootNode();
         $this->assertTrue($node->isRoot());
+        $this->assertFalse($node->isComment());
         $this->assertFalse($node->isDirective());
         $this->assertFalse($node->isDirectiveName());
         $this->assertFalse($node->isExpression());

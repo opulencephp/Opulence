@@ -1,3 +1,4 @@
+Upload changed files, test them
 Need to add cluster AND multiple-client support for Redis (two different things)
     Issue is that this will potentially require multiple Client objects
     Currently, my Predis EXTENDS the Client class.  It'll need to change to CONTAIN one/many Client classes, and resort to magic methods to pass onto the correct Client objects depending on which connection is being queried.

@@ -2,18 +2,18 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines a directive node
+ * Defines a comment node
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
-class DirectiveNode extends Node
+class CommentNode extends Node
 {
     /**
      * @inheritdoc
      */
     public function isComment()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class DirectiveNode extends Node
      */
     public function isDirective()
     {
-        return true;
+        return false;
     }
 
     /**
