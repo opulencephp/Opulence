@@ -24,6 +24,8 @@ class Lexer implements ILexer
     private $sanitizedTagDelimiters = [];
     /** @var array The unsanitized tag delimiters */
     private $unsanitizedTagDelimiters = [];
+    /** @var array The comment delimiters */
+    private $commentDelimiters = [];
     /** @var int The cursor (current position) of the lexer */
     private $cursor = 0;
     /** @var int The current line the lexer is on */
@@ -89,6 +91,7 @@ class Lexer implements ILexer
             $this->directiveDelimiters[0] => "lexDirectiveStatement",
             $this->sanitizedTagDelimiters[0] => "lexSanitizedTagStatement",
             $this->unsanitizedTagDelimiters[0] => "lexUnsanitizedTagStatement",
+            $this->commentDelimiters[0] => "lexCommentStatement",
             "<?php" => "lexPHPStatement",
             "<?" => "lexPHPStatement"
         ];
@@ -172,11 +175,28 @@ class Lexer implements ILexer
         $this->directiveDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_DIRECTIVE);
         $this->sanitizedTagDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG);
         $this->unsanitizedTagDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG);
+        $this->commentDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_COMMENT);
         $this->input = $this->view->getContents();
         $this->tokens = [];
         $this->cursor = 0;
         $this->line = 1;
         $this->expressionBuffer = "";
+    }
+
+    /**
+     * Lexes a comment statement
+     *
+     * @throws RuntimeException Thrown if the statement has an invalid token
+     */
+    private function lexCommentStatement()
+    {
+        $this->lexDelimitedExpressionStatement(
+            TokenTypes::T_COMMENT_OPEN,
+            $this->commentDelimiters[0],
+            TokenTypes::T_COMMENT_CLOSE,
+            $this->commentDelimiters[1],
+            false
+        );
     }
 
     /**

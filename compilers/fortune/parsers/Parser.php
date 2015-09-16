@@ -5,6 +5,7 @@
  * Defines a view parser
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
+use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNameNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
@@ -89,6 +90,26 @@ class Parser implements IParser
                     break;
                 case TokenTypes::T_UNSANITIZED_TAG_CLOSE:
                     if(!$ast->getCurrentNode()->isUnsanitizedTag())
+                    {
+                        $this->throwUnopenedDelimiterException($token);
+                    }
+
+                    $ast->setCurrentNode($ast->getCurrentNode()->getParent());
+
+                    break;
+                case TokenTypes::T_COMMENT_OPEN:
+                    if(!$ast->getCurrentNode()->isRoot())
+                    {
+                        $this->throwImproperlyNestedNodeException($token);
+                    }
+
+                    $childNode = new CommentNode();
+                    $ast->getCurrentNode()->addChild($childNode);
+                    $ast->setCurrentNode($childNode);
+
+                    break;
+                case TokenTypes::T_COMMENT_CLOSE:
+                    if(!$ast->getCurrentNode()->isComment())
                     {
                         $this->throwUnopenedDelimiterException($token);
                     }

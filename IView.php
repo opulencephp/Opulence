@@ -14,6 +14,8 @@ interface IView
     const DELIMITER_TYPE_SANITIZED_TAG = 2;
     /** The unsanitized tag delimiter */
     const DELIMITER_TYPE_UNSANITIZED_TAG = 3;
+    /** The comment delimiter */
+    const DELIMITER_TYPE_COMMENT = 4;
 
     /**
      * Gets the uncompiled contents

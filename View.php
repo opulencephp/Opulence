@@ -21,6 +21,10 @@ class View implements IView
     const DEFAULT_OPEN_DIRECTIVE_DELIMITER = "<%";
     /** The default close tag for directive delimiter */
     const DEFAULT_CLOSE_DIRECTIVE_DELIMITER = "%>";
+    /** The default open tag for comment delimiter  */
+    const DEFAULT_OPEN_COMMENT_DELIMITER = "{#";
+    /** The default close tag for comment delimiter */
+    const DEFAULT_CLOSE_COMMENT_DELIMITER = "#}";
 
     /** @var string The uncompiled contents of the view */
     protected $contents = "";
@@ -41,6 +45,10 @@ class View implements IView
         self::DELIMITER_TYPE_DIRECTIVE => [
             self::DEFAULT_OPEN_DIRECTIVE_DELIMITER,
             self::DEFAULT_CLOSE_DIRECTIVE_DELIMITER
+        ],
+        self::DELIMITER_TYPE_COMMENT => [
+            self::DEFAULT_OPEN_COMMENT_DELIMITER,
+            self::DEFAULT_CLOSE_COMMENT_DELIMITER
         ]
     ];
 

@@ -24,6 +24,14 @@ class RootNode extends Node
     /**
      * @inheritdoc
      */
+    public function isComment()
+    {
+        return false;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function isDirective()
     {
         return false;
