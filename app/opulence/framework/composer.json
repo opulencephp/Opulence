@@ -1,0 +1,41 @@
+{
+  "name": "opulence/framework",
+  "description": "The Opulence main framework library",
+  "keywords": [
+    "PHP",
+    "application",
+    "framework"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Framework\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/applications": "0.6.*",
+    "opulence/console": "0.6.*",
+    "opulence/cryptography": "0.6.*",
+    "opulence/events": "0.6.*",
+    "opulence/files": "0.6.*",
+    "opulence/http": "0.6.*",
+    "opulence/ioc": "0.6.*",
+    "opulence/routing": "0.6.*",
+    "opulence/sessions": "0.6.*",
+    "opulence/views": "0.6.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.6.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
