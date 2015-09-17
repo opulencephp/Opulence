@@ -1,0 +1,32 @@
+{
+  "name": "opulence/cryptography",
+  "description": "The Opulence cryptography library",
+  "keywords": [
+    "PHP",
+    "cryptography"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dbyoung2@gmail.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Cryptography\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "ext-openssl": "*",
+    "symfony/security-core": "2.6.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.6.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
