@@ -46,35 +46,37 @@ function split()
 
 function test()
 {
-    read -p "   Name of subtree: " subtree
-    remoteurl=https://github.com/opulencephp/$subtree
+    testsubtrees=(applications authentication cache console cryptography databases events files framework http ioc memcached orm pipelines querybuilders redis routing sessions users)
 
-    # Setup subtree directory
-    rm -rf ../$subtree
-    mkdir ../$subtree
-    cd ../$subtree
-    git init --bare
+    for subtree in ${testsubtrees[@]}
+    do
+        remoteurl=https://github.com/opulencephp/$subtree
 
-    read -p "   Delete $subtree GitHub repo, re-create, and hit ENTER" foo
+        # Setup subtree directory
+        rm -rf ../$subtree
+        mkdir ../$subtree
+        cd ../$subtree
+        git init --bare
 
-    # Create branch from subtree directory, call it the same thing as the subtree directory
-    cd ../opulence
-    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
-    git push ../$subtree $subtree:master
+        # Create branch from subtree directory, call it the same thing as the subtree directory
+        cd ../opulence
+        git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
+        git push ../$subtree $subtree:master
 
-    # Push subtree to remote
-    cd ../$subtree
-    git remote add origin $remoteurl
-    git push origin master
+        # Push subtree to remote
+        cd ../$subtree
+        git remote add origin $remoteurl
+        git push origin master
 
-    # Remove original code, which will be re-added shortly
-    cd ../opulence
-    git rm -r $SUBTREE_DIR/$subtree
+        # Remove original code, which will be re-added shortly
+        cd ../opulence
+        git rm -r $SUBTREE_DIR/$subtree
 
-    # Setup subtree in main repo
-    git commit -am "Removed $subtree for subtree split"
-    git remote add $subtree $remoteurl
-    git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
+        # Setup subtree in main repo
+        git commit -am "Removed $subtree for subtree split"
+        git remote add $subtree $remoteurl
+        git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
+    done
 }
 
 function tag()
