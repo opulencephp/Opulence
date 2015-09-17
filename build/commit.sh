@@ -44,41 +44,6 @@ function split()
     git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
 }
 
-function test()
-{
-    testsubtrees=(applications authentication cache console cryptography databases events files framework http ioc memcached orm pipelines querybuilders redis routing sessions users)
-
-    for subtree in ${testsubtrees[@]}
-    do
-        remoteurl=https://github.com/opulencephp/$subtree
-
-        # Setup subtree directory
-        rm -rf ../$subtree
-        mkdir ../$subtree
-        cd ../$subtree
-        git init --bare
-
-        # Create branch from subtree directory, call it the same thing as the subtree directory
-        cd ../opulence
-        git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
-        git push ../$subtree $subtree:master
-
-        # Push subtree to remote
-        cd ../$subtree
-        git remote add origin $remoteurl
-        git push origin master
-
-        # Remove original code, which will be re-added shortly
-        cd ../opulence
-        git rm -r $SUBTREE_DIR/$subtree
-
-        # Setup subtree in main repo
-        git commit -am "Removed $subtree for subtree split"
-        git remote add $subtree $remoteurl
-        git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
-    done
-}
-
 function tag()
 {
     read -p "   Tag Name: " tagname
@@ -134,7 +99,6 @@ while true; do
     read -p "   Choice: " choice
 
     case $choice in
-        [aA]* ) test;;
         [cC]* ) commit;;
         [tT]* ) tag;;
         [sS]* ) split;;
