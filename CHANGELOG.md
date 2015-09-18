@@ -1,3 +1,8 @@
+<h2>v0.6.3</h2>
+
+<h3>Routing</h3>
+* Renamed `Controller::compiler` to `viewCompiler` to avoid naming conflicts
+
 <h2>v0.6.2</h2>
 
 <h3>General</h3>

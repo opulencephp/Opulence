@@ -15,7 +15,7 @@ class Controller
     /** @var IView The view used in the response */
     protected $view = null;
     /** @var ICompiler The view compiler to use */
-    protected $compiler = null;
+    protected $viewCompiler = null;
     /** @var Request The HTTP request */
     protected $request = null;
 
@@ -33,9 +33,9 @@ class Controller
         /** @var Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if($response === null && $this->compiler instanceof ICompiler && $this->view !== null)
+        if($response === null && $this->viewCompiler instanceof ICompiler && $this->view !== null)
         {
-            $response->setContent($this->compiler->compile($this->view));
+            $response->setContent($this->viewCompiler->compile($this->view));
         }
 
         return $response;
