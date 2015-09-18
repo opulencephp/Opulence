@@ -1,3 +1,16 @@
+<h2>v0.6.2</h2>
+
+<h3>General</h3>
+* Re-split Git subtrees
+
+<h2>v0.6.1</h2>
+
+<h3>General</h3>
+* Re-split Git subtrees
+
+<h3>Events</h3>
+* Manually re-added this library after some issues with Git
+
 <h2>v0.6.0</h2>
 
 <h3>General</h3>
