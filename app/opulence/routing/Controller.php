@@ -8,6 +8,7 @@ namespace Opulence\Routing;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
 
 class Controller
@@ -16,6 +17,8 @@ class Controller
     protected $view = null;
     /** @var ICompiler The view compiler to use */
     protected $viewCompiler = null;
+    /** @var IViewFactory The view factory to use */
+    protected $viewFactory = null;
     /** @var Request The HTTP request */
     protected $request = null;
 
@@ -55,6 +58,22 @@ class Controller
     public function setRequest(Request $request)
     {
         $this->request = $request;
+    }
+
+    /**
+     * @param ICompiler $viewCompiler
+     */
+    public function setViewCompiler(ICompiler $viewCompiler)
+    {
+        $this->viewCompiler = $viewCompiler;
+    }
+
+    /**
+     * @param IViewFactory $viewFactory
+     */
+    public function setViewFactory(IVIewFactory $viewFactory)
+    {
+        $this->viewFactory = $viewFactory;
     }
 
     /**

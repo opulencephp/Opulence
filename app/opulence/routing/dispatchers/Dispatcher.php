@@ -7,9 +7,6 @@
 namespace Opulence\Routing\Dispatchers;
 use Closure;
 use Exception;
-use ReflectionFunction;
-use ReflectionMethod;
-use ReflectionParameter;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\IoC\IContainer;
@@ -18,6 +15,11 @@ use Opulence\Pipelines\PipelineException;
 use Opulence\Routing\Controller;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\RouteException;
+use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Factories\IViewFactory;
+use ReflectionFunction;
+use ReflectionMethod;
+use ReflectionParameter;
 
 class Dispatcher implements IDispatcher
 {
@@ -164,6 +166,16 @@ class Dispatcher implements IDispatcher
         if($controller instanceof Controller)
         {
             $controller->setRequest($request);
+
+            if($this->container->isBound(IViewFactory::class))
+            {
+                $controller->setViewFactory($this->container->makeShared(IViewFactory::class));
+            }
+
+            if($this->container->isBound(ICompiler::class))
+            {
+                $controller->setViewCompiler($this->container->makeShared(ICompiler::class));
+            }
         }
 
         return $controller;

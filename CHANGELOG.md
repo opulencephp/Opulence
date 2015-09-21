@@ -1,3 +1,8 @@
+<h2>v0.6.4</h2>
+
+<h3>Routing</h3>
+* Added setter methods for view factory and view compiler in base controller class
+
 <h2>v0.6.3</h2>
 
 <h3>Routing</h3>
