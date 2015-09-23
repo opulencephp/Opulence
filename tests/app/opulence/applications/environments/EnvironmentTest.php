@@ -33,9 +33,9 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
     public function testGettingVariable()
     {
         putenv("bar=baz");
-        $this->assertEquals("baz", $this->environment->getVariable("bar"));
-        $this->environment->setVariable("baz", "blah");
-        $this->assertEquals("blah", $this->environment->getVariable("baz"));
+        $this->assertEquals("baz", $this->environment->getVar("bar"));
+        $this->environment->setVar("baz", "blah");
+        $this->assertEquals("blah", $this->environment->getVar("baz"));
     }
 
     /**
@@ -69,7 +69,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingVariable()
     {
-        $this->environment->setVariable("foo", "bar");
+        $this->environment->setVar("foo", "bar");
         $this->assertEquals("bar", getenv("foo"));
     }
 }

@@ -30,7 +30,7 @@ class ParsedRouteTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($route->getMiddleware(), $parsedRoute->getMiddleware());
         $this->assertEquals($route->getRawHost(), $parsedRoute->getRawHost());
         $this->assertEquals($route->getRawPath(), $parsedRoute->getRawPath());
-        $this->assertEquals($route->getVariableRegex("bar"), $parsedRoute->getVariableRegex("bar"));
+        $this->assertEquals($route->getVarRegex("bar"), $parsedRoute->getVarRegex("bar"));
     }
 
     /**

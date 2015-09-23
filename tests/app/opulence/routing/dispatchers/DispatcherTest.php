@@ -68,7 +68,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
                 return get_class($request) . ":" . $primitive;
             })
         );
-        $route->setPathVariables(["primitive" => 123]);
+        $route->setPathVars(["primitive" => 123]);
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf("Closure", $controller);
@@ -108,7 +108,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo/123", NonOpulenceController::class . "@index")
         );
-        $route->setPathVariables(["id" => "123"]);
+        $route->setPathVars(["id" => "123"]);
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf(NonOpulenceController::class, $controller);
@@ -231,7 +231,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
                 return new Response("Closure: Id: $id");
             })
         );
-        $route->setPathVariables(["id" => "123"]);
+        $route->setPathVars(["id" => "123"]);
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf("Closure", $controller);

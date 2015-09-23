@@ -85,14 +85,14 @@ abstract class Session implements IMiddleware
         $this->gc();
         $this->session->setId($request->getCookies()->get($this->session->getName()));
         $this->sessionHandler->open(null, $this->session->getName());
-        $sessionVariables = @unserialize($this->sessionHandler->read($this->session->getId()));
+        $sessionVars = @unserialize($this->sessionHandler->read($this->session->getId()));
 
-        if($sessionVariables === false)
+        if($sessionVars === false)
         {
-            $sessionVariables = [];
+            $sessionVars = [];
         }
 
-        $this->session->start($sessionVariables);
+        $this->session->start($sessionVars);
     }
 
     /**

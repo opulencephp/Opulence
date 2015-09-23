@@ -56,7 +56,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentPathVariable()
     {
-        $this->assertNull($this->compiledRoute->getPathVariable("doesNotExist"));
+        $this->assertNull($this->compiledRoute->getPathVar("doesNotExist"));
     }
 
     /**
@@ -64,7 +64,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingPathVariable()
     {
-        $this->assertEquals("bar", $this->compiledRoute->getPathVariable("foo"));
+        $this->assertEquals("bar", $this->compiledRoute->getPathVar("foo"));
     }
 
     /**
@@ -72,7 +72,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingPathVariables()
     {
-        $this->assertEquals(["foo" => "bar"], $this->compiledRoute->getPathVariables());
+        $this->assertEquals(["foo" => "bar"], $this->compiledRoute->getPathVars());
     }
 
     /**
@@ -81,7 +81,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
     public function testNotSpecifyingPathVariables()
     {
         $compiledRoute = new CompiledRoute($this->parsedRoute, true);
-        $this->assertEquals([], $compiledRoute->getPathVariables());
+        $this->assertEquals([], $compiledRoute->getPathVars());
     }
 
     /**
@@ -98,7 +98,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingPathVariables()
     {
-        $this->compiledRoute->setPathVariables(["dave" => "young"]);
-        $this->assertEquals(["dave" => "young"], $this->compiledRoute->getPathVariables());
+        $this->compiledRoute->setPathVars(["dave" => "young"]);
+        $this->assertEquals(["dave" => "young"], $this->compiledRoute->getPathVars());
     }
 }

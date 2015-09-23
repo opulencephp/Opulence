@@ -11,19 +11,19 @@ class CompiledRoute extends ParsedRoute
     /** @var bool Whether or not this route is a match */
     private $isMatch = false;
     /** @var array The mapping of path variable names to values */
-    private $pathVariables = [];
+    private $pathVars = [];
 
     /**
      * @param ParsedRoute $parsedRoute The parsed route that was compiled
      * @param bool $isMatch Whether or not this route is a match for the request
-     * @param array $pathVariables The mapping of path variable names to values
+     * @param array $pathVars The mapping of path variable names to values
      */
-    public function __construct(ParsedRoute $parsedRoute, $isMatch, array $pathVariables = [])
+    public function __construct(ParsedRoute $parsedRoute, $isMatch, array $pathVars = [])
     {
         parent::__construct($parsedRoute);
 
         $this->isMatch = $isMatch;
-        $this->pathVariables = $pathVariables;
+        $this->pathVars = $pathVars;
         $this->hostRegex = $parsedRoute->hostRegex;
         $this->pathRegex = $parsedRoute->pathRegex;
         $this->defaultValues = $parsedRoute->defaultValues;
@@ -35,11 +35,11 @@ class CompiledRoute extends ParsedRoute
      * @param string $name The name of the variable to get
      * @return mixed|null The value of the variable if it exists, otherwise null
      */
-    public function getPathVariable($name)
+    public function getPathVar($name)
     {
-        if(isset($this->pathVariables[$name]))
+        if(isset($this->pathVars[$name]))
         {
-            return $this->pathVariables[$name];
+            return $this->pathVars[$name];
         }
 
         return null;
@@ -48,9 +48,9 @@ class CompiledRoute extends ParsedRoute
     /**
      * @return array
      */
-    public function getPathVariables()
+    public function getPathVars()
     {
-        return $this->pathVariables;
+        return $this->pathVars;
     }
 
     /**
@@ -70,10 +70,10 @@ class CompiledRoute extends ParsedRoute
     }
 
     /**
-     * @param array $pathVariables
+     * @param array $pathVars
      */
-    public function setPathVariables($pathVariables)
+    public function setPathVars($pathVars)
     {
-        $this->pathVariables = $pathVariables;
+        $this->pathVars = $pathVars;
     }
 }

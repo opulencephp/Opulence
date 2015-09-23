@@ -40,7 +40,7 @@ class Router extends Bootstrapper
         $compiler = $this->getRouteCompiler($container);
         $router = new HTTPRouter($dispatcher, $compiler, $this->parser);
         $this->configureRouter($router);
-        $urlGenerator = new URLGenerator($router->getRouteCollection(), $this->parser->getVariableMatchingRegex());
+        $urlGenerator = new URLGenerator($router->getRouteCollection(), $this->parser->getVarMatchingRegex());
         $container->bind(ICache::class, $this->cache);
         $container->bind(IDispatcher::class, $dispatcher);
         $container->bind(ICompiler::class, $compiler);

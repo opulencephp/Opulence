@@ -27,7 +27,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingVariableMatchingRegex()
     {
-        $this->assertEquals("/(\{([^\}]+)\})/", $this->parser->getVariableMatchingRegex());
+        $this->assertEquals("/(\{([^\}]+)\})/", $this->parser->getVarMatchingRegex());
     }
 
     /**

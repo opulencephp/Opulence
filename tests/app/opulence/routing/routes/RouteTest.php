@@ -130,7 +130,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             "variables" => ["bar" => "\d+"]
         ];
         $route = new Route("get", "/foo", "foo@bar", $options);
-        $this->assertEquals("\d+", $route->getVariableRegex("bar"));
+        $this->assertEquals("\d+", $route->getVarRegex("bar"));
     }
 
     /**
@@ -139,7 +139,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testGettingVariableRegexForParameterWithNoRegex()
     {
         $route = new Route("get", "/foo", "foo@bar");
-        $this->assertNull($route->getVariableRegex("bar"));
+        $this->assertNull($route->getVarRegex("bar"));
     }
 
     /**
@@ -266,8 +266,8 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     {
         $route = new Route("get", "/{foo}/{bar}", "foo@bar");
         $regexes = ["foo" => "\d+", "bar" => "\w+"];
-        $route->setVariableRegexes($regexes);
-        $this->assertEquals($regexes, $route->getVariableRegexes());
+        $route->setVarRegexes($regexes);
+        $this->assertEquals($regexes, $route->getVarRegexes());
     }
 
     /**
@@ -330,9 +330,9 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testSettingVariableRegex()
     {
         $route = new Route("get", "/{foo}", "foo@bar");
-        $route->setVariableRegex("foo", "\d+");
-        $this->assertEquals(["foo" => "\d+"], $route->getVariableRegexes());
-        $this->assertEquals("\d+", $route->getVariableRegex("foo"));
+        $route->setVarRegex("foo", "\d+");
+        $this->assertEquals(["foo" => "\d+"], $route->getVarRegexes());
+        $this->assertEquals("\d+", $route->getVarRegex("foo"));
     }
 
     /**

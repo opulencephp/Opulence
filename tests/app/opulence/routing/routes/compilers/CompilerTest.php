@@ -42,7 +42,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
-        $this->assertEquals([], $compiledRoute->getPathVariables());
+        $this->assertEquals([], $compiledRoute->getPathVars());
     }
 
     /**
@@ -63,7 +63,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             0 => "12",
             1 => "34"
         ];
-        $this->assertEquals($expectedPathVariables, $compiledRoute->getPathVariables());
+        $this->assertEquals($expectedPathVariables, $compiledRoute->getPathVars());
     }
 
     /**
@@ -78,7 +78,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
-        $this->assertEquals([], $compiledRoute->getPathVariables());
+        $this->assertEquals([], $compiledRoute->getPathVars());
     }
 
     /**
@@ -93,7 +93,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
-        $this->assertEquals([], $compiledRoute->getPathVariables());
+        $this->assertEquals([], $compiledRoute->getPathVars());
     }
 
     /**
@@ -107,7 +107,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             "REQUEST_URI" => "/bar"
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
-        $this->assertEquals([], $compiledRoute->getPathVariables());
+        $this->assertEquals([], $compiledRoute->getPathVars());
     }
 
     /**
@@ -123,7 +123,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         ], [], []);
         $compiledRoute = $this->compiler->compile($route, $request);
         $this->assertTrue($compiledRoute->isMatch());
-        $this->assertEquals([], $compiledRoute->getPathVariables());
+        $this->assertEquals([], $compiledRoute->getPathVars());
     }
 
     /**

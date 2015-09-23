@@ -50,8 +50,8 @@ class Compiler implements ICompiler
         }
 
         // If we've gotten here, then all the matchers matched
-        $pathVariables = array_merge($hostMatches, $pathMatches);
+        $pathVars = array_merge($hostMatches, $pathMatches);
 
-        return new CompiledRoute($route, true, $pathVariables);
+        return new CompiledRoute($route, true, $pathVars);
     }
 }

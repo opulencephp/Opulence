@@ -14,7 +14,7 @@ class Parser implements IParser
     /**
      * @inheritdoc
      */
-    public function getVariableMatchingRegex()
+    public function getVarMatchingRegex()
     {
         return "/(\{([^\}]+)\})/";
     }
@@ -47,10 +47,10 @@ class Parser implements IParser
         }
 
         $regex = $this->quoteStaticText($rawString);
-        $routeVariables = [];
+        $routeVars = [];
         $matches = [];
 
-        preg_match_all($this->getVariableMatchingRegex(), $rawString, $matches, PREG_SET_ORDER);
+        preg_match_all($this->getVarMatchingRegex(), $rawString, $matches, PREG_SET_ORDER);
 
         foreach($matches as $match)
         {
@@ -79,14 +79,14 @@ class Parser implements IParser
                 throw new RouteException("Invalid variable name \"$variableName\"");
             }
 
-            if(in_array($variableName, $routeVariables))
+            if(in_array($variableName, $routeVars))
             {
                 throw new RouteException("Route uses multiple references to \"$variableName\"");
             }
 
-            $routeVariables[] = $variableName;
+            $routeVars[] = $variableName;
             $parsedRoute->setDefaultValue($variableName, $defaultValue);
-            $variableRegex = $parsedRoute->getVariableRegex($variableName);
+            $variableRegex = $parsedRoute->getVarRegex($variableName);
 
             if($variableRegex === null)
             {

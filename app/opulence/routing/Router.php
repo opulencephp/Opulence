@@ -63,6 +63,16 @@ class Router
     }
 
     /**
+     * Gets the reference to the list of routes
+     *
+     * @return RouteCollection
+     */
+    public function &getRouteCollection()
+    {
+        return $this->routeCollection;
+    }
+
+    /**
      * Adds a route to the router
      *
      * @param Route $route The route to add
@@ -134,16 +144,6 @@ class Router
     public function getMatchedRoute()
     {
         return $this->matchedRoute;
-    }
-
-    /**
-     * Gets the reference to the list of routes
-     *
-     * @return RouteCollection
-     */
-    public function &getRouteCollection()
-    {
-        return $this->routeCollection;
     }
 
     /**
@@ -350,7 +350,7 @@ class Router
 
         $route->setSecure($this->isGroupSecure() || $route->isSecure());
         // The route's variable regexes take precedence over group regexes
-        $route->setVariableRegexes(array_merge($this->getVariableRegexes(), $route->getVariableRegexes()));
+        $route->setVarRegexes(array_merge($this->getVarRegexes(), $route->getVarRegexes()));
         $groupMiddleware = $this->getGroupMiddleware();
 
         if(count($groupMiddleware) > 0)
@@ -481,7 +481,7 @@ class Router
      *
      * @return array The The mapping of variable names to regexes
      */
-    private function getVariableRegexes()
+    private function getVarRegexes()
     {
         $variableRegexes = [];
 

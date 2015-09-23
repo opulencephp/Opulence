@@ -16,7 +16,7 @@ interface IParser
      *
      * @return string The regex that matches variables in the route
      */
-    public function getVariableMatchingRegex();
+    public function getVarMatchingRegex();
 
     /**
      * Parses a route into regular expressions

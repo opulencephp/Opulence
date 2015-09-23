@@ -30,7 +30,7 @@ class Route
     /** @var bool Whether or not this route uses a closure as a controller */
     protected $usesClosure = false;
     /** @var array The mapping of route variable names to their regexes */
-    protected $variableRegexes = [];
+    protected $varRegexes = [];
     /** @var array The list of middleware to run when dispatching this route */
     protected $middleware = [];
 
@@ -47,11 +47,11 @@ class Route
         $this->methods = (array)$methods;
         $this->rawPath = $rawPath;
 
-        $this->setControllerVariables($controller);
+        $this->setControllerVars($controller);
 
         if(isset($options["variables"]))
         {
-            $this->setVariableRegexes($options["variables"]);
+            $this->setVarRegexes($options["variables"]);
         }
 
         if(isset($options["middleware"]))
@@ -167,9 +167,9 @@ class Route
      * @param string $name The name of the parameter whose regex we want
      * @return string|null The regex for the parameter if there are any, otherwise null
      */
-    public function getVariableRegex($name)
+    public function getVarRegex($name)
     {
-        return isset($this->variableRegexes[$name]) ? $this->variableRegexes[$name] : null;
+        return isset($this->varRegexes[$name]) ? $this->varRegexes[$name] : null;
     }
 
     /**
@@ -177,9 +177,9 @@ class Route
      *
      * @return array The mapping of variable names to regexes
      */
-    public function getVariableRegexes()
+    public function getVarRegexes()
     {
-        return $this->variableRegexes;
+        return $this->varRegexes;
     }
 
     /**
@@ -255,9 +255,9 @@ class Route
      * @param string $name The name of the variable whose regex we're setting
      * @param string $regex The regex to set
      */
-    public function setVariableRegex($name, $regex)
+    public function setVarRegex($name, $regex)
     {
-        $this->variableRegexes[$name] = $regex;
+        $this->varRegexes[$name] = $regex;
     }
 
     /**
@@ -265,11 +265,11 @@ class Route
      *
      * @param array $regexes The mapping of variable names to their regexes
      */
-    public function setVariableRegexes(array $regexes)
+    public function setVarRegexes(array $regexes)
     {
-        foreach($regexes as $variableName => $regex)
+        foreach($regexes as $varName => $regex)
         {
-            $this->setVariableRegex($variableName, $regex);
+            $this->setVarRegex($varName, $regex);
         }
     }
 
@@ -287,7 +287,7 @@ class Route
      * @param string|Closure $controller The name of the controller/method or the callback
      * @throws InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
-    protected function setControllerVariables($controller)
+    protected function setControllerVars($controller)
     {
         $this->controller = $controller;
 

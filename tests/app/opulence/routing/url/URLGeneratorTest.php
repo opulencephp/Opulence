@@ -128,7 +128,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
         }
 
         $parser = new Parser();
-        $this->generator = new URLGenerator($routeCollection, $parser->getVariableMatchingRegex());
+        $this->generator = new URLGenerator($routeCollection, $parser->getVarMatchingRegex());
     }
 
     /**

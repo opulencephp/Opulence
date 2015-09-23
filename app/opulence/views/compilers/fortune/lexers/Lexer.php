@@ -40,7 +40,7 @@ class Lexer implements ILexer
      */
     public function lex(IView $view)
     {
-        $this->initializeVariables($view);
+        $this->initializeVars($view);
         $this->lexExpression();
 
         return $this->tokens;
@@ -169,7 +169,7 @@ class Lexer implements ILexer
      *
      * @param IView $view The view that's being lexed
      */
-    private function initializeVariables(IView $view)
+    private function initializeVars(IView $view)
     {
         $this->view = $view;
         $this->directiveDelimiters = $this->view->getDelimiters(IView::DELIMITER_TYPE_DIRECTIVE);

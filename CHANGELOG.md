@@ -1,3 +1,18 @@
+<h2>v0.6.5</h2>
+
+<h3>Environment</h3>
+* `Opulence\Applications\Environments\Environment::getVariable()` renamed to `getVar()`
+* `Opulence\Applications\Environments\Environment::setVariable()` renamed to `setVar()`
+
+<h3>Routing</h3>
+* `Opulence\Routing\Routes\Compilers\Parsers\Parser::getVariableMatchingRegex()` renamed to `getVarMatchingRegex()`
+* `Opulence\Routing\Routes\Route::getVariableRegex()` renamed to `getVarRegex()`
+* `Opulence\Routing\Routes\Route::getVariableRegexes()` renamed to `getVarRegexes()`
+* `Opulence\Routing\Routes\Route::setVariableRegex()` renamed to `setVarRegex()`
+* `Opulence\Routing\Routes\Route::setVariableRegexes()` renamed to `setVarRegexes()`
+* `Opulence\Routing\Routes\CompiledRoute::getPathVariable()` renamed to `getPathVar()`
+* `Opulence\Routing\Routes\CompiledRoute::getPathVariables()` renamed to `getPathVars()`
+
 <h2>v0.6.4</h2>
 
 <h3>Routing</h3>

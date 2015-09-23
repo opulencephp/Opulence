@@ -43,7 +43,7 @@ class Cryptography extends Bootstrapper implements ILazyBootstrapper
      */
     protected function getEncrypter(Strings $strings)
     {
-        return new Encrypter($this->environment->getVariable("ENCRYPTION_KEY"), $strings);
+        return new Encrypter($this->environment->getVar("ENCRYPTION_KEY"), $strings);
     }
 
     /**

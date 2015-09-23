@@ -42,7 +42,7 @@ class Environment
      * @param string $name The name of the environment variable to get
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public function getVariable($name)
+    public function getVar($name)
     {
         $value = getenv($name);
 
@@ -78,7 +78,7 @@ class Environment
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
-    public function setVariable($name, $value)
+    public function setVar($name, $value)
     {
         putenv($name . "=" . $value);
     }

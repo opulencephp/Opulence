@@ -88,7 +88,7 @@ class Dispatcher implements IDispatcher
                 $reflection = new ReflectionFunction($controller);
                 $parameters = $this->getResolvedControllerParameters(
                     $reflection->getParameters(),
-                    $route->getPathVariables(),
+                    $route->getPathVars(),
                     $route,
                     true
                 );
@@ -100,7 +100,7 @@ class Dispatcher implements IDispatcher
                 $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
                 $parameters = $this->getResolvedControllerParameters(
                     $reflection->getParameters(),
-                    $route->getPathVariables(),
+                    $route->getPathVars(),
                     $route,
                     false
                 );
@@ -185,7 +185,7 @@ class Dispatcher implements IDispatcher
      * Gets the resolved parameters for a controller
      *
      * @param ReflectionParameter[] $reflectionParameters The reflection parameters
-     * @param array $pathVariables The route path variables
+     * @param array $pathVars The route path variables
      * @param CompiledRoute $route The route whose parameters we're resolving
      * @param bool $acceptObjectParameters Whether or not we'll accept objects as parameters
      * @return array The mapping of parameter names to their resolved values
@@ -193,7 +193,7 @@ class Dispatcher implements IDispatcher
      */
     private function getResolvedControllerParameters(
         array $reflectionParameters,
-        array $pathVariables,
+        array $pathVars,
         CompiledRoute $route,
         $acceptObjectParameters
     )
@@ -208,10 +208,10 @@ class Dispatcher implements IDispatcher
                 $className = $parameter->getClass()->getName();
                 $resolvedParameters[$parameter->getPosition()] = $this->container->makeShared($className);
             }
-            elseif(isset($pathVariables[$parameter->getName()]))
+            elseif(isset($pathVars[$parameter->getName()]))
             {
                 // There is a value set in the route
-                $resolvedParameters[$parameter->getPosition()] = $pathVariables[$parameter->getName()];
+                $resolvedParameters[$parameter->getPosition()] = $pathVars[$parameter->getName()];
             }
             elseif(($defaultValue = $route->getDefaultValue($parameter->getName())) !== null)
             {

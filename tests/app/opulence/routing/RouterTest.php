@@ -118,8 +118,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
         /** @var Route[] $postRoutes */
         $postRoutes = $this->router->getRouteCollection()->get(Request::METHOD_POST);
-        $this->assertEquals("\d+", $getRoutes[0]->getVariableRegex("id"));
-        $this->assertEquals("\d+", $postRoutes[0]->getVariableRegex("id"));
+        $this->assertEquals("\d+", $getRoutes[0]->getVarRegex("id"));
+        $this->assertEquals("\d+", $postRoutes[0]->getVarRegex("id"));
     }
 
     /**
@@ -370,9 +370,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         });
         /** @var Route[] $getRoutes */
         $getRoutes = $this->router->getRouteCollection()->get(Request::METHOD_GET);
-        $this->assertEquals("\d*", $getRoutes[0]->getVariableRegex("id"));
-        $this->assertEquals("\w+", $getRoutes[1]->getVariableRegex("id"));
-        $this->assertEquals("\d+", $getRoutes[2]->getVariableRegex("id"));
+        $this->assertEquals("\d*", $getRoutes[0]->getVarRegex("id"));
+        $this->assertEquals("\w+", $getRoutes[1]->getVarRegex("id"));
+        $this->assertEquals("\d+", $getRoutes[2]->getVarRegex("id"));
     }
 
     /**
@@ -537,6 +537,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingRouteCollection()
     {
+        /** @var RouteCollection $collection */
         $collection = $this->getMock(RouteCollection::class);
         $this->router->setRouteCollection($collection);
         $this->assertSame($collection, $this->router->getRouteCollection());
