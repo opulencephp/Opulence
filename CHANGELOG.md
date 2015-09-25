@@ -1,7 +1,7 @@
 <h2>v0.6.6</h2>
 
 <h3>HTTP</h3>
-* Added `Opulence\HTTP\Requests\UploadedFile` and `FileParameters`
+* Added `Opulence\HTTP\Requests\UploadedFile` and `Files`
 * Uploaded files now instantiate `UploadedFile` objects rather than simple arrays
 
 <h2>v0.6.5</h2>
