@@ -1,3 +1,9 @@
+<h2>v0.6.7</h2>
+
+<h3>HTTP</h3>
+* Renamed `Opulence\HTTP\Requests\UploadedFile::getActualMimeType()` to `getMimeType()`
+* Renamed `Opulence\HTTP\Requests\UploadedFile::getTempName()` to `getTempFilename()`
+
 <h2>v0.6.6</h2>
 
 <h3>HTTP</h3>

@@ -25,7 +25,7 @@ class FilesTest extends \PHPUnit_Framework_TestCase
         $file = $files->get("foo");
         $this->assertInstanceOf(UploadedFile::class, $file);
         $this->assertEquals("/path", $file->getPath());
-        $this->assertEquals("foo.txt", $file->getTempName());
+        $this->assertEquals("foo.txt", $file->getTempFilename());
         $this->assertEquals(100, $file->getTempSize());
         $this->assertEquals("text/plain", $file->getTempMimeType());
         $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
@@ -49,7 +49,7 @@ class FilesTest extends \PHPUnit_Framework_TestCase
         $file = $files->get("foo");
         $this->assertInstanceOf(UploadedFile::class, $file);
         $this->assertEquals("/path", $file->getPath());
-        $this->assertEquals("foo.txt", $file->getTempName());
+        $this->assertEquals("foo.txt", $file->getTempFilename());
         $this->assertEquals(100, $file->getTempSize());
         $this->assertEquals("text/plain", $file->getTempMimeType());
         $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());

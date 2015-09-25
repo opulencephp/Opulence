@@ -11,7 +11,7 @@ use SplFileInfo;
 class UploadedFile extends SplFileInfo
 {
     /** @var string The temporary name of the file */
-    private $tmpName = "";
+    private $tmpFilename = "";
     /** @var int The size of the file in bytes */
     private $tmpSize = 0;
     /** @var string The mime type of the file */
@@ -30,22 +30,10 @@ class UploadedFile extends SplFileInfo
     {
         parent::__construct($path);
 
-        $this->tmpName = $tmpName;
+        $this->tmpFilename = $tmpName;
         $this->tmpSize = $size;
         $this->mimeType = $mimeType;
         $this->error = $error;
-    }
-
-    /**
-     * Gets the actual mime type of the file
-     *
-     * @return string The actual mime type
-     */
-    public function getActualMimeType()
-    {
-        $fInfo = new finfo(FILEINFO_MIME_TYPE);
-
-        return $fInfo->file($this->getPathname());
     }
 
     /**
@@ -57,13 +45,33 @@ class UploadedFile extends SplFileInfo
     }
 
     /**
+     * Gets the actual mime type of the file
+     *
+     * @return string The actual mime type
+     */
+    public function getMimeType()
+    {
+        $fInfo = new finfo(FILEINFO_MIME_TYPE);
+
+        return $fInfo->file($this->getPathname());
+    }
+
+    /**
      * Gets the temporary file's extension
      *
      * @return string The temporary file's extension
      */
     public function getTempExtension()
     {
-        return pathinfo($this->tmpName, PATHINFO_EXTENSION);
+        return pathinfo($this->tmpFilename, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * @return string
+     */
+    public function getTempFilename()
+    {
+        return $this->tmpFilename;
     }
 
     /**
@@ -72,14 +80,6 @@ class UploadedFile extends SplFileInfo
     public function getTempMimeType()
     {
         return $this->mimeType;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTempName()
-    {
-        return $this->tmpName;
     }
 
     /**

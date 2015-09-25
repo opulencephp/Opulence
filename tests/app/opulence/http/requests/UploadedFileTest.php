@@ -72,20 +72,6 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the actual mime type
-     */
-    public function testGettingActualMimeType()
-    {
-        $file = new MockUploadedFile(
-            __DIR__ . self::UPLOADED_FILE_FILENAME,
-            __DIR__ . self::TEMP_FILENAME,
-            100,
-            "foo/bar"
-        );
-        $this->assertEquals("text/plain", $file->getActualMimeType());
-    }
-
-    /**
      * Tests getting the default error
      */
     public function testGettingDefaultError()
@@ -127,6 +113,20 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the mime type
+     */
+    public function testGettingMimeType()
+    {
+        $file = new MockUploadedFile(
+            __DIR__ . self::UPLOADED_FILE_FILENAME,
+            __DIR__ . self::TEMP_FILENAME,
+            100,
+            "foo/bar"
+        );
+        $this->assertEquals("text/plain", $file->getMimeType());
+    }
+
+    /**
      * Tests getting the path
      */
     public function testGettingPath()
@@ -143,19 +143,19 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the temp filename
+     */
+    public function testGettingTempFilename()
+    {
+        $this->assertEquals(__DIR__ . self::TEMP_FILENAME, $this->file->getTempFilename());
+    }
+
+    /**
      * Tests getting the temp mime type
      */
     public function testGettingTempMimeType()
     {
         $this->assertEquals("text/plain", $this->file->getTempMimeType());
-    }
-
-    /**
-     * Tests getting the temp name
-     */
-    public function testGettingTempName()
-    {
-        $this->assertEquals(__DIR__ . self::TEMP_FILENAME, $this->file->getTempName());
     }
 
     /**
