@@ -82,7 +82,7 @@ class Request
         $this->cookies = new Parameters($cookies);
         $this->server = new Parameters($server);
         $this->headers = new Headers($server);
-        $this->files = new Parameters($files);
+        $this->files = new Files($files);
         $this->env = new Parameters($env);
         $this->setMethod();
         $this->setIPAddress();

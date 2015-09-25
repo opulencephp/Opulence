@@ -298,7 +298,27 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingFiles()
     {
-        $this->assertSame($_FILES, $this->request->getFiles()->getAll());
+        $files = [
+            "foo" => [
+                "tmp_name" => "/path/foo.txt",
+                "name" => "foo.txt",
+                "type" => "text/plain",
+                "size" => 100,
+                "error" => UPLOAD_ERR_EXTENSION
+            ]
+        ];
+        $expectedValue = [
+            "foo" => new UploadedFile(
+                "/path/foo.txt",
+                "foo.txt",
+                100,
+                "text/plain",
+                UPLOAD_ERR_EXTENSION
+            )
+        ];
+        $request = new Request([], [], [], [], $files, []);
+        $this->assertInstanceOf(Files::class, $request->getFiles());
+        $this->assertEquals($expectedValue, $request->getFiles()->getAll());
     }
 
     /**

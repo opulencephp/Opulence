@@ -1,0 +1,57 @@
+<?php
+/**
+ * Copyright (C) 2015 David Young
+ *
+ * Tests the file parameters
+ */
+namespace Opulence\HTTP\Requests;
+
+class FilesTest extends \PHPUnit_Framework_TestCase
+{
+    /**
+     * Tests adding files creates files
+     */
+    public function testAddingFilesCreatesFiles()
+    {
+        $files = new Files([]);
+        $files->add("foo", [
+            "tmp_name" => "/path/foo.txt",
+            "name" => "foo.txt",
+            "type" => "text/plain",
+            "size" => 100,
+            "error" => UPLOAD_ERR_EXTENSION
+        ]);
+        /** @var UploadedFile $file */
+        $file = $files->get("foo");
+        $this->assertInstanceOf(UploadedFile::class, $file);
+        $this->assertEquals("/path", $file->getPath());
+        $this->assertEquals("foo.txt", $file->getTempName());
+        $this->assertEquals(100, $file->getTempSize());
+        $this->assertEquals("text/plain", $file->getTempMimeType());
+        $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
+    }
+
+    /**
+     * Tests passing files through constructor creates files
+     */
+    public function testPassingFilesThroughConstructorCreatesFiles()
+    {
+        $files = new Files([
+            "foo" => [
+                "tmp_name" => "/path/foo.txt",
+                "name" => "foo.txt",
+                "type" => "text/plain",
+                "size" => 100,
+                "error" => UPLOAD_ERR_EXTENSION
+            ]
+        ]);
+        /** @var UploadedFile $file */
+        $file = $files->get("foo");
+        $this->assertInstanceOf(UploadedFile::class, $file);
+        $this->assertEquals("/path", $file->getPath());
+        $this->assertEquals("foo.txt", $file->getTempName());
+        $this->assertEquals(100, $file->getTempSize());
+        $this->assertEquals("text/plain", $file->getTempMimeType());
+        $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
+    }
+}
