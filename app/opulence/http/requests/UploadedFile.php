@@ -15,24 +15,24 @@ class UploadedFile extends SplFileInfo
     /** @var int The size of the file in bytes */
     private $tmpSize = 0;
     /** @var string The mime type of the file */
-    private $mimeType = "";
+    private $tmpMimeType = "";
     /** @var int The error message, if there was any */
-    private $error = "";
+    private $error = UPLOAD_ERR_OK;
 
     /**
      * @param string $path The path to the file
-     * @param string $tmpName The temporary name of the file
-     * @param int $size The size of the file in bytes
-     * @param string $mimeType The mime type of the file
+     * @param string $tmpFilename The temporary filename
+     * @param int $tmpSize The size of the temporary file in bytes
+     * @param string $tmpMimeType The mime type of the temporary file
      * @param int $error The error message, if there was any
      */
-    public function __construct($path, $tmpName, $size, $mimeType = "", $error = UPLOAD_ERR_OK)
+    public function __construct($path, $tmpFilename, $tmpSize, $tmpMimeType = "", $error = UPLOAD_ERR_OK)
     {
         parent::__construct($path);
 
-        $this->tmpFilename = $tmpName;
-        $this->tmpSize = $size;
-        $this->mimeType = $mimeType;
+        $this->tmpFilename = $tmpFilename;
+        $this->tmpSize = $tmpSize;
+        $this->tmpMimeType = $tmpMimeType;
         $this->error = $error;
     }
 
@@ -79,7 +79,7 @@ class UploadedFile extends SplFileInfo
      */
     public function getTempMimeType()
     {
-        return $this->mimeType;
+        return $this->tmpMimeType;
     }
 
     /**
