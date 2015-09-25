@@ -154,7 +154,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Files
      */
     public function getFiles()
     {
