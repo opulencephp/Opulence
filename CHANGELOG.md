@@ -1,3 +1,8 @@
+<h2>v0.6.8</h2>
+
+<h3>ORM</h3>
+* To provide better abstraction `Opulence\ORM\Repositories\IRepo::getDataMapper()`, `getUnitOfWork()`, and `setDataMapper()` have been removed
+
 <h2>v0.6.7</h2>
 
 <h3>HTTP</h3>

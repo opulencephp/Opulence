@@ -5,10 +5,8 @@
  * Defines the interface for repositories to implement
  */
 namespace Opulence\ORM\Repositories;
-use Opulence\ORM\DataMappers\IDataMapper;
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
-use Opulence\ORM\UnitOfWork;
 
 interface IRepo
 {
@@ -44,25 +42,4 @@ interface IRepo
      * @throws ORMException Thrown if there was no entity with the input Id
      */
     public function getById($id);
-
-    /**
-     * Gets the data mapper used by this repository
-     *
-     * @return IDataMapper The data mapper used by this repository
-     */
-    public function getDataMapper();
-
-    /**
-     * Gets the unit of work used by this repository
-     *
-     * @return UnitOfWork The unit of work used by this repository
-     */
-    public function getUnitOfWork();
-
-    /**
-     * Sets the data mapper to use in this repository
-     *
-     * @param IDataMapper $dataMapper The data mapper to use
-     */
-    public function setDataMapper(IDataMapper $dataMapper);
 }

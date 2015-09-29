@@ -148,25 +148,4 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper->add($this->entity1);
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
     }
-
-    /**
-     * Tests getting the unit of work
-     */
-    public function testGettingUnitOfWork()
-    {
-        $this->assertSame($this->unitOfWork, $this->repo->getUnitOfWork());
-    }
-
-    /**
-     * Tests setting the data mapper
-     */
-    public function testSettingDataMapper()
-    {
-        $dataMapper = new SQLDataMapper();
-        $this->repo->setDataMapper($dataMapper);
-        $this->assertSame($dataMapper, $this->repo->getDataMapper());
-        $this->repo->add($this->entity1);
-        $this->unitOfWork->commit();
-        $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
-    }
 } 
