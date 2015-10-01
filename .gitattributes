@@ -27,6 +27,7 @@
 .travis.yml export-ignore
 README.md export-ignore
 CHANGELOG.md export-ignore
+CONTRIBUTING.md export-ignore
 phpunit.xml export-ignore
 todo export-ignore
 /build export-ignore
