@@ -5,6 +5,7 @@
  * Defines an uploaded file
  */
 namespace Opulence\HTTP\Requests;
+
 use finfo;
 use SplFileInfo;
 

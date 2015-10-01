@@ -5,6 +5,7 @@
  * Defines the about command
  */
 namespace Opulence\Console\Commands;
+
 use Opulence\Console\Responses\IResponse;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 

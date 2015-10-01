@@ -5,6 +5,7 @@
  * Mocks the cached SQL data mapper for use in tests
  */
 namespace Opulence\Tests\ORM\DataMappers\Mocks;
+
 use Opulence\Databases\ConnectionPool;
 use Opulence\ORM\DataMappers\CachedSQLDataMapper as BaseCachedSQLDataMapper;
 use Opulence\ORM\DataMappers\ICacheDataMapper;

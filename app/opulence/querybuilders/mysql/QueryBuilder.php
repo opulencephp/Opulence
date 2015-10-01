@@ -5,6 +5,7 @@
  * Programmatically builds up a PostgreSQL query
  */
 namespace Opulence\QueryBuilders\MySQL;
+
 use ReflectionClass;
 use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;
 

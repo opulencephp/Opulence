@@ -5,6 +5,7 @@
  * Defines a user
  */
 namespace Opulence\Users;
+
 use DateTime;
 
 class User implements IUser

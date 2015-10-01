@@ -5,6 +5,7 @@
  * Defines a compiler for basic PHP views
  */
 namespace Opulence\Views\Compilers\PHP;
+
 use Exception;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ViewCompilerException;

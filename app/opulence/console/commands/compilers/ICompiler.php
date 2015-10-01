@@ -5,6 +5,7 @@
  * Defines the interface for command compilers to implement
  */
 namespace Opulence\Console\Commands\Compilers;
+
 use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Requests\IRequest;
 use RuntimeException;

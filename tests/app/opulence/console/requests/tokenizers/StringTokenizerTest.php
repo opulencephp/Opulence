@@ -5,6 +5,7 @@
  * Tests the string tokenizer
  */
 namespace Opulence\Console\Requests\Tokenizers;
+
 use RuntimeException;
 
 class StringTokenizerTest extends \PHPUnit_Framework_TestCase

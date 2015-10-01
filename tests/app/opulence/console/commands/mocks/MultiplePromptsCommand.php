@@ -5,6 +5,7 @@
  * Mocks a command with multiple prompts
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Prompts\Questions\Question;

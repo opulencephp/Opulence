@@ -5,6 +5,7 @@
  *
  */
 namespace Opulence\Authentication\Credentials;
+
 use Exception;
 
 class InvalidCredentialException extends Exception

@@ -5,6 +5,7 @@
  * Mocks a builder that builds a parent for use in testing
  */
 namespace Opulence\Tests\Views\Factories\Mocks;
+
 use Opulence\Views\Factories\IViewBuilder;
 use Opulence\Views\IView;
 

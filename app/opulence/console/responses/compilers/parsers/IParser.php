@@ -5,6 +5,7 @@
  * Defines the interface for response parsers to implement
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
+
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
 use RuntimeException;
 

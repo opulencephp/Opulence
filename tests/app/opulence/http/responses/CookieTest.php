@@ -5,6 +5,7 @@
  * Tests the cookie class
  */
 namespace Opulence\HTTP\Responses;
+
 use DateTime;
 
 class CookieTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Defines an extension of the PHPRedis library
  */
 namespace Opulence\Redis;
+
 use Redis;
 
 class OpulencePHPRedis extends Redis implements IRedis

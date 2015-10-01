@@ -5,6 +5,7 @@
  * Tests the file system
  */
 namespace Opulence\Files;
+
 use DateTime;
 use InvalidArgumentException;
 

@@ -5,6 +5,7 @@
  * Defines the user interface
  */
 namespace Opulence\Users;
+
 use DateTime;
 
 interface IUser

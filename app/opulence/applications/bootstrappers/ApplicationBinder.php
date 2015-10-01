@@ -5,6 +5,7 @@
  * Defines the class that binds the bootstrapper library to the application
  */
 namespace Opulence\Applications\Bootstrappers;
+
 use Opulence\Applications\Bootstrappers\Caching\ICache;
 use Opulence\Applications\Bootstrappers\Dispatchers\IDispatcher as IBootstrapperDispatcher;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher as ITaskDispatcher;

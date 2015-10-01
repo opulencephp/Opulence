@@ -5,6 +5,7 @@
  * Defines the encryption key generator command
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Applications\Paths;
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Console\Commands\Command;

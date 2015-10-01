@@ -5,6 +5,7 @@
  * Tests the pgsql PDO driver
  */
 namespace Opulence\Databases\PDO\PostgreSQL;
+
 use Opulence\Databases;
 use Opulence\Tests\Databases\SQL\Mocks\Server;
 

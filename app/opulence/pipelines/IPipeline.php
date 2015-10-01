@@ -5,6 +5,7 @@
  * Defines the interface for pipelines to implement
  */
 namespace Opulence\Pipelines;
+
 use Closure;
 
 interface IPipeline

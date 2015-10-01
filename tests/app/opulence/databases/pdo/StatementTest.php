@@ -5,6 +5,7 @@
  * Tests the PDO statement
  */
 namespace Opulence\Databases\PDO;
+
 use PDO;
 use Opulence\Tests\Databases\SQL\PDO\Mocks\Statement;
 

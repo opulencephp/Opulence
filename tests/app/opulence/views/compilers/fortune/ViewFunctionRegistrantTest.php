@@ -5,6 +5,7 @@
  * Tests the Fortune view function registrant
  */
 namespace Opulence\Views\Compilers\Fortune;
+
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Filters\XSSFilter;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;

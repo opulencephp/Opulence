@@ -5,6 +5,7 @@
  * Defines the console response
  */
 namespace Opulence\Console\Responses;
+
 use Opulence\Console\Responses\Compilers\ICompiler;
 
 class ConsoleResponse extends StreamResponse

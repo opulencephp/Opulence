@@ -5,6 +5,7 @@
  * Defines an inversion of control container
  */
 namespace Opulence\IoC;
+
 use Closure;
 use ReflectionClass;
 use ReflectionException;

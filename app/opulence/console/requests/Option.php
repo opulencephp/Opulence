@@ -5,6 +5,7 @@
  * Defines a console command option
  */
 namespace Opulence\Console\Requests;
+
 use InvalidArgumentException;
 
 class Option

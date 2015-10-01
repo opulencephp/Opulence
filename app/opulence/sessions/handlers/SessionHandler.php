@@ -5,6 +5,7 @@
  * Defines the base session handler
  */
 namespace Opulence\Sessions\Handlers;
+
 use LogicException;
 use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;

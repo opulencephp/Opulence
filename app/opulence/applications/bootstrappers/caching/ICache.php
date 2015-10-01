@@ -5,6 +5,7 @@
  * Defines the interface for bootstrapper caches to implement
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
+
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 
 interface ICache

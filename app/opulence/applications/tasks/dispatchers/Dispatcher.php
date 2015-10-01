@@ -5,6 +5,7 @@
  * Defines the task dispatcher
  */
 namespace Opulence\Applications\Tasks\Dispatchers;
+
 use Exception;
 use RuntimeException;
 

@@ -5,6 +5,7 @@
  * Tests the dispatcher class
  */
 namespace Opulence\Routing\Dispatchers;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\RedirectResponse;
 use Opulence\HTTP\Responses\Response;

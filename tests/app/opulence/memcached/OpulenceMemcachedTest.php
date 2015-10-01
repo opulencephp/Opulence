@@ -5,6 +5,7 @@
  * Tests Memcached
  */
 namespace Opulence\Memcached;
+
 use Opulence\Tests\Memcached\Mocks\OpulenceMemcached;
 use Opulence\Tests\Memcached\Mocks\Server;
 

@@ -5,6 +5,7 @@
  * Defines the interface for data mappers to implement
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 

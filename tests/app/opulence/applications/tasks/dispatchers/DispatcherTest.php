@@ -5,6 +5,7 @@
  * Tests the task dispatcher
  */
 namespace Opulence\Applications\Tasks\Dispatchers;
+
 use Opulence\Applications\Tasks\TaskTypes;
 
 class DispatcherTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Mocks a command that returns a different status code depending on the options
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;

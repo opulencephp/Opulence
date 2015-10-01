@@ -5,6 +5,7 @@
  * Tests the controller
  */
 namespace Opulence\Routing;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\HTTP\Responses\ResponseHeaders;

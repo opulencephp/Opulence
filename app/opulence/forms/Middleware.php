@@ -5,6 +5,7 @@
  * Defines the form middleware
  */
 namespace Opulence\Forms;
+
 use Closure;
 use Opulence\HTTP\Middleware\IMiddleware;
 use Opulence\HTTP\Requests\Request;

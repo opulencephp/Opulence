@@ -5,6 +5,7 @@
  * Mocks a pipeline stage
  */
 namespace Opulence\Tests\Pipelines\Mocks;
+
 use Closure;
 
 class Stage2

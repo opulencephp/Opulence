@@ -5,6 +5,7 @@
  * Defines the middleware that checks the CSRF token, if it was set
  */
 namespace Opulence\Framework\HTTP\Middleware;
+
 use Closure;
 use Opulence\Applications\Paths;
 use Opulence\Framework\HTTP\CSRFTokenChecker;

@@ -5,6 +5,7 @@
  * Defines a type mapper that can go back and forth between provider types and PHP types
  */
 namespace Opulence\Databases\Providers;
+
 use DateTime;
 use Exception;
 use InvalidArgumentException;

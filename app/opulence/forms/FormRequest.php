@@ -5,6 +5,7 @@
  * Defines a form request
  */
 namespace Opulence\Forms;
+
 use InvalidArgumentException;
 use Opulence\Forms\Rules\Client\IClientRule;
 use Opulence\Forms\Rules\Server\IServerRule;

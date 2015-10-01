@@ -1,5 +1,6 @@
 <?php
 namespace {{namespace}};
+
 use Opulence\Databases\ConnectionPool;
 use Opulence\ORM\DataMappers\RedisCachedSQLDataMapper;
 use Opulence\ORM\IEntity;

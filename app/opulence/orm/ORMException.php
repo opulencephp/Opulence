@@ -5,6 +5,7 @@
  * Defines an ORM exception
  */
 namespace Opulence\ORM;
+
 use Exception;
 
 class ORMException extends Exception

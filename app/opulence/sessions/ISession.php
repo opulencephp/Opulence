@@ -5,6 +5,7 @@
  * Defines the interface for sessions to implement
  */
 namespace Opulence\Sessions;
+
 use ArrayAccess;
 
 interface ISession extends ArrayAccess

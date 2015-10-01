@@ -5,6 +5,7 @@
  * Defines a route that is dispatched when the router misses on a path
  */
 namespace Opulence\Routing\Routes;
+
 use Opulence\HTTP\Requests;
 use Opulence\HTTP\Responses;
 

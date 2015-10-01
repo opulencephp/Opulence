@@ -5,6 +5,7 @@
  * Mocks a router that always throws an exception for use in testing
  */
 namespace Opulence\Tests\Routing\Mocks;
+
 use Exception;
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Router;

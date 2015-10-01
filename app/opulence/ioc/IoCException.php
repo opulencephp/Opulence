@@ -5,6 +5,7 @@
  * Defines an IoC exception
  */
 namespace Opulence\IoC;
+
 use Exception;
 
 class IoCException extends Exception

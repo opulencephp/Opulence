@@ -5,6 +5,7 @@
  * Tests the command compiler
  */
 namespace Opulence\Console\Commands\Compilers;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Requests\Argument;

@@ -5,6 +5,7 @@
  * Tests the console application tester
  */
 namespace Opulence\Framework\Tests\Console;
+
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Prompts\Prompt;

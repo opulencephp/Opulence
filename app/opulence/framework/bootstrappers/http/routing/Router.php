@@ -5,6 +5,7 @@
  * Defines the routing bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\HTTP\Routing;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\IoC\IContainer;
 use Opulence\Routing\Dispatchers\Dispatcher;

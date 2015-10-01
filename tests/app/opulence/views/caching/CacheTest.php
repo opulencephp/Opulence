@@ -5,6 +5,7 @@
  * Tests the view cache
  */
 namespace Opulence\Views\Caching;
+
 use Opulence\Files\FileSystem;
 use Opulence\Views\IView;
 

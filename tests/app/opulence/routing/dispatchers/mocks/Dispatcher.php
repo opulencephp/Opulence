@@ -5,6 +5,7 @@
  * Mocks the dispatcher for use in testing
  */
 namespace Opulence\Tests\Routing\Dispatchers\Mocks;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Controller;
 use Opulence\Routing\Dispatchers\Dispatcher as BaseDispatcher;

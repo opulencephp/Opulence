@@ -5,6 +5,7 @@
  * Mocks the Memcached class for use in testing
  */
 namespace Opulence\Tests\Memcached\Mocks;
+
 use Opulence\Memcached\OpulenceMemcached as BaseOpulenceMemcached;
 use Opulence\Memcached\TypeMapper;
 

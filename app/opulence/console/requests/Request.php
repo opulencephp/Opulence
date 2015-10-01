@@ -5,6 +5,7 @@
  * Defines a basic console request
  */
 namespace Opulence\Console\Requests;
+
 use InvalidArgumentException;
 
 class Request implements IRequest

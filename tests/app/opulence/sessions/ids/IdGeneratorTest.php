@@ -5,6 +5,7 @@
  * Tests the Id generator
  */
 namespace Opulence\Sessions\Ids;
+
 use Opulence\Cryptography\Utilities\Strings;
 
 class IdGeneratorTest extends \PHPUnit_Framework_TestCase

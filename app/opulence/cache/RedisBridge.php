@@ -5,6 +5,7 @@
  * Defines the Redis cache bridge
  */
 namespace Opulence\Cache;
+
 use Redis;
 
 class RedisBridge implements ICacheBridge

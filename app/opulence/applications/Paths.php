@@ -5,6 +5,7 @@
  * Defines the list of paths used by Opulence
  */
 namespace Opulence\Applications;
+
 use ArrayAccess;
 use InvalidArgumentException;
 

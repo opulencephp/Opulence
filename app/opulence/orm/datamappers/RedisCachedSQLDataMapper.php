@@ -5,6 +5,7 @@
  * Defines the Redis-cached SQL data mapper
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\Redis\IRedis;
 use Opulence\Databases\ConnectionPool;
 

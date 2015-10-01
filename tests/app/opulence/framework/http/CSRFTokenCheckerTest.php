@@ -5,6 +5,7 @@
  * Tests the CSRF token checker
  */
 namespace Opulence\Framework\HTTP;
+
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\HTTP\Headers;
 use Opulence\HTTP\Requests\Request;
@@ -14,11 +15,11 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CSRFTokenChecker The token checker to use in tests */
     private $checker = null;
-    /** @var Strings The string utility */
+    /** @var Strings|\PHPUnit_Framework_MockObject_MockObject The string utility */
     private $strings = null;
-    /** @var Request The request mock */
+    /** @var Request|\PHPUnit_Framework_MockObject_MockObject The request mock */
     private $request = null;
-    /** @var ISession The session mock */
+    /** @var ISession|\PHPUnit_Framework_MockObject_MockObject The session mock */
     private $session = null;
 
     /**

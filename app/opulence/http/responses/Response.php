@@ -7,6 +7,7 @@
  * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Response_codes
  */
 namespace Opulence\HTTP\Responses;
+
 use DateTime;
 use Opulence\HTTP\HTTPException;
 

@@ -5,6 +5,7 @@
  * Defines the interface for request parsers to implement
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use InvalidArgumentException;
 use Opulence\Console\Requests\IRequest;
 use RuntimeException;

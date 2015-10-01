@@ -5,6 +5,7 @@
  * Defines the string tokenizer
  */
 namespace Opulence\Console\Requests\Tokenizers;
+
 use RuntimeException;
 
 class StringTokenizer implements ITokenizer

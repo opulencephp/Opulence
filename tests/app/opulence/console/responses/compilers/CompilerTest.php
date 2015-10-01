@@ -5,6 +5,7 @@
  * Tests the element compiler
  */
 namespace Opulence\Console\Responses\Compilers;
+
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
 use Opulence\Console\Responses\Formatters\Elements\Element;

@@ -5,6 +5,7 @@
  * Defines the session Id generator
  */
 namespace Opulence\Sessions\Ids;
+
 use Opulence\Cryptography\Utilities\Strings;
 
 class IdGenerator implements IIdGenerator

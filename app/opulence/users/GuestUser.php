@@ -5,6 +5,7 @@
  * Defines a guest user
  */
 namespace Opulence\Users;
+
 use DateTime;
 
 class GuestUser extends User

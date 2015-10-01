@@ -5,6 +5,7 @@
  * Defines the string parser
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 
 class StringParser extends Parser

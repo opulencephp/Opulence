@@ -5,6 +5,7 @@
  * Tests the unit of work
  */
 namespace Opulence\ORM;
+
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Databases\SQL\Mocks\Connection;
 use Opulence\Tests\Databases\SQL\Mocks\Server;

@@ -5,6 +5,7 @@
  * Tests the user factory
  */
 namespace Opulence\Users\Factories;
+
 use DateTime;
 use Opulence\Users\User;
 

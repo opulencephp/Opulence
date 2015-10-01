@@ -5,6 +5,7 @@
  * Builds an insert query
  */
 namespace Opulence\QueryBuilders\PostgreSQL;
+
 use Opulence\QueryBuilders\InsertQuery as BaseInsertQuery;
 
 class InsertQuery extends BaseInsertQuery

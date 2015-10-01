@@ -5,6 +5,7 @@
  * Tests the stream response
  */
 namespace Opulence\Console\Responses;
+
 use InvalidArgumentException;
 use Opulence\Console\Responses\Compilers\Compiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;

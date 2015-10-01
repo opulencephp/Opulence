@@ -5,6 +5,7 @@
  * Defines an extension of Memcached
  */
 namespace Opulence\Memcached;
+
 use Memcached;
 
 class OpulenceMemcached extends Memcached

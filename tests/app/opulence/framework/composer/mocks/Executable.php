@@ -5,6 +5,7 @@
  * Mocks the Composer executable for use in testing
  */
 namespace Opulence\Tests\Framework\Composer\Mocks;
+
 use Opulence\Framework\Composer\Executable as BaseExecutable;
 
 class Executable extends BaseExecutable

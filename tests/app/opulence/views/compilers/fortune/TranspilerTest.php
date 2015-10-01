@@ -5,6 +5,7 @@
  * Tests the Fortune transpiler
  */
 namespace Opulence\Views\Compilers\Fortune;
+
 use InvalidArgumentException;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;

@@ -5,6 +5,7 @@
  * Mocks the HTTP application for use in testing
  */
 namespace Opulence\Tests\Framework\Tests\HTTP\Mocks;
+
 use Monolog\Logger;
 use Opulence\Applications\Application;
 use Opulence\Applications\Bootstrappers\BootstrapperRegistry;

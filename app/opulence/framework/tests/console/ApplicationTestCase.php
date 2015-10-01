@@ -5,6 +5,7 @@
  * Defines the console application test case
  */
 namespace Opulence\Framework\Tests\Console;
+
 use PHPUnit_Framework_MockObject_MockObject;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;

@@ -5,6 +5,7 @@
  * Defines the stream response
  */
 namespace Opulence\Console\Responses;
+
 use InvalidArgumentException;
 use Opulence\Console\Responses\Compilers\ICompiler;
 

@@ -5,6 +5,7 @@
  * Defines an HTTP request
  */
 namespace Opulence\HTTP\Requests;
+
 use InvalidArgumentException;
 use Opulence\HTTP\Headers;
 use Opulence\HTTP\HTTPException;

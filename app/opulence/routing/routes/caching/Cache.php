@@ -5,6 +5,7 @@
  * Defines the route cache
  */
 namespace Opulence\Routing\Routes\Caching;
+
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\RouteCollection;
 

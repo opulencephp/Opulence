@@ -5,6 +5,7 @@
  * Defines a data mapper that maps domain data to and from Redis
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\Redis\IRedis;
 use Opulence\ORM\IEntity;
 

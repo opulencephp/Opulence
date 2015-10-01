@@ -5,6 +5,7 @@
  * Defines an individual route
  */
 namespace Opulence\Routing\Routes;
+
 use Closure;
 use InvalidArgumentException;
 use RuntimeException;

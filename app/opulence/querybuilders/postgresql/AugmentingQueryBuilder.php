@@ -5,6 +5,7 @@
  * Adds PostgreSQL-specific functionality for augmenting queries
  */
 namespace Opulence\QueryBuilders\PostgreSQL;
+
 use Opulence\QueryBuilders\AugmentingQueryBuilder as BaseAugmentingQueryBuilder;
 
 class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder

@@ -5,6 +5,7 @@
  * Defines the interface for route compilers to implement
  */
 namespace Opulence\Routing\Routes\Compilers;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;

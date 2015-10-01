@@ -5,6 +5,7 @@
  * Defines the event dispatcher bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\Events;
+
 use InvalidArgumentException;
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Events\Dispatchers\Dispatcher as EventDispatcher;

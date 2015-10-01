@@ -6,6 +6,7 @@
  * We don't want to actually write errors to the logs during the tests, so we must create a dummy handler to do that
  */
 namespace Opulence\Tests\Applications\Mocks;
+
 use Monolog\Handler\AbstractHandler;
 
 class MonologHandler extends AbstractHandler

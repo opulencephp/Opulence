@@ -5,6 +5,7 @@
  * Tests the session class
  */
 namespace Opulence\Sessions;
+
 use InvalidArgumentException;
 use Opulence\Sessions\Ids\IdGenerator;
 use Opulence\Sessions\Ids\IIdGenerator;

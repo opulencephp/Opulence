@@ -5,6 +5,7 @@
  * Defines the path matcher
  */
 namespace Opulence\Routing\Routes\Compilers\Matchers;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Routes\ParsedRoute;
 

@@ -5,6 +5,7 @@
  * Tests the relational database server
  */
 namespace Opulence\Databases;
+
 use Opulence\Tests\Databases\SQL\Mocks\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase

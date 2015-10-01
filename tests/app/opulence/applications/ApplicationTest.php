@@ -5,6 +5,7 @@
  * Tests the application class
  */
 namespace Opulence\Applications;
+
 use InvalidArgumentException;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
@@ -17,7 +18,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
-    /** @var IDispatcher The task dispatcher */
+    /** @var IDispatcher|\PHPUnit_Framework_MockObject_MockObject The task dispatcher */
     private $dispatcher = null;
     /** @var Environment The environment used by the application */
     private $environment = null;
@@ -79,7 +80,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPostShutdownTask()
     {
-        $this->dispatcher
+        $this->dispatcher->expects($this->at(3))
             ->method("dispatch")
             ->with(TaskTypes::POST_SHUTDOWN)
             ->will($this->throwException(new InvalidArgumentException("foo")));
@@ -93,8 +94,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPostStartTask()
     {
-        $this->dispatcher
-            ->expects($this->at(1))
+        $this->dispatcher->expects($this->at(1))
             ->method("dispatch")
             ->will($this->throwException(new InvalidArgumentException("foo")));
         $this->assertNull($this->application->start());
@@ -106,7 +106,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPreShutdownTask()
     {
-        $this->dispatcher
+        $this->dispatcher->expects($this->at(2))
             ->method("dispatch")
             ->with(TaskTypes::PRE_SHUTDOWN)
             ->will($this->throwException(new InvalidArgumentException("foo")));

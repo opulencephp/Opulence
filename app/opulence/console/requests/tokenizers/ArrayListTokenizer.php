@@ -5,6 +5,7 @@
  * Defines the array list tokenizer
  */
 namespace Opulence\Console\Requests\Tokenizers;
+
 use RuntimeException;
 
 class ArrayListTokenizer implements ITokenizer

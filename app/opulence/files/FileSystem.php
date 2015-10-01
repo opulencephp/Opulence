@@ -5,6 +5,7 @@
  * Defines methods for interacting with the file system
  */
 namespace Opulence\Files;
+
 use DateTime;
 use FilesystemIterator;
 use InvalidArgumentException;

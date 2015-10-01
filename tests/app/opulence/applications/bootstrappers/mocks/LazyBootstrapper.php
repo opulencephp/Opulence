@@ -5,6 +5,7 @@
  * Mocks a lazy bootstrapper
  */
 namespace Opulence\Tests\Applications\Bootstrappers\Mocks;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper as BaseBootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\IoC\IContainer;

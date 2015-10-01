@@ -5,6 +5,7 @@
  * Defines a session that persists throughout a transaction on a page
  */
 namespace Opulence\Sessions;
+
 use InvalidArgumentException;
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Sessions\Ids\IIdGenerator;

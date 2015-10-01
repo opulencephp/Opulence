@@ -5,6 +5,7 @@
  * Defines the interface for compiler registries to implement
  */
 namespace Opulence\Views\Compilers;
+
 use InvalidArgumentException;
 use Opulence\Views\IView;
 

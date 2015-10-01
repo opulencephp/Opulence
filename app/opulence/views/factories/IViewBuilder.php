@@ -5,6 +5,7 @@
  * Defines the interface for view builders to implement
  */
 namespace Opulence\Views\Factories;
+
 use Opulence\Views\IView;
 
 interface IViewBuilder

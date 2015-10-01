@@ -5,6 +5,7 @@
  * Defines a base cryptographic hasher
  */
 namespace Opulence\Cryptography\Hashing;
+
 use Opulence\Cryptography\Utilities\Strings;
 use RuntimeException;
 

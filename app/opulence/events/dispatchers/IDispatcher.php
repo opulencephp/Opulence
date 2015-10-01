@@ -5,6 +5,7 @@
  * Defines the interface for event dispatchers to implement
  */
 namespace Opulence\Events\Dispatchers;
+
 use Opulence\Events\IEvent;
 
 interface IDispatcher

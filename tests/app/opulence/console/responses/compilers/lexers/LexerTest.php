@@ -5,6 +5,7 @@
  * Tests the response lexer
  */
 namespace Opulence\Console\Responses\Compilers\Lexers;
+
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
 use RuntimeException;

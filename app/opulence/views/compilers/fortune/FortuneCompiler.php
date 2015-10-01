@@ -5,6 +5,7 @@
  * Defines the Fortune compiler
  */
 namespace Opulence\Views\Compilers\Fortune;
+
 use Opulence\Views\Compilers\PHP\PHPCompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;

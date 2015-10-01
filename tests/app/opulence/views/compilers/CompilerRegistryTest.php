@@ -5,6 +5,7 @@
  * Tests the compiler dispatcher
  */
 namespace Opulence\Views\Compilers;
+
 use InvalidArgumentException;
 use Opulence\Views\IView;
 

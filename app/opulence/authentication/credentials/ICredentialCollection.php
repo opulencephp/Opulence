@@ -5,6 +5,7 @@
  * Defines the interface for credential collections to implement
  */
 namespace Opulence\Authentication\Credentials;
+
 use Opulence\Authentication\Credentials\Storage\ICredentialStorage;
 use Opulence\HTTP\Responses\Response;
 use RuntimeException;

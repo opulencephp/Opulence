@@ -5,6 +5,7 @@
  * Tests the console kernel
  */
 namespace Opulence\Framework\Console;
+
 use Monolog\Logger;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;

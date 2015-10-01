@@ -5,6 +5,7 @@
  * Defines a unit of work that tracks changes made to entities and atomically persists them
  */
 namespace Opulence\ORM;
+
 use Exception;
 use Opulence\Databases\IConnection;
 use Opulence\ORM\DataMappers\ICachedSQLDataMapper;

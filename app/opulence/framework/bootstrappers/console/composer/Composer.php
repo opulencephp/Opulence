@@ -5,6 +5,7 @@
  * Defines the Composer bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\Console\Composer;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Framework\Composer\Composer as ComposerWrapper;

@@ -5,6 +5,7 @@
  * Defines the cache for compiled views
  */
 namespace Opulence\Views\Caching;
+
 use DateTime;
 use Opulence\Files\FileSystem;
 use Opulence\Views\IView;

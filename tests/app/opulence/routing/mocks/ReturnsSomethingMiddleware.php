@@ -5,6 +5,7 @@
  * Mocks middleware that returns something
  */
 namespace Opulence\Tests\Routing\Mocks;
+
 use Closure;
 use Opulence\HTTP\Middleware\IMiddleware;
 use Opulence\HTTP\Requests\Request;

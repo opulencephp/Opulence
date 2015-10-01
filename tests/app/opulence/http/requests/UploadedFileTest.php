@@ -5,6 +5,7 @@
  * Tests the uploaded file
  */
 namespace Opulence\HTTP\Requests;
+
 use Opulence\Tests\HTTP\Requests\Mocks\UploadedFile as MockUploadedFile;
 
 class UploadedFileTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Defines the help command
  */
 namespace Opulence\Console\Commands;
+
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Requests\Option;

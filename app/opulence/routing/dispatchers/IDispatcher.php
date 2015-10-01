@@ -5,6 +5,7 @@
  * Defines the interface for dispatchers to implement
  */
 namespace Opulence\Routing\Dispatchers;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Routing\Controller;

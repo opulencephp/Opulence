@@ -5,15 +5,16 @@
  * Tests the base session handler
  */
 namespace Opulence\Sessions\Handlers;
+
 use LogicException;
 use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 
 class SessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var SessionHandler The session handler to use in tests */
+    /** @var SessionHandler|\PHPUnit_Framework_MockObject_MockObject The session handler to use in tests */
     private $handler = null;
-    /** @var IEncrypter The encrypter to use in tests */
+    /** @var IEncrypter|\PHPUnit_Framework_MockObject_MockObject The encrypter to use in tests */
     private $encrypter = null;
 
     /**

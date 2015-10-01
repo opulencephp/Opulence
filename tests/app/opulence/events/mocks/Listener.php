@@ -5,6 +5,7 @@
  * Mocks an event listener
  */
 namespace Opulence\Tests\Events\Mocks;
+
 use Opulence\Events\Dispatchers\IDispatcher;
 use Opulence\Events\IEvent;
 

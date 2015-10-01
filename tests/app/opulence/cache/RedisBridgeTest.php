@@ -5,6 +5,7 @@
  * Tests the Redis bridge
  */
 namespace Opulence\Cache;
+
 use Opulence\Redis\Server;
 use Opulence\Redis\TypeMapper;
 use Opulence\Tests\Redis\Mocks\OpulencePHPRedis;
@@ -14,7 +15,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var RedisBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var OpulencePHPRedis The Redis driver */
+    /** @var OpulencePHPRedis|\PHPUnit_Framework_MockObject_MockObject The Redis driver */
     private $redis = null;
 
     /**
@@ -123,6 +124,7 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingBaseRedisInstance()
     {
+        /** @var Redis|\PHPUnit_Framework_MockObject_MockObject $redis */
         $redis = $this->getMock(Redis::class);
         $bridge = new RedisBridge($redis);
         $this->assertSame($redis, $bridge->getRedis());

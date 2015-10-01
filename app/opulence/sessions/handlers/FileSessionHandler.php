@@ -5,6 +5,7 @@
  * Defines the file session handler
  */
 namespace Opulence\Sessions\Handlers;
+
 use DateTime;
 
 class FileSessionHandler extends SessionHandler

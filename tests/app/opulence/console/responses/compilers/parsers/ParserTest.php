@@ -5,6 +5,7 @@
  * Tests the response parser
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
+
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\TagNode;
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\WordNode;
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;

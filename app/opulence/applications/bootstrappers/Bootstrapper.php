@@ -6,6 +6,7 @@
  * Note:  This class also accepts a run() method with a variable number of parameters
  */
 namespace Opulence\Applications\Bootstrappers;
+
 use BadMethodCallException;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;

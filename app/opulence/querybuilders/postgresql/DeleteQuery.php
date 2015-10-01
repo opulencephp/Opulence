@@ -5,6 +5,7 @@
  * Builds a delete query
  */
 namespace Opulence\QueryBuilders\PostgreSQL;
+
 use Opulence\QueryBuilders\DeleteQuery as BaseDeleteQuery;
 
 class DeleteQuery extends BaseDeleteQuery

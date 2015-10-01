@@ -5,6 +5,7 @@
  * Defines the pipeline
  */
 namespace Opulence\Pipelines;
+
 use Closure;
 use Opulence\IoC\IoCException;
 use Opulence\IoC\IContainer;

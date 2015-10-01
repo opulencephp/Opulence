@@ -5,6 +5,7 @@
  * Defines the interface for repositories to implement
  */
 namespace Opulence\ORM\Repositories;
+
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 

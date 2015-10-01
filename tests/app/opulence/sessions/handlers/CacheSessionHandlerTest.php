@@ -5,13 +5,14 @@
  * Tests the cache session handler
  */
 namespace Opulence\Sessions\Handlers;
+
 use Opulence\Cache\ICacheBridge;
 
 class CacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CacheSessionHandler The handler to use in tests */
     private $handler = null;
-    /** @var ICacheBridge The bridge to use in tests */
+    /** @var ICacheBridge|\PHPUnit_Framework_MockObject_MockObject The bridge to use in tests */
     private $bridge = null;
 
     /**

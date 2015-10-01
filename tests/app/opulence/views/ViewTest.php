@@ -5,6 +5,7 @@
  * Tests the view
  */
 namespace Opulence\Views;
+
 use InvalidArgumentException;
 use Opulence\Files\FileSystem;
 use RuntimeException;

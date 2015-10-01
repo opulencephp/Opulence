@@ -5,6 +5,7 @@
  * Defines an element compiler
  */
 namespace Opulence\Console\Responses\Compilers;
+
 use InvalidArgumentException;
 use Opulence\Console\Responses\Compilers\Lexers\ILexer;
 use Opulence\Console\Responses\Compilers\Parsers\IParser;

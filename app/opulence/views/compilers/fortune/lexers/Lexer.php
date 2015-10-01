@@ -5,6 +5,7 @@
  * Defines the view lexer
  */
 namespace Opulence\Views\Compilers\Fortune\Lexers;
+
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use Opulence\Views\IView;

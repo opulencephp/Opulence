@@ -5,6 +5,7 @@
  * Defines the environment detector
  */
 namespace Opulence\Applications\Environments;
+
 use Opulence\Applications\Environments\Hosts\HostRegex;
 use Opulence\Applications\Environments\Hosts\IHost;
 

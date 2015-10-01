@@ -5,6 +5,7 @@
  * Mocks the router for use in testing
  */
 namespace Opulence\Tests\Routing\Mocks;
+
 use Opulence\IoC\Container;
 use Opulence\Routing\Router as BaseRouter;
 use Opulence\Routing\Routes\Compilers\Compiler;

@@ -5,6 +5,7 @@
  * Defines the exception thrown when the CSRF token is invalid
  */
 namespace Opulence\HTTP;
+
 use Exception;
 
 class InvalidCSRFTokenException extends Exception

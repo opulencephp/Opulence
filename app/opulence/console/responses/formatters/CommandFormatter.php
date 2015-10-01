@@ -5,6 +5,7 @@
  * Formats a command into a text representation
  */
 namespace Opulence\Console\Responses\Formatters;
+
 use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\Option;

@@ -5,6 +5,7 @@
  * Builds an update query
  */
 namespace Opulence\QueryBuilders\MySQL;
+
 use Opulence\QueryBuilders\UpdateQuery as BaseUpdateQuery;
 
 class UpdateQuery extends BaseUpdateQuery

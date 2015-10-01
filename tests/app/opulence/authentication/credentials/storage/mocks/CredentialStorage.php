@@ -5,6 +5,7 @@
  *
  */
 namespace Opulence\Tests\Authentication\Credentials\Storage\Mocks;
+
 use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\Credentials\Storage\ICredentialStorage;
 use Opulence\HTTP\Responses\Response;

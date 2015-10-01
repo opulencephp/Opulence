@@ -5,6 +5,7 @@
  * Defines an extension of PDOStatement
  */
 namespace Opulence\Databases\PDO;
+
 use PDO;
 use PDOStatement;
 use Opulence\Databases\IStatement;

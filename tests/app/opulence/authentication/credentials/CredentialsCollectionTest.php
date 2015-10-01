@@ -5,6 +5,7 @@
  * Tests the credentials class
  */
 namespace Opulence\Authentication\Credentials;
+
 use Opulence\HTTP\Responses\Response;
 use Opulence\Tests\Authentication\Credentials\Storage\Mocks\CredentialStorage;
 use Opulence\Tests\Authentication\Tokens\Mocks\Token;

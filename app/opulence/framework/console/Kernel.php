@@ -5,6 +5,7 @@
  * Defines the console kernel
  */
 namespace Opulence\Framework\Console;
+
 use Exception;
 use InvalidArgumentException;
 use Monolog\Logger;

@@ -5,6 +5,7 @@
  * Defines the session middleware
  */
 namespace Opulence\Framework\HTTP\Middleware;
+
 use Closure;
 use Opulence\Applications\Paths;
 use Opulence\HTTP\Middleware\IMiddleware;

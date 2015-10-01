@@ -5,6 +5,7 @@
  * Defines the interface for Fortune transpilers to implement
  */
 namespace Opulence\Views\Compilers\Fortune;
+
 use InvalidArgumentException;
 use Opulence\Views\IView;
 

@@ -5,6 +5,7 @@
  * Defines the cache session handler
  */
 namespace Opulence\Sessions\Handlers;
+
 use Opulence\Cache\ICacheBridge;
 
 class CacheSessionHandler extends SessionHandler

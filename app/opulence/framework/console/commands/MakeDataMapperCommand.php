@@ -5,6 +5,7 @@
  * Makes a data mapper class
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Console\Prompts\Questions\MultipleChoice;
 use Opulence\Console\Responses\IResponse;
 

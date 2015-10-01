@@ -5,6 +5,7 @@
  * Tests the style class
  */
 namespace Opulence\Console\Responses\Formatters\Elements;
+
 use InvalidArgumentException;
 
 class StyleTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  *
  */
 namespace Opulence\HTTP\Requests;
+
 use Exception;
 
 class UploadException extends Exception

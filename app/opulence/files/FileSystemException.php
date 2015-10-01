@@ -5,6 +5,7 @@
  * Defines the exception to be thrown by the file system
  */
 namespace Opulence\Files;
+
 use Exception;
 
 class FileSystemException extends Exception

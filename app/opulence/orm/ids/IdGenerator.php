@@ -5,6 +5,7 @@
  * Defines an Id generator, which is used to create Ids for entities
  */
 namespace Opulence\ORM\Ids;
+
 use Opulence\Databases\IConnection;
 use Opulence\ORM\IEntity;
 

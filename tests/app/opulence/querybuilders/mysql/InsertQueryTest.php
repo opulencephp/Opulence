@@ -5,6 +5,7 @@
  * Tests the insert query
  */
 namespace Opulence\QueryBuilders\MySQL;
+
 use PDO;
 
 class InsertQueryTest extends \PHPUnit_Framework_TestCase

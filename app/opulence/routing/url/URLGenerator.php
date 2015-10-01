@@ -5,6 +5,7 @@
  * Defines a routing URL generator
  */
 namespace Opulence\Routing\URL;
+
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\RouteCollection;
 

@@ -5,6 +5,7 @@
  * Tests the response class
  */
 namespace Opulence\Console\Responses;
+
 use Opulence\Console\Responses\Compilers\Compiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;

@@ -5,6 +5,7 @@
  * Tests the response node
  */
 namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
+
 use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 
 class NodeTest extends \PHPUnit_Framework_TestCase

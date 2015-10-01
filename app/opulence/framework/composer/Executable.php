@@ -5,6 +5,7 @@
  * Defines a wrapper for the Composer executable
  */
 namespace Opulence\Framework\Composer;
+
 use Opulence\Applications\Paths;
 
 class Executable

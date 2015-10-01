@@ -5,6 +5,7 @@
  * Tests the HTTP application tester
  */
 namespace Opulence\Framework\Tests\HTTP;
+
 use LogicException;
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;

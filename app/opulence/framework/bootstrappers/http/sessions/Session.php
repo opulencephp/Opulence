@@ -5,6 +5,7 @@
  * Defines the session bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\HTTP\Sessions;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\IoC\IContainer;
 use Opulence\Sessions\ISession;

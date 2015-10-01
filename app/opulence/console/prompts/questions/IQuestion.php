@@ -5,6 +5,7 @@
  * Defines the interface for questions to implement
  */
 namespace Opulence\Console\Prompts\Questions;
+
 use InvalidArgumentException;
 
 interface IQuestion

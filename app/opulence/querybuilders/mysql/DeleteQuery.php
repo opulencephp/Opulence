@@ -5,6 +5,7 @@
  * Builds a delete query
  */
 namespace Opulence\QueryBuilders\MySQL;
+
 use Opulence\QueryBuilders\DeleteQuery as BaseDeleteQuery;
 
 class DeleteQuery extends BaseDeleteQuery

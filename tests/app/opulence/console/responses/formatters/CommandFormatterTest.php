@@ -5,6 +5,7 @@
  * Tests the command formatter
  */
 namespace Opulence\Console\Responses\Formatters;
+
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler;
 use Opulence\Console\Requests\Argument;

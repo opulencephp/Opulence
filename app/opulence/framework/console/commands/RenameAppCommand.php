@@ -5,6 +5,7 @@
  * Defines the command that renames an application
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Applications\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Prompts\Prompt;

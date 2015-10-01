@@ -5,6 +5,7 @@
  * Defines the interface for server rules to implement
  */
 namespace Opulence\Forms\Rules\Server;
+
 use Opulence\HTTP\Requests\Request;
 
 interface IServerRule

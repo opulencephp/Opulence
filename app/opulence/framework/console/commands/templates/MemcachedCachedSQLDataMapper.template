@@ -1,5 +1,6 @@
 <?php
 namespace {{namespace}};
+
 use Opulence\Databases\ConnectionPool;
 use Opulence\Memcached\OpulenceMemcached;
 use Opulence\ORM\DataMappers\MemcachedCachedSQLDataMapper;

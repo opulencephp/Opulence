@@ -5,6 +5,7 @@
  * Tests the dependency injection controller
  */
 namespace Opulence\IoC;
+
 use Opulence\Tests\IoC\Mocks\Bar;
 use Opulence\Tests\IoC\Mocks\ConstructorWithInterfaceAndSetters;
 use Opulence\Tests\IoC\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;

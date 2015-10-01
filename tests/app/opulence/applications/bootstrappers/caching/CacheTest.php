@@ -5,6 +5,7 @@
  * Tests the bootstrapper cache
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
+
 use Opulence\Applications\Bootstrappers\BootstrapperRegistry;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Applications\Environments\Environment;

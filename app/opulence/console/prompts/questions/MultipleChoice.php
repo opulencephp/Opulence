@@ -5,6 +5,7 @@
  * Defines a multiple choice question
  */
 namespace Opulence\Console\Prompts\Questions;
+
 use InvalidArgumentException;
 
 class MultipleChoice extends Question

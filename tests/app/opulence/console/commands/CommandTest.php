@@ -5,6 +5,7 @@
  * Tests the console command
  */
 namespace Opulence\Console\Commands;
+
 use InvalidArgumentException;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;
 use Opulence\Console\Requests\Argument;

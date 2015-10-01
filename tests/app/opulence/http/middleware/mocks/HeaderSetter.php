@@ -5,6 +5,7 @@
  * Mocks a middleware that writes to the response's headers
  */
 namespace Opulence\Tests\HTTP\Middleware\Mocks;
+
 use Closure;
 use Opulence\HTTP\Middleware\IMiddleware;
 use Opulence\HTTP\Requests\Request;

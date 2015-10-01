@@ -5,6 +5,7 @@
  * Defines the interface for cache data mappers to implement
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\ORM\ORMException;
 
 interface ICacheDataMapper extends IDataMapper

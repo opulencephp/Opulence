@@ -5,6 +5,7 @@
  * Tests the element registry
  */
 namespace Opulence\Console\Responses\Formatters\Elements;
+
 use InvalidArgumentException;
 
 class ElementCollectionTest extends \PHPUnit_Framework_TestCase

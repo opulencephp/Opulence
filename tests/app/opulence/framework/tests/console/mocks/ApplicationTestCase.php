@@ -5,6 +5,7 @@
  * Mocks the console application for use in testing
  */
 namespace Opulence\Tests\Framework\Tests\Console\Mocks;
+
 use Monolog\Logger;
 use Opulence\Applications\Application;
 use Opulence\Applications\Bootstrappers\BootstrapperRegistry;

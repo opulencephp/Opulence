@@ -5,6 +5,7 @@
  * Defines the bootstrapper dispatcher
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
+
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;

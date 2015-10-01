@@ -5,6 +5,7 @@
  * Tests the MySQL PDO driver
  */
 namespace Opulence\Databases\PDO\MySQL;
+
 use Opulence\Databases;
 use Opulence\Tests\Databases\SQL\Mocks\Server;
 

@@ -5,6 +5,7 @@
  * Tests the route cache
  */
 namespace Opulence\Routing\Routes\Caching;
+
 use Opulence\IoC\Container;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Router;

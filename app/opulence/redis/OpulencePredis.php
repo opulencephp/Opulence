@@ -5,6 +5,7 @@
  * Defines an extension of the Predis library
  */
 namespace Opulence\Redis;
+
 use Predis\Client;
 
 class OpulencePredis extends Client implements IRedis

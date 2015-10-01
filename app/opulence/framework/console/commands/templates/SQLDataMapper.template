@@ -1,5 +1,6 @@
 <?php
 namespace {{namespace}};
+
 use Opulence\Databases\IConnection;
 use Opulence\ORM\DataMappers\SQLDataMapper;
 use Opulence\ORM\IEntity;

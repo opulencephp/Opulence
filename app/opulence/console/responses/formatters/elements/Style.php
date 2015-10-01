@@ -5,6 +5,7 @@
  * Defines the style of an element
  */
 namespace Opulence\Console\Responses\Formatters\Elements;
+
 use InvalidArgumentException;
 
 class Style

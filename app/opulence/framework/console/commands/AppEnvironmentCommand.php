@@ -5,6 +5,7 @@
  * Defines the flush view cache command
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;

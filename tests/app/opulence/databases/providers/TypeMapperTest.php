@@ -5,6 +5,7 @@
  * Tests the type mapper class
  */
 namespace Opulence\Databases\Providers;
+
 use DateTime;
 use RuntimeException;
 

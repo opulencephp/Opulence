@@ -5,6 +5,7 @@
  * Mocks a JSON request class for use in testing
  */
 namespace Opulence\Tests\HTTP\Requests\Mocks;
+
 use Opulence\HTTP\Requests\Request;
 
 class JSONRequest extends Request

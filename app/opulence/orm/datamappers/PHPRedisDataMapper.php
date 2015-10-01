@@ -5,6 +5,7 @@
  * Defines the Cache data mapper implemented by the PHPRedis library
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\Redis\OpulencePHPRedis;
 
 abstract class PHPRedisDataMapper extends RedisDataMapper

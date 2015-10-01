@@ -5,6 +5,7 @@
  * Tests the Fortune compiler
  */
 namespace Opulence\Views\Compilers\Fortune;
+
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;

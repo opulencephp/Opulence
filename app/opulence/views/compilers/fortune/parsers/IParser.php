@@ -5,6 +5,7 @@
  * Parses a stream of tokens into an abstract syntax tree
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
+
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use RuntimeException;
 

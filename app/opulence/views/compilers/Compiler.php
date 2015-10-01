@@ -5,6 +5,7 @@
  * Defines methods for compiling views
  */
 namespace Opulence\Views\Compilers;
+
 use Opulence\Views\IView;
 
 class Compiler implements ICompiler

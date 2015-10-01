@@ -5,6 +5,7 @@
  * Defines a type mapper that can go back and forth between Memcached types and PHP types
  */
 namespace Opulence\Memcached;
+
 use DateTime;
 
 class TypeMapper

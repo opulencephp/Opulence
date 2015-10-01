@@ -5,6 +5,7 @@
  * Tests the credential class
  */
 namespace Opulence\Authentication\Credentials;
+
 use Opulence\Tests\Authentication\Tokens\Mocks\Token;
 
 class CredentialTest extends \PHPUnit_Framework_TestCase

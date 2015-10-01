@@ -5,6 +5,7 @@
  * Tests the pipeline
  */
 namespace Opulence\Pipelines;
+
 use Opulence\IoC\Container;
 use Opulence\Tests\Pipelines\Mocks\Stage1;
 use Opulence\Tests\Pipelines\Mocks\Stage2;

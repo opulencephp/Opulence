@@ -5,6 +5,7 @@
  * Defines a basic view
  */
 namespace Opulence\Views;
+
 use InvalidArgumentException;
 
 class View implements IView

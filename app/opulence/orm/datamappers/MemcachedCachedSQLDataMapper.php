@@ -5,6 +5,7 @@
  * Defines the Memcached-cached SQL data mapper
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\Memcached\OpulenceMemcached;
 use Opulence\Databases\ConnectionPool;
 

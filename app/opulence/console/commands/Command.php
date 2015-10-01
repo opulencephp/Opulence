@@ -5,6 +5,7 @@
  * Defines a basic command
  */
 namespace Opulence\Console\Commands;
+
 use InvalidArgumentException;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\Option;

@@ -5,6 +5,7 @@
  * Tests the PHPRedis class
  */
 namespace Opulence\Redis;
+
 use Opulence\Tests\Redis\Mocks\OpulencePHPRedis;
 
 class OpulencePHPRedisTest extends \PHPUnit_Framework_TestCase

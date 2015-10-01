@@ -5,6 +5,7 @@
  * Defines an encrypter
  */
 namespace Opulence\Cryptography\Encryption;
+
 use Exception;
 use Opulence\Cryptography\Utilities\Strings;
 

@@ -5,6 +5,7 @@
  * Defines the interface for cryptographic tokens
  */
 namespace Opulence\Authentication\Tokens;
+
 use DateTime;
 
 interface IToken

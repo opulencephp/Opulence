@@ -5,6 +5,7 @@
  * Defines the interface for a single credential
  */
 namespace Opulence\Authentication\Credentials;
+
 use Opulence\Authentication\Tokens\IToken;
 
 interface ICredential

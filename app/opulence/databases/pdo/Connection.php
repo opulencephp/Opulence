@@ -6,6 +6,7 @@
  * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
  */
 namespace Opulence\Databases\PDO;
+
 use PDO;
 use PDOException;
 use Opulence\Databases\IConnection;

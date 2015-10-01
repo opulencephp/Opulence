@@ -5,6 +5,7 @@
  * Tests the Memcached bridge
  */
 namespace Opulence\Cache;
+
 use Memcached;
 use Opulence\Memcached\TypeMapper;
 use Opulence\Tests\Memcached\Mocks\OpulenceMemcached;
@@ -13,7 +14,7 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var MemcachedBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var OpulenceMemcached The Memcached driver */
+    /** @var OpulenceMemcached|\PHPUnit_Framework_MockObject_MockObject The Memcached driver */
     private $memcached = null;
 
     /**
@@ -133,6 +134,7 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingBaseMemcachedInstance()
     {
+        /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
         $memcached = $this->getMock(Memcached::class, [], [], "Foo", false);
         $bridge = new MemcachedBridge($memcached);
         $this->assertSame($memcached, $bridge->getMemcached());

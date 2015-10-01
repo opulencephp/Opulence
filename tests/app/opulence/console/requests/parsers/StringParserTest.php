@@ -5,6 +5,7 @@
  * Tests the string parser
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 
 class StringParserTest extends \PHPUnit_Framework_TestCase

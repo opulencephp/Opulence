@@ -5,6 +5,7 @@
  * Mocks the data mapper class for use in testing
  */
 namespace Opulence\Tests\ORM\DataMappers\Mocks;
+
 use Opulence\Databases\IConnection;
 use Opulence\ORM\DataMappers\SQLDataMapper as BaseSQLDataMapper;
 use Opulence\ORM\Ids\IntSequenceIdGenerator;

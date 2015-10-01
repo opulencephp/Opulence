@@ -5,6 +5,7 @@
  * Tests the view compiler
  */
 namespace Opulence\Views\Compilers;
+
 use Opulence\Views\IView;
 
 class CompilerTest extends \PHPUnit_Framework_TestCase

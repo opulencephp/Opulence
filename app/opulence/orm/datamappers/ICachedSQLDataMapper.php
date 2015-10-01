@@ -5,6 +5,7 @@
  * Defines the interface for data mappers whose data is cached
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 

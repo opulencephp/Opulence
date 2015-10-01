@@ -5,6 +5,7 @@
  * Mocks a command that does not call the parent constructor
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;

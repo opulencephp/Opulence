@@ -5,6 +5,7 @@
  * Defines a URL exception
  */
 namespace Opulence\Routing\URL;
+
 use Exception;
 
 class URLException extends Exception

@@ -5,6 +5,7 @@
  * Defines methods and properties for all the credentials an entity has
  */
 namespace Opulence\Authentication\Credentials;
+
 use Opulence\Authentication\Credentials\Storage\ICredentialStorage;
 use Opulence\HTTP\Responses\Response;
 use RuntimeException;

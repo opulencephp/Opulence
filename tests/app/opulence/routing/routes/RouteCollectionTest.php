@@ -5,6 +5,7 @@
  * Tests the routes
  */
 namespace Opulence\Routing\Routes;
+
 use Closure;
 use Opulence\HTTP\Requests\Request;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;

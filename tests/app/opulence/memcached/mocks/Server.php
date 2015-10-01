@@ -5,6 +5,7 @@
  * Mocks the server class for use in testing
  */
 namespace Opulence\Tests\Memcached\Mocks;
+
 use Opulence\Memcached\Server as BaseServer;
 
 class Server extends BaseServer

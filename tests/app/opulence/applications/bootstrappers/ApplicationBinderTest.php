@@ -5,6 +5,7 @@
  * Tests the bootstrapper configurator
  */
 namespace Opulence\Applications\Bootstrappers;
+
 use Opulence\Applications\Bootstrappers\Caching\ICache;
 use Opulence\Applications\Bootstrappers\Dispatchers\IDispatcher as IBootstrapperDispatcher;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher as ITaskDispatcher;
@@ -14,13 +15,13 @@ class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ApplicationBinder The application binder to use in tests */
     private $applicationBinder = null;
-    /** @var ITaskDispatcher The task dispatcher */
+    /** @var ITaskDispatcher|\PHPUnit_Framework_MockObject_MockObject The task dispatcher */
     private $taskDispatcher = null;
-    /** @var IBootstrapperDispatcher The bootstrapper dispatcher */
+    /** @var IBootstrapperDispatcher|\PHPUnit_Framework_MockObject_MockObject The bootstrapper dispatcher */
     private $bootstrapperDispatcher = null;
-    /** @var ICache The bootstrapper cache */
+    /** @var ICache|\PHPUnit_Framework_MockObject_MockObject The bootstrapper cache */
     private $bootstrapperCache = null;
-    /** @var IBootstrapperRegistry The registry of bootstrappers */
+    /** @var IBootstrapperRegistry|\PHPUnit_Framework_MockObject_MockObject The registry of bootstrappers */
     private $bootstrapperRegistry = null;
 
     /**

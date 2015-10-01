@@ -5,6 +5,7 @@
  *
  */
 namespace Opulence\Sessions\Handlers;
+
 use Opulence\Files\FileSystem;
 
 class FileSessionHandlerTest extends \PHPUnit_Framework_TestCase

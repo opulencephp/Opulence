@@ -6,6 +6,7 @@
  * as a database connection in this application
  */
 namespace Opulence\Databases;
+
 use PDO;
 use PDOException;
 use Opulence\Databases\Providers\Provider;

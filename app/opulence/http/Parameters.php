@@ -5,6 +5,7 @@
  * Defines the base class for HTTP connection parameters
  */
 namespace Opulence\HTTP;
+
 use ArrayAccess;
 use Countable;
 

@@ -5,6 +5,7 @@
  * Defines the interface for database statements to implement
  */
 namespace Opulence\Databases;
+
 use PDO;
 
 interface IStatement

@@ -5,6 +5,7 @@
  * Defines the interface for session handlers that can encrypt session data
  */
 namespace Opulence\Sessions\Handlers;
+
 use Opulence\Cryptography\Encryption\IEncrypter;
 
 interface IEncryptableSessionHandler

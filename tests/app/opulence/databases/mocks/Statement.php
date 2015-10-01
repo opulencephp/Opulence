@@ -5,6 +5,7 @@
  * Mocks the statement class for use in testing
  */
 namespace Opulence\Tests\Databases\SQL\Mocks;
+
 use PDO;
 use Opulence\Databases\IStatement;
 

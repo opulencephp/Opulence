@@ -5,6 +5,7 @@
  * Tests the bootstrapper dispatcher
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
+
 use Closure;
 use Opulence\IoC\Container;
 use Opulence\Applications\Application;

@@ -5,6 +5,7 @@
  * Defines a base request parser
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use Opulence\Console\Requests\Request;
 use RuntimeException;
 

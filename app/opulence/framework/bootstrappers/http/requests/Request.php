@@ -5,6 +5,7 @@
  * Defines the request bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\HTTP\Requests;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\HTTP\Requests\Request as HTTPRequest;
 use Opulence\IoC\IContainer;

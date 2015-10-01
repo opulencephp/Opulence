@@ -5,6 +5,7 @@
  * Tests the event dispatcher
  */
 namespace Opulence\Events\Dispatchers;
+
 use Opulence\Events\Event;
 use Opulence\Tests\Events\Mocks\Listener;
 

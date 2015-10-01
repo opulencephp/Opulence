@@ -5,6 +5,7 @@
  * Mocks the uploaded file
  */
 namespace Opulence\Tests\HTTP\Requests\Mocks;
+
 use Opulence\HTTP\Requests\UploadedFile as BaseUploadedFile;
 
 class UploadedFile extends BaseUploadedFile

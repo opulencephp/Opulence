@@ -5,6 +5,7 @@
  * Tests the integer sequence Id generator
  */
 namespace Opulence\ORM\Ids;
+
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Databases\SQL\Mocks\Connection;
 use Opulence\Tests\Databases\SQL\Mocks\Server;

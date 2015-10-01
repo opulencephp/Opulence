@@ -5,6 +5,7 @@
  * Tests the response headers
  */
 namespace Opulence\HTTP\Responses;
+
 use DateTime;
 
 class ResponseHeadersTest extends \PHPUnit_Framework_TestCase

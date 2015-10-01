@@ -5,6 +5,7 @@
  * Tests the PHP compiler
  */
 namespace Opulence\Views\Compilers\PHP;
+
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 

@@ -5,6 +5,7 @@
  * Defines the file parameters
  */
 namespace Opulence\HTTP\Requests;
+
 use Opulence\HTTP\Parameters;
 
 class Files extends Parameters

@@ -5,6 +5,7 @@
  * Defines a response syntax tree
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
+
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\Node;
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\RootNode;
 

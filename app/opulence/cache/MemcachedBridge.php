@@ -5,6 +5,7 @@
  * Defines the Memcached bridge
  */
 namespace Opulence\Cache;
+
 use Memcached;
 
 class MemcachedBridge

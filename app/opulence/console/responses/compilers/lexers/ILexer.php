@@ -5,6 +5,7 @@
  * Defines the interface for response lexers to implement
  */
 namespace Opulence\Console\Responses\Compilers\Lexers;
+
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
 use RuntimeException;
 

@@ -5,6 +5,7 @@
  * Defines the Composer update command
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Composer\Executable;

@@ -5,6 +5,7 @@
  * Defines the element collection
  */
 namespace Opulence\Console\Responses\Formatters\Elements;
+
 use InvalidArgumentException;
 
 class ElementCollection

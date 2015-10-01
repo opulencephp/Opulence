@@ -5,6 +5,7 @@
  * Mocks a user object for use in testing
  */
 namespace Opulence\Tests\Mocks;
+
 use Opulence\ORM\IEntity;
 
 class User implements IEntity

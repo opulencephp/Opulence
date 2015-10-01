@@ -5,6 +5,7 @@
  * Defines a console command argument
  */
 namespace Opulence\Console\Requests;
+
 use InvalidArgumentException;
 
 class Argument

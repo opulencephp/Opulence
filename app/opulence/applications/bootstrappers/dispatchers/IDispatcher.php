@@ -5,6 +5,7 @@
  * Defines the interface for bootstrapper dispatchers to implement
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
+
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 use RuntimeException;
 

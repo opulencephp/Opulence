@@ -5,6 +5,7 @@
  * Defines the interface for view name resolvers to implement
  */
 namespace Opulence\Views\Factories;
+
 use InvalidArgumentException;
 
 interface IViewNameResolver

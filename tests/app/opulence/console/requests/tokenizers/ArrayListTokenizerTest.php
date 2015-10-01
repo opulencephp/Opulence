@@ -5,6 +5,7 @@
  * Tests the array list tokenizer
  */
 namespace Opulence\Console\Requests\Tokenizers;
+
 use RuntimeException;
 
 class ArrayListTokenizerTest extends \PHPUnit_Framework_TestCase

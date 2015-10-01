@@ -5,6 +5,7 @@
  * Tests the multiple choice question
  */
 namespace Opulence\Console\Prompts\Questions;
+
 use InvalidArgumentException;
 
 class MultipleChoiceTest extends \PHPUnit_Framework_TestCase

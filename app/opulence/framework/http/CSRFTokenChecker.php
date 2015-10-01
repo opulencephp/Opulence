@@ -5,6 +5,7 @@
  * Defines the CSRF token checker
  */
 namespace Opulence\Framework\HTTP;
+
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\HTTP\Requests\Request;
 use Opulence\Sessions\ISession;

@@ -5,6 +5,7 @@
  * Mocks the PDO driver for use in testing
  */
 namespace Opulence\Tests\Databases\SQL\PDO\Mocks;
+
 use Opulence\Databases\Server;
 use Opulence\Databases\PDO\Driver as BaseDriver;
 use Opulence\Databases\Providers\Provider;

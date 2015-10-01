@@ -5,6 +5,7 @@
  * Tests the command collection class
  */
 namespace Opulence\Console\Commands;
+
 use InvalidArgumentException;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;
 use Opulence\Console\Responses\SilentResponse;

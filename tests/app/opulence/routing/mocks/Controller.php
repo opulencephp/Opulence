@@ -5,6 +5,7 @@
  * Defines a mock controller for use in testing
  */
 namespace Opulence\Tests\Routing\Mocks;
+
 use Opulence\HTTP\Responses\Response;
 use Opulence\Routing\Controller as BaseController;
 use Opulence\Tests\Mocks;

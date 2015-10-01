@@ -5,6 +5,7 @@
  * Defines the cryptography bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\Cryptography;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Cryptography\Encryption\Encrypter;

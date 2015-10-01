@@ -5,6 +5,7 @@
  * Tests the route class
  */
 namespace Opulence\Routing\Routes;
+
 use Closure;
 use InvalidArgumentException;
 

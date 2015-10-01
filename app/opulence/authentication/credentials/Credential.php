@@ -5,6 +5,7 @@
  * Defines a single credential
  */
 namespace Opulence\Authentication\Credentials;
+
 use Opulence\Authentication\Tokens\IToken;
 
 class Credential implements ICredential

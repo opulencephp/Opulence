@@ -5,6 +5,7 @@
  * Defines an exception that is thrown by an HTTP component
  */
 namespace Opulence\HTTP;
+
 use Exception;
 
 class HTTPException extends Exception

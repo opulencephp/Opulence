@@ -5,6 +5,7 @@
  * Tests the bootstrapper
  */
 namespace Opulence\Applications\Bootstrappers;
+
 use BadMethodCallException;
 use Opulence\Applications\Paths;
 use Opulence\Applications\Environments\Environment;

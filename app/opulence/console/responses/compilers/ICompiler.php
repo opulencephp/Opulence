@@ -5,6 +5,7 @@
  * Defines the interface for response compilers to implement
  */
 namespace Opulence\Console\Responses\Compilers;
+
 use RuntimeException;
 
 interface ICompiler

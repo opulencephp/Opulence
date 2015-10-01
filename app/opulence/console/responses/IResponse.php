@@ -5,6 +5,7 @@
  * Defines the interface for console responses to implement
  */
 namespace Opulence\Console\Responses;
+
 use RuntimeException;
 
 interface IResponse

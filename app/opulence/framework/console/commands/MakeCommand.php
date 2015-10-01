@@ -5,6 +5,7 @@
  * Defines the base class for "Make:" commands to extend
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Requests\Argument;

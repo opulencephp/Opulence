@@ -5,6 +5,7 @@
  * Defines the interface for bootstrapper registries to implement
  */
 namespace Opulence\Applications\Bootstrappers;
+
 use RuntimeException;
 
 interface IBootstrapperRegistry

@@ -5,6 +5,7 @@
  * Tests the console argument
  */
 namespace Opulence\Console\Requests;
+
 use InvalidArgumentException;
 
 class ArgumentTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Defines a cryptographic token used for security
  */
 namespace Opulence\Authentication\Tokens;
+
 use DateTime;
 
 class Token implements IToken

@@ -5,6 +5,7 @@
  * Defines the Cache data mapper implemented by the Predis library
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\Redis\OpulencePredis;
 
 abstract class PredisDataMapper extends RedisDataMapper

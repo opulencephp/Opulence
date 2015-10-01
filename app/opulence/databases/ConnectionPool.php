@@ -6,6 +6,7 @@
  * This can handle multiple server setups or simple single server setups
  */
 namespace Opulence\Databases;
+
 use Opulence\Databases\PDO\MySQL\Driver as MySQLDriver;
 use Opulence\Databases\PDO\PostgreSQL\Driver as PostgreSQLDriver;
 use RuntimeException;

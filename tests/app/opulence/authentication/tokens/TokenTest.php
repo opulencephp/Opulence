@@ -5,6 +5,7 @@
  * Tests the token class
  */
 namespace Opulence\Authentication\Tokens;
+
 use DateTime;
 use Opulence\Tests\Authentication\Tokens\Mocks\Token;
 

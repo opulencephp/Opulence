@@ -5,6 +5,7 @@
  * Tests the select query
  */
 namespace Opulence\QueryBuilders;
+
 use PDO;
 
 class SelectQueryTest extends \PHPUnit_Framework_TestCase

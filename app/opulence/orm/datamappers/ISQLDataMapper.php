@@ -5,6 +5,7 @@
  * Defines the interface for SQL data mappers to implement
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\ORM\Ids\IdGenerator;
 
 interface ISQLDataMapper extends IDataMapper

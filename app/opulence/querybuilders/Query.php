@@ -5,6 +5,7 @@
  * Defines common functionality for query classes
  */
 namespace Opulence\QueryBuilders;
+
 use PDO;
 
 abstract class Query

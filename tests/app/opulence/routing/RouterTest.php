@@ -5,6 +5,7 @@
  * Tests the router
  */
 namespace Opulence\Routing;
+
 use InvalidArgumentException;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;

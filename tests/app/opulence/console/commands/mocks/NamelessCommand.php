@@ -5,6 +5,7 @@
  * Defines a command without a name
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 

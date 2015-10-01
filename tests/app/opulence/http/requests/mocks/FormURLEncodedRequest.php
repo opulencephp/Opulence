@@ -5,6 +5,7 @@
  * Mocks a form url-encoded request class for use in testing
  */
 namespace Opulence\Tests\HTTP\Requests\Mocks;
+
 use Opulence\HTTP\Requests\Request;
 
 class FormURLEncodedRequest extends Request

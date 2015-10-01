@@ -5,6 +5,7 @@
  * Tests the array list parser
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use InvalidArgumentException;
 
 class ArrayListParserTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Defines the response parser
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
+
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\TagNode;

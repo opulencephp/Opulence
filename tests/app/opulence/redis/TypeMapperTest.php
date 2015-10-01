@@ -5,6 +5,7 @@
  * Tests the Redis type mapper class
  */
 namespace Opulence\Redis;
+
 use DateTime;
 
 class TypeMapperTest extends \PHPUnit_Framework_TestCase

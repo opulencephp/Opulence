@@ -5,6 +5,7 @@
  * Defines the view functions bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\HTTP\Views;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Framework\HTTP\CSRFTokenChecker;
 use Opulence\Routing\URL\URLGenerator;

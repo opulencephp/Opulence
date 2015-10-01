@@ -5,6 +5,7 @@
  * Mocks the server class for use in testing
  */
 namespace Opulence\Tests\Databases\SQL\Mocks;
+
 use Opulence\Databases\Server as BaseServer;
 
 class Server extends BaseServer

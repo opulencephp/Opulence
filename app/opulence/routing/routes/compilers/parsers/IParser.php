@@ -5,6 +5,7 @@
  * Defines the interface for route parsers to implement
  */
 namespace Opulence\Routing\Routes\Compilers\Parsers;
+
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\RouteException;
 use Opulence\Routing\Routes\ParsedRoute;

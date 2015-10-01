@@ -5,6 +5,7 @@
  * Defines the version command
  */
 namespace Opulence\Console\Commands;
+
 use Opulence\Console\Responses\IResponse;
 
 class VersionCommand extends Command

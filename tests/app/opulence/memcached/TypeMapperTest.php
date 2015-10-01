@@ -5,6 +5,7 @@
  * Tests the Memcached type mapper class
  */
 namespace Opulence\Memcached;
+
 use DateTime;
 
 class TypeMapperTest extends \PHPUnit_Framework_TestCase

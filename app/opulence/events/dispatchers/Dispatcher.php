@@ -5,6 +5,7 @@
  * Defines the event dispatcher
  */
 namespace Opulence\Events\Dispatchers;
+
 use Opulence\Events\IEvent;
 
 class Dispatcher implements IDispatcher

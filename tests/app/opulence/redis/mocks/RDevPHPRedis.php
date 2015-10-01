@@ -5,6 +5,7 @@
  * Mocks the Opulence PHP Redis class for use in testing
  */
 namespace Opulence\Tests\Redis\Mocks;
+
 use Opulence\Redis\OpulencePHPRedis as BaseOpulencePHPRedis;
 use Opulence\Redis\Server;
 use Opulence\Redis\TypeMapper;

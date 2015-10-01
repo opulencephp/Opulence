@@ -5,6 +5,7 @@
  * Defines the base application test case
  */
 namespace Opulence\Framework\Tests;
+
 use PHPUnit_Framework_TestCase;
 use Monolog\Logger;
 use Opulence\Applications\Application;

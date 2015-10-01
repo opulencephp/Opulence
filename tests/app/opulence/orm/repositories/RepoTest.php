@@ -5,6 +5,7 @@
  * Tests the repository class
  */
 namespace Opulence\ORM\Repositories;
+
 use Opulence\ORM\EntityRegistry;
 use Opulence\ORM\ORMException;
 use Opulence\ORM\UnitOfWork;

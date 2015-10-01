@@ -5,6 +5,7 @@
  * Tests the Bcrypt hasher
  */
 namespace Opulence\Cryptography\Hashing;
+
 use Opulence\Cryptography\Utilities\Strings;
 
 class BcryptHasherTest extends \PHPUnit_Framework_TestCase

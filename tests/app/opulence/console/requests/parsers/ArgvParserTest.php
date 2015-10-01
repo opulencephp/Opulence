@@ -5,6 +5,7 @@
  * Tests the argv parser
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use InvalidArgumentException;
 
 class ArgvParserTest extends \PHPUnit_Framework_TestCase

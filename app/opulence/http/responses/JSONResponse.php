@@ -5,6 +5,7 @@
  * Defines a JSON response
  */
 namespace Opulence\HTTP\Responses;
+
 use ArrayObject;
 use InvalidArgumentException;
 

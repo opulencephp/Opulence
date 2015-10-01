@@ -5,6 +5,7 @@
  * Tests the missing route
  */
 namespace Opulence\Routing\Routes;
+
 use Opulence\HTTP\Responses\ResponseHeaders;
 
 class MissingRouteTest extends \PHPUnit_Framework_TestCase

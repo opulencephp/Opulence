@@ -5,6 +5,7 @@
  * Mocks a command with styled output
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
+
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 

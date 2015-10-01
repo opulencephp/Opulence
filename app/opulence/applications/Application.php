@@ -5,6 +5,7 @@
  * Defines an application
  */
 namespace Opulence\Applications;
+
 use Closure;
 use Exception;
 use Opulence\Applications\Environments\Environment;
@@ -16,7 +17,7 @@ use RuntimeException;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "0.6.8";
+    private static $version = "0.6.9";
     /** @var Paths The paths to various directories used by Opulence */
     private $paths = null;
     /** @var IDispatcher The task dispatcher */

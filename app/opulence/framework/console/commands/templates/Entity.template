@@ -1,5 +1,6 @@
 <?php
 namespace {{namespace}};
+
 use Opulence\ORM\IEntity;
 
 class {{class}} implements IEntity

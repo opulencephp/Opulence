@@ -5,6 +5,7 @@
  * Tests the URL generator
  */
 namespace Opulence\Routing\URL;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\Routes\Route;

@@ -5,6 +5,7 @@
  * Defines a command compiler
  */
 namespace Opulence\Console\Commands\Compilers;
+
 use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Requests\IRequest;
 use RuntimeException;

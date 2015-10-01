@@ -5,6 +5,7 @@
  * Defines the response headers
  */
 namespace Opulence\HTTP\Responses;
+
 use DateTime;
 use Opulence\HTTP\Headers;
 

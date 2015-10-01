@@ -5,6 +5,7 @@
  * Defines the HTTP kernel
  */
 namespace Opulence\Framework\HTTP;
+
 use Exception;
 use Monolog\Logger;
 use Opulence\HTTP\Requests\Request;

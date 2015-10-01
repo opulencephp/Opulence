@@ -5,6 +5,7 @@
  * Defines a type mapper that can go back and forth between Redis types and PHP types
  */
 namespace Opulence\Redis;
+
 use DateTime;
 
 class TypeMapper

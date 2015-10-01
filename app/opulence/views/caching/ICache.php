@@ -5,6 +5,7 @@
  * Defines the interface for view caches to implement
  */
 namespace Opulence\Views\Caching;
+
 use Opulence\Views\IView;
 
 interface ICache

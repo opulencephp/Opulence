@@ -5,6 +5,7 @@
  * Defines a generic entity repository that can be extended
  */
 namespace Opulence\ORM\Repositories;
+
 use Opulence\ORM\DataMappers\IDataMapper;
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;

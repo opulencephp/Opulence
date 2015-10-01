@@ -5,6 +5,7 @@
  * Tests the entity registry
  */
 namespace Opulence\ORM;
+
 use Opulence\Tests\Mocks\User;
 
 class EntityRegistryTest extends \PHPUnit_Framework_TestCase

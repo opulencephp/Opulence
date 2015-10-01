@@ -5,6 +5,7 @@
  * Defines the exception that is thrown by the encrypter
  */
 namespace Opulence\Cryptography\Encryption;
+
 use Exception;
 
 class EncryptionException extends Exception

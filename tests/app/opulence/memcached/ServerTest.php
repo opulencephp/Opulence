@@ -5,6 +5,7 @@
  * Tests the Memcached server
  */
 namespace Opulence\Memcached;
+
 use Opulence\Tests\Memcached\Mocks\Server;
 
 class ServerTest extends \PHPUnit_Framework_TestCase

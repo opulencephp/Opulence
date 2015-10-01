@@ -5,6 +5,7 @@
  * Dispatches routes to the appropriate controllers
  */
 namespace Opulence\Routing\Dispatchers;
+
 use Closure;
 use Exception;
 use Opulence\HTTP\Requests\Request;

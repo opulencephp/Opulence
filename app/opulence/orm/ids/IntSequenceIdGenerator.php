@@ -5,6 +5,7 @@
  * Defines an Id generator that uses an integer sequence to generate Ids
  */
 namespace Opulence\ORM\Ids;
+
 use Opulence\Databases\IConnection;
 use Opulence\ORM\IEntity;
 

@@ -5,6 +5,7 @@
  * Defines a basic response
  */
 namespace Opulence\Console\Responses;
+
 use Opulence\Console\Responses\Compilers\ICompiler;
 
 abstract class Response implements IResponse

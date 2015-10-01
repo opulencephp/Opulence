@@ -5,6 +5,7 @@
  * The interface for form input sanitizers to implement
  */
 namespace Opulence\Forms\Sanitizers;
+
 use Opulence\HTTP\Requests\Request;
 
 interface ISanitizer

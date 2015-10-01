@@ -5,6 +5,7 @@
  * Tests the view parser
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
+
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;

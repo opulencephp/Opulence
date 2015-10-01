@@ -5,6 +5,7 @@
  * Tests the HTTP request
  */
 namespace Opulence\HTTP\Requests;
+
 use InvalidArgumentException;
 use Opulence\HTTP\HTTPException;
 use Opulence\Tests\HTTP\Requests\Mocks\FormURLEncodedRequest;

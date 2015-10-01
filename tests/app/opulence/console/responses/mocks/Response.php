@@ -5,6 +5,7 @@
  * Mocks the console response for use in tests
  */
 namespace Opulence\Tests\Console\Responses\Mocks;
+
 use Opulence\Console\Responses\Response as BaseResponse;
 
 class Response extends BaseResponse

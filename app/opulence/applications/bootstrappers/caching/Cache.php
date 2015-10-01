@@ -5,6 +5,7 @@
  * Defines the bootstrapper cache
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
+
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 
 class Cache implements ICache

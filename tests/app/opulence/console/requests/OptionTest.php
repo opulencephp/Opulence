@@ -5,6 +5,7 @@
  * Tests the console option
  */
 namespace Opulence\Console\Requests;
+
 use InvalidArgumentException;
 
 class OptionTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Defines a data mapper that uses cache with SQL as a backup
  */
 namespace Opulence\ORM\DataMappers;
+
 use Exception;
 use Opulence\Databases\ConnectionPool;
 use Opulence\ORM\IEntity;

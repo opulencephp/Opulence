@@ -5,6 +5,7 @@
  * Defines the interface for view compilers to implement
  */
 namespace Opulence\Views\Compilers;
+
 use Opulence\Views\IView;
 
 interface ICompiler

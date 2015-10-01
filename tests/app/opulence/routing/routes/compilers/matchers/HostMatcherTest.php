@@ -5,6 +5,7 @@
  * Tests the host matcher
  */
 namespace Opulence\Routing\Routes\Compilers\Matchers;
+
 use Opulence\HTTP\Headers;
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Routes\ParsedRoute;

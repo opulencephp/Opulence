@@ -5,6 +5,7 @@
  * Defines the PDO driver for a MySQL database
  */
 namespace Opulence\Databases\PDO\MySQL;
+
 use Opulence\Databases\Providers\MySQLProvider;
 use Opulence\Databases\PDO\Driver as BaseDriver;
 use Opulence\Databases\Server;

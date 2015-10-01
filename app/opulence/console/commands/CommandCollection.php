@@ -5,6 +5,7 @@
  * Defines the console commands container
  */
 namespace Opulence\Console\Commands;
+
 use InvalidArgumentException;
 use Opulence\Console\Commands\Compilers\ICompiler;
 use Opulence\Console\Requests\Parsers\ArrayListParser;

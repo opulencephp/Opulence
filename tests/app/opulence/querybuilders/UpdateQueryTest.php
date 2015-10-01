@@ -5,6 +5,7 @@
  * Tests the update query
  */
 namespace Opulence\QueryBuilders;
+
 use PDO;
 
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase

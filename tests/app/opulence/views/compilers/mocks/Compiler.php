@@ -5,6 +5,7 @@
  * Mocks a compiler for use in testing
  */
 namespace Opulence\Tests\Views\Compilers\Mocks;
+
 use Opulence\Views\Compilers\Compiler as BaseCompiler;
 
 class Compiler extends BaseCompiler

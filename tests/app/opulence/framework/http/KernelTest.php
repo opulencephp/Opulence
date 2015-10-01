@@ -5,6 +5,7 @@
  * Tests the HTTP kernel
  */
 namespace Opulence\Framework\HTTP;
+
 use Monolog\Logger;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;

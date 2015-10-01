@@ -5,6 +5,7 @@
  * Mocks the Opulence Predis class for use in testing
  */
 namespace Opulence\Tests\Redis\Mocks;
+
 use Opulence\Redis\OpulencePredis as BaseOpulencePredis;
 use Opulence\Redis\Server;
 use Opulence\Redis\TypeMapper;

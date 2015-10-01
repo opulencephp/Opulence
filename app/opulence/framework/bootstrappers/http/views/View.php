@@ -5,6 +5,7 @@
  * Defines the view bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\HTTP\Views;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Applications\Environments\Environment;

@@ -5,6 +5,7 @@
  * Defines a route exception
  */
 namespace Opulence\Routing;
+
 use Exception;
 
 class RouteException extends Exception

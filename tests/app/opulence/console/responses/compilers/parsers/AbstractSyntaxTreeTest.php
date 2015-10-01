@@ -5,6 +5,7 @@
  * Tests the response abstract syntax tree
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
+
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\RootNode;
 use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 

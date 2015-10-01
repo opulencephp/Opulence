@@ -5,6 +5,7 @@
  * Defines the command bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\Console\Commands;
+
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler;

@@ -5,6 +5,7 @@
  * Tests the Connection class
  */
 namespace Opulence\Databases\PDO;
+
 use Opulence\Databases;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\TypeMapper;

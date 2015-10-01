@@ -5,6 +5,7 @@
  * Tests the view factory
  */
 namespace Opulence\Views\Factories;
+
 use Opulence\Files\FileSystem;
 use Opulence\Tests\Views\Factories\Mocks\BarBuilder;
 use Opulence\Tests\Views\Factories\Mocks\FooBuilder;

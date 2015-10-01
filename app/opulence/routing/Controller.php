@@ -5,6 +5,7 @@
  * Defines a base controller
  */
 namespace Opulence\Routing;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;

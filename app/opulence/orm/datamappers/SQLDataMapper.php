@@ -5,6 +5,7 @@
  * Defines the base SQL data mapper class
  */
 namespace Opulence\ORM\DataMappers;
+
 use PDO;
 use PDOException;
 use Opulence\Databases\ConnectionPool;

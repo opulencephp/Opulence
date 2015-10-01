@@ -5,6 +5,7 @@
  * Mocks the cache data mapper class for use in testing
  */
 namespace Opulence\Tests\ORM\DataMappers\Mocks;
+
 use Opulence\ORM\IEntity;
 use Opulence\ORM\DataMappers\ICacheDataMapper;
 

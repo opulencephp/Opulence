@@ -5,6 +5,7 @@
  * Tests the HTTP response
  */
 namespace Opulence\HTTP\Responses;
+
 use DateTime;
 
 class ResponseTest extends \PHPUnit_Framework_TestCase

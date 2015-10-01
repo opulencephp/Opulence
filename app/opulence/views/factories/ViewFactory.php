@@ -5,6 +5,7 @@
  * Defines the view factory
  */
 namespace Opulence\Views\Factories;
+
 use Opulence\Files\FileSystem;
 use Opulence\Views\IView;
 use Opulence\Views\View;

@@ -5,6 +5,7 @@
  * Defines the controller used by the HTTP application test
  */
 namespace Opulence\Tests\Routing\Mocks;
+
 use DateTime;
 use Opulence\HTTP\Responses\Cookie;
 use Opulence\HTTP\Responses\RedirectResponse;

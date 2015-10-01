@@ -5,6 +5,7 @@
  * Tests the connection pool
  */
 namespace Opulence\Databases;
+
 use Opulence\Tests\Databases\SQL\Mocks\ConnectionPool;
 use Opulence\Tests\Databases\SQL\Mocks\Driver;
 use Opulence\Tests\Databases\SQL\Mocks\Server as MockServer;

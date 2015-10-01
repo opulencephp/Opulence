@@ -5,6 +5,7 @@
  * Builds an insert query
  */
 namespace Opulence\QueryBuilders\MySQL;
+
 use Opulence\QueryBuilders\InsertQuery as BaseInsertQuery;
 
 class InsertQuery extends BaseInsertQuery

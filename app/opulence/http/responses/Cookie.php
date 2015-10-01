@@ -5,6 +5,7 @@
  * Defines a cookie
  */
 namespace Opulence\HTTP\Responses;
+
 use DateTime;
 
 class Cookie

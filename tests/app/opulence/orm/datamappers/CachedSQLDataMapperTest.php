@@ -5,6 +5,7 @@
  * Tests the cached SQL data mapper
  */
 namespace Opulence\ORM\DataMappers;
+
 use Opulence\ORM\ORMException;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\ORM\DataMappers\Mocks\CacheDataMapperThatReturnsNull;

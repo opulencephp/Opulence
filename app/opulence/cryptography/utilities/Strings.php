@@ -5,6 +5,7 @@
  * Defines some string utilities
  */
 namespace Opulence\Cryptography\Utilities;
+
 use Opulence\Cryptography\CryptographicException;
 use Symfony\Component\Security\Core\Util\StringUtils;
 

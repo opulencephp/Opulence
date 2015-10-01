@@ -5,6 +5,7 @@
  * Defines a view parser
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
+
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\DirectiveNameNode;

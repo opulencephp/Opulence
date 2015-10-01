@@ -5,6 +5,7 @@
  * Creates user objects
  */
 namespace Opulence\Users\Factories;
+
 use DateTime;
 use Opulence\Users\User;
 

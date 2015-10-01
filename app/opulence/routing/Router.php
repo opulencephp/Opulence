@@ -5,6 +5,7 @@
  * Defines a router for URL requests
  */
 namespace Opulence\Routing;
+
 use Closure;
 use InvalidArgumentException;
 use Opulence\HTTP\Requests\Request;

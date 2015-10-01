@@ -5,6 +5,7 @@
  * Defines the silent response, which does not write anything
  */
 namespace Opulence\Console\Responses;
+
 use Opulence\Console\Responses\Compilers\MockCompiler;
 
 class SilentResponse extends Response

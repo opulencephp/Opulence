@@ -5,6 +5,7 @@
  * Tests the Predis class
  */
 namespace Opulence\Redis;
+
 use Opulence\Tests\Redis\Mocks\OpulencePredis;
 
 class OpulencePredisTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Tests the Composer wrapper
  */
 namespace Opulence\Framework\Composer;
+
 use Opulence\Applications\Paths;
 
 class ComposerTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Tests the view abstract syntax tree
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
+
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
 
@@ -26,7 +27,9 @@ class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
      */
     public function testClearingNodes()
     {
-        $this->tree->getCurrentNode()->addChild($this->getMockForAbstractClass(Node::class));
+        /** @var Node|\PHPUnit_Framework_MockObject_MockObject $childNode */
+        $childNode = $this->getMockForAbstractClass(Node::class);
+        $this->tree->getCurrentNode()->addChild($childNode);
         $this->tree->clearNodes();
         $this->assertInstanceOf(RootNode::class, $this->tree->getCurrentNode());
         $this->assertEquals([], $this->tree->getRootNode()->getChildren());

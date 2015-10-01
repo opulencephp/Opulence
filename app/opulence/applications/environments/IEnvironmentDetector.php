@@ -5,6 +5,7 @@
  * Defines the interface for environment detectors to implement
  */
 namespace Opulence\Applications\Environments;
+
 use Opulence\Applications\Environments\Hosts\IHost;
 
 interface IEnvironmentDetector

@@ -5,6 +5,7 @@
  * Tests the query class
  */
 namespace Opulence\QueryBuilders;
+
 use PDO;
 
 class QueryTest extends \PHPUnit_Framework_TestCase

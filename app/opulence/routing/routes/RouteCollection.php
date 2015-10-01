@@ -5,6 +5,7 @@
  * Defines a list of routes that can be used by a router
  */
 namespace Opulence\Routing\Routes;
+
 use SuperClosure\Analyzer\AstAnalyzer;
 use SuperClosure\Serializer;
 use Opulence\HTTP\Requests\Request;

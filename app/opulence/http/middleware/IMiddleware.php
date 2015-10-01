@@ -5,6 +5,7 @@
  * Defines the interface for HTTP middleware to implement
  */
 namespace Opulence\HTTP\Middleware;
+
 use Closure;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;

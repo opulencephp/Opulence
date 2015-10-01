@@ -5,6 +5,7 @@
  * Defines a wrapper around Composer
  */
 namespace Opulence\Framework\Composer;
+
 use Opulence\Applications\Paths;
 
 class Composer

@@ -5,6 +5,7 @@
  * Tests the user object
  */
 namespace Opulence\Users;
+
 use DateTime;
 
 class UserTest extends \PHPUnit_Framework_TestCase

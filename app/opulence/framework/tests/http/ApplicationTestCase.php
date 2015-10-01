@@ -5,6 +5,7 @@
  * Defines the HTTP application test case
  */
 namespace Opulence\Framework\Tests\HTTP;
+
 use LogicException;
 use Monolog\Logger;
 use Opulence\Applications\Environments\Environment;

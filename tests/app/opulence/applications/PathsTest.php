@@ -5,6 +5,7 @@
  * Tests the framework paths
  */
 namespace Opulence\Applications;
+
 use InvalidArgumentException;
 
 class PathsTest extends \PHPUnit_Framework_TestCase

@@ -5,6 +5,7 @@
  * Defines a cryptographic hasher
  */
 namespace Opulence\Cryptography\Hashing;
+
 use RuntimeException;
 
 interface IHasher

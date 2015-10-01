@@ -5,6 +5,7 @@
  * Defines a pipeline exception
  */
 namespace Opulence\Pipelines;
+
 use Exception;
 
 class PipelineException extends Exception

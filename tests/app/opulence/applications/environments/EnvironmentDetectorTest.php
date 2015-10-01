@@ -5,6 +5,7 @@
  * Tests the environment detector class
  */
 namespace Opulence\Applications\Environments;
+
 use Opulence\Applications\Environments\Hosts\HostName;
 use Opulence\Applications\Environments\Hosts\HostRegex;
 

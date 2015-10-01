@@ -5,6 +5,7 @@
  * Defines the argv parser
  */
 namespace Opulence\Console\Requests\Parsers;
+
 use InvalidArgumentException;
 use Opulence\Console\Requests\Tokenizers\ArgvTokenizer;
 

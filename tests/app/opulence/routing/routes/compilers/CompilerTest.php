@@ -5,6 +5,7 @@
  * Tests the route compiler
  */
 namespace Opulence\Routing\Routes\Compilers;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;

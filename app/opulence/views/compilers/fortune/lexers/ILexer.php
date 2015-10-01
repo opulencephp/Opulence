@@ -5,6 +5,7 @@
  * Defines the interface for view lexers to implement
  */
 namespace Opulence\Views\Compilers\Fortune\Lexers;
+
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\IView;
 

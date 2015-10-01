@@ -5,6 +5,7 @@
  * Tests the file view name resolver
  */
 namespace Opulence\Views\Factories;
+
 use InvalidArgumentException;
 
 class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase

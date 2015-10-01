@@ -5,6 +5,7 @@
  * Defines a view compiler exception
  */
 namespace Opulence\Views\Compilers;
+
 use Exception;
 
 class ViewCompilerException extends Exception

@@ -5,6 +5,7 @@
  * Defines the cryptographic exception
  */
 namespace Opulence\Cryptography;
+
 use Exception;
 
 class CryptographicException extends Exception

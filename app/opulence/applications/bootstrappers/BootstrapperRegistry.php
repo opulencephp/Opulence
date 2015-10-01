@@ -5,6 +5,7 @@
  * Defines the bootstrapper registry
  */
 namespace Opulence\Applications\Bootstrappers;
+
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use RuntimeException;

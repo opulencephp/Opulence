@@ -5,6 +5,7 @@
  * Defines the command that flushes the framework's cache
  */
 namespace Opulence\Framework\Console\Commands;
+
 use Opulence\Applications\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Applications\Paths;
 use Opulence\Console\Commands\Command;

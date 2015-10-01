@@ -5,6 +5,7 @@
  * Defines the interface for various methods of credential storage to implement
  */
 namespace Opulence\Authentication\Credentials\Storage;
+
 use Opulence\Authentication\Credentials\InvalidCredentialException;
 use Opulence\Authentication\Credentials\ICredential;
 use Opulence\HTTP\Responses\Response;

@@ -5,6 +5,7 @@
  * Defines the interface for view factories to implement
  */
 namespace Opulence\Views\Factories;
+
 use InvalidArgumentException;
 use Opulence\Views\IView;
 

@@ -5,6 +5,7 @@
  * Mocks a non-Opulence controller
  */
 namespace Opulence\Tests\Routing\Mocks;
+
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 

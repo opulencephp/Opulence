@@ -5,6 +5,7 @@
  * Defines a console prompt
  */
 namespace Opulence\Console\Prompts;
+
 use InvalidArgumentException;
 use Opulence\Console\Prompts\Questions\IQuestion;
 use Opulence\Console\Prompts\Questions\MultipleChoice;

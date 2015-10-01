@@ -5,6 +5,7 @@
  * Defines the interface for console requests to implement
  */
 namespace Opulence\Console\Requests;
+
 use InvalidArgumentException;
 
 interface IRequest

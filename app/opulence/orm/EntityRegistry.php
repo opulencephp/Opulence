@@ -5,6 +5,7 @@
  * Defines an entity registry
  */
 namespace Opulence\ORM;
+
 use ReflectionClass;
 
 class EntityRegistry implements IEntityRegistry

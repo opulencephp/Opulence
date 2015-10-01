@@ -5,6 +5,7 @@
  * Tests the delete query
  */
 namespace Opulence\QueryBuilders\MySQL;
+
 use PDO;
 
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase

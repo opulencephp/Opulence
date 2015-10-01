@@ -5,6 +5,7 @@
  * Tests the encrypter
  */
 namespace Opulence\Cryptography\Encryption;
+
 use Opulence\Cryptography\Utilities\Strings;
 
 class EncrypterTest extends \PHPUnit_Framework_TestCase
