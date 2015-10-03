@@ -63,7 +63,7 @@
 <h3>General</h3>
 * Renamed RDev to Opulence, renamed all namespaces to `Opulence\...`
 * Renamed `app/rdev` directory to `app/opulence`
-* Renamed `tests/app/rdev` directory to `tests/app/rdev`
+* Renamed `tests/app/rdev` directory to `tests/app/opulence`
 
 <h3>Memcached</h3>
 * Renamed `RDevMemcached` to `OpulenceMemcached`
