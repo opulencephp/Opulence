@@ -12,7 +12,7 @@ use Opulence\Routing\URL\URLGenerator;
 use Opulence\Sessions\ISession;
 use Opulence\Views\Compilers\Fortune\ITranspiler;
 
-class ViewFunctions extends Bootstrapper
+class ViewFunctionsBootstrapper extends Bootstrapper
 {
     /**
      * Registers view functions

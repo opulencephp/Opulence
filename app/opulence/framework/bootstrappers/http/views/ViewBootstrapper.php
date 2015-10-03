@@ -27,7 +27,7 @@ use Opulence\Views\Factories\IViewNameResolver;
 use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XSSFilter;
 
-abstract class View extends Bootstrapper implements ILazyBootstrapper
+abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /** @var ICache The view cache */
     protected $viewCache = null;

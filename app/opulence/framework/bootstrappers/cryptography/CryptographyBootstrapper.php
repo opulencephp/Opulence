@@ -15,7 +15,7 @@ use Opulence\Cryptography\Hashing\IHasher;
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\IoC\IContainer;
 
-class Cryptography extends Bootstrapper implements ILazyBootstrapper
+class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**
      * @inheritdoc

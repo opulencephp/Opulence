@@ -23,7 +23,7 @@ use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\URL\URLGenerator;
 
-class Router extends Bootstrapper
+class RouterBootstrapper extends Bootstrapper
 {
     /** @var ICache The route cache */
     protected $cache = null;

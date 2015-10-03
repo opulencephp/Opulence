@@ -12,7 +12,7 @@ use Opulence\Framework\Composer\Composer as ComposerWrapper;
 use Opulence\Framework\Composer\Executable;
 use Opulence\IoC\IContainer;
 
-class Composer extends Bootstrapper implements ILazyBootstrapper
+class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**
      * @inheritdoc

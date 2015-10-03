@@ -14,8 +14,8 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\Framework\Bootstrappers\Console\Commands\Commands;
-use Opulence\Framework\Bootstrappers\Console\Composer\Composer;
+use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
+use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
 use Opulence\Framework\Tests\Console\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\IoC\Container;
 use Opulence\IoC\IContainer;
@@ -25,8 +25,8 @@ class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
-        Commands::class,
-        Composer::class,
+        CommandsBootstrapper::class,
+        ComposerBootstrapper::class,
     ];
 
     /**

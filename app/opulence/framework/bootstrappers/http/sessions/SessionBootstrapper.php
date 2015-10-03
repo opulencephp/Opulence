@@ -11,7 +11,7 @@ use Opulence\IoC\IContainer;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
 
-abstract class Session extends Bootstrapper
+abstract class SessionBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

@@ -14,9 +14,9 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\Framework\Bootstrappers\HTTP\Requests\Request;
-use Opulence\Framework\Bootstrappers\HTTP\Routing\Router;
-use Opulence\Framework\Bootstrappers\HTTP\Views\ViewFunctions;
+use Opulence\Framework\Bootstrappers\HTTP\Requests\RequestBootstrapper;
+use Opulence\Framework\Bootstrappers\HTTP\Routing\RouterBootstrapper;
+use Opulence\Framework\Bootstrappers\HTTP\Views\ViewFunctionsBootstrapper;
 use Opulence\Framework\Tests\HTTP\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\IoC\Container;
 use Opulence\IoC\IContainer;
@@ -26,9 +26,9 @@ class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
-        Request::class,
-        Router::class,
-        ViewFunctions::class
+        RequestBootstrapper::class,
+        RouterBootstrapper::class,
+        ViewFunctionsBootstrapper::class
     ];
 
     /**

@@ -10,7 +10,7 @@ use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\HTTP\Requests\Request as HTTPRequest;
 use Opulence\IoC\IContainer;
 
-class Request extends Bootstrapper
+class RequestBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

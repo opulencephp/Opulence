@@ -1,3 +1,8 @@
+<h2>v0.6.10</h2>
+
+<h3>Bootstrappers</h3>
+* Added `Bootstrapper` suffix to all bootstrapper class names
+
 <h2>v0.6.9</h2>
 
 <h3>General</h3>

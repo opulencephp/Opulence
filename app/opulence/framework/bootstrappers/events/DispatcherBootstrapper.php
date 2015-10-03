@@ -13,7 +13,7 @@ use Opulence\Events\Dispatchers\IDispatcher;
 use Opulence\Events\IEvent;
 use Opulence\IoC\IContainer;
 
-abstract class Dispatcher extends Bootstrapper
+abstract class DispatcherBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

@@ -24,7 +24,7 @@ use Opulence\Framework\Console\Commands\MakeHTTPMiddlewareCommand;
 use Opulence\Framework\Console\Commands\RenameAppCommand;
 use Opulence\IoC\IContainer;
 
-class Commands extends Bootstrapper
+class CommandsBootstrapper extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
     private static $commandClasses = [

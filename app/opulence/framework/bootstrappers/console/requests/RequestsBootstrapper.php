@@ -11,7 +11,7 @@ use Opulence\Console\Requests\Parsers\ArgvParser;
 use Opulence\Console\Requests\Parsers\IParser;
 use Opulence\IoC\IContainer;
 
-class Requests extends Bootstrapper
+class RequestsBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc
