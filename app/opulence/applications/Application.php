@@ -17,7 +17,7 @@ use RuntimeException;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "0.6.11";
+    private static $version = "0.6.12";
     /** @var Paths The paths to various directories used by Opulence */
     private $paths = null;
     /** @var IDispatcher The task dispatcher */
