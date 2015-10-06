@@ -53,8 +53,7 @@ class Connection implements IConnection
     {
         $this->inTransaction = false;
 
-        if($this->shouldFailOnPurpose)
-        {
+        if ($this->shouldFailOnPurpose) {
             throw new Exception("Commit failed");
         }
     }
@@ -120,8 +119,7 @@ class Connection implements IConnection
      */
     public function lastInsertId($sequenceName = null)
     {
-        if(!isset($this->lastInsertIds[$sequenceName]))
-        {
+        if (!isset($this->lastInsertIds[$sequenceName])) {
             $this->lastInsertIds[$sequenceName] = 0;
         }
 

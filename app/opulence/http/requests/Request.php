@@ -100,13 +100,11 @@ class Request
     public static function createFromGlobals()
     {
         // Handle the a bug that does not set CONTENT_TYPE or CONTENT_LENGTH headers
-        if(array_key_exists("HTTP_CONTENT_LENGTH", $_SERVER))
-        {
+        if (array_key_exists("HTTP_CONTENT_LENGTH", $_SERVER)) {
             $_SERVER["CONTENT_LENGTH"] = $_SERVER["HTTP_CONTENT_LENGTH"];
         }
 
-        if(array_key_exists("HTTP_CONTENT_TYPE", $_SERVER))
-        {
+        if (array_key_exists("HTTP_CONTENT_TYPE", $_SERVER)) {
             $_SERVER["CONTENT_TYPE"] = $_SERVER["HTTP_CONTENT_TYPE"];
         }
 
@@ -177,12 +175,9 @@ class Request
         $host = $this->getHost();
 
         // Prepend a colon if the port is non-standard
-        if(((!$isSecure && $port != "80") || ($isSecure && $port != "443")))
-        {
+        if (((!$isSecure && $port != "80") || ($isSecure && $port != "443"))) {
             $port = ":$port";
-        }
-        else
-        {
+        }else {
             $port = "";
         }
 
@@ -207,18 +202,15 @@ class Request
     {
         $host = $this->headers->get("X_FORWARDED_FOR");
 
-        if($host === null)
-        {
+        if ($host === null) {
             $host = $this->headers->get("HOST");
         }
 
-        if($host === null)
-        {
+        if ($host === null) {
             $host = $this->server->get("SERVER_NAME");
         }
 
-        if($host === null)
-        {
+        if ($host === null) {
             // Return an empty string by default so we can do string operations on it later
             $host = $this->server->get("SERVER_ADDR", "");
         }
@@ -228,8 +220,7 @@ class Request
 
         // Check for forbidden characters
         // Credit: Symfony HttpFoundation
-        if(!empty($host) && !empty(preg_replace("/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/", "", $host)))
-        {
+        if (!empty($host) && !empty(preg_replace("/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/", "", $host))) {
             throw new InvalidArgumentException("Invalid host \"$host\"");
         }
 
@@ -253,27 +244,18 @@ class Request
      */
     public function getInput($name, $default = null)
     {
-        if($this->isJSON())
-        {
+        if ($this->isJSON()) {
             $json = $this->getJSONBody();
 
-            if(array_key_exists($name, $json))
-            {
+            if (array_key_exists($name, $json)) {
                 return $json[$name];
-            }
-            else
-            {
+            }else {
                 return $default;
             }
-        }
-        else
-        {
-            if($this->method === self::METHOD_GET)
-            {
+        }else {
+            if ($this->method === self::METHOD_GET) {
                 return $this->query->get($name, $default);
-            }
-            else
-            {
+            }else {
                 return $this->post->get($name, $default);
             }
         }
@@ -289,8 +271,7 @@ class Request
     {
         $json = json_decode($this->getRawBody(), true);
 
-        if($json === null)
-        {
+        if ($json === null) {
             throw new HTTPException("Body could not be decoded as JSON");
         }
 
@@ -349,13 +330,11 @@ class Request
      */
     public function getPreviousURL($fallBackToReferer = true)
     {
-        if(!empty($this->previousURL))
-        {
+        if (!empty($this->previousURL)) {
             return $this->previousURL;
         }
 
-        if($fallBackToReferer)
-        {
+        if ($fallBackToReferer) {
             return $this->headers->get("REFERER");
         }
 
@@ -385,8 +364,7 @@ class Request
      */
     public function getRawBody()
     {
-        if($this->rawBody === null)
-        {
+        if ($this->rawBody === null) {
             $this->rawBody = file_get_contents("php://input");
         }
 
@@ -441,12 +419,9 @@ class Request
      */
     public function isPath($path, $isRegex = false)
     {
-        if($isRegex)
-        {
+        if ($isRegex) {
             return preg_match("#^" . $path . "$#", $this->path) === 1;
-        }
-        else
-        {
+        }else {
             return $this->path == $path;
         }
     }
@@ -469,10 +444,8 @@ class Request
      */
     public function setMethod($method = null)
     {
-        if($method === null)
-        {
-            switch(mb_strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET)))
-            {
+        if ($method === null) {
+            switch (mb_strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET))) {
                 case "delete":
                     $this->method = self::METHOD_DELETE;
 
@@ -518,9 +491,7 @@ class Request
 
                     break;
             }
-        }
-        else
-        {
+        }else {
             $this->method = $method;
         }
     }
@@ -533,23 +504,17 @@ class Request
      */
     public function setPath($path = null)
     {
-        if($path === null)
-        {
+        if ($path === null) {
             $uri = $this->server->get("REQUEST_URI");
 
-            if(empty($uri))
-            {
+            if (empty($uri)) {
                 // Default to a slash
                 $this->path = "/";
-            }
-            else
-            {
+            }else {
                 $uriParts = explode("?", $uri);
                 $this->path = $uriParts[0];
             }
-        }
-        else
-        {
+        }else {
             $this->path = $path;
         }
     }
@@ -569,21 +534,24 @@ class Request
      */
     private function setIPAddress()
     {
-        $ipKeys = ["HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "REMOTE_ADDR"];
+        $ipKeys = [
+            "HTTP_CLIENT_IP",
+            "HTTP_X_FORWARDED_FOR",
+            "HTTP_X_FORWARDED",
+            "HTTP_X_CLUSTER_CLIENT_IP",
+            "HTTP_FORWARDED_FOR",
+            "HTTP_FORWARDED",
+            "REMOTE_ADDR"
+        ];
 
-        foreach($ipKeys as $key)
-        {
-            if($this->server->has($key))
-            {
-                foreach(explode(",", $this->server->get($key)) as $ipAddress)
-                {
+        foreach ($ipKeys as $key) {
+            if ($this->server->has($key)) {
+                foreach (explode(",", $this->server->get($key)) as $ipAddress) {
                     $ipAddress = trim($ipAddress);
 
-                    if(filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE
+                    if (filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE
                             | FILTER_FLAG_NO_RES_RANGE) !== false
-                    )
-                    {
+                    ) {
                         $this->ipAddress = $ipAddress;
 
                         return;
@@ -605,15 +573,13 @@ class Request
          * So, we have to manually read from the input stream to grab their data
          * If the content is not from a form, we don't bother and just let users look the data up in the raw body
          */
-        if(
+        if (
             mb_strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
             in_array($this->method, [self::METHOD_PUT, self::METHOD_PATCH, self::METHOD_DELETE])
-        )
-        {
+        ) {
             parse_str($this->getRawBody(), $parameters);
 
-            switch($this->method)
-            {
+            switch ($this->method) {
                 case self::METHOD_PUT:
                     $this->put->exchangeArray($parameters);
 

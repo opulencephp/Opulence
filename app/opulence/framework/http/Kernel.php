@@ -67,18 +67,15 @@ class Kernel
      */
     public function getMiddleware()
     {
-        if($this->middlewareAreDisabled)
-        {
+        if ($this->middlewareAreDisabled) {
             return [];
         }
 
-        if(count($this->enabledMiddleware) > 0)
-        {
+        if (count($this->enabledMiddleware) > 0) {
             return $this->enabledMiddleware;
         }
 
-        if(count($this->disabledMiddleware) > 0)
-        {
+        if (count($this->disabledMiddleware) > 0) {
             return array_values(array_diff($this->middleware, $this->disabledMiddleware));
         }
 
@@ -93,17 +90,13 @@ class Kernel
      */
     public function handle(Request $request)
     {
-        try
-        {
+        try {
             $pipeline = new Pipeline($this->container, $this->getMiddleware(), "handle");
 
-            return $pipeline->send($request, function ($request)
-            {
+            return $pipeline->send($request, function ($request) {
                 return $this->router->route($request);
             });
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             $this->logger->addError("Failed to handle request: $ex");
 
             return new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);

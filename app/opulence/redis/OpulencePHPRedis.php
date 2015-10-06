@@ -24,8 +24,7 @@ class OpulencePHPRedis extends Redis implements IRedis
         parent::connect($this->server->getHost(), $this->server->getPort(), $this->server->getConnectionTimeout());
         parent::select($this->server->getDatabaseIndex());
 
-        if($this->server->passwordIsSet())
-        {
+        if ($this->server->passwordIsSet()) {
             parent::auth($this->server->getPassword());
         }
     }

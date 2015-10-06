@@ -138,10 +138,8 @@ class QueryTest extends \PHPUnit_Framework_TestCase
         $parameters = $this->query->getParameters();
         $fooFound = false;
 
-        foreach($parameters as $parameterData)
-        {
-            if($parameterData[0] == "bar")
-            {
+        foreach ($parameters as $parameterData) {
+            if ($parameterData[0] == "bar") {
                 $fooFound = true;
 
                 break;

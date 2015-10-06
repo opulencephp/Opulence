@@ -15,18 +15,15 @@ class ArrayListTokenizer implements ITokenizer
      */
     public function tokenize($input)
     {
-        if(!isset($input["name"]))
-        {
+        if (!isset($input["name"])) {
             throw new RuntimeException("No command name given");
         }
 
-        if(!isset($input["arguments"]))
-        {
+        if (!isset($input["arguments"])) {
             $input["arguments"] = [];
         }
 
-        if(!isset($input["options"]))
-        {
+        if (!isset($input["options"])) {
             $input["options"] = [];
         }
 

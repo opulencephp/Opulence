@@ -37,8 +37,7 @@ class CompiledRoute extends ParsedRoute
      */
     public function getPathVar($name)
     {
-        if(isset($this->pathVars[$name]))
-        {
+        if (isset($this->pathVars[$name])) {
             return $this->pathVars[$name];
         }
 

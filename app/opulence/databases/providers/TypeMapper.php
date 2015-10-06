@@ -21,8 +21,7 @@ class TypeMapper
      */
     public function __construct(Provider $provider = null)
     {
-        if(!is_null($provider))
-        {
+        if (!is_null($provider)) {
             $this->setProvider($provider);
         }
     }
@@ -51,8 +50,7 @@ class TypeMapper
      */
     public function fromSQLDate($sqlDate, Provider $provider = null)
     {
-        if($sqlDate === null)
-        {
+        if ($sqlDate === null) {
             return null;
         }
 
@@ -60,8 +58,7 @@ class TypeMapper
         // The "!" zeroes out the hours, minutes, and seconds
         $phpDate = DateTime::createFromFormat("!" . $provider->getDateFormat(), $sqlDate);
 
-        if($phpDate === false)
-        {
+        if ($phpDate === false) {
             $phpDate = $this->parseUnknownDateTimeFormat($sqlDate);
         }
 
@@ -77,8 +74,7 @@ class TypeMapper
      */
     public function fromSQLJSON($json, Provider $provider = null)
     {
-        if($json === null)
-        {
+        if ($json === null) {
             return [];
         }
 
@@ -95,16 +91,14 @@ class TypeMapper
      */
     public function fromSQLTimeWithTimeZone($sqlTime, Provider $provider = null)
     {
-        if($sqlTime === null)
-        {
+        if ($sqlTime === null) {
             return null;
         }
 
         $this->setParameterProvider($provider);
         $phpTime = DateTime::createFromFormat($provider->getTimeWithTimeZoneFormat(), $sqlTime);
 
-        if($phpTime === false)
-        {
+        if ($phpTime === false) {
             $phpTime = $this->parseUnknownDateTimeFormat($sqlTime);
         }
 
@@ -121,16 +115,14 @@ class TypeMapper
      */
     public function fromSQLTimeWithoutTimeZone($sqlTime, Provider $provider = null)
     {
-        if($sqlTime === null)
-        {
+        if ($sqlTime === null) {
             return null;
         }
 
         $this->setParameterProvider($provider);
         $phpTime = DateTime::createFromFormat($provider->getTimeWithoutTimeZoneFormat(), $sqlTime);
 
-        if($phpTime === false)
-        {
+        if ($phpTime === false) {
             $phpTime = $this->parseUnknownDateTimeFormat($sqlTime);
         }
 
@@ -147,8 +139,7 @@ class TypeMapper
      */
     public function fromSQLTimestampWithTimeZone($sqlTimestamp, Provider $provider = null)
     {
-        if($sqlTimestamp === null)
-        {
+        if ($sqlTimestamp === null) {
             return null;
         }
 
@@ -156,8 +147,7 @@ class TypeMapper
 
         $phpTimestamp = DateTime::createFromFormat($provider->getTimestampWithTimeZoneFormat(), $sqlTimestamp);
 
-        if($phpTimestamp === false)
-        {
+        if ($phpTimestamp === false) {
             $phpTimestamp = $this->parseUnknownDateTimeFormat($sqlTimestamp);
         }
 
@@ -174,16 +164,14 @@ class TypeMapper
      */
     public function fromSQLTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null)
     {
-        if($sqlTimestamp === null)
-        {
+        if ($sqlTimestamp === null) {
             return null;
         }
 
         $this->setParameterProvider($provider);
         $phpTimestamp = DateTime::createFromFormat($provider->getTimestampWithoutTimeZoneFormat(), $sqlTimestamp);
 
-        if($phpTimestamp === false)
-        {
+        if ($phpTimestamp === false) {
             $phpTimestamp = $this->parseUnknownDateTimeFormat($sqlTimestamp);
         }
 
@@ -311,12 +299,9 @@ class TypeMapper
      */
     protected function parseUnknownDateTimeFormat($sqlDateTime)
     {
-        try
-        {
+        try {
             return new DateTime($sqlDateTime);
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             throw new InvalidArgumentException("Unable to cast timestamp: " . $ex->getMessage());
         }
     }
@@ -330,10 +315,8 @@ class TypeMapper
      */
     protected function setParameterProvider(Provider &$provider = null)
     {
-        if(is_null($provider))
-        {
-            if(is_null($this->provider))
-            {
+        if (is_null($provider)) {
+            if (is_null($this->provider)) {
                 throw new RuntimeException("No provider specified");
             }
 

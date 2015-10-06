@@ -19,8 +19,7 @@ class Parameters implements ArrayAccess, Countable
      */
     public function __construct(array $parameters)
     {
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $this->add($key, $value);
         }
     }

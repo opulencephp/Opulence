@@ -33,8 +33,7 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
      */
     public function getReturningClauseSQL()
     {
-        if(count($this->returningExpressions) > 0)
-        {
+        if (count($this->returningExpressions) > 0) {
             return " RETURNING " . implode(", ", $this->returningExpressions);
         }
 

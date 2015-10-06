@@ -40,8 +40,12 @@ abstract class ConnectionPool
      * @param array $driverOptions The setting to use to setup a driver
      * @param array $connectionOptions The driver-specific connection settings
      */
-    public function __construct(IDriver $driver, Server $master, array $driverOptions = [], array $connectionOptions = [])
-    {
+    public function __construct(
+        IDriver $driver,
+        Server $master,
+        array $driverOptions = [],
+        array $connectionOptions = []
+    ) {
         $this->driver = $driver;
         $this->setMaster($master);
         $this->driverOptions = $driverOptions;
@@ -83,13 +87,10 @@ abstract class ConnectionPool
      */
     public function getReadConnection(Server $preferredServer = null)
     {
-        if($preferredServer !== null)
-        {
+        if ($preferredServer !== null) {
             $this->addServer("custom", $preferredServer);
             $this->setReadConnection($preferredServer);
-        }
-        elseif($this->readConnection == null)
-        {
+        }elseif ($this->readConnection == null) {
             $this->setReadConnection();
         }
 
@@ -105,13 +106,10 @@ abstract class ConnectionPool
      */
     public function getWriteConnection(Server $preferredServer = null)
     {
-        if($preferredServer != null)
-        {
+        if ($preferredServer != null) {
             $this->addServer("custom", $preferredServer);
             $this->setWriteConnection($preferredServer);
-        }
-        elseif($this->writeConnection == null)
-        {
+        }elseif ($this->writeConnection == null) {
             $this->setWriteConnection();
         }
 
@@ -150,8 +148,7 @@ abstract class ConnectionPool
      */
     protected function addServer($type, Server $server)
     {
-        switch($type)
-        {
+        switch ($type) {
             case "master":
                 $this->servers["master"] = ["server" => $server, "connection" => null];
 
@@ -159,8 +156,7 @@ abstract class ConnectionPool
             default:
                 $serverHashId = spl_object_hash($server);
 
-                if(!isset($this->servers[$type][$serverHashId]))
-                {
+                if (!isset($this->servers[$type][$serverHashId])) {
                     $this->servers[$type][$serverHashId] = ["server" => $server, "connection" => null];
                 }
 
@@ -189,16 +185,13 @@ abstract class ConnectionPool
      */
     protected function getConnection($type, Server $server)
     {
-        switch($type)
-        {
+        switch ($type) {
             case "master":
-                if($this->servers["master"]["server"] == null)
-                {
+                if ($this->servers["master"]["server"] == null) {
                     throw new RuntimeException("No master specified");
                 }
 
-                if($this->servers["master"]["connection"] == null)
-                {
+                if ($this->servers["master"]["connection"] == null) {
                     $this->servers["master"]["connection"] = $this->connectToServer($server);
                 }
 
@@ -206,15 +199,13 @@ abstract class ConnectionPool
             default:
                 $serverHashId = spl_object_hash($server);
 
-                if(!isset($this->servers[$type][$serverHashId])
+                if (!isset($this->servers[$type][$serverHashId])
                     || $this->servers[$type][$serverHashId]["server"] == null
-                )
-                {
+                ) {
                     throw new RuntimeException("Server of type '" . $type . "' not added to connection pool");
                 }
 
-                if($this->servers[$type][$serverHashId]["connection"] == null)
-                {
+                if ($this->servers[$type][$serverHashId]["connection"] == null) {
                     $this->servers[$type][$serverHashId]["connection"] = $this->connectToServer($server);
                 }
 

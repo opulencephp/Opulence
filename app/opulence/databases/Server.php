@@ -36,35 +36,28 @@ class Server
         $databaseName = null,
         $port = null,
         $charset = null
-    )
-    {
-        if($host !== null)
-        {
+    ) {
+        if ($host !== null) {
             $this->setHost($host);
         }
 
-        if($username !== null)
-        {
+        if ($username !== null) {
             $this->setUsername($username);
         }
 
-        if($password !== null)
-        {
+        if ($password !== null) {
             $this->setPassword($password);
         }
 
-        if($databaseName !== null)
-        {
+        if ($databaseName !== null) {
             $this->setDatabaseName($databaseName);
         }
 
-        if($port !== null)
-        {
+        if ($port !== null) {
             $this->setPort($port);
         }
 
-        if($charset !== null)
-        {
+        if ($charset !== null) {
             $this->setCharset($charset);
         }
     }

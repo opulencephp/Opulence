@@ -55,10 +55,10 @@ class EncryptionKeyGenerationCommand extends Command
         $key = $this->strings->generateRandomString(32);
         $environmentConfigPath = $this->paths["configs"] . "/environment/.env.app.php";
 
-        if(!$this->optionIsSet("show") && file_exists($environmentConfigPath))
-        {
+        if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
             $contents = file_get_contents($environmentConfigPath);
-            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"', $contents);
+            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"',
+                $contents);
             file_put_contents($environmentConfigPath, $newContents);
         }
 

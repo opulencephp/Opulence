@@ -19,13 +19,11 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
      */
     public function __construct(ISQLDataMapper $sqlDataMapper = null, ICacheDataMapper $cacheDataMapper = null)
     {
-        if($sqlDataMapper === null)
-        {
+        if ($sqlDataMapper === null) {
             $sqlDataMapper = new SQLDataMapper();
         }
 
-        if($cacheDataMapper === null)
-        {
+        if ($cacheDataMapper === null) {
             $cacheDataMapper = new CacheDataMapper();
         }
 

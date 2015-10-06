@@ -24,8 +24,7 @@ class Driver extends BaseDriver
                 "options='--client_encoding=" . $server->getCharset() . "'"
             ]) . ";";
 
-        if(isset($options["sslmode"]))
-        {
+        if (isset($options["sslmode"])) {
             $dsn .= "sslmode=" . $options["sslmode"] . ";";
         }
 

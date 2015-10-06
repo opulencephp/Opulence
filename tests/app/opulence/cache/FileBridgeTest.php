@@ -16,8 +16,7 @@ class FileBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public static function setUpBeforeClass()
     {
-        if(!is_dir(__DIR__ . "/tmp"))
-        {
+        if (!is_dir(__DIR__ . "/tmp")) {
             mkdir(__DIR__ . "/tmp");
         }
     }
@@ -29,8 +28,7 @@ class FileBridgeTest extends \PHPUnit_Framework_TestCase
     {
         $files = glob(__DIR__ . "/tmp/*");
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             is_dir($file) ? rmdir($file) : unlink($file);
         }
 

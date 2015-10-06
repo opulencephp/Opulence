@@ -54,8 +54,7 @@ class Router
         IParser $parser,
         $missedRouteControllerName = Controller::class,
         $missedRouteControllerMethod = "showHTTPError"
-    )
-    {
+    ) {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
         $this->parser = $parser;
@@ -193,8 +192,7 @@ class Router
     {
         $routes = [];
 
-        foreach($methods as $method)
-        {
+        foreach ($methods as $method) {
             $route = $this->createRoute($method, $path, $controller, $options);
             $parsedRoute = $this->addRoute($route);
             $routes[] = $parsedRoute;
@@ -275,12 +273,10 @@ class Router
         $method = $request->getMethod();
 
         /** @var ParsedRoute $route */
-        foreach($this->routeCollection->get($method) as $route)
-        {
+        foreach ($this->routeCollection->get($method) as $route) {
             $compiledRoute = $this->compiler->compile($route, $request);
 
-            if($compiledRoute->isMatch())
-            {
+            if ($compiledRoute->isMatch()) {
                 $this->matchedRoute = $compiledRoute;
 
                 return $this->dispatcher->dispatch($this->matchedRoute, $request, $this->matchedController);
@@ -300,8 +296,7 @@ class Router
      */
     public function setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod = "showHTTPError")
     {
-        if(!class_exists($missedRouteControllerName))
-        {
+        if (!class_exists($missedRouteControllerName)) {
             throw new InvalidArgumentException(
                 sprintf(
                     "Missed route controller class \"%s\" does not exist",
@@ -310,8 +305,7 @@ class Router
             );
         }
 
-        if(!method_exists($missedRouteControllerName, $missedRouteControllerMethod))
-        {
+        if (!method_exists($missedRouteControllerName, $missedRouteControllerMethod)) {
             throw new InvalidArgumentException(
                 sprintf(
                     "Missed route controller method %s::%s does not exist",
@@ -344,8 +338,7 @@ class Router
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
 
-        if(!$route->usesClosure())
-        {
+        if (!$route->usesClosure()) {
             $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
         }
 
@@ -354,8 +347,7 @@ class Router
         $route->setVarRegexes(array_merge($this->getVarRegexes(), $route->getVarRegexes()));
         $groupMiddleware = $this->getGroupMiddleware();
 
-        if(count($groupMiddleware) > 0)
-        {
+        if (count($groupMiddleware) > 0) {
             $route->addMiddleware($groupMiddleware, true);
         }
 
@@ -385,13 +377,10 @@ class Router
     {
         $controllerNamespace = "";
 
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["controllerNamespace"]))
-            {
+        foreach ($this->groupOptionsStack as $groupOptions) {
+            if (isset($groupOptions["controllerNamespace"])) {
                 // Add trailing slashes if they're not there already
-                if(mb_substr($groupOptions["controllerNamespace"], -1) != "\\")
-                {
+                if (mb_substr($groupOptions["controllerNamespace"], -1) != "\\") {
                     $groupOptions["controllerNamespace"] .= "\\";
                 }
 
@@ -411,10 +400,8 @@ class Router
     {
         $host = "";
 
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["host"]))
-            {
+        foreach ($this->groupOptionsStack as $groupOptions) {
+            if (isset($groupOptions["host"])) {
                 $host = $groupOptions["host"] . $host;
             }
         }
@@ -431,10 +418,8 @@ class Router
     {
         $middleware = [];
 
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["middleware"]))
-            {
+        foreach ($this->groupOptionsStack as $groupOptions) {
+            if (isset($groupOptions["middleware"])) {
                 $middleware = array_merge($middleware, (array)$groupOptions["middleware"]);
             }
         }
@@ -451,10 +436,8 @@ class Router
     {
         $path = "";
 
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["path"]))
-            {
+        foreach ($this->groupOptionsStack as $groupOptions) {
+            if (isset($groupOptions["path"])) {
                 $path .= $groupOptions["path"];
             }
         }
@@ -486,10 +469,8 @@ class Router
     {
         $variableRegexes = [];
 
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["variables"]))
-            {
+        foreach ($this->groupOptionsStack as $groupOptions) {
+            if (isset($groupOptions["variables"])) {
                 $variableRegexes = array_merge($variableRegexes, $groupOptions["variables"]);
             }
         }
@@ -505,10 +486,8 @@ class Router
      */
     private function isGroupSecure()
     {
-        foreach($this->groupOptionsStack as $groupOptions)
-        {
-            if(isset($groupOptions["https"]) && $groupOptions["https"])
-            {
+        foreach ($this->groupOptionsStack as $groupOptions) {
+            if (isset($groupOptions["https"]) && $groupOptions["https"]) {
                 return true;
             }
         }

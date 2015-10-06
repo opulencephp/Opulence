@@ -64,8 +64,7 @@ class Repo implements IRepo
     {
         $entity = $this->unitOfWork->getEntityRegistry()->getEntity($this->className, $id);
 
-        if($entity instanceof IEntity)
-        {
+        if ($entity instanceof IEntity) {
             return $entity;
         }
 
@@ -84,19 +83,14 @@ class Repo implements IRepo
     {
         $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
 
-        if(is_array($entities))
-        {
+        if (is_array($entities)) {
             // Passing by reference here is important because that reference may be updated in the unit of work
-            foreach($entities as &$entity)
-            {
-                if($entity instanceof IEntity)
-                {
+            foreach ($entities as &$entity) {
+                if ($entity instanceof IEntity) {
                     $this->unitOfWork->getEntityRegistry()->register($entity);
                 }
             }
-        }
-        elseif($entities instanceof IEntity)
-        {
+        }elseif ($entities instanceof IEntity) {
             $this->unitOfWork->getEntityRegistry()->register($entities);
         }
 

@@ -92,8 +92,7 @@ class Response
      */
     public function sendContent()
     {
-        if(!$this->headersAreSent())
-        {
+        if (!$this->headersAreSent()) {
             echo $this->content;
         }
     }
@@ -103,8 +102,7 @@ class Response
      */
     public function sendHeaders()
     {
-        if(!$this->headersAreSent())
-        {
+        if (!$this->headersAreSent()) {
             header(
                 sprintf(
                     "HTTP/%s %s %s",
@@ -117,19 +115,16 @@ class Response
             );
 
             // Send the headers
-            foreach($this->headers->getAll() as $name => $values)
-            {
+            foreach ($this->headers->getAll() as $name => $values) {
                 // Headers are allowed to have multiple values
-                foreach($values as $value)
-                {
+                foreach ($values as $value) {
                     header($name . ":" . $value, false, $this->statusCode);
                 }
             }
 
             // Send the cookies
             /** @var Cookie $cookie */
-            foreach($this->headers->getCookies(true) as $cookie)
-            {
+            foreach ($this->headers->getCookies(true) as $cookie) {
                 setcookie(
                     $cookie->getName(),
                     $cookie->getValue(),
@@ -181,12 +176,9 @@ class Response
     {
         $this->statusCode = $statusCode;
 
-        if($statusText === null && isset(ResponseHeaders::$statusTexts[$statusCode]))
-        {
+        if ($statusText === null && isset(ResponseHeaders::$statusTexts[$statusCode])) {
             $this->statusText = ResponseHeaders::$statusTexts[$statusCode];
-        }
-        else
-        {
+        }else {
             $this->statusText = $statusText;
         }
     }

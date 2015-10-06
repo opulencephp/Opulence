@@ -24,15 +24,11 @@ class Dispatcher implements IDispatcher
      */
     public function dispatch($taskType)
     {
-        try
-        {
-            foreach($this->tasks[$taskType] as $task)
-            {
+        try {
+            foreach ($this->tasks[$taskType] as $task) {
                 call_user_func($task);
             }
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             throw new RuntimeException("Failed to run tasks: {$ex->getMessage()}");
         }
     }
@@ -42,8 +38,7 @@ class Dispatcher implements IDispatcher
      */
     public function registerTask($taskType, callable $task)
     {
-        if(!isset($this->tasks[$taskType]))
-        {
+        if (!isset($this->tasks[$taskType])) {
             $this->tasks[$taskType] = [];
         }
 

@@ -47,18 +47,15 @@ abstract class FormRequest
     {
         $output = "";
 
-        foreach($this->clientRules as $inputName => $ruleClass)
-        {
-            if(!class_exists($ruleClass))
-            {
+        foreach ($this->clientRules as $inputName => $ruleClass) {
+            if (!class_exists($ruleClass)) {
                 throw new InvalidArgumentException("Client-side rule class \"$ruleClass\" does not exist");
             }
 
             // TODO:  How do we instantiate rules?  IoC?  Lock down the constructor?
             $rule = new $ruleClass();
 
-            if(!$rule instanceof IClientRule)
-            {
+            if (!$rule instanceof IClientRule) {
                 throw new InvalidArgumentException("Client-side rule class \"$ruleClass\" does not implement IClientRule");
             }
 
@@ -79,18 +76,15 @@ abstract class FormRequest
     {
         $isValid = true;
 
-        foreach($this->serverRules as $inputName => $ruleClass)
-        {
-            if(!class_exists($ruleClass))
-            {
+        foreach ($this->serverRules as $inputName => $ruleClass) {
+            if (!class_exists($ruleClass)) {
                 throw new InvalidArgumentException("Server-side rule class \"$ruleClass\" does not exist");
             }
 
             // TODO:  How do we instantiate rules?  IoC?  Lock down the constructor?
             $rule = new $ruleClass();
 
-            if(!$rule instanceof IServerRule)
-            {
+            if (!$rule instanceof IServerRule) {
                 throw new InvalidArgumentException("Server-side rule class \"$ruleClass\" does not implement IServerRule");
             }
 
@@ -98,12 +92,10 @@ abstract class FormRequest
             // TODO:  How do we handle a non-required value that is not set?  Need place to set required => false.  Where?
             $value = "";
 
-            if(!$rule->passes($value, $request))
-            {
+            if (!$rule->passes($value, $request)) {
                 $isValid = false;
 
-                if(isset($this->errorMessages[$inputName]))
-                {
+                if (isset($this->errorMessages[$inputName])) {
                     // TODO:  What do we do with the error message?
                 }
             }

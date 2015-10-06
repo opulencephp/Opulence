@@ -77,28 +77,24 @@ EOF;
      */
     protected function doExecute(IResponse $response)
     {
-        if($this->command === null)
-        {
+        if ($this->command === null) {
             $response->writeln("<comment>Pass in the name of the command you'd like help with</comment>");
-        }
-        else
-        {
+        }else {
             $descriptionText = "No description";
             $helpText = "";
 
-            if($this->command->getDescription() != "")
-            {
+            if ($this->command->getDescription() != "") {
                 $descriptionText = $this->command->getDescription();
             }
 
-            if($this->command->getHelpText() != "")
-            {
+            if ($this->command->getHelpText() != "") {
                 $helpText = PHP_EOL . "<comment>Help:</comment>" . PHP_EOL . "  " . $this->command->getHelpText();
             }
 
             // Compile the template
             $compiledTemplate = self::$template;
-            $compiledTemplate = str_replace("{{command}}", $this->commandFormatter->format($this->command), $compiledTemplate);
+            $compiledTemplate = str_replace("{{command}}", $this->commandFormatter->format($this->command),
+                $compiledTemplate);
             $compiledTemplate = str_replace("{{description}}", $descriptionText, $compiledTemplate);
             $compiledTemplate = str_replace("{{name}}", $this->command->getName(), $compiledTemplate);
             $compiledTemplate = str_replace("{{arguments}}", $this->getArgumentText(), $compiledTemplate);
@@ -116,20 +112,17 @@ EOF;
      */
     private function getArgumentText()
     {
-        if(count($this->command->getArguments()) == 0)
-        {
+        if (count($this->command->getArguments()) == 0) {
             return "  No arguments";
         }
 
         $argumentTexts = [];
 
-        foreach($this->command->getArguments() as $argument)
-        {
+        foreach ($this->command->getArguments() as $argument) {
             $argumentTexts[] = [$argument->getName(), $argument->getDescription()];
         }
 
-        return $this->paddingFormatter->format($argumentTexts, function ($row)
-        {
+        return $this->paddingFormatter->format($argumentTexts, function ($row) {
             return "  <info>{$row[0]}</info> - {$row[1]}";
         });
     }
@@ -144,8 +137,7 @@ EOF;
     {
         $optionNames = "--{$option->getName()}";
 
-        if($option->getShortName() !== null)
-        {
+        if ($option->getShortName() !== null) {
             $optionNames .= "|-{$option->getShortName()}";
         }
 
@@ -159,20 +151,17 @@ EOF;
      */
     private function getOptionText()
     {
-        if(count($this->command->getOptions()) == 0)
-        {
+        if (count($this->command->getOptions()) == 0) {
             return "  No options";
         }
 
         $optionTexts = [];
 
-        foreach($this->command->getOptions() as $option)
-        {
+        foreach ($this->command->getOptions() as $option) {
             $optionTexts[] = [$this->getOptionNames($option), $option->getDescription()];
         }
 
-        return $this->paddingFormatter->format($optionTexts, function ($row)
-        {
+        return $this->paddingFormatter->format($optionTexts, function ($row) {
             return "  <info>{$row[0]}</info> - {$row[1]}";
         });
     }

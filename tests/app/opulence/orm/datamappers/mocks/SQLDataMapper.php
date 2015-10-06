@@ -50,8 +50,7 @@ class SQLDataMapper extends BaseSQLDataMapper
         // We clone all the entities so that they get new object hashes
         $clonedEntities = [];
 
-        foreach(array_values($this->entities) as $entity)
-        {
+        foreach (array_values($this->entities) as $entity) {
             $clonedEntities[] = clone $entity;
         }
 
@@ -63,8 +62,7 @@ class SQLDataMapper extends BaseSQLDataMapper
      */
     public function getById($id)
     {
-        if(!isset($this->entities[$id]))
-        {
+        if (!isset($this->entities[$id])) {
             throw new ORMException("No entity found with Id " . $id);
         }
 

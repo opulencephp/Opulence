@@ -110,28 +110,22 @@ class UploadedFile extends SplFileInfo
      */
     public function move($targetDirectory, $name = null)
     {
-        if($this->hasErrors())
-        {
+        if ($this->hasErrors()) {
             throw new UploadException("Cannot move file with errors");
         }
 
-        if(!is_dir($targetDirectory))
-        {
-            if(!mkdir($targetDirectory, 0777, true))
-            {
+        if (!is_dir($targetDirectory)) {
+            if (!mkdir($targetDirectory, 0777, true)) {
                 throw new UploadException("Could not create directory " . $targetDirectory);
             }
-        }
-        elseif(!is_writable($targetDirectory))
-        {
+        }elseif (!is_writable($targetDirectory)) {
             throw new UploadException($targetDirectory . " is not writable");
         }
 
         $name = $name ?: $this->getBasename();
         $targetPath = rtrim($targetDirectory, "\\/") . "/" . $name;
 
-        if(!$this->doMove($this->getPathname(), $targetPath))
-        {
+        if (!$this->doMove($this->getPathname(), $targetPath)) {
             throw new UploadException("Could not move the uploaded file");
         }
     }

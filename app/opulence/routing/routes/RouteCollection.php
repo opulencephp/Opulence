@@ -29,8 +29,7 @@ class RouteCollection
 
     public function __construct()
     {
-        foreach(self::$methods as $method)
-        {
+        foreach (self::$methods as $method) {
             $this->routes[$method] = [];
         }
     }
@@ -50,10 +49,8 @@ class RouteCollection
      */
     public function __clone()
     {
-        foreach($this->routes as $method => $routesByMethod)
-        {
-            foreach($routesByMethod as $index => $route)
-            {
+        foreach ($this->routes as $method => $routesByMethod) {
+            foreach ($routesByMethod as $index => $route) {
                 $this->routes[$method][$index] = clone $route;
             }
         }
@@ -68,13 +65,10 @@ class RouteCollection
     {
         $serializer = new Serializer(new AstAnalyzer());
 
-        foreach($this->routes as $method => $routesByMethod)
-        {
+        foreach ($this->routes as $method => $routesByMethod) {
             /** @var ParsedRoute $route */
-            foreach($routesByMethod as $route)
-            {
-                if($route->usesClosure())
-                {
+            foreach ($routesByMethod as $route) {
+                if ($route->usesClosure()) {
                     $route->setControllerClosure($serializer->serialize($route->getController()));
                 }
             }
@@ -90,13 +84,10 @@ class RouteCollection
     {
         $serializer = new Serializer(new AstAnalyzer());
 
-        foreach($this->routes as $method => $routesByMethod)
-        {
+        foreach ($this->routes as $method => $routesByMethod) {
             /** @var ParsedRoute $route */
-            foreach($routesByMethod as $route)
-            {
-                if($route->usesClosure())
-                {
+            foreach ($routesByMethod as $route) {
+                if ($route->usesClosure()) {
                     $route->setControllerClosure($serializer->unserialize($route->getController()));
                 }
             }
@@ -110,12 +101,10 @@ class RouteCollection
      */
     public function add(ParsedRoute $route)
     {
-        foreach($route->getMethods() as $method)
-        {
+        foreach ($route->getMethods() as $method) {
             $this->routes[$method][] = $route;
 
-            if(!empty($route->getName()))
-            {
+            if (!empty($route->getName())) {
                 $this->namedRoutes[$route->getName()] =& $route;
             }
         }
@@ -130,16 +119,11 @@ class RouteCollection
      */
     public function get($method = null)
     {
-        if($method === null)
-        {
+        if ($method === null) {
             return $this->routes;
-        }
-        elseif(isset($this->routes[$method]))
-        {
+        }elseif (isset($this->routes[$method])) {
             return $this->routes[$method];
-        }
-        else
-        {
+        }else {
             return [];
         }
     }
@@ -152,8 +136,7 @@ class RouteCollection
      */
     public function getNamedRoute($name)
     {
-        if(isset($this->namedRoutes[$name]))
-        {
+        if (isset($this->namedRoutes[$name])) {
             return $this->namedRoutes[$name];
         }
 

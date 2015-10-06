@@ -53,8 +53,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $postRoute = new ParsedRoute(new Route(Request::METHOD_POST, "/users", "foo@bar"));
         $expectedRoutes = [];
 
-        foreach(RouteCollection::getMethods() as $method)
-        {
+        foreach (RouteCollection::getMethods() as $method) {
             $expectedRoutes[$method] = [];
         }
 
@@ -172,8 +171,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerializingWorksWithControllerClosure()
     {
-        $route = new Route("get", "/", function ()
-        {
+        $route = new Route("get", "/", function () {
             return "foo";
         });
         $parsedRoute = new ParsedRoute($route);

@@ -24,21 +24,16 @@ class Lexer implements ILexer
         $inOpenTag = false;
         $inCloseTag = false;
 
-        for($charIter = 0;$charIter < $textLength;$charIter++)
-        {
+        for ($charIter = 0;$charIter < $textLength;$charIter++) {
             $char = $text[$charIter];
 
-            switch($char)
-            {
+            switch ($char) {
                 case "<":
-                    if($this->lookBehind($text, $charIter) == "\\")
-                    {
+                    if ($this->lookBehind($text, $charIter) == "\\") {
                         // This tag was escaped
                         // Don't include the preceding slash
                         $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
-                    }
-                    elseif($inOpenTag || $inCloseTag)
-                    {
+                    }elseif ($inOpenTag || $inCloseTag) {
                         throw new RuntimeException(
                             sprintf(
                                 "Invalid tags near \"%s\", character #%d",
@@ -46,25 +41,19 @@ class Lexer implements ILexer
                                 $charIter
                             )
                         );
-                    }
-                    else
-                    {
+                    }else {
 
                         // Check if this is a closing tag
-                        if($this->peek($text, $charIter) == "/")
-                        {
+                        if ($this->peek($text, $charIter) == "/") {
                             $inCloseTag = true;
                             $inOpenTag = false;
-                        }
-                        else
-                        {
+                        }else {
                             $inCloseTag = false;
                             $inOpenTag = true;
                         }
 
                         // Flush the word buffer
-                        if($wordBuffer != "")
-                        {
+                        if ($wordBuffer != "") {
                             $tokens[] = new Token(
                                 TokenTypes::T_WORD,
                                 $wordBuffer,
@@ -76,19 +65,15 @@ class Lexer implements ILexer
 
                     break;
                 case ">";
-                    if($inOpenTag || $inCloseTag)
-                    {
-                        if($inOpenTag)
-                        {
+                    if ($inOpenTag || $inCloseTag) {
+                        if ($inOpenTag) {
                             $tokens[] = new Token(
                                 TokenTypes::T_TAG_OPEN,
                                 $elementNameBuffer,
                                 // Need to get the position of the beginning of the open tag
                                 $charIter - mb_strlen($elementNameBuffer) - 1
                             );
-                        }
-                        else
-                        {
+                        }else {
                             $tokens[] = new Token(
                                 TokenTypes::T_TAG_CLOSE,
                                 $elementNameBuffer,
@@ -100,24 +85,18 @@ class Lexer implements ILexer
                         $elementNameBuffer = "";
                         $inOpenTag = false;
                         $inCloseTag = false;
-                    }
-                    else
-                    {
+                    }else {
                         $wordBuffer .= $char;
                     }
 
                     break;
                 default:
-                    if($inOpenTag || $inCloseTag)
-                    {
+                    if ($inOpenTag || $inCloseTag) {
                         // We're in a tag, so buffer the element name
-                        if($char != "/")
-                        {
+                        if ($char != "/") {
                             $elementNameBuffer .= $char;
                         }
-                    }
-                    else
-                    {
+                    }else {
                         // We're outside of a tag somewhere
                         $wordBuffer .= $char;
                     }
@@ -127,8 +106,7 @@ class Lexer implements ILexer
         }
 
         // Finish flushing the word buffer
-        if($wordBuffer !== "")
-        {
+        if ($wordBuffer !== "") {
             $tokens[] = new Token(
                 TokenTypes::T_WORD,
                 $wordBuffer,
@@ -150,13 +128,11 @@ class Lexer implements ILexer
      */
     private function getSurroundingText($text, $position)
     {
-        if(mb_strlen($text) <= 3)
-        {
+        if (mb_strlen($text) <= 3) {
             return $text;
         }
 
-        if($position <= 3)
-        {
+        if ($position <= 3) {
             return mb_substr($text, 0, 4);
         }
 
@@ -172,8 +148,7 @@ class Lexer implements ILexer
      */
     private function lookBehind($text, $currPosition)
     {
-        if(mb_strlen($text) == 0 || $currPosition == 0)
-        {
+        if (mb_strlen($text) == 0 || $currPosition == 0) {
             return null;
         }
 
@@ -189,8 +164,7 @@ class Lexer implements ILexer
      */
     private function peek($text, $currPosition)
     {
-        if(mb_strlen($text) == 0 || mb_strlen($text) == $currPosition + 1)
-        {
+        if (mb_strlen($text) == 0 || mb_strlen($text) == $currPosition + 1) {
             return null;
         }
 

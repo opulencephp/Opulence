@@ -48,6 +48,18 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
             ),
             new Route(
                 Request::METHOD_GET,
+                "/users[/:foo]",
+                "foo@bar",
+                ["name" => "pathOptionalSlashAndVariable"]
+            ),
+            new Route(
+                Request::METHOD_GET,
+                "/users[/:foo[/:bar]]",
+                "foo@bar",
+                ["name" => "pathOptionalNestedSlashesAndVariables"]
+            ),
+            new Route(
+                Request::METHOD_GET,
                 "/users/:userId",
                 "foo@bar",
                 [
@@ -123,13 +135,12 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
         $routeCollection = new RouteCollection();
         $parser = new Parser();
 
-        foreach($namedRoutes as $name => $route)
-        {
+        foreach ($namedRoutes as $name => $route) {
             $routeCollection->add($parser->parse($route));
         }
 
         $parser = new Parser();
-        $this->generator = new URLGenerator($routeCollection, $parser->getVarMatchingRegex());
+        $this->generator = new URLGenerator($routeCollection);
     }
 
     /**
@@ -158,7 +169,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             "http://foo.bar.example.com/users/23/profile/edit",
-            $this->generator->createFromName("hostAndPathMultipleParameters", ["foo", "bar", 23, "edit"])
+            $this->generator->createFromName("hostAndPathMultipleParameters", "foo", "bar", 23, "edit")
         );
     }
 
@@ -176,8 +187,9 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLWithOneValue()
     {
-        $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", [23]));
-        $this->assertEquals("http://foo.example.com/users", $this->generator->createFromName("hostOneParameter", ["foo"]));
+        $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", 23));
+        $this->assertEquals("http://foo.example.com/users",
+            $this->generator->createFromName("hostOneParameter", "foo"));
     }
 
     /**
@@ -192,6 +204,25 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests generating a URL with optional nested slashes and path variables
+     */
+    public function testGeneratingURLWithOptionalNestedSlashesAndPathVariables()
+    {
+        $this->assertEquals(
+            "/users",
+            $this->generator->createFromName("pathOptionalNestedSlashesAndVariables")
+        );
+        $this->assertEquals(
+            "/users/bar",
+            $this->generator->createFromName("pathOptionalNestedSlashesAndVariables", "bar")
+        );
+        $this->assertEquals(
+            "/users/bar/baz",
+            $this->generator->createFromName("pathOptionalNestedSlashesAndVariables", "bar", "baz")
+        );
+    }
+
+    /**
      * Tests generating a URL with an optional path variable
      */
     public function testGeneratingURLWithOptionalPathVariable()
@@ -199,6 +230,21 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             "/users",
             $this->generator->createFromName("pathOptionalVariable")
+        );
+    }
+
+    /**
+     * Tests generating a URL with an optional slash and path variable
+     */
+    public function testGeneratingURLWithOptionalSlashAndPathVariable()
+    {
+        $this->assertEquals(
+            "/users",
+            $this->generator->createFromName("pathOptionalSlashAndVariable")
+        );
+        $this->assertEquals(
+            "/users/bar",
+            $this->generator->createFromName("pathOptionalSlashAndVariable", "bar")
         );
     }
 
@@ -218,10 +264,11 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testGeneratingURLWithTwoValues()
     {
-        $this->assertEquals("/users/23/profile/edit", $this->generator->createFromName("pathTwoParameters", [23, "edit"]));
+        $this->assertEquals("/users/23/profile/edit",
+            $this->generator->createFromName("pathTwoParameters", 23, "edit"));
         $this->assertEquals(
             "http://foo.bar.example.com/users",
-            $this->generator->createFromName("hostTwoParameters", ["foo", "bar"])
+            $this->generator->createFromName("hostTwoParameters", "foo", "bar")
         );
     }
 

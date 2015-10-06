@@ -31,25 +31,20 @@ class Option
      */
     public function __construct($name, $shortName, $type, $description, $defaultValue = null)
     {
-        if(($type & 3) === 3)
-        {
+        if (($type & 3) === 3) {
             throw new InvalidArgumentException("Option type cannot be both optional and required");
         }
 
-        if(($type & 5) === 5 || ($type & 6) === 6)
-        {
+        if (($type & 5) === 5 || ($type & 6) === 6) {
             throw new InvalidArgumentException("Option cannot have a value and not have a value");
         }
 
-        if($shortName !== null)
-        {
-            if(mb_strlen($shortName) != 1)
-            {
+        if ($shortName !== null) {
+            if (mb_strlen($shortName) != 1) {
                 throw new InvalidArgumentException("Short names must be one character in length");
             }
 
-            if(!ctype_alpha($shortName))
-            {
+            if (!ctype_alpha($shortName)) {
                 throw new InvalidArgumentException("Short names must be an alphabet character");
             }
         }

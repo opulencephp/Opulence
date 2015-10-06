@@ -1,3 +1,13 @@
+<h2>v0.6.12</h2>
+
+<h3>General</h3>
+* Switched to PSR-2 code style
+
+<h3>Routing</h3>
+* Fixed bug when generating URLs with brackets
+* Removed `Opulence\Routing\Routes\Compilers\Parsers\IParser::getVariableMatchingRegex()`
+* Changed `Opulence\Routing\URL\URLGenerator::createFromName()` and Fortune view function `route()` to accept a variable-length number of parameters as arguments rather than bundling them all in an array
+
 <h2>v0.6.11</h2>
 
 <h3>Routing</h3>

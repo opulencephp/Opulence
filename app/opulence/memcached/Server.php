@@ -22,18 +22,15 @@ class Server
      */
     public function __construct($host = null, $port = null, $weight = null)
     {
-        if($host !== null)
-        {
+        if ($host !== null) {
             $this->setHost($host);
         }
 
-        if($port !== null)
-        {
+        if ($port !== null) {
             $this->setPort($port);
         }
 
-        if($weight !== null)
-        {
+        if ($weight !== null) {
             $this->setWeight($weight);
         }
     }

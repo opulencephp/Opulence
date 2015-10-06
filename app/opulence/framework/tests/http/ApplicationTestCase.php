@@ -63,10 +63,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $cookies = $this->response->getHeaders()->getCookies();
         $cookieValue = null;
 
-        foreach($cookies as $cookie)
-        {
-            if($cookie->getName() == $name)
-            {
+        foreach ($cookies as $cookie) {
+            if ($cookie->getName() == $name) {
                 $cookieValue = $cookie->getValue();
 
                 break;
@@ -87,10 +85,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $cookies = $this->response->getHeaders()->getCookies();
         $wasFound = false;
 
-        foreach($cookies as $cookie)
-        {
-            if($cookie->getName() == $name)
-            {
+        foreach ($cookies as $cookie) {
+            if ($cookie->getName() == $name) {
                 $wasFound = true;
 
                 break;
@@ -180,8 +176,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     {
         $this->checkResponseIsSet();
 
-        if(!$this->router->getMatchedController() instanceof Controller)
-        {
+        if (!$this->router->getMatchedController() instanceof Controller) {
             throw new LogicException("Controller does not extend " . Controller::class);
         }
 
@@ -199,8 +194,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     {
         $this->checkResponseIsSet();
 
-        if(!$this->router->getMatchedController() instanceof Controller)
-        {
+        if (!$this->router->getMatchedController() instanceof Controller) {
             throw new LogicException("Controller does not extend " . Controller::class);
         }
 
@@ -233,8 +227,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function route($method, $url, Request $request = null)
     {
-        if($request === null)
-        {
+        if ($request === null) {
             $request = $this->defaultRequest;
         }
 
@@ -276,8 +269,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     private function checkResponseIsSet()
     {
-        if($this->response === null)
-        {
+        if ($this->response === null) {
             $this->fail("Must call route() before assertions");
         }
     }

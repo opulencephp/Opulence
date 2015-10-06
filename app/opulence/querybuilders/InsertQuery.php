@@ -39,14 +39,10 @@ class InsertQuery extends Query
         // The augmenting query doesn't care about the data type, so get rid of it
         $columnNamesToValuesWithoutDataTypes = [];
 
-        foreach($columnNamesToValues as $name => $value)
-        {
-            if(is_array($value))
-            {
+        foreach ($columnNamesToValues as $name => $value) {
+            if (is_array($value)) {
                 $columnNamesToValuesWithoutDataTypes[$name] = $value[0];
-            }
-            else
-            {
+            }else {
                 $columnNamesToValuesWithoutDataTypes[$name] = $value;
             }
         }
@@ -63,7 +59,8 @@ class InsertQuery extends Query
     {
         $sql = "INSERT INTO " . $this->tableName
             . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES ("
-            . implode(", ", array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), "?"))
+            . implode(", ",
+                array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), "?"))
             . ")";
 
         return $sql;

@@ -40,8 +40,7 @@ abstract class Hasher implements IHasher
     {
         $hashedValue = password_hash($unhashedValue . $pepper, $this->hashAlgorithm, $options);
 
-        if($hashedValue === false)
-        {
+        if ($hashedValue === false) {
             throw new RuntimeException("Failed to generate hash for algorithm {$this->hashAlgorithm}");
         }
 

@@ -115,13 +115,11 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
         $lazyBootstrapperClasses = (array)$lazyBootstrapperClasses;
         $bindingsToLazyBootstrappers = [];
 
-        foreach($lazyBootstrapperClasses as $lazyBootstrapperClass)
-        {
+        foreach ($lazyBootstrapperClasses as $lazyBootstrapperClass) {
             /** @var ILazyBootstrapper $lazyBootstrapper */
             $lazyBootstrapper = new $lazyBootstrapperClass($this->paths, $this->environment);
 
-            foreach($lazyBootstrapper->getBindings() as $boundClass)
-            {
+            foreach ($lazyBootstrapper->getBindings() as $boundClass) {
                 $bindingsToLazyBootstrappers[$boundClass] = LazyBootstrapper::class;
             }
         }

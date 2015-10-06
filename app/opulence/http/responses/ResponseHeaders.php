@@ -177,19 +177,15 @@ class ResponseHeaders extends Headers
     {
         $cookies = [];
 
-        foreach($this->cookies as $domain => $cookiesByDomain)
-        {
-            foreach($cookiesByDomain as $path => $cookiesByPath)
-            {
+        foreach ($this->cookies as $domain => $cookiesByDomain) {
+            foreach ($cookiesByDomain as $path => $cookiesByPath) {
                 /**
                  * @var string $name
                  * @var Cookie $cookie
                  */
-                foreach($cookiesByPath as $name => $cookie)
-                {
+                foreach ($cookiesByPath as $name => $cookie) {
                     // Only include active cookies
-                    if($includeDeletedCookies || $cookie->getExpiration() >= new DateTime("now"))
-                    {
+                    if ($includeDeletedCookies || $cookie->getExpiration() >= new DateTime("now")) {
                         $cookies[] = $cookie;
                     }
                 }
@@ -216,8 +212,7 @@ class ResponseHeaders extends Headers
      */
     public function setCookies(array $cookies)
     {
-        foreach($cookies as $cookie)
-        {
+        foreach ($cookies as $cookie) {
             $this->setCookie($cookie);
         }
     }

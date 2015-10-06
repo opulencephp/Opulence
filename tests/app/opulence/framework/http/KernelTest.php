@@ -155,12 +155,9 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $routeCompiler = $this->getMock(ICompiler::class);
         $routeCompiler->expects($this->any())->method("compile")->willReturn($compiledRoute);
 
-        if($shouldThrowException)
-        {
+        if ($shouldThrowException) {
             $router = new ExceptionalRouter(new Dispatcher($container), $routeCompiler, $routeParser);
-        }
-        else
-        {
+        }else {
             $router = new Router(new Dispatcher($container), $routeCompiler, $routeParser);
         }
 

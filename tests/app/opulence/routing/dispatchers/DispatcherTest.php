@@ -45,8 +45,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testCallingClosure()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", function ()
-            {
+            new Route(["GET"], "/foo", function () {
                 return new Response("Closure");
             })
         );
@@ -64,8 +63,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->container->bind(Request::class, $this->request);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/{primitive}", function (Request $request, $primitive)
-            {
+            new Route(["GET"], "/foo/{primitive}", function (Request $request, $primitive) {
                 return get_class($request) . ":" . $primitive;
             })
         );
@@ -165,8 +163,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testClosureResponseTextIsWrappedInObject()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", function ()
-            {
+            new Route(["GET"], "/foo", function () {
                 return "Closure";
             })
         );
@@ -213,8 +210,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", function ($id)
-            {
+            new Route(["GET"], "/foo", function ($id) {
                 return new Response("Closure: Id: $id");
             })
         );
@@ -227,8 +223,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testPassingPathVariableToClosure()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/{id}", function ($id)
-            {
+            new Route(["GET"], "/foo/{id}", function ($id) {
                 return new Response("Closure: Id: $id");
             })
         );
@@ -271,8 +266,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testUsingDefaultValueForPathVariableInClosure()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/{id}", function ($id = "123")
-            {
+            new Route(["GET"], "/foo/{id}", function ($id = "123") {
                 return new Response("Closure: Id: $id");
             })
         );

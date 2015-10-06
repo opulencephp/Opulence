@@ -11,41 +11,41 @@ use Opulence\Routing\Routes\RouteCollection;
 
 class URLGenerator
 {
+    /** @var string The regex used to match variables */
+    private static $variableMatchingRegex = "#:([\w]+)(?:=([^:\[\]/]+))?#";
+    /** @var string The regex used to remove leftover brackets and variables */
+    private static $leftoverBracketsAndVariablesRegex = "#(\[/?:.+\]|\[|\])|(:([\w]+)(?:=([^:\[\]/]+))?)#";
     /** @var RouteCollection The list of routes */
     private $routeCollection = null;
-    /** @var string The regex used to match variables */
-    private $variableMatchingRegex = "";
 
     /**
      * @param RouteCollection $routeCollection The list of routes
-     * @param string $variableMatchingRegex The regex used to match variables
      */
-    public function __construct(RouteCollection &$routeCollection, $variableMatchingRegex)
+    public function __construct(RouteCollection &$routeCollection)
     {
         $this->routeCollection = $routeCollection;
-        $this->variableMatchingRegex = $variableMatchingRegex;
     }
 
     /**
      * Creates a URL for the named route
+     * This function accepts variable-length arguments after the name
      *
      * @param string $name The named of the route whose URL we're generating
-     * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated URL if the route exists, otherwise an empty string
      * @throws URLException Thrown if there was an error generating the URL
      */
-    public function createFromName($name, $values = [])
+    public function createFromName($name)
     {
         $route = $this->routeCollection->getNamedRoute($name);
 
-        if($route === null)
-        {
+        if ($route === null) {
             return "";
         }
 
-        $values = (array)$values;
+        $args = func_get_args();
+        array_shift($args);
 
-        return $this->generateHost($route, $values) . $this->generatePath($route, $values);
+        return $this->generateHost($route, $args) . $this->generatePath($route, $args);
     }
 
     /**
@@ -58,43 +58,15 @@ class URLGenerator
      */
     private function generateHost(ParsedRoute $route, &$values)
     {
-        $generatedHost = "";
-        $variableMatchingRegex = $this->variableMatchingRegex;
-        $count = 1000;
+        $host = "";
 
-        if(!empty($route->getRawHost()))
-        {
-            $generatedHost = $route->getRawHost();
-
-            while($count > 0 && count($values) > 0)
-            {
-                $generatedHost = preg_replace($variableMatchingRegex, $values[0], $generatedHost, 1, $count);
-
-                if($count > 0)
-                {
-                    // Only remove a value if we actually replaced something
-                    array_shift($values);
-                }
-            }
-
-            // Remove any leftover variables
-            $generatedHost = preg_replace($variableMatchingRegex, "", $generatedHost);
-            // Remove any leftover brackets
-            $generatedHost = str_replace(["[", "]"], ["", ""], $generatedHost);
-
-            // Make sure what we just generated satisfies the regex
-            if(!preg_match($route->getHostRegex(), $generatedHost))
-            {
-                throw new URLException(
-                    "Generated host \"$generatedHost\" does not satisfy regex for route \"{$route->getName()}\""
-                );
-            }
-
+        if (!empty($route->getRawHost())) {
+            $host = $this->generateURLPart($route->getRawHost(), $route->getHostRegex(), $route->getName(), $values);
             // Prefix the URL with the protocol
-            $generatedHost = "http" . ($route->isSecure() ? "s" : "") . "://" . $generatedHost;
+            $host = "http" . ($route->isSecure() ? "s" : "") . "://" . $host;
         }
 
-        return $generatedHost;
+        return $host;
     }
 
     /**
@@ -107,34 +79,43 @@ class URLGenerator
      */
     private function generatePath(ParsedRoute $route, &$values)
     {
-        $generatedPath = $route->getRawPath();
-        $variableMatchingRegex = $this->variableMatchingRegex;
+        return $this->generateURLPart($route->getRawPath(), $route->getPathRegex(), $route->getName(), $values);
+    }
+
+    /**
+     * Generates a part of a URL for a route
+     *
+     * @param string $rawPart The raw part to generate
+     * @param string $regex The regex to match against
+     * @param string $routeName The route name
+     * @param mixed|array $values The value or list of values to fill the route with
+     * @return string The generated URL part
+     * @throws URLException Thrown if the generated path is not valid
+     */
+    private function generateURLPart($rawPart, $regex, $routeName, &$values)
+    {
+        $generatedPart = $rawPart;
         $count = 1000;
 
-        while($count > 0 && count($values) > 0)
-        {
-            $generatedPath = preg_replace($variableMatchingRegex, $values[0], $generatedPath, 1, $count);
+        while ($count > 0 && count($values) > 0) {
+            $generatedPart = preg_replace(self::$variableMatchingRegex, $values[0], $generatedPart, 1, $count);
 
-            if($count > 0)
-            {
+            if ($count > 0) {
                 // Only remove a value if we actually replaced something
                 array_shift($values);
             }
         }
 
-        // Remove any leftover variables
-        $generatedPath = preg_replace($this->variableMatchingRegex, "", $generatedPath);
-        // Remove any leftover brackets
-        $generatedPath = str_replace(["[", "]"], ["", ""], $generatedPath);
+        // Remove any leftover brackets or variables
+        $generatedPart = preg_replace(self::$leftoverBracketsAndVariablesRegex, "", $generatedPart);
 
         // Make sure what we just generated satisfies the regex
-        if(!preg_match($route->getPathRegex(), $generatedPath))
-        {
+        if (!preg_match($regex, $generatedPart)) {
             throw new URLException(
-                "Generated path \"$generatedPath\" does not satisfy regex for route \"{$route->getName()}\""
+                "Generated URL part \"$generatedPart\" does not satisfy regex for route \"$routeName\""
             );
         }
 
-        return $generatedPath;
+        return $generatedPart;
     }
 }

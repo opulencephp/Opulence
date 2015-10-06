@@ -11,8 +11,7 @@ use Opulence\Redis\Server;
 use Opulence\Redis\TypeMapper;
 
 // To get around having to install Redis just to run tests, include a mock Redis class
-if(!class_exists("Redis"))
-{
+if (!class_exists("Redis")) {
     require __DIR__ . "/Redis.php";
 }
 

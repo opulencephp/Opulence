@@ -35,8 +35,7 @@ class Session implements ISession
      */
     public function __construct($id = null, IIdGenerator $idGenerator = null)
     {
-        if(is_null($idGenerator))
-        {
+        if (is_null($idGenerator)) {
             $idGenerator = new IdGenerator(new Strings());
         }
 
@@ -49,8 +48,7 @@ class Session implements ISession
      */
     public function ageFlashData()
     {
-        foreach($this->getStaleFlashKeys() as $oldKey)
-        {
+        foreach ($this->getStaleFlashKeys() as $oldKey) {
             $this->delete($oldKey);
         }
 
@@ -78,8 +76,7 @@ class Session implements ISession
         $staleFlashKeys = $this->getStaleFlashKeys();
 
         // Remove the data from the list of stale keys, if it was there
-        if(($staleKey = array_search($key, $staleFlashKeys)) !== false)
-        {
+        if (($staleKey = array_search($key, $staleFlashKeys)) !== false) {
             unset($staleFlashKeys[$staleKey]);
         }
 
@@ -99,8 +96,7 @@ class Session implements ISession
      */
     public function get($key, $defaultValue = null)
     {
-        if(isset($this->variables[$key]))
-        {
+        if (isset($this->variables[$key])) {
             return $this->variables[$key];
         }
 
@@ -168,8 +164,7 @@ class Session implements ISession
      */
     public function offsetSet($key, $value)
     {
-        if(is_null($key))
-        {
+        if (is_null($key)) {
             throw new InvalidArgumentException("Key cannot be empty");
         }
 
@@ -216,12 +211,9 @@ class Session implements ISession
      */
     public function setId($id)
     {
-        if($this->idGenerator->isIdValid($id))
-        {
+        if ($this->idGenerator->isIdValid($id)) {
             $this->id = $id;
-        }
-        else
-        {
+        }else {
             $this->regenerateId();
         }
     }

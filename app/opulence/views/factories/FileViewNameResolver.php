@@ -39,28 +39,20 @@ class FileViewNameResolver implements IViewNameResolver
         $sortedExtensions = $this->sortByPriority($this->extensions);
         $sortedPaths = $this->sortByPriority($this->paths);
 
-        if($this->nameHasExtension($name, $sortedExtensions))
-        {
-            foreach($sortedPaths as $path)
-            {
+        if ($this->nameHasExtension($name, $sortedExtensions)) {
+            foreach ($sortedPaths as $path) {
                 $fullPath = "$path/$name";
 
-                if(file_exists($fullPath))
-                {
+                if (file_exists($fullPath)) {
                     return $fullPath;
                 }
             }
-        }
-        else
-        {
-            foreach($sortedPaths as $path)
-            {
-                foreach($sortedExtensions as $extension)
-                {
+        }else {
+            foreach ($sortedPaths as $path) {
+                foreach ($sortedExtensions as $extension) {
                     $fullPath = "$path/$name.$extension";
 
-                    if(file_exists($fullPath))
-                    {
+                    if (file_exists($fullPath)) {
                         return $fullPath;
                     }
                 }
@@ -79,12 +71,10 @@ class FileViewNameResolver implements IViewNameResolver
      */
     protected function nameHasExtension($name, array $sortedExtensions)
     {
-        foreach($sortedExtensions as $extension)
-        {
+        foreach ($sortedExtensions as $extension) {
             $lengthDifference = strlen($name) - strlen($extension);
 
-            if($lengthDifference > 0 && strpos($name, $extension, $lengthDifference) !== false)
-            {
+            if ($lengthDifference > 0 && strpos($name, $extension, $lengthDifference) !== false) {
                 return true;
             }
         }
@@ -103,14 +93,10 @@ class FileViewNameResolver implements IViewNameResolver
         $nonPriorityItems = [];
         $priorityItems = [];
 
-        foreach($list as $key => $priority)
-        {
-            if($priority == -1)
-            {
+        foreach ($list as $key => $priority) {
+            if ($priority == -1) {
                 $nonPriorityItems[] = $key;
-            }
-            else
-            {
+            }else {
                 $priorityItems[$key] = $priority;
             }
         }

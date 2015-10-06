@@ -26,13 +26,11 @@ class OpulencePredis extends Client implements IRedis
             "database" => $this->server->getDatabaseIndex()
         ];
 
-        if($this->server->passwordIsSet())
-        {
+        if ($this->server->passwordIsSet()) {
             $connectionOptions["password"] = $this->server->getPassword();
         }
 
-        if($this->server->getConnectionTimeout() > 0)
-        {
+        if ($this->server->getConnectionTimeout() > 0) {
             $connectionOptions["connection_timeout"] = $this->server->getConnectionTimeout();
         }
 

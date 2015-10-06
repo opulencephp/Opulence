@@ -47,7 +47,8 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->orWhere("u.name = ?")
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
             ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], "foo@bar.com", "dave"]);
-        $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')", $query->getSQL());
+        $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
+            $query->getSQL());
         $this->assertEquals([
             ["david", PDO::PARAM_STR],
             ["bar@foo.com", PDO::PARAM_STR],

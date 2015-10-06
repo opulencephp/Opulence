@@ -36,12 +36,10 @@ class Cache implements ICache
         $lifetime = self::DEFAULT_LIFETIME,
         $gcChance = self::DEFAULT_GC_CHANCE,
         $gcDivisor = self::DEFAULT_GC_DIVISOR
-    )
-    {
+    ) {
         $this->fileSystem = $fileSystem;
 
-        if($path !== null)
-        {
+        if ($path !== null) {
             $this->setPath($path);
         }
 
@@ -54,8 +52,7 @@ class Cache implements ICache
      */
     public function __destruct()
     {
-        if(rand(1, $this->gcDivisor) <= $this->gcChance)
-        {
+        if (rand(1, $this->gcDivisor) <= $this->gcChance) {
             $this->gc();
         }
     }
@@ -67,8 +64,7 @@ class Cache implements ICache
     {
         $viewPaths = $this->fileSystem->getFiles($this->path);
 
-        foreach($viewPaths as $viewPath)
-        {
+        foreach ($viewPaths as $viewPath) {
             $this->fileSystem->deleteFile($viewPath);
         }
     }
@@ -80,10 +76,8 @@ class Cache implements ICache
     {
         $viewPaths = $this->fileSystem->getFiles($this->path);
 
-        foreach($viewPaths as $viewPath)
-        {
-            if($this->isExpired($viewPath))
-            {
+        foreach ($viewPaths as $viewPath) {
+            if ($this->isExpired($viewPath)) {
                 $this->fileSystem->deleteFile($viewPath);
             }
         }
@@ -94,8 +88,7 @@ class Cache implements ICache
      */
     public function get(IView $view)
     {
-        if(!$this->has($view))
-        {
+        if (!$this->has($view)) {
             return null;
         }
 
@@ -107,22 +100,19 @@ class Cache implements ICache
      */
     public function has(IView $view)
     {
-        if(!$this->cachingIsEnabled())
-        {
+        if (!$this->cachingIsEnabled()) {
             return false;
         }
 
         $viewPath = $this->getViewPath($view);
         $exists = $this->fileSystem->exists($viewPath);
 
-        if(!$exists)
-        {
+        if (!$exists) {
             return false;
         }
 
         // Check the expiration
-        if($this->isExpired($viewPath))
-        {
+        if ($this->isExpired($viewPath)) {
             // Do some garbage collection
             $this->fileSystem->deleteFile($viewPath);
 
@@ -137,8 +127,7 @@ class Cache implements ICache
      */
     public function set(IView $view, $compiledContents)
     {
-        if($this->cachingIsEnabled())
-        {
+        if ($this->cachingIsEnabled()) {
             $this->fileSystem->write($this->getViewPath($view), $compiledContents);
         }
     }
@@ -160,8 +149,7 @@ class Cache implements ICache
         $this->path = rtrim($path, "/");
 
         // Make sure the path exists
-        if(!$this->fileSystem->exists($this->path))
-        {
+        if (!$this->fileSystem->exists($this->path)) {
             $this->fileSystem->makeDirectory($this->path);
         }
     }

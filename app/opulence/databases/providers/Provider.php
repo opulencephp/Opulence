@@ -27,8 +27,7 @@ class Provider
      */
     public function convertFromSQLBoolean($value)
     {
-        if(is_null($value))
-        {
+        if (is_null($value)) {
             return null;
         }
 
@@ -43,8 +42,7 @@ class Provider
      */
     public function convertToSQLBoolean($value)
     {
-        if(is_bool($value))
-        {
+        if (is_bool($value)) {
             return (int)$value;
         }
 

@@ -18,12 +18,9 @@ class Executable
      */
     public function __construct(Paths $paths)
     {
-        if(file_exists($paths["root"] . "/composer.phar"))
-        {
+        if (file_exists($paths["root"] . "/composer.phar")) {
             $this->executable = '"' . PHP_BINARY . '" composer.phar';
-        }
-        else
-        {
+        }else {
             $this->executable = "composer";
         }
     }

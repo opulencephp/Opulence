@@ -38,15 +38,12 @@ class Dispatcher implements IDispatcher
      */
     public function dispatch(IBootstrapperRegistry $registry)
     {
-        if($this->forceEagerLoading)
-        {
+        if ($this->forceEagerLoading) {
             $eagerBootstrapperClasses = $registry->getEagerBootstrappers();
             $lazyBootstrapperClasses = array_unique(array_values($registry->getLazyBootstrapperBindings()));
             $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
             $this->dispatchEagerly($registry, $bootstrapperClasses);
-        }
-        else
-        {
+        }else {
             // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
             $this->dispatchLazily($registry, $registry->getLazyBootstrapperBindings());
             $this->dispatchEagerly($registry, $registry->getEagerBootstrappers());
@@ -72,23 +69,19 @@ class Dispatcher implements IDispatcher
     {
         $bootstrapperObjects = [];
 
-        foreach($bootstrapperClasses as $bootstrapperClass)
-        {
+        foreach ($bootstrapperClasses as $bootstrapperClass) {
             $bootstrapper = $registry->getInstance($bootstrapperClass);
             $bootstrapper->registerBindings($this->container);
             $bootstrapperObjects[] = $bootstrapper;
         }
 
-        foreach($bootstrapperObjects as $bootstrapper)
-        {
+        foreach ($bootstrapperObjects as $bootstrapper) {
             $this->container->call([$bootstrapper, "run"], [], true);
         }
 
         // Call the shutdown method
-        $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use ($bootstrapperObjects)
-        {
-            foreach($bootstrapperObjects as $bootstrapper)
-            {
+        $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use ($bootstrapperObjects) {
+            foreach ($bootstrapperObjects as $bootstrapper) {
                 $this->container->call([$bootstrapper, "shutdown"], [], true);
             }
         });
@@ -106,21 +99,17 @@ class Dispatcher implements IDispatcher
         // This gets passed around by reference so that it'll have the latest objects come time to shut down
         $bootstrapperObjects = [];
 
-        foreach($bindingsToBootstrapperClasses as $boundClass => $bootstrapperClass)
-        {
+        foreach ($bindingsToBootstrapperClasses as $boundClass => $bootstrapperClass) {
             $this->container->bind(
                 $boundClass,
-                function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass)
-                {
+                function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass) {
                     $bootstrapper = $registry->getInstance($bootstrapperClass);
 
-                    if(!in_array($bootstrapper, $bootstrapperObjects))
-                    {
+                    if (!in_array($bootstrapper, $bootstrapperObjects)) {
                         $bootstrapperObjects[] = $bootstrapper;
                     }
 
-                    if(!isset($this->runBootstrappers[$bootstrapperClass]))
-                    {
+                    if (!isset($this->runBootstrappers[$bootstrapperClass])) {
                         $bootstrapper->registerBindings($this->container);
                         $this->container->call([$bootstrapper, "run"], [], true);
                         $this->runBootstrappers[$bootstrapperClass] = true;
@@ -132,10 +121,8 @@ class Dispatcher implements IDispatcher
         }
 
         // Call the shutdown method
-        $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$bootstrapperObjects)
-        {
-            foreach($bootstrapperObjects as $bootstrapper)
-            {
+        $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$bootstrapperObjects) {
+            foreach ($bootstrapperObjects as $bootstrapper) {
                 $this->container->call([$bootstrapper, "shutdown"], [], true);
             }
         });

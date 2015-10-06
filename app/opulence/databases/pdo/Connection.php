@@ -65,8 +65,7 @@ class Connection extends PDO implements IConnection
     {
         $this->connect();
 
-        if(!$this->transactionCounter++)
-        {
+        if (!$this->transactionCounter++) {
             parent::beginTransaction();
         }
     }
@@ -80,8 +79,7 @@ class Connection extends PDO implements IConnection
      */
     public function commit()
     {
-        if(!--$this->transactionCounter)
-        {
+        if (!--$this->transactionCounter) {
             parent::commit();
         }
     }
@@ -216,8 +214,7 @@ class Connection extends PDO implements IConnection
      */
     public function rollBack()
     {
-        if($this->transactionCounter >= 0)
-        {
+        if ($this->transactionCounter >= 0) {
             parent::rollBack();
         }
 
@@ -242,11 +239,12 @@ class Connection extends PDO implements IConnection
      */
     private function connect()
     {
-        if(!$this->isConnected)
-        {
-            parent::__construct($this->dsn, $this->server->getUsername(), $this->server->getPassword(), $this->driverOptions);
+        if (!$this->isConnected) {
+            parent::__construct($this->dsn, $this->server->getUsername(), $this->server->getPassword(),
+                $this->driverOptions);
             parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            parent::setAttribute(PDO::ATTR_STATEMENT_CLASS, [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
+            parent::setAttribute(PDO::ATTR_STATEMENT_CLASS,
+                [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]);
 
             $this->isConnected = true;
         }

@@ -38,21 +38,16 @@ class UpdateQuery extends Query
      */
     public function addColumnValues(array $columnNamesToValues)
     {
-        if(count($columnNamesToValues) > 0)
-        {
+        if (count($columnNamesToValues) > 0) {
             $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
 
             // The augmenting query doesn't care about the data type, so get rid of it
             $columnNamesToValuesWithoutDataTypes = [];
 
-            foreach($columnNamesToValues as $name => $value)
-            {
-                if(is_array($value))
-                {
+            foreach ($columnNamesToValues as $name => $value) {
+                if (is_array($value)) {
                     $columnNamesToValuesWithoutDataTypes[$name] = $value[0];
-                }
-                else
-                {
+                }else {
                     $columnNamesToValuesWithoutDataTypes[$name] = $value;
                 }
             }
@@ -83,8 +78,7 @@ class UpdateQuery extends Query
     {
         $sql = "UPDATE " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias) . " SET";
 
-        foreach($this->augmentingQueryBuilder->getColumnNamesToValues() as $columnName => $value)
-        {
+        foreach ($this->augmentingQueryBuilder->getColumnNamesToValues() as $columnName => $value) {
             $sql .= " " . $columnName . " = ?,";
         }
 

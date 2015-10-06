@@ -40,8 +40,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilder()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function () {
             return new FooBuilder();
         });
         $this->viewNameResolver->expects($this->any())
@@ -56,10 +55,10 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderToMultiplePaths()
     {
-        $this->viewFactory->registerBuilder(["TestWithDefaultTagDelimiters", "TestWithCustomTagDelimiters"], function ()
-        {
-            return new FooBuilder();
-        });
+        $this->viewFactory->registerBuilder(["TestWithDefaultTagDelimiters", "TestWithCustomTagDelimiters"],
+            function () {
+                return new FooBuilder();
+            });
         $this->viewNameResolver->expects($this->at(0))
             ->method("resolve")
             ->willReturn(__DIR__ . "/../files/TestWithDefaultTagDelimiters.html");
@@ -77,8 +76,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderWithExactSameNameAsView()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function () {
             return new FooBuilder();
         });
         $this->viewNameResolver->expects($this->any())
@@ -93,8 +91,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderWithExtensionAndCreatingSameViewWithoutExtension()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.html", function () {
             return new FooBuilder();
         });
         $this->viewNameResolver->expects($this->any())
@@ -109,8 +106,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderWithSameBasenameAsViewButResolvesToDifferentViewFile()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.foo.php", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.foo.php", function () {
             return new FooBuilder();
         });
         $this->viewNameResolver->expects($this->at(0))
@@ -128,8 +124,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderWithSameFilenameAsViewButResolvesToDifferentViewFile()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.foo", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters.foo", function () {
             return new FooBuilder();
         });
         $this->viewNameResolver->expects($this->at(0))
@@ -147,8 +142,7 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringBuilderWithoutExtensionAndCreatingSameViewWithExtension()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function () {
             return new FooBuilder();
         });
         $this->viewNameResolver->expects($this->any())
@@ -163,12 +157,10 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringMultipleBuilders()
     {
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function () {
             return new FooBuilder();
         });
-        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function ()
-        {
+        $this->viewFactory->registerBuilder("TestWithDefaultTagDelimiters", function () {
             return new BarBuilder();
         });
         $this->viewNameResolver->expects($this->any())

@@ -29,8 +29,7 @@ class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
             "b.fortune"
         ];
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             file_put_contents($tmpDir . "/" . $file, $file);
             file_put_contents($tmpSubDir . "/" . $file, $file);
         }
@@ -43,21 +42,16 @@ class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
     {
         $files = glob(self::getTmpFilePath() . "/*");
 
-        foreach($files as $file)
-        {
-            if(is_dir($file))
-            {
+        foreach ($files as $file) {
+            if (is_dir($file)) {
                 $subDirFiles = glob($file . "/*");
 
-                foreach($subDirFiles as $subDirFile)
-                {
+                foreach ($subDirFiles as $subDirFile) {
                     unlink($subDirFile);
                 }
 
                 rmdir($file);
-            }
-            else
-            {
+            }else {
                 unlink($file);
             }
         }

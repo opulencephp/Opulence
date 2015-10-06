@@ -24,8 +24,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringCustomTaskType()
     {
         $value = "";
-        $this->dispatcher->registerTask("foo", function () use (&$value)
-        {
+        $this->dispatcher->registerTask("foo", function () use (&$value) {
             $value = "foo";
         });
         $this->dispatcher->dispatch("foo");
@@ -38,8 +37,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringPostShutdownTask()
     {
         $value = "";
-        $this->dispatcher->registerTask(TaskTypes::POST_SHUTDOWN, function () use (&$value)
-        {
+        $this->dispatcher->registerTask(TaskTypes::POST_SHUTDOWN, function () use (&$value) {
             $value = "foo";
         });
         $this->dispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
@@ -52,8 +50,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringPostStartTask()
     {
         $value = "";
-        $this->dispatcher->registerTask(TaskTypes::POST_START, function () use (&$value)
-        {
+        $this->dispatcher->registerTask(TaskTypes::POST_START, function () use (&$value) {
             $value = "foo";
         });
         $this->dispatcher->dispatch(TaskTypes::POST_START);
@@ -66,8 +63,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringPreShutdownTask()
     {
         $value = "";
-        $this->dispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$value)
-        {
+        $this->dispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$value) {
             $value = "foo";
         });
         $this->dispatcher->dispatch(TaskTypes::PRE_SHUTDOWN);
@@ -80,8 +76,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringPreStartTask()
     {
         $value = "";
-        $this->dispatcher->registerTask(TaskTypes::PRE_START, function () use (&$value)
-        {
+        $this->dispatcher->registerTask(TaskTypes::PRE_START, function () use (&$value) {
             $value = "foo";
         });
         $this->dispatcher->dispatch(TaskTypes::PRE_START);

@@ -35,13 +35,11 @@ class CSRFTokenChecker
      */
     public function tokenIsValid(Request $request, ISession $session)
     {
-        if(!$session->has(self::TOKEN_INPUT_NAME))
-        {
+        if (!$session->has(self::TOKEN_INPUT_NAME)) {
             $session->set(self::TOKEN_INPUT_NAME, $this->strings->generateRandomString(32));
         }
 
-        if($this->tokenShouldNotBeChecked($request))
-        {
+        if ($this->tokenShouldNotBeChecked($request)) {
             return true;
         }
 
@@ -49,14 +47,12 @@ class CSRFTokenChecker
         $token = $request->getInput(self::TOKEN_INPUT_NAME);
 
         // Try the X-CSRF header
-        if($token === null)
-        {
+        if ($token === null) {
             $token = $request->getHeaders()->get("X-CSRF-TOKEN");
         }
 
         // Try the X-XSRF header
-        if($token === null)
-        {
+        if ($token === null) {
             $token = $request->getHeaders()->get("X-XSRF-TOKEN");
         }
 

@@ -47,8 +47,7 @@ class UnitOfWork
     {
         $this->entityRegistry = $entityRegistry;
 
-        if($connection !== null)
-        {
+        if ($connection !== null) {
             $this->setConnection($connection);
         }
     }
@@ -60,8 +59,7 @@ class UnitOfWork
      */
     public function commit()
     {
-        if(!$this->connection instanceof IConnection)
-        {
+        if (!$this->connection instanceof IConnection) {
             throw new ORMException("Connection not set");
         }
 
@@ -69,15 +67,12 @@ class UnitOfWork
         $this->preCommit();
         $this->connection->beginTransaction();
 
-        try
-        {
+        try {
             $this->insert();
             $this->update();
             $this->delete();
             $this->connection->commit();
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             $this->connection->rollBack();
             $this->postRollback();
             throw new ORMException($ex->getMessage());
@@ -128,8 +123,7 @@ class UnitOfWork
      */
     public function getDataMapper($className)
     {
-        if(!isset($this->dataMappers[$className]))
-        {
+        if (!isset($this->dataMappers[$className])) {
             throw new RuntimeException("No data mapper for {$className}");
         }
 
@@ -186,8 +180,7 @@ class UnitOfWork
     {
         $childObjectHashId = $this->entityRegistry->getObjectHashId($child);
 
-        if(!isset($this->aggregateRootChildren[$childObjectHashId]))
-        {
+        if (!isset($this->aggregateRootChildren[$childObjectHashId])) {
             $this->aggregateRootChildren[$childObjectHashId] = [];
         }
 
@@ -259,10 +252,8 @@ class UnitOfWork
          * @var string $className
          * @var IDataMapper $dataMapper
          */
-        foreach($this->dataMappers as $className => $dataMapper)
-        {
-            if($dataMapper instanceof ICachedSQLDataMapper)
-            {
+        foreach ($this->dataMappers as $className => $dataMapper) {
+            if ($dataMapper instanceof ICachedSQLDataMapper) {
                 // Now that the database writes have been committed, we can write to cache
                 /** @var ICachedSQLDataMapper $dataMapper */
                 $dataMapper->commit();
@@ -277,12 +268,10 @@ class UnitOfWork
     {
         // Unset each of the new entities' Ids
         /** @var IEntity $entity */
-        foreach($this->scheduledForInsertion as $objectHashId => $entity)
-        {
+        foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
 
-            if($dataMapper instanceof ISQLDataMapper)
-            {
+            if ($dataMapper instanceof ISQLDataMapper) {
                 $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
             }
         }
@@ -303,17 +292,15 @@ class UnitOfWork
     {
         $managedEntities = $this->entityRegistry->getEntities();
 
-        foreach($managedEntities as $entity)
-        {
+        foreach ($managedEntities as $entity) {
             $objectHashId = $this->entityRegistry->getObjectHashId($entity);
 
-            if($this->entityRegistry->isRegistered($entity)
+            if ($this->entityRegistry->isRegistered($entity)
                 && !isset($this->scheduledForInsertion[$objectHashId])
                 && !isset($this->scheduledForUpdate[$objectHashId])
                 && !isset($this->scheduledForDeletion[$objectHashId])
                 && $this->entityRegistry->hasChanged($entity)
-            )
-            {
+            ) {
                 $this->scheduleForUpdate($entity);
             }
         }
@@ -325,8 +312,7 @@ class UnitOfWork
     private function delete()
     {
         /** @var IEntity $entity */
-        foreach($this->scheduledForDeletion as $objectHashId => $entity)
-        {
+        foreach ($this->scheduledForDeletion as $objectHashId => $entity) {
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->delete($entity);
             // Order here matters
@@ -343,10 +329,8 @@ class UnitOfWork
      */
     private function doAggregateRootFunctions($objectHashId, IEntity $child)
     {
-        if(isset($this->aggregateRootChildren[$objectHashId]))
-        {
-            foreach($this->aggregateRootChildren[$objectHashId] as $aggregateRootData)
-            {
+        if (isset($this->aggregateRootChildren[$objectHashId])) {
+            foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
                 $aggregateRoot = $aggregateRootData["aggregateRoot"];
                 $aggregateRootData["function"]($aggregateRoot, $child);
             }
@@ -359,15 +343,13 @@ class UnitOfWork
     private function insert()
     {
         /** @var IEntity $entity */
-        foreach($this->scheduledForInsertion as $objectHashId => $entity)
-        {
+        foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->add($entity);
 
-            if($dataMapper instanceof ISQLDataMapper)
-            {
+            if ($dataMapper instanceof ISQLDataMapper) {
                 $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
             }
 
@@ -381,8 +363,7 @@ class UnitOfWork
     private function update()
     {
         /** @var IEntity $entity */
-        foreach($this->scheduledForUpdate as $objectHashId => $entity)
-        {
+        foreach ($this->scheduledForUpdate as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));

@@ -24,8 +24,7 @@ class ConditionalQueryBuilder
         // This will grab just the list of conditions
         $conditions = array_slice(func_get_args(), 2);
 
-        foreach($conditions as $condition)
-        {
+        foreach ($conditions as $condition) {
             $clauseConditions[] = ["operation" => $operation, "condition" => $condition];
         }
 
@@ -57,8 +56,7 @@ class ConditionalQueryBuilder
      */
     public function getClauseConditionSQL($conditionType, array $clauseConditions)
     {
-        if(count($clauseConditions) === 0)
-        {
+        if (count($clauseConditions) === 0) {
             return "";
         }
 
@@ -66,8 +64,7 @@ class ConditionalQueryBuilder
         // This will help us keep track of whether or not we've added at least one clause
         $haveAddedAClause = false;
 
-        foreach($clauseConditions as $conditionData)
-        {
+        foreach ($clauseConditions as $conditionData) {
             $sql .= ($haveAddedAClause ? " " . strtoupper($conditionData["operation"]) : "")
                 . " (" . $conditionData["condition"] . ")";
             $haveAddedAClause = true;

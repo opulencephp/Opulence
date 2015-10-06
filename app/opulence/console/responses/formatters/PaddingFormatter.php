@@ -24,8 +24,7 @@ class PaddingFormatter
      */
     public function format(array $rows, callable $callback)
     {
-        foreach($rows as &$row)
-        {
+        foreach ($rows as &$row) {
             $row = (array)$row;
         }
 
@@ -33,18 +32,15 @@ class PaddingFormatter
         $paddingType = $this->padAfter ? STR_PAD_RIGHT : STR_PAD_LEFT;
 
         // Format the rows
-        foreach($rows as &$row)
-        {
-            foreach($row as $index => &$item)
-            {
+        foreach ($rows as &$row) {
+            foreach ($row as $index => &$item) {
                 $item = str_pad($item, $maxLengths[$index], $this->paddingString, $paddingType);
             }
         }
 
         $formattedText = "";
 
-        foreach($rows as &$row)
-        {
+        foreach ($rows as &$row) {
             $formattedText .= call_user_func($callback, $row) . $this->eolChar;
         }
 
@@ -73,24 +69,20 @@ class PaddingFormatter
         $maxNumColumns = 0;
 
         // Find the max number of columns that appear in any given row
-        foreach($rows as $row)
-        {
+        foreach ($rows as $row) {
             $maxNumColumns = max($maxNumColumns, count($row));
         }
 
         $maxLengths = array_pad([], $maxNumColumns, 0);
 
         // Normalize the number of columns in each row
-        foreach($rows as &$row)
-        {
+        foreach ($rows as &$row) {
             $row = array_pad($row, $maxNumColumns, "");
         }
 
         // Get the length of the longest value in each column
-        foreach($rows as &$row)
-        {
-            foreach($row as $column => &$value)
-            {
+        foreach ($rows as &$row) {
+            foreach ($row as $column => &$value) {
                 $value = trim($value);
                 $maxLengths[$column] = max($maxLengths[$column], mb_strlen($value));
             }

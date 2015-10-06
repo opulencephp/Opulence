@@ -40,7 +40,8 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->andWhere("name = 'dave'");
-        $this->assertEquals([["operation" => "AND", "condition" => "name = 'dave'"]], $queryBuilder->getWhereConditions());
+        $this->assertEquals([["operation" => "AND", "condition" => "name = 'dave'"]],
+            $queryBuilder->getWhereConditions());
     }
 
     /**
@@ -63,7 +64,8 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->orWhere("name = 'dave'");
-        $this->assertEquals([["operation" => "OR", "condition" => "name = 'dave'"]], $queryBuilder->getWhereConditions());
+        $this->assertEquals([["operation" => "OR", "condition" => "name = 'dave'"]],
+            $queryBuilder->getWhereConditions());
     }
 
     /**

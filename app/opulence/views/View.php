@@ -76,8 +76,7 @@ class View implements IView
      */
     public function getDelimiters($type)
     {
-        if(!isset($this->delimiters[$type]))
-        {
+        if (!isset($this->delimiters[$type])) {
             return [null, null];
         }
 
@@ -97,8 +96,7 @@ class View implements IView
      */
     public function getVar($name)
     {
-        if(isset($this->vars[$name]))
-        {
+        if (isset($this->vars[$name])) {
             return $this->vars[$name];
         }
 
@@ -126,8 +124,7 @@ class View implements IView
      */
     public function setContents($contents)
     {
-        if(!is_string($contents))
-        {
+        if (!is_string($contents)) {
             throw new InvalidArgumentException("Contents are not a string");
         }
 
@@ -163,8 +160,7 @@ class View implements IView
      */
     public function setVars(array $namesToValues)
     {
-        foreach($namesToValues as $name => $value)
-        {
+        foreach ($namesToValues as $name => $value) {
             $this->setVar($name, $value);
         }
     }

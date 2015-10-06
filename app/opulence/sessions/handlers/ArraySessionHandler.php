@@ -48,8 +48,7 @@ class ArraySessionHandler extends SessionHandler
      */
     protected function doRead($sessionId)
     {
-        if(array_key_exists($sessionId, $this->storage))
-        {
+        if (array_key_exists($sessionId, $this->storage)) {
             return $this->storage[$sessionId];
         }
 

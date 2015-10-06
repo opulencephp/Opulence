@@ -47,8 +47,7 @@ abstract class Command implements ICommand
         // Define the command
         $this->define();
 
-        if(empty($this->name))
-        {
+        if (empty($this->name)) {
             throw new InvalidArgumentException("Command name cannot be empty");
         }
 
@@ -94,8 +93,7 @@ abstract class Command implements ICommand
      */
     public final function execute(IResponse $response)
     {
-        if(!$this->constructorCalled)
-        {
+        if (!$this->constructorCalled) {
             throw new RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");
         }
 
@@ -107,8 +105,7 @@ abstract class Command implements ICommand
      */
     public function getArgument($name)
     {
-        if(!isset($this->arguments[$name]))
-        {
+        if (!isset($this->arguments[$name])) {
             throw new InvalidArgumentException("No argument with name \"$name\" exists");
         }
 
@@ -120,8 +117,7 @@ abstract class Command implements ICommand
      */
     public function getArgumentValue($name)
     {
-        if(!$this->argumentValueIsSet($name))
-        {
+        if (!$this->argumentValueIsSet($name)) {
             throw new InvalidArgumentException("No argument with name \"$name\" exists");
         }
 
@@ -165,8 +161,7 @@ abstract class Command implements ICommand
      */
     public function getOption($name)
     {
-        if(!isset($this->options[$name]))
-        {
+        if (!isset($this->options[$name])) {
             throw new InvalidArgumentException("No option with name \"$name\" exists");
         }
 
@@ -178,13 +173,11 @@ abstract class Command implements ICommand
      */
     public function getOptionValue($name)
     {
-        if(!isset($this->options[$name]))
-        {
+        if (!isset($this->options[$name])) {
             throw new InvalidArgumentException("No option with name \"$name\" exists");
         }
 
-        if(!isset($this->optionValues[$name]))
-        {
+        if (!isset($this->optionValues[$name])) {
             return null;
         }
 

@@ -214,8 +214,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testSettingControllerClosure()
     {
         $route = new Route("get", "/", "foo@bar");
-        $route->setControllerClosure(function ()
-        {
+        $route->setControllerClosure(function () {
         });
         $this->assertInstanceOf(Closure::class, $route->getController());
         $this->assertTrue($route->usesClosure());
@@ -341,8 +340,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingClosure()
     {
-        $closure = function ()
-        {
+        $closure = function () {
             return "foo";
         };
         $route = new Route("get", "/{foo}", $closure);

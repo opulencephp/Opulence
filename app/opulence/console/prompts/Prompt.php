@@ -28,8 +28,7 @@ class Prompt
     {
         $this->paddingFormatter = $paddingFormatter;
 
-        if($inputStream === null)
-        {
+        if ($inputStream === null) {
             $inputStream = STDIN;
         }
 
@@ -48,17 +47,14 @@ class Prompt
     {
         $response->write("<question>{$question->getText()}</question>");
 
-        if($question instanceof MultipleChoice)
-        {
+        if ($question instanceof MultipleChoice) {
             /** @var MultipleChoice $question */
             $response->writeln("");
             $choicesAreAssociative = $question->choicesAreAssociative();
             $choiceTexts = [];
 
-            foreach($question->getChoices() as $key => $choice)
-            {
-                if(!$choicesAreAssociative)
-                {
+            foreach ($question->getChoices() as $key => $choice) {
+                if (!$choicesAreAssociative) {
                     // Make the choice 1-indexed
                     $key += 1;
                 }
@@ -66,8 +62,7 @@ class Prompt
                 $choiceTexts[] = [$key . ")", $choice];
             }
 
-            $response->writeln($this->paddingFormatter->format($choiceTexts, function ($row)
-            {
+            $response->writeln($this->paddingFormatter->format($choiceTexts, function ($row) {
                 return "  {$row[0]} {$row[1]}";
             }));
             $response->write($question->getAnswerLineString());
@@ -75,15 +70,13 @@ class Prompt
 
         $answer = fgets($this->inputStream, 4096);
 
-        if($answer === false)
-        {
+        if ($answer === false) {
             throw new RuntimeException("Failed to get answer");
         }
 
         $answer = trim($answer);
 
-        if(mb_strlen($answer) == 0)
-        {
+        if (mb_strlen($answer) == 0) {
             $answer = $question->getDefaultAnswer();
         }
 
@@ -98,8 +91,7 @@ class Prompt
      */
     public function setInputStream($inputStream)
     {
-        if(!is_resource($inputStream))
-        {
+        if (!is_resource($inputStream)) {
             throw new InvalidArgumentException("Input stream must be resource");
         }
 

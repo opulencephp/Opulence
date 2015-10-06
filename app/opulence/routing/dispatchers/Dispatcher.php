@@ -42,32 +42,24 @@ class Dispatcher implements IDispatcher
     {
         $pipeline = new Pipeline($this->container, $route->getMiddleware(), "handle");
 
-        try
-        {
-            $response = $pipeline->send($request, function (Request $request) use ($route, &$controller)
-            {
-                if($route->usesClosure())
-                {
+        try {
+            $response = $pipeline->send($request, function (Request $request) use ($route, &$controller) {
+                if ($route->usesClosure()) {
                     $controller = $route->getController();
-                }
-                else
-                {
+                }else {
                     $controller = $this->createController($route->getControllerName(), $request);
                 }
 
                 return $this->callController($controller, $route);
             });
 
-            if($response === null)
-            {
+            if ($response === null) {
                 // Nothing returned a value, so return a basic HTTP response
                 return new Response();
             }
 
             return $response;
-        }
-        catch(PipelineException $ex)
-        {
+        }catch (PipelineException $ex) {
             throw new RouteException("Failed to dispatch route: " . $ex->getMessage());
         }
     }
@@ -82,10 +74,8 @@ class Dispatcher implements IDispatcher
      */
     private function callController($controller, CompiledRoute $route)
     {
-        try
-        {
-            if(is_callable($controller))
-            {
+        try {
+            if (is_callable($controller)) {
                 $reflection = new ReflectionFunction($controller);
                 $parameters = $this->getResolvedControllerParameters(
                     $reflection->getParameters(),
@@ -95,9 +85,7 @@ class Dispatcher implements IDispatcher
                 );
 
                 $response = call_user_func_array($controller, $parameters);
-            }
-            else
-            {
+            }else {
                 $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
                 $parameters = $this->getResolvedControllerParameters(
                     $reflection->getParameters(),
@@ -106,30 +94,24 @@ class Dispatcher implements IDispatcher
                     false
                 );
 
-                if($reflection->isPrivate())
-                {
+                if ($reflection->isPrivate()) {
                     throw new RouteException("Method {$route->getControllerMethod()} is private");
                 }
 
-                if($controller instanceof Controller)
-                {
-                    $response = call_user_func_array([$controller, "callMethod"], [$route->getControllerMethod(), $parameters]);
-                }
-                else
-                {
+                if ($controller instanceof Controller) {
+                    $response = call_user_func_array([$controller, "callMethod"],
+                        [$route->getControllerMethod(), $parameters]);
+                }else {
                     $response = call_user_func_array([$controller, $route->getControllerMethod()], $parameters);
                 }
             }
 
-            if(is_string($response))
-            {
+            if (is_string($response)) {
                 $response = new Response($response);
             }
 
             return $response;
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             throw new RouteException(
                 sprintf(
                     "Reflection failed for %s: %s",
@@ -150,31 +132,26 @@ class Dispatcher implements IDispatcher
      */
     private function createController($controllerName, Request $request)
     {
-        if(!class_exists($controllerName))
-        {
+        if (!class_exists($controllerName)) {
             throw new RouteException("Controller class $controllerName does not exist");
         }
 
         // Just in case the request hasn't already been bound, bind it
         // This allows us to use it when resolving the controller class
-        if(!is_object($this->container->getBinding(Request::class)))
-        {
+        if (!is_object($this->container->getBinding(Request::class))) {
             $this->container->bind(Request::class, $request);
         }
 
         $controller = $this->container->makeShared($controllerName);
 
-        if($controller instanceof Controller)
-        {
+        if ($controller instanceof Controller) {
             $controller->setRequest($request);
 
-            if($this->container->isBound(IViewFactory::class))
-            {
+            if ($this->container->isBound(IViewFactory::class)) {
                 $controller->setViewFactory($this->container->makeShared(IViewFactory::class));
             }
 
-            if($this->container->isBound(ICompiler::class))
-            {
+            if ($this->container->isBound(ICompiler::class)) {
                 $controller->setViewCompiler($this->container->makeShared(ICompiler::class));
             }
         }
@@ -197,30 +174,21 @@ class Dispatcher implements IDispatcher
         array $pathVars,
         CompiledRoute $route,
         $acceptObjectParameters
-    )
-    {
+    ) {
         $resolvedParameters = [];
 
         // Match the route variables to the method parameters
-        foreach($reflectionParameters as $parameter)
-        {
-            if($acceptObjectParameters && $parameter->getClass() !== null)
-            {
+        foreach ($reflectionParameters as $parameter) {
+            if ($acceptObjectParameters && $parameter->getClass() !== null) {
                 $className = $parameter->getClass()->getName();
                 $resolvedParameters[$parameter->getPosition()] = $this->container->makeShared($className);
-            }
-            elseif(isset($pathVars[$parameter->getName()]))
-            {
+            }elseif (isset($pathVars[$parameter->getName()])) {
                 // There is a value set in the route
                 $resolvedParameters[$parameter->getPosition()] = $pathVars[$parameter->getName()];
-            }
-            elseif(($defaultValue = $route->getDefaultValue($parameter->getName())) !== null)
-            {
+            }elseif (($defaultValue = $route->getDefaultValue($parameter->getName())) !== null) {
                 // There was a default value set in the route
                 $resolvedParameters[$parameter->getPosition()] = $defaultValue;
-            }
-            elseif(!$parameter->isDefaultValueAvailable())
-            {
+            }elseif (!$parameter->isDefaultValueAvailable()) {
                 // There is no value/default value for this variable
                 throw new RouteException(
                     "No value set for parameter {$parameter->getName()}"

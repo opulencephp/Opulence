@@ -270,12 +270,12 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity2);
-        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
-        {
-            /** @var User $aggregateRoot */
-            /** @var User $child */
-            $child->setAggregateRootId($aggregateRoot->getId());
-        });
+        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2,
+            function ($aggregateRoot, $child) {
+                /** @var User $aggregateRoot */
+                /** @var User $child */
+                $child->setAggregateRootId($aggregateRoot->getId());
+            });
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
         $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
@@ -291,12 +291,12 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForUpdate($this->entity2);
-        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2, function ($aggregateRoot, $child)
-        {
-            /** @var User $aggregateRoot */
-            /** @var User $child */
-            $child->setAggregateRootId($aggregateRoot->getId());
-        });
+        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2,
+            function ($aggregateRoot, $child) {
+                /** @var User $aggregateRoot */
+                /** @var User $child */
+                $child->setAggregateRootId($aggregateRoot->getId());
+            });
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
         $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
@@ -314,18 +314,18 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity2);
         $this->unitOfWork->scheduleForInsertion($this->entity3);
-        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity3, function ($aggregateRoot, $child)
-        {
-            /** @var User $aggregateRoot */
-            /** @var User $child */
-            $child->setAggregateRootId($aggregateRoot->getId());
-        });
-        $this->unitOfWork->registerAggregateRootChild($this->entity2, $this->entity3, function ($aggregateRoot, $child)
-        {
-            /** @var User $aggregateRoot */
-            /** @var User $child */
-            $child->setSecondAggregateRootId($aggregateRoot->getId());
-        });
+        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity3,
+            function ($aggregateRoot, $child) {
+                /** @var User $aggregateRoot */
+                /** @var User $child */
+                $child->setAggregateRootId($aggregateRoot->getId());
+            });
+        $this->unitOfWork->registerAggregateRootChild($this->entity2, $this->entity3,
+            function ($aggregateRoot, $child) {
+                /** @var User $aggregateRoot */
+                /** @var User $child */
+                $child->setSecondAggregateRootId($aggregateRoot->getId());
+            });
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity3->getAggregateRootId());
         $this->assertNotEquals($originalSecondAggregateRootId, $this->entity3->getSecondAggregateRootId());
@@ -349,8 +349,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionThrown = false;
 
-        try
-        {
+        try {
             $server = new Server();
             $connection = new Connection($server);
             $connection->setToFailOnPurpose(true);
@@ -363,9 +362,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $this->unitOfWork->scheduleForInsertion($this->entity1);
             $this->unitOfWork->scheduleForInsertion($this->entity2);
             $this->unitOfWork->commit();
-        }
-        catch(ORMException $ex)
-        {
+        }catch (ORMException $ex) {
             $exceptionThrown = true;
         }
 

@@ -39,10 +39,8 @@ class Pipeline implements IPipeline
             array_reduce(
                 array_reverse($this->stages),
                 $this->createStageCallback(),
-                function ($input) use ($callback)
-                {
-                    if($callback === null)
-                    {
+                function ($input) use ($callback) {
+                    if ($callback === null) {
                         return $input;
                     }
 
@@ -70,30 +68,21 @@ class Pipeline implements IPipeline
      */
     private function createStageCallback()
     {
-        return function ($stages, $stage)
-        {
-            return function ($input) use ($stages, $stage)
-            {
-                if($stage instanceof Closure)
-                {
+        return function ($stages, $stage) {
+            return function ($input) use ($stages, $stage) {
+                if ($stage instanceof Closure) {
                     return call_user_func($stage, $input, $stages);
-                }
-                else
-                {
-                    if($this->methodToCall === null)
-                    {
+                }else {
+                    if ($this->methodToCall === null) {
                         throw new PipelineException("Method must not be null");
                     }
 
-                    try
-                    {
-                        if(is_string($stage))
-                        {
+                    try {
+                        if (is_string($stage)) {
                             $stage = $this->container->makeShared($stage);
                         }
 
-                        if(!method_exists($stage, $this->methodToCall))
-                        {
+                        if (!method_exists($stage, $this->methodToCall)) {
                             throw new PipelineException(get_class($stage) . "::{$this->methodToCall} does not exist");
                         }
 
@@ -101,9 +90,7 @@ class Pipeline implements IPipeline
                             [$stage, $this->methodToCall],
                             [$input, $stages]
                         );
-                    }
-                    catch(IoCException $ex)
-                    {
+                    }catch (IoCException $ex) {
                         throw new PipelineException("Failed to pipeline input: " . $ex->getMessage());
                     }
                 }

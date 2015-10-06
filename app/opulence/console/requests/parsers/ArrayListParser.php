@@ -24,8 +24,7 @@ class ArrayListParser extends Parser
      */
     public function parse($input)
     {
-        if(!is_array($input))
-        {
+        if (!is_array($input)) {
             throw new InvalidArgumentException(__METHOD__ . " only accepts arrays as input");
         }
 

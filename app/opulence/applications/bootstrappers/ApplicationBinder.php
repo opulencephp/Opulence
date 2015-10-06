@@ -37,8 +37,7 @@ class ApplicationBinder
         ICache $bootstrapperCache,
         ITaskDispatcher $taskDispatcher,
         array $globalBootstrapperClasses
-    )
-    {
+    ) {
         $this->bootstrapperRegistry = $bootstrapperRegistry;
         $this->bootstrapperDispatcher = $bootstrapperDispatcher;
         $this->bootstrapperCache = $bootstrapperCache;
@@ -57,22 +56,22 @@ class ApplicationBinder
      * @param bool $useCache Whether or not to cache bootstrapper settings
      * @param string $cachedRegistryFilePath The location of the bootstrapper registry cache file
      */
-    public function bindToApplication(array $kernelBootstrapperClasses, $forceEagerLoading, $useCache, $cachedRegistryFilePath = "")
-    {
+    public function bindToApplication(
+        array $kernelBootstrapperClasses,
+        $forceEagerLoading,
+        $useCache,
+        $cachedRegistryFilePath = ""
+    ) {
         $this->bootstrapperDispatcher->forceEagerLoading($forceEagerLoading);
         $this->bootstrapperRegistry->registerBootstrappers($kernelBootstrapperClasses);
 
         // Register the task to dispatch the bootstrappers
         $this->taskDispatcher->registerTask(
             TaskTypes::PRE_START,
-            function () use ($useCache, $cachedRegistryFilePath)
-            {
-                if($useCache && !empty($cachedRegistryFilePath))
-                {
+            function () use ($useCache, $cachedRegistryFilePath) {
+                if ($useCache && !empty($cachedRegistryFilePath)) {
                     $this->bootstrapperCache->get($cachedRegistryFilePath, $this->bootstrapperRegistry);
-                }
-                else
-                {
+                }else {
                     $this->bootstrapperRegistry->setBootstrapperDetails();
                 }
 

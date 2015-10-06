@@ -52,8 +52,7 @@ class Kernel
         CommandCollection &$commandCollection,
         Logger $logger,
         $applicationVersion = "Unknown"
-    )
-    {
+    ) {
         $this->requestParser = $requestParser;
         $this->commandCompiler = $commandCompiler;
         $this->commandCollection = $commandCollection;
@@ -70,60 +69,45 @@ class Kernel
      */
     public function handle($input, IResponse $response = null)
     {
-        if($response === null)
-        {
+        if ($response === null) {
             $response = new ConsoleResponse(new Compiler(new Lexer(), new Parser()));
         }
 
-        try
-        {
+        try {
             $request = $this->requestParser->parse($input);
 
-            if($this->isInvokingHelpCommand($request))
-            {
+            if ($this->isInvokingHelpCommand($request)) {
                 // We are going to execute the help command
                 $compiledCommand = $this->getCompiledHelpCommand($request);
-            }
-            elseif($this->isInvokingVersionCommand($request))
-            {
+            }elseif ($this->isInvokingVersionCommand($request)) {
                 // We are going to execute the version command
                 $compiledCommand = new VersionCommand($this->applicationVersion);
-            }
-            elseif($this->commandCollection->has($request->getCommandName()))
-            {
+            }elseif ($this->commandCollection->has($request->getCommandName())) {
                 // We are going to execute the command that was entered
                 $command = $this->commandCollection->get($request->getCommandName());
                 $compiledCommand = $this->commandCompiler->compile($command, $request);
-            }
-            else
-            {
+            }else {
                 // We are defaulting to the about command
-                $compiledCommand = new AboutCommand($this->commandCollection, new PaddingFormatter(), $this->applicationVersion);
+                $compiledCommand = new AboutCommand($this->commandCollection, new PaddingFormatter(),
+                    $this->applicationVersion);
             }
 
             $statusCode = $compiledCommand->execute($response);
 
-            if($statusCode === null)
-            {
+            if ($statusCode === null) {
                 return StatusCodes::OK;
             }
 
             return $statusCode;
-        }
-        catch(InvalidArgumentException $ex)
-        {
+        }catch (InvalidArgumentException $ex) {
             $response->writeln("<error>{$ex->getMessage()}</error>");
 
             return StatusCodes::ERROR;
-        }
-        catch(RuntimeException $ex)
-        {
+        }catch (RuntimeException $ex) {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
 
             return StatusCodes::FATAL;
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
             $this->logger->addError($ex->getMessage());
 
@@ -143,25 +127,19 @@ class Kernel
         $helpCommand = new HelpCommand(new CommandFormatter(), new PaddingFormatter());
         $commandName = null;
 
-        if($request->getCommandName() == "help")
-        {
+        if ($request->getCommandName() == "help") {
             $compiledHelpCommand = $this->commandCompiler->compile($helpCommand, $request);
 
-            if($compiledHelpCommand->argumentValueIsSet("command"))
-            {
+            if ($compiledHelpCommand->argumentValueIsSet("command")) {
                 $commandName = $compiledHelpCommand->getArgumentValue("command");
             }
-        }
-        else
-        {
+        }else {
             $commandName = $request->getCommandName();
         }
 
         // Set the command only if it was passed as an argument to the help command
-        if($commandName !== null && $commandName !== "")
-        {
-            if(!$this->commandCollection->has($commandName))
-            {
+        if ($commandName !== null && $commandName !== "") {
+            if (!$this->commandCollection->has($commandName)) {
                 throw new InvalidArgumentException("No command with name \"$commandName\" exists");
             }
 

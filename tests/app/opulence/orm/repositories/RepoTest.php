@@ -112,20 +112,16 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         /** @var User $entityFromGetAll */
         $entityFromGetAll = null;
 
-        foreach($allEntities as $entity)
-        {
+        foreach ($allEntities as $entity) {
             $entity->setUsername("newUsername");
 
-            if($entity->getId() == $entityFromGetById->getId())
-            {
+            if ($entity->getId() == $entityFromGetById->getId()) {
                 $entityFromGetAll = $entity;
             }
         }
 
-        foreach($allEntities as $entity)
-        {
-            if($entity->getId() == $entityFromGetById->getId())
-            {
+        foreach ($allEntities as $entity) {
+            if ($entity->getId() == $entityFromGetById->getId()) {
                 $this->assertSame($entityFromGetById, $entity);
                 $this->assertEquals($entityFromGetAll->getUsername(), $entityFromGetById->getUsername());
             }

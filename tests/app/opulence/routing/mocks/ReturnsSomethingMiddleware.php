@@ -22,14 +22,11 @@ class ReturnsSomethingMiddleware implements IMiddleware
         /** @var Response $response */
         $response = $next($request);
 
-        if($response !== null)
-        {
+        if ($response !== null) {
             $response->setContent($response->getContent() . ":something");
 
             return $response;
-        }
-        else
-        {
+        }else {
             return new RedirectResponse("/bar");
         }
     }

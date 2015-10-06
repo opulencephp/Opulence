@@ -44,12 +44,10 @@ class FileSessionHandler extends SessionHandler
     {
         $sessionFiles = glob($this->path . "/*");
 
-        foreach($sessionFiles as $sessionFile)
-        {
+        foreach ($sessionFiles as $sessionFile) {
             $lastModified = DateTime::createFromFormat("U", filemtime($sessionFile));
 
-            if(new DateTime("$maxLifetime seconds ago") > $lastModified)
-            {
+            if (new DateTime("$maxLifetime seconds ago") > $lastModified) {
                 @unlink($sessionFile);
             }
         }
@@ -68,8 +66,7 @@ class FileSessionHandler extends SessionHandler
      */
     protected function doRead($sessionId)
     {
-        if(file_exists("{$this->path}/$sessionId"))
-        {
+        if (file_exists("{$this->path}/$sessionId")) {
             return file_get_contents("{$this->path}/$sessionId");
         }
 

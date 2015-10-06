@@ -22,8 +22,7 @@ class Confirmation extends Question
      */
     public function formatAnswer($answer)
     {
-        if(is_bool($answer))
-        {
+        if (is_bool($answer)) {
             return $answer;
         }
 

@@ -22,16 +22,13 @@ class Statement extends BaseStatement
      */
     public function bindValues(array $values)
     {
-        foreach($values as $parameterName => $value)
-        {
-            if(!is_array($value))
-            {
+        foreach ($values as $parameterName => $value) {
+            if (!is_array($value)) {
                 $value = [$value, PDO::PARAM_STR];
             }
 
             // Here we don't actually attempt to bind the value
-            if(count($value) != 2)
-            {
+            if (count($value) != 2) {
                 return false;
             }
         }

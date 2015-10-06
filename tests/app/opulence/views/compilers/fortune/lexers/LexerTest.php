@@ -161,6 +161,8 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
         $this->view->setContents('<% show("foo") %>');
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
+        $this->view->setContents('<% show ("foo") %>');
+        $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
     }
 
     /**
@@ -218,8 +220,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
         $texts = ['\<%foo%>', '\{{foo}}', '\{{!foo!}}', '\{#foo#}'];
         $expectedValues = ['<%foo%>', '{{foo}}', '{{!foo!}}', '{#foo#}'];
 
-        foreach($texts as $index => $text)
-        {
+        foreach ($texts as $index => $text) {
             $expectedOutput = [
                 new Token(TokenTypes::T_EXPRESSION, $expectedValues[$index], 1)
             ];

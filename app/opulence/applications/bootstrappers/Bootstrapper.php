@@ -38,8 +38,7 @@ abstract class Bootstrapper
      */
     public function __call($name, array $arguments)
     {
-        if($name !== "run" && $name !== "shutdown")
-        {
+        if ($name !== "run" && $name !== "shutdown") {
             throw new BadMethodCallException("Only Bootstrapper::run() and Bootstrapper::shutdown() are supported");
         }
 

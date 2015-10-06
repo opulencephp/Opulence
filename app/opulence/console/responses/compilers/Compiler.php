@@ -55,20 +55,16 @@ class Compiler implements ICompiler
      */
     public function compile($message)
     {
-        if(!$this->isStyled)
-        {
+        if (!$this->isStyled) {
             return strip_tags($message);
         }
 
-        try
-        {
+        try {
             $tokens = $this->lexer->lex($message);
             $ast = $this->parser->parse($tokens);
 
             return $this->compileNode($ast->getRootNode());
-        }
-        catch(InvalidArgumentException $ex)
-        {
+        }catch (InvalidArgumentException $ex) {
             throw new RuntimeException($ex->getMessage());
         }
     }
@@ -99,29 +95,21 @@ class Compiler implements ICompiler
      */
     private function compileNode(Node $node)
     {
-        if($node->isLeaf())
-        {
+        if ($node->isLeaf()) {
             // Don't compile a leaf that is a tag because that means it doesn't have any content
-            if($node->isTag())
-            {
+            if ($node->isTag()) {
                 return "";
             }
 
             return $node->getValue();
-        }
-        else
-        {
+        }else {
             $output = "";
 
-            foreach($node->getChildren() as $childNode)
-            {
-                if($node->isTag())
-                {
+            foreach ($node->getChildren() as $childNode) {
+                if ($node->isTag()) {
                     $element = $this->elements->getElement($node->getValue());
                     $output .= $element->getStyle()->format($this->compileNode($childNode));
-                }
-                else
-                {
+                }else {
                     $output .= $this->compileNode($childNode);
                 }
             }

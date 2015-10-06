@@ -63,37 +63,29 @@ abstract class SQLDataMapper implements ISQLDataMapper
      */
     protected function read($sql, array $sqlParameters, $expectSingleResult)
     {
-        try
-        {
+        try {
             $connection = $this->connectionPool->getReadConnection();
             $statement = $connection->prepare($sql);
             $statement->bindValues($sqlParameters);
             $statement->execute();
 
-            if($expectSingleResult && $statement->rowCount() != 1)
-            {
+            if ($expectSingleResult && $statement->rowCount() != 1) {
                 throw new ORMException("Failed to find entity");
             }
 
             $entities = [];
             $rows = $statement->fetchAll(PDO::FETCH_BOTH);
 
-            foreach($rows as $row)
-            {
+            foreach ($rows as $row) {
                 $entities[] = $this->loadEntity($row, $connection);
             }
 
-            if($expectSingleResult)
-            {
+            if ($expectSingleResult) {
                 return $entities[0];
-            }
-            else
-            {
+            }else {
                 return $entities;
             }
-        }
-        catch(PDOException $ex)
-        {
+        }catch (PDOException $ex) {
             throw new ORMException("Unable to query entities: " . $ex);
         }
     }

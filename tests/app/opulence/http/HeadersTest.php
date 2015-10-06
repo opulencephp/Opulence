@@ -49,21 +49,15 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     {
         $headerParameters = [];
 
-        foreach($this->serverArray as $key => $value)
-        {
-            if(strpos($key, "HTTP_") === 0)
-            {
-                if(!is_array($value))
-                {
+        foreach ($this->serverArray as $key => $value) {
+            if (strpos($key, "HTTP_") === 0) {
+                if (!is_array($value)) {
                     $value = [$value];
                 }
 
                 $headerParameters[substr($key, 5)] = $value;
-            }
-            elseif(strpos($key, "CONTENT_") === 0)
-            {
-                if(!is_array($value))
-                {
+            }elseif (strpos($key, "CONTENT_") === 0) {
+                if (!is_array($value)) {
                     $value = [$value];
                 }
 

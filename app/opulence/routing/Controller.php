@@ -37,8 +37,7 @@ class Controller
         /** @var Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if($response === null && $this->viewCompiler instanceof ICompiler && $this->view !== null)
-        {
+        if ($response === null && $this->viewCompiler instanceof ICompiler && $this->view !== null) {
             $response->setContent($this->viewCompiler->compile($this->view));
         }
 

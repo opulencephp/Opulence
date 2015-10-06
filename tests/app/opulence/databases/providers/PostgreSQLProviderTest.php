@@ -49,13 +49,11 @@ class PostgreSQLProviderTest extends \PHPUnit_Framework_TestCase
             'off'
         ];
 
-        foreach($trueBooleanValues as $value)
-        {
+        foreach ($trueBooleanValues as $value) {
             $this->assertTrue($this->provider->convertFromSQLBoolean($value));
         }
 
-        foreach($falseBooleanValues as $value)
-        {
+        foreach ($falseBooleanValues as $value) {
             $this->assertFalse($this->provider->convertFromSQLBoolean($value));
         }
     }

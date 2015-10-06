@@ -10,8 +10,7 @@ use Opulence\Memcached\OpulenceMemcached as BaseOpulenceMemcached;
 use Opulence\Memcached\TypeMapper;
 
 // To get around having to install Memcached just to run tests, include a mock Memcached class
-if(!class_exists("Memcached"))
-{
+if (!class_exists("Memcached")) {
     require_once __DIR__ . "/Memcached.php";
 }
 

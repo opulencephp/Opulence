@@ -66,8 +66,7 @@ EOF;
      */
     private function getCommandText()
     {
-        if(count($this->commandCollection->getAll()) == 0)
-        {
+        if (count($this->commandCollection->getAll()) == 0) {
             return "  <info>No commands</info>";
         }
 
@@ -79,30 +78,20 @@ EOF;
          * @param ICommand $b
          * @return int The result of the comparison
          */
-        $sort = function ($a, $b)
-        {
-            if(strpos($a->getName(), ":") === false)
-            {
-                if(strpos($b->getName(), ":") === false)
-                {
+        $sort = function ($a, $b) {
+            if (strpos($a->getName(), ":") === false) {
+                if (strpos($b->getName(), ":") === false) {
                     // They're both uncategorized
                     return $a->getName() < $b->getName() ? -1 : 1;
-                }
-                else
-                {
+                }else {
                     // B is categorized
                     return -1;
                 }
-            }
-            else
-            {
-                if(strpos($b->getName(), ":") === false)
-                {
+            }else {
+                if (strpos($b->getName(), ":") === false) {
                     // A is categorized
                     return 1;
-                }
-                else
-                {
+                }else {
                     // They're both categorized
                     return $a->getName() < $b->getName() ? -1 : 1;
                 }
@@ -115,17 +104,14 @@ EOF;
         $commandTexts = [];
         $firstCommandNamesToCategories = [];
 
-        foreach($commands as $command)
-        {
+        foreach ($commands as $command) {
             $commandNameParts = explode(":", $command->getName());
 
-            if(count($commandNameParts) > 1 && !in_array($commandNameParts[0], $firstCommandNamesToCategories))
-            {
+            if (count($commandNameParts) > 1 && !in_array($commandNameParts[0], $firstCommandNamesToCategories)) {
                 $categorizedCommandNames[] = $command->getName();
 
                 // If this is the first command for this category
-                if(!in_array($commandNameParts[0], $firstCommandNamesToCategories))
-                {
+                if (!in_array($commandNameParts[0], $firstCommandNamesToCategories)) {
                     $firstCommandNamesToCategories[$command->getName()] = $commandNameParts[0];
                 }
             }
@@ -133,17 +119,18 @@ EOF;
             $commandTexts[] = [$command->getName(), $command->getDescription()];
         }
 
-        return $this->paddingFormatter->format($commandTexts, function ($row) use ($categorizedCommandNames, $firstCommandNamesToCategories)
-        {
-            $output = "";
+        return $this->paddingFormatter->format($commandTexts,
+            function ($row) use ($categorizedCommandNames, $firstCommandNamesToCategories) {
+                $output = "";
 
-            // If this is the first command of its category, display the category
-            if(in_array(trim($row[0]), $categorizedCommandNames) && isset($firstCommandNamesToCategories[trim($row[0])]))
-            {
-                $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>" . PHP_EOL;
-            }
+                // If this is the first command of its category, display the category
+                if (in_array(trim($row[0]),
+                        $categorizedCommandNames) && isset($firstCommandNamesToCategories[trim($row[0])])
+                ) {
+                    $output .= "<comment>{$firstCommandNamesToCategories[trim($row[0])]}</comment>" . PHP_EOL;
+                }
 
-            return $output . "  <info>{$row[0]}</info> - {$row[1]}";
-        });
+                return $output . "  <info>{$row[0]}</info> - {$row[1]}";
+            });
     }
 }

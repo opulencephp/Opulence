@@ -38,8 +38,7 @@ class ParsedRoute extends Route
      */
     public function getDefaultValue($variableName)
     {
-        if(isset($this->defaultValues[$variableName]))
-        {
+        if (isset($this->defaultValues[$variableName])) {
             return $this->defaultValues[$variableName];
         }
 

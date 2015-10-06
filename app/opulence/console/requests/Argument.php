@@ -28,8 +28,7 @@ class Argument
      */
     public function __construct($name, $type, $description, $defaultValue = null)
     {
-        if(($type & 3) === 3)
-        {
+        if (($type & 3) === 3) {
             throw new InvalidArgumentException("Argument type cannot be both optional and required");
         }
 

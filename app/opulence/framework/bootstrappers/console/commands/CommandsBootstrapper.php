@@ -63,8 +63,7 @@ class CommandsBootstrapper extends Bootstrapper
     public function run(IContainer $container)
     {
         // Instantiate each command class
-        foreach(self::$commandClasses as $commandClass)
-        {
+        foreach (self::$commandClasses as $commandClass) {
             $this->commandCollection->add($container->makeShared($commandClass));
         }
     }

@@ -71,8 +71,7 @@ class RenameAppCommand extends Command
             )
         );
 
-        if($this->prompt->ask($confirmationQuestion, $response))
-        {
+        if ($this->prompt->ask($confirmationQuestion, $response)) {
             $this->updateComposer();
             $this->updateDirectories();
             $this->updateNamespaces();
@@ -111,8 +110,7 @@ class RenameAppCommand extends Command
     {
         $configFiles = $this->fileSystem->getFiles($this->paths["configs"], true);
 
-        foreach($configFiles as $file)
-        {
+        foreach ($configFiles as $file) {
             $currentContents = $this->fileSystem->read($file);
             $updatedContents = str_replace(
                 $this->getArgumentValue("currName") . "\\",
@@ -128,8 +126,7 @@ class RenameAppCommand extends Command
      */
     protected function updateDirectories()
     {
-        foreach(["app", "tests"] as $pathToUpdate)
-        {
+        foreach (["app", "tests"] as $pathToUpdate) {
             // Move the directory to the new name
             $this->fileSystem->move(
                 $this->paths[$pathToUpdate] . "/" . mb_strtolower($this->getArgumentValue("currName")),
@@ -139,8 +136,7 @@ class RenameAppCommand extends Command
             // Rename any references to the new namespace
             $appFiles = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
 
-            foreach($appFiles as $file)
-            {
+            foreach ($appFiles as $file) {
                 $currentContents = $this->fileSystem->read($file);
                 $updatedContents = str_replace(
                     $this->getArgumentValue("currName") . "\\",
@@ -157,12 +153,10 @@ class RenameAppCommand extends Command
      */
     protected function updateNamespaces()
     {
-        foreach(["app", "tests"] as $pathToUpdate)
-        {
+        foreach (["app", "tests"] as $pathToUpdate) {
             $files = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
 
-            foreach($files as $file)
-            {
+            foreach ($files as $file) {
                 $currContents = $this->fileSystem->read($file);
                 // Change the "namespace" statements
                 $updatedContents = str_replace(

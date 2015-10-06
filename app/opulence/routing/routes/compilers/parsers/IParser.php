@@ -13,13 +13,6 @@ use Opulence\Routing\Routes\ParsedRoute;
 interface IParser
 {
     /**
-     * Gets the regex that matches variables that appear in a route
-     *
-     * @return string The regex that matches variables in the route
-     */
-    public function getVarMatchingRegex();
-
-    /**
      * Parses a route into regular expressions
      *
      * @param Route $route The route to parse

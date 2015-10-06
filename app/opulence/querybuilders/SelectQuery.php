@@ -124,21 +124,19 @@ class SelectQuery extends Query
             . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
 
         // Add any joins
-        foreach($this->joins as $type => $joinsByType)
-        {
-            foreach($joinsByType as $join)
-            {
+        foreach ($this->joins as $type => $joinsByType) {
+            foreach ($joinsByType as $join) {
                 $sql .= " " . strtoupper($type) . " JOIN " . $join["tableName"]
                     . (empty($join["tableAlias"]) ? "" : " AS " . $join["tableAlias"]) . " ON " . $join["condition"];
             }
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE",
+            $this->conditionalQueryBuilder->getWhereConditions());
 
         // Add groupings
-        if(count($this->groupByClauses) > 0)
-        {
+        if (count($this->groupByClauses) > 0) {
             $sql .= " GROUP BY " . implode(", ", $this->groupByClauses);
         }
 
@@ -146,20 +144,17 @@ class SelectQuery extends Query
         $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("HAVING", $this->havingConditions);
 
         // Order the query
-        if(count($this->orderBy) > 0)
-        {
+        if (count($this->orderBy) > 0) {
             $sql .= " ORDER BY " . implode(", ", $this->orderBy);
         }
 
         // Add a limit
-        if($this->limit !== -1)
-        {
+        if ($this->limit !== -1) {
             $sql .= " LIMIT " . $this->limit;
         }
 
         // Add an offset
-        if($this->offset !== -1)
-        {
+        if ($this->offset !== -1) {
             $sql .= " OFFSET " . $this->offset;
         }
 

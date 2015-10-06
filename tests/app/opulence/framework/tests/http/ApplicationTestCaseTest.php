@@ -28,12 +28,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->testCase = new ApplicationTestCase();
         $this->testCase->setUp();
         $router = $this->testCase->getRouter();
-        $router->get("/closure-controller", function ()
-        {
+        $router->get("/closure-controller", function () {
             return new Response("Closure");
         });
-        $router->group(["controllerNamespace" => "Opulence\\Tests\\Routing\\Mocks"], function () use ($router)
-        {
+        $router->group(["controllerNamespace" => "Opulence\\Tests\\Routing\\Mocks"], function () use ($router) {
             $router->get("/badgateway", "HTTPApplicationTestController@setBadGateway");
             $router->get("/cookie", "HTTPApplicationTestController@setCookie");
             $router->get("/foobar", "HTTPApplicationTestController@showFooBar");

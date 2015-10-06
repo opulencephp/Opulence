@@ -18,8 +18,7 @@ class FileBridge implements ICacheBridge
     {
         $this->path = rtrim($path, "/");
 
-        if(!file_exists($this->path))
-        {
+        if (!file_exists($this->path)) {
             mkdir($this->path, 0777, true);
         }
     }
@@ -49,10 +48,8 @@ class FileBridge implements ICacheBridge
      */
     public function flush()
     {
-        foreach(glob("{$this->path}/*") as $file)
-        {
-            if(is_file($file))
-            {
+        foreach (glob("{$this->path}/*") as $file) {
+            if (is_file($file)) {
                 @unlink($file);
             }
         }
@@ -117,18 +114,14 @@ class FileBridge implements ICacheBridge
      */
     protected function parseData($key)
     {
-        if(file_exists($this->getPath($key)))
-        {
+        if (file_exists($this->getPath($key))) {
             $rawData = json_decode(file_get_contents($this->getPath($key)), true);
             $parsedData = ["d" => unserialize($rawData["d"]), "t" => $rawData["t"]];
-        }
-        else
-        {
+        }else {
             $parsedData = ["d" => null, "t" => 0];
         }
 
-        if(time() > $parsedData["t"])
-        {
+        if (time() > $parsedData["t"]) {
             $this->delete($key);
 
             return ["d" => null, "t" => 0];

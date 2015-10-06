@@ -46,8 +46,7 @@ class Environment
     {
         $value = getenv($name);
 
-        if($value === false)
-        {
+        if ($value === false) {
             return null;
         }
 

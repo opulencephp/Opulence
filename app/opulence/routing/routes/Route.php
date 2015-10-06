@@ -50,28 +50,23 @@ class Route
 
         $this->setControllerVars($controller);
 
-        if(isset($options["variables"]))
-        {
+        if (isset($options["variables"])) {
             $this->setVarRegexes($options["variables"]);
         }
 
-        if(isset($options["middleware"]))
-        {
+        if (isset($options["middleware"])) {
             $this->addMiddleware($options["middleware"]);
         }
 
-        if(isset($options["host"]))
-        {
+        if (isset($options["host"])) {
             $this->setRawHost($options["host"]);
         }
 
-        if(isset($options["name"]))
-        {
+        if (isset($options["name"])) {
             $this->setName($options["name"]);
         }
 
-        if(isset($options["https"]))
-        {
+        if (isset($options["https"])) {
             $this->setSecure($options["https"]);
         }
     }
@@ -86,12 +81,9 @@ class Route
     {
         $filters = (array)$filters;
 
-        if($prepend)
-        {
+        if ($prepend) {
             $this->middleware = array_merge($filters, $this->middleware);
-        }
-        else
-        {
+        }else {
             $this->middleware = array_merge($this->middleware, $filters);
         }
 
@@ -268,8 +260,7 @@ class Route
      */
     public function setVarRegexes(array $regexes)
     {
-        foreach($regexes as $varName => $regex)
-        {
+        foreach ($regexes as $varName => $regex) {
             $this->setVarRegex($varName, $regex);
         }
     }
@@ -292,18 +283,14 @@ class Route
     {
         $this->controller = $controller;
 
-        if(is_callable($controller))
-        {
+        if (is_callable($controller)) {
             $this->setControllerClosure($controller);
-        }
-        else
-        {
+        }else {
             $this->usesClosure = false;
             $atCharPos = strpos($controller, "@");
 
             // Make sure the "@" is somewhere in the middle of the string
-            if($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controller) - 1)
-            {
+            if ($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controller) - 1) {
                 throw new InvalidArgumentException("Controller string is not formatted correctly");
             }
 

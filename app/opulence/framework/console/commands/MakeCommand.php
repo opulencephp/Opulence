@@ -86,8 +86,7 @@ abstract class MakeCommand extends Command
         );
         $path = $this->composer->getClassPath($fullyQualifiedClassName);
 
-        if($this->fileSystem->exists($path))
-        {
+        if ($this->fileSystem->exists($path)) {
             $response->writeln("<error>File already exists</error>");
 
             return StatusCodes::ERROR;
@@ -125,8 +124,7 @@ abstract class MakeCommand extends Command
     {
         $directoryName = dirname($path);
 
-        if(!$this->fileSystem->isDirectory($directoryName))
-        {
+        if (!$this->fileSystem->isDirectory($directoryName)) {
             $this->fileSystem->makeDirectory($directoryName, 0777, true);
         }
     }

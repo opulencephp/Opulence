@@ -21,8 +21,7 @@ class DeleteQuery extends BaseDeleteQuery
         $sql = parent::getSQL();
 
         // Add a limit
-        if($this->limit !== -1)
-        {
+        if ($this->limit !== -1) {
             $sql .= " LIMIT " . $this->limit;
         }
 

@@ -19,8 +19,7 @@ class Paths implements ArrayAccess
      */
     public function __construct(array $paths)
     {
-        foreach($paths as $key => $value)
-        {
+        foreach ($paths as $key => $value) {
             $this->paths[$key] = realpath($value);
         }
     }
@@ -46,8 +45,7 @@ class Paths implements ArrayAccess
      */
     public function offsetSet($offset, $value)
     {
-        if(is_null($offset))
-        {
+        if (is_null($offset)) {
             throw new InvalidArgumentException("Offset cannot be empty");
         }
 

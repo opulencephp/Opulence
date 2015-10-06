@@ -26,17 +26,14 @@ class Parser implements IParser
         $ast = new AbstractSyntaxTree();
 
         /** @var Token $token */
-        foreach($tokens as $token)
-        {
-            switch($token->getType())
-            {
+        foreach ($tokens as $token) {
+            switch ($token->getType()) {
                 case TokenTypes::T_EXPRESSION:
                     $ast->getCurrentNode()->addChild(new ExpressionNode($token->getValue()));
 
                     break;
                 case TokenTypes::T_DIRECTIVE_OPEN:
-                    if(!$ast->getCurrentNode()->isRoot())
-                    {
+                    if (!$ast->getCurrentNode()->isRoot()) {
                         $this->throwImproperlyNestedNodeException($token);
                     }
 
@@ -46,8 +43,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_DIRECTIVE_CLOSE:
-                    if(!$ast->getCurrentNode()->isDirective())
-                    {
+                    if (!$ast->getCurrentNode()->isDirective()) {
                         $this->throwUnopenedDelimiterException($token);
                     }
 
@@ -59,8 +55,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_SANITIZED_TAG_OPEN:
-                    if(!$ast->getCurrentNode()->isRoot())
-                    {
+                    if (!$ast->getCurrentNode()->isRoot()) {
                         $this->throwImproperlyNestedNodeException($token);
                     }
 
@@ -70,8 +65,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_SANITIZED_TAG_CLOSE:
-                    if(!$ast->getCurrentNode()->isSanitizedTag())
-                    {
+                    if (!$ast->getCurrentNode()->isSanitizedTag()) {
                         $this->throwUnopenedDelimiterException($token);
                     }
 
@@ -79,8 +73,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_UNSANITIZED_TAG_OPEN:
-                    if(!$ast->getCurrentNode()->isRoot())
-                    {
+                    if (!$ast->getCurrentNode()->isRoot()) {
                         $this->throwImproperlyNestedNodeException($token);
                     }
 
@@ -90,8 +83,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_UNSANITIZED_TAG_CLOSE:
-                    if(!$ast->getCurrentNode()->isUnsanitizedTag())
-                    {
+                    if (!$ast->getCurrentNode()->isUnsanitizedTag()) {
                         $this->throwUnopenedDelimiterException($token);
                     }
 
@@ -99,8 +91,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_COMMENT_OPEN:
-                    if(!$ast->getCurrentNode()->isRoot())
-                    {
+                    if (!$ast->getCurrentNode()->isRoot()) {
                         $this->throwImproperlyNestedNodeException($token);
                     }
 
@@ -110,8 +101,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_COMMENT_CLOSE:
-                    if(!$ast->getCurrentNode()->isComment())
-                    {
+                    if (!$ast->getCurrentNode()->isComment()) {
                         $this->throwUnopenedDelimiterException($token);
                     }
 
@@ -138,8 +128,7 @@ class Parser implements IParser
             }
         }
 
-        if(!$ast->getCurrentNode()->isRoot())
-        {
+        if (!$ast->getCurrentNode()->isRoot()) {
             throw new RuntimeException(
                 sprintf(
                     "Expected close delimiter, found %s",

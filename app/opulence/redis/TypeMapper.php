@@ -40,12 +40,9 @@ class TypeMapper
      */
     public function toRedisBoolean($boolean)
     {
-        if($boolean)
-        {
+        if ($boolean) {
             return 1;
-        }
-        else
-        {
+        }else {
             return 0;
         }
     }

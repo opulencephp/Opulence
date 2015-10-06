@@ -35,8 +35,12 @@ class Application
      * @param Environment $environment The current environment
      * @param IContainer $container The IoC container
      */
-    public function __construct(Paths $paths, IDispatcher $taskDispatcher, Environment $environment, IContainer $container)
-    {
+    public function __construct(
+        Paths $paths,
+        IDispatcher $taskDispatcher,
+        Environment $environment,
+        IContainer $container
+    ) {
         // Order here is important
         $this->setPaths($paths);
         $this->taskDispatcher = $taskDispatcher;
@@ -112,22 +116,17 @@ class Application
         $taskReturnValue = null;
 
         // Don't shutdown a shutdown application
-        if($this->isRunning)
-        {
-            try
-            {
+        if ($this->isRunning) {
+            try {
                 $this->taskDispatcher->dispatch(TaskTypes::PRE_SHUTDOWN);
                 $this->isRunning = false;
 
-                if($shutdownTask !== null)
-                {
+                if ($shutdownTask !== null) {
                     $taskReturnValue = call_user_func($shutdownTask);
                 }
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
-            }
-            catch(Exception $ex)
-            {
+            }catch (Exception $ex) {
                 $this->isRunning = false;
             }
         }
@@ -146,22 +145,17 @@ class Application
         $taskReturnValue = null;
 
         // Don't start a running application
-        if(!$this->isRunning)
-        {
-            try
-            {
+        if (!$this->isRunning) {
+            try {
                 $this->taskDispatcher->dispatch(TaskTypes::PRE_START);
                 $this->isRunning = true;
 
-                if($startTask !== null)
-                {
+                if ($startTask !== null) {
                     $taskReturnValue = call_user_func($startTask);
                 }
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_START);
-            }
-            catch(Exception $ex)
-            {
+            }catch (Exception $ex) {
                 $this->shutdown();
             }
         }

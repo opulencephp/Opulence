@@ -46,16 +46,14 @@ abstract class Session implements IMiddleware
         $this->startSession($request);
 
         // Set the previous URL in the request
-        if($previousURL = $this->session->get(self::PREVIOUS_URL_KEY) !== null)
-        {
+        if ($previousURL = $this->session->get(self::PREVIOUS_URL_KEY) !== null) {
             $request->setPreviousURL($previousURL);
         }
 
         $response = $next($request);
 
         // Store the current URL for next time
-        if($request->getMethod() == Request::METHOD_GET && !$request->isAJAX())
-        {
+        if ($request->getMethod() == Request::METHOD_GET && !$request->isAJAX()) {
             $request->setPreviousURL($request->getFullURL());
         }
 
@@ -88,8 +86,7 @@ abstract class Session implements IMiddleware
         $this->sessionHandler->open(null, $this->session->getName());
         $sessionVars = @unserialize($this->sessionHandler->read($this->session->getId()));
 
-        if($sessionVars === false)
-        {
+        if ($sessionVars === false) {
             $sessionVars = [];
         }
 

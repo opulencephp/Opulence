@@ -69,10 +69,8 @@ class Transpiler implements ITranspiler
      */
     public function addParent(IView $parent, IView $child)
     {
-        foreach($parent->getVars() as $name => $value)
-        {
-            if(!$child->hasVar($name))
-            {
+        foreach ($parent->getVars() as $name => $value) {
+            if (!$child->hasVar($name)) {
                 $child->setVar($name, $value);
             }
         }
@@ -91,8 +89,7 @@ class Transpiler implements ITranspiler
      */
     public function callViewFunction($functionName)
     {
-        if(!isset($this->viewFunctions[$functionName]))
-        {
+        if (!isset($this->viewFunctions[$functionName])) {
             throw new InvalidArgumentException("View function \"$functionName\" does not exist");
         }
 
@@ -110,14 +107,11 @@ class Transpiler implements ITranspiler
         $partName = array_pop($this->partStack);
         $content = ob_get_clean();
 
-        if($this->inParentPart)
-        {
+        if ($this->inParentPart) {
             // Now that we know the value of the parent, replace the placeholder
             $this->parts[$partName] = str_replace("__opulenceParentPlaceholder", $content, $this->parts[$partName]);
             $this->inParentPart = false;
-        }
-        else
-        {
+        }else {
             $this->parts[$partName] = $content;
         }
     }
@@ -159,8 +153,7 @@ class Transpiler implements ITranspiler
      */
     public function showPart($name)
     {
-        if(!isset($this->parts[$name]))
-        {
+        if (!isset($this->parts[$name])) {
             return "";
         }
 
@@ -187,8 +180,7 @@ class Transpiler implements ITranspiler
         $this->appendedText = [];
         $this->prependedText = [];
 
-        if(($transpiledContent = $this->cache->get($view)) !== null)
-        {
+        if (($transpiledContent = $this->cache->get($view)) !== null) {
             return $transpiledContent;
         }
 
@@ -196,14 +188,12 @@ class Transpiler implements ITranspiler
         $ast = $this->parser->parse($tokens);
         $transpiledContent = $this->transpileNodes($ast);
 
-        if(count($this->prependedText) > 0)
-        {
+        if (count($this->prependedText) > 0) {
             // Format the content nicely
             $transpiledContent = trim(implode(PHP_EOL, $this->prependedText), PHP_EOL) . PHP_EOL . $transpiledContent;
         }
 
-        if(count($this->appendedText) > 0)
-        {
+        if (count($this->appendedText) > 0) {
             // Format the content nicely
             $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
         }
@@ -223,8 +213,7 @@ class Transpiler implements ITranspiler
     {
         $code = "";
 
-        foreach($node->getChildren() as $childNode)
-        {
+        foreach ($node->getChildren() as $childNode) {
             $code .= '<?php /* ' . $childNode->getValue() . ' */ ?>';
         }
 
@@ -242,16 +231,14 @@ class Transpiler implements ITranspiler
     {
         $children = $node->getChildren();
 
-        if(count($children) == 0)
-        {
+        if (count($children) == 0) {
             return "";
         }
 
         $directiveName = $children[0]->getValue();
         $expression = count($children) == 2 ? $children[1]->getValue() : "";
 
-        if(!isset($this->directiveTranspilers[$directiveName]))
-        {
+        if (!isset($this->directiveTranspilers[$directiveName])) {
             throw new RuntimeException(
                 sprintf(
                     'No transpiler registered for directive "%s"',
@@ -287,10 +274,8 @@ class Transpiler implements ITranspiler
         $rootNode = $ast->getRootNode();
         $previousNodeWasExpression = false;
 
-        foreach($rootNode->getChildren() as $childNode)
-        {
-            switch(get_class($childNode))
-            {
+        foreach ($rootNode->getChildren() as $childNode) {
+            switch (get_class($childNode)) {
                 case DirectiveNode::class:
                     $transpiledView .= $this->transpileDirectiveNode($childNode);
                     $previousNodeWasExpression = false;
@@ -313,8 +298,7 @@ class Transpiler implements ITranspiler
                     break;
                 case ExpressionNode::class:
                     // To keep expressions from running against each other, we pad all expressions but the first
-                    if($previousNodeWasExpression)
-                    {
+                    if ($previousNodeWasExpression) {
                         $transpiledView .= ' ';
                     }
 
@@ -345,8 +329,7 @@ class Transpiler implements ITranspiler
     {
         $code = "";
 
-        foreach($node->getChildren() as $childNode)
-        {
+        foreach ($node->getChildren() as $childNode) {
             $code .= '<?php echo $__opulenceFortuneTranspiler->sanitize(' . $childNode->getValue() . '); ?>';
         }
 
@@ -363,8 +346,7 @@ class Transpiler implements ITranspiler
     {
         $code = "";
 
-        foreach($node->getChildren() as $childNode)
-        {
+        foreach ($node->getChildren() as $childNode) {
             $code .= '<?php echo ' . $childNode->getValue() . '; ?>';
         }
 

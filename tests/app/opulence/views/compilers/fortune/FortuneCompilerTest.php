@@ -71,8 +71,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingCustomViewFunction()
     {
-        $this->transpiler->registerViewFunction("foo", function ($input)
-        {
+        $this->transpiler->registerViewFunction("foo", function ($input) {
             return "foo: $input";
         });
         $this->view->setContents('{{!foo("bar")!}}');
@@ -475,12 +474,9 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $string1 = str_replace("&quot;", "&#34;", $string1);
         $string2 = str_replace("&quot;", "&#34;", $string2);
 
-        if($string1 === $string2)
-        {
+        if ($string1 === $string2) {
             return true;
-        }
-        else
-        {
+        }else {
             error_log($string1 . "::" . $string2);
 
             return false;

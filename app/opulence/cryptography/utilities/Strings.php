@@ -23,13 +23,11 @@ class Strings
         // N bytes becomes 2N characters in bin2hex(), hence the division by 2
         $string = bin2hex(openssl_random_pseudo_bytes(ceil($length / 2), $isStrong));
 
-        if($string === false || !$isStrong)
-        {
+        if ($string === false || !$isStrong) {
             throw new CryptographicException("Generated hash was not secure");
         }
 
-        if($length % 2 == 1)
-        {
+        if ($length % 2 == 1) {
             // Slice off one character to make it the appropriate odd length
             $string = mb_substr($string, 1);
         }

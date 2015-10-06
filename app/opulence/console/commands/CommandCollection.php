@@ -38,8 +38,7 @@ class CommandCollection
      */
     public function add(ICommand $command, $overwrite = false)
     {
-        if(!$overwrite && $this->has($command->getName()))
-        {
+        if (!$overwrite && $this->has($command->getName())) {
             throw new InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
         }
 
@@ -59,7 +58,11 @@ class CommandCollection
      */
     public function call($commandName, IResponse $response, array $arguments = [], array $options = [])
     {
-        $request = $this->requestParser->parse(["name" => $commandName, "arguments" => $arguments, "options" => $options]);
+        $request = $this->requestParser->parse([
+            "name" => $commandName,
+            "arguments" => $arguments,
+            "options" => $options
+        ]);
         $compiledCommand = $this->commandCompiler->compile($this->get($commandName), $request);
 
         return $compiledCommand->execute($response);
@@ -74,8 +77,7 @@ class CommandCollection
      */
     public function get($name)
     {
-        if(!$this->has($name))
-        {
+        if (!$this->has($name)) {
             throw new InvalidArgumentException("No command with name \"$name\" exists");
         }
 

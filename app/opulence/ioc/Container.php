@@ -60,18 +60,14 @@ class Container implements IContainer
      */
     public function bind($interfaces, $concrete, $targetClass = null)
     {
-        if(!is_string($concrete) && !is_callable($concrete))
-        {
+        if (!is_string($concrete) && !is_callable($concrete)) {
             $this->registerInstance($concrete);
             $concrete = get_class($concrete);
         }
 
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             $this->bindUniversally((array)$interfaces, $concrete);
-        }
-        else
-        {
+        }else {
             $this->bindToTarget((array)$interfaces, $concrete, $targetClass);
         }
     }
@@ -83,13 +79,11 @@ class Container implements IContainer
     {
         // We have to check if the method exists in case the class implements a __call() magic method
         // __call() will force all calls to is_callable() to return true
-        if(
+        if (
             !is_callable($function) ||
             (is_array($function) && count($function) == 2 && !method_exists($function[0], $function[1]))
-        )
-        {
-            if(!$ignoreMissing)
-            {
+        ) {
+            if (!$ignoreMissing) {
                 throw new IoCException("Cannot call function");
             }
 
@@ -97,13 +91,10 @@ class Container implements IContainer
         }
 
         // Resolve all the method parameters
-        if($function instanceof Closure)
-        {
+        if ($function instanceof Closure) {
             $className = null;
             $parameters = (new ReflectionFunction($function))->getParameters();
-        }
-        else
-        {
+        }else {
             $className = get_class($function[0]);
             $parameters = (new ReflectionMethod($function[0], $function[1]))->getParameters();
         }
@@ -123,12 +114,9 @@ class Container implements IContainer
      */
     public function getBinding($interface, $targetClass = null)
     {
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             return $this->getUniversalBinding($interface);
-        }
-        else
-        {
+        }else {
             return $this->getTargetedBinding($interface, $targetClass);
         }
     }
@@ -138,12 +126,9 @@ class Container implements IContainer
      */
     public function isBound($interface, $targetClass = null)
     {
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             return $this->isBoundUniversally($interface);
-        }
-        else
-        {
+        }else {
             return $this->isBoundToTarget($interface, $targetClass);
         }
     }
@@ -153,46 +138,35 @@ class Container implements IContainer
      */
     public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        try
-        {
+        try {
             $concrete = $this->getConcrete($component);
 
             // If we're creating a shared instance, check to see if we've already instantiated it
-            if(!$forceNewInstance)
-            {
+            if (!$forceNewInstance) {
                 $instance = $this->getInstance($concrete, $constructorPrimitives, $methodCalls);
 
-                if($instance !== null)
-                {
+                if ($instance !== null) {
                     return $instance;
                 }
             }
 
-            if($this->usesCallback($component))
-            {
-                if($forceNewInstance || !$this->callbackWasUsed($component))
-                {
+            if ($this->usesCallback($component)) {
+                if ($forceNewInstance || !$this->callbackWasUsed($component)) {
                     $instance = $this->makeCallback($component);
                 }
-            }
-            else
-            {
+            }else {
                 $reflectionClass = new ReflectionClass($concrete);
 
-                if(!$reflectionClass->isInstantiable())
-                {
+                if (!$reflectionClass->isInstantiable()) {
                     throw new IoCException("$concrete is not instantiable");
                 }
 
                 $constructor = $reflectionClass->getConstructor();
 
-                if($constructor === null)
-                {
+                if ($constructor === null) {
                     // No constructor, so instantiating is easy
                     $instance = new $concrete;
-                }
-                else
-                {
+                }else {
                     // Resolve all of the constructor parameters
                     $constructorParameters = $this->getResolvedParameters(
                         $concrete,
@@ -206,16 +180,13 @@ class Container implements IContainer
 
             $this->callMethods($instance, $methodCalls, false);
 
-            if(!$forceNewInstance)
-            {
+            if (!$forceNewInstance) {
                 // Register this instance for next time
                 $this->registerInstance($instance, $constructorPrimitives, $methodCalls);
             }
 
             return $instance;
-        }
-        catch(ReflectionException $ex)
-        {
+        }catch (ReflectionException $ex) {
             throw new IoCException("Failed to make object: " . $ex->getMessage());
         }
     }
@@ -241,12 +212,9 @@ class Container implements IContainer
      */
     public function unbind($interface, $targetClass = null)
     {
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             $this->unbindUniversally($interface);
-        }
-        else
-        {
+        }else {
             $this->unbindFromTarget($interface, $targetClass);
         }
     }
@@ -266,8 +234,7 @@ class Container implements IContainer
             "used" => false
         ];
 
-        foreach($interfaces as $interface)
-        {
+        foreach ($interfaces as $interface) {
             $this->targetedBindings[$targetClass][$interface] = $binding;
         }
     }
@@ -286,8 +253,7 @@ class Container implements IContainer
             "used" => false
         ];
 
-        foreach($interfaces as $interface)
-        {
+        foreach ($interfaces as $interface) {
             $this->universalBindings[$interface] = $binding;
         }
     }
@@ -303,8 +269,7 @@ class Container implements IContainer
     protected function callMethods(&$instance, array $methodCalls, $forceNewInstance)
     {
         // Call any methods
-        foreach($methodCalls as $methodName => $methodPrimitives)
-        {
+        foreach ($methodCalls as $methodName => $methodPrimitives) {
             $this->call([$instance, $methodName], $methodPrimitives, false, $forceNewInstance);
         }
     }
@@ -318,12 +283,9 @@ class Container implements IContainer
      */
     protected function callbackWasUsed($component, $targetClass = null)
     {
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             $bindingData =& $this->universalBindings[$component];
-        }
-        else
-        {
+        }else {
             $bindingData =& $this->targetedBindings[$targetClass][$component];
         }
 
@@ -340,25 +302,16 @@ class Container implements IContainer
      */
     protected function getConcrete($component, $targetClass = null)
     {
-        if($targetClass === null)
-        {
-            if(isset($this->universalBindings[$component]))
-            {
+        if ($targetClass === null) {
+            if (isset($this->universalBindings[$component])) {
                 return $this->universalBindings[$component]["concrete"];
-            }
-            else
-            {
+            }else {
                 return $component;
             }
-        }
-        else
-        {
-            if(isset($this->targetedBindings[$targetClass][$component]))
-            {
+        }else {
+            if (isset($this->targetedBindings[$targetClass][$component])) {
                 return $this->targetedBindings[$targetClass][$component]["concrete"];
-            }
-            else
-            {
+            }else {
                 return $component;
             }
         }
@@ -374,16 +327,14 @@ class Container implements IContainer
      */
     protected function getInstance($concrete, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        if(!is_string($concrete) || strlen($concrete) == 0)
-        {
+        if (!is_string($concrete) || strlen($concrete) == 0) {
             return null;
         }
 
-        if(isset($this->instances[$concrete]) &&
+        if (isset($this->instances[$concrete]) &&
             $this->instances[$concrete]["constructorPrimitives"] == $constructorPrimitives &&
             $this->instances[$concrete]["methodCalls"] == $methodCalls
-        )
-        {
+        ) {
             return $this->instances[$concrete]["instance"];
         }
 
@@ -405,21 +356,16 @@ class Container implements IContainer
         array $unresolvedParameters,
         array $primitives,
         $forceNewInstances
-    )
-    {
+    ) {
         $resolvedParameters = [];
 
-        foreach($unresolvedParameters as $parameter)
-        {
+        foreach ($unresolvedParameters as $parameter) {
             $resolvedParameter = null;
 
-            if($parameter->getClass() === null)
-            {
+            if ($parameter->getClass() === null) {
                 // The parameter is a primitive
                 $resolvedParameter = $this->resolvePrimitive($parameter, $primitives);
-            }
-            else
-            {
+            }else {
                 // The parameter is an object
                 $resolvedParameter = $this->resolveClass(
                     $callingClass,
@@ -429,12 +375,9 @@ class Container implements IContainer
             }
 
             // PHP forces a reference operator when passing parameters by reference via an array
-            if($parameter->isPassedByReference())
-            {
+            if ($parameter->isPassedByReference()) {
                 $resolvedParameters[] = &$resolvedParameter;
-            }
-            else
-            {
+            }else {
                 $resolvedParameters[] = $resolvedParameter;
             }
         }
@@ -453,12 +396,10 @@ class Container implements IContainer
      */
     protected function getTargetedBinding($interface, $targetClass)
     {
-        if($this->isBoundToTarget($interface, $targetClass))
-        {
+        if ($this->isBoundToTarget($interface, $targetClass)) {
             $bindingData = $this->targetedBindings[$targetClass][$interface];
 
-            if(is_callable($bindingData["callback"]))
-            {
+            if (is_callable($bindingData["callback"])) {
                 return $bindingData["callback"];
             }
 
@@ -478,12 +419,10 @@ class Container implements IContainer
      */
     protected function getUniversalBinding($interface)
     {
-        if($this->isBound($interface))
-        {
+        if ($this->isBound($interface)) {
             $bindingData = $this->universalBindings[$interface];
 
-            if(is_callable($bindingData["callback"]))
-            {
+            if (is_callable($bindingData["callback"])) {
                 return $bindingData["callback"];
             }
 
@@ -526,25 +465,18 @@ class Container implements IContainer
      */
     protected function makeCallback($component, $targetClass = null)
     {
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             $bindingData =& $this->universalBindings[$component];
-        }
-        else
-        {
+        }else {
             // Fallback to universal bindings
-            if(isset($this->targetedBindings[$targetClass]) && $this->targetedBindings[$targetClass][$component] !== null)
-            {
+            if (isset($this->targetedBindings[$targetClass]) && $this->targetedBindings[$targetClass][$component] !== null) {
                 $bindingData =& $this->targetedBindings[$targetClass][$component];
-            }
-            else
-            {
+            }else {
                 $bindingData =& $this->universalBindings[$component];
             }
         }
 
-        if(!is_callable($bindingData["callback"]))
-        {
+        if (!is_callable($bindingData["callback"])) {
             throw new IoCException("Callback is invalid for $component");
         }
 
@@ -584,15 +516,12 @@ class Container implements IContainer
     {
         $concrete = $this->getBinding($component, $callingClass);
 
-        if(is_callable($concrete))
-        {
+        if (is_callable($concrete)) {
             // If we are not forcing new instances, try finding a registered instance
-            if(!$forceNewInstance)
-            {
+            if (!$forceNewInstance) {
                 $instance = $this->getInstance($this->getConcrete($component));
 
-                if($instance !== null)
-                {
+                if ($instance !== null) {
                     return $instance;
                 }
             }
@@ -600,24 +529,18 @@ class Container implements IContainer
             $instance = $this->makeCallback($component, $callingClass);
 
             // Register this for next time
-            if(!$forceNewInstance)
-            {
+            if (!$forceNewInstance) {
                 $this->registerInstance($instance);
             }
 
             return $instance;
-        }
-        elseif($concrete === null)
-        {
+        }elseif ($concrete === null) {
             $concrete = $component;
         }
 
-        if($forceNewInstance)
-        {
+        if ($forceNewInstance) {
             return $this->makeNew($concrete);
-        }
-        else
-        {
+        }else {
             return $this->makeShared($concrete);
         }
     }
@@ -632,14 +555,12 @@ class Container implements IContainer
      */
     protected function resolvePrimitive(ReflectionParameter $parameter, array &$primitives)
     {
-        if(count($primitives) > 0)
-        {
+        if (count($primitives) > 0) {
             // Grab the next primitive
             return array_shift($primitives);
         }
 
-        if($parameter->isDefaultValueAvailable())
-        {
+        if ($parameter->isDefaultValueAvailable()) {
             // No value was found, so use the default value
             return $parameter->getDefaultValue();
         }
@@ -659,8 +580,7 @@ class Container implements IContainer
      */
     protected function unbindFromTarget($interface, $targetClass)
     {
-        if(isset($this->targetedBindings[$targetClass]))
-        {
+        if (isset($this->targetedBindings[$targetClass])) {
             unset($this->targetedBindings[$targetClass][$interface]);
         }
     }
@@ -684,13 +604,10 @@ class Container implements IContainer
      */
     protected function usesCallback($component, $targetClass = null)
     {
-        if($targetClass === null)
-        {
+        if ($targetClass === null) {
             return isset($this->universalBindings[$component]) &&
             is_callable($this->universalBindings[$component]["callback"]);
-        }
-        else
-        {
+        }else {
             return isset($this->targetedBindings[$targetClass][$component]) &&
             is_callable($this->targetedBindings[$targetClass][$component]["callback"]);
         }

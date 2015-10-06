@@ -20,14 +20,12 @@ class ElementCollection
      */
     public function add($elements)
     {
-        if(!is_array($elements))
-        {
+        if (!is_array($elements)) {
             $elements = [$elements];
         }
 
         /** @var Element $element */
-        foreach($elements as $element)
-        {
+        foreach ($elements as $element) {
             $this->elements[$element->getName()] = $element;
         }
     }
@@ -41,8 +39,7 @@ class ElementCollection
      */
     public function getElement($name)
     {
-        if(!$this->has($name))
-        {
+        if (!$this->has($name)) {
             throw new InvalidArgumentException("No element with name \"$name\" exists");
         }
 

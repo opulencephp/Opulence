@@ -47,21 +47,17 @@ class Statement extends PDOStatement implements IStatement
     {
         $isAssociativeArray = (bool)count(array_filter(array_keys($values), "is_string"));
 
-        foreach($values as $parameterName => $value)
-        {
-            if(!is_array($value))
-            {
+        foreach ($values as $parameterName => $value) {
+            if (!is_array($value)) {
                 $value = [$value, PDO::PARAM_STR];
             }
 
             // If this is an indexed array, we need to offset the parameter name by 1 because it's 1-indexed
-            if(!$isAssociativeArray)
-            {
+            if (!$isAssociativeArray) {
                 $parameterName += 1;
             }
 
-            if(count($value) != 2 || !$this->bindValue($parameterName, $value[0], $value[1]))
-            {
+            if (count($value) != 2 || !$this->bindValue($parameterName, $value[0], $value[1])) {
                 return false;
             }
         }
@@ -82,18 +78,15 @@ class Statement extends PDOStatement implements IStatement
      */
     public function fetch($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $cursorOrientation = null, $cursorOffset = null)
     {
-        if($fetchStyle === null && $cursorOrientation === null && $cursorOffset === null)
-        {
+        if ($fetchStyle === null && $cursorOrientation === null && $cursorOffset === null) {
             return parent::fetch();
         }
 
-        if($cursorOrientation === null && $cursorOffset === null)
-        {
+        if ($cursorOrientation === null && $cursorOffset === null) {
             return parent::fetch($fetchStyle);
         }
 
-        if($cursorOffset === null)
-        {
+        if ($cursorOffset === null) {
             return parent::fetch($fetchStyle, $cursorOrientation);
         }
 
@@ -105,18 +98,15 @@ class Statement extends PDOStatement implements IStatement
      */
     public function fetchAll($fetchStyle = PDO::ATTR_DEFAULT_FETCH_MODE, $fetchArgument = null, $ctorArgs = null)
     {
-        if($fetchStyle === null && $fetchArgument === null && $ctorArgs === null)
-        {
+        if ($fetchStyle === null && $fetchArgument === null && $ctorArgs === null) {
             return parent::fetchAll();
         }
 
-        if($fetchArgument === null && $ctorArgs === null)
-        {
+        if ($fetchArgument === null && $ctorArgs === null) {
             return parent::fetchAll($fetchStyle);
         }
 
-        if($ctorArgs === null)
-        {
+        if ($ctorArgs === null) {
             return parent::fetchAll($fetchStyle, $fetchArgument);
         }
 
@@ -136,13 +126,11 @@ class Statement extends PDOStatement implements IStatement
      */
     public function setFetchMode($fetchMode, $arg2 = null, $arg3 = null)
     {
-        if($arg2 === null && $arg3 === null)
-        {
+        if ($arg2 === null && $arg3 === null) {
             return parent::setFetchMode($fetchMode);
         }
 
-        if($arg3 === null)
-        {
+        if ($arg3 === null) {
             return parent::setFetchMode($fetchMode, $arg2);
         }
 

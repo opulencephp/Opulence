@@ -33,13 +33,11 @@ class CredentialCollection implements ICredentialCollection
         $this->setEntityId($entityId);
         $this->setEntityTypeId($entityTypeId);
 
-        foreach($storages as $type => $storage)
-        {
+        foreach ($storages as $type => $storage) {
             $this->registerStorage($type, $storage);
         }
 
-        foreach($credentials as $credential)
-        {
+        foreach ($credentials as $credential) {
             $this->add($credential);
         }
     }
@@ -49,13 +47,11 @@ class CredentialCollection implements ICredentialCollection
      */
     public function add(ICredential $credential)
     {
-        if(!isset($this->storages[$credential->getTypeId()]))
-        {
+        if (!isset($this->storages[$credential->getTypeId()])) {
             throw new RuntimeException("No storage for credential type {$credential->getTypeId()}");
         }
 
-        if($credential->isActive())
-        {
+        if ($credential->isActive()) {
             $this->credentials[$credential->getTypeId()] = $credential;
         }
     }
@@ -65,8 +61,7 @@ class CredentialCollection implements ICredentialCollection
      */
     public function delete(Response $response, $type)
     {
-        if(!isset($this->storages[$type]))
-        {
+        if (!isset($this->storages[$type])) {
             throw new RuntimeException("No storage for credential type $type");
         }
 
@@ -80,16 +75,14 @@ class CredentialCollection implements ICredentialCollection
      */
     public function get($type)
     {
-        if(!$this->has($type))
-        {
+        if (!$this->has($type)) {
             return null;
         }
 
         $credential = $this->credentials[$type];
 
         // Don't return deactivated credentials
-        if(!$credential->isActive())
-        {
+        if (!$credential->isActive()) {
             return null;
         }
 
@@ -133,18 +126,15 @@ class CredentialCollection implements ICredentialCollection
      */
     public function has($type)
     {
-        if(isset($this->credentials[$type]))
-        {
+        if (isset($this->credentials[$type])) {
             return true;
         }
 
-        if(!isset($this->storages[$type]))
-        {
+        if (!isset($this->storages[$type])) {
             return false;
         }
 
-        if(!$this->storages[$type]->exists())
-        {
+        if (!$this->storages[$type]->exists()) {
             return false;
         }
 
@@ -166,8 +156,7 @@ class CredentialCollection implements ICredentialCollection
      */
     public function save(Response $response, ICredential $credential, $unhashedToken)
     {
-        if(!isset($this->storages[$credential->getTypeId()]))
-        {
+        if (!isset($this->storages[$credential->getTypeId()])) {
             throw new RuntimeException("No storage for credential type {$credential->getTypeId()}");
         }
 

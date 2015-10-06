@@ -38,12 +38,10 @@ class InsertQuery extends BaseInsertQuery
         $sql = parent::getSQL();
 
         // Add a potential "UPDATE"
-        if(count($this->duplicateKeyUpdateColumnNamesToValues) > 0)
-        {
+        if (count($this->duplicateKeyUpdateColumnNamesToValues) > 0) {
             $sql .= " ON DUPLICATE KEY UPDATE";
 
-            foreach($this->duplicateKeyUpdateColumnNamesToValues as $columnName => $value)
-            {
+            foreach ($this->duplicateKeyUpdateColumnNamesToValues as $columnName => $value) {
                 $sql .= " " . $columnName . " = ?,";
             }
 

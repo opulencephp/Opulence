@@ -32,30 +32,24 @@ class Server
         $port = null,
         $databaseIndex = null,
         $connectionTimeout = null
-    )
-    {
-        if($host !== null)
-        {
+    ) {
+        if ($host !== null) {
             $this->setHost($host);
         }
 
-        if($password !== null)
-        {
+        if ($password !== null) {
             $this->setPassword($password);
         }
 
-        if($port !== null)
-        {
+        if ($port !== null) {
             $this->setPort($port);
         }
 
-        if($databaseIndex !== null)
-        {
+        if ($databaseIndex !== null) {
             $this->setDatabaseIndex($databaseIndex);
         }
 
-        if($connectionTimeout !== null)
-        {
+        if ($connectionTimeout !== null) {
             $this->setConnectionTimeout($connectionTimeout);
         }
     }

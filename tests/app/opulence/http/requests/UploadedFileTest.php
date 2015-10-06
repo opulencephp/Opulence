@@ -24,13 +24,11 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
     {
         $files = glob(__DIR__ . "/tmp/*");
 
-        foreach($files as $file)
-        {
+        foreach ($files as $file) {
             unlink($file);
         }
 
-        if(file_exists(__DIR__ . "/tmp"))
-        {
+        if (file_exists(__DIR__ . "/tmp")) {
             rmdir(__DIR__ . "/tmp");
         }
     }

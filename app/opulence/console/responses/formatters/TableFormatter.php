@@ -36,13 +36,11 @@ class TableFormatter
      */
     public function format(array $rows, array $headers = [])
     {
-        if(count($rows) == 0)
-        {
+        if (count($rows) == 0) {
             return "";
         }
 
-        foreach($rows as &$row)
-        {
+        foreach ($rows as &$row) {
             $row = (array)$row;
         }
 
@@ -50,8 +48,7 @@ class TableFormatter
         $headersAndRows = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
         $maxLengths = $this->padding->normalizeColumns($headersAndRows);
         $eolChar = $this->padding->getEOLChar();
-        $rowText = explode($eolChar, $this->padding->format($headersAndRows, function ($row)
-        {
+        $rowText = explode($eolChar, $this->padding->format($headersAndRows, function ($row) {
             return sprintf(
                 "%s%s%s%s%s",
                 $this->verticalBorderChar,
@@ -65,8 +62,7 @@ class TableFormatter
         // Create the borders
         $borders = [];
 
-        foreach($maxLengths as $maxLength)
-        {
+        foreach ($maxLengths as $maxLength) {
             $borders[] = str_repeat($this->horizontalBorderChar, $maxLength + 2 * mb_strlen($this->cellPaddingString));
         }
 

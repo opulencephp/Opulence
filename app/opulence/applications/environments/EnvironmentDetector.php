@@ -21,20 +21,14 @@ class EnvironmentDetector implements IEnvironmentDetector
     {
         $hostName = gethostname();
 
-        foreach($this->environmentsToHosts as $environmentName => $hosts)
-        {
+        foreach ($this->environmentsToHosts as $environmentName => $hosts) {
             /** @var IHost $host */
-            foreach($hosts as $host)
-            {
-                if($host instanceof HostRegex)
-                {
-                    if(preg_match($host->getValue(), $hostName) === 1)
-                    {
+            foreach ($hosts as $host) {
+                if ($host instanceof HostRegex) {
+                    if (preg_match($host->getValue(), $hostName) === 1) {
                         return $environmentName;
                     }
-                }
-                elseif($host->getValue() === $hostName)
-                {
+                }elseif ($host->getValue() === $hostName) {
                     return $environmentName;
                 }
             }
@@ -49,18 +43,15 @@ class EnvironmentDetector implements IEnvironmentDetector
      */
     public function registerHost($environmentName, $hosts)
     {
-        if(!isset($this->environmentsToHosts[$environmentName]))
-        {
+        if (!isset($this->environmentsToHosts[$environmentName])) {
             $this->environmentsToHosts[$environmentName] = [];
         }
 
-        if(!is_array($hosts))
-        {
+        if (!is_array($hosts)) {
             $hosts = [$hosts];
         }
 
-        foreach($hosts as $host)
-        {
+        foreach ($hosts as $host) {
             $this->environmentsToHosts[$environmentName][] = $host;
         }
     }

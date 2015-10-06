@@ -112,12 +112,10 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         array $options = [],
         $promptAnswers = [],
         $isStyled = true
-    )
-    {
+    ) {
         $promptAnswers = (array)$promptAnswers;
 
-        if(count($promptAnswers) > 0)
-        {
+        if (count($promptAnswers) > 0) {
             $this->setPromptAnswers($commandName, $promptAnswers);
         }
 
@@ -183,8 +181,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     private function checkResponseIsSet()
     {
-        if($this->response === null)
-        {
+        if ($this->response === null) {
             $this->fail("Must call call() before assertions");
         }
     }
@@ -199,8 +196,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     {
         $commandClassName = get_class($this->commandCollection->get($commandName));
 
-        foreach($answers as $index => $answer)
-        {
+        foreach ($answers as $index => $answer) {
             $this->prompt->expects($this->at($index))
                 ->method("ask")
                 ->willReturn($answer);

@@ -63,9 +63,9 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $bootstrapperRegistry = new BootstrapperRegistry($paths, $environment);
         $bootstrapperDispatcher = new Dispatcher($taskDispatcher, $container);
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
-        $taskDispatcher->registerTask(TaskTypes::PRE_START, function () use ($bootstrapperDispatcher, $bootstrapperRegistry)
-        {
-            $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
-        });
+        $taskDispatcher->registerTask(TaskTypes::PRE_START,
+            function () use ($bootstrapperDispatcher, $bootstrapperRegistry) {
+                $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
+            });
     }
 }

@@ -16,8 +16,7 @@ class ArgvTokenizer implements ITokenizer
         // Get rid of the application name
         array_shift($input);
 
-        foreach($input as &$token)
-        {
+        foreach ($input as &$token) {
             $token = stripslashes($token);
         }
 

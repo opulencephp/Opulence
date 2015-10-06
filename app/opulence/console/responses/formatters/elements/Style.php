@@ -80,14 +80,12 @@ class Style
      */
     public function addTextStyle($style)
     {
-        if(!isset(self::$supportedTextStyles[$style]))
-        {
+        if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
         }
 
         // Don't double-add a style
-        if(!in_array($style, $this->textStyles))
-        {
+        if (!in_array($style, $this->textStyles)) {
             $this->textStyles[] = $style;
         }
     }
@@ -100,8 +98,7 @@ class Style
      */
     public function addTextStyles(array $styles)
     {
-        foreach($styles as $style)
-        {
+        foreach ($styles as $style) {
             $this->addTextStyle($style);
         }
     }
@@ -114,34 +111,29 @@ class Style
      */
     public function format($text)
     {
-        if($text === "")
-        {
+        if ($text === "") {
             return $text;
         }
 
         $startCodes = [];
         $endCodes = [];
 
-        if($this->foregroundColor !== null)
-        {
+        if ($this->foregroundColor !== null) {
             $startCodes[] = self::$supportedForegroundColors[$this->foregroundColor][0];
             $endCodes[] = self::$supportedForegroundColors[$this->foregroundColor][1];
         }
 
-        if($this->backgroundColor !== null)
-        {
+        if ($this->backgroundColor !== null) {
             $startCodes[] = self::$supportedBackgroundColors[$this->backgroundColor][0];
             $endCodes[] = self::$supportedBackgroundColors[$this->backgroundColor][1];
         }
 
-        foreach($this->textStyles as $style)
-        {
+        foreach ($this->textStyles as $style) {
             $startCodes[] = self::$supportedTextStyles[$style][0];
             $endCodes[] = self::$supportedTextStyles[$style][1];
         }
 
-        if(count($startCodes) == 0 && count($endCodes) == 0)
-        {
+        if (count($startCodes) == 0 && count($endCodes) == 0) {
             // No point in trying to format the text
             return $text;
         }
@@ -186,13 +178,11 @@ class Style
      */
     public function removeTextStyle($style)
     {
-        if(!isset(self::$supportedTextStyles[$style]))
-        {
+        if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
         }
 
-        if(($index = array_search($style, $this->textStyles)) !== false)
-        {
+        if (($index = array_search($style, $this->textStyles)) !== false) {
             unset($this->textStyles[$index]);
         }
     }
@@ -203,8 +193,7 @@ class Style
      */
     public function setBackgroundColor($backgroundColor)
     {
-        if($backgroundColor !== null && !isset(self::$supportedBackgroundColors[$backgroundColor]))
-        {
+        if ($backgroundColor !== null && !isset(self::$supportedBackgroundColors[$backgroundColor])) {
             throw new InvalidArgumentException("Invalid background color \"$backgroundColor\"");
         }
 
@@ -217,8 +206,7 @@ class Style
      */
     public function setForegroundColor($foregroundColor)
     {
-        if($foregroundColor !== null && !isset(self::$supportedForegroundColors[$foregroundColor]))
-        {
+        if ($foregroundColor !== null && !isset(self::$supportedForegroundColors[$foregroundColor])) {
             throw new InvalidArgumentException("Invalid foreground color \"$foregroundColor\"");
         }
 

@@ -54,12 +54,9 @@ class PHPCompilerTest extends \PHPUnit_Framework_TestCase
             ->willReturn([]);
         $obStartLevel = ob_get_level();
 
-        try
-        {
+        try {
             $this->compiler->compile($view);
-        }
-        catch(ViewCompilerException $ex)
-        {
+        }catch (ViewCompilerException $ex) {
             // Don't do anything
         }
 

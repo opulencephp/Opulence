@@ -37,24 +37,19 @@ class Encrypter implements IEncrypter
     {
         $pieces = $this->getPieces($data);
 
-        if(!$this->isValidMAC($pieces))
-        {
+        if (!$this->isValidMAC($pieces)) {
             throw new EncryptionException("Invalid MAC");
         }
 
         $pieces["iv"] = base64_decode($pieces["iv"]);
 
-        try
-        {
+        try {
             $decryptedData = openssl_decrypt($pieces["value"], $this->cipher, $this->key, 0, $pieces["iv"]);
 
-            if($decryptedData === false)
-            {
+            if ($decryptedData === false) {
                 throw new EncryptionException("Failed to decrypt data");
             }
-        }
-        catch(Exception $ex)
-        {
+        }catch (Exception $ex) {
             throw new EncryptionException($ex->getMessage());
         }
 
@@ -70,8 +65,7 @@ class Encrypter implements IEncrypter
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->cipher));
         $encryptedValue = openssl_encrypt(serialize($data), $this->cipher, $this->key, 0, $iv);
 
-        if($encryptedValue === false)
-        {
+        if ($encryptedValue === false) {
             throw new EncryptionException("Failed to encrypt the data");
         }
 
@@ -91,8 +85,7 @@ class Encrypter implements IEncrypter
      */
     public function setCipher($cipher)
     {
-        if(!in_array($cipher, openssl_get_cipher_methods()))
-        {
+        if (!in_array($cipher, openssl_get_cipher_methods())) {
             throw new EncryptionException("Invalid cipher \"$cipher\"");
         }
 
@@ -130,8 +123,7 @@ class Encrypter implements IEncrypter
     {
         $pieces = json_decode(base64_decode($data), true);
 
-        if($pieces === false || !isset($pieces["mac"]) || !isset($pieces["value"]) || !isset($pieces["iv"]))
-        {
+        if ($pieces === false || !isset($pieces["mac"]) || !isset($pieces["value"]) || !isset($pieces["iv"])) {
             throw new EncryptionException("Data is not in correct format");
         }
 

@@ -245,15 +245,13 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $methods = ["PUT", "PATCH", "DELETE"];
 
-        foreach($methods as $method)
-        {
+        foreach ($methods as $method) {
             $_SERVER["REQUEST_METHOD"] = $method;
             $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
             $request = FormURLEncodedRequest::createFromGlobals();
             $this->assertEquals("foo=bar", $request->getRawBody());
 
-            switch($method)
-            {
+            switch ($method) {
                 case "PUT":
                     $this->assertEquals("bar", $request->getPut()->get("foo"));
                     $this->assertNull($request->getPatch()->get("foo"));
@@ -378,10 +376,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $headerParameters = [];
 
         // Grab all of the server parameters that begin with "HTTP_"
-        foreach($this->request->getServer()->getAll() as $key => $value)
-        {
-            if(strpos($key, "HTTP_") === 0)
-            {
+        foreach ($this->request->getServer()->getAll() as $key => $value) {
+            if (strpos($key, "HTTP_") === 0) {
                 $headerParameters[substr($key, 5)] = $value;
             }
         }
@@ -435,18 +431,23 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingIPAddress()
     {
         $defaultIPAddress = "120.138.20.36";
-        $keys = ["HTTP_CLIENT_IP", "HTTP_X_FORWARDED_FOR", "HTTP_X_FORWARDED", "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_FORWARDED_FOR", "HTTP_FORWARDED", "REMOTE_ADDR"];
+        $keys = [
+            "HTTP_CLIENT_IP",
+            "HTTP_X_FORWARDED_FOR",
+            "HTTP_X_FORWARDED",
+            "HTTP_X_CLUSTER_CLIENT_IP",
+            "HTTP_FORWARDED_FOR",
+            "HTTP_FORWARDED",
+            "REMOTE_ADDR"
+        ];
 
         // Delete all the keys that might hold an IP address
-        foreach($keys as $key)
-        {
+        foreach ($keys as $key) {
             unset($_SERVER[$key]);
         }
 
         // Set each key and try getting the IP address using it
-        foreach($keys as $key)
-        {
+        foreach ($keys as $key) {
             $_SERVER[$key] = $defaultIPAddress;
             $request = Request::createFromGlobals();
             $this->assertEquals($defaultIPAddress, $request->getIPAddress());

@@ -21,8 +21,7 @@ class StreamResponse extends Response
      */
     public function __construct($stream, ICompiler $compiler)
     {
-        if(!is_resource($stream))
-        {
+        if (!is_resource($stream)) {
             throw new InvalidArgumentException("The stream must be a resource");
         }
 

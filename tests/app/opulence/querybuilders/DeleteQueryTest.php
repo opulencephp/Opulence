@@ -18,7 +18,8 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
             ->addUsing("subscriptions")
             ->where("users.id = emails.userid AND emails.email = 'foo@bar.com'")
             ->orWhere("subscriptions.userid = users.id AND subscriptions.type = 'customer'");
-        $this->assertEquals("DELETE FROM users USING emails, subscriptions WHERE (users.id = emails.userid AND emails.email = 'foo@bar.com') OR (subscriptions.userid = users.id AND subscriptions.type = 'customer')", $query->getSQL());
+        $this->assertEquals("DELETE FROM users USING emails, subscriptions WHERE (users.id = emails.userid AND emails.email = 'foo@bar.com') OR (subscriptions.userid = users.id AND subscriptions.type = 'customer')",
+            $query->getSQL());
     }
 
     /**
@@ -53,7 +54,8 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
             ->orWhere("u.name = :name")
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
             ->addNamedPlaceholderValues(["userId" => 18175, "email" => "foo@bar.com", "name" => "dave"]);
-        $this->assertEquals("DELETE FROM users AS u USING emails, subscriptions WHERE (u.id = :userId) AND (emails.userid = u.id) AND (emails.email = :email) OR (u.name = :name) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')", $query->getSQL());
+        $this->assertEquals("DELETE FROM users AS u USING emails, subscriptions WHERE (u.id = :userId) AND (emails.userid = u.id) AND (emails.email = :email) OR (u.name = :name) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
+            $query->getSQL());
     }
 
     /**
@@ -84,7 +86,8 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
         $query = new DeleteQuery("users");
         $query->using("emails")
             ->where("users.id = emails.userid AND emails.email = 'foo@bar.com'");
-        $this->assertEquals("DELETE FROM users USING emails WHERE (users.id = emails.userid AND emails.email = 'foo@bar.com')", $query->getSQL());
+        $this->assertEquals("DELETE FROM users USING emails WHERE (users.id = emails.userid AND emails.email = 'foo@bar.com')",
+            $query->getSQL());
     }
 
     /**

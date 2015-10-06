@@ -44,8 +44,7 @@ abstract class Query
      */
     public function addNamedPlaceholderValue($placeholderName, $value, $dataType = PDO::PARAM_STR)
     {
-        if($this->usingUnnamedPlaceholders === true)
-        {
+        if ($this->usingUnnamedPlaceholders === true) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
@@ -68,19 +67,14 @@ abstract class Query
      */
     public function addNamedPlaceholderValues(array $placeholderNamesToValues)
     {
-        foreach($placeholderNamesToValues as $placeholderName => $value)
-        {
-            if(is_array($value))
-            {
-                if(count($value) != 2)
-                {
+        foreach ($placeholderNamesToValues as $placeholderName => $value) {
+            if (is_array($value)) {
+                if (count($value) != 2) {
                     throw new InvalidQueryException("Incorrect number of items in value array");
                 }
 
                 $this->addNamedPlaceholderValue($placeholderName, $value[0], $value[1]);
-            }
-            else
-            {
+            }else {
                 $this->addNamedPlaceholderValue($placeholderName, $value);
             }
         }
@@ -99,8 +93,7 @@ abstract class Query
      */
     public function addUnnamedPlaceholderValue($value, $dataType = PDO::PARAM_STR)
     {
-        if($this->usingUnnamedPlaceholders === false)
-        {
+        if ($this->usingUnnamedPlaceholders === false) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
@@ -123,19 +116,14 @@ abstract class Query
      */
     public function addUnnamedPlaceholderValues(array $placeholderValues)
     {
-        foreach($placeholderValues as $value)
-        {
-            if(is_array($value))
-            {
-                if(count($value) != 2)
-                {
+        foreach ($placeholderValues as $value) {
+            if (is_array($value)) {
+                if (count($value) != 2) {
                     throw new InvalidQueryException("Incorrect number of items in value array");
                 }
 
                 $this->addUnnamedPlaceholderValue($value[0], $value[1]);
-            }
-            else
-            {
+            }else {
                 $this->addUnnamedPlaceholderValue($value);
             }
         }
@@ -162,8 +150,7 @@ abstract class Query
      */
     public function removeNamedPlaceHolder($placeholderName)
     {
-        if($this->usingUnnamedPlaceholders === true)
-        {
+        if ($this->usingUnnamedPlaceholders === true) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 
@@ -181,8 +168,7 @@ abstract class Query
      */
     public function removeUnnamedPlaceHolder($placeholderIndex)
     {
-        if($this->usingUnnamedPlaceholders === false)
-        {
+        if ($this->usingUnnamedPlaceholders === false) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
         }
 

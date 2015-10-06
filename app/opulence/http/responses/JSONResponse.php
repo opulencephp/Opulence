@@ -31,15 +31,13 @@ class JSONResponse extends Response
      */
     public function setContent($content)
     {
-        if($content instanceof ArrayObject)
-        {
+        if ($content instanceof ArrayObject) {
             $content = $content->getArrayCopy();
         }
 
         $json = json_encode($content);
 
-        if(json_last_error() !== JSON_ERROR_NONE)
-        {
+        if (json_last_error() !== JSON_ERROR_NONE) {
             throw new InvalidArgumentException("Failed to JSON encode content: " . json_last_error_msg());
         }
 

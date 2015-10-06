@@ -48,8 +48,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->entityRegistry->register($this->entity1);
         $this->entityRegistry->register($this->entity2);
         $this->entity1->setUsername("not entity 1's username");
-        $this->entityRegistry->registerComparisonFunction($className, function ($a, $b)
-        {
+        $this->entityRegistry->registerComparisonFunction($className, function ($a, $b) {
             /** @var User $a */
             /** @var User $b */
             return $a->getId() == $b->getId();
@@ -84,8 +83,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->entityRegistry->register($this->entity1);
-        $this->entityRegistry->registerComparisonFunction($className, function ($a, $b)
-        {
+        $this->entityRegistry->registerComparisonFunction($className, function ($a, $b) {
             return false;
         });
         $this->assertTrue($this->entityRegistry->hasChanged($this->entity1));

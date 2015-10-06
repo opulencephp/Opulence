@@ -56,8 +56,7 @@ class CacheDataMapper implements ICacheDataMapper
      */
     public function getById($id)
     {
-        if(!isset($this->entities[$id]))
-        {
+        if (!isset($this->entities[$id])) {
             return null;
         }
 

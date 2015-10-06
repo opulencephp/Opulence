@@ -29,8 +29,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testClassStagesWithCallback()
     {
         $stages = [Stage1::class, Stage2::class];
-        $callback = function ($input)
-        {
+        $callback = function ($input) {
             return $input . "3";
         };
         $pipeline = new Pipeline($this->container, $stages, "run");
@@ -44,8 +43,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     {
         $stages = [
             Stage1::class,
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "3");
             },
             new Stage2()
@@ -60,8 +58,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testClosureThenClassStages()
     {
         $stages = [
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "1");
             },
             Stage2::class
@@ -76,17 +73,14 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testClosuresWithCallback()
     {
         $stages = [
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "1");
             },
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "2");
             },
         ];
-        $callback = function ($input)
-        {
+        $callback = function ($input) {
             return $input . "3";
         };
         $pipeline = new Pipeline($this->container, $stages);
@@ -120,12 +114,10 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testMultipleClosureStages()
     {
         $stages = [
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "1");
             },
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "2");
             },
         ];
@@ -160,8 +152,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testObjectStagesWithCallback()
     {
         $stages = [new Stage1(), new Stage2()];
-        $callback = function ($input)
-        {
+        $callback = function ($input) {
             return $input . "3";
         };
         $pipeline = new Pipeline($this->container, $stages, "run");
@@ -184,8 +175,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testSingleClosurePipe()
     {
         $stages = [
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "1");
             }
         ];
@@ -209,12 +199,10 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testStageThatDoesNotCallNext()
     {
         $stages = [
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $input . "1";
             },
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "2");
             }
         ];
@@ -228,17 +216,14 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     public function testStageThatDoesNotCallNextButHasCallback()
     {
         $stages = [
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $input . "1";
             },
-            function ($input, $next)
-            {
+            function ($input, $next) {
                 return $next($input . "2");
             }
         ];
-        $callback = function ($input)
-        {
+        $callback = function ($input) {
             return $input . "3";
         };
         $pipeline = new Pipeline($this->container, $stages);

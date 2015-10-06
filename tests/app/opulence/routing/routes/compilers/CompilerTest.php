@@ -51,7 +51,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRouteWitPathVariables()
     {
-        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)');
+        $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*",
+            '\/foo\/(?P<bar>[^\/]+)\/(?P<baz>[^\/]+)');
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/12/34"

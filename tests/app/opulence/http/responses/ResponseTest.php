@@ -101,7 +101,8 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingStatusCodeWithText()
     {
-        $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED, ResponseHeaders::$statusTexts[ResponseHeaders::HTTP_ACCEPTED]);
+        $this->response->setStatusCode(ResponseHeaders::HTTP_ACCEPTED,
+            ResponseHeaders::$statusTexts[ResponseHeaders::HTTP_ACCEPTED]);
         $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $this->response->getStatusCode());
     }
 }

@@ -35,8 +35,7 @@ class FlushFrameworkCacheCommand extends Command
         BootstrapperCache $bootstrapperCache,
         RouteCache $routeCache,
         ViewCache $viewCache
-    )
-    {
+    ) {
         parent::__construct();
 
         $this->paths = $paths;
@@ -74,18 +73,15 @@ class FlushFrameworkCacheCommand extends Command
     {
         $fileNames = [];
 
-        if(isset($this->paths["tmp.framework.console"]))
-        {
+        if (isset($this->paths["tmp.framework.console"])) {
             $fileNames[] = "{$this->paths["tmp.framework.console"]}/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
         }
 
-        if(isset($this->paths["tmp.framework.http"]))
-        {
+        if (isset($this->paths["tmp.framework.http"])) {
             $fileNames[] = "{$this->paths["tmp.framework.http"]}/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
         }
 
-        foreach($fileNames as $cachedRegistryFileName)
-        {
+        foreach ($fileNames as $cachedRegistryFileName) {
             $this->bootstrapperCache->flush($cachedRegistryFileName);
         }
 
@@ -99,8 +95,7 @@ class FlushFrameworkCacheCommand extends Command
      */
     private function flushRouteCache(IResponse $response)
     {
-        if(isset($this->paths["routes.cache"]))
-        {
+        if (isset($this->paths["routes.cache"])) {
             $this->routeCache->flush("{$this->paths["routes.cache"]}/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
         }
 

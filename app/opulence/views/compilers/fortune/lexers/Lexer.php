@@ -62,8 +62,7 @@ class Lexer implements ILexer
      */
     private function flushExpressionBuffer()
     {
-        if($this->expressionBuffer != "")
-        {
+        if ($this->expressionBuffer != "") {
             $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $this->expressionBuffer, $this->line);
             // Account for all the new lines
             $this->line += substr_count($this->expressionBuffer, PHP_EOL);
@@ -101,14 +100,10 @@ class Lexer implements ILexer
          * In case one delimiter is a substring of the other ("{{" and "{{!"), we want to sort the delimiters
          * so that the longest delimiters come first
          */
-        uksort($statements, function ($a, $b)
-        {
-            if(strlen($a) > strlen($b))
-            {
+        uksort($statements, function ($a, $b) {
+            if (strlen($a) > strlen($b)) {
                 return -1;
-            }
-            else
-            {
+            }else {
                 return 1;
             }
         });
@@ -125,37 +120,27 @@ class Lexer implements ILexer
      */
     private function getStream($cursor = null, $length = null)
     {
-        if($cursor === null)
-        {
+        if ($cursor === null) {
             $cursor = $this->cursor;
         }
 
         // If the cached length isn't the same or if the cursor has actually gone backwards, use the original input
-        if($this->streamCache["length"] !== $length || $this->streamCache["cursor"] > $cursor)
-        {
+        if ($this->streamCache["length"] !== $length || $this->streamCache["cursor"] > $cursor) {
             $this->streamCache["cursor"] = $cursor;
             $this->streamCache["length"] = $length;
 
-            if($length === null)
-            {
+            if ($length === null) {
                 $this->streamCache["stream"] = substr($this->input, $cursor);
-            }
-            else
-            {
+            }else {
                 $this->streamCache["stream"] = substr($this->input, $cursor, $length);
             }
-        }
-        elseif($this->streamCache["length"] === $length && $this->streamCache["cursor"] !== $cursor)
-        {
+        }elseif ($this->streamCache["length"] === $length && $this->streamCache["cursor"] !== $cursor) {
             // Grab the substring from the cached stream
             $cursorDifference = $cursor - $this->streamCache["cursor"];
 
-            if($length === null)
-            {
+            if ($length === null) {
                 $this->streamCache["stream"] = substr($this->streamCache["stream"], $cursorDifference);
-            }
-            else
-            {
+            }else {
                 $this->streamCache["stream"] = substr($this->streamCache["stream"], $cursorDifference, $length);
             }
 
@@ -210,18 +195,13 @@ class Lexer implements ILexer
         $expressionBuffer = "";
         $newLinesAfterExpression = 0;
 
-        while(!$this->matches($closeDelimiter, false) && !$this->atEOF())
-        {
+        while (!$this->matches($closeDelimiter, false) && !$this->atEOF()) {
             $currentChar = $this->getCurrentChar();
 
-            if($currentChar == PHP_EOL)
-            {
-                if(trim($expressionBuffer) == "")
-                {
+            if ($currentChar == PHP_EOL) {
+                if (trim($expressionBuffer) == "") {
                     $this->line++;
-                }
-                else
-                {
+                }else {
                     $newLinesAfterExpression++;
                 }
             }
@@ -232,8 +212,7 @@ class Lexer implements ILexer
 
         $expressionBuffer = trim($expressionBuffer);
 
-        if($expressionBuffer != "")
-        {
+        if ($expressionBuffer != "") {
             $this->tokens[] = new Token(
                 TokenTypes::T_EXPRESSION,
                 $this->replaceViewFunctionCalls($expressionBuffer),
@@ -258,14 +237,12 @@ class Lexer implements ILexer
         $closeTokenType,
         $closeDelimiter,
         $closeDelimiterOptional
-    )
-    {
+    ) {
         $this->flushExpressionBuffer();
         $this->tokens[] = new Token($openTokenType, $openDelimiter, $this->line);
         $this->lexDelimitedExpression($closeDelimiter);
 
-        if(!$this->matches($closeDelimiter) && !$closeDelimiterOptional)
-        {
+        if (!$this->matches($closeDelimiter) && !$closeDelimiterOptional) {
             throw new RuntimeException(
                 sprintf(
                     "Expected %s, found %s on line %d",
@@ -290,41 +267,29 @@ class Lexer implements ILexer
         $newLinesAfterExpression = 0;
         $expressionBuffer = "";
 
-        while(!$this->matches($this->directiveDelimiters[1], false) && !$this->atEOF())
-        {
+        while (!$this->matches($this->directiveDelimiters[1], false) && !$this->atEOF()) {
             $currentChar = $this->getCurrentChar();
 
-            if($currentChar == "(")
-            {
+            if ($currentChar == "(") {
                 $expressionBuffer .= $currentChar;
                 $parenthesisLevel++;
-            }
-            elseif($currentChar == ")")
-            {
+            }elseif ($currentChar == ")") {
                 $parenthesisLevel--;
                 $expressionBuffer .= $currentChar;
-            }
-            elseif($currentChar == PHP_EOL)
-            {
-                if(trim($expressionBuffer) == "")
-                {
+            }elseif ($currentChar == PHP_EOL) {
+                if (trim($expressionBuffer) == "") {
                     $this->line++;
-                }
-                else
-                {
+                }else {
                     $newLinesAfterExpression++;
                 }
-            }
-            else
-            {
+            }else {
                 $expressionBuffer .= $currentChar;
             }
 
             $this->cursor++;
         }
 
-        if($parenthesisLevel != 0)
-        {
+        if ($parenthesisLevel != 0) {
             throw new RuntimeException(
                 sprintf(
                     "Unmatched parenthesis on line %d",
@@ -336,8 +301,7 @@ class Lexer implements ILexer
         $expressionBuffer = trim($expressionBuffer);
         $expressionBuffer = $this->replaceViewFunctionCalls($expressionBuffer);
 
-        if(!empty($expressionBuffer))
-        {
+        if (!empty($expressionBuffer)) {
             $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $expressionBuffer, $this->line);
         }
 
@@ -353,34 +317,28 @@ class Lexer implements ILexer
         $newLinesAfterName = 0;
 
         // Loop while there's still a directive name or until we encounter the first space after the name
-        do
-        {
+        do {
             $currentChar = $this->getCurrentChar();
 
             // Handle new line characters between directive delimiters
-            if($currentChar == PHP_EOL)
-            {
-                if(trim($name) == "")
-                {
+            if ($currentChar == PHP_EOL) {
+                if (trim($name) == "") {
                     $this->line++;
-                }
-                else
-                {
+                }else {
                     $newLinesAfterName++;
                 }
             }
 
             $name .= $currentChar;
             $this->cursor++;
-        }while(
+        }while (
             preg_match("/^[a-zA-Z0-9_\s]$/", $this->getCurrentChar()) === 1 &&
             ($this->getCurrentChar() != " " || trim($name) == "")
         );
 
         $name = trim($name);
 
-        if($name == "")
-        {
+        if ($name == "") {
             throw new RuntimeException(
                 sprintf(
                     "Expected %s on line %d, none found",
@@ -405,8 +363,7 @@ class Lexer implements ILexer
         $this->tokens[] = new Token(TokenTypes::T_DIRECTIVE_OPEN, $this->directiveDelimiters[0], $this->line);
         $this->lexDirectiveExpression();
 
-        if(!$this->matches($this->directiveDelimiters[1]))
-        {
+        if (!$this->matches($this->directiveDelimiters[1])) {
             throw new RuntimeException(
                 sprintf(
                     "Expected %s, found %s on line %d",
@@ -429,28 +386,22 @@ class Lexer implements ILexer
     {
         $statementMethods = $this->getStatementLexingMethods();
 
-        while(!$this->atEOF())
-        {
+        while (!$this->atEOF()) {
             reset($statementMethods);
             $matchedStatement = false;
 
             // This is essentially a foreach loop that can be reset
-            while(list($statementOpenDelimiter, $methodName) = each($statementMethods))
-            {
-                if($this->matches($statementOpenDelimiter))
-                {
+            while (list($statementOpenDelimiter, $methodName) = each($statementMethods)) {
+                if ($this->matches($statementOpenDelimiter)) {
                     // This is an unescaped statement
                     $matchedStatement = true;
                     $this->{$methodName}();
 
                     // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
                     reset($statementMethods);
-                }
-                elseif($this->getCurrentChar() == "\\")
-                {
+                }elseif ($this->getCurrentChar() == "\\") {
                     // Now that we know we're on an escape character, spend the resources to check for a match
-                    if($this->matches("\\$statementOpenDelimiter"))
-                    {
+                    if ($this->matches("\\$statementOpenDelimiter")) {
                         // This is an escaped statement
                         $this->expressionBuffer .= $statementOpenDelimiter;
                     }
@@ -458,20 +409,16 @@ class Lexer implements ILexer
             }
 
             // Handle any text outside statements
-            if(!$matchedStatement && !$this->atEOF())
-            {
+            if (!$matchedStatement && !$this->atEOF()) {
                 $this->expressionBuffer .= $this->getCurrentChar();
                 $this->cursor++;
 
                 // Keep on going if we're seeing alphanumeric text
-                while(ctype_alnum($this->getCurrentChar()))
-                {
+                while (ctype_alnum($this->getCurrentChar())) {
                     $this->expressionBuffer .= $this->getCurrentChar();
                     $this->cursor++;
                 }
-            }
-            else
-            {
+            }else {
                 $this->flushExpressionBuffer();
             }
         }
@@ -539,10 +486,8 @@ class Lexer implements ILexer
         $stream = $this->getStream($cursor);
         $expectedLength = strlen($expected);
 
-        if(substr($stream, 0, $expectedLength) == $expected)
-        {
-            if($shouldConsume)
-            {
+        if (substr($stream, 0, $expectedLength) == $expected) {
+            if ($shouldConsume) {
                 $this->cursor += $expectedLength;
             }
 
@@ -564,37 +509,30 @@ class Lexer implements ILexer
         $opulenceTokens = [];
 
         // This is essentially a foreach loop that can be fast-forwarded
-        while(list($index, $token) = each($phpTokens))
-        {
-            if(is_string($token))
-            {
+        while (list($index, $token) = each($phpTokens)) {
+            if (is_string($token)) {
                 // Convert the simple token to an array for uniformity
                 $opulenceTokens[] = [T_STRING, $token, 0];
 
                 continue;
             }
 
-            switch($token[0])
-            {
+            switch ($token[0]) {
                 case T_STRING:
                     // If this is a function
-                    if(count($phpTokens) > $index && $phpTokens[$index + 1] == "(")
-                    {
+                    if (count($phpTokens) > $index && $phpTokens[$index + 1] == "(") {
                         $prevToken = $index > 0 ? $phpTokens[$index - 1] : null;
 
                         // If this is a native PHP function or is really a method call, don't convert it
-                        if(
+                        if (
                             function_exists($token[1]) ||
                             (
                                 is_array($prevToken) &&
                                 ($prevToken[0] == T_OBJECT_OPERATOR || $prevToken[0] == T_DOUBLE_COLON)
                             )
-                        )
-                        {
+                        ) {
                             $opulenceTokens[] = $token;
-                        }
-                        else
-                        {
+                        }else {
                             // This is a view function
                             // Add $__opulenceFortuneTranspiler
                             $opulenceTokens[] = [T_VARIABLE, '$__opulenceFortuneTranspiler', $token[2]];
@@ -603,9 +541,7 @@ class Lexer implements ILexer
                             // Add callViewFunction("FUNCTION_NAME")
                             $opulenceTokens[] = [T_STRING, 'callViewFunction("' . $token[1] . '")', $token[2]];
                         }
-                    }
-                    else
-                    {
+                    }else {
                         $opulenceTokens[] = $token;
                     }
 
@@ -625,15 +561,11 @@ class Lexer implements ILexer
         $joinedTokens = implode("", array_column($opulenceTokens, 1));
 
         $replacementCount = 0;
-        $callback = function (array $matches)
-        {
-            if($matches[2] == ")")
-            {
+        $callback = function (array $matches) {
+            if ($matches[2] == ")") {
                 // There were no parameters
                 return $matches[1] . ")";
-            }
-            else
-            {
+            }else {
                 // There were parameters
                 return $matches[1] . ", " . $matches[2];
             }
@@ -646,8 +578,7 @@ class Lexer implements ILexer
          * Similarly, 'foo("bar")' will currently look like '...->callViewFunction("foo")("bar")'
          * This should be converted to '...->callViewFunction("foo", "bar")'
          */
-        do
-        {
+        do {
             $joinedTokens = preg_replace_callback(
                 '/(\$__opulenceFortuneTranspiler->callViewFunction\([^\)]+)\)\((.)/',
                 $callback,
@@ -655,7 +586,7 @@ class Lexer implements ILexer
                 -1,
                 $replacementCount
             );
-        }while($replacementCount > 0);
+        }while ($replacementCount > 0);
 
         return trim($joinedTokens);
     }

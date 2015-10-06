@@ -21,8 +21,7 @@ class CompilerRegistry implements ICompilerRegistry
     {
         $extension = $this->getExtension($view);
 
-        if(!isset($this->compilers[$extension]))
-        {
+        if (!isset($this->compilers[$extension])) {
             throw new InvalidArgumentException("No compiler registered for extension $extension");
         }
 
@@ -47,12 +46,10 @@ class CompilerRegistry implements ICompilerRegistry
     protected function getExtension(IView $view)
     {
         // Find a registered extension that the view's path ends with
-        foreach(array_keys($this->compilers) as $extension)
-        {
+        foreach (array_keys($this->compilers) as $extension) {
             $lengthDifference = strlen($view->getPath()) - strlen($extension);
 
-            if($lengthDifference >= 0 && strpos($view->getPath(), $extension, $lengthDifference) !== false)
-            {
+            if ($lengthDifference >= 0 && strpos($view->getPath(), $extension, $lengthDifference) !== false) {
                 return $extension;
             }
         }

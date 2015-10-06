@@ -55,15 +55,11 @@ class MultipleChoice extends Question
         $hasMultipleAnswers = false;
         $answer = str_replace(" ", "", $answer);
 
-        if(mb_strpos($answer, ",") === false)
-        {
+        if (mb_strpos($answer, ",") === false) {
             // The answer is not a list of answers
             $answers = [$answer];
-        }
-        else
-        {
-            if(!$this->allowsMultipleChoices)
-            {
+        }else {
+            if (!$this->allowsMultipleChoices) {
                 throw new InvalidArgumentException("Multiple choices are not allowed");
             }
 
@@ -71,26 +67,19 @@ class MultipleChoice extends Question
             $answers = explode(",", $answer);
         }
 
-        if($this->choicesAreAssociative())
-        {
+        if ($this->choicesAreAssociative()) {
             $selectedChoices = $this->getSelectedAssociativeChoices($answers);
-        }
-        else
-        {
+        }else {
             $selectedChoices = $this->getSelectedIndexChoices($answers);
         }
 
-        if(count($selectedChoices) == 0)
-        {
+        if (count($selectedChoices) == 0) {
             throw new InvalidArgumentException("Invalid choice");
         }
 
-        if($hasMultipleAnswers)
-        {
+        if ($hasMultipleAnswers) {
             return $selectedChoices;
-        }
-        else
-        {
+        }else {
             return $selectedChoices[0];
         }
     }
@@ -137,10 +126,8 @@ class MultipleChoice extends Question
     {
         $selectedChoices = [];
 
-        foreach($answers as $answer)
-        {
-            if(array_key_exists($answer, $this->choices))
-            {
+        foreach ($answers as $answer) {
+            if (array_key_exists($answer, $this->choices)) {
                 $selectedChoices[] = $this->choices[$answer];
             }
         }
@@ -159,17 +146,14 @@ class MultipleChoice extends Question
     {
         $selectedChoices = [];
 
-        foreach($answers as $answer)
-        {
-            if(!ctype_digit($answer))
-            {
+        foreach ($answers as $answer) {
+            if (!ctype_digit($answer)) {
                 throw new InvalidArgumentException("Answer is not an integer");
             }
 
             $answer = (int)$answer;
 
-            if($answer < 1 || $answer > count($this->choices))
-            {
+            if ($answer < 1 || $answer > count($this->choices)) {
                 throw new InvalidArgumentException("Choice must be between 1 and " . count($this->choices));
             }
 

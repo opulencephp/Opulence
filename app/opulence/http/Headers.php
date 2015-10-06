@@ -14,14 +14,10 @@ class Headers extends Parameters
     public function __construct(array $parameters = [])
     {
         // Grab all of the server parameters that begin with "HTTP_"
-        foreach($parameters as $key => $value)
-        {
-            if(mb_strpos($key, "HTTP_") === 0)
-            {
+        foreach ($parameters as $key => $value) {
+            if (mb_strpos($key, "HTTP_") === 0) {
                 $this->set(mb_substr($key, 5), $value);
-            }
-            elseif(mb_strpos($key, "CONTENT_") === 0)
-            {
+            }elseif (mb_strpos($key, "CONTENT_") === 0) {
                 $this->set($key, $value);
             }
         }
@@ -52,17 +48,13 @@ class Headers extends Parameters
      */
     public function get($name, $default = null, $onlyReturnFirst = true)
     {
-        if($this->has($name))
-        {
+        if ($this->has($name)) {
             $value = $this->parameters[$name];
 
-            if($onlyReturnFirst)
-            {
+            if ($onlyReturnFirst) {
                 return $value[0];
             }
-        }
-        else
-        {
+        }else {
             $value = $default;
         }
 
@@ -80,12 +72,9 @@ class Headers extends Parameters
     {
         $values = (array)$values;
 
-        if($shouldReplace || !$this->has($name))
-        {
+        if ($shouldReplace || !$this->has($name)) {
             $this->parameters[$name] = $values;
-        }
-        else
-        {
+        }else {
             $this->parameters[$name] = array_merge($this->parameters[$name], $values);
         }
     }

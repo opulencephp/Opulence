@@ -41,8 +41,7 @@ class EntityRegistry implements IEntityRegistry
     {
         $entityState = $this->getEntityState($entity);
 
-        if($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED)
-        {
+        if ($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
             $this->entityStates[$objectHashId] = EntityStates::UNREGISTERED;
@@ -64,15 +63,13 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntities()
     {
-        if(count($this->entities) == 0)
-        {
+        if (count($this->entities) == 0) {
             return [];
         }
 
         // Flatten the  list of entities
         $entities = [];
-        array_walk_recursive($this->entities, function ($entity) use (&$entities)
-        {
+        array_walk_recursive($this->entities, function ($entity) use (&$entities) {
             $entities[] = $entity;
         });
 
@@ -84,8 +81,7 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntity($className, $id)
     {
-        if(!isset($this->entities[$className]) || !isset($this->entities[$className][$id]))
-        {
+        if (!isset($this->entities[$className]) || !isset($this->entities[$className][$id])) {
             return null;
         }
 
@@ -99,8 +95,7 @@ class EntityRegistry implements IEntityRegistry
     {
         $objectHashId = $this->getObjectHashId($entity);
 
-        if(!isset($this->entityStates[$objectHashId]))
-        {
+        if (!isset($this->entityStates[$objectHashId])) {
             return EntityStates::NEVER_REGISTERED;
         }
 
@@ -120,21 +115,16 @@ class EntityRegistry implements IEntityRegistry
      */
     public function hasChanged(IEntity $entity)
     {
-        if(!isset($this->objectHashIdsToOriginalData[$this->getObjectHashId($entity)]))
-        {
+        if (!isset($this->objectHashIdsToOriginalData[$this->getObjectHashId($entity)])) {
             throw new ORMException("Entity is not registered");
         }
 
         // If a comparison function was specified, we don't bother using reflection to check for updates
-        if(isset($this->comparisonFunctions[$this->getClassName($entity)]))
-        {
-            if($this->hasChangedUsingComparisonFunction($entity))
-            {
+        if (isset($this->comparisonFunctions[$this->getClassName($entity)])) {
+            if ($this->hasChangedUsingComparisonFunction($entity)) {
                 return true;
             }
-        }
-        elseif($this->hasChangedUsingReflection($entity))
-        {
+        }elseif ($this->hasChangedUsingReflection($entity)) {
             return true;
         }
 
@@ -158,18 +148,14 @@ class EntityRegistry implements IEntityRegistry
         $className = $this->getClassName($entity);
         $objectHashId = $this->getObjectHashId($entity);
 
-        if(!isset($this->entities[$className]))
-        {
+        if (!isset($this->entities[$className])) {
             $this->entities[$className] = [];
         }
 
-        if(isset($this->entities[$className][$entity->getId()]))
-        {
+        if (isset($this->entities[$className][$entity->getId()])) {
             // Change the reference of the input entity to the one that's already registered
             $entity = $this->getEntity($this->getClassName($entity), $entity->getId());
-        }
-        else
-        {
+        }else {
             // Register this entity
             $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
             $this->entities[$className][$entity->getId()] = $entity;
@@ -226,30 +212,25 @@ class EntityRegistry implements IEntityRegistry
         $originalPropertiesAsHash = [];
 
         // Map each property name to its value for the current entity
-        foreach($currentProperties as $currentProperty)
-        {
+        foreach ($currentProperties as $currentProperty) {
             $currentProperty->setAccessible(true);
             $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue($entity);
         }
 
         // Map each property name to its value for the original entity
-        foreach($originalProperties as $originalProperty)
-        {
+        foreach ($originalProperties as $originalProperty) {
             $originalProperty->setAccessible(true);
             $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
         }
 
-        if(count($originalProperties) != count($currentProperties))
-        {
+        if (count($originalProperties) != count($currentProperties)) {
             // Clearly there's a difference here, so update
             return true;
         }
 
         // Compare all the property values to see if they are identical
-        foreach($originalPropertiesAsHash as $name => $value)
-        {
-            if(!array_key_exists($name, $currentPropertiesAsHash) || $currentPropertiesAsHash[$name] !== $value)
-            {
+        foreach ($originalPropertiesAsHash as $name => $value) {
+            if (!array_key_exists($name, $currentPropertiesAsHash) || $currentPropertiesAsHash[$name] !== $value) {
                 return true;
             }
         }

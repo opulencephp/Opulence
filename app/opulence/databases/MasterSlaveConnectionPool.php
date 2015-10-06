@@ -25,12 +25,10 @@ class MasterSlaveConnectionPool extends ConnectionPool
         array $slaves = [],
         array $driverOptions = [],
         array $connectionOptions = []
-    )
-    {
+    ) {
         parent::__construct($driver, $master, $driverOptions, $connectionOptions);
 
-        foreach($slaves as $slave)
-        {
+        foreach ($slaves as $slave) {
             $this->addServer("slaves", $slave);
         }
     }
@@ -52,8 +50,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      */
     public function addSlaves(array $slaves)
     {
-        foreach($slaves as $slave)
-        {
+        foreach ($slaves as $slave) {
             $this->addSlave($slave);
         }
     }
@@ -75,8 +72,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     {
         $slaveHashId = spl_object_hash($slave);
 
-        if(isset($this->servers["slaves"][$slaveHashId]))
-        {
+        if (isset($this->servers["slaves"][$slaveHashId])) {
             unset($this->servers["slaves"][$slaveHashId]);
         }
     }
@@ -86,18 +82,13 @@ class MasterSlaveConnectionPool extends ConnectionPool
      */
     protected function setReadConnection(Server $preferredServer = null)
     {
-        if($preferredServer !== null)
-        {
+        if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection("custom", $preferredServer);
-        }
-        elseif(count($this->servers["slaves"]) > 0)
-        {
+        }elseif (count($this->servers["slaves"]) > 0) {
             // Randomly pick a slave
             $selectedSlave = $this->servers["slaves"][array_rand($this->servers["slaves"])]["server"];
             $this->readConnection = $this->getConnection("slaves", $selectedSlave);
-        }
-        else
-        {
+        }else {
             $this->readConnection = $this->getConnection("master", $this->getMaster());
         }
     }
@@ -107,12 +98,9 @@ class MasterSlaveConnectionPool extends ConnectionPool
      */
     protected function setWriteConnection(Server $preferredServer = null)
     {
-        if($preferredServer !== null)
-        {
+        if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection("custom", $preferredServer);
-        }
-        else
-        {
+        }else {
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }

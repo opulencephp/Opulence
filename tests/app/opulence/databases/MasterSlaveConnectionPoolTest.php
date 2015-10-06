@@ -74,15 +74,14 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     {
         $slave1 = $this->createServer();
         $slave2 = $this->createServer();
-        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(), [$slave1, $slave2]);
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(),
+            [$slave1, $slave2]);
         $expectedServers = [$slave1, $slave2];
         $expectedPDO = $connectionPool->getReadConnection();
         $slaveFound = false;
 
-        foreach($expectedServers as $server)
-        {
-            if($expectedPDO->getServer() == $server)
-            {
+        foreach ($expectedServers as $server) {
+            if ($expectedPDO->getServer() == $server) {
                 $slaveFound = true;
             }
         }
@@ -121,7 +120,8 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $slave1->setDatabaseName("slave1");
         $slave2 = $this->createServer();
         $slave2->setDatabaseName("slave2");
-        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(), [$slave1, $slave2]);
+        $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(),
+            [$slave1, $slave2]);
         $connectionPool->removeSlave($slave2);
         $this->assertEquals([$slave1], $connectionPool->getSlaves());
     }

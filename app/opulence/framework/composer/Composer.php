@@ -35,8 +35,7 @@ class Composer
     {
         $composerPath = $paths["root"] . "/composer.json";
 
-        if(file_exists($composerPath))
-        {
+        if (file_exists($composerPath)) {
             return new Composer(json_decode(file_get_contents($composerPath), true), $paths);
         }
 
@@ -54,10 +53,8 @@ class Composer
         $properties = explode(".", $property);
         $value = $this->rawConfig;
 
-        foreach($properties as $property)
-        {
-            if(!array_key_exists($property, $value))
-            {
+        foreach ($properties as $property) {
+            if (!array_key_exists($property, $value)) {
                 return null;
             }
 
@@ -97,8 +94,7 @@ class Composer
         $rootNamespace = $this->getRootNamespace();
 
         // If the class name is already fully-qualified
-        if(mb_strpos($className, $rootNamespace) === 0)
-        {
+        if (mb_strpos($className, $rootNamespace) === 0) {
             return $className;
         }
 
@@ -120,18 +116,16 @@ class Composer
      */
     public function getRootNamespace()
     {
-        if(($psr4 = $this->get("autoload.psr-4")) === null)
-        {
+        if (($psr4 = $this->get("autoload.psr-4")) === null) {
             return null;
         }
 
-        foreach($psr4 as $namespace => $namespacePaths)
-        {
-            foreach((array)$namespacePaths as $namespacePath)
-            {
+        foreach ($psr4 as $namespace => $namespacePaths) {
+            foreach ((array)$namespacePaths as $namespacePath) {
                 // The namespace path should be a subdirectory of the "app" directory
-                if(mb_strpos(realpath($this->paths["root"] . "/" . $namespacePath), realpath($this->paths["app"])) === 0)
-                {
+                if (mb_strpos(realpath($this->paths["root"] . "/" . $namespacePath),
+                        realpath($this->paths["app"])) === 0
+                ) {
                     return rtrim($namespace, "\\");
                 }
             }
@@ -147,8 +141,7 @@ class Composer
      */
     public function getRootNamespacePaths()
     {
-        if(($rootNamespace = $this->getRootNamespace()) === null)
-        {
+        if (($rootNamespace = $this->getRootNamespace()) === null) {
             return null;
         }
 

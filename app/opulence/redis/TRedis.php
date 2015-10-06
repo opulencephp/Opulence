@@ -18,8 +18,7 @@ trait TRedis
      */
     public function deleteKeyPatterns($keyPatterns)
     {
-        if(is_string($keyPatterns))
-        {
+        if (is_string($keyPatterns)) {
             $keyPatterns = [$keyPatterns];
         }
 

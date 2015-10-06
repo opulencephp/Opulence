@@ -37,39 +37,29 @@ class FileSystem
      */
     public function copyDirectory($source, $target, $flags = null)
     {
-        if(!$this->exists($source))
-        {
+        if (!$this->exists($source)) {
             return false;
         }
 
-        if(!$this->isDirectory($target))
-        {
-            if(!$this->makeDirectory($target, 0777, true))
-            {
+        if (!$this->isDirectory($target)) {
+            if (!$this->makeDirectory($target, 0777, true)) {
                 return false;
             }
         }
 
-        if($flags === null)
-        {
+        if ($flags === null) {
             $flags = FilesystemIterator::SKIP_DOTS;
         }
 
         $items = new FilesystemIterator($source, $flags);
 
-        foreach($items as $item)
-        {
-            if($item->isDir())
-            {
-                if(!$this->copyDirectory($item->getRealPath(), $target . "/" . $item->getBasename(), $flags))
-                {
+        foreach ($items as $item) {
+            if ($item->isDir()) {
+                if (!$this->copyDirectory($item->getRealPath(), $target . "/" . $item->getBasename(), $flags)) {
                     return false;
                 }
-            }
-            elseif($item->isFile())
-            {
-                if(!$this->copyFile($item->getRealPath(), $target . "/" . $item->getBasename()))
-                {
+            }elseif ($item->isFile()) {
+                if (!$this->copyFile($item->getRealPath(), $target . "/" . $item->getBasename())) {
                     return false;
                 }
             }
@@ -99,33 +89,25 @@ class FileSystem
      */
     public function deleteDirectory($path, $keepDirectoryStructure = false)
     {
-        if(!$this->isDirectory($path))
-        {
+        if (!$this->isDirectory($path)) {
             return false;
         }
 
         $items = new FilesystemIterator($path);
 
-        foreach($items as $item)
-        {
-            if($item->isDir())
-            {
-                if(!$this->deleteDirectory($item->getRealPath()))
-                {
+        foreach ($items as $item) {
+            if ($item->isDir()) {
+                if (!$this->deleteDirectory($item->getRealPath())) {
                     return false;
                 }
-            }
-            elseif($item->isFile())
-            {
-                if(!$this->deleteFile($item->getRealPath()))
-                {
+            }elseif ($item->isFile()) {
+                if (!$this->deleteFile($item->getRealPath())) {
                     return false;
                 }
             }
         }
 
-        if(!$keepDirectoryStructure)
-        {
+        if (!$keepDirectoryStructure) {
             return rmdir($path);
         }
 
@@ -163,8 +145,7 @@ class FileSystem
      */
     public function getBasename($path)
     {
-        if(!$this->exists($path))
-        {
+        if (!$this->exists($path)) {
             throw new FileSystemException("Path $path not found");
         }
 
@@ -180,8 +161,7 @@ class FileSystem
      */
     public function getDirectories($path, $isRecursive = false)
     {
-        if(!$this->isDirectory($path))
-        {
+        if (!$this->isDirectory($path)) {
             return [];
         }
 
@@ -192,15 +172,12 @@ class FileSystem
             RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
-        if(!$isRecursive)
-        {
+        if (!$isRecursive) {
             $iter->setMaxDepth(0);
         }
 
-        foreach($iter as $path => $item)
-        {
-            if($item->isDir())
-            {
+        foreach ($iter as $path => $item) {
+            if ($item->isDir()) {
                 $directories[] = $path;
             }
         }
@@ -217,8 +194,7 @@ class FileSystem
      */
     public function getDirectoryName($path)
     {
-        if(!$this->exists($path))
-        {
+        if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
         }
 
@@ -234,8 +210,7 @@ class FileSystem
      */
     public function getExtension($path)
     {
-        if(!$this->exists($path))
-        {
+        if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
         }
 
@@ -251,8 +226,7 @@ class FileSystem
      */
     public function getFileName($path)
     {
-        if(!$this->exists($path))
-        {
+        if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
         }
 
@@ -268,15 +242,13 @@ class FileSystem
      */
     public function getFileSize($path)
     {
-        if(!$this->exists($path))
-        {
+        if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
         }
 
         $fileSize = filesize($path);
 
-        if($fileSize === false)
-        {
+        if ($fileSize === false) {
             throw new FileSystemException("Failed to get file size of $path");
         }
 
@@ -292,8 +264,7 @@ class FileSystem
      */
     public function getFiles($path, $isRecursive = false)
     {
-        if(!$this->isDirectory($path))
-        {
+        if (!$this->isDirectory($path)) {
             return [];
         }
 
@@ -304,15 +275,12 @@ class FileSystem
             RecursiveIteratorIterator::CATCH_GET_CHILD
         );
 
-        if(!$isRecursive)
-        {
+        if (!$isRecursive) {
             $iter->setMaxDepth(0);
         }
 
-        foreach($iter as $path => $item)
-        {
-            if($item->isFile())
-            {
+        foreach ($iter as $path => $item) {
+            if ($item->isFile()) {
                 $files[] = $path;
             }
         }
@@ -329,15 +297,13 @@ class FileSystem
      */
     public function getLastModified($path)
     {
-        if(!$this->exists($path))
-        {
+        if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
         }
 
         $modifiedTimestamp = filemtime($path);
 
-        if($modifiedTimestamp === false)
-        {
+        if ($modifiedTimestamp === false) {
             throw new FileSystemException("Failed to get last modified time of $path");
         }
 
@@ -358,8 +324,7 @@ class FileSystem
     {
         $files = glob($pattern, $flags);
 
-        if($files === false)
-        {
+        if ($files === false) {
             throw new FileSystemException("Glob failed for pattern \"$pattern\" with flags $flags");
         }
 
@@ -450,13 +415,11 @@ class FileSystem
      */
     public function read($path)
     {
-        if(!is_string($path))
-        {
+        if (!is_string($path)) {
             throw new InvalidArgumentException("Path is not a string");
         }
 
-        if(!$this->isFile($path))
-        {
+        if (!$this->isFile($path)) {
             throw new FileSystemException("File at path $path not found");
         }
 
@@ -476,8 +439,7 @@ class FileSystem
     {
         $bytesWritten = file_put_contents($path, $data, $flags);
 
-        if($bytesWritten === false)
-        {
+        if ($bytesWritten === false) {
             throw new FileSystemException("Failed to write data to path $path");
         }
 

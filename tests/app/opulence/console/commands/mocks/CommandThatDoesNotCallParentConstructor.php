@@ -48,8 +48,7 @@ class CommandThatDoesNotCallParentConstructor extends Command
     {
         $message = "Happy " . $this->getArgumentValue("holiday");
 
-        if($this->getOptionValue("yell") == "yes")
-        {
+        if ($this->getOptionValue("yell") == "yes") {
             $message .= "!";
         }
 

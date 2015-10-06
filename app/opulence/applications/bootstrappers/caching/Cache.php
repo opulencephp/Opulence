@@ -15,8 +15,7 @@ class Cache implements ICache
      */
     public function flush($filePath)
     {
-        if(file_exists($filePath))
-        {
+        if (file_exists($filePath)) {
             @unlink($filePath);
         }
     }
@@ -26,12 +25,9 @@ class Cache implements ICache
      */
     public function get($filePath, IBootstrapperRegistry &$registry)
     {
-        if(file_exists($filePath))
-        {
+        if (file_exists($filePath)) {
             $this->loadRegistryFromCache($filePath, $registry);
-        }
-        else
-        {
+        }else {
             $registry->setBootstrapperDetails();
             // Write this for next time
             $this->set($filePath, $registry);
@@ -48,8 +44,7 @@ class Cache implements ICache
             "lazy" => []
         ];
 
-        foreach($registry->getLazyBootstrapperBindings() as $boundClass => $bootstrapperClass)
-        {
+        foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bootstrapperClass) {
             $data["lazy"][$boundClass] = $bootstrapperClass;
         }
 
@@ -67,13 +62,11 @@ class Cache implements ICache
         $rawContents = file_get_contents($filePath);
         $decodedContents = json_decode($rawContents, true);
 
-        foreach($decodedContents["eager"] as $eagerBootstrapperClass)
-        {
+        foreach ($decodedContents["eager"] as $eagerBootstrapperClass) {
             $registry->registerEagerBootstrapper($eagerBootstrapperClass);
         }
 
-        foreach($decodedContents["lazy"] as $boundClass => $lazyBootstrapperClass)
-        {
+        foreach ($decodedContents["lazy"] as $boundClass => $lazyBootstrapperClass) {
             $registry->registerLazyBootstrapper($boundClass, $lazyBootstrapperClass);
         }
     }

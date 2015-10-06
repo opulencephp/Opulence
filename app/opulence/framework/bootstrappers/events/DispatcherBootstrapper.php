@@ -22,10 +22,8 @@ abstract class DispatcherBootstrapper extends Bootstrapper
     {
         $dispatcher = $this->getEventDispatcher($container);
 
-        foreach($this->getEventListenerConfig() as $eventName => $listeners)
-        {
-            foreach($listeners as $listener)
-            {
+        foreach ($this->getEventListenerConfig() as $eventName => $listeners) {
+            foreach ($listeners as $listener) {
                 $dispatcher->registerListener($eventName, $this->getEventListenerCallback($listener, $container));
             }
         }
@@ -60,15 +58,12 @@ abstract class DispatcherBootstrapper extends Bootstrapper
      */
     protected function getEventListenerCallback($listenerConfig, IContainer $container)
     {
-        if(is_callable($listenerConfig))
-        {
+        if (is_callable($listenerConfig)) {
             return $listenerConfig;
         }
 
-        if(is_string($listenerConfig))
-        {
-            if(strpos($listenerConfig, "@") === false)
-            {
+        if (is_string($listenerConfig)) {
+            if (strpos($listenerConfig, "@") === false) {
                 throw new InvalidArgumentException("Listener data \"$listenerConfig\" is incorrectly formatted");
             }
 
@@ -76,8 +71,11 @@ abstract class DispatcherBootstrapper extends Bootstrapper
             $listenerClass = $listenerConfigParts[0];
             $listenerMethod = $listenerConfigParts[1];
 
-            return function (IEvent $event, $eventName, IDispatcher $dispatcher) use ($container, $listenerClass, $listenerMethod)
-            {
+            return function (IEvent $event, $eventName, IDispatcher $dispatcher) use (
+                $container,
+                $listenerClass,
+                $listenerMethod
+            ) {
                 $listenerObject = $container->makeShared($listenerClass);
                 call_user_func_array([$listenerObject, $listenerMethod], [$event, $eventName, $dispatcher]);
             };

@@ -24,13 +24,11 @@ class ArgvParser extends Parser
      */
     public function parse($input)
     {
-        if($input === null)
-        {
+        if ($input === null) {
             $input = $_SERVER["argv"];
         }
 
-        if(!is_array($input))
-        {
+        if (!is_array($input)) {
             throw new InvalidArgumentException("ArgvParser parser only accepts arrays as input");
         }
 

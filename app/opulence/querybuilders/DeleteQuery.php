@@ -57,13 +57,13 @@ class DeleteQuery extends Query
     {
         $sql = "DELETE FROM " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
 
-        if(count($this->usingExpressions) > 0)
-        {
+        if (count($this->usingExpressions) > 0) {
             $sql .= " USING " . implode(", ", $this->usingExpressions);
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE",
+            $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;
     }

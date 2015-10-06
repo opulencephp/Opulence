@@ -48,15 +48,13 @@ class BootstrapperRegistry implements IBootstrapperRegistry
      */
     public function getInstance($bootstrapperClass)
     {
-        if(!isset($this->instances[$bootstrapperClass]))
-        {
+        if (!isset($this->instances[$bootstrapperClass])) {
             $this->instances[$bootstrapperClass] = new $bootstrapperClass($this->paths, $this->environment);
         }
 
         $bootstrapper = $this->instances[$bootstrapperClass];
 
-        if(!$bootstrapper instanceof Bootstrapper)
-        {
+        if (!$bootstrapper instanceof Bootstrapper) {
             throw new RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
         }
 
@@ -95,8 +93,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     {
         $bindings = (array)$bindings;
 
-        foreach($bindings as $boundClass)
-        {
+        foreach ($bindings as $boundClass) {
             $this->bindingsToLazyBootstrapperClasses[$boundClass] = $lazyBootstrapperClass;
         }
     }
@@ -106,16 +103,12 @@ class BootstrapperRegistry implements IBootstrapperRegistry
      */
     public function setBootstrapperDetails()
     {
-        foreach($this->allBootstrappers as $bootstrapperClass)
-        {
+        foreach ($this->allBootstrappers as $bootstrapperClass) {
             $bootstrapper = $this->getInstance($bootstrapperClass);
 
-            if($bootstrapper instanceof ILazyBootstrapper)
-            {
+            if ($bootstrapper instanceof ILazyBootstrapper) {
                 $this->registerLazyBootstrapper($bootstrapper->getBindings(), $bootstrapperClass);
-            }
-            else
-            {
+            }else {
                 $this->registerEagerBootstrapper($bootstrapperClass);
             }
         }

@@ -28,8 +28,7 @@ class Middleware implements IMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!$this->formRequest->isValid($request))
-        {
+        if (!$this->formRequest->isValid($request)) {
             // TODO:  Determine which response to return
         }
 

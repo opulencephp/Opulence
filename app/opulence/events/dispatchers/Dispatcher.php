@@ -18,14 +18,11 @@ class Dispatcher implements IDispatcher
      */
     public function dispatch($eventName, IEvent $event)
     {
-        if(isset($this->eventNamesToListeners[$eventName]))
-        {
-            foreach($this->eventNamesToListeners[$eventName] as $listener)
-            {
+        if (isset($this->eventNamesToListeners[$eventName])) {
+            foreach ($this->eventNamesToListeners[$eventName] as $listener) {
                 call_user_func($listener, $event, $eventName, $this);
 
-                if($event->propagationIsStopped())
-                {
+                if ($event->propagationIsStopped()) {
                     break;
                 }
             }
@@ -37,8 +34,7 @@ class Dispatcher implements IDispatcher
      */
     public function getListeners($eventName)
     {
-        if(!isset($this->eventNamesToListeners[$eventName]))
-        {
+        if (!isset($this->eventNamesToListeners[$eventName])) {
             return [];
         }
 
@@ -58,13 +54,11 @@ class Dispatcher implements IDispatcher
      */
     public function registerListener($eventName, callable $listener)
     {
-        if(!isset($this->eventNamesToListeners[$eventName]))
-        {
+        if (!isset($this->eventNamesToListeners[$eventName])) {
             $this->eventNamesToListeners[$eventName] = [];
         }
 
-        if(!in_array($listener, $this->eventNamesToListeners[$eventName]))
-        {
+        if (!in_array($listener, $this->eventNamesToListeners[$eventName])) {
             $this->eventNamesToListeners[$eventName][] = $listener;
         }
     }
@@ -74,11 +68,10 @@ class Dispatcher implements IDispatcher
      */
     public function removeListener($eventName, callable $listener)
     {
-        if(
+        if (
             isset($this->eventNamesToListeners[$eventName]) &&
             ($index = array_search($listener, $this->eventNamesToListeners[$eventName])) !== false
-        )
-        {
+        ) {
             unset($this->eventNamesToListeners[$eventName][$index]);
         }
     }

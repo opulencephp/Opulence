@@ -24,8 +24,7 @@ class Driver extends BaseDriver
                 "charset=" . $server->getCharset()
             ]) . ";";
 
-        if(isset($options["unix_socket"]))
-        {
+        if (isset($options["unix_socket"])) {
             $dsn .= "unix_socket=" . $options["unix_socket"] . ";";
         }
 

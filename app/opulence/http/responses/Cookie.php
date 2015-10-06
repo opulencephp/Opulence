@@ -34,9 +34,15 @@ class Cookie
      * @param bool $isSecure Whether or not this cookie is on HTTPS
      * @param bool $isHTTPOnly Whether or not this cookie is HTTP only
      */
-    public function __construct($name, $value, DateTime $expiration, $path = "/", $domain = "", $isSecure = false,
-                                $isHTTPOnly = true)
-    {
+    public function __construct(
+        $name,
+        $value,
+        DateTime $expiration,
+        $path = "/",
+        $domain = "",
+        $isSecure = false,
+        $isHTTPOnly = true
+    ) {
         $this->name = $name;
         $this->value = $value;
         $this->expiration = $expiration;

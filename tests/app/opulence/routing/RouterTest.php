@@ -55,7 +55,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $path = "/foo";
         $controller = "foo@bar";
-        $this->assertInstanceOf(Route::class, $this->router->addRoute(new Route(Request::METHOD_GET, $path, $controller)));
+        $this->assertInstanceOf(Route::class,
+            $this->router->addRoute(new Route(Request::METHOD_GET, $path, $controller)));
         $this->assertInstanceOf(Route::class, $this->router->any($path, $controller)[0]);
         $this->assertInstanceOf(Route::class, $this->router->delete($path, $controller));
         $this->assertInstanceOf(Route::class, $this->router->get($path, $controller));
@@ -75,8 +76,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $path = "/foo";
         $controller = "foo@bar";
 
-        foreach(RouteCollection::getMethods() as $method)
-        {
+        foreach (RouteCollection::getMethods() as $method) {
             call_user_func_array([$this->router, strtolower($method)], [$path, $controller]);
             $expectedRoute = $this->parser->parse(new Route($method, $path, $controller));
             $this->assertEquals([$expectedRoute], $this->router->getRouteCollection()->get($method));
@@ -98,8 +98,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $getRoute = null;
 
-        $this->router->group(["path" => "/foo/:id", "variables" => ["id" => "\d+"]], function () use (&$getRoute)
-        {
+        $this->router->group(["path" => "/foo/:id", "variables" => ["id" => "\d+"]], function () use (&$getRoute) {
             $getRoute = $this->router->get("/foo", "foo@bar");
         });
         $this->assertSame($getRoute, $this->router->getRouteCollection()->get(Request::METHOD_GET)[0]);
@@ -110,8 +109,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupWithVariableRegexes()
     {
-        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d+"]], function ()
-        {
+        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d+"]], function () {
             $this->router->get("/foo", "foo@bar");
             $this->router->post("/foo", "foo@bar");
         });
@@ -128,13 +126,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupedRoutesDoNotOverwriteControllerSettingsInClosureRoute()
     {
-        $controller = function ()
-        {
+        $controller = function () {
             return "Foo";
         };
         $closureRoute = $this->router->get("/foo", $controller);
-        $this->router->group(["controllerNamespace" => "MyApp"], function ()
-        {
+        $this->router->group(["controllerNamespace" => "MyApp"], function () {
             $this->router->get("bar", "MyController@index");
         });
         $this->assertTrue($closureRoute->usesClosure());
@@ -150,8 +146,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "path" => "/foo",
             "middleware" => ["foo1", "foo2"]
         ];
-        $this->router->group($groupOptions, function ()
-        {
+        $this->router->group($groupOptions, function () {
             $controller = MockController::class . "@noParameters";
             $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller));
             $this->router->delete("/blah", $controller);
@@ -179,8 +174,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "path" => "/foo",
             "middleware" => ["foo1", "foo2"]
         ];
-        $this->router->group($groupOptions, function () use ($controller, $routeOptions)
-        {
+        $this->router->group($groupOptions, function () use ($controller, $routeOptions) {
             $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller, $routeOptions));
             $this->router->delete("/blah", $controller, $routeOptions);
         });
@@ -210,8 +204,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             "path" => "/foo",
             "middleware" => "foo1"
         ];
-        $this->router->group($groupOptions, function () use ($controller, $routeOptions)
-        {
+        $this->router->group($groupOptions, function () use ($controller, $routeOptions) {
             $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $controller, $routeOptions));
             $this->router->delete("/blah", $controller, $routeOptions);
         });
@@ -296,10 +289,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testMixingHTTPSOnNestedGroups()
     {
-        $this->router->group(["https" => true], function ()
-        {
-            $this->router->group(["https" => false], function ()
-            {
+        $this->router->group(["https" => true], function () {
+            $this->router->group(["https" => false], function () {
                 $this->router->get("/foo", "foo@bar");
                 $this->router->post("/foo", "foo@bar");
             });
@@ -324,8 +315,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $outerRouteController = "Mocks\\Controller@noParameters";
         $innerRouteController = "Controller@noParameters";
-        $this->router->group($outerGroupOptions, function () use ($outerRouteController, $innerRouteController)
-        {
+        $this->router->group($outerGroupOptions, function () use ($outerRouteController, $innerRouteController) {
             $this->router->addRoute(new Route(Request::METHOD_GET, "/bar", $outerRouteController));
             $this->router->delete("/blah", $outerRouteController);
             $innerGroupOptions = [
@@ -333,8 +323,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
                 "controllerNamespace" => "Mocks",
                 "middleware" => ["foo3", "foo4"]
             ];
-            $this->router->group($innerGroupOptions, function () use ($innerRouteController)
-            {
+            $this->router->group($innerGroupOptions, function () use ($innerRouteController) {
                 $this->router->get("/jkl", $innerRouteController);
             });
         });
@@ -358,14 +347,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNestingGroupVariableRegexesOverwriteOneAnother()
     {
-        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d*"]], function ()
-        {
+        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d*"]], function () {
             $this->router->get("/foo", "foo@bar");
             // This route's variable regex should take precedence
             $this->router->get("/bam", "foo@bam", ["variables" => ["id" => "\w+"]]);
 
-            $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function ()
-            {
+            $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function () {
                 $this->router->get("/baz", "bar@baz");
             });
         });
@@ -520,8 +507,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSecureGroup()
     {
-        $this->router->group(["https" => true], function ()
-        {
+        $this->router->group(["https" => true], function () {
             $this->router->get("/foo", "foo@bar");
             $this->router->post("/foo", "foo@bar");
         });
@@ -549,8 +535,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifyingGroupHost()
     {
-        $this->router->group(["host" => "google.com"], function ()
-        {
+        $this->router->group(["host" => "google.com"], function () {
             $this->router->get("/foo", "foo@bar");
             $this->router->post("/foo", "foo@bar");
         });
@@ -567,8 +552,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifyingNamespacePrefix()
     {
-        $this->router->group(["controllerNamespace" => "MyApp\\Controllers\\"], function ()
-        {
+        $this->router->group(["controllerNamespace" => "MyApp\\Controllers\\"], function () {
             $this->router->get("/foo", "ControllerA@myMethod");
             $this->router->post("/foo", "ControllerB@myMethod");
         });
@@ -585,8 +569,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifyingNamespacePrefixWithNoTrailingSlash()
     {
-        $this->router->group(["controllerNamespace" => "MyApp\\Controllers"], function ()
-        {
+        $this->router->group(["controllerNamespace" => "MyApp\\Controllers"], function () {
             $this->router->get("/foo", "ControllerA@myMethod");
             $this->router->post("/foo", "ControllerB@myMethod");
         });
@@ -603,10 +586,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifyingNestedGroupHosts()
     {
-        $this->router->group(["host" => "google.com"], function ()
-        {
-            $this->router->group(["host" => "mail."], function ()
-            {
+        $this->router->group(["host" => "google.com"], function () {
+            $this->router->group(["host" => "mail."], function () {
                 $this->router->get("/foo", "foo@bar");
                 $this->router->post("/foo", "foo@bar");
             });
@@ -638,8 +619,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $hostToRoute,
         $controllerName,
         $controllerMethod
-    )
-    {
+    ) {
         $controller = "$controllerName@$controllerMethod";
         $options = [
             "host" => $rawHost
@@ -670,8 +650,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $request = new Request([], [], [], $server, [], []);
         $routeToHandle = null;
 
-        switch($httpMethod)
-        {
+        switch ($httpMethod) {
             case Request::METHOD_DELETE:
                 $routeToHandle = $deleteRoute;
 

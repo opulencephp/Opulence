@@ -36,8 +36,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
     {
         $entityHash = $this->getEntityHashById($id);
 
-        if($entityHash === null || $entityHash === [])
-        {
+        if ($entityHash === null || $entityHash === []) {
             return null;
         }
 
@@ -95,20 +94,17 @@ abstract class RedisDataMapper implements ICacheDataMapper
      */
     protected function loadEntities(array $entityIds)
     {
-        if(count($entityIds) == 0)
-        {
+        if (count($entityIds) == 0) {
             return null;
         }
 
         $entities = [];
 
         // Create and store the entities associated with each Id
-        foreach($entityIds as $entityId)
-        {
+        foreach ($entityIds as $entityId) {
             $hash = $this->getEntityHashById($entityId);
 
-            if($hash === null)
-            {
+            if ($hash === null) {
                 return null;
             }
 
@@ -128,13 +124,11 @@ abstract class RedisDataMapper implements ICacheDataMapper
      */
     protected function read($keyOfEntityIds, $valueType)
     {
-        switch($valueType)
-        {
+        switch ($valueType) {
             case self::VALUE_TYPE_STRING:
                 $entityIds = $this->getValueFromRedis($keyOfEntityIds);
 
-                if($entityIds === false)
-                {
+                if ($entityIds === false) {
                     return null;
                 }
 
@@ -145,8 +139,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
             case self::VALUE_TYPE_SET:
                 $entityIds = $this->getSetMembersFromRedis($keyOfEntityIds);
 
-                if(count($entityIds) == 0)
-                {
+                if (count($entityIds) == 0) {
                     return null;
                 }
 
@@ -154,8 +147,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
             case self::VALUE_TYPE_SORTED_SET:
                 $entityIds = $this->getSortedSetMembersFromRedis($keyOfEntityIds);
 
-                if(count($entityIds) == 0)
-                {
+                if (count($entityIds) == 0) {
                     return null;
                 }
 
@@ -166,8 +158,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
         $entities = $this->loadEntities($entityIds);
 
-        if($valueType == self::VALUE_TYPE_STRING)
-        {
+        if ($valueType == self::VALUE_TYPE_STRING) {
             return $entities[0];
         }
 

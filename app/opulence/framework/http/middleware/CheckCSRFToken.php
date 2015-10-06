@@ -42,8 +42,7 @@ abstract class CheckCSRFToken implements IMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(!$this->csrfTokenChecker->tokenIsValid($request, $this->session))
-        {
+        if (!$this->csrfTokenChecker->tokenIsValid($request, $this->session)) {
             throw new InvalidCSRFTokenException("Invalid CSRF token");
         }
 

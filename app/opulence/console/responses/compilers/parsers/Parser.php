@@ -22,10 +22,8 @@ class Parser implements IParser
     {
         $ast = new AbstractSyntaxTree();
 
-        foreach($tokens as $token)
-        {
-            switch($token->getType())
-            {
+        foreach ($tokens as $token) {
+            switch ($token->getType()) {
                 case TokenTypes::T_WORD:
                     $ast->getCurrentNode()->addChild(new WordNode($token->getValue()));
 
@@ -37,8 +35,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_TAG_CLOSE:
-                    if($ast->getCurrentNode()->getValue() != $token->getValue())
-                    {
+                    if ($ast->getCurrentNode()->getValue() != $token->getValue()) {
                         throw new RuntimeException(
                             sprintf(
                                 "Improperly nested tag \"%s\" near character #%d",
@@ -53,8 +50,7 @@ class Parser implements IParser
 
                     break;
                 case TokenTypes::T_EOF:
-                    if(!$ast->getCurrentNode()->isRoot())
-                    {
+                    if (!$ast->getCurrentNode()->isRoot()) {
                         throw new RuntimeException(
                             sprintf(
                                 "Unclosed %s \"%s\"",

@@ -74,7 +74,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingFullyQualifiedClassNameOfAFullyQualifiedClass()
     {
-        $this->assertEquals("Opulence\\Foo\\Bar", $this->composer->getFullyQualifiedClassName("Opulence\\Foo\\Bar", "Opulence"));
+        $this->assertEquals("Opulence\\Foo\\Bar",
+            $this->composer->getFullyQualifiedClassName("Opulence\\Foo\\Bar", "Opulence"));
     }
 
     /**

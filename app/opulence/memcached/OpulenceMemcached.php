@@ -44,8 +44,7 @@ class OpulenceMemcached extends Memcached
      */
     public function addServers(array $servers)
     {
-        foreach($servers as $serverArray)
-        {
+        foreach ($servers as $serverArray) {
             $this->addServer($serverArray[0], $serverArray[1], $serverArray[2]);
         }
     }
