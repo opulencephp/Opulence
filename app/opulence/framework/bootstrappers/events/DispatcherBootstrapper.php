@@ -8,7 +8,7 @@ namespace Opulence\Framework\Bootstrappers\Events;
 
 use InvalidArgumentException;
 use Opulence\Applications\Bootstrappers\Bootstrapper;
-use Opulence\Events\Dispatchers\Dispatcher as EventDispatcher;
+use Opulence\Events\Dispatchers\Dispatcher;
 use Opulence\Events\Dispatchers\IDispatcher;
 use Opulence\Events\IEvent;
 use Opulence\IoC\IContainer;
@@ -48,7 +48,7 @@ abstract class DispatcherBootstrapper extends Bootstrapper
      */
     protected function getEventDispatcher(IContainer $container)
     {
-        return new EventDispatcher();
+        return new Dispatcher();
     }
 
     /**

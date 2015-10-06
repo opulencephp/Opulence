@@ -79,6 +79,8 @@ class URLGenerator
 
             // Remove any leftover variables
             $generatedHost = preg_replace($variableMatchingRegex, "", $generatedHost);
+            // Remove any leftover brackets
+            $generatedHost = str_replace(["[", "]"], ["", ""], $generatedHost);
 
             // Make sure what we just generated satisfies the regex
             if(!preg_match($route->getHostRegex(), $generatedHost))
@@ -122,6 +124,8 @@ class URLGenerator
 
         // Remove any leftover variables
         $generatedPath = preg_replace($this->variableMatchingRegex, "", $generatedPath);
+        // Remove any leftover brackets
+        $generatedPath = str_replace(["[", "]"], ["", ""], $generatedPath);
 
         // Make sure what we just generated satisfies the regex
         if(!preg_match($route->getPathRegex(), $generatedPath))

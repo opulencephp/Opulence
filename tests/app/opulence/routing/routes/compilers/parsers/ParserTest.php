@@ -7,8 +7,8 @@
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
 use Opulence\Routing\RouteException;
-use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
+use Opulence\Routing\Routes\ParsedRoute;
 
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,17 +28,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingVariableMatchingRegex()
     {
-        $this->assertEquals("/(\{([^\}]+)\})/", $this->parser->getVarMatchingRegex());
-    }
-
-    /**
-     * Tests using a route variable with a name that isn't a valid PHP variable name
-     */
-    public function testInvalidPHPVariableName()
-    {
-        $this->setExpectedException(RouteException::class);
-        $route = new Route(["get"], "/{123foo}/bar", "foo@bar");
-        $this->parser->parse($route);
+        $this->assertEquals("#:([\w]+)(?:=([^:\[\]/]+))?#", $this->parser->getVarMatchingRegex());
     }
 
     /**
@@ -52,11 +42,11 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests an optional variable
+     * Tests an optional slash and variable
      */
-    public function testOptionalVariable()
+    public function testOptionalSlashAndVariable()
     {
-        $rawString = "/{foo}/bar/{blah?}";
+        $rawString = "/:foo/bar[/:blah]";
         $options = [
             "host" => $rawString
         ];
@@ -67,7 +57,29 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
+                    preg_quote("/", "#") . "(?P<foo>[^\/:]+)" . preg_quote("/bar", "#") . "(?:/(?P<blah>[^\/:]+))?"
+                )
+            )
+        );
+    }
+
+    /**
+     * Tests an optional variable
+     */
+    public function testOptionalVariable()
+    {
+        $rawString = "/:foo/bar/[:blah]";
+        $options = [
+            "host" => $rawString
+        ];
+        $route = new Route(["get"], $rawString, "foo@bar", $options);
+        $parsedRoute = $this->parser->parse($route);
+        $this->assertTrue(
+            $this->regexesMach(
+                $parsedRoute,
+                sprintf(
+                    "#^%s$#",
+                    preg_quote("/", "#") . "(?P<foo>[^\/:]+)" . preg_quote("/bar/", "#") . "(?:(?P<blah>[^\/:]+))?"
                 )
             )
         );
@@ -78,7 +90,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testOptionalVariableWithDefaultValue()
     {
-        $rawString = "/{foo}/bar/{blah?=123}";
+        $rawString = "/:foo/bar/[:blah=123]";
         $options = [
             "host" => $rawString
         ];
@@ -89,7 +101,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)?"
+                    preg_quote("/", "#") . "(?P<foo>[^\/:]+)" . preg_quote("/bar/", "#") . "(?:(?P<blah>[^\/:]+))?"
                 )
             )
         );
@@ -101,7 +113,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingMultipleVariables()
     {
-        $rawString = "/{foo}/bar/{blah}";
+        $rawString = "/:foo/bar/:blah";
         $options = [
             "host" => $rawString
         ];
@@ -112,7 +124,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/]+)"
+                    preg_quote("/", "#") . "(?P<foo>[^\/:]+)" . preg_quote("/bar/", "#") . "(?P<blah>[^\/:]+)"
                 )
             )
         );
@@ -123,7 +135,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingMultipleVariablesWithRegexes()
     {
-        $rawString = "/{foo}/bar/{blah}";
+        $rawString = "/:foo/bar/:blah";
         $options = [
             "variables" => [
                 "foo" => "\d+",
@@ -149,7 +161,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingSingleVariable()
     {
-        $rawString = "/{foo}";
+        $rawString = "/:foo";
         $options = [
             "host" => $rawString
         ];
@@ -160,7 +172,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)"
+                    preg_quote("/", "#") . "(?P<foo>[^\/:]+)"
                 )
             )
         );
@@ -171,7 +183,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingSingleVariableWithDefaultValue()
     {
-        $rawString = "/{foo=23}";
+        $rawString = "/:foo=23";
         $options = [
             "host" => $rawString
         ];
@@ -182,7 +194,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                 $parsedRoute,
                 sprintf(
                     "#^%s$#",
-                    preg_quote("/", "#") . "(?P<foo>[^\/]+)"
+                    preg_quote("/", "#") . "(?P<foo>[^\/:]+)"
                 )
             )
         );
@@ -194,7 +206,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingSingleVariableWithRegexes()
     {
-        $rawString = "/{foo}";
+        $rawString = "/:foo";
         $options = [
             "variables" => ["foo" => "\d+"],
             "host" => $rawString
@@ -240,27 +252,27 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testParsingWithDuplicateVariables()
     {
         $this->setExpectedException(RouteException::class);
-        $route = new Route(["get"], "/{foo}/{foo}", "foo@bar");
+        $route = new Route(["get"], "/:foo/:foo", "foo@bar");
         $this->parser->parse($route);
     }
 
     /**
-     * Tests parsing a path with an unclosed open brace
+     * Tests parsing a path with an unclosed open bracket
      */
-    public function testParsingWithUnclosedOpenBrace()
+    public function testParsingWithUnclosedOpenBracket()
     {
         $this->setExpectedException(RouteException::class);
-        $route = new Route(["get"], "/{foo}/{bar", "foo@bar");
+        $route = new Route(["get"], "/:foo/[bar", "foo@bar");
         $this->parser->parse($route);
     }
 
     /**
-     * Tests parsing a path with an unopened close brace
+     * Tests parsing a path with an unopened close bracket
      */
-    public function testParsingWithUnopenedCloseBrace()
+    public function testParsingWithUnopenedCloseBracket()
     {
         $this->setExpectedException(RouteException::class);
-        $route = new Route(["get"], "/{foo}/{bar}}", "foo@bar");
+        $route = new Route(["get"], "/:foo/:bar]", "foo@bar");
         $this->parser->parse($route);
     }
 
@@ -285,4 +297,4 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         return $route->getPathRegex() == $regex && $route->getHostRegex() == $regex;
     }
-} 
+}

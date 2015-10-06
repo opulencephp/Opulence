@@ -8,7 +8,7 @@ namespace Opulence\Framework\Bootstrappers\Console\Composer;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
-use Opulence\Framework\Composer\Composer as ComposerWrapper;
+use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\IoC\IContainer;
 
@@ -19,7 +19,7 @@ class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function getBindings()
     {
-        return [ComposerWrapper::class, Executable::class];
+        return [Composer::class, Executable::class];
     }
 
     /**
@@ -27,9 +27,9 @@ class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $composer = ComposerWrapper::createFromRawConfig($this->paths);
+        $composer = Composer::createFromRawConfig($this->paths);
         $executable = new Executable($this->paths);
-        $container->bind(ComposerWrapper::class, $composer);
+        $container->bind(Composer::class, $composer);
         $container->bind(Executable::class, $executable);
     }
 }

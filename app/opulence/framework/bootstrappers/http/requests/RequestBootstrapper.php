@@ -7,7 +7,7 @@
 namespace Opulence\Framework\Bootstrappers\HTTP\Requests;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
-use Opulence\HTTP\Requests\Request as HTTPRequest;
+use Opulence\HTTP\Requests\Request;
 use Opulence\IoC\IContainer;
 
 class RequestBootstrapper extends Bootstrapper
@@ -17,6 +17,6 @@ class RequestBootstrapper extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(HTTPRequest::class, HTTPRequest::createFromGlobals());
+        $container->bind(Request::class, Request::createFromGlobals());
     }
 }

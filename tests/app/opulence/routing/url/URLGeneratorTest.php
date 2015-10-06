@@ -30,25 +30,25 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
             ),
             new Route(
                 Request::METHOD_GET,
-                "/users/{userId}",
+                "/users/:userId",
                 "foo@bar",
                 ["name" => "pathOneParameter"]
             ),
             new Route(
                 Request::METHOD_GET,
-                "/users/{userId}/profile/{mode}",
+                "/users/:userId/profile/:mode",
                 "foo@bar",
                 ["name" => "pathTwoParameters"]
             ),
             new Route(
                 Request::METHOD_GET,
-                "/users{foo?}",
+                "/users[:foo]",
                 "foo@bar",
                 ["name" => "pathOptionalVariable"]
             ),
             new Route(
                 Request::METHOD_GET,
-                "/users/{userId}",
+                "/users/:userId",
                 "foo@bar",
                 [
                     "variables" => ["userId" => "\d+"],
@@ -69,7 +69,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 "/users",
                 "foo@bar",
                 [
-                    "host" => "{subdomain}.example.com",
+                    "host" => ":subdomain.example.com",
                     "name" => "hostOneParameter"
                 ]
             ),
@@ -78,7 +78,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 "/users",
                 "foo@bar",
                 [
-                    "host" => "{subdomain1}.{subdomain2}.example.com",
+                    "host" => ":subdomain1.:subdomain2.example.com",
                     "name" => "hostTwoParameters"
                 ]
             ),
@@ -87,25 +87,25 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 "/users",
                 "foo@bar",
                 [
-                    "host" => "{subdomain?}example.com",
+                    "host" => "[:subdomain]example.com",
                     "name" => "hostOptionalVariable"
                 ]
             ),
             new Route(
                 Request::METHOD_GET,
-                "/users/{userId}/profile/{mode}",
+                "/users/:userId/profile/:mode",
                 "foo@bar",
                 [
-                    "host" => "{subdomain1}.{subdomain2}.example.com",
+                    "host" => ":subdomain1.:subdomain2.example.com",
                     "name" => "hostAndPathMultipleParameters"
                 ]
             ),
             new Route(
                 Request::METHOD_GET,
-                "/users{foo?}",
+                "/users[:foo]",
                 "foo@bar",
                 [
-                    "host" => "{subdomain?}example.com",
+                    "host" => "[:subdomain]example.com",
                     "name" => "hostAndPathOptionalParameters"
                 ]
             ),

@@ -2,22 +2,27 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the parser for a route
+ * Defines the route parser
  */
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
-use Opulence\Routing\Routes\ParsedRoute;
-use Opulence\Routing\Routes\Route;
 use Opulence\Routing\RouteException;
+use Opulence\Routing\Routes\Route;
+use Opulence\Routing\Routes\ParsedRoute;
 
 class Parser implements IParser
 {
+    /** @var int The cursor of the currently parsed route */
+    private $cursor = 0;
+    /** @var array The list of variable names in the currently parsed route */
+    private $variableNames = [];
+
     /**
      * @inheritdoc
      */
     public function getVarMatchingRegex()
     {
-        return "/(\{([^\}]+)\})/";
+        return "#:([\w]+)(?:=([^:\[\]/]+))?#";
     }
 
     /**
@@ -47,124 +52,119 @@ class Parser implements IParser
             return "#^.*$#";
         }
 
-        $regex = $this->quoteStaticText($rawString);
-        $routeVars = [];
-        $matches = [];
+        $this->variableNames = [];
+        $regexPieces = [];
+        $quotedTextBuffer = "";
+        $bracketDepth = 0;
 
-        preg_match_all($this->getVarMatchingRegex(), $rawString, $matches, PREG_SET_ORDER);
-
-        foreach($matches as $match)
+        foreach(explode("/", $rawString) as $segment)
         {
-            $variableName = $match[2];
-            $defaultValue = "";
-            $isOptional = false;
+            $this->cursor = 0;
+            $segmentLength = mb_strlen($segment);
 
-            // Set the default value
-            if(($equalPos = mb_strpos($match[2], "=")) !== false)
+            if($segmentLength == 0)
             {
-                $variableName = mb_substr($match[2], 0, $equalPos);
-                $defaultValue = mb_substr($match[2], $equalPos + 1);
+                // There was nothing in this segment, so add an empty regex and continue
+                $regexPieces[] = "";
+                continue;
             }
 
-            // Check if the variable is marked as optional
-            if(mb_strpos($variableName, "?") !== false)
+            $segmentRegex = "";
+
+            while($this->cursor < $segmentLength)
             {
-                $isOptional = true;
-                $variableName = mb_substr($variableName, 0, -1);
+                $char = $segment[$this->cursor];
+
+                switch($char)
+                {
+                    case ":":
+                        if(!empty($quotedTextBuffer))
+                        {
+                            $segmentRegex .= preg_quote($quotedTextBuffer, "#");
+                            $quotedTextBuffer = "";
+                        }
+
+                        $segmentRegex .= $this->getVarRegex($parsedRoute, mb_substr($segment, $this->cursor));
+                        break;
+                    case "[":
+                        if(!empty($quotedTextBuffer))
+                        {
+                            $segmentRegex .= preg_quote($quotedTextBuffer, "#");
+                            $quotedTextBuffer = "";
+                        }
+
+                        $segmentRegex .= "(?:";
+                        $bracketDepth++;
+                        $this->cursor++;
+                        break;
+                    case "]":
+                        if(!empty($quotedTextBuffer))
+                        {
+                            $segmentRegex .= preg_quote($quotedTextBuffer, "#");
+                            $quotedTextBuffer = "";
+                        }
+
+                        $segmentRegex .= ")?";
+                        $bracketDepth--;
+                        $this->cursor++;
+                        break;
+                    default:
+                        $quotedTextBuffer .= $char;
+                        $this->cursor++;
+                }
             }
 
-            // Check that the variable name is a valid PHP variable name
-            // @link http://php.net/manual/en/language.variables.basics.php
-            if(!preg_match("/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/", $variableName))
+            // Finish flushing out the buffer
+            if(!empty($quotedTextBuffer))
             {
-                throw new RouteException("Invalid variable name \"$variableName\"");
+                $segmentRegex .= preg_quote($quotedTextBuffer, "#");
+                $quotedTextBuffer = "";
             }
 
-            if(in_array($variableName, $routeVars))
-            {
-                throw new RouteException("Route uses multiple references to \"$variableName\"");
-            }
+            $regexPieces[] = $segmentRegex;
+        }
 
-            $routeVars[] = $variableName;
-            $parsedRoute->setDefaultValue($variableName, $defaultValue);
-            $variableRegex = $parsedRoute->getVarRegex($variableName);
-
-            if($variableRegex === null)
-            {
-                // Add a default regex
-                $variableRegex = "[^\/]+";
-            }
-
-            // Insert the regex for this variable back into the regex
-            $regex = str_replace(
-                sprintf("{%s}", $match[2]),
-                // This gives us the ability to name the match the same as the variable name
-                sprintf("(?P<%s>%s)%s", $variableName, $variableRegex, $isOptional ? "?" : ""),
-                $regex
+        if($bracketDepth != 0)
+        {
+            throw new RouteException(
+                sprintf("Route has %s brackets", $bracketDepth > 0 ? "unclosed" : "unopened")
             );
         }
 
-        return sprintf("#^%s$#", $regex);
+        return sprintf("#^%s$#", implode(preg_quote("/", "#"), $regexPieces));
     }
 
     /**
-     * Quotes the static text (text not in braces) for use in a regex
+     * Parses a variable and returns the regex
      *
-     * @param string $string The string to quote
-     * @return string The string with the static text quoted
-     * @throws RouteException Thrown if the braces are not nested correctly
+     * @param ParsedRoute $parsedRoute The route being parsed
+     * @param string $segment The segment being parsed
+     * @return string The variable regex
+     * @throws RouteException Thrown if the variable definition is invalid
      */
-    private function quoteStaticText($string)
+    private function getVarRegex(ParsedRoute $parsedRoute, $segment)
     {
-        $quotedString = "";
-        $stringLength = mb_strlen($string);
-        $braceDepth = 0;
-        $quoteBuffer = "";
+        preg_match($this->getVarMatchingRegex(), $segment, $matches);
+        $variableName = $matches[1];
+        $defaultValue = isset($matches[2]) ? $matches[2] : "";
 
-        for($charIter = 0;$charIter < $stringLength;$charIter++)
+        if(in_array($variableName, $this->variableNames))
         {
-            $char = $string[$charIter];
-
-            if($char == "{")
-            {
-                // Flush out the quote buffer
-                if($braceDepth == 0 && mb_strlen($quoteBuffer) > 0)
-                {
-                    $quotedString .= preg_quote($quoteBuffer, "#");
-                    $quoteBuffer = "";
-                }
-
-                $braceDepth++;
-            }
-            elseif($char == "}")
-            {
-                $braceDepth--;
-            }
-
-            // Make sure that we didn't JUST close all the braces
-            if($braceDepth == 0 && $char != "}")
-            {
-                $quoteBuffer .= $char;
-            }
-            else
-            {
-                $quotedString .= $char;
-            }
+            throw new RouteException("Route uses multiple references to \"$variableName\"");
         }
 
-        // Flush out the buffer
-        if(mb_strlen($quoteBuffer) > 0)
+        $this->variableNames[] = $variableName;
+        $parsedRoute->setDefaultValue($variableName, $defaultValue);
+        $variableRegex = $parsedRoute->getVarRegex($variableName);
+
+        if($variableRegex === null)
         {
-            $quotedString .= preg_quote($quoteBuffer, "#");
+            // Add a default regex
+            $variableRegex = "[^\/:]+";
         }
 
-        if($braceDepth != 0)
-        {
-            $message = "Route has " . ($braceDepth > 0 ? "unclosed" : "unopened") . " braces";
+        $this->cursor += mb_strlen($matches[0]);
 
-            throw new RouteException($message);
-        }
-
-        return $quotedString;
+        return sprintf("(?P<%s>%s)", $variableName, $variableRegex);
     }
-} 
+}

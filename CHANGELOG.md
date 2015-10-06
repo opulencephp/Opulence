@@ -1,3 +1,9 @@
+<h2>v0.6.11</h2>
+
+<h3>Routing</h3>
+* Changed path variables from being in `/{foo}` format to `/:foo` format
+* Added ability to make path variables optional using brackets, eg `/foo[/bar]`
+
 <h2>v0.6.10</h2>
 
 <h3>Bootstrappers</h3>

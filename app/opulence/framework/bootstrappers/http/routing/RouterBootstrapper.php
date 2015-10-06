@@ -10,7 +10,7 @@ use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\IoC\IContainer;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Dispatchers\IDispatcher;
-use Opulence\Routing\Router as HTTPRouter;
+use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Caching\Cache;
 use Opulence\Routing\Routes\Caching\ICache;
 use Opulence\Routing\Routes\Compilers\Compiler;
@@ -39,22 +39,22 @@ class RouterBootstrapper extends Bootstrapper
         $dispatcher = $this->getRouteDispatcher($container);
         $this->parser = $this->getRouteParser($container);
         $compiler = $this->getRouteCompiler($container);
-        $router = new HTTPRouter($dispatcher, $compiler, $this->parser);
+        $router = new Router($dispatcher, $compiler, $this->parser);
         $this->configureRouter($router);
         $urlGenerator = new URLGenerator($router->getRouteCollection(), $this->parser->getVarMatchingRegex());
         $container->bind(ICache::class, $this->cache);
         $container->bind(IDispatcher::class, $dispatcher);
         $container->bind(ICompiler::class, $compiler);
-        $container->bind(HTTPRouter::class, $router);
+        $container->bind(Router::class, $router);
         $container->bind(URLGenerator::class, $urlGenerator);
     }
 
     /**
      * Configures the router, which is useful for things like caching
      *
-     * @param HTTPRouter $router The router to configure
+     * @param Router $router The router to configure
      */
-    protected function configureRouter(HTTPRouter $router)
+    protected function configureRouter(Router $router)
     {
         // Let extending classes define this
     }

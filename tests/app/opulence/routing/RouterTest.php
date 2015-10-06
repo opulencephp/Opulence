@@ -98,7 +98,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $getRoute = null;
 
-        $this->router->group(["path" => "/foo/{id}", "variables" => ["id" => "\d+"]], function () use (&$getRoute)
+        $this->router->group(["path" => "/foo/:id", "variables" => ["id" => "\d+"]], function () use (&$getRoute)
         {
             $getRoute = $this->router->get("/foo", "foo@bar");
         });
@@ -110,7 +110,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupWithVariableRegexes()
     {
-        $this->router->group(["path" => "/users/{userId}", "variables" => ["id" => "\d+"]], function ()
+        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d+"]], function ()
         {
             $this->router->get("/foo", "foo@bar");
             $this->router->post("/foo", "foo@bar");
@@ -278,7 +278,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $controller = NonOpulenceController::class . "@index";
         $this->router->setMissedRouteController(NonOpulenceController::class, "customHTTPError");
-        $this->router->get("/foo/{id}", $controller);
+        $this->router->get("/foo/:id", $controller);
         $server = [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/bar",
@@ -358,7 +358,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNestingGroupVariableRegexesOverwriteOneAnother()
     {
-        $this->router->group(["path" => "/users/{userId}", "variables" => ["id" => "\d*"]], function ()
+        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d*"]], function ()
         {
             $this->router->get("/foo", "foo@bar");
             // This route's variable regex should take precedence
@@ -502,7 +502,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testRoutingToNonOpulenceController()
     {
         $controller = NonOpulenceController::class . "@index";
-        $this->router->get("/foo/{id}", $controller);
+        $this->router->get("/foo/:id", $controller);
         $server = [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/123",
@@ -729,18 +729,18 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         );
         $this->doRoute(
             $httpMethod,
-            "/foo/{foo}",
+            "/foo/:foo",
             "/foo/123",
-            "{bar}.google.com",
+            ":bar.google.com",
             "mail.google.com",
             MockController::class,
             "twoParameters"
         );
         $this->doRoute(
             $httpMethod,
-            "/foo/{foo}/{bar}",
+            "/foo/:foo/:bar",
             "/foo/123/456",
-            "{baz}.{blah}.google.com",
+            ":baz.:blah.google.com",
             "u.mail.google.com",
             MockController::class,
             "severalParameters"
