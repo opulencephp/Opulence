@@ -95,6 +95,8 @@ class DirectiveTranspilerRegistrant
             return '<?php $__opulenceFortuneTranspiler->startPart' . $expression . '; ?>';
         });
         $transpiler->registerDirectiveTranspiler("show", function ($expression) {
+            $expression = empty($expression) ? "()" : $expression;
+
             return '<?php echo $__opulenceFortuneTranspiler->showPart' . $expression . '; ?>';
         });
         $transpiler->registerDirectiveTranspiler("while", function ($expression) {

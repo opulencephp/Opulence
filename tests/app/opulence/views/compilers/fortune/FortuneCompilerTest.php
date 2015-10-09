@@ -289,6 +289,11 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
             "foo",
             $this->fortuneCompiler->compile($this->view)
         );
+        $this->view->setContents('<% part("a") %>foo<% show %>');
+        $this->assertEquals(
+            "foo",
+            $this->fortuneCompiler->compile($this->view)
+        );
     }
 
     /**

@@ -77,10 +77,10 @@ interface ITranspiler
     /**
      * Shows a view part
      *
-     * @param string $name The name of the part to show
+     * @param string $name The name of the part to show, or empty if we should show the last part in the stack
      * @return string The content of the part
      */
-    public function showPart($name);
+    public function showPart($name = "");
 
     /**
      * Starts a view part
