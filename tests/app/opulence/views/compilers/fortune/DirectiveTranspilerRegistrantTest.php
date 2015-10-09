@@ -266,6 +266,18 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests transpiling a show directive without an expression
+     */
+    public function testTranspilingShowWithoutExpression()
+    {
+        $this->view->setContents('<% show %>');
+        $this->assertEquals(
+            '<?php echo $__opulenceFortuneTranspiler->showPart(); ?>',
+            $this->transpiler->transpile($this->view)
+        );
+    }
+
+    /**
      * Tests transpiling a while directive
      */
     public function testTranspilingWhile()

@@ -255,6 +255,16 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests showing latest part
+     */
+    public function testShowingLatestPart()
+    {
+        $this->transpiler->startPart("foo");
+        echo "bar";
+        $this->assertEquals("bar", $this->transpiler->showPart());
+    }
+
+    /**
      * Tests showing a parent part
      */
     public function testShowingParentPart()

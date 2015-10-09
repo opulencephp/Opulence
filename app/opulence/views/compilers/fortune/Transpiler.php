@@ -151,8 +151,14 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function showPart($name)
+    public function showPart($name = "")
     {
+        if (empty($name)) {
+            $name = end($this->partStack);
+            reset($this->partStack);
+            $this->endPart();
+        }
+
         if (!isset($this->parts[$name])) {
             return "";
         }
