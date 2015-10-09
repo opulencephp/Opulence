@@ -11,6 +11,7 @@
 * Fixed various PSR-2 formatting issues
 
 <h3>Views</h3>
+* Added ability to use `<% show %>` directive to both end the current part and show it
 * Changed `Opulence\Views\Factories\ViewFactory::registerBuilder()` to accept a closure that accepts an `Opulence\Views\IVew` parameter and returns the built view
   * This differs from before when the closure would simply return an instance of `Opulence\Views\Factories\IViewBuilder`
 
