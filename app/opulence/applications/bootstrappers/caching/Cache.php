@@ -27,7 +27,7 @@ class Cache implements ICache
     {
         if (file_exists($filePath)) {
             $this->loadRegistryFromCache($filePath, $registry);
-        }else {
+        } else {
             $registry->setBootstrapperDetails();
             // Write this for next time
             $this->set($filePath, $registry);

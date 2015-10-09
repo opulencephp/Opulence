@@ -79,7 +79,7 @@ EOF;
     {
         if ($this->command === null) {
             $response->writeln("<comment>Pass in the name of the command you'd like help with</comment>");
-        }else {
+        } else {
             $descriptionText = "No description";
             $helpText = "";
 

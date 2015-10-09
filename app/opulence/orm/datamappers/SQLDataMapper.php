@@ -82,10 +82,10 @@ abstract class SQLDataMapper implements ISQLDataMapper
 
             if ($expectSingleResult) {
                 return $entities[0];
-            }else {
+            } else {
                 return $entities;
             }
-        }catch (PDOException $ex) {
+        } catch (PDOException $ex) {
             throw new ORMException("Unable to query entities: " . $ex);
         }
     }

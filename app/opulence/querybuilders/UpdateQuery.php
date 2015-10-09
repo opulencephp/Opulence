@@ -47,7 +47,7 @@ class UpdateQuery extends Query
             foreach ($columnNamesToValues as $name => $value) {
                 if (is_array($value)) {
                     $columnNamesToValuesWithoutDataTypes[$name] = $value[0];
-                }else {
+                } else {
                     $columnNamesToValuesWithoutDataTypes[$name] = $value;
                 }
             }

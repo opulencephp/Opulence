@@ -1,3 +1,19 @@
+<h2>v0.6.13</h2>
+
+<h3>Bootstrappers</h3>
+* Added `Opulence\Applications\Bootstrappers\Bootstrapper::initialize()` to run before absolutely anything else in the bootstrapper
+
+<h3>Framework</h3>
+* Added `Opulence\Framework\Bootstrappers\PHP\PHPBootstrapper`
+* Removed `Opulence\Framework\setupcheck.php` because it's not necessary with the new bootstrapper
+
+<h3>General</h3>
+* Fixed various PSR-2 formatting issues
+
+<h3>Views</h3>
+* Changed `Opulence\Views\Factories\ViewFactory::registerBuilder()` to accept a closure that accepts an `Opulence\Views\IVew` parameter and returns the built view
+  * This differs from before when the closure would simply return an instance of `Opulence\Views\Factories\IViewBuilder`
+
 <h2>v0.6.12</h2>
 
 <h3>General</h3>

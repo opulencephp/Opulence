@@ -103,7 +103,7 @@ class Lexer implements ILexer
         uksort($statements, function ($a, $b) {
             if (strlen($a) > strlen($b)) {
                 return -1;
-            }else {
+            } else {
                 return 1;
             }
         });
@@ -131,16 +131,16 @@ class Lexer implements ILexer
 
             if ($length === null) {
                 $this->streamCache["stream"] = substr($this->input, $cursor);
-            }else {
+            } else {
                 $this->streamCache["stream"] = substr($this->input, $cursor, $length);
             }
-        }elseif ($this->streamCache["length"] === $length && $this->streamCache["cursor"] !== $cursor) {
+        } elseif ($this->streamCache["length"] === $length && $this->streamCache["cursor"] !== $cursor) {
             // Grab the substring from the cached stream
             $cursorDifference = $cursor - $this->streamCache["cursor"];
 
             if ($length === null) {
                 $this->streamCache["stream"] = substr($this->streamCache["stream"], $cursorDifference);
-            }else {
+            } else {
                 $this->streamCache["stream"] = substr($this->streamCache["stream"], $cursorDifference, $length);
             }
 
@@ -201,7 +201,7 @@ class Lexer implements ILexer
             if ($currentChar == PHP_EOL) {
                 if (trim($expressionBuffer) == "") {
                     $this->line++;
-                }else {
+                } else {
                     $newLinesAfterExpression++;
                 }
             }
@@ -273,16 +273,16 @@ class Lexer implements ILexer
             if ($currentChar == "(") {
                 $expressionBuffer .= $currentChar;
                 $parenthesisLevel++;
-            }elseif ($currentChar == ")") {
+            } elseif ($currentChar == ")") {
                 $parenthesisLevel--;
                 $expressionBuffer .= $currentChar;
-            }elseif ($currentChar == PHP_EOL) {
+            } elseif ($currentChar == PHP_EOL) {
                 if (trim($expressionBuffer) == "") {
                     $this->line++;
-                }else {
+                } else {
                     $newLinesAfterExpression++;
                 }
-            }else {
+            } else {
                 $expressionBuffer .= $currentChar;
             }
 
@@ -324,14 +324,14 @@ class Lexer implements ILexer
             if ($currentChar == PHP_EOL) {
                 if (trim($name) == "") {
                     $this->line++;
-                }else {
+                } else {
                     $newLinesAfterName++;
                 }
             }
 
             $name .= $currentChar;
             $this->cursor++;
-        }while (
+        } while (
             preg_match("/^[a-zA-Z0-9_\s]$/", $this->getCurrentChar()) === 1 &&
             ($this->getCurrentChar() != " " || trim($name) == "")
         );
@@ -399,7 +399,7 @@ class Lexer implements ILexer
 
                     // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
                     reset($statementMethods);
-                }elseif ($this->getCurrentChar() == "\\") {
+                } elseif ($this->getCurrentChar() == "\\") {
                     // Now that we know we're on an escape character, spend the resources to check for a match
                     if ($this->matches("\\$statementOpenDelimiter")) {
                         // This is an escaped statement
@@ -418,7 +418,7 @@ class Lexer implements ILexer
                     $this->expressionBuffer .= $this->getCurrentChar();
                     $this->cursor++;
                 }
-            }else {
+            } else {
                 $this->flushExpressionBuffer();
             }
         }
@@ -532,7 +532,7 @@ class Lexer implements ILexer
                             )
                         ) {
                             $opulenceTokens[] = $token;
-                        }else {
+                        } else {
                             // This is a view function
                             // Add $__opulenceFortuneTranspiler
                             $opulenceTokens[] = [T_VARIABLE, '$__opulenceFortuneTranspiler', $token[2]];
@@ -541,7 +541,7 @@ class Lexer implements ILexer
                             // Add callViewFunction("FUNCTION_NAME")
                             $opulenceTokens[] = [T_STRING, 'callViewFunction("' . $token[1] . '")', $token[2]];
                         }
-                    }else {
+                    } else {
                         $opulenceTokens[] = $token;
                     }
 
@@ -565,7 +565,7 @@ class Lexer implements ILexer
             if ($matches[2] == ")") {
                 // There were no parameters
                 return $matches[1] . ")";
-            }else {
+            } else {
                 // There were parameters
                 return $matches[1] . ", " . $matches[2];
             }
@@ -586,7 +586,7 @@ class Lexer implements ILexer
                 -1,
                 $replacementCount
             );
-        }while ($replacementCount > 0);
+        } while ($replacementCount > 0);
 
         return trim($joinedTokens);
     }

@@ -79,14 +79,14 @@ class Kernel
             if ($this->isInvokingHelpCommand($request)) {
                 // We are going to execute the help command
                 $compiledCommand = $this->getCompiledHelpCommand($request);
-            }elseif ($this->isInvokingVersionCommand($request)) {
+            } elseif ($this->isInvokingVersionCommand($request)) {
                 // We are going to execute the version command
                 $compiledCommand = new VersionCommand($this->applicationVersion);
-            }elseif ($this->commandCollection->has($request->getCommandName())) {
+            } elseif ($this->commandCollection->has($request->getCommandName())) {
                 // We are going to execute the command that was entered
                 $command = $this->commandCollection->get($request->getCommandName());
                 $compiledCommand = $this->commandCompiler->compile($command, $request);
-            }else {
+            } else {
                 // We are defaulting to the about command
                 $compiledCommand = new AboutCommand($this->commandCollection, new PaddingFormatter(),
                     $this->applicationVersion);
@@ -99,15 +99,15 @@ class Kernel
             }
 
             return $statusCode;
-        }catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException $ex) {
             $response->writeln("<error>{$ex->getMessage()}</error>");
 
             return StatusCodes::ERROR;
-        }catch (RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
 
             return StatusCodes::FATAL;
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
             $this->logger->addError($ex->getMessage());
 
@@ -133,7 +133,7 @@ class Kernel
             if ($compiledHelpCommand->argumentValueIsSet("command")) {
                 $commandName = $compiledHelpCommand->getArgumentValue("command");
             }
-        }else {
+        } else {
             $commandName = $request->getCommandName();
         }
 

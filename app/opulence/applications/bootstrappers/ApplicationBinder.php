@@ -71,7 +71,7 @@ class ApplicationBinder
             function () use ($useCache, $cachedRegistryFilePath) {
                 if ($useCache && !empty($cachedRegistryFilePath)) {
                     $this->bootstrapperCache->get($cachedRegistryFilePath, $this->bootstrapperRegistry);
-                }else {
+                } else {
                     $this->bootstrapperRegistry->setBootstrapperDetails();
                 }
 

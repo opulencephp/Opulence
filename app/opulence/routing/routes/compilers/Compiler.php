@@ -37,9 +37,9 @@ class Compiler implements ICompiler
         foreach ($this->routeMatchers as $routeMatcher) {
             if ($routeMatcher instanceof HostMatcher && !$routeMatcher->isMatch($route, $request, $hostMatches)) {
                 return new CompiledRoute($route, false);
-            }elseif ($routeMatcher instanceof PathMatcher && !$routeMatcher->isMatch($route, $request, $pathMatches)) {
+            } elseif ($routeMatcher instanceof PathMatcher && !$routeMatcher->isMatch($route, $request, $pathMatches)) {
                 return new CompiledRoute($route, false);
-            }elseif (!$routeMatcher->isMatch($route, $request)) {
+            } elseif (!$routeMatcher->isMatch($route, $request)) {
                 return new CompiledRoute($route, false);
             }
         }

@@ -84,11 +84,11 @@ class MasterSlaveConnectionPool extends ConnectionPool
     {
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection("custom", $preferredServer);
-        }elseif (count($this->servers["slaves"]) > 0) {
+        } elseif (count($this->servers["slaves"]) > 0) {
             // Randomly pick a slave
             $selectedSlave = $this->servers["slaves"][array_rand($this->servers["slaves"])]["server"];
             $this->readConnection = $this->getConnection("slaves", $selectedSlave);
-        }else {
+        } else {
             $this->readConnection = $this->getConnection("master", $this->getMaster());
         }
     }
@@ -100,7 +100,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     {
         if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection("custom", $preferredServer);
-        }else {
+        } else {
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }

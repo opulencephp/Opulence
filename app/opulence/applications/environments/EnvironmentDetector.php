@@ -28,7 +28,7 @@ class EnvironmentDetector implements IEnvironmentDetector
                     if (preg_match($host->getValue(), $hostName) === 1) {
                         return $environmentName;
                     }
-                }elseif ($host->getValue() === $hostName) {
+                } elseif ($host->getValue() === $hostName) {
                     return $environmentName;
                 }
             }

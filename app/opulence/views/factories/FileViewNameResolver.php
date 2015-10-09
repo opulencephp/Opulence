@@ -47,7 +47,7 @@ class FileViewNameResolver implements IViewNameResolver
                     return $fullPath;
                 }
             }
-        }else {
+        } else {
             foreach ($sortedPaths as $path) {
                 foreach ($sortedExtensions as $extension) {
                     $fullPath = "$path/$name.$extension";
@@ -96,7 +96,7 @@ class FileViewNameResolver implements IViewNameResolver
         foreach ($list as $key => $priority) {
             if ($priority == -1) {
                 $nonPriorityItems[] = $key;
-            }else {
+            } else {
                 $priorityItems[$key] = $priority;
             }
         }

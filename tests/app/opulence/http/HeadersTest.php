@@ -56,7 +56,7 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
                 }
 
                 $headerParameters[substr($key, 5)] = $value;
-            }elseif (strpos($key, "CONTENT_") === 0) {
+            } elseif (strpos($key, "CONTENT_") === 0) {
                 if (!is_array($value)) {
                     $value = [$value];
                 }

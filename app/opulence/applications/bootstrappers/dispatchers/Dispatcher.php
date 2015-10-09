@@ -6,6 +6,7 @@
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
 
+use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
@@ -43,7 +44,7 @@ class Dispatcher implements IDispatcher
             $lazyBootstrapperClasses = array_unique(array_values($registry->getLazyBootstrapperBindings()));
             $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
             $this->dispatchEagerly($registry, $bootstrapperClasses);
-        }else {
+        } else {
             // We must dispatch lazy bootstrappers first in case their bindings are used by eager bootstrappers
             $this->dispatchLazily($registry, $registry->getLazyBootstrapperBindings());
             $this->dispatchEagerly($registry, $registry->getEagerBootstrappers());
@@ -67,12 +68,18 @@ class Dispatcher implements IDispatcher
      */
     private function dispatchEagerly(IBootstrapperRegistry $registry, array $bootstrapperClasses)
     {
+        /** @var Bootstrapper[] $bootstrapperObjects */
         $bootstrapperObjects = [];
 
         foreach ($bootstrapperClasses as $bootstrapperClass) {
+            /** @var Bootstrapper $bootstrapper */
             $bootstrapper = $registry->getInstance($bootstrapperClass);
-            $bootstrapper->registerBindings($this->container);
+            $bootstrapper->initialize();
             $bootstrapperObjects[] = $bootstrapper;
+        }
+
+        foreach ($bootstrapperObjects as $bootstrapper) {
+            $bootstrapper->registerBindings($this->container);
         }
 
         foreach ($bootstrapperObjects as $bootstrapper) {
@@ -110,6 +117,7 @@ class Dispatcher implements IDispatcher
                     }
 
                     if (!isset($this->runBootstrappers[$bootstrapperClass])) {
+                        $bootstrapper->initialize();
                         $bootstrapper->registerBindings($this->container);
                         $this->container->call([$bootstrapper, "run"], [], true);
                         $this->runBootstrappers[$bootstrapperClass] = true;

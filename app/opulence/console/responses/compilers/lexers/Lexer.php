@@ -33,7 +33,7 @@ class Lexer implements ILexer
                         // This tag was escaped
                         // Don't include the preceding slash
                         $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
-                    }elseif ($inOpenTag || $inCloseTag) {
+                    } elseif ($inOpenTag || $inCloseTag) {
                         throw new RuntimeException(
                             sprintf(
                                 "Invalid tags near \"%s\", character #%d",
@@ -41,13 +41,13 @@ class Lexer implements ILexer
                                 $charIter
                             )
                         );
-                    }else {
+                    } else {
 
                         // Check if this is a closing tag
                         if ($this->peek($text, $charIter) == "/") {
                             $inCloseTag = true;
                             $inOpenTag = false;
-                        }else {
+                        } else {
                             $inCloseTag = false;
                             $inOpenTag = true;
                         }
@@ -73,7 +73,7 @@ class Lexer implements ILexer
                                 // Need to get the position of the beginning of the open tag
                                 $charIter - mb_strlen($elementNameBuffer) - 1
                             );
-                        }else {
+                        } else {
                             $tokens[] = new Token(
                                 TokenTypes::T_TAG_CLOSE,
                                 $elementNameBuffer,
@@ -85,7 +85,7 @@ class Lexer implements ILexer
                         $elementNameBuffer = "";
                         $inOpenTag = false;
                         $inCloseTag = false;
-                    }else {
+                    } else {
                         $wordBuffer .= $char;
                     }
 
@@ -96,7 +96,7 @@ class Lexer implements ILexer
                         if ($char != "/") {
                             $elementNameBuffer .= $char;
                         }
-                    }else {
+                    } else {
                         // We're outside of a tag somewhere
                         $wordBuffer .= $char;
                     }

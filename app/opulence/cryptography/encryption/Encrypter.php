@@ -49,7 +49,7 @@ class Encrypter implements IEncrypter
             if ($decryptedData === false) {
                 throw new EncryptionException("Failed to decrypt data");
             }
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new EncryptionException($ex->getMessage());
         }
 

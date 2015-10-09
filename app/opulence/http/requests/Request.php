@@ -177,7 +177,7 @@ class Request
         // Prepend a colon if the port is non-standard
         if (((!$isSecure && $port != "80") || ($isSecure && $port != "443"))) {
             $port = ":$port";
-        }else {
+        } else {
             $port = "";
         }
 
@@ -249,13 +249,13 @@ class Request
 
             if (array_key_exists($name, $json)) {
                 return $json[$name];
-            }else {
+            } else {
                 return $default;
             }
-        }else {
+        } else {
             if ($this->method === self::METHOD_GET) {
                 return $this->query->get($name, $default);
-            }else {
+            } else {
                 return $this->post->get($name, $default);
             }
         }
@@ -421,7 +421,7 @@ class Request
     {
         if ($isRegex) {
             return preg_match("#^" . $path . "$#", $this->path) === 1;
-        }else {
+        } else {
             return $this->path == $path;
         }
     }
@@ -491,7 +491,7 @@ class Request
 
                     break;
             }
-        }else {
+        } else {
             $this->method = $method;
         }
     }
@@ -510,11 +510,11 @@ class Request
             if (empty($uri)) {
                 // Default to a slash
                 $this->path = "/";
-            }else {
+            } else {
                 $uriParts = explode("?", $uri);
                 $this->path = $uriParts[0];
             }
-        }else {
+        } else {
             $this->path = $path;
         }
     }

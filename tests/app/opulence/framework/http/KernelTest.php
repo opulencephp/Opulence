@@ -157,7 +157,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
         if ($shouldThrowException) {
             $router = new ExceptionalRouter(new Dispatcher($container), $routeCompiler, $routeParser);
-        }else {
+        } else {
             $router = new Router(new Dispatcher($container), $routeCompiler, $routeParser);
         }
 

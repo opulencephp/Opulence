@@ -47,7 +47,7 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
 
         if (php_sapi_name() == "cli") {
             $this->assertTrue($isRunningInConsole);
-        }else {
+        } else {
             $this->assertFalse($isRunningInConsole);
         }
     }

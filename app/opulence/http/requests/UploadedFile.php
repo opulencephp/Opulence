@@ -118,7 +118,7 @@ class UploadedFile extends SplFileInfo
             if (!mkdir($targetDirectory, 0777, true)) {
                 throw new UploadException("Could not create directory " . $targetDirectory);
             }
-        }elseif (!is_writable($targetDirectory)) {
+        } elseif (!is_writable($targetDirectory)) {
             throw new UploadException($targetDirectory . " is not writable");
         }
 

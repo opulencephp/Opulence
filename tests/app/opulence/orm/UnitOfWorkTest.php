@@ -362,7 +362,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $this->unitOfWork->scheduleForInsertion($this->entity1);
             $this->unitOfWork->scheduleForInsertion($this->entity2);
             $this->unitOfWork->commit();
-        }catch (ORMException $ex) {
+        } catch (ORMException $ex) {
             $exceptionThrown = true;
         }
 

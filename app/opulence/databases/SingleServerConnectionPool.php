@@ -15,7 +15,7 @@ class SingleServerConnectionPool extends ConnectionPool
     {
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection("custom", $preferredServer);
-        }else {
+        } else {
             $this->readConnection = $this->getConnection("master", $this->getMaster());
         }
     }
@@ -27,7 +27,7 @@ class SingleServerConnectionPool extends ConnectionPool
     {
         if ($preferredServer !== null) {
             $this->writeConnection = $this->getConnection("custom", $preferredServer);
-        }else {
+        } else {
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }

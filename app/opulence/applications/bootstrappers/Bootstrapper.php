@@ -30,7 +30,7 @@ abstract class Bootstrapper
     }
 
     /**
-     * Handles the case that the bootstrapper did not implement the run() or shutdown() methods
+     * Handles the case that the bootstrapper did not implement the initialize(), run(), or shutdown() methods
      *
      * @param string $name The name of the method to call
      * @param array $arguments The list of arguments to pass in
@@ -38,8 +38,15 @@ abstract class Bootstrapper
      */
     public function __call($name, array $arguments)
     {
-        if ($name !== "run" && $name !== "shutdown") {
-            throw new BadMethodCallException("Only Bootstrapper::run() and Bootstrapper::shutdown() are supported");
+        if ($name !== "initialize" && $name !== "run" && $name !== "shutdown") {
+            throw new BadMethodCallException(
+                sprintf(
+                    "Only %s, %s, and %s are supported",
+                    "Bootstrapper::initialize()",
+                    "Bootstrapper::run()",
+                    "Bootstrapper::shutdown()"
+                )
+            );
         }
 
         // The user must have not specified a "run" or "shutdown" function, so just return
@@ -47,7 +54,9 @@ abstract class Bootstrapper
     }
 
     /**
-     * @inheritdoc
+     * Registers any bindings to the IoC container
+     *
+     * @param IContainer $container The IoC container to bind to
      */
     public function registerBindings(IContainer $container)
     {

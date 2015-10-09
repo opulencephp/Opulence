@@ -117,7 +117,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
 
         try {
             $prompt->ask($question, $this->response);
-        }catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException $ex) {
             $triggeredException = true;
             ob_end_clean();
         }
@@ -137,7 +137,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
 
         try {
             $prompt->ask($question, $this->response);
-        }catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException $ex) {
             $triggeredException = true;
             ob_end_clean();
         }

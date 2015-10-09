@@ -28,7 +28,7 @@ class Dispatcher implements IDispatcher
             foreach ($this->tasks[$taskType] as $task) {
                 call_user_func($task);
             }
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new RuntimeException("Failed to run tasks: {$ex->getMessage()}");
         }
     }

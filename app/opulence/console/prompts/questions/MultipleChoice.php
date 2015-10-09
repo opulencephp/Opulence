@@ -58,7 +58,7 @@ class MultipleChoice extends Question
         if (mb_strpos($answer, ",") === false) {
             // The answer is not a list of answers
             $answers = [$answer];
-        }else {
+        } else {
             if (!$this->allowsMultipleChoices) {
                 throw new InvalidArgumentException("Multiple choices are not allowed");
             }
@@ -69,7 +69,7 @@ class MultipleChoice extends Question
 
         if ($this->choicesAreAssociative()) {
             $selectedChoices = $this->getSelectedAssociativeChoices($answers);
-        }else {
+        } else {
             $selectedChoices = $this->getSelectedIndexChoices($answers);
         }
 
@@ -79,7 +79,7 @@ class MultipleChoice extends Question
 
         if ($hasMultipleAnswers) {
             return $selectedChoices;
-        }else {
+        } else {
             return $selectedChoices[0];
         }
     }

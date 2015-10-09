@@ -79,7 +79,7 @@ class DirectiveTranspilerRegistrant
             if (preg_match("/^\((('|\")(.*)\\2),\s*(.+)\)$/", $expression, $matches) === 1) {
                 $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create(' . $matches[1] . ');';
                 $code .= '$__opulenceIncludedView->setVars(' . $matches[4] . ');';
-            }else {
+            } else {
                 $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create' . $expression . ';';
             }
 

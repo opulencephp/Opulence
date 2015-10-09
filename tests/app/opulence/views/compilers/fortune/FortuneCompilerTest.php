@@ -476,7 +476,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
 
         if ($string1 === $string2) {
             return true;
-        }else {
+        } else {
             error_log($string1 . "::" . $string2);
 
             return false;

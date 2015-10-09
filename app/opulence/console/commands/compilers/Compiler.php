@@ -48,7 +48,7 @@ class Compiler implements ICompiler
                 }
 
                 $command->setArgumentValue($argument->getName(), $argument->getDefaultValue());
-            }else {
+            } else {
                 if ($hasSetArrayArgument) {
                     throw new RuntimeException("Array argument must appear at end of list of arguments");
                 }
@@ -63,7 +63,7 @@ class Compiler implements ICompiler
 
                     $command->setArgumentValue($argument->getName(), $restOfArgumentValues);
                     $hasSetArrayArgument = true;
-                }else {
+                } else {
                     $command->setArgumentValue($argument->getName(), array_shift($argumentValues));
                 }
             }
@@ -86,7 +86,7 @@ class Compiler implements ICompiler
             if ($shortNameIsSet || $longNameIsSet) {
                 if ($longNameIsSet) {
                     $value = $request->getOptionValue($option->getName());
-                }else {
+                } else {
                     $value = $request->getOptionValue($option->getShortName());
                 }
 

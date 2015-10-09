@@ -35,6 +35,14 @@ class BootstrapperTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests calling initialize
+     */
+    public function testCallingInitialize()
+    {
+        $this->bootstrapper->initialize();
+    }
+
+    /**
      * Tests calling run
      */
     public function testCallingRun()

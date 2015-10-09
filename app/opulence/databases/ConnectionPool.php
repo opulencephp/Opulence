@@ -90,7 +90,7 @@ abstract class ConnectionPool
         if ($preferredServer !== null) {
             $this->addServer("custom", $preferredServer);
             $this->setReadConnection($preferredServer);
-        }elseif ($this->readConnection == null) {
+        } elseif ($this->readConnection == null) {
             $this->setReadConnection();
         }
 
@@ -109,7 +109,7 @@ abstract class ConnectionPool
         if ($preferredServer != null) {
             $this->addServer("custom", $preferredServer);
             $this->setWriteConnection($preferredServer);
-        }elseif ($this->writeConnection == null) {
+        } elseif ($this->writeConnection == null) {
             $this->setWriteConnection();
         }
 

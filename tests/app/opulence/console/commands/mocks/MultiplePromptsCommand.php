@@ -47,13 +47,13 @@ class MultiplePromptsCommand extends Command
 
         if ($answer1 == "default1") {
             $response->write("Default1");
-        }else {
+        } else {
             $response->write("Custom1");
         }
 
         if ($answer2 == "default2") {
             $response->write("Default2");
-        }else {
+        } else {
             $response->write("Custom2");
         }
     }

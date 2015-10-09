@@ -58,7 +58,7 @@ class FileSystem
                 if (!$this->copyDirectory($item->getRealPath(), $target . "/" . $item->getBasename(), $flags)) {
                     return false;
                 }
-            }elseif ($item->isFile()) {
+            } elseif ($item->isFile()) {
                 if (!$this->copyFile($item->getRealPath(), $target . "/" . $item->getBasename())) {
                     return false;
                 }
@@ -100,7 +100,7 @@ class FileSystem
                 if (!$this->deleteDirectory($item->getRealPath())) {
                     return false;
                 }
-            }elseif ($item->isFile()) {
+            } elseif ($item->isFile()) {
                 if (!$this->deleteFile($item->getRealPath())) {
                     return false;
                 }

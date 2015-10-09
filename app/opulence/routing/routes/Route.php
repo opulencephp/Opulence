@@ -83,7 +83,7 @@ class Route
 
         if ($prepend) {
             $this->middleware = array_merge($filters, $this->middleware);
-        }else {
+        } else {
             $this->middleware = array_merge($this->middleware, $filters);
         }
 
@@ -285,7 +285,7 @@ class Route
 
         if (is_callable($controller)) {
             $this->setControllerClosure($controller);
-        }else {
+        } else {
             $this->usesClosure = false;
             $atCharPos = strpos($controller, "@");
 

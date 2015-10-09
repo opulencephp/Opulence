@@ -105,18 +105,18 @@ abstract class Parser implements IParser
             if (mb_substr($token, 0, 2) == "--") {
                 $option = $this->parseLongOption($token, $tokens);
                 $request->addOptionValue($option[0], $option[1]);
-            }elseif (mb_substr($token, 0, 1) == "-") {
+            } elseif (mb_substr($token, 0, 1) == "-") {
                 $options = $this->parseShortOption($token);
 
                 foreach ($options as $option) {
                     $request->addOptionValue($option[0], $option[1]);
                 }
-            }else {
+            } else {
                 if (!$hasParsedCommandName) {
                     // We consider this to be the command name
                     $request->setCommandName($token);
                     $hasParsedCommandName = true;
-                }else {
+                } else {
                     // We consider this to be an argument
                     $request->addArgumentValue($this->parseArgument($token));
                 }
@@ -138,7 +138,7 @@ abstract class Parser implements IParser
         if (($firstValueChar = mb_substr($token, 0, 1)) == mb_substr($token, -1)) {
             if ($firstValueChar == "'") {
                 $token = trim($token, "'");
-            }elseif ($firstValueChar == '"') {
+            } elseif ($firstValueChar == '"') {
                 $token = trim($token, '"');
             }
         }

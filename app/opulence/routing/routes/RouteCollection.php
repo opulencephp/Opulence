@@ -121,9 +121,9 @@ class RouteCollection
     {
         if ($method === null) {
             return $this->routes;
-        }elseif (isset($this->routes[$method])) {
+        } elseif (isset($this->routes[$method])) {
             return $this->routes[$method];
-        }else {
+        } else {
             return [];
         }
     }

@@ -83,10 +83,10 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
 
             try {
                 return $this->encrypter->decrypt($data);
-            }catch (EncryptionException $ex) {
+            } catch (EncryptionException $ex) {
                 return serialize([]);
             }
-        }else {
+        } else {
             return $data;
         }
     }
@@ -107,10 +107,10 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
 
             try {
                 return $this->encrypter->encrypt($data);
-            }catch (EncryptionException $ex) {
+            } catch (EncryptionException $ex) {
                 return "";
             }
-        }else {
+        } else {
             return $data;
         }
     }

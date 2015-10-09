@@ -51,7 +51,7 @@ class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
                 }
 
                 rmdir($file);
-            }else {
+            } else {
                 unlink($file);
             }
         }

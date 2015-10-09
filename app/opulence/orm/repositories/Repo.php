@@ -90,7 +90,7 @@ class Repo implements IRepo
                     $this->unitOfWork->getEntityRegistry()->register($entity);
                 }
             }
-        }elseif ($entities instanceof IEntity) {
+        } elseif ($entities instanceof IEntity) {
             $this->unitOfWork->getEntityRegistry()->register($entities);
         }
 

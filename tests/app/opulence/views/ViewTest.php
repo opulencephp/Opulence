@@ -228,10 +228,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         try {
             $contents = $this->fileSystem->read(__DIR__ . self::VIEW_PATH_WITH_INVALID_PHP_CODE);
             $this->view->setContents($contents);
-        }catch (RuntimeException $ex) {
+        } catch (RuntimeException $ex) {
             // Don't do anything
-        }
-        finally {
+        } finally {
             while (ob_get_level() > $startOBLevel) {
                 $output .= ob_get_clean();
             }

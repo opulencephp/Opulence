@@ -111,7 +111,7 @@ class Transpiler implements ITranspiler
             // Now that we know the value of the parent, replace the placeholder
             $this->parts[$partName] = str_replace("__opulenceParentPlaceholder", $content, $this->parts[$partName]);
             $this->inParentPart = false;
-        }else {
+        } else {
             $this->parts[$partName] = $content;
         }
     }

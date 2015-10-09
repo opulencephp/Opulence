@@ -56,13 +56,13 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->typeMapperWithNoProvider->fromSQLTimestampWithoutTimeZone("not a real timestamp", $this->provider);
-        }catch (\InvalidArgumentException $ex) {
+        } catch (\InvalidArgumentException $ex) {
             $exceptionsThrown = true;
         }
 
         try {
             $this->typeMapperWithProvider->fromSQLTimestampWithoutTimeZone("not a real timestamp");
-        }catch (\InvalidArgumentException $ex) {
+        } catch (\InvalidArgumentException $ex) {
             $exceptionsThrown = $exceptionsThrown && true;
         }
 

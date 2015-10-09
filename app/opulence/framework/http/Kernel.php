@@ -96,7 +96,7 @@ class Kernel
             return $pipeline->send($request, function ($request) {
                 return $this->router->route($request);
             });
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->logger->addError("Failed to handle request: $ex");
 
             return new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);

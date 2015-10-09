@@ -26,7 +26,7 @@ class ReturnsSomethingMiddleware implements IMiddleware
             $response->setContent($response->getContent() . ":something");
 
             return $response;
-        }else {
+        } else {
             return new RedirectResponse("/bar");
         }
     }

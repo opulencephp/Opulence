@@ -64,7 +64,7 @@ class Compiler implements ICompiler
             $ast = $this->parser->parse($tokens);
 
             return $this->compileNode($ast->getRootNode());
-        }catch (InvalidArgumentException $ex) {
+        } catch (InvalidArgumentException $ex) {
             throw new RuntimeException($ex->getMessage());
         }
     }
@@ -102,14 +102,14 @@ class Compiler implements ICompiler
             }
 
             return $node->getValue();
-        }else {
+        } else {
             $output = "";
 
             foreach ($node->getChildren() as $childNode) {
                 if ($node->isTag()) {
                     $element = $this->elements->getElement($node->getValue());
                     $output .= $element->getStyle()->format($this->compileNode($childNode));
-                }else {
+                } else {
                     $output .= $this->compileNode($childNode);
                 }
             }

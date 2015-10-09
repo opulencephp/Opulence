@@ -26,7 +26,7 @@ class PHPCompiler implements ICompiler
             if (eval('?>' . $view->getContents()) === false) {
                 throw new ViewCompilerException("Invalid PHP in view");
             }
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             // Clean the output buffer
             while (ob_get_level() > $obStartLevel) {
                 ob_end_clean();

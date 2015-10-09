@@ -117,7 +117,7 @@ class FileBridge implements ICacheBridge
         if (file_exists($this->getPath($key))) {
             $rawData = json_decode(file_get_contents($this->getPath($key)), true);
             $parsedData = ["d" => unserialize($rawData["d"]), "t" => $rawData["t"]];
-        }else {
+        } else {
             $parsedData = ["d" => null, "t" => 0];
         }
 

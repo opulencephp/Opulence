@@ -74,7 +74,7 @@ abstract class Query
                 }
 
                 $this->addNamedPlaceholderValue($placeholderName, $value[0], $value[1]);
-            }else {
+            } else {
                 $this->addNamedPlaceholderValue($placeholderName, $value);
             }
         }
@@ -123,7 +123,7 @@ abstract class Query
                 }
 
                 $this->addUnnamedPlaceholderValue($value[0], $value[1]);
-            }else {
+            } else {
                 $this->addUnnamedPlaceholderValue($value);
             }
         }

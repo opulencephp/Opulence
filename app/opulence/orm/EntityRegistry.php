@@ -124,7 +124,7 @@ class EntityRegistry implements IEntityRegistry
             if ($this->hasChangedUsingComparisonFunction($entity)) {
                 return true;
             }
-        }elseif ($this->hasChangedUsingReflection($entity)) {
+        } elseif ($this->hasChangedUsingReflection($entity)) {
             return true;
         }
 
@@ -155,7 +155,7 @@ class EntityRegistry implements IEntityRegistry
         if (isset($this->entities[$className][$entity->getId()])) {
             // Change the reference of the input entity to the one that's already registered
             $entity = $this->getEntity($this->getClassName($entity), $entity->getId());
-        }else {
+        } else {
             // Register this entity
             $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
             $this->entities[$className][$entity->getId()] = $entity;

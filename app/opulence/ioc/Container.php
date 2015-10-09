@@ -67,7 +67,7 @@ class Container implements IContainer
 
         if ($targetClass === null) {
             $this->bindUniversally((array)$interfaces, $concrete);
-        }else {
+        } else {
             $this->bindToTarget((array)$interfaces, $concrete, $targetClass);
         }
     }
@@ -94,7 +94,7 @@ class Container implements IContainer
         if ($function instanceof Closure) {
             $className = null;
             $parameters = (new ReflectionFunction($function))->getParameters();
-        }else {
+        } else {
             $className = get_class($function[0]);
             $parameters = (new ReflectionMethod($function[0], $function[1]))->getParameters();
         }
@@ -116,7 +116,7 @@ class Container implements IContainer
     {
         if ($targetClass === null) {
             return $this->getUniversalBinding($interface);
-        }else {
+        } else {
             return $this->getTargetedBinding($interface, $targetClass);
         }
     }
@@ -128,7 +128,7 @@ class Container implements IContainer
     {
         if ($targetClass === null) {
             return $this->isBoundUniversally($interface);
-        }else {
+        } else {
             return $this->isBoundToTarget($interface, $targetClass);
         }
     }
@@ -154,7 +154,7 @@ class Container implements IContainer
                 if ($forceNewInstance || !$this->callbackWasUsed($component)) {
                     $instance = $this->makeCallback($component);
                 }
-            }else {
+            } else {
                 $reflectionClass = new ReflectionClass($concrete);
 
                 if (!$reflectionClass->isInstantiable()) {
@@ -166,7 +166,7 @@ class Container implements IContainer
                 if ($constructor === null) {
                     // No constructor, so instantiating is easy
                     $instance = new $concrete;
-                }else {
+                } else {
                     // Resolve all of the constructor parameters
                     $constructorParameters = $this->getResolvedParameters(
                         $concrete,
@@ -186,7 +186,7 @@ class Container implements IContainer
             }
 
             return $instance;
-        }catch (ReflectionException $ex) {
+        } catch (ReflectionException $ex) {
             throw new IoCException("Failed to make object: " . $ex->getMessage());
         }
     }
@@ -214,7 +214,7 @@ class Container implements IContainer
     {
         if ($targetClass === null) {
             $this->unbindUniversally($interface);
-        }else {
+        } else {
             $this->unbindFromTarget($interface, $targetClass);
         }
     }
@@ -285,7 +285,7 @@ class Container implements IContainer
     {
         if ($targetClass === null) {
             $bindingData =& $this->universalBindings[$component];
-        }else {
+        } else {
             $bindingData =& $this->targetedBindings[$targetClass][$component];
         }
 
@@ -305,13 +305,13 @@ class Container implements IContainer
         if ($targetClass === null) {
             if (isset($this->universalBindings[$component])) {
                 return $this->universalBindings[$component]["concrete"];
-            }else {
+            } else {
                 return $component;
             }
-        }else {
+        } else {
             if (isset($this->targetedBindings[$targetClass][$component])) {
                 return $this->targetedBindings[$targetClass][$component]["concrete"];
-            }else {
+            } else {
                 return $component;
             }
         }
@@ -365,7 +365,7 @@ class Container implements IContainer
             if ($parameter->getClass() === null) {
                 // The parameter is a primitive
                 $resolvedParameter = $this->resolvePrimitive($parameter, $primitives);
-            }else {
+            } else {
                 // The parameter is an object
                 $resolvedParameter = $this->resolveClass(
                     $callingClass,
@@ -377,7 +377,7 @@ class Container implements IContainer
             // PHP forces a reference operator when passing parameters by reference via an array
             if ($parameter->isPassedByReference()) {
                 $resolvedParameters[] = &$resolvedParameter;
-            }else {
+            } else {
                 $resolvedParameters[] = $resolvedParameter;
             }
         }
@@ -467,11 +467,11 @@ class Container implements IContainer
     {
         if ($targetClass === null) {
             $bindingData =& $this->universalBindings[$component];
-        }else {
+        } else {
             // Fallback to universal bindings
             if (isset($this->targetedBindings[$targetClass]) && $this->targetedBindings[$targetClass][$component] !== null) {
                 $bindingData =& $this->targetedBindings[$targetClass][$component];
-            }else {
+            } else {
                 $bindingData =& $this->universalBindings[$component];
             }
         }
@@ -534,13 +534,13 @@ class Container implements IContainer
             }
 
             return $instance;
-        }elseif ($concrete === null) {
+        } elseif ($concrete === null) {
             $concrete = $component;
         }
 
         if ($forceNewInstance) {
             return $this->makeNew($concrete);
-        }else {
+        } else {
             return $this->makeShared($concrete);
         }
     }
@@ -607,7 +607,7 @@ class Container implements IContainer
         if ($targetClass === null) {
             return isset($this->universalBindings[$component]) &&
             is_callable($this->universalBindings[$component]["callback"]);
-        }else {
+        } else {
             return isset($this->targetedBindings[$targetClass][$component]) &&
             is_callable($this->targetedBindings[$targetClass][$component]["callback"]);
         }

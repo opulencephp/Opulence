@@ -38,7 +38,7 @@ class CommandFormatter
         foreach ($command->getArguments() as $argument) {
             if ($argument->isRequired() && !$argument->isArray()) {
                 $requiredArguments[] = $argument;
-            }elseif ($argument->isOptional() && !$argument->isArray()) {
+            } elseif ($argument->isOptional() && !$argument->isArray()) {
                 $optionalArguments[] = $argument;
             }
 

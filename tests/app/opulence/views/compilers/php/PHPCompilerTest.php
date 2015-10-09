@@ -56,7 +56,7 @@ class PHPCompilerTest extends \PHPUnit_Framework_TestCase
 
         try {
             $this->compiler->compile($view);
-        }catch (ViewCompilerException $ex) {
+        } catch (ViewCompilerException $ex) {
             // Don't do anything
         }
 

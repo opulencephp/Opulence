@@ -213,7 +213,7 @@ class Session implements ISession
     {
         if ($this->idGenerator->isIdValid($id)) {
             $this->id = $id;
-        }else {
+        } else {
             $this->regenerateId();
         }
     }

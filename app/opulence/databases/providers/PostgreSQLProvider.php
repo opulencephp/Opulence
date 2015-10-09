@@ -36,7 +36,7 @@ class PostgreSQLProvider extends Provider
     {
         if (in_array(strtolower($value), $this->falseBooleanValues, true)) {
             return false;
-        }elseif (in_array(strtolower($value), $this->trueBooleanValues, true)) {
+        } elseif (in_array(strtolower($value), $this->trueBooleanValues, true)) {
             return true;
         }
 
@@ -51,7 +51,7 @@ class PostgreSQLProvider extends Provider
         if (is_bool($value)) {
             if ($value) {
                 return $this->trueBooleanValues[0];
-            }else {
+            } else {
                 return $this->falseBooleanValues[0];
             }
         }

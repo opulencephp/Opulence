@@ -83,15 +83,15 @@ EOF;
                 if (strpos($b->getName(), ":") === false) {
                     // They're both uncategorized
                     return $a->getName() < $b->getName() ? -1 : 1;
-                }else {
+                } else {
                     // B is categorized
                     return -1;
                 }
-            }else {
+            } else {
                 if (strpos($b->getName(), ":") === false) {
                     // A is categorized
                     return 1;
-                }else {
+                } else {
                     // They're both categorized
                     return $a->getName() < $b->getName() ? -1 : 1;
                 }

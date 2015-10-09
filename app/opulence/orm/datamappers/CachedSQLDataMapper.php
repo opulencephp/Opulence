@@ -63,7 +63,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
             foreach ($this->scheduledForCacheDeletion as $entity) {
                 $this->cacheDataMapper->delete($entity);
             }
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             throw new ORMException($ex->getMessage());
         }
 
@@ -214,7 +214,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
                     foreach ($data as $datum) {
                         call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
                     }
-                }else {
+                } else {
                     call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$data], $setFuncArgs));
                 }
             }
@@ -296,7 +296,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
                         $this->cacheDataMapper->add($sqlEntity);
                     }
                 }
-            }else {
+            } else {
                 // The entity was not in cache
                 $unsyncedEntities["missing"][] = $sqlEntity;
 

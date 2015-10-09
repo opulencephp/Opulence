@@ -37,7 +37,7 @@ class Request implements IRequest
             }
 
             $this->options[$name][] = $value;
-        }else {
+        } else {
             $this->options[$name] = $value;
         }
     }

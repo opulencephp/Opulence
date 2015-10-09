@@ -72,7 +72,7 @@ class UnitOfWork
             $this->update();
             $this->delete();
             $this->connection->commit();
-        }catch (Exception $ex) {
+        } catch (Exception $ex) {
             $this->connection->rollBack();
             $this->postRollback();
             throw new ORMException($ex->getMessage());

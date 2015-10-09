@@ -13,6 +13,7 @@ use Opulence\Applications\Bootstrappers\BootstrapperRegistry;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
+use Opulence\Tests\Applications\Bootstrappers\Mocks\BootstrapperWithEverything;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\EagerFooInterface;
@@ -46,6 +47,25 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->application = new Application($paths, $taskDispatcher, $environment, $this->container);
         $this->dispatcher = new Dispatcher($taskDispatcher, $this->container);
         $this->registry = new BootstrapperRegistry($paths, $environment);
+    }
+
+    /**
+     * Tests that bootstrapper methods are called in correct order
+     */
+    public function testBootstrapperMethodsCalledInCorrectOrder()
+    {
+        $this->dispatcher->forceEagerLoading(true);
+        $clonedRegistry = clone $this->registry;
+        $this->registry->registerEagerBootstrapper(BootstrapperWithEverything::class);
+        ob_start();
+        $this->dispatcher->dispatch($this->registry);
+        $this->assertEquals("initializeregisterBindingsrun", ob_get_clean());
+        $this->dispatcher->forceEagerLoading(false);
+        $clonedRegistry->registerLazyBootstrapper([LazyFooInterface::class], BootstrapperWithEverything::class);
+        ob_start();
+        $this->dispatcher->dispatch($clonedRegistry);
+        $this->container->makeShared(LazyFooInterface::class);
+        $this->assertEquals("initializeregisterBindingsrun", ob_get_clean());
     }
 
     /**

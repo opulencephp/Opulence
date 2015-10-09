@@ -108,7 +108,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
 
             if ($bootstrapper instanceof ILazyBootstrapper) {
                 $this->registerLazyBootstrapper($bootstrapper->getBindings(), $bootstrapperClass);
-            }else {
+            } else {
                 $this->registerEagerBootstrapper($bootstrapperClass);
             }
         }

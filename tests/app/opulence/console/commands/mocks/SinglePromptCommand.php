@@ -45,7 +45,7 @@ class SinglePromptCommand extends Command
 
         if ($answer == "A duck") {
             $response->write("Very good");
-        }else {
+        } else {
             $response->write("Wrong");
         }
     }

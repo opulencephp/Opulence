@@ -70,7 +70,7 @@ class ViewFactory implements IViewFactory
         // If there's a builder registered to the same name as the view
         if (isset($this->builders[$name])) {
             $builders = $this->builders[$name];
-        }else {
+        } else {
             $pathInfo = pathinfo($resolvedPath);
             $filename = $pathInfo["filename"];
             $basename = $pathInfo["basename"];
@@ -81,16 +81,14 @@ class ViewFactory implements IViewFactory
              */
             if (isset($this->builders[$filename]) && $this->viewNameResolver->resolve($filename) == $resolvedPath) {
                 $builders = $this->builders[$filename];
-            }elseif (isset($this->builders[$basename]) && $this->viewNameResolver->resolve($basename) == $resolvedPath) {
+            } elseif (isset($this->builders[$basename]) && $this->viewNameResolver->resolve($basename) == $resolvedPath) {
                 $builders = $this->builders[$basename];
             }
         }
 
         if ($builders !== null) {
             foreach ($builders as $callback) {
-                /** @var IViewBuilder $builder */
-                $builder = $callback();
-                $view = $builder->build($view);
+                $view = $callback($view);
             }
         }
 

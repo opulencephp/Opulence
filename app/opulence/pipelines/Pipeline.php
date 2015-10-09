@@ -72,7 +72,7 @@ class Pipeline implements IPipeline
             return function ($input) use ($stages, $stage) {
                 if ($stage instanceof Closure) {
                     return call_user_func($stage, $input, $stages);
-                }else {
+                } else {
                     if ($this->methodToCall === null) {
                         throw new PipelineException("Method must not be null");
                     }
@@ -90,7 +90,7 @@ class Pipeline implements IPipeline
                             [$stage, $this->methodToCall],
                             [$input, $stages]
                         );
-                    }catch (IoCException $ex) {
+                    } catch (IoCException $ex) {
                         throw new PipelineException("Failed to pipeline input: " . $ex->getMessage());
                     }
                 }

@@ -126,7 +126,7 @@ class Application
                 }
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
-            }catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $this->isRunning = false;
             }
         }
@@ -155,7 +155,7 @@ class Application
                 }
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_START);
-            }catch (Exception $ex) {
+            } catch (Exception $ex) {
                 $this->shutdown();
             }
         }
