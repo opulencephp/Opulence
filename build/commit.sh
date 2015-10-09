@@ -2,20 +2,9 @@ REPOS=(applications authentication cache console cryptography databases events f
 SUBTREE_DIR="app/opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
 
-function commit()
-{
-    # Check if we need to commit Opulence
-    if ! git diff --quiet ; then
-        read -p "   Commit message: " message
-
-        git add .
-        git commit -m "$message"
-        git push origin master
-    fi
-}
-
 function split()
 {
+    git co master
     read -p "   Name of subtree: " subtree
     read -p "   Remote URL: " remoteurl
 
@@ -46,6 +35,7 @@ function split()
 
 function tag()
 {
+    git co master
     read -p "   Tag Name: " tagname
     read -p "   Commit message: " message
 
@@ -89,7 +79,6 @@ function tag()
 while true; do
     # Display options
     echo "   Select an action"
-    echo "   c: Commit"
     echo "   t: Tag"
     echo "   s: Split Subtree"
     echo "   e: Exit"
@@ -97,7 +86,6 @@ while true; do
     read -p "   Choice: " choice
 
     case $choice in
-        [cC]* ) commit;;
         [tT]* ) tag;;
         [sS]* ) split;;
         [eE]* ) exit 0;;
