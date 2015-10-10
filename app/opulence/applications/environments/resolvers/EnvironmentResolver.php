@@ -2,41 +2,18 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the environment detector
+ * Defines the environment resolver
  */
-namespace Opulence\Applications\Environments;
+namespace Opulence\Applications\Environments\Resolvers;
 
+use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Environments\Hosts\HostRegex;
 use Opulence\Applications\Environments\Hosts\IHost;
 
-class EnvironmentDetector implements IEnvironmentDetector
+class EnvironmentResolver implements IEnvironmentResolver
 {
     /** @var array The environment names to hosts */
     private $environmentsToHosts = [];
-
-    /**
-     * @inheritdoc
-     */
-    public function detect()
-    {
-        $hostName = gethostname();
-
-        foreach ($this->environmentsToHosts as $environmentName => $hosts) {
-            /** @var IHost $host */
-            foreach ($hosts as $host) {
-                if ($host instanceof HostRegex) {
-                    if (preg_match($host->getValue(), $hostName) === 1) {
-                        return $environmentName;
-                    }
-                } elseif ($host->getValue() === $hostName) {
-                    return $environmentName;
-                }
-            }
-        }
-
-        // Default to production
-        return Environment::PRODUCTION;
-    }
 
     /**
      * @inheritdoc
@@ -54,5 +31,27 @@ class EnvironmentDetector implements IEnvironmentDetector
         foreach ($hosts as $host) {
             $this->environmentsToHosts[$environmentName][] = $host;
         }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function resolve($hostName)
+    {
+        foreach ($this->environmentsToHosts as $environmentName => $hosts) {
+            /** @var IHost $host */
+            foreach ($hosts as $host) {
+                if ($host instanceof HostRegex) {
+                    if (preg_match($host->getValue(), $hostName) === 1) {
+                        return $environmentName;
+                    }
+                } elseif ($host->getValue() === $hostName) {
+                    return $environmentName;
+                }
+            }
+        }
+
+        // Default to production
+        return Environment::PRODUCTION;
     }
 } 

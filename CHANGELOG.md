@@ -1,3 +1,17 @@
+<h2>v0.6.14</h2>
+
+<h3>Environments</h3>
+* Changed `IEnvironmentDetector::detect()` to `resolve()`, which now accepts a host name parameter
+* Moved `Opulence\Applications\Environments\IEnvironmentDetector` and `EnvironmentDetector` to namespace `Opulence\Applications\Environments\Resolvers`
+
+<h3>Framework</h3>
+* Updated `Opulence\Framework\Bootstrappers\HTTP\Views\ViewBootstrapper` to inject an `IViewReader` rather than a `FileSystem` into the `ViewFactory`
+
+<h3>Views</h3>
+* Moved `Opulence\Views\Factories\IViewNameResolver` and `FileViewNameResolver` to namespace `Opulence\Views\Factories\Resolvers`
+* Added `Opulence\Views\Factories\IO\IViewReader` and `FileViewReader`
+* Refactored `ViewFactory` to accept an `IViewReader` rather than `FileSystem` to make the factory more flexible when it comes to view storage
+
 <h2>v0.6.13</h2>
 
 <h3>Bootstrappers</h3>

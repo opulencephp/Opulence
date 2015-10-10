@@ -4,7 +4,7 @@
  *
  * Tests the file view name resolver
  */
-namespace Opulence\Views\Factories;
+namespace Opulence\Views\Factories\Resolvers;
 
 use InvalidArgumentException;
 

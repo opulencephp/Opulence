@@ -6,17 +6,18 @@
  */
 namespace Opulence\Views\Factories;
 
-use Opulence\Files\FileSystem;
 use Opulence\Tests\Views\Factories\Mocks\BarBuilder;
 use Opulence\Tests\Views\Factories\Mocks\FooBuilder;
 use Opulence\Views\IView;
+use Opulence\Views\Factories\IO\IViewReader;
+use Opulence\Views\Factories\Resolvers\IViewNameResolver;
 
 class ViewFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var IViewNameResolver|\PHPUnit_Framework_MockObject_MockObject The view name resolver to use in tests */
     private $viewNameResolver = null;
-    /** @var FileSystem|\PHPUnit_Framework_MockObject_MockObject The file system to use in tests */
-    private $fileSystem = null;
+    /** @var IViewReader|\PHPUnit_Framework_MockObject_MockObject The view reader to use in tests */
+    private $viewReader = null;
     /** @var ViewFactory The view factory to use in tests */
     private $viewFactory = null;
 
@@ -26,13 +27,13 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->viewNameResolver = $this->getMock(IViewNameResolver::class);
-        $this->fileSystem = $this->getMock(FileSystem::class);
-        $this->fileSystem->expects($this->any())
+        $this->viewReader = $this->getMock(IViewReader::class);
+        $this->viewReader->expects($this->any())
             ->method("read")
             ->willReturn("foo");
         $this->viewFactory = $this->getMock(
             ViewFactory::class, null,
-            [$this->viewNameResolver, $this->fileSystem]
+            [$this->viewNameResolver, $this->viewReader]
         );
     }
 

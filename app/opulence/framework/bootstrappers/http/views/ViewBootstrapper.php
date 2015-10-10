@@ -9,7 +9,6 @@ namespace Opulence\Framework\Bootstrappers\HTTP\Views;
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Files\FileSystem;
 use Opulence\IoC\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
@@ -21,9 +20,11 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\PHP\PHPCompiler;
-use Opulence\Views\Factories\FileViewNameResolver;
 use Opulence\Views\Factories\IViewFactory;
-use Opulence\Views\Factories\IViewNameResolver;
+use Opulence\Views\Factories\IO\FileViewReader;
+use Opulence\Views\Factories\IO\IViewReader;
+use Opulence\Views\Factories\Resolvers\FileViewNameResolver;
+use Opulence\Views\Factories\Resolvers\IViewNameResolver;
 use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XSSFilter;
 
@@ -39,7 +40,13 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
      */
     public function getBindings()
     {
-        return [ICache::class, ICompiler::class, ITranspiler::class, IViewFactory::class, IViewNameResolver::class];
+        return [
+            ICache::class,
+            ICompiler::class,
+            ITranspiler::class,
+            IViewFactory::class,
+            IViewReader::class,
+        ];
     }
 
     /**
@@ -110,8 +117,22 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
         $resolver->registerPath($this->paths["views.raw"]);
         $resolver->registerExtension("php");
         $resolver->registerExtension("fortune");
+        $viewReader = $this->getViewReader($container);
         $container->bind(IViewNameResolver::class, $resolver);
+        $container->bind(IViewReader::class, $viewReader);
 
-        return new ViewFactory($resolver, $container->makeShared(FileSystem::class));
+        return new ViewFactory($resolver, $viewReader);
+    }
+
+    /**
+     * Gets the view reader
+     * To use a different view reader than the one returned here, extend this class and override this method
+     *
+     * @param IContainer $container The dependency injection container
+     * @return IViewReader The view reader
+     */
+    protected function getViewReader(IContainer $container)
+    {
+        return new FileViewReader();
     }
 }
