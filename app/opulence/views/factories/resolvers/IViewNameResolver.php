@@ -4,7 +4,7 @@
  *
  * Defines the interface for view name resolvers to implement
  */
-namespace Opulence\Views\Factories;
+namespace Opulence\Views\Factories\Resolvers;
 
 use InvalidArgumentException;
 

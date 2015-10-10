@@ -6,7 +6,8 @@
  */
 namespace Opulence\Views\Factories;
 
-use Opulence\Files\FileSystem;
+use Opulence\Views\Factories\IO\IViewReader;
+use Opulence\Views\Factories\Resolvers\IViewNameResolver;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 
@@ -14,19 +15,19 @@ class ViewFactory implements IViewFactory
 {
     /** @var IViewNameResolver The view name resolver used to get paths to views */
     protected $viewNameResolver = null;
-    /** @var FileSystem The file system to read views with */
-    protected $fileSystem = null;
+    /** @var IViewReader The view reader */
+    protected $viewReader = null;
     /** @var array The mapping of view paths to a list of builders to run whenever the view is created */
     protected $builders = [];
 
     /**
      * @param IViewNameResolver $viewNameResolver The view name resolver used to get paths to views
-     * @param FileSystem $fileSystem The file system to read views with
+     * @param IViewReader $viewReader The view reader
      */
-    public function __construct(IViewNameResolver $viewNameResolver, FileSystem $fileSystem)
+    public function __construct(IViewNameResolver $viewNameResolver, IViewReader $viewReader)
     {
         $this->viewNameResolver = $viewNameResolver;
-        $this->fileSystem = $fileSystem;
+        $this->viewReader = $viewReader;
     }
 
     /**
@@ -35,7 +36,7 @@ class ViewFactory implements IViewFactory
     public function create($name)
     {
         $resolvedPath = $this->viewNameResolver->resolve($name);
-        $content = $this->fileSystem->read($resolvedPath);
+        $content = $this->viewReader->read($resolvedPath);
         $view = new View($resolvedPath, $content);
 
         return $this->runBuilders($name, $resolvedPath, $view);

@@ -15,7 +15,7 @@ script: vendor/bin/phpunit --verbose
 
 notifications:
   email:
-    - dbyoung2@gmail.com
+    - dave@opulencephp.com
 
 matrix:
   allow_failures:
