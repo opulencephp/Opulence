@@ -6,13 +6,8 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\Redis\OpulencePHPRedis;
-
 abstract class PHPRedisDataMapper extends RedisDataMapper
 {
-    /** @var OpulencePHPRedis The Redis cache to use for queries */
-    protected $redis = null;
-
     /**
      * @inheritdoc
      */

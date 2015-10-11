@@ -6,13 +6,8 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\Redis\OpulencePredis;
-
 abstract class PredisDataMapper extends RedisDataMapper
 {
-    /** @var OpulencePredis The Redis cache to use for queries */
-    protected $redis = null;
-
     /**
      * @inheritdoc
      */

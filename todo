@@ -11,3 +11,18 @@ Need to finalize view library name, console name
 Need to add way to test Middleware (1.0)
 Get rid of dependence on HTTP Request in Credential stuff
 Finish form stuff
+
+
+
+Redis
+    PHPRedis
+        Client.php
+        ConnectionPool.php
+        Cluster.php
+    Predis
+        Client.php
+        ConnectionPool.php
+        Cluster.php
+    ConnectionPool.php
+        get($name)
+        * magic methods to call redis instances

@@ -6,8 +6,8 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\Redis\IRedis;
 use Opulence\ORM\IEntity;
+use Opulence\Redis\Redis;
 
 abstract class RedisDataMapper implements ICacheDataMapper
 {
@@ -18,13 +18,13 @@ abstract class RedisDataMapper implements ICacheDataMapper
     /** Defines a sorted set value */
     const VALUE_TYPE_SORTED_SET = 2;
 
-    /** @var IRedis The Redis cache to use for queries */
+    /** @var Redis The Redis cache to use for queries */
     protected $redis = null;
 
     /**
-     * @param IRedis $redis The Redis cache to use for queries
+     * @param Redis $redis The Redis cache to use for queries
      */
-    public function __construct(IRedis $redis)
+    public function __construct(Redis $redis)
     {
         $this->redis = $redis;
     }

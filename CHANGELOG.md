@@ -1,3 +1,22 @@
+<h2>v0.6.15</h2>
+
+<h3>Cache</h3>
+* Refactored `Opulence\Cache\MemcachedBridge` to use `Opulence\Memcached\Memcached` and accept name of default client
+* Refactored `Opulence\Cache\RedisBridge` to use `Opulence\Redis\Redis` and accept name of default client
+
+<h3>Memcached</h3>
+* Added `Opulence\Memcached\Memcached`
+* Removed `Opulence\Memcached\OpulenceMemcached`
+* Removed `Opulence\Memcached\Server`
+
+<h3>Redis</h3>
+* Added `Opulence\Redis\Redis`
+* Removed `Opulence\Redis\IRedis`
+* Removed `Opulence\Redis\PHPRedis`
+* Removed `Opulence\Redis\Predis`
+* Removed `Opulence\Redis\Server`
+* Removed `Opulence\Redis\TRedis`
+
 <h2>v0.6.14</h2>
 
 <h3>Environments</h3>

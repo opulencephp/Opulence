@@ -6,26 +6,31 @@
  */
 namespace Opulence\Cache;
 
-use Memcached;
-use Opulence\Memcached\TypeMapper;
-use Opulence\Tests\Memcached\Mocks\OpulenceMemcached;
+use Memcached as Client;
+use Opulence\Memcached\Memcached;
 
 class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var MemcachedBridge The bridge to use in tests */
     private $bridge = null;
-    /** @var OpulenceMemcached|\PHPUnit_Framework_MockObject_MockObject The Memcached driver */
+    /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject The Memcached driver */
     private $memcached = null;
+    /** @var Client|\PHPUnit_Framework_MockObject_MockObject The client to use in tests */
+    private $client = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $methodsToMock = ["decrement", "delete", "flush", "get", "getResultCode", "increment", "set"];
-        $constructorParams = [$this->getMock(TypeMapper::class)];
-        $this->memcached = $this->getMock(OpulenceMemcached::class, $methodsToMock, $constructorParams);
-        $this->bridge = new MemcachedBridge($this->memcached, "dave:");
+        $methods = ["decrement", "delete", "flush", "get", "getResultCode", "increment", "set"];
+        $this->client = $this->getMock(Client::class, $methods, [], "", false);
+        $this->memcached = $this->getMock(Memcached::class, [], [], "", false);
+        $this->memcached->expects($this->any())
+            ->method("getClient")
+            ->with("default")
+            ->willReturn($this->client);
+        $this->bridge = new MemcachedBridge($this->memcached, "default", "dave:");
     }
 
     /**
@@ -33,8 +38,12 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfKeyExists()
     {
-        $this->memcached->expects($this->at(0))->method("get")->will($this->returnValue(false));
-        $this->memcached->expects($this->at(1))->method("get")->will($this->returnValue("bar"));
+        $this->client->expects($this->at(0))
+            ->method("get")
+            ->willReturn(false);
+        $this->client->expects($this->at(1))
+            ->method("get")
+            ->willReturn("bar");
         $this->assertFalse($this->bridge->has("foo"));
         $this->assertTrue($this->bridge->has("foo"));
     }
@@ -44,8 +53,14 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecrementingReturnsCorrectValues()
     {
-        $this->memcached->expects($this->at(0))->method("decrement")->with("dave:foo", 1)->will($this->returnValue(10));
-        $this->memcached->expects($this->at(1))->method("decrement")->with("dave:foo", 5)->will($this->returnValue(5));
+        $this->client->expects($this->at(0))
+            ->method("decrement")
+            ->with("dave:foo", 1)
+            ->willReturn(10);
+        $this->client->expects($this->at(1))
+            ->method("decrement")
+            ->with("dave:foo", 5)
+            ->willReturn(5);
         // Test using default value
         $this->assertEquals(10, $this->bridge->decrement("foo"));
         // Test using a custom value
@@ -57,7 +72,9 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeletingKey()
     {
-        $this->memcached->expects($this->once())->method("delete")->with("dave:foo");
+        $this->client->expects($this->once())
+            ->method("delete")
+            ->with("dave:foo");
         $this->bridge->delete("foo");
     }
 
@@ -74,8 +91,12 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testErrorDuringGetWillReturnNull()
     {
-        $this->memcached->expects($this->once())->method("get")->will($this->returnValue("bar"));
-        $this->memcached->expects($this->once())->method("getResultCode")->will($this->returnValue(1));
+        $this->client->expects($this->once())
+            ->method("get")
+            ->willReturn("bar");
+        $this->client->expects($this->once())
+            ->method("getResultCode")
+            ->willReturn(1);
         $this->assertNull($this->bridge->get("foo"));
     }
 
@@ -84,7 +105,8 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testFlushing()
     {
-        $this->memcached->expects($this->once())->method("flush");
+        $this->client->expects($this->once())
+            ->method("flush");
         $this->bridge->flush();
     }
 
@@ -93,8 +115,12 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWorks()
     {
-        $this->memcached->expects($this->once())->method("get")->will($this->returnValue("bar"));
-        $this->memcached->expects($this->once())->method("getResultCode")->will($this->returnValue(0));
+        $this->client->expects($this->once())
+            ->method("get")
+            ->willReturn("bar");
+        $this->client->expects($this->once())
+            ->method("getResultCode")
+            ->willReturn(0);
         $this->assertEquals("bar", $this->bridge->get("foo"));
     }
 
@@ -103,8 +129,14 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncrementingReturnsCorrectValues()
     {
-        $this->memcached->expects($this->at(0))->method("increment")->with("dave:foo", 1)->will($this->returnValue(2));
-        $this->memcached->expects($this->at(1))->method("increment")->with("dave:foo", 5)->will($this->returnValue(7));
+        $this->client->expects($this->at(0))
+            ->method("increment")
+            ->with("dave:foo", 1)
+            ->willReturn(2);
+        $this->client->expects($this->at(1))
+            ->method("increment")
+            ->with("dave:foo", 5)
+            ->willReturn(7);
         // Test using default value
         $this->assertEquals(2, $this->bridge->increment("foo"));
         // Test using a custom value
@@ -116,7 +148,9 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testNullIsReturnedOnMiss()
     {
-        $this->memcached->expects($this->once())->method("get")->will($this->returnValue(false));
+        $this->client->expects($this->once())
+            ->method("get")
+            ->willReturn(false);
         $this->assertNull($this->bridge->get("foo"));
     }
 
@@ -125,7 +159,9 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingValue()
     {
-        $this->memcached->expects($this->once())->method("set")->with("dave:foo", "bar", 60);
+        $this->client->expects($this->once())
+            ->method("set")
+            ->with("dave:foo", "bar", 60);
         $this->bridge->set("foo", "bar", 60);
     }
 
@@ -138,5 +174,28 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
         $memcached = $this->getMock(Memcached::class, [], [], "Foo", false);
         $bridge = new MemcachedBridge($memcached);
         $this->assertSame($memcached, $bridge->getMemcached());
+    }
+
+    /**
+     * Tests using a client beside the default one
+     */
+    public function testUsingClientBesidesDefaultOne()
+    {
+        $client = $this->getMock(Client::class, ["get", "getResultCode"], [], "", false);
+        $client->expects($this->any())
+            ->method("get")
+            ->with("bar")
+            ->willReturn("baz");
+        $client->expects($this->any())
+            ->method("getResultCode")
+            ->willReturn(0);
+        /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
+        $memcached = $this->getMock(Memcached::class, [], [], "", false);
+        $memcached->expects($this->any())
+            ->method("getClient")
+            ->with("foo")
+            ->willReturn($client);
+        $bridge = new MemcachedBridge($memcached, "foo");
+        $this->assertEquals("baz", $bridge->get("bar"));
     }
 }
