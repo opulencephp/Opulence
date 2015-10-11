@@ -2,27 +2,7 @@ Add ability to bind unescaped statements to UPDATE/INSERT queries
     Best way might be to introduce some new PDO::PARAM_* constant like PARAM_UNESCAPED
     When detecting that it is of type PARAM_UNESCAPED, rather than binding a "?" in AugmentingQueryBuilder, just bind the actual value
     Would also have to look at how this would be done for SELECT query binding
-Need to add cluster AND multiple-client support for Redis (two different things)
-    Issue is that this will potentially require multiple Client objects
-    Currently, my Predis EXTENDS the Client class.  It'll need to change to CONTAIN one/many Client classes, and resort to magic methods to pass onto the correct Client objects depending on which connection is being queried.
-    Add ability to set prefixes in Server objects
-        Add ability to set ANY option in array, use this array to set all the appropriate data in Redis
 Need to finalize view library name, console name
 Need to add way to test Middleware (1.0)
 Get rid of dependence on HTTP Request in Credential stuff
 Finish form stuff
-
-
-
-Redis
-    PHPRedis
-        Client.php
-        ConnectionPool.php
-        Cluster.php
-    Predis
-        Client.php
-        ConnectionPool.php
-        Cluster.php
-    ConnectionPool.php
-        get($name)
-        * magic methods to call redis instances
