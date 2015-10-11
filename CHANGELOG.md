@@ -1,3 +1,8 @@
+<h2>v0.6.16</h2>
+
+<h3>Console</h3>
+* Officially titled the console library "Apex"
+
 <h2>v0.6.15</h2>
 
 <h3>Cache</h3>

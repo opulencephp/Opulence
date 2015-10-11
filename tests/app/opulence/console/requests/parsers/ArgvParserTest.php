@@ -26,7 +26,7 @@ class ArgvParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingArgumentsAndOptions()
     {
-        $request = $this->parser->parse(["opulence", "foo", "bar", "-r", "--name=dave"]);
+        $request = $this->parser->parse(["apex", "foo", "bar", "-r", "--name=dave"]);
         $this->assertEquals("foo", $request->getCommandName());
         $this->assertEquals(["bar"], $request->getArgumentValues());
         $this->assertNull($request->getOptionValue("r"));
@@ -38,7 +38,7 @@ class ArgvParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingNullString()
     {
-        $_SERVER["argv"] = ["opulence", "foo", "bar", "-r", "--name=dave"];
+        $_SERVER["argv"] = ["apex", "foo", "bar", "-r", "--name=dave"];
         $request = $this->parser->parse(null);
         $this->assertEquals("foo", $request->getCommandName());
         $this->assertEquals(["bar"], $request->getArgumentValues());
@@ -51,7 +51,7 @@ class ArgvParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingOptionWithNoValue()
     {
-        $request = $this->parser->parse(["opulence", "foo", "--name"]);
+        $request = $this->parser->parse(["apex", "foo", "--name"]);
         $this->assertNull($request->getOptionValue("name"));
     }
 
