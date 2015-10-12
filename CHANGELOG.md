@@ -1,5 +1,8 @@
 <h2>v0.6.17</h2>
 
+<h3>Bootstrappers</h3>
+* Renamed `Opulence\Applications\Bootstrappers\Caching\Cache` to `FileCache`
+
 <h3>Console</h3>
 * Removed `Opulence\Console\Responses\Compilers\Compiler::getElements()`
 * Added `Opulence\Console\Responses\Compilers\ICompiler::registerElement()`
@@ -11,6 +14,23 @@
 * Moved `ConnectionPool`, `MasterSlaveConnectionPool`, and `SingleServerConnectionPool` to new `Opulence\Databases\ConnectionPools` namespace
 * Added `Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy`, `SingleServerSelectionStrategy`, and `RandomServerSelectionStrategy`
 * Added optional slave server selection strategy parameter to `MasterSlaveConnectionPool` constructor
+
+<h3>ORM</h3>
+* Changed `Opulence\ORM\DataMappers\SQLDataMapper::read()` to accept the value-type parameter before the `$expectingSingleResult` parameter
+* Fixed `Opulence\ORM\DataMappers\ICachedSQLDataMapper` to extend `IDataMapper`, not `ISQLDataMapper`
+* Removed `Opulence\ORM\Repositories\ActionTypes` because it wasn't being used anywhere
+
+<h3>Routing</h3>
+* Changed "variables" group parameter to "vars"
+* Renamed `Opulence\Routing\Routes\Caching\Cache` to `FileCache`
+
+<h3>Sessions</h3>
+* Renamed `Opulence\Sessions\Ids\IIdGenerator::isIdValid()` to `idIsValid()`
+
+<h3>Views</h3>
+* Removed `$fileSystem` parameter from `Opulence\Views\Caching\FileCache`
+* Removed reliance on `Opulence\Files` in `composer.json`
+* Renamed `Opulence\Views\Caching\Cache` to `FileCache`
 
 <h2>v0.6.16</h2>
 

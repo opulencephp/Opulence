@@ -55,7 +55,7 @@ class DeleteQuery extends Query
      */
     public function getSQL()
     {
-        $sql = "DELETE FROM " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
+        $sql = "DELETE FROM {$this->tableName}" . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
 
         if (count($this->usingExpressions) > 0) {
             $sql .= " USING " . implode(", ", $this->usingExpressions);

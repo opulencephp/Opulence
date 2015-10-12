@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the flush view cache command
+ * Defines the application environment command
  */
 namespace Opulence\Framework\Console\Commands;
 

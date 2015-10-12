@@ -37,7 +37,7 @@ class CompiledRouteTest extends \PHPUnit_Framework_TestCase
     {
         $route = new Route("GET", "/foo/{bar=baz}", "foo@bar", [
             "https" => true,
-            "variables" => [
+            "vars" => [
                 "bar" => "\d+"
             ]
         ]);

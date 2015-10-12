@@ -9,8 +9,8 @@ namespace Opulence\Routing\Dispatchers;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Routing\Controller;
-use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\RouteException;
+use Opulence\Routing\Routes\CompiledRoute;
 
 interface IDispatcher
 {

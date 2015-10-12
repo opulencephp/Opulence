@@ -12,9 +12,9 @@ use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class FileCacheTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Cache The cache to use in tests */
+    /** @var FileCache The cache to use in tests */
     private $cache = null;
     /** @var string The path to the cache file */
     private $cachedRouteFilePath = "";
@@ -26,8 +26,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->cache = new Cache();
-        $this->cachedRouteFilePath = __DIR__ . "/files/" . Cache::DEFAULT_CACHED_ROUTES_FILE_NAME;
+        $this->cache = new FileCache();
+        $this->cachedRouteFilePath = __DIR__ . "/files/" . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
         $this->rawRouteFilePath = __DIR__ . "/files/raw.php";
     }
 

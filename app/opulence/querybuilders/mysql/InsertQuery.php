@@ -42,7 +42,7 @@ class InsertQuery extends BaseInsertQuery
             $sql .= " ON DUPLICATE KEY UPDATE";
 
             foreach ($this->duplicateKeyUpdateColumnNamesToValues as $columnName => $value) {
-                $sql .= " " . $columnName . " = ?,";
+                $sql .= " $columnName = ?,";
             }
 
             $sql = trim($sql, ",");

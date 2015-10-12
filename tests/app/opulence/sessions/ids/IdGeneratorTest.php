@@ -48,16 +48,16 @@ class IdGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         // Invalid characters
         $id = str_repeat("#", IdGenerator::DEFAULT_LENGTH);
-        $this->assertFalse($this->generator->isIdValid($id));
+        $this->assertFalse($this->generator->idIsValid($id));
         // Too short
         $id = str_repeat(1, IdGenerator::MIN_LENGTH - 1);
-        $this->assertFalse($this->generator->isIdValid($id));
+        $this->assertFalse($this->generator->idIsValid($id));
         // Incorrect type
         $id = ["foo"];
-        $this->assertFalse($this->generator->isIdValid($id));
+        $this->assertFalse($this->generator->idIsValid($id));
         // Longer than max length
         $id = str_repeat(1, IdGenerator::MAX_LENGTH + 1);
-        $this->assertFalse($this->generator->isIdValid($id));
+        $this->assertFalse($this->generator->idIsValid($id));
     }
 
     /**
@@ -67,15 +67,15 @@ class IdGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         // Default length
         $id = str_repeat("1", IdGenerator::DEFAULT_LENGTH);
-        $this->assertTrue($this->generator->isIdValid($id));
+        $this->assertTrue($this->generator->idIsValid($id));
         // The min length
         $id = str_repeat(1, IdGenerator::MIN_LENGTH);
-        $this->assertTrue($this->generator->isIdValid($id));
+        $this->assertTrue($this->generator->idIsValid($id));
         // The max length
         $id = str_repeat(1, IdGenerator::MAX_LENGTH);
-        $this->assertTrue($this->generator->isIdValid($id));
+        $this->assertTrue($this->generator->idIsValid($id));
         // Mix of characters
         $id = "aA1" . str_repeat(2, IdGenerator::DEFAULT_LENGTH - 3);
-        $this->assertTrue($this->generator->isIdValid($id));
+        $this->assertTrue($this->generator->idIsValid($id));
     }
 }

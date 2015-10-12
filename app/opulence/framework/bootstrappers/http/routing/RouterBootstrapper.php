@@ -11,7 +11,7 @@ use Opulence\IoC\IContainer;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Dispatchers\IDispatcher;
 use Opulence\Routing\Router;
-use Opulence\Routing\Routes\Caching\Cache;
+use Opulence\Routing\Routes\Caching\FileCache;
 use Opulence\Routing\Routes\Caching\ICache;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\ICompiler;
@@ -68,7 +68,7 @@ class RouterBootstrapper extends Bootstrapper
      */
     protected function getRouteCache(IContainer $container)
     {
-        return new Cache();
+        return new FileCache();
     }
 
     /**

@@ -11,7 +11,7 @@ use InvalidArgumentException;
 class RandomServerSelectionStrategy implements IServerSelectionStrategy
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function select($servers)
     {

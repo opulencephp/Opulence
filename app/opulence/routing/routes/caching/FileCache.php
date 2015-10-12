@@ -2,14 +2,14 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the route cache
+ * Defines the route file cache
  */
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\RouteCollection;
 
-class Cache implements ICache
+class FileCache implements ICache
 {
     /**
      * @inheritdoc

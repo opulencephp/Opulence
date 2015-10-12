@@ -25,7 +25,7 @@ class Session implements ISession
     /** @var IIdGenerator The Id generator to use */
     private $idGenerator = null;
     /** @var array The mapping of variable names to values */
-    private $variables = [];
+    private $vars = [];
     /** @var bool Whether or not the session has started */
     private $hasStarted = false;
 
@@ -61,7 +61,7 @@ class Session implements ISession
      */
     public function delete($key)
     {
-        unset($this->variables[$key]);
+        unset($this->vars[$key]);
     }
 
     /**
@@ -88,7 +88,7 @@ class Session implements ISession
      */
     public function flush()
     {
-        $this->variables = [];
+        $this->vars = [];
     }
 
     /**
@@ -96,8 +96,8 @@ class Session implements ISession
      */
     public function get($key, $defaultValue = null)
     {
-        if (isset($this->variables[$key])) {
-            return $this->variables[$key];
+        if (isset($this->vars[$key])) {
+            return $this->vars[$key];
         }
 
         return $defaultValue;
@@ -108,7 +108,7 @@ class Session implements ISession
      */
     public function getAll()
     {
-        return $this->variables;
+        return $this->vars;
     }
 
     /**
@@ -132,7 +132,7 @@ class Session implements ISession
      */
     public function has($key)
     {
-        return isset($this->variables[$key]);
+        return isset($this->vars[$key]);
     }
 
     /**
@@ -176,7 +176,7 @@ class Session implements ISession
      */
     public function offsetUnset($key)
     {
-        unset($this->variables[$key]);
+        unset($this->vars[$key]);
     }
 
     /**
@@ -203,7 +203,7 @@ class Session implements ISession
      */
     public function set($key, $value)
     {
-        $this->variables[$key] = $value;
+        $this->vars[$key] = $value;
     }
 
     /**
@@ -211,7 +211,7 @@ class Session implements ISession
      */
     public function setId($id)
     {
-        if ($this->idGenerator->isIdValid($id)) {
+        if ($this->idGenerator->idIsValid($id)) {
             $this->id = $id;
         } else {
             $this->regenerateId();
@@ -223,7 +223,7 @@ class Session implements ISession
      */
     public function setMany(array $variables)
     {
-        $this->variables = array_merge($this->variables, $variables);
+        $this->vars = array_merge($this->vars, $variables);
     }
 
     /**
@@ -237,9 +237,9 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function start(array $variables = [])
+    public function start(array $vars = [])
     {
-        $this->setMany($variables);
+        $this->setMany($vars);
         $this->hasStarted = true;
 
         return $this->hasStarted;

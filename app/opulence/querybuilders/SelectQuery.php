@@ -120,14 +120,14 @@ class SelectQuery extends Query
     public function getSQL()
     {
         // Build the selector
-        $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM " . $this->tableName
-            . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias);
+        $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM {$this->tableName}"
+            . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
 
         // Add any joins
         foreach ($this->joins as $type => $joinsByType) {
             foreach ($joinsByType as $join) {
-                $sql .= " " . strtoupper($type) . " JOIN " . $join["tableName"]
-                    . (empty($join["tableAlias"]) ? "" : " AS " . $join["tableAlias"]) . " ON " . $join["condition"];
+                $sql .= " " . strtoupper($type) . " JOIN {$join["tableName"]}"
+                    . (empty($join["tableAlias"]) ? "" : " AS {$join["tableAlias"]}") . " ON {$join["condition"]}";
             }
         }
 
@@ -150,12 +150,12 @@ class SelectQuery extends Query
 
         // Add a limit
         if ($this->limit !== -1) {
-            $sql .= " LIMIT " . $this->limit;
+            $sql .= " LIMIT {$this->limit}";
         }
 
         // Add an offset
         if ($this->offset !== -1) {
-            $sql .= " OFFSET " . $this->offset;
+            $sql .= " OFFSET {$this->offset}";
         }
 
         return $sql;

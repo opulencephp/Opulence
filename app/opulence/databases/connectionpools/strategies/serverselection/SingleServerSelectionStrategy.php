@@ -11,7 +11,7 @@ use InvalidArgumentException;
 class SingleServerSelectionStrategy implements IServerSelectionStrategy
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function select($servers)
     {

@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines a router for URL requests
+ * Defines a URL router
  */
 namespace Opulence\Routing;
 
@@ -11,8 +11,8 @@ use InvalidArgumentException;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\Response;
 use Opulence\Routing\Dispatchers\IDispatcher;
-use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\CompiledRoute;
+use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\MissingRoute;
 use Opulence\Routing\Routes\ParsedRoute;
@@ -154,7 +154,7 @@ class Router
      *          "path" => The common path to be prepended to all the grouped routes,
      *          "middleware" => The middleware to be added to all the grouped routes,
      *          "https" => Whether or not all the grouped routes are HTTPS,
-     *          "variables" => The list of path variable regular expressions all the routes must match
+     *          "vars" => The list of path variable regular expressions all the routes must match
      * @param callable $closure A function that adds routes to the router
      */
     public function group(array $options, callable $closure)
@@ -342,7 +342,7 @@ class Router
             $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
         }
 
-        $route->setSecure($this->isGroupSecure() || $route->isSecure());
+        $route->setSecure($this->groupIsSecure() || $route->isSecure());
         // The route's variable regexes take precedence over group regexes
         $route->setVarRegexes(array_merge($this->getVarRegexes(), $route->getVarRegexes()));
         $groupMiddleware = $this->getGroupMiddleware();
@@ -470,8 +470,8 @@ class Router
         $variableRegexes = [];
 
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["variables"])) {
-                $variableRegexes = array_merge($variableRegexes, $groupOptions["variables"]);
+            if (isset($groupOptions["vars"])) {
+                $variableRegexes = array_merge($variableRegexes, $groupOptions["vars"]);
             }
         }
 
@@ -484,7 +484,7 @@ class Router
      *
      * @return bool True if the group is secure, otherwise false
      */
-    private function isGroupSecure()
+    private function groupIsSecure()
     {
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions["https"]) && $groupOptions["https"]) {

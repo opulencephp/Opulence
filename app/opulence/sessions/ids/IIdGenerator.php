@@ -26,5 +26,5 @@ interface IIdGenerator
      * @param mixed $id The Id to validate
      * @return bool True if the Id is valid, otherwise false
      */
-    public function isIdValid($id);
+    public function idIsValid($id);
 }

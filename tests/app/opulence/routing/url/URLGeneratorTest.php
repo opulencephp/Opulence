@@ -63,7 +63,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
                 "/users/:userId",
                 "foo@bar",
                 [
-                    "variables" => ["userId" => "\d+"],
+                    "vars" => ["userId" => "\d+"],
                     "name" => "pathVariableRegex"
                 ]
             ),
@@ -139,7 +139,6 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
             $routeCollection->add($parser->parse($route));
         }
 
-        $parser = new Parser();
         $this->generator = new URLGenerator($routeCollection);
     }
 

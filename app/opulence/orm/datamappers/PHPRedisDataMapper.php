@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the Cache data mapper implemented by the PHPRedis library
+ * Defines the cache data mapper implemented by the PHPRedis library
  */
 namespace Opulence\ORM\DataMappers;
 

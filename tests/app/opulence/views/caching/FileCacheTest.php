@@ -9,11 +9,11 @@ namespace Opulence\Views\Caching;
 use Opulence\Files\FileSystem;
 use Opulence\Views\IView;
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class FileCacheTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FileSystem The file system to use to read cached views */
     private $fileSystem = null;
-    /** @var Cache The cache to use in tests */
+    /** @var FileCache The cache to use in tests */
     private $cache = null;
     /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
     private $view = null;
@@ -48,7 +48,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->fileSystem = new FileSystem();
-        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 3600);
+        $this->cache = new FileCache(__DIR__ . "/tmp", 3600);
         $this->view = $this->getMock(IView::class);
     }
 
@@ -57,7 +57,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testCachingWithNonPositiveLifetime()
     {
-        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", 0);
+        $this->cache = new FileCache(__DIR__ . "/tmp", 0);
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
         $this->cache->set($this->view, "compiled");
         $this->assertFalse($this->cache->has($this->view));
@@ -99,7 +99,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testCheckingForExpiredView()
     {
         // The negative expiration is a way of forcing everything to expire right away
-        $cache = new Cache(new FileSystem(), __DIR__ . "/tmp", -1);
+        $cache = new FileCache(__DIR__ . "/tmp", -1);
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
         $cache->set($this->view, "compiled");
         $this->assertFalse($cache->has($this->view));
@@ -149,7 +149,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function testGarbageCollection()
     {
         $this->fileSystem->write(__DIR__ . "/tmp/foo", "compiled");
-        $this->cache = new Cache($this->fileSystem, __DIR__ . "/tmp", -1);
+        $this->cache = new FileCache(__DIR__ . "/tmp", -1);
         $this->cache->gc();
         $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . "/tmp"));
     }
@@ -159,7 +159,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotCreatingDirectoryBeforeCaching()
     {
-        $this->cache = new Cache($this->fileSystem, __DIR__ . "/verytemporarytmp", 3600);
+        $this->cache = new FileCache(__DIR__ . "/verytemporarytmp", 3600);
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
         $this->cache->set($this->view, "compiled");
         $this->assertTrue($this->cache->has($this->view));

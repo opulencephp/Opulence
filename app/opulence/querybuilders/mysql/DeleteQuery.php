@@ -22,7 +22,7 @@ class DeleteQuery extends BaseDeleteQuery
 
         // Add a limit
         if ($this->limit !== -1) {
-            $sql .= " LIMIT " . $this->limit;
+            $sql .= " LIMIT {$this->limit}";
         }
 
         return $sql;

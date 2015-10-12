@@ -25,7 +25,7 @@ class Files extends Parameters
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      * @return UploadedFile|mixed
      */
     public function get($name, $default = null)
@@ -34,7 +34,7 @@ class Files extends Parameters
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      * @return UploadedFile[]
      */
     public function getAll()

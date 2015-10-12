@@ -14,8 +14,8 @@ use Opulence\IoC\IContainer;
 use Opulence\Pipelines\Pipeline;
 use Opulence\Pipelines\PipelineException;
 use Opulence\Routing\Controller;
-use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\RouteException;
+use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 use ReflectionFunction;
@@ -99,8 +99,10 @@ class Dispatcher implements IDispatcher
                 }
 
                 if ($controller instanceof Controller) {
-                    $response = call_user_func_array([$controller, "callMethod"],
-                        [$route->getControllerMethod(), $parameters]);
+                    $response = call_user_func_array(
+                        [$controller, "callMethod"],
+                        [$route->getControllerMethod(), $parameters]
+                    );
                 } else {
                     $response = call_user_func_array([$controller, $route->getControllerMethod()], $parameters);
                 }

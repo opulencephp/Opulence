@@ -50,8 +50,8 @@ class Route
 
         $this->setControllerVars($controller);
 
-        if (isset($options["variables"])) {
-            $this->setVarRegexes($options["variables"]);
+        if (isset($options["vars"])) {
+            $this->setVarRegexes($options["vars"]);
         }
 
         if (isset($options["middleware"])) {

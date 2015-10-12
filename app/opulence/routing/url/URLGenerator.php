@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines a routing URL generator
+ * Defines a URL generator
  */
 namespace Opulence\Routing\URL;
 

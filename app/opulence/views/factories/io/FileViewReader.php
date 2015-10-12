@@ -11,7 +11,7 @@ use InvalidArgumentException;
 class FileViewReader implements IViewReader
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function read($path)
     {

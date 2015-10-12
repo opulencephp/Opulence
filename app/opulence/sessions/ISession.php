@@ -124,8 +124,8 @@ interface ISession extends ArrayAccess
     /**
      * Starts the session
      *
-     * @param array $variables The list of variables in this session
+     * @param array $vars The list of variables in this session
      * @return bool True if the session started successfully
      */
-    public function start(array $variables = []);
+    public function start(array $vars = []);
 } 

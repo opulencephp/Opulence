@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the base class for "Make:" commands to extend
+ * Defines the base class for "make:" commands to extend
  */
 namespace Opulence\Framework\Console\Commands;
 

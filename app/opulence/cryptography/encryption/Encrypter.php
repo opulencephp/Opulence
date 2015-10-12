@@ -37,7 +37,7 @@ class Encrypter implements IEncrypter
     {
         $pieces = $this->getPieces($data);
 
-        if (!$this->isValidMAC($pieces)) {
+        if (!$this->macIsValid($pieces)) {
             throw new EncryptionException("Invalid MAC");
         }
 
@@ -136,7 +136,7 @@ class Encrypter implements IEncrypter
      * @param array $pieces The pieces to validate
      * @return bool True if the MAC is valid, otherwise false
      */
-    private function isValidMAC(array $pieces)
+    private function macIsValid(array $pieces)
     {
         $randomBytes = $this->strings->generateRandomString(16);
         $correctHMAC = hash_hmac("sha256", $pieces["mac"], $randomBytes, true);

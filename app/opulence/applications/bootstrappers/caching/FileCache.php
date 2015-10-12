@@ -2,13 +2,13 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the bootstrapper cache
+ * Defines the bootstrapper file cache
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
 
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 
-class Cache implements ICache
+class FileCache implements ICache
 {
     /**
      * @inheritdoc

@@ -7,8 +7,8 @@
 namespace Opulence\Pipelines;
 
 use Closure;
-use Opulence\IoC\IoCException;
 use Opulence\IoC\IContainer;
+use Opulence\IoC\IoCException;
 
 class Pipeline implements IPipeline
 {

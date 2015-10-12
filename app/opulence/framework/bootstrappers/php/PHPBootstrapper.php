@@ -17,6 +17,7 @@ class PHPBootstrapper extends Bootstrapper
     {
         // Don't display errors to the browser
         ini_set("display_errors", "off");
+        error_reporting(-1);
 
         // Force the mbstring extension to be installed
         if (!extension_loaded("mbstring")) {

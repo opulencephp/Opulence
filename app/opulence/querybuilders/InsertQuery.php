@@ -57,7 +57,7 @@ class InsertQuery extends Query
      */
     public function getSQL()
     {
-        $sql = "INSERT INTO " . $this->tableName
+        $sql = "INSERT INTO {$this->tableName}"
             . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES ("
             . implode(", ",
                 array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), "?"))

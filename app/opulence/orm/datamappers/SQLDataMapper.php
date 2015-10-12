@@ -57,11 +57,12 @@ abstract class SQLDataMapper implements ISQLDataMapper
      *
      * @param string $sql The SQL query to run
      * @param array $sqlParameters The list of SQL parameters
+     * @param int $valueType The value type constant designating what kind of data we're expecting to return
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      * @throws ORMException Thrown if there was an error querying the entities
      */
-    protected function read($sql, array $sqlParameters, $expectSingleResult)
+    protected function read($sql, array $sqlParameters, $valueType, $expectSingleResult = false)
     {
         try {
             $connection = $this->connectionPool->getReadConnection();
@@ -80,7 +81,11 @@ abstract class SQLDataMapper implements ISQLDataMapper
                 $entities[] = $this->loadEntity($row, $connection);
             }
 
-            if ($expectSingleResult) {
+            if ($valueType == self::VALUE_TYPE_ENTITY) {
+                if (count($entities) == 0) {
+                    return null;
+                }
+
                 return $entities[0];
             } else {
                 return $entities;

@@ -129,7 +129,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/:foo/bar/:blah";
         $options = [
-            "variables" => [
+            "vars" => [
                 "foo" => "\d+",
                 "blah" => "[a-z]{3}"
             ],
@@ -200,7 +200,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     {
         $rawString = "/:foo";
         $options = [
-            "variables" => ["foo" => "\d+"],
+            "vars" => ["foo" => "\d+"],
             "host" => $rawString
         ];
         $route = new Route(["get"], $rawString, "foo@bar", $options);

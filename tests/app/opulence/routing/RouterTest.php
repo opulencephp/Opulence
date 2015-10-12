@@ -98,7 +98,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     {
         $getRoute = null;
 
-        $this->router->group(["path" => "/foo/:id", "variables" => ["id" => "\d+"]], function () use (&$getRoute) {
+        $this->router->group(["path" => "/foo/:id", "vars" => ["id" => "\d+"]], function () use (&$getRoute) {
             $getRoute = $this->router->get("/foo", "foo@bar");
         });
         $this->assertSame($getRoute, $this->router->getRouteCollection()->get(Request::METHOD_GET)[0]);
@@ -109,7 +109,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGroupWithVariableRegexes()
     {
-        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d+"]], function () {
+        $this->router->group(["path" => "/users/:userId", "vars" => ["id" => "\d+"]], function () {
             $this->router->get("/foo", "foo@bar");
             $this->router->post("/foo", "foo@bar");
         });
@@ -347,12 +347,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testNestingGroupVariableRegexesOverwriteOneAnother()
     {
-        $this->router->group(["path" => "/users/:userId", "variables" => ["id" => "\d*"]], function () {
+        $this->router->group(["path" => "/users/:userId", "vars" => ["id" => "\d*"]], function () {
             $this->router->get("/foo", "foo@bar");
             // This route's variable regex should take precedence
-            $this->router->get("/bam", "foo@bam", ["variables" => ["id" => "\w+"]]);
+            $this->router->get("/bam", "foo@bam", ["vars" => ["id" => "\w+"]]);
 
-            $this->router->group(["path" => "/bar", "variables" => ["id" => "\d+"]], function () {
+            $this->router->group(["path" => "/bar", "vars" => ["id" => "\d+"]], function () {
                 $this->router->get("/baz", "bar@baz");
             });
         });

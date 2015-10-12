@@ -3,8 +3,7 @@
   "description": "The Opulence session library",
   "keywords": [
     "PHP",
-    "session",
-    "authentication"
+    "session"
   ],
   "authors": [
     {

@@ -128,7 +128,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testGettingVariableRegex()
     {
         $options = [
-            "variables" => ["bar" => "\d+"]
+            "vars" => ["bar" => "\d+"]
         ];
         $route = new Route("get", "/foo", "foo@bar", $options);
         $this->assertEquals("\d+", $route->getVarRegex("bar"));

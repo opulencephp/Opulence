@@ -9,7 +9,7 @@ namespace Opulence\ORM\DataMappers;
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
-interface ICachedSQLDataMapper extends ISQLDataMapper
+interface ICachedSQLDataMapper extends IDataMapper
 {
     /**
      * Performs any cache actions that have been scheduled

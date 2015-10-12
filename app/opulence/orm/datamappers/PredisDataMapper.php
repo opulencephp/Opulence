@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the Cache data mapper implemented by the Predis library
+ * Defines the cache data mapper implemented by the Predis library
  */
 namespace Opulence\ORM\DataMappers;
 

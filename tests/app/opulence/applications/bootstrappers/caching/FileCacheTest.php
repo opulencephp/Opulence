@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Tests the bootstrapper cache
+ * Tests the bootstrapper file cache
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
 
@@ -13,9 +13,9 @@ use Opulence\Applications\Paths;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapper;
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class FileCacheTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Cache The cache to use in tests */
+    /** @var FileCache The cache to use in tests */
     private $cache = null;
     /** @var BootstrapperRegistry The registry to use in tests */
     private $registry = null;
@@ -36,7 +36,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             "tmp.framework" => __DIR__ . "/files"
         ]);
         $this->environment = new Environment(Environment::TESTING);
-        $this->cache = new Cache();
+        $this->cache = new FileCache();
         $this->registry = new BootstrapperRegistry($this->paths, $this->environment);
     }
 

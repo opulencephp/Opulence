@@ -2,18 +2,17 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Defines the cache for compiled views
+ * Defines the file cache for compiled views
  */
 namespace Opulence\Views\Caching;
 
 use DateTime;
-use Opulence\Files\FileSystem;
 use Opulence\Views\IView;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 
-class Cache implements ICache
+class FileCache implements ICache
 {
-    /** @var FileSystem The file system to use to read cached views */
-    private $fileSystem = null;
     /** @var string The path to store the cached views at */
     private $path = null;
     /** @var int The number of seconds cached views should live */
@@ -24,21 +23,17 @@ class Cache implements ICache
     private $gcDivisor = self::DEFAULT_GC_DIVISOR;
 
     /**
-     * @param FileSystem $fileSystem The file system to use to read cached views
      * @param string|null $path The path to store the cached views at, or null if the path is not yet set
      * @param int $lifetime The number of seconds cached views should live
      * @param int $gcChance The chance (out of the total) that garbage collection will be run
      * @param int $gcDivisor The number the chance will be divided by to calculate the probability
      */
     public function __construct(
-        FileSystem $fileSystem,
         $path = null,
         $lifetime = self::DEFAULT_LIFETIME,
         $gcChance = self::DEFAULT_GC_CHANCE,
         $gcDivisor = self::DEFAULT_GC_DIVISOR
     ) {
-        $this->fileSystem = $fileSystem;
-
         if ($path !== null) {
             $this->setPath($path);
         }
@@ -62,10 +57,8 @@ class Cache implements ICache
      */
     public function flush()
     {
-        $viewPaths = $this->fileSystem->getFiles($this->path);
-
-        foreach ($viewPaths as $viewPath) {
-            $this->fileSystem->deleteFile($viewPath);
+        foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
+            @unlink($viewPath);
         }
     }
 
@@ -74,11 +67,9 @@ class Cache implements ICache
      */
     public function gc()
     {
-        $viewPaths = $this->fileSystem->getFiles($this->path);
-
-        foreach ($viewPaths as $viewPath) {
+        foreach ($this->getCompiledViewPaths($this->path) as $viewPath) {
             if ($this->isExpired($viewPath)) {
-                $this->fileSystem->deleteFile($viewPath);
+                @unlink($viewPath);
             }
         }
     }
@@ -92,7 +83,7 @@ class Cache implements ICache
             return null;
         }
 
-        return $this->fileSystem->read($this->getViewPath($view));
+        return file_get_contents($this->getViewPath($view));
     }
 
     /**
@@ -105,16 +96,15 @@ class Cache implements ICache
         }
 
         $viewPath = $this->getViewPath($view);
-        $exists = $this->fileSystem->exists($viewPath);
 
-        if (!$exists) {
+        if (!file_exists($viewPath)) {
             return false;
         }
 
         // Check the expiration
         if ($this->isExpired($viewPath)) {
             // Do some garbage collection
-            $this->fileSystem->deleteFile($viewPath);
+            @unlink($viewPath);
 
             return false;
         }
@@ -128,7 +118,7 @@ class Cache implements ICache
     public function set(IView $view, $compiledContents)
     {
         if ($this->cachingIsEnabled()) {
-            $this->fileSystem->write($this->getViewPath($view), $compiledContents);
+            file_put_contents($this->getViewPath($view), $compiledContents, 0);
         }
     }
 
@@ -149,8 +139,9 @@ class Cache implements ICache
         $this->path = rtrim($path, "/");
 
         // Make sure the path exists
-        if (!$this->fileSystem->exists($this->path)) {
-            $this->fileSystem->makeDirectory($this->path);
+        if (!file_exists($this->path)) {
+            mkdir($this->path, 0777, false);
+            chmod($this->path, 0777);
         }
     }
 
@@ -162,6 +153,34 @@ class Cache implements ICache
     private function cachingIsEnabled()
     {
         return $this->lifetime > 0;
+    }
+
+    /**
+     * Gets a list of view file paths that appear
+     *
+     * @param string $path The path to search
+     * @return array The list of view paths
+     */
+    private function getCompiledViewPaths($path)
+    {
+        if (!is_dir($path)) {
+            return [];
+        }
+        $files = [];
+        $iter = new RecursiveIteratorIterator(
+            new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
+            RecursiveIteratorIterator::SELF_FIRST,
+            RecursiveIteratorIterator::CATCH_GET_CHILD
+        );
+        $iter->setMaxDepth(0);
+
+        foreach ($iter as $path => $item) {
+            if ($item->isFile()) {
+                $files[] = $path;
+            }
+        }
+
+        return $files;
     }
 
     /**
@@ -186,6 +205,8 @@ class Cache implements ICache
      */
     private function isExpired($viewPath)
     {
-        return $this->fileSystem->getLastModified($viewPath) < new DateTime("-" . $this->lifetime . " seconds");
+        $lastModified = DateTime::createFromFormat("U", filemtime($viewPath));
+
+        return $lastModified < new DateTime("-" . $this->lifetime . " seconds");
     }
 }
