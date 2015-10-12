@@ -1,7 +1,13 @@
-Add ability to bind unescaped statements to UPDATE/INSERT queries
-    Best way might be to introduce some new PDO::PARAM_* constant like PARAM_UNESCAPED
-    When detecting that it is of type PARAM_UNESCAPED, rather than binding a "?" in AugmentingQueryBuilder, just bind the actual value
-    Would also have to look at how this would be done for SELECT query binding
-Need to add way to test Middleware (1.0)
-Get rid of dependence on HTTP Request in Credential stuff
+For v1.0.0-alpha1
+
+
+For v1.0.0-alphaX
+    * Add ability to bind unescaped statements to UPDATE/INSERT queries
+        * Best way might be to introduce some new PDO::PARAM_* constant like PARAM_UNESCAPED
+        * When detecting that it is of type PARAM_UNESCAPED, rather than binding a "?" in AugmentingQueryBuilder, just bind the actual value
+        * Would also have to look at how this would be done for SELECT query binding
 Finish form stuff
+
+For v1.1.0
+    * Need to add way to test Middleware (1.0)
+    * Get rid of dependence on HTTP Request in Credential stuff

@@ -21,11 +21,11 @@ class CommandCollection
     private $requestParser = null;
 
     /**
-     * @param ICompiler $compiler The command compiler
+     * @param ICompiler $commandCompiler The command compiler
      */
-    public function __construct(ICompiler $compiler)
+    public function __construct(ICompiler $commandCompiler)
     {
-        $this->commandCompiler = $compiler;
+        $this->commandCompiler = $commandCompiler;
         $this->requestParser = new ArrayListParser();
     }
 

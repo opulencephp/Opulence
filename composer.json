@@ -9,6 +9,7 @@
     "database",
     "orm",
     "console",
+    "apex",
     "framework"
   ],
   "authors": [

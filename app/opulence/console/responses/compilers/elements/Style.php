@@ -4,7 +4,7 @@
  *
  * Defines the style of an element
  */
-namespace Opulence\Console\Responses\Formatters\Elements;
+namespace Opulence\Console\Responses\Compilers\Elements;
 
 use InvalidArgumentException;
 

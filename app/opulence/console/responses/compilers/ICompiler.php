@@ -6,6 +6,7 @@
  */
 namespace Opulence\Console\Responses\Compilers;
 
+use Opulence\Console\Responses\Compilers\Elements\Style;
 use RuntimeException;
 
 interface ICompiler
@@ -18,6 +19,14 @@ interface ICompiler
      * @throws RuntimeException Thrown if there was an issue compiling the message
      */
     public function compile($message);
+
+    /**
+     * Registers an element
+     *
+     * @param string $name The name of the element
+     * @param Style $style The style of the element
+     */
+    public function registerElement($name, Style $style);
 
     /**
      * Sets whether or not messages should be styled

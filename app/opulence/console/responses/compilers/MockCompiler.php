@@ -6,6 +6,8 @@
  */
 namespace Opulence\Console\Responses\Compilers;
 
+use Opulence\Console\Responses\Compilers\Elements\Style;
+
 class MockCompiler implements ICompiler
 {
     /**
@@ -14,6 +16,11 @@ class MockCompiler implements ICompiler
     public function compile($message)
     {
         return $message;
+    }
+
+    public function registerElement($name, Style $style)
+    {
+        // Don't do anything
     }
 
     /**

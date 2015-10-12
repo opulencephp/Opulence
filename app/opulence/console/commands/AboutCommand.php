@@ -14,7 +14,7 @@ class AboutCommand extends Command
     /** @var string The template for the output */
     private static $template = <<<EOF
 -----------------------------
-About <b>Opulence Console</b> {{version}}
+About <b>Apex</b> {{version}}
 -----------------------------
 {{commands}}
 EOF;
@@ -43,7 +43,7 @@ EOF;
     protected function define()
     {
         $this->setName("about")
-            ->setDescription("Describes the Opulence console application");
+            ->setDescription("Describes the Apex console application");
     }
 
     /**

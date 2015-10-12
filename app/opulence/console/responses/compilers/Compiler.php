@@ -7,14 +7,10 @@
 namespace Opulence\Console\Responses\Compilers;
 
 use InvalidArgumentException;
+use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Lexers\ILexer;
 use Opulence\Console\Responses\Compilers\Parsers\IParser;
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\Node;
-use Opulence\Console\Responses\Formatters\Elements\Colors;
-use Opulence\Console\Responses\Formatters\Elements\Element;
-use Opulence\Console\Responses\Formatters\Elements\ElementCollection;
-use Opulence\Console\Responses\Formatters\Elements\Style;
-use Opulence\Console\Responses\Formatters\Elements\TextStyles;
 use RuntimeException;
 
 class Compiler implements ICompiler
@@ -23,8 +19,8 @@ class Compiler implements ICompiler
     private $lexer = null;
     /** @var IParser The parser to use */
     private $parser = null;
-    /** @var ElementCollection The list of elements registered to the compiler */
-    private $elements = null;
+    /** @var Style[] The list of elements registered to the compiler */
+    private $elements = [];
     /** @var bool Whether or not messages should be styled */
     private $isStyled = true;
 
@@ -36,18 +32,8 @@ class Compiler implements ICompiler
     {
         $this->lexer = $lexer;
         $this->parser = $parser;
-        // Register the built-in elements
-        $this->elements = new ElementCollection();
-        $this->elements->add([
-            new Element("success", new Style(Colors::BLACK, Colors::GREEN)),
-            new Element("info", new Style(Colors::GREEN)),
-            new Element("error", new Style(Colors::BLACK, Colors::YELLOW)),
-            new Element("fatal", new Style(Colors::WHITE, Colors::RED)),
-            new Element("question", new Style(Colors::WHITE, Colors::BLUE)),
-            new Element("comment", new Style(Colors::YELLOW)),
-            new Element("b", new Style(null, null, [TextStyles::BOLD])),
-            new Element("u", new Style(null, null, [TextStyles::UNDERLINE]))
-        ]);
+        // Register built-in elements
+        (new ElementRegistrant())->registerElements($this);
     }
 
     /**
@@ -70,11 +56,11 @@ class Compiler implements ICompiler
     }
 
     /**
-     * @return ElementCollection
+     * @inheritdoc
      */
-    public function getElements()
+    public function registerElement($name, Style $style)
     {
-        return $this->elements;
+        $this->elements[$name] = $style;
     }
 
     /**
@@ -107,8 +93,12 @@ class Compiler implements ICompiler
 
             foreach ($node->getChildren() as $childNode) {
                 if ($node->isTag()) {
-                    $element = $this->elements->getElement($node->getValue());
-                    $output .= $element->getStyle()->format($this->compileNode($childNode));
+                    if (!isset($this->elements[$node->getValue()])) {
+                        throw new InvalidArgumentException("No style registered for element \"{$node->getValue()}\"");
+                    }
+
+                    $style = $this->elements[$node->getValue()];
+                    $output .= $style->format($this->compileNode($childNode));
                 } else {
                     $output .= $this->compileNode($childNode);
                 }

@@ -4,7 +4,7 @@
  *
  * Tests the style class
  */
-namespace Opulence\Console\Responses\Formatters\Elements;
+namespace Opulence\Console\Responses\Compilers\Elements;
 
 use InvalidArgumentException;
 

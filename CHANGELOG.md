@@ -1,3 +1,12 @@
+<h2>v0.6.17</h2>
+
+<h3>Console</h3>
+* Removed `Opulence\Console\Responses\Compilers\Compiler::getElements()`
+* Added `Opulence\Console\Responses\Compilers\ICompiler::registerElement()`
+* Added `Opulence\Console\Responses\Compilers\ElementRegistrant` to register built-in Apex elements
+* Moved `Opulence\Console\Responses\Formatters\Elements` namespace to `Opulence\Console\Responses\Compilers\Elements`
+* Added "Apex" to various commands that show title of console library
+
 <h2>v0.6.16</h2>
 
 <h3>Console</h3>

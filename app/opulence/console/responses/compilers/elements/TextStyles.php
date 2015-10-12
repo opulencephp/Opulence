@@ -4,7 +4,7 @@
  *
  * Defines the list of text styles
  */
-namespace Opulence\Console\Responses\Formatters\Elements;
+namespace Opulence\Console\Responses\Compilers\Elements;
 
 class TextStyles
 {

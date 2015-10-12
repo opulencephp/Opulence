@@ -4,7 +4,7 @@
  *
  * Defines the list of colors used by a console
  */
-namespace Opulence\Console\Responses\Formatters\Elements;
+namespace Opulence\Console\Responses\Compilers\Elements;
 
 class Colors
 {
