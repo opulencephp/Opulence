@@ -94,7 +94,7 @@ class UnitOfWork
      */
     public function detach(IEntity $entity)
     {
-        $this->entityRegistry->deregister($entity);
+        $this->entityRegistry->deregisterEntity($entity);
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         unset($this->scheduledForInsertion[$objectHashId]);
         unset($this->scheduledForUpdate[$objectHashId]);
@@ -353,7 +353,7 @@ class UnitOfWork
                 $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
             }
 
-            $this->entityRegistry->register($entity);
+            $this->entityRegistry->registerEntity($entity);
         }
     }
 
@@ -368,7 +368,7 @@ class UnitOfWork
             $this->doAggregateRootFunctions($objectHashId, $entity);
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->update($entity);
-            $this->entityRegistry->register($entity);
+            $this->entityRegistry->registerEntity($entity);
         }
     }
 } 

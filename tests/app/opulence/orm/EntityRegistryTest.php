@@ -45,8 +45,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     public function testCheckingForChangeWithComparisonFunction()
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
-        $this->entityRegistry->register($this->entity1);
-        $this->entityRegistry->register($this->entity2);
+        $this->entityRegistry->registerEntity($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity2);
         $this->entity1->setUsername("not entity 1's username");
         $this->entityRegistry->registerComparisonFunction($className, function ($a, $b) {
             /** @var User $a */
@@ -61,7 +61,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForChangeWithoutComparisonFunction()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->entity1->setUsername("blah");
         $this->assertTrue($this->entityRegistry->hasChanged($this->entity1));
     }
@@ -82,7 +82,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     public function testCheckingForNoChangeWithComparisonFunction()
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->registerComparisonFunction($className, function ($a, $b) {
             return false;
         });
@@ -94,7 +94,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForNoChangeWithoutComparisonFunction()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->assertFalse($this->entityRegistry->hasChanged($this->entity1));
     }
 
@@ -103,7 +103,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfEntityIsRegisteredAfterMakingChangesToIt()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->entity1->setUsername("blah");
         $this->assertTrue($this->entityRegistry->isRegistered($this->entity1));
     }
@@ -113,8 +113,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testClear()
     {
-        $this->entityRegistry->register($this->entity1);
-        $this->entityRegistry->register($this->entity2);
+        $this->entityRegistry->registerEntity($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity2);
         $this->entityRegistry->clear();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity2));
@@ -127,8 +127,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeregisteringEntity()
     {
-        $this->entityRegistry->register($this->entity1);
-        $this->entityRegistry->deregister($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
+        $this->entityRegistry->deregisterEntity($this->entity1);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::UNREGISTERED, $this->entityRegistry->getEntityState($this->entity1));
     }
@@ -146,8 +146,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntities()
     {
-        $this->entityRegistry->register($this->entity1);
-        $this->entityRegistry->register($this->entity2);
+        $this->entityRegistry->registerEntity($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity2);
         $this->assertEquals([$this->entity1, $this->entity2], $this->entityRegistry->getEntities());
     }
 
@@ -164,7 +164,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityStateForRegisteredEntity()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->assertEquals(EntityStates::REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
     }
 
@@ -198,7 +198,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingState()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->setState($this->entity1, EntityStates::DEQUEUED);
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
     }

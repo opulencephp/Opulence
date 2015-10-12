@@ -55,7 +55,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->entity1->setUsername("blah");
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
@@ -94,7 +94,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function testDetachingEntityAfterSchedulingForDeletionInsertionUpdate()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForUpdate($this->entity1);
@@ -111,7 +111,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function testDisposing()
     {
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->dispose();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
@@ -145,7 +145,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
         $this->unitOfWork->commit();
@@ -162,7 +162,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
         $method = $reflectionClass->getMethod("checkForUpdates");
         $method->setAccessible(true);
@@ -189,7 +189,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $className = $this->entityRegistry->getClassName($this->entity1);
         $dataMapper = new CachedSQLDataMapper();
         $this->unitOfWork->registerDataMapper($className, $dataMapper);
-        $this->entityRegistry->register($this->entity1);
+        $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->commit();
         $this->assertEquals($this->entity1, $dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));

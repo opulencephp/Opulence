@@ -87,11 +87,11 @@ class Repo implements IRepo
             // Passing by reference here is important because that reference may be updated in the unit of work
             foreach ($entities as &$entity) {
                 if ($entity instanceof IEntity) {
-                    $this->unitOfWork->getEntityRegistry()->register($entity);
+                    $this->unitOfWork->getEntityRegistry()->registerEntity($entity);
                 }
             }
         } elseif ($entities instanceof IEntity) {
-            $this->unitOfWork->getEntityRegistry()->register($entities);
+            $this->unitOfWork->getEntityRegistry()->registerEntity($entities);
         }
 
         return $entities;

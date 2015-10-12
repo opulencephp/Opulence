@@ -21,7 +21,7 @@ interface IEntityRegistry
      *
      * @param IEntity $entity The entity to detach
      */
-    public function deregister(IEntity $entity);
+    public function deregisterEntity(IEntity $entity);
 
     /**
      * Gets the object's class name
@@ -81,13 +81,6 @@ interface IEntityRegistry
     public function isRegistered(IEntity $entity);
 
     /**
-     * Registers an entity
-     *
-     * @param IEntity $entity The entity to register
-     */
-    public function register(IEntity &$entity);
-
-    /**
      * Registers a comparison function for a class, which speeds up the check for updates
      * Registering a comparison function for a class will overwrite any previously-set comparison functions for that class
      *
@@ -96,6 +89,13 @@ interface IEntityRegistry
      *      they're considered identical
      */
     public function registerComparisonFunction($className, callable $function);
+
+    /**
+     * Registers an entity
+     *
+     * @param IEntity $entity The entity to register
+     */
+    public function registerEntity(IEntity &$entity);
 
     /**
      * Sets an entity's state

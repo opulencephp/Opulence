@@ -16,6 +16,7 @@
 * Added optional slave server selection strategy parameter to `MasterSlaveConnectionPool` constructor
 
 <h3>ORM</h3>
+* Renamed `Opulence\ORM\IEntityRegistry::register()` to `registerEntity()` and `deregister()` to `deregisterEntity()`
 * Changed `Opulence\ORM\DataMappers\SQLDataMapper::read()` to accept the value-type parameter before the `$expectingSingleResult` parameter
 * Fixed `Opulence\ORM\DataMappers\ICachedSQLDataMapper` to extend `IDataMapper`, not `ISQLDataMapper`
 * Removed `Opulence\ORM\Repositories\ActionTypes` because it wasn't being used anywhere

@@ -37,7 +37,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function deregister(IEntity $entity)
+    public function deregisterEntity(IEntity $entity)
     {
         $entityState = $this->getEntityState($entity);
 
@@ -143,7 +143,15 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function register(IEntity &$entity)
+    public function registerComparisonFunction($className, callable $function)
+    {
+        $this->comparisonFunctions[$className] = $function;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerEntity(IEntity &$entity)
     {
         $className = $this->getClassName($entity);
         $objectHashId = $this->getObjectHashId($entity);
@@ -161,14 +169,6 @@ class EntityRegistry implements IEntityRegistry
             $this->entities[$className][$entity->getId()] = $entity;
             $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerComparisonFunction($className, callable $function)
-    {
-        $this->comparisonFunctions[$className] = $function;
     }
 
     /**
