@@ -4,7 +4,9 @@
  *
  * Defines a single server implementation of the connection pool, which can be used for basic, non-master/slave setups
  */
-namespace Opulence\Databases;
+namespace Opulence\Databases\ConnectionPools;
+
+use Opulence\Databases\Server;
 
 class SingleServerConnectionPool extends ConnectionPool
 {

@@ -4,9 +4,9 @@
  *
  * Mocks the connection pool class for use in testing
  */
-namespace Opulence\Tests\Databases\SQL\Mocks;
+namespace Opulence\Tests\Databases\ConnectionPools\Mocks;
 
-use Opulence\Databases\ConnectionPool as BaseConnectionPool;
+use Opulence\Databases\ConnectionPools\ConnectionPool as BaseConnectionPool;
 use Opulence\Databases\Server;
 
 class ConnectionPool extends BaseConnectionPool

@@ -3,7 +3,10 @@
   "description": "The Opulence cryptography library",
   "keywords": [
     "PHP",
-    "cryptography"
+    "cryptography",
+    "hashing",
+    "encryption",
+    "bcrypt"
   ],
   "authors": [
     {

@@ -8,7 +8,7 @@ namespace Opulence\ORM\DataMappers;
 
 use PDO;
 use PDOException;
-use Opulence\Databases\ConnectionPool;
+use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\Databases\IConnection;
 use Opulence\ORM\IEntity;
 use Opulence\ORM\Ids\IdGenerator;

@@ -9,7 +9,7 @@ namespace Opulence\Databases\PDO;
 use Opulence\Databases;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\TypeMapper;
-use Opulence\Tests\Databases\SQL\Mocks\Server;
+use Opulence\Tests\Databases\Mocks\Server;
 
 class ConnectionTest extends \PHPUnit_Framework_TestCase
 {

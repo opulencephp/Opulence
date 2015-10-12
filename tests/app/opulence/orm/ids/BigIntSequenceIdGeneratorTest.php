@@ -7,8 +7,8 @@
 namespace Opulence\ORM\Ids;
 
 use Opulence\Tests\Mocks\User;
-use Opulence\Tests\Databases\SQL\Mocks\Connection;
-use Opulence\Tests\Databases\SQL\Mocks\Server;
+use Opulence\Tests\Databases\Mocks\Connection;
+use Opulence\Tests\Databases\Mocks\Server;
 
 class BigIntSequenceIdGeneratorTest extends \PHPUnit_Framework_TestCase
 {

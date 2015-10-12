@@ -4,33 +4,48 @@
  *
  * Defines a pool of master/slave servers
  */
-namespace Opulence\Databases;
+namespace Opulence\Databases\ConnectionPools;
+
+use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy;
+use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\RandomServerSelectionStrategy;
+use Opulence\Databases\IDriver;
+use Opulence\Databases\Server;
 
 class MasterSlaveConnectionPool extends ConnectionPool
 {
-    /** @inheritdoc} */
+    /** @inheritdoc */
     protected $servers = [
         "master" => null,
         "slaves" => [],
         "custom" => []
     ];
+    /** @var IServerSelectionStrategy The slave selection strategy */
+    protected $slaveSelectionStrategy = null;
 
     /**
      * @inheritdoc
      * @param Server[] $slaves The list of slave servers to use
+     * @param IServerSelectionStrategy $slaveSelectionStrategy The selection strategy to use to select slave servers
      */
     public function __construct(
         IDriver $driver,
         Server $master,
         array $slaves = [],
         array $driverOptions = [],
-        array $connectionOptions = []
+        array $connectionOptions = [],
+        IServerSelectionStrategy $slaveSelectionStrategy = null
     ) {
         parent::__construct($driver, $master, $driverOptions, $connectionOptions);
 
         foreach ($slaves as $slave) {
             $this->addServer("slaves", $slave);
         }
+
+        if ($slaveSelectionStrategy === null) {
+            $slaveSelectionStrategy = new RandomServerSelectionStrategy();
+        }
+
+        $this->slaveSelectionStrategy = $slaveSelectionStrategy;
     }
 
     /**
@@ -85,8 +100,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
         if ($preferredServer !== null) {
             $this->readConnection = $this->getConnection("custom", $preferredServer);
         } elseif (count($this->servers["slaves"]) > 0) {
-            // Randomly pick a slave
-            $selectedSlave = $this->servers["slaves"][array_rand($this->servers["slaves"])]["server"];
+            $selectedSlave = $this->slaveSelectionStrategy->select($this->getSlaves());
             $this->readConnection = $this->getConnection("slaves", $selectedSlave);
         } else {
             $this->readConnection = $this->getConnection("master", $this->getMaster());

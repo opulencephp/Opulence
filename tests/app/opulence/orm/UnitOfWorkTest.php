@@ -7,8 +7,8 @@
 namespace Opulence\ORM;
 
 use Opulence\Tests\Mocks\User;
-use Opulence\Tests\Databases\SQL\Mocks\Connection;
-use Opulence\Tests\Databases\SQL\Mocks\Server;
+use Opulence\Tests\Databases\Mocks\Connection;
+use Opulence\Tests\Databases\Mocks\Server;
 use Opulence\Tests\ORM\DataMappers\Mocks\CachedSQLDataMapper;
 use Opulence\Tests\ORM\DataMappers\Mocks\SQLDataMapper;
 

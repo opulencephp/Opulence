@@ -4,11 +4,11 @@
  *
  * Mocks the PDO driver for use in testing
  */
-namespace Opulence\Tests\Databases\SQL\PDO\Mocks;
+namespace Opulence\Tests\Databases\PDO\Mocks;
 
-use Opulence\Databases\Server;
 use Opulence\Databases\PDO\Driver as BaseDriver;
 use Opulence\Databases\Providers\Provider;
+use Opulence\Databases\Server;
 
 class Driver extends BaseDriver
 {

@@ -4,7 +4,7 @@
  *
  * Mocks the connection class for use in testing
  */
-namespace Opulence\Tests\Databases\SQL\Mocks;
+namespace Opulence\Tests\Databases\Mocks;
 
 use Exception;
 use PDO;

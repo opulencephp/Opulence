@@ -4,11 +4,12 @@
  *
  * Tests the master/slave connection pool
  */
-namespace Opulence\Databases;
+namespace Opulence\Databases\ConnectionPools;
 
-use Opulence\Tests\Databases\SQL\Mocks\Connection;
-use Opulence\Tests\Databases\SQL\Mocks\Driver;
-use Opulence\Tests\Databases\SQL\Mocks\Server;
+use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy;
+use Opulence\Tests\Databases\Mocks\Connection;
+use Opulence\Tests\Databases\Mocks\Driver;
+use Opulence\Tests\Databases\Mocks\Server;
 
 class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
@@ -124,6 +125,28 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
             [$slave1, $slave2]);
         $connectionPool->removeSlave($slave2);
         $this->assertEquals([$slave1], $connectionPool->getSlaves());
+    }
+
+    /**
+     * Tests specifying a slave server selection strategy
+     */
+    public function testSpecifyingSlaveServerSelectionStrategy()
+    {
+        $slave = $this->createServer();
+        $strategy = $this->getMock(IServerSelectionStrategy::class);
+        $strategy->expects($this->once())
+            ->method("select")
+            ->with([$slave])
+            ->willReturn($slave);
+        $connectionPool = new MasterSlaveConnectionPool(
+            $this->createDriver(),
+            $this->createServer(),
+            [$slave],
+            [],
+            [],
+            $strategy
+        );
+        $this->assertSame($slave, $connectionPool->getReadConnection()->getServer());
     }
 
     /**

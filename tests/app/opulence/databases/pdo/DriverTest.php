@@ -6,9 +6,9 @@
  */
 namespace Opulence\Databases\PDO;
 
-use Opulence\Tests\Databases\SQL\Mocks\Connection;
-use Opulence\Tests\Databases\SQL\Mocks\Driver;
-use Opulence\Tests\Databases\SQL\Mocks\Server;
+use Opulence\Tests\Databases\Mocks\Connection;
+use Opulence\Tests\Databases\Mocks\Driver;
+use Opulence\Tests\Databases\Mocks\Server;
 
 class DriverTest extends \PHPUnit_Framework_TestCase
 {

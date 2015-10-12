@@ -6,8 +6,8 @@
  */
 namespace Opulence\Databases\PDO\PostgreSQL;
 
-use Opulence\Databases\Providers\PostgreSQLProvider;
 use Opulence\Databases\PDO\Driver as BaseDriver;
+use Opulence\Databases\Providers\PostgreSQLProvider;
 use Opulence\Databases\Server;
 
 class Driver extends BaseDriver

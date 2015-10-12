@@ -6,7 +6,7 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\Databases\ConnectionPool;
+use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\Redis\Redis;
 
 abstract class RedisCachedSQLDataMapper extends CachedSQLDataMapper

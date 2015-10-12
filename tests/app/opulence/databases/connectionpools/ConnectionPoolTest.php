@@ -4,11 +4,11 @@
  *
  * Tests the connection pool
  */
-namespace Opulence\Databases;
+namespace Opulence\Databases\ConnectionPools;
 
-use Opulence\Tests\Databases\SQL\Mocks\ConnectionPool;
-use Opulence\Tests\Databases\SQL\Mocks\Driver;
-use Opulence\Tests\Databases\SQL\Mocks\Server as MockServer;
+use Opulence\Tests\Databases\ConnectionPools\Mocks\ConnectionPool;
+use Opulence\Tests\Databases\Mocks\Driver;
+use Opulence\Tests\Databases\Mocks\Server as MockServer;
 
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {

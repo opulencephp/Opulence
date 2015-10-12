@@ -4,11 +4,11 @@
  *
  * Tests the single server connection pool
  */
-namespace Opulence\Databases;
+namespace Opulence\Databases\ConnectionPools;
 
-use Opulence\Tests\Databases\SQL\Mocks\Connection;
-use Opulence\Tests\Databases\SQL\Mocks\Driver;
-use Opulence\Tests\Databases\SQL\Mocks\Server;
+use Opulence\Tests\Databases\Mocks\Connection;
+use Opulence\Tests\Databases\Mocks\Driver;
+use Opulence\Tests\Databases\Mocks\Server;
 
 class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {

@@ -5,10 +5,13 @@
  * Defines a database connection pool
  * This can handle multiple server setups or simple single server setups
  */
-namespace Opulence\Databases;
+namespace Opulence\Databases\ConnectionPools;
 
+use Opulence\Databases\IDriver;
+use Opulence\Databases\IConnection;
 use Opulence\Databases\PDO\MySQL\Driver as MySQLDriver;
 use Opulence\Databases\PDO\PostgreSQL\Driver as PostgreSQLDriver;
+use Opulence\Databases\Server;
 use RuntimeException;
 
 abstract class ConnectionPool

@@ -4,7 +4,10 @@
   "keywords": [
     "PHP",
     "database",
-    "pdo"
+    "pdo",
+    "mysql",
+    "postgresql",
+    "connection pools"
   ],
   "authors": [
     {

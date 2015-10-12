@@ -7,7 +7,7 @@
 namespace Opulence\Databases\PDO;
 
 use PDO;
-use Opulence\Tests\Databases\SQL\PDO\Mocks\Statement;
+use Opulence\Tests\Databases\PDO\Mocks\Statement;
 
 class StatementTest extends \PHPUnit_Framework_TestCase
 {

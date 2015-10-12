@@ -7,7 +7,7 @@
 namespace Opulence\ORM\DataMappers;
 
 use Exception;
-use Opulence\Databases\ConnectionPool;
+use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 

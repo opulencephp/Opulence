@@ -6,7 +6,7 @@
  */
 namespace Opulence\Tests\ORM\DataMappers\Mocks;
 
-use Opulence\Databases\ConnectionPool;
+use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\ORM\DataMappers\CachedSQLDataMapper as BaseCachedSQLDataMapper;
 use Opulence\ORM\DataMappers\ICacheDataMapper;
 use Opulence\ORM\DataMappers\ISQLDataMapper;

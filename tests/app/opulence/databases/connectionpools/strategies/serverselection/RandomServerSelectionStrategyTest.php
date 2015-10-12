@@ -1,0 +1,71 @@
+<?php
+/**
+ * Copyright (C) 2015 David Young
+ *
+ * Tests the random server selection strategy
+ */
+namespace Opulence\Databases\ConnectionPools\Strategies\ServerSelection;
+
+use InvalidArgumentException;
+use Opulence\Databases\Server;
+
+class RandomServerSelectionStrategyTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var RandomServerSelectionStrategy The strategy to use in tests */
+    private $strategy = null;
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->strategy = new RandomServerSelectionStrategy();
+    }
+
+    /**
+     * Tests that an exception is thrown when passing an empty list of servers
+     */
+    public function testExceptionThrownWithEmptyListOfServers()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $this->strategy->select([]);
+    }
+
+    /**
+     * Tests selecting from a list of a servers
+     */
+    public function testSelectingFromListOfServers()
+    {
+        $server1 = $this->getServerMock();
+        $server2 = $this->getServerMock();
+        $this->assertTrue(in_array($this->strategy->select([$server1, $server2]), [$server1, $server2]));
+    }
+
+    /**
+     * Tests selecting from a list of a single server
+     */
+    public function testSelectingFromListOfSingleServer()
+    {
+        $server = $this->getServerMock();
+        $this->assertSame($server, $this->strategy->select([$server]));
+    }
+
+    /**
+     * Tests selecting from a single server
+     */
+    public function testSelectingFromSingleServer()
+    {
+        $server = $this->getServerMock();
+        $this->assertSame($server, $this->strategy->select($server));
+    }
+
+    /**
+     * Gets a mock server
+     *
+     * @return Server|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private function getServerMock()
+    {
+        return $this->getMock(Server::class, [], [], "", false);
+    }
+}

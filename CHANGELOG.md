@@ -7,6 +7,11 @@
 * Moved `Opulence\Console\Responses\Formatters\Elements` namespace to `Opulence\Console\Responses\Compilers\Elements`
 * Added "Apex" to various commands that show title of console library
 
+<h3>Databases</h3>
+* Moved `ConnectionPool`, `MasterSlaveConnectionPool`, and `SingleServerConnectionPool` to new `Opulence\Databases\ConnectionPools` namespace
+* Added `Opulence\Databases\ConnectionPools\Strategies\ServerSelection\IServerSelectionStrategy`, `SingleServerSelectionStrategy`, and `RandomServerSelectionStrategy`
+* Added optional slave server selection strategy parameter to `MasterSlaveConnectionPool` constructor
+
 <h2>v0.6.16</h2>
 
 <h3>Console</h3>

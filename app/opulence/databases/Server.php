@@ -2,7 +2,7 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Provides a skeleton for database servers to extend
+ * Defines a database server
  */
 namespace Opulence\Databases;
 
