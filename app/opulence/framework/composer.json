@@ -21,20 +21,20 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "opulence/applications": "0.6.*",
-    "opulence/console": "0.6.*",
-    "opulence/cryptography": "0.6.*",
-    "opulence/events": "0.6.*",
-    "opulence/files": "0.6.*",
-    "opulence/http": "0.6.*",
-    "opulence/ioc": "0.6.*",
-    "opulence/routing": "0.6.*",
-    "opulence/sessions": "0.6.*",
-    "opulence/views": "0.6.*"
+    "opulence/applications": "1.0.*",
+    "opulence/console": "1.0.*",
+    "opulence/cryptography": "1.0.*",
+    "opulence/events": "1.0.*",
+    "opulence/files": "1.0.*",
+    "opulence/http": "1.0.*",
+    "opulence/ioc": "1.0.*",
+    "opulence/routing": "1.0.*",
+    "opulence/sessions": "1.0.*",
+    "opulence/views": "1.0.*"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.6.x-dev"
+      "dev-master": "1.0.x-dev"
     }
   },
   "minimum-stability": "dev"

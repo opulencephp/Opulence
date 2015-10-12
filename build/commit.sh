@@ -1,4 +1,4 @@
-REPOS=(applications authentication cache console cryptography databases events files forms framework http ioc memcached orm pipelines querybuilders redis routing sessions users views)
+REPOS=(applications authentication cache console cryptography databases events files framework http ioc memcached orm pipelines querybuilders redis routing sessions users views)
 SUBTREE_DIR="app/opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
 
@@ -35,18 +35,39 @@ function split()
 
 function tag()
 {
-    git co master
+    hasacknowledgedprompt=false
     read -p "   Tag Name: " tagname
+    read -p "   Is Stable?: " isstable
+
+    if [ "$isstable" == "y" ]; then
+        isstable=true
+    else
+        isstable=false
+    fi
+
+    while ( [ $isstable == false ] && [ $hasacknowledgedprompt == false ] ); do
+        read -p "   Have you manually updated version constant on master branch?: " hasupdated
+
+        if [ "$hasupdated" == "y" ]; then
+            hasacknowledgedprompt=true
+        fi
+    done
+
     read -p "   Commit message: " message
 
-    # Update version
-    # Remove "v" from tag name
-    shorttagname=${tagname:1}
-    sed -i "s/private static \$version = \"[0-9\.]*\";/private static \$version = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
+    git co master
 
-    # Commit changes to application file
-    git commit -m "Incrementing version" $APPLICATION_CLASS_FILE
-    git push origin master
+    if $isstable; then
+        # Update version
+        # Remove "v" from tag name
+        shorttagname=${tagname:1}
+        sed -i "s/private static \$version = \"[0-9\.]*\";/private static \$version = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
+
+        # Commit changes to application file
+        git commit -m "Incrementing version" $APPLICATION_CLASS_FILE
+        git push origin master
+    fi
+
     git subtree push --prefix=$SUBTREE_DIR/applications --rejoin applications master
 
     # Check if we need to commit components

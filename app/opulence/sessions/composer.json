@@ -20,14 +20,14 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "opulence/cryptography": "0.6.*"
+    "opulence/cryptography": "1.0.*"
   },
   "suggest": {
     "opulence/cache": "Required for CacheSessionHandler"
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.6.x-dev"
+      "dev-master": "1.0.x-dev"
     }
   },
   "minimum-stability": "dev"

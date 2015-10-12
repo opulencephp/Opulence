@@ -1,3 +1,10 @@
+<h2>v1.0.0-alpha1</h2>
+
+<h3>General</h3>
+* Created first alpha release
+* Removed forms library
+* Updated Composer configs to latest branch
+
 <h2>v0.6.17</h2>
 
 <h3>Bootstrappers</h3>

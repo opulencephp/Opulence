@@ -22,9 +22,9 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "opulence/http": "0.6.*",
-    "opulence/ioc": "0.6.*",
-    "opulence/pipelines": "0.6.*",
+    "opulence/http": "1.0.*",
+    "opulence/ioc": "1.0.*",
+    "opulence/pipelines": "1.0.*",
     "jeremeamia/superclosure": "~2.1"
   },
   "suggest": {
@@ -32,7 +32,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.6.x-dev"
+      "dev-master": "1.0.x-dev"
     }
   },
   "minimum-stability": "dev"

@@ -70,7 +70,6 @@
     "opulence/databases": "self.version",
     "opulence/events": "self.version",
     "opulence/files": "self.version",
-    "opulence/forms": "self.version",
     "opulence/framework": "self.version",
     "opulence/http": "self.version",
     "opulence/ioc": "self.version",
@@ -86,7 +85,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.6.x-dev"
+      "dev-master": "1.0.x-dev"
     }
   },
   "minimum-stability": "dev"
