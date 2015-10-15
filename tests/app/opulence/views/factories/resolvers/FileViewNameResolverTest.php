@@ -26,7 +26,9 @@ class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
             "a.php",
             "b.php",
             "a.fortune",
-            "b.fortune"
+            "b.fortune",
+            "a.fortune.php",
+            "b.fortune.php"
         ];
 
         foreach ($files as $file) {
@@ -175,5 +177,16 @@ class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
         $this->resolver->registerExtension("fortune");
         $this->resolver->registerPath(self::getTmpFilePath());
         $this->assertEquals(self::getTmpFilePath() . "/a.fortune", $this->resolver->resolve("a.fortune"));
+    }
+
+    /**
+     * Tests resolving name with an extension
+     */
+    public function testResolvingWithExtensionsThatAreSubstringsOfOthers()
+    {
+        $this->resolver->registerExtension("fortune.php");
+        $this->resolver->registerExtension("php");
+        $this->resolver->registerPath(self::getTmpFilePath());
+        $this->assertEquals(self::getTmpFilePath() . "/a.fortune.php", $this->resolver->resolve("a"));
     }
 }

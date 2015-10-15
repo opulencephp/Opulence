@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha2</h2>
+
+<h3>Views</h3>
+* Fixed bug that prevented `.fortune.php` files from being resolved by the file name resolver
+
 <h2>v1.0.0-alpha1</h2>
 
 <h3>General</h3>

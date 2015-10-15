@@ -116,8 +116,9 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     {
         $resolver = new FileViewNameResolver();
         $resolver->registerPath($this->paths["views.raw"]);
-        $resolver->registerExtension("php");
         $resolver->registerExtension("fortune");
+        $resolver->registerExtension("fortune.php");
+        $resolver->registerExtension("php");
         $viewReader = $this->getViewReader($container);
         $container->bind(IViewNameResolver::class, $resolver);
         $container->bind(IViewReader::class, $viewReader);
