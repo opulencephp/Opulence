@@ -6,6 +6,8 @@
  */
 namespace Opulence\ORM;
 
+use Opulence\ORM\ChangeTracking\ChangeTracker;
+use Opulence\ORM\Ids\IdAccessorRegistry;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Databases\Mocks\Connection;
 use Opulence\Tests\Databases\Mocks\Server;
@@ -32,10 +34,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $server = new Server();
-        $connection = new Connection($server);
-        $this->entityRegistry = new EntityRegistry();
-        $this->entityRegistry->registerIdAccessors(
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
                 /** @var User $user */
@@ -46,7 +46,16 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
                 $user->setId($id);
             }
         );
-        $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
+        $changeTracker = new ChangeTracker();
+        $server = new Server();
+        $connection = new Connection($server);
+        $this->entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
+        $this->unitOfWork = new UnitOfWork(
+            $this->entityRegistry,
+            $idAccessorRegistry,
+            $changeTracker,
+            $connection
+        );
         $this->dataMapper = new SQLDataMapper();
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
@@ -188,7 +197,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingConnection()
     {
         $this->setExpectedException(ORMException::class);
-        $unitOfWork = new UnitOfWork($this->entityRegistry);
+        $unitOfWork = new UnitOfWork($this->entityRegistry, new IdAccessorRegistry(), new ChangeTracker());
         $unitOfWork->commit();
     }
 
@@ -364,7 +373,12 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $server = new Server();
             $connection = new Connection($server);
             $connection->setToFailOnPurpose(true);
-            $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
+            $this->unitOfWork = new UnitOfWork(
+                $this->entityRegistry,
+                new IdAccessorRegistry(),
+                new ChangeTracker(),
+                $connection
+            );
             $this->dataMapper = new SQLDataMapper();
             $this->entity1 = new User(1, "foo");
             $this->entity2 = new User(2, "bar");

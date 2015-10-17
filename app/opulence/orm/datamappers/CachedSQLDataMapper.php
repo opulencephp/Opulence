@@ -8,6 +8,7 @@ namespace Opulence\ORM\DataMappers;
 
 use Exception;
 use Opulence\Databases\ConnectionPools\ConnectionPool;
+use Opulence\ORM\Ids\IIdAccessorRegistry;
 use Opulence\ORM\ORMException;
 
 abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
@@ -16,6 +17,8 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     protected $cacheDataMapper = null;
     /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
+    /** @var IIdAccessorRegistry The Id accessor registry */
+    protected $idAccessorRegistry = null;
     /** @var object[] The list of entities scheduled for insertion */
     protected $scheduledForCacheInsertion = [];
     /** @var object[] The list of entities scheduled for update */
@@ -26,11 +29,13 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * @param mixed $cache The cache object used in the cache data mapper
      * @param ConnectionPool $connectionPool The connection pool used in the SQL data mapper
+     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
      */
-    public function __construct($cache, ConnectionPool $connectionPool)
+    public function __construct($cache, ConnectionPool $connectionPool, IIdAccessorRegistry $idAccessorRegistry)
     {
         $this->setCacheDataMapper($cache);
         $this->setSQLDataMapper($connectionPool);
+        $this->idAccessorRegistry = $idAccessorRegistry;
     }
 
     /**
@@ -334,7 +339,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
         $keyedArray = [];
 
         foreach ($entities as $entity) {
-            $keyedArray[$entity->getId()] = $entity;
+            $keyedArray[$this->idAccessorRegistry->getEntityId($entity)] = $entity;
         }
 
         return $keyedArray;

@@ -6,36 +6,36 @@
  */
 namespace Opulence\ORM;
 
-use ReflectionClass;
+use Opulence\ORM\ChangeTracking\IChangeTracker;
+use Opulence\ORM\Ids\IIdAccessorRegistry;
 
 class EntityRegistry implements IEntityRegistry
 {
-    /** @var object[] The mapping of object Ids to their original data */
-    protected $objectHashIdsToOriginalData = [];
-    /**
-     * The mapping of class names to comparison functions
-     * Each function should return true if the entities are the same, otherwise false
-     *
-     * @var callable[]
-     */
-    protected $comparisonFunctions = [];
-    /**
-     * The mapping of class names to their getter and setter functions
-     *
-     * @var callable[]
-     */
-    protected $idAccessorFunctions = [];
+    /** @var IIdAccessorRegistry The Id accessory registry */
+    protected $idAccessorRegistry = null;
+    /** @var IChangeTracker The change tracker */
+    protected $changeTracker = null;
     /** @var array The mapping of entities' object hash Ids to their various states */
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
     private $entities = [];
 
     /**
+     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
+     * @param IChangeTracker $changeTracker The change tracker
+     */
+    public function __construct(IIdAccessorRegistry $idAccessorRegistry, IChangeTracker $changeTracker)
+    {
+        $this->idAccessorRegistry = $idAccessorRegistry;
+        $this->changeTracker = $changeTracker;
+    }
+
+    /**
      * @inheritdoc
      */
     public function clear()
     {
-        $this->objectHashIdsToOriginalData = [];
+        $this->changeTracker->stopTrackingAll();
         $this->entities = [];
         $this->entityStates = [];
     }
@@ -50,10 +50,10 @@ class EntityRegistry implements IEntityRegistry
         if ($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
-            $entityId = $this->getEntityId($entity);
+            $entityId = $this->idAccessorRegistry->getEntityId($entity);
             $this->entityStates[$objectHashId] = EntityStates::UNREGISTERED;
             unset($this->entities[$className][$entityId]);
-            unset($this->objectHashIdsToOriginalData[$objectHashId]);
+            $this->changeTracker->stopTracking($entity);
         }
     }
 
@@ -96,27 +96,6 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * Gets the Id of an entity
-     *
-     * @param object $entity The entity whose Id we want
-     * @return mixed The Id of the entity
-     * @throws ORMException Throw if no Id getter is registered for the entity
-     */
-    public function getEntityId($entity)
-    {
-        $className = $this->getClassName($entity);
-
-        if (
-            !isset($this->idAccessorFunctions[$className]["getter"]) ||
-            $this->idAccessorFunctions[$className]["getter"] == null
-        ) {
-            throw new ORMException("No Id getter registered for class $className");
-        }
-
-        return call_user_func($this->idAccessorFunctions[$className]["getter"], $entity);
-    }
-
-    /**
      * @inheritdoc
      */
     public function getEntityState($entity)
@@ -141,31 +120,10 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function hasChanged($entity)
-    {
-        if (!isset($this->objectHashIdsToOriginalData[$this->getObjectHashId($entity)])) {
-            throw new ORMException("Entity is not registered");
-        }
-
-        // If a comparison function was specified, we don't bother using reflection to check for updates
-        if (isset($this->comparisonFunctions[$this->getClassName($entity)])) {
-            if ($this->hasChangedUsingComparisonFunction($entity)) {
-                return true;
-            }
-        } elseif ($this->hasChangedUsingReflection($entity)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function isRegistered($entity)
     {
         try {
-            $entityId = $this->getEntityId($entity);
+            $entityId = $this->idAccessorRegistry->getEntityId($entity);
 
             return $this->getEntityState($entity) == EntityStates::REGISTERED
             || isset($this->entities[$this->getClassName($entity)][$entityId]);
@@ -177,19 +135,11 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function registerComparisonFunction($className, callable $function)
-    {
-        $this->comparisonFunctions[$className] = $function;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function registerEntity(&$entity)
     {
         $className = $this->getClassName($entity);
         $objectHashId = $this->getObjectHashId($entity);
-        $entityId = $this->getEntityId($entity);
+        $entityId = $this->idAccessorRegistry->getEntityId($entity);
 
         if (!isset($this->entities[$className])) {
             $this->entities[$className] = [];
@@ -200,7 +150,7 @@ class EntityRegistry implements IEntityRegistry
             $entity = $this->getEntity($this->getClassName($entity), $entityId);
         } else {
             // Register this entity
-            $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
+            $this->changeTracker->startTracking($entity);
             $this->entities[$className][$entityId] = $entity;
             $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
         }
@@ -209,95 +159,8 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function registerIdAccessors($className, callable $getter, callable $setter = null)
-    {
-        $this->idAccessorFunctions[$className] = [
-            "getter" => $getter,
-            "setter" => $setter
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setEntityId($entity, $id)
-    {
-        $className = $this->getClassName($entity);
-
-        if (
-            !isset($this->idAccessorFunctions[$className]["setter"]) ||
-            $this->idAccessorFunctions[$className]["setter"] == null
-        ) {
-            throw new ORMException("No Id setter registered for class $className");
-        }
-
-        call_user_func($this->idAccessorFunctions[$className]["setter"], $entity, $id);
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setState($entity, $entityState)
     {
         $this->entityStates[$this->getObjectHashId($entity)] = $entityState;
-    }
-
-    /**
-     * Checks to see if an entity has changed using a comparison function
-     *
-     * @param object $entity The entity to check for changes
-     * @return bool True if the entity has changed, otherwise false
-     */
-    private function hasChangedUsingComparisonFunction($entity)
-    {
-        $objectHashId = $this->getObjectHashId($entity);
-        $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
-
-        return !$this->comparisonFunctions[$this->getClassName($entity)]($originalData, $entity);
-    }
-
-    /**
-     * Checks to see if an entity has changed using reflection
-     *
-     * @param object $entity The entity to check for changes
-     * @return bool True if the entity has changed, otherwise false
-     */
-    private function hasChangedUsingReflection($entity)
-    {
-        // Get all the properties in the original entity and the current one
-        $objectHashId = $this->getObjectHashId($entity);
-        $currentEntityReflection = new ReflectionClass($entity);
-        $currentProperties = $currentEntityReflection->getProperties();
-        $currentPropertiesAsHash = [];
-        $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
-        $originalEntityReflection = new ReflectionClass($originalData);
-        $originalProperties = $originalEntityReflection->getProperties();
-        $originalPropertiesAsHash = [];
-
-        // Map each property name to its value for the current entity
-        foreach ($currentProperties as $currentProperty) {
-            $currentProperty->setAccessible(true);
-            $currentPropertiesAsHash[$currentProperty->getName()] = $currentProperty->getValue($entity);
-        }
-
-        // Map each property name to its value for the original entity
-        foreach ($originalProperties as $originalProperty) {
-            $originalProperty->setAccessible(true);
-            $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
-        }
-
-        if (count($originalProperties) != count($currentProperties)) {
-            // Clearly there's a difference here, so update
-            return true;
-        }
-
-        // Compare all the property values to see if they are identical
-        foreach ($originalPropertiesAsHash as $name => $value) {
-            if (!array_key_exists($name, $currentPropertiesAsHash) || $currentPropertiesAsHash[$name] !== $value) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

@@ -2,9 +2,10 @@
 
 <h3>ORM</h3>
 * Made all of ORM accept POPOs rather than IEntity
-* Added `Opulence\ORM\IEntityRegistry::getEntityId()`
-* Added `Opulence\ORM\IEntityRegistry::setEntityId()`
-* Added `Opulence\ORM\IEntityRegistry::registerIdAccessors()`
+* Added `Opulence\ORM\ChangeTracking\IChangeTracker` and `ChangeTracker`
+* Added `Opulence\ORM\Ids\IIdAccessorRegistry` and `IdAccessorRegistry`
+* Added `IIdAccessorRegistry` and `IChangeTracker` parameters to `UnitOfWork` and `EntityRegistry` constructors
+* Removed `Opulence\ORM\IEntityRegistry::hasChanged()` and `registerComparisonFunction()`
 * Removed `Opulence\ORM\IEntity`
 * Removed any `IEntity` type-hints
 

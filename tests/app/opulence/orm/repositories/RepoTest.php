@@ -6,7 +6,9 @@
  */
 namespace Opulence\ORM\Repositories;
 
+use Opulence\ORM\ChangeTracking\ChangeTracker;
 use Opulence\ORM\EntityRegistry;
+use Opulence\ORM\Ids\IdAccessorRegistry;
 use Opulence\ORM\ORMException;
 use Opulence\ORM\UnitOfWork;
 use Opulence\Tests\Databases\Mocks\Connection;
@@ -32,10 +34,8 @@ class RepoTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $server = new Server();
-        $connection = new Connection($server);
-        $entityRegistry = new EntityRegistry();
-        $entityRegistry->registerIdAccessors(
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
                 /** @var User $user */
@@ -46,7 +46,11 @@ class RepoTest extends \PHPUnit_Framework_TestCase
                 $user->setId($id);
             }
         );
-        $this->unitOfWork = new UnitOfWork($entityRegistry, $connection);
+        $changeTracker = new ChangeTracker();
+        $server = new Server();
+        $connection = new Connection($server);
+        $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
+        $this->unitOfWork = new UnitOfWork($entityRegistry, $idAccessorRegistry, $changeTracker, $connection);
         $this->dataMapper = new SQLDataMapper();
         $this->entity1 = new User(1, "foo");
         $this->entity2 = new User(2, "bar");

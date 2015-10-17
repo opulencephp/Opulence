@@ -7,6 +7,7 @@
 namespace Opulence\Tests\ORM\DataMappers\Mocks;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
+use Opulence\ORM\Ids\IIdAccessorRegistry;
 use Opulence\ORM\DataMappers\CachedSQLDataMapper as BaseCachedSQLDataMapper;
 use Opulence\ORM\DataMappers\ICacheDataMapper;
 use Opulence\ORM\DataMappers\ISQLDataMapper;
@@ -16,9 +17,13 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     /**
      * @param ISQLDataMapper $sqlDataMapper The SQL data mapper to use
      * @param ICacheDataMapper $cacheDataMapper The cache data mapper to use
+     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
      */
-    public function __construct(ISQLDataMapper $sqlDataMapper = null, ICacheDataMapper $cacheDataMapper = null)
-    {
+    public function __construct(
+        ISQLDataMapper $sqlDataMapper = null,
+        ICacheDataMapper $cacheDataMapper = null,
+        IIdAccessorRegistry $idAccessorRegistry = null
+    ) {
         if ($sqlDataMapper === null) {
             $sqlDataMapper = new SQLDataMapper();
         }
@@ -29,6 +34,7 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
 
         $this->sqlDataMapper = $sqlDataMapper;
         $this->cacheDataMapper = $cacheDataMapper;
+        $this->idAccessorRegistry = $idAccessorRegistry;
     }
 
     /**

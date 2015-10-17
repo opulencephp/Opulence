@@ -6,6 +6,8 @@
  */
 namespace Opulence\ORM;
 
+use Opulence\ORM\ChangeTracking\ChangeTracker;
+use Opulence\ORM\Ids\IdAccessorRegistry;
 use Opulence\Tests\Mocks\User;
 
 class EntityRegistryTest extends \PHPUnit_Framework_TestCase
@@ -26,8 +28,8 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->entityRegistry = new EntityRegistry();
-        $this->entityRegistry->registerIdAccessors(
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(
             User::class,
             function ($user) {
                 /** @var User $user */
@@ -38,6 +40,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
                 $user->setId($id);
             }
         );
+        $this->entityRegistry = new EntityRegistry($idAccessorRegistry, new ChangeTracker());
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
@@ -48,65 +51,6 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->entity2 = new User(1987, "bar");
         $this->entity1HashId = $this->entityRegistry->getObjectHashId($this->entity1);
         $this->entity2HashId = $this->entityRegistry->getObjectHashId($this->entity2);
-    }
-
-    /**
-     * Tests seeing if a change is detected with a comparison function
-     */
-    public function testCheckingForChangeWithComparisonFunction()
-    {
-        $className = $this->entityRegistry->getClassName($this->entity1);
-        $this->entityRegistry->registerEntity($this->entity1);
-        $this->entityRegistry->registerEntity($this->entity2);
-        $this->entity1->setUsername("not entity 1's username");
-        $this->entityRegistry->registerComparisonFunction($className, function ($a, $b) {
-            /** @var User $a */
-            /** @var User $b */
-            return $a->getId() == $b->getId();
-        });
-        $this->assertFalse($this->entityRegistry->hasChanged($this->entity1));
-    }
-
-    /**
-     * Tests seeing if a change is detected without a comparison function
-     */
-    public function testCheckingForChangeWithoutComparisonFunction()
-    {
-        $this->entityRegistry->registerEntity($this->entity1);
-        $this->entity1->setUsername("blah");
-        $this->assertTrue($this->entityRegistry->hasChanged($this->entity1));
-    }
-
-    /**
-     * Tests checking for changes on an unregistered entity
-     */
-    public function testCheckingForChangesOnUnregisteredEntity()
-    {
-        $this->setExpectedException(ORMException::class);
-        $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
-        $this->entityRegistry->hasChanged($this->entity1);
-    }
-
-    /**
-     * Tests checking that nothing has changed with a comparison function
-     */
-    public function testCheckingForNoChangeWithComparisonFunction()
-    {
-        $className = $this->entityRegistry->getClassName($this->entity1);
-        $this->entityRegistry->registerEntity($this->entity1);
-        $this->entityRegistry->registerComparisonFunction($className, function ($a, $b) {
-            return false;
-        });
-        $this->assertTrue($this->entityRegistry->hasChanged($this->entity1));
-    }
-
-    /**
-     * Tests checking that nothing has changed without a comparison function
-     */
-    public function testCheckingForNoChangeWithoutComparisonFunction()
-    {
-        $this->entityRegistry->registerEntity($this->entity1);
-        $this->assertFalse($this->entityRegistry->hasChanged($this->entity1));
     }
 
     /**
@@ -191,24 +135,6 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting an entity Id
-     */
-    public function testGettingEntityId()
-    {
-        $this->assertEquals(724, $this->entityRegistry->getEntityId($this->entity1));
-    }
-
-    /**
-     * Tests getting an entity Id without registering a getter
-     */
-    public function testGettingEntityIdWithoutRegisteringGetter()
-    {
-        $this->setExpectedException(ORMException::class);
-        $entity = $this->getMock(User::class, [], [], "Foo", false);
-        $this->entityRegistry->getEntityId($entity);
-    }
-
-    /**
      * Tests getting the entity state for a registered entity
      */
     public function testGettingEntityStateForRegisteredEntity()
@@ -250,25 +176,6 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(ORMException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->entityRegistry->registerEntity($entity);
-    }
-
-    /**
-     * Tests setting an entity Id
-     */
-    public function testSettingEntityId()
-    {
-        $this->entityRegistry->setEntityId($this->entity1, 333);
-        $this->assertEquals(333, $this->entity1->getId());
-    }
-
-    /**
-     * Tests setting an entity Id without registering a setter
-     */
-    public function testSettingEntityIdWithoutRegisteringGetter()
-    {
-        $this->setExpectedException(ORMException::class);
-        $entity = $this->getMock(User::class, [], [], "Foo", false);
-        $this->entityRegistry->setEntityId($entity, 24);
     }
 
     /**

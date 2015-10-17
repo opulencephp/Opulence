@@ -8,9 +8,11 @@ namespace Opulence\ORM;
 
 use Exception;
 use Opulence\Databases\IConnection;
+use Opulence\ORM\ChangeTracking\IChangeTracker;
 use Opulence\ORM\DataMappers\ICachedSQLDataMapper;
 use Opulence\ORM\DataMappers\IDataMapper;
 use Opulence\ORM\DataMappers\ISQLDataMapper;
+use Opulence\ORM\Ids\IIdAccessorRegistry;
 use RuntimeException;
 
 class UnitOfWork
@@ -19,6 +21,10 @@ class UnitOfWork
     private $connection = null;
     /** @var IEntityRegistry What manages/tracks entities for our unit of work */
     private $entityRegistry = null;
+    /** @var IIdAccessorRegistry The Id accessor registry */
+    private $idAccessorRegistry = null;
+    /** @var IChangeTracker The change tracker */
+    private $changeTracker = null;
     /** @var array The mapping of class names to their data mappers */
     private $dataMappers = [];
     /** @var array The list of entities scheduled for insertion */
@@ -41,11 +47,19 @@ class UnitOfWork
 
     /**
      * @param IEntityRegistry $entityRegistry The entity registry to use
+     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
+     * @param IChangeTracker $changeTracker The change tracker to use
      * @param IConnection $connection The connection to use in our unit of work
      */
-    public function __construct(IEntityRegistry $entityRegistry, IConnection $connection = null)
-    {
+    public function __construct(
+        IEntityRegistry $entityRegistry,
+        IIdAccessorRegistry $idAccessorRegistry,
+        IChangeTracker $changeTracker,
+        IConnection $connection = null
+    ) {
         $this->entityRegistry = $entityRegistry;
+        $this->idAccessorRegistry = $idAccessorRegistry;
+        $this->changeTracker = $changeTracker;
 
         if ($connection !== null) {
             $this->setConnection($connection);
@@ -299,7 +313,7 @@ class UnitOfWork
                 && !isset($this->scheduledForInsertion[$objectHashId])
                 && !isset($this->scheduledForUpdate[$objectHashId])
                 && !isset($this->scheduledForDeletion[$objectHashId])
-                && $this->entityRegistry->hasChanged($entity)
+                && $this->changeTracker->hasChanged($entity)
             ) {
                 $this->scheduleForUpdate($entity);
             }
@@ -348,7 +362,7 @@ class UnitOfWork
             $dataMapper->add($entity);
 
             if ($dataMapper instanceof ISQLDataMapper) {
-                $this->entityRegistry->setEntityId(
+                $this->idAccessorRegistry->setEntityId(
                     $entity,
                     $dataMapper->getIdGenerator()->generate($entity, $this->connection)
                 );

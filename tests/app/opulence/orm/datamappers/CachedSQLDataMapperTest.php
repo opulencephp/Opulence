@@ -6,6 +6,7 @@
  */
 namespace Opulence\ORM\DataMappers;
 
+use Opulence\ORM\Ids\IdAccessorRegistry;
 use Opulence\ORM\ORMException;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\ORM\DataMappers\Mocks\CacheDataMapperThatReturnsNull;
@@ -29,7 +30,12 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->dataMapper = new CachedSQLDataMapper();
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(User::class, function ($user) {
+            /** @var User $user */
+            return $user->getId();
+        });
+        $this->dataMapper = new CachedSQLDataMapper(null, null, $idAccessorRegistry);
         $this->entity1 = new User(123, "foo");
         $this->entity2 = new User(456, "bar");
         $this->entity3 = new User(789, "baz");
@@ -135,7 +141,12 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUnsyncedEntitiesWhenGetAllReturnsNull()
     {
-        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull());
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(User::class, function ($user) {
+            /** @var User $user */
+            return $user->getId();
+        });
+        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull(), $idAccessorRegistry);
         $this->dataMapper->getSQLDataMapper()->add($this->entity1);
         $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
         $this->assertEquals([
@@ -185,7 +196,12 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshingCacheWhenGetAllReturnsNull()
     {
-        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull());
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(User::class, function ($user) {
+            /** @var User $user */
+            return $user->getId();
+        });
+        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull(), $idAccessorRegistry);
         $this->dataMapper->getSQLDataMapper()->add($this->entity1);
         $unsyncedEntities = $this->dataMapper->refreshCache();
         $this->assertEquals([
