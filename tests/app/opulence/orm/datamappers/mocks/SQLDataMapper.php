@@ -9,12 +9,11 @@ namespace Opulence\Tests\ORM\DataMappers\Mocks;
 use Opulence\Databases\IConnection;
 use Opulence\ORM\DataMappers\SQLDataMapper as BaseSQLDataMapper;
 use Opulence\ORM\Ids\IntSequenceIdGenerator;
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
 class SQLDataMapper extends BaseSQLDataMapper
 {
-    /** @var IEntity[] The list of entities added */
+    /** @var object[] The list of entities added */
     protected $entities = [];
     /** @var int The current Id */
     private $currId = 0;
@@ -27,7 +26,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     /**
      * @inheritdoc
      */
-    public function add(IEntity &$entity)
+    public function add(&$entity)
     {
         $this->currId++;
         $entity->setId($this->currId);
@@ -37,7 +36,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     /**
      * @inheritdoc
      */
-    public function delete(IEntity &$entity)
+    public function delete(&$entity)
     {
         unset($this->entities[$entity->getId()]);
     }
@@ -80,7 +79,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     /**
      * @inheritdoc
      */
-    public function update(IEntity &$entity)
+    public function update(&$entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }

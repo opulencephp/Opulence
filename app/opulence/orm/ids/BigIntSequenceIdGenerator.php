@@ -7,7 +7,6 @@
 namespace Opulence\ORM\Ids;
 
 use Opulence\Databases\IConnection;
-use Opulence\ORM\IEntity;
 
 class BigIntSequenceIdGenerator extends IdGenerator
 {
@@ -25,7 +24,7 @@ class BigIntSequenceIdGenerator extends IdGenerator
     /**
      * @inheritdoc
      */
-    public function generate(IEntity $entity, IConnection $connection)
+    public function generate($entity, IConnection $connection)
     {
         return (string)$connection->lastInsertId($this->sequenceName);
     }

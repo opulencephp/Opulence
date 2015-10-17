@@ -19,9 +19,9 @@ interface IEntityRegistry
      * Deregisters an entity
      * This should only be called through a unit of work
      *
-     * @param IEntity $entity The entity to detach
+     * @param object $entity The entity to detach
      */
-    public function deregisterEntity(IEntity $entity);
+    public function deregisterEntity($entity);
 
     /**
      * Gets the object's class name
@@ -34,7 +34,7 @@ interface IEntityRegistry
     /**
      * Gets the list of all registered entities
      *
-     * @return IEntity[] The list of all registered entities
+     * @return object[] The list of all registered entities
      */
     public function getEntities();
 
@@ -43,17 +43,26 @@ interface IEntityRegistry
      *
      * @param string $className The name of the class the entity belongs to
      * @param int|string $id The entity's Id
-     * @return IEntity|null The entity if it was found, otherwise null
+     * @return object|null The entity if it was found, otherwise null
      */
     public function getEntity($className, $id);
 
     /**
+     * Gets the entity Id
+     *
+     * @param object $entity The entity whose Id we want
+     * @return mixed The Id
+     * @throws ORMException Thrown if no Id getter has been registered for this entity
+     */
+    public function getEntityId($entity);
+
+    /**
      * Gets the entity state for the input entity
      *
-     * @param IEntity $entity The entity to check
+     * @param object $entity The entity to check
      * @return int The entity state
      */
-    public function getEntityState(IEntity $entity);
+    public function getEntityState($entity);
 
     /**
      * Gets a unique hash Id for an object
@@ -66,19 +75,19 @@ interface IEntityRegistry
     /**
      * Checks whether or not an object has changed
      *
-     * @param IEntity $entity The entity to check
+     * @param object $entity The entity to check
      * @return bool True if the entity has changed, otherwise false
      * @throws ORMException Thrown if the entity was not registered
      */
-    public function hasChanged(IEntity $entity);
+    public function hasChanged($entity);
 
     /**
      * Gets whether or not an entity is registered
      *
-     * @param IEntity $entity The entity to check
+     * @param object $entity The entity to check
      * @return bool True if the entity is registered, otherwise false
      */
-    public function isRegistered(IEntity $entity);
+    public function isRegistered($entity);
 
     /**
      * Registers a comparison function for a class, which speeds up the check for updates
@@ -93,15 +102,34 @@ interface IEntityRegistry
     /**
      * Registers an entity
      *
-     * @param IEntity $entity The entity to register
+     * @param object $entity The entity to register
+     * @throws ORMException Thrown if there was an error registering the entity
      */
-    public function registerEntity(IEntity &$entity);
+    public function registerEntity(&$entity);
+
+    /**
+     * Registers functions that get an Id and set the Id for all instances of the input class name
+     *
+     * @param string $className The name of the class whose Id getter function we're registering
+     * @param callable $getter The function that accepts an entity as a parameter and returns its Id
+     * @param callable $setter The function that accepts an entity and new Id as parameters and sets the Id
+     */
+    public function registerIdAccessors($className, callable $getter, callable $setter = null);
+
+    /**
+     * Sets the entity Id
+     *
+     * @param object $entity The entity whose Id we're setting
+     * @param mixed $id The Id to set
+     * @throws ORMException Thrown if no Id setter has been registered for this entity
+     */
+    public function setEntityId($entity, $id);
 
     /**
      * Sets an entity's state
      *
-     * @param IEntity $entity The entity whose state we're setting
+     * @param object $entity The entity whose state we're setting
      * @param int $entityState The entity state
      */
-    public function setState(IEntity $entity, $entityState);
+    public function setState($entity, $entityState);
 }

@@ -10,7 +10,7 @@ use ReflectionClass;
 
 class EntityRegistry implements IEntityRegistry
 {
-    /** @var IEntity[] The mapping of object Ids to their original data */
+    /** @var object[] The mapping of object Ids to their original data */
     protected $objectHashIdsToOriginalData = [];
     /**
      * The mapping of class names to comparison functions
@@ -19,6 +19,12 @@ class EntityRegistry implements IEntityRegistry
      * @var callable[]
      */
     protected $comparisonFunctions = [];
+    /**
+     * The mapping of class names to their getter and setter functions
+     *
+     * @var callable[]
+     */
+    protected $idAccessorFunctions = [];
     /** @var array The mapping of entities' object hash Ids to their various states */
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
@@ -37,15 +43,16 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function deregisterEntity(IEntity $entity)
+    public function deregisterEntity($entity)
     {
         $entityState = $this->getEntityState($entity);
 
         if ($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
+            $entityId = $this->getEntityId($entity);
             $this->entityStates[$objectHashId] = EntityStates::UNREGISTERED;
-            unset($this->entities[$className][$entity->getId()]);
+            unset($this->entities[$className][$entityId]);
             unset($this->objectHashIdsToOriginalData[$objectHashId]);
         }
     }
@@ -89,9 +96,30 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
+     * Gets the Id of an entity
+     *
+     * @param object $entity The entity whose Id we want
+     * @return mixed The Id of the entity
+     * @throws ORMException Throw if no Id getter is registered for the entity
+     */
+    public function getEntityId($entity)
+    {
+        $className = $this->getClassName($entity);
+
+        if (
+            !isset($this->idAccessorFunctions[$className]["getter"]) ||
+            $this->idAccessorFunctions[$className]["getter"] == null
+        ) {
+            throw new ORMException("No Id getter registered for class $className");
+        }
+
+        return call_user_func($this->idAccessorFunctions[$className]["getter"], $entity);
+    }
+
+    /**
      * @inheritdoc
      */
-    public function getEntityState(IEntity $entity)
+    public function getEntityState($entity)
     {
         $objectHashId = $this->getObjectHashId($entity);
 
@@ -113,7 +141,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function hasChanged(IEntity $entity)
+    public function hasChanged($entity)
     {
         if (!isset($this->objectHashIdsToOriginalData[$this->getObjectHashId($entity)])) {
             throw new ORMException("Entity is not registered");
@@ -134,10 +162,16 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function isRegistered(IEntity $entity)
+    public function isRegistered($entity)
     {
-        return $this->getEntityState($entity) == EntityStates::REGISTERED
-        || isset($this->entities[$this->getClassName($entity)][$entity->getId()]);
+        try {
+            $entityId = $this->getEntityId($entity);
+
+            return $this->getEntityState($entity) == EntityStates::REGISTERED
+            || isset($this->entities[$this->getClassName($entity)][$entityId]);
+        } catch (ORMException $ex) {
+            return false;
+        }
     }
 
     /**
@@ -151,22 +185,23 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function registerEntity(IEntity &$entity)
+    public function registerEntity(&$entity)
     {
         $className = $this->getClassName($entity);
         $objectHashId = $this->getObjectHashId($entity);
+        $entityId = $this->getEntityId($entity);
 
         if (!isset($this->entities[$className])) {
             $this->entities[$className] = [];
         }
 
-        if (isset($this->entities[$className][$entity->getId()])) {
+        if (isset($this->entities[$className][$entityId])) {
             // Change the reference of the input entity to the one that's already registered
-            $entity = $this->getEntity($this->getClassName($entity), $entity->getId());
+            $entity = $this->getEntity($this->getClassName($entity), $entityId);
         } else {
             // Register this entity
             $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;
-            $this->entities[$className][$entity->getId()] = $entity;
+            $this->entities[$className][$entityId] = $entity;
             $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
         }
     }
@@ -174,7 +209,35 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function setState(IEntity $entity, $entityState)
+    public function registerIdAccessors($className, callable $getter, callable $setter = null)
+    {
+        $this->idAccessorFunctions[$className] = [
+            "getter" => $getter,
+            "setter" => $setter
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setEntityId($entity, $id)
+    {
+        $className = $this->getClassName($entity);
+
+        if (
+            !isset($this->idAccessorFunctions[$className]["setter"]) ||
+            $this->idAccessorFunctions[$className]["setter"] == null
+        ) {
+            throw new ORMException("No Id setter registered for class $className");
+        }
+
+        call_user_func($this->idAccessorFunctions[$className]["setter"], $entity, $id);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setState($entity, $entityState)
     {
         $this->entityStates[$this->getObjectHashId($entity)] = $entityState;
     }
@@ -182,10 +245,10 @@ class EntityRegistry implements IEntityRegistry
     /**
      * Checks to see if an entity has changed using a comparison function
      *
-     * @param IEntity $entity The entity to check for changes
+     * @param object $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    private function hasChangedUsingComparisonFunction(IEntity $entity)
+    private function hasChangedUsingComparisonFunction($entity)
     {
         $objectHashId = $this->getObjectHashId($entity);
         $originalData = $this->objectHashIdsToOriginalData[$objectHashId];
@@ -196,10 +259,10 @@ class EntityRegistry implements IEntityRegistry
     /**
      * Checks to see if an entity has changed using reflection
      *
-     * @param IEntity $entity The entity to check for changes
+     * @param object $entity The entity to check for changes
      * @return bool True if the entity has changed, otherwise false
      */
-    private function hasChangedUsingReflection(IEntity $entity)
+    private function hasChangedUsingReflection($entity)
     {
         // Get all the properties in the original entity and the current one
         $objectHashId = $this->getObjectHashId($entity);

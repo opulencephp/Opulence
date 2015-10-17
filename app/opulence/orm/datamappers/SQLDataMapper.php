@@ -10,7 +10,6 @@ use PDO;
 use PDOException;
 use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\Databases\IConnection;
-use Opulence\ORM\IEntity;
 use Opulence\ORM\Ids\IdGenerator;
 use Opulence\ORM\ORMException;
 
@@ -43,7 +42,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
      *
      * @param array $hash The hash of data to load the entity from
      * @param IConnection $connection The connection used to load the entity
-     * @return IEntity The entity
+     * @return object The entity
      */
     abstract protected function loadEntity(array $hash, IConnection $connection);
 

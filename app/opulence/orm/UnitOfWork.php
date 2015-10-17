@@ -90,9 +90,9 @@ class UnitOfWork
     /**
      * Detaches an entity from being managed
      *
-     * @param IEntity $entity The entity to detach
+     * @param object $entity The entity to detach
      */
-    public function detach(IEntity $entity)
+    public function detach($entity)
     {
         $this->entityRegistry->deregisterEntity($entity);
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
@@ -141,7 +141,7 @@ class UnitOfWork
     /**
      * Gets the list of entities that are scheduled for deletion
      *
-     * @return IEntity[] The list of entities scheduled for deletion
+     * @return object[] The list of entities scheduled for deletion
      */
     public function getScheduledEntityDeletions()
     {
@@ -151,7 +151,7 @@ class UnitOfWork
     /**
      * Gets the list of entities that are scheduled for insertion
      *
-     * @return IEntity[] The list of entities scheduled for insertion
+     * @return object[] The list of entities scheduled for insertion
      */
     public function getScheduledEntityInsertions()
     {
@@ -161,7 +161,7 @@ class UnitOfWork
     /**
      * Gets the list of entities that are scheduled for update
      *
-     * @return IEntity[] The list of entities scheduled for update
+     * @return object[] The list of entities scheduled for update
      */
     public function getScheduledEntityUpdates()
     {
@@ -172,11 +172,11 @@ class UnitOfWork
      * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
      * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
      *
-     * @param IEntity $aggregateRoot The aggregate root
-     * @param IEntity $child The child of the aggregate root
+     * @param object $aggregateRoot The aggregate root
+     * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootChild(IEntity $aggregateRoot, IEntity $child, callable $function)
+    public function registerAggregateRootChild($aggregateRoot, $child, callable $function)
     {
         $childObjectHashId = $this->entityRegistry->getObjectHashId($child);
 
@@ -206,9 +206,9 @@ class UnitOfWork
     /**
      * Schedules an entity for deletion
      *
-     * @param IEntity $entity The entity to schedule for deletion
+     * @param object $entity The entity to schedule for deletion
      */
-    public function scheduleForDeletion(IEntity $entity)
+    public function scheduleForDeletion($entity)
     {
         $this->scheduledForDeletion[$this->entityRegistry->getObjectHashId($entity)] = $entity;
     }
@@ -216,9 +216,9 @@ class UnitOfWork
     /**
      * Schedules an entity for insertion
      *
-     * @param IEntity $entity The entity to schedule for insertion
+     * @param object $entity The entity to schedule for insertion
      */
-    public function scheduleForInsertion(IEntity $entity)
+    public function scheduleForInsertion($entity)
     {
         $objectHashId = $this->entityRegistry->getObjectHashId($entity);
         $this->scheduledForInsertion[$objectHashId] = $entity;
@@ -228,9 +228,9 @@ class UnitOfWork
     /**
      * Schedules an entity for insertion
      *
-     * @param IEntity $entity The entity to schedule for insertion
+     * @param object $entity The entity to schedule for insertion
      */
-    public function scheduleForUpdate(IEntity $entity)
+    public function scheduleForUpdate($entity)
     {
         $this->scheduledForUpdate[$this->entityRegistry->getObjectHashId($entity)] = $entity;
     }
@@ -267,7 +267,7 @@ class UnitOfWork
     protected function postRollback()
     {
         // Unset each of the new entities' Ids
-        /** @var IEntity $entity */
+        /** @var object $entity */
         foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
 
@@ -311,7 +311,6 @@ class UnitOfWork
      */
     private function delete()
     {
-        /** @var IEntity $entity */
         foreach ($this->scheduledForDeletion as $objectHashId => $entity) {
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->delete($entity);
@@ -325,9 +324,9 @@ class UnitOfWork
      * Executes the aggregate root functions, if there any for the input entity
      *
      * @param string $objectHashId The object hash Id of the child
-     * @param IEntity $child The child entity
+     * @param object $child The child entity
      */
-    private function doAggregateRootFunctions($objectHashId, IEntity $child)
+    private function doAggregateRootFunctions($objectHashId, $child)
     {
         if (isset($this->aggregateRootChildren[$objectHashId])) {
             foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
@@ -342,7 +341,6 @@ class UnitOfWork
      */
     private function insert()
     {
-        /** @var IEntity $entity */
         foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);
@@ -350,7 +348,10 @@ class UnitOfWork
             $dataMapper->add($entity);
 
             if ($dataMapper instanceof ISQLDataMapper) {
-                $entity->setId($dataMapper->getIdGenerator()->generate($entity, $this->connection));
+                $this->entityRegistry->setEntityId(
+                    $entity,
+                    $dataMapper->getIdGenerator()->generate($entity, $this->connection)
+                );
             }
 
             $this->entityRegistry->registerEntity($entity);
@@ -362,7 +363,6 @@ class UnitOfWork
      */
     private function update()
     {
-        /** @var IEntity $entity */
         foreach ($this->scheduledForUpdate as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
             $this->doAggregateRootFunctions($objectHashId, $entity);

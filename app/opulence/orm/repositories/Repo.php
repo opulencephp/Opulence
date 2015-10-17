@@ -7,7 +7,6 @@
 namespace Opulence\ORM\Repositories;
 
 use Opulence\ORM\DataMappers\IDataMapper;
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 use Opulence\ORM\UnitOfWork;
 
@@ -36,7 +35,7 @@ class Repo implements IRepo
     /**
      * @inheritdoc
      */
-    public function add(IEntity &$entity)
+    public function add(&$entity)
     {
         $this->unitOfWork->scheduleForInsertion($entity);
     }
@@ -44,7 +43,7 @@ class Repo implements IRepo
     /**
      * @inheritdoc
      */
-    public function delete(IEntity &$entity)
+    public function delete(&$entity)
     {
         $this->unitOfWork->scheduleForDeletion($entity);
     }
@@ -64,7 +63,7 @@ class Repo implements IRepo
     {
         $entity = $this->unitOfWork->getEntityRegistry()->getEntity($this->className, $id);
 
-        if ($entity instanceof IEntity) {
+        if ($entity !== null) {
             return $entity;
         }
 
@@ -76,7 +75,7 @@ class Repo implements IRepo
      *
      * @param string $functionName The name of the function to call in the data mapper
      * @param array $args The list of arguments to pass into the data mapper
-     * @return IEntity|IEntity[] The entity or list of entities
+     * @return object|object[] The entity or list of entities
      * @throws ORMException Thrown if there was an error getting the entity(ies)
      */
     protected function getFromDataMapper($functionName, array $args = [])
@@ -86,11 +85,11 @@ class Repo implements IRepo
         if (is_array($entities)) {
             // Passing by reference here is important because that reference may be updated in the unit of work
             foreach ($entities as &$entity) {
-                if ($entity instanceof IEntity) {
+                if ($entity !== null) {
                     $this->unitOfWork->getEntityRegistry()->registerEntity($entity);
                 }
             }
-        } elseif ($entities instanceof IEntity) {
+        } elseif ($entities !== null) {
             $this->unitOfWork->getEntityRegistry()->registerEntity($entities);
         }
 

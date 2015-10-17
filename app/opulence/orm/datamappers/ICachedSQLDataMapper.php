@@ -6,7 +6,6 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
 interface ICachedSQLDataMapper extends IDataMapper
@@ -37,7 +36,7 @@ interface ICachedSQLDataMapper extends IDataMapper
     /**
      * Gets a list of entities that differ in cache and the SQL database
      *
-     * @return IEntity[] The list of entities that were not already synced
+     * @return object[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
@@ -48,7 +47,7 @@ interface ICachedSQLDataMapper extends IDataMapper
     /**
      * Refreshes the data in cache with the data from the SQL data mapper
      *
-     * @return IEntity[] The list of entities that were not already synced
+     * @return object[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL

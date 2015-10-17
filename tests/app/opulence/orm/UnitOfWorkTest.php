@@ -35,6 +35,17 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $server = new Server();
         $connection = new Connection($server);
         $this->entityRegistry = new EntityRegistry();
+        $this->entityRegistry->registerIdAccessors(
+            User::class,
+            function ($user) {
+                /** @var User $user */
+                return $user->getId();
+            },
+            function ($user, $id) {
+                /** @var User $user */
+                $user->setId($id);
+            }
+        );
         $this->unitOfWork = new UnitOfWork($this->entityRegistry, $connection);
         $this->dataMapper = new SQLDataMapper();
         /**

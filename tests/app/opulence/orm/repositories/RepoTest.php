@@ -34,8 +34,19 @@ class RepoTest extends \PHPUnit_Framework_TestCase
     {
         $server = new Server();
         $connection = new Connection($server);
-        $entityStateManager = new EntityRegistry();
-        $this->unitOfWork = new UnitOfWork($entityStateManager, $connection);
+        $entityRegistry = new EntityRegistry();
+        $entityRegistry->registerIdAccessors(
+            User::class,
+            function ($user) {
+                /** @var User $user */
+                return $user->getId();
+            },
+            function ($user, $id) {
+                /** @var User $user */
+                $user->setId($id);
+            }
+        );
+        $this->unitOfWork = new UnitOfWork($entityRegistry, $connection);
         $this->dataMapper = new SQLDataMapper();
         $this->entity1 = new User(1, "foo");
         $this->entity2 = new User(2, "bar");

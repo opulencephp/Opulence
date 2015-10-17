@@ -1,3 +1,13 @@
+<h2>v1.0.0-alpha3</h2>
+
+<h3>ORM</h3>
+* Made all of ORM accept POPOs rather than IEntity
+* Added `Opulence\ORM\IEntityRegistry::getEntityId()`
+* Added `Opulence\ORM\IEntityRegistry::setEntityId()`
+* Added `Opulence\ORM\IEntityRegistry::registerIdAccessors()`
+* Removed `Opulence\ORM\IEntity`
+* Removed any `IEntity` type-hints
+
 <h2>v1.0.0-alpha2</h2>
 
 <h3>Views</h3>

@@ -27,6 +27,17 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->entityRegistry = new EntityRegistry();
+        $this->entityRegistry->registerIdAccessors(
+            User::class,
+            function ($user) {
+                /** @var User $user */
+                return $user->getId();
+            },
+            function ($user, $id) {
+                /** @var User $user */
+                $user->setId($id);
+            }
+        );
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
@@ -109,6 +120,15 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking if an entity is registered without registering an Id getter
+     */
+    public function testCheckingIfEntityIsRegisteredWithoutRegisteringIdGetter()
+    {
+        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $this->assertFalse($this->entityRegistry->isRegistered($entity));
+    }
+
+    /**
      * Tests clearing the registry
      */
     public function testClear()
@@ -131,6 +151,17 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->entityRegistry->deregisterEntity($this->entity1);
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::UNREGISTERED, $this->entityRegistry->getEntityState($this->entity1));
+    }
+
+    /**
+     * Tests deregistering an entity without registering an Id getter
+     */
+    public function testDeregisteringEntityWithoutRegisteringIdGetter()
+    {
+        $this->setExpectedException(ORMException::class);
+        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $this->entityRegistry->setState($entity, EntityStates::REGISTERED);
+        $this->entityRegistry->deregisterEntity($entity);
     }
 
     /**
@@ -157,6 +188,24 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGettingEntitiesWhenThereIsNotOne()
     {
         $this->assertEquals([], $this->entityRegistry->getEntities());
+    }
+
+    /**
+     * Tests getting an entity Id
+     */
+    public function testGettingEntityId()
+    {
+        $this->assertEquals(724, $this->entityRegistry->getEntityId($this->entity1));
+    }
+
+    /**
+     * Tests getting an entity Id without registering a getter
+     */
+    public function testGettingEntityIdWithoutRegisteringGetter()
+    {
+        $this->setExpectedException(ORMException::class);
+        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $this->entityRegistry->getEntityId($entity);
     }
 
     /**
@@ -191,6 +240,35 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGettingObjectHashId()
     {
         $this->assertEquals(spl_object_hash($this->entity1), $this->entityRegistry->getObjectHashId($this->entity1));
+    }
+
+    /**
+     * Tests registering an entity without registering an Id getter
+     */
+    public function testRegisteringEntityWithoutRegisteringIdGetter()
+    {
+        $this->setExpectedException(ORMException::class);
+        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $this->entityRegistry->registerEntity($entity);
+    }
+
+    /**
+     * Tests setting an entity Id
+     */
+    public function testSettingEntityId()
+    {
+        $this->entityRegistry->setEntityId($this->entity1, 333);
+        $this->assertEquals(333, $this->entity1->getId());
+    }
+
+    /**
+     * Tests setting an entity Id without registering a setter
+     */
+    public function testSettingEntityIdWithoutRegisteringGetter()
+    {
+        $this->setExpectedException(ORMException::class);
+        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $this->entityRegistry->setEntityId($entity, 24);
     }
 
     /**

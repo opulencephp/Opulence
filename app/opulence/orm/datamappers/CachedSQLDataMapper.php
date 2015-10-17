@@ -8,7 +8,6 @@ namespace Opulence\ORM\DataMappers;
 
 use Exception;
 use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
 abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
@@ -17,11 +16,11 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     protected $cacheDataMapper = null;
     /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
-    /** @var IEntity[] The list of entities scheduled for insertion */
+    /** @var object[] The list of entities scheduled for insertion */
     protected $scheduledForCacheInsertion = [];
-    /** @var IEntity[] The list of entities scheduled for update */
+    /** @var object[] The list of entities scheduled for update */
     protected $scheduledForCacheUpdate = [];
-    /** @var IEntity[] The list of entities scheduled for deletion */
+    /** @var object[] The list of entities scheduled for deletion */
     protected $scheduledForCacheDeletion = [];
 
     /**
@@ -37,7 +36,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * @inheritdoc
      */
-    public function add(IEntity &$entity)
+    public function add(&$entity)
     {
         $this->sqlDataMapper->add($entity);
         $this->scheduleForCacheInsertion($entity);
@@ -76,7 +75,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * @inheritdoc
      */
-    public function delete(IEntity &$entity)
+    public function delete(&$entity)
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
@@ -162,7 +161,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * @inheritdoc
      */
-    public function update(IEntity &$entity)
+    public function update(&$entity)
     {
         $this->sqlDataMapper->update($entity);
         $this->scheduleForCacheUpdate($entity);
@@ -189,7 +188,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * @param array $getFuncArgs The array of function arguments to pass in to our entity retrieval functions
      * @param bool $addDataToCacheOnMiss True if we want to add the entity from the database to cache in case of a cache miss
      * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a cache miss
-     * @return IEntity|array|null The entity(ies) if it was found, otherwise null
+     * @return object|array|null The entity(ies) if it was found, otherwise null
      */
     protected function read($funcName, array $getFuncArgs = [], $addDataToCacheOnMiss = true, array $setFuncArgs = [])
     {
@@ -226,9 +225,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Schedules an entity for deletion from cache
      *
-     * @param IEntity $entity The entity to schedule
+     * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheDeletion(IEntity $entity)
+    protected function scheduleForCacheDeletion($entity)
     {
         $this->scheduledForCacheDeletion[] = $entity;
     }
@@ -236,9 +235,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Schedules an entity for insertion into cache
      *
-     * @param IEntity $entity The entity to schedule
+     * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheInsertion(IEntity $entity)
+    protected function scheduleForCacheInsertion($entity)
     {
         $this->scheduledForCacheInsertion[] = $entity;
     }
@@ -246,9 +245,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     /**
      * Schedules an entity for update in cache
      *
-     * @param IEntity $entity The entity to schedule
+     * @param object $entity The entity to schedule
      */
-    protected function scheduleForCacheUpdate(IEntity $entity)
+    protected function scheduleForCacheUpdate($entity)
     {
         $this->scheduledForCacheUpdate[] = $entity;
     }
@@ -258,7 +257,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * Also performs refresh if the user chooses to do so
      *
      * @param bool $doRefresh Whether or not to refresh any unsynced entities
-     * @return IEntity[] The list of entities that were not already synced
+     * @return object[] The list of entities that were not already synced
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
@@ -283,9 +282,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
 
         // Compare the entities in the SQL database to those in cache
         foreach ($sqlEntities as $sqlId => $sqlEntity) {
-            if (isset($cacheEntities[$sqlEntity->getId()])) {
+            if (isset($cacheEntities[$sqlId])) {
                 // The entity appears in cache
-                $cacheEntity = $cacheEntities[$sqlEntity->getId()];
+                $cacheEntity = $cacheEntities[$sqlId];
 
                 if ($sqlEntity != $cacheEntity) {
                     $unsyncedEntities["differing"][] = $sqlEntity;
@@ -327,8 +326,8 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      * Converts a list of entities to a keyed array of those entities
      * The keys are the entity Ids
      *
-     * @param IEntity[] $entities The list of entities
-     * @return IEntity[] The keyed array
+     * @param object[] $entities The list of entities
+     * @return object[] The keyed array
      */
     private function keyEntityArray(array $entities)
     {

@@ -6,7 +6,6 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\ORM\IEntity;
 use Opulence\Redis\Redis;
 
 abstract class RedisDataMapper implements ICacheDataMapper
@@ -82,7 +81,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @return IEntity The entity
+     * @return object The entity
      */
     abstract protected function loadEntity(array $hash);
 

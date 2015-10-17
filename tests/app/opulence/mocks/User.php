@@ -6,9 +6,7 @@
  */
 namespace Opulence\Tests\Mocks;
 
-use Opulence\ORM\IEntity;
-
-class User implements IEntity
+class User
 {
     /** @var int The user Id */
     private $id = -1;

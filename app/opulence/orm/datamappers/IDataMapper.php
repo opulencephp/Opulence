@@ -6,7 +6,6 @@
  */
 namespace Opulence\ORM\DataMappers;
 
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
 interface IDataMapper
@@ -14,18 +13,18 @@ interface IDataMapper
     /**
      * Adds an entity to the database
      *
-     * @param IEntity $entity The entity to add
+     * @param object $entity The entity to add
      * @throws ORMException Thrown if the entity couldn't be added
      */
-    public function add(IEntity &$entity);
+    public function add(&$entity);
 
     /**
      * Deletes an entity
      *
-     * @param IEntity $entity The entity to delete
+     * @param object $entity The entity to delete
      * @throws ORMException Thrown if the entity couldn't be deleted
      */
-    public function delete(IEntity &$entity);
+    public function delete(&$entity);
 
     /**
      * Gets all the entities
@@ -38,7 +37,7 @@ interface IDataMapper
      * Gets the entity with the input Id
      *
      * @param int|string $id The Id of the entity we're searching for
-     * @return IEntity The entity with the input Id
+     * @return object The entity with the input Id
      * @throws ORMException Thrown if there was no entity with the input Id
      */
     public function getById($id);
@@ -46,8 +45,8 @@ interface IDataMapper
     /**
      * Saves any changes made to an entity
      *
-     * @param IEntity $entity The entity to save
+     * @param object $entity The entity to save
      * @throws ORMException Thrown if the entity couldn't be saved
      */
-    public function update(IEntity &$entity);
+    public function update(&$entity);
 } 
