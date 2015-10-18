@@ -2,7 +2,6 @@
 namespace {{namespace}};
 
 use Opulence\ORM\DataMappers\PredisDataMapper;
-use Opulence\ORM\IEntity;
 use Opulence\ORM\ORMException;
 
 class {{class}} extends PredisDataMapper
@@ -10,10 +9,10 @@ class {{class}} extends PredisDataMapper
     /**
      * Adds an entity to the database
      *
-     * @param IEntity $entity The entity to add
+     * @param object $entity The entity to add
      * @throws ORMException Thrown if the entity couldn't be added
      */
-    public function add(IEntity &$entity)
+    public function add(&$entity)
     {
 
     }
@@ -21,10 +20,10 @@ class {{class}} extends PredisDataMapper
     /**
      * Deletes an entity
      *
-     * @param IEntity $entity The entity to delete
+     * @param object $entity The entity to delete
      * @throws ORMException Thrown if the entity couldn't be deleted
      */
-    public function delete(IEntity &$entity)
+    public function delete(&$entity)
     {
 
     }
@@ -42,7 +41,7 @@ class {{class}} extends PredisDataMapper
     /**
      * Gets all the entities
      *
-     * @return array The list of all the entities
+     * @return object[] The list of all the entities
      */
     public function getAll()
     {
@@ -53,7 +52,7 @@ class {{class}} extends PredisDataMapper
      * Gets the entity with the input Id
      *
      * @param int|string $id The Id of the entity we're searching for
-     * @return IEntity The entity with the input Id
+     * @return object The entity with the input Id
      * @throws ORMException Thrown if there was no entity with the input Id
      */
     public function getById($id)
@@ -64,10 +63,10 @@ class {{class}} extends PredisDataMapper
     /**
      * Saves any changes made to an entity
      *
-     * @param IEntity $entity The entity to save
+     * @param object $entity The entity to save
      * @throws ORMException Thrown if the entity couldn't be saved
      */
-    public function update(IEntity &$entity)
+    public function update(&$entity)
     {
 
     }
@@ -87,7 +86,7 @@ class {{class}} extends PredisDataMapper
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @return IEntity The entity
+     * @return object The entity
      */
     protected function loadEntity(array $hash)
     {

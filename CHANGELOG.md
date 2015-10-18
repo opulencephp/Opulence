@@ -1,3 +1,11 @@
+<h2>v1.0.0-alpha4</h2>
+
+<h3>ORM</h3>
+* Fixed data mapper "make:" commands to not include `IEntity` type hint in methods
+* Re-added `Opulence\ORM\IEntity` and added Id accessors for classes that implement `IEntity` to reduce boilerplate code
+* Changed all private methods in `Opulence\ORM\ChangeTracking\ChangeTracker` to `protected` to make extending easier
+* Changed all private methods in `Opulence\ORM\UnitOfWork` to `protected` to make extending easier
+
 <h2>v1.0.0-alpha3</h2>
 
 <h3>ORM</h3>

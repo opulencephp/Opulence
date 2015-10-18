@@ -258,6 +258,79 @@ class UnitOfWork
     }
 
     /**
+     * Checks for any changes made to entities, and if any are found, they're scheduled for update
+     */
+    protected function checkForUpdates()
+    {
+        $managedEntities = $this->entityRegistry->getEntities();
+
+        foreach ($managedEntities as $entity) {
+            $objectHashId = $this->entityRegistry->getObjectHashId($entity);
+
+            if ($this->entityRegistry->isRegistered($entity)
+                && !isset($this->scheduledForInsertion[$objectHashId])
+                && !isset($this->scheduledForUpdate[$objectHashId])
+                && !isset($this->scheduledForDeletion[$objectHashId])
+                && $this->changeTracker->hasChanged($entity)
+            ) {
+                $this->scheduleForUpdate($entity);
+            }
+        }
+    }
+
+    /**
+     * Attempts to update all the entities scheduled for deletion
+     */
+    protected function delete()
+    {
+        foreach ($this->scheduledForDeletion as $objectHashId => $entity) {
+            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
+            $dataMapper->delete($entity);
+            // Order here matters
+            $this->detach($entity);
+            $this->entityRegistry->setState($entity, EntityStates::DEQUEUED);
+        }
+    }
+
+    /**
+     * Executes the aggregate root functions, if there any for the input entity
+     *
+     * @param string $objectHashId The object hash Id of the child
+     * @param object $child The child entity
+     */
+    protected function doAggregateRootFunctions($objectHashId, $child)
+    {
+        if (isset($this->aggregateRootChildren[$objectHashId])) {
+            foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
+                $aggregateRoot = $aggregateRootData["aggregateRoot"];
+                $aggregateRootData["function"]($aggregateRoot, $child);
+            }
+        }
+    }
+
+    /**
+     * Attempts to insert all the entities scheduled for insertion
+     */
+    protected function insert()
+    {
+        foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
+            // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
+            $this->doAggregateRootFunctions($objectHashId, $entity);
+            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
+            $dataMapper->add($entity);
+
+            if ($dataMapper instanceof ISQLDataMapper) {
+                $this->idAccessorRegistry->setEntityId(
+                    $entity,
+                    $dataMapper->getIdGenerator()->generate($entity, $this->connection)
+                );
+            }
+
+            $this->entityRegistry->registerEntity($entity);
+        }
+    }
+
+    /**
      * Performs any actions after the commit
      */
     protected function postCommit()
@@ -300,82 +373,9 @@ class UnitOfWork
     }
 
     /**
-     * Checks for any changes made to entities, and if any are found, they're scheduled for update
-     */
-    private function checkForUpdates()
-    {
-        $managedEntities = $this->entityRegistry->getEntities();
-
-        foreach ($managedEntities as $entity) {
-            $objectHashId = $this->entityRegistry->getObjectHashId($entity);
-
-            if ($this->entityRegistry->isRegistered($entity)
-                && !isset($this->scheduledForInsertion[$objectHashId])
-                && !isset($this->scheduledForUpdate[$objectHashId])
-                && !isset($this->scheduledForDeletion[$objectHashId])
-                && $this->changeTracker->hasChanged($entity)
-            ) {
-                $this->scheduleForUpdate($entity);
-            }
-        }
-    }
-
-    /**
-     * Attempts to update all the entities scheduled for deletion
-     */
-    private function delete()
-    {
-        foreach ($this->scheduledForDeletion as $objectHashId => $entity) {
-            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
-            $dataMapper->delete($entity);
-            // Order here matters
-            $this->detach($entity);
-            $this->entityRegistry->setState($entity, EntityStates::DEQUEUED);
-        }
-    }
-
-    /**
-     * Executes the aggregate root functions, if there any for the input entity
-     *
-     * @param string $objectHashId The object hash Id of the child
-     * @param object $child The child entity
-     */
-    private function doAggregateRootFunctions($objectHashId, $child)
-    {
-        if (isset($this->aggregateRootChildren[$objectHashId])) {
-            foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
-                $aggregateRoot = $aggregateRootData["aggregateRoot"];
-                $aggregateRootData["function"]($aggregateRoot, $child);
-            }
-        }
-    }
-
-    /**
-     * Attempts to insert all the entities scheduled for insertion
-     */
-    private function insert()
-    {
-        foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
-            // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->doAggregateRootFunctions($objectHashId, $entity);
-            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
-            $dataMapper->add($entity);
-
-            if ($dataMapper instanceof ISQLDataMapper) {
-                $this->idAccessorRegistry->setEntityId(
-                    $entity,
-                    $dataMapper->getIdGenerator()->generate($entity, $this->connection)
-                );
-            }
-
-            $this->entityRegistry->registerEntity($entity);
-        }
-    }
-
-    /**
      * Attempts to update all the entities scheduled for updating
      */
-    private function update()
+    protected function update()
     {
         foreach ($this->scheduledForUpdate as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
