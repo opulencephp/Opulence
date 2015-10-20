@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha5</h2>
+
+<h3>ORM</h3>
+* Added ability to register an array of class names in `Opulence\ORM\Ids\IIdAccessorRegistry::registerIdAccessors()`
+
 <h2>v1.0.0-alpha4</h2>
 
 <h3>ORM</h3>

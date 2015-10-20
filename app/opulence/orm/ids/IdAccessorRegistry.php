@@ -57,12 +57,14 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritdoc
      */
-    public function registerIdAccessors($className, callable $getter, callable $setter = null)
+    public function registerIdAccessors($classNames, callable $getter, callable $setter = null)
     {
-        $this->idAccessorFunctions[$className] = [
-            "getter" => $getter,
-            "setter" => $setter
-        ];
+        foreach ((array)$classNames as $className) {
+            $this->idAccessorFunctions[$className] = [
+                "getter" => $getter,
+                "setter" => $setter
+            ];
+        }
     }
 
     /**

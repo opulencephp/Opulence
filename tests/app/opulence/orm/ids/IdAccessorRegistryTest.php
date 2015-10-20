@@ -76,6 +76,33 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests registering an array of class names
+     */
+    public function testRegisteringArrayOfClassNames()
+    {
+        $entity1 = $this->getMock(User::class, [], [], "Foo", false);
+        $entity1->expects($this->any())
+            ->method("setId")
+            ->with(123);
+        $entity2 = $this->getMock(User::class, [], [], "Bar", false);
+        $entity2->expects($this->any())
+            ->method("setId")
+            ->with(456);
+        $getter = function ($entity) {
+            return 123;
+        };
+        $setter = function ($entity, $id) {
+            /** @var User $entity */
+            $entity->setId($id);
+        };
+        $this->registry->registerIdAccessors(["Foo", "Bar"], $getter, $setter);
+        $this->assertEquals(123, $this->registry->getEntityId($entity1));
+        $this->registry->setEntityId($entity1, 123);
+        $this->assertEquals(123, $this->registry->getEntityId($entity2));
+        $this->registry->setEntityId($entity2, 456);
+    }
+
+    /**
      * Tests setting an entity Id
      */
     public function testSettingEntityId()

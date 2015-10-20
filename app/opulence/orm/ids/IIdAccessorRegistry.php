@@ -22,11 +22,11 @@ interface IIdAccessorRegistry
     /**
      * Registers functions that get an Id and set the Id for all instances of the input class name
      *
-     * @param string $className The name of the class whose Id getter function we're registering
+     * @param string|array $classNames The name or list of names of classes whose Id getter functions we're registering
      * @param callable $getter The function that accepts an entity as a parameter and returns its Id
      * @param callable $setter The function that accepts an entity and new Id as parameters and sets the Id
      */
-    public function registerIdAccessors($className, callable $getter, callable $setter = null);
+    public function registerIdAccessors($classNames, callable $getter, callable $setter = null);
 
     /**
      * Sets the entity Id
