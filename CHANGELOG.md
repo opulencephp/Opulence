@@ -3,6 +3,9 @@
 <h3>ORM</h3>
 * Added ability to register an array of class names in `Opulence\ORM\Ids\IIdAccessorRegistry::registerIdAccessors()`
 
+<h3>Views</h3>
+* Moved `Opulence\Views\Factories\Resolvers\IViewNameResolver` and `FileViewNameResolver` to `Opulence\Views\Factories\IO` namespace
+
 <h2>v1.0.0-alpha4</h2>
 
 <h3>ORM</h3>

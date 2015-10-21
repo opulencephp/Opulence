@@ -20,11 +20,11 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\PHP\PHPCompiler;
+use Opulence\Views\Factories\IO\FileViewNameResolver;
 use Opulence\Views\Factories\IO\FileViewReader;
+use Opulence\Views\Factories\IO\IViewNameResolver;
 use Opulence\Views\Factories\IO\IViewReader;
 use Opulence\Views\Factories\IViewFactory;
-use Opulence\Views\Factories\Resolvers\FileViewNameResolver;
-use Opulence\Views\Factories\Resolvers\IViewNameResolver;
 use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XSSFilter;
 

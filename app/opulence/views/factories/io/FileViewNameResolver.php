@@ -4,7 +4,7 @@
  *
  * Defines the view name resolver that uses file system files to store views
  */
-namespace Opulence\Views\Factories\Resolvers;
+namespace Opulence\Views\Factories\IO;
 
 use InvalidArgumentException;
 

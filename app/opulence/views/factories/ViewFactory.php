@@ -6,8 +6,8 @@
  */
 namespace Opulence\Views\Factories;
 
+use Opulence\Views\Factories\IO\IViewNameResolver;
 use Opulence\Views\Factories\IO\IViewReader;
-use Opulence\Views\Factories\Resolvers\IViewNameResolver;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 

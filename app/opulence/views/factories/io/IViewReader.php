@@ -11,7 +11,7 @@ use InvalidArgumentException;
 interface IViewReader
 {
     /**
-     * Reads the contents of a view a the specified path
+     * Reads the contents of a view at the specified path
      *
      * @param string $path The path to the file
      * @return string The contents of the view

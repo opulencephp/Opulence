@@ -9,8 +9,8 @@ namespace Opulence\Views\Factories;
 use Opulence\Tests\Views\Factories\Mocks\BarBuilder;
 use Opulence\Tests\Views\Factories\Mocks\FooBuilder;
 use Opulence\Views\IView;
+use Opulence\Views\Factories\IO\IViewNameResolver;
 use Opulence\Views\Factories\IO\IViewReader;
-use Opulence\Views\Factories\Resolvers\IViewNameResolver;
 
 class ViewFactoryTest extends \PHPUnit_Framework_TestCase
 {
