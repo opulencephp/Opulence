@@ -4,9 +4,8 @@
  *
  * Defines the console application test case
  */
-namespace Opulence\Framework\Tests\Console;
+namespace Opulence\Framework\Testing\PHPUnit\Console;
 
-use PHPUnit_Framework_MockObject_MockObject;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler;
@@ -21,7 +20,8 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Framework\Console\Kernel;
 use Opulence\Framework\Console\StatusCodes;
-use Opulence\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Framework\Testing\PHPUnit\ApplicationTestCase as BaseApplicationTestCase;
+use PHPUnit_Framework_MockObject_MockObject;
 
 abstract class ApplicationTestCase extends BaseApplicationTestCase
 {

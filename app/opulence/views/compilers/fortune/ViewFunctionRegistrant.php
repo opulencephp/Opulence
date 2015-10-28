@@ -35,6 +35,13 @@ class ViewFunctionRegistrant
         $transpiler->registerViewFunction("httpEquiv", function ($name, $value) {
             return '<meta http-equiv="' . htmlentities($name) . '" content="' . htmlentities($value) . '">';
         });
+        // Registers the HTTP method hidden input
+        $transpiler->registerViewFunction("httpMethodInput", function ($httpMethod) {
+            return sprintf(
+                '<input type="hidden" name="_method" value="%s">',
+                $httpMethod
+            );
+        });
         // Register the meta description function
         $transpiler->registerViewFunction("metaDescription", function ($metaDescription) {
             return '<meta name="description" content="' . htmlentities($metaDescription) . '">';

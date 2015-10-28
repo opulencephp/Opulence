@@ -2,13 +2,13 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Tests the request parameters
+ * Tests the request collection
  */
 namespace Opulence\HTTP;
 
-class ParametersTest extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Parameters The parameters to use in tests */
+    /** @var Collection The parameters to use in tests */
     private $parameters = null;
 
     /**
@@ -16,7 +16,7 @@ class ParametersTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parameters = new Parameters([]);
+        $this->parameters = new Collection([]);
     }
 
     /**
@@ -121,7 +121,7 @@ class ParametersTest extends \PHPUnit_Framework_TestCase
     public function testPassingParametersInConstructor()
     {
         $parametersArray = ["foo" => "bar", "bar" => "foo"];
-        $parameters = new Parameters($parametersArray);
+        $parameters = new Collection($parametersArray);
         $this->assertEquals($parametersArray, $parameters->getAll());
     }
 

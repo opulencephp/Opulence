@@ -1,3 +1,16 @@
+<h2>v1.0.0-alpha6</h2>
+
+<h3>HTTP</h3>
+* Added support for detection of HTTP methods besides GET/POST for form requests
+* Made HTTP headers case-insensitive
+* Renamed `Opulence\HTTP\Parameters` to `Collection`
+
+<h3>Testing</h3>
+* Moved all classes under `Opulence\Framework\Tests` to `Opulence\Framework\Testing\PHPUnit`
+
+<h3>Views</h3>
+* Added `httpMethodInput()` Fortune view function to add support for HTTP methods besides GET/POST
+
 <h2>v1.0.0-alpha5</h2>
 
 <h3>ORM</h3>

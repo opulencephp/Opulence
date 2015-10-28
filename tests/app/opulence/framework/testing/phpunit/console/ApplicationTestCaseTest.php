@@ -4,7 +4,7 @@
  *
  * Tests the console application tester
  */
-namespace Opulence\Framework\Tests\Console;
+namespace Opulence\Framework\Testing\PHPUnit\Console;
 
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
@@ -17,7 +17,7 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Commands\Mocks\SinglePromptCommand;
 use Opulence\Tests\Console\Commands\Mocks\StatusCodeCommand;
 use Opulence\Tests\Console\Commands\Mocks\StyledCommand;
-use Opulence\Tests\Framework\Tests\Console\Mocks\ApplicationTestCase;
+use Opulence\Tests\Framework\Testing\PHPUnit\Console\Mocks\ApplicationTestCase;
 
 class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {

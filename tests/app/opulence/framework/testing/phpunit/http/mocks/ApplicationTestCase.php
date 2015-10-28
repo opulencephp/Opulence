@@ -2,9 +2,9 @@
 /**
  * Copyright (C) 2015 David Young
  *
- * Mocks the console application for use in testing
+ * Mocks the HTTP application for use in testing
  */
-namespace Opulence\Tests\Framework\Tests\Console\Mocks;
+namespace Opulence\Tests\Framework\Testing\PHPUnit\HTTP\Mocks;
 
 use Monolog\Logger;
 use Opulence\Applications\Application;
@@ -14,9 +14,10 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
-use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
-use Opulence\Framework\Tests\Console\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Framework\Bootstrappers\HTTP\Requests\RequestBootstrapper;
+use Opulence\Framework\Bootstrappers\HTTP\Routing\RouterBootstrapper;
+use Opulence\Framework\Bootstrappers\HTTP\Views\ViewFunctionsBootstrapper;
+use Opulence\Framework\Testing\PHPUnit\HTTP\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\IoC\Container;
 use Opulence\IoC\IContainer;
 use Opulence\Tests\Applications\Mocks\MonologHandler;
@@ -25,9 +26,18 @@ class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
-        CommandsBootstrapper::class,
-        ComposerBootstrapper::class,
+        RequestBootstrapper::class,
+        RouterBootstrapper::class,
+        ViewFunctionsBootstrapper::class
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected function getGlobalMiddleware()
+    {
+        return [];
+    }
 
     /**
      * @inheritdoc

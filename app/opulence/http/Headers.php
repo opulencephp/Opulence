@@ -6,19 +6,30 @@
  */
 namespace Opulence\HTTP;
 
-class Headers extends Parameters
+class Headers extends Collection
 {
+    /** @var array The list of HTTP request headers that don't begin with "HTTP_" */
+    protected static $specialCaseHeaders = [
+        "AUTH_TYPE" => true,
+        "CONTENT_LENGTH" => true,
+        "CONTENT_TYPE" => true,
+        "PHP_AUTH_DIGEST" => true,
+        "PHP_AUTH_PW" => true,
+        "PHP_AUTH_TYPE" => true,
+        "PHP_AUTH_USER" => true
+    ];
+
     /**
-     * @param array $parameters The list of server parameters to create the headers from
+     * @param array $values The list of server values to create the headers from
      */
-    public function __construct(array $parameters = [])
+    public function __construct(array $values = [])
     {
-        // Grab all of the server parameters that begin with "HTTP_"
-        foreach ($parameters as $key => $value) {
-            if (mb_strpos($key, "HTTP_") === 0) {
-                $this->set(mb_substr($key, 5), $value);
-            } elseif (mb_strpos($key, "CONTENT_") === 0) {
-                $this->set($key, $value);
+        // Only add "HTTP_" server values or special case values
+        foreach ($values as $name => $value) {
+            $name = strtoupper($name);
+
+            if (isset(self::$specialCaseHeaders[$name]) || strpos($name, "HTTP_") === 0) {
+                $this->set($name, $value);
             }
         }
 
@@ -49,7 +60,7 @@ class Headers extends Parameters
     public function get($name, $default = null, $onlyReturnFirst = true)
     {
         if ($this->has($name)) {
-            $value = $this->parameters[$name];
+            $value = $this->values[$this->normalizeName($name)];
 
             if ($onlyReturnFirst) {
                 return $value[0];
@@ -62,6 +73,22 @@ class Headers extends Parameters
     }
 
     /**
+     * @inheritDoc
+     */
+    public function has($name)
+    {
+        return parent::has($this->normalizeName($name));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function remove($name)
+    {
+        parent::remove($this->normalizeName($name));
+    }
+
+    /**
      * Headers are allowed to have multiple values, so we must add support for that
      *
      * @inheritdoc
@@ -70,12 +97,30 @@ class Headers extends Parameters
      */
     public function set($name, $values, $shouldReplace = true)
     {
+        $name = $this->normalizeName($name);
         $values = (array)$values;
 
         if ($shouldReplace || !$this->has($name)) {
-            $this->parameters[$name] = $values;
+            parent::set($name, $values);
         } else {
-            $this->parameters[$name] = array_merge($this->parameters[$name], $values);
+            parent::set($name, array_merge($this->values[$name], $values));
         }
+    }
+
+    /**
+     * Normalizes a name
+     *
+     * @param string $name The name to normalize
+     * @return string The normalized name
+     */
+    protected function normalizeName($name)
+    {
+        $name = strtr(strtolower($name), "_", "-");
+
+        if (strpos($name, "http-") === 0) {
+            $name = substr($name, 5);
+        }
+
+        return $name;
     }
 } 

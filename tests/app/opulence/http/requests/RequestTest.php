@@ -10,6 +10,7 @@ use InvalidArgumentException;
 use Opulence\HTTP\HTTPException;
 use Opulence\Tests\HTTP\Requests\Mocks\FormURLEncodedRequest;
 use Opulence\Tests\HTTP\Requests\Mocks\JSONRequest;
+use stdClass;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
@@ -475,6 +476,28 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the method from the override header on a GET request
+     */
+    public function testGettingMethodFromOverrideHeaderOnGetRequest()
+    {
+        $_SERVER["REQUEST_METHOD"] = Request::METHOD_GET;
+        $_SERVER["X-HTTP-METHOD-OVERRIDE"] = Request::METHOD_PUT;
+        $request = Request::createFromGlobals();
+        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+    }
+
+    /**
+     * Tests getting the method from the override header on a POST request
+     */
+    public function testGettingMethodFromOverrideHeaderOnPostRequest()
+    {
+        $_SERVER["REQUEST_METHOD"] = Request::METHOD_POST;
+        $_SERVER["X-HTTP-METHOD-OVERRIDE"] = Request::METHOD_PUT;
+        $request = Request::createFromGlobals();
+        $this->assertEquals(Request::METHOD_PUT, $request->getMethod());
+    }
+
+    /**
      * Tests getting the method when there is none set in the $_SERVER
      */
     public function testGettingMethodWhenNoneIsSet()
@@ -779,6 +802,26 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests passing an invalid object method
+     */
+    public function testInvalidObjectMethod()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $_SERVER["REQUEST_METHOD"] = new stdClass();
+        Request::createFromGlobals();
+    }
+
+    /**
+     * Tests passing an invalid string method
+     */
+    public function testInvalidStringMethod()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $_SERVER["REQUEST_METHOD"] = "foo";
+        Request::createFromGlobals();
+    }
+
+    /**
      * Tests checking if a request was made by AJAX
      */
     public function testIsAJAX()
@@ -818,6 +861,28 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = Request::createFromGlobals();
         $this->assertNull($request->getInput("foo"));
+    }
+
+    /**
+     * Tests passing the method in a GET request
+     */
+    public function testPassingMethodInGetRequest()
+    {
+        $_GET["_method"] = Request::METHOD_PUT;
+        $_SERVER["REQUEST_METHOD"] = Request::METHOD_GET;
+        $request = Request::createFromGlobals();
+        $this->assertEquals(Request::METHOD_GET, $request->getMethod());
+    }
+
+    /**
+     * Tests passing the method in a POST request
+     */
+    public function testPassingMethodInPostRequest()
+    {
+        $_POST["_method"] = Request::METHOD_PUT;
+        $_SERVER["REQUEST_METHOD"] = Request::METHOD_POST;
+        $request = Request::createFromGlobals();
+        $this->assertEquals(Request::METHOD_PUT, $request->getMethod());
     }
 
     /**
@@ -891,8 +956,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingMethod()
     {
-        $this->request->setMethod("foo");
-        $this->assertEquals("foo", $this->request->getMethod());
+        $this->request->setMethod("put");
+        $this->assertEquals("PUT", $this->request->getMethod());
     }
 
     /**

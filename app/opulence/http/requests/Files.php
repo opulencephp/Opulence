@@ -6,16 +6,16 @@
  */
 namespace Opulence\HTTP\Requests;
 
-use Opulence\HTTP\Parameters;
+use Opulence\HTTP\Collection;
 
-class Files extends Parameters
+class Files extends Collection
 {
     /**
      * @inheritdoc
      */
     public function add($name, $value)
     {
-        $this->parameters[$name] = new UploadedFile(
+        $this->values[$name] = new UploadedFile(
             $value["tmp_name"],
             $value["name"],
             $value["size"],

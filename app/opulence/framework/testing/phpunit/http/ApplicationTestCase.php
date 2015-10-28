@@ -4,13 +4,13 @@
  *
  * Defines the HTTP application test case
  */
-namespace Opulence\Framework\Tests\HTTP;
+namespace Opulence\Framework\Testing\PHPUnit\HTTP;
 
 use LogicException;
 use Monolog\Logger;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Framework\HTTP\Kernel;
-use Opulence\Framework\Tests\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Framework\Testing\PHPUnit\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\HTTP\Requests\Request;
 use Opulence\HTTP\Responses\RedirectResponse;
 use Opulence\HTTP\Responses\Response;

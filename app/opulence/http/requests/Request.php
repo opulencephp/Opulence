@@ -9,7 +9,7 @@ namespace Opulence\HTTP\Requests;
 use InvalidArgumentException;
 use Opulence\HTTP\Headers;
 use Opulence\HTTP\HTTPException;
-use Opulence\HTTP\Parameters;
+use Opulence\HTTP\Collection;
 
 class Request
 {
@@ -34,29 +34,42 @@ class Request
     /** The options method */
     const METHOD_OPTIONS = "OPTIONS";
 
+    /** @var array The list of valid methods */
+    private static $validMethods = [
+        self::METHOD_DELETE,
+        self::METHOD_GET,
+        self::METHOD_POST,
+        self::METHOD_PUT,
+        self::METHOD_HEAD,
+        self::METHOD_TRACE,
+        self::METHOD_PURGE,
+        self::METHOD_CONNECT,
+        self::METHOD_PATCH,
+        self::METHOD_OPTIONS
+    ];
     /** @var string The method used in the request */
     private $method = "";
     /** @var string The client's IP address */
     private $ipAddress = "";
-    /** @var Parameters The list of GET parameters */
+    /** @var Collection The list of GET parameters */
     private $query = null;
-    /** @var Parameters The list of POST parameters */
+    /** @var Collection The list of POST parameters */
     private $post = null;
-    /** @var Parameters The list of PUT parameters */
+    /** @var Collection The list of PUT parameters */
     private $put = null;
-    /** @var Parameters The list of PATCH parameters */
+    /** @var Collection The list of PATCH parameters */
     private $patch = null;
-    /** @var Parameters The list of DELETE parameters */
+    /** @var Collection The list of DELETE parameters */
     private $delete = null;
     /** @var Headers The list of headers */
     private $headers = null;
-    /** @var Parameters The list of SERVER parameters */
+    /** @var Collection The list of SERVER parameters */
     private $server = null;
-    /** @var Parameters The list of FILES parameters */
+    /** @var Collection The list of FILES parameters */
     private $files = null;
-    /** @var Parameters The list of ENV parameters */
+    /** @var Collection The list of ENV parameters */
     private $env = null;
-    /** @var Parameters The list of cookies */
+    /** @var Collection The list of cookies */
     private $cookies = null;
     /** @var string The path of the request, which does not include the query string */
     private $path = "";
@@ -75,21 +88,21 @@ class Request
      */
     public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env)
     {
-        $this->query = new Parameters($query);
-        $this->post = new Parameters($post);
-        $this->put = new Parameters([]);
-        $this->patch = new Parameters([]);
-        $this->delete = new Parameters([]);
-        $this->cookies = new Parameters($cookies);
-        $this->server = new Parameters($server);
+        $this->query = new Collection($query);
+        $this->post = new Collection($post);
+        $this->put = new Collection([]);
+        $this->patch = new Collection([]);
+        $this->delete = new Collection([]);
+        $this->cookies = new Collection($cookies);
+        $this->server = new Collection($server);
         $this->headers = new Headers($server);
         $this->files = new Files($files);
-        $this->env = new Parameters($env);
+        $this->env = new Collection($env);
         $this->setMethod();
         $this->setIPAddress();
         $this->setPath();
         // This must go here because it relies on other things being set first
-        $this->setUnsupportedMethodsParameters();
+        $this->setUnsupportedMethodsCollections();
     }
 
     /**
@@ -129,7 +142,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getCookies()
     {
@@ -137,7 +150,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getDelete()
     {
@@ -145,7 +158,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getEnv()
     {
@@ -299,7 +312,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getPatch()
     {
@@ -315,7 +328,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getPost()
     {
@@ -342,7 +355,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getPut()
     {
@@ -350,7 +363,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getQuery()
     {
@@ -372,7 +385,7 @@ class Request
     }
 
     /**
-     * @return Parameters
+     * @return Collection
      */
     public function getServer()
     {
@@ -441,59 +454,43 @@ class Request
      * If no input is specified, then it is automatically set using headers
      *
      * @param string|null $method The method to set, otherwise null to automatically set the method
+     * @throws InvalidArgumentException Thrown if the method is not an acceptable one
      */
     public function setMethod($method = null)
     {
         if ($method === null) {
-            switch (mb_strtolower($this->server->get("REQUEST_METHOD", self::METHOD_GET))) {
-                case "delete":
-                    $this->method = self::METHOD_DELETE;
+            $method = $this->server->get("REQUEST_METHOD", self::METHOD_GET);
 
-                    break;
-                case "get":
-                    $this->method = self::METHOD_GET;
-
-                    break;
-                case "post":
-                    $this->method = self::METHOD_POST;
-
-                    break;
-                case "put":
-                    $this->method = self::METHOD_PUT;
-
-                    break;
-                case "head":
-                    $this->method = self::METHOD_HEAD;
-
-                    break;
-                case "trace":
-                    $this->method = self::METHOD_TRACE;
-
-                    break;
-                case "purge":
-                    $this->method = self::METHOD_PURGE;
-
-                    break;
-                case "connect":
-                    $this->method = self::METHOD_CONNECT;
-
-                    break;
-                case "patch":
-                    $this->method = self::METHOD_PATCH;
-
-                    break;
-                case "options":
-                    $this->method = self::METHOD_OPTIONS;
-
-                    break;
-                default:
-                    $this->method = self::METHOD_GET;
-
-                    break;
+            if ($method == self::METHOD_POST) {
+                if (($overrideMethod = $this->server->get("X-HTTP-METHOD-OVERRIDE")) !== null) {
+                    $method = $overrideMethod;
+                } else {
+                    $method = $this->getInput("_method", $method);
+                }
             }
-        } else {
-            $this->method = $method;
         }
+
+        if (!is_string($method)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'HTTP method must be string, %s provided',
+                    is_object($method) ? get_class($method) : gettype($method)
+                )
+            );
+        }
+
+        $method = strtoupper($method);
+
+        if (!in_array($method, self::$validMethods)) {
+            throw new InvalidArgumentException(
+                sprintf(
+                    'Invalid HTTP method "%s"',
+                    $method
+                )
+            );
+        }
+
+        $this->method = $method;
     }
 
     /**
@@ -564,9 +561,9 @@ class Request
     }
 
     /**
-     * Sets PUT/PATCH/DELETE parameters, if they exist
+     * Sets PUT/PATCH/DELETE collections, if they exist
      */
-    private function setUnsupportedMethodsParameters()
+    private function setUnsupportedMethodsCollections()
     {
         /**
          * PHP doesn't pass in data from PUT/PATCH/DELETE requests through globals
@@ -577,20 +574,17 @@ class Request
             mb_strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
             in_array($this->method, [self::METHOD_PUT, self::METHOD_PATCH, self::METHOD_DELETE])
         ) {
-            parse_str($this->getRawBody(), $parameters);
+            parse_str($this->getRawBody(), $collection);
 
             switch ($this->method) {
                 case self::METHOD_PUT:
-                    $this->put->exchangeArray($parameters);
-
+                    $this->put->exchangeArray($collection);
                     break;
                 case self::METHOD_PATCH:
-                    $this->patch->exchangeArray($parameters);
-
+                    $this->patch->exchangeArray($collection);
                     break;
                 case self::METHOD_DELETE:
-                    $this->delete->exchangeArray($parameters);
-
+                    $this->delete->exchangeArray($collection);
                     break;
             }
         }

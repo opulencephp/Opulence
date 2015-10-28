@@ -4,7 +4,7 @@
  *
  * Tests the HTTP application tester
  */
-namespace Opulence\Framework\Tests\HTTP;
+namespace Opulence\Framework\Testing\PHPUnit\HTTP;
 
 use LogicException;
 use Opulence\Applications\Application;
@@ -13,7 +13,7 @@ use Opulence\Framework\HTTP\Kernel;
 use Opulence\HTTP\Responses\Response;
 use Opulence\HTTP\Responses\ResponseHeaders;
 use Opulence\Routing\Router;
-use Opulence\Tests\Framework\Tests\HTTP\Mocks\ApplicationTestCase;
+use Opulence\Tests\Framework\Testing\PHPUnit\HTTP\Mocks\ApplicationTestCase;
 
 class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {

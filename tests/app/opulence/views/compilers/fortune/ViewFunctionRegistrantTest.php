@@ -31,9 +31,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in CSS function
+     * Tests the CSS function
      */
-    public function testBuiltInCSSFunction()
+    public function testCSSFunction()
     {
         // Test a single value
         $this->assertEquals(
@@ -51,9 +51,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in charset function
+     * Tests the charset function
      */
-    public function testBuiltInCharsetFunction()
+    public function testCharsetFunction()
     {
         $charset = "utf-8";
         $this->assertEquals(
@@ -63,9 +63,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in favicon function
+     * Tests the favicon function
      */
-    public function testBuiltInFaviconFunction()
+    public function testFaviconFunction()
     {
         $path = "foo";
         $this->assertEquals(
@@ -75,9 +75,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in http-equiv function
+     * Tests the http-equiv function
      */
-    public function testBuiltInHTTPEquivFunction()
+    public function testHTTPEquivFunction()
     {
         $name = "refresh";
         $value = 30;
@@ -88,9 +88,21 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in meta description function
+     * Tests the HTTP method input
      */
-    public function testBuiltInMetaDescriptionFunction()
+    public function testHTTPMethodInput()
+    {
+        $httpMethod = "PUT";
+        $this->assertEquals(
+            '<input type="hidden" name="_method" value="' . $httpMethod . '">',
+            $this->transpiler->callViewFunction("httpMethodInput", $httpMethod)
+        );
+    }
+
+    /**
+     * Tests the meta description function
+     */
+    public function testMetaDescriptionFunction()
     {
         $metaDescription = "A&W is a root beer";
         $this->assertEquals(
@@ -100,9 +112,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in meta keywords function
+     * Tests the meta keywords function
      */
-    public function testBuiltInMetaKeywordsFunction()
+    public function testMetaKeywordsFunction()
     {
         $metaKeywords = ["A&W", "root beer"];
         $this->assertEquals(
@@ -112,9 +124,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in script function
+     * Tests the script function
      */
-    public function testBuiltInScriptFunction()
+    public function testScriptFunction()
     {
         // Test a single value
         $this->assertEquals(
@@ -146,9 +158,9 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests the built-in HTML title function
+     * Tests the HTML title function
      */
-    public function testBuiltInTitleFunction()
+    public function testTitleFunction()
     {
         $title = "A&W";
         $this->assertEquals(

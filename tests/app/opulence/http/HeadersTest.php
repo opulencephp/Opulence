@@ -34,6 +34,16 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that added names are normalized
+     */
+    public function testAddedNamesAreNormalized()
+    {
+        $this->headers->add("HTTP_FOO", "fooval");
+        $this->assertEquals("fooval", $this->headers->get("foo"));
+        $this->assertTrue($this->headers->has("foo"));
+    }
+
+    /**
      * Tests setting a string value
      */
     public function testAddingStringValue()
@@ -50,18 +60,20 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
         $headerParameters = [];
 
         foreach ($this->serverArray as $key => $value) {
+            $key = strtoupper($key);
+
             if (strpos($key, "HTTP_") === 0) {
                 if (!is_array($value)) {
                     $value = [$value];
                 }
 
-                $headerParameters[substr($key, 5)] = $value;
+                $headerParameters[$this->normalizeName($key)] = $value;
             } elseif (strpos($key, "CONTENT_") === 0) {
                 if (!is_array($value)) {
                     $value = [$value];
                 }
 
-                $headerParameters[$key] = $value;
+                $headerParameters[$this->normalizeName($key)] = $value;
             }
         }
 
@@ -98,5 +110,55 @@ class HeadersTest extends \PHPUnit_Framework_TestCase
     public function testGettingFirstValueWhenKeyDoesNotExist()
     {
         $this->assertEquals("foo", $this->headers->get("THIS_DOES_NOT_EXIST", "foo", true));
+    }
+
+    /**
+     * Tests that names are case insensitive
+     */
+    public function testNamesAreCaseInsensitive()
+    {
+        $headers = new Headers(["HTTP_FOO" => "fooval", "CONTENT_LENGTH" => "lengthval"]);
+        $headers->add("HTTP_BAZ", "bazval");
+        $headers->add("HTTP_BLAH", "blahval");
+        $this->assertEquals("fooval", $headers->get("foo"));
+        $this->assertEquals("lengthval", $headers->get("content_length"));
+        $this->assertEquals("bazval", $headers->get("http_baz"));
+        $this->assertEquals("blahval", $headers->get("http_blah"));
+        $this->assertTrue($headers->has("foo"));
+        $this->assertTrue($headers->has("content_length"));
+        $this->assertTrue($headers->has("baz"));
+        $this->assertTrue($headers->has("blah"));
+
+        // Remove a name
+        $headers->remove("foo");
+        $this->assertNull($headers->get("foo"));
+        $this->assertFalse($headers->has("foo"));
+    }
+
+    /**
+     * Tests that set names are normalized
+     */
+    public function testSetNamesAreNormalized()
+    {
+        $this->headers->set("HTTP_FOO", "fooval");
+        $this->assertEquals("fooval", $this->headers->get("foo"));
+        $this->assertTrue($this->headers->has("foo"));
+    }
+
+    /**
+     * Normalizes a name
+     *
+     * @param string $name The name to normalize
+     * @return string The normalized name
+     */
+    private function normalizeName($name)
+    {
+        $name = strtr(strtolower($name), "_", "-");
+
+        if (strpos($name, "http-") === 0) {
+            $name = substr($name, 5);
+        }
+
+        return $name;
     }
 } 

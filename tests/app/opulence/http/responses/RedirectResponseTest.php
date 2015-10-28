@@ -25,8 +25,8 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
     public function testGettingHeadersAfterSettingInConstructor()
     {
         $this->assertEquals([
-            "FOO" => ["bar"],
-            "Location" => ["/foo"]
+            "foo" => ["bar"],
+            "location" => ["/foo"]
         ], $this->redirectResponse->getHeaders()->getAll());
     }
 

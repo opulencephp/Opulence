@@ -4,11 +4,11 @@
  *
  * Defines the base application test case
  */
-namespace Opulence\Framework\Tests;
+namespace Opulence\Framework\Testing\PHPUnit;
 
-use PHPUnit_Framework_TestCase;
 use Monolog\Logger;
 use Opulence\Applications\Application;
+use PHPUnit_Framework_TestCase;
 
 abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
 {
