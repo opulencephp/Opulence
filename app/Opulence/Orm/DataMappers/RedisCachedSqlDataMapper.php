@@ -7,26 +7,23 @@
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 /**
- * Defines the Memcached-cached SQL data mapper
+ * Defines the Redis-cached SQL data mapper
  */
 namespace Opulence\Orm\DataMappers;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\Memcached\Memcached;
 use Opulence\Orm\Ids\IIdAccessorRegistry;
+use Opulence\Redis\Redis;
 
-abstract class MemcachedCachedSqlDataMapper extends CachedSqlDataMapper
+abstract class RedisCachedSqlDataMapper extends CachedSqlDataMapper
 {
     /**
-     * @param Memcached $cache The cache object used in the cache data mapper
+     * @param Redis $cache The cache object used in the cache data mapper
      * @param ConnectionPool $connectionPool The connection pool used in the SQL data mapper
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
      */
-    public function __construct(
-        Memcached $cache,
-        ConnectionPool $connectionPool,
-        IIdAccessorRegistry $idAccessorRegistry
-    ) {
+    public function __construct(Redis $cache, ConnectionPool $connectionPool, IIdAccessorRegistry $idAccessorRegistry)
+    {
         parent::__construct($cache, $connectionPool, $idAccessorRegistry);
     }
 } 

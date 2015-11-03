@@ -21,7 +21,7 @@ class MakeHttpMiddlewareCommand extends MakeCommand
         parent::define();
 
         $this->setName("make:httpmiddleware")
-            ->setDescription("Creates an Http middleware class");
+            ->setDescription("Creates an HTTP middleware class");
     }
 
     /**
