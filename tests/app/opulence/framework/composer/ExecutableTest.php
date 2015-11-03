@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Composer executable wrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Composer;
 
 use Opulence\Applications\Paths;
 use Opulence\Tests\Framework\Composer\Mocks\Executable;
 
+/**
+ * Tests the Composer executable wrapper
+ */
 class ExecutableTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Executable The executable without a composer.phar to use in tests */
@@ -23,7 +28,7 @@ class ExecutableTest extends \PHPUnit_Framework_TestCase
     {
         $paths = new Paths(["root" => __DIR__]);
         $this->executableWithoutPHAR = new Executable($paths);
-        $paths["root"] = __DIR__ . "/mocks";
+        $paths["root"] = __DIR__ . "/Mocks";
         $this->executableWithPHAR = new Executable($paths);
     }
 

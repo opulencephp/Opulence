@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds parts of a query that can use a "WHERE" clause
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Builds parts of a query that can use a "WHERE" clause
+ */
 class ConditionalQueryBuilder
 {
     /** @var array The list of WHERE expressions */
@@ -54,7 +59,7 @@ class ConditionalQueryBuilder
      * @param array $clauseConditions The array of condition data whose SQL we want
      * @return string The SQL that makes up the input clause(s)
      */
-    public function getClauseConditionSQL($conditionType, array $clauseConditions)
+    public function getClauseConditionSql($conditionType, array $clauseConditions)
     {
         if (count($clauseConditions) === 0) {
             return "";

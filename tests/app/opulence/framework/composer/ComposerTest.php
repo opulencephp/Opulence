@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Composer wrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Composer;
 
 use Opulence\Applications\Paths;
 
+/**
+ * Tests the Composer wrapper
+ */
 class ComposerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var array A fully-loaded Composer config */
@@ -26,8 +31,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
                     "__namespacepath2__"
                 ],
                 "Opulence\\" => [
-                    "app/opulence",
-                    "tests/app/opulence"
+                    "app/Opulence",
+                    "tests/app/Opulence"
                 ]
             ]
         ]
@@ -129,7 +134,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     public function testGettingPathFromClass()
     {
         $class = "Opulence\\Foo\\Bar";
-        $this->assertEquals($this->paths["app"] . "/opulence/foo/Bar.php", $this->composer->getClassPath($class));
+        $this->assertEquals($this->paths["app"] . "/Opulence/Foo/Bar.php", $this->composer->getClassPath($class));
     }
 
     /**
@@ -138,7 +143,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     public function testGettingPathFromClassInRootNamespace()
     {
         $class = "Opulence\\Bar";
-        $this->assertEquals($this->paths["app"] . "/opulence/Bar.php", $this->composer->getClassPath($class));
+        $this->assertEquals($this->paths["app"] . "/Opulence/Bar.php", $this->composer->getClassPath($class));
     }
 
     /**
@@ -174,7 +179,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespacePaths()
     {
-        $this->assertEquals(["app/opulence", "tests/app/opulence"], $this->composer->getRootNamespacePaths());
+        $this->assertEquals(["app/Opulence", "tests/app/Opulence"], $this->composer->getRootNamespacePaths());
     }
 
     /**
@@ -182,8 +187,8 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespacePathsWithStringNamespace()
     {
-        $composer = new Composer(["autoload" => ["psr-4" => ["Opulence\\" => "app/opulence"]]], $this->paths);
-        $this->assertEquals(["app/opulence"], $composer->getRootNamespacePaths());
+        $composer = new Composer(["autoload" => ["psr-4" => ["Opulence\\" => "app/Opulence"]]], $this->paths);
+        $this->assertEquals(["app/Opulence"], $composer->getRootNamespacePaths());
     }
 
     /**
@@ -191,7 +196,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRootNamespaceWithStringNamespace()
     {
-        $composer = new Composer(["autoload" => ["psr-4" => ["Opulence\\" => "app/opulence"]]], $this->paths);
+        $composer = new Composer(["autoload" => ["psr-4" => ["Opulence\\" => "app/Opulence"]]], $this->paths);
         $this->assertEquals("Opulence", $composer->getRootNamespace());
     }
 

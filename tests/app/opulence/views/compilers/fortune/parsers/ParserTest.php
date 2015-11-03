@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
@@ -16,6 +18,9 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
 use RuntimeException;
 
+/**
+ * Tests the view parser
+ */
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Parser The parser to use in tests */

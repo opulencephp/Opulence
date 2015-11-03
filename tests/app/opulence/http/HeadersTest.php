@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http;
+
+/**
  * Tests the headers class
  */
-namespace Opulence\HTTP;
-
 class HeadersTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Headers The headers to use in tests */

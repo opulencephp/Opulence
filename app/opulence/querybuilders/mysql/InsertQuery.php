@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds an insert query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\QueryBuilders\MySQL;
+namespace Opulence\QueryBuilders\MySql;
 
 use Opulence\QueryBuilders\InsertQuery as BaseInsertQuery;
 
+/**
+ * Builds an insert query
+ */
 class InsertQuery extends BaseInsertQuery
 {
     /** @var array The list of column names to values in case of a "ON DUPLICATE KEY UPDATE" clause */
@@ -33,9 +38,9 @@ class InsertQuery extends BaseInsertQuery
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
-        $sql = parent::getSQL();
+        $sql = parent::getSql();
 
         // Add a potential "UPDATE"
         if (count($this->duplicateKeyUpdateColumnNamesToValues) > 0) {

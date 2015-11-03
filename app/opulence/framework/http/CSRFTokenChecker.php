@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the CSRF token checker
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\HTTP;
+namespace Opulence\Framework\Http;
 
 use Opulence\Cryptography\Utilities\Strings;
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Sessions\ISession;
 
-class CSRFTokenChecker
+/**
+ * Defines the CSRF token checker
+ */
+class CsrfTokenChecker
 {
     /** The token input name */
     const TOKEN_INPUT_NAME = "__OPULENCE_CSRF_TOKEN";

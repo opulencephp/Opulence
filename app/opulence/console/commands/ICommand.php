@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for console commands to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Commands;
 
@@ -12,6 +14,9 @@ use Opulence\Console\Requests\Option;
 use Opulence\Console\Responses\IResponse;
 use RuntimeException;
 
+/**
+ * Defines the interface for console commands to implement
+ */
 interface ICommand
 {
     /**

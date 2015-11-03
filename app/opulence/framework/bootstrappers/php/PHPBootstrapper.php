@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the PHP bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Bootstrappers\PHP;
+namespace Opulence\Framework\Bootstrappers\Php;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 
-class PHPBootstrapper extends Bootstrapper
+/**
+ * Defines the PHP bootstrapper
+ */
+class PhpBootstrapper extends Bootstrapper
 {
     /**
      * @inheritdoc

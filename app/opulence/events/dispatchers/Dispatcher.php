@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the event dispatcher
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Events\Dispatchers;
 
 use Opulence\Events\IEvent;
 
+/**
+ * Defines the event dispatcher
+ */
 class Dispatcher implements IDispatcher
 {
     /** @var array The mapping of event names to the list of listener */

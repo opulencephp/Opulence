@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a JSON response
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Responses;
+namespace Opulence\Http\Responses;
 
 use ArrayObject;
 use InvalidArgumentException;
 
-class JSONResponse extends Response
+/**
+ * Defines a JSON response
+ */
+class JsonResponse extends Response
 {
     /**
      * @param mixed $content The content of the response

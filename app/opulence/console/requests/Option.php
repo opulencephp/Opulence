@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a console command option
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
+/**
+ * Defines a console command option
+ */
 class Option
 {
     /** @var string The name of the option */

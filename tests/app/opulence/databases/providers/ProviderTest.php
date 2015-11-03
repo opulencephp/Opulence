@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the provider class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\Providers;
 
+/**
+ * Tests the provider class
+ */
 class ProviderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Provider The provider to use for tests */
@@ -22,34 +27,34 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests converting from a null SQL boolean
      */
-    public function testConvertingFromNullSQLBoolean()
+    public function testConvertingFromNullSqlBoolean()
     {
-        $this->assertNull($this->provider->convertFromSQLBoolean(null));
+        $this->assertNull($this->provider->convertFromSqlBoolean(null));
     }
 
     /**
      * Tests converting from an SQL boolean
      */
-    public function testConvertingFromSQLBoolean()
+    public function testConvertingFromSqlBoolean()
     {
-        $this->assertTrue($this->provider->convertFromSQLBoolean("1"));
-        $this->assertFalse($this->provider->convertFromSQLBoolean("0"));
+        $this->assertTrue($this->provider->convertFromSqlBoolean("1"));
+        $this->assertFalse($this->provider->convertFromSqlBoolean("0"));
     }
 
     /**
      * Tests converting a non-boolean value to an SQL boolean
      */
-    public function testConvertingNonBooleanValueToSQLBoolean()
+    public function testConvertingNonBooleanValueToSqlBoolean()
     {
-        $this->assertEquals("foo", $this->provider->convertToSQLBoolean("foo"));
+        $this->assertEquals("foo", $this->provider->convertToSqlBoolean("foo"));
     }
 
     /**
      * Tests converting to an SQL boolean
      */
-    public function testConvertingToSQLBoolean()
+    public function testConvertingToSqlBoolean()
     {
-        $this->assertEquals(1, $this->provider->convertToSQLBoolean(true));
-        $this->assertEquals(0, $this->provider->convertToSQLBoolean(false));
+        $this->assertEquals(1, $this->provider->convertToSqlBoolean(true));
+        $this->assertEquals(0, $this->provider->convertToSqlBoolean(false));
     }
 } 

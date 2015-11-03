@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for response lexers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Compilers\Lexers;
 
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
 use RuntimeException;
 
+/**
+ * Defines the interface for response lexers to implement
+ */
 interface ILexer
 {
     /**

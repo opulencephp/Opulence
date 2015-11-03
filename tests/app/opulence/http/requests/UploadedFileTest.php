@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http\Requests;
+
+use Opulence\Tests\Http\Requests\Mocks\UploadedFile as MockUploadedFile;
+
+/**
  * Tests the uploaded file
  */
-namespace Opulence\HTTP\Requests;
-
-use Opulence\Tests\HTTP\Requests\Mocks\UploadedFile as MockUploadedFile;
-
 class UploadedFileTest extends \PHPUnit_Framework_TestCase
 {
     /** The uploaded file's filename */

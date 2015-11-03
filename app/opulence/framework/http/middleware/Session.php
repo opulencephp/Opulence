@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the session middleware
  */
-namespace Opulence\Framework\HTTP\Middleware;
+namespace Opulence\Framework\Http\Middleware;
 
 use Closure;
 use Opulence\Applications\Paths;
-use Opulence\HTTP\Middleware\IMiddleware;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Middleware\IMiddleware;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
 
@@ -46,15 +51,15 @@ abstract class Session implements IMiddleware
         $this->startSession($request);
 
         // Set the previous URL in the request
-        if ($previousURL = $this->session->get(self::PREVIOUS_URL_KEY) !== null) {
-            $request->setPreviousURL($previousURL);
+        if ($previousUrl = $this->session->get(self::PREVIOUS_URL_KEY) !== null) {
+            $request->setPreviousUrl($previousUrl);
         }
 
         $response = $next($request);
 
         // Store the current URL for next time
-        if ($request->getMethod() == Request::METHOD_GET && !$request->isAJAX()) {
-            $request->setPreviousURL($request->getFullURL());
+        if ($request->getMethod() == Request::METHOD_GET && !$request->isAjax()) {
+            $request->setPreviousUrl($request->getFullUrl());
         }
 
         $this->writeSession($response);

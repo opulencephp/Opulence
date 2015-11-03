@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a session that persists throughout a transaction on a page
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Sessions;
 
@@ -11,6 +13,9 @@ use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Sessions\Ids\IIdGenerator;
 use Opulence\Sessions\Ids\IdGenerator;
 
+/**
+ * Defines a session that persists throughout a transaction on a page
+ */
 class Session implements ISession
 {
     /** The key for new flash keys */

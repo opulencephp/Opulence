@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds an insert query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Builds an insert query
+ */
 class InsertQuery extends Query
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
@@ -55,7 +60,7 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
         $sql = "INSERT INTO {$this->tableName}"
             . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES ("

@@ -1,20 +1,25 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the HTTP kernel
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\HTTP;
+namespace Opulence\Framework\Http;
 
 use Exception;
 use Monolog\Logger;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
-use Opulence\IoC\IContainer;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
+use Opulence\Ioc\IContainer;
 use Opulence\Pipelines\Pipeline;
 use Opulence\Routing\Router;
 
+/**
+ * Defines the HTTP kernel
+ */
 class Kernel
 {
     /** @var IContainer The dependency injection container */

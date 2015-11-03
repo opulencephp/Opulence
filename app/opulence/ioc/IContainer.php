@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Ioc;
+
+/**
  * Defines the interface for dependency injection containers to implement
  */
-namespace Opulence\IoC;
-
 interface IContainer
 {
     /**
@@ -25,7 +30,7 @@ interface IContainer
      * @param bool $ignoreMissing True if we will accept it when the method is missing, otherwise false
      * @param bool $forceNewInstance True if we are going to force a new instance, otherwise false
      * @return mixed|null The return value of the method if there was one, otherwise null
-     * @throws IoCException Thrown if there was an error calling the method
+     * @throws IocException Thrown if there was an error calling the method
      */
     public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false);
 
@@ -63,7 +68,7 @@ interface IContainer
      *          ...
      *      ]
      * @return mixed An instance of the input class
-     * @throws IoCException Thrown if there was an error making the component
+     * @throws IocException Thrown if there was an error making the component
      */
     public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = []);
 
@@ -79,7 +84,7 @@ interface IContainer
      *          ...
      *      ]
      * @return mixed A new instance of the input class
-     * @throws IoCException Thrown if there was an error making the component
+     * @throws IocException Thrown if there was an error making the component
      */
     public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = []);
 
@@ -95,7 +100,7 @@ interface IContainer
      *          ...
      *      ]
      * @return mixed An instance of the input class
-     * @throws IoCException Thrown if there was an error making the component
+     * @throws IocException Thrown if there was an error making the component
      */
     public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = []);
 

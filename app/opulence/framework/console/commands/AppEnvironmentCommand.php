@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the application environment command
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
@@ -10,6 +12,9 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 
+/**
+ * Defines the application environment command
+ */
 class AppEnvironmentCommand extends Command
 {
     /** @var Environment The current environment */

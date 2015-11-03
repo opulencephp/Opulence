@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the file system
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Files;
 
 use DateTime;
 use InvalidArgumentException;
 
+/**
+ * Tests the file system
+ */
 class FileSystemTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FileSystem The file system to use in tests */

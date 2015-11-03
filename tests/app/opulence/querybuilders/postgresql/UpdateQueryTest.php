@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the update query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\QueryBuilders\PostgreSQL;
+namespace Opulence\QueryBuilders\PostgreSql;
 
 use PDO;
 
+/**
+ * Tests the update query
+ */
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -18,7 +23,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query = new UpdateQuery("users", "", ["name" => "david"]);
         $query->returning("id")
             ->addReturning("name");
-        $this->assertEquals("UPDATE users SET name = ? RETURNING id, name", $query->getSQL());
+        $this->assertEquals("UPDATE users SET name = ? RETURNING id, name", $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR]
         ], $query->getParameters());
@@ -38,7 +43,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->addReturning("u.name")
             ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], "foo@bar.com", "dave"]);
         $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer') RETURNING u.id, u.name",
-            $query->getSQL());
+            $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR],
             ["bar@foo.com", PDO::PARAM_STR],
@@ -55,7 +60,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new UpdateQuery("users", "", ["name" => "david"]);
         $query->returning("id");
-        $this->assertEquals("UPDATE users SET name = ? RETURNING id", $query->getSQL());
+        $this->assertEquals("UPDATE users SET name = ? RETURNING id", $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR]
         ], $query->getParameters());

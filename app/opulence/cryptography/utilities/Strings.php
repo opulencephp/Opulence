@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines some string utilities
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Cryptography\Utilities;
 
 use Opulence\Cryptography\CryptographicException;
 use Symfony\Component\Security\Core\Util\StringUtils;
 
+/**
+ * Defines some string utilities
+ */
 class Strings
 {
     /**

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the console kernel
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console;
 
@@ -19,6 +21,9 @@ use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 
+/**
+ * Tests the console kernel
+ */
 class KernelTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CommandCompiler The command compiler */

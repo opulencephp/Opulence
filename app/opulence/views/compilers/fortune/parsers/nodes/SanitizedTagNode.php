@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a sanitized tag node
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 
+/**
+ * Defines a sanitized tag node
+ */
 class SanitizedTagNode extends Node
 {
     /**

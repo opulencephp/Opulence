@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a pool of master/slave servers
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\ConnectionPools;
 
@@ -11,6 +13,9 @@ use Opulence\Databases\ConnectionPools\Strategies\ServerSelection\RandomServerSe
 use Opulence\Databases\IDriver;
 use Opulence\Databases\Server;
 
+/**
+ * Defines a pool of master/slave servers
+ */
 class MasterSlaveConnectionPool extends ConnectionPool
 {
     /** @inheritdoc */

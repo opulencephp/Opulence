@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the response class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses;
 
@@ -11,6 +13,9 @@ use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 
+/**
+ * Tests the response class
+ */
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Response The response to use in tests */

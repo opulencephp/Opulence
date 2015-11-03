@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the console response for use in tests
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Console\Responses\Mocks;
 
 use Opulence\Console\Responses\Response as BaseResponse;
 
+/**
+ * Mocks the console response for use in tests
+ */
 class Response extends BaseResponse
 {
     /**

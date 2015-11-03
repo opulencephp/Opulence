@@ -1,12 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the cache data mapper implemented by the PHPRedis library
  */
-namespace Opulence\ORM\DataMappers;
+namespace Opulence\Orm\DataMappers;
 
-abstract class PHPRedisDataMapper extends RedisDataMapper
+abstract class PhpRedisDataMapper extends RedisDataMapper
 {
     /**
      * @inheritdoc

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the command bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Bootstrappers\Console\Commands;
 
@@ -20,10 +22,13 @@ use Opulence\Framework\Console\Commands\MakeCommandCommand;
 use Opulence\Framework\Console\Commands\MakeControllerCommand;
 use Opulence\Framework\Console\Commands\MakeDataMapperCommand;
 use Opulence\Framework\Console\Commands\MakeEntityCommand;
-use Opulence\Framework\Console\Commands\MakeHTTPMiddlewareCommand;
+use Opulence\Framework\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Console\Commands\RenameAppCommand;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Defines the command bootstrapper
+ */
 class CommandsBootstrapper extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
@@ -38,7 +43,7 @@ class CommandsBootstrapper extends Bootstrapper
         MakeControllerCommand::class,
         MakeDataMapperCommand::class,
         MakeEntityCommand::class,
-        MakeHTTPMiddlewareCommand::class,
+        MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class
     ];
     /** @var CommandCollection The list of console commands */

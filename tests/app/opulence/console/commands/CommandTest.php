@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the console command
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Commands;
 
@@ -22,6 +24,9 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 use RuntimeException;
 
+/**
+ * Tests the console command
+ */
 class CommandTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SimpleCommand The command to use in tests */

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Parses a stream of tokens into an abstract syntax tree
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use RuntimeException;
 
+/**
+ * Parses a stream of tokens into an abstract syntax tree
+ */
 interface IParser
 {
     /**

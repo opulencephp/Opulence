@@ -1,21 +1,26 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines a data mapper that uses cache with SQL as a backup
  */
-namespace Opulence\ORM\DataMappers;
+namespace Opulence\Orm\DataMappers;
 
 use Exception;
 use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\ORM\Ids\IIdAccessorRegistry;
-use Opulence\ORM\ORMException;
+use Opulence\Orm\Ids\IIdAccessorRegistry;
+use Opulence\Orm\OrmException;
 
-abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
+abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 {
     /** @var ICacheDataMapper The cache mapper to use for temporary storage */
     protected $cacheDataMapper = null;
-    /** @var SQLDataMapper The SQL database data mapper to use for permanent storage */
+    /** @var SqlDataMapper The SQL database data mapper to use for permanent storage */
     protected $sqlDataMapper = null;
     /** @var IIdAccessorRegistry The Id accessor registry */
     protected $idAccessorRegistry = null;
@@ -34,7 +39,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
     public function __construct($cache, ConnectionPool $connectionPool, IIdAccessorRegistry $idAccessorRegistry)
     {
         $this->setCacheDataMapper($cache);
-        $this->setSQLDataMapper($connectionPool);
+        $this->setSqlDataMapper($connectionPool);
         $this->idAccessorRegistry = $idAccessorRegistry;
     }
 
@@ -68,7 +73,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
                 $this->cacheDataMapper->delete($entity);
             }
         } catch (Exception $ex) {
-            throw new ORMException($ex->getMessage());
+            throw new OrmException($ex->getMessage());
         }
 
         // Clear our schedules
@@ -131,7 +136,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      */
     public function getUnsyncedEntities()
     {
-        return $this->compareCacheAndSQLEntities(false);
+        return $this->compareCacheAndSqlEntities(false);
     }
 
     /**
@@ -139,7 +144,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      */
     public function refreshCache()
     {
-        return $this->compareCacheAndSQLEntities(true);
+        return $this->compareCacheAndSqlEntities(true);
     }
 
     /**
@@ -159,8 +164,8 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
             $this->cacheDataMapper->delete($entityFromCache);
         }
 
-        $entityFromSQL = $this->sqlDataMapper->getById($id);
-        $this->cacheDataMapper->add($entityFromSQL);
+        $entityFromSql = $this->sqlDataMapper->getById($id);
+        $this->cacheDataMapper->add($entityFromSql);
     }
 
     /**
@@ -184,7 +189,7 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      *
      * @param ConnectionPool $connectionPool The connection pool used in the data mapper
      */
-    abstract protected function setSQLDataMapper(ConnectionPool $connectionPool);
+    abstract protected function setSqlDataMapper(ConnectionPool $connectionPool);
 
     /**
      * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database
@@ -266,9 +271,9 @@ abstract class CachedSQLDataMapper implements ICachedSQLDataMapper
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws ORMException Thrown if there was an error getting the unsynced entities
+     * @throws OrmException Thrown if there was an error getting the unsynced entities
      */
-    private function compareCacheAndSQLEntities($doRefresh)
+    private function compareCacheAndSqlEntities($doRefresh)
     {
         // If there was an issue grabbing all entities in cache, null will be returned
         $unkeyedCacheEntities = $this->cacheDataMapper->getAll();

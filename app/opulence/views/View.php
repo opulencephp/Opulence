@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a basic view
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views;
 
 use InvalidArgumentException;
 
+/**
+ * Defines a basic view
+ */
 class View implements IView
 {
     /** The default open tag for unsanitized delimiter  */

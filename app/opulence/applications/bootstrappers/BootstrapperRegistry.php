@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the bootstrapper registry
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers;
 
@@ -10,6 +12,9 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use RuntimeException;
 
+/**
+ * Defines the bootstrapper registry
+ */
 class BootstrapperRegistry implements IBootstrapperRegistry
 {
     /** @var Environment The current environment */

@@ -1,59 +1,64 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Ioc;
+
+use Opulence\Tests\Ioc\Mocks\Bar;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithInterfaceAndSetters;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithReference;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithSetters;
+use Opulence\Tests\Ioc\Mocks\IFoo;
+use Opulence\Tests\Ioc\Mocks\MagicCallMethod;
+
+/**
  * Tests the dependency injection controller
  */
-namespace Opulence\IoC;
-
-use Opulence\Tests\IoC\Mocks\Bar;
-use Opulence\Tests\IoC\Mocks\ConstructorWithInterfaceAndSetters;
-use Opulence\Tests\IoC\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
-use Opulence\Tests\IoC\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
-use Opulence\Tests\IoC\Mocks\ConstructorWithReference;
-use Opulence\Tests\IoC\Mocks\ConstructorWithSetters;
-use Opulence\Tests\IoC\Mocks\IFoo;
-use Opulence\Tests\IoC\Mocks\MagicCallMethod;
-
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Container The container to use in tests */
     private $container = null;
     /** @var string The name of the simple interface to use in tests */
-    private $fooInterface = "Opulence\\Tests\\IoC\\Mocks\\IFoo";
+    private $fooInterface = "Opulence\\Tests\\Ioc\\Mocks\\IFoo";
     /** @var string The name of the simple interface to use in tests */
-    private $personInterface = "Opulence\\Tests\\IoC\\Mocks\\IPerson";
+    private $personInterface = "Opulence\\Tests\\Ioc\\Mocks\\IPerson";
     /** @var string The name of a class that implements IPerson */
-    private $concretePerson = "Opulence\\Tests\\IoC\\Mocks\\Dave";
+    private $concretePerson = "Opulence\\Tests\\Ioc\\Mocks\\Dave";
     /** @var string The name of the base class to use in tests */
-    private $baseClass = "Opulence\\Tests\\IoC\\Mocks\\BaseClass";
+    private $baseClass = "Opulence\\Tests\\Ioc\\Mocks\\BaseClass";
     /** @var string The name of the class that implements IFoo to use in tests */
-    private $concreteFoo = "Opulence\\Tests\\IoC\\Mocks\\Bar";
+    private $concreteFoo = "Opulence\\Tests\\Ioc\\Mocks\\Bar";
     /** @var string The name of a second class that implements the IFoo to use in tests */
-    private $secondConcreteIFoo = "Opulence\\Tests\\IoC\\Mocks\\Blah";
+    private $secondConcreteIFoo = "Opulence\\Tests\\Ioc\\Mocks\\Blah";
     /** @var string The name of a another class that implements the IFoo to use in tests */
-    private $concreteFooWithIPersonDependency = "Opulence\\Tests\\IoC\\Mocks\\Foo";
+    private $concreteFooWithIPersonDependency = "Opulence\\Tests\\Ioc\\Mocks\\Foo";
     /** @var string The name of the class that accepts the IFoo in its constructor */
-    private $constructorWithIFoo = "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithInterface";
+    private $constructorWithIFoo = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithInterface";
     /** @var string The name of the class that accepts the concrete class in its constructor */
-    private $constructorWithConcreteClass = "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithConcreteClass";
+    private $constructorWithConcreteClass = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithConcreteClass";
     /** @var string The name of the class that accepts a mix of interfaces and primitives in its constructor */
     private $constructorWithInterfacesAndPrimitives =
-        "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithMixOfInterfacesAndPrimitives";
+        "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithMixOfInterfacesAndPrimitives";
     /** @var string The name of the class that accepts a mix of class names and primitives in its constructor */
     private $constructorWithConcreteClassesAndPrimitives =
-        "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithMixOfConcreteClassesAndPrimitives";
+        "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithMixOfConcreteClassesAndPrimitives";
     /** @var string The name of the class that accepts the primitives in its constructor */
-    private $constructorWithPrimitives = "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithPrimitives";
+    private $constructorWithPrimitives = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithPrimitives";
     /** @var string The name of the class that accepts primitives with default values in its constructor */
     private $constructorWithDefaultValuePrimitives =
-        "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithDefaultValuePrimitives";
+        "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithDefaultValuePrimitives";
     /** @var string The name of the class that uses setters */
-    private $constructorWithSetters = "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithSetters";
+    private $constructorWithSetters = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithSetters";
     /** @var string The name of the class that uses an interface in the constructor and setters */
-    private $constructorWithIFooAndSetters = "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithInterfaceAndSetters";
+    private $constructorWithIFooAndSetters = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithInterfaceAndSetters";
     /** @var string The name of the class that takes in a reference */
-    private $constructorWithReference = "Opulence\\Tests\\IoC\\Mocks\\ConstructorWithReference";
+    private $constructorWithReference = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithReference";
 
     /**
      * Sets up the tests
@@ -125,7 +130,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingMethodWithPrimitiveTypesWithoutSpecifyingValue()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $instance = new ConstructorWithSetters();
         $this->container->call([$instance, "setPrimitive"]);
     }
@@ -171,7 +176,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentMethod()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $instance = new ConstructorWithSetters();
         $this->container->call([$instance, "foobar"]);
     }
@@ -225,7 +230,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingInterfaceWithoutBinding()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->makeNew($this->fooInterface);
     }
 
@@ -303,7 +308,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewObjectWithUnsetConstructorPrimitive()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->makeNew($this->constructorWithPrimitives);
     }
 
@@ -393,7 +398,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSharedInstanceWithUnsetConstructorPrimitive()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->makeShared($this->constructorWithPrimitives);
     }
 
@@ -440,7 +445,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDependencyThatHasDependencyWithoutBindingAllDependencies()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->bind($this->fooInterface, $this->concreteFooWithIPersonDependency);
         $this->container->makeShared($this->fooInterface);
     }
@@ -511,7 +516,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingNewNonExistentClass()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->makeNew("DoesNotExist");
     }
 
@@ -520,7 +525,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingNonExistentClass()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->make("DoesNotExist", false);
     }
 
@@ -550,7 +555,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingSharedNonExistentClass()
     {
-        $this->setExpectedException(IoCException::class);
+        $this->setExpectedException(IocException::class);
         $this->container->makeShared("DoesNotExist");
     }
 

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks a non-Opulence controller
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Routing\Mocks;
 
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 
+/**
+ * Mocks a non-Opulence controller
+ */
 class NonOpulenceController
 {
     /** @var Request The HTTP request */
@@ -28,7 +33,7 @@ class NonOpulenceController
      * @param int $statusCode The status code
      * @return Response The response
      */
-    public function customHTTPError($statusCode)
+    public function customHttpError($statusCode)
     {
         return new Response("Error: $statusCode", $statusCode);
     }

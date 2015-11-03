@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the string parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 
+/**
+ * Tests the string parser
+ */
 class StringParserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var StringParser The parser to use in tests */

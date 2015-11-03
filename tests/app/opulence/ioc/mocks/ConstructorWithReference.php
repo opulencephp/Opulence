@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Tests\Ioc\Mocks;
+
+/**
  * Mocks a class that takes in a reference in its constructor
  */
-namespace Opulence\Tests\IoC\Mocks;
-
 class ConstructorWithReference
 {
     /** @var IFoo The object passed into the constructor */

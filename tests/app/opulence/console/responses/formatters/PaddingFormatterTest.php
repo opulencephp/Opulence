@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the padding formatter
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Formatters;
 
+/**
+ * Tests the padding formatter
+ */
 class PaddingFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PaddingFormatter The formatter to use in tests */
@@ -67,7 +72,7 @@ class PaddingFormatterTest extends \PHPUnit_Framework_TestCase
             [" fg ", "hhh"],
             ["ijk", " ll"]
         ];
-        $this->formatter->setEOLChar("<br>");
+        $this->formatter->setEolChar("<br>");
         $formattedText = $this->formatter->format($rows, function ($row) {
             return $row[0] . "-" . $row[1];
         });
@@ -85,7 +90,7 @@ class PaddingFormatterTest extends \PHPUnit_Framework_TestCase
             " fg ",
             "ijk"
         ];
-        $this->formatter->setEOLChar("<br>");
+        $this->formatter->setEolChar("<br>");
         $formattedText = $this->formatter->format($rows, function ($row) {
             return $row[0];
         });
@@ -97,8 +102,8 @@ class PaddingFormatterTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEOLChar()
     {
-        $this->formatter->setEOLChar("foo");
-        $this->assertEquals("foo", $this->formatter->getEOLChar());
+        $this->formatter->setEolChar("foo");
+        $this->assertEquals("foo", $this->formatter->getEolChar());
     }
 
     /**

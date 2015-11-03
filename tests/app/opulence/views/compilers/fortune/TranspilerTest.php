@@ -1,15 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Fortune transpiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune;
 
 use InvalidArgumentException;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\CommentNode;
-use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\Compilers\Fortune\Parsers\AbstractSyntaxTree;
 use Opulence\Views\Compilers\Fortune\Lexers\ILexer;
 use Opulence\Views\Compilers\Fortune\Parsers\IParser;
@@ -23,6 +25,9 @@ use Opulence\Views\IView;
 use Opulence\Views\View;
 use RuntimeException;
 
+/**
+ * Tests the Fortune transpiler
+ */
 class TranspilerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
@@ -37,7 +42,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
     private $cache = null;
     /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
     private $view = null;
-    /** @var XSSFilter The filter to use in tests */
+    /** @var XssFilter The filter to use in tests */
     private $xssFilter = null;
 
     /**
@@ -48,7 +53,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
         $this->lexer = $this->getMock(ILexer::class);
         $this->parser = $this->getMock(IParser::class);
         $this->cache = $this->getMock(ICache::class);
-        $this->xssFilter = new XSSFilter();
+        $this->xssFilter = new XssFilter();
         $this->transpiler = new Transpiler($this->lexer, $this->parser, $this->cache, $this->xssFilter);
         $this->ast = new AbstractSyntaxTree();
         $this->lexer->expects($this->any())->method("lex")->willReturn([]);

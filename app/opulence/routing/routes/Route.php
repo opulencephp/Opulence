@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an individual route
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes;
 
@@ -10,6 +12,9 @@ use Closure;
 use InvalidArgumentException;
 use RuntimeException;
 
+/**
+ * Defines an individual route
+ */
 class Route
 {
     /** @var string The HTTP method for this route */

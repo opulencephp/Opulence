@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the environment resolver
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Environments\Resolvers;
 
@@ -10,6 +12,9 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Environments\Hosts\HostRegex;
 use Opulence\Applications\Environments\Hosts\IHost;
 
+/**
+ * Defines the environment resolver
+ */
 class EnvironmentResolver implements IEnvironmentResolver
 {
     /** @var array The environment names to hosts */

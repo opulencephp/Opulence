@@ -1,16 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the dispatcher class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Dispatchers;
 
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\RedirectResponse;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
-use Opulence\IoC\Container;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\RedirectResponse;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
+use Opulence\Ioc\Container;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
@@ -20,6 +22,9 @@ use Opulence\Tests\Routing\Mocks\DoesNotReturnSomethingMiddleware;
 use Opulence\Tests\Routing\Mocks\NonOpulenceController;
 use Opulence\Tests\Routing\Mocks\ReturnsSomethingMiddleware;
 
+/**
+ * Tests the dispatcher class
+ */
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Dispatcher The dispatcher to use in tests */

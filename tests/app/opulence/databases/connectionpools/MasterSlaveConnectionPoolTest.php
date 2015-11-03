@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the master/slave connection pool
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\ConnectionPools;
 
@@ -11,6 +13,9 @@ use Opulence\Tests\Databases\Mocks\Connection;
 use Opulence\Tests\Databases\Mocks\Driver;
 use Opulence\Tests\Databases\Mocks\Server;
 
+/**
+ * Tests the master/slave connection pool
+ */
 class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -78,11 +83,11 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(),
             [$slave1, $slave2]);
         $expectedServers = [$slave1, $slave2];
-        $expectedPDO = $connectionPool->getReadConnection();
+        $expectedPdo = $connectionPool->getReadConnection();
         $slaveFound = false;
 
         foreach ($expectedServers as $server) {
-            if ($expectedPDO->getServer() == $server) {
+            if ($expectedPdo->getServer() == $server) {
                 $slaveFound = true;
             }
         }

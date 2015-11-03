@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the insert query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Tests the insert query
+ */
 class InsertQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -15,7 +20,7 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new InsertQuery("users", ["name" => "dave"]);
         $query->addColumnValues(["email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSQL());
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
         $this->assertEquals([
             ["dave", \PDO::PARAM_STR],
             ["foo@bar.com", \PDO::PARAM_STR]
@@ -28,7 +33,7 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
     public function testBasicQuery()
     {
         $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSQL());
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
         $this->assertEquals([
             ["dave", \PDO::PARAM_STR],
             ["foo@bar.com", \PDO::PARAM_STR]
@@ -42,7 +47,7 @@ class InsertQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new InsertQuery("users", ["name" => "dave"]);
         $query->addColumnValues(["email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSQL());
+        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
         $this->assertEquals([
             ["dave", \PDO::PARAM_STR],
             ["foo@bar.com", \PDO::PARAM_STR]

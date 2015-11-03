@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a bootstrapper that does everything
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Applications\Bootstrappers\Mocks;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper as BaseBootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Defines a bootstrapper that does everything
+ */
 class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**

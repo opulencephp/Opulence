@@ -1,20 +1,25 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a unit of work that tracks changes made to entities and atomically persists them
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM;
+namespace Opulence\Orm;
 
 use Exception;
 use Opulence\Databases\IConnection;
-use Opulence\ORM\ChangeTracking\IChangeTracker;
-use Opulence\ORM\DataMappers\ICachedSQLDataMapper;
-use Opulence\ORM\DataMappers\IDataMapper;
-use Opulence\ORM\DataMappers\ISQLDataMapper;
-use Opulence\ORM\Ids\IIdAccessorRegistry;
+use Opulence\Orm\ChangeTracking\IChangeTracker;
+use Opulence\Orm\DataMappers\ICachedSqlDataMapper;
+use Opulence\Orm\DataMappers\IDataMapper;
+use Opulence\Orm\DataMappers\ISqlDataMapper;
+use Opulence\Orm\Ids\IIdAccessorRegistry;
 use RuntimeException;
 
+/**
+ * Defines a unit of work that tracks changes made to entities and atomically persists them
+ */
 class UnitOfWork
 {
     /** @var IConnection The connection to use in our unit of work */
@@ -69,12 +74,12 @@ class UnitOfWork
     /**
      * Commits any entities that have been scheduled for insertion/updating/deletion
      *
-     * @throws ORMException Thrown if there was an error committing the transaction
+     * @throws OrmException Thrown if there was an error committing the transaction
      */
     public function commit()
     {
         if (!$this->connection instanceof IConnection) {
-            throw new ORMException("Connection not set");
+            throw new OrmException("Connection not set");
         }
 
         $this->checkForUpdates();
@@ -89,7 +94,7 @@ class UnitOfWork
         } catch (Exception $ex) {
             $this->connection->rollBack();
             $this->postRollback();
-            throw new ORMException($ex->getMessage());
+            throw new OrmException($ex->getMessage());
         }
 
         $this->postCommit();
@@ -319,7 +324,7 @@ class UnitOfWork
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->add($entity);
 
-            if ($dataMapper instanceof ISQLDataMapper) {
+            if ($dataMapper instanceof ISqlDataMapper) {
                 $this->idAccessorRegistry->setEntityId(
                     $entity,
                     $dataMapper->getIdGenerator()->generate($entity, $this->connection)
@@ -340,9 +345,9 @@ class UnitOfWork
          * @var IDataMapper $dataMapper
          */
         foreach ($this->dataMappers as $className => $dataMapper) {
-            if ($dataMapper instanceof ICachedSQLDataMapper) {
+            if ($dataMapper instanceof ICachedSqlDataMapper) {
                 // Now that the database writes have been committed, we can write to cache
-                /** @var ICachedSQLDataMapper $dataMapper */
+                /** @var ICachedSqlDataMapper $dataMapper */
                 $dataMapper->commit();
             }
         }
@@ -358,7 +363,7 @@ class UnitOfWork
         foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
 
-            if ($dataMapper instanceof ISQLDataMapper) {
+            if ($dataMapper instanceof ISqlDataMapper) {
                 $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
             }
         }

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the update query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
 use PDO;
 
+/**
+ * Tests the update query
+ */
 class UpdateQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -17,7 +22,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new UpdateQuery("users", "", ["name" => "david"]);
         $query->addColumnValues(["email" => "bar@foo.com"]);
-        $this->assertEquals("UPDATE users SET name = ?, email = ?", $query->getSQL());
+        $this->assertEquals("UPDATE users SET name = ?, email = ?", $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR],
             ["bar@foo.com", PDO::PARAM_STR]
@@ -30,7 +35,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
     public function testBasicQuery()
     {
         $query = new UpdateQuery("users", "", ["name" => "david"]);
-        $this->assertEquals("UPDATE users SET name = ?", $query->getSQL());
+        $this->assertEquals("UPDATE users SET name = ?", $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR]
         ], $query->getParameters());
@@ -48,7 +53,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
             ->andWhere("subscriptions.userid = u.id", "subscriptions.type = 'customer'")
             ->addUnnamedPlaceholderValues([[18175, PDO::PARAM_INT], "foo@bar.com", "dave"]);
         $this->assertEquals("UPDATE users AS u SET name = ?, email = ? WHERE (u.id = ?) AND (emails.userid = u.id) AND (emails.email = ?) OR (u.name = ?) AND (subscriptions.userid = u.id) AND (subscriptions.type = 'customer')",
-            $query->getSQL());
+            $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR],
             ["bar@foo.com", PDO::PARAM_STR],
@@ -66,7 +71,7 @@ class UpdateQueryTest extends \PHPUnit_Framework_TestCase
         $query = new UpdateQuery("users", "", ["name" => "david"]);
         $query->where("id = ?")
             ->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
-        $this->assertEquals("UPDATE users SET name = ? WHERE (id = ?)", $query->getSQL());
+        $this->assertEquals("UPDATE users SET name = ? WHERE (id = ?)", $query->getSql());
         $this->assertEquals([
             ["david", PDO::PARAM_STR],
             [18175, PDO::PARAM_INT]

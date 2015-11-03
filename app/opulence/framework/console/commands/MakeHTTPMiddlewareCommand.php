@@ -1,12 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Makes an HTTP middleware class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
-class MakeHTTPMiddlewareCommand extends MakeCommand
+/**
+ * Makes an HTTP middleware class
+ */
+class MakeHttpMiddlewareCommand extends MakeCommand
 {
     /**
      * @inheritdoc
@@ -16,7 +21,7 @@ class MakeHTTPMiddlewareCommand extends MakeCommand
         parent::define();
 
         $this->setName("make:httpmiddleware")
-            ->setDescription("Creates an HTTP middleware class");
+            ->setDescription("Creates an Http middleware class");
     }
 
     /**
@@ -24,7 +29,7 @@ class MakeHTTPMiddlewareCommand extends MakeCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . "\\HTTP\\Middleware";
+        return $rootNamespace . "\\Http\\Middleware";
     }
 
     /**
@@ -32,6 +37,6 @@ class MakeHTTPMiddlewareCommand extends MakeCommand
      */
     protected function getFileTemplatePath()
     {
-        return __DIR__ . "/templates/HTTPMiddleware.template";
+        return __DIR__ . "/templates/HttpMiddleware.template";
     }
 }

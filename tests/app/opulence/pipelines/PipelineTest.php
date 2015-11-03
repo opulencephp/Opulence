@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the pipeline
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Pipelines;
 
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Tests\Pipelines\Mocks\Stage1;
 use Opulence\Tests\Pipelines\Mocks\Stage2;
 
+/**
+ * Tests the pipeline
+ */
 class PipelineTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Container The dependency injection container to use in tests */
@@ -90,7 +95,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that IoC exceptions are converted
      */
-    public function testIoCExceptionsAreConverted()
+    public function testIocExceptionsAreConverted()
     {
         $this->setExpectedException(PipelineException::class);
         $stages = ["DoesNotExist"];

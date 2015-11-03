@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Authentication\Credentials\Storage\Mocks;
 
 use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\Credentials\Storage\ICredentialStorage;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 
+/**
+ *
+ */
 class CredentialStorage implements ICredentialStorage
 {
     /** @var ICredential The list of credentials in storage */

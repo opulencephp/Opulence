@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the entity registry
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM;
+namespace Opulence\Orm;
 
-use Opulence\ORM\ChangeTracking\ChangeTracker;
-use Opulence\ORM\Ids\IdAccessorRegistry;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
+use Opulence\Orm\Ids\IdAccessorRegistry;
 use Opulence\Tests\Mocks\User;
 
+/**
+ * Tests the entity registry
+ */
 class EntityRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var EntityRegistry The entity registry to use in tests */
@@ -102,7 +107,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeregisteringEntityWithoutRegisteringIdGetter()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->entityRegistry->setState($entity, EntityStates::REGISTERED);
         $this->entityRegistry->deregisterEntity($entity);
@@ -173,7 +178,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringEntityWithoutRegisteringIdGetter()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->entityRegistry->registerEntity($entity);
     }

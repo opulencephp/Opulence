@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a wrapper around Composer
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Composer;
 
 use Opulence\Applications\Paths;
 
+/**
+ * Defines a wrapper around Composer
+ */
 class Composer
 {
     /** @var array The raw config */
@@ -74,8 +79,6 @@ class Composer
     {
         $parts = explode("\\", $fullyQualifiedClassName);
         $path = array_slice($parts, 0, -1);
-        // The directories are stored in lower case
-        $path = array_map("mb_strtolower", $path);
         $path[] = end($parts) . ".php";
         array_unshift($path, $this->paths["app"]);
 

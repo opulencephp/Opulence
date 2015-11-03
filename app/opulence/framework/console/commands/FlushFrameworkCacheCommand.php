@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the command that flushes the framework's cache
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
@@ -13,6 +15,9 @@ use Opulence\Console\Responses\IResponse;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
+/**
+ * Defines the command that flushes the framework's cache
+ */
 class FlushFrameworkCacheCommand extends Command
 {
     /** @var Paths The application paths */

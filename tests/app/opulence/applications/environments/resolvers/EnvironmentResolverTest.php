@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the environment resolver class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Environments\Resolvers;
 
@@ -10,6 +12,9 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Environments\Hosts\HostName;
 use Opulence\Applications\Environments\Hosts\HostRegex;
 
+/**
+ * Tests the environment resolver class
+ */
 class EnvironmentResolverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var EnvironmentResolver The resolver to use in tests */

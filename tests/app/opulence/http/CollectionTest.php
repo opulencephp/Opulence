@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http;
+
+/**
  * Tests the request collection
  */
-namespace Opulence\HTTP;
-
 class CollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Collection The parameters to use in tests */

@@ -1,18 +1,23 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the cached SQL data mapper for use in tests
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\ORM\DataMappers\Mocks;
+namespace Opulence\Tests\Orm\DataMappers\Mocks;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\ORM\Ids\IIdAccessorRegistry;
-use Opulence\ORM\DataMappers\CachedSQLDataMapper as BaseCachedSQLDataMapper;
-use Opulence\ORM\DataMappers\ICacheDataMapper;
-use Opulence\ORM\DataMappers\ISQLDataMapper;
+use Opulence\Orm\Ids\IIdAccessorRegistry;
+use Opulence\Orm\DataMappers\CachedSqlDataMapper as BaseCachedSqlDataMapper;
+use Opulence\Orm\DataMappers\ICacheDataMapper;
+use Opulence\Orm\DataMappers\ISqlDataMapper;
 
-class CachedSQLDataMapper extends BaseCachedSQLDataMapper
+/**
+ * Mocks the cached SQL data mapper for use in tests
+ */
+class CachedSqlDataMapper extends BaseCachedSqlDataMapper
 {
     /**
      * @param ISQLDataMapper $sqlDataMapper The SQL data mapper to use
@@ -20,12 +25,12 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
      */
     public function __construct(
-        ISQLDataMapper $sqlDataMapper = null,
+        ISqlDataMapper $sqlDataMapper = null,
         ICacheDataMapper $cacheDataMapper = null,
         IIdAccessorRegistry $idAccessorRegistry = null
     ) {
         if ($sqlDataMapper === null) {
-            $sqlDataMapper = new SQLDataMapper();
+            $sqlDataMapper = new SqlDataMapper();
         }
 
         if ($cacheDataMapper === null) {
@@ -72,8 +77,8 @@ class CachedSQLDataMapper extends BaseCachedSQLDataMapper
     /**
      * @inheritdoc
      */
-    protected function setSQLDataMapper(ConnectionPool $connectionPool)
+    protected function setSqlDataMapper(ConnectionPool $connectionPool)
     {
-        $this->sqlDataMapper = new SQLDataMapper();
+        $this->sqlDataMapper = new SqlDataMapper();
     }
 } 

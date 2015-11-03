@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Authentication\Credentials;
 
 use Exception;
 
+/**
+ * Defines the invalid credential exception
+ */
 class InvalidCredentialException extends Exception
 {
     // Don't do anything

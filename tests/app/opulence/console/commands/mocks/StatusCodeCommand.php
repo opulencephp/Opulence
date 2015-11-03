@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks a command that returns a different status code depending on the options
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
 
@@ -12,6 +14,9 @@ use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Framework\Console\StatusCodes;
 
+/**
+ * Mocks a command that returns a different status code depending on the options
+ */
 class StatusCodeCommand extends Command
 {
     /**

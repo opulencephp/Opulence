@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Fortune view function registrant
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune;
 
 use Opulence\Views\Caching\ICache;
-use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 
+/**
+ * Tests the Fortune view function registrant
+ */
 class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
@@ -21,7 +26,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $xssFilter = new XSSFilter();
+        $xssFilter = new XssFilter();
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
         $cache = $this->getMock(ICache::class);
         $cache->expects($this->any())
@@ -77,7 +82,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the http-equiv function
      */
-    public function testHTTPEquivFunction()
+    public function testHttpEquivFunction()
     {
         $name = "refresh";
         $value = 30;
@@ -90,7 +95,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the HTTP method input
      */
-    public function testHTTPMethodInput()
+    public function testHttpMethodInput()
     {
         $httpMethod = "PUT";
         $this->assertEquals(

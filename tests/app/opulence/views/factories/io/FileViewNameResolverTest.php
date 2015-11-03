@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the file view name resolver
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Factories\IO;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the file view name resolver
+ */
 class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FileViewNameResolver The resolver to use in tests */

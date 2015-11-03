@@ -1,7 +1,12 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the event dispatcher bootstrapper
  */
 namespace Opulence\Framework\Bootstrappers\Events;
@@ -11,7 +16,7 @@ use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Events\Dispatchers\Dispatcher;
 use Opulence\Events\Dispatchers\IDispatcher;
 use Opulence\Events\IEvent;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
 abstract class DispatcherBootstrapper extends Bootstrapper
 {

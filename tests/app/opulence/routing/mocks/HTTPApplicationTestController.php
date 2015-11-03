@@ -1,20 +1,25 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the controller used by the HTTP application test
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Routing\Mocks;
 
 use DateTime;
-use Opulence\HTTP\Responses\Cookie;
-use Opulence\HTTP\Responses\RedirectResponse;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\Cookie;
+use Opulence\Http\Responses\RedirectResponse;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Controller as BaseController;
 use Opulence\Views\View;
 
-class HTTPApplicationTestController extends BaseController
+/**
+ * Defines the controller used by the HTTP application test
+ */
+class HttpApplicationTestController extends BaseController
 {
     /**
      * Creates a redirect response

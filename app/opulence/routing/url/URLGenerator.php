@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a URL generator
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Routing\URL;
+namespace Opulence\Routing\Url;
 
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\RouteCollection;
 
-class URLGenerator
+/**
+ * Defines a URL generator
+ */
+class UrlGenerator
 {
     /** @var string The regex used to match variables */
     private static $variableMatchingRegex = "#:([\w]+)(?:=([^:\[\]/]+))?#";
@@ -61,7 +66,7 @@ class URLGenerator
         $host = "";
 
         if (!empty($route->getRawHost())) {
-            $host = $this->generateURLPart($route->getRawHost(), $route->getHostRegex(), $route->getName(), $values);
+            $host = $this->generateUrlPart($route->getRawHost(), $route->getHostRegex(), $route->getName(), $values);
             // Prefix the URL with the protocol
             $host = "http" . ($route->isSecure() ? "s" : "") . "://" . $host;
         }
@@ -79,7 +84,7 @@ class URLGenerator
      */
     private function generatePath(ParsedRoute $route, &$values)
     {
-        return $this->generateURLPart($route->getRawPath(), $route->getPathRegex(), $route->getName(), $values);
+        return $this->generateUrlPart($route->getRawPath(), $route->getPathRegex(), $route->getName(), $values);
     }
 
     /**
@@ -90,9 +95,9 @@ class URLGenerator
      * @param string $routeName The route name
      * @param mixed|array $values The value or list of values to fill the route with
      * @return string The generated URL part
-     * @throws URLException Thrown if the generated path is not valid
+     * @throws UrlException Thrown if the generated path is not valid
      */
-    private function generateURLPart($rawPart, $regex, $routeName, &$values)
+    private function generateUrlPart($rawPart, $regex, $routeName, &$values)
     {
         $generatedPart = $rawPart;
         $count = 1000;
@@ -111,7 +116,7 @@ class URLGenerator
 
         // Make sure what we just generated satisfies the regex
         if (!preg_match($regex, $generatedPart)) {
-            throw new URLException(
+            throw new UrlException(
                 "Generated URL part \"$generatedPart\" does not satisfy regex for route \"$routeName\""
             );
         }

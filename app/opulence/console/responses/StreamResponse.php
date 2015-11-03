@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the stream response
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses;
 
 use InvalidArgumentException;
 use Opulence\Console\Responses\Compilers\ICompiler;
 
+/**
+ * Defines the stream response
+ */
 class StreamResponse extends Response
 {
     /** @var resource The output stream */

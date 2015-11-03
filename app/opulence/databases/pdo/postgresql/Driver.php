@@ -1,21 +1,26 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the PDO driver for a PostgreSQL database
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\PDO\PostgreSQL;
+namespace Opulence\Databases\Pdo\PostgreSql;
 
-use Opulence\Databases\PDO\Driver as BaseDriver;
-use Opulence\Databases\Providers\PostgreSQLProvider;
+use Opulence\Databases\Pdo\Driver as BaseDriver;
+use Opulence\Databases\Providers\PostgreSqlProvider;
 use Opulence\Databases\Server;
 
+/**
+ * Defines the PDO driver for a PostgreSQL database
+ */
 class Driver extends BaseDriver
 {
     /**
      * @inheritdoc
      */
-    protected function getDSN(Server $server, array $options = [])
+    protected function getDsn(Server $server, array $options = [])
     {
         $dsn = implode(";", [
                 "pgsql:host=" . $server->getHost(),
@@ -36,6 +41,6 @@ class Driver extends BaseDriver
      */
     protected function setProvider()
     {
-        $this->provider = new PostgreSQLProvider();
+        $this->provider = new PostgreSqlProvider();
     }
 } 

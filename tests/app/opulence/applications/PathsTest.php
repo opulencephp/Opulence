@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the framework paths
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the framework paths
+ */
 class PathsTest extends \PHPUnit_Framework_TestCase
 {
     /**

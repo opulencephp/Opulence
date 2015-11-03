@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a multiple choice question
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Prompts\Questions;
 
 use InvalidArgumentException;
 
+/**
+ * Defines a multiple choice question
+ */
 class MultipleChoice extends Question
 {
     /** @var array The list of choices */

@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the dispatcher for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Routing\Dispatchers\Mocks;
 
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Routing\Controller;
 use Opulence\Routing\Dispatchers\Dispatcher as BaseDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\Route;
 
+/**
+ * Mocks the dispatcher for use in testing
+ */
 class Dispatcher extends BaseDispatcher
 {
     /**

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a base request parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
 use Opulence\Console\Requests\Request;
 use RuntimeException;
 
+/**
+ * Defines a base request parser
+ */
 abstract class Parser implements IParser
 {
     /**

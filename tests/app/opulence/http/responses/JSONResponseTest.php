@@ -1,22 +1,27 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the JSON response
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Responses;
+namespace Opulence\Http\Responses;
 
 use ArrayObject;
 use InvalidArgumentException;
 
-class JSONResponseTest extends \PHPUnit_Framework_TestCase
+/**
+ * Tests the JSON response
+ */
+class JsonResponseTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests getting the content type
      */
     public function testGettingContentType()
     {
-        $response = new JSONResponse();
+        $response = new JsonResponse();
         $this->assertEquals(ResponseHeaders::CONTENT_TYPE_JSON, $response->getHeaders()->get("Content-Type"));
     }
 
@@ -25,7 +30,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingStatusCodeAfterSettingInConstructor()
     {
-        $response = new JSONResponse([], ResponseHeaders::HTTP_ACCEPTED);
+        $response = new JsonResponse([], ResponseHeaders::HTTP_ACCEPTED);
         $this->assertEquals(ResponseHeaders::HTTP_ACCEPTED, $response->getStatusCode());
     }
 
@@ -35,7 +40,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingContentOfIncorrectTypeInConstructor()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        new JSONResponse("\xB1\x31");
+        new JsonResponse("\xB1\x31");
     }
 
     /**
@@ -44,7 +49,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingContentOfIncorrectTypeInSetter()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $response = new JSONResponse();
+        $response = new JsonResponse();
         $response->setContent("\xB1\x31");
     }
 
@@ -54,7 +59,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingContentToArrayInConstructor()
     {
         $content = ["foo" => "bar"];
-        $response = new JSONResponse($content);
+        $response = new JsonResponse($content);
         $this->assertSame(json_encode($content), $response->getContent());
     }
 
@@ -64,7 +69,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingContentToArrayInSetter()
     {
         $content = ["foo" => "bar"];
-        $response = new JSONResponse();
+        $response = new JsonResponse();
         $response->setContent($content);
         $this->assertEquals(json_encode($content), $response->getContent());
     }
@@ -75,7 +80,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingContentToArrayObjectInConstructor()
     {
         $content = new ArrayObject(["foo" => "bar"]);
-        $response = new JSONResponse($content);
+        $response = new JsonResponse($content);
         $this->assertEquals(json_encode($content->getArrayCopy()), $response->getContent());
     }
 
@@ -85,7 +90,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
     public function testSettingContentToArrayObjectInSetter()
     {
         $content = new ArrayObject(["foo" => "bar"]);
-        $response = new JSONResponse();
+        $response = new JsonResponse();
         $response->setContent($content);
         $this->assertEquals(json_encode($content->getArrayCopy()), $response->getContent());
     }
@@ -95,7 +100,7 @@ class JSONResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingHeadersInConstructor()
     {
-        $response = new JSONResponse([], ResponseHeaders::HTTP_OK, ["HTTP_FOO" => "bar"]);
+        $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ["HTTP_FOO" => "bar"]);
         $this->assertEquals("bar", $response->getHeaders()->get("FOO"));
     }
 } 

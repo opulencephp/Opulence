@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a type mapper that can go back and forth between provider types and PHP types
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\Providers;
 
@@ -11,6 +13,9 @@ use Exception;
 use InvalidArgumentException;
 use RuntimeException;
 
+/**
+ * Defines a type mapper that can go back and forth between provider types and PHP types
+ */
 class TypeMapper
 {
     /** @var Provider The default provider to use in the case that one isn't specified in a method call */
@@ -33,11 +38,11 @@ class TypeMapper
      * @param Provider $provider The provider to convert from
      * @return bool|null The PHP boolean if it was a boolean value, otherwise null
      */
-    public function fromSQLBoolean($sqlBoolean, Provider $provider = null)
+    public function fromSqlBoolean($sqlBoolean, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
-        return $provider->convertFromSQLBoolean($sqlBoolean);
+        return $provider->convertFromSqlBoolean($sqlBoolean);
     }
 
     /**
@@ -48,7 +53,7 @@ class TypeMapper
      * @return DateTime|null The PHP date
      * @throws InvalidArgumentException Thrown if the input date couldn't be cast to a PHP date
      */
-    public function fromSQLDate($sqlDate, Provider $provider = null)
+    public function fromSqlDate($sqlDate, Provider $provider = null)
     {
         if ($sqlDate === null) {
             return null;
@@ -72,7 +77,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert from
      * @return array The PHP array
      */
-    public function fromSQLJSON($json, Provider $provider = null)
+    public function fromSqlJson($json, Provider $provider = null)
     {
         if ($json === null) {
             return [];
@@ -89,7 +94,7 @@ class TypeMapper
      * @return DateTime|null The PHP time
      * @throws InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
-    public function fromSQLTimeWithTimeZone($sqlTime, Provider $provider = null)
+    public function fromSqlTimeWithTimeZone($sqlTime, Provider $provider = null)
     {
         if ($sqlTime === null) {
             return null;
@@ -113,7 +118,7 @@ class TypeMapper
      * @return DateTime|null The PHP time
      * @throws InvalidArgumentException Thrown if the input time couldn't be cast to a PHP time
      */
-    public function fromSQLTimeWithoutTimeZone($sqlTime, Provider $provider = null)
+    public function fromSqlTimeWithoutTimeZone($sqlTime, Provider $provider = null)
     {
         if ($sqlTime === null) {
             return null;
@@ -137,7 +142,7 @@ class TypeMapper
      * @return DateTime|null The PHP date time
      * @throws InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
-    public function fromSQLTimestampWithTimeZone($sqlTimestamp, Provider $provider = null)
+    public function fromSqlTimestampWithTimeZone($sqlTimestamp, Provider $provider = null)
     {
         if ($sqlTimestamp === null) {
             return null;
@@ -162,7 +167,7 @@ class TypeMapper
      * @return DateTime|null The PHP date time
      * @throws InvalidArgumentException Thrown if the input timestamp couldn't be cast to a PHP timestamp
      */
-    public function fromSQLTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null)
+    public function fromSqlTimestampWithoutTimeZone($sqlTimestamp, Provider $provider = null)
     {
         if ($sqlTimestamp === null) {
             return null;
@@ -201,11 +206,11 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return mixed The SQL boolean suitable for database storage
      */
-    public function toSQLBoolean($boolean, Provider $provider = null)
+    public function toSqlBoolean($boolean, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
-        return $provider->convertToSQLBoolean($boolean);
+        return $provider->convertToSqlBoolean($boolean);
     }
 
     /**
@@ -215,7 +220,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return string The SQL date suitable for database storage
      */
-    public function toSQLDate(DateTime $date, Provider $provider = null)
+    public function toSqlDate(DateTime $date, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -229,7 +234,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return string The SQL JSON string suitable for database storage
      */
-    public function toSQLJSON(array $json, Provider $provider = null)
+    public function toSqlJson(array $json, Provider $provider = null)
     {
         return json_encode($json);
     }
@@ -241,7 +246,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return string The SQL time suitable for database storage
      */
-    public function toSQLTimeWithTimeZone(DateTime $time, Provider $provider = null)
+    public function toSqlTimeWithTimeZone(DateTime $time, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -255,7 +260,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return string The SQL time suitable for database storage
      */
-    public function toSQLTimeWithoutTimeZone(DateTime $time, Provider $provider = null)
+    public function toSqlTimeWithoutTimeZone(DateTime $time, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -269,7 +274,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return string The SQL timestamp with time zone suitable for database storage
      */
-    public function toSQLTimestampWithTimeZone(DateTime $timestamp, Provider $provider = null)
+    public function toSqlTimestampWithTimeZone(DateTime $timestamp, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -283,7 +288,7 @@ class TypeMapper
      * @param Provider $provider The provider to convert to
      * @return string The SQL timestamp without time zone suitable for database storage
      */
-    public function toSQLTimestampWithoutTimeZone(DateTime $timestamp, Provider $provider = null)
+    public function toSqlTimestampWithoutTimeZone(DateTime $timestamp, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 

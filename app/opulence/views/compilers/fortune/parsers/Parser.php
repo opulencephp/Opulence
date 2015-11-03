@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a view parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
@@ -16,6 +18,9 @@ use Opulence\Views\Compilers\Fortune\Lexers\Tokens\Token;
 use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use RuntimeException;
 
+/**
+ * Defines a view parser
+ */
 class Parser implements IParser
 {
     /**

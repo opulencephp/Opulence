@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a cookie
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Responses;
+namespace Opulence\Http\Responses;
 
 use DateTime;
 
+/**
+ * Defines a cookie
+ */
 class Cookie
 {
     /** @var string The name of the cookie */
@@ -23,7 +28,7 @@ class Cookie
     /** @var bool Whether or not this cookie is on HTTPS */
     private $isSecure = false;
     /** @var bool Whether or not this cookie is HTTP only */
-    private $isHTTPOnly = true;
+    private $isHttpOnly = true;
 
     /**
      * @param string $name The name of the cookie
@@ -32,7 +37,7 @@ class Cookie
      * @param string $path The path the cookie is valid on
      * @param string $domain The domain the cookie is valid on
      * @param bool $isSecure Whether or not this cookie is on HTTPS
-     * @param bool $isHTTPOnly Whether or not this cookie is HTTP only
+     * @param bool $isHttpOnly Whether or not this cookie is HTTP only
      */
     public function __construct(
         $name,
@@ -41,7 +46,7 @@ class Cookie
         $path = "/",
         $domain = "",
         $isSecure = false,
-        $isHTTPOnly = true
+        $isHttpOnly = true
     ) {
         $this->name = $name;
         $this->value = $value;
@@ -49,7 +54,7 @@ class Cookie
         $this->path = $path;
         $this->domain = $domain;
         $this->isSecure = $isSecure;
-        $this->isHTTPOnly = $isHTTPOnly;
+        $this->isHttpOnly = $isHttpOnly;
     }
 
     /**
@@ -95,9 +100,9 @@ class Cookie
     /**
      * @return bool
      */
-    public function isHTTPOnly()
+    public function isHttpOnly()
     {
-        return $this->isHTTPOnly;
+        return $this->isHttpOnly;
     }
 
     /**
@@ -125,11 +130,11 @@ class Cookie
     }
 
     /**
-     * @param bool $isHTTPOnly
+     * @param bool $isHttpOnly
      */
-    public function setHTTPOnly($isHTTPOnly)
+    public function setHttpOnly($isHttpOnly)
     {
-        $this->isHTTPOnly = $isHTTPOnly;
+        $this->isHttpOnly = $isHttpOnly;
     }
 
     /**

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view abstract syntax tree
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Parsers;
 
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\RootNode;
 
+/**
+ * Tests the view abstract syntax tree
+ */
 class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
 {
     /** @var AbstractSyntaxTree The tree to use in tests */

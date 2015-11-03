@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the confirmation question
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Prompts\Questions;
 
+/**
+ * Tests the confirmation question
+ */
 class ConfirmationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Confirmation The question to use in tests */

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the argv parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the argv parser
+ */
 class ArgvParserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ArgvParser The parser to use in tests */

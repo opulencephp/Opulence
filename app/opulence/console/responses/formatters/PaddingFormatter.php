@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the padding formatter
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Formatters;
 
+/**
+ * Defines the padding formatter
+ */
 class PaddingFormatter
 {
     /** @var bool Whether or not to pad after the string */
@@ -53,7 +58,7 @@ class PaddingFormatter
     /**
      * @return string
      */
-    public function getEOLChar()
+    public function getEolChar()
     {
         return $this->eolChar;
     }
@@ -94,7 +99,7 @@ class PaddingFormatter
     /**
      * @param string $eolChar
      */
-    public function setEOLChar($eolChar)
+    public function setEolChar($eolChar)
     {
         $this->eolChar = $eolChar;
     }

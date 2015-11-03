@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a basic response
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses;
 
 use Opulence\Console\Responses\Compilers\ICompiler;
 
+/**
+ * Defines a basic response
+ */
 abstract class Response implements IResponse
 {
     /** @var ICompiler The response compiler to use */

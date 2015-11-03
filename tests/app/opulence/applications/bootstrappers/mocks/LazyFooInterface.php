@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an interface for a class that's used by bootstrappers
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Applications\Bootstrappers\Mocks;
 
+/**
+ * Defines an interface for a class that's used by bootstrappers
+ */
 interface LazyFooInterface
 {
     /**

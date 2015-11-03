@@ -1,13 +1,15 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the bootstrapper dispatcher
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
 
 use Closure;
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Applications\Application;
 use Opulence\Applications\Bootstrappers\BootstrapperRegistry;
 use Opulence\Applications\Environments\Environment;
@@ -24,6 +26,9 @@ use Opulence\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapperThatDependsO
 use Opulence\Tests\Applications\Bootstrappers\Mocks\LazyConcreteFoo;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\LazyFooInterface;
 
+/**
+ * Tests the bootstrapper dispatcher
+ */
 class DispatcherTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Dispatcher The dispatcher to use in tests */

@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the conditional query builder
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Tests the conditional query builder
+ */
 class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -47,14 +52,14 @@ class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the SQL for a conditional clause
      */
-    public function testGettingSQL()
+    public function testGettingSql()
     {
         $queryBuilder = new ConditionalQueryBuilder();
         $queryBuilder->where("name = 'dave'")
             ->orWhere("email = 'foo@bar.com'")
             ->andWhere("awesome = true");
         $this->assertEquals(" WHERE (name = 'dave') OR (email = 'foo@bar.com') AND (awesome = true)",
-            $queryBuilder->getClauseConditionSQL("WHERE", $queryBuilder->getWhereConditions()));
+            $queryBuilder->getClauseConditionSql("WHERE", $queryBuilder->getWhereConditions()));
     }
 
     /**

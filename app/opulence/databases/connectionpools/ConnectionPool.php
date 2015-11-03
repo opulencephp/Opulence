@@ -1,7 +1,12 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines a database connection pool
  * This can handle multiple server setups or simple single server setups
  */
@@ -9,8 +14,8 @@ namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\IDriver;
 use Opulence\Databases\IConnection;
-use Opulence\Databases\PDO\MySQL\Driver as MySQLDriver;
-use Opulence\Databases\PDO\PostgreSQL\Driver as PostgreSQLDriver;
+use Opulence\Databases\Pdo\MySql\Driver as MySqlDriver;
+use Opulence\Databases\Pdo\PostgreSql\Driver as PostgreSqlDriver;
 use Opulence\Databases\Server;
 use RuntimeException;
 
@@ -18,8 +23,8 @@ abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */
     public static $drivers = [
-        "pdo_mysql" => MySQLDriver::class,
-        "pdo_pgsql" => PostgreSQLDriver::class,
+        "pdo_mysql" => MySqlDriver::class,
+        "pdo_pgsql" => PostgreSqlDriver::class,
     ];
     /** @var array The servers in this pool */
     protected $servers = [

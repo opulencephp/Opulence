@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the PDO statement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\PDO;
+namespace Opulence\Databases\Pdo;
 
 use PDO;
-use Opulence\Tests\Databases\PDO\Mocks\Statement;
+use Opulence\Tests\Databases\Pdo\Mocks\Statement;
 
+/**
+ * Tests the PDO statement
+ */
 class StatementTest extends \PHPUnit_Framework_TestCase
 {
     /**

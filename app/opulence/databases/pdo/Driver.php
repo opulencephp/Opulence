@@ -1,10 +1,15 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the base class for PDO drivers
  */
-namespace Opulence\Databases\PDO;
+namespace Opulence\Databases\Pdo;
 
 use Opulence\Databases\IDriver;
 use Opulence\Databases\Providers\Provider;
@@ -26,7 +31,7 @@ abstract class Driver implements IDriver
      */
     public function connect(Server $server, array $connectionOptions = [], array $driverOptions = [])
     {
-        $dsn = $this->getDSN($server, $connectionOptions);
+        $dsn = $this->getDsn($server, $connectionOptions);
 
         return new Connection($this->provider, $server, $dsn, $driverOptions);
     }
@@ -38,7 +43,7 @@ abstract class Driver implements IDriver
      * @param array $options The list of driver-specific options
      * @return string The DSN to use to connect to PDO
      */
-    abstract protected function getDSN(Server $server, array $options = []);
+    abstract protected function getDsn(Server $server, array $options = []);
 
     /**
      * Sets the provider used by this driver's connections

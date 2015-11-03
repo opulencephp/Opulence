@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the command collection class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Commands;
 
@@ -16,6 +18,9 @@ use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
 
+/**
+ * Tests the command collection class
+ */
 class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CommandCollection The list of commands to test */

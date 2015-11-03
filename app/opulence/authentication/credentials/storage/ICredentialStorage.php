@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for various methods of credential storage to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Authentication\Credentials\Storage;
 
 use Opulence\Authentication\Credentials\InvalidCredentialException;
 use Opulence\Authentication\Credentials\ICredential;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 
+/**
+ * Defines the interface for various methods of credential storage to implement
+ */
 interface ICredentialStorage
 {
     /**

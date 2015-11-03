@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a mock controller for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Routing\Mocks;
 
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller as BaseController;
 use Opulence\Tests\Mocks;
 
+/**
+ * Defines a mock controller for use in testing
+ */
 class Controller extends BaseController
 {
     /**
@@ -79,7 +84,7 @@ class Controller extends BaseController
     /**
      * @inheritdoc
      */
-    public function showHTTPError($statusCode)
+    public function showHttpError($statusCode)
     {
         return new Response("foo", $statusCode);
     }

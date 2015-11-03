@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks a lazy bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Applications\Bootstrappers\Mocks;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper as BaseBootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Mocks a lazy bootstrapper
+ */
 class LazyBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**

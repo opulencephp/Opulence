@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the strings utility
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Cryptography\Utilities;
 
+/**
+ * Tests the strings utility
+ */
 class StringsTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Strings The string utility to use in tests */

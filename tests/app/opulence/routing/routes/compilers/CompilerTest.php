@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the route compiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes\Compilers;
 
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\ParsedRoute;
 
+/**
+ * Tests the route compiler
+ */
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Compiler The compiler to use in tests */
@@ -33,7 +38,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests compiling an insecure route over HTTPS
      */
-    public function testCompilingInsecureRouteOnHTTPS()
+    public function testCompilingInsecureRouteOnHttps()
     {
         $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", false, ".*", '\/');
         $request = new Request([], [], [], [
@@ -131,7 +136,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests trying to match a secure route when not running on HTTPS
      */
-    public function testNotBeingHTTPSAndMatchingSecureRoute()
+    public function testNotBeingHttpsAndMatchingSecureRoute()
     {
         $route = $this->getParsedRoute(Request::METHOD_GET, "foo@bar", true, ".*", '\/');
         $request = new Request([], [], [], [

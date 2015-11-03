@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Id generator
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Sessions\Ids;
 
 use Opulence\Cryptography\Utilities\Strings;
 
+/**
+ * Tests the Id generator
+ */
 class IdGeneratorTest extends \PHPUnit_Framework_TestCase
 {
     /** @var IdGenerator The Id generator to use in tests */

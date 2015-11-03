@@ -1,42 +1,47 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http\Responses;
+
+/**
  * Defines a redirect response
  */
-namespace Opulence\HTTP\Responses;
-
 class RedirectResponse extends Response
 {
     /** @var string The target URL */
-    protected $targetURL = "";
+    protected $targetUrl = "";
 
     /**
-     * @param string $targetURL The URL to redirect to
+     * @param string $targetUrl The URL to redirect to
      * @param int $statusCode The HTTP status code
      * @param array $headers The headers to set
      */
-    public function __construct($targetURL, $statusCode = ResponseHeaders::HTTP_FOUND, array $headers = [])
+    public function __construct($targetUrl, $statusCode = ResponseHeaders::HTTP_FOUND, array $headers = [])
     {
         parent::__construct("", $statusCode, $headers);
 
-        $this->setTargetURL($targetURL);
+        $this->setTargetUrl($targetUrl);
     }
 
     /**
      * @return string
      */
-    public function getTargetURL()
+    public function getTargetUrl()
     {
-        return $this->targetURL;
+        return $this->targetUrl;
     }
 
     /**
-     * @param string $targetURL
+     * @param string $targetUrl
      */
-    public function setTargetURL($targetURL)
+    public function setTargetUrl($targetUrl)
     {
-        $this->targetURL = $targetURL;
-        $this->headers->set("Location", $this->targetURL);
+        $this->targetUrl = $targetUrl;
+        $this->headers->set("Location", $this->targetUrl);
     }
 } 

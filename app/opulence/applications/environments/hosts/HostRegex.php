@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a host that uses a regex to match against the name
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Environments\Hosts;
 
+/**
+ * Defines a host that uses a regex to match against the name
+ */
 class HostRegex extends HostName
 {
     /**

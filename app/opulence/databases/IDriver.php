@@ -1,12 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface to be implemented by database drivers
- * A driver is simply any class that can make a database connection
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases;
 
+/**
+ * Defines the interface to be implemented by database drivers
+ * A driver is simply any class that can make a database connection
+ */
 interface IDriver
 {
     /**

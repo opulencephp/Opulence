@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the table formatter
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Formatters;
 
+/**
+ * Tests the table formatter
+ */
 class TableFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var TableFormatter The formatter to use in tests */
@@ -82,7 +87,7 @@ class TableFormatterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->formatter->setPadAfter(false);
         $this->formatter->setCellPaddingString("_");
-        $this->formatter->setEOLChar("<br>");
+        $this->formatter->setEolChar("<br>");
         $this->formatter->setVerticalBorderChar("I");
         $this->formatter->setHorizontalBorderChar("=");
         $this->formatter->setIntersectionChar("*");

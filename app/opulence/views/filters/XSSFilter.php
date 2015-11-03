@@ -1,12 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a filter meant to prevent cross-site scripting
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Filters;
 
-class XSSFilter implements IFilter
+/**
+ * Defines a filter meant to prevent cross-site scripting
+ */
+class XssFilter implements IFilter
 {
     /**
      * Filters the input parameter for XSS attacks
@@ -19,7 +24,7 @@ class XSSFilter implements IFilter
     {
         $filteredInput = $input;
 
-        if (isset($options["forURL"]) && $options["forURL"]) {
+        if (isset($options["forUrl"]) && $options["forUrl"]) {
             // For URLs, "%27" is the correct way to display an apostrophe
             // For HTML, "#39;" (conversion is done in functions below) is the correct way to display an apostrophe
             $filteredInput = str_replace("'", "%27", $input);

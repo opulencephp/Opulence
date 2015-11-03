@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the Memcached bridge
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Cache;
 
 use Opulence\Memcached\Memcached;
 
+/**
+ * Defines the Memcached bridge
+ */
 class MemcachedBridge
 {
     /** @var Memcached The Memcached driver */

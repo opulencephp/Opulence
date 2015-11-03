@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an extension of PDOStatement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\PDO;
+namespace Opulence\Databases\Pdo;
 
+use Opulence\Databases\IStatement;
 use PDO;
 use PDOStatement;
-use Opulence\Databases\IStatement;
 
+/**
+ * Defines an extension of PDOStatement
+ */
 class Statement extends PDOStatement implements IStatement
 {
     /**

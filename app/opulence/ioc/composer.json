@@ -1,6 +1,6 @@
 {
   "name": "opulence/ioc",
-  "description": "The Opulence IoC library",
+  "description": "The Opulence Ioc library",
   "keywords": [
     "PHP",
     "ioc",
@@ -17,7 +17,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\IoC\\": ""
+      "Opulence\\Ioc\\": ""
     }
   },
   "require": {

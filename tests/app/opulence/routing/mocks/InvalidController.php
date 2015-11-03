@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks a controller that doesn't extend the base controller
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Routing\Mocks;
 
+/**
+ * Mocks a controller that doesn't extend the base controller
+ */
 class InvalidController
 {
     /**

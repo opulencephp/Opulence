@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the array list parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the array list parser
+ */
 class ArrayListParserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ArrayListParser The parser to use in tests */

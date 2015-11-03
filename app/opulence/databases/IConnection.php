@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the database connection interface, which must be implemented by any classes that wish to be used
- * as a database connection in this application
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases;
 
-use PDO;
-use PDOException;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\TypeMapper;
+use PDO;
+use PDOException;
 
+/**
+ * Defines the database connection interface, which must be implemented by any classes that wish to be used
+ * as a database connection in this application
+ */
 interface IConnection
 {
     /**

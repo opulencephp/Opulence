@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the bootstrapper file cache
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
 
@@ -13,6 +15,9 @@ use Opulence\Applications\Paths;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\LazyBootstrapper;
 
+/**
+ * Tests the bootstrapper file cache
+ */
 class FileCacheTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FileCache The cache to use in tests */

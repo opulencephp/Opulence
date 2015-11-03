@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view token
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 
+/**
+ * Tests the view token
+ */
 class TokenTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Token The token to use in tests */

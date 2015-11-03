@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the session Id generator
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Sessions\Ids;
 
 use Opulence\Cryptography\Utilities\Strings;
 
+/**
+ * Defines the session Id generator
+ */
 class IdGenerator implements IIdGenerator
 {
     /** The default length of an Id */

@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks middleware that returns something
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Routing\Mocks;
 
 use Closure;
-use Opulence\HTTP\Middleware\IMiddleware;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\RedirectResponse;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Middleware\IMiddleware;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\RedirectResponse;
+use Opulence\Http\Responses\Response;
 
+/**
+ * Mocks middleware that returns something
+ */
 class ReturnsSomethingMiddleware implements IMiddleware
 {
     /**

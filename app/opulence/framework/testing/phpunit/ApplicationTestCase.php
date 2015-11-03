@@ -1,10 +1,15 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the base application test case
  */
-namespace Opulence\Framework\Testing\PHPUnit;
+namespace Opulence\Framework\Testing\PhpUnit;
 
 use Monolog\Logger;
 use Opulence\Applications\Application;

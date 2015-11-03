@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the Redis cache bridge
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Cache;
 
 use Opulence\Redis\Redis;
 
+/**
+ * Defines the Redis cache bridge
+ */
 class RedisBridge implements ICacheBridge
 {
     /** @var Redis The Redis driver */

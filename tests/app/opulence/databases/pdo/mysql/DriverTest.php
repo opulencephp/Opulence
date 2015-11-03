@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the MySQL PDO driver
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\PDO\MySQL;
+namespace Opulence\Databases\Pdo\MySql;
 
 use Opulence\Databases;
 use Opulence\Tests\Databases\Mocks\Server;
 
+/**
+ * Tests the MySQL PDO driver
+ */
 class DriverTest extends \PHPUnit_Framework_TestCase
 {
     /**

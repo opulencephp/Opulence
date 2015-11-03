@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the HTTP response
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Responses;
+namespace Opulence\Http\Responses;
 
 use DateTime;
 
+/**
+ * Tests the HTTP response
+ */
 class ResponseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Response The response to use in tests */
@@ -33,9 +38,9 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the default HTTP version
      */
-    public function testGettingDefaultHTTPVersion()
+    public function testGettingDefaultHttpVersion()
     {
-        $this->assertEquals("1.1", $this->response->getHTTPVersion());
+        $this->assertEquals("1.1", $this->response->getHttpVersion());
     }
 
     /**
@@ -81,10 +86,10 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setting the HTTP version
      */
-    public function testSettingHTTPVersion()
+    public function testSettingHttpVersion()
     {
-        $this->response->setHTTPVersion("2.0");
-        $this->assertEquals("2.0", $this->response->getHTTPVersion());
+        $this->response->setHttpVersion("2.0");
+        $this->assertEquals("2.0", $this->response->getHttpVersion());
     }
 
     /**

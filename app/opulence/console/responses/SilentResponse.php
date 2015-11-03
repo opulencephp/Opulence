@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the silent response, which does not write anything
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses;
 
 use Opulence\Console\Responses\Compilers\MockCompiler;
 
+/**
+ * Defines the silent response, which does not write anything
+ */
 class SilentResponse extends Response
 {
     public function __construct()

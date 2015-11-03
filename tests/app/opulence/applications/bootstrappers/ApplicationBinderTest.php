@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the bootstrapper configurator
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers;
 
@@ -11,6 +13,9 @@ use Opulence\Applications\Bootstrappers\Dispatchers\IDispatcher as IBootstrapper
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher as ITaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 
+/**
+ * Tests the bootstrapper configurator
+ */
 class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ApplicationBinder The application binder to use in tests */

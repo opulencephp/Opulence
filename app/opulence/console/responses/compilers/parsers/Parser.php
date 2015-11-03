@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the response parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
 
@@ -12,6 +14,9 @@ use Opulence\Console\Responses\Compilers\Parsers\Nodes\TagNode;
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\WordNode;
 use RuntimeException;
 
+/**
+ * Defines the response parser
+ */
 class Parser implements IParser
 {
     /**

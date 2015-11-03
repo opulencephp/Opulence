@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\QueryBuilders\PostgreSql;
+
+/**
  * Tests the query builder
  */
-namespace Opulence\QueryBuilders\PostgreSQL;
-
 class QueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view lexer
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune\Lexers;
 
@@ -11,6 +13,9 @@ use Opulence\Views\Compilers\Fortune\Lexers\Tokens\TokenTypes;
 use Opulence\Views\View;
 use RuntimeException;
 
+/**
+ * Tests the view lexer
+ */
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Lexer The lexer to use in tests */

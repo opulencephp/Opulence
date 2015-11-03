@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the Redis-cached SQL data mapper
  */
-namespace Opulence\ORM\DataMappers;
+namespace Opulence\Orm\DataMappers;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\Redis\Redis;
 
-abstract class RedisCachedSQLDataMapper extends CachedSQLDataMapper
+abstract class RedisCachedSqlDataMapper extends CachedSqlDataMapper
 {
     /**
      * @param Redis $cache The cache object used in the cache data mapper

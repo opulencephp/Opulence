@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the base bootstrapper
- * Note:  This class also accepts a run() method with a variable number of parameters
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers;
 
 use BadMethodCallException;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Defines the base bootstrapper
+ * Note:  This class also accepts a run() method with a variable number of parameters
+ */
 abstract class Bootstrapper
 {
     /** @var Paths The paths to various directories used by Opulence */

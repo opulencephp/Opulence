@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the connection pool
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\ConnectionPools;
 
@@ -10,6 +12,9 @@ use Opulence\Tests\Databases\ConnectionPools\Mocks\ConnectionPool;
 use Opulence\Tests\Databases\Mocks\Driver;
 use Opulence\Tests\Databases\Mocks\Server as MockServer;
 
+/**
+ * Tests the connection pool
+ */
 class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
 {
     /**

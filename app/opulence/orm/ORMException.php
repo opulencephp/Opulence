@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an ORM exception
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM;
+namespace Opulence\Orm;
 
 use Exception;
 
-class ORMException extends Exception
+/**
+ * Defines an Orm exception
+ */
+class OrmException extends Exception
 {
     // Don't do anything
 } 

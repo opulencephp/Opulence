@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Fortune compiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune;
 
@@ -11,10 +13,13 @@ use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\ICompilerRegistry;
 use Opulence\Views\Factories\IViewFactory;
-use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 
+/**
+ * Tests the Fortune compiler
+ */
 class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FortuneCompiler The compiler to use in tests */
@@ -38,7 +43,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $cache->expects($this->any())
             ->method("has")
             ->willReturn(false);
-        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XSSFilter());
+        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XssFilter());
         $this->viewFactory = $this->getMock(IViewFactory::class);
         $this->fortuneCompiler = new FortuneCompiler($this->transpiler, $this->viewFactory);
         $this->view = new View();
@@ -419,7 +424,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that PHP user input is not evaluated
      */
-    public function testPHPInputIsNotEvaluated()
+    public function testPhpInputIsNotEvaluated()
     {
         $this->view->setContents('<?php echo $foo; ?>');
         $this->view->setVar("foo", '<?php exit; ?>');

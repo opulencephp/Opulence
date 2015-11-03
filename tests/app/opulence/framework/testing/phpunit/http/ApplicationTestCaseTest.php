@@ -1,20 +1,25 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the HTTP application tester
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Testing\PHPUnit\HTTP;
+namespace Opulence\Framework\Testing\PhpUnit\Http;
 
 use LogicException;
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Framework\HTTP\Kernel;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Framework\Http\Kernel;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Router;
-use Opulence\Tests\Framework\Testing\PHPUnit\HTTP\Mocks\ApplicationTestCase;
+use Opulence\Tests\Framework\Testing\PhpUnit\Http\Mocks\ApplicationTestCase;
 
+/**
+ * Tests the HTTP application tester
+ */
 class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ApplicationTestCase The HTTP application to use in tests */
@@ -32,15 +37,15 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
             return new Response("Closure");
         });
         $router->group(["controllerNamespace" => "Opulence\\Tests\\Routing\\Mocks"], function () use ($router) {
-            $router->get("/badgateway", "HTTPApplicationTestController@setBadGateway");
-            $router->get("/cookie", "HTTPApplicationTestController@setCookie");
-            $router->get("/foobar", "HTTPApplicationTestController@showFooBar");
-            $router->get("/header", "HTTPApplicationTestController@setHeader");
-            $router->get("/ise", "HTTPApplicationTestController@setISE");
-            $router->get("/ok", "HTTPApplicationTestController@setOK");
-            $router->get("/redirect", "HTTPApplicationTestController@redirect");
-            $router->get("/setvar", "HTTPApplicationTestController@setVar");
-            $router->get("/unauthorized", "HTTPApplicationTestController@setUnauthorized");
+            $router->get("/badgateway", "HttpApplicationTestController@setBadGateway");
+            $router->get("/cookie", "HttpApplicationTestController@setCookie");
+            $router->get("/foobar", "HttpApplicationTestController@showFooBar");
+            $router->get("/header", "HttpApplicationTestController@setHeader");
+            $router->get("/ise", "HttpApplicationTestController@setISE");
+            $router->get("/ok", "HttpApplicationTestController@setOK");
+            $router->get("/redirect", "HttpApplicationTestController@redirect");
+            $router->get("/setvar", "HttpApplicationTestController@setVar");
+            $router->get("/unauthorized", "HttpApplicationTestController@setUnauthorized");
             $router->get("/non-opulence-controller", "NonOpulenceController@showFoo");
         });
     }

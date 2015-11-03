@@ -1,6 +1,6 @@
 {
   "name": "opulence/orm",
-  "description": "The Opulence ORM library",
+  "description": "The Opulence Orm library",
   "keywords": [
     "PHP",
     "orm",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\ORM\\": ""
+      "Opulence\\Orm\\": ""
     }
   },
   "require": {

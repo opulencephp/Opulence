@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the PDO statement for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Databases\PDO\Mocks;
+namespace Opulence\Tests\Databases\Pdo\Mocks;
 
 use PDO;
-use Opulence\Databases\PDO\Statement as BaseStatement;
+use Opulence\Databases\Pdo\Statement as BaseStatement;
 
+/**
+ * Mocks the PDO statement for use in testing
+ */
 class Statement extends BaseStatement
 {
     public function __construct()

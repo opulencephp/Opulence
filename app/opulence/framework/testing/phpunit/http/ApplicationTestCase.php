@@ -1,20 +1,25 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the HTTP application test case
  */
-namespace Opulence\Framework\Testing\PHPUnit\HTTP;
+namespace Opulence\Framework\Testing\PhpUnit\Http;
 
 use LogicException;
 use Monolog\Logger;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Framework\HTTP\Kernel;
-use Opulence\Framework\Testing\PHPUnit\ApplicationTestCase as BaseApplicationTestCase;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\RedirectResponse;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Framework\Http\Kernel;
+use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\RedirectResponse;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Router;
 use Opulence\Routing\Controller;
 
@@ -37,7 +42,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     public function assertRedirectsTo($url)
     {
         $this->checkResponseIsSet();
-        $this->assertTrue($this->response instanceof RedirectResponse && $this->response->getTargetURL() == $url);
+        $this->assertTrue($this->response instanceof RedirectResponse && $this->response->getTargetUrl() == $url);
     }
 
     /**
@@ -231,10 +236,10 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
             $request = $this->defaultRequest;
         }
 
-        $parsedURL = parse_url($url);
-        $request->setPath($parsedURL["path"]);
+        $parsedUrl = parse_url($url);
+        $request->setPath($parsedUrl["path"]);
         $request->setMethod(strtoupper($method));
-        $request->getHeaders()->set("HOST", isset($parsedURL["host"]) ? $parsedURL["host"] : "");
+        $request->getHeaders()->set("HOST", isset($parsedUrl["host"]) ? $parsedUrl["host"] : "");
         $this->response = $this->kernel->handle($request);
 
         return $this->response;
@@ -248,7 +253,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->setApplication();
         $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
-        $container = $this->application->getIoCContainer();
+        $container = $this->application->getIocContainer();
         $container->bind(Logger::class, $this->getKernelLogger());
         $this->router = $container->makeShared(Router::class);
         $this->kernel = $container->makeShared(Kernel::class);

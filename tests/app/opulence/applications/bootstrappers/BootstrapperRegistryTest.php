@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the bootstrapper registry
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers;
 
@@ -15,6 +17,9 @@ use Opulence\Tests\Applications\Bootstrappers\Mocks\LazyFooInterface;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\NonBootstrapper;
 use RuntimeException;
 
+/**
+ * Tests the bootstrapper registry
+ */
 class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var BootstrapperRegistry The registry to test */

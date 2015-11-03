@@ -1,19 +1,24 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an extension of the PDO library with lazy-connection
- * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\PDO;
+namespace Opulence\Databases\Pdo;
 
-use PDO;
-use PDOException;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Providers\TypeMapper;
 use Opulence\Databases\Server;
+use PDO;
+use PDOException;
 
+/**
+ * Defines an extension of the PDO library with lazy-connection
+ * In other words, a database connection is only made if we absolutely need to, which gives us a performance gain
+ */
 class Connection extends PDO implements IConnection
 {
     /** The name of the PDOStatement class to use */

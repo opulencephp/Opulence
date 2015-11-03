@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the data mapper class for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\ORM\DataMappers\Mocks;
+namespace Opulence\Tests\Orm\DataMappers\Mocks;
 
 use Opulence\Databases\IConnection;
-use Opulence\ORM\DataMappers\SQLDataMapper as BaseSQLDataMapper;
-use Opulence\ORM\Ids\IntSequenceIdGenerator;
-use Opulence\ORM\ORMException;
+use Opulence\Orm\DataMappers\SqlDataMapper as BaseSqlDataMapper;
+use Opulence\Orm\Ids\IntSequenceIdGenerator;
+use Opulence\Orm\OrmException;
 
-class SQLDataMapper extends BaseSQLDataMapper
+/**
+ * Mocks the data mapper class for use in testing
+ */
+class SqlDataMapper extends BaseSqlDataMapper
 {
     /** @var object[] The list of entities added */
     protected $entities = [];
@@ -62,7 +67,7 @@ class SQLDataMapper extends BaseSQLDataMapper
     public function getById($id)
     {
         if (!isset($this->entities[$id])) {
-            throw new ORMException("No entity found with Id " . $id);
+            throw new OrmException("No entity found with Id " . $id);
         }
 
         return clone $this->entities[$id];

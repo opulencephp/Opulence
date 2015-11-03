@@ -1,12 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines settings for the PostgreSQL provider
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\Providers;
 
-class PostgreSQLProvider extends Provider
+/**
+ * Defines settings for the PostgreSQL provider
+ */
+class PostgreSqlProvider extends Provider
 {
     /** @inheritdoc */
     protected $timestampWithTimeZoneFormat = "Y-m-d H:i:s O";
@@ -32,7 +37,7 @@ class PostgreSQLProvider extends Provider
     /**
      * @inheritdoc
      */
-    public function convertFromSQLBoolean($value)
+    public function convertFromSqlBoolean($value)
     {
         if (in_array(strtolower($value), $this->falseBooleanValues, true)) {
             return false;
@@ -40,13 +45,13 @@ class PostgreSQLProvider extends Provider
             return true;
         }
 
-        return parent::convertFromSQLBoolean($value);
+        return parent::convertFromSqlBoolean($value);
     }
 
     /**
      * @inheritdoc
      */
-    public function convertToSQLBoolean($value)
+    public function convertToSqlBoolean($value)
     {
         if (is_bool($value)) {
             if ($value) {

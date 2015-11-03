@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for event dispatchers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Events\Dispatchers;
 
 use Opulence\Events\IEvent;
 
+/**
+ * Defines the interface for event dispatchers to implement
+ */
 interface IDispatcher
 {
     /**

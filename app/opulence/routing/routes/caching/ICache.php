@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for route caches to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes\Caching;
 
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\RouteCollection;
 
+/**
+ * Defines the interface for route caches to implement
+ */
 interface ICache
 {
     /** The default name of the cached routes file */

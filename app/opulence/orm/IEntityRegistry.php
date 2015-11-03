@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm;
+
+/**
  * Defines the interface for entity registry to implement
  */
-namespace Opulence\ORM;
-
 interface IEntityRegistry
 {
     /**
@@ -74,7 +79,7 @@ interface IEntityRegistry
      * Registers an entity
      *
      * @param object $entity The entity to register
-     * @throws ORMException Thrown if there was an error registering the entity
+     * @throws OrmException Thrown if there was an error registering the entity
      */
     public function registerEntity(&$entity);
 

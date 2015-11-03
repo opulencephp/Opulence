@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the connection pool class for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Databases\ConnectionPools\Mocks;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool as BaseConnectionPool;
 use Opulence\Databases\Server;
 
+/**
+ * Mocks the connection pool class for use in testing
+ */
 class ConnectionPool extends BaseConnectionPool
 {
     /**

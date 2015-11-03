@@ -1,12 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a parsed route
- * This is different than a compiled route because this does not have the context of a particular request
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes;
 
+/**
+ * Defines a parsed route
+ * This is different than a compiled route because this does not have the context of a particular request
+ */
 class ParsedRoute extends Route
 {
     /** @var string|null The parsed (regex) host if set, otherwise null */

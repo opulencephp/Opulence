@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the PHP compiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Views\Compilers\PHP;
+namespace Opulence\Views\Compilers\Php;
 
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 
-class PHPCompilerTest extends \PHPUnit_Framework_TestCase
+/**
+ * Tests the PHP compiler
+ */
+class PhpCompilerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PHPCompiler The compiler to use in tests */
+    /** @var PhpCompiler The compiler to use in tests */
     private $compiler = null;
 
     /**
@@ -19,7 +24,7 @@ class PHPCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->compiler = new PHPCompiler();
+        $this->compiler = new PhpCompiler();
     }
 
     /**

@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Id accessor registry
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM\Ids;
+namespace Opulence\Orm\Ids;
 
-use Opulence\ORM\IEntity;
-use Opulence\ORM\ORMException;
+use Opulence\Orm\IEntity;
+use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
 
+/**
+ * Tests the Id accessor registry
+ */
 class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
 {
     /** @var IdAccessorRegistry The registry to use in tests */
@@ -70,7 +75,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityIdWithoutRegisteringGetter()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->registry->getEntityId($entity);
     }
@@ -116,7 +121,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingEntityIdWithoutRegisteringGetter()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->registry->setEntityId($entity, 24);
     }

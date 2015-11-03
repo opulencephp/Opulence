@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the request bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Bootstrappers\Console\Requests;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Console\Requests\Parsers\ArgvParser;
 use Opulence\Console\Requests\Parsers\IParser;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Defines the request bootstrapper
+ */
 class RequestsBootstrapper extends Bootstrapper
 {
     /**

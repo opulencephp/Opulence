@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\ChangeTracking;
+
+use Opulence\Orm\OrmException;
+
+/**
  * Defines the interface for change trackers to implement
  */
-namespace Opulence\ORM\ChangeTracking;
-
-use Opulence\ORM\ORMException;
-
 interface IChangeTracker
 {
     /**
@@ -15,7 +20,7 @@ interface IChangeTracker
      *
      * @param object $entity The entity to check
      * @return bool True if the entity has changed, otherwise false
-     * @throws ORMException Thrown if the entity was not registered in the first place
+     * @throws OrmException Thrown if the entity was not registered in the first place
      */
     public function hasChanged($entity);
 

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the Composer bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Bootstrappers\Console\Composer;
 
@@ -10,8 +12,11 @@ use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Defines the Composer bootstrapper
+ */
 class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**

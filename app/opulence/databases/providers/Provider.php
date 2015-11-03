@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the base provider for RDBMS providers to extend
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\Providers;
 
+/**
+ * Defines the base provider for RDBMS providers to extend
+ */
 class Provider
 {
     /** @var string The format for date strings */
@@ -25,7 +30,7 @@ class Provider
      * @param mixed $value The value to convert
      * @return bool|null The boolean value if the input was not null, otherwise null
      */
-    public function convertFromSQLBoolean($value)
+    public function convertFromSqlBoolean($value)
     {
         if (is_null($value)) {
             return null;
@@ -35,12 +40,12 @@ class Provider
     }
 
     /**
-     * Converts a PHP boolean to a SQL boolean
+     * Converts a PHP boolean to an SQL boolean
      *
      * @param bool $value The boolean value to convert
      * @return int The boolean in an SQL boolean format
      */
-    public function convertToSQLBoolean($value)
+    public function convertToSqlBoolean($value)
     {
         if (is_bool($value)) {
             return (int)$value;

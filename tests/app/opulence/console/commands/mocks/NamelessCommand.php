@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a command without a name
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 
+/**
+ * Defines a command without a name
+ */
 class NamelessCommand extends Command
 {
     /**

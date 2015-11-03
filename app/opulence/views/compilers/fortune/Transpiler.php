@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the Fortune transpiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune;
 
@@ -17,10 +19,13 @@ use Opulence\Views\Compilers\Fortune\Parsers\Nodes\ExpressionNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\Node;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\SanitizedTagNode;
 use Opulence\Views\Compilers\Fortune\Parsers\Nodes\UnsanitizedTagNode;
-use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\IView;
 use RuntimeException;
 
+/**
+ * Defines the Fortune transpiler
+ */
 class Transpiler implements ITranspiler
 {
     /** @var ILexer The view lexer */
@@ -29,7 +34,7 @@ class Transpiler implements ITranspiler
     protected $parser = null;
     /** @var ICache The transpiled view cache */
     protected $cache = null;
-    /** @var XSSFilter The XSS filter to use to sanitize text */
+    /** @var XssFilter The XSS filter to use to sanitize text */
     protected $xssFilter = null;
     /** @var callable[] The mapping of directive names to their transpilers */
     protected $directiveTranspilers = [];
@@ -50,9 +55,9 @@ class Transpiler implements ITranspiler
      * @param ILexer $lexer The view lexer
      * @param IParser $parser The view parser
      * @param ICache $cache The view cache
-     * @param XSSFilter $xssFilter The XSS filter
+     * @param XssFilter $xssFilter The XSS filter
      */
-    public function __construct(ILexer $lexer, IParser $parser, ICache $cache, XSSFilter $xssFilter)
+    public function __construct(ILexer $lexer, IParser $parser, ICache $cache, XssFilter $xssFilter)
     {
         $this->lexer = $lexer;
         $this->parser = $parser;

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Tests\Orm\DataMappers\Mocks;
+
+use Opulence\Orm\DataMappers\ICacheDataMapper;
+
+/**
  * Mocks the cache data mapper class for use in testing
  */
-namespace Opulence\Tests\ORM\DataMappers\Mocks;
-
-use Opulence\ORM\DataMappers\ICacheDataMapper;
-
 class CacheDataMapper implements ICacheDataMapper
 {
     /** @var object[] The list of entities added */

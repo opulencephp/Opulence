@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the change tracker
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM\ChangeTracking;
+namespace Opulence\Orm\ChangeTracking;
 
-use Opulence\ORM\ORMException;
+use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
 
+/**
+ * Tests the change tracker
+ */
 class ChangeTrackerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ChangeTracker The change tracker to use in tests */
@@ -66,7 +71,7 @@ class ChangeTrackerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForChangesOnUnregisteredEntity()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $this->changeTracker->hasChanged($this->entity1);
     }
 

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for bootstrapper caches to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers\Caching;
 
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 
+/**
+ * Defines the interface for bootstrapper caches to implement
+ */
 interface ICache
 {
     /** The default cached registry file name */

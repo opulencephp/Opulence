@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the view name resolver that uses file system files to store views
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Factories\IO;
 
 use InvalidArgumentException;
 
+/**
+ * Defines the view name resolver that uses file system files to store views
+ */
 class FileViewNameResolver implements IViewNameResolver
 {
     /** @var array The mapping of paths to their priorities */

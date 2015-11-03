@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the Memcached wrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Memcached;
 
 use InvalidArgumentException;
 
+/**
+ * Defines the Memcached wrapper
+ */
 class Memcached
 {
     /** @var array The list mapping of client names to instances */

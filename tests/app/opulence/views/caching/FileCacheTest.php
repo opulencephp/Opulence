@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view cache
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Caching;
 
 use Opulence\Files\FileSystem;
 use Opulence\Views\IView;
 
+/**
+ * Tests the view cache
+ */
 class FileCacheTest extends \PHPUnit_Framework_TestCase
 {
     /** @var FileSystem The file system to use to read cached views */

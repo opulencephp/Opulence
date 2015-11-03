@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the array list parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
 use Opulence\Console\Requests\Tokenizers\ArrayListTokenizer;
 
+/**
+ * Defines the array list parser
+ */
 class ArrayListParser extends Parser
 {
     /** @var ArrayListTokenizer The tokenizer to use */

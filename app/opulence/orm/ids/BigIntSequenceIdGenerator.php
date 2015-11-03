@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an Id generator that uses a big integer sequence to generate Ids
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM\Ids;
+namespace Opulence\Orm\Ids;
 
 use Opulence\Databases\IConnection;
 
+/**
+ * Defines an Id generator that uses a big integer sequence to generate Ids
+ */
 class BigIntSequenceIdGenerator extends IdGenerator
 {
     /** @var string|null The name of the sequence that contains the last insert Id */

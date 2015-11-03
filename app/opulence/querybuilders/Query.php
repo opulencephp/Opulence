@@ -1,7 +1,12 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines common functionality for query classes
  */
 namespace Opulence\QueryBuilders;
@@ -30,7 +35,7 @@ abstract class Query
      *
      * @return string The SQL statement
      */
-    abstract public function getSQL();
+    abstract public function getSql();
 
     /**
      * Adds a named placeholder's value

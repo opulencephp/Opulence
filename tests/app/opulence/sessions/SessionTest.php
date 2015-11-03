@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the session class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Sessions;
 
@@ -10,6 +12,9 @@ use InvalidArgumentException;
 use Opulence\Sessions\Ids\IdGenerator;
 use Opulence\Sessions\Ids\IIdGenerator;
 
+/**
+ * Tests the session class
+ */
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
     /**

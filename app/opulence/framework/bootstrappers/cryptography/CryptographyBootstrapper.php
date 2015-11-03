@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the cryptography bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Bootstrappers\Cryptography;
 
@@ -13,8 +15,11 @@ use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
 use Opulence\Cryptography\Utilities\Strings;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 
+/**
+ * Defines the cryptography bootstrapper
+ */
 class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /**

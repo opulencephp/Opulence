@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Bcrypt hasher
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Cryptography\Hashing;
 
 use Opulence\Cryptography\Utilities\Strings;
 
+/**
+ * Tests the Bcrypt hasher
+ */
 class BcryptHasherTest extends \PHPUnit_Framework_TestCase
 {
     /** @var BcryptHasher The hasher to use in the tests */

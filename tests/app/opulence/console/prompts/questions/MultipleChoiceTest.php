@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the multiple choice question
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Prompts\Questions;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the multiple choice question
+ */
 class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
 {
     /** @var MultipleChoice The indexed-choice question to use in tests */

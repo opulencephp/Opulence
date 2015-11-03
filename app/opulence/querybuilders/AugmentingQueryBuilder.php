@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds parts of a query that augment (INSERT/UPDATE)
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Builds parts of a query that augment (INSERT/UPDATE)
+ */
 class AugmentingQueryBuilder
 {
     /** @var array The mapping of column names to their respective values */

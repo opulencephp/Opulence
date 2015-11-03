@@ -1,19 +1,24 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the URL generator
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Routing\URL;
+namespace Opulence\Routing\Url;
 
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\RouteCollection;
 
-class URLGeneratorTest extends \PHPUnit_Framework_TestCase
+/**
+ * Tests the URL generator
+ */
+class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var URLGenerator The generator to use in tests */
+    /** @var UrlGenerator The generator to use in tests */
     private $generator = null;
 
     /**
@@ -139,13 +144,13 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
             $routeCollection->add($parser->parse($route));
         }
 
-        $this->generator = new URLGenerator($routeCollection);
+        $this->generator = new UrlGenerator($routeCollection);
     }
 
     /**
-     * Tests generating an HTTPs URL
+     * Tests generating an HTTPS URL
      */
-    public function testGeneratingHTTPSURL()
+    public function testGeneratingHttpsUrl()
     {
         $this->assertEquals(
             "https://foo.example.com/users",
@@ -156,7 +161,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a route for a non-existent route
      */
-    public function testGeneratingURLForNonExistentRoute()
+    public function testGeneratingUrlForNonExistentRoute()
     {
         $this->assertEmpty($this->generator->createFromName("foo"));
     }
@@ -164,7 +169,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with multiple host and path values
      */
-    public function testGeneratingURLWithMultipleHostAndPathValues()
+    public function testGeneratingUrlWithMultipleHostAndPathValues()
     {
         $this->assertEquals(
             "http://foo.bar.example.com/users/23/profile/edit",
@@ -175,7 +180,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with no values
      */
-    public function testGeneratingURLWithNoValues()
+    public function testGeneratingUrlWithNoValues()
     {
         $this->assertEquals("/users", $this->generator->createFromName("pathNoParameters"));
         $this->assertEquals("http://example.com/users", $this->generator->createFromName("hostNoParameters"));
@@ -184,7 +189,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with one value
      */
-    public function testGeneratingURLWithOneValue()
+    public function testGeneratingUrlWithOneValue()
     {
         $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", 23));
         $this->assertEquals("http://foo.example.com/users",
@@ -194,7 +199,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with an optional host variable
      */
-    public function testGeneratingURLWithOptionalHostVariable()
+    public function testGeneratingUrlWithOptionalHostVariable()
     {
         $this->assertEquals(
             "http://example.com/users",
@@ -205,7 +210,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with optional nested slashes and path variables
      */
-    public function testGeneratingURLWithOptionalNestedSlashesAndPathVariables()
+    public function testGeneratingUrlWithOptionalNestedSlashesAndPathVariables()
     {
         $this->assertEquals(
             "/users",
@@ -224,7 +229,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with an optional path variable
      */
-    public function testGeneratingURLWithOptionalPathVariable()
+    public function testGeneratingUrlWithOptionalPathVariable()
     {
         $this->assertEquals(
             "/users",
@@ -235,7 +240,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with an optional slash and path variable
      */
-    public function testGeneratingURLWithOptionalSlashAndPathVariable()
+    public function testGeneratingUrlWithOptionalSlashAndPathVariable()
     {
         $this->assertEquals(
             "/users",
@@ -250,7 +255,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with optional variables in the path and host
      */
-    public function testGeneratingURLWithOptionalVariablesInPathAndHost()
+    public function testGeneratingUrlWithOptionalVariablesInPathAndHost()
     {
         $this->assertEquals(
             "http://example.com/users",
@@ -261,7 +266,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with two values
      */
-    public function testGeneratingURLWithTwoValues()
+    public function testGeneratingUrlWithTwoValues()
     {
         $this->assertEquals("/users/23/profile/edit",
             $this->generator->createFromName("pathTwoParameters", 23, "edit"));
@@ -274,9 +279,9 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests generating a URL with a variable value that does not satisfy the regex
      */
-    public function testGeneratingURLWithVariableThatDoesNotSatisfyRegex()
+    public function testGeneratingUrlWithVariableThatDoesNotSatisfyRegex()
     {
-        $this->setExpectedException(URLException::class);
+        $this->setExpectedException(UrlException::class);
         $this->generator->createFromName("pathVariableRegex", "notANumber");
     }
 
@@ -285,7 +290,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotFillingAllHostValues()
     {
-        $this->setExpectedException(URLException::class);
+        $this->setExpectedException(UrlException::class);
         $this->generator->createFromName("hostOneParameter");
 
     }
@@ -295,7 +300,7 @@ class URLGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotFillingAllPathValues()
     {
-        $this->setExpectedException(URLException::class);
+        $this->setExpectedException(UrlException::class);
         $this->generator->createFromName("pathOneParameter");
     }
 

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the statement class for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Databases\Mocks;
 
 use PDO;
 use Opulence\Databases\IStatement;
 
+/**
+ * Mocks the statement class for use in testing
+ */
 class Statement implements IStatement
 {
     /**

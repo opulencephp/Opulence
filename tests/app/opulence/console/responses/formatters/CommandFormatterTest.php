@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the command formatter
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Formatters;
 
@@ -14,6 +16,9 @@ use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 
+/**
+ * Tests the command formatter
+ */
 class CommandFormatterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CommandFormatter The formatter to use in tests */

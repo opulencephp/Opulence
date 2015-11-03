@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a response syntax tree
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Compilers\Parsers;
 
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\Node;
 use Opulence\Console\Responses\Compilers\Parsers\Nodes\RootNode;
 
+/**
+ * Defines a response syntax tree
+ */
 class AbstractSyntaxTree
 {
     /** @var RootNode The root node */

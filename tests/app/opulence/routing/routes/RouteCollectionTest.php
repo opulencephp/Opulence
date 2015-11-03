@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the routes
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes;
 
 use Closure;
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;
 
+/**
+ * Tests the routes
+ */
 class RouteCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /** @var RouteCollection The routes to use in tests */

@@ -1,19 +1,24 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the unit of work
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM;
+namespace Opulence\Orm;
 
-use Opulence\ORM\ChangeTracking\ChangeTracker;
-use Opulence\ORM\Ids\IdAccessorRegistry;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
+use Opulence\Orm\Ids\IdAccessorRegistry;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Databases\Mocks\Connection;
 use Opulence\Tests\Databases\Mocks\Server;
-use Opulence\Tests\ORM\DataMappers\Mocks\CachedSQLDataMapper;
-use Opulence\Tests\ORM\DataMappers\Mocks\SQLDataMapper;
+use Opulence\Tests\Orm\DataMappers\Mocks\CachedSqlDataMapper;
+use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
 
+/**
+ * Tests the unit of work
+ */
 class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 {
     /** @var UnitOfWork The unit of work to use in the tests */
@@ -56,7 +61,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $changeTracker,
             $connection
         );
-        $this->dataMapper = new SQLDataMapper();
+        $this->dataMapper = new SqlDataMapper();
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
@@ -171,7 +176,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -196,7 +201,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingConnection()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $unitOfWork = new UnitOfWork($this->entityRegistry, new IdAccessorRegistry(), new ChangeTracker());
         $unitOfWork->commit();
     }
@@ -207,12 +212,12 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testPostCommitOnCachedDataMapper()
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
-        $dataMapper = new CachedSQLDataMapper();
+        $dataMapper = new CachedSqlDataMapper();
         $this->unitOfWork->registerDataMapper($className, $dataMapper);
         $this->entityRegistry->registerEntity($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->commit();
-        $this->assertEquals($this->entity1, $dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->assertEquals($this->entity1, $dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
 
@@ -232,7 +237,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -379,7 +384,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
                 new ChangeTracker(),
                 $connection
             );
-            $this->dataMapper = new SQLDataMapper();
+            $this->dataMapper = new SqlDataMapper();
             $this->entity1 = new User(1, "foo");
             $this->entity2 = new User(2, "bar");
             $className = $this->entityRegistry->getClassName($this->entity1);
@@ -387,7 +392,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             $this->unitOfWork->scheduleForInsertion($this->entity1);
             $this->unitOfWork->scheduleForInsertion($this->entity2);
             $this->unitOfWork->commit();
-        } catch (ORMException $ex) {
+        } catch (OrmException $ex) {
             $exceptionThrown = true;
         }
 
@@ -400,7 +405,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      * Gets the entity after committing it
      *
      * @return User The entity from the data mapper
-     * @throws ORMException Thrown if there was an error committing the transaction
+     * @throws OrmException Thrown if there was an error committing the transaction
      */
     private function getInsertedEntity()
     {

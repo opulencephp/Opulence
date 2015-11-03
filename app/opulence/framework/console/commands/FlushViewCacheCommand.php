@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the flush view cache command
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
@@ -10,6 +12,9 @@ use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Views\Caching\ICache;
 
+/**
+ * Defines the flush view cache command
+ */
 class FlushViewCacheCommand extends Command
 {
     /** @var ICache The view cache */

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the bootstrapper dispatcher
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
 
@@ -10,9 +12,12 @@ use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 use RuntimeException;
 
+/**
+ * Defines the bootstrapper dispatcher
+ */
 class Dispatcher implements IDispatcher
 {
     /** @var TaskDispatcher The task dispatcher */

@@ -1,15 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the router
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing;
 
 use InvalidArgumentException;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
@@ -18,11 +20,14 @@ use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\RouteCollection;
-use Opulence\IoC\Container;
+use Opulence\Ioc\Container;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;
 use Opulence\Tests\Routing\Mocks\NonOpulenceController;
 use Opulence\Tests\Routing\Mocks\Router as MockRouter;
 
+/**
+ * Tests the router
+ */
 class RouterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Router The router to use in tests */
@@ -270,7 +275,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testMissedRouteToNonOpulenceController()
     {
         $controller = NonOpulenceController::class . "@index";
-        $this->router->setMissedRouteController(NonOpulenceController::class, "customHTTPError");
+        $this->router->setMissedRouteController(NonOpulenceController::class, "customHttpError");
         $this->router->get("/foo/:id", $controller);
         $server = [
             "REQUEST_METHOD" => Request::METHOD_GET,
@@ -287,7 +292,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests mixing HTTPS on nested groups
      */
-    public function testMixingHTTPSOnNestedGroups()
+    public function testMixingHttpsOnNestedGroups()
     {
         $this->router->group(["https" => true], function () {
             $this->router->group(["https" => false], function () {
@@ -382,7 +387,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingDeleteRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_DELETE);
+        $this->doTestForHttpMethod(Request::METHOD_DELETE);
     }
 
     /**
@@ -390,7 +395,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingGetRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_GET);
+        $this->doTestForHttpMethod(Request::METHOD_GET);
     }
 
     /**
@@ -398,7 +403,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingHeadRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_HEAD);
+        $this->doTestForHttpMethod(Request::METHOD_HEAD);
     }
 
     /**
@@ -456,7 +461,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingOptionsRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_OPTIONS);
+        $this->doTestForHttpMethod(Request::METHOD_OPTIONS);
     }
 
     /**
@@ -464,7 +469,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingPatchRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_PATCH);
+        $this->doTestForHttpMethod(Request::METHOD_PATCH);
     }
 
     /**
@@ -472,7 +477,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingPostRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_POST);
+        $this->doTestForHttpMethod(Request::METHOD_POST);
     }
 
     /**
@@ -480,7 +485,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingPutRequest()
     {
-        $this->doTestForHTTPMethod(Request::METHOD_PUT);
+        $this->doTestForHttpMethod(Request::METHOD_PUT);
     }
 
     /**
@@ -695,7 +700,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      *
      * @param string $httpMethod The HTTP method to test
      */
-    private function doTestForHTTPMethod($httpMethod)
+    private function doTestForHttpMethod($httpMethod)
     {
         $this->doRoute(
             $httpMethod,

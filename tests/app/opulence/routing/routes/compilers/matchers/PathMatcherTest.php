@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the path matcher
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes\Compilers\Matchers;
 
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\ParsedRoute;
 
+/**
+ * Tests the path matcher
+ */
 class PathMatcherTest extends \PHPUnit_Framework_TestCase
 {
     /** @var PathMatcher The matcher to use in tests */

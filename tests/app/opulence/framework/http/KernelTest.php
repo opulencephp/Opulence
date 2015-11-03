@@ -1,16 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the HTTP kernel
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\HTTP;
+namespace Opulence\Framework\Http;
 
 use Monolog\Logger;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
-use Opulence\IoC\Container;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
+use Opulence\Ioc\Container;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\ICompiler;
@@ -18,10 +20,13 @@ use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Tests\Applications\Mocks\MonologHandler;
-use Opulence\Tests\HTTP\Middleware\Mocks\HeaderSetter;
+use Opulence\Tests\Http\Middleware\Mocks\HeaderSetter;
 use Opulence\Tests\Routing\Mocks\Controller;
 use Opulence\Tests\Routing\Mocks\ExceptionalRouter;
 
+/**
+ * Tests the HTTP kernel
+ */
 class KernelTest extends \PHPUnit_Framework_TestCase
 {
     /**

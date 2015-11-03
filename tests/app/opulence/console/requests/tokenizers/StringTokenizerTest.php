@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the string tokenizer
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Tokenizers;
 
 use RuntimeException;
 
+/**
+ * Tests the string tokenizer
+ */
 class StringTokenizerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var StringTokenizer The tokenizer to use in tests */

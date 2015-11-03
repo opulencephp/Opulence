@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the command that renames an application
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
@@ -15,6 +17,9 @@ use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Files\FileSystem;
 
+/**
+ * Defines the command that renames an application
+ */
 class RenameAppCommand extends Command
 {
     /** @var FileSystem The filesystem to use to write to files */
@@ -96,8 +101,8 @@ class RenameAppCommand extends Command
         );
         // Change the PSR-4 directory
         $updatedComposerContents = str_replace(
-            "app/" . mb_strtolower($this->getArgumentValue("currName")),
-            "app/" . mb_strtolower($this->getArgumentValue("newName")),
+            "app/" . $this->getArgumentValue("currName"),
+            "app/" . $this->getArgumentValue("newName"),
             $updatedComposerContents
         );
         $this->fileSystem->write($this->paths["root"] . "/composer.json", $updatedComposerContents);
@@ -129,8 +134,8 @@ class RenameAppCommand extends Command
         foreach (["app", "tests"] as $pathToUpdate) {
             // Move the directory to the new name
             $this->fileSystem->move(
-                $this->paths[$pathToUpdate] . "/" . mb_strtolower($this->getArgumentValue("currName")),
-                $this->paths[$pathToUpdate] . "/" . mb_strtolower($this->getArgumentValue("newName"))
+                $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("currName"),
+                $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("newName")
             );
 
             // Rename any references to the new namespace

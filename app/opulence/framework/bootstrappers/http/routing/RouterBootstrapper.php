@@ -1,13 +1,15 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the routing bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Bootstrappers\HTTP\Routing;
+namespace Opulence\Framework\Bootstrappers\Http\Routing;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Dispatchers\IDispatcher;
 use Opulence\Routing\Router;
@@ -21,8 +23,11 @@ use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
-use Opulence\Routing\URL\URLGenerator;
+use Opulence\Routing\Url\UrlGenerator;
 
+/**
+ * Defines the routing bootstrapper
+ */
 class RouterBootstrapper extends Bootstrapper
 {
     /** @var ICache The route cache */
@@ -41,12 +46,12 @@ class RouterBootstrapper extends Bootstrapper
         $compiler = $this->getRouteCompiler($container);
         $router = new Router($dispatcher, $compiler, $this->parser);
         $this->configureRouter($router);
-        $urlGenerator = new URLGenerator($router->getRouteCollection());
+        $urlGenerator = new UrlGenerator($router->getRouteCollection());
         $container->bind(ICache::class, $this->cache);
         $container->bind(IDispatcher::class, $dispatcher);
         $container->bind(ICompiler::class, $compiler);
         $container->bind(Router::class, $router);
-        $container->bind(URLGenerator::class, $urlGenerator);
+        $container->bind(UrlGenerator::class, $urlGenerator);
     }
 
     /**

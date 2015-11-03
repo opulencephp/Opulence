@@ -1,18 +1,25 @@
 <?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
 namespace {{namespace}};
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\ORM\DataMappers\RedisCachedSQLDataMapper;
-use Opulence\ORM\ORMException;
+use Opulence\Orm\DataMappers\RedisCachedSqlDataMapper;
+use Opulence\Orm\OrmException;
 use Opulence\Redis\Redis;
 
-class {{class}} extends RedisCachedSQLDataMapper
+class {{class}} extends RedisCachedSqlDataMapper
 {
     /**
      * Adds an entity to the database
      *
      * @param object $entity The entity to add
-     * @throws ORMException Thrown if the entity couldn't be added
+     * @throws OrmException Thrown if the entity couldn't be added
      */
     public function add(&$entity)
     {
@@ -23,7 +30,7 @@ class {{class}} extends RedisCachedSQLDataMapper
      * Deletes an entity
      *
      * @param object $entity The entity to delete
-     * @throws ORMException Thrown if the entity couldn't be deleted
+     * @throws OrmException Thrown if the entity couldn't be deleted
      */
     public function delete(&$entity)
     {
@@ -45,7 +52,7 @@ class {{class}} extends RedisCachedSQLDataMapper
      *
      * @param int|string $id The Id of the entity we're searching for
      * @return object The entity with the input Id
-     * @throws ORMException Thrown if there was no entity with the input Id
+     * @throws OrmException Thrown if there was no entity with the input Id
      */
     public function getById($id)
     {
@@ -56,7 +63,7 @@ class {{class}} extends RedisCachedSQLDataMapper
      * Saves any changes made to an entity
      *
      * @param object $entity The entity to save
-     * @throws ORMException Thrown if the entity couldn't be saved
+     * @throws OrmException Thrown if the entity couldn't be saved
      */
     public function update(&$entity)
     {
@@ -74,11 +81,11 @@ class {{class}} extends RedisCachedSQLDataMapper
     }
 
     /**
-     * Sets the SQL data mapper to use in this repo
+     * Sets the Sql data mapper to use in this repo
      *
      * @param ConnectionPool $connectionPool The connection pool used in the data mapper
      */
-    protected function setSQLDataMapper(ConnectionPool $connectionPool)
+    protected function setSqlDataMapper(ConnectionPool $connectionPool)
     {
 
     }

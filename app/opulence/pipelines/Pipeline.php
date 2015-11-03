@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the pipeline
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Pipelines;
 
 use Closure;
-use Opulence\IoC\IContainer;
-use Opulence\IoC\IoCException;
+use Opulence\Ioc\IContainer;
+use Opulence\Ioc\IocException;
 
+/**
+ * Defines the pipeline
+ */
 class Pipeline implements IPipeline
 {
     /** @var IContainer The dependency injection container to use */
@@ -90,7 +95,7 @@ class Pipeline implements IPipeline
                             [$stage, $this->methodToCall],
                             [$input, $stages]
                         );
-                    } catch (IoCException $ex) {
+                    } catch (IocException $ex) {
                         throw new PipelineException("Failed to pipeline input: " . $ex->getMessage());
                     }
                 }

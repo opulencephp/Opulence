@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the controller
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing;
 
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+use Opulence\Http\Responses\ResponseHeaders;
 
+/**
+ * Tests the controller
+ */
 class ControllerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Controller The controller to use in tests */
@@ -35,9 +40,9 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests showing an HTTP error
      */
-    public function testShowingHTTPError()
+    public function testShowingHttpError()
     {
-        $response = $this->controller->showHTTPError(ResponseHeaders::HTTP_NOT_FOUND);
+        $response = $this->controller->showHttpError(ResponseHeaders::HTTP_NOT_FOUND);
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEmpty($response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());

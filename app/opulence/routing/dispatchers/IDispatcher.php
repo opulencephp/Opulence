@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for dispatchers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Dispatchers;
 
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller;
 use Opulence\Routing\RouteException;
 use Opulence\Routing\Routes\CompiledRoute;
 
+/**
+ * Defines the interface for dispatchers to implement
+ */
 interface IDispatcher
 {
     /**

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the console request
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the console request
+ */
 class RequestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Request The request to use in tests */

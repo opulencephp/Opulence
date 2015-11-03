@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the encryption key generator command
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
@@ -13,6 +15,9 @@ use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
 
+/**
+ * Defines the encryption key generator command
+ */
 class EncryptionKeyGenerationCommand extends Command
 {
     /** @var Strings The string utility */

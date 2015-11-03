@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a console prompt
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Prompts;
 
@@ -13,6 +15,9 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
 use RuntimeException;
 
+/**
+ * Defines a console prompt
+ */
 class Prompt
 {
     /** @var PaddingFormatter The space padding formatter to use */

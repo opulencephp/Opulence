@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds a delete query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Builds a delete query
+ */
 class DeleteQuery extends Query
 {
     /** @var array The list of table expressions, allowing columns from other table to appear in the WHERE condition */
@@ -53,7 +58,7 @@ class DeleteQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
         $sql = "DELETE FROM {$this->tableName}" . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
 
@@ -62,7 +67,7 @@ class DeleteQuery extends Query
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE",
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql("WHERE",
             $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;

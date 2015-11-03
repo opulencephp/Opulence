@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the bootstrapper
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers;
 
@@ -12,6 +14,9 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Sessions\Session;
 use Opulence\Tests\Applications\Bootstrappers\Mocks\Bootstrapper;
 
+/**
+ * Tests the bootstrapper
+ */
 class BootstrapperTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Bootstrapper The bootstrapper to use in tests */

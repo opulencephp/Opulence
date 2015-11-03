@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Tests\Http\Requests\Mocks;
+
+use Opulence\Http\Requests\Request;
+
+/**
  * Mocks a JSON request class for use in testing
  */
-namespace Opulence\Tests\HTTP\Requests\Mocks;
-
-use Opulence\HTTP\Requests\Request;
-
-class JSONRequest extends Request
+class JsonRequest extends Request
 {
     /**
      * @inheritdoc
@@ -21,7 +26,7 @@ class JSONRequest extends Request
     /**
      * @inheritdoc
      */
-    public function isJSON()
+    public function isJson()
     {
         return true;
     }

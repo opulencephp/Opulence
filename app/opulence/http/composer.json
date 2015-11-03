@@ -1,6 +1,6 @@
 {
   "name": "opulence/http",
-  "description": "The Opulence HTTP library",
+  "description": "The Opulence Http library",
   "keywords": [
     "PHP",
     "http",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\HTTP\\": ""
+      "Opulence\\Http\\": ""
     }
   },
   "require": {

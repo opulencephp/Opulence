@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\Repositories;
+
+use Opulence\Orm\DataMappers\IDataMapper;
+use Opulence\Orm\OrmException;
+use Opulence\Orm\UnitOfWork;
+
+/**
  * Defines a generic entity repository that can be extended
  */
-namespace Opulence\ORM\Repositories;
-
-use Opulence\ORM\DataMappers\IDataMapper;
-use Opulence\ORM\ORMException;
-use Opulence\ORM\UnitOfWork;
-
 class Repo implements IRepo
 {
     /** @var string The name of the class whose objects this repo is getting */
@@ -76,7 +81,7 @@ class Repo implements IRepo
      * @param string $functionName The name of the function to call in the data mapper
      * @param array $args The list of arguments to pass into the data mapper
      * @return object|object[] The entity or list of entities
-     * @throws ORMException Thrown if there was an error getting the entity(ies)
+     * @throws OrmException Thrown if there was an error getting the entity(ies)
      */
     protected function getFromDataMapper($functionName, array $args = [])
     {

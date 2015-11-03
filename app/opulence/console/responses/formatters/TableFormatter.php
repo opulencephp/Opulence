@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a table formatter
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Formatters;
 
+/**
+ * Defines a table formatter
+ */
 class TableFormatter
 {
     /** @var PaddingFormatter The padding formatter */
@@ -47,7 +52,7 @@ class TableFormatter
         // If there are headers, we want them to be formatted along with the rows
         $headersAndRows = count($headers) == 0 ? $rows : array_merge([$headers], $rows);
         $maxLengths = $this->padding->normalizeColumns($headersAndRows);
-        $eolChar = $this->padding->getEOLChar();
+        $eolChar = $this->padding->getEolChar();
         $rowText = explode($eolChar, $this->padding->format($headersAndRows, function ($row) {
             return sprintf(
                 "%s%s%s%s%s",
@@ -83,9 +88,9 @@ class TableFormatter
     /**
      * @param string $eolChar
      */
-    public function setEOLChar($eolChar)
+    public function setEolChar($eolChar)
     {
-        $this->padding->setEOLChar($eolChar);
+        $this->padding->setEolChar($eolChar);
     }
 
     /**

@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a base controller
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing;
 
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
 
+/**
+ * Defines a base controller
+ */
 class Controller
 {
     /** @var IView The view used in the response */
@@ -71,7 +76,7 @@ class Controller
     /**
      * @param IViewFactory $viewFactory
      */
-    public function setViewFactory(IVIewFactory $viewFactory)
+    public function setViewFactory(IViewFactory $viewFactory)
     {
         $this->viewFactory = $viewFactory;
     }
@@ -83,7 +88,7 @@ class Controller
      * @param int $statusCode The HTTP status code of the error
      * @return Response The response
      */
-    public function showHTTPError($statusCode)
+    public function showHttpError($statusCode)
     {
         return new Response("", $statusCode);
     }

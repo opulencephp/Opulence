@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the console argument
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests;
 
 use InvalidArgumentException;
 
+/**
+ * Tests the console argument
+ */
 class ArgumentTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Argument The argument to use in tests */

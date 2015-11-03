@@ -1,16 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Dispatches routes to the appropriate controllers
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Dispatchers;
 
 use Closure;
 use Exception;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
-use Opulence\IoC\IContainer;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+use Opulence\Ioc\IContainer;
 use Opulence\Pipelines\Pipeline;
 use Opulence\Pipelines\PipelineException;
 use Opulence\Routing\Controller;
@@ -22,6 +24,9 @@ use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
 
+/**
+ * Dispatches routes to the appropriate controllers
+ */
 class Dispatcher implements IDispatcher
 {
     /** @var IContainer The dependency injection container */

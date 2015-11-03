@@ -1,7 +1,14 @@
 <?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
 namespace {{namespace}};
 
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller;
 
 class {{class}} extends Controller

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an IoC exception
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\IoC;
+namespace Opulence\Ioc;
 
 use Exception;
 
-class IoCException extends Exception
+/**
+ * Defines an IoC exception
+ */
+class IocException extends Exception
 {
     // Don't do anything
 } 

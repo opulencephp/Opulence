@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm;
+
+/**
  * Defines different states of entities
  */
-namespace Opulence\ORM;
-
 class EntityStates
 {
     /** A new entity that will be registered */

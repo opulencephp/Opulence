@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the array session handler, which is useful for testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Sessions\Handlers;
 
+/**
+ * Defines the array session handler, which is useful for testing
+ */
 class ArraySessionHandler extends SessionHandler
 {
     /** @var array The local storage */

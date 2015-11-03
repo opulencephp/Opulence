@@ -1,18 +1,23 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a route compiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes\Compilers;
 
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\IRouteMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 
+/**
+ * Defines a route compiler
+ */
 class Compiler implements ICompiler
 {
     /** @var IRouteMatcher[] The list of route matchers used by the compiler */

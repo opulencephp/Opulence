@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks a Monolog handler for use in testing
- * We don't want to actually write errors to the logs during the tests, so we must create a dummy handler to do that
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Applications\Mocks;
 
 use Monolog\Handler\AbstractHandler;
 
+/**
+ * Mocks a Monolog handler for use in testing
+ * We don't want to actually write errors to the logs during the tests, so we must create a dummy handler to do that
+ */
 class MonologHandler extends AbstractHandler
 {
     /**

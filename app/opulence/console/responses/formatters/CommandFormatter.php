@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Formats a command into a text representation
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Formatters;
 
@@ -10,6 +12,9 @@ use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\Option;
 
+/**
+ * Formats a command into a text representation
+ */
 class CommandFormatter
 {
     /**

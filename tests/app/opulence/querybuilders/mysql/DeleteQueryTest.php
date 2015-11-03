@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the delete query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\QueryBuilders\MySQL;
+namespace Opulence\QueryBuilders\MySql;
 
 use PDO;
 
+/**
+ * Tests the delete query
+ */
 class DeleteQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -23,7 +28,7 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
             ->addNamedPlaceholderValue("name", "dave")
             ->limit(1);
         $this->assertEquals("DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1",
-            $query->getSQL());
+            $query->getSql());
         $this->assertEquals([
             "userId" => [18175, PDO::PARAM_INT],
             "name" => ["dave", PDO::PARAM_STR]
@@ -37,7 +42,7 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new DeleteQuery("users");
         $query->limit(1);
-        $this->assertEquals("DELETE FROM users LIMIT 1", $query->getSQL());
+        $this->assertEquals("DELETE FROM users LIMIT 1", $query->getSql());
     }
 
     /**
@@ -47,6 +52,6 @@ class DeleteQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new DeleteQuery("users");
         $query->limit(":limit");
-        $this->assertEquals("DELETE FROM users LIMIT :limit", $query->getSQL());
+        $this->assertEquals("DELETE FROM users LIMIT :limit", $query->getSql());
     }
 } 

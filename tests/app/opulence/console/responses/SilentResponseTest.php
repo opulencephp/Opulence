@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the silent response
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses;
 
+/**
+ * Tests the silent response
+ */
 class SilentResponseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SilentResponse The response to use in tests */

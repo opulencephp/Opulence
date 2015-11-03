@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the event class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Events;
 
+/**
+ * Tests the event class
+ */
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Event The event to test */

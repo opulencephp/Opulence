@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a type mapper that can go back and forth between Redis types and PHP types
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Redis;
 
 use DateTime;
 
+/**
+ * Defines a type mapper that can go back and forth between Redis types and PHP types
+ */
 class TypeMapper
 {
     /**

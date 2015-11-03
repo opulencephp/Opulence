@@ -1,21 +1,26 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the PDO driver for a MySQL database
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\PDO\MySQL;
+namespace Opulence\Databases\Pdo\MySql;
 
-use Opulence\Databases\PDO\Driver as BaseDriver;
-use Opulence\Databases\Providers\MySQLProvider;
+use Opulence\Databases\Pdo\Driver as BaseDriver;
+use Opulence\Databases\Providers\MySqlProvider;
 use Opulence\Databases\Server;
 
+/**
+ * Defines the PDO driver for a MySQL database
+ */
 class Driver extends BaseDriver
 {
     /**
      * @inheritdoc
      */
-    protected function getDSN(Server $server, array $options = [])
+    protected function getDsn(Server $server, array $options = [])
     {
         $dsn = implode(";", [
                 "mysql:host=" . $server->getHost(),
@@ -36,6 +41,6 @@ class Driver extends BaseDriver
      */
     protected function setProvider()
     {
-        $this->provider = new MySQLProvider();
+        $this->provider = new MySqlProvider();
     }
 } 

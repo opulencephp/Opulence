@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for command compilers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Commands\Compilers;
 
@@ -10,6 +12,9 @@ use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Requests\IRequest;
 use RuntimeException;
 
+/**
+ * Defines the interface for command compilers to implement
+ */
 interface ICompiler
 {
     /**

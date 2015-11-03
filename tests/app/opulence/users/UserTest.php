@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the user object
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Users;
 
 use DateTime;
 
+/**
+ * Tests the user object
+ */
 class UserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var User The user object we're going to clone for our tests */

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the compiler dispatcher
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers;
 
 use InvalidArgumentException;
 use Opulence\Views\IView;
 
+/**
+ * Defines the compiler dispatcher
+ */
 class CompilerRegistry implements ICompilerRegistry
 {
     /** @var ICompiler[] The mapping of extensions to compiler instances */

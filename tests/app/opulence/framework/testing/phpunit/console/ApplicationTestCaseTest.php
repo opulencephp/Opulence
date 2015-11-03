@@ -1,10 +1,12 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the console application tester
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Testing\PHPUnit\Console;
+namespace Opulence\Framework\Testing\PhpUnit\Console;
 
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
@@ -17,8 +19,11 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Commands\Mocks\SinglePromptCommand;
 use Opulence\Tests\Console\Commands\Mocks\StatusCodeCommand;
 use Opulence\Tests\Console\Commands\Mocks\StyledCommand;
-use Opulence\Tests\Framework\Testing\PHPUnit\Console\Mocks\ApplicationTestCase;
+use Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks\ApplicationTestCase;
 
+/**
+ * Tests the console application tester
+ */
 class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ApplicationTestCase The console application to use in tests */

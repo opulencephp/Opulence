@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a compiler for basic PHP views
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Views\Compilers\PHP;
+namespace Opulence\Views\Compilers\Php;
 
 use Exception;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 
-class PHPCompiler implements ICompiler
+/**
+ * Defines a compiler for basic PHP views
+ */
+class PhpCompiler implements ICompiler
 {
     /**
      * @inheritdoc

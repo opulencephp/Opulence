@@ -1,25 +1,26 @@
-REPOS=(applications authentication cache console cryptography databases events files framework http ioc memcached orm pipelines querybuilders redis routing sessions users views)
-SUBTREE_DIR="app/opulence"
-APPLICATION_CLASS_FILE="$SUBTREE_DIR/applications/Application.php"
+REPOS=(Applications Authentication Cache Console Cryptography Databases Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Users Views)
+SUBTREE_DIR="app/Opulence"
+APPLICATION_CLASS_FILE="$SUBTREE_DIR/Applications/Application.php"
 
 function split()
 {
     git co master
-    read -p "   Name of subtree: " subtree
+    read -p "   Name of subtree (case sensitive): " subtree
     read -p "   Remote URL: " remoteurl
 
     # Setup subtree directory
-    mkdir ../$subtree
-    cd ../$subtree
+    lowercasesubtree=$subtree | '{print tolower($0)}'
+    mkdir ../$lowercasesubtree
+    cd ../$lowercasesubtree
     git init --bare
 
     # Create branch from subtree directory, call it the same thing as the subtree directory
     cd ../opulence
-    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
-    git push ../$subtree $subtree:master
+    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $lowercasesubtree
+    git push ../$lowercasesubtree $lowercasesubtree:master
 
     # Push subtree to remote
-    cd ../$subtree
+    cd ../$lowercasesubtree
     git remote add origin $remoteurl
     git push origin master
 
@@ -29,8 +30,8 @@ function split()
 
     # Setup subtree in main repo
     git commit -am "Removed $subtree for subtree split"
-    git remote add $subtree $remoteurl
-    git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
+    git remote add $lowercasesubtree $remoteurl
+    git subtree add --prefix=$SUBTREE_DIR/$subtree $lowercasesubtree master
 }
 
 function tag()
@@ -68,16 +69,18 @@ function tag()
         git push origin master
     fi
 
-    git subtree push --prefix=$SUBTREE_DIR/applications --rejoin applications master
+    git subtree push --prefix=$SUBTREE_DIR/Applications --rejoin applications master
 
     # Check if we need to commit components
     for repo in ${REPOS[@]}
     do
-        if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
+        lowercaserepo=$repo | awk '{print tolower($0)}'
+
+        if git diff --quiet $lowercaserepo/master master:$SUBTREE_DIR/$repo; then
             echo "   No changes in $repo"
         else
             echo "   Pushing $repo"
-            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
+            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $lowercaserepo master
         fi
     done
 
@@ -88,7 +91,8 @@ function tag()
     # Tag components
     for repo in ${REPOS[@]}
     do
-        cd ../$repo
+        lowercaserepo=$repo | awk '{print tolower($0)}'
+        cd ../$lowercaserepo
         echo "   Tagging $repo"
         git tag -a $tagname -m  "$message"
         git push origin $tagname

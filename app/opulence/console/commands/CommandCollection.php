@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the console commands container
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Commands;
 
@@ -11,6 +13,9 @@ use Opulence\Console\Commands\Compilers\ICompiler;
 use Opulence\Console\Requests\Parsers\ArrayListParser;
 use Opulence\Console\Responses\IResponse;
 
+/**
+ * Defines the console commands container
+ */
 class CommandCollection
 {
     /** @var ICommand[] The list of commands */

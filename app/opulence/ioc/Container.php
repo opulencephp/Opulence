@@ -1,10 +1,12 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an inversion of control container
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\IoC;
+namespace Opulence\Ioc;
 
 use Closure;
 use ReflectionClass;
@@ -13,6 +15,9 @@ use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
 
+/**
+ * Defines an inversion of control container
+ */
 class Container implements IContainer
 {
     /**
@@ -84,7 +89,7 @@ class Container implements IContainer
             (is_array($function) && count($function) == 2 && !method_exists($function[0], $function[1]))
         ) {
             if (!$ignoreMissing) {
-                throw new IoCException("Cannot call function");
+                throw new IocException("Cannot call function");
             }
 
             return null;
@@ -158,7 +163,7 @@ class Container implements IContainer
                 $reflectionClass = new ReflectionClass($concrete);
 
                 if (!$reflectionClass->isInstantiable()) {
-                    throw new IoCException("$concrete is not instantiable");
+                    throw new IocException("$concrete is not instantiable");
                 }
 
                 $constructor = $reflectionClass->getConstructor();
@@ -187,7 +192,7 @@ class Container implements IContainer
 
             return $instance;
         } catch (ReflectionException $ex) {
-            throw new IoCException("Failed to make object: " . $ex->getMessage());
+            throw new IocException("Failed to make object: " . $ex->getMessage());
         }
     }
 
@@ -264,7 +269,7 @@ class Container implements IContainer
      * @param mixed $instance The instance to call methods on
      * @param array $methodCalls The list of methods to call
      * @param bool $forceNewInstance True if we want a new instance, otherwise false
-     * @throws IoCException Thrown if there was a problem calling the methods
+     * @throws IocException Thrown if there was a problem calling the methods
      */
     protected function callMethods(&$instance, array $methodCalls, $forceNewInstance)
     {
@@ -349,7 +354,7 @@ class Container implements IContainer
      * @param array $primitives The list of primitive values
      * @param bool $forceNewInstances True if the dependencies should be new instances, otherwise they'll be shared
      * @return array The list of parameters with all the dependencies resolved
-     * @throws IoCException Thrown if there was an error resolving the parameters
+     * @throws IocException Thrown if there was an error resolving the parameters
      */
     protected function getResolvedParameters(
         $callingClass,
@@ -461,7 +466,7 @@ class Container implements IContainer
      * @param string $component The component whose callback we're creating
      * @param string|null $targetClass The target class, if there was one
      * @return mixed The result of the callback
-     * @throws IoCException Thrown if the callback could not be called
+     * @throws IocException Thrown if the callback could not be called
      */
     protected function makeCallback($component, $targetClass = null)
     {
@@ -477,7 +482,7 @@ class Container implements IContainer
         }
 
         if (!is_callable($bindingData["callback"])) {
-            throw new IoCException("Callback is invalid for $component");
+            throw new IocException("Callback is invalid for $component");
         }
 
         $instance = call_user_func($bindingData["callback"]);
@@ -510,7 +515,7 @@ class Container implements IContainer
      * @param string $component The name of the class to resolve
      * @param bool $forceNewInstance True if we want to force a new instance, otherwise false
      * @return mixed The instantiated class
-     * @throws IoCException Thrown if there was a problem resolving the class
+     * @throws IocException Thrown if there was a problem resolving the class
      */
     protected function resolveClass($callingClass, $component, $forceNewInstance)
     {
@@ -551,7 +556,7 @@ class Container implements IContainer
      * @param ReflectionParameter $parameter The primitive parameter to resolve
      * @param array $primitives The list of primitive values
      * @return mixed The resolved primitive
-     * @throws IoCException Thrown if there was a problem resolving the primitive
+     * @throws IocException Thrown if there was a problem resolving the primitive
      */
     protected function resolvePrimitive(ReflectionParameter $parameter, array &$primitives)
     {
@@ -565,7 +570,7 @@ class Container implements IContainer
             return $parameter->getDefaultValue();
         }
 
-        throw new IoCException(sprintf("No default value available for %s in %s::%s()",
+        throw new IocException(sprintf("No default value available for %s in %s::%s()",
             $parameter->getName(),
             $parameter->getDeclaringClass()->getName(),
             $parameter->getDeclaringFunction()->getName()

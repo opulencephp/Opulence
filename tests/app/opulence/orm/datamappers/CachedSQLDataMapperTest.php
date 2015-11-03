@@ -1,18 +1,23 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\DataMappers;
+
+use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\OrmException;
+use Opulence\Tests\Mocks\User;
+use Opulence\Tests\Orm\DataMappers\Mocks\CacheDataMapperThatReturnsNull;
+use Opulence\Tests\Orm\DataMappers\Mocks\CachedSqlDataMapper;
+
+/**
  * Tests the cached SQL data mapper
  */
-namespace Opulence\ORM\DataMappers;
-
-use Opulence\ORM\Ids\IdAccessorRegistry;
-use Opulence\ORM\ORMException;
-use Opulence\Tests\Mocks\User;
-use Opulence\Tests\ORM\DataMappers\Mocks\CacheDataMapperThatReturnsNull;
-use Opulence\Tests\ORM\DataMappers\Mocks\CachedSQLDataMapper;
-
-class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
+class CachedSqlDataMapperTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CachedSQLDataMapper The data mapper to use for tests */
     private $dataMapper = null;
@@ -35,7 +40,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
             /** @var User $user */
             return $user->getId();
         });
-        $this->dataMapper = new CachedSQLDataMapper(null, null, $idAccessorRegistry);
+        $this->dataMapper = new CachedSqlDataMapper(null, null, $idAccessorRegistry);
         $this->entity1 = new User(123, "foo");
         $this->entity2 = new User(456, "bar");
         $this->entity3 = new User(789, "baz");
@@ -48,7 +53,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     public function testAddingEntityAndCommittingCache()
     {
         $this->dataMapper->add($this->entity1);
-        $this->assertEquals($this->entity1, $this->dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->dataMapper->commit();
         $this->assertEquals($this->entity1, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
@@ -59,7 +64,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     public function testAddingEntityWithoutCommittingCache()
     {
         $this->dataMapper->add($this->entity1);
-        $this->assertEquals($this->entity1, $this->dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->assertNull($this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
 
@@ -81,8 +86,8 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper->add($this->entity1);
         $this->dataMapper->delete($this->entity1);
-        $this->setExpectedException(ORMException::class);
-        $this->dataMapper->getSQLDataMapper()->getById($this->entity1->getId());
+        $this->setExpectedException(OrmException::class);
+        $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId());
     }
 
     /**
@@ -96,9 +101,9 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the SQL data mapper
      */
-    public function testGettingSQLDataMapper()
+    public function testGettingSqlDataMapper()
     {
-        $this->assertInstanceOf(ISQLDataMapper::class, $this->dataMapper->getSqlDataMapper());
+        $this->assertInstanceOf(ISqlDataMapper::class, $this->dataMapper->getSqlDataMapper());
     }
 
     /**
@@ -107,12 +112,12 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     public function testGettingUnsyncedEntities()
     {
         // Add entity 1 to both data mappers
-        $this->dataMapper->getSQLDataMapper()->add($this->entity1);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $this->dataMapper->getCacheDataMapper()->add($this->entity1);
         // Only add entity to the SQL data mapper
-        $this->dataMapper->getSQLDataMapper()->add($this->entity2);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity2);
         // Add different versions of the same entity to the data mappers
-        $this->dataMapper->getSQLDataMapper()->add($this->entity3);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity3);
         // Add an entity with slightly different data to see if it gets updated with the refresh call
         $differentEntity = clone $this->entity3;
         $differentEntity->setUsername("differentName");
@@ -146,8 +151,8 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
             /** @var User $user */
             return $user->getId();
         });
-        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull(), $idAccessorRegistry);
-        $this->dataMapper->getSQLDataMapper()->add($this->entity1);
+        $this->dataMapper = new CachedSqlDataMapper(null, new CacheDataMapperThatReturnsNull(), $idAccessorRegistry);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
         $this->assertEquals([
             "missing" => [$this->entity1],
@@ -162,12 +167,12 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
     public function testRefreshingCache()
     {
         // Add entity 1 to both data mappers
-        $this->dataMapper->getSQLDataMapper()->add($this->entity1);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $this->dataMapper->getCacheDataMapper()->add($this->entity1);
         // Only add entity to the SQL data mapper
-        $this->dataMapper->getSQLDataMapper()->add($this->entity2);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity2);
         // Add different versions of the same entity to the data mappers
-        $this->dataMapper->getSQLDataMapper()->add($this->entity3);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity3);
         // Add an entity with slightly different data to see if it gets updated with the refresh call
         $differentEntity = clone $this->entity3;
         $differentEntity->setUsername("differentName");
@@ -201,8 +206,8 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
             /** @var User $user */
             return $user->getId();
         });
-        $this->dataMapper = new CachedSQLDataMapper(null, new CacheDataMapperThatReturnsNull(), $idAccessorRegistry);
-        $this->dataMapper->getSQLDataMapper()->add($this->entity1);
+        $this->dataMapper = new CachedSqlDataMapper(null, new CacheDataMapperThatReturnsNull(), $idAccessorRegistry);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $unsyncedEntities = $this->dataMapper->refreshCache();
         $this->assertEquals([
             "missing" => [$this->entity1],
@@ -231,7 +236,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshingNullEntity()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $this->dataMapper->refreshEntity($this->entity1->getId());
     }
 
@@ -240,12 +245,12 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdatingEntityAndCommittingCache()
     {
-        $this->dataMapper->getSQLDataMapper()->add($this->entity1);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $this->dataMapper->getCacheDataMapper()->add($this->entity1);
         $this->entity1->setUsername("bar");
         $this->dataMapper->update($this->entity1);
         $this->dataMapper->commit();
-        $this->assertEquals($this->entity1, $this->dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));
+        $this->assertEquals($this->entity1, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->assertEquals($this->entity1, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
 
@@ -254,7 +259,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdatingEntityWithoutCommittingCache()
     {
-        $this->dataMapper->getSQLDataMapper()->add($this->entity1);
+        $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $this->dataMapper->getCacheDataMapper()->add($this->entity1);
         /**
          * We have to clone the original entity so that when we set a property on it, it doesn't update the object
@@ -263,7 +268,7 @@ class CachedSQLDataMapperTest extends \PHPUnit_Framework_TestCase
         $entityClone = clone $this->entity1;
         $entityClone->setUsername("bar");
         $this->dataMapper->update($entityClone);
-        $this->assertEquals($entityClone, $this->dataMapper->getSQLDataMapper()->getById($this->entity1->getId()));
+        $this->assertEquals($entityClone, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->assertNotEquals($entityClone, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
 } 

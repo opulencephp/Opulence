@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * The interface for view readers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Factories\IO;
 
 use InvalidArgumentException;
 
+/**
+ * The interface for view readers to implement
+ */
 interface IViewReader
 {
     /**

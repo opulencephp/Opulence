@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views;
 
@@ -10,6 +12,9 @@ use InvalidArgumentException;
 use Opulence\Files\FileSystem;
 use RuntimeException;
 
+/**
+ * Tests the view
+ */
 class ViewTest extends \PHPUnit_Framework_TestCase
 {
     /** The path to the test view with default tags */

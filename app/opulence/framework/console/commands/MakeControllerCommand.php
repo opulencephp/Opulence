@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Makes a controller class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Commands;
 
+/**
+ * Makes a controller class
+ */
 class MakeControllerCommand extends MakeCommand
 {
     /**
@@ -24,7 +29,7 @@ class MakeControllerCommand extends MakeCommand
      */
     protected function getDefaultNamespace($rootNamespace)
     {
-        return $rootNamespace . "\\HTTP\\Controllers";
+        return $rootNamespace . "\\Http\\Controllers";
     }
 
     /**

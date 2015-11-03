@@ -1,19 +1,24 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the base SQL data mapper class
  */
-namespace Opulence\ORM\DataMappers;
+namespace Opulence\Orm\DataMappers;
 
 use PDO;
 use PDOException;
 use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\Databases\IConnection;
-use Opulence\ORM\Ids\IdGenerator;
-use Opulence\ORM\ORMException;
+use Opulence\Orm\Ids\IdGenerator;
+use Opulence\Orm\OrmException;
 
-abstract class SQLDataMapper implements ISQLDataMapper
+abstract class SqlDataMapper implements ISqlDataMapper
 {
     /** @var ConnectionPool The connection pool to use for queries */
     protected $connectionPool = null;
@@ -59,7 +64,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
      * @param int $valueType The value type constant designating what kind of data we're expecting to return
      * @param bool $expectSingleResult True if we're expecting a single result, otherwise false
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
-     * @throws ORMException Thrown if there was an error querying the entities
+     * @throws OrmException Thrown if there was an error querying the entities
      */
     protected function read($sql, array $sqlParameters, $valueType, $expectSingleResult = false)
     {
@@ -70,7 +75,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
             $statement->execute();
 
             if ($expectSingleResult && $statement->rowCount() != 1) {
-                throw new ORMException("Failed to find entity");
+                throw new OrmException("Failed to find entity");
             }
 
             $entities = [];
@@ -90,7 +95,7 @@ abstract class SQLDataMapper implements ISQLDataMapper
                 return $entities;
             }
         } catch (PDOException $ex) {
-            throw new ORMException("Unable to query entities: " . $ex);
+            throw new OrmException("Unable to query entities: " . $ex);
         }
     }
 } 

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks an event listener
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Events\Mocks;
 
 use Opulence\Events\Dispatchers\IDispatcher;
 use Opulence\Events\IEvent;
 
+/**
+ * Mocks an event listener
+ */
 class Listener
 {
     /**

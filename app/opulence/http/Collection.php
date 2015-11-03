@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the base class for HTTP connection parameter collections
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP;
+namespace Opulence\Http;
 
 use ArrayAccess;
 use Countable;
 
+/**
+ * Defines the base class for HTTP connection parameter collections
+ */
 class Collection implements ArrayAccess, Countable
 {
     /** @var array The list of values */

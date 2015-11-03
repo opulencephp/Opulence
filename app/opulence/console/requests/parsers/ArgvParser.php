@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the argv parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
 use Opulence\Console\Requests\Tokenizers\ArgvTokenizer;
 
+/**
+ * Defines the argv parser
+ */
 class ArgvParser extends Parser
 {
     /** @var ArgvTokenizer The tokenizer to use */

@@ -1,20 +1,25 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\Repositories;
+
+use Opulence\Orm\OrmException;
+
+/**
  * Defines the interface for repositories to implement
  */
-namespace Opulence\ORM\Repositories;
-
-use Opulence\ORM\ORMException;
-
 interface IRepo
 {
     /**
      * Adds an entity to the repo
      *
      * @param object $entity The entity to add
-     * @throws ORMException Thrown if the entity couldn't be added
+     * @throws OrmException Thrown if the entity couldn't be added
      */
     public function add(&$entity);
 
@@ -22,7 +27,7 @@ interface IRepo
      * Deletes an entity from the repo
      *
      * @param object $entity The entity to delete
-     * @throws ORMException Thrown if the entity couldn't be deleted
+     * @throws OrmException Thrown if the entity couldn't be deleted
      */
     public function delete(&$entity);
 
@@ -30,7 +35,7 @@ interface IRepo
      * Gets all the entities
      *
      * @return object[] The list of all the entities of this type
-     * @throws ORMException Thrown if there was an error getting the entities
+     * @throws OrmException Thrown if there was an error getting the entities
      */
     public function getAll();
 
@@ -39,7 +44,7 @@ interface IRepo
      *
      * @param int|string $id The Id of the entity we're searching for
      * @return object The entity with the input Id
-     * @throws ORMException Thrown if there was no entity with the input Id
+     * @throws OrmException Thrown if there was no entity with the input Id
      */
     public function getById($id);
 }

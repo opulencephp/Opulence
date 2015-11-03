@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a list of routes that can be used by a router
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes;
 
 use SuperClosure\Analyzer\AstAnalyzer;
 use SuperClosure\Serializer;
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Requests\Request;
 
+/**
+ * Defines a list of routes that can be used by a router
+ */
 class RouteCollection
 {
     /** @var array The list of methods */

@@ -1,3 +1,10 @@
+<h2>v1.0.0-alpha7</h2>
+
+<h3>General</h3>
+* Changed PHPDoc format for all classes/interfaces/traits
+* Changed capitalization of namespace/class name/variable acronyms to follow pascal case
+* Changed all directory names to match namespace capitalization
+
 <h2>v1.0.0-alpha6</h2>
 
 <h3>HTTP</h3>

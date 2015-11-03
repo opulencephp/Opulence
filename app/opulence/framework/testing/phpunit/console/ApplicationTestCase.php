@@ -1,10 +1,15 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the console application test case
  */
-namespace Opulence\Framework\Testing\PHPUnit\Console;
+namespace Opulence\Framework\Testing\PhpUnit\Console;
 
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
@@ -20,7 +25,7 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Framework\Console\Kernel;
 use Opulence\Framework\Console\StatusCodes;
-use Opulence\Framework\Testing\PHPUnit\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 abstract class ApplicationTestCase extends BaseApplicationTestCase
@@ -158,7 +163,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
-        $container = $this->application->getIoCContainer();
+        $container = $this->application->getIocContainer();
         $this->commandCollection = $container->makeShared(CommandCollection::class);
         $this->commandCompiler = $container->makeShared(ICompiler::class);
         $this->responseCompiler = new ResponseCompiler(new ResponseLexer(), new ResponseParser());
@@ -172,7 +177,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
 
         // Bind a mock prompt that can output pre-determined answers
         $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
-        $this->application->getIoCContainer()->bind(Prompt::class, $this->prompt);
+        $this->application->getIocContainer()->bind(Prompt::class, $this->prompt);
     }
 
     /**
@@ -203,6 +208,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         // Remake the command to have this latest binding
-        $this->commandCollection->add($this->application->getIoCContainer()->makeShared($commandClassName), true);
+        $this->commandCollection->add($this->application->getIocContainer()->makeShared($commandClassName), true);
     }
 }

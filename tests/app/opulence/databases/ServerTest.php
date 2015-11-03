@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the relational database server
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases;
 
 use Opulence\Tests\Databases\Mocks\Server;
 
+/**
+ * Tests the relational database server
+ */
 class ServerTest extends \PHPUnit_Framework_TestCase
 {
     /**

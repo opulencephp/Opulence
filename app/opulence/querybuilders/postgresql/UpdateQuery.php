@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds an update query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\QueryBuilders\PostgreSQL;
+namespace Opulence\QueryBuilders\PostgreSql;
 
 use Opulence\QueryBuilders\UpdateQuery as BaseUpdateQuery;
 
+/**
+ * Builds an update query
+ */
 class UpdateQuery extends BaseUpdateQuery
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
@@ -42,10 +47,10 @@ class UpdateQuery extends BaseUpdateQuery
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
-        $sql = parent::getSQL();
-        $sql .= $this->augmentingQueryBuilder->getReturningClauseSQL();
+        $sql = parent::getSql();
+        $sql .= $this->augmentingQueryBuilder->getReturningClauseSql();
 
         return $sql;
     }

@@ -1,21 +1,26 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\DataMappers;
+
+use Opulence\Orm\OrmException;
+
+/**
  * Defines the interface for data mappers whose data is cached
  */
-namespace Opulence\ORM\DataMappers;
-
-use Opulence\ORM\ORMException;
-
-interface ICachedSQLDataMapper extends IDataMapper
+interface ICachedSqlDataMapper extends IDataMapper
 {
     /**
      * Performs any cache actions that have been scheduled
      * This is best used when committing an SQL data mapper via a unit of work, and then calling this method after
      * the commit successfully finishes
      *
-     * @throws ORMException Thrown if there was an error committing to cache
+     * @throws OrmException Thrown if there was an error committing to cache
      */
     public function commit();
 
@@ -31,7 +36,7 @@ interface ICachedSQLDataMapper extends IDataMapper
      *
      * @return ISQLDataMapper The SQL data mapper
      */
-    public function getSQLDataMapper();
+    public function getSqlDataMapper();
 
     /**
      * Gets a list of entities that differ in cache and the SQL database
@@ -40,7 +45,7 @@ interface ICachedSQLDataMapper extends IDataMapper
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws ORMException Thrown if there was an error getting the unsynced entities
+     * @throws OrmException Thrown if there was an error getting the unsynced entities
      */
     public function getUnsyncedEntities();
 
@@ -51,7 +56,7 @@ interface ICachedSQLDataMapper extends IDataMapper
      *      The "missing" list contains the entities that were not in cache
      *      The "differing" list contains the entities in cache that were not the same as SQL
      *      The "additional" list contains entities in cache that were not at all in SQL
-     * @throws ORMException Thrown if there was an error refreshing the cache
+     * @throws OrmException Thrown if there was an error refreshing the cache
      */
     public function refreshCache();
 
@@ -59,7 +64,7 @@ interface ICachedSQLDataMapper extends IDataMapper
      * Refreshes an entity in cache with the entity from the SQL data mapper
      *
      * @param int|string $id The Id of the entity to sync
-     * @throws ORMException Thrown if there was an error refreshing the entity
+     * @throws OrmException Thrown if there was an error refreshing the entity
      */
     public function refreshEntity($id);
 } 

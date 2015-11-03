@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm;
+
+use Opulence\Orm\ChangeTracking\IChangeTracker;
+use Opulence\Orm\Ids\IIdAccessorRegistry;
+
+/**
  * Defines an entity registry
  */
-namespace Opulence\ORM;
-
-use Opulence\ORM\ChangeTracking\IChangeTracker;
-use Opulence\ORM\Ids\IIdAccessorRegistry;
-
 class EntityRegistry implements IEntityRegistry
 {
     /** @var IIdAccessorRegistry The Id accessory registry */
@@ -127,7 +132,7 @@ class EntityRegistry implements IEntityRegistry
 
             return $this->getEntityState($entity) == EntityStates::REGISTERED
             || isset($this->entities[$this->getClassName($entity)][$entityId]);
-        } catch (ORMException $ex) {
+        } catch (OrmException $ex) {
             return false;
         }
     }

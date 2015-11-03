@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http;
+
+/**
  * Defines the list of headers
  */
-namespace Opulence\HTTP;
-
 class Headers extends Collection
 {
     /** @var array The list of HTTP request headers that don't begin with "HTTP_" */

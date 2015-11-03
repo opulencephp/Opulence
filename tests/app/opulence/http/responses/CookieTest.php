@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the cookie class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Responses;
+namespace Opulence\Http\Responses;
 
 use DateTime;
 
+/**
+ * Tests the cookie class
+ */
 class CookieTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Cookie The cookie to test */
@@ -25,7 +30,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     /** @var bool Whether or not this cookie is on HTTPS */
     private $isSecure = false;
     /** @var bool Whether or not this cookie is HTTP only */
-    private $isHTTPOnly = true;
+    private $isHttpOnly = true;
 
     /**
      * Sets up the tests
@@ -38,9 +43,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->path = "/foo";
         $this->domain = "foo.com";
         $this->isSecure = true;
-        $this->isHTTPOnly = true;
+        $this->isHttpOnly = true;
         $this->cookie = new Cookie($this->name, $this->value, $this->expiration, $this->path, $this->domain,
-            $this->isSecure, $this->isHTTPOnly);
+            $this->isSecure, $this->isHttpOnly);
     }
 
     /**
@@ -62,9 +67,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the HTTP-only flag
      */
-    public function testGettingIsHTTPOnly()
+    public function testGettingIsHttpOnly()
     {
-        $this->assertEquals($this->isHTTPOnly, $this->cookie->isHTTPOnly());
+        $this->assertEquals($this->isHttpOnly, $this->cookie->isHttpOnly());
     }
 
     /**
@@ -121,10 +126,10 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setting the HTTP-only flag
      */
-    public function testSettingIsHTTPOnly()
+    public function testSettingIsHttpOnly()
     {
-        $this->cookie->setHTTPOnly(true);
-        $this->assertTrue($this->cookie->isHTTPOnly());
+        $this->cookie->setHttpOnly(true);
+        $this->assertTrue($this->cookie->isHttpOnly());
     }
 
     /**

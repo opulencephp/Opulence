@@ -1,21 +1,26 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the repository class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM\Repositories;
+namespace Opulence\Orm\Repositories;
 
-use Opulence\ORM\ChangeTracking\ChangeTracker;
-use Opulence\ORM\EntityRegistry;
-use Opulence\ORM\Ids\IdAccessorRegistry;
-use Opulence\ORM\ORMException;
-use Opulence\ORM\UnitOfWork;
+use Opulence\Orm\ChangeTracking\ChangeTracker;
+use Opulence\Orm\EntityRegistry;
+use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\OrmException;
+use Opulence\Orm\UnitOfWork;
 use Opulence\Tests\Databases\Mocks\Connection;
 use Opulence\Tests\Databases\Mocks\Server;
 use Opulence\Tests\Mocks\User;
-use Opulence\Tests\ORM\DataMappers\Mocks\SQLDataMapper;
+use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
 
+/**
+ * Tests the repository class
+ */
 class RepoTest extends \PHPUnit_Framework_TestCase
 {
     /** @var User An entity to use in the tests */
@@ -51,7 +56,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $connection = new Connection($server);
         $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
         $this->unitOfWork = new UnitOfWork($entityRegistry, $idAccessorRegistry, $changeTracker, $connection);
-        $this->dataMapper = new SQLDataMapper();
+        $this->dataMapper = new SqlDataMapper();
         $this->entity1 = new User(1, "foo");
         $this->entity2 = new User(2, "bar");
         $this->repo = new Repo(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
@@ -76,7 +81,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->repo->delete($this->entity1);
         $this->unitOfWork->commit();
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $this->repo->getById($this->entity1->getId());
     }
 
@@ -148,7 +153,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityThatDoesNotExistById()
     {
-        $this->setExpectedException(ORMException::class);
+        $this->setExpectedException(OrmException::class);
         $this->repo->getById(123);
     }
 

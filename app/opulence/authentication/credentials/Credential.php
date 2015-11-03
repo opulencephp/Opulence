@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a single credential
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Authentication\Credentials;
 
 use Opulence\Authentication\Tokens\IToken;
 
+/**
+ * Defines a single credential
+ */
 class Credential implements ICredential
 {
     /** @var int|string The database Id of this credential */

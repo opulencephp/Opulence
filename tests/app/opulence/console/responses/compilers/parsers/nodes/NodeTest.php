@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the response node
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 
 use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 
+/**
+ * Tests the response node
+ */
 class NodeTest extends \PHPUnit_Framework_TestCase
 {
     /**

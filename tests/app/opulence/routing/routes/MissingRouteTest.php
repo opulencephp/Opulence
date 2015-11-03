@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the missing route
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes;
 
-use Opulence\HTTP\Responses\ResponseHeaders;
+use Opulence\Http\Responses\ResponseHeaders;
 
+/**
+ * Tests the missing route
+ */
 class MissingRouteTest extends \PHPUnit_Framework_TestCase
 {
     /** @var MissingRoute The missing route to use in tests */
@@ -27,7 +32,7 @@ class MissingRouteTest extends \PHPUnit_Framework_TestCase
     public function testGettingControllerOptions()
     {
         $this->assertEquals("MyApp\\MyController", $this->missingRoute->getControllerName());
-        $this->assertEquals("showHTTPError", $this->missingRoute->getControllerMethod());
+        $this->assertEquals("showHttpError", $this->missingRoute->getControllerMethod());
     }
 
     /**

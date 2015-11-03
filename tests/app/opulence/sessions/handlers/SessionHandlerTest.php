@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the base session handler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Sessions\Handlers;
 
@@ -10,6 +12,9 @@ use LogicException;
 use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 
+/**
+ * Tests the base session handler
+ */
 class SessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SessionHandler|\PHPUnit_Framework_MockObject_MockObject The session handler to use in tests */

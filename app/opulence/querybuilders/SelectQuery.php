@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds a select query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Builds a select query
+ */
 class SelectQuery extends Query
 {
     /** @var ConditionalQueryBuilder Handles functionality common to conditional queries */
@@ -117,7 +122,7 @@ class SelectQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
         // Build the selector
         $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM {$this->tableName}"
@@ -132,7 +137,7 @@ class SelectQuery extends Query
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("WHERE",
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql("WHERE",
             $this->conditionalQueryBuilder->getWhereConditions());
 
         // Add groupings
@@ -141,7 +146,7 @@ class SelectQuery extends Query
         }
 
         // Add any groupings' conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSQL("HAVING", $this->havingConditions);
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql("HAVING", $this->havingConditions);
 
         // Order the query
         if (count($this->orderBy) > 0) {

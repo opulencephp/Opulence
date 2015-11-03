@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks a command that does not call the parent constructor
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Console\Commands\Mocks;
 
@@ -13,6 +15,9 @@ use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
 
+/**
+ * Mocks a command that does not call the parent constructor
+ */
 class CommandThatDoesNotCallParentConstructor extends Command
 {
     public function __construct()

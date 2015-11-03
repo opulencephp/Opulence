@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\QueryBuilders\PostgreSql;
+
+/**
  * Tests the augmenting query builder
  */
-namespace Opulence\QueryBuilders\PostgreSQL;
-
 class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -16,7 +21,7 @@ class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning("id")
             ->addReturning("name");
-        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSQL());
+        $this->assertEquals(" RETURNING id, name", $queryBuilder->getReturningClauseSql());
     }
 
     /**
@@ -26,6 +31,6 @@ class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $queryBuilder = new AugmentingQueryBuilder();
         $queryBuilder->returning("id");
-        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSQL());
+        $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSql());
     }
 } 

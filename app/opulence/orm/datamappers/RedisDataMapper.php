@@ -1,10 +1,15 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines a data mapper that maps domain data to and from Redis
  */
-namespace Opulence\ORM\DataMappers;
+namespace Opulence\Orm\DataMappers;
 
 use Opulence\Redis\Redis;
 

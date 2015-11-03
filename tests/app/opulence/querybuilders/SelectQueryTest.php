@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the select query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
 use PDO;
 
+/**
+ * Tests the select query
+ */
 class SelectQueryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +24,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->groupBy("id")
             ->addGroupBy("name");
-        $this->assertEquals("SELECT id, name FROM users GROUP BY id, name", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users GROUP BY id, name", $query->getSql());
     }
 
     /**
@@ -33,7 +38,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->orWhere("name <> 'dave'")
             ->andWhere("name <> 'brian'");
         $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave') AND (name <> 'brian')",
-            $query->getSQL());
+            $query->getSql());
     }
 
     /**
@@ -45,7 +50,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->orderBy("id ASC")
             ->addOrderBy("name DESC");
-        $this->assertEquals("SELECT id, name FROM users ORDER BY id ASC, name DESC", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users ORDER BY id ASC, name DESC", $query->getSql());
     }
 
     public function testAddingSelectExpression()
@@ -53,7 +58,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id");
         $query->from("users")
             ->addSelectExpression("name");
-        $this->assertEquals("SELECT id, name FROM users", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users", $query->getSql());
     }
 
     /**
@@ -67,7 +72,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->having("COUNT(name) > 1")
             ->andHaving("COUNT(name) < 5");
         $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (COUNT(name) < 5)",
-            $query->getSQL());
+            $query->getSql());
     }
 
     /**
@@ -79,7 +84,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->where("id > 10")
             ->andWhere("name <> 'dave'");
-        $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (name <> 'dave')", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (name <> 'dave')", $query->getSql());
     }
 
     /**
@@ -89,7 +94,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new SelectQuery("id", "name");
         $query->from("users");
-        $this->assertEquals("SELECT id, name FROM users", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users", $query->getSql());
     }
 
     /**
@@ -99,7 +104,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
     {
         $query = new SelectQuery("u.id", "u.name");
         $query->from("users", "u");
-        $this->assertEquals("SELECT u.id, u.name FROM users AS u", $query->getSQL());
+        $this->assertEquals("SELECT u.id, u.name FROM users AS u", $query->getSql());
     }
 
     /**
@@ -128,7 +133,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->limit(2)
             ->offset(1);
         $this->assertEquals("SELECT u.id, u.name, e.email, p.password FROM users AS u INNER JOIN log AS l ON l.userid = u.id LEFT JOIN emails AS e ON e.userid = u.id RIGHT JOIN password AS p ON p.userid = u.id WHERE (u.id <> 10) AND (u.name <> :notAllowedName) AND (u.id <> 9) OR (u.name = :allowedName) GROUP BY u.id, u.name, e.email, p.password HAVING (count(*) > :minCount) AND (count(*) < 5) OR (count(*) = 2) ORDER BY u.id DESC, u.name ASC LIMIT 2 OFFSET 1",
-            $query->getSQL());
+            $query->getSql());
         $this->assertEquals([
             "notAllowedName" => ["dave", PDO::PARAM_STR],
             "allowedName" => ["brian", PDO::PARAM_STR],
@@ -144,7 +149,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id", "name");
         $query->from("users")
             ->groupBy("id", "name");
-        $this->assertEquals("SELECT id, name FROM users GROUP BY id, name", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users GROUP BY id, name", $query->getSql());
     }
 
     /**
@@ -156,7 +161,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->groupBy("name")
             ->having("COUNT(name) > 1");
-        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1)", $query->getSQL());
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1)", $query->getSql());
     }
 
     /**
@@ -167,7 +172,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id");
         $query->from("users", "u")
             ->innerJoin("log", "l", "l.userid = u.id");
-        $this->assertEquals("SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id", $query->getSql());
     }
 
     /**
@@ -178,7 +183,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("u.id");
         $query->from("users", "u")
             ->join("log", "l", "l.userid = u.id");
-        $this->assertEquals("SELECT u.id FROM users AS u INNER JOIN log AS l ON l.userid = u.id", $query->getSQL());
+        $this->assertEquals("SELECT u.id FROM users AS u INNER JOIN log AS l ON l.userid = u.id", $query->getSql());
     }
 
     /**
@@ -189,7 +194,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id");
         $query->from("users", "u")
             ->leftJoin("log", "l", "l.userid = u.id");
-        $this->assertEquals("SELECT id FROM users AS u LEFT JOIN log AS l ON l.userid = u.id", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users AS u LEFT JOIN log AS l ON l.userid = u.id", $query->getSql());
     }
 
     /**
@@ -200,7 +205,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id", "name");
         $query->from("users")
             ->limit(5);
-        $this->assertEquals("SELECT id, name FROM users LIMIT 5", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users LIMIT 5", $query->getSql());
     }
 
     /**
@@ -211,7 +216,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id", "name");
         $query->from("users")
             ->limit(":limit");
-        $this->assertEquals("SELECT id, name FROM users LIMIT :limit", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users LIMIT :limit", $query->getSql());
     }
 
     /**
@@ -224,7 +229,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->join("log", "l", "l.userid = u.id")
             ->join("emails", "e", "e.userid = u.id");
         $this->assertEquals("SELECT id FROM users AS u INNER JOIN log AS l ON l.userid = u.id INNER JOIN emails AS e ON e.userid = u.id",
-            $query->getSQL());
+            $query->getSql());
     }
 
     /**
@@ -235,7 +240,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id", "name");
         $query->from("users")
             ->offset(5);
-        $this->assertEquals("SELECT id, name FROM users OFFSET 5", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users OFFSET 5", $query->getSql());
     }
 
     /**
@@ -246,7 +251,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id", "name");
         $query->from("users")
             ->offset(":offset");
-        $this->assertEquals("SELECT id, name FROM users OFFSET :offset", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users OFFSET :offset", $query->getSql());
     }
 
     /**
@@ -260,7 +265,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->having("COUNT(name) > 1")
             ->orHaving("COUNT(name) < 5");
         $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (COUNT(name) < 5)",
-            $query->getSQL());
+            $query->getSql());
     }
 
     /**
@@ -272,7 +277,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->where("id > 10")
             ->orWhere("name <> 'dave'");
-        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave')", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave')", $query->getSql());
     }
 
     /**
@@ -283,7 +288,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id", "name");
         $query->from("users")
             ->orderBy("id ASC", "name DESC");
-        $this->assertEquals("SELECT id, name FROM users ORDER BY id ASC, name DESC", $query->getSQL());
+        $this->assertEquals("SELECT id, name FROM users ORDER BY id ASC, name DESC", $query->getSql());
     }
 
     /**
@@ -294,7 +299,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id");
         $query->from("users", "u")
             ->rightJoin("log", "l", "l.userid = u.id");
-        $this->assertEquals("SELECT id FROM users AS u RIGHT JOIN log AS l ON l.userid = u.id", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users AS u RIGHT JOIN log AS l ON l.userid = u.id", $query->getSql());
     }
 
     /**
@@ -307,7 +312,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
             ->groupBy("name")
             ->having("COUNT(name) > 1")
             ->having("COUNT(name) < 5");
-        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) < 5)", $query->getSQL());
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) < 5)", $query->getSql());
     }
 
     /**
@@ -319,7 +324,7 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query->from("users")
             ->where("id = 1")
             ->where("id = 2");
-        $this->assertEquals("SELECT name FROM users WHERE (id = 2)", $query->getSQL());
+        $this->assertEquals("SELECT name FROM users WHERE (id = 2)", $query->getSql());
     }
 
     /**
@@ -330,6 +335,6 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
         $query = new SelectQuery("id");
         $query->from("users")
             ->where("id > 10", "name <> 'dave'");
-        $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (name <> 'dave')", $query->getSQL());
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (name <> 'dave')", $query->getSql());
     }
 } 

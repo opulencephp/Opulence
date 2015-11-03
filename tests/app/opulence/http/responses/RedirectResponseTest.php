@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http\Responses;
+
+/**
  * Tests the redirect response class
  */
-namespace Opulence\HTTP\Responses;
-
 class RedirectResponseTest extends \PHPUnit_Framework_TestCase
 {
     /** @var RedirectResponse The response to use in tests */
@@ -41,19 +46,19 @@ class RedirectResponseTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the target URL after setting it in the constructor
      */
-    public function testGettingTargetURLAfterSettingInConstructor()
+    public function testGettingTargetUrlAfterSettingInConstructor()
     {
-        $this->assertEquals("/foo", $this->redirectResponse->getTargetURL());
+        $this->assertEquals("/foo", $this->redirectResponse->getTargetUrl());
         $this->assertEquals("/foo", $this->redirectResponse->getHeaders()->get("Location"));
     }
 
     /**
      * Tests setting the target URL
      */
-    public function testSettingTargetURL()
+    public function testSettingTargetUrl()
     {
-        $this->redirectResponse->setTargetURL("/bar");
-        $this->assertEquals("/bar", $this->redirectResponse->getTargetURL());
+        $this->redirectResponse->setTargetUrl("/bar");
+        $this->assertEquals("/bar", $this->redirectResponse->getTargetUrl());
         $this->assertEquals("/bar", $this->redirectResponse->getHeaders()->get("Location"));
     }
 } 

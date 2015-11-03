@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\Ids;
+
+use Opulence\Orm\IEntity;
+use Opulence\Orm\OrmException;
+
+/**
  * Defines the Id accessor registry
  */
-namespace Opulence\ORM\Ids;
-
-use Opulence\ORM\IEntity;
-use Opulence\ORM\ORMException;
-
 class IdAccessorRegistry implements IIdAccessorRegistry
 {
     /** @var callable[] The mapping of class names to their getter and setter functions */
@@ -45,7 +50,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
             $this->idAccessorFunctions[$className]["getter"] == null
         ) {
             if (!$entity instanceof IEntity) {
-                throw new ORMException("No Id getter registered for class $className");
+                throw new OrmException("No Id getter registered for class $className");
             }
 
             $className = IEntity::class;
@@ -79,7 +84,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
             $this->idAccessorFunctions[$className]["setter"] == null
         ) {
             if (!$entity instanceof IEntity) {
-                throw new ORMException("No Id setter registered for class $className");
+                throw new OrmException("No Id setter registered for class $className");
             }
 
             $className = IEntity::class;

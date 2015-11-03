@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Orm\Ids;
+
+use Opulence\Orm\OrmException;
+
+/**
  * Defines the interface for Id accessor registries to implement
  */
-namespace Opulence\ORM\Ids;
-
-use Opulence\ORM\ORMException;
-
 interface IIdAccessorRegistry
 {
     /**
@@ -15,7 +20,7 @@ interface IIdAccessorRegistry
      *
      * @param object $entity The entity whose Id we want
      * @return mixed The Id of the entity
-     * @throws ORMException Throw if no Id getter is registered for the entity
+     * @throws OrmException Throw if no Id getter is registered for the entity
      */
     public function getEntityId($entity);
 
@@ -33,7 +38,7 @@ interface IIdAccessorRegistry
      *
      * @param object $entity The entity whose Id we're setting
      * @param mixed $id The Id to set
-     * @throws ORMException Thrown if no Id setter has been registered for this entity
+     * @throws OrmException Thrown if no Id setter has been registered for this entity
      */
     public function setEntityId($entity, $id);
 }

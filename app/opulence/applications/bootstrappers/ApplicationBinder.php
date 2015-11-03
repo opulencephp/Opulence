@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the class that binds the bootstrapper library to the application
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers;
 
@@ -11,6 +13,9 @@ use Opulence\Applications\Bootstrappers\Dispatchers\IDispatcher as IBootstrapper
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher as ITaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 
+/**
+ * Defines the class that binds the bootstrapper library to the application
+ */
 class ApplicationBinder
 {
     /** @var BootstrapperRegistry The registry of bootstrappers */

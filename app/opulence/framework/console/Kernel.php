@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the console kernel
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console;
 
@@ -26,6 +28,9 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
 use RuntimeException;
 
+/**
+ * Defines the console kernel
+ */
 class Kernel
 {
     /** @var IParser The request parser to use */

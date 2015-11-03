@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the Composer executable for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Tests\Framework\Composer\Mocks;
 
 use Opulence\Framework\Composer\Executable as BaseExecutable;
 
+/**
+ * Mocks the Composer executable for use in testing
+ */
 class Executable extends BaseExecutable
 {
     /**

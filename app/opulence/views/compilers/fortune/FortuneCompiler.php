@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the Fortune compiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune;
 
-use Opulence\Views\Compilers\PHP\PHPCompiler;
+use Opulence\Views\Compilers\Php\PhpCompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
 
-class FortuneCompiler extends PHPCompiler
+/**
+ * Defines the Fortune compiler
+ */
+class FortuneCompiler extends PhpCompiler
 {
     /** @var ITranspiler The transpiler that converts Fortune code to PHP code */
     protected $transpiler = null;

@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the change tracker
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\ORM\ChangeTracking;
+namespace Opulence\Orm\ChangeTracking;
 
-use Opulence\ORM\ORMException;
+use Opulence\Orm\OrmException;
 use ReflectionClass;
 
+/**
+ * Defines the change tracker
+ */
 class ChangeTracker implements IChangeTracker
 {
     /** @var object[] The mapping of object Ids to their original data */
@@ -27,7 +32,7 @@ class ChangeTracker implements IChangeTracker
     public function hasChanged($entity)
     {
         if (!isset($this->objectHashIdsToOriginalData[spl_object_hash($entity)])) {
-            throw new ORMException("Entity is not registered");
+            throw new OrmException("Entity is not registered");
         }
 
         // If a comparison function was specified, we don't bother using reflection to check for updates

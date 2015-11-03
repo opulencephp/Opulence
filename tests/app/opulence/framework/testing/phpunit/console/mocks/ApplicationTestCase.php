@@ -1,10 +1,12 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Mocks the console application for use in testing
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Framework\Testing\PHPUnit\Console\Mocks;
+namespace Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks;
 
 use Monolog\Logger;
 use Opulence\Applications\Application;
@@ -16,11 +18,14 @@ use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
-use Opulence\Framework\Testing\PHPUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
-use Opulence\IoC\Container;
-use Opulence\IoC\IContainer;
+use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Ioc\Container;
+use Opulence\Ioc\IContainer;
 use Opulence\Tests\Applications\Mocks\MonologHandler;
 
+/**
+ * Mocks the console application for use in testing
+ */
 class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var array The list of bootstrapper classes to include */

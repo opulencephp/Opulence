@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the Memcached type mapper class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Memcached;
 
 use DateTime;
 
+/**
+ * Tests the Memcached type mapper class
+ */
 class TypeMapperTest extends \PHPUnit_Framework_TestCase
 {
     /** @var TypeMapper The type mapper to use for tests */

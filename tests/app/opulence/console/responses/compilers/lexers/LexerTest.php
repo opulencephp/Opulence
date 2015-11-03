@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the response lexer
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Compilers\Lexers;
 
@@ -10,6 +12,9 @@ use Opulence\Console\Responses\Compilers\Lexers\Tokens\Token;
 use Opulence\Console\Responses\Compilers\Lexers\Tokens\TokenTypes;
 use RuntimeException;
 
+/**
+ * Tests the response lexer
+ */
 class LexerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Lexer The lexer to use in tests */

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds a delete query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\QueryBuilders\MySQL;
+namespace Opulence\QueryBuilders\MySql;
 
 use Opulence\QueryBuilders\DeleteQuery as BaseDeleteQuery;
 
+/**
+ * Builds a delete query
+ */
 class DeleteQuery extends BaseDeleteQuery
 {
     /** @var int|string $limit The number of rows to limit to */
@@ -16,9 +21,9 @@ class DeleteQuery extends BaseDeleteQuery
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
-        $sql = parent::getSQL();
+        $sql = parent::getSql();
 
         // Add a limit
         if ($this->limit !== -1) {

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the element registrant
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Responses\Compilers;
 
@@ -10,6 +12,9 @@ use Opulence\Console\Responses\Compilers\Elements\Colors;
 use Opulence\Console\Responses\Compilers\Elements\Style;
 use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 
+/**
+ * Defines the element registrant
+ */
 class ElementRegistrant
 {
     /**

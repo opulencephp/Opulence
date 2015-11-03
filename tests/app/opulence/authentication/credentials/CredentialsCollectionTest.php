@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the credentials class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Authentication\Credentials;
 
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 use Opulence\Tests\Authentication\Credentials\Storage\Mocks\CredentialStorage;
 use Opulence\Tests\Authentication\Tokens\Mocks\Token;
 use RuntimeException;
 
+/**
+ * Tests the credentials class
+ */
 class CredentialsCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**

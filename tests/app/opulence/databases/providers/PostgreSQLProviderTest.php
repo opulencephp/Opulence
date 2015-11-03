@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the PostgreSQL provider class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Databases\Providers;
 
-class PostgreSQLProviderTest extends \PHPUnit_Framework_TestCase
+/**
+ * Tests the PostgreSQL provider class
+ */
+class PostgreSqlProviderTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PostgreSQLProvider The provider to use for tests */
+    /** @var PostgreSqlProvider The provider to use for tests */
     private $provider = null;
 
     /**
@@ -16,21 +21,21 @@ class PostgreSQLProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->provider = new PostgreSQLProvider();
+        $this->provider = new PostgreSqlProvider();
     }
 
     /**
      * Tests converting from a null SQL boolean
      */
-    public function testConvertingFromNullSQLBoolean()
+    public function testConvertingFromNullSqlBoolean()
     {
-        $this->assertNull($this->provider->convertFromSQLBoolean(null));
+        $this->assertNull($this->provider->convertFromSqlBoolean(null));
     }
 
     /**
      * Tests converting from an SQL boolean
      */
-    public function testConvertingFromSQLBoolean()
+    public function testConvertingFromSqlBoolean()
     {
         $trueBooleanValues = [
             't',
@@ -50,28 +55,28 @@ class PostgreSQLProviderTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($trueBooleanValues as $value) {
-            $this->assertTrue($this->provider->convertFromSQLBoolean($value));
+            $this->assertTrue($this->provider->convertFromSqlBoolean($value));
         }
 
         foreach ($falseBooleanValues as $value) {
-            $this->assertFalse($this->provider->convertFromSQLBoolean($value));
+            $this->assertFalse($this->provider->convertFromSqlBoolean($value));
         }
     }
 
     /**
      * Tests converting a non-boolean value to an SQL boolean
      */
-    public function testConvertingNonBooleanValueToSQLBoolean()
+    public function testConvertingNonBooleanValueToSqlBoolean()
     {
-        $this->assertEquals("foo", $this->provider->convertToSQLBoolean("foo"));
+        $this->assertEquals("foo", $this->provider->convertToSqlBoolean("foo"));
     }
 
     /**
      * Tests converting to an SQL boolean
      */
-    public function testConvertingToSQLBoolean()
+    public function testConvertingToSqlBoolean()
     {
-        $this->assertEquals('t', $this->provider->convertToSQLBoolean(true));
-        $this->assertEquals('f', $this->provider->convertToSQLBoolean(false));
+        $this->assertEquals('t', $this->provider->convertToSqlBoolean(true));
+        $this->assertEquals('f', $this->provider->convertToSqlBoolean(false));
     }
 } 

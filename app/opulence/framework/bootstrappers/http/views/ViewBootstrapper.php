@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+/**
  * Defines the view bootstrapper
  */
-namespace Opulence\Framework\Bootstrappers\HTTP\Views;
+namespace Opulence\Framework\Bootstrappers\Http\Views;
 
 use Opulence\Applications\Bootstrappers\Bootstrapper;
 use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
 use Opulence\Applications\Environments\Environment;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
 use Opulence\Views\Compilers\CompilerRegistry;
@@ -19,14 +24,14 @@ use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\Compilers\Fortune\Transpiler;
 use Opulence\Views\Compilers\ICompiler;
-use Opulence\Views\Compilers\PHP\PHPCompiler;
+use Opulence\Views\Compilers\Php\PhpCompiler;
 use Opulence\Views\Factories\IO\FileViewNameResolver;
 use Opulence\Views\Factories\IO\FileViewReader;
 use Opulence\Views\Factories\IO\IViewNameResolver;
 use Opulence\Views\Factories\IO\IViewReader;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\Factories\ViewFactory;
-use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Filters\XssFilter;
 
 abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
@@ -95,12 +100,12 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
         $viewCompiler = new Compiler($registry);
 
         // Setup our various sub-compilers
-        $transpiler = new Transpiler(new Lexer(), new Parser(), $this->viewCache, new XSSFilter());
+        $transpiler = new Transpiler(new Lexer(), new Parser(), $this->viewCache, new XssFilter());
         $container->bind(ITranspiler::class, $transpiler);
         $fortuneCompiler = new FortuneCompiler($transpiler, $this->viewFactory);
         $registry->registerCompiler("fortune", $fortuneCompiler);
         $registry->registerCompiler("fortune.php", $fortuneCompiler);
-        $registry->registerCompiler("php", new PHPCompiler());
+        $registry->registerCompiler("php", new PhpCompiler());
 
         return $viewCompiler;
     }

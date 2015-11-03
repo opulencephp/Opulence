@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the list of paths used by Opulence
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications;
 
 use ArrayAccess;
 use InvalidArgumentException;
 
+/**
+ * Defines the list of paths used by Opulence
+ */
 class Paths implements ArrayAccess
 {
     /** @var array The mapping of path names to values */

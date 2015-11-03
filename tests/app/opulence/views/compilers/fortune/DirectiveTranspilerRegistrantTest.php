@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Test the Fortune directive transpiler registrant
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers\Fortune;
 
 use Opulence\Views\Caching\ICache;
-use Opulence\Views\Filters\XSSFilter;
+use Opulence\Views\Filters\XssFilter;
 use Opulence\Views\Compilers\Fortune\Lexers\Lexer;
 use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 use Opulence\Views\View;
 
+/**
+ * Test the Fortune directive transpiler registrant
+ */
 class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
 {
     /** @var DirectiveTranspilerRegistrant The registrant to use in tests */
@@ -33,7 +38,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $cache->expects($this->any())
             ->method("has")
             ->willReturn(false);
-        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XSSFilter());
+        $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XssFilter());
     }
 
     /**

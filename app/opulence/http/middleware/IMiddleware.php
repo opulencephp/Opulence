@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for HTTP middleware to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Middleware;
+namespace Opulence\Http\Middleware;
 
 use Closure;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 
+/**
+ * Defines the interface for HTTP middleware to implement
+ */
 interface IMiddleware
 {
     /**

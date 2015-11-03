@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for bootstrapper dispatchers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications\Bootstrappers\Dispatchers;
 
 use Opulence\Applications\Bootstrappers\IBootstrapperRegistry;
 use RuntimeException;
 
+/**
+ * Defines the interface for bootstrapper dispatchers to implement
+ */
 interface IDispatcher
 {
     /**

@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the interface for request parsers to implement
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Console\Requests\Parsers;
 
@@ -10,6 +12,9 @@ use InvalidArgumentException;
 use Opulence\Console\Requests\IRequest;
 use RuntimeException;
 
+/**
+ * Defines the interface for request parsers to implement
+ */
 interface IParser
 {
     /**

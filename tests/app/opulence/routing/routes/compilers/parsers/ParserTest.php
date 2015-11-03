@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the route parser
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
@@ -10,6 +12,9 @@ use Opulence\Routing\RouteException;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\ParsedRoute;
 
+/**
+ * Tests the route parser
+ */
 class ParserTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Parser The parser to use in tests */

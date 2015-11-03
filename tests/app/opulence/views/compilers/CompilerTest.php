@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the view compiler
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Compilers;
 
 use Opulence\Views\IView;
 
+/**
+ * Tests the view compiler
+ */
 class CompilerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Compiler The compiler to use in tests */

@@ -1,15 +1,20 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines methods and properties for all the credentials an entity has
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Authentication\Credentials;
 
 use Opulence\Authentication\Credentials\Storage\ICredentialStorage;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Responses\Response;
 use RuntimeException;
 
+/**
+ * Defines methods and properties for all the credentials an entity has
+ */
 class CredentialCollection implements ICredentialCollection
 {
     /** @var int|string The Id of the entity whose credentials these are */

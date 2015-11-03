@@ -1,14 +1,19 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the route class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing\Routes;
 
 use Closure;
 use InvalidArgumentException;
 
+/**
+ * Tests the route class
+ */
 class RouteTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -146,7 +151,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests not setting HTTPS
      */
-    public function testNotSettingHTTPS()
+    public function testNotSettingHttps()
     {
         $route = new Route("get", "/{foo}", "foo@bar");
         $this->assertFalse($route->isSecure());
@@ -245,7 +250,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests setting HTTPS
      */
-    public function testSettingHTTPS()
+    public function testSettingHttps()
     {
         $options = [
             "https" => false

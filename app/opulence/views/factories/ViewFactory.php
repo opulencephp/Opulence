@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the view factory
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Factories;
 
@@ -11,6 +13,9 @@ use Opulence\Views\Factories\IO\IViewReader;
 use Opulence\Views\IView;
 use Opulence\Views\View;
 
+/**
+ * Defines the view factory
+ */
 class ViewFactory implements IViewFactory
 {
     /** @var IViewNameResolver The view name resolver used to get paths to views */

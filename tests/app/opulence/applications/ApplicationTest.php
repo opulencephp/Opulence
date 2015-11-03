@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the application class
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications;
 
@@ -10,10 +12,13 @@ use InvalidArgumentException;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\IoC\Container;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\Container;
+use Opulence\Ioc\IContainer;
 use ReflectionClass;
 
+/**
+ * Tests the application class
+ */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Application The application to use in the tests */
@@ -179,9 +184,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the dependency injection container
      */
-    public function testGettingIoCContainer()
+    public function testGettingIocContainer()
     {
-        $this->assertInstanceOf(IContainer::class, $this->application->getIoCContainer());
+        $this->assertInstanceOf(IContainer::class, $this->application->getIocContainer());
     }
 
     /**

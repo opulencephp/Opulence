@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the file cache for compiled views
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Views\Caching;
 
@@ -11,6 +13,9 @@ use Opulence\Views\IView;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 
+/**
+ * Defines the file cache for compiled views
+ */
 class FileCache implements ICache
 {
     /** @var string The path to store the cached views at */

@@ -1,13 +1,18 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the encrypter
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Cryptography\Encryption;
 
 use Opulence\Cryptography\Utilities\Strings;
 
+/**
+ * Tests the encrypter
+ */
 class EncrypterTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Encrypter The encrypter to use in tests */
@@ -54,7 +59,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests decrypting that is not valid JSON
      */
-    public function testDecryptingInvalidJSON()
+    public function testDecryptingInvalidJson()
     {
         $this->setExpectedException(EncryptionException::class);
         $this->encrypter->decrypt("foo");

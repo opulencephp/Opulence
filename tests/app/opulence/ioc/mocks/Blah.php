@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Tests\Ioc\Mocks;
+
+/**
  * Mocks another class that implements a simple interface
  */
-namespace Opulence\Tests\IoC\Mocks;
-
 class Blah implements IFoo
 {
     /**

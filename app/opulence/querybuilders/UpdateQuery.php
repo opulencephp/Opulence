@@ -1,11 +1,16 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Builds an update query
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
 
+/**
+ * Builds an update query
+ */
 class UpdateQuery extends Query
 {
     /** @var AugmentingQueryBuilder Handles functionality common to augmenting queries */
@@ -74,7 +79,7 @@ class UpdateQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSQL()
+    public function getSql()
     {
         $sql = "UPDATE " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias) . " SET";
 
@@ -85,7 +90,7 @@ class UpdateQuery extends Query
         $sql = trim($sql, ",");
         // Add any conditions
         $sql .= $this->conditionalQueryBuilder
-            ->getClauseConditionSQL("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
+            ->getClauseConditionSql("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;
     }

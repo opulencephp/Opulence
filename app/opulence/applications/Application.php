@@ -1,8 +1,10 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an application
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications;
 
@@ -11,9 +13,12 @@ use Exception;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\IoC\IContainer;
+use Opulence\Ioc\IContainer;
 use RuntimeException;
 
+/**
+ * Defines an application
+ */
 class Application
 {
     /** @var string The current Opulence version */
@@ -67,7 +72,7 @@ class Application
     /**
      * @return IContainer
      */
-    public function getIoCContainer()
+    public function getIocContainer()
     {
         return $this->container;
     }
