@@ -1,0 +1,31 @@
+{
+  "name": "opulence/pipelines",
+  "description": "The Opulence pipeline library",
+  "keywords": [
+    "PHP",
+    "pipeline"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Pipelines\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/ioc": "1.0.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

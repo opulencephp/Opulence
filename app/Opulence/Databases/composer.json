@@ -1,0 +1,34 @@
+{
+  "name": "opulence/databases",
+  "description": "The Opulence database library",
+  "keywords": [
+    "PHP",
+    "database",
+    "pdo",
+    "mysql",
+    "postgresql",
+    "connection pools"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Databases\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

@@ -1,0 +1,36 @@
+{
+  "name": "opulence/cache",
+  "description": "The Opulence cache library",
+  "keywords": [
+    "PHP",
+    "cache",
+    "Redis",
+    "Memcached"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Cache\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "suggest": {
+    "opulence/memcached": "Required for Memcached cache",
+    "opulence/redis": "Required for Redis cache"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

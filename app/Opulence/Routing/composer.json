@@ -1,0 +1,39 @@
+{
+  "name": "opulence/routing",
+  "description": "The Opulence routing library",
+  "keywords": [
+    "PHP",
+    "routing",
+    "http",
+    "mvc"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Routing\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/http": "1.0.*",
+    "opulence/ioc": "1.0.*",
+    "opulence/pipelines": "1.0.*",
+    "jeremeamia/superclosure": "~2.1"
+  },
+  "suggest": {
+    "opulence/views": "Required if your controllers extend the base Controller class"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

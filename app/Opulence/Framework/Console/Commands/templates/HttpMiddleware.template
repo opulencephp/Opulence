@@ -1,0 +1,29 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace {{namespace}};
+
+use Closure;
+use Opulence\Http\Middleware\IMiddleware;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
+
+class {{class}} implements IMiddleware
+{
+    /**
+     * Handles the request
+     *
+     * @param Request $request The request to handle
+     * @param Closure $next The next stage in the pipeline
+     * @return Response The response
+     */
+    public function handle(Request $request, Closure $next)
+    {
+        return $next($request);
+    }
+}
