@@ -1,0 +1,49 @@
+{
+  "name": "opulence/redis",
+  "description": "The Opulence Redis library",
+  "keywords": [
+    "PHP",
+    "redis",
+    "nosql"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Redis\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "repositories": [
+    {
+      "type": "package",
+      "package": {
+        "name": "phpredis",
+        "version": "2.2.7",
+        "source": {
+          "url": "git://github.com/phpredis/phpredis.git",
+          "type": "git",
+          "reference": "2.2.7"
+        }
+      }
+    }
+  ],
+  "suggest": {
+    "phpredis": "Required for PHPRedis support",
+    "predis/predis": "Required for Predis support"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

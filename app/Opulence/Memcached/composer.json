@@ -1,0 +1,31 @@
+{
+  "name": "opulence/memcached",
+  "description": "The Opulence Memcached library",
+  "keywords": [
+    "PHP",
+    "memcached",
+    "nosql"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Memcached\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

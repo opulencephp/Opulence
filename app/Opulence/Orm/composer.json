@@ -1,0 +1,38 @@
+{
+  "name": "opulence/orm",
+  "description": "The Opulence Orm library",
+  "keywords": [
+    "PHP",
+    "orm",
+    "repository",
+    "unit of work",
+    "data mapper"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Orm\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/databases": "1.0.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "suggest": {
+    "opulence/memcached": "For Memcached data mappers",
+    "opulence/redis": "For Redis data mappers"
+  },
+  "minimum-stability": "dev"
+}

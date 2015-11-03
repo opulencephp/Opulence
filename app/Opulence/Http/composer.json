@@ -1,0 +1,33 @@
+{
+  "name": "opulence/http",
+  "description": "The Opulence Http library",
+  "keywords": [
+    "PHP",
+    "http",
+    "response",
+    "request",
+    "cookies"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Http\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

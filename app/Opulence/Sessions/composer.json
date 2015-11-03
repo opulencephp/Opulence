@@ -1,0 +1,34 @@
+{
+  "name": "opulence/sessions",
+  "description": "The Opulence session library",
+  "keywords": [
+    "PHP",
+    "session"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Sessions\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/cryptography": "1.0.*"
+  },
+  "suggest": {
+    "opulence/cache": "Required for CacheSessionHandler"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
