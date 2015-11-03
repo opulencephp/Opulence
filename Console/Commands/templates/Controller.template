@@ -1,0 +1,68 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace {{namespace}};
+
+use Opulence\Http\Responses\Response;
+use Opulence\Routing\Controller;
+
+class {{class}} extends Controller
+{
+    /**
+     * Creates a entity
+     *
+     * @return Response The response
+     */
+    public function create()
+    {
+
+    }
+
+    /**
+     * Deletes an entity
+     *
+     * @param mixed $id The Id of the entity
+     * @return Response The response
+     */
+    public function delete($id)
+    {
+
+    }
+
+    /**
+     * Shows an entity
+     *
+     * @param mixed $id The Id of the entity
+     * @return Response The response
+     */
+    public function show($id)
+    {
+
+    }
+
+    /**
+     * Shows all the entities
+     *
+     * @return Response The response
+     */
+    public function showAll()
+    {
+
+    }
+
+    /**
+     * Updates an entity
+     *
+     * @param mixed $id The Id of the entity
+     * @return Response The response
+     */
+    public function update($id)
+    {
+
+    }
+}
