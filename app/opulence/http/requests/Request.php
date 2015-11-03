@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines an HTTP request
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Requests;
+namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
-use Opulence\HTTP\Headers;
-use Opulence\HTTP\HTTPException;
-use Opulence\HTTP\Collection;
+use Opulence\Http\Headers;
+use Opulence\Http\HttpException;
+use Opulence\Http\Collection;
 
+/**
+ * Defines an HTTP request
+ */
 class Request
 {
     /** The delete method */
@@ -74,7 +79,7 @@ class Request
     /** @var string The path of the request, which does not include the query string */
     private $path = "";
     /** @var string The previous URL */
-    private $previousURL = "";
+    private $previousUrl = "";
     /** @var string The raw body of the request */
     private $rawBody = null;
 
@@ -179,7 +184,7 @@ class Request
      * @return string The full URL
      * @link http://stackoverflow.com/questions/6768793/get-the-full-url-in-php#answer-8891890
      */
-    public function getFullURL()
+    public function getFullUrl()
     {
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
@@ -232,7 +237,7 @@ class Request
         $host = strtolower(preg_replace("/:\d+$/", "", trim($host)));
 
         // Check for forbidden characters
-        // Credit: Symfony HttpFoundation
+        // Credit: Symfony HTTPFoundation
         if (!empty($host) && !empty(preg_replace("/(?:^\[)?[a-zA-Z0-9-:\]_]+\.?/", "", $host))) {
             throw new InvalidArgumentException("Invalid host \"$host\"");
         }
@@ -257,8 +262,8 @@ class Request
      */
     public function getInput($name, $default = null)
     {
-        if ($this->isJSON()) {
-            $json = $this->getJSONBody();
+        if ($this->isJson()) {
+            $json = $this->getJsonBody();
 
             if (array_key_exists($name, $json)) {
                 return $json[$name];
@@ -280,12 +285,12 @@ class Request
      * @return array The JSON-decoded body
      * @throws HTTPException Thrown if the body could not be decoded
      */
-    public function getJSONBody()
+    public function getJsonBody()
     {
         $json = json_decode($this->getRawBody(), true);
 
         if ($json === null) {
-            throw new HTTPException("Body could not be decoded as JSON");
+            throw new HttpException("Body could not be decoded as JSON");
         }
 
         return $json;
@@ -341,10 +346,10 @@ class Request
      * @param bool $fallBackToReferer True if we fall back to the HTTP referer header, otherwise false
      * @return string The previous URL
      */
-    public function getPreviousURL($fallBackToReferer = true)
+    public function getPreviousUrl($fallBackToReferer = true)
     {
-        if (!empty($this->previousURL)) {
-            return $this->previousURL;
+        if (!empty($this->previousUrl)) {
+            return $this->previousUrl;
         }
 
         if ($fallBackToReferer) {
@@ -407,7 +412,7 @@ class Request
      *
      * @return bool True if the request was made by AJAX, otherwise false
      */
-    public function isAJAX()
+    public function isAjax()
     {
         return $this->headers->get("X_REQUESTED_WITH") == "XMLHttpRequest";
     }
@@ -417,7 +422,7 @@ class Request
      *
      * @return bool True if the request body was JSON, otherwise false
      */
-    public function isJSON()
+    public function isJson()
     {
         return $this->headers->get("CONTENT_TYPE") == "application/json";
     }
@@ -473,7 +478,7 @@ class Request
         if (!is_string($method)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'HTTP method must be string, %s provided',
+                    'Http method must be string, %s provided',
                     is_object($method) ? get_class($method) : gettype($method)
                 )
             );
@@ -484,7 +489,7 @@ class Request
         if (!in_array($method, self::$validMethods)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Invalid HTTP method "%s"',
+                    'Invalid Http method "%s"',
                     $method
                 )
             );
@@ -519,11 +524,11 @@ class Request
     /**
      * Sets the previous URL
      *
-     * @param string $previousURL The previous URL
+     * @param string $previousUrl The previous URL
      */
-    public function setPreviousURL($previousURL)
+    public function setPreviousUrl($previousUrl)
     {
-        $this->previousURL = $previousURL;
+        $this->previousUrl = $previousUrl;
     }
 
     /**

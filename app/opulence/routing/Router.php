@@ -1,15 +1,17 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines a URL router
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Routing;
 
 use Closure;
 use InvalidArgumentException;
-use Opulence\HTTP\Requests\Request;
-use Opulence\HTTP\Responses\Response;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 use Opulence\Routing\Dispatchers\IDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\Compilers\ICompiler;
@@ -19,6 +21,9 @@ use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\RouteCollection;
 
+/**
+ * Defines a URL router
+ */
 class Router
 {
     /** @var ICompiler The compiler used by this router */
@@ -53,23 +58,13 @@ class Router
         ICompiler $compiler,
         IParser $parser,
         $missedRouteControllerName = Controller::class,
-        $missedRouteControllerMethod = "showHTTPError"
+        $missedRouteControllerMethod = "showHttpError"
     ) {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
         $this->parser = $parser;
         $this->routeCollection = new RouteCollection();
         $this->setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod);
-    }
-
-    /**
-     * Gets the reference to the list of routes
-     *
-     * @return RouteCollection
-     */
-    public function &getRouteCollection()
-    {
-        return $this->routeCollection;
     }
 
     /**
@@ -144,6 +139,16 @@ class Router
     public function getMatchedRoute()
     {
         return $this->matchedRoute;
+    }
+
+    /**
+     * Gets the reference to the list of routes
+     *
+     * @return RouteCollection
+     */
+    public function &getRouteCollection()
+    {
+        return $this->routeCollection;
     }
 
     /**
@@ -294,7 +299,7 @@ class Router
      * @param string $missedRouteControllerMethod The name of the method
      * @throws InvalidArgumentException Thrown if the controller name or method does not exist
      */
-    public function setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod = "showHTTPError")
+    public function setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod = "showHttpError")
     {
         if (!class_exists($missedRouteControllerName)) {
             throw new InvalidArgumentException(

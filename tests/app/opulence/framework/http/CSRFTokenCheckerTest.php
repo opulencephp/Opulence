@@ -1,19 +1,24 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Tests the CSRF token checker
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\HTTP;
+namespace Opulence\Framework\Http;
 
 use Opulence\Cryptography\Utilities\Strings;
-use Opulence\HTTP\Headers;
-use Opulence\HTTP\Requests\Request;
+use Opulence\Http\Headers;
+use Opulence\Http\Requests\Request;
 use Opulence\Sessions\ISession;
 
-class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
+/**
+ * Tests the CSRF token checker
+ */
+class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var CSRFTokenChecker The token checker to use in tests */
+    /** @var CsrfTokenChecker The token checker to use in tests */
     private $checker = null;
     /** @var Strings|\PHPUnit_Framework_MockObject_MockObject The string utility */
     private $strings = null;
@@ -28,20 +33,9 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->strings = $this->getMock(Strings::class);
-        $this->checker = new CSRFTokenChecker($this->strings);
+        $this->checker = new CsrfTokenChecker($this->strings);
         $this->request = $this->getMock(Request::class, [], [], "", false);
         $this->session = $this->getMock(ISession::class);
-    }
-
-    /**
-     * Tests that the CSRF token is set in the session when it is not already there
-     */
-    public function testCSRFTokenIsSetInSessionWhenItIsNotAlreadyThere()
-    {
-        $this->strings->expects($this->once())->method("generateRandomString")->willReturn("foo");
-        $this->session->expects($this->once())->method("set")->with(CSRFTokenChecker::TOKEN_INPUT_NAME, "foo");
-        $this->request->expects($this->once())->method("getInput")->willReturn("foo");
-        $this->checker->tokenIsValid($this->request, $this->session);
     }
 
     /**
@@ -72,7 +66,7 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking an invalid token from the X-XSRF header
      */
-    public function testCheckingInvalidTokenFromXXSRFHeader()
+    public function testCheckingInvalidTokenFromXXsrfHeader()
     {
         $this->session->expects($this->any())->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getInput")->willReturn(null);
@@ -99,7 +93,7 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking a valid token from the X-CSRF header
      */
-    public function testCheckingValidTokenFromXCSRFHeader()
+    public function testCheckingValidTokenFromXCsrfHeader()
     {
         $this->session->expects($this->any())->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getInput")->willReturn(null);
@@ -113,7 +107,7 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking a valid token from the X-XSRF header
      */
-    public function testCheckingValidTokenFromXXSRFHeader()
+    public function testCheckingValidTokenFromXXsrfHeader()
     {
         $this->session->expects($this->any())->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getInput")->willReturn(null);
@@ -126,9 +120,20 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the CSRF token is set in the session when it is not already there
+     */
+    public function testCsrfTokenIsSetInSessionWhenItIsNotAlreadyThere()
+    {
+        $this->strings->expects($this->once())->method("generateRandomString")->willReturn("foo");
+        $this->session->expects($this->once())->method("set")->with(CsrfTokenChecker::TOKEN_INPUT_NAME, "foo");
+        $this->request->expects($this->once())->method("getInput")->willReturn("foo");
+        $this->checker->tokenIsValid($this->request, $this->session);
+    }
+
+    /**
      * Tests that the token is marked as valid for read HTTP GET method
      */
-    public function testTokenIsValidForReadHTTGETPMethod()
+    public function testTokenIsValidForReadHttpGetPMethod()
     {
         $this->request->expects($this->any())->method("getMethod")->willReturn(Request::METHOD_GET);
         $this->checker->tokenIsValid($this->request, $this->session);
@@ -137,7 +142,7 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that the token is marked as valid for read HTTP HEAD method
      */
-    public function testTokenIsValidForReadHTTHEADPMethod()
+    public function testTokenIsValidForReadHttpHeadPMethod()
     {
         $this->request->expects($this->any())->method("getMethod")->willReturn(Request::METHOD_HEAD);
         $this->checker->tokenIsValid($this->request, $this->session);
@@ -146,7 +151,7 @@ class CSRFTokenCheckerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that the token is marked as valid for read HTTP OPTIONS method
      */
-    public function testTokenIsValidForReadHTTOPTIONSPMethod()
+    public function testTokenIsValidForReadHttpOptionsMethod()
     {
         $this->request->expects($this->any())->method("getMethod")->willReturn(Request::METHOD_OPTIONS);
         $this->checker->tokenIsValid($this->request, $this->session);

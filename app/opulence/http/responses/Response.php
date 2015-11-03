@@ -1,16 +1,21 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Http\Responses;
+
+use DateTime;
+use Opulence\Http\HttpException;
+
+/**
  * Defines an HTTP response
  *
  * @link https://developer.mozilla.org/en-US/docs/Web/HTTP/Response_codes
  */
-namespace Opulence\HTTP\Responses;
-
-use DateTime;
-use Opulence\HTTP\HTTPException;
-
 class Response
 {
     /** @var string The content of the response */
@@ -45,19 +50,19 @@ class Response
     }
 
     /**
-     * @return string
-     */
-    public function getHTTPVersion()
-    {
-        return $this->httpVersion;
-    }
-
-    /**
      * @return ResponseHeaders
      */
     public function getHeaders()
     {
         return $this->headers;
+    }
+
+    /**
+     * @return string
+     */
+    public function getHttpVersion()
+    {
+        return $this->httpVersion;
     }
 
     /**
@@ -132,7 +137,7 @@ class Response
                     $cookie->getPath(),
                     $cookie->getDomain(),
                     $cookie->isSecure(),
-                    $cookie->isHTTPOnly()
+                    $cookie->isHttpOnly()
                 );
             }
         }
@@ -150,7 +155,7 @@ class Response
      * Sets the expiration time of the page
      *
      * @param DateTime $expiration The expiration time
-     * @throws HTTPException Thrown if the headers were already sent
+     * @throws HttpException Thrown if the headers were already sent
      */
     public function setExpiration(DateTime $expiration)
     {
@@ -160,7 +165,7 @@ class Response
     /**
      * @param string $httpVersion
      */
-    public function setHTTPVersion($httpVersion)
+    public function setHttpVersion($httpVersion)
     {
         $this->httpVersion = $httpVersion;
     }

@@ -1,17 +1,22 @@
 <?php
 /**
- * Copyright (C) 2015 David Young
+ * Opulence
  *
- * Defines the response headers
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\HTTP\Responses;
+namespace Opulence\Http\Responses;
 
 use DateTime;
-use Opulence\HTTP\Headers;
+use Opulence\Http\Headers;
 
+/**
+ * Defines the response headers
+ */
 class ResponseHeaders extends Headers
 {
-    /** HTML content type */
+    /** Html content type */
     const CONTENT_TYPE_HTML = "text/html";
     /** JSON content type */
     const CONTENT_TYPE_JSON = "application/json";
@@ -145,7 +150,7 @@ class ResponseHeaders extends Headers
         self::HTTP_BAD_GATEWAY => "Bad Gateway",
         self::HTTP_SERVICE_UNAVAILABLE => "Service Unavailable",
         self::HTTP_GATEWAY_TIMEOUT => "Gateway Timeout",
-        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => "HTTP Version Not Supported"
+        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => "Http Version Not Supported"
     ];
     /**
      * @var array The list of cookie names to their properties
@@ -159,12 +164,12 @@ class ResponseHeaders extends Headers
      * @param string $path The path the cookie is valid on
      * @param string $domain The domain the cookie is valid on
      * @param bool $isSecure Whether or not the cookie was secure
-     * @param bool $isHTTPOnly Whether or not the cookie was HTTP-only
+     * @param bool $isHttpOnly Whether or not the cookie was HTTP-only
      */
-    public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHTTPOnly = true)
+    public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHttpOnly = true)
     {
         // Remove the cookie from the response
-        $this->setCookie(new Cookie($name, "", new DateTime("-1 year"), $path, $domain, $isSecure, $isHTTPOnly));
+        $this->setCookie(new Cookie($name, "", new DateTime("-1 year"), $path, $domain, $isSecure, $isHttpOnly));
     }
 
     /**
