@@ -1,16 +1,9 @@
 {
-  "name": "opulence/opulence",
-  "description": "The Opulence PHP framework",
+  "name": "opulence/authentication",
+  "description": "The Opulence authentication library",
   "keywords": [
     "PHP",
-    "full stack",
-    "template",
-    "mvc",
-    "database",
-    "orm",
-    "console",
-    "apex",
-    "framework"
+    "authentication"
   ],
   "authors": [
     {
@@ -22,66 +15,12 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\": [
-        "app/Opulence",
-        "tests/app/Opulence"
-      ]
+      "Opulence\\Authentication\\": ""
     }
   },
   "require": {
     "php": ">=5.5.10",
-    "ext-openssl": "*",
-    "ext-mbstring": "*",
-    "jeremeamia/superclosure": "~2.1",
-    "monolog/monolog": "1.12.*@dev",
-    "symfony/security-core": "2.6.*"
-  },
-  "require-dev": {
-    "phpredis": "2.2.7",
-    "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "4.6.*",
-    "phpunit/php-file-iterator": ">=1.3.4",
-    "phpunit/php-token-stream": ">=1.4.0",
-    "phpunit/php-text-template": ">=1.2.0",
-    "phpunit/php-invoker": ">=1.1.3",
-    "phpunit/phpunit-selenium": ">=1.4",
-    "phpunit/phpunit-story": "*"
-  },
-  "repositories": [
-    {
-      "type": "package",
-      "package": {
-        "name": "phpredis",
-        "version": "2.2.7",
-        "source": {
-          "url": "git://github.com/phpredis/phpredis.git",
-          "type": "git",
-          "reference": "2.2.7"
-        }
-      }
-    }
-  ],
-  "replace": {
-    "opulence/applications": "self.version",
-    "opulence/authentication": "self.version",
-    "opulence/cache": "self.version",
-    "opulence/console": "self.version",
-    "opulence/cryptography": "self.version",
-    "opulence/databases": "self.version",
-    "opulence/events": "self.version",
-    "opulence/files": "self.version",
-    "opulence/framework": "self.version",
-    "opulence/http": "self.version",
-    "opulence/ioc": "self.version",
-    "opulence/memcached": "self.version",
-    "opulence/orm": "self.version",
-    "opulence/pipelines": "self.version",
-    "opulence/querybuilders": "self.version",
-    "opulence/redis": "self.version",
-    "opulence/routing": "self.version",
-    "opulence/sessions": "self.version",
-    "opulence/users": "self.version",
-    "opulence/views": "self.version"
+    "opulence/http": "1.0.*"
   },
   "extra": {
     "branch-alias": {
