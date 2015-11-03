@@ -6,10 +6,14 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Sets up PHPUnit tests
- */
-require_once __DIR__ . "/../vendor/autoload.php";
+namespace Opulence\Cryptography\Hashing;
 
-// Set the default timezone in case the test server doesn't have it already set
-date_default_timezone_set("UTC");
+use Exception;
+
+/**
+ * Defines the hash exception
+ */
+class HashException extends Exception
+{
+    // Don't do anything
+}
