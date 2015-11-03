@@ -13,15 +13,20 @@ namespace Opulence\Orm\DataMappers;
 
 use Opulence\Databases\ConnectionPools\ConnectionPool;
 use Opulence\Memcached\Memcached;
+use Opulence\Orm\Ids\IIdAccessorRegistry;
 
 abstract class MemcachedCachedSqlDataMapper extends CachedSqlDataMapper
 {
     /**
      * @param Memcached $cache The cache object used in the cache data mapper
      * @param ConnectionPool $connectionPool The connection pool used in the SQL data mapper
+     * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
      */
-    public function __construct(Memcached $cache, ConnectionPool $connectionPool)
-    {
-        parent::__construct($cache, $connectionPool);
+    public function __construct(
+        Memcached $cache,
+        ConnectionPool $connectionPool,
+        IIdAccessorRegistry $idAccessorRegistry
+    ) {
+        parent::__construct($cache, $connectionPool, $idAccessorRegistry);
     }
 } 
