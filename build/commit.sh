@@ -6,21 +6,21 @@ function split()
 {
     git co master
     read -p "   Name of subtree (case sensitive): " subtree
-    read -p "   Remote URL: " remoteurl
+    lowersubtree=$(echo "$subtree" | awk '{print tolower($0)}')
+    remoteurl="https://github.com/opulencephp/$lowersubtree.git"
 
     # Setup subtree directory
-    lowercasesubtree=$subtree | '{print tolower($0)}'
-    mkdir ../$lowercasesubtree
-    cd ../$lowercasesubtree
+    mkdir ../$subtree
+    cd ../$subtree
     git init --bare
 
     # Create branch from subtree directory, call it the same thing as the subtree directory
     cd ../opulence
-    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $lowercasesubtree
-    git push ../$lowercasesubtree $lowercasesubtree:master
+    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
+    git push ../$subtree $subtree:master
 
     # Push subtree to remote
-    cd ../$lowercasesubtree
+    cd ../$subtree
     git remote add origin $remoteurl
     git push origin master
 
@@ -30,8 +30,8 @@ function split()
 
     # Setup subtree in main repo
     git commit -am "Removed $subtree for subtree split"
-    git remote add $lowercasesubtree $remoteurl
-    git subtree add --prefix=$SUBTREE_DIR/$subtree $lowercasesubtree master
+    git remote add $subtree $remoteurl
+    git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
 }
 
 function tag()
@@ -74,13 +74,11 @@ function tag()
     # Check if we need to commit components
     for repo in ${REPOS[@]}
     do
-        lowercaserepo=$repo | awk '{print tolower($0)}'
-
-        if git diff --quiet $lowercaserepo/master master:$SUBTREE_DIR/$repo; then
+        if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
             echo "   No changes in $repo"
         else
             echo "   Pushing $repo"
-            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $lowercaserepo master
+            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
         fi
     done
 
@@ -91,8 +89,7 @@ function tag()
     # Tag components
     for repo in ${REPOS[@]}
     do
-        lowercaserepo=$repo | awk '{print tolower($0)}'
-        cd ../$lowercaserepo
+        cd ../$repo
         echo "   Tagging $repo"
         git tag -a $tagname -m  "$message"
         git push origin $tagname
