@@ -1,3 +1,13 @@
+<h2>v1.0.0-alpha9</h2>
+
+<h3>Build</h3>
+* Updated build bash script
+
+<h2>v1.0.0-alpha8</h2>
+
+<h3>General</h3>
+* Fixed more capitalization mismatches between file names and class names
+
 <h2>v1.0.0-alpha7</h2>
 
 <h3>General</h3>
