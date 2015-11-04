@@ -1,37 +1,43 @@
-REPOS=(Applications Authentication Cache Console Cryptography Databases Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Users Views)
+REPOS=(Cache Console Cryptography Databases Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Users Views)
 SUBTREE_DIR="app/Opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/Applications/Application.php"
 
 function split()
 {
     git co master
-    read -p "   Name of subtree (case sensitive): " subtree
-    lowersubtree=$(echo "$subtree" | awk '{print tolower($0)}')
-    remoteurl="https://github.com/opulencephp/$lowersubtree.git"
+    #read -p "   Name of subtree (case sensitive): " subtree
 
-    # Setup subtree directory
-    mkdir ../$subtree
-    cd ../$subtree
-    git init --bare
+    for subtree in ${REPOS[@]}
+    do
 
-    # Create branch from subtree directory, call it the same thing as the subtree directory
-    cd ../opulence
-    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
-    git push ../$subtree $subtree:master
+        lowersubtree=$(echo "$subtree" | awk '{print tolower($0)}')
+        remoteurl="https://github.com/opulencephp/$lowersubtree.git"
 
-    # Push subtree to remote
-    cd ../$subtree
-    git remote add origin $remoteurl
-    git push origin master
+        # Setup subtree directory
+        mkdir ../$subtree
+        cd ../$subtree
+        git init --bare
 
-    # Remove original code, which will be re-added shortly
-    cd ../opulence
-    git rm -r $SUBTREE_DIR/$subtree
+        # Create branch from subtree directory, call it the same thing as the subtree directory
+        cd ../opulence
+        git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
+        git push ../$subtree $subtree:master
 
-    # Setup subtree in main repo
-    git commit -am "Removed $subtree for subtree split"
-    git remote add $subtree $remoteurl
-    git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
+        # Push subtree to remote
+        cd ../$subtree
+        git remote add origin $remoteurl
+        git push origin master
+
+        # Remove original code, which will be re-added shortly
+        cd ../opulence
+        git rm -r $SUBTREE_DIR/$subtree
+
+        # Setup subtree in main repo
+        git commit -am "Removed $subtree for subtree split"
+        git remote add $subtree $remoteurl
+        git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
+
+    done
 }
 
 function tag()
