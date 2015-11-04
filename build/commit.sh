@@ -69,7 +69,7 @@ function tag()
         git push origin master
     fi
 
-    git subtree push --prefix=$SUBTREE_DIR/Applications --rejoin applications master
+    git subtree push --prefix=$SUBTREE_DIR/Applications --rejoin Applications master
 
     # Check if we need to commit components
     for repo in ${REPOS[@]}
