@@ -1,0 +1,37 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace {{namespace}};
+
+use Opulence\Orm\IEntity;
+
+class {{class}} implements IEntity
+{
+    /** @var int|string The Id of the entity */
+    private $id;
+
+    /**
+     * Gets the database Id
+     *
+     * @return int|string The database Id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Sets the database Id of the entity
+     *
+     * @param int|string $id The database Id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+}
