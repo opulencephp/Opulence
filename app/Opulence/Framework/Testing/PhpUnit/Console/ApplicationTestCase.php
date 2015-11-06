@@ -159,13 +159,12 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function setUp()
     {
-        $this->setApplication();
+        $this->setApplicationAndIocContainer();
         $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
-        $container = $this->application->getIocContainer();
-        $this->commandCollection = $container->makeShared(CommandCollection::class);
-        $this->commandCompiler = $container->makeShared(ICompiler::class);
+        $this->commandCollection = $this->container->makeShared(CommandCollection::class);
+        $this->commandCompiler = $this->container->makeShared(ICompiler::class);
         $this->responseCompiler = new ResponseCompiler(new ResponseLexer(), new ResponseParser());
         $this->kernel = new Kernel(
             $this->requestParser,
@@ -177,7 +176,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
 
         // Bind a mock prompt that can output pre-determined answers
         $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
-        $this->application->getIocContainer()->bind(Prompt::class, $this->prompt);
+        $this->container->bind(Prompt::class, $this->prompt);
     }
 
     /**
@@ -208,6 +207,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         // Remake the command to have this latest binding
-        $this->commandCollection->add($this->application->getIocContainer()->makeShared($commandClassName), true);
+        $this->commandCollection->add($this->container->makeShared($commandClassName), true);
     }
 }

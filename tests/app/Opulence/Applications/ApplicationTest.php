@@ -12,8 +12,6 @@ use InvalidArgumentException;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\Ioc\Container;
-use Opulence\Ioc\IContainer;
 use ReflectionClass;
 
 /**
@@ -36,10 +34,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->dispatcher = $this->getMock(IDispatcher::class);
         $this->environment = new Environment("testing");
         $this->application = new Application(
-            new Paths(["foo" => "bar"]),
             $this->dispatcher,
-            $this->environment,
-            new Container()
+            $this->environment
         );
     }
 
@@ -179,23 +175,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     {
         $expectedEnvironment = new Environment("testing");
         $this->assertEquals($expectedEnvironment, $this->application->getEnvironment());
-    }
-
-    /**
-     * Tests getting the dependency injection container
-     */
-    public function testGettingIocContainer()
-    {
-        $this->assertInstanceOf(IContainer::class, $this->application->getIocContainer());
-    }
-
-    /**
-     * Tests getting paths
-     */
-    public function testGettingPaths()
-    {
-        $paths = new Paths(["foo" => "bar"]);
-        $this->assertEquals($paths, $this->application->getPaths());
     }
 
     /**
@@ -365,16 +344,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $environment = new Environment("foo");
         $this->application->setEnvironment($environment);
         $this->assertEquals($environment, $this->application->getEnvironment());
-    }
-
-    /**
-     * Tests setting paths
-     */
-    public function testSettingPaths()
-    {
-        $paths = new Paths(["baz" => "blah"]);
-        $this->application->setPaths($paths);
-        $this->assertSame($paths, $this->application->getPaths());
     }
 
     /**

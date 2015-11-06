@@ -13,20 +13,15 @@ namespace Opulence\Framework\Testing\PhpUnit;
 
 use Monolog\Logger;
 use Opulence\Applications\Application;
+use Opulence\Ioc\IContainer;
 use PHPUnit_Framework_TestCase;
 
 abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
 {
     /** @var Application The application */
     protected $application = null;
-
-    /**
-     * @return Application
-     */
-    public function getApplication()
-    {
-        return $this->application;
-    }
+    /** @var IContainer The IoC container */
+    protected $container = null;
 
     /**
      * Tears down the tests
@@ -44,7 +39,7 @@ abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
     abstract protected function getKernelLogger();
 
     /**
-     * Sets the instance of the application to use in tests
+     * Sets the instance of the application and IoC container to use in tests
      */
-    abstract protected function setApplication();
+    abstract protected function setApplicationAndIocContainer();
 }

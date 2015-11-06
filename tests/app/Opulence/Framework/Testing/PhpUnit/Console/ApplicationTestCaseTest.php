@@ -162,14 +162,6 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that the testing environment is set
-     */
-    public function testTestingEnvironmentIsSet()
-    {
-        $this->assertEquals(Environment::TESTING, $this->testCase->getApplication()->getEnvironment()->getName());
-    }
-
-    /**
      * Tests that the response is cleared before each command is run
      */
     public function testThatResponseIsClearedBeforeEachCommand()

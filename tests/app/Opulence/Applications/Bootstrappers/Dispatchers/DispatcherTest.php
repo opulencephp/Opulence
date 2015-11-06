@@ -49,7 +49,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $taskDispatcher = new TaskDispatcher();
         $environment = new Environment(Environment::TESTING);
         $this->container = new Container();
-        $this->application = new Application($paths, $taskDispatcher, $environment, $this->container);
+        $this->application = new Application($taskDispatcher, $environment);
         $this->dispatcher = new Dispatcher($taskDispatcher, $this->container);
         $this->registry = new BootstrapperRegistry($paths, $environment);
     }

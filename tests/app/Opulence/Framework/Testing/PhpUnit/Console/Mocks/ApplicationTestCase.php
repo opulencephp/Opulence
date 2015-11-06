@@ -48,7 +48,7 @@ class ApplicationTestCase extends BaseApplicationTestCase
     /**
      * @inheritdoc
      */
-    protected function setApplication()
+    protected function setApplicationAndIocContainer()
     {
         // Create and bind all of the components of our application
         $paths = new Paths([
@@ -57,16 +57,16 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $taskDispatcher = new TaskDispatcher();
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $environment = new Environment("foo");
-        $container = new Container();
-        $container->bind(Paths::class, $paths);
-        $container->bind(TaskDispatcher::class, $taskDispatcher);
-        $container->bind(Environment::class, $environment);
-        $container->bind(IContainer::class, $container);
-        $this->application = new Application($paths, $taskDispatcher, $environment, $container);
+        $this->container = new Container();
+        $this->container->bind(Paths::class, $paths);
+        $this->container->bind(TaskDispatcher::class, $taskDispatcher);
+        $this->container->bind(Environment::class, $environment);
+        $this->container->bind(IContainer::class, $this->container);
+        $this->application = new Application($taskDispatcher, $environment);
 
         // Setup the bootstrappers
         $bootstrapperRegistry = new BootstrapperRegistry($paths, $environment);
-        $bootstrapperDispatcher = new Dispatcher($taskDispatcher, $container);
+        $bootstrapperDispatcher = new Dispatcher($taskDispatcher, $this->container);
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
         $taskDispatcher->registerTask(TaskTypes::PRE_START,
             function () use ($bootstrapperDispatcher, $bootstrapperRegistry) {

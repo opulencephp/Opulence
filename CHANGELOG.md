@@ -1,3 +1,12 @@
+<h2>v1.0.0-alpha10</h2>
+
+<h3>Applications</h3>
+* Removed `Paths` and `IContainer` parameters from `Opulence\Applications\Application`
+
+<h3>Framework</h3>
+* Changed `Opulence\Framework\Testing\PhpUnit\ApplicationTestCase::setApplication()` to `setApplicationAndIocContainer()`
+* Removed `Opulence\Framework\Testing\PhpUnit\ApplicationTestCase::getApplication()`
+
 <h2>v1.0.0-alpha9</h2>
 
 <h3>Build</h3>

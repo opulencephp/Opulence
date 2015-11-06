@@ -144,14 +144,6 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the application
-     */
-    public function testGettingApplication()
-    {
-        $this->assertInstanceOf(Application::class, $this->testCase->getApplication());
-    }
-
-    /**
      * Tests getting the router
      */
     public function testGettingRouter()
@@ -185,13 +177,5 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(LogicException::class);
         $this->testCase->route("GET", "/non-opulence-controller");
         $this->testCase->assertViewVarEquals("bar", "foo");
-    }
-
-    /**
-     * Tests that the testing environment is set
-     */
-    public function testTestingEnvironmentIsSet()
-    {
-        $this->assertEquals(Environment::TESTING, $this->testCase->getApplication()->getEnvironment()->getName());
     }
 }

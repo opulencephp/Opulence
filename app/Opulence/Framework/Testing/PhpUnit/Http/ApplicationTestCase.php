@@ -250,13 +250,12 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function setUp()
     {
-        $this->setApplication();
+        $this->setApplicationAndIocContainer();
         $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
-        $container = $this->application->getIocContainer();
-        $container->bind(Logger::class, $this->getKernelLogger());
-        $this->router = $container->makeShared(Router::class);
-        $this->kernel = $container->makeShared(Kernel::class);
+        $this->container->bind(Logger::class, $this->getKernelLogger());
+        $this->router = $this->container->makeShared(Router::class);
+        $this->kernel = $this->container->makeShared(Kernel::class);
         $this->kernel->addMiddleware($this->getGlobalMiddleware());
         $this->defaultRequest = new Request([], [], [], [], [], []);
     }
