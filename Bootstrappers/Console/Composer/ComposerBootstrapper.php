@@ -8,8 +8,8 @@
  */
 namespace Opulence\Framework\Bootstrappers\Console\Composer;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
-use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\Ioc\IContainer;

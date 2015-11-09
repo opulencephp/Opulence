@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Bootstrappers\Console\Requests;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Requests\Parsers\ArgvParser;
 use Opulence\Console\Requests\Parsers\IParser;
 use Opulence\Ioc\IContainer;
