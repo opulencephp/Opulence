@@ -1,0 +1,32 @@
+{
+  "name": "opulence/bootstrappers",
+  "description": "The Opulence bootstrapper library",
+  "keywords": [
+    "PHP",
+    "bootstrapper"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Bootstrappers\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "opulence/applications": "1.0.*",
+    "opulence/ioc": "1.0.*"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
