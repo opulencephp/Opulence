@@ -21,7 +21,7 @@ use RuntimeException;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "1.0.0-alpha10";
+    private static $version = "1.0.0-alpha11";
     /** @var IDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var Environment The environment the application is running on */
