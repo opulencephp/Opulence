@@ -64,6 +64,7 @@
   "replace": {
     "opulence/applications": "self.version",
     "opulence/authentication": "self.version",
+    "opulence/bootstrappers": "self.version",
     "opulence/cache": "self.version",
     "opulence/console": "self.version",
     "opulence/cryptography": "self.version",

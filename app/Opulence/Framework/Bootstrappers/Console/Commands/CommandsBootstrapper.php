@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Bootstrappers\Console\Commands;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler;
 use Opulence\Console\Commands\Compilers\ICompiler;

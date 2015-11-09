@@ -10,12 +10,12 @@ namespace Opulence\Tests\Framework\Testing\PhpUnit\Http\Mocks;
 
 use Monolog\Logger;
 use Opulence\Applications\Application;
-use Opulence\Applications\Bootstrappers\BootstrapperRegistry;
-use Opulence\Applications\Bootstrappers\Dispatchers\Dispatcher;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
+use Opulence\Bootstrappers\BootstrapperRegistry;
+use Opulence\Bootstrappers\Dispatchers\Dispatcher;
 use Opulence\Framework\Bootstrappers\Http\Requests\RequestBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Views\ViewFunctionsBootstrapper;

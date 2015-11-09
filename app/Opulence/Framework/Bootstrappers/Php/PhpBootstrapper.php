@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Bootstrappers\Php;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 
 /**
  * Defines the PHP bootstrapper

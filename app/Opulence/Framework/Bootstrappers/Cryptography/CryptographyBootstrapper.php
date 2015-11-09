@@ -8,8 +8,8 @@
  */
 namespace Opulence\Framework\Bootstrappers\Cryptography;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
-use Opulence\Applications\Bootstrappers\ILazyBootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Cryptography\Hashing\BcryptHasher;

@@ -1,3 +1,9 @@
+<h2>v1.0.0-alpha11</h2>
+
+<h3>Bootstrappers</h3>
+* Moved Bootstrappers into their own namespace: `Opulence\Bootstrappers`
+* Added Bootstrapper library
+
 <h2>v1.0.0-alpha10</h2>
 
 <h3>Applications</h3>

@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Bootstrappers\Http\Routing;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Dispatchers\IDispatcher;

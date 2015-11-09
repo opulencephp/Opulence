@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Bootstrappers\Http\Views;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Framework\Http\CsrfTokenChecker;
 use Opulence\Routing\Url\UrlGenerator;
 use Opulence\Sessions\ISession;

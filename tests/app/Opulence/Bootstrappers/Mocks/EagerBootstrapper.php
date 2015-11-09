@@ -6,22 +6,21 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Bootstrappers\Http\Requests;
+namespace Opulence\Tests\Bootstrappers\Mocks;
 
-use Opulence\Bootstrappers\Bootstrapper;
-use Opulence\Http\Requests\Request;
+use Opulence\Bootstrappers\Bootstrapper as BaseBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**
- * Defines the request bootstrapper
+ * Mocks a lazy bootstrapper
  */
-class RequestBootstrapper extends Bootstrapper
+class EagerBootstrapper extends BaseBootstrapper
 {
     /**
      * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(Request::class, Request::createFromGlobals());
+        $container->bind(EagerFooInterface::class, EagerConcreteFoo::class);
     }
 }

@@ -11,7 +11,7 @@
  */
 namespace Opulence\Framework\Bootstrappers\Http\Sessions;
 
-use Opulence\Applications\Bootstrappers\Bootstrapper;
+use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
