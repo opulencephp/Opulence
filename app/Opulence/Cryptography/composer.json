@@ -23,8 +23,7 @@
   },
   "require": {
     "php": ">=5.5.10",
-    "ext-openssl": "*",
-    "symfony/security-core": "2.6.*"
+    "ext-openssl": "*"
   },
   "extra": {
     "branch-alias": {

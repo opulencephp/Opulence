@@ -1,3 +1,10 @@
+<h2>v1.0.0-alpha12</h2>
+
+<h3>Cryptography</h3>
+* Removed dependency on Symfony for secure string comparisons
+* Added `Opulence\Cryptography\Utilities\Strings::getRandomBytes()`
+* Changed `Opulence\Cryptography\Utilities\Strings::getRandomString()` to throw `RuntimeException` on error
+
 <h2>v1.0.0-alpha11</h2>
 
 <h3>Bootstrappers</h3>

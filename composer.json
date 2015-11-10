@@ -33,8 +33,7 @@
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "jeremeamia/superclosure": "~2.1",
-    "monolog/monolog": "1.12.*@dev",
-    "symfony/security-core": "2.6.*"
+    "monolog/monolog": "1.12.*@dev"
   },
   "require-dev": {
     "phpredis": "2.2.7",

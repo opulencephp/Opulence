@@ -47,7 +47,7 @@ class StringsTest extends \PHPUnit_Framework_TestCase
     {
         $tokenLength = 64;
         $randomString = $this->strings->generateRandomString($tokenLength);
-        $this->assertEquals($tokenLength, strlen($randomString));
+        $this->assertEquals($tokenLength, mb_strlen($randomString));
     }
 
     /**
@@ -57,6 +57,14 @@ class StringsTest extends \PHPUnit_Framework_TestCase
     {
         $tokenLength = 63;
         $randomString = $this->strings->generateRandomString($tokenLength);
-        $this->assertEquals($tokenLength, strlen($randomString));
+        $this->assertEquals($tokenLength, mb_strlen($randomString));
+    }
+
+    /**
+     * Tests that random bytes are generated
+     */
+    public function testRandomBytesAreGenerated()
+    {
+        $this->assertEquals(32, mb_strlen($this->strings->generateRandomBytes(32), "8bit"));
     }
 }
