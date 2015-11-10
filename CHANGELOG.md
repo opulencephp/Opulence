@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha13</h2>
+
+<h3>General</h3>
+* Added develop branch
+
 <h2>v1.0.0-alpha12</h2>
 
 <h3>Cryptography</h3>
