@@ -4,6 +4,7 @@
 * Removed dependency on Symfony for secure string comparisons
 * Added `Opulence\Cryptography\Utilities\Strings::getRandomBytes()`
 * Changed `Opulence\Cryptography\Utilities\Strings::getRandomString()` to throw `RuntimeException` on error
+* Removed `Opulence\Cryptography\CryptographicException` because it wasn't being used by anything
 
 <h2>v1.0.0-alpha11</h2>
 

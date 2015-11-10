@@ -8,7 +8,6 @@
  */
 namespace Opulence\Cryptography\Utilities;
 
-use Opulence\Cryptography\CryptographicException;
 use RuntimeException;
 
 /**
@@ -21,7 +20,7 @@ class Strings
      *
      * @param int $length The desired number of bytes
      * @return string The random bytes
-     * @throws CryptographicException Thrown if there was an error generating the bytes
+     * @throws RuntimeException Thrown if there was an error generating the bytes
      */
     public function generateRandomBytes($length)
     {
