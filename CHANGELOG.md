@@ -6,6 +6,7 @@
 <h3>Databases</h3>
 * Moved `Opulence\Databases\Pdo` namespace to `Opulence\Databases\Adapters\Pdo`
 * Removed `Opulence\Databases\IConnection::getTypeMapper()`
+* Removed `Opulence\Databases\Providers\TypeMapper::getProvider()` and `setProvider()`
 * Added `Opulence\Databases\Providers\Factories\TypeMapperFactory`
 
 <h2>v1.0.0-alpha12</h2>

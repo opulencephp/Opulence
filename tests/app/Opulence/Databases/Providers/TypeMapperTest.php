@@ -347,23 +347,4 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
         $typeMapper = new TypeMapper();
         $typeMapper->toSqlBoolean(true);
     }
-
-    /**
-     * Tests setting the provider in the constructor
-     */
-    public function testSettingProviderInConstructor()
-    {
-        $typeMapper = new TypeMapper($this->provider);
-        $this->assertSame($this->provider, $typeMapper->getProvider());
-    }
-
-    /**
-     * Tests setting the provider in the setter
-     */
-    public function testSettingProviderInSetter()
-    {
-        $typeMapper = new TypeMapper();
-        $typeMapper->setProvider($this->provider);
-        $this->assertSame($this->provider, $typeMapper->getProvider());
-    }
 } 

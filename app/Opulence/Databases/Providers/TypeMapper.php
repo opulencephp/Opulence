@@ -27,7 +27,7 @@ class TypeMapper
     public function __construct(Provider $provider = null)
     {
         if (!is_null($provider)) {
-            $this->setProvider($provider);
+            $this->provider = $provider;
         }
     }
 
@@ -181,22 +181,6 @@ class TypeMapper
         }
 
         return $phpTimestamp;
-    }
-
-    /**
-     * @return Provider
-     */
-    public function getProvider()
-    {
-        return $this->provider;
-    }
-
-    /**
-     * @param Provider $provider
-     */
-    public function setProvider($provider)
-    {
-        $this->provider = $provider;
     }
 
     /**
