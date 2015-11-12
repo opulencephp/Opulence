@@ -3,6 +3,11 @@
 <h3>General</h3>
 * Added develop branch
 
+<h3>Databases</h3>
+* Moved `Opulence\Databases\Pdo` namespace to `Opulence\Databases\Adapters\Pdo`
+* Removed `Opulence\Databases\IConnection::getTypeMapper()`
+* Added `Opulence\Databases\Providers\Factories\TypeMapperFactory`
+
 <h2>v1.0.0-alpha12</h2>
 
 <h3>Cryptography</h3>

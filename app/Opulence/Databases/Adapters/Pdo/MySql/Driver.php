@@ -6,14 +6,14 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\Pdo\PostgreSql;
+namespace Opulence\Databases\Adapters\Pdo\MySql;
 
-use Opulence\Databases\Pdo\Driver as BaseDriver;
-use Opulence\Databases\Providers\PostgreSqlProvider;
+use Opulence\Databases\Adapters\Pdo\Driver as BaseDriver;
+use Opulence\Databases\Providers\MySqlProvider;
 use Opulence\Databases\Server;
 
 /**
- * Defines the PDO driver for a PostgreSQL database
+ * Defines the PDO driver for a MySQL database
  */
 class Driver extends BaseDriver
 {
@@ -23,14 +23,14 @@ class Driver extends BaseDriver
     protected function getDsn(Server $server, array $options = [])
     {
         $dsn = implode(";", [
-                "pgsql:host=" . $server->getHost(),
+                "mysql:host=" . $server->getHost(),
                 "dbname=" . $server->getDatabaseName(),
                 "port=" . $server->getPort(),
-                "options='--client_encoding=" . $server->getCharset() . "'"
+                "charset=" . $server->getCharset()
             ]) . ";";
 
-        if (isset($options["sslmode"])) {
-            $dsn .= "sslmode=" . $options["sslmode"] . ";";
+        if (isset($options["unix_socket"])) {
+            $dsn .= "unix_socket=" . $options["unix_socket"] . ";";
         }
 
         return $dsn;
@@ -41,6 +41,6 @@ class Driver extends BaseDriver
      */
     protected function setProvider()
     {
-        $this->provider = new PostgreSqlProvider();
+        $this->provider = new MySqlProvider();
     }
 } 

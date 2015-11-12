@@ -6,11 +6,10 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\Pdo;
+namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Providers\Provider;
-use Opulence\Databases\Providers\TypeMapper;
 use Opulence\Databases\Server;
 use PDO;
 use PDOException;
@@ -24,8 +23,6 @@ class Connection extends PDO implements IConnection
     /** The name of the PDOStatement class to use */
     const PDO_STATEMENT_CLASS = "Statement";
 
-    /** @var TypeMapper The database type mapper this connection uses */
-    private $typeMapper = null;
     /** @var Provider The database provider this connection uses */
     private $provider = null;
     /** @var Server The server we're connecting to */
@@ -52,7 +49,6 @@ class Connection extends PDO implements IConnection
      */
     public function __construct(Provider $provider, Server $server, $dsn, array $driverOptions = [])
     {
-        $this->typeMapper = new TypeMapper($provider);
         $this->provider = $provider;
         $this->server = $server;
         $this->dsn = $dsn;
@@ -147,14 +143,6 @@ class Connection extends PDO implements IConnection
     public function getServer()
     {
         return $this->server;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTypeMapper()
-    {
-        return $this->typeMapper;
     }
 
     /**

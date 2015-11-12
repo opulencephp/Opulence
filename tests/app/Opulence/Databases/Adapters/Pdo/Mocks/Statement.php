@@ -6,10 +6,10 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Databases\Pdo\Mocks;
+namespace Opulence\Tests\Databases\Adapters\Pdo\Mocks;
 
 use PDO;
-use Opulence\Databases\Pdo\Statement as BaseStatement;
+use Opulence\Databases\Adapters\Pdo\Statement as BaseStatement;
 
 /**
  * Mocks the PDO statement for use in testing

@@ -9,7 +9,6 @@
 namespace Opulence\Databases;
 
 use Opulence\Databases\Providers\Provider;
-use Opulence\Databases\Providers\TypeMapper;
 use PDO;
 use PDOException;
 
@@ -73,11 +72,6 @@ interface IConnection
      * @return Server The server used in the connection
      */
     public function getServer();
-
-    /**
-     * @return TypeMapper
-     */
-    public function getTypeMapper();
 
     /**
      * Gets whether or not we're in a transaction

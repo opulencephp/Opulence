@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\Pdo\MySql;
+namespace Opulence\Databases\Adapters\Pdo\MySql;
 
 use Opulence\Databases;
 use Opulence\Tests\Databases\Mocks\Server;

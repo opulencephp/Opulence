@@ -6,9 +6,9 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Databases\Pdo\Mocks;
+namespace Opulence\Tests\Databases\Adapters\Pdo\Mocks;
 
-use Opulence\Databases\Pdo\Driver as BaseDriver;
+use Opulence\Databases\Adapters\Pdo\Driver as BaseDriver;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server;
 

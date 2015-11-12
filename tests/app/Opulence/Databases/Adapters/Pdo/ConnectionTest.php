@@ -6,11 +6,10 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Databases\Pdo;
+namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases;
 use Opulence\Databases\Providers\Provider;
-use Opulence\Databases\Providers\TypeMapper;
 use Opulence\Tests\Databases\Mocks\Server;
 
 /**
@@ -57,13 +56,5 @@ class ConnectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingServer()
     {
         $this->assertEquals($this->server, $this->pdo->getServer());
-    }
-
-    /**
-     * Tests getting the type mapper
-     */
-    public function testGettingTypeMapper()
-    {
-        $this->assertEquals(new TypeMapper($this->provider), $this->pdo->getTypeMapper());
     }
 }

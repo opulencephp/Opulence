@@ -9,7 +9,7 @@
 /**
  * Defines the base class for PDO drivers
  */
-namespace Opulence\Databases\Pdo;
+namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IDriver;
 use Opulence\Databases\Providers\Provider;
