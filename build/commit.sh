@@ -1,6 +1,7 @@
 REPOS=(Applications Authentication Bootstrappers Cache Console Cryptography Databases Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Users Views)
 SUBTREE_DIR="src/Opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/Applications/Application.php"
+REMOTE_URL="https://github.com/opulencephp"
 
 function split()
 {
@@ -78,6 +79,7 @@ function tag()
             echo "   No changes in $repo"
         else
             echo "   Pushing $repo"
+            git subtree pull --prefix=$SUBTREE_DIR/$repo $REMOTE_URL/$repo.git master
             git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
         fi
     done
