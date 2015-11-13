@@ -23,8 +23,8 @@
   "autoload": {
     "psr-4": {
       "Opulence\\": [
-        "app/Opulence",
-        "tests/app/Opulence"
+        "src/Opulence",
+        "tests/src/Opulence"
       ]
     }
   },

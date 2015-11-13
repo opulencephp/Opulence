@@ -1,5 +1,5 @@
 REPOS=(Applications Authentication Bootstrappers Cache Console Cryptography Databases Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Users Views)
-SUBTREE_DIR="app/Opulence"
+SUBTREE_DIR="src/Opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/Applications/Application.php"
 
 function split()

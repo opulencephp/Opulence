@@ -2,12 +2,33 @@
 
 <h3>General</h3>
 * Added develop branch
+* Renamed `/app` directory to `/src`
+* Renamed `/tests/app` directory to `/tests/src`
+
+<h3>Applications</h3>
+* Removed `Opulence\Applications\Application::setEnvironment()`
+
+<h3>Console</h3>
+* Updated references to `app` directory to `src` in various console commands
 
 <h3>Databases</h3>
 * Moved `Opulence\Databases\Pdo` namespace to `Opulence\Databases\Adapters\Pdo`
 * Removed `Opulence\Databases\IConnection::getTypeMapper()`
-* Removed `Opulence\Databases\Providers\TypeMapper::getProvider()` and `setProvider()`
-* Added `Opulence\Databases\Providers\Factories\TypeMapperFactory`
+* Moved `Opulence\Databases\Providers\TypeMapper` and `Opulence\Databases\Providers\Types` namespace
+* Removed `Opulence\Databases\Providers\Types\TypeMapper::getProvider()` and `setProvider()`
+* Added `Opulence\Databases\Providers\Types\Factories\TypeMapperFactory`
+
+<h3>Memcached</h3>
+* Removed type mapper from `Opulence\Memcached\Memcached::__construct()`
+* Removed `Opulence\Memcached\Memcached::getTypeMapper()`
+* Moved `Opulence\Memcached\TypeMapper` and `Opulence\Memcached\Types` namespace
+* Added `Opulence\Memcached\Types\Factories\TypeMapperFactory`
+
+<h3>Redis</h3>
+* Removed type mapper from `Opulence\Redis\Redis::__construct()`
+* Removed `Opulence\Redis\Redis::getTypeMapper()`
+* Moved `Opulence\Redis\TypeMapper` and `Opulence\Redis\Types` namespace
+* Added `Opulence\Redis\Factories\TypeMapperFactory`
 
 <h2>v1.0.0-alpha12</h2>
 
