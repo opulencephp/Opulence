@@ -79,8 +79,7 @@ function tag()
             echo "   No changes in $repo"
         else
             echo "   Pushing $repo"
-            git subtree pull --prefix=$SUBTREE_DIR/$repo $REMOTE_URL/$repo.git master
-            git subtree push --prefix=$SUBTREE_DIR/$repo --rejoin $repo master
+            git push $repo $(git subtree split --prefix=$SUBTREE_DIR/$repo master):master --force
         fi
     done
 
