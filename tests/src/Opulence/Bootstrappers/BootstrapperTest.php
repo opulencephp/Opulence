@@ -9,7 +9,6 @@
 namespace Opulence\Bootstrappers;
 
 use BadMethodCallException;
-use Opulence\Applications\Paths;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Sessions\Session;
 use Opulence\Tests\Bootstrappers\Mocks\Bootstrapper;

@@ -57,8 +57,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->method("dispatch")
             ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
-        $this->application->shutdown();
-        $this->application->shutdown();
+        $this->application->shutDown();
+        $this->application->shutDown();
     }
 
     /**
@@ -86,7 +86,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->with(TaskTypes::POST_SHUTDOWN)
             ->will($this->throwException(new InvalidArgumentException("foo")));
         $this->assertNull($this->application->start());
-        $this->assertNull($this->application->shutdown());
+        $this->assertNull($this->application->shutDown());
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -112,7 +112,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->with(TaskTypes::PRE_SHUTDOWN)
             ->will($this->throwException(new InvalidArgumentException("foo")));
         $this->assertNull($this->application->start());
-        $this->assertNull($this->application->shutdown());
+        $this->assertNull($this->application->shutDown());
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -122,7 +122,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testBadShutdownTask()
     {
         $this->assertNull($this->application->start());
-        $this->assertNull($this->application->shutdown(function () {
+        $this->assertNull($this->application->shutDown(function () {
             // Throw anything other than a runtime exception
             throw new InvalidArgumentException("foobar");
         }));
@@ -147,7 +147,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfAShutdownApplicationIsNotRunning()
     {
         $this->application->start();
-        $this->application->shutdown();
+        $this->application->shutDown();
         $this->assertFalse($this->application->isRunning());
     }
 
@@ -206,7 +206,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->method("dispatch")
             ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
-        $this->application->shutdown();
+        $this->application->shutDown();
     }
 
     /**
@@ -241,7 +241,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->method("dispatch")
             ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
-        $this->application->shutdown();
+        $this->application->shutDown();
     }
 
     /**
@@ -276,7 +276,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->method("dispatch")
             ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
-        $this->application->shutdown();
+        $this->application->shutDown();
     }
 
     /**
@@ -312,7 +312,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->with(TaskTypes::POST_SHUTDOWN);
         $this->application->start();
         $shutdownValue = null;
-        $this->assertNull($this->application->shutdown(function () use (&$shutdownValue) {
+        $this->assertNull($this->application->shutDown(function () use (&$shutdownValue) {
             $shutdownValue = "baz";
         }));
         $this->assertEquals("baz", $shutdownValue);
@@ -342,7 +342,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testShutdownTaskThatReturnsSomething()
     {
         $this->application->start();
-        $this->assertEquals("foo", $this->application->shutdown(function () {
+        $this->assertEquals("foo", $this->application->shutDown(function () {
             return "foo";
         }));
     }

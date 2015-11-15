@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Prompts\Questions\Confirmation;

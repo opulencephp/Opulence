@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Composer;
 
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 
 /**
  * Defines a wrapper around Composer

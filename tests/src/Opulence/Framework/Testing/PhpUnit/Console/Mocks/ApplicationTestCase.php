@@ -11,7 +11,7 @@ namespace Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks;
 use Monolog\Logger;
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;

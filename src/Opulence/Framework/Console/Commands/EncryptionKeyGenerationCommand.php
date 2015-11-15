@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;

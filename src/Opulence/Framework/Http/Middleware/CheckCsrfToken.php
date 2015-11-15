@@ -12,7 +12,7 @@
 namespace Opulence\Framework\Http\Middleware;
 
 use Closure;
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Framework\Http\CsrfTokenChecker;
 use Opulence\Http\InvalidCsrfTokenException;
 use Opulence\Http\Middleware\IMiddleware;

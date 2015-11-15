@@ -21,7 +21,7 @@ use RuntimeException;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "1.0.0-alpha13";
+    private static $version = "1.0.0-alpha14";
     /** @var IDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var Environment The environment the application is running on */
@@ -70,7 +70,7 @@ class Application
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws RuntimeException Thrown if there was an error shutting down the application
      */
-    public function shutdown(Closure $shutdownTask = null)
+    public function shutDown(Closure $shutdownTask = null)
     {
         $taskReturnValue = null;
 
@@ -115,7 +115,7 @@ class Application
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_START);
             } catch (Exception $ex) {
-                $this->shutdown();
+                $this->shutDown();
             }
         }
 

@@ -9,7 +9,7 @@
 namespace Opulence\Bootstrappers\Caching;
 
 use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapper;

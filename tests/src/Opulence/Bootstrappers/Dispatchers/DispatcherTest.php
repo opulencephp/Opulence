@@ -12,7 +12,7 @@ use Closure;
 use Opulence\Ioc\Container;
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Paths;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Tests\Bootstrappers\Mocks\BootstrapperWithEverything;
@@ -139,7 +139,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->dispatcher->dispatch($this->registry);
         $this->application->start();
         $this->assertEquals("running", $this->application->getEnvironment()->getName());
-        $this->application->shutdown();
+        $this->application->shutDown();
         $this->assertEquals("shutting down", $this->application->getEnvironment()->getName());
     }
 
@@ -154,7 +154,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         // Need to actual force the lazy bootstrapper to load
         $this->container->makeNew(LazyFooInterface::class);
         $this->assertEquals("running", $this->application->getEnvironment()->getName());
-        $this->application->shutdown();
+        $this->application->shutDown();
         $this->assertEquals("shutting down", $this->application->getEnvironment()->getName());
     }
 

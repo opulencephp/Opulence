@@ -8,8 +8,8 @@
  */
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Applications\Paths;
 use Opulence\Bootstrappers\Caching\ICache as BootstrapperCache;
+use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;

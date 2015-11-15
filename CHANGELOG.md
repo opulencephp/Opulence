@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha14</h2>
+
+<h3>Paths</h3>
+* Moved `Opulence\Applications\Paths` to `Opulence\Bootstrappers\Paths` because it was no longer being used in `Applications` namespace
+
 <h2>v1.0.0-alpha13</h2>
 
 <h3>General</h3>

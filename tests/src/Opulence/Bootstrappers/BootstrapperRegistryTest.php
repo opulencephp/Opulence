@@ -9,7 +9,6 @@
 namespace Opulence\Bootstrappers;
 
 use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Paths;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\EagerFooInterface;
 use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapper;
