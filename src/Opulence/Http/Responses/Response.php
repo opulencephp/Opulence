@@ -9,7 +9,6 @@
 namespace Opulence\Http\Responses;
 
 use DateTime;
-use Opulence\Http\HttpException;
 
 /**
  * Defines an HTTP response
@@ -155,7 +154,6 @@ class Response
      * Sets the expiration time of the page
      *
      * @param DateTime $expiration The expiration time
-     * @throws HttpException Thrown if the headers were already sent
      */
     public function setExpiration(DateTime $expiration)
     {

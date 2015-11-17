@@ -21,7 +21,7 @@ use RuntimeException;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "1.0.0-alpha14";
+    private static $version = "1.0.0-alpha15";
     /** @var IDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var Environment The environment the application is running on */
@@ -74,7 +74,7 @@ class Application
     {
         $taskReturnValue = null;
 
-        // Don't shutdown a shutdown application
+        // Don't shut down a shutdown application
         if ($this->isRunning) {
             try {
                 $this->taskDispatcher->dispatch(TaskTypes::PRE_SHUTDOWN);

@@ -9,9 +9,9 @@
 namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
-use Opulence\Http\HttpException;
 use Opulence\Tests\Http\Requests\Mocks\FormUrlEncodedRequest;
 use Opulence\Tests\Http\Requests\Mocks\JsonRequest;
+use RuntimeException;
 use stdClass;
 
 /**
@@ -475,7 +475,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingJsonBodyWhenContentIsNotJson()
     {
-        $this->setExpectedException(HttpException::class);
+        $this->setExpectedException(RuntimeException::class);
         $request = FormUrlEncodedRequest::createFromGlobals();
         $request->getJsonBody();
     }

@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Console;
 
-use Monolog\Logger;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;
 use Opulence\Console\Requests\Parsers\StringParser;
@@ -16,10 +15,10 @@ use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 use Opulence\Console\Responses\Compilers\Compiler as ResponseCompiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
-use Opulence\Tests\Applications\Mocks\MonologHandler;
 use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
+use Psr\Log\LoggerInterface;
 
 /**
  * Tests the console kernel
@@ -42,8 +41,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $logger = new Logger("application");
-        $logger->pushHandler(new MonologHandler());
+        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        $logger = $this->getMock(LoggerInterface::class);
         $this->compiler = new CommandCompiler();
         $this->commands = new CommandCollection($this->compiler);
         $this->commands->add(new SimpleCommand("mockcommand", "Mocks a command"));

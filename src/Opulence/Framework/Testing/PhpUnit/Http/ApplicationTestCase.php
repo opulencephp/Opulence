@@ -12,7 +12,6 @@
 namespace Opulence\Framework\Testing\PhpUnit\Http;
 
 use LogicException;
-use Monolog\Logger;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Framework\Http\Kernel;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
@@ -22,6 +21,7 @@ use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Router;
 use Opulence\Routing\Controller;
+use Psr\Log\LoggerInterface;
 
 abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
@@ -253,7 +253,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->setApplicationAndIocContainer();
         $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
-        $this->container->bind(Logger::class, $this->getKernelLogger());
+        $this->container->bind(LoggerInterface::class, $this->getKernelLogger());
         $this->router = $this->container->makeShared(Router::class);
         $this->kernel = $this->container->makeShared(Kernel::class);
         $this->kernel->addMiddleware($this->getGlobalMiddleware());

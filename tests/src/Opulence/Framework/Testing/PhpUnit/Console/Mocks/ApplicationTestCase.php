@@ -8,7 +8,6 @@
  */
 namespace Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks;
 
-use Monolog\Logger;
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Bootstrappers\Paths;
@@ -21,7 +20,7 @@ use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
 use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
-use Opulence\Tests\Applications\Mocks\MonologHandler;
+use Psr\Log\LoggerInterface;
 
 /**
  * Mocks the console application for use in testing
@@ -39,10 +38,8 @@ class ApplicationTestCase extends BaseApplicationTestCase
      */
     protected function getKernelLogger()
     {
-        $logger = new Logger("application");
-        $logger->pushHandler(new MonologHandler());
-
-        return $logger;
+        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        return $this->getMock(LoggerInterface::class);
     }
 
     /**

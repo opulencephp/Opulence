@@ -10,8 +10,8 @@ namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
 use Opulence\Http\Headers;
-use Opulence\Http\HttpException;
 use Opulence\Http\Collection;
+use RuntimeException;
 
 /**
  * Defines an HTTP request
@@ -283,14 +283,14 @@ class Request
      * Gets the raw body as a JSON array
      *
      * @return array The JSON-decoded body
-     * @throws HTTPException Thrown if the body could not be decoded
+     * @throws RuntimeException Thrown if the body could not be decoded
      */
     public function getJsonBody()
     {
         $json = json_decode($this->getRawBody(), true);
 
         if ($json === null) {
-            throw new HttpException("Body could not be decoded as JSON");
+            throw new RuntimeException("Body could not be decoded as JSON");
         }
 
         return $json;

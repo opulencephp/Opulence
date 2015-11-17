@@ -8,8 +8,8 @@
  */
 namespace Opulence\Routing\Routes;
 
-use Opulence\Http\Requests;
-use Opulence\Http\Responses;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\ResponseHeaders;
 
 /**
  * Defines a route that is dispatched when the router misses on a path
@@ -23,20 +23,20 @@ class MissingRoute extends CompiledRoute
     public function __construct($controllerClass, $controllerMethod = "showHttpError")
     {
         $methods = [
-            Requests\Request::METHOD_DELETE,
-            Requests\Request::METHOD_GET,
-            Requests\Request::METHOD_POST,
-            Requests\Request::METHOD_PUT,
-            Requests\Request::METHOD_HEAD,
-            Requests\Request::METHOD_TRACE,
-            Requests\Request::METHOD_PURGE,
-            Requests\Request::METHOD_CONNECT,
-            Requests\Request::METHOD_PATCH,
-            Requests\Request::METHOD_OPTIONS
+            Request::METHOD_DELETE,
+            Request::METHOD_GET,
+            Request::METHOD_POST,
+            Request::METHOD_PUT,
+            Request::METHOD_HEAD,
+            Request::METHOD_TRACE,
+            Request::METHOD_PURGE,
+            Request::METHOD_CONNECT,
+            Request::METHOD_PATCH,
+            Request::METHOD_OPTIONS
         ];
-        $route = new Route($methods, "", "{$controllerClass}@{$controllerMethod}");
+        $route = new Route($methods, "", "$controllerClass@$controllerMethod");
         parent::__construct(new ParsedRoute($route), true);
 
-        $this->setDefaultValue("statusCode", Responses\ResponseHeaders::HTTP_NOT_FOUND);
+        $this->setDefaultValue("statusCode", ResponseHeaders::HTTP_NOT_FOUND);
     }
 }

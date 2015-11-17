@@ -33,7 +33,7 @@
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "jeremeamia/superclosure": "~2.1",
-    "monolog/monolog": "1.12.*@dev"
+    "psr/log": "~1.0"
   },
   "require-dev": {
     "phpredis": "2.2.7",

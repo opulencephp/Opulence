@@ -11,10 +11,10 @@
  */
 namespace Opulence\Framework\Testing\PhpUnit;
 
-use Monolog\Logger;
 use Opulence\Applications\Application;
 use Opulence\Ioc\IContainer;
 use PHPUnit_Framework_TestCase;
+use Psr\Log\LoggerInterface;
 
 abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
 {
@@ -34,7 +34,7 @@ abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
     /**
      * Gets the kernel logger
      *
-     * @return Logger The logger to use in the kernel
+     * @return LoggerInterface The logger to use in the kernel
      */
     abstract protected function getKernelLogger();
 

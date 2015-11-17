@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha15</h2>
+
+<h3>Logging</h3>
+* Changed dependency on `Monolog\Logger` to `Psr\Log\LoggerInterface`
+
 <h2>v1.0.0-alpha14</h2>
 
 <h3>Paths</h3>

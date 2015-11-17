@@ -15,5 +15,37 @@ use Exception;
  */
 class HttpException extends Exception
 {
-    // Don't do anything
+    /** @var int The HTTP status code */
+    private $statusCode = 200;
+    /** @var array The list of headers to include */
+    private $headers = [];
+
+    /**
+     * @inheritDoc
+     * @param int $statusCode The HTTP status code
+     * @param array $headers The HTTP headers
+     */
+    public function __construct($statusCode, $message = "", array $headers = [], $code = 0, Exception $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+
+        $this->statusCode = (int)$statusCode;
+        $this->headers = $headers;
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    /**
+     * @return int
+     */
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
 } 

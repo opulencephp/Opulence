@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Http;
 
-use Monolog\Logger;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
@@ -19,10 +18,10 @@ use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
-use Opulence\Tests\Applications\Mocks\MonologHandler;
 use Opulence\Tests\Http\Middleware\Mocks\HeaderSetter;
 use Opulence\Tests\Routing\Mocks\Controller;
 use Opulence\Tests\Routing\Mocks\ExceptionalRouter;
+use Psr\Log\LoggerInterface;
 
 /**
  * Tests the HTTP kernel
@@ -167,8 +166,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         }
 
         $router->any("/", Controller::class . "@noParameters");
-        $logger = new Logger("kernelTest");
-        $logger->pushHandler(new MonologHandler());
+        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        $logger = $this->getMock(LoggerInterface::class);
 
         return new Kernel($container, $router, $logger);
     }

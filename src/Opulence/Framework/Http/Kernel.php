@@ -9,13 +9,13 @@
 namespace Opulence\Framework\Http;
 
 use Exception;
-use Monolog\Logger;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\IContainer;
 use Opulence\Pipelines\Pipeline;
 use Opulence\Routing\Router;
+use Psr\Log\LoggerInterface;
 
 /**
  * Defines the HTTP kernel
@@ -26,7 +26,7 @@ class Kernel
     private $container = null;
     /** @var Router The router to use for requests */
     private $router = null;
-    /** @var Logger The logger to use */
+    /** @var LoggerInterface The logger to use */
     private $logger = null;
     /** @var array The list of global middleware */
     private $middleware = [];
@@ -40,9 +40,9 @@ class Kernel
     /**
      * @param IContainer $container The dependency injection container
      * @param Router $router The router to use
-     * @param Logger $logger The logger to use
+     * @param LoggerInterface $logger The logger to use
      */
-    public function __construct(IContainer $container, Router $router, Logger $logger)
+    public function __construct(IContainer $container, Router $router, LoggerInterface $logger)
     {
         $this->container = $container;
         $this->router = $router;
@@ -102,7 +102,7 @@ class Kernel
                 return $this->router->route($request);
             });
         } catch (Exception $ex) {
-            $this->logger->addError("Failed to handle request: $ex");
+            $this->logger->error("Failed to handle request: $ex");
 
             return new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         }

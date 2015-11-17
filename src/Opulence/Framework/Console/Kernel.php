@@ -10,7 +10,6 @@ namespace Opulence\Framework\Console;
 
 use Exception;
 use InvalidArgumentException;
-use Monolog\Logger;
 use Opulence\Console\Commands\AboutCommand;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler as ICommandCompiler;
@@ -26,6 +25,7 @@ use Opulence\Console\Responses\ConsoleResponse;
 use Opulence\Console\Responses\Formatters\CommandFormatter;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
+use Psr\Log\LoggerInterface;
 use RuntimeException;
 
 /**
@@ -39,7 +39,7 @@ class Kernel
     private $commandCompiler = null;
     /** @var CommandCollection The list of commands to choose from */
     private $commandCollection = null;
-    /** @var Logger The logger to use */
+    /** @var LoggerInterface The logger to use */
     private $logger = null;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";
@@ -48,14 +48,14 @@ class Kernel
      * @param IParser $requestParser The request parser to use
      * @param ICommandCompiler $commandCompiler The command compiler to use
      * @param CommandCollection $commandCollection The list of commands to choose from
-     * @param Logger $logger The logger to use
+     * @param LoggerInterface $logger The logger to use
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
-        Logger $logger,
+        LoggerInterface $logger,
         $applicationVersion = "Unknown"
     ) {
         $this->requestParser = $requestParser;
@@ -114,7 +114,7 @@ class Kernel
             return StatusCodes::FATAL;
         } catch (Exception $ex) {
             $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
-            $this->logger->addError($ex->getMessage());
+            $this->logger->error($ex->getMessage());
 
             return StatusCodes::FATAL;
         }
