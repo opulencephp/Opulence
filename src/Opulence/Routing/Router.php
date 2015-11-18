@@ -9,14 +9,13 @@
 namespace Opulence\Routing;
 
 use Closure;
-use InvalidArgumentException;
+use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Dispatchers\IDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
-use Opulence\Routing\Routes\MissingRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\RouteCollection;
@@ -40,31 +39,21 @@ class Router
     protected $matchedController = null;
     /** @var array The list of options in the current group stack */
     protected $groupOptionsStack = [];
-    /** @var string The name of the controller class that will handle missing routes */
-    protected $missedRouteControllerName = "";
-    /** @var string The name of the controller method that will handle missing routes */
-    protected $missedRouteControllerMethod = "";
 
     /**
      * @param IDispatcher $dispatcher The route dispatcher
      * @param ICompiler $compiler The route compiler
      * @param IParser $parser The route parser
-     * @param string $missedRouteControllerName The name of the controller class that will handle missing routes
-     * @param string $missedRouteControllerMethod The name of the controller method that will handle missing routes
-     * @throws InvalidArgumentException Thrown if the controller name does not exist
      */
     public function __construct(
         IDispatcher $dispatcher,
         ICompiler $compiler,
-        IParser $parser,
-        $missedRouteControllerName = Controller::class,
-        $missedRouteControllerMethod = "showHttpError"
+        IParser $parser
     ) {
         $this->dispatcher = $dispatcher;
         $this->compiler = $compiler;
         $this->parser = $parser;
         $this->routeCollection = new RouteCollection();
-        $this->setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod);
     }
 
     /**
@@ -272,6 +261,7 @@ class Router
      * @param Request $request The request to route
      * @return Response The response from the controller
      * @throws RouteException Thrown if the controller or method could not be called
+     * @throws HttpException Thrown if there was no matching route
      */
     public function route(Request $request)
     {
@@ -289,39 +279,7 @@ class Router
         }
 
         // If we've gotten here, we've got a missing route
-        return $this->getMissingRouteResponse($request);
-    }
-
-    /**
-     * Sets the missed route controller and method
-     *
-     * @param string $missedRouteControllerName The name of the class
-     * @param string $missedRouteControllerMethod The name of the method
-     * @throws InvalidArgumentException Thrown if the controller name or method does not exist
-     */
-    public function setMissedRouteController($missedRouteControllerName, $missedRouteControllerMethod = "showHttpError")
-    {
-        if (!class_exists($missedRouteControllerName)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "Missed route controller class \"%s\" does not exist",
-                    $missedRouteControllerName
-                )
-            );
-        }
-
-        if (!method_exists($missedRouteControllerName, $missedRouteControllerMethod)) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    "Missed route controller method %s::%s does not exist",
-                    $missedRouteControllerName,
-                    $missedRouteControllerMethod
-                )
-            );
-        }
-
-        $this->missedRouteControllerName = $missedRouteControllerName;
-        $this->missedRouteControllerMethod = $missedRouteControllerMethod;
+        throw new HttpException(404);
     }
 
     /**
@@ -448,21 +406,6 @@ class Router
         }
 
         return $path;
-    }
-
-    /**
-     * Gets the response for a missing route
-     *
-     * @param Request $request
-     * @return Response The response
-     */
-    private function getMissingRouteResponse(Request $request)
-    {
-        return $this->dispatcher->dispatch(
-            new MissingRoute($this->missedRouteControllerName, $this->missedRouteControllerMethod),
-            $request,
-            $this->matchedController
-        );
     }
 
     /**

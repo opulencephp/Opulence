@@ -9,13 +9,17 @@
 namespace Opulence\Framework\Http;
 
 use Exception;
+use Opulence\Applications\Environments\Environment;
+use Opulence\Exceptions\ExceptionHandler;
+use Opulence\Framework\Exceptions\Http\IHttpExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
-use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\IContainer;
 use Opulence\Pipelines\Pipeline;
 use Opulence\Routing\Router;
-use Psr\Log\LoggerInterface;
+use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Factories\IViewFactory;
+use Throwable;
 
 /**
  * Defines the HTTP kernel
@@ -26,8 +30,10 @@ class Kernel
     private $container = null;
     /** @var Router The router to use for requests */
     private $router = null;
-    /** @var LoggerInterface The logger to use */
-    private $logger = null;
+    /** @var ExceptionHandler The exception handler used by the kernel */
+    private $exceptionHandler = null;
+    /** @var IHttpExceptionRenderer The exception renderer used by the kernel */
+    private $exceptionRenderer = null;
     /** @var array The list of global middleware */
     private $middleware = [];
     /** @var bool Whether or not all middleware are disabled */
@@ -40,13 +46,19 @@ class Kernel
     /**
      * @param IContainer $container The dependency injection container
      * @param Router $router The router to use
-     * @param LoggerInterface $logger The logger to use
+     * @param ExceptionHandler $exceptionHandler The exception handler used by the kernel
+     * @param IHttpExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      */
-    public function __construct(IContainer $container, Router $router, LoggerInterface $logger)
-    {
+    public function __construct(
+        IContainer $container,
+        Router $router,
+        ExceptionHandler $exceptionHandler,
+        IHttpExceptionRenderer $exceptionRenderer
+    ) {
         $this->container = $container;
         $this->router = $router;
-        $this->logger = $logger;
+        $this->exceptionHandler = $exceptionHandler;
+        $this->exceptionRenderer = $exceptionRenderer;
     }
 
     /**
@@ -102,9 +114,15 @@ class Kernel
                 return $this->router->route($request);
             });
         } catch (Exception $ex) {
-            $this->logger->error("Failed to handle request: $ex");
+            $this->setExceptionRendererVars($request);
+            $this->exceptionHandler->handleException($ex);
 
-            return new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+            return $this->exceptionRenderer->getResponse();
+        } catch (Throwable $ex) {
+            $this->setExceptionRendererVars($request);
+            $this->exceptionHandler->handleException($ex);
+
+            return $this->exceptionRenderer->getResponse();
         }
     }
 
@@ -126,5 +144,27 @@ class Kernel
     public function onlyEnableMiddleware(array $middleware)
     {
         $this->enabledMiddleware = $middleware;
+    }
+
+    /**
+     * Sets the variables in the exception renderer
+     *
+     * @param Request $request The current HTTP request
+     */
+    private function setExceptionRendererVars(Request $request)
+    {
+        $this->exceptionRenderer->setRequest($request);
+
+        if ($this->container->isBound(Environment::class)) {
+            $this->exceptionRenderer->setEnvironment($this->container->makeShared(Environment::class));
+        }
+
+        if ($this->container->isBound(ICompiler::class)) {
+            $this->exceptionRenderer->setViewCompiler($this->container->makeShared(ICompiler::class));
+        }
+
+        if ($this->container->isBound(IViewFactory::class)) {
+            $this->exceptionRenderer->setViewFactory($this->container->makeShared(IViewFactory::class));
+        }
     }
 }

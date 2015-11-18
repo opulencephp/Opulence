@@ -25,6 +25,7 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Framework\Console\Kernel;
 use Opulence\Framework\Console\StatusCodes;
+use Opulence\Framework\Exceptions\Console\IConsoleExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -170,7 +171,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
             $this->requestParser,
             $this->commandCompiler,
             $this->commandCollection,
-            $this->getKernelLogger(),
+            $this->getExceptionHandler(),
+            $this->getExceptionRenderer(),
             $this->application->getVersion()
         );
 
@@ -178,6 +180,13 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
         $this->container->bind(Prompt::class, $this->prompt);
     }
+
+    /**
+     * Gets the exception renderer
+     *
+     * @return IConsoleExceptionRenderer The exception renderer
+     */
+    abstract protected function getExceptionRenderer();
 
     /**
      * Checks if the response was set

@@ -82,18 +82,6 @@ class Controller
     }
 
     /**
-     * Shows an HTTP error response
-     * To customize error messages, override this method
-     *
-     * @param int $statusCode The HTTP status code of the error
-     * @return Response The response
-     */
-    public function showHttpError($statusCode)
-    {
-        return new Response("", $statusCode);
-    }
-
-    /**
      * Sets up the view
      * Useful for setting up a view's components that are the same across controller methods
      */

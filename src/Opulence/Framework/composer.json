@@ -25,13 +25,13 @@
     "opulence/console": "1.0.*",
     "opulence/cryptography": "1.0.*",
     "opulence/events": "1.0.*",
+    "opulence/exceptions": "1.0.*",
     "opulence/files": "1.0.*",
     "opulence/http": "1.0.*",
     "opulence/ioc": "1.0.*",
     "opulence/routing": "1.0.*",
     "opulence/sessions": "1.0.*",
-    "opulence/views": "1.0.*",
-    "psr/log": "~1.0"
+    "opulence/views": "1.0.*"
   },
   "extra": {
     "branch-alias": {

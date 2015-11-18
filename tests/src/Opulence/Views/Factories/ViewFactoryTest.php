@@ -8,6 +8,7 @@
  */
 namespace Opulence\Views\Factories;
 
+use InvalidArgumentException;
 use Opulence\Tests\Views\Factories\Mocks\BarBuilder;
 use Opulence\Tests\Views\Factories\Mocks\FooBuilder;
 use Opulence\Views\IView;
@@ -40,6 +41,21 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
             ViewFactory::class, null,
             [$this->viewNameResolver, $this->viewReader]
         );
+    }
+
+    /**
+     * Tests checking if views exist
+     */
+    public function testCheckingIfViewExists()
+    {
+        $this->viewNameResolver->expects($this->at(0))
+            ->method("resolve")
+            ->willReturn("foo");
+        $this->viewNameResolver->expects($this->at(1))
+            ->method("resolve")
+            ->willThrowException(new InvalidArgumentException());
+        $this->assertTrue($this->viewFactory->has("foo"));
+        $this->assertFalse($this->viewFactory->has("bar"));
     }
 
     /**

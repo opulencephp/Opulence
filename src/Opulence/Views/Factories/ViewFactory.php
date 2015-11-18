@@ -8,6 +8,7 @@
  */
 namespace Opulence\Views\Factories;
 
+use InvalidArgumentException;
 use Opulence\Views\Factories\IO\IViewNameResolver;
 use Opulence\Views\Factories\IO\IViewReader;
 use Opulence\Views\IView;
@@ -45,6 +46,20 @@ class ViewFactory implements IViewFactory
         $view = new View($resolvedPath, $content);
 
         return $this->runBuilders($name, $resolvedPath, $view);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function has($name)
+    {
+        try {
+            $this->viewNameResolver->resolve($name);
+
+            return true;
+        } catch (InvalidArgumentException $ex) {
+            return false;
+        }
     }
 
     /**

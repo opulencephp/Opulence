@@ -8,6 +8,8 @@
  */
 namespace Opulence\Framework\Http;
 
+use Opulence\Exceptions\ExceptionHandler;
+use Opulence\Framework\Exceptions\Http\IHttpExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
@@ -107,7 +109,6 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $response->getStatusCode());
     }
 
     /**
@@ -168,7 +169,13 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $router->any("/", Controller::class . "@noParameters");
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->getMock(LoggerInterface::class);
+        /** @var IHttpExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
+        $exceptionRenderer = $this->getMock(IHttpExceptionRenderer::class);
+        $exceptionRenderer->expects($this->any())
+            ->method("getResponse")
+            ->willReturn($this->getMock(Response::class));
+        $exceptionHandler = new ExceptionHandler($logger, $exceptionRenderer);
 
-        return new Kernel($container, $router, $logger);
+        return new Kernel($container, $router, $exceptionHandler, $exceptionRenderer);
     }
 }

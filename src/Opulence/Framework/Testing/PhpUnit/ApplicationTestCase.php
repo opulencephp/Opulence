@@ -12,9 +12,9 @@
 namespace Opulence\Framework\Testing\PhpUnit;
 
 use Opulence\Applications\Application;
+use Opulence\Exceptions\ExceptionHandler;
 use Opulence\Ioc\IContainer;
 use PHPUnit_Framework_TestCase;
-use Psr\Log\LoggerInterface;
 
 abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
 {
@@ -32,11 +32,11 @@ abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
     }
 
     /**
-     * Gets the kernel logger
+     * Gets the kernel exception handler
      *
-     * @return LoggerInterface The logger to use in the kernel
+     * @return ExceptionHandler The exception handler used in the kernel
      */
-    abstract protected function getKernelLogger();
+    abstract protected function getExceptionHandler();
 
     /**
      * Sets the instance of the application and IoC container to use in tests

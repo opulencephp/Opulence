@@ -27,6 +27,14 @@ interface IViewFactory
     public function create($name);
 
     /**
+     * Checks whether or not a view exists
+     *
+     * @param string $name The name of the view to search for
+     * @return bool True if the view exists, otherwise false
+     */
+    public function has($name);
+
+    /**
      * Registers a builder for a particular view
      * Every time this view is created, the builders are run on it
      * Builders are run in the order they're registered

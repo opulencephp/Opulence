@@ -1,0 +1,32 @@
+{
+  "name": "opulence/exceptions",
+  "description": "The Opulence exception library",
+  "keywords": [
+    "PHP",
+    "exceptions",
+    "handlers"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Exceptions\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "psr/log": "~1.0"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}

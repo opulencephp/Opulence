@@ -8,10 +8,9 @@
  */
 namespace Opulence\Routing;
 
-use InvalidArgumentException;
+use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
-use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
@@ -222,71 +221,11 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests specifying an invalid route controller method in the constructor
-     */
-    public function testInvalidMissedRouteControllerMethodInConstructor()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $parser = new Parser();
-        $compiler = new Compiler([]);
-        new Router(new Dispatcher(new Container()), $compiler, $parser, NonOpulenceController::class, "doesNotExist");
-    }
-
-    /**
-     * Tests specifying an invalid route controller method in the setter
-     */
-    public function testInvalidMissedRouteControllerMethodInSetter()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $this->router->setMissedRouteController(NonOpulenceController::class, "doesNotExist");
-    }
-
-    /**
-     * Tests specifying an invalid route controller name in the constructor
-     */
-    public function testInvalidMissedRouteControllerNameInConstructor()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $parser = new Parser();
-        $compiler = new Compiler([]);
-        new Router(new Dispatcher(new Container()), $compiler, $parser, "Class\\That\\Does\\Not\\Exist");
-    }
-
-    /**
-     * Tests specifying an invalid route controller name in the setter
-     */
-    public function testInvalidMissedRouteControllerNameInSetter()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $this->router->setMissedRouteController("Class\\That\\Does\\Not\\Exist", "foo");
-    }
-
-    /**
      * Tests that the matched controller is null before routing
      */
     public function testMatchedControllerIsNullBeforeRouting()
     {
         $this->assertNull($this->router->getMatchedController());
-    }
-
-    /**
-     * Tests a missed route to a non-Opulence controller
-     */
-    public function testMissedRouteToNonOpulenceController()
-    {
-        $controller = NonOpulenceController::class . "@index";
-        $this->router->setMissedRouteController(NonOpulenceController::class, "customHttpError");
-        $this->router->get("/foo/:id", $controller);
-        $server = [
-            "REQUEST_METHOD" => Request::METHOD_GET,
-            "REQUEST_URI" => "/bar",
-            "HTTP_HOST" => ""
-        ];
-        $request = new Request([], [], [], $server, [], []);
-        $response = $this->router->route($request);
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertInstanceOf(NonOpulenceController::class, $this->router->getMatchedController());
-        $this->assertEquals("Error: 404", $response->getContent());
     }
 
     /**
@@ -411,32 +350,12 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMissingPath()
     {
+        $this->setExpectedException(HttpException::class);
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => Request::METHOD_GET,
             "REQUEST_URI" => "/foo/"
         ], [], []);
-        $response = $this->router->route($request);
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertInstanceOf("Opulence\\Routing\\Controller", $this->router->getMatchedController());
-        $this->assertNull($this->router->getMatchedRoute());
-        $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
-        $this->assertEmpty($response->getContent());
-    }
-
-    /**
-     * Tests routing a missing path with a custom controller
-     */
-    public function testRoutingMissingPathWithCustomController()
-    {
-        $request = new Request([], [], [], [
-            "REQUEST_METHOD" => Request::METHOD_GET,
-            "REQUEST_URI" => "/foo/"
-        ], [], []);
-        $this->router->setMissedRouteController(MockController::class);
-        $response = $this->router->route($request);
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
-        $this->assertEquals("foo", $response->getContent());
+        $this->router->route($request);
     }
 
     /**

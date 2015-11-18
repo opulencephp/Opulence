@@ -25,8 +25,9 @@ use Opulence\Console\Responses\ConsoleResponse;
 use Opulence\Console\Responses\Formatters\CommandFormatter;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
-use Psr\Log\LoggerInterface;
-use RuntimeException;
+use Opulence\Exceptions\ExceptionHandler;
+use Opulence\Framework\Exceptions\Console\IConsoleExceptionRenderer;
+use Throwable;
 
 /**
  * Defines the console kernel
@@ -39,8 +40,10 @@ class Kernel
     private $commandCompiler = null;
     /** @var CommandCollection The list of commands to choose from */
     private $commandCollection = null;
-    /** @var LoggerInterface The logger to use */
-    private $logger = null;
+    /** @var ExceptionHandler The exception handler used by the kernel */
+    private $exceptionHandler = null;
+    /** @var IConsoleExceptionRenderer The exception renderer used by the kernel */
+    private $exceptionRenderer = null;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";
 
@@ -48,20 +51,23 @@ class Kernel
      * @param IParser $requestParser The request parser to use
      * @param ICommandCompiler $commandCompiler The command compiler to use
      * @param CommandCollection $commandCollection The list of commands to choose from
-     * @param LoggerInterface $logger The logger to use
+     * @param ExceptionHandler $exceptionHandler The exception handler used by the kernel
+     * @param IConsoleExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
-        LoggerInterface $logger,
+        ExceptionHandler $exceptionHandler,
+        IConsoleExceptionRenderer $exceptionRenderer,
         $applicationVersion = "Unknown"
     ) {
         $this->requestParser = $requestParser;
         $this->commandCompiler = $commandCompiler;
         $this->commandCollection = $commandCollection;
-        $this->logger = $logger;
+        $this->exceptionHandler = $exceptionHandler;
+        $this->exceptionRenderer = $exceptionRenderer;
         $this->applicationVersion = $applicationVersion;
     }
 
@@ -104,17 +110,14 @@ class Kernel
             }
 
             return $statusCode;
-        } catch (InvalidArgumentException $ex) {
-            $response->writeln("<error>{$ex->getMessage()}</error>");
-
-            return StatusCodes::ERROR;
-        } catch (RuntimeException $ex) {
-            $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
+        } catch (Exception $ex) {
+            $this->exceptionRenderer->setResponse($response);
+            $this->exceptionHandler->handleException($ex);
 
             return StatusCodes::FATAL;
-        } catch (Exception $ex) {
-            $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
-            $this->logger->error($ex->getMessage());
+        } catch (Throwable $ex) {
+            $this->exceptionRenderer->setResponse($response);
+            $this->exceptionHandler->handleException($ex);
 
             return StatusCodes::FATAL;
         }

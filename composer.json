@@ -69,6 +69,7 @@
     "opulence/cryptography": "self.version",
     "opulence/databases": "self.version",
     "opulence/events": "self.version",
+    "opulence/exceptions": "self.version",
     "opulence/files": "self.version",
     "opulence/framework": "self.version",
     "opulence/http": "self.version",

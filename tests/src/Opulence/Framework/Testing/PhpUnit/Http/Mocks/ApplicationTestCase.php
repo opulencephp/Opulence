@@ -10,18 +10,20 @@ namespace Opulence\Tests\Framework\Testing\PhpUnit\Http\Mocks;
 
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Bootstrappers\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Dispatchers\Dispatcher;
+use Opulence\Bootstrappers\Paths;
+use Opulence\Exceptions\ExceptionHandler;
 use Opulence\Framework\Bootstrappers\Http\Requests\RequestBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Views\ViewFunctionsBootstrapper;
+use Opulence\Framework\Exceptions\Http\IHttpExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Http\Responses\Response;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
-use Psr\Log\LoggerInterface;
 
 /**
  * Mocks the HTTP application for use in testing
@@ -38,18 +40,37 @@ class ApplicationTestCase extends BaseApplicationTestCase
     /**
      * @inheritdoc
      */
-    protected function getGlobalMiddleware()
+    protected function getExceptionHandler()
     {
-        return [];
+        return $this->getMock(ExceptionHandler::class, [], [], "", false);
     }
 
     /**
      * @inheritdoc
      */
-    protected function getKernelLogger()
+    protected function getExceptionRenderer()
     {
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
-        return $this->getMock(LoggerInterface::class);
+        /** @var IHttpExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
+        $renderer = $this->getMock(IHttpExceptionRenderer::class);
+        /** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+        $response = $this->getMock(Response::class);
+        // Mock a 404 status code because this will primarily be used for missing routes in our tests
+        $response->expects($this->any())
+            ->method("getStatusCode")
+            ->willReturn(404);
+        $renderer->expects($this->any())
+            ->method("getResponse")
+            ->willReturn($response);
+
+        return $renderer;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getGlobalMiddleware()
+    {
+        return [];
     }
 
     /**
@@ -75,9 +96,11 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $bootstrapperRegistry = new BootstrapperRegistry($paths, $environment);
         $bootstrapperDispatcher = new Dispatcher($taskDispatcher, $this->container);
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
-        $taskDispatcher->registerTask(TaskTypes::PRE_START,
+        $taskDispatcher->registerTask(
+            TaskTypes::PRE_START,
             function () use ($bootstrapperDispatcher, $bootstrapperRegistry) {
                 $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
-            });
+            }
+        );
     }
 }

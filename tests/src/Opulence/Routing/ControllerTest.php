@@ -9,8 +9,6 @@
 namespace Opulence\Routing;
 
 use Opulence\Http\Requests\Request;
-use Opulence\Http\Responses\Response;
-use Opulence\Http\Responses\ResponseHeaders;
 
 /**
  * Tests the controller
@@ -35,16 +33,5 @@ class ControllerTest extends \PHPUnit_Framework_TestCase
     public function testGettingView()
     {
         $this->assertNull($this->controller->getView());
-    }
-
-    /**
-     * Tests showing an HTTP error
-     */
-    public function testShowingHttpError()
-    {
-        $response = $this->controller->showHttpError(ResponseHeaders::HTTP_NOT_FOUND);
-        $this->assertInstanceOf(Response::class, $response);
-        $this->assertEmpty($response->getContent());
-        $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $response->getStatusCode());
     }
 }

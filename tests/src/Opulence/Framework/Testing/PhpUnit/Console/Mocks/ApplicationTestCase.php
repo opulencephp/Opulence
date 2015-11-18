@@ -10,17 +10,18 @@ namespace Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks;
 
 use Opulence\Applications\Application;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Bootstrappers\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Dispatchers\Dispatcher;
+use Opulence\Bootstrappers\Paths;
+use Opulence\Exceptions\ExceptionHandler;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
+use Opulence\Framework\Exceptions\Console\IConsoleExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
-use Psr\Log\LoggerInterface;
 
 /**
  * Mocks the console application for use in testing
@@ -36,10 +37,17 @@ class ApplicationTestCase extends BaseApplicationTestCase
     /**
      * @inheritdoc
      */
-    protected function getKernelLogger()
+    protected function getExceptionHandler()
     {
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
-        return $this->getMock(LoggerInterface::class);
+        return $this->getMock(ExceptionHandler::class, [], [], "", false);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getExceptionRenderer()
+    {
+        return $this->getMock(IConsoleExceptionRenderer::class);
     }
 
     /**
@@ -65,9 +73,11 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $bootstrapperRegistry = new BootstrapperRegistry($paths, $environment);
         $bootstrapperDispatcher = new Dispatcher($taskDispatcher, $this->container);
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
-        $taskDispatcher->registerTask(TaskTypes::PRE_START,
+        $taskDispatcher->registerTask(
+            TaskTypes::PRE_START,
             function () use ($bootstrapperDispatcher, $bootstrapperRegistry) {
                 $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
-            });
+            }
+        );
     }
 }
