@@ -94,12 +94,26 @@ class ExceptionRenderer implements IHttpExceptionRenderer
     protected function getDefaultExceptionResponse(Exception $ex, $statusCode = 500)
     {
         if ($this->environment->getName() === Environment::DEVELOPMENT) {
-            $content = $ex->getMessage();
+            $content = $this->getDevelopmentExceptionPage($ex);
         } else {
-            $content = "Something went wrong";
+            $content = $this->getProductionExceptionPage($ex);
         }
 
         return new Response($content, $statusCode);
+    }
+
+    /**
+     * Gets the page contents for the default production exception page
+     *
+     * @param Exception $ex The exception
+     * @return string The contents of the page
+     */
+    protected function getDevelopmentExceptionPage(Exception $ex)
+    {
+        ob_start();
+        require __DIR__ . "/templates/DevelopmentExceptionPage.php";
+
+        return ob_get_clean();
     }
 
     /**
@@ -120,5 +134,19 @@ class ExceptionRenderer implements IHttpExceptionRenderer
         } else {
             return $this->getDefaultExceptionResponse($ex, $statusCode);
         }
+    }
+
+    /**
+     * Gets the page contents for the default production exception page
+     *
+     * @param Exception $ex The exception
+     * @return string The contents of the page
+     */
+    protected function getProductionExceptionPage(Exception $ex)
+    {
+        ob_start();
+        require __DIR__ . "/templates/ProductionExceptionPage.php";
+
+        return ob_get_clean();
     }
 }

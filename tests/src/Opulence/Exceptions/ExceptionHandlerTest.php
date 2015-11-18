@@ -11,6 +11,7 @@ namespace Opulence\Exceptions;
 use ErrorException;
 use Exception;
 use Psr\Log\LoggerInterface;
+use RuntimeException;
 use Throwable;
 
 /**
@@ -71,6 +72,21 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->logger->expects($this->once())
             ->method("error")
             ->with($exception);
+        $this->renderer->expects($this->once())
+            ->method("render")
+            ->with($exception);
+        $this->handler->handleException($exception);
+    }
+
+    /**
+     * Tests that exceptions are not logged when told not to
+     */
+    public function testExceptionsNotLoggedWhenToldNotTo()
+    {
+        $exception = new RuntimeException();
+        $this->handler->doNotLog(RuntimeException::class);
+        $this->logger->expects($this->never())
+            ->method("error");
         $this->renderer->expects($this->once())
             ->method("render")
             ->with($exception);

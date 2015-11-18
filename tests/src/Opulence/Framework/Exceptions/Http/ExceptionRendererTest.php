@@ -11,6 +11,7 @@ namespace Opulence\Framework\Exceptions\Http;
 use Exception;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Http\HttpException;
+use Opulence\Tests\Framework\Exceptions\Http\Mocks\ExceptionRenderer as MockRenderer;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
@@ -20,7 +21,7 @@ use Opulence\Views\IView;
  */
 class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ExceptionRenderer The renderer to use in tests */
+    /** @var MockRenderer The renderer to use in tests */
     private $renderer = null;
     /** @var Environment The environment to use in tests */
     private $environment = null;
@@ -37,7 +38,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $this->environment = new Environment(Environment::DEVELOPMENT);
         $this->viewFactory = $this->getMock(IViewFactory::class);
         $this->viewCompiler = $this->getMock(ICompiler::class);
-        $this->renderer = new ExceptionRenderer();
+        $this->renderer = new MockRenderer();
         $this->renderer->setEnvironment($this->environment);
     }
 

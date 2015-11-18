@@ -22,6 +22,8 @@ class ExceptionHandler
     protected $logger = null;
     /** @var IExceptionRenderer The exception renderer */
     protected $exceptionRenderer = null;
+    /** @var array The list of exception classes to not log */
+    protected $exceptionsNotLogged = [];
 
     /**
      * @param LoggerInterface $logger The logger
@@ -32,6 +34,16 @@ class ExceptionHandler
         $this->logger = $logger;
         $this->exceptionRenderer = $exceptionRenderer;
         $this->configurePhp();
+    }
+
+    /**
+     * Adds exception classes to not log
+     *
+     * @param string|array $exceptionClasses The class or classes of exceptions to not log
+     */
+    public function doNotLog($exceptionClasses)
+    {
+        $this->exceptionsNotLogged = array_merge($this->exceptionsNotLogged, (array)$exceptionClasses);
     }
 
     /**
@@ -63,7 +75,10 @@ class ExceptionHandler
             $ex = new FatalThrowableError($ex);
         }
 
-        $this->logger->error($ex);
+        if (!in_array(get_class($ex), $this->exceptionsNotLogged)) {
+            $this->logger->error($ex);
+        }
+
         $this->exceptionRenderer->render($ex);
     }
 
