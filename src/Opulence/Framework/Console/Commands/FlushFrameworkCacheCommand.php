@@ -55,7 +55,7 @@ class FlushFrameworkCacheCommand extends Command
     protected function define()
     {
         $this->setName("framework:flushcache")
-            ->setDescription("Flushes all of the framework's cache files");
+            ->setDescription("Flushes all of the framework's cached files");
     }
 
     /**

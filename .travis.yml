@@ -17,5 +17,7 @@ notifications:
   email:
     - dave@opulencephp.com
 
+sudo: false
+
 matrix:
   fast_finish: true
