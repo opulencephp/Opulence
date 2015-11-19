@@ -18,6 +18,4 @@ notifications:
     - dave@opulencephp.com
 
 matrix:
-  allow_failures:
-    - php: hhvm
   fast_finish: true

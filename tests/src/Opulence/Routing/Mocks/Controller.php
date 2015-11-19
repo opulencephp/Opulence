@@ -8,6 +8,7 @@
  */
 namespace Opulence\Tests\Routing\Mocks;
 
+use Opulence\Http\HttpException;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller as BaseController;
 use Opulence\Tests\Mocks;
@@ -87,6 +88,14 @@ class Controller extends BaseController
     public function showHttpError($statusCode)
     {
         return new Response("foo", $statusCode);
+    }
+
+    /**
+     * Mocks a method that throws an HTTP exception
+     */
+    public function throwsHttpException()
+    {
+        throw new HttpException(400);
     }
 
     /**

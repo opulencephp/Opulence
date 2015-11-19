@@ -6,10 +6,10 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Framework\Exceptions\Http\Mocks;
+namespace Opulence\Tests\Framework\Debug\Exceptions\Hadnlers\Http\Mocks;
 
 use Exception;
-use Opulence\Framework\Exceptions\Http\ExceptionRenderer as BaseRenderer;
+use Opulence\Framework\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 
 /**
  * Mocks the HTTP exception renderer for use in testing

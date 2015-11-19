@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Exceptions\Http;
+namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
 use Opulence\Applications\Environments\Environment;
@@ -45,10 +45,17 @@ class ExceptionRenderer implements IHttpExceptionRenderer
      */
     public function render($ex)
     {
-        if ($ex instanceof HttpException) {
-            $this->response = $this->getHttpExceptionResponse($ex);
+        $statusCode = $ex instanceof HttpException ? $ex->getStatusCode() : 500;
+        $viewName = "errors/$statusCode";
+
+        if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->has($viewName)) {
+            $view = $this->viewFactory->create($viewName);
+            $view->setVar("__exception", $ex);
+            $view->setVar("__environment", $this->environment);
+            $content = $this->viewCompiler->compile($view);
+            $this->response = new Response($content, $statusCode);
         } else {
-            $this->response = $this->getDefaultExceptionResponse($ex);
+            $this->response = $this->getDefaultExceptionResponse($ex, $statusCode);
         }
     }
 
@@ -114,26 +121,6 @@ class ExceptionRenderer implements IHttpExceptionRenderer
         require __DIR__ . "/templates/DevelopmentExceptionPage.php";
 
         return ob_get_clean();
-    }
-
-    /**
-     * Gets the response for an HTTP exception
-     *
-     * @param HttpException $ex The HTTP exception
-     * @return Response The HTTP response
-     */
-    protected function getHttpExceptionResponse(HttpException $ex)
-    {
-        $statusCode = $ex->getStatusCode();
-        $viewName = "errors/$statusCode";
-
-        if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->has($viewName)) {
-            $content = $this->viewCompiler->compile($this->viewFactory->create($viewName));
-
-            return new Response($content, $statusCode);
-        } else {
-            return $this->getDefaultExceptionResponse($ex, $statusCode);
-        }
     }
 
     /**

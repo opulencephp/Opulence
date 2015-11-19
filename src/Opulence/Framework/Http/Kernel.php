@@ -10,8 +10,8 @@ namespace Opulence\Framework\Http;
 
 use Exception;
 use Opulence\Applications\Environments\Environment;
-use Opulence\Exceptions\ExceptionHandler;
-use Opulence\Framework\Exceptions\Http\IHttpExceptionRenderer;
+use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
+use Opulence\Framework\Debug\Exceptions\Handlers\Http\IHttpExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\IContainer;
@@ -30,7 +30,7 @@ class Kernel
     private $container = null;
     /** @var Router The router to use for requests */
     private $router = null;
-    /** @var ExceptionHandler The exception handler used by the kernel */
+    /** @var IExceptionHandler The exception handler used by the kernel */
     private $exceptionHandler = null;
     /** @var IHttpExceptionRenderer The exception renderer used by the kernel */
     private $exceptionRenderer = null;
@@ -46,13 +46,13 @@ class Kernel
     /**
      * @param IContainer $container The dependency injection container
      * @param Router $router The router to use
-     * @param ExceptionHandler $exceptionHandler The exception handler used by the kernel
+     * @param IExceptionHandler $exceptionHandler The exception handler used by the kernel
      * @param IHttpExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      */
     public function __construct(
         IContainer $container,
         Router $router,
-        ExceptionHandler $exceptionHandler,
+        IExceptionHandler $exceptionHandler,
         IHttpExceptionRenderer $exceptionRenderer
     ) {
         $this->container = $container;
@@ -115,12 +115,12 @@ class Kernel
             });
         } catch (Exception $ex) {
             $this->setExceptionRendererVars($request);
-            $this->exceptionHandler->handleException($ex);
+            $this->exceptionHandler->handle($ex);
 
             return $this->exceptionRenderer->getResponse();
         } catch (Throwable $ex) {
             $this->setExceptionRendererVars($request);
-            $this->exceptionHandler->handleException($ex);
+            $this->exceptionHandler->handle($ex);
 
             return $this->exceptionRenderer->getResponse();
         }

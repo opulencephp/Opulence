@@ -1,10 +1,11 @@
 {
-  "name": "opulence/exceptions",
-  "description": "The Opulence exception library",
+  "name": "opulence/debug",
+  "description": "The Opulence debug library",
   "keywords": [
     "PHP",
     "exceptions",
-    "handlers"
+    "handlers",
+    "debug"
   ],
   "authors": [
     {
@@ -16,7 +17,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\Exceptions\\": ""
+      "Opulence\\Debug\\": ""
     }
   },
   "require": {

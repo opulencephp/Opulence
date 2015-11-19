@@ -6,13 +6,11 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Exceptions;
+namespace Opulence\Debug\Exceptions\Handlers;
 
-use ErrorException;
 use Exception;
 use Psr\Log\LoggerInterface;
 use RuntimeException;
-use Throwable;
 
 /**
  * Tests the exception handler
@@ -34,6 +32,7 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->logger = $this->getMock(LoggerInterface::class);
         $this->renderer = $this->getMock(IExceptionRenderer::class);
         $this->handler = new ExceptionHandler($this->logger, $this->renderer);
+        $this->handler->register();
     }
 
     /**
@@ -41,26 +40,7 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function tearDown()
     {
-        restore_error_handler();
         restore_exception_handler();
-    }
-
-    /**
-     * Tests that the error handler is set
-     */
-    public function testErrorHandlerIsSet()
-    {
-        $this->setExpectedException(ErrorException::class);
-        trigger_error("foo", 1);
-    }
-
-    /**
-     * Tests that an error is converted to an exception
-     */
-    public function testErrorIsConvertedToException()
-    {
-        $this->setExpectedException(ErrorException::class);
-        $this->handler->handleError(1, "foo", "bar", 2, ["baz"]);
     }
 
     /**
@@ -75,35 +55,28 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->renderer->expects($this->once())
             ->method("render")
             ->with($exception);
-        $this->handler->handleException($exception);
+        $this->handler->handle($exception);
     }
 
     /**
      * Tests that exceptions are not logged when told not to
      */
-    public function testExceptionsNotLoggedWhenToldNotTo()
+    public function testExceptionNotLoggedWhenToldNotTo()
     {
+        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
+        $logger = $this->getMock(LoggerInterface::class);
+        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
+        $renderer = $this->getMock(IExceptionRenderer::class);
+        $handler = new ExceptionHandler($logger, $renderer, RuntimeException::class);
         $exception = new RuntimeException();
-        $this->handler->doNotLog(RuntimeException::class);
-        $this->logger->expects($this->never())
+        $logger->expects($this->never())
             ->method("error");
-        $this->renderer->expects($this->once())
+        $renderer->expects($this->exactly(2))
             ->method("render")
             ->with($exception);
-        $this->handler->handleException($exception);
-    }
-
-    /**
-     * Tests handling a throwable exception
-     */
-    public function testHandlingThrowableException()
-    {
-        /** @var Throwable|\PHPUnit_Framework_MockObject_MockObject $throwable */
-        $throwable = $this->getMock(Throwable::class, ["getCode", "getFile", "getLine", "getMessage"]);
-        $this->logger->expects($this->once())
-            ->method("error");
-        $this->renderer->expects($this->once())
-            ->method("render");
-        $this->handler->handleException($throwable);
+        $handler->handle($exception);
+        // Try an array
+        $handler = new ExceptionHandler($logger, $renderer, [RuntimeException::class]);
+        $handler->handle($exception);
     }
 }

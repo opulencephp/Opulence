@@ -8,6 +8,7 @@
  */
 namespace Opulence\Routing\Dispatchers;
 
+use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\Response;
@@ -78,6 +79,18 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf("Closure", $controller);
         $this->assertInstanceOf(Response::class, $response);
         $this->assertEquals(Request::class . ":123", $response->getContent());
+    }
+
+    /**
+     * Tests calling a method that throws an HTTP exception
+     */
+    public function testCallingMethodThatThrowsHttpException()
+    {
+        $this->setExpectedException(HttpException::class);
+        $route = $this->getCompiledRoute(
+            new Route(["GET"], "/foo", MockController::class . "@throwsHttpException")
+        );
+        $this->dispatcher->dispatch($route, $this->request);
     }
 
     /**

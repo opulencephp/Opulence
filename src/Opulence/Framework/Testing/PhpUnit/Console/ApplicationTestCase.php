@@ -25,7 +25,7 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Framework\Console\Kernel;
 use Opulence\Framework\Console\StatusCodes;
-use Opulence\Framework\Exceptions\Console\IConsoleExceptionRenderer;
+use Opulence\Framework\Debug\Exceptions\Handlers\Console\IConsoleExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 

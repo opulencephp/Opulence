@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Exceptions\Console;
+namespace Opulence\Framework\Debug\Exceptions\Handlers\Console;
 
 use InvalidArgumentException;
 use Opulence\Console\Responses\IResponse;

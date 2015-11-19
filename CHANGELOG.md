@@ -1,7 +1,8 @@
 <h2>v1.0.0-alpha15</h2>
 
-<h3>Exceptions</h3>
-* Added `Opulence\Exceptions` library
+<h3>Debug</h3>
+* Added `Opulence\Debug` library
+* Added exception handlers and renderers to kernels
 
 <h2>v1.0.0-alpha14</h2>
 

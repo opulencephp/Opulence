@@ -25,8 +25,8 @@ use Opulence\Console\Responses\ConsoleResponse;
 use Opulence\Console\Responses\Formatters\CommandFormatter;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Exceptions\ExceptionHandler;
-use Opulence\Framework\Exceptions\Console\IConsoleExceptionRenderer;
+use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
+use Opulence\Framework\Debug\Exceptions\Handlers\Console\IConsoleExceptionRenderer;
 use Throwable;
 
 /**
@@ -40,7 +40,7 @@ class Kernel
     private $commandCompiler = null;
     /** @var CommandCollection The list of commands to choose from */
     private $commandCollection = null;
-    /** @var ExceptionHandler The exception handler used by the kernel */
+    /** @var IExceptionHandler The exception handler used by the kernel */
     private $exceptionHandler = null;
     /** @var IConsoleExceptionRenderer The exception renderer used by the kernel */
     private $exceptionRenderer = null;
@@ -51,7 +51,7 @@ class Kernel
      * @param IParser $requestParser The request parser to use
      * @param ICommandCompiler $commandCompiler The command compiler to use
      * @param CommandCollection $commandCollection The list of commands to choose from
-     * @param ExceptionHandler $exceptionHandler The exception handler used by the kernel
+     * @param IExceptionHandler $exceptionHandler The exception handler used by the kernel
      * @param IConsoleExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      * @param string $applicationVersion The version number of the application
      */
@@ -59,7 +59,7 @@ class Kernel
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
-        ExceptionHandler $exceptionHandler,
+        IExceptionHandler $exceptionHandler,
         IConsoleExceptionRenderer $exceptionRenderer,
         $applicationVersion = "Unknown"
     ) {
@@ -112,12 +112,12 @@ class Kernel
             return $statusCode;
         } catch (Exception $ex) {
             $this->exceptionRenderer->setResponse($response);
-            $this->exceptionHandler->handleException($ex);
+            $this->exceptionHandler->handle($ex);
 
             return StatusCodes::FATAL;
         } catch (Throwable $ex) {
             $this->exceptionRenderer->setResponse($response);
-            $this->exceptionHandler->handleException($ex);
+            $this->exceptionHandler->handle($ex);
 
             return StatusCodes::FATAL;
         }

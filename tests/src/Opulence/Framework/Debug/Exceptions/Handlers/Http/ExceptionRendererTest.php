@@ -6,12 +6,12 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Exceptions\Http;
+namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Http\HttpException;
-use Opulence\Tests\Framework\Exceptions\Http\Mocks\ExceptionRenderer as MockRenderer;
+use Opulence\Tests\Framework\Debug\Exceptions\Hadnlers\Http\Mocks\ExceptionRenderer as MockRenderer;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
@@ -114,16 +114,60 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests rendering a non-HTTP exception
+     * Tests rendering a non-HTTP exception with a view
      */
-    public function testRenderingNonHttpException()
+    public function testRenderingNonHttpExceptionWithView()
     {
         $this->setViewComponents();
         $ex = new Exception("foo");
-        $this->viewFactory->expects($this->never())
-            ->method("has");
+        $view = $this->getMock(IView::class);
+        $this->viewFactory->expects($this->once())
+            ->method("has")
+            ->with("errors/500")
+            ->willReturn(true);
+        $this->viewFactory->expects($this->once())
+            ->method("create")
+            ->with("errors/500")
+            ->willReturn($view);
+        $this->viewCompiler->expects($this->once())
+            ->method("compile")
+            ->with($view)
+            ->willReturn("bar");
         $this->renderer->render($ex);
-        $this->assertEquals("foo", $this->renderer->getResponse()->getContent());
+        $this->assertEquals("bar", $this->renderer->getResponse()->getContent());
+        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Tests rendering a non-HTTP exception without a view in the development environment
+     */
+    public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment()
+    {
+        $this->setViewComponents();
+        $ex = new Exception("foo");
+        $this->viewFactory->expects($this->once())
+            ->method("has")
+            ->with("errors/500")
+            ->willReturn(false);
+        $this->renderer->render($ex);
+        $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
+        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Tests rendering a non-HTTP exception without a view in the production environment
+     */
+    public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment()
+    {
+        $this->setViewComponents();
+        $this->environment->setName(Environment::PRODUCTION);
+        $ex = new Exception("foo");
+        $this->viewFactory->expects($this->once())
+            ->method("has")
+            ->with("errors/500")
+            ->willReturn(false);
+        $this->renderer->render($ex);
+        $this->assertEquals("Something went wrong", $this->renderer->getResponse()->getContent());
         $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
     }
 

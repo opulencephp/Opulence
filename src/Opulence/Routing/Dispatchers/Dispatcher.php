@@ -10,6 +10,7 @@ namespace Opulence\Routing\Dispatchers;
 
 use Closure;
 use Exception;
+use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\IContainer;
@@ -118,6 +119,9 @@ class Dispatcher implements IDispatcher
             }
 
             return $response;
+        } catch (HttpException $ex) {
+            // We don't want to catch these exceptions, but we want to catch all others
+            throw $ex;
         } catch (Exception $ex) {
             throw new RouteException(
                 sprintf(

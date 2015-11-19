@@ -6,10 +6,10 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Exceptions\Http;
+namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Opulence\Applications\Environments\Environment;
-use Opulence\Exceptions\IExceptionRenderer;
+use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;

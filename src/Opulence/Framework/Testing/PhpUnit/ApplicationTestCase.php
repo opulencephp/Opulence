@@ -12,7 +12,7 @@
 namespace Opulence\Framework\Testing\PhpUnit;
 
 use Opulence\Applications\Application;
-use Opulence\Exceptions\ExceptionHandler;
+use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Ioc\IContainer;
 use PHPUnit_Framework_TestCase;
 
@@ -34,7 +34,7 @@ abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
     /**
      * Gets the kernel exception handler
      *
-     * @return ExceptionHandler The exception handler used in the kernel
+     * @return IExceptionHandler The exception handler used in the kernel
      */
     abstract protected function getExceptionHandler();
 

@@ -8,8 +8,8 @@
  */
 namespace Opulence\Framework\Http;
 
-use Opulence\Exceptions\ExceptionHandler;
-use Opulence\Framework\Exceptions\Http\IHttpExceptionRenderer;
+use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
+use Opulence\Framework\Debug\Exceptions\Handlers\Http\IHttpExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
