@@ -4,6 +4,17 @@
 * Added `Opulence\Debug` library
 * Added exception handlers and renderers to kernels
 
+<h3>Framework</h3>
+* Added `Opulence\Framework\Debug` classes
+* Moved `Opulence\Framework\Console\Kernel` and `StatusCodes` to `Opulence\Console` namespace
+* Removed `Opulence\Framework\Testing\PhpUnit\ApplicationTestCase::setApplicationAndIocContainer()`
+
+<h3>Memcached</h3>
+* Fixed bug that did not set timezone of `DateTime` objects created from Memcached timestamps
+
+<h3>Redis</h3>
+* Fixed bug that did not set timezone of `DateTime` objects created from Redis timestamps
+
 <h2>v1.0.0-alpha14</h2>
 
 <h3>Paths</h3>

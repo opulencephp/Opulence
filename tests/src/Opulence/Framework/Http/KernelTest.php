@@ -9,7 +9,7 @@
 namespace Opulence\Framework\Http;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
-use Opulence\Framework\Debug\Exceptions\Handlers\Http\IHttpExceptionRenderer;
+use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
@@ -169,8 +169,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $router->any("/", Controller::class . "@noParameters");
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->getMock(LoggerInterface::class);
-        /** @var IHttpExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
-        $exceptionRenderer = $this->getMock(IHttpExceptionRenderer::class);
+        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
+        $exceptionRenderer = $this->getMock(IExceptionRenderer::class);
         $exceptionRenderer->expects($this->any())
             ->method("getResponse")
             ->willReturn($this->getMock(Response::class));

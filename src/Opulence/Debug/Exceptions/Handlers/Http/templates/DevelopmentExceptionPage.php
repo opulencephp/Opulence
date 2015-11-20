@@ -18,6 +18,6 @@
     </head>
     <body>
         <h2>Something went wrong</h2>
-        <?php echo htmlentities($ex->getMessage()); ?>
+        <?php echo htmlentities($ex->getMessage(), ENT_QUOTES, "UTF-8"); ?>
     </body>
 </html>

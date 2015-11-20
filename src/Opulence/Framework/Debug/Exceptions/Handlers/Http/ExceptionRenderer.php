@@ -8,9 +8,7 @@
  */
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
-use Exception;
-use Opulence\Applications\Environments\Environment;
-use Opulence\Http\HttpException;
+use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
@@ -19,10 +17,8 @@ use Opulence\Views\Factories\IViewFactory;
 /**
  * Defines the HTTP exception handler
  */
-class ExceptionRenderer implements IHttpExceptionRenderer
+class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
 {
-    /** @var Environment The current environment */
-    protected $environment = null;
     /** @var Request The current HTTP request */
     protected $request = null;
     /** @var Response The last HTTP response */
@@ -38,33 +34,6 @@ class ExceptionRenderer implements IHttpExceptionRenderer
     public function getResponse()
     {
         return $this->response;
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function render($ex)
-    {
-        $statusCode = $ex instanceof HttpException ? $ex->getStatusCode() : 500;
-        $viewName = "errors/$statusCode";
-
-        if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->has($viewName)) {
-            $view = $this->viewFactory->create($viewName);
-            $view->setVar("__exception", $ex);
-            $view->setVar("__environment", $this->environment);
-            $content = $this->viewCompiler->compile($view);
-            $this->response = new Response($content, $statusCode);
-        } else {
-            $this->response = $this->getDefaultExceptionResponse($ex, $statusCode);
-        }
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function setEnvironment(Environment $environment)
-    {
-        $this->environment = $environment;
     }
 
     /**
@@ -92,48 +61,27 @@ class ExceptionRenderer implements IHttpExceptionRenderer
     }
 
     /**
-     * Gets the default response, which is useful when no custom views have been defined for the exception
-     *
-     * @param Exception $ex The exception
-     * @param int $statusCode The status code
-     * @return Response The response
+     * @inheritDoc
      */
-    protected function getDefaultExceptionResponse(Exception $ex, $statusCode = 500)
+    protected function getResponseContent($ex, $statusCode, array $headers)
     {
-        if ($this->environment->getName() === Environment::DEVELOPMENT) {
-            $content = $this->getDevelopmentExceptionPage($ex);
+        $viewName = "errors/$statusCode";
+
+        if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->has($viewName)) {
+            $view = $this->viewFactory->create($viewName);
+            $view->setVar("__exception", $ex);
+            $view->setVar("__inDevelopmentEnvironment", $this->inDevelopmentEnvironment);
+            $content = $this->viewCompiler->compile($view);
         } else {
-            $content = $this->getProductionExceptionPage($ex);
+            $content = $this->getDefaultResponseContent($ex);
         }
 
-        return new Response($content, $statusCode);
-    }
+        $this->response = new Response($content, $statusCode);
 
-    /**
-     * Gets the page contents for the default production exception page
-     *
-     * @param Exception $ex The exception
-     * @return string The contents of the page
-     */
-    protected function getDevelopmentExceptionPage(Exception $ex)
-    {
-        ob_start();
-        require __DIR__ . "/templates/DevelopmentExceptionPage.php";
+        foreach ($headers as $name => $values) {
+            $this->response->getHeaders()->add($name, $values);
+        }
 
-        return ob_get_clean();
-    }
-
-    /**
-     * Gets the page contents for the default production exception page
-     *
-     * @param Exception $ex The exception
-     * @return string The contents of the page
-     */
-    protected function getProductionExceptionPage(Exception $ex)
-    {
-        ob_start();
-        require __DIR__ . "/templates/ProductionExceptionPage.php";
-
-        return ob_get_clean();
+        return $content;
     }
 }

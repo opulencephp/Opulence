@@ -11,7 +11,7 @@ namespace Opulence\Framework\Testing\PhpUnit\Console;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
-use Opulence\Framework\Console\StatusCodes;
+use Opulence\Console\StatusCodes;
 use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\MultiplePromptsCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;

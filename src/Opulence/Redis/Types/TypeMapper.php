@@ -9,6 +9,7 @@
 namespace Opulence\Redis\Types;
 
 use DateTime;
+use DateTimeZone;
 
 /**
  * Defines a type mapper that can go back and forth between Redis types and PHP types
@@ -34,7 +35,10 @@ class TypeMapper
      */
     public function fromRedisTimestamp($timestamp)
     {
-        return DateTime::createFromFormat("U", $timestamp);
+        $date = DateTime::createFromFormat("U", $timestamp);
+        $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
+
+        return $date;
     }
 
     /**

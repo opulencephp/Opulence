@@ -109,11 +109,11 @@ class RenameAppCommand extends Command
     }
 
     /**
-     * Updates any class names that appear configs
+     * Updates any class names that appear in configs
      */
     protected function updateConfigs()
     {
-        $configFiles = $this->fileSystem->getFiles($this->paths["configs"], true);
+        $configFiles = $this->fileSystem->getFiles($this->paths["config"], true);
 
         foreach ($configFiles as $file) {
             $currentContents = $this->fileSystem->read($file);

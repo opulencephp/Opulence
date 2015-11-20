@@ -14,6 +14,8 @@ namespace Opulence\Framework\Testing\PhpUnit\Console;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler;
+use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
+use Opulence\Console\Kernel;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Requests\Parsers\ArrayListParser;
 use Opulence\Console\Requests\Parsers\IParser as IRequestParser;
@@ -23,9 +25,7 @@ use Opulence\Console\Responses\Compilers\Lexers\Lexer as ResponseLexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\StreamResponse;
-use Opulence\Framework\Console\Kernel;
-use Opulence\Framework\Console\StatusCodes;
-use Opulence\Framework\Debug\Exceptions\Handlers\Console\IConsoleExceptionRenderer;
+use Opulence\Console\StatusCodes;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -160,7 +160,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function setUp()
     {
-        $this->setApplicationAndIocContainer();
         $this->application->getEnvironment()->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
@@ -184,7 +183,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     /**
      * Gets the exception renderer
      *
-     * @return IConsoleExceptionRenderer The exception renderer
+     * @return IExceptionRenderer The exception renderer
      */
     abstract protected function getExceptionRenderer();
 

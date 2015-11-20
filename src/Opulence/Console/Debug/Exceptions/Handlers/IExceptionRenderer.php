@@ -6,15 +6,15 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Debug\Exceptions\Handlers\Console;
+namespace Opulence\Console\Debug\Exceptions\Handlers;
 
 use Opulence\Console\Responses\IResponse;
-use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer;
+use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer as IBaseRenderer;
 
 /**
  * Defines the interface for console exception renderers to implement
  */
-interface IConsoleExceptionRenderer extends IExceptionRenderer
+interface IExceptionRenderer extends IBaseRenderer
 {
     /**
      * Sets the response to render to

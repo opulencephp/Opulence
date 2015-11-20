@@ -122,7 +122,7 @@ class Response
             foreach ($this->headers->getAll() as $name => $values) {
                 // Headers are allowed to have multiple values
                 foreach ($values as $value) {
-                    header($name . ":" . $value, false, $this->statusCode);
+                    header("$name:$value", false, $this->statusCode);
                 }
             }
 

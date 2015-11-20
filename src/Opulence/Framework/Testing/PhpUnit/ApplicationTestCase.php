@@ -37,9 +37,4 @@ abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
      * @return IExceptionHandler The exception handler used in the kernel
      */
     abstract protected function getExceptionHandler();
-
-    /**
-     * Sets the instance of the application and IoC container to use in tests
-     */
-    abstract protected function setApplicationAndIocContainer();
 }

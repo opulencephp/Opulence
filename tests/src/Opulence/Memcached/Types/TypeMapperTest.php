@@ -76,4 +76,19 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame(1, $this->typeMapper->toMemcachedBoolean(true));
     }
+
+    /**
+     * Tests that the timezone is set
+     */
+    public function testTimezoneSet()
+    {
+        $currTimezone = date_default_timezone_get();
+        $newTimezone = "Australia/Canberra";
+        date_default_timezone_set($newTimezone);
+        $time = new DateTime("now");
+        $memcachedTime = $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp());
+        $this->assertEquals($newTimezone, $memcachedTime->getTimezone()->getName());
+        // Reset the timezone
+        date_default_timezone_set($currTimezone);
+    }
 } 

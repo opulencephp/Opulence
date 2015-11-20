@@ -12,7 +12,7 @@ use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Framework\Console\StatusCodes;
+use Opulence\Console\StatusCodes;
 
 /**
  * Mocks a command that returns a different status code depending on the options

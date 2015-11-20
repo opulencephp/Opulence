@@ -16,9 +16,9 @@ use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Console\StatusCodes;
 use Opulence\Files\FileSystem;
 use Opulence\Framework\Composer\Composer;
-use Opulence\Framework\Console\StatusCodes;
 
 abstract class MakeCommand extends Command
 {

@@ -8,8 +8,7 @@
  */
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
-use Opulence\Applications\Environments\Environment;
-use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer;
+use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer as IBaseRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
@@ -18,7 +17,7 @@ use Opulence\Views\Factories\IViewFactory;
 /**
  * Defines the interface for HTTP exception renderers to implement
  */
-interface IHttpExceptionRenderer extends IExceptionRenderer
+interface IExceptionRenderer extends IBaseRenderer
 {
     /**
      * Gets the last response
@@ -26,13 +25,6 @@ interface IHttpExceptionRenderer extends IExceptionRenderer
      * @return Response The last response
      */
     public function getResponse();
-
-    /**
-     * Sets the current environment
-     *
-     * @param Environment $environment The current environment
-     */
-    public function setEnvironment(Environment $environment);
 
     /**
      * Sets the HTTP request

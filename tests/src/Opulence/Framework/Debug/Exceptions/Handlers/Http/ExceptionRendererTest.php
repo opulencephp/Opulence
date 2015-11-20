@@ -9,9 +9,8 @@
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
-use Opulence\Applications\Environments\Environment;
 use Opulence\Http\HttpException;
-use Opulence\Tests\Framework\Debug\Exceptions\Hadnlers\Http\Mocks\ExceptionRenderer as MockRenderer;
+use Opulence\Tests\Framework\Debug\Exceptions\Handlers\Http\Mocks\ExceptionRenderer as MockRenderer;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\IView;
@@ -23,8 +22,6 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
 {
     /** @var MockRenderer The renderer to use in tests */
     private $renderer = null;
-    /** @var Environment The environment to use in tests */
-    private $environment = null;
     /** @var IViewFactory|\PHPUnit_Framework_MockObject_MockObject The view factory to use in tests */
     private $viewFactory = null;
     /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject The view compiler to use in tests */
@@ -35,11 +32,20 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->environment = new Environment(Environment::DEVELOPMENT);
         $this->viewFactory = $this->getMock(IViewFactory::class);
         $this->viewCompiler = $this->getMock(ICompiler::class);
-        $this->renderer = new MockRenderer();
-        $this->renderer->setEnvironment($this->environment);
+        $this->renderer = new MockRenderer(true);
+
+        // The tests will output data, which we want to buffer
+        ob_start();
+    }
+
+    /**
+     * Does some housekeeping before ending the tests
+     */
+    public function tearDown()
+    {
+        ob_end_clean();
     }
 
     /**
@@ -101,8 +107,8 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderingHttpExceptionWithoutViewInProductionEnvironment()
     {
+        $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
-        $this->environment->setName(Environment::PRODUCTION);
         $ex = new HttpException(404, "foo");
         $this->viewFactory->expects($this->once())
             ->method("has")
@@ -159,8 +165,8 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderingNonHttpExceptionWithoutViewInProductionEnvironment()
     {
+        $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
-        $this->environment->setName(Environment::PRODUCTION);
         $ex = new Exception("foo");
         $this->viewFactory->expects($this->once())
             ->method("has")

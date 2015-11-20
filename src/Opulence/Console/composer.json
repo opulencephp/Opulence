@@ -21,7 +21,8 @@
     }
   },
   "require": {
-    "php": ">=5.5.10"
+    "php": ">=5.5.10",
+    "opulence/debug": "1.0.*"
   },
   "extra": {
     "branch-alias": {

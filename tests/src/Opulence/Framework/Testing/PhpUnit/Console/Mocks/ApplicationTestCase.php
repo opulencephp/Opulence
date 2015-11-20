@@ -15,10 +15,10 @@ use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Dispatchers\Dispatcher;
 use Opulence\Bootstrappers\Paths;
+use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
-use Opulence\Framework\Debug\Exceptions\Handlers\Console\IConsoleExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
@@ -35,25 +35,9 @@ class ApplicationTestCase extends BaseApplicationTestCase
     ];
 
     /**
-     * @inheritdoc
+     * Sets up the application and container
      */
-    protected function getExceptionHandler()
-    {
-        return $this->getMock(ExceptionHandler::class, [], [], "", false);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getExceptionRenderer()
-    {
-        return $this->getMock(IConsoleExceptionRenderer::class);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setApplicationAndIocContainer()
+    public function setUp()
     {
         // Create and bind all of the components of our application
         $paths = new Paths([
@@ -79,5 +63,23 @@ class ApplicationTestCase extends BaseApplicationTestCase
                 $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
             }
         );
+
+        parent::setUp();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getExceptionHandler()
+    {
+        return $this->getMock(ExceptionHandler::class, [], [], "", false);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getExceptionRenderer()
+    {
+        return $this->getMock(IExceptionRenderer::class);
     }
 }

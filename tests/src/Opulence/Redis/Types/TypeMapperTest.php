@@ -76,4 +76,19 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame(1, $this->typeMapper->toRedisBoolean(true));
     }
+
+    /**
+     * Tests that the timezone is set
+     */
+    public function testTimezoneSet()
+    {
+        $currTimezone = date_default_timezone_get();
+        $newTimezone = "Australia/Canberra";
+        date_default_timezone_set($newTimezone);
+        $time = new DateTime("now");
+        $redisTime = $this->typeMapper->fromRedisTimestamp($time->getTimestamp());
+        $this->assertEquals($newTimezone, $redisTime->getTimezone()->getName());
+        // Reset the timezone
+        date_default_timezone_set($currTimezone);
+    }
 } 

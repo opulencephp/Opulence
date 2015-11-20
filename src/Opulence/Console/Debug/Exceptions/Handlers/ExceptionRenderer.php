@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Debug\Exceptions\Handlers\Console;
+namespace Opulence\Console\Debug\Exceptions\Handlers;
 
 use InvalidArgumentException;
 use Opulence\Console\Responses\IResponse;
@@ -14,7 +14,7 @@ use Opulence\Console\Responses\IResponse;
 /**
  * Defines the console exception handler
  */
-class ExceptionRenderer implements IConsoleExceptionRenderer
+class ExceptionRenderer implements IExceptionRenderer
 {
     /** @var IResponse The response to write to */
     protected $response = null;

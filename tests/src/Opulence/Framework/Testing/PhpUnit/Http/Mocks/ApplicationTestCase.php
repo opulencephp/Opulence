@@ -19,7 +19,7 @@ use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Bootstrappers\Http\Requests\RequestBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Views\ViewFunctionsBootstrapper;
-use Opulence\Framework\Debug\Exceptions\Handlers\Http\IHttpExceptionRenderer;
+use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\Container;
@@ -38,45 +38,9 @@ class ApplicationTestCase extends BaseApplicationTestCase
     ];
 
     /**
-     * @inheritdoc
+     * Sets up the application and container
      */
-    protected function getExceptionHandler()
-    {
-        return $this->getMock(ExceptionHandler::class, [], [], "", false);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getExceptionRenderer()
-    {
-        /** @var IHttpExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
-        $renderer = $this->getMock(IHttpExceptionRenderer::class);
-        /** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
-        $response = $this->getMock(Response::class);
-        // Mock a 404 status code because this will primarily be used for missing routes in our tests
-        $response->expects($this->any())
-            ->method("getStatusCode")
-            ->willReturn(404);
-        $renderer->expects($this->any())
-            ->method("getResponse")
-            ->willReturn($response);
-
-        return $renderer;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getGlobalMiddleware()
-    {
-        return [];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setApplicationAndIocContainer()
+    public function setUp()
     {
         // Create and bind all of the components of our application
         $paths = new Paths([
@@ -102,5 +66,43 @@ class ApplicationTestCase extends BaseApplicationTestCase
                 $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
             }
         );
+
+        parent::setUp();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getExceptionHandler()
+    {
+        return $this->getMock(ExceptionHandler::class, [], [], "", false);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getExceptionRenderer()
+    {
+        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
+        $renderer = $this->getMock(IExceptionRenderer::class);
+        /** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
+        $response = $this->getMock(Response::class);
+        // Mock a 404 status code because this will primarily be used for missing routes in our tests
+        $response->expects($this->any())
+            ->method("getStatusCode")
+            ->willReturn(404);
+        $renderer->expects($this->any())
+            ->method("getResponse")
+            ->willReturn($response);
+
+        return $renderer;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getGlobalMiddleware()
+    {
+        return [];
     }
 }

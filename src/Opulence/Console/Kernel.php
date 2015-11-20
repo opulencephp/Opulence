@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Console;
+namespace Opulence\Console;
 
 use Exception;
 use InvalidArgumentException;
@@ -16,6 +16,7 @@ use Opulence\Console\Commands\Compilers\ICompiler as ICommandCompiler;
 use Opulence\Console\Commands\HelpCommand;
 use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Commands\VersionCommand;
+use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Parsers\IParser;
 use Opulence\Console\Responses\Compilers\Compiler;
@@ -26,7 +27,6 @@ use Opulence\Console\Responses\Formatters\CommandFormatter;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
-use Opulence\Framework\Debug\Exceptions\Handlers\Console\IConsoleExceptionRenderer;
 use Throwable;
 
 /**
@@ -42,7 +42,7 @@ class Kernel
     private $commandCollection = null;
     /** @var IExceptionHandler The exception handler used by the kernel */
     private $exceptionHandler = null;
-    /** @var IConsoleExceptionRenderer The exception renderer used by the kernel */
+    /** @var IExceptionRenderer The exception renderer used by the kernel */
     private $exceptionRenderer = null;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";
@@ -52,7 +52,7 @@ class Kernel
      * @param ICommandCompiler $commandCompiler The command compiler to use
      * @param CommandCollection $commandCollection The list of commands to choose from
      * @param IExceptionHandler $exceptionHandler The exception handler used by the kernel
-     * @param IConsoleExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
+     * @param IExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
@@ -60,7 +60,7 @@ class Kernel
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
         IExceptionHandler $exceptionHandler,
-        IConsoleExceptionRenderer $exceptionRenderer,
+        IExceptionRenderer $exceptionRenderer,
         $applicationVersion = "Unknown"
     ) {
         $this->requestParser = $requestParser;

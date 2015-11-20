@@ -9,9 +9,8 @@
 namespace Opulence\Framework\Http;
 
 use Exception;
-use Opulence\Applications\Environments\Environment;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
-use Opulence\Framework\Debug\Exceptions\Handlers\Http\IHttpExceptionRenderer;
+use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\IContainer;
@@ -32,7 +31,7 @@ class Kernel
     private $router = null;
     /** @var IExceptionHandler The exception handler used by the kernel */
     private $exceptionHandler = null;
-    /** @var IHttpExceptionRenderer The exception renderer used by the kernel */
+    /** @var IExceptionRenderer The exception renderer used by the kernel */
     private $exceptionRenderer = null;
     /** @var array The list of global middleware */
     private $middleware = [];
@@ -47,13 +46,13 @@ class Kernel
      * @param IContainer $container The dependency injection container
      * @param Router $router The router to use
      * @param IExceptionHandler $exceptionHandler The exception handler used by the kernel
-     * @param IHttpExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
+     * @param IExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      */
     public function __construct(
         IContainer $container,
         Router $router,
         IExceptionHandler $exceptionHandler,
-        IHttpExceptionRenderer $exceptionRenderer
+        IExceptionRenderer $exceptionRenderer
     ) {
         $this->container = $container;
         $this->router = $router;
@@ -154,10 +153,6 @@ class Kernel
     private function setExceptionRendererVars(Request $request)
     {
         $this->exceptionRenderer->setRequest($request);
-
-        if ($this->container->isBound(Environment::class)) {
-            $this->exceptionRenderer->setEnvironment($this->container->makeShared(Environment::class));
-        }
 
         if ($this->container->isBound(ICompiler::class)) {
             $this->exceptionRenderer->setViewCompiler($this->container->makeShared(ICompiler::class));

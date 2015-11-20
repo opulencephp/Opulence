@@ -6,17 +6,17 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Console;
+namespace Opulence\Console;
 
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;
+use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Console\Requests\Parsers\StringParser;
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 use Opulence\Console\Responses\Compilers\Compiler as ResponseCompiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
-use Opulence\Framework\Debug\Exceptions\Handlers\Console\IConsoleExceptionRenderer;
 use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
@@ -45,8 +45,8 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->getMock(LoggerInterface::class);
-        /** @var IConsoleExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
-        $exceptionRenderer = $this->getMock(IConsoleExceptionRenderer::class);
+        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
+        $exceptionRenderer = $this->getMock(IExceptionRenderer::class);
         /** @var ExceptionHandler|\PHPUnit_Framework_MockObject_MockObject $exceptionHandler */
         $exceptionHandler = new ExceptionHandler($logger, $exceptionRenderer);
         $this->compiler = new CommandCompiler();

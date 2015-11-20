@@ -58,7 +58,7 @@ class EncryptionKeyGenerationCommand extends Command
     protected function doExecute(IResponse $response)
     {
         $key = $this->strings->generateRandomString(32);
-        $environmentConfigPath = $this->paths["configs"] . "/environment/.env.app.php";
+        $environmentConfigPath = $this->paths["config"] . "/environment/.env.app.php";
 
         if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
             $contents = file_get_contents($environmentConfigPath);
