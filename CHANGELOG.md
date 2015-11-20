@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha16</h2>
+
+<h3>Framework</h3>
+* Fixed framework cache flushing after renaming the application
+
 <h2>v1.0.0-alpha15</h2>
 
 <h3>Debug</h3>
