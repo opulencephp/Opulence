@@ -10,17 +10,14 @@ namespace Opulence\Console;
 
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;
-use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Console\Requests\Parsers\StringParser;
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 use Opulence\Console\Responses\Compilers\Compiler as ResponseCompiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
-use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;
-use Psr\Log\LoggerInterface;
 
 /**
  * Tests the console kernel
@@ -43,12 +40,6 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
-        $logger = $this->getMock(LoggerInterface::class);
-        /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
-        $exceptionRenderer = $this->getMock(IExceptionRenderer::class);
-        /** @var ExceptionHandler|\PHPUnit_Framework_MockObject_MockObject $exceptionHandler */
-        $exceptionHandler = new ExceptionHandler($logger, $exceptionRenderer);
         $this->compiler = new CommandCompiler();
         $this->commands = new CommandCollection($this->compiler);
         $this->commands->add(new SimpleCommand("mockcommand", "Mocks a command"));
@@ -59,8 +50,6 @@ class KernelTest extends \PHPUnit_Framework_TestCase
             $this->parser,
             $this->compiler,
             $this->commands,
-            $exceptionHandler,
-            $exceptionRenderer,
             "0.0.0"
         );
     }
@@ -114,7 +103,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         ob_start();
         $status = $this->kernel->handle("help fake", $this->response);
         ob_end_clean();
-        $this->assertEquals(StatusCodes::FATAL, $status);
+        $this->assertEquals(StatusCodes::ERROR, $status);
     }
 
     /**

@@ -15,8 +15,6 @@ use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Dispatchers\Dispatcher;
 use Opulence\Bootstrappers\Paths;
-use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
-use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
 use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
@@ -65,21 +63,5 @@ class ApplicationTestCase extends BaseApplicationTestCase
         );
 
         parent::setUp();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getExceptionHandler()
-    {
-        return $this->getMock(ExceptionHandler::class, [], [], "", false);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function getExceptionRenderer()
-    {
-        return $this->getMock(IExceptionRenderer::class);
     }
 }

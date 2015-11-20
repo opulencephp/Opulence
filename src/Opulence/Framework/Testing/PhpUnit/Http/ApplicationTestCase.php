@@ -262,6 +262,13 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
+     * Gets the kernel exception handler
+     *
+     * @return IExceptionHandler The exception handler used in the kernel
+     */
+    abstract protected function getExceptionHandler();
+
+    /**
      * Gets the exception renderer
      *
      * @return IExceptionRenderer The exception renderer

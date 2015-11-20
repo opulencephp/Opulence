@@ -16,7 +16,6 @@ use Opulence\Console\Commands\Compilers\ICompiler as ICommandCompiler;
 use Opulence\Console\Commands\HelpCommand;
 use Opulence\Console\Commands\ICommand;
 use Opulence\Console\Commands\VersionCommand;
-use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Parsers\IParser;
 use Opulence\Console\Responses\Compilers\Compiler;
@@ -26,7 +25,6 @@ use Opulence\Console\Responses\ConsoleResponse;
 use Opulence\Console\Responses\Formatters\CommandFormatter;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Throwable;
 
 /**
@@ -40,10 +38,6 @@ class Kernel
     private $commandCompiler = null;
     /** @var CommandCollection The list of commands to choose from */
     private $commandCollection = null;
-    /** @var IExceptionHandler The exception handler used by the kernel */
-    private $exceptionHandler = null;
-    /** @var IExceptionRenderer The exception renderer used by the kernel */
-    private $exceptionRenderer = null;
     /** @var string The version number of the application */
     private $applicationVersion = "Unknown";
 
@@ -51,23 +45,17 @@ class Kernel
      * @param IParser $requestParser The request parser to use
      * @param ICommandCompiler $commandCompiler The command compiler to use
      * @param CommandCollection $commandCollection The list of commands to choose from
-     * @param IExceptionHandler $exceptionHandler The exception handler used by the kernel
-     * @param IExceptionRenderer $exceptionRenderer The exception renderer used by the kernel
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
-        IExceptionHandler $exceptionHandler,
-        IExceptionRenderer $exceptionRenderer,
         $applicationVersion = "Unknown"
     ) {
         $this->requestParser = $requestParser;
         $this->commandCompiler = $commandCompiler;
         $this->commandCollection = $commandCollection;
-        $this->exceptionHandler = $exceptionHandler;
-        $this->exceptionRenderer = $exceptionRenderer;
         $this->applicationVersion = $applicationVersion;
     }
 
@@ -110,14 +98,16 @@ class Kernel
             }
 
             return $statusCode;
+        } catch (InvalidArgumentException $ex) {
+            $response->writeln("<error>{$ex->getMessage()}</error>");
+
+            return StatusCodes::ERROR;
         } catch (Exception $ex) {
-            $this->exceptionRenderer->setResponse($response);
-            $this->exceptionHandler->handle($ex);
+            $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
 
             return StatusCodes::FATAL;
         } catch (Throwable $ex) {
-            $this->exceptionRenderer->setResponse($response);
-            $this->exceptionHandler->handle($ex);
+            $response->writeln("<fatal>{$ex->getMessage()}</fatal>");
 
             return StatusCodes::FATAL;
         }

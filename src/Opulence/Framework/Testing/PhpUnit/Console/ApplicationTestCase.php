@@ -14,7 +14,6 @@ namespace Opulence\Framework\Testing\PhpUnit\Console;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler;
-use Opulence\Console\Debug\Exceptions\Handlers\IExceptionRenderer;
 use Opulence\Console\Kernel;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Requests\Parsers\ArrayListParser;
@@ -170,8 +169,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
             $this->requestParser,
             $this->commandCompiler,
             $this->commandCollection,
-            $this->getExceptionHandler(),
-            $this->getExceptionRenderer(),
             $this->application->getVersion()
         );
 
@@ -179,13 +176,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
         $this->container->bind(Prompt::class, $this->prompt);
     }
-
-    /**
-     * Gets the exception renderer
-     *
-     * @return IExceptionRenderer The exception renderer
-     */
-    abstract protected function getExceptionRenderer();
 
     /**
      * Checks if the response was set
