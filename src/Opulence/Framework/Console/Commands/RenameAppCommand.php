@@ -83,7 +83,7 @@ class RenameAppCommand extends Command
             $this->updateConfigs();
             $response->writeln("<success>Updated name successfully</success>");
             $this->commandCollection->call("composer:dump-autoload", $response);
-            $this->commandCollection->call("php apex framework:flushcache", $response);
+            $this->commandCollection->call("framework:flushcache", $response);
         }
     }
 
