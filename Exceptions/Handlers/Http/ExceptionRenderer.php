@@ -57,6 +57,8 @@ class ExceptionRenderer implements IExceptionRenderer
             }
 
             echo $content;
+            // To prevent any potential output buffering, let's flush
+            flush();
         }
     }
 
