@@ -1,5 +1,11 @@
 <h2>v1.0.0-alpha16</h2>
 
+<h3>Applications</h3>
+* `Opulence\Applications\Application::start()` and `shutDown()` no longer catch all exceptions
+
+<h3>Exceptions</h3>
+* Any re-thrown exceptions now set the original exception in the previous exception property
+
 <h3>Framework</h3>
 * Fixed framework cache flushing after renaming the application
 

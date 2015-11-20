@@ -66,7 +66,7 @@ class Dispatcher implements IDispatcher
 
             return $response;
         } catch (PipelineException $ex) {
-            throw new RouteException("Failed to dispatch route: " . $ex->getMessage());
+            throw new RouteException("Failed to dispatch route", 0, $ex);
         }
     }
 
@@ -77,6 +77,7 @@ class Dispatcher implements IDispatcher
      * @param CompiledRoute $route The route being dispatched
      * @return Response Returns the value from the controller method
      * @throws RouteException Thrown if the method could not be called on the controller
+     * @throws HttpException Thrown if the controller threw an HttpException
      */
     private function callController($controller, CompiledRoute $route)
     {
@@ -128,7 +129,9 @@ class Dispatcher implements IDispatcher
                     "Reflection failed for %s: %s",
                     $route->usesClosure() ? "closure" : "{$route->getControllerName()}::{$route->getControllerMethod()}",
                     $ex
-                )
+                ),
+                0,
+                $ex
             );
         }
     }

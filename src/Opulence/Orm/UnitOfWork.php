@@ -94,7 +94,7 @@ class UnitOfWork
         } catch (Exception $ex) {
             $this->connection->rollBack();
             $this->postRollback();
-            throw new OrmException($ex->getMessage());
+            throw new OrmException("Commit failed", 0, $ex);
         }
 
         $this->postCommit();

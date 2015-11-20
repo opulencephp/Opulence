@@ -192,7 +192,7 @@ class Container implements IContainer
 
             return $instance;
         } catch (ReflectionException $ex) {
-            throw new IocException("Failed to make object: " . $ex->getMessage());
+            throw new IocException("Failed to make object", 0, $ex);
         }
     }
 

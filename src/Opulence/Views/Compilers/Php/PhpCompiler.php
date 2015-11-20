@@ -37,7 +37,7 @@ class PhpCompiler implements ICompiler
                 ob_end_clean();
             }
 
-            throw new ViewCompilerException($ex->getMessage());
+            throw new ViewCompilerException("Failed to compile PHP view", 0, $ex);
         }
 
         return ob_get_clean();

@@ -34,7 +34,7 @@ class Dispatcher implements IDispatcher
                 call_user_func($task);
             }
         } catch (Exception $ex) {
-            throw new RuntimeException("Failed to run tasks: {$ex->getMessage()}");
+            throw new RuntimeException("Failed to run tasks", 0, $ex);
         }
     }
 

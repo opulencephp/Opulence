@@ -56,7 +56,7 @@ class Compiler implements ICompiler
 
             return $this->compileNode($ast->getRootNode());
         } catch (InvalidArgumentException $ex) {
-            throw new RuntimeException($ex->getMessage());
+            throw new RuntimeException("Failed to compile console response", 0, $ex);
         }
     }
 

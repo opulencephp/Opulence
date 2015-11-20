@@ -18,7 +18,6 @@ use Opulence\Bootstrappers\Paths;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Bootstrappers\Http\Requests\RequestBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper;
-use Opulence\Framework\Bootstrappers\Http\Views\ViewFunctionsBootstrapper;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Http\Responses\Response;
@@ -33,8 +32,7 @@ class ApplicationTestCase extends BaseApplicationTestCase
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
         RequestBootstrapper::class,
-        RouterBootstrapper::class,
-        ViewFunctionsBootstrapper::class
+        RouterBootstrapper::class
     ];
 
     /**

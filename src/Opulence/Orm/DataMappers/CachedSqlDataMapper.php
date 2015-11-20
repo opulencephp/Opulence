@@ -73,7 +73,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
                 $this->cacheDataMapper->delete($entity);
             }
         } catch (Exception $ex) {
-            throw new OrmException($ex->getMessage());
+            throw new OrmException("Commit failed", 0, $ex);
         }
 
         // Clear our schedules

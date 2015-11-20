@@ -96,7 +96,7 @@ class Pipeline implements IPipeline
                             [$input, $stages]
                         );
                     } catch (IocException $ex) {
-                        throw new PipelineException("Failed to pipeline input: " . $ex->getMessage());
+                        throw new PipelineException("Failed to pipeline input", 0, $ex);
                     }
                 }
             };

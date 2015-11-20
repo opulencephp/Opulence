@@ -55,7 +55,7 @@ class Encrypter implements IEncrypter
                 throw new EncryptionException("Failed to decrypt data");
             }
         } catch (Exception $ex) {
-            throw new EncryptionException($ex->getMessage());
+            throw new EncryptionException("Failed to decrypt data", 0, $ex);
         }
 
         // In case the data was not a primitive, unserialize it

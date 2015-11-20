@@ -95,7 +95,7 @@ abstract class SqlDataMapper implements ISqlDataMapper
                 return $entities;
             }
         } catch (PDOException $ex) {
-            throw new OrmException("Unable to query entities: " . $ex);
+            throw new OrmException("Unable to query entities", 0, $ex);
         }
     }
 } 

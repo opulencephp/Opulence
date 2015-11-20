@@ -292,7 +292,7 @@ class TypeMapper
         try {
             return new DateTime($sqlDateTime);
         } catch (Exception $ex) {
-            throw new InvalidArgumentException("Unable to cast timestamp: " . $ex->getMessage());
+            throw new InvalidArgumentException("Unable to cast timestamp", 0, $ex);
         }
     }
 

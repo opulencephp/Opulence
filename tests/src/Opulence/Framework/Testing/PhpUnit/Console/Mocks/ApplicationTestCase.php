@@ -13,6 +13,7 @@ use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;
+use Opulence\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Bootstrappers\Dispatchers\Dispatcher;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
@@ -20,6 +21,8 @@ use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
 use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
+use Opulence\Routing\Routes\Caching\ICache as RouteCache;
+use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
  * Mocks the console application for use in testing
@@ -48,6 +51,9 @@ class ApplicationTestCase extends BaseApplicationTestCase
         $this->container->bind(Paths::class, $paths);
         $this->container->bind(TaskDispatcher::class, $taskDispatcher);
         $this->container->bind(Environment::class, $environment);
+        $this->container->bind(BootstrapperCache::class, $this->getMock(BootstrapperCache::class));
+        $this->container->bind(RouteCache::class, $this->getMock(RouteCache::class));
+        $this->container->bind(ViewCache::class, $this->getMock(ViewCache::class));
         $this->container->bind(IContainer::class, $this->container);
         $this->application = new Application($taskDispatcher, $environment);
 

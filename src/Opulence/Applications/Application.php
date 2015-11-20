@@ -13,7 +13,6 @@ use Exception;
 use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use RuntimeException;
 
 /**
  * Defines an application
@@ -68,7 +67,7 @@ class Application
      *
      * @param Closure $shutdownTask The task to perform on shutdown
      * @return mixed|null The return value of the task if there was one, otherwise null
-     * @throws RuntimeException Thrown if there was an error shutting down the application
+     * @throws Exception Thrown if there was an error shutting down the application
      */
     public function shutDown(Closure $shutdownTask = null)
     {
@@ -87,6 +86,8 @@ class Application
                 $this->taskDispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
             } catch (Exception $ex) {
                 $this->isRunning = false;
+
+                throw $ex;
             }
         }
 
@@ -98,6 +99,7 @@ class Application
      *
      * @param Closure $startTask The task to perform on startup
      * @return mixed|null The return value of the task if there was one, otherwise null
+     * @throws Exception Thrown if there was a problem starting the application
      */
     public function start(Closure $startTask = null)
     {
@@ -116,6 +118,8 @@ class Application
                 $this->taskDispatcher->dispatch(TaskTypes::POST_START);
             } catch (Exception $ex) {
                 $this->shutDown();
+
+                throw $ex;
             }
         }
 
