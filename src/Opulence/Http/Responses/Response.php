@@ -89,6 +89,8 @@ class Response
     {
         $this->sendHeaders();
         $this->sendContent();
+        // To prevent any potential output buffering, let's flush
+        flush();
     }
 
     /**
