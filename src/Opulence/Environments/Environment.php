@@ -6,10 +6,10 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Applications\Environments;
+namespace Opulence\Environments;
 
 /**
- * Defines an application environment
+ * Defines an environment
  */
 class Environment
 {
@@ -49,13 +49,19 @@ class Environment
      */
     public function getVar($name)
     {
-        $value = getenv($name);
+        if (array_key_exists($name, $_ENV)) {
+            return $_ENV[$name];
+        } elseif (array_key_exists($name, $_SERVER)) {
+            return $_SERVER[$name];
+        } else {
+            $value = getenv($name);
 
-        if ($value === false) {
-            return null;
+            if ($value === false) {
+                return null;
+            }
+
+            return $value;
         }
-
-        return $value;
     }
 
     /**
@@ -84,6 +90,8 @@ class Environment
      */
     public function setVar($name, $value)
     {
-        putenv($name . "=" . $value);
+        putenv("$name=$value");
+        $_ENV[$name] = $value;
+        $_SERVER[$name] = $value;
     }
 }

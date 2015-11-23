@@ -11,7 +11,6 @@
  */
 namespace Opulence\Framework\Testing\PhpUnit\Console;
 
-use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler;
 use Opulence\Console\Kernel;
@@ -25,6 +24,7 @@ use Opulence\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Console\StatusCodes;
+use Opulence\Environments\Environment;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
@@ -159,7 +159,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function setUp()
     {
-        $this->application->getEnvironment()->setName(Environment::TESTING);
+        $this->environment->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->makeShared(CommandCollection::class);

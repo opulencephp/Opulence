@@ -10,7 +10,6 @@ namespace Opulence\Applications;
 
 use Closure;
 use Exception;
-use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 
@@ -20,22 +19,18 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "1.0.0-alpha17";
+    private static $version = "1.0.0-alpha18";
     /** @var IDispatcher The task dispatcher */
     private $taskDispatcher = null;
-    /** @var Environment The environment the application is running on */
-    private $environment = null;
     /** @var bool Whether or not the application is currently running */
     private $isRunning = false;
 
     /**
      * @param IDispatcher $taskDispatcher The task dispatcher
-     * @param Environment $environment The current environment
      */
-    public function __construct(IDispatcher $taskDispatcher, Environment $environment)
+    public function __construct(IDispatcher $taskDispatcher)
     {
         $this->taskDispatcher = $taskDispatcher;
-        $this->environment = $environment;
     }
 
     /**
@@ -44,14 +39,6 @@ class Application
     public static function getVersion()
     {
         return self::$version;
-    }
-
-    /**
-     * @return Environment
-     */
-    public function getEnvironment()
-    {
-        return $this->environment;
     }
 
     /**

@@ -1,9 +1,9 @@
 {
-  "name": "opulence/bootstrappers",
-  "description": "The Opulence bootstrapper library",
+  "name": "opulence/environments",
+  "description": "The Opulence environment library",
   "keywords": [
     "PHP",
-    "bootstrapper"
+    "environment"
   ],
   "authors": [
     {
@@ -15,14 +15,12 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\Bootstrappers\\": ""
+      "Opulence\\Environments\\": ""
     }
   },
   "require": {
     "php": ">=5.5.10",
-    "opulence/applications": "1.0.*",
-    "opulence/environments": "1.0.*",
-    "opulence/ioc": "1.0.*"
+    "monolog/monolog": "1.12.*@dev"
   },
   "extra": {
     "branch-alias": {

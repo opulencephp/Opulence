@@ -8,7 +8,7 @@
  */
 namespace Opulence\Bootstrappers\Caching;
 
-use Opulence\Applications\Environments\Environment;
+use Opulence\Environments\Environment;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\ILazyBootstrapper;

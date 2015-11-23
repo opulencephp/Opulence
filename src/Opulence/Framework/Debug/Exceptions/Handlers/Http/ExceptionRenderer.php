@@ -8,11 +8,13 @@
  */
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
+use Exception;
 use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
+use Throwable;
 
 /**
  * Defines the HTTP exception handler
@@ -65,7 +67,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
      */
     protected function getResponseContent($ex, $statusCode, array $headers)
     {
-        $viewName = "errors/$statusCode";
+        $viewName = $this->getViewName($ex, $statusCode, $headers);
 
         if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->has($viewName)) {
             $view = $this->viewFactory->create($viewName);
@@ -83,5 +85,18 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
         }
 
         return $content;
+    }
+
+    /**
+     * Gets the name of the view file for the input exception and status code
+     *
+     * @param Throwable|Exception $ex The throwable
+     * @param int $statusCode The status code
+     * @param array $headers The headers for the exception
+     * @return string The view name
+     */
+    protected function getViewName($ex, $statusCode, array $headers)
+    {
+        return "errors/$statusCode";
     }
 }

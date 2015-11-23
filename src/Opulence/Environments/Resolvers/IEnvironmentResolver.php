@@ -6,9 +6,9 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Applications\Environments\Resolvers;
+namespace Opulence\Environments\Resolvers;
 
-use Opulence\Applications\Environments\Hosts\IHost;
+use Opulence\Environments\Hosts\IHost;
 
 /**
  * Defines the interface for environment resolvers to implement

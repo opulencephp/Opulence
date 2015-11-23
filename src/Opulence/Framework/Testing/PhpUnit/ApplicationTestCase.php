@@ -12,6 +12,7 @@
 namespace Opulence\Framework\Testing\PhpUnit;
 
 use Opulence\Applications\Application;
+use Opulence\Environments\Environment;
 use Opulence\Ioc\IContainer;
 use PHPUnit_Framework_TestCase;
 
@@ -19,6 +20,8 @@ abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
 {
     /** @var Application The application */
     protected $application = null;
+    /** @var Environment The current environment */
+    protected $environment = null;
     /** @var IContainer The IoC container */
     protected $container = null;
 

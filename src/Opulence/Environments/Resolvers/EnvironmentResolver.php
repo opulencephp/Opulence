@@ -6,11 +6,11 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Applications\Environments\Resolvers;
+namespace Opulence\Environments\Resolvers;
 
-use Opulence\Applications\Environments\Environment;
-use Opulence\Applications\Environments\Hosts\HostRegex;
-use Opulence\Applications\Environments\Hosts\IHost;
+use Opulence\Environments\Environment;
+use Opulence\Environments\Hosts\HostRegex;
+use Opulence\Environments\Hosts\IHost;
 
 /**
  * Defines the environment resolver

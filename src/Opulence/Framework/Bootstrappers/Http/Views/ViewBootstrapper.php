@@ -11,9 +11,9 @@
  */
 namespace Opulence\Framework\Bootstrappers\Http\Views;
 
-use Opulence\Applications\Environments\Environment;
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Bootstrappers\ILazyBootstrapper;
+use Opulence\Environments\Environment;
 use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;

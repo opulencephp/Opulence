@@ -9,7 +9,7 @@
 namespace Opulence\Bootstrappers;
 
 use BadMethodCallException;
-use Opulence\Applications\Environments\Environment;
+use Opulence\Environments\Environment;
 use Opulence\Ioc\IContainer;
 
 /**

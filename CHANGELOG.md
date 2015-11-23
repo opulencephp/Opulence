@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha18</h2>
+
+<h3>Environments</h3>
+* Moved `Opulence\Applications\Environments` to its own library `Opulence\Environments`
+
 <h2>v1.0.0-alpha17</h2>
 
 <h3>Applications</h3>

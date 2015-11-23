@@ -8,7 +8,7 @@
  */
 namespace Opulence\Bootstrappers;
 
-use Opulence\Applications\Environments\Environment;
+use Opulence\Environments\Environment;
 use RuntimeException;
 
 /**

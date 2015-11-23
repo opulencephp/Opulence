@@ -11,10 +11,10 @@ namespace Opulence\Bootstrappers\Dispatchers;
 use Closure;
 use Opulence\Ioc\Container;
 use Opulence\Applications\Application;
-use Opulence\Applications\Environments\Environment;
-use Opulence\Bootstrappers\Paths;
 use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Bootstrappers\BootstrapperRegistry;
+use Opulence\Bootstrappers\Paths;
+use Opulence\Environments\Environment;
 use Opulence\Tests\Bootstrappers\Mocks\BootstrapperWithEverything;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper;
@@ -35,6 +35,8 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     private $dispatcher = null;
     /** @var Application The application */
     private $application = null;
+    /** @var Environment The current environment */
+    private $environment = null;
     /** @var Container The container to use in tests */
     private $container = null;
     /** @var BootstrapperRegistry The bootstrapper registry */
@@ -47,11 +49,11 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $paths = new Paths([]);
         $taskDispatcher = new TaskDispatcher();
-        $environment = new Environment(Environment::TESTING);
+        $this->environment = new Environment(Environment::TESTING);
         $this->container = new Container();
-        $this->application = new Application($taskDispatcher, $environment);
+        $this->application = new Application($taskDispatcher);
         $this->dispatcher = new Dispatcher($taskDispatcher, $this->container);
-        $this->registry = new BootstrapperRegistry($paths, $environment);
+        $this->registry = new BootstrapperRegistry($paths, $this->environment);
     }
 
     /**
@@ -138,9 +140,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->registry->registerEagerBootstrapper(EnvironmentBootstrapper::class);
         $this->dispatcher->dispatch($this->registry);
         $this->application->start();
-        $this->assertEquals("running", $this->application->getEnvironment()->getName());
+        $this->assertEquals("running", $this->environment->getName());
         $this->application->shutDown();
-        $this->assertEquals("shutting down", $this->application->getEnvironment()->getName());
+        $this->assertEquals("shutting down", $this->environment->getName());
     }
 
     /**
@@ -153,9 +155,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->application->start();
         // Need to actual force the lazy bootstrapper to load
         $this->container->makeNew(LazyFooInterface::class);
-        $this->assertEquals("running", $this->application->getEnvironment()->getName());
+        $this->assertEquals("running", $this->environment->getName());
         $this->application->shutDown();
-        $this->assertEquals("shutting down", $this->application->getEnvironment()->getName());
+        $this->assertEquals("shutting down", $this->environment->getName());
     }
 
     /**

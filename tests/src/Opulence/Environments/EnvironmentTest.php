@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Applications\Environments;
+namespace Opulence\Environments;
 
 /**
  * Tests the environment
@@ -37,10 +37,10 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingVariable()
     {
-        putenv("bar=baz");
-        $this->assertEquals("baz", $this->environment->getVar("bar"));
         $this->environment->setVar("baz", "blah");
-        $this->assertEquals("blah", $this->environment->getVar("baz"));
+        $this->assertEquals("blah", getenv("baz"));
+        $this->assertEquals("blah", $_ENV["baz"]);
+        $this->assertEquals("blah", $_SERVER["baz"]);
     }
 
     /**
@@ -73,5 +73,34 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
     {
         $this->environment->setVar("foo", "bar");
         $this->assertEquals("bar", getenv("foo"));
+        $this->assertEquals("bar", $_ENV["foo"]);
+        $this->assertEquals("bar", $_SERVER["foo"]);
+    }
+
+    /**
+     * Tests setting a variable in environment global array()
+     */
+    public function testSettingVariableInEnvironmentGlobalArray()
+    {
+        $_ENV["bar"] = "baz";
+        $this->assertEquals("baz", $this->environment->getVar("bar"));
+    }
+
+    /**
+     * Tests setting a variable in putenv()
+     */
+    public function testSettingVariableInPutenv()
+    {
+        putenv("bar=baz");
+        $this->assertEquals("baz", $this->environment->getVar("bar"));
+    }
+
+    /**
+     * Tests setting a variable in server global array()
+     */
+    public function testSettingVariableInServerGlobalArray()
+    {
+        $_SERVER["bar"] = "baz";
+        $this->assertEquals("baz", $this->environment->getVar("bar"));
     }
 }

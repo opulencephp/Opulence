@@ -8,9 +8,9 @@
  */
 namespace Opulence\Framework\Console\Commands;
 
-use Opulence\Applications\Environments\Environment;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Environments\Environment;
 
 /**
  * Defines the application environment command

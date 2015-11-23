@@ -12,8 +12,8 @@
 namespace Opulence\Framework\Testing\PhpUnit\Http;
 
 use LogicException;
-use Opulence\Applications\Environments\Environment;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
+use Opulence\Environments\Environment;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Http\Kernel;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
@@ -251,7 +251,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function setUp()
     {
-        $this->application->getEnvironment()->setName(Environment::TESTING);
+        $this->environment->setName(Environment::TESTING);
         $this->application->start();
         $this->container->bind(IExceptionHandler::class, $this->getExceptionHandler());
         $this->container->bind(IExceptionRenderer::class, $this->getExceptionRenderer());

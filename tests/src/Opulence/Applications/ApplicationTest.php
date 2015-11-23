@@ -9,7 +9,6 @@
 namespace Opulence\Applications;
 
 use InvalidArgumentException;
-use Opulence\Applications\Environments\Environment;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use ReflectionClass;
@@ -23,8 +22,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     private $application = null;
     /** @var IDispatcher|\PHPUnit_Framework_MockObject_MockObject The task dispatcher */
     private $dispatcher = null;
-    /** @var Environment The environment used by the application */
-    private $environment = null;
 
     /**
      * Sets up the tests
@@ -32,11 +29,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->dispatcher = $this->getMock(IDispatcher::class);
-        $this->environment = new Environment("testing");
-        $this->application = new Application(
-            $this->dispatcher,
-            $this->environment
-        );
+        $this->application = new Application($this->dispatcher);
     }
 
     /**
@@ -171,15 +164,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfUnstartedApplicationIsRunning()
     {
         $this->assertFalse($this->application->isRunning());
-    }
-
-    /**
-     * Tests getting the environment
-     */
-    public function testGettingEnvironment()
-    {
-        $expectedEnvironment = new Environment("testing");
-        $this->assertEquals($expectedEnvironment, $this->application->getEnvironment());
     }
 
     /**
