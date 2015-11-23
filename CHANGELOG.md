@@ -1,3 +1,11 @@
+<h2>v1.0.0-alpha19</h2>
+
+<h3>General</h3>
+* Updated libraries' composer.json dependencies
+
+<h3>Debug</h3>
+* Added `LoggerInterface` and levels to log and throw in `Opulence\Debug\Errors\Handlers\ErrorHandler`
+
 <h2>v1.0.0-alpha18</h2>
 
 <h3>Environments</h3>
