@@ -1,0 +1,31 @@
+{
+  "name": "opulence/environments",
+  "description": "The Opulence environment library",
+  "keywords": [
+    "PHP",
+    "environment"
+  ],
+  "authors": [
+    {
+      "name": "David Young",
+      "email": "dave@opulencephp.com",
+      "role": "Architect"
+    }
+  ],
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Opulence\\Environments\\": ""
+    }
+  },
+  "require": {
+    "php": ">=5.5.10",
+    "monolog/monolog": "1.12.*@dev"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0.x-dev"
+    }
+  },
+  "minimum-stability": "dev"
+}
