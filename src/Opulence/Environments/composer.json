@@ -19,8 +19,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
-    "monolog/monolog": "1.12.*@dev"
+    "php": ">=5.5.10"
   },
   "extra": {
     "branch-alias": {
