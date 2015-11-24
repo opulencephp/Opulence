@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Routing\Url;
+namespace Opulence\Routing\Urls;
 
 use Exception;
 

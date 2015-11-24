@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Routing\Url;
+namespace Opulence\Routing\Urls;
 
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\RouteCollection;
@@ -51,6 +51,33 @@ class UrlGenerator
         array_shift($args);
 
         return $this->generateHost($route, $args) . $this->generatePath($route, $args);
+    }
+
+    /**
+     * Creates a URL regex for the named route
+     *
+     * @param string $name The named of the route whose URL regex we're generating
+     * @return string The generated URL regex
+     * @throws URLException Thrown if there was an error generating the URL regex
+     */
+    public function createRegexFromName($name)
+    {
+        $route = $this->routeCollection->getNamedRoute($name);
+
+        if ($route === null) {
+            return "#^.*$#";
+        }
+
+        $strippedPathRegex = substr($route->getPathRegex(), 2, -2);
+
+        if (empty($route->getRawHost())) {
+            return "#^$strippedPathRegex$#";
+        }
+
+        $protocolRegex = preg_quote("http" . ($route->isSecure() ? "s" : "") . "://", "#");
+        $strippedHostRegex = substr($route->getHostRegex(), 2, -2);
+
+        return "#^$protocolRegex$strippedHostRegex$strippedPathRegex$#";
     }
 
     /**

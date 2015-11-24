@@ -1,3 +1,18 @@
+<h2>v1.0.0-alpha20</h2>
+
+<h3>Debug</h3>
+* Improved default page template for exceptions in development environment
+
+<h3>Framework</h3>
+* Added `currentRouteIs()` view function
+
+<h3>HTTP</h3>
+* Added `Opulence\Http\Requests\Request::isUrl()`
+
+<h3>Routing</h3>
+* Changed `Opulence\Routing\Url` to `Opulence\Routing\Urls`
+* Added `Opulence\Routing\Urls\UrlGenerator::createRegexFromName()`
+
 <h2>v1.0.0-alpha19</h2>
 
 <h3>General</h3>

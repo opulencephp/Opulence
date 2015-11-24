@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Routing\Url;
+namespace Opulence\Routing\Urls;
 
 use Opulence\Http\Requests\Request;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
@@ -156,6 +156,10 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
             "https://foo.example.com/users",
             $this->generator->createFromName("secureHostNoParameters")
         );
+        $this->assertEquals(
+            "#^" . preg_quote("https://foo.example.com/users", "#") . "$#",
+            $this->generator->createRegexFromName("secureHostNoParameters")
+        );
     }
 
     /**
@@ -164,6 +168,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testGeneratingUrlForNonExistentRoute()
     {
         $this->assertEmpty($this->generator->createFromName("foo"));
+        $this->assertEquals("#^.*$#", $this->generator->createRegexFromName("foo"));
     }
 
     /**
@@ -175,6 +180,10 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
             "http://foo.bar.example.com/users/23/profile/edit",
             $this->generator->createFromName("hostAndPathMultipleParameters", "foo", "bar", 23, "edit")
         );
+        $this->assertEquals(
+            "#^http\://(?P<subdomain1>[^\/:]+)\.(?P<subdomain2>[^\/:]+)\.example\.com/users/(?P<userId>[^\/:]+)/profile/(?P<mode>[^\/:]+)$#",
+            $this->generator->createRegexFromName("hostAndPathMultipleParameters")
+        );
     }
 
     /**
@@ -184,6 +193,9 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals("/users", $this->generator->createFromName("pathNoParameters"));
         $this->assertEquals("http://example.com/users", $this->generator->createFromName("hostNoParameters"));
+        $this->assertEquals("#^/users$#", $this->generator->createRegexFromName("pathNoParameters"));
+        $this->assertEquals("#^http\://example\.com/users$#",
+            $this->generator->createRegexFromName("hostNoParameters"));
     }
 
     /**
@@ -192,8 +204,16 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     public function testGeneratingUrlWithOneValue()
     {
         $this->assertEquals("/users/23", $this->generator->createFromName("pathOneParameter", 23));
-        $this->assertEquals("http://foo.example.com/users",
-            $this->generator->createFromName("hostOneParameter", "foo"));
+        $this->assertEquals(
+            "http://foo.example.com/users",
+            $this->generator->createFromName("hostOneParameter", "foo")
+        );
+        $this->assertEquals("#^/users/(?P<userId>[^\/:]+)$#",
+            $this->generator->createRegexFromName("pathOneParameter"));
+        $this->assertEquals(
+            "#^http\://(?P<subdomain>[^\/:]+)\.example\.com/users$#",
+            $this->generator->createRegexFromName("hostOneParameter")
+        );
     }
 
     /**
@@ -204,6 +224,10 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             "http://example.com/users",
             $this->generator->createFromName("hostOptionalVariable")
+        );
+        $this->assertEquals(
+            "#^http\://(?:(?P<subdomain>[^\/:]+))?example\.com/users$#",
+            $this->generator->createRegexFromName("hostOptionalVariable")
         );
     }
 
@@ -234,6 +258,10 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             "/users",
             $this->generator->createFromName("pathOptionalVariable")
+        );
+        $this->assertEquals(
+            "#^/users(?:(?P<foo>[^\/:]+))?$#",
+            $this->generator->createRegexFromName("pathOptionalVariable")
         );
     }
 

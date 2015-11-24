@@ -23,7 +23,7 @@ use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
-use Opulence\Routing\Url\UrlGenerator;
+use Opulence\Routing\Urls\UrlGenerator;
 
 /**
  * Defines the routing bootstrapper

@@ -455,6 +455,23 @@ class Request
     }
 
     /**
+     * Gets whether or not the current URL matches the input URL or regular expression
+     *
+     * @param string $url The URL or regular expression to match against
+     *      If the URL is a regular expression, it should not include regex delimiters
+     * @param bool $isRegex True if the URL is a regular expression, otherwise false
+     * @return bool True if the current URL matched the URL, otherwise false
+     */
+    public function isUrl($url, $isRegex = false)
+    {
+        if ($isRegex) {
+            return preg_match("#^" . $url . "$#", $this->getFullUrl()) === 1;
+        } else {
+            return $this->getFullUrl() == $url;
+        }
+    }
+
+    /**
      * Sets the method
      * If no input is specified, then it is automatically set using headers
      *

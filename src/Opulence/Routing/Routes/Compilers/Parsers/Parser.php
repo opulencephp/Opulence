@@ -9,8 +9,8 @@
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
 use Opulence\Routing\RouteException;
-use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\ParsedRoute;
+use Opulence\Routing\Routes\Route;
 
 /**
  * Defines the route parser

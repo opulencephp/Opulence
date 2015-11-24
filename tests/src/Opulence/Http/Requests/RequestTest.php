@@ -200,6 +200,32 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that checking that a correct regex URL returns true
+     */
+    public function testCorrectRegexUrlReturnsTrue()
+    {
+        $_SERVER["SERVER_PORT"] = "80";
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["HTTP_HOST"] = "foo.com";
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
+        $request = Request::createFromGlobals();
+        $this->assertTrue($request->isUrl("http://[^\.]+\.com/foo/[^/]+/baz", true));
+    }
+
+    /**
+     * Tests that checking that a correct URL returns true
+     */
+    public function testCorrectUrlReturnsTrue()
+    {
+        $_SERVER["SERVER_PORT"] = "80";
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["HTTP_HOST"] = "foo.com";
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
+        $request = Request::createFromGlobals();
+        $this->assertTrue($request->isUrl("http://foo.com/foo/bar/baz"));
+    }
+
+    /**
      * Tests creating from globals
      */
     public function testCreatingFromGlobals()
@@ -804,6 +830,20 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_URI"] = "/foo/bar";
         $request = Request::createFromGlobals();
         $this->assertFalse($request->isPath("/foo"));
+        $this->assertFalse($request->isPath("/foo/ba[^r]"));
+    }
+
+    /**
+     * Tests that checking that an incorrect URL returns true
+     */
+    public function testIncorrectUrlReturnsFalse()
+    {
+        $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
+        $_SERVER["HTTP_HOST"] = "baz.com";
+        $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
+        $request = Request::createFromGlobals();
+        $this->assertFalse($request->isUrl("http://foo.com/foo/bar/baz"));
+        $this->assertFalse($request->isUrl("http://baz[\.]+\.com/foo/baz/.*", true));
     }
 
     /**
