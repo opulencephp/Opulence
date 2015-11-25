@@ -82,15 +82,23 @@ class DirectiveTranspilerRegistrant
         $transpiler->registerDirectiveTranspiler("include", function ($expression) {
             // Check if a list of variables were passed in as a second parameter
             if (preg_match("/^\((('|\")(.*)\\2),\s*(.+)\)$/", $expression, $matches) === 1) {
-                $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create(' . $matches[1] . ');';
-                $code .= '$__opulenceIncludedView->setVars(' . $matches[4] . ');';
+                $sharedVars = $matches[4];
+                $factoryCreateCall = 'create(' . $matches[1] . ')';
             } else {
-                $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create' . $expression . ';';
+                $sharedVars = '[]';
+                $factoryCreateCall = 'create' . $expression;
             }
 
-            $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView)); ?>';
+            // Create an isolate scope for the included view
+            $code = 'call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
+            $code .= '$__opulenceIncludedView = $__opulenceViewFactory->' . $factoryCreateCall . ';';
+            $code .= 'extract($__opulenceIncludedView->getVars());';
+            // Extract any shared vars, which will override any identically-named view vars
+            $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
+            $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
+            $code .= '}, ' . $sharedVars . ');';
 
-            return $code;
+            return "<?php $code ?>";
         });
         $transpiler->registerDirectiveTranspiler("parent", function () {
             // This placeholder will be overwritten later

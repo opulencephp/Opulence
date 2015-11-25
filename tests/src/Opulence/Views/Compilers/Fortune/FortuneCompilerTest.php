@@ -331,6 +331,40 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that included view's vars are isolated
+     */
+    public function testIncludedViewVarsAreIsolated()
+    {
+        $includedView = new View("Foo", 'foo');
+        $includedView->setVar("foo", "bar");
+        $this->viewFactory->expects($this->at(0))
+            ->method("create")
+            ->willReturn($includedView);
+        $this->view->setContents('<% include("Foo") %><?php echo isset($foo) ? "set" : "not set"; ?>');
+        $this->assertEquals(
+            "foonot set",
+            $this->fortuneCompiler->compile($this->view)
+        );
+    }
+
+    /**
+     * Tests that included view vars are isolated from outside view vars
+     */
+    public function testIncludedViewVarsAreIsolatedFromOutsideViewVars()
+    {
+        $includedView = new View("Foo", '<?php echo isset($foo) ? "set" : "not set"; ?>');
+        $this->viewFactory->expects($this->at(0))
+            ->method("create")
+            ->willReturn($includedView);
+        $this->view->setContents('<% include("Foo") %>');
+        $this->view->setVar("foo", "bar");
+        $this->assertEquals(
+            "not set",
+            $this->fortuneCompiler->compile($this->view)
+        );
+    }
+
+    /**
      * Tests that line breaks are trimmed after compiling
      */
     public function testLineBreaksAreTrimmedAfterCompiling()
@@ -430,6 +464,23 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $this->view->setVar("foo", '<?php exit; ?>');
         $this->assertEquals(
             '<?php exit; ?>',
+            $this->fortuneCompiler->compile($this->view)
+        );
+    }
+
+    /**
+     * Tests that shared vars override included view's vars
+     */
+    public function testSharedVarsOverrideIncludedViewVars()
+    {
+        $includedView = new View("Foo", '<?php echo $foo; ?>');
+        $includedView->setVar("foo", "bar");
+        $this->viewFactory->expects($this->at(0))
+            ->method("create")
+            ->willReturn($includedView);
+        $this->view->setContents('<% include("Foo", ["foo" => "baz"]) %>bar');
+        $this->assertEquals(
+            "bazbar",
             $this->fortuneCompiler->compile($this->view)
         );
     }

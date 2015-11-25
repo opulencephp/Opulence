@@ -1,3 +1,9 @@
+<h2>v1.0.0-alpha21</h2>
+
+<h3>Views</h3>
+* Fixed bug that did not extract included views' vars
+* Included view vars are now completely isolated from vars set outside the included view
+
 <h2>v1.0.0-alpha20</h2>
 
 <h3>Debug</h3>

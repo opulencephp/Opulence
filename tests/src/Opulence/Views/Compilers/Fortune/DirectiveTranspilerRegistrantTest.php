@@ -211,8 +211,13 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     public function testTranspilingInclude()
     {
         $this->view->setContents('<% include("foo.php") %>bar');
-        $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
-        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView)); ?>';
+        $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
+        $code .= 'extract($__opulenceIncludedView->getVars());';
+        $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
+        $code .= '}, []);';
+        $code .= ' ?>';
         $this->assertEquals(
             "{$code}bar",
             $this->transpiler->transpile($this->view)
@@ -225,9 +230,13 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     public function testTranspilingIncludeWithPassedVariables()
     {
         $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
-        $code = '<?php $__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
-        $code .= '$__opulenceIncludedView->setVars(["foo" => "bar"]);';
-        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView)); ?>';
+        $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
+        $code .= 'extract($__opulenceIncludedView->getVars());';
+        $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
+        $code .= '}, ["foo" => "bar"]);';
+        $code .= ' ?>';
         $this->assertEquals(
             "{$code}baz",
             $this->transpiler->transpile($this->view)
