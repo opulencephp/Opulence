@@ -10,8 +10,8 @@ namespace Opulence\Sessions;
 
 use InvalidArgumentException;
 use Opulence\Cryptography\Utilities\Strings;
-use Opulence\Sessions\Ids\IIdGenerator;
-use Opulence\Sessions\Ids\IdGenerator;
+use Opulence\Sessions\Ids\Generators\IdGenerator;
+use Opulence\Sessions\Ids\Generators\IIdGenerator;
 
 /**
  * Defines a session that persists throughout a transaction on a page

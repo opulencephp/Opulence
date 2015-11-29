@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Sessions\Ids;
+namespace Opulence\Sessions\Ids\Generators;
 
 /**
  * Defines the interface for session Id generators to implement

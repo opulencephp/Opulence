@@ -20,6 +20,11 @@ interface IEntityRegistry
     public function clear();
 
     /**
+     * Clears all aggregate root child functions
+     */
+    public function clearAggregateRootChildFunctions();
+
+    /**
      * Deregisters an entity
      * This should only be called through a unit of work
      *
@@ -76,12 +81,29 @@ interface IEntityRegistry
     public function isRegistered($entity);
 
     /**
+     * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
+     * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
+     *
+     * @param object $aggregateRoot The aggregate root
+     * @param object $child The child of the aggregate root
+     * @param callable $function The function that contains the logic to set the aggregate root Id in the child
+     */
+    public function registerAggregateRootChild($aggregateRoot, $child, callable $function);
+
+    /**
      * Registers an entity
      *
      * @param object $entity The entity to register
      * @throws OrmException Thrown if there was an error registering the entity
      */
     public function registerEntity(&$entity);
+
+    /**
+     * Runs any aggregate root child functions registered for the entity
+     *
+     * @param object $child The child whose aggregate root functions we're running
+     */
+    public function runAggregateRootChildFunctions($child);
 
     /**
      * Sets an entity's state

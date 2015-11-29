@@ -34,7 +34,7 @@ interface ICachedSqlDataMapper extends IDataMapper
     /**
      * Gets the SQL data mapper
      *
-     * @return ISQLDataMapper The SQL data mapper
+     * @return SqlDataMapper The SQL data mapper
      */
     public function getSqlDataMapper();
 

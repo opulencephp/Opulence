@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the session middleware
- */
 namespace Opulence\Framework\Http\Middleware;
 
 use Closure;
@@ -19,6 +16,9 @@ use Opulence\Http\Responses\Response;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
 
+/**
+ * Defines the session middleware
+ */
 abstract class Session implements IMiddleware
 {
     /** The key of the previous URL */

@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the base class for "make:" commands to extend
- */
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -20,6 +17,9 @@ use Opulence\Console\StatusCodes;
 use Opulence\Files\FileSystem;
 use Opulence\Framework\Composer\Composer;
 
+/**
+ * Defines the base class for "make:" commands to extend
+ */
 abstract class MakeCommand extends Command
 {
     /** @var Prompt The console prompt */

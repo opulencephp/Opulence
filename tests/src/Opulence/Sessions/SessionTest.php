@@ -9,8 +9,8 @@
 namespace Opulence\Sessions;
 
 use InvalidArgumentException;
-use Opulence\Sessions\Ids\IdGenerator;
-use Opulence\Sessions\Ids\IIdGenerator;
+use Opulence\Sessions\Ids\Generators\IdGenerator;
+use Opulence\Sessions\Ids\Generators\IIdGenerator;
 
 /**
  * Tests the session class

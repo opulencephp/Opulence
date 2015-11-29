@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the console application test case
- */
 namespace Opulence\Framework\Testing\PhpUnit\Console;
 
 use Opulence\Console\Commands\CommandCollection;
@@ -28,6 +25,9 @@ use Opulence\Environments\Environment;
 use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
+/**
+ * Defines the console application test case
+ */
 abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var CommandCollection The list of registered commands */

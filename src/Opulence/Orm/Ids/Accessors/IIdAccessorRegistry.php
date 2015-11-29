@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Orm\Ids;
+namespace Opulence\Orm\Ids\Accessors;
 
 use Opulence\Orm\OrmException;
 
@@ -20,7 +20,7 @@ interface IIdAccessorRegistry
      *
      * @param object $entity The entity whose Id we want
      * @return mixed The Id of the entity
-     * @throws OrmException Throw if no Id getter is registered for the entity
+     * @throws OrmException Thrown if no Id getter is registered for the entity
      */
     public function getEntityId($entity);
 

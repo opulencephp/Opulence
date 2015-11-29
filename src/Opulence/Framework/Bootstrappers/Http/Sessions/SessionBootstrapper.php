@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the session bootstrapper
- */
 namespace Opulence\Framework\Bootstrappers\Http\Sessions;
 
 use Opulence\Bootstrappers\Bootstrapper;
@@ -16,6 +13,9 @@ use Opulence\Ioc\IContainer;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
 
+/**
+ * Defines the session bootstrapper
+ */
 abstract class SessionBootstrapper extends Bootstrapper
 {
     /**

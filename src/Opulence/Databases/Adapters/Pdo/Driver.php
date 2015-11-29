@@ -6,15 +6,15 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the base class for PDO drivers
- */
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IDriver;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server;
 
+/**
+ * Defines the base class for PDO drivers
+ */
 abstract class Driver implements IDriver
 {
     /** @var Provider The provider this driver uses */

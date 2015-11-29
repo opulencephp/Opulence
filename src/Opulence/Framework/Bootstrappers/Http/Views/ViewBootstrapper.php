@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the view bootstrapper
- */
 namespace Opulence\Framework\Bootstrappers\Http\Views;
 
 use Opulence\Bootstrappers\Bootstrapper;
@@ -33,6 +30,9 @@ use Opulence\Views\Factories\IViewFactory;
 use Opulence\Views\Factories\ViewFactory;
 use Opulence\Views\Filters\XssFilter;
 
+/**
+ * Defines the view bootstrapper
+ */
 abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrapper
 {
     /** @var ICache The view cache */

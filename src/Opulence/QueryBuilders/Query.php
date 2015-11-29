@@ -6,13 +6,13 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines common functionality for query classes
- */
 namespace Opulence\QueryBuilders;
 
 use PDO;
 
+/**
+ * Defines common functionality for query classes
+ */
 abstract class Query
 {
     /** @var string The name of the table we're querying */

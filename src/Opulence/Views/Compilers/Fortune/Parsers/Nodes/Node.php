@@ -6,11 +6,11 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
+
 /**
  * Defines a view node
  */
-namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
-
 abstract class Node
 {
     /** @var mixed|null The value of the node */

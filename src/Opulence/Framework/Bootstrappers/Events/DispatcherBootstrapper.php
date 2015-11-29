@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the event dispatcher bootstrapper
- */
 namespace Opulence\Framework\Bootstrappers\Events;
 
 use InvalidArgumentException;
@@ -18,6 +15,9 @@ use Opulence\Events\Dispatchers\IDispatcher;
 use Opulence\Events\IEvent;
 use Opulence\Ioc\IContainer;
 
+/**
+ * Defines the event dispatcher bootstrapper
+ */
 abstract class DispatcherBootstrapper extends Bootstrapper
 {
     /**

@@ -10,7 +10,9 @@ namespace Opulence\Orm\Repositories;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
 use Opulence\Orm\EntityRegistry;
-use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
+use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
+use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
 use Opulence\Orm\OrmException;
 use Opulence\Orm\UnitOfWork;
 use Opulence\Tests\Databases\Mocks\Connection;
@@ -51,11 +53,23 @@ class RepoTest extends \PHPUnit_Framework_TestCase
                 $user->setId($id);
             }
         );
+        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry->expects($this->any())
+            ->method("getIdGenerator")
+            ->with(User::class)
+            ->willReturn(new IntSequenceIdGenerator("foo"));
         $changeTracker = new ChangeTracker();
         $server = new Server();
         $connection = new Connection($server);
         $entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
-        $this->unitOfWork = new UnitOfWork($entityRegistry, $idAccessorRegistry, $changeTracker, $connection);
+        $this->unitOfWork = new UnitOfWork(
+            $entityRegistry,
+            $idAccessorRegistry,
+            $idGeneratorRegistry,
+            $changeTracker,
+            $connection
+        );
         $this->dataMapper = new SqlDataMapper();
         $this->entity1 = new User(1, "foo");
         $this->entity2 = new User(2, "bar");

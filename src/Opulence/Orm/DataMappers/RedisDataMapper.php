@@ -6,13 +6,13 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines a data mapper that maps domain data to and from Redis
- */
 namespace Opulence\Orm\DataMappers;
 
 use Opulence\Redis\Redis;
 
+/**
+ * Defines a data mapper that maps domain data to and from Redis
+ */
 abstract class RedisDataMapper implements ICacheDataMapper
 {
     /** Defines a string value */

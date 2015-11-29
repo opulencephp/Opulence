@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Orm\Ids;
+namespace Opulence\Orm\Ids\Accessors;
 
 use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;
@@ -79,10 +79,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     {
         $className = get_class($entity);
 
-        if (
-            !isset($this->idAccessorFunctions[$className]["setter"]) ||
-            $this->idAccessorFunctions[$className]["setter"] == null
-        ) {
+        if (!isset($this->idAccessorFunctions[$className]["setter"])) {
             if (!$entity instanceof IEntity) {
                 throw new OrmException("No Id setter registered for class $className");
             }

@@ -6,55 +6,45 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+namespace Opulence\Orm\DataMappers;
+
+use Opulence\Databases\IConnection;
+use Opulence\Orm\OrmException;
+use PDO;
+use PDOException;
+
 /**
  * Defines the base SQL data mapper class
  */
-namespace Opulence\Orm\DataMappers;
-
-use PDO;
-use PDOException;
-use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\Databases\IConnection;
-use Opulence\Orm\Ids\IdGenerator;
-use Opulence\Orm\OrmException;
-
-abstract class SqlDataMapper implements ISqlDataMapper
+abstract class SqlDataMapper implements IDataMapper
 {
-    /** @var ConnectionPool The connection pool to use for queries */
-    protected $connectionPool = null;
-    /** @var IdGenerator The Id generator this data mapper uses to create new Ids */
-    protected $idGenerator = null;
+    /** Defines a single entity */
+    const VALUE_TYPE_ENTITY = 0;
+    /** Defines an array of entities */
+    const VALUE_TYPE_ARRAY = 1;
+
+    /** @var IConnection The read connection */
+    protected $readConnection = null;
+    /** @var IConnection The write connection */
+    protected $writeConnection = null;
 
     /**
-     * @param ConnectionPool $connectionPool The connection pool to use for queries
+     * @param IConnection $readConnection The read connection
+     * @param IConnection $writeConnection The write connection
      */
-    public function __construct(ConnectionPool $connectionPool)
+    public function __construct(IConnection $readConnection, IConnection $writeConnection)
     {
-        $this->connectionPool = $connectionPool;
-        $this->setIdGenerator();
-    }
-
-    /**
-     * @return IdGenerator
-     */
-    public function getIdGenerator()
-    {
-        return $this->idGenerator;
+        $this->readConnection = $readConnection;
+        $this->writeConnection = $writeConnection;
     }
 
     /**
      * Loads an entity from a hash of data
      *
      * @param array $hash The hash of data to load the entity from
-     * @param IConnection $connection The connection used to load the entity
      * @return object The entity
      */
-    abstract protected function loadEntity(array $hash, IConnection $connection);
-
-    /**
-     * Sets the Id generator used by this data mapper
-     */
-    abstract protected function setIdGenerator();
+    abstract protected function loadEntity(array $hash);
 
     /**
      * Performs the read query for entity(ies) and returns any results
@@ -69,7 +59,7 @@ abstract class SqlDataMapper implements ISqlDataMapper
     protected function read($sql, array $sqlParameters, $valueType, $expectSingleResult = false)
     {
         try {
-            $connection = $this->connectionPool->getReadConnection();
+            $connection = $this->readConnection;
             $statement = $connection->prepare($sql);
             $statement->bindValues($sqlParameters);
             $statement->execute();
@@ -82,7 +72,7 @@ abstract class SqlDataMapper implements ISqlDataMapper
             $rows = $statement->fetchAll(PDO::FETCH_BOTH);
 
             foreach ($rows as $row) {
-                $entities[] = $this->loadEntity($row, $connection);
+                $entities[] = $this->loadEntity($row);
             }
 
             if ($valueType == self::VALUE_TYPE_ENTITY) {

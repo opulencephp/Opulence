@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the base session handler
- */
 namespace Opulence\Sessions\Handlers;
 
 use LogicException;
@@ -16,6 +13,9 @@ use Opulence\Cryptography\Encryption\EncryptionException;
 use Opulence\Cryptography\Encryption\IEncrypter;
 use SessionHandlerInterface;
 
+/**
+ * Defines the base session handler
+ */
 abstract class SessionHandler implements IEncryptableSessionHandler, SessionHandlerInterface
 {
     /** @var bool Whether or not this handler encrypts the session when storing it */

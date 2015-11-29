@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Orm\Ids;
+namespace Opulence\Orm\Ids\Accessors;
 
 use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;

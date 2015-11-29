@@ -9,19 +9,22 @@
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
-use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
+use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
+use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Databases\Mocks\Connection;
 use Opulence\Tests\Databases\Mocks\Server;
 use Opulence\Tests\Orm\DataMappers\Mocks\CachedSqlDataMapper;
 use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
+use Opulence\Tests\Orm\Mocks\UnitOfWork as MockUnitOfWork;
 
 /**
  * Tests the unit of work
  */
 class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var UnitOfWork The unit of work to use in the tests */
+    /** @var MockUnitOfWork The unit of work to use in the tests */
     private $unitOfWork = null;
     /** @var EntityRegistry The entity registry to use in tests */
     private $entityRegistry = null;
@@ -51,13 +54,20 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
                 $user->setId($id);
             }
         );
+        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry->expects($this->any())
+            ->method("getIdGenerator")
+            ->with(User::class)
+            ->willReturn(new IntSequenceIdGenerator("foo"));
         $changeTracker = new ChangeTracker();
         $server = new Server();
         $connection = new Connection($server);
         $this->entityRegistry = new EntityRegistry($idAccessorRegistry, $changeTracker);
-        $this->unitOfWork = new UnitOfWork(
+        $this->unitOfWork = new MockUnitOfWork(
             $this->entityRegistry,
             $idAccessorRegistry,
+            $idGeneratorRegistry,
             $changeTracker,
             $connection
         );
@@ -65,8 +75,8 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
-         * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
-         * set to the Ids
+         * They are also purposely set to 724, 1987, and 345 so that they won't potentially overlap with any default
+         * values set to the Ids
          */
         $this->entity1 = new User(724, "foo");
         $this->entity2 = new User(1987, "bar");
@@ -146,21 +156,100 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting a data mapper
-     */
-    public function testGettingDataMapper()
-    {
-        $className = $this->entityRegistry->getClassName($this->entity1);
-        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->assertEquals($this->dataMapper, $this->unitOfWork->getDataMapper($className));
-    }
-
-    /**
      * Tests getting the entity registry
      */
     public function testGettingEntityRegistry()
     {
         $this->assertSame($this->entityRegistry, $this->unitOfWork->getEntityRegistry());
+    }
+
+    /**
+     * Tests that the Id is not generated and set when no generator is registered
+     */
+    public function testIdNotGeneratedNorSetWhenGeneratorNotRegistered()
+    {
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(
+            User::class,
+            function ($user) {
+                /** @var User $user */
+                return $user->getId();
+            },
+            function ($user, $id) {
+                /** @var User $user */
+                $user->setId($id);
+            }
+        );
+        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry->expects($this->any())
+            ->method("getIdGenerator")
+            ->willReturn(null);
+
+        $server = new Server();
+        $connection = new Connection($server);
+        $this->unitOfWork = new MockUnitOfWork(
+            $this->entityRegistry,
+            $idAccessorRegistry,
+            $idGeneratorRegistry,
+            new ChangeTracker(),
+            $connection
+        );
+        $this->dataMapper = new SqlDataMapper();
+        $this->entity1 = new User(123, "foo");
+        $className = $this->entityRegistry->getClassName($this->entity1);
+        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+        $this->unitOfWork->scheduleForInsertion($this->entity1);
+        $this->unitOfWork->commit();
+        $this->assertSame(123, $this->entity1->getId());
+    }
+
+    /**
+     * Tests that the Id is not generated and set when no generator is registered
+     */
+    public function testIdNotResetOnRollbackWhenGeneratorNotRegistered()
+    {
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(
+            User::class,
+            function ($user) {
+                /** @var User $user */
+                return $user->getId();
+            },
+            function ($user, $id) {
+                /** @var User $user */
+                $user->setId($id);
+            }
+        );
+        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry->expects($this->any())
+            ->method("getIdGenerator")
+            ->willReturn(null);
+
+        $server = new Server();
+        $connection = new Connection($server);
+        $connection->setToFailOnPurpose(true);
+        $this->unitOfWork = new MockUnitOfWork(
+            $this->entityRegistry,
+            $idAccessorRegistry,
+            $idGeneratorRegistry,
+            new ChangeTracker(),
+            $connection
+        );
+
+        try {
+            $this->dataMapper = new SqlDataMapper();
+            $this->entity1 = new User(123, "foo");
+            $className = $this->entityRegistry->getClassName($this->entity1);
+            $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
+            $this->unitOfWork->scheduleForInsertion($this->entity1);
+            $this->unitOfWork->commit();
+        } catch (OrmException $ex) {
+            // Don't do anything
+        }
+
+        $this->assertSame(123, $this->entity1->getId());
     }
 
     /**
@@ -202,7 +291,18 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testNotSettingConnection()
     {
         $this->setExpectedException(OrmException::class);
-        $unitOfWork = new UnitOfWork($this->entityRegistry, new IdAccessorRegistry(), new ChangeTracker());
+        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry->expects($this->any())
+            ->method("getIdGenerator")
+            ->with(User::class)
+            ->willReturn(new IntSequenceIdGenerator("foo"));
+        $unitOfWork = new MockUnitOfWork(
+            $this->entityRegistry,
+            new IdAccessorRegistry(),
+            $idGeneratorRegistry,
+            new ChangeTracker()
+        );
         $unitOfWork->commit();
     }
 
@@ -295,7 +395,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity2);
-        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2,
+        $this->unitOfWork->getEntityRegistry()->registerAggregateRootChild($this->entity1, $this->entity2,
             function ($aggregateRoot, $child) {
                 /** @var User $aggregateRoot */
                 /** @var User $child */
@@ -316,7 +416,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForUpdate($this->entity2);
-        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity2,
+        $this->unitOfWork->getEntityRegistry()->registerAggregateRootChild($this->entity1, $this->entity2,
             function ($aggregateRoot, $child) {
                 /** @var User $aggregateRoot */
                 /** @var User $child */
@@ -325,37 +425,6 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertNotEquals($originalAggregateRootId, $this->entity2->getAggregateRootId());
         $this->assertEquals($this->entity1->getId(), $this->entity2->getAggregateRootId());
-    }
-
-    /**
-     * Tests setting two aggregate roots for a single child
-     */
-    public function testSettingTwoAggregateRootsForChild()
-    {
-        $originalAggregateRootId = $this->entity1->getId();
-        $originalSecondAggregateRootId = $this->entity2->getId();
-        $className = $this->entityRegistry->getClassName($this->entity1);
-        $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $this->unitOfWork->scheduleForInsertion($this->entity1);
-        $this->unitOfWork->scheduleForInsertion($this->entity2);
-        $this->unitOfWork->scheduleForInsertion($this->entity3);
-        $this->unitOfWork->registerAggregateRootChild($this->entity1, $this->entity3,
-            function ($aggregateRoot, $child) {
-                /** @var User $aggregateRoot */
-                /** @var User $child */
-                $child->setAggregateRootId($aggregateRoot->getId());
-            });
-        $this->unitOfWork->registerAggregateRootChild($this->entity2, $this->entity3,
-            function ($aggregateRoot, $child) {
-                /** @var User $aggregateRoot */
-                /** @var User $child */
-                $child->setSecondAggregateRootId($aggregateRoot->getId());
-            });
-        $this->unitOfWork->commit();
-        $this->assertNotEquals($originalAggregateRootId, $this->entity3->getAggregateRootId());
-        $this->assertNotEquals($originalSecondAggregateRootId, $this->entity3->getSecondAggregateRootId());
-        $this->assertEquals($this->entity1->getId(), $this->entity3->getAggregateRootId());
-        $this->assertEquals($this->entity2->getId(), $this->entity3->getSecondAggregateRootId());
     }
 
     /**
@@ -373,14 +442,33 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
     public function testUnsuccessfulCommit()
     {
         $exceptionThrown = false;
+        $idAccessorRegistry = new IdAccessorRegistry();
+        $idAccessorRegistry->registerIdAccessors(
+            User::class,
+            function ($user) {
+                /** @var User $user */
+                return $user->getId();
+            },
+            function ($user, $id) {
+                /** @var User $user */
+                $user->setId($id);
+            }
+        );
+        /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
+        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry->expects($this->any())
+            ->method("getIdGenerator")
+            ->with(User::class)
+            ->willReturn(new IntSequenceIdGenerator("foo"));
 
         try {
             $server = new Server();
             $connection = new Connection($server);
             $connection->setToFailOnPurpose(true);
-            $this->unitOfWork = new UnitOfWork(
+            $this->unitOfWork = new MockUnitOfWork(
                 $this->entityRegistry,
-                new IdAccessorRegistry(),
+                $idAccessorRegistry,
+                $idGeneratorRegistry,
                 new ChangeTracker(),
                 $connection
             );
@@ -397,8 +485,14 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->assertTrue($exceptionThrown);
-        $this->assertSame($this->dataMapper->getIdGenerator()->getEmptyValue(), $this->entity1->getId());
-        $this->assertSame($this->dataMapper->getIdGenerator()->getEmptyValue(), $this->entity2->getId());
+        $this->assertSame(
+            $idGeneratorRegistry->getIdGenerator(User::class)->getEmptyValue($this->entity1),
+            $this->entity1->getId()
+        );
+        $this->assertSame(
+            $idGeneratorRegistry->getIdGenerator(User::class)->getEmptyValue($this->entity2),
+            $this->entity2->getId()
+        );
     }
 
     /**

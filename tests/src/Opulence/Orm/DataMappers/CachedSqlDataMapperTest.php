@@ -8,7 +8,7 @@
  */
 namespace Opulence\Orm\DataMappers;
 
-use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Orm\DataMappers\Mocks\CacheDataMapperThatReturnsNull;
@@ -103,7 +103,7 @@ class CachedSqlDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingSqlDataMapper()
     {
-        $this->assertInstanceOf(ISqlDataMapper::class, $this->dataMapper->getSqlDataMapper());
+        $this->assertInstanceOf(SqlDataMapper::class, $this->dataMapper->getSqlDataMapper());
     }
 
     /**

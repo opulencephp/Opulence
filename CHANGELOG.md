@@ -1,3 +1,19 @@
+<h2>v1.0.0-alpha22</h2>
+
+<h3>ORM</h3>
+* Moved `Opulence\Orm\Ids\BigIntSequenceIdGenerator`, `IdGenerator`, `IntSequenceIdGenerator` to `Opulence\Orm\Ids\Generators` namespace
+* Added `Opulence\Orm\Ids\Generators\IIdGenerator`
+* Added `Opulence\Orm\Ids\Generators\SequenceIdGenerator`
+* Removed `Opulence\Orm\Ids\Generators\IdGenerator`
+* Moved `Opulence\Orm\Ids\IdAccessorRegistry` and `IIdAccessorRegistry` to `Opulence\Orm\Ids\Accessors` namespace
+* Changed `Opulence\Orm\UnitOfWork::getDataMapper()`, `getScheduledEntityDeletions()`, `getScheduledEntityInsertions()`, and `getScheduledEntityUpdates` to protected
+* Removed `Opulence\Orm\DataMappers\ISqlDataMapper` and moved its constants to `SqlDataMapper`
+* Removed `Opulence\Orm\DataMappers\SqlDataMapper::getIdGenerator()` and `setIdGenerator()`
+* Changed `Opulence\Orm\DataMappers\SqlDataMapper` to accept `IConnection $readConnection` and `IConnection $writeConnection` rather than a `ConnectionPool` in its constructor
+
+<h3>Sessions</h3>
+* For consistency, moved `Opulence\Sessions\Ids\IdGenerator` and IIdGenerator` to `Opulence\Sessions\Ids\Generators` namespace
+
 <h2>v1.0.0-alpha21</h2>
 
 <h3>Views</h3>

@@ -8,9 +8,7 @@
  */
 namespace Opulence\Tests\Orm\DataMappers\Mocks;
 
-use Opulence\Databases\IConnection;
 use Opulence\Orm\DataMappers\SqlDataMapper as BaseSqlDataMapper;
-use Opulence\Orm\Ids\IntSequenceIdGenerator;
 use Opulence\Orm\OrmException;
 
 /**
@@ -25,7 +23,7 @@ class SqlDataMapper extends BaseSqlDataMapper
 
     public function __construct()
     {
-        $this->setIdGenerator();
+        // Don't do anything
     }
 
     /**
@@ -92,16 +90,8 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    protected function loadEntity(array $hash, IConnection $connection)
+    protected function loadEntity(array $hash)
     {
         // Don't do anything
-    }
-
-    /**
-     * @inheritdoc
-     */
-    protected function setIdGenerator()
-    {
-        $this->idGenerator = new IntSequenceIdGenerator("foo");
     }
 } 

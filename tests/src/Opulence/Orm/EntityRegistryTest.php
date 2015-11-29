@@ -9,8 +9,9 @@
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
-use Opulence\Orm\Ids\IdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Tests\Mocks\User;
+use RuntimeException;
 
 /**
  * Tests the entity registry
@@ -23,10 +24,14 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     private $entity1 = null;
     /** @var User An entity to use in the tests */
     private $entity2 = null;
+    /** @var User An entity to use in the tests */
+    private $entity3 = null;
     /** @var string Entity 1's object hash Id */
     private $entity1HashId;
     /** @var string Entity 2's object hash Id */
     private $entity2HashId;
+    /** @var string Entity 3's object hash Id */
+    private $entity3HashId;
 
     /**
      * Sets up the tests
@@ -49,13 +54,15 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         /**
          * The Ids are purposely unique so that we can identify them as such without having to first insert them to
          * assign unique Ids
-         * They are also purposely set to 724 and 1987 so that they won't potentially overlap with any default values
-         * set to the Ids
+         * They are also purposely set to 724, 1987, and 345 so that they won't potentially overlap with any default
+         * values set to the Ids
          */
         $this->entity1 = new User(724, "foo");
         $this->entity2 = new User(1987, "bar");
+        $this->entity3 = new User(345, "baz");
         $this->entity1HashId = $this->entityRegistry->getObjectHashId($this->entity1);
         $this->entity2HashId = $this->entityRegistry->getObjectHashId($this->entity2);
+        $this->entity3HashId = $this->entityRegistry->getObjectHashId($this->entity3);
     }
 
     /**
@@ -89,6 +96,17 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity2));
         $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity1));
         $this->assertEquals(EntityStates::NEVER_REGISTERED, $this->entityRegistry->getEntityState($this->entity2));
+    }
+
+    /**
+     * Tests deregestering also removes aggregate root child function
+     */
+    public function testDeregesteringAlsoRemovesAggregateRootChildFunction()
+    {
+        $this->entityRegistry->registerAggregateRootChild($this->entity1, $this->entity2, function ($root, $child) {
+            throw new RuntimeException("Should not get here");
+        });
+        $this->entityRegistry->deregisterEntity($this->entity2);
     }
 
     /**
@@ -191,5 +209,27 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
         $this->entityRegistry->registerEntity($this->entity1);
         $this->entityRegistry->setState($this->entity1, EntityStates::DEQUEUED);
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
+    }
+
+    /**
+     * Tests setting two aggregate roots for a single child
+     */
+    public function testSettingTwoAggregateRootsForChild()
+    {
+        $this->entityRegistry->registerAggregateRootChild($this->entity1, $this->entity3,
+            function ($aggregateRoot, $child) {
+                /** @var User $aggregateRoot */
+                /** @var User $child */
+                $child->setAggregateRootId($aggregateRoot->getId());
+            });
+        $this->entityRegistry->registerAggregateRootChild($this->entity2, $this->entity3,
+            function ($aggregateRoot, $child) {
+                /** @var User $aggregateRoot */
+                /** @var User $child */
+                $child->setSecondAggregateRootId($aggregateRoot->getId());
+            });
+        $this->entityRegistry->runAggregateRootChildFunctions($this->entity3);
+        $this->assertEquals($this->entity1->getId(), $this->entity3->getAggregateRootId());
+        $this->assertEquals($this->entity2->getId(), $this->entity3->getSecondAggregateRootId());
     }
 }

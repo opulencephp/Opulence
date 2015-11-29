@@ -1,14 +1,7 @@
 <?php
-/**
- * Opulence
- *
- * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2015 David Young
- * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
- */
 namespace {{namespace}};
 
-use Opulence\Databases\ConnectionPools\ConnectionPool;
+use Opulence\Databases\IConnection;
 use Opulence\Orm\DataMappers\RedisCachedSqlDataMapper;
 use Opulence\Orm\OrmException;
 use Opulence\Redis\Redis;
@@ -83,9 +76,10 @@ class {{class}} extends RedisCachedSqlDataMapper
     /**
      * Sets the Sql data mapper to use in this repo
      *
-     * @param ConnectionPool $connectionPool The connection pool used in the data mapper
+     * @param IConnection $readConnection The read connection
+     * @param IConnection $writeConnection The write connection
      */
-    protected function setSqlDataMapper(ConnectionPool $connectionPool)
+    protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection)
     {
 
     }

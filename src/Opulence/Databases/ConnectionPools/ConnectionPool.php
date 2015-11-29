@@ -6,10 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines a database connection pool
- * This can handle multiple server setups or simple single server setups
- */
 namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\Adapters\Pdo\MySql\Driver as MySqlDriver;
@@ -19,6 +15,10 @@ use Opulence\Databases\IConnection;
 use Opulence\Databases\Server;
 use RuntimeException;
 
+/**
+ * Defines a database connection pool
+ * This can handle multiple server setups or simple single server setups
+ */
 abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */

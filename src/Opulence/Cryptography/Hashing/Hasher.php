@@ -6,14 +6,14 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines a base cryptographic hasher
- */
 namespace Opulence\Cryptography\Hashing;
 
 use Opulence\Cryptography\Utilities\Strings;
 use RuntimeException;
 
+/**
+ * Defines a base cryptographic hasher
+ */
 abstract class Hasher implements IHasher
 {
     /** @var int The hash algorithm constant used by this hasher */

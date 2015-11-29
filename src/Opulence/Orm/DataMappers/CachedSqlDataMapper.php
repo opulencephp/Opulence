@@ -6,16 +6,16 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines a data mapper that uses cache with SQL as a backup
- */
 namespace Opulence\Orm\DataMappers;
 
 use Exception;
-use Opulence\Databases\ConnectionPools\ConnectionPool;
-use Opulence\Orm\Ids\IIdAccessorRegistry;
+use Opulence\Databases\IConnection;
+use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 use Opulence\Orm\OrmException;
 
+/**
+ * Defines a data mapper that uses cache with SQL as a backup
+ */
 abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 {
     /** @var ICacheDataMapper The cache mapper to use for temporary storage */
@@ -33,13 +33,18 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 
     /**
      * @param mixed $cache The cache object used in the cache data mapper
-     * @param ConnectionPool $connectionPool The connection pool used in the SQL data mapper
+     * @param IConnection $readConnection The read connection
+     * @param IConnection $writeConnection The write connection
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
      */
-    public function __construct($cache, ConnectionPool $connectionPool, IIdAccessorRegistry $idAccessorRegistry)
-    {
+    public function __construct(
+        $cache,
+        IConnection $readConnection,
+        IConnection $writeConnection,
+        IIdAccessorRegistry $idAccessorRegistry
+    ) {
         $this->setCacheDataMapper($cache);
-        $this->setSqlDataMapper($connectionPool);
+        $this->setSqlDataMapper($readConnection, $writeConnection);
         $this->idAccessorRegistry = $idAccessorRegistry;
     }
 
@@ -118,14 +123,6 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getIdGenerator()
-    {
-        return $this->sqlDataMapper->getIdGenerator();
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function getSqlDataMapper()
     {
         return $this->sqlDataMapper;
@@ -187,9 +184,10 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * Sets the SQL data mapper to use in this repo
      *
-     * @param ConnectionPool $connectionPool The connection pool used in the data mapper
+     * @param IConnection $readConnection The read connection
+     * @param IConnection $writeConnection The write connection
      */
-    abstract protected function setSqlDataMapper(ConnectionPool $connectionPool);
+    abstract protected function setSqlDataMapper(IConnection $readConnection, IConnection $writeConnection);
 
     /**
      * Attempts to retrieve an entity(ies) from the cache data mapper before resorting to an SQL database

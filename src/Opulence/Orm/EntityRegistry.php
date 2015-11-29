@@ -9,7 +9,7 @@
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\IChangeTracker;
-use Opulence\Orm\Ids\IIdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 
 /**
  * Defines an entity registry
@@ -24,6 +24,17 @@ class EntityRegistry implements IEntityRegistry
     private $entityStates = [];
     /** @var array The mapping of class names to a list of entities of that class */
     private $entities = [];
+    /**
+     * Maps aggregate root children to their roots as well as functions that can set the child's aggregate root Id
+     * Each entry is an array of arrays with the following keys:
+     *      "aggregateRoot" => The aggregate root
+     *      "child" => The entity whose aggregate root Id will be set to the Id of the aggregate root
+     *      "function" => The function to execute that actually sets the aggregate root Id in the child
+     *          Note:  The function MUST have two parameters: first for the aggregate root and a second for the child
+     *
+     * @var array
+     */
+    private $aggregateRootChildren = [];
 
     /**
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry
@@ -46,11 +57,20 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
+     * @inheritDoc
+     */
+    public function clearAggregateRootChildFunctions()
+    {
+        $this->aggregateRootChildren = [];
+    }
+
+    /**
      * @inheritdoc
      */
     public function deregisterEntity($entity)
     {
         $entityState = $this->getEntityState($entity);
+        unset($this->aggregateRootChildren[$this->getObjectHashId($entity)]);
 
         if ($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
@@ -138,6 +158,29 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
+     * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
+     * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
+     *
+     * @param object $aggregateRoot The aggregate root
+     * @param object $child The child of the aggregate root
+     * @param callable $function The function that contains the logic to set the aggregate root Id in the child
+     */
+    public function registerAggregateRootChild($aggregateRoot, $child, callable $function)
+    {
+        $childObjectHashId = $this->getObjectHashId($child);
+
+        if (!isset($this->aggregateRootChildren[$childObjectHashId])) {
+            $this->aggregateRootChildren[$childObjectHashId] = [];
+        }
+
+        $this->aggregateRootChildren[$childObjectHashId][] = [
+            "aggregateRoot" => $aggregateRoot,
+            "child" => $child,
+            "function" => $function
+        ];
+    }
+
+    /**
      * @inheritdoc
      */
     public function registerEntity(&$entity)
@@ -158,6 +201,21 @@ class EntityRegistry implements IEntityRegistry
             $this->changeTracker->startTracking($entity);
             $this->entities[$className][$entityId] = $entity;
             $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function runAggregateRootChildFunctions($child)
+    {
+        $objectHashId = $this->getObjectHashId($child);
+
+        if (isset($this->aggregateRootChildren[$objectHashId])) {
+            foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
+                $aggregateRoot = $aggregateRootData["aggregateRoot"];
+                $aggregateRootData["function"]($aggregateRoot, $child);
+            }
         }
     }
 

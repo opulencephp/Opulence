@@ -13,8 +13,9 @@ use Opulence\Databases\IConnection;
 use Opulence\Orm\ChangeTracking\IChangeTracker;
 use Opulence\Orm\DataMappers\ICachedSqlDataMapper;
 use Opulence\Orm\DataMappers\IDataMapper;
-use Opulence\Orm\DataMappers\ISqlDataMapper;
-use Opulence\Orm\Ids\IIdAccessorRegistry;
+use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
+use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
+use Opulence\Orm\Ids\Generators\SequenceIdGenerator;
 use RuntimeException;
 
 /**
@@ -28,6 +29,8 @@ class UnitOfWork
     private $entityRegistry = null;
     /** @var IIdAccessorRegistry The Id accessor registry */
     private $idAccessorRegistry = null;
+    /** @var IIdGeneratorRegistry The Id generator registry */
+    private $idGeneratorRegistry = null;
     /** @var IChangeTracker The change tracker */
     private $changeTracker = null;
     /** @var array The mapping of class names to their data mappers */
@@ -38,32 +41,24 @@ class UnitOfWork
     private $scheduledForUpdate = [];
     /** @var array The list of entities scheduled for deletion */
     private $scheduledForDeletion = [];
-    /**
-     * Maps aggregate root children to their roots as well as functions that can set the child's aggregate root Id
-     * Each entry is an array of arrays with the following keys:
-     *      "aggregateRoot" => The aggregate root
-     *      "child" => The entity whose aggregate root Id will be set to the Id of the aggregate root
-     *      "function" => The function to execute that actually sets the aggregate root Id in the child
-     *          Note:  The function MUST have two parameters: first for the aggregate root and a second for the child
-     *
-     * @var array
-     */
-    private $aggregateRootChildren = [];
 
     /**
      * @param IEntityRegistry $entityRegistry The entity registry to use
      * @param IIdAccessorRegistry $idAccessorRegistry The Id accessor registry to use
+     * @param IIdGeneratorRegistry $idGeneratorRegistry The Id generator registry to use
      * @param IChangeTracker $changeTracker The change tracker to use
      * @param IConnection $connection The connection to use in our unit of work
      */
     public function __construct(
         IEntityRegistry $entityRegistry,
         IIdAccessorRegistry $idAccessorRegistry,
+        IIdGeneratorRegistry $idGeneratorRegistry,
         IChangeTracker $changeTracker,
         IConnection $connection = null
     ) {
         $this->entityRegistry = $entityRegistry;
         $this->idAccessorRegistry = $idAccessorRegistry;
+        $this->idGeneratorRegistry = $idGeneratorRegistry;
         $this->changeTracker = $changeTracker;
 
         if ($connection !== null) {
@@ -103,7 +98,7 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
-        $this->aggregateRootChildren = [];
+        $this->entityRegistry->clearAggregateRootChildFunctions();
     }
 
     /**
@@ -118,7 +113,6 @@ class UnitOfWork
         unset($this->scheduledForInsertion[$objectHashId]);
         unset($this->scheduledForUpdate[$objectHashId]);
         unset($this->scheduledForDeletion[$objectHashId]);
-        unset($this->aggregateRootChildren[$objectHashId]);
     }
 
     /**
@@ -129,24 +123,8 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
-        $this->aggregateRootChildren = [];
+        $this->entityRegistry->clearAggregateRootChildFunctions();
         $this->entityRegistry->clear();
-    }
-
-    /**
-     * Gets the data mapper for the input class
-     *
-     * @param string $className The name of the class whose data mapper we're searching for
-     * @return IDataMapper The data mapper for the input class
-     * @throws RuntimeException Thrown if there was no data mapper for the input class name
-     */
-    public function getDataMapper($className)
-    {
-        if (!isset($this->dataMappers[$className])) {
-            throw new RuntimeException("No data mapper for {$className}");
-        }
-
-        return $this->dataMappers[$className];
     }
 
     /**
@@ -155,59 +133,6 @@ class UnitOfWork
     public function getEntityRegistry()
     {
         return $this->entityRegistry;
-    }
-
-    /**
-     * Gets the list of entities that are scheduled for deletion
-     *
-     * @return object[] The list of entities scheduled for deletion
-     */
-    public function getScheduledEntityDeletions()
-    {
-        return array_values($this->scheduledForDeletion);
-    }
-
-    /**
-     * Gets the list of entities that are scheduled for insertion
-     *
-     * @return object[] The list of entities scheduled for insertion
-     */
-    public function getScheduledEntityInsertions()
-    {
-        return array_values($this->scheduledForInsertion);
-    }
-
-    /**
-     * Gets the list of entities that are scheduled for update
-     *
-     * @return object[] The list of entities scheduled for update
-     */
-    public function getScheduledEntityUpdates()
-    {
-        return array_values($this->scheduledForUpdate);
-    }
-
-    /**
-     * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
-     * Since the child depends on the aggregate root's Id being set, make sure the root is inserted before the child
-     *
-     * @param object $aggregateRoot The aggregate root
-     * @param object $child The child of the aggregate root
-     * @param callable $function The function that contains the logic to set the aggregate root Id in the child
-     */
-    public function registerAggregateRootChild($aggregateRoot, $child, callable $function)
-    {
-        $childObjectHashId = $this->entityRegistry->getObjectHashId($child);
-
-        if (!isset($this->aggregateRootChildren[$childObjectHashId])) {
-            $this->aggregateRootChildren[$childObjectHashId] = [];
-        }
-
-        $this->aggregateRootChildren[$childObjectHashId][] = [
-            "aggregateRoot" => $aggregateRoot,
-            "child" => $child,
-            "function" => $function
-        ];
     }
 
     /**
@@ -298,19 +223,49 @@ class UnitOfWork
     }
 
     /**
-     * Executes the aggregate root functions, if there any for the input entity
+     * Gets the data mapper for the input class
      *
-     * @param string $objectHashId The object hash Id of the child
-     * @param object $child The child entity
+     * @param string $className The name of the class whose data mapper we're searching for
+     * @return IDataMapper The data mapper for the input class
+     * @throws RuntimeException Thrown if there was no data mapper for the input class name
      */
-    protected function doAggregateRootFunctions($objectHashId, $child)
+    protected function getDataMapper($className)
     {
-        if (isset($this->aggregateRootChildren[$objectHashId])) {
-            foreach ($this->aggregateRootChildren[$objectHashId] as $aggregateRootData) {
-                $aggregateRoot = $aggregateRootData["aggregateRoot"];
-                $aggregateRootData["function"]($aggregateRoot, $child);
-            }
+        if (!isset($this->dataMappers[$className])) {
+            throw new RuntimeException("No data mapper for $className");
         }
+
+        return $this->dataMappers[$className];
+    }
+
+    /**
+     * Gets the list of entities that are scheduled for deletion
+     *
+     * @return object[] The list of entities scheduled for deletion
+     */
+    protected function getScheduledEntityDeletions()
+    {
+        return array_values($this->scheduledForDeletion);
+    }
+
+    /**
+     * Gets the list of entities that are scheduled for insertion
+     *
+     * @return object[] The list of entities scheduled for insertion
+     */
+    protected function getScheduledEntityInsertions()
+    {
+        return array_values($this->scheduledForInsertion);
+    }
+
+    /**
+     * Gets the list of entities that are scheduled for update
+     *
+     * @return object[] The list of entities scheduled for update
+     */
+    protected function getScheduledEntityUpdates()
+    {
+        return array_values($this->scheduledForUpdate);
     }
 
     /**
@@ -320,15 +275,29 @@ class UnitOfWork
     {
         foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->doAggregateRootFunctions($objectHashId, $entity);
-            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
-            $dataMapper->add($entity);
+            $this->entityRegistry->runAggregateRootChildFunctions($entity);
+            $className = $this->entityRegistry->getClassName($entity);
+            $dataMapper = $this->getDataMapper($className);
+            $idGenerator = $this->idGeneratorRegistry->getIdGenerator($className);
 
-            if ($dataMapper instanceof ISqlDataMapper) {
-                $this->idAccessorRegistry->setEntityId(
-                    $entity,
-                    $dataMapper->getIdGenerator()->generate($entity, $this->connection)
-                );
+            if ($idGenerator !== null) {
+                if ($idGenerator instanceof SequenceIdGenerator) {
+                    $idGenerator->setConnection($this->connection);
+                }
+
+                if ($idGenerator->isPostInsert()) {
+                    $dataMapper->add($entity);
+                    $this->idAccessorRegistry->setEntityId(
+                        $entity,
+                        $idGenerator->generate($entity)
+                    );
+                } else {
+                    $this->idAccessorRegistry->setEntityId(
+                        $entity,
+                        $idGenerator->generate($entity)
+                    );
+                    $dataMapper->add($entity);
+                }
             }
 
             $this->entityRegistry->registerEntity($entity);
@@ -340,10 +309,7 @@ class UnitOfWork
      */
     protected function postCommit()
     {
-        /**
-         * @var string $className
-         * @var IDataMapper $dataMapper
-         */
+        /** @var IDataMapper $dataMapper */
         foreach ($this->dataMappers as $className => $dataMapper) {
             if ($dataMapper instanceof ICachedSqlDataMapper) {
                 // Now that the database writes have been committed, we can write to cache
@@ -359,12 +325,14 @@ class UnitOfWork
     protected function postRollback()
     {
         // Unset each of the new entities' Ids
-        /** @var object $entity */
         foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
-            $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
+            $idGenerator = $this->idGeneratorRegistry->getIdGenerator($this->entityRegistry->getClassName($entity));
 
-            if ($dataMapper instanceof ISqlDataMapper) {
-                $entity->setId($dataMapper->getIdGenerator()->getEmptyValue());
+            if ($idGenerator !== null) {
+                $this->idAccessorRegistry->setEntityId(
+                    $entity,
+                    $idGenerator->getEmptyValue($entity)
+                );
             }
         }
     }
@@ -384,7 +352,7 @@ class UnitOfWork
     {
         foreach ($this->scheduledForUpdate as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->doAggregateRootFunctions($objectHashId, $entity);
+            $this->entityRegistry->runAggregateRootChildFunctions($entity);
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->update($entity);
             $this->entityRegistry->registerEntity($entity);

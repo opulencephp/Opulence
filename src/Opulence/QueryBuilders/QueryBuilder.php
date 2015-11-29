@@ -6,11 +6,11 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+namespace Opulence\QueryBuilders;
+
 /**
  * Programmatically builds up a database query
  */
-namespace Opulence\QueryBuilders;
-
 abstract class QueryBuilder
 {
     /**

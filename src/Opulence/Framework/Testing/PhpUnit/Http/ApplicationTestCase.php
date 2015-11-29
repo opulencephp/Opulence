@@ -6,9 +6,6 @@
  * @copyright Copyright (C) 2015 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-/**
- * Defines the HTTP application test case
- */
 namespace Opulence\Framework\Testing\PhpUnit\Http;
 
 use LogicException;
@@ -24,6 +21,9 @@ use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Router;
 use Opulence\Routing\Controller;
 
+/**
+ * Defines the HTTP application test case
+ */
 abstract class ApplicationTestCase extends BaseApplicationTestCase
 {
     /** @var Router The router */
