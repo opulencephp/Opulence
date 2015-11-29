@@ -34,6 +34,14 @@ interface IIdAccessorRegistry
     public function registerIdAccessors($classNames, callable $getter, callable $setter = null);
 
     /**
+     * Registers accessors that use reflection to set Id properties in the input classes
+     *
+     * @param string|array $classNames The name or list of names of classes whose Id accessors we're registering
+     * @param string $idPropertyName The name of the Id property we're registering
+     */
+    public function registerReflectionIdAccessors($classNames, $idPropertyName);
+
+    /**
      * Sets the entity Id
      *
      * @param object $entity The entity whose Id we're setting

@@ -54,12 +54,13 @@ class EntityRegistry implements IEntityRegistry
         $this->changeTracker->stopTrackingAll();
         $this->entities = [];
         $this->entityStates = [];
+        $this->clearAggregateRoots();
     }
 
     /**
      * @inheritDoc
      */
-    public function clearAggregateRootChildFunctions()
+    public function clearAggregateRoots()
     {
         $this->aggregateRootChildren = [];
     }
@@ -165,7 +166,7 @@ class EntityRegistry implements IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootChild($aggregateRoot, $child, callable $function)
+    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function)
     {
         $childObjectHashId = $this->getObjectHashId($child);
 

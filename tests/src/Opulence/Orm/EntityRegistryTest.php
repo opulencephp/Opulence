@@ -99,14 +99,27 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests clearing the registry also clears aggregate root child functions
+     */
+    public function testClearingAlsoClearsAggregateRootChildFunctions()
+    {
+        $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity2, function ($root, $child) {
+            throw new RuntimeException("Should not get here");
+        });
+        $this->entityRegistry->clear();
+        $this->entityRegistry->runAggregateRootChildFunctions($this->entity2);
+    }
+
+    /**
      * Tests deregestering also removes aggregate root child function
      */
     public function testDeregesteringAlsoRemovesAggregateRootChildFunction()
     {
-        $this->entityRegistry->registerAggregateRootChild($this->entity1, $this->entity2, function ($root, $child) {
+        $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity2, function ($root, $child) {
             throw new RuntimeException("Should not get here");
         });
         $this->entityRegistry->deregisterEntity($this->entity2);
+        $this->entityRegistry->runAggregateRootChildFunctions($this->entity2);
     }
 
     /**
@@ -216,13 +229,13 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTwoAggregateRootsForChild()
     {
-        $this->entityRegistry->registerAggregateRootChild($this->entity1, $this->entity3,
+        $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity3,
             function ($aggregateRoot, $child) {
                 /** @var User $aggregateRoot */
                 /** @var User $child */
                 $child->setAggregateRootId($aggregateRoot->getId());
             });
-        $this->entityRegistry->registerAggregateRootChild($this->entity2, $this->entity3,
+        $this->entityRegistry->registerAggregateRootCallback($this->entity2, $this->entity3,
             function ($aggregateRoot, $child) {
                 /** @var User $aggregateRoot */
                 /** @var User $child */

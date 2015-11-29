@@ -10,6 +10,8 @@ namespace Opulence\Orm\Ids\Accessors;
 
 use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;
+use ReflectionClass;
+use ReflectionException;
 
 /**
  * Defines the Id accessor registry
@@ -45,10 +47,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     {
         $className = get_class($entity);
 
-        if (
-            !isset($this->idAccessorFunctions[$className]["getter"]) ||
-            $this->idAccessorFunctions[$className]["getter"] == null
-        ) {
+        if (!isset($this->idAccessorFunctions[$className]["getter"])) {
             if (!$entity instanceof IEntity) {
                 throw new OrmException("No Id getter registered for class $className");
             }
@@ -56,7 +55,11 @@ class IdAccessorRegistry implements IIdAccessorRegistry
             $className = IEntity::class;
         }
 
-        return call_user_func($this->idAccessorFunctions[$className]["getter"], $entity);
+        try {
+            return call_user_func($this->idAccessorFunctions[$className]["getter"], $entity);
+        } catch (ReflectionException $ex) {
+            throw new OrmException("Failed to get entity Id", 0, $ex);
+        }
     }
 
     /**
@@ -69,6 +72,29 @@ class IdAccessorRegistry implements IIdAccessorRegistry
                 "getter" => $getter,
                 "setter" => $setter
             ];
+        }
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function registerReflectionIdAccessors($classNames, $idPropertyName)
+    {
+        foreach ((array)$classNames as $className) {
+            $getter = function ($entity) use ($className, $idPropertyName) {
+                $reflectionClass = new ReflectionClass($className);
+                $property = $reflectionClass->getProperty($idPropertyName);
+                $property->setAccessible(true);
+
+                return $property->getValue($entity);
+            };
+            $setter = function ($entity, $id) use ($className, $idPropertyName) {
+                $reflectionClass = new ReflectionClass($className);
+                $property = $reflectionClass->getProperty($idPropertyName);
+                $property->setAccessible(true);
+                $property->setValue($entity, $id);
+            };
+            $this->registerIdAccessors($classNames, $getter, $setter);
         }
     }
 
@@ -87,6 +113,10 @@ class IdAccessorRegistry implements IIdAccessorRegistry
             $className = IEntity::class;
         }
 
-        call_user_func($this->idAccessorFunctions[$className]["setter"], $entity, $id);
+        try {
+            call_user_func($this->idAccessorFunctions[$className]["setter"], $entity, $id);
+        } catch (ReflectionException $ex) {
+            throw new OrmException("Failed to set entity Id", 0, $ex);
+        }
     }
 }

@@ -13,7 +13,7 @@ use Opulence\Orm\OrmException;
 /**
  * Defines the interface for repositories to implement
  */
-interface IRepo
+interface IRepository
 {
     /**
      * Adds an entity to the repo

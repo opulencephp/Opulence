@@ -33,7 +33,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
     private $unitOfWork = null;
     /** @var SQLDataMapper The data mapper to use in tests */
     private $dataMapper = null;
-    /** @var Repo The repository to test */
+    /** @var Repository The repository to test */
     private $repo = null;
 
     /**
@@ -73,7 +73,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
         $this->dataMapper = new SqlDataMapper();
         $this->entity1 = new User(1, "foo");
         $this->entity2 = new User(2, "bar");
-        $this->repo = new Repo(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
+        $this->repo = new Repository(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
     }
 
     /**

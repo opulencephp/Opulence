@@ -11,6 +11,7 @@ namespace Opulence\Orm\Ids\Accessors;
 use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
+use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
 
 /**
  * Tests the Id accessor registry
@@ -81,6 +82,28 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the Id with reflection for a non-existent property
+     */
+    public function testGettingIdWithReflectionForNonExistentProperty()
+    {
+        $this->setExpectedException(OrmException::class);
+        $this->registry->registerReflectionIdAccessors(Foo::class, "doesNotExist");
+        $foo = new Foo();
+        $this->registry->getEntityId(new Foo());
+    }
+
+    /**
+     * Tests reflection accessors
+     */
+    public function testReflectionAccessors()
+    {
+        $this->registry->registerReflectionIdAccessors(Foo::class, "id");
+        $foo = new Foo();
+        $this->registry->setEntityId($foo, 24);
+        $this->assertEquals(24, $this->registry->getEntityId($foo));
+    }
+
+    /**
      * Tests registering an array of class names
      */
     public function testRegisteringArrayOfClassNames()
@@ -124,5 +147,15 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->registry->setEntityId($entity, 24);
+    }
+
+    /**
+     * Tests setting the Id with reflection for a non-existent property
+     */
+    public function testSettingIdWithReflectionForNonExistentProperty()
+    {
+        $this->setExpectedException(OrmException::class);
+        $this->registry->registerReflectionIdAccessors(Foo::class, "doesNotExist");
+        $this->registry->setEntityId(new Foo(), 24);
     }
 }

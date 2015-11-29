@@ -22,7 +22,7 @@ interface IEntityRegistry
     /**
      * Clears all aggregate root child functions
      */
-    public function clearAggregateRootChildFunctions();
+    public function clearAggregateRoots();
 
     /**
      * Deregisters an entity
@@ -88,7 +88,7 @@ interface IEntityRegistry
      * @param object $child The child of the aggregate root
      * @param callable $function The function that contains the logic to set the aggregate root Id in the child
      */
-    public function registerAggregateRootChild($aggregateRoot, $child, callable $function);
+    public function registerAggregateRootCallback($aggregateRoot, $child, callable $function);
 
     /**
      * Registers an entity

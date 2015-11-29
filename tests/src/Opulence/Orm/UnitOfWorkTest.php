@@ -395,7 +395,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForInsertion($this->entity2);
-        $this->unitOfWork->getEntityRegistry()->registerAggregateRootChild($this->entity1, $this->entity2,
+        $this->unitOfWork->getEntityRegistry()->registerAggregateRootCallback($this->entity1, $this->entity2,
             function ($aggregateRoot, $child) {
                 /** @var User $aggregateRoot */
                 /** @var User $child */
@@ -416,7 +416,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->unitOfWork->scheduleForUpdate($this->entity2);
-        $this->unitOfWork->getEntityRegistry()->registerAggregateRootChild($this->entity1, $this->entity2,
+        $this->unitOfWork->getEntityRegistry()->registerAggregateRootCallback($this->entity1, $this->entity2,
             function ($aggregateRoot, $child) {
                 /** @var User $aggregateRoot */
                 /** @var User $child */

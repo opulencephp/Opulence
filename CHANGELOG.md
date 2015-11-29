@@ -1,6 +1,9 @@
 <h2>v1.0.0-alpha22</h2>
 
 <h3>ORM</h3>
+* Extracted interface `Opulence\Orm\IUnitOfWork` to `Opulence\Orm\UnitOfWork`
+* Renamed `Opulence\Orm\Repositories\Repo` to `Repository` and `IRepo` to `IRepository`
+* Updated `Opulence\Orm\Repositories\Repo` to use `IUnitOfWork`
 * Moved `Opulence\Orm\Ids\BigIntSequenceIdGenerator`, `IdGenerator`, `IntSequenceIdGenerator` to `Opulence\Orm\Ids\Generators` namespace
 * Added `Opulence\Orm\Ids\Generators\IIdGenerator`
 * Added `Opulence\Orm\Ids\Generators\SequenceIdGenerator`

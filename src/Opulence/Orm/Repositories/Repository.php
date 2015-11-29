@@ -10,26 +10,26 @@ namespace Opulence\Orm\Repositories;
 
 use Opulence\Orm\DataMappers\IDataMapper;
 use Opulence\Orm\OrmException;
-use Opulence\Orm\UnitOfWork;
+use Opulence\Orm\IUnitOfWork;
 
 /**
  * Defines a generic entity repository that can be extended
  */
-class Repo implements IRepo
+class Repository implements IRepository
 {
     /** @var string The name of the class whose objects this repo is getting */
     protected $className = "";
     /** @var IDataMapper The data mapper to use in this repo */
     protected $dataMapper = null;
-    /** @var UnitOfWork The unit of work to use in this repo */
+    /** @var IUnitOfWork The unit of work to use in this repo */
     protected $unitOfWork = null;
 
     /**
      * @param string $className The name of the class whose objects this repo is getting
      * @param IDataMapper $dataMapper The data mapper to use in this repo
-     * @param UnitOfWork $unitOfWork The unit of work to use in this repo
+     * @param IUnitOfWork $unitOfWork The unit of work to use in this repo
      */
-    public function __construct($className, IDataMapper $dataMapper, UnitOfWork $unitOfWork)
+    public function __construct($className, IDataMapper $dataMapper, IUnitOfWork $unitOfWork)
     {
         $this->className = $className;
         $this->unitOfWork = $unitOfWork;

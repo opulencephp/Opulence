@@ -59,8 +59,7 @@ abstract class SqlDataMapper implements IDataMapper
     protected function read($sql, array $sqlParameters, $valueType, $expectSingleResult = false)
     {
         try {
-            $connection = $this->readConnection;
-            $statement = $connection->prepare($sql);
+            $statement = $this->readConnection->prepare($sql);
             $statement->bindValues($sqlParameters);
             $statement->execute();
 
@@ -69,7 +68,7 @@ abstract class SqlDataMapper implements IDataMapper
             }
 
             $entities = [];
-            $rows = $statement->fetchAll(PDO::FETCH_BOTH);
+            $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
             foreach ($rows as $row) {
                 $entities[] = $this->loadEntity($row);

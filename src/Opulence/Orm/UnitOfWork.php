@@ -21,7 +21,7 @@ use RuntimeException;
 /**
  * Defines a unit of work that tracks changes made to entities and atomically persists them
  */
-class UnitOfWork
+class UnitOfWork implements IUnitOfWork
 {
     /** @var IConnection The connection to use in our unit of work */
     private $connection = null;
@@ -67,9 +67,7 @@ class UnitOfWork
     }
 
     /**
-     * Commits any entities that have been scheduled for insertion/updating/deletion
-     *
-     * @throws OrmException Thrown if there was an error committing the transaction
+     * @inheritdoc
      */
     public function commit()
     {
@@ -98,13 +96,11 @@ class UnitOfWork
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
-        $this->entityRegistry->clearAggregateRootChildFunctions();
+        $this->entityRegistry->clearAggregateRoots();
     }
 
     /**
-     * Detaches an entity from being managed
-     *
-     * @param object $entity The entity to detach
+     * @inheritdoc
      */
     public function detach($entity)
     {
@@ -116,19 +112,19 @@ class UnitOfWork
     }
 
     /**
-     * Disposes of all data in this unit of work
+     * @inheritdoc
      */
     public function dispose()
     {
         $this->scheduledForInsertion = [];
         $this->scheduledForUpdate = [];
         $this->scheduledForDeletion = [];
-        $this->entityRegistry->clearAggregateRootChildFunctions();
+        $this->entityRegistry->clearAggregateRoots();
         $this->entityRegistry->clear();
     }
 
     /**
-     * @return IEntityRegistry
+     * @inheritdoc
      */
     public function getEntityRegistry()
     {
@@ -136,11 +132,7 @@ class UnitOfWork
     }
 
     /**
-     * Registers a data mapper for a class
-     * Registering a data mapper for a class will overwrite any previously-set data mapper for that class
-     *
-     * @param string $className The name of the class whose data mapper we're registering
-     * @param IDataMapper $dataMapper The data mapper for the class
+     * @inheritdoc
      */
     public function registerDataMapper($className, IDataMapper $dataMapper)
     {
@@ -148,9 +140,7 @@ class UnitOfWork
     }
 
     /**
-     * Schedules an entity for deletion
-     *
-     * @param object $entity The entity to schedule for deletion
+     * @inheritdoc
      */
     public function scheduleForDeletion($entity)
     {
@@ -158,9 +148,7 @@ class UnitOfWork
     }
 
     /**
-     * Schedules an entity for insertion
-     *
-     * @param object $entity The entity to schedule for insertion
+     * @inheritdoc
      */
     public function scheduleForInsertion($entity)
     {
@@ -170,9 +158,7 @@ class UnitOfWork
     }
 
     /**
-     * Schedules an entity for insertion
-     *
-     * @param object $entity The entity to schedule for insertion
+     * @inheritdoc
      */
     public function scheduleForUpdate($entity)
     {
@@ -180,7 +166,7 @@ class UnitOfWork
     }
 
     /**
-     * @param IConnection $connection
+     * @inheritdoc
      */
     public function setConnection(IConnection $connection)
     {
