@@ -81,8 +81,14 @@ class DirectiveTranspilerRegistrant
         });
         $transpiler->registerDirectiveTranspiler("include", function ($expression) {
             // Check if a list of variables were passed in as a second parameter
-            if (preg_match("/^\((('|\")(.*)\\2),\s*(.+)\)$/U", $expression, $matches) === 1) {
-                $sharedVars = trim($matches[4]);
+            if (
+                preg_match(
+                    "/^\(((('|\")(.*)\\3)|\\$[a-zA-Z_\\x7f-\\xff][a-zA-Z0-9_\\x7f-\\xff]*),\s*(.+)\)$/U",
+                    $expression,
+                    $matches
+                ) === 1
+            ) {
+                $sharedVars = trim($matches[5]);
                 $factoryCreateCall = 'create(' . $matches[1] . ')';
             } else {
                 $sharedVars = '[]';

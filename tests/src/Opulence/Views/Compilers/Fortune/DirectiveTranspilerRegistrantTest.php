@@ -263,6 +263,25 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests transpiling an include directive with a variable view name and passed variables
+     */
+    public function testTranspilingIncludeWithVariableViewNameAndPassedVariables()
+    {
+        $this->view->setContents('<% include($foo, ["foo" => "bar"]) %>baz');
+        $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create($foo);';
+        $code .= 'extract($__opulenceIncludedView->getVars());';
+        $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
+        $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
+        $code .= '}, ["foo" => "bar"]);';
+        $code .= ' ?>';
+        $this->assertEquals(
+            "{$code}baz",
+            $this->transpiler->transpile($this->view)
+        );
+    }
+
+    /**
      * Tests transpiling a parent directive
      */
     public function testTranspilingParent()
