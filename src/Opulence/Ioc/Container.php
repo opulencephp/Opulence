@@ -141,10 +141,15 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = [])
-    {
+    public function make(
+        $component,
+        $forceNewInstance,
+        $targetClass = null,
+        array $constructorPrimitives = [],
+        array $methodCalls = []
+    ) {
         try {
-            $concrete = $this->getConcrete($component);
+            $concrete = $this->getConcrete($component, $targetClass);
 
             // If we're creating a shared instance, check to see if we've already instantiated it
             if (!$forceNewInstance) {
@@ -155,9 +160,9 @@ class Container implements IContainer
                 }
             }
 
-            if ($this->usesCallback($component)) {
-                if ($forceNewInstance || !$this->callbackWasUsed($component)) {
-                    $instance = $this->makeCallback($component);
+            if ($this->usesCallback($component, $targetClass)) {
+                if ($forceNewInstance || !$this->callbackWasUsed($component, $targetClass)) {
+                    $instance = $this->makeCallback($component, $targetClass);
                 }
             } else {
                 $reflectionClass = new ReflectionClass($concrete);
@@ -199,17 +204,21 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = [])
+    public function makeNew($component, $targetClass = null, array $constructorPrimitives = [], array $methodCalls = [])
     {
-        return $this->make($component, true, $constructorPrimitives, $methodCalls);
+        return $this->make($component, true, $targetClass, $constructorPrimitives, $methodCalls);
     }
 
     /**
      * @inheritdoc
      */
-    public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = [])
-    {
-        return $this->make($component, false, $constructorPrimitives, $methodCalls);
+    public function makeShared(
+        $component,
+        $targetClass = null,
+        array $constructorPrimitives = [],
+        array $methodCalls = []
+    ) {
+        return $this->make($component, false, $targetClass, $constructorPrimitives, $methodCalls);
     }
 
     /**

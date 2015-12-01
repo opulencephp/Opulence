@@ -60,6 +60,7 @@ interface IContainer
      *
      * @param string $component The name of the component to instantiate
      * @param bool $forceNewInstance True if we want to create a new instance, otherwise false
+     * @param string|null $targetClass The target of the component if instantiating for a particular class
      * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
      * @param array $methodCalls The array of method calls and their primitive parameter values
      *      Should be structured like so:
@@ -70,12 +71,19 @@ interface IContainer
      * @return mixed An instance of the input class
      * @throws IocException Thrown if there was an error making the component
      */
-    public function make($component, $forceNewInstance, array $constructorPrimitives = [], array $methodCalls = []);
+    public function make(
+        $component,
+        $forceNewInstance,
+        $targetClass = null,
+        array $constructorPrimitives = [],
+        array $methodCalls = []
+    );
 
     /**
      * Creates a new instance of the input class name
      *
      * @param string $component The name of the component to instantiate
+     * @param string|null $targetClass The target of the component if instantiating for a particular class
      * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
      * @param array $methodCalls The array of method calls and their primitive parameter values
      *      Should be structured like so:
@@ -86,12 +94,18 @@ interface IContainer
      * @return mixed A new instance of the input class
      * @throws IocException Thrown if there was an error making the component
      */
-    public function makeNew($component, array $constructorPrimitives = [], array $methodCalls = []);
+    public function makeNew(
+        $component,
+        $targetClass = null,
+        array $constructorPrimitives = [],
+        array $methodCalls = []
+    );
 
     /**
      * Creates a shared instance of the input class name
      *
      * @param string $component The name of the component to instantiate
+     * @param string|null $targetClass The target of the component if instantiating for a particular class
      * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
      * @param array $methodCalls The array of method calls and their primitive parameter values
      *      Should be structured like so:
@@ -102,7 +116,12 @@ interface IContainer
      * @return mixed An instance of the input class
      * @throws IocException Thrown if there was an error making the component
      */
-    public function makeShared($component, array $constructorPrimitives = [], array $methodCalls = []);
+    public function makeShared(
+        $component,
+        $targetClass = null,
+        array $constructorPrimitives = [],
+        array $methodCalls = []
+    );
 
     /**
      * Removes a binding from the container

@@ -1,5 +1,11 @@
 <h2>v1.0.0-alpha22</h2>
 
+<h3>Bootstrappers</h3>
+* Fixed bug that prevented lazy bootstrappers from having targeted bindings
+
+<h3>IoC</h3>
+* Added new target parameter to `Opulence\Ioc\IContainer::make()`, `makeNew()`, and `makeShared()`
+
 <h3>ORM</h3>
 * Extracted interface `Opulence\Orm\IUnitOfWork` to `Opulence\Orm\UnitOfWork`
 * Renamed `Opulence\Orm\Repositories\Repo` to `Repository` and `IRepo` to `IRepository`

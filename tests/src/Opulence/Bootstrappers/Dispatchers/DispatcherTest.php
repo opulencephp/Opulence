@@ -15,6 +15,7 @@ use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Environments\Environment;
+use Opulence\Ioc\IocException;
 use Opulence\Tests\Bootstrappers\Mocks\BootstrapperWithEverything;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper;
@@ -23,6 +24,7 @@ use Opulence\Tests\Bootstrappers\Mocks\EagerConcreteFoo;
 use Opulence\Tests\Bootstrappers\Mocks\EnvironmentBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper;
+use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapperWithTargetedBinding;
 use Opulence\Tests\Bootstrappers\Mocks\LazyConcreteFoo;
 use Opulence\Tests\Bootstrappers\Mocks\LazyFooInterface;
 
@@ -82,7 +84,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->dispatcher->forceEagerLoading(true);
         $this->registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->dispatcher->dispatch($this->registry);
         $this->assertEquals(LazyConcreteFoo::class, $this->container->getBinding(LazyFooInterface::class));
         $this->assertEquals(EagerConcreteFoo::class, $this->container->getBinding(EagerFooInterface::class));
@@ -94,7 +96,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testDispatchingEagerDispatcherThatDependsOnDependencyFromLazyBootstrapper()
     {
         $this->registry->registerEagerBootstrapper(EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class);
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         ob_start();
         $this->dispatcher->dispatch($this->registry);
         $this->assertEquals(LazyConcreteFoo::class, ob_get_clean());
@@ -106,10 +108,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItFirst()
     {
         $this->registry->registerLazyBootstrapper(
-            EagerFooInterface::class,
+            [EagerFooInterface::class],
             LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper::class
         );
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         ob_start();
         $this->dispatcher->dispatch($this->registry);
         $this->container->makeNew(EagerFooInterface::class);
@@ -121,9 +123,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testDispatchingLazyDispatcherThatDependsOnDependencyFromLazyBootstrapperAndRegisteringItSecond()
     {
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->registry->registerLazyBootstrapper(
-            EagerFooInterface::class,
+            [EagerFooInterface::class],
             LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper::class
         );
         ob_start();
@@ -150,7 +152,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testLazyBootstrappersAreShutdown()
     {
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, EnvironmentBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], EnvironmentBootstrapper::class);
         $this->dispatcher->dispatch($this->registry);
         $this->application->start();
         // Need to actual force the lazy bootstrapper to load
@@ -165,10 +167,46 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testLazyBootstrappersBindingsAreAvailableToContainer()
     {
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->dispatcher->dispatch($this->registry);
         $this->assertInstanceOf(Closure::class, $this->container->getBinding(LazyFooInterface::class));
         $this->assertInstanceOf(LazyConcreteFoo::class, $this->container->makeNew(LazyFooInterface::class));
+    }
+
+    /**
+     * Tests that lazy targeted bindings are available in the container
+     */
+    public function testLazyTargetedBindingsAreAvailableInContainer()
+    {
+        $this->registry->registerLazyBootstrapper(
+            [[LazyFooInterface::class => EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class]],
+            LazyBootstrapperWithTargetedBinding::class
+        );
+        $this->dispatcher->dispatch($this->registry);
+        // Make sure it's bound to the target
+        $this->assertInstanceOf(
+            Closure::class,
+            $this->container->getBinding(
+                LazyFooInterface::class,
+                EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class
+            )
+        );
+        $this->assertInstanceOf(
+            LazyConcreteFoo::class,
+            $this->container->makeShared(
+                LazyFooInterface::class,
+                EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class
+            )
+        );
+        // Make sure it wasn't bound universally
+        $notBoundUniversally = false;
+        try {
+            $this->assertInstanceOf(LazyConcreteFoo::class, $this->container->makeShared(LazyFooInterface::class));
+        } catch (IocException $ex) {
+            $notBoundUniversally = true;
+        }
+        $this->assertTrue($notBoundUniversally);
+        $this->assertNull($this->container->getBinding(LazyFooInterface::class));
     }
 
     /**
@@ -177,7 +215,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     public function testNotDispatchingAllBootstrappersEagerly()
     {
         $this->registry->registerEagerBootstrapper(EagerBootstrapper::class);
-        $this->registry->registerLazyBootstrapper(LazyFooInterface::class, LazyBootstrapper::class);
+        $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->dispatcher->dispatch($this->registry);
         $this->assertInstanceOf(Closure::class, $this->container->getBinding(LazyFooInterface::class));
         $this->assertEquals(EagerConcreteFoo::class, $this->container->getBinding(EagerFooInterface::class));

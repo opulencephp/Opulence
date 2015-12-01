@@ -49,8 +49,11 @@ class FileCache implements ICache
             "lazy" => []
         ];
 
-        foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bootstrapperClass) {
-            $data["lazy"][$boundClass] = $bootstrapperClass;
+        foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bindingData) {
+            $data["lazy"][$boundClass] = [
+                "bootstrapper" => $bindingData["bootstrapper"],
+                "target" => $bindingData["target"]
+            ];
         }
 
         file_put_contents($filePath, json_encode($data));
@@ -71,8 +74,15 @@ class FileCache implements ICache
             $registry->registerEagerBootstrapper($eagerBootstrapperClass);
         }
 
-        foreach ($decodedContents["lazy"] as $boundClass => $lazyBootstrapperClass) {
-            $registry->registerLazyBootstrapper($boundClass, $lazyBootstrapperClass);
+        foreach ($decodedContents["lazy"] as $boundClass => $bindingData) {
+            if ($bindingData["target"] === null) {
+                $registry->registerLazyBootstrapper([$boundClass], $bindingData["bootstrapper"]);
+            } else {
+                $registry->registerLazyBootstrapper(
+                    [[$boundClass => $bindingData["target"]]],
+                    $bindingData["bootstrapper"]
+                );
+            }
         }
     }
 }

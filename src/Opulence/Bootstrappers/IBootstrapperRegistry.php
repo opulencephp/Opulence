@@ -8,6 +8,7 @@
  */
 namespace Opulence\Bootstrappers;
 
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -34,7 +35,7 @@ interface IBootstrapperRegistry
     /**
      * Gets the mapping of bound classes to their bootstrapper classes
      *
-     * @return array The mapping of bound classes to their bootstrapper classes
+     * @return array The mapping of bound classes to ["bootstrapper" => BootstrapperClass, "target" => TargetClass]
      */
     public function getLazyBootstrapperBindings();
 
@@ -56,10 +57,11 @@ interface IBootstrapperRegistry
     /**
      * Registers bound classes and their bootstrappers
      *
-     * @param string|array $bindings The bindings registered by the bootstrapper
+     * @param array $bindings The bindings registered by the bootstrapper
      * @param string $lazyBootstrapperClass The bootstrapper class
+     * @throws InvalidArgumentException Thrown if the bindings are not of the correct format
      */
-    public function registerLazyBootstrapper($bindings, $lazyBootstrapperClass);
+    public function registerLazyBootstrapper(array $bindings, $lazyBootstrapperClass);
 
     /**
      * Sets the eager and lazy bootstrappers

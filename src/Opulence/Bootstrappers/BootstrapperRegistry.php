@@ -8,6 +8,7 @@
  */
 namespace Opulence\Bootstrappers;
 
+use InvalidArgumentException;
 use Opulence\Environments\Environment;
 use RuntimeException;
 
@@ -22,7 +23,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     private $paths = null;
     /** @var array The list of all bootstrapper classes in the application */
     private $allBootstrappers = [];
-    /** @var array The list of deferred bootstrapper classes */
+    /** @var array The list of lazy bootstrapper classes */
     private $bindingsToLazyBootstrapperClasses = [];
     /** @var array The list of expedited bootstrapper classes */
     private $eagerBootstrapperClasses = [];
@@ -93,12 +94,27 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     /**
      * @inheritdoc
      */
-    public function registerLazyBootstrapper($bindings, $lazyBootstrapperClass)
+    public function registerLazyBootstrapper(array $bindings, $lazyBootstrapperClass)
     {
-        $bindings = (array)$bindings;
-
         foreach ($bindings as $boundClass) {
-            $this->bindingsToLazyBootstrapperClasses[$boundClass] = $lazyBootstrapperClass;
+            $targetClass = null;
+
+            // If it's a targeted binding
+            if (is_array($boundClass)) {
+                if (count($boundClass) != 1) {
+                    throw new InvalidArgumentException(
+                        "Targeted bindings must be in format \"BoundClass => TargetClass\""
+                    );
+                }
+
+                $targetClass = array_values($boundClass)[0];
+                $boundClass = array_keys($boundClass)[0];
+            }
+
+            $this->bindingsToLazyBootstrapperClasses[$boundClass] = [
+                "bootstrapper" => $lazyBootstrapperClass,
+                "target" => $targetClass
+            ];
         }
     }
 

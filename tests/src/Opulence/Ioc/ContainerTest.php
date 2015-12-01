@@ -253,7 +253,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             $methodCalls = [
                 "setSetterDependency" => []
             ];
-            $newInstance = $this->container->makeNew($this->constructorWithIFooAndSetters, [], $methodCalls);
+            $newInstance = $this->container->makeNew($this->constructorWithIFooAndSetters, null, [], $methodCalls);
             $this->assertInstanceOf($this->concreteFoo, $newInstance->getConstructorDependency());
             $this->assertInstanceOf($this->concretePerson, $newInstance->getSetterDependency());
         };
@@ -280,7 +280,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 "setInterface" => []
             ];
             /** @var ConstructorWithSetters $newInstance */
-            $newInstance = $this->container->makeNew($this->constructorWithSetters, [], $methodCalls);
+            $newInstance = $this->container->makeNew($this->constructorWithSetters, null, [], $methodCalls);
             $this->assertEquals("myPrimitive", $newInstance->getPrimitive());
             $this->assertInstanceOf($this->concreteFoo, $newInstance->getInterface());
         };
@@ -297,10 +297,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewObjectWithConstructorPrimitive()
     {
-        $instance = $this->container->makeNew($this->constructorWithPrimitives, ["foo", "bar"]);
+        $instance = $this->container->makeNew($this->constructorWithPrimitives, null, ["foo", "bar"]);
         $this->assertInstanceOf($this->constructorWithPrimitives, $instance);
-        $this->assertNotSame($instance, $this->container->makeNew($this->constructorWithPrimitives, ["foo", "bar"]));
-        $this->assertNotSame($instance, $this->container->makeShared($this->constructorWithPrimitives, ["foo", "bar"]));
+        $this->assertNotSame($instance,
+            $this->container->makeNew($this->constructorWithPrimitives, null, ["foo", "bar"]));
+        $this->assertNotSame(
+            $instance,
+            $this->container->makeShared($this->constructorWithPrimitives, null, ["foo", "bar"])
+        );
     }
 
     /**
@@ -317,12 +321,16 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewObjectWithUnsetConstructorPrimitiveWithDefaultValue()
     {
-        $instance = $this->container->makeNew($this->constructorWithDefaultValuePrimitives, ["foo"]);
+        $instance = $this->container->makeNew($this->constructorWithDefaultValuePrimitives, null, ["foo"]);
         $this->assertInstanceOf($this->constructorWithDefaultValuePrimitives, $instance);
-        $this->assertNotSame($instance, $this->container->makeNew($this->constructorWithDefaultValuePrimitives,
-            ["foo"]));
-        $this->assertNotSame($instance, $this->container->makeShared($this->constructorWithDefaultValuePrimitives,
-            ["foo"]));
+        $this->assertNotSame(
+            $instance,
+            $this->container->makeNew($this->constructorWithDefaultValuePrimitives, null, ["foo"])
+        );
+        $this->assertNotSame(
+            $instance,
+            $this->container->makeShared($this->constructorWithDefaultValuePrimitives, null, ["foo"])
+        );
     }
 
     /**
@@ -339,9 +347,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSharedInstanceWithConstructorPrimitive()
     {
-        $instance = $this->container->makeShared($this->constructorWithPrimitives, ["foo", "bar"]);
+        $instance = $this->container->makeShared($this->constructorWithPrimitives, null, ["foo", "bar"]);
         $this->assertInstanceOf($this->constructorWithPrimitives, $instance);
-        $this->assertSame($instance, $this->container->makeShared($this->constructorWithPrimitives, ["foo", "bar"]));
+        $this->assertSame(
+            $instance,
+            $this->container->makeShared($this->constructorWithPrimitives, null, ["foo", "bar"])
+        );
     }
 
     /**
@@ -354,7 +365,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 "setSetterDependency" => []
             ];
             /** @var ConstructorWithInterfaceAndSetters $sharedInstance */
-            $sharedInstance = $this->container->makeShared($this->constructorWithIFooAndSetters, [], $methodCalls);
+            $sharedInstance = $this->container->makeShared(
+                $this->constructorWithIFooAndSetters,
+                null,
+                [],
+                $methodCalls
+            );
             $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getConstructorDependency());
             $this->assertInstanceOf($this->concretePerson, $sharedInstance->getSetterDependency());
         };
@@ -381,7 +397,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                 "setInterface" => []
             ];
             /** @var ConstructorWithSetters $sharedInstance */
-            $sharedInstance = $this->container->makeShared($this->constructorWithSetters, [], $methodCalls);
+            $sharedInstance = $this->container->makeShared($this->constructorWithSetters, null, [], $methodCalls);
             $this->assertEquals("myPrimitive", $sharedInstance->getPrimitive());
             $this->assertInstanceOf($this->concreteFoo, $sharedInstance->getInterface());
         };
@@ -407,10 +423,12 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSharedInstanceWithUnsetConstructorPrimitiveWithDefaultValue()
     {
-        $instance = $this->container->makeShared($this->constructorWithDefaultValuePrimitives, ["foo"]);
+        $instance = $this->container->makeShared($this->constructorWithDefaultValuePrimitives, null, ["foo"]);
         $this->assertInstanceOf($this->constructorWithDefaultValuePrimitives, $instance);
-        $this->assertSame($instance, $this->container->makeShared($this->constructorWithDefaultValuePrimitives,
-            ["foo"]));
+        $this->assertSame(
+            $instance,
+            $this->container->makeShared($this->constructorWithDefaultValuePrimitives, null, ["foo"])
+        );
     }
 
     /**
@@ -512,6 +530,44 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests making for target
+     */
+    public function testMakingForTarget()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo, $this->constructorWithIFoo);
+        $instance1 = $this->container->make($this->fooInterface, true, $this->constructorWithIFoo);
+        $instance2 = $this->container->make($this->fooInterface, true, $this->constructorWithIFoo);
+        $this->assertInstanceOf($this->concreteFoo, $instance1);
+        $this->assertInstanceOf($this->concreteFoo, $instance2);
+        $this->assertNotSame($instance1, $instance2);
+    }
+
+    /**
+     * Tests making an instance bound in a targeted callback
+     */
+    public function testMakingInstanceBoundInTargetedCallback()
+    {
+        $this->container->bind($this->fooInterface, function () {
+            return new $this->concreteFoo;
+        }, $this->constructorWithIFoo);
+        $object = $this->container->makeShared($this->fooInterface, $this->constructorWithIFoo);
+        $this->assertInstanceOf($this->concreteFoo, $object);
+    }
+
+    /**
+     * Tests making new for target
+     */
+    public function testMakingNewForTarget()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo, $this->constructorWithIFoo);
+        $instance1 = $this->container->makeNew($this->fooInterface, $this->constructorWithIFoo);
+        $instance2 = $this->container->makeNew($this->fooInterface, $this->constructorWithIFoo);
+        $this->assertInstanceOf($this->concreteFoo, $instance1);
+        $this->assertInstanceOf($this->concreteFoo, $instance2);
+        $this->assertNotSame($instance1, $instance2);
+    }
+
+    /**
      * Tests making a new non-existent class
      */
     public function testMakingNewNonExistentClass()
@@ -551,6 +607,19 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests making shared for target
+     */
+    public function testMakingSharedForTarget()
+    {
+        $this->container->bind($this->fooInterface, $this->concreteFoo, $this->constructorWithIFoo);
+        $instance1 = $this->container->makeShared($this->fooInterface, $this->constructorWithIFoo);
+        $instance2 = $this->container->makeShared($this->fooInterface, $this->constructorWithIFoo);
+        $this->assertInstanceOf($this->concreteFoo, $instance1);
+        $this->assertInstanceOf($this->concreteFoo, $instance2);
+        $this->assertSame($instance1, $instance2);
+    }
+
+    /**
      * Tests making a shared non-existent class
      */
     public function testMakingSharedNonExistentClass()
@@ -565,9 +634,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testMixOfConcreteClassesAndPrimitivesInConstructor()
     {
         /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $sharedInstance */
-        $sharedInstance = $this->container->makeShared($this->constructorWithConcreteClassesAndPrimitives, [23]);
+        $sharedInstance = $this->container->makeShared($this->constructorWithConcreteClassesAndPrimitives, null, [23]);
         /** @var ConstructorWithMixOfConcreteClassesAndPrimitives $newInstance */
-        $newInstance = $this->container->makeNew($this->constructorWithConcreteClassesAndPrimitives, [23]);
+        $newInstance = $this->container->makeNew($this->constructorWithConcreteClassesAndPrimitives, null, [23]);
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $sharedInstance);
         $this->assertInstanceOf($this->constructorWithConcreteClassesAndPrimitives, $newInstance);
         $this->assertEquals(23, $sharedInstance->getId());
@@ -581,9 +650,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $tests = function () {
             /** @var ConstructorWithMixOfInterfacesAndPrimitives $sharedInstance */
-            $sharedInstance = $this->container->makeShared($this->constructorWithInterfacesAndPrimitives, [23]);
+            $sharedInstance = $this->container->makeShared($this->constructorWithInterfacesAndPrimitives, null, [23]);
             /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance */
-            $newInstance = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
+            $newInstance = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, null, [23]);
             $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $sharedInstance);
             $this->assertInstanceOf($this->constructorWithInterfacesAndPrimitives, $newInstance);
             $this->assertEquals(23, $sharedInstance->getId());
@@ -628,9 +697,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $tests = function () {
             /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance1 */
-            $newInstance1 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
+            $newInstance1 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, null, [23]);
             /** @var ConstructorWithMixOfInterfacesAndPrimitives $newInstance2 */
-            $newInstance2 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, [23]);
+            $newInstance2 = $this->container->makeNew($this->constructorWithInterfacesAndPrimitives, null, [23]);
             $this->assertSame($newInstance1->getFoo(), $newInstance2->getFoo());
             $this->assertSame($newInstance1->getPerson(), $newInstance2->getPerson());
         };

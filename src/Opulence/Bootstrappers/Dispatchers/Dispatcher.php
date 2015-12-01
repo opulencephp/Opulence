@@ -46,7 +46,13 @@ class Dispatcher implements IDispatcher
     {
         if ($this->forceEagerLoading) {
             $eagerBootstrapperClasses = $registry->getEagerBootstrappers();
-            $lazyBootstrapperClasses = array_unique(array_values($registry->getLazyBootstrapperBindings()));
+            $lazyBootstrapperClasses = [];
+
+            foreach (array_values($registry->getLazyBootstrapperBindings()) as $bindingData) {
+                $lazyBootstrapperClasses[] = $bindingData["bootstrapper"];
+            }
+
+            $lazyBootstrapperClasses = array_unique($lazyBootstrapperClasses);
             $bootstrapperClasses = array_merge($eagerBootstrapperClasses, $lazyBootstrapperClasses);
             $this->dispatchEagerly($registry, $bootstrapperClasses);
         } else {
@@ -103,18 +109,20 @@ class Dispatcher implements IDispatcher
      * Dispatches the registry lazily
      *
      * @param IBootstrapperRegistry $registry The bootstrapper registry
-     * @param array $bindingsToBootstrapperClasses The mapping of bindings to their bootstrapper classes
+     * @param array $boundClassesToBindingData The mapping of bound classes to their targets and bootstrappers
      * @throws RuntimeException Thrown if there was a problem dispatching the bootstrappers
      */
-    private function dispatchLazily(IBootstrapperRegistry $registry, array $bindingsToBootstrapperClasses)
+    private function dispatchLazily(IBootstrapperRegistry $registry, array $boundClassesToBindingData)
     {
         // This gets passed around by reference so that it'll have the latest objects come time to shut down
         $bootstrapperObjects = [];
 
-        foreach ($bindingsToBootstrapperClasses as $boundClass => $bootstrapperClass) {
+        foreach ($boundClassesToBindingData as $boundClass => $bindingData) {
+            $bootstrapperClass = $bindingData["bootstrapper"];
+            $target = $bindingData["target"];
             $this->container->bind(
                 $boundClass,
-                function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass) {
+                function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass, $target) {
                     $bootstrapper = $registry->getInstance($bootstrapperClass);
 
                     if (!in_array($bootstrapper, $bootstrapperObjects)) {
@@ -128,8 +136,9 @@ class Dispatcher implements IDispatcher
                         $this->runBootstrappers[$bootstrapperClass] = true;
                     }
 
-                    return $this->container->makeShared($boundClass);
-                }
+                    return $this->container->makeShared($boundClass, $target);
+                },
+                $target
             );
         }
 

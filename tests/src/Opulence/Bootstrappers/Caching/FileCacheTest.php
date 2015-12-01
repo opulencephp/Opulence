@@ -14,6 +14,7 @@ use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapper;
 use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapper;
+use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapperWithTargetedBinding;
 
 /**
  * Tests the bootstrapper file cache
@@ -134,6 +135,20 @@ class FileCacheTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests writing a registry with targeted binding and then reading from it
+     */
+    public function testWritingAndThenReadingRegistryWithTargetedBinding()
+    {
+        $lazyBootstrapper = new LazyBootstrapperWithTargetedBinding($this->paths, $this->environment);
+        $registry = new BootstrapperRegistry($this->paths, $this->environment);
+        $registry->registerEagerBootstrapper(EagerBootstrapper::class);
+        $registry->registerLazyBootstrapper($lazyBootstrapper->getBindings(), LazyBootstrapper::class);
+        $this->cache->set($this->cachedRegistryFilePath, $registry);
+        $this->cache->get($this->cachedRegistryFilePath, $this->registry);
+        $this->assertEquals($registry, $this->registry);
+    }
+
+    /**
      * Tests writing a registry
      */
     public function testWritingRegistry()
@@ -203,7 +218,17 @@ class FileCacheTest extends \PHPUnit_Framework_TestCase
             $lazyBootstrapper = new $lazyBootstrapperClass($this->paths, $this->environment);
 
             foreach ($lazyBootstrapper->getBindings() as $boundClass) {
-                $bindingsToLazyBootstrappers[$boundClass] = LazyBootstrapper::class;
+                $targetClass = null;
+
+                if (is_array($boundClass)) {
+                    $targetClass = array_values($boundClass)[0];
+                    $boundClass = array_keys($boundClass)[0];
+                }
+
+                $bindingsToLazyBootstrappers[$boundClass] = [
+                    "bootstrapper" => $lazyBootstrapperClass,
+                    "target" => $targetClass
+                ];
             }
         }
 
