@@ -107,7 +107,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
             throw new RuntimeException("Should not get here");
         });
         $this->entityRegistry->clear();
-        $this->entityRegistry->runAggregateRootChildFunctions($this->entity2);
+        $this->entityRegistry->runAggregateRootCallbacks($this->entity2);
     }
 
     /**
@@ -119,7 +119,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
             throw new RuntimeException("Should not get here");
         });
         $this->entityRegistry->deregisterEntity($this->entity2);
-        $this->entityRegistry->runAggregateRootChildFunctions($this->entity2);
+        $this->entityRegistry->runAggregateRootCallbacks($this->entity2);
     }
 
     /**
@@ -241,7 +241,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
                 /** @var User $child */
                 $child->setSecondAggregateRootId($aggregateRoot->getId());
             });
-        $this->entityRegistry->runAggregateRootChildFunctions($this->entity3);
+        $this->entityRegistry->runAggregateRootCallbacks($this->entity3);
         $this->assertEquals($this->entity1->getId(), $this->entity3->getAggregateRootId());
         $this->assertEquals($this->entity2->getId(), $this->entity3->getSecondAggregateRootId());
     }

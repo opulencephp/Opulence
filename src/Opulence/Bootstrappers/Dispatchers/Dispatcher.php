@@ -8,7 +8,7 @@
  */
 namespace Opulence\Bootstrappers\Dispatchers;
 
-use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
+use Opulence\Applications\Tasks\Dispatchers\IDispatcher as TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Bootstrappers\IBootstrapperRegistry;

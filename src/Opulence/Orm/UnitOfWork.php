@@ -261,7 +261,7 @@ class UnitOfWork implements IUnitOfWork
     {
         foreach ($this->scheduledForInsertion as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->entityRegistry->runAggregateRootChildFunctions($entity);
+            $this->entityRegistry->runAggregateRootCallbacks($entity);
             $className = $this->entityRegistry->getClassName($entity);
             $dataMapper = $this->getDataMapper($className);
             $idGenerator = $this->idGeneratorRegistry->getIdGenerator($className);
@@ -338,7 +338,7 @@ class UnitOfWork implements IUnitOfWork
     {
         foreach ($this->scheduledForUpdate as $objectHashId => $entity) {
             // If this entity was a child of aggregate roots, then call its methods to set the aggregate root Id
-            $this->entityRegistry->runAggregateRootChildFunctions($entity);
+            $this->entityRegistry->runAggregateRootCallbacks($entity);
             $dataMapper = $this->getDataMapper($this->entityRegistry->getClassName($entity));
             $dataMapper->update($entity);
             $this->entityRegistry->registerEntity($entity);

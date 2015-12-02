@@ -103,7 +103,7 @@ interface IEntityRegistry
      *
      * @param object $child The child whose aggregate root functions we're running
      */
-    public function runAggregateRootChildFunctions($child);
+    public function runAggregateRootCallbacks($child);
 
     /**
      * Sets an entity's state

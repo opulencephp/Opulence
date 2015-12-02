@@ -1,3 +1,11 @@
+<h2>v1.0.0-alpha23</h2>
+
+<h3>Bootstrappers</h3>
+* Fixed `Opulence\Bootstrappers\Dispatchers\Dispatcher` to accept `Opulence\Applications\Tasks\IDispatcher`
+
+<h3>ORM</h3>
+* Changed `Opulence\Orm\IEntityRegistry::runAggregateRootChildFunctions()` to `runAggregateRootCallbacks()`
+
 <h2>v1.0.0-alpha22</h2>
 
 <h3>Bootstrappers</h3>

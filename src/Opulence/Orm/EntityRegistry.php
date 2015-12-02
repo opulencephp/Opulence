@@ -208,7 +208,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritDoc
      */
-    public function runAggregateRootChildFunctions($child)
+    public function runAggregateRootCallbacks($child)
     {
         $objectHashId = $this->getObjectHashId($child);
 
