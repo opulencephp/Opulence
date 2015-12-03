@@ -41,7 +41,7 @@ class User
     }
 
     /**
-     * @inheritdoc
+     * @return int
      */
     public function getId()
     {
@@ -73,7 +73,7 @@ class User
     }
 
     /**
-     * @inheritdoc
+     * @param int $id
      */
     public function setId($id)
     {

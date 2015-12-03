@@ -9,6 +9,7 @@
 namespace Opulence\Orm;
 
 use Opulence\Orm\ChangeTracking\ChangeTracker;
+use Opulence\Orm\DataMappers\IDataMapper;
 use Opulence\Orm\Ids\Accessors\IdAccessorRegistry;
 use Opulence\Orm\Ids\Generators\IIdGeneratorRegistry;
 use Opulence\Orm\Ids\Generators\IntSequenceIdGenerator;
@@ -195,8 +196,12 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             new ChangeTracker(),
             $connection
         );
-        $this->dataMapper = new SqlDataMapper();
         $this->entity1 = new User(123, "foo");
+        /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
+        $this->dataMapper = $this->getMock(IDataMapper::class);
+        $this->dataMapper->expects($this->once())
+            ->method("add")
+            ->with($this->entity1);
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForInsertion($this->entity1);
@@ -227,8 +232,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
             ->method("getIdGenerator")
             ->willReturn(null);
 
-        $server = new Server();
-        $connection = new Connection($server);
+        $connection = new Connection(new Server());
         $connection->setToFailOnPurpose(true);
         $this->unitOfWork = new MockUnitOfWork(
             $this->entityRegistry,
@@ -239,8 +243,9 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         );
 
         try {
-            $this->dataMapper = new SqlDataMapper();
             $this->entity1 = new User(123, "foo");
+            /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
+            $this->dataMapper = $this->getMock(IDataMapper::class);
             $className = $this->entityRegistry->getClassName($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
             $this->unitOfWork->scheduleForInsertion($this->entity1);

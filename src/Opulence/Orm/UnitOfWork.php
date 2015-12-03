@@ -266,7 +266,9 @@ class UnitOfWork implements IUnitOfWork
             $dataMapper = $this->getDataMapper($className);
             $idGenerator = $this->idGeneratorRegistry->getIdGenerator($className);
 
-            if ($idGenerator !== null) {
+            if ($idGenerator === null) {
+                $dataMapper->add($entity);
+            } else {
                 if ($idGenerator instanceof SequenceIdGenerator) {
                     $idGenerator->setConnection($this->connection);
                 }

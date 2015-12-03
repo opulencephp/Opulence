@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha24</h2>
+
+<h3>ORM</h3>
+* Fixed critical bug that did prevented entities with no Id generators from being added through the data mapper in `UnitOfWork::commit()`
+
 <h2>v1.0.0-alpha23</h2>
 
 <h3>Bootstrappers</h3>
