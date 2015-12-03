@@ -1,3 +1,9 @@
+<h2>v1.0.0-alpha25</h2>
+
+<h3>Views</h3>
+* Added `catch()` for `Throwable` exceptions in `PhpCompiler::compile()`
+* Changed `Opulence\Views\Compilers\ICompiler::compile()` to throw `Exception` and `Throwable` rather than just `ViewCompilerException`
+
 <h2>v1.0.0-alpha24</h2>
 
 <h3>ORM</h3>

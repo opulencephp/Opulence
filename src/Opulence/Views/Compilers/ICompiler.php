@@ -8,7 +8,9 @@
  */
 namespace Opulence\Views\Compilers;
 
+use Exception;
 use Opulence\Views\IView;
+use Throwable;
 
 /**
  * Defines the interface for view compilers to implement
@@ -20,7 +22,7 @@ interface ICompiler
      *
      * @param IView $view The view to render
      * @return string The compiled view
-     * @throws ViewCompilerException Thrown if there was an error compiling the view
+     * @throws Exception|Throwable Thrown if there was an error compiling the view
      */
     public function compile(IView $view);
 }

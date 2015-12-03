@@ -12,6 +12,7 @@ use Exception;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
+use Throwable;
 
 /**
  * Defines a compiler for basic PHP views
@@ -32,14 +33,28 @@ class PhpCompiler implements ICompiler
                 throw new ViewCompilerException("Invalid PHP in view");
             }
         } catch (Exception $ex) {
-            // Clean the output buffer
-            while (ob_get_level() > $obStartLevel) {
-                ob_end_clean();
-            }
-
-            throw new ViewCompilerException("Failed to compile PHP view", 0, $ex);
+            $this->handleException($ex, $obStartLevel);
+        } catch (Throwable $ex) {
+            $this->handleException($ex, $obStartLevel);
         }
 
         return ob_get_clean();
+    }
+
+    /**
+     * Handles any exception thrown during compilation
+     *
+     * @param Exception|Throwable $ex The exception to handle
+     * @param int $obStartLevel The starting output buffer level
+     * @throws $ex Always rethrown
+     */
+    protected function handleException($ex, $obStartLevel)
+    {
+        // Clean the output buffer
+        while (ob_get_level() > $obStartLevel) {
+            ob_end_clean();
+        }
+
+        throw $ex;
     }
 }

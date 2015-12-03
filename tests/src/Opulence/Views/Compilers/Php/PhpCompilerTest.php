@@ -8,6 +8,7 @@
  */
 namespace Opulence\Views\Compilers\Php;
 
+use Exception;
 use Opulence\Views\Compilers\ViewCompilerException;
 use Opulence\Views\IView;
 
@@ -28,11 +29,11 @@ class PhpCompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that any exception is converted to correct exception
+     * Tests that any exception thrown as itself
      */
-    public function testExceptionsConvertedToCorrectType()
+    public function testExceptionsThrownAsThemselves()
     {
-        $this->setExpectedException(ViewCompilerException::class);
+        $this->setExpectedException(Exception::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())
