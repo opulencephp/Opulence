@@ -93,7 +93,7 @@ class Request
      */
     public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env, $rawBody = null)
     {
-        $this->rawBody = null;
+        $this->rawBody = $rawBody;
         $this->query = new Collection($query);
         $this->post = new Collection($post);
         $this->put = new Collection([]);
