@@ -90,10 +90,17 @@ class Request
      * @param array $server The SERVER parameters
      * @param array $files The FILES parameters
      * @param array $env The ENV parameters
+     * @param string|null $rawBody The raw body
      */
-    public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env, $rawBody = null)
-    {
-        $this->rawBody = $rawBody;
+    public function __construct(
+        array $query,
+        array $post,
+        array $cookies,
+        array $server,
+        array $files,
+        array $env,
+        $rawBody = null
+    ) {
         $this->query = new Collection($query);
         $this->post = new Collection($post);
         $this->put = new Collection([]);
@@ -104,6 +111,7 @@ class Request
         $this->headers = new Headers($server);
         $this->files = new Files($files);
         $this->env = new Collection($env);
+        $this->rawBody = $rawBody;
         $this->setMethod();
         $this->setIPAddress();
         $this->setPath();
@@ -114,19 +122,41 @@ class Request
     /**
      * Creates an instance of this class using the PHP globals
      *
+     * @param array|null $query The GET parameters, or null if using the globals
+     * @param array|null $post The POST parameters, or null if using the globals
+     * @param array|null $cookies The COOKIE parameters, or null if using the globals
+     * @param array|null $server The SERVER parameters, or null if using the globals
+     * @param array|null $files The FILES parameters, or null if using the globals
+     * @param array|null $env The ENV parameters, or null if using the globals
+     * @param string|null $rawBody The raw body
      * @return Request An instance of this class
      */
-    public static function createFromGlobals($rawBody = null)
-    {
+    public static function createFromGlobals(
+        array $query = null,
+        array $post = null,
+        array $cookies = null,
+        array $server = null,
+        array $files = null,
+        array $env = null,
+        $rawBody = null
+    ) {
+        $query = isset($query) ? $query : $_GET;
+        $post = isset($post) ? $post : $_POST;
+        $cookies = isset($cookies) ? $cookies : $_COOKIE;
+        $server = isset($server) ? $server : $_SERVER;
+        $files = isset($files) ? $files : $_FILES;
+        $env = isset($env) ? $env : $_ENV;
+
         // Handle the a bug that does not set CONTENT_TYPE or CONTENT_LENGTH headers
-        if (array_key_exists("HTTP_CONTENT_LENGTH", $_SERVER)) {
-            $_SERVER["CONTENT_LENGTH"] = $_SERVER["HTTP_CONTENT_LENGTH"];
+        if (array_key_exists("HTTP_CONTENT_LENGTH", $server)) {
+            $server["CONTENT_LENGTH"] = $server["HTTP_CONTENT_LENGTH"];
         }
 
-        if (array_key_exists("HTTP_CONTENT_TYPE", $_SERVER)) {
-            $_SERVER["CONTENT_TYPE"] = $_SERVER["HTTP_CONTENT_TYPE"];
+        if (array_key_exists("HTTP_CONTENT_TYPE", $server)) {
+            $server["CONTENT_TYPE"] = $server["HTTP_CONTENT_TYPE"];
         }
-        return new static($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $rawBody);
+
+        return new static($query, $post, $cookies, $server, $files, $env, $rawBody);
     }
 
     /**
