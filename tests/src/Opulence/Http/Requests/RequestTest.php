@@ -235,6 +235,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests creating from globals with a body set in the constructor
+     */
+    public function testCreatingFromGlobalsWithBody()
+    {
+        $testBody = "It's not Rocket Appliances Julian";
+        $requestFromConstructor = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
+        $this->assertEquals($requestFromConstructor, Request::createFromGlobals($testBody));
+    }
+
+    /**
      * Tests that a custom default value is returned when no input is found
      */
     public function testCustomDefaultIsReturnedWhenNoInputFound()
@@ -673,6 +683,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testGettingRawBody()
     {
         $this->assertEmpty($this->request->getRawBody());
+    }
+
+    /**
+     * Tests getting raw body when the body is set in the constructor
+     */
+    public function testGetRawBodyWithRequestSetInConstructor()
+    {
+        $testBody = "It's not Rocket Appliances Julian";
+        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
+        $this->assertEquals($testBody, $this->request->getRawBody());
     }
 
     /**

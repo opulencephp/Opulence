@@ -91,8 +91,9 @@ class Request
      * @param array $files The FILES parameters
      * @param array $env The ENV parameters
      */
-    public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env)
+    public function __construct(array $query, array $post, array $cookies, array $server, array $files, array $env, $rawBody = null)
     {
+        $this->rawBody = null;
         $this->query = new Collection($query);
         $this->post = new Collection($post);
         $this->put = new Collection([]);
@@ -115,7 +116,7 @@ class Request
      *
      * @return Request An instance of this class
      */
-    public static function createFromGlobals()
+    public static function createFromGlobals($rawBody = null)
     {
         // Handle the a bug that does not set CONTENT_TYPE or CONTENT_LENGTH headers
         if (array_key_exists("HTTP_CONTENT_LENGTH", $_SERVER)) {
@@ -125,8 +126,7 @@ class Request
         if (array_key_exists("HTTP_CONTENT_TYPE", $_SERVER)) {
             $_SERVER["CONTENT_TYPE"] = $_SERVER["HTTP_CONTENT_TYPE"];
         }
-
-        return new static($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV);
+        return new static($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $rawBody);
     }
 
     /**
