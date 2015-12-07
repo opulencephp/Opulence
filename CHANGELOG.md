@@ -2,7 +2,7 @@
 
 <h3>HTTP</h3>
 * Added ability to specify raw body in `Request::createFromGlobals()` and `Request::__construct()`
-* Added ability to override globals in `Request::createFromGlobals()`
+* Added ability to override globals in `Request::createFromGlobals()`c
 
 <h3>Views</h3>
 * Added `catch()` for `Throwable` exceptions in `PhpCompiler::compile()`
