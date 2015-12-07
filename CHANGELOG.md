@@ -1,5 +1,9 @@
 <h2>v1.0.0-alpha25</h2>
 
+<h3>HTTP</h3>
+* Added ability to specify raw body in `Request::createFromGlobals()` and `Request::__construct()`
+* Added ability to override globals in `Request::createFromGlobals()`
+
 <h3>Views</h3>
 * Added `catch()` for `Throwable` exceptions in `PhpCompiler::compile()`
 * Changed `Opulence\Views\Compilers\ICompiler::compile()` to throw `Exception` and `Throwable` rather than just `ViewCompilerException`
