@@ -133,7 +133,7 @@ class RequestBuilder
      * @param bool $overwriteOld Whether or not to overwrite all old environment vars
      * @return $this For method chaining
      */
-    public function withEnv(array $env, $overwriteOld = false)
+    public function withEnvironmentVars(array $env, $overwriteOld = false)
     {
         $this->addValuesToCollection($env, $this->env, $overwriteOld);
 

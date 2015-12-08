@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha28</h2>
+
+<h3>Testing</h3>
+* Renamed `Opulence\Framework\Testing\PhpUnit\Http\RequestBuilder::withEnv()` to `withEnvironmentVars()`
+
 <h2>v1.0.0-alpha27</h2>
 
 <h3>Testing</h3>
@@ -9,9 +14,9 @@
 * Added `Opulence\Http\Requests\Request::createFromUrl()`
 
 <h3>Testing</h3>
-* Removed `$method` and `$path` parameters from `Opulence\Framework\Testing\Http\ApplicationTestCase::route()`
-* Added `Opulence\Framework\Testing\Http\RequestBuilder`
-* Added following methods to `Opulence\Framework\Testing\Http\ApplicationTestCase`:
+* Removed `$method` and `$path` parameters from `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase::route()`
+* Added `Opulence\Framework\Testing\PhpUnit\Http\RequestBuilder`
+* Added following methods to `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase`:
   * `assertResponseJsonEquals()`
   * `delete()`
   * `get()`
@@ -20,7 +25,7 @@
   * `patch()`
   * `post()`
   * `put()`
-* All assertions in `Opulence\Framework\Testing\Console\ApplicationTestCase` and `Opulence\Framework\Testing\Http\ApplicationTestCase` now return `$this` for method chaining
+* All assertions in `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase` and `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase` now return `$this` for method chaining
 
 <h2>v1.0.0-alpha25</h2>
 

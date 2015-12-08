@@ -103,7 +103,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     {
         $requestBuilder = new RequestBuilder($this->testCase, "GET", "/foo");
         $env = ["env-name" => "env-val"];
-        $this->assertSame($requestBuilder, $requestBuilder->withEnv($env));
+        $this->assertSame($requestBuilder, $requestBuilder->withEnvironmentVars($env));
         $request = Request::createFromUrl("/foo", "GET", [], [], [], [], $env);
         $this->testCase->expects($this->once())
             ->method("route")
