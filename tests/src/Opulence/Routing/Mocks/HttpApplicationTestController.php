@@ -10,6 +10,7 @@ namespace Opulence\Tests\Routing\Mocks;
 
 use DateTime;
 use Opulence\Http\Responses\Cookie;
+use Opulence\Http\Responses\JsonResponse;
 use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
@@ -118,5 +119,15 @@ class HttpApplicationTestController extends BaseController
     public function showFooBar()
     {
         return new Response("FooBar");
+    }
+
+    /**
+     * Shows a JSON response
+     *
+     * @return JsonResponse The response
+     */
+    public function showJson()
+    {
+        return new JsonResponse(["foo" => "bar"]);
     }
 }

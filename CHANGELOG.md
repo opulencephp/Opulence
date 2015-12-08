@@ -7,6 +7,7 @@
 * Removed `$method` and `$path` parameters from `Opulence\Framework\Testing\Http\ApplicationTestCase::route()`
 * Added `Opulence\Framework\Testing\Http\RequestBuilder`
 * Added following methods to `Opulence\Framework\Testing\Http\ApplicationTestCase`:
+  * `assertResponseJsonEquals()`
   * `delete()`
   * `get()`
   * `head()`

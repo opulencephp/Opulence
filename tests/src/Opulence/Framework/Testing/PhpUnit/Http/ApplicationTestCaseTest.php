@@ -45,6 +45,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
             $router->get("/setvar", "HttpApplicationTestController@setVar");
             $router->get("/unauthorized", "HttpApplicationTestController@setUnauthorized");
             $router->get("/non-opulence-controller", "NonOpulenceController@showFoo");
+            $router->get("/json", "HttpApplicationTestController@showJson");
         });
     }
 
@@ -142,6 +143,15 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->testCase->get("/unauthorized")->go();
         $this->assertSame($this->testCase, $this->testCase->assertResponseIsUnauthorized());
+    }
+
+    /**
+     * Tests asserting response JSON equals
+     */
+    public function testAssertingResponseJsonEquals()
+    {
+        $this->testCase->get("/json")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseJsonEquals(["foo" => "bar"]));
     }
 
     /**

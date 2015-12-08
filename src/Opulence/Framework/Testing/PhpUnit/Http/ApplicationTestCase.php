@@ -202,6 +202,21 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
+     * Asserts that the response's JSON match the input
+     *
+     * @param array $expected The expected value
+     * @return $this For method chaining
+     */
+    public function assertResponseJsonEquals(array $expected)
+    {
+        $this->checkResponseIsSet();
+        $this->assertJson($this->response->getContent());
+        $this->assertEquals($expected, json_decode($this->response->getContent(), true));
+
+        return $this;
+    }
+
+    /**
      * Asserts that the response status code equals a particular value
      *
      * @param int $statusCode The expected status code
