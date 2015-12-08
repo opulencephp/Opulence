@@ -203,6 +203,15 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that not chaining assertions to the request builder still works
+     */
+    public function testNotChainingAssertionsToRequestBuilderStillWorks()
+    {
+        $this->testCase->get("/ok");
+        $this->testCase->assertResponseIsOK();
+    }
+
+    /**
      * Tests that verbs return request builders
      */
     public function testVerbsReturnRequestBuilders()

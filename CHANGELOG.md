@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha27</h2>
+
+<h3>Testing</h3>
+* Fixed bug that prevented assertions from working if they weren't chained to `RequestBuilder` calls
+
 <h2>v1.0.0-alpha26</h2>
 
 <h3>HTTP</h3>

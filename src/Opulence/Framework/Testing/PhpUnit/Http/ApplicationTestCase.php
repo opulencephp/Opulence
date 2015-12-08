@@ -34,6 +34,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     protected $kernel = null;
     /** @var Response The response from the last route */
     protected $response = null;
+    /** @var RequestBuilder|null The last request builder run */
+    private $lastRequestBuilder = null;
 
     /**
      * Asserts that the response redirects to a URL
@@ -279,7 +281,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function delete($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_DELETE, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_DELETE, $url));
     }
 
     /**
@@ -290,7 +292,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function get($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_GET, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_GET, $url));
     }
 
     /**
@@ -317,7 +319,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function head($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_HEAD, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_HEAD, $url));
     }
 
     /**
@@ -328,7 +330,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function options($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_OPTIONS, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_OPTIONS, $url));
     }
 
     /**
@@ -339,7 +341,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function patch($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_PATCH, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_PATCH, $url));
     }
 
     /**
@@ -350,7 +352,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function post($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_POST, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_POST, $url));
     }
 
     /**
@@ -361,7 +363,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      */
     public function put($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_PUT, $url);
+        return $this->setLastRequestBuilder(new RequestBuilder($this, Request::METHOD_PUT, $url));
     }
 
     /**
@@ -424,7 +426,26 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     private function checkResponseIsSet()
     {
         if ($this->response === null) {
-            $this->fail("Must call route() before assertions");
+            if ($this->lastRequestBuilder === null) {
+                $this->fail("Must call route() before assertions");
+            } else {
+                $this->lastRequestBuilder->go();
+                // Unset it for next time
+                $this->lastRequestBuilder = null;
+            }
         }
+    }
+
+    /**
+     * Sets the last request builder
+     *
+     * @param RequestBuilder $requestBuilder The last request builder
+     * @return RequestBuilder The last request builder
+     */
+    private function setLastRequestBuilder(RequestBuilder $requestBuilder)
+    {
+        $this->lastRequestBuilder = $requestBuilder;
+
+        return $requestBuilder;
     }
 }
