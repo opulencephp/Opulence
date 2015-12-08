@@ -95,7 +95,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testBuildingRequestWithFiles()
     {
-        $files = [new UploadedFile("/tmp/foo", "temp-filename", 123, "plain/text", UPLOAD_ERR_OK)];
+        $files = [new UploadedFile("tmp", "temp-filename", 123, "plain/text", UPLOAD_ERR_OK)];
         $request = Request::createFromUrl("/foo", "GET", [], [], [], $files);
         $this->assertEquals($files, $request->getFiles()->getAll());
     }
