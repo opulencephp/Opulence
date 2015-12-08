@@ -50,7 +50,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertStatusCodeIsError()
     {
         $this->testCase->call("simple", [], ["--code=" . StatusCodes::ERROR]);
-        $this->testCase->assertStatusCodeIsOK();
+        $this->assertSame($this->testCase, $this->testCase->assertStatusCodeIsOK());
     }
 
     /**
@@ -59,7 +59,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertStatusCodeIsFatal()
     {
         $this->testCase->call("simple", [], ["--code=" . StatusCodes::FATAL]);
-        $this->testCase->assertStatusCodeIsOK();
+        $this->assertSame($this->testCase, $this->testCase->assertStatusCodeIsOK());
     }
 
     /**
@@ -68,7 +68,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertStatusCodeIsOK()
     {
         $this->testCase->call("simple", [], ["--code=" . StatusCodes::OK]);
-        $this->testCase->assertStatusCodeIsOK();
+        $this->assertSame($this->testCase, $this->testCase->assertStatusCodeIsOK());
     }
 
     /**
@@ -77,7 +77,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertStatusCodeIsWarning()
     {
         $this->testCase->call("simple", [], ["--code=" . StatusCodes::WARNING]);
-        $this->testCase->assertStatusCodeIsOK();
+        $this->assertSame($this->testCase, $this->testCase->assertStatusCodeIsOK());
     }
 
     /**
@@ -86,7 +86,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testAssertingStatusCodeEquals()
     {
         $this->testCase->call("simple");
-        $this->testCase->assertStatusCodeEquals(StatusCodes::OK);
+        $this->assertSame($this->testCase, $this->testCase->assertStatusCodeEquals(StatusCodes::OK));
     }
 
     /**
@@ -95,9 +95,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testCallingCommandWithMultiplePrompts()
     {
         $this->testCase->call("multipleprompts", [], [], ["foo", "bar"]);
-        $this->testCase->assertOutputEquals("Custom1Custom2");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("Custom1Custom2"));
         $this->testCase->call("multipleprompts", [], [], ["default1", "default2"]);
-        $this->testCase->assertOutputEquals("Default1Default2");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("Default1Default2"));
     }
 
     /**
@@ -106,9 +106,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testCallingCommandWithSinglePrompt()
     {
         $this->testCase->call("singleprompt", [], [], "A duck");
-        $this->testCase->assertOutputEquals("Very good");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("Very good"));
         $this->testCase->call("singleprompt", [], [], "Bread");
-        $this->testCase->assertOutputEquals("Wrong");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("Wrong"));
     }
 
     /**
@@ -118,7 +118,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     {
         $this->testCase->call("doesnotexist");
         // The About command should be run in this case
-        $this->testCase->assertStatusCodeIsOK();
+        $this->assertSame($this->testCase, $this->testCase->assertStatusCodeIsOK());
     }
 
     /**
@@ -136,7 +136,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     {
         $statusCode = $this->testCase->call("simple");
         $this->assertEquals(StatusCodes::OK, $statusCode);
-        $this->testCase->assertOutputEquals("foo");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("foo"));
     }
 
     /**
@@ -146,7 +146,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     {
         $statusCode = $this->testCase->call("holiday", ["birthday"], ["--yell"]);
         $this->assertEquals(StatusCodes::OK, $statusCode);
-        $this->testCase->assertOutputEquals("Happy birthday!");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("Happy birthday!"));
     }
 
     /**
@@ -166,8 +166,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testThatResponseIsClearedBeforeEachCommand()
     {
         $this->testCase->call("stylish", [], [], [], false);
-        $this->testCase->assertOutputEquals("I've got style");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("I've got style"));
         $this->testCase->call("stylish", [], [], [], false);
-        $this->testCase->assertOutputEquals("I've got style");
+        $this->assertSame($this->testCase, $this->testCase->assertOutputEquals("I've got style"));
     }
 }

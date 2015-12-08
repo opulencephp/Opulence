@@ -11,6 +11,7 @@ namespace Opulence\Http\Requests;
 use InvalidArgumentException;
 use Opulence\Http\Headers;
 use Opulence\Http\Collection;
+use Opulence\Tests\Http\Requests\Mocks\UploadedFile;
 use RuntimeException;
 
 /**
@@ -157,6 +158,108 @@ class Request
         }
 
         return new static($query, $post, $cookies, $server, $files, $env, $rawBody);
+    }
+
+    /**
+     * Creates an instance of this class from a URL
+     *
+     * @param string $url The URL
+     * @param string $method The HTTP method
+     * @param array $parameters The parameters (will be bound to query if GET request, otherwise bound to post)
+     * @param array $cookies The COOKIE parameters
+     * @param array $server The SERVER parameters
+     * @param UploadedFile[] $files The list of uploaded files
+     * @param array $env The ENV parameters
+     * @param string|null $rawBody The raw body
+     * @return Request An instance of this class
+     */
+    public static function createFromUrl(
+        $url,
+        $method,
+        array $parameters = [],
+        array $cookies = [],
+        array $server = [],
+        array $files = [],
+        array $env = [],
+        $rawBody = null
+    ) {
+        // Define some basic server vars, but override them with with input on collision
+        $server = array_replace(
+            [
+                "HTTP_HOST" => "localhost",
+                "REMOTE_ADDR" => "127.0.01",
+                "SCRIPT_FILENAME" => "",
+                "SCRIPT_NAME" => "",
+                "SERVER_NAME" => "localhost",
+                "SERVER_PROTOCOL" => "HTTP/1.1",
+                "SERVER_PORT" => 80
+            ],
+            $server
+        );
+
+        $query = [];
+        $post = [];
+
+        // Set the content type for unsupported HTTP methods
+        if ($method == self::METHOD_GET) {
+            $query = $parameters;
+        } elseif ($method == self::METHOD_POST) {
+            $post = $parameters;
+        } elseif (
+            in_array($method, [Request::METHOD_PUT, Request::METHOD_PATCH, Request::METHOD_DELETE]) &&
+            !isset($server["CONTENT_TYPE"])
+        ) {
+            $server["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+        }
+
+        $server["REQUEST_METHOD"] = $method;
+        $parsedUrl = parse_url($url);
+
+        if (isset($parsedUrl["host"])) {
+            $server["HTTP_HOST"] = $parsedUrl["host"];
+        }
+
+        if (isset($parsedUrl["path"])) {
+            $server["REQUEST_URI"] = $parsedUrl["path"];
+        }
+
+        if (isset($parsedUrl["query"])) {
+            parse_str(html_entity_decode($parsedUrl["query"]), $queryFromUrl);
+            $query = array_replace($queryFromUrl, $query);
+        }
+
+        $queryString = http_build_query($query, "", "&");
+        $server["QUERY_STRING"] = $queryString;
+        $server["REQUEST_URI"] .= count($query) > 0 ? "?$queryString" : "";
+
+        if (isset($parsedUrl["scheme"])) {
+            if ($parsedUrl["scheme"] == "https") {
+                $server["HTTPS"] = "on";
+                $server["SERVER_PORT"] = 443;
+            } else {
+                unset($server["HTTPS"]);
+                $server["SERVER_PORT"] = 80;
+            }
+        }
+
+        if (isset($parsedUrl["port"])) {
+            $server["SERVER_PORT"] = $parsedUrl["port"];
+            $server["HTTP_HOST"] .= ":{$parsedUrl["port"]}";
+        }
+
+        $parsedFiles = [];
+
+        foreach ($files as $file) {
+            $parsedFiles[] = [
+                "tmp_name" => $file->getFilename(),
+                "name" => $file->getTempFilename(),
+                "size" => $file->getTempSize(),
+                "type" => $file->getTempMimeType(),
+                "error" => $file->getError()
+            ];
+        }
+
+        return new static($query, $post, $cookies, $server, $parsedFiles, $env, $rawBody);
     }
 
     /**
@@ -525,7 +628,7 @@ class Request
         if (!is_string($method)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Http method must be string, %s provided',
+                    'HTTP method must be string, %s provided',
                     is_object($method) ? get_class($method) : gettype($method)
                 )
             );
@@ -536,7 +639,7 @@ class Request
         if (!in_array($method, self::$validMethods)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Invalid Http method "%s"',
+                    'Invalid HTTP method "%s"',
                     $method
                 )
             );

@@ -53,9 +53,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertViewHasVariable()
     {
-        $this->testCase->route("GET", "/setvar");
-        $this->testCase->assertViewHasVar("foo");
-        $this->testCase->assertViewVarEquals("foo", "bar");
+        $this->testCase->get("/setvar")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertViewHasVar("foo"));
+        $this->assertSame($this->testCase, $this->testCase->assertViewVarEquals("foo", "bar"));
     }
 
     /**
@@ -63,8 +63,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingRedirect()
     {
-        $this->testCase->route("GET", "/redirect");
-        $this->testCase->assertRedirectsTo("/redirectedPath");
+        $this->testCase->get("/redirect")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertRedirectsTo("/redirectedPath"));
     }
 
     /**
@@ -72,8 +72,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasContent()
     {
-        $this->testCase->route("GET", "/foobar");
-        $this->testCase->assertResponseContentEquals("FooBar");
+        $this->testCase->get("/foobar")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseContentEquals("FooBar"));
     }
 
     /**
@@ -81,9 +81,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasCookie()
     {
-        $this->testCase->route("GET", "/cookie");
-        $this->testCase->assertResponseHasCookie("foo");
-        $this->testCase->assertResponseCookieValueEquals("foo", "bar");
+        $this->testCase->get("/cookie")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseHasCookie("foo"));
+        $this->assertSame($this->testCase, $this->testCase->assertResponseCookieValueEquals("foo", "bar"));
     }
 
     /**
@@ -91,9 +91,9 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasHeader()
     {
-        $this->testCase->route("GET", "/header");
-        $this->testCase->assertResponseHasHeader("foo");
-        $this->testCase->assertResponseHeaderEquals("foo", "bar");
+        $this->testCase->get("/header")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseHasHeader("foo"));
+        $this->assertSame($this->testCase, $this->testCase->assertResponseHeaderEquals("foo", "bar"));
     }
 
     /**
@@ -101,8 +101,11 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseHasStatusCode()
     {
-        $this->testCase->route("GET", "/badgateway");
-        $this->testCase->assertResponseStatusCodeEquals(ResponseHeaders::HTTP_BAD_GATEWAY);
+        $this->testCase->get("/badgateway")->go();
+        $this->assertSame(
+            $this->testCase,
+            $this->testCase->assertResponseStatusCodeEquals(ResponseHeaders::HTTP_BAD_GATEWAY)
+        );
     }
 
     /**
@@ -110,8 +113,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsInternalServerError()
     {
-        $this->testCase->route("GET", "/ise");
-        $this->testCase->assertResponseIsInternalServerError();
+        $this->testCase->get("/ise")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseIsInternalServerError());
     }
 
     /**
@@ -119,8 +122,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsNotFound()
     {
-        $this->testCase->route("GET", "/notfound");
-        $this->testCase->assertResponseIsNotFound();
+        $this->testCase->get("/notfound")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseIsNotFound());
     }
 
     /**
@@ -128,8 +131,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsOK()
     {
-        $this->testCase->route("GET", "/ok");
-        $this->testCase->assertResponseIsOK();
+        $this->testCase->get("/ok")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseIsOK());
     }
 
     /**
@@ -137,8 +140,20 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssertingResponseIsUnauthorized()
     {
-        $this->testCase->route("GET", "/unauthorized");
-        $this->testCase->assertResponseIsUnauthorized();
+        $this->testCase->get("/unauthorized")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseIsUnauthorized());
+    }
+
+    /**
+     * Tests that assertions called from request builder are forwarded to test case
+     */
+    public function testAssertionsCalledFromRequestBuilderAreForwardedToTestCase()
+    {
+        $this->assertSame(
+            $this->testCase,
+            $this->testCase->get("/foobar")
+                ->assertResponseContentEquals("FooBar")
+        );
     }
 
     /**
@@ -163,8 +178,8 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController()
     {
         $this->setExpectedException(LogicException::class);
-        $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertViewHasVar("foo");
+        $this->testCase->get("/non-opulence-controller")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertViewHasVar("foo"));
     }
 
     /**
@@ -173,7 +188,21 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testLogicExceptionGettingViewVariableFromNonOpulenceController()
     {
         $this->setExpectedException(LogicException::class);
-        $this->testCase->route("GET", "/non-opulence-controller");
-        $this->testCase->assertViewVarEquals("bar", "foo");
+        $this->testCase->get("/non-opulence-controller")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertViewVarEquals("bar", "foo"));
+    }
+
+    /**
+     * Tests that verbs return request builders
+     */
+    public function testVerbsReturnRequestBuilders()
+    {
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->delete());
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->get());
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->head());
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->options());
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->patch());
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->post());
+        $this->assertInstanceOf(RequestBuilder::class, $this->testCase->put());
     }
 }

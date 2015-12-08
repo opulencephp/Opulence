@@ -91,6 +91,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests uploaded files are converted to an array
+     */
+    public function testBuildingRequestWithFiles()
+    {
+        $files = [new UploadedFile("/tmp/foo", "temp-filename", 123, "plain/text", UPLOAD_ERR_OK)];
+        $request = Request::createFromUrl("/foo", "GET", [], [], [], $files);
+        $this->assertEquals($files, $request->getFiles()->getAll());
+    }
+
+    /**
      * Tests checking that an unset DELETE variable is not set
      */
     public function testCheckingIfDeletePostVarIsNotSet()
@@ -185,6 +195,29 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->assertNotSame($clone->getPut(), $this->request->getPut());
         $this->assertNotSame($clone->getQuery(), $this->request->getQuery());
         $this->assertNotSame($clone->getServer(), $this->request->getServer());
+    }
+
+    /**
+     * Tests that the content type header is set for unsupported methods
+     */
+    public function testContentTypeSetForUnsupportedMethods()
+    {
+        $patchRequest = Request::createFromUrl("/url", "PATCH");
+        $this->assertEquals("application/x-www-form-urlencoded", $patchRequest->getServer()->get("CONTENT_TYPE"));
+        $putRequest = Request::createFromUrl("/url", "PUT");
+        $this->assertEquals("application/x-www-form-urlencoded", $putRequest->getServer()->get("CONTENT_TYPE"));
+        $deleteRequest = Request::createFromUrl("/url", "DELETE");
+        $this->assertEquals("application/x-www-form-urlencoded", $deleteRequest->getServer()->get("CONTENT_TYPE"));
+    }
+
+    /**
+     * Tests the cookies are set from the URL
+     */
+    public function testCookiesAreSetFromUrl()
+    {
+        $vars = ["foo" => "bar"];
+        $request = Request::createFromUrl("/foo", "GET", [], $vars);
+        $this->assertEquals($vars, $request->getCookies()->getAll());
     }
 
     /**
@@ -285,6 +318,70 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = JsonRequest::createFromGlobals();
         $this->assertEquals("blah", $request->getInput("baz", "blah"));
+    }
+
+    /**
+     * Tests that the default server vars are overwritten from the URL
+     */
+    public function testDefaultServerVarsAreOverwrittenFromUrl()
+    {
+        $server = [
+            "HTTP_HOST" => "the-host",
+            "REMOTE_ADDR" => "the-remote-addr",
+            "SCRIPT_FILENAME" => "script-filename",
+            "SCRIPT_NAME" => "script-name",
+            "SERVER_NAME" => "server-name",
+            "SERVER_PROTOCOL" => "server-protocol",
+            "SERVER_PORT" => 8080,
+            "QUERY_STRING" => ""
+        ];
+        $request = Request::createFromUrl("/foo", "GET", [], [], $server);
+        $allServerVars = array_merge($server, [
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/foo"
+        ]);
+        $this->assertEquals($allServerVars, $request->getServer()->getAll());
+    }
+
+    /**
+     * Tests that default server vars are set from the URL
+     */
+    public function testDefaultServerVarsSetFromUrl()
+    {
+        $server = [
+            "HTTP_HOST" => "localhost",
+            "REMOTE_ADDR" => "127.0.01",
+            "SCRIPT_FILENAME" => "",
+            "SCRIPT_NAME" => "",
+            "SERVER_NAME" => "localhost",
+            "SERVER_PROTOCOL" => "HTTP/1.1",
+            "SERVER_PORT" => 80,
+            "REQUEST_METHOD" => "GET",
+            "REQUEST_URI" => "/foo",
+            "QUERY_STRING" => ""
+        ];
+        $request = Request::createFromUrl("/foo", "GET");
+        $this->assertEquals($server, $request->getServer()->getAll());
+    }
+
+    /**
+     * Tests the env vars are set from the URL
+     */
+    public function testEnvIsSetFromUrl()
+    {
+        $vars = ["foo" => "bar"];
+        $request = Request::createFromUrl("/foo", "GET", [], [], [], [], $vars);
+        $this->assertEquals($vars, $request->getEnv()->getAll());
+    }
+
+    /**
+     * Tests that the full URL is the same as the URL passed into the create method
+     */
+    public function testFullUrlIsSetFromUrl()
+    {
+        $url = "https://foo.com:8080/bar/baz?dave=young";
+        $request = Request::createFromUrl($url, "GET");
+        $this->assertEquals($url, $request->getFullUrl());
     }
 
     /**
@@ -847,6 +944,21 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the host is set from the URL
+     */
+    public function testHostIsSetFromUrl()
+    {
+        $request = Request::createFromUrl("http://foo.com/bar", "GET");
+        $this->assertEquals("foo.com", $request->getHost());
+        $request = Request::createFromUrl("http://foo.com:80/bar", "GET");
+        $this->assertEquals("foo.com", $request->getHost());
+        $request = Request::createFromUrl("https://foo.com:443/bar", "GET");
+        $this->assertEquals("foo.com", $request->getHost());
+        $request = Request::createFromUrl("http://foo.com:8080/bar", "GET");
+        $this->assertEquals("foo.com", $request->getHost());
+    }
+
+    /**
      * Tests checking if an insecure request is secure
      */
     public function testIfInsecureRequestIsSecure()
@@ -914,7 +1026,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests checking if a request was made by AJAX
      */
-    public function testIsAJAX()
+    public function testIsAjax()
     {
         $this->request->getHeaders()->set("X_REQUESTED_WITH", "XMLHttpRequest");
         $this->assertTrue($this->request->isAjax());
@@ -954,6 +1066,26 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that parameters in GET request are assigned to query
+     */
+    public function testParametersInGetRequestAreAssignedToQuery()
+    {
+        $parameters = ["name" => "val"];
+        $request = Request::createFromUrl("/foo", "GET", $parameters);
+        $this->assertEquals("val", $request->getQuery()->get("name"));
+    }
+
+    /**
+     * Tests that parameters in POST request are assigned to post
+     */
+    public function testParametersInPostRequestAreAssignedTPost()
+    {
+        $parameters = ["name" => "val"];
+        $request = Request::createFromUrl("/foo", "POST", $parameters);
+        $this->assertEquals("val", $request->getPost()->get("name"));
+    }
+
+    /**
      * Tests passing the method in a GET request
      */
     public function testPassingMethodInGetRequest()
@@ -973,6 +1105,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REQUEST_METHOD"] = Request::METHOD_POST;
         $request = Request::createFromGlobals();
         $this->assertEquals(Request::METHOD_PUT, $request->getMethod());
+    }
+
+    /**
+     * Tests that the path is set from the URL
+     */
+    public function testPathSetFromUrl()
+    {
+        $request = Request::createFromUrl("http://foo.com/bar", "GET");
+        $this->assertEquals("/bar", $request->getPath());
     }
 
     /**
@@ -1039,6 +1180,83 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_GET["foo"] = "bar";
         $request = Request::createFromGlobals();
         $this->assertEquals("bar", $request->getInput("foo"));
+    }
+
+    /**
+     * Tests that the query string is set from the URL
+     */
+    public function testQueryStringSetFromUrl()
+    {
+        $request = Request::createFromUrl("http://foo.com/bar/?baz=blah&dave=young", "GET");
+        $expectedQuery = [
+            "baz" => "blah",
+            "dave" => "young"
+        ];
+        $this->assertEquals($expectedQuery, $request->getQuery()->getAll());
+        $this->assertEquals("/bar/?baz=blah&dave=young", $request->getServer()->get("REQUEST_URI"));
+        $this->assertEquals("baz=blah&dave=young", $request->getServer()->get("QUERY_STRING"));
+    }
+
+    /**
+     * Tests that the query string vars in URL are overwritten by parameters
+     */
+    public function testQueryStringVarsInUrlAreOverwrittenByParameters()
+    {
+        $request = Request::createFromUrl("http://foo.com/bar/?baz=blah&dave=young", "GET", ["baz" => "yay"]);
+        $expectedQuery = [
+            "baz" => "yay",
+            "dave" => "young"
+        ];
+        $this->assertEquals($expectedQuery, $request->getQuery()->getAll());
+        $this->assertEquals("/bar/?baz=yay&dave=young", $request->getServer()->get("REQUEST_URI"));
+        $this->assertEquals("baz=yay&dave=young", $request->getServer()->get("QUERY_STRING"));
+    }
+
+    /**
+     * Tests that the raw body is set from the Url
+     */
+    public function testRawBodySetFromUrl()
+    {
+        $request = Request::createFromUrl("/foo", "GET", [], [], [], [], [], "foo-bar-baz");
+        $this->assertEquals("foo-bar-baz", $request->getRawBody());
+    }
+
+    /**
+     * Tests that the scheme and port are set from the URL
+     */
+    public function testSchemeAndPortSetFromUrl()
+    {
+        $httpsRequest = Request::createFromUrl("https://foo.com/bar", "GET");
+        $this->assertEquals("on", $httpsRequest->getServer()->get("HTTPS"));
+        $this->assertEquals(443, $httpsRequest->getServer()->get("SERVER_PORT"));
+        $httpRequest = Request::createFromUrl("http://foo.com/bar", "GET");
+        $this->assertFalse($httpRequest->getServer()->has("HTTPS"));
+        $this->assertEquals(80, $httpRequest->getServer()->get("SERVER_PORT"));
+    }
+
+    /**
+     * Tests the server vars are set from the URL
+     */
+    public function testServerIsSetFromUrl()
+    {
+        $vars = ["foo" => "bar"];
+        $request = Request::createFromUrl("/foo", "GET", [], [], $vars);
+        $allVars = array_merge(
+            [
+                "REQUEST_METHOD" => "GET",
+                "REQUEST_URI" => "/foo",
+                "HTTP_HOST" => "localhost",
+                "REMOTE_ADDR" => "127.0.01",
+                "SCRIPT_FILENAME" => "",
+                "SCRIPT_NAME" => "",
+                "SERVER_NAME" => "localhost",
+                "SERVER_PROTOCOL" => "HTTP/1.1",
+                "SERVER_PORT" => 80,
+                "QUERY_STRING" => ""
+            ],
+            $vars
+        );
+        $this->assertEquals($allVars, $request->getServer()->getAll());
     }
 
     /**

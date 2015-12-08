@@ -39,22 +39,31 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      * Asserts that the response redirects to a URL
      *
      * @param string $url The expected URL
+     * @return $this For method chaining
      */
     public function assertRedirectsTo($url)
     {
         $this->checkResponseIsSet();
-        $this->assertTrue($this->response instanceof RedirectResponse && $this->response->getTargetUrl() == $url);
+        $this->assertTrue(
+            $this->response instanceof RedirectResponse && $this->response->getTargetUrl() == $url,
+            "Failed asserting that the response redirects to \"$url\""
+        );
+
+        return $this;
     }
 
     /**
      * Asserts that the response's contents match the input
      *
      * @param mixed $expected The expected value
+     * @return $this For method chaining
      */
     public function assertResponseContentEquals($expected)
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->response->getContent());
+
+        return $this;
     }
 
     /**
@@ -62,6 +71,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      *
      * @param string $name The name of the cookie to search for
      * @param mixed $expected The expected value
+     * @return $this For method chaining
      */
     public function assertResponseCookieValueEquals($name, $expected)
     {
@@ -78,12 +88,15 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         $this->assertEquals($expected, $cookieValue);
+
+        return $this;
     }
 
     /**
      * Asserts that the response has a cookie
      *
      * @param string $name The name of the cookie to search for
+     * @return $this For method chaining
      */
     public function assertResponseHasCookie($name)
     {
@@ -99,18 +112,26 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
             }
         }
 
-        $this->assertTrue($wasFound);
+        $this->assertTrue($wasFound, "Failed asserting that the response has cookie \"$name\"");
+
+        return $this;
     }
 
     /**
      * Asserts that the response has a header
      *
      * @param string $name The name of the header to search for
+     * @return $this For method chaining
      */
     public function assertResponseHasHeader($name)
     {
         $this->checkResponseIsSet();
-        $this->assertTrue($this->response->getHeaders()->has($name));
+        $this->assertTrue(
+            $this->response->getHeaders()->has($name),
+            "Failed asserting that the response has header \"$name\""
+        );
+
+        return $this;
     }
 
     /**
@@ -118,64 +139,87 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      *
      * @param string $name The name of the header to search for
      * @param mixed $expected The expected value
+     * @return $this For method chaining
      */
     public function assertResponseHeaderEquals($name, $expected)
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->response->getHeaders()->get($name));
+
+        return $this;
     }
 
     /**
      * Asserts that the response is an internal server error
+     *
+     * @return $this For method chaining
      */
     public function assertResponseIsInternalServerError()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $this->response->getStatusCode());
+
+        return $this;
     }
 
     /**
      * Asserts that the response is not found
+     *
+     * @return $this For method chaining
      */
     public function assertResponseIsNotFound()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $this->response->getStatusCode());
+
+        return $this;
     }
 
     /**
      * Asserts that the response is OK
+     *
+     * @return $this For method chaining
      */
     public function assertResponseIsOK()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
+
+        return $this;
     }
 
     /**
      * Asserts that the response is unauthorized
+     *
+     * @return $this For method chaining
      */
     public function assertResponseIsUnauthorized()
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_UNAUTHORIZED, $this->response->getStatusCode());
+
+        return $this;
     }
 
     /**
      * Asserts that the response status code equals a particular value
      *
      * @param int $statusCode The expected status code
+     * @return $this For method chaining
      */
     public function assertResponseStatusCodeEquals($statusCode)
     {
         $this->checkResponseIsSet();
         $this->assertEquals($statusCode, $this->response->getStatusCode());
+
+        return $this;
     }
 
     /**
      * Asserts that the view has a variable
      *
      * @param string $name The name of the variable to search for
+     * @return $this For method chaining
      * @throws LogicException Thrown if the controller does not extend the base controller
      */
     public function assertViewHasVar($name)
@@ -187,6 +231,8 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         $this->assertNotNull($this->router->getMatchedController()->getView()->getVar($name));
+
+        return $this;
     }
 
     /**
@@ -194,6 +240,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      *
      * @param string $name The name of the tag to search for
      * @param mixed $expected The expected value
+     * @return $this For method chaining
      * @throws LogicException Thrown if the controller does not extend the base controller
      */
     public function assertViewVarEquals($name, $expected)
@@ -205,6 +252,30 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         }
 
         $this->assertEquals($expected, $this->router->getMatchedController()->getView()->getVar($name));
+
+        return $this;
+    }
+
+    /**
+     * Creates a request builder for a DELETE request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function delete($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_DELETE, $url);
+    }
+
+    /**
+     * Creates a request builder for a GET request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function get($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_GET, $url);
     }
 
     /**
@@ -224,23 +295,72 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
+     * Creates a request builder for a HEAD request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function head($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_HEAD, $url);
+    }
+
+    /**
+     * Creates a request builder for an OPTIONS request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function options($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_OPTIONS, $url);
+    }
+
+    /**
+     * Creates a request builder for a PATCH request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function patch($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_PATCH, $url);
+    }
+
+    /**
+     * Creates a request builder for a POST request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function post($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_POST, $url);
+    }
+
+    /**
+     * Creates a request builder for a PUT request
+     *
+     * @param string|null $url The URL to request
+     * @return RequestBuilder The request builder
+     */
+    public function put($url = null)
+    {
+        return new RequestBuilder($this, Request::METHOD_PUT, $url);
+    }
+
+    /**
      * Simulates a route for use in testing
      *
-     * @param string $method The HTTP method to use
-     * @param string $url The URL to route
      * @param Request|null $request The request to use
      * @return Response The response
      */
-    public function route($method, $url, Request $request = null)
+    public function route(Request $request = null)
     {
         if ($request === null) {
             $request = $this->defaultRequest;
         }
 
-        $parsedUrl = parse_url($url);
-        $request->setPath($parsedUrl["path"]);
-        $request->setMethod(strtoupper($method));
-        $request->getHeaders()->set("HOST", isset($parsedUrl["host"]) ? $parsedUrl["host"] : "");
         $this->response = $this->kernel->handle($request);
 
         return $this->response;

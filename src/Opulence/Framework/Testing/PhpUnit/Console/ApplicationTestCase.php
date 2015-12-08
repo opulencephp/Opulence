@@ -51,54 +51,76 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      * Asserts that the output is an expected value
      *
      * @param string $expected The expected output
+     * @return $this For method chaining
      */
     public function assertOutputEquals($expected)
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->getOutput());
+
+        return $this;
     }
 
     /**
      * Asserts that the status code equals an expected value
      *
      * @param int $expected The expected status code
+     * @return $this For method chaining
      */
     public function assertStatusCodeEquals($expected)
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->statusCode);
+
+        return $this;
     }
 
     /**
      * Asserts that the status code is an error
+     *
+     * @return $this For method chaining
      */
     public function assertStatusCodeIsError()
     {
         $this->assertStatusCodeEquals(StatusCodes::ERROR);
+
+        return $this;
     }
 
     /**
      * Asserts that the status code is fatal
+     *
+     * @return $this For method chaining
      */
     public function assertStatusCodeIsFatal()
     {
         $this->assertStatusCodeEquals(StatusCodes::FATAL);
+
+        return $this;
     }
 
     /**
      * Asserts that the status code is OK
+     *
+     * @return $this For method chaining
      */
     public function assertStatusCodeIsOK()
     {
         $this->assertStatusCodeEquals(StatusCodes::OK);
+
+        return $this;
     }
 
     /**
      * Asserts that the status code is a warning
+     *
+     * @return $this For method chaining
      */
     public function assertStatusCodeIsWarning()
     {
         $this->assertStatusCodeEquals(StatusCodes::WARNING);
+
+        return $this;
     }
 
     /**

@@ -1,3 +1,21 @@
+<h2>v1.0.0-alpha26</h2>
+
+<h3>HTTP</h3>
+* Added `Opulence\Http\Requests\Request::createFromUrl()`
+
+<h3>Testing</h3>
+* Removed `$method` and `$path` parameters from `Opulence\Framework\Testing\Http\ApplicationTestCase::route()`
+* Added `Opulence\Framework\Testing\Http\RequestBuilder`
+* Added following methods to `Opulence\Framework\Testing\Http\ApplicationTestCase`:
+  * `delete()`
+  * `get()`
+  * `head()`
+  * `options()`
+  * `patch()`
+  * `post()`
+  * `put()`
+* All assertions in `Opulence\Framework\Testing\Console\ApplicationTestCase` and `Opulence\Framework\Testing\Http\ApplicationTestCase` now return `$this` for method chaining
+
 <h2>v1.0.0-alpha25</h2>
 
 <h3>HTTP</h3>
