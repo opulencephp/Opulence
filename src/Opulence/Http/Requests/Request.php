@@ -186,13 +186,14 @@ class Request
         // Define some basic server vars, but override them with with input on collision
         $server = array_replace(
             [
+                "HTTP_ACCEPT" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
                 "HTTP_HOST" => "localhost",
                 "REMOTE_ADDR" => "127.0.01",
                 "SCRIPT_FILENAME" => "",
                 "SCRIPT_NAME" => "",
                 "SERVER_NAME" => "localhost",
-                "SERVER_PROTOCOL" => "HTTP/1.1",
-                "SERVER_PORT" => 80
+                "SERVER_PORT" => 80,
+                "SERVER_PROTOCOL" => "HTTP/1.1"
             ],
             $server
         );

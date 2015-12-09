@@ -134,7 +134,7 @@ class Response
                 setcookie(
                     $cookie->getName(),
                     $cookie->getValue(),
-                    $cookie->getExpiration()->format("U"),
+                    $cookie->getExpiration(),
                     $cookie->getPath(),
                     $cookie->getDomain(),
                     $cookie->isSecure(),

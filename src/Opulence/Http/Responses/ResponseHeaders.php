@@ -190,7 +190,7 @@ class ResponseHeaders extends Headers
                  */
                 foreach ($cookiesByPath as $name => $cookie) {
                     // Only include active cookies
-                    if ($includeDeletedCookies || $cookie->getExpiration() >= new DateTime("now")) {
+                    if ($includeDeletedCookies || $cookie->getExpiration() >= time()) {
                         $cookies[] = $cookie;
                     }
                 }

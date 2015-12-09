@@ -19,7 +19,7 @@ class Cookie
     private $name = "";
     /** @var mixed The value of the cookie */
     private $value = "";
-    /** @var DateTime The expiration of the cookie */
+    /** @var int The expiration timestamp of the cookie */
     private $expiration = null;
     /** @var string The path the cookie is valid on */
     private $path = "/";
@@ -33,7 +33,7 @@ class Cookie
     /**
      * @param string $name The name of the cookie
      * @param mixed $value The value of the cookie
-     * @param DateTime $expiration The expiration of the cookie
+     * @param DateTime|int $expiration The expiration of the cookie
      * @param string $path The path the cookie is valid on
      * @param string $domain The domain the cookie is valid on
      * @param bool $isSecure Whether or not this cookie is on HTTPS
@@ -42,7 +42,7 @@ class Cookie
     public function __construct(
         $name,
         $value,
-        DateTime $expiration,
+        $expiration,
         $path = "/",
         $domain = "",
         $isSecure = false,
@@ -50,7 +50,7 @@ class Cookie
     ) {
         $this->name = $name;
         $this->value = $value;
-        $this->expiration = $expiration;
+        $this->setExpiration($expiration);
         $this->path = $path;
         $this->domain = $domain;
         $this->isSecure = $isSecure;
@@ -66,7 +66,7 @@ class Cookie
     }
 
     /**
-     * @return DateTime
+     * @return int
      */
     public function getExpiration()
     {
@@ -122,10 +122,14 @@ class Cookie
     }
 
     /**
-     * @param DateTime $expiration
+     * @param DateTime|int $expiration
      */
     public function setExpiration($expiration)
     {
+        if ($expiration instanceof DateTime) {
+            $expiration = $expiration->format("U");
+        }
+
         $this->expiration = $expiration;
     }
 

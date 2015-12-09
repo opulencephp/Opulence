@@ -326,6 +326,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testDefaultServerVarsAreOverwrittenFromUrl()
     {
         $server = [
+            "HTTP_ACCEPT" => "the-accept",
             "HTTP_HOST" => "the-host",
             "REMOTE_ADDR" => "the-remote-addr",
             "SCRIPT_FILENAME" => "script-filename",
@@ -349,6 +350,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     public function testDefaultServerVarsSetFromUrl()
     {
         $server = [
+            "HTTP_ACCEPT" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
             "HTTP_HOST" => "localhost",
             "REMOTE_ADDR" => "127.0.01",
             "SCRIPT_FILENAME" => "",
@@ -1243,16 +1245,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $request = Request::createFromUrl("/foo", "GET", [], [], $vars);
         $allVars = array_merge(
             [
+                "HTTP_ACCEPT" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "HTTP_HOST" => "localhost",
+                "QUERY_STRING" => "",
                 "REQUEST_METHOD" => "GET",
                 "REQUEST_URI" => "/foo",
-                "HTTP_HOST" => "localhost",
                 "REMOTE_ADDR" => "127.0.01",
                 "SCRIPT_FILENAME" => "",
                 "SCRIPT_NAME" => "",
                 "SERVER_NAME" => "localhost",
-                "SERVER_PROTOCOL" => "HTTP/1.1",
                 "SERVER_PORT" => 80,
-                "QUERY_STRING" => ""
+                "SERVER_PROTOCOL" => "HTTP/1.1"
             ],
             $vars
         );
