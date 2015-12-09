@@ -8,7 +8,6 @@
  */
 namespace Opulence\Http\Responses;
 
-use DateTime;
 use Opulence\Http\Headers;
 
 /**
@@ -169,7 +168,7 @@ class ResponseHeaders extends Headers
     public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHttpOnly = true)
     {
         // Remove the cookie from the response
-        $this->setCookie(new Cookie($name, "", new DateTime("-1 year"), $path, $domain, $isSecure, $isHttpOnly));
+        $this->setCookie(new Cookie($name, "", 0, $path, $domain, $isSecure, $isHttpOnly));
     }
 
     /**

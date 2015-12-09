@@ -146,12 +146,23 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests asserting response JSON contains
+     */
+    public function testAssertingResponseJsonContains()
+    {
+        $this->testCase->get("/json")->go();
+        $this->assertSame($this->testCase, $this->testCase->assertResponseJsonContains(["foo" => "bar"]));
+        $this->assertSame($this->testCase, $this->testCase->assertResponseJsonContains(["baz" => "blah"]));
+    }
+
+    /**
      * Tests asserting response JSON equals
      */
     public function testAssertingResponseJsonEquals()
     {
         $this->testCase->get("/json")->go();
-        $this->assertSame($this->testCase, $this->testCase->assertResponseJsonEquals(["foo" => "bar"]));
+        $this->assertSame($this->testCase,
+            $this->testCase->assertResponseJsonEquals(["foo" => "bar", "baz" => "blah"]));
     }
 
     /**

@@ -128,6 +128,6 @@ class HttpApplicationTestController extends BaseController
      */
     public function showJson()
     {
-        return new JsonResponse(["foo" => "bar"]);
+        return new JsonResponse(["foo" => "bar", "baz" => "blah"]);
     }
 }

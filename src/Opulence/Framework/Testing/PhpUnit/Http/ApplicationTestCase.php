@@ -204,7 +204,32 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
-     * Asserts that the response's JSON match the input
+     * Asserts that the response's JSON contains the input
+     *
+     * @param array $expected The expected value
+     * @return $this For method chaining
+     */
+    public function assertResponseJsonContains(array $expected)
+    {
+        $this->checkResponseIsSet();
+        $this->assertJson($this->response->getContent());
+        $found = true;
+        $actual = json_decode($this->response->getContent(), true);
+
+        foreach ($expected as $key => $value) {
+            if (!array_key_exists($key, $actual) || $actual[$key] !== $value) {
+                $found = false;
+                break;
+            }
+        }
+
+        $this->assertTrue($found);
+
+        return $this;
+    }
+
+    /**
+     * Asserts that the response's JSON matches the input
      *
      * @param array $expected The expected value
      * @return $this For method chaining
