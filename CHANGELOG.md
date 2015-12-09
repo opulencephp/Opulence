@@ -4,6 +4,9 @@
 * Added `HTTP_ACCEPT` default server var to `Request`
 * Changed `Cookie` to accept either a `DateTime` or an int
 
+<h3>Testing</h3>
+* Added `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase::assertResponseJsonContains()
+
 <h2>v1.0.0-alpha28</h2>
 
 <h3>Testing</h3>
