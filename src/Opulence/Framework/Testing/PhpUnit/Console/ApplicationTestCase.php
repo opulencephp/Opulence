@@ -95,14 +95,6 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     }
 
     /**
-     * @return CommandCollection
-     */
-    public function getCommandCollection()
-    {
-        return $this->commandCollection;
-    }
-
-    /**
      * Sets up the tests
      */
     public function setUp()

@@ -15,6 +15,7 @@ use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Bootstrappers\Dispatchers\Dispatcher;
 use Opulence\Bootstrappers\Paths;
+use Opulence\Console\Commands\CommandCollection;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
@@ -35,6 +36,14 @@ class ApplicationTestCase extends BaseApplicationTestCase
         CommandsBootstrapper::class,
         ComposerBootstrapper::class,
     ];
+
+    /**
+     * @return CommandCollection
+     */
+    public function getCommandCollection()
+    {
+        return $this->commandCollection;
+    }
 
     /**
      * Gets the response assertions for use in testing
