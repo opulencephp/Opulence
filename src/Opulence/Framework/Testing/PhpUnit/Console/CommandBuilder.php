@@ -13,6 +13,8 @@ namespace Opulence\Framework\Testing\PhpUnit\Console;
  */
 class CommandBuilder
 {
+    /** @var IntegrationTestCase The integration test that created this */
+    protected $integrationTest = null;
     /** @var string The command name */
     protected $commandName = null;
     /** @var array The list of arguments */
@@ -25,23 +27,23 @@ class CommandBuilder
     protected $isStyled = true;
 
     /**
-     * @param ApplicationTestCase $testCase The test case that created this builder
+     * @param IntegrationTestCase $integrationTest The integration test that created this builder
      * @param string $commandName The command name
      */
-    public function __construct(ApplicationTestCase $testCase, $commandName)
+    public function __construct(IntegrationTestCase $integrationTest, $commandName)
     {
-        $this->testCase = $testCase;
+        $this->integrationTest = $integrationTest;
         $this->commandName = $commandName;
     }
 
     /**
      * Executes the built command
      *
-     * @return ApplicationTestCase For method chaining
+     * @return IntegrationTestCase For method chaining
      */
     public function execute()
     {
-        return $this->testCase->execute(
+        return $this->integrationTest->execute(
             $this->commandName,
             $this->arguments,
             $this->options,

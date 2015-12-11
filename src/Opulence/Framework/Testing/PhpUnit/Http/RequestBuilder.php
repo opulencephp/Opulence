@@ -17,8 +17,8 @@ use Opulence\Http\Requests\UploadedFile;
  */
 class RequestBuilder
 {
-    /** @var ApplicationTestCase The test case that created this builder */
-    private $testCase = null;
+    /** @var IntegrationTestCase The integration test that created this builder */
+    private $integrationTest = null;
     /** @var string|null The URL of the request */
     private $url = null;
     /** @var string|null The HTTP method of the request */
@@ -37,13 +37,13 @@ class RequestBuilder
     private $rawBody = null;
 
     /**
-     * @param ApplicationTestCase $testCase The test case that created this builder
+     * @param IntegrationTestCase $integrationTest The integration test that created this builder
      * @param string $method The HTTP method of the request
      * @param string|null $url The URL of the request
      */
-    public function __construct(ApplicationTestCase $testCase, $method, $url = null)
+    public function __construct(IntegrationTestCase $integrationTest, $method, $url = null)
     {
-        $this->testCase = $testCase;
+        $this->integrationTest = $integrationTest;
         $this->method = strtoupper($method);
 
         if ($url !== null) {
@@ -65,7 +65,7 @@ class RequestBuilder
     /**
      * Creates the request and routes it in the test case
      *
-     * @return ApplicationTestCase The application test case that created this
+     * @return IntegrationTestCase The application test case that created this
      * @throws InvalidArgumentException Thrown if the build request is invalid
      */
     public function go()
@@ -82,9 +82,9 @@ class RequestBuilder
             $this->env,
             $this->rawBody
         );
-        $this->testCase->route($request);
+        $this->integrationTest->route($request);
 
-        return $this->testCase;
+        return $this->integrationTest;
     }
 
     /**

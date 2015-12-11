@@ -19,18 +19,18 @@ use Opulence\Environments\Environment;
 use Opulence\Framework\Bootstrappers\Http\Requests\RequestBootstrapper;
 use Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
-use Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions;
 use Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions;
+use Opulence\Framework\Testing\PhpUnit\Http\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
 
 /**
- * Mocks the HTTP application for use in testing
+ * Mocks the HTTP integration test for use in testing
  */
-class ApplicationTestCase extends BaseApplicationTestCase
+class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [

@@ -22,14 +22,14 @@ use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Environments\Environment;
-use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions;
+use Opulence\Framework\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
- * Defines the console application test case
+ * Defines the console integration test
  */
-abstract class ApplicationTestCase extends BaseApplicationTestCase
+abstract class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var CommandCollection The list of registered commands */
     protected $commandCollection = null;

@@ -1,3 +1,10 @@
+<h2>v1.0.0-alpha31</h2>
+
+<h3>Testing</h3>
+* Renamed `Opulence\Framework\Testing\PhpUnit\ApplicationTestCase` to `IntegrationTestCase`
+* Renamed `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase` to `IntegrationTestCase`
+* Renamed `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase` to `IntegrationTestCase`
+
 <h2>v1.0.0-alpha30</h2>
 
 <h3>Testing</h3>

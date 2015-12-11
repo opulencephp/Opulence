@@ -12,17 +12,17 @@ use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Http\Kernel;
-use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions;
 use Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions;
+use Opulence\Framework\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Router;
 
 /**
- * Defines the HTTP application test case
+ * Defines the HTTP integration test
  */
-abstract class ApplicationTestCase extends BaseApplicationTestCase
+abstract class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var Router The router */
     protected $router = null;

@@ -17,14 +17,14 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Commands\Mocks\SinglePromptCommand;
 use Opulence\Tests\Console\Commands\Mocks\StatusCodeCommand;
 use Opulence\Tests\Console\Commands\Mocks\StyledCommand;
-use Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks\ApplicationTestCase;
+use Opulence\Tests\Framework\Testing\PhpUnit\Console\Mocks\IntegrationTestCase as MockIntegrationTestCase;
 
 /**
- * Tests the console application tester
+ * Tests the console integration test
  */
-class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
+class IntegrationTestCaseTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var ApplicationTestCase The console application to use in tests */
+    /** @var MockIntegrationTestCase The console integration test to use in tests */
     private $testCase = null;
 
     /**
@@ -32,7 +32,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->testCase = new ApplicationTestCase();
+        $this->testCase = new MockIntegrationTestCase();
         $this->testCase->setUp();
         $prompt = new Prompt(new PaddingFormatter());
         $this->testCase->getCommandCollection()->add(new SimpleCommand("simple", "Simple command"));

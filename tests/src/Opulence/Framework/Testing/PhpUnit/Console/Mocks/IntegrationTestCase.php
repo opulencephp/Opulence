@@ -19,17 +19,17 @@ use Opulence\Console\Commands\CommandCollection;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
-use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
 use Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions;
+use Opulence\Framework\Testing\PhpUnit\Console\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
- * Mocks the console application for use in testing
+ * Mocks the console integration test for use in testing
  */
-class ApplicationTestCase extends BaseApplicationTestCase
+class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var array The list of bootstrapper classes to include */
     private static $bootstrappers = [
