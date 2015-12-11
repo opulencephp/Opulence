@@ -51,7 +51,18 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     protected $prompt = null;
 
     /**
-     * Calls a command to test
+     * Creates a command builder
+     *
+     * @param string $commandName The name of the command to build
+     * @return CommandBuilder The command builder
+     */
+    public function command($commandName)
+    {
+        return new CommandBuilder($this, $commandName);
+    }
+
+    /**
+     * Executes a command to test
      *
      * @param string $commandName The name of the command to run
      * @param array $arguments The list of arguments
@@ -60,7 +71,7 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
      * @param bool $isStyled Whether or not the output should be styled
      * @return $this For method chaining
      */
-    public function call(
+    public function execute(
         $commandName,
         array $arguments = [],
         array $options = [],

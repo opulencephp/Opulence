@@ -48,7 +48,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallReturnsThis()
     {
-        $this->assertSame($this->testCase, $this->testCase->call("simple"));
+        $this->assertSame($this->testCase, $this->testCase->execute("simple"));
     }
 
     /**
@@ -56,10 +56,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingCommandWithMultiplePrompts()
     {
-        $this->testCase->call("multipleprompts", [], [], ["foo", "bar"])
+        $this->testCase->execute("multipleprompts", [], [], ["foo", "bar"])
             ->getResponseAssertions()
             ->outputEquals("Custom1Custom2");
-        $this->testCase->call("multipleprompts", [], [], ["default1", "default2"])
+        $this->testCase->execute("multipleprompts", [], [], ["default1", "default2"])
             ->getResponseAssertions()
             ->outputEquals("Default1Default2");
     }
@@ -69,10 +69,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingCommandWithSinglePrompt()
     {
-        $this->testCase->call("singleprompt", [], [], "A duck")
+        $this->testCase->execute("singleprompt", [], [], "A duck")
             ->getResponseAssertions()
             ->outputEquals("Very good");
-        $this->testCase->call("singleprompt", [], [], "Bread")
+        $this->testCase->execute("singleprompt", [], [], "Bread")
             ->getResponseAssertions()
             ->outputEquals("Wrong");
     }
@@ -83,9 +83,17 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
     public function testCallingNonExistentCommand()
     {
         // The About command should be run in this case
-        $this->testCase->call("doesnotexist")
+        $this->testCase->execute("doesnotexist")
             ->getResponseAssertions()
             ->isOK();
+    }
+
+    /**
+     * Tests that a command builder is created
+     */
+    public function testCommandBuilderCreated()
+    {
+        $this->assertInstanceOf(CommandBuilder::class, $this->testCase->command("foo"));
     }
 
     /**
@@ -101,7 +109,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOutputOfOptionlessCommand()
     {
-        $this->testCase->call("simple")
+        $this->testCase->execute("simple")
             ->getResponseAssertions()
             ->isOK()
             ->outputEquals("foo");
@@ -112,7 +120,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingOutputWithOption()
     {
-        $this->testCase->call("holiday", ["birthday"], ["--yell"])
+        $this->testCase->execute("holiday", ["birthday"], ["--yell"])
             ->getResponseAssertions()
             ->isOK()
             ->outputEquals("Happy birthday!");
@@ -123,7 +131,7 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testResponseAssertionsWork()
     {
-        $this->testCase->call("simple")
+        $this->testCase->execute("simple")
             ->getResponseAssertions()
             ->isOK();
     }
@@ -133,10 +141,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testStylingAndUnstylingResponse()
     {
-        $this->testCase->call("stylish")
+        $this->testCase->execute("stylish")
             ->getResponseAssertions()
             ->outputEquals("\033[1mI've got style\033[22m");
-        $this->testCase->call("stylish", [], [], [], false)
+        $this->testCase->execute("stylish", [], [], [], false)
             ->getResponseAssertions()
             ->outputEquals("I've got style");
     }
@@ -146,10 +154,10 @@ class ApplicationTestCaseTest extends \PHPUnit_Framework_TestCase
      */
     public function testThatResponseIsClearedBeforeEachCommand()
     {
-        $this->testCase->call("stylish", [], [], [], false)
+        $this->testCase->execute("stylish", [], [], [], false)
             ->getResponseAssertions()
             ->outputEquals("I've got style");
-        $this->testCase->call("stylish", [], [], [], false)
+        $this->testCase->execute("stylish", [], [], [], false)
             ->getResponseAssertions()
             ->outputEquals("I've got style");
     }

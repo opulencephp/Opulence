@@ -1,3 +1,9 @@
+<h2>v1.0.0-alpha30</h2>
+
+<h3>Testing</h3>
+* Renamed `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase::call()` to `execute()`
+* Added `Opulence\Framework\Testing\PhpUnit\Console\CommandBuilder`
+
 <h2>v1.0.0-alpha29</h2>
 
 <h3>Bootstrappers</h3>
