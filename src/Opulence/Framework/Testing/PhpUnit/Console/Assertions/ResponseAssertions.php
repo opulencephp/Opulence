@@ -24,23 +24,6 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     protected $statusCode = -1;
 
     /**
-     * Gets the output of the previous command
-     *
-     * @return string The output
-     * @throws LogicException Thrown if the response is not set
-     */
-    public function getOutput()
-    {
-        if ($this->response === null) {
-            throw new LogicException("Must call call() before assertions");
-        }
-
-        rewind($this->response->getStream());
-
-        return stream_get_contents($this->response->getStream());
-    }
-
-    /**
      * Asserts that the status code is an error
      *
      * @return $this For method chaining
@@ -137,5 +120,22 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
         if ($this->response === null) {
             $this->fail("Must call call() before assertions");
         }
+    }
+
+    /**
+     * Gets the output of the previous command
+     *
+     * @return string The output
+     * @throws LogicException Thrown if the response is not set
+     */
+    private function getOutput()
+    {
+        if ($this->response === null) {
+            throw new LogicException("Must call call() before assertions");
+        }
+
+        rewind($this->response->getStream());
+
+        return stream_get_contents($this->response->getStream());
     }
 }

@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Testing\PhpUnit\Console\Assertions;
 
-use LogicException;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Console\StatusCodes;
 
@@ -74,14 +73,5 @@ class ResponseAssertionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertions->setResponse($this->mockResponse, StatusCodes::OK);
         $this->assertSame($this->assertions, $this->assertions->statusCodeEquals(StatusCodes::OK));
-    }
-
-    /**
-     * Tests that getting the output without setting the response throws an exception
-     */
-    public function testGettingOutputWithoutSettingResponseThrowsException()
-    {
-        $this->setExpectedException(LogicException::class);
-        $this->assertions->getOutput();
     }
 }
