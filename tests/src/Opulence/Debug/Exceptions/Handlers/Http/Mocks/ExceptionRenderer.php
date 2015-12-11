@@ -19,7 +19,7 @@ class ExceptionRenderer extends BaseRenderer
     /**
      * @inheritDoc
      */
-    protected function getDevelopmentEnvironmentContent(Exception $ex)
+    protected function getDevelopmentEnvironmentContent(Exception $ex, $statusCode)
     {
         return $ex->getMessage();
     }
@@ -27,7 +27,7 @@ class ExceptionRenderer extends BaseRenderer
     /**
      * @inheritDoc
      */
-    protected function getProductionEnvironmentContent(Exception $ex)
+    protected function getProductionEnvironmentContent(Exception $ex, $statusCode)
     {
         return "Something went wrong";
     }

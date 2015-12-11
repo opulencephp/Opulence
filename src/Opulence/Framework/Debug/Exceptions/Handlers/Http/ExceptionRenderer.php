@@ -75,7 +75,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
             $view->setVar("__inDevelopmentEnvironment", $this->inDevelopmentEnvironment);
             $content = $this->viewCompiler->compile($view);
         } else {
-            $content = $this->getDefaultResponseContent($ex);
+            $content = $this->getDefaultResponseContent($ex, $statusCode);
         }
 
         $this->response = new Response($content, $statusCode);

@@ -66,14 +66,15 @@ class ExceptionRenderer implements IExceptionRenderer
      * Gets the default response content
      *
      * @param Exception $ex The exception
+     * @param int $statusCode The HTTP status code
      * @return string The content of the response
      */
-    protected function getDefaultResponseContent(Exception $ex)
+    protected function getDefaultResponseContent(Exception $ex, $statusCode)
     {
         if ($this->inDevelopmentEnvironment) {
-            $content = $this->getDevelopmentEnvironmentContent($ex);
+            $content = $this->getDevelopmentEnvironmentContent($ex, $statusCode);
         } else {
-            $content = $this->getProductionEnvironmentContent($ex);
+            $content = $this->getProductionEnvironmentContent($ex, $statusCode);
         }
 
         return $content;
@@ -83,12 +84,18 @@ class ExceptionRenderer implements IExceptionRenderer
      * Gets the page contents for the default production exception page
      *
      * @param Exception $ex The exception
+     * @param int $statusCode The HTTP status code
      * @return string The contents of the page
      */
-    protected function getDevelopmentEnvironmentContent(Exception $ex)
+    protected function getDevelopmentEnvironmentContent(Exception $ex, $statusCode)
     {
         ob_start();
-        require __DIR__ . "/templates/DevelopmentExceptionPage.php";
+
+        if ($statusCode === 503) {
+            require __DIR__ . "/templates/MaintenanceModePage.php";
+        } else {
+            require __DIR__ . "/templates/DevelopmentExceptionPage.php";
+        }
 
         return ob_get_clean();
     }
@@ -97,12 +104,18 @@ class ExceptionRenderer implements IExceptionRenderer
      * Gets the page contents for the default production exception page
      *
      * @param Exception $ex The exception
+     * @param int $statusCode The HTTP status code
      * @return string The contents of the page
      */
-    protected function getProductionEnvironmentContent(Exception $ex)
+    protected function getProductionEnvironmentContent(Exception $ex, $statusCode)
     {
         ob_start();
-        require __DIR__ . "/templates/ProductionExceptionPage.php";
+
+        if ($statusCode === 503) {
+            require __DIR__ . "/templates/MaintenanceModePage.php";
+        } else {
+            require __DIR__ . "/templates/ProductionExceptionPage.php";
+        }
 
         return ob_get_clean();
     }
@@ -117,6 +130,6 @@ class ExceptionRenderer implements IExceptionRenderer
      */
     protected function getResponseContent($ex, $statusCode, array $headers)
     {
-        return $this->getDefaultResponseContent($ex);
+        return $this->getDefaultResponseContent($ex, $statusCode);
     }
 }

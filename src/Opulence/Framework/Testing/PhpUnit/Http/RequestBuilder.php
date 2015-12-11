@@ -52,20 +52,6 @@ class RequestBuilder
     }
 
     /**
-     * Handles the case that the user is trying to run an assertion
-     *
-     * @param string $name The name of the method
-     * @param array $arguments The arguments passed in
-     * @return ApplicationTestCase The application test case that created this
-     */
-    public function __call($name, array $arguments)
-    {
-        $this->go();
-
-        return call_user_func_array([$this->testCase, $name], $arguments);
-    }
-
-    /**
      * Sets the URL of the request (synonymous with to())
      *
      * @param string $url

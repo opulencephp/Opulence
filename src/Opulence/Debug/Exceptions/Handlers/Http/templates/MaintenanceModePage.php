@@ -2,7 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Error</title>
+        <title>Down for Maintenance</title>
         <style>
             body
             {
@@ -17,7 +17,7 @@
         </style>
     </head>
     <body>
-        <h2>Something went wrong</h2>
-        Sorry about that. We will look into what happened.
+        <h2>Down for maintenance</h2>
+        Please check back later.
     </body>
 </html>

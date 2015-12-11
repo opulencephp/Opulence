@@ -12,7 +12,9 @@ use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler;
 use Opulence\Console\Commands\Compilers\ICompiler;
+use Opulence\Framework\Console\Commands\AppDownCommand;
 use Opulence\Framework\Console\Commands\AppEnvironmentCommand;
+use Opulence\Framework\Console\Commands\AppUpCommand;
 use Opulence\Framework\Console\Commands\ComposerDumpAutoloadCommand;
 use Opulence\Framework\Console\Commands\ComposerUpdateCommand;
 use Opulence\Framework\Console\Commands\EncryptionKeyGenerationCommand;
@@ -33,7 +35,9 @@ class CommandsBootstrapper extends Bootstrapper
 {
     /** @var array The list of built-in command classes */
     private static $commandClasses = [
+        AppDownCommand::class,
         AppEnvironmentCommand::class,
+        AppUpCommand::class,
         ComposerDumpAutoloadCommand::class,
         ComposerUpdateCommand::class,
         EncryptionKeyGenerationCommand::class,

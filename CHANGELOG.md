@@ -1,11 +1,25 @@
 <h2>v1.0.0-alpha29</h2>
 
+<h3>Bootstrappers</h3>
+* Removed `Opulence\Framework\Bootstrappers\Php\PhpBootstrapper`
+
+<h3>Console</h3>
+* Added `app:up` and `app:down` console commands
+
+<h3>Debug</h3>
+* Added special template for 503 exceptions
+
 <h3>HTTP</h3>
 * Added `HTTP_ACCEPT` default server var to `Request`
 * Changed `Cookie` to accept either a `DateTime` or an int
 
 <h3>Testing</h3>
-* Added `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase::assertResponseJsonContains()
+* Added `Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions`
+* Added `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions`
+* Added `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions`
+* Moved all console `assert***()` methods to `Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions`
+* Moved all HTTP `assertResponse***()` methods to `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions`
+* Moved all HTTP `assertView***()` methods to `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions`
 
 <h2>v1.0.0-alpha28</h2>
 

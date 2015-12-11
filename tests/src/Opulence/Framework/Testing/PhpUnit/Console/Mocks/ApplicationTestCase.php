@@ -19,6 +19,7 @@ use Opulence\Environments\Environment;
 use Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper;
 use Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper;
 use Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
@@ -34,6 +35,16 @@ class ApplicationTestCase extends BaseApplicationTestCase
         CommandsBootstrapper::class,
         ComposerBootstrapper::class,
     ];
+
+    /**
+     * Gets the response assertions for use in testing
+     *
+     * @return ResponseAssertions The response assertions
+     */
+    public function getResponseAssertions()
+    {
+        return $this->assertResponse;
+    }
 
     /**
      * Sets up the application and container

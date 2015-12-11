@@ -11,7 +11,6 @@ namespace Opulence\Framework\Testing\PhpUnit\Http;
 use InvalidArgumentException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\UploadedFile;
-use stdClass;
 
 /**
  * Tests the request builder
@@ -239,7 +238,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that to() sets the Url in the request
+     * Tests that to() sets the URL in the request
      */
     public function testToSetsUrlInRequest()
     {
@@ -253,21 +252,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that undefined methods are forwarded to the test case
-     */
-    public function testUndefinedMethodsForwardedToTestCase()
-    {
-        $requestBuilder = new RequestBuilder($this->testCase, "GET", "/foo");
-        $object = new stdClass();
-        $this->testCase->expects($this->once())
-            ->method("assertRedirectsTo")
-            ->with("foo")
-            ->willReturn($object);
-        $this->assertSame($object, $requestBuilder->assertRedirectsTo("foo"));
-    }
-
-    /**
-     * Tests that Url is set in constructor
+     * Tests that URL is set in constructor
      */
     public function testUrlSetInConstructor()
     {
