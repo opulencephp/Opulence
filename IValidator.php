@@ -1,0 +1,44 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Validation;
+
+use Opulence\Validation\Rules\IRule;
+use Opulence\Validation\Rules\Rules;
+
+/**
+ * Defines the interface for validators to implement
+ */
+interface IValidator
+{
+    /**
+     * Creates rules for a field
+     *
+     * @param string $name The name of the field to create rules for
+     * @return Rules The rules for the input field
+     */
+    public function field($name);
+
+    /**
+     * Checks if a list of values are valid
+     *
+     * @param array $allValues The name => value mappings to validate
+     * @return bool True if the values were valid, otherwise false
+     */
+    public function isValid(array $allValues);
+
+    /**
+     * Registers a rule extension
+     *
+     * @param string $ruleName The name of the rule
+     * @param IRule|callable $rule Either the rule object or callback (that accepts a value and list of all values) and
+     *      returns true if the rule passes, otherwise false
+     * @return $this For method chaining
+     */
+    public function registerRuleExtension($ruleName, $callback);
+}
