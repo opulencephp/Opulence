@@ -1,0 +1,81 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Validation\Rules;
+
+use InvalidArgumentException;
+
+/**
+ * Tests the rule extension registry
+ */
+class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var RuleExtensionRegistry The registry to use in tests */
+    private $registry = null;
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->registry = new RuleExtensionRegistry();
+    }
+
+    /**
+     * Tests that a callback is converted to a rule
+     */
+    public function testCallbackGetsConvertedToRule()
+    {
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        $rule = function () {
+        };
+        $this->registry->registerRuleExtension("foo", $rule);
+        $this->assertInstanceOf(CallbackRule::class, $this->registry->get("foo"));
+    }
+
+    /**
+     * Tests checking if the registry has a rule
+     */
+    public function testCheckingIfRegistryHasRule()
+    {
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        $rule = $this->getMock(IRule::class);
+        $this->registry->registerRuleExtension("foo", $rule);
+        $this->assertTrue($this->registry->has("foo"));
+        $this->assertFalse($this->registry->has("bar"));
+    }
+
+    /**
+     * Tests an exception is thrown when no extension is found
+     */
+    public function testExceptionThrownWhenNoExtensionExists()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $this->registry->get("foo");
+    }
+
+    /**
+     * Tests an exception is thrown when registering an invalid rule
+     */
+    public function testExceptionThrownWhenRegisteringAnInvalidRule()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $this->registry->registerRuleExtension("foo", "bar");
+    }
+
+    /**
+     * Tests getting a rule object
+     */
+    public function testGettingRuleObject()
+    {
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        $rule = $this->getMock(IRule::class);
+        $this->registry->registerRuleExtension("foo", $rule);
+        $this->assertSame($rule, $this->registry->get("foo"));
+    }
+}
