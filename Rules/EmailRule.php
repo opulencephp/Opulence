@@ -16,6 +16,14 @@ class EmailRule implements IRule
     /**
      * @inheritdoc
      */
+    public function getSlug()
+    {
+        return "email";
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function passes($value, array $allValues = [])
     {
         return filter_var($value, FILTER_VALIDATE_EMAIL) !== false;

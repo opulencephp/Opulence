@@ -11,7 +11,8 @@ namespace Opulence\Validation\Rules;
 use BadMethodCallException;
 use InvalidArgumentException;
 use LogicException;
-use ReflectionClass;
+use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
+use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 
 /**
  * Defines the rules for validation
@@ -20,6 +21,12 @@ class Rules
 {
     /** @var RuleExtensionRegistry The rule extension registry */
     protected $ruleExtensionRegistry = null;
+    /** @var ErrorTemplateRegistry The error template registry */
+    protected $errorTemplateRegistry = null;
+    /** @var ICompiler The error template compiler */
+    protected $errorTemplateCompiler = null;
+    /** @var array The data used to compile error templates */
+    protected $errorSlugsAndPlaceholders = [];
     /** @var IRule[] The list of rules */
     protected $rules = [];
     /** @var bool Whether or not we're building a conditional rule */
@@ -27,10 +34,17 @@ class Rules
 
     /**
      * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry
+     * @param ErrorTemplateRegistry $errorTemplateRegistry The error template registry
+     * @param ICompiler $errorTemplateCompiler The error template compiler
      */
-    public function __construct(RuleExtensionRegistry $ruleExtensionRegistry)
-    {
+    public function __construct(
+        RuleExtensionRegistry $ruleExtensionRegistry,
+        ErrorTemplateRegistry $errorTemplateRegistry,
+        ICompiler $errorTemplateCompiler
+    ) {
         $this->ruleExtensionRegistry = $ruleExtensionRegistry;
+        $this->errorTemplateRegistry = $errorTemplateRegistry;
+        $this->errorTemplateCompiler = $errorTemplateCompiler;
     }
 
     /**
@@ -47,8 +61,13 @@ class Rules
             throw new BadMethodCallException("No rule extension with name \"$methodName\" exists");
         }
 
-        // Todo:  No way to pass $args
-        $this->rules[] = $this->ruleExtensionRegistry->get($methodName);
+        $rule = $this->ruleExtensionRegistry->get($methodName);
+
+        if ($rule instanceof IRuleWithArgs) {
+            $rule->setArgs($args);
+        }
+
+        $this->addRule($rule);
 
         return $this;
     }
@@ -125,19 +144,54 @@ class Rules
     }
 
     /**
+     * Gets the error messages
+     *
+     * @param string $field The name of the field whose errors we're getting
+     * @return array The list of errors
+     */
+    public function getErrors($field)
+    {
+        $compiledErrors = [];
+
+        foreach ($this->errorSlugsAndPlaceholders as $errorData) {
+            $compiledErrors[] = $this->errorTemplateCompiler->compile(
+                $field,
+                $this->errorTemplateRegistry->get($field, $errorData["slug"]),
+                $errorData["placeholders"]
+            );
+        }
+
+        return $compiledErrors;
+    }
+
+    /**
      * Gets whether or not the rule passes
      *
-     * @param string $name The name of the field to validate
      * @param mixed $value The value to validate
      * @param array $allValues The list of all values
+     * @param bool $haltFieldValidationOnFailure True if we want to not check any other rules for a field
+     *      once one fails, otherwise false
      * @return bool True if the rule passes, otherwise false
      */
-    public function passes($name, $value, array $allValues = [])
+    public function pass($value, array $allValues = [], $haltFieldValidationOnFailure = false)
     {
+        $this->errorSlugsAndPlaceholders = [];
         $passes = true;
 
         foreach ($this->rules as $rule) {
-            $passes = $passes && $rule->passes($value, $allValues);
+            $thisRulePasses = $rule->passes($value, $allValues);
+
+            if (!$thisRulePasses) {
+                $this->addError($rule);
+            }
+
+            if ($haltFieldValidationOnFailure) {
+                if (!$thisRulePasses) {
+                    return false;
+                }
+            } else {
+                $passes = $thisRulePasses && $passes;
+            }
         }
 
         return $passes;
@@ -156,22 +210,33 @@ class Rules
     }
 
     /**
-     * Adds a rule with the input name and arguments
+     * Adds an error
      *
-     * @param string $className The name of the rule class
-     * @param array $constructorArgs The constructor arguments
-     * @return IRule The new rule
-     * @throws InvalidArgumentException Thrown if no rule exists with the input name
+     * @param IRule $rule The rule that failed
      */
-    protected function createRule($className, array $constructorArgs = [])
+    protected function addError(IRule $rule)
     {
-        if (!class_exists($className)) {
-            throw new InvalidArgumentException("Class \"$className\" does not exist");
+        if ($rule instanceof ConditionalRule) {
+            $rules = $rule->getRules();
+        } else {
+            $rules = [$rule];
         }
 
-        /** @var IRule $rule */
-        $rule = (new ReflectionClass($className))->newInstanceArgs($constructorArgs);
+        foreach ($rules as $rule) {
+            $this->errorSlugsAndPlaceholders[] = [
+                "slug" => $rule->getSlug(),
+                "placeholders" => $rule instanceof IRuleWithErrorPlaceholders ? $rule->getErrorPlaceholders() : []
+            ];
+        }
+    }
 
+    /**
+     * Adds a rule to the list
+     *
+     * @param IRule $rule The rule to add
+     */
+    protected function addRule(IRule $rule)
+    {
         if ($this->inCondition) {
             /** @var ConditionalRule $lastRule */
             $lastRule = $this->rules[count($this->rules) - 1];
@@ -179,5 +244,29 @@ class Rules
         } else {
             $this->rules[] = $rule;
         }
+    }
+
+    /**
+     * Adds a rule with the input name and arguments
+     *
+     * @param string $className The fully name of the rule class, eg "Opulence\...\RequiredRule"
+     * @param array $args The extra arguments
+     * @return IRule The new rule
+     * @throws InvalidArgumentException Thrown if no rule exists with the input name
+     */
+    protected function createRule($className, array $args = [])
+    {
+        if (!class_exists($className)) {
+            throw new InvalidArgumentException("Class \"$className\" does not exist");
+        }
+
+        /** @var IRule|IRuleWithArgs $rule */
+        $rule = new $className;
+
+        if ($rule instanceof IRuleWithArgs) {
+            $rule->setArgs($args);
+        }
+
+        $this->addRule($rule);
     }
 }

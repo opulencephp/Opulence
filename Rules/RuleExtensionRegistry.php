@@ -56,7 +56,9 @@ class RuleExtensionRegistry
     public function registerRuleExtension($ruleName, $rule)
     {
         if (is_callable($rule)) {
-            $rule = new CallbackRule($rule);
+            $callback = $rule;
+            $rule = new CallbackRule();
+            $rule->setArgs([$callback]);
         }
 
         if (!$rule instanceof IRule) {

@@ -8,6 +8,7 @@
  */
 namespace Opulence\Validation;
 
+use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\Rules;
 
@@ -25,12 +26,21 @@ interface IValidator
     public function field($name);
 
     /**
+     * Gets the list of errors
+     *
+     * @return ErrorCollection The list of errors
+     */
+    public function getErrors();
+
+    /**
      * Checks if a list of values are valid
      *
      * @param array $allValues The name => value mappings to validate
+     * @param bool $haltFieldValidationOnFailure True if we want to not check any other rules for a field
+     *      once one fails, otherwise false
      * @return bool True if the values were valid, otherwise false
      */
-    public function isValid(array $allValues);
+    public function isValid(array $allValues, $haltFieldValidationOnFailure = false);
 
     /**
      * Registers a rule extension
@@ -40,5 +50,5 @@ interface IValidator
      *      returns true if the rule passes, otherwise false
      * @return $this For method chaining
      */
-    public function registerRuleExtension($ruleName, $callback);
+    public function registerRuleExtension($ruleName, $rule);
 }

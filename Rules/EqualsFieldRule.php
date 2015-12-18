@@ -8,20 +8,31 @@
  */
 namespace Opulence\Validation\Rules;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
  * Defines the equals field rule
  */
-class EqualsFieldRule implements IRule
+class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
 {
     /** @var string The name of the field to compare to */
-    protected $fieldName = "";
+    protected $fieldName = null;
 
     /**
-     * @param string $fieldName the name of the field to compare to
+     * @inheritdoc
      */
-    public function __construct($fieldName)
+    public function getErrorPlaceholders()
     {
-        $this->fieldName = $fieldName;
+        return ["other" => $this->fieldName];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSlug()
+    {
+        return "equals-field";
     }
 
     /**
@@ -29,8 +40,24 @@ class EqualsFieldRule implements IRule
      */
     public function passes($value, array $allValues = [])
     {
+        if ($this->fieldName === null) {
+            throw new LogicException("Field name not set");
+        }
+
         $comparisonValue = isset($allValues[$this->fieldName]) ? $allValues[$this->fieldName] : null;
 
         return $value === $comparisonValue;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setArgs(array $args)
+    {
+        if (count($args) != 1 || !is_string($args[0])) {
+            throw new InvalidArgumentException("Must pass valid field name");
+        }
+
+        $this->fieldName = $args[0];
     }
 }
