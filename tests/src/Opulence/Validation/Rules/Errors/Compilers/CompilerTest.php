@@ -104,4 +104,19 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             $this->compiler->compile("foo", "foo bar")
         );
     }
+
+    /**
+     * Tests that an XSS attack is prevented
+     */
+    public function testXssAttackPrevented()
+    {
+        $this->assertEquals(
+            "&lt;script&gt;A&amp;W&lt;/script&gt; &lt;script&gt;alert(123);&lt;/script&gt;",
+            $this->compiler->compile(
+                "<script>A&W</script>",
+                ":field :foo",
+                ["foo" => "<script>alert(123);</script>"]
+            )
+        );
+    }
 }
