@@ -32,7 +32,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getSlug()
     {
-        return "equals-field";
+        return "equals_field";
     }
 
     /**

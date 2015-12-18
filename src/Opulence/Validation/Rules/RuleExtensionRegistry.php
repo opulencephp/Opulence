@@ -48,13 +48,17 @@ class RuleExtensionRegistry
     /**
      * Registers a rule extension
      *
-     * @param string $ruleName The name of the rule
      * @param IRule|callable $rule Either the rule object or callback (that accepts a value and list of all values) and
      *      returns true if the rule passes, otherwise false
+     * @param string $slug The slug name of the rule (only used if the rule is a callback)
      * @throws InvalidArgumentException Thrown if the rule was incorrectly formatted
      */
-    public function registerRuleExtension($ruleName, $rule)
+    public function registerRuleExtension($rule, $slug = "")
     {
+        if ($rule instanceof IRule) {
+            $slug = $rule->getSlug();
+        }
+
         if (is_callable($rule)) {
             $callback = $rule;
             $rule = new CallbackRule();
@@ -65,6 +69,6 @@ class RuleExtensionRegistry
             throw new InvalidArgumentException("Rule must either be a callback or implement IRule");
         }
 
-        $this->extensions[$ruleName] = $rule;
+        $this->extensions[$slug] = $rule;
     }
 }

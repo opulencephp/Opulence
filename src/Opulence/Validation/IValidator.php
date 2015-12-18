@@ -45,10 +45,10 @@ interface IValidator
     /**
      * Registers a rule extension
      *
-     * @param string $ruleName The name of the rule
      * @param IRule|callable $rule Either the rule object or callback (that accepts a value and list of all values) and
      *      returns true if the rule passes, otherwise false
+     * @param string $slug The slug name of the rule (only used if the rule is a callback)
      * @return $this For method chaining
      */
-    public function registerRuleExtension($ruleName, $rule);
+    public function registerRule($rule, $slug = "");
 }

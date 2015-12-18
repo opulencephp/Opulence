@@ -35,7 +35,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
             return true;
         };
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
-        $this->registry->registerRuleExtension("foo", $rule);
+        $this->registry->registerRuleExtension($rule, "foo");
         $this->assertInstanceOf(CallbackRule::class, $this->registry->get("foo"));
         $this->assertTrue($this->registry->get("foo")->passes("bar"));
     }
@@ -47,7 +47,10 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->getMock(IRule::class);
-        $this->registry->registerRuleExtension("foo", $rule);
+        $rule->expects($this->once())
+            ->method("getSlug")
+            ->willReturn("foo");
+        $this->registry->registerRuleExtension($rule);
         $this->assertTrue($this->registry->has("foo"));
         $this->assertFalse($this->registry->has("bar"));
     }
@@ -77,7 +80,24 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->getMock(IRule::class);
-        $this->registry->registerRuleExtension("foo", $rule);
+        $rule->expects($this->once())
+            ->method("getSlug")
+            ->willReturn("foo");
+        $this->registry->registerRuleExtension($rule);
         $this->assertSame($rule, $this->registry->get("foo"));
+    }
+
+    /**
+     * Tests that the slug is ignored if registering a rule object
+     */
+    public function testSlugIgnoredIfRegisteringRuleObject()
+    {
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
+        $rule = $this->getMock(IRule::class);
+        $rule->expects($this->once())
+            ->method("getSlug")
+            ->willReturn("foo");
+        $this->registry->registerRuleExtension($rule, "bar");
+        $this->assertTrue($this->registry->has("foo"));
     }
 }

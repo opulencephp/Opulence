@@ -91,8 +91,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         };
         $this->ruleExtensionRegistry->expects($this->once())
             ->method("registerRuleExtension")
-            ->with("foo", $callback);
-        $this->assertSame($this->validator, $this->validator->registerRuleExtension("foo", $callback));
+            ->with($callback, "foo");
+        $this->assertSame($this->validator, $this->validator->registerRule($callback, "foo"));
     }
 
     /**

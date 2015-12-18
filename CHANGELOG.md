@@ -2,6 +2,7 @@
 
 <h3>Validation</h3>
 * Added `Opulence\Validation` library
+* Added `Opulence\Framework\Bootstrappers\Validation\ValidatorBootstrapper`
 
 <h2>v1.0.0-alpha31</h2>
 

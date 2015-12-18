@@ -83,9 +83,9 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function registerRuleExtension($ruleName, $rule)
+    public function registerRule($rule, $slug = "")
     {
-        $this->ruleExtensionRegistry->registerRuleExtension($ruleName, $rule);
+        $this->ruleExtensionRegistry->registerRuleExtension($rule, $slug);
 
         return $this;
     }
