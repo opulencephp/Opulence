@@ -178,6 +178,18 @@ class Rules
     }
 
     /**
+     * Marks a field as having to be an integer
+     *
+     * @return $this For method chaining
+     */
+    public function integer()
+    {
+        $this->createRule(IntegerRule::class);
+
+        return $this;
+    }
+
+    /**
      * Marks a field as having to not be in a list of unapproved values
      *
      * @param array $array The list of unapproved values
@@ -186,6 +198,18 @@ class Rules
     public function notIn(array $array)
     {
         $this->createRule(NotInRule::class, [$array]);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having to be numeric
+     *
+     * @return $this For method chaining
+     */
+    public function numeric()
+    {
+        $this->createRule(NumericRule::class);
 
         return $this;
     }
