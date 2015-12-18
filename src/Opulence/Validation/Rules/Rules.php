@@ -165,6 +165,32 @@ class Rules
     }
 
     /**
+     * Marks a field as having to be in a list of approved values
+     *
+     * @param array $array The list of approved values
+     * @return $this For method chaining
+     */
+    public function in(array $array)
+    {
+        $this->createRule(InRule::class, [$array]);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having to not be in a list of unapproved values
+     *
+     * @param array $array The list of unapproved values
+     * @return $this For method chaining
+     */
+    public function notIn(array $array)
+    {
+        $this->createRule(NotInRule::class, [$array]);
+
+        return $this;
+    }
+
+    /**
      * Gets whether or not the rule passes
      *
      * @param mixed $value The value to validate
@@ -195,6 +221,19 @@ class Rules
         }
 
         return $passes;
+    }
+
+    /**
+     * Marks a field as having to match a regular expression
+     *
+     * @param string $regex The regex to match
+     * @return $this For method chaining
+     */
+    public function regex($regex)
+    {
+        $this->createRule(RegexRule::class, [$regex]);
+
+        return $this;
     }
 
     /**

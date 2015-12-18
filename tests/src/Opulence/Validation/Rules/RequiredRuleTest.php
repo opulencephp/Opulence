@@ -8,11 +8,27 @@
  */
 namespace Opulence\Validation\Rules;
 
+use Countable;
+
 /**
  * Tests the required rule
  */
 class RequiredRuleTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Tests that an empty array fails
+     */
+    public function testEmptyArrayFails()
+    {
+        $rule = new RequiredRule();
+        $this->assertFalse($rule->passes([]));
+        $countable = $this->getMock(Countable::class);
+        $countable->expects($this->once())
+            ->method("count")
+            ->willReturn(0);
+        $this->assertFalse($rule->passes($countable));
+    }
+
     /**
      * Tests getting the slug
      */

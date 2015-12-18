@@ -8,19 +8,17 @@
  */
 namespace Opulence\Validation\Rules;
 
-use Countable;
-
 /**
- * Defines the required rule
+ * Defines the not-in-array rule
  */
-class RequiredRule implements IRule
+class NotInRule extends InRule
 {
     /**
      * @inheritdoc
      */
     public function getSlug()
     {
-        return "required";
+        return "notIn";
     }
 
     /**
@@ -28,18 +26,6 @@ class RequiredRule implements IRule
      */
     public function passes($value, array $allValues = [])
     {
-        if ($value === null) {
-            return false;
-        }
-
-        if (is_string($value) && mb_strlen($value) == 0) {
-            return false;
-        }
-
-        if ((is_array($value) || $value instanceof Countable) && count($value) == 0) {
-            return false;
-        }
-
-        return true;
+        return !parent::passes($value, $allValues);
     }
 }

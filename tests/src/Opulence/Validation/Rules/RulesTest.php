@@ -185,10 +185,6 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         });
     }
 
-    /*
-     * Tests the equals rule
-     */
-
     /**
      * Tests getting the errors when there are none
      */
@@ -236,6 +232,10 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rules->pass("blah", [], true));
     }
 
+    /*
+     * Tests the equals rule
+     */
+
     /**
      * Tests halting the field validation on failure
      */
@@ -269,6 +269,33 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->rules->foo();
         $this->rules->bar();
         $this->assertFalse($this->rules->pass("blah", [], true));
+    }
+
+    /**
+     * Tests the in rule
+     */
+    public function testInRule()
+    {
+        $this->assertSame($this->rules, $this->rules->in(["foo", "bar"]));
+        $this->assertTrue($this->rules->pass("bar"));
+    }
+
+    /**
+     * Tests the not-in rule
+     */
+    public function testNotInRule()
+    {
+        $this->assertSame($this->rules, $this->rules->notIn(["foo", "bar"]));
+        $this->assertTrue($this->rules->pass("baz"));
+    }
+
+    /**
+     * Tests the regex rule
+     */
+    public function testRegexRule()
+    {
+        $this->assertSame($this->rules, $this->rules->regex("/^[a-z]{3}$/"));
+        $this->assertTrue($this->rules->pass("baz"));
     }
 
     /**
