@@ -8,6 +8,9 @@
  */
 namespace Opulence\Validation\Rules;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
  * Tests the conditional rule
  */
@@ -21,7 +24,8 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
         $callback = function () {
             return true;
         };
-        $rule = new ConditionalRule($callback);
+        $rule = new ConditionalRule();
+        $rule->setArgs([$callback]);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
         $extraRule = $this->getMock(IRule::class);
         $extraRule->expects($this->once())
@@ -29,6 +33,40 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
         $rule->addRule($extraRule);
         $this->assertFalse($rule->passes("foo"));
+    }
+
+    /**
+     * Tests getting the slug
+     */
+    public function testGettingSlug()
+    {
+        $rule = new ConditionalRule();
+        $this->assertEquals("conditional", $rule->getSlug());
+    }
+
+    /**
+     * Tests getting sub-rules
+     */
+    public function testGettingSubRules()
+    {
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $subRule1 */
+        $subRule1 = $this->getMock(IRule::class);
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $subRule2 */
+        $subRule2 = $this->getMock(IRule::class);
+        $rule = new ConditionalRule();
+        $rule->addRule($subRule1);
+        $rule->addRule($subRule2);
+        $this->assertEquals([$subRule1, $subRule2], $rule->getRules());
+    }
+
+    /**
+     * Tests not setting the args before passes
+     */
+    public function testNotSettingArgBeforePasses()
+    {
+        $this->setExpectedException(LogicException::class);
+        $rule = new ConditionalRule();
+        $rule->passes("foo");
     }
 
     /**
@@ -42,10 +80,32 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
         $falseCallback = function () {
             return false;
         };
-        $trueRule = new ConditionalRule($trueCallback);
-        $falseRule = new ConditionalRule($falseCallback);
+        $trueRule = new ConditionalRule();
+        $falseRule = new ConditionalRule();
+        $trueRule->setArgs([$trueCallback]);
+        $falseRule->setArgs([$falseCallback]);
         $this->assertTrue($trueRule->passes("foo"));
         $this->assertTrue($falseRule->passes("foo"));
+    }
+
+    /**
+     * Tests passing an empty arg array
+     */
+    public function testPassingEmptyArgArray()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $rule = new ConditionalRule();
+        $rule->setArgs([]);
+    }
+
+    /**
+     * Tests passing an invalid arg
+     */
+    public function testPassingInvalidArg()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $rule = new ConditionalRule();
+        $rule->setArgs(["foo"]);
     }
 
     /**
@@ -56,7 +116,8 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
         $callback = function () {
             return false;
         };
-        $rule = new ConditionalRule($callback);
+        $rule = new ConditionalRule();
+        $rule->setArgs([$callback]);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
         $extraRule = $this->getMock(IRule::class);
         $extraRule->expects($this->any())

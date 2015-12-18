@@ -8,6 +8,9 @@
  */
 namespace Opulence\Validation\Rules;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
  * Tests the callback rule
  */
@@ -24,7 +27,8 @@ class CallbackRuleTest extends \PHPUnit_Framework_TestCase
 
             return true;
         };
-        $rule = new CallbackRule($callback);
+        $rule = new CallbackRule();
+        $rule->setArgs([$callback]);
         $rule->passes("foo", ["bar" => "baz"]);
         $this->assertTrue($correctInputWasPassed);
     }
@@ -34,15 +38,56 @@ class CallbackRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallbackReturnValueIsRespected()
     {
-        $trueCallback = function ($value, array $inputs = []) {
+        $trueCallback = function () {
             return true;
         };
-        $falseCallback = function ($value, array $inputs = []) {
+        $falseCallback = function () {
             return false;
         };
-        $passRule = new CallbackRule($trueCallback);
-        $failRule = new CallbackRule($falseCallback);
+        $passRule = new CallbackRule();
+        $failRule = new CallbackRule();
+        $passRule->setArgs([$trueCallback]);
+        $failRule->setArgs([$falseCallback]);
         $this->assertTrue($passRule->passes("foo"));
         $this->assertFalse($failRule->passes("bar"));
+    }
+
+    /**
+     * Tests getting the slug
+     */
+    public function testGettingSlug()
+    {
+        $rule = new CallbackRule();
+        $this->assertEquals("callback", $rule->getSlug());
+    }
+
+    /**
+     * Tests not setting the args before passes
+     */
+    public function testNotSettingArgBeforePasses()
+    {
+        $this->setExpectedException(LogicException::class);
+        $rule = new CallbackRule();
+        $rule->passes("foo");
+    }
+
+    /**
+     * Tests passing an empty arg array
+     */
+    public function testPassingEmptyArgArray()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $rule = new CallbackRule();
+        $rule->setArgs([]);
+    }
+
+    /**
+     * Tests passing an invalid arg
+     */
+    public function testPassingInvalidArg()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $rule = new CallbackRule();
+        $rule->setArgs(["foo"]);
     }
 }

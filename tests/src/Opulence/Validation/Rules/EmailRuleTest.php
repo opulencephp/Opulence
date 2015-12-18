@@ -14,6 +14,15 @@ namespace Opulence\Validation\Rules;
 class EmailRuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests getting the slug
+     */
+    public function testGettingSlug()
+    {
+        $rule = new EmailRule();
+        $this->assertEquals("email", $rule->getSlug());
+    }
+
+    /**
      * Tests that an invalid email fails
      */
     public function testInvalidEmailFails()

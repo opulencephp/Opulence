@@ -8,6 +8,7 @@
  */
 namespace Opulence\Validation;
 
+use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
@@ -23,6 +24,8 @@ class Validator implements IValidator
     protected $ruleExtensionRegistry = null;
     /** @var Rules[] The list of rules by field name */
     protected $rulesByField = [];
+    /** @var ErrorCollection The error collection */
+    protected $errors = null;
 
     /**
      * @param RulesFactory $rulesFactory The rules factory
@@ -30,6 +33,7 @@ class Validator implements IValidator
      */
     public function __construct(RulesFactory $rulesFactory, RuleExtensionRegistry $ruleExtensionRegistry)
     {
+        $this->errors = new ErrorCollection();
         $this->rulesFactory = $rulesFactory;
         $this->ruleExtensionRegistry = $ruleExtensionRegistry;
     }
@@ -49,13 +53,28 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function isValid(array $allValues)
+    public function getErrors()
     {
+        return $this->errors;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function isValid(array $allValues, $haltFieldValidationOnFailure = false)
+    {
+        $this->errors = new ErrorCollection();
         $passes = true;
 
         foreach ($this->rulesByField as $name => $rules) {
             $value = isset($allValues[$name]) ? $allValues[$name] : null;
-            $passes = $passes && $rules->passes($name, $value, $allValues);
+            $fieldPasses = $rules->pass($value, $allValues, $haltFieldValidationOnFailure);
+            $passes = $passes && $fieldPasses;
+
+            if (!$fieldPasses) {
+                $this->errors[$name] = $rules->getErrors($name);
+            }
+
         }
 
         return $passes;
@@ -64,9 +83,9 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function registerRuleExtension($ruleName, $callback)
+    public function registerRuleExtension($ruleName, $rule)
     {
-        $this->ruleExtensionRegistry->registerRuleExtension($ruleName, $callback);
+        $this->ruleExtensionRegistry->registerRuleExtension($ruleName, $rule);
 
         return $this;
     }

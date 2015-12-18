@@ -8,6 +8,9 @@
  */
 namespace Opulence\Validation;
 
+use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
+use Opulence\Validation\Rules\Errors\ErrorCollection;
+use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
@@ -22,16 +25,61 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     /** @var RulesFactory|\PHPUnit_Framework_MockObject_MockObject The rules factory */
     private $rulesFactory = null;
     /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject The registry to use in tests */
-    private $registry = null;
+    private $ruleExtensionRegistry = null;
+    /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject */
+    private $errorTemplateRegistry;
+    /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject */
+    private $errorTemplateCompiler;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->registry = $this->getMock(RuleExtensionRegistry::class);
-        $this->rulesFactory = $this->getMock(RulesFactory::class, [], [$this->registry]);
-        $this->validator = new Validator($this->rulesFactory, $this->registry);
+        $this->ruleExtensionRegistry = $this->getMock(RuleExtensionRegistry::class);
+        /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
+        $this->errorTemplateRegistry = $this->getMock(ErrorTemplateRegistry::class);
+        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $errorTemplateCompiler */
+        $this->errorTemplateCompiler = $this->getMock(ICompiler::class);
+        $this->rulesFactory = $this->getMock(
+            RulesFactory::class,
+            [],
+            [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]
+        );
+        $this->validator = new Validator($this->rulesFactory, $this->ruleExtensionRegistry);
+    }
+
+    /**
+     * Tests that the errors are empty before running the validator
+     */
+    public function testErrorsAreEmptyBeforeRunningValidator()
+    {
+        $errors = $this->validator->getErrors();
+        $this->assertInstanceOf(ErrorCollection::class, $errors);
+        $this->assertEquals([], $errors->getAll());
+    }
+
+    /**
+     * Tests that errors are reset when validating twice
+     */
+    public function testErrorsAreResetWhenValidatingTwice()
+    {
+        $rules = $this->getRules();
+        $rules->expects($this->exactly(2))
+            ->method("pass")
+            ->willReturn(false);
+        $rules->expects($this->exactly(2))
+            ->method("getErrors")
+            ->with("foo")
+            ->willReturn(["error 1", "error 2"]);
+        $this->rulesFactory->expects($this->once())
+            ->method("createRules")
+            ->willReturn($rules);
+        $this->validator->field("foo");
+        $this->assertFalse($this->validator->isValid(["foo" => "bar"]));
+        $this->assertEquals(["foo" => ["error 1", "error 2"]], $this->validator->getErrors()->getAll());
+        $this->assertFalse($this->validator->isValid(["foo" => "bar"]));
+        $this->assertEquals(["foo" => ["error 1", "error 2"]], $this->validator->getErrors()->getAll());
     }
 
     /**
@@ -41,7 +89,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $callback = function () {
         };
-        $this->registry->expects($this->once())
+        $this->ruleExtensionRegistry->expects($this->once())
             ->method("registerRuleExtension")
             ->with("foo", $callback);
         $this->assertSame($this->validator, $this->validator->registerRuleExtension("foo", $callback));
@@ -52,7 +100,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testFieldReturnsRules()
     {
-        $rules = $this->getMock(Rules::class, [], [$this->registry]);
+        $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())
             ->method("createRules")
             ->willReturn($rules);
@@ -64,25 +112,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testRulePassResultsAreRespected()
     {
-        $rules = $this->getMock(Rules::class, [], [$this->registry]);
+        $rules = $this->getRules();
         $rules->expects($this->at(0))
-            ->method("passes")
-            ->with("foo", "bar", ["baz" => "blah"])
+            ->method("pass")
+            ->with("bar", ["baz" => "blah"])
             ->willReturn(true);
         $rules->expects($this->at(1))
-            ->method("passes")
-            ->with("dave", "young", ["is" => "awesome"])
+            ->method("pass")
+            ->with("dave", ["is" => "awesome"])
             ->willReturn(false);
         $this->rulesFactory->expects($this->exactly(2))
             ->method("createRules")
             ->willReturn($rules);
         $this->assertTrue(
             $this->validator->field("foo")
-                ->passes("foo", "bar", ["baz" => "blah"])
+                ->pass("bar", ["baz" => "blah"])
         );
         $this->assertFalse(
             $this->validator->field("bar")
-                ->passes("dave", "young", ["is" => "awesome"])
+                ->pass("dave", ["is" => "awesome"])
         );
     }
 
@@ -91,11 +139,25 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testSameRulesAreReturnedWhenSpecifyingSameField()
     {
-        $rules = $this->getMock(Rules::class, [], [$this->registry]);
+        $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())
             ->method("createRules")
             ->willReturn($rules);
         $this->assertSame($rules, $this->validator->field("foo"));
         $this->assertSame($rules, $this->validator->field("foo"));
+    }
+
+    /**
+     * Gets mock rules
+     *
+     * @return Rules|\PHPUnit_Framework_MockObject_MockObject The rules
+     */
+    private function getRules()
+    {
+        return $this->getMock(
+            Rules::class,
+            [],
+            [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]
+        );
     }
 }

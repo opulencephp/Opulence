@@ -16,6 +16,14 @@ class RequiredRule implements IRule
     /**
      * @inheritdoc
      */
+    public function getSlug()
+    {
+        return "required";
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function passes($value, array $allValues = [])
     {
         if ($value === null) {

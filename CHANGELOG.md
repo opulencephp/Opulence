@@ -1,3 +1,8 @@
+<h2>v1.0.0-alpha32</h2>
+
+<h3>Validation</h3>
+* Added `Opulence\Validation` library
+
 <h2>v1.0.0-alpha31</h2>
 
 <h3>Testing</h3>

@@ -8,6 +8,9 @@
  */
 namespace Opulence\Validation\Rules;
 
+use InvalidArgumentException;
+use LogicException;
+
 /**
  * Tests the equals field rule
  */
@@ -18,8 +21,38 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testEqualValuesPass()
     {
-        $rule = new EqualsFieldRule("foo");
+        $rule = new EqualsFieldRule();
+        $rule->setArgs(["foo"]);
         $this->assertTrue($rule->passes("bar", ["foo" => "bar"]));
+    }
+
+    /**
+     * Tests getting error placeholders
+     */
+    public function testGettingErrorPlaceholders()
+    {
+        $rule = new EqualsFieldRule();
+        $rule->setArgs(["foo"]);
+        $this->assertEquals(["other" => "foo"], $rule->getErrorPlaceholders());
+    }
+
+    /**
+     * Tests getting the slug
+     */
+    public function testGettingSlug()
+    {
+        $rule = new EqualsFieldRule();
+        $this->assertEquals("equals-field", $rule->getSlug());
+    }
+
+    /**
+     * Tests not setting the args before passes
+     */
+    public function testNotSettingArgBeforePasses()
+    {
+        $this->setExpectedException(LogicException::class);
+        $rule = new EqualsFieldRule();
+        $rule->passes("foo");
     }
 
     /**
@@ -27,8 +60,32 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testNullValuesPass()
     {
-        $rule = new EqualsFieldRule("foo");
+        $rule = new EqualsFieldRule();
+        $rule->setArgs(["foo"]);
         $this->assertTrue($rule->passes(null));
+    }
+
+    /**
+     * Tests passing an empty arg array
+     */
+    public function testPassingEmptyArgArray()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $rule = new EqualsFieldRule();
+        $rule->setArgs([]);
+    }
+
+    /**
+     * Tests passing an invalid arg
+     */
+    public function testPassingInvalidArg()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $rule = new EqualsFieldRule();
+        $rule->setArgs([
+            function () {
+            }
+        ]);
     }
 
     /**
@@ -36,7 +93,8 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnequalValuesFail()
     {
-        $rule = new EqualsFieldRule("foo");
+        $rule = new EqualsFieldRule();
+        $rule->setArgs(["foo"]);
         $this->assertFalse($rule->passes("bar", ["foo" => "baz"]));
     }
 
@@ -45,7 +103,8 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsetNonNullValuesFail()
     {
-        $rule = new EqualsFieldRule("foo");
+        $rule = new EqualsFieldRule();
+        $rule->setArgs(["foo"]);
         $this->assertFalse($rule->passes("bar"));
     }
 }

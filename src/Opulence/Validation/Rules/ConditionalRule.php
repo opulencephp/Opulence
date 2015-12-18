@@ -8,6 +8,8 @@
  */
 namespace Opulence\Validation\Rules;
 
+use LogicException;
+
 /**
  * Defines the conditional rule
  */
@@ -27,10 +29,32 @@ class ConditionalRule extends CallbackRule
     }
 
     /**
+     * Gets the sub-rules in this condition
+     *
+     * @return IRule[] The list of rules
+     */
+    public function getRules()
+    {
+        return $this->rules;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getSlug()
+    {
+        return "conditional";
+    }
+
+    /**
      * @inheritdoc
      */
     public function passes($value, array $allValues = [])
     {
+        if ($this->callback === null) {
+            throw new LogicException("Condition not set");
+        }
+
         if (!call_user_func($this->callback, $value, $allValues)) {
             return true;
         }

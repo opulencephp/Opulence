@@ -8,20 +8,22 @@
  */
 namespace Opulence\Validation\Rules;
 
+use InvalidArgumentException;
+
 /**
  * Defines the equals rule
  */
-class EqualsRule implements IRule
+class EqualsRule implements IRuleWithArgs
 {
     /** @var mixed The value to compare against */
     protected $value = null;
 
     /**
-     * @param mixed $value The value to compare against
+     * @inheritdoc
      */
-    public function __construct($value)
+    public function getSlug()
     {
-        $this->value = $value;
+        return "equals";
     }
 
     /**
@@ -30,5 +32,17 @@ class EqualsRule implements IRule
     public function passes($value, array $allValues = [])
     {
         return $value === $this->value;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setArgs(array $args)
+    {
+        if (count($args) != 1) {
+            throw new InvalidArgumentException("Must pass a value to compare against");
+        }
+
+        $this->value = $args[0];
     }
 }

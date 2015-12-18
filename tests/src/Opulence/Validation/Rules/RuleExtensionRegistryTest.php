@@ -31,11 +31,13 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallbackGetsConvertedToRule()
     {
-        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = function () {
+            return true;
         };
+        /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $this->registry->registerRuleExtension("foo", $rule);
         $this->assertInstanceOf(CallbackRule::class, $this->registry->get("foo"));
+        $this->assertTrue($this->registry->get("foo")->passes("bar"));
     }
 
     /**

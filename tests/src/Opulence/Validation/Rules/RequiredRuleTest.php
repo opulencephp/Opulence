@@ -14,6 +14,15 @@ namespace Opulence\Validation\Rules;
 class RequiredRuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests getting the slug
+     */
+    public function testGettingSlug()
+    {
+        $rule = new RequiredRule();
+        $this->assertEquals("required", $rule->getSlug());
+    }
+
+    /**
      * Tests that a set value passes
      */
     public function testSetValuePasses()

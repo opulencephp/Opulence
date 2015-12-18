@@ -8,6 +8,8 @@
  */
 namespace Opulence\Validation\Rules\Factories;
 
+use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
+use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 
@@ -21,9 +23,13 @@ class RulesFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRulesCreated()
     {
-        /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject $registry */
-        $registry = $this->getMock(RuleExtensionRegistry::class);
-        $factory = new RulesFactory($registry);
+        /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject $ruleExtensionRegistry */
+        $ruleExtensionRegistry = $this->getMock(RuleExtensionRegistry::class);
+        /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
+        $errorTemplateRegistry = $this->getMock(ErrorTemplateRegistry::class);
+        /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $errorTemplateCompiler */
+        $errorTemplateCompiler = $this->getMock(ICompiler::class);
+        $factory = new RulesFactory($ruleExtensionRegistry, $errorTemplateRegistry, $errorTemplateCompiler);
         $this->assertInstanceOf(Rules::class, $factory->createRules());
     }
 }
