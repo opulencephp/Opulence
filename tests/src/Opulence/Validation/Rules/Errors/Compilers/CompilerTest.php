@@ -111,7 +111,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testXssAttackPrevented()
     {
         $this->assertEquals(
-            "&lt;script&gt;A&amp;W&lt;/script&gt; &lt;script&gt;alert(123);&lt;/script&gt;",
+            filter_var("<script>A&W</script> <script>alert(123);</script>", FILTER_SANITIZE_FULL_SPECIAL_CHARS),
             $this->compiler->compile(
                 "<script>A&W</script>",
                 ":field :foo",
