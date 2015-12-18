@@ -55,6 +55,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     public function registerBindings(IContainer $container)
     {
         $this->ruleExtensionRegistry = $this->getRuleExtensionRegistry($container);
+        $this->registerRuleExtensions($this->ruleExtensionRegistry);
         $this->errorTemplateRegistry = $this->getErrorTemplateRegistry($container);
         $this->registerErrorTemplates($this->errorTemplateRegistry);
         $this->errorTemplateCompiler = $this->getErrorTemplateCompiler($container);
@@ -131,5 +132,15 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     protected function getValidatorFactory(IContainer $container)
     {
         return new ValidatorFactory($this->rulesFactory);
+    }
+
+    /**
+     * Registers any custom rule extensions
+     *
+     * @param RuleExtensionRegistry $ruleExtensionRegistry The registry to register rules to
+     */
+    protected function registerRuleExtensions(RuleExtensionRegistry $ruleExtensionRegistry)
+    {
+        // Let extending classes override this
     }
 }
