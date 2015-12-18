@@ -1,0 +1,107 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2015 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Validation\Rules\Models;
+
+use Opulence\Tests\Validation\Rules\Models\Mocks\User;
+use Opulence\Tests\Validation\Rules\Models\Mocks\UserModelState;
+use Opulence\Validation\Factories\IValidatorFactory;
+use Opulence\Validation\IValidator;
+use Opulence\Validation\Rules\Errors\ErrorCollection;
+use Opulence\Validation\Rules\Rules;
+
+/**
+ * Tests the model state
+ */
+class ModelStateTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var IValidatorFactory|\PHPUnit_Framework_MockObject_MockObject The validator factory */
+    private $validatorFactory = null;
+    /** @var IValidator|\PHPUnit_Framework_MockObject_MockObject The validator */
+    private $validator = null;
+    /** @var Rules|\PHPUnit_Framework_MockObject_MockObject The rules to use in tests */
+    private $rules = null;
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->rules = $this->getMock(Rules::class, [], [], "", false);
+        $this->validator = $this->getMock(IValidator::class);
+        $this->validator->expects($this->any())
+            ->method("field")
+            ->willReturn($this->rules);
+        $this->validatorFactory = $this->getMock(IValidatorFactory::class);
+        $this->validatorFactory->expects($this->any())
+            ->method("createValidator")
+            ->willReturn($this->validator);
+    }
+
+    /**
+     * Tests an invalid model
+     */
+    public function testInvalidModel()
+    {
+        $user = new User(1, "Dave", "foo");
+        $this->validator->expects($this->at(0))
+            ->method("field")
+            ->with("id");
+        $this->validator->expects($this->at(1))
+            ->method("field")
+            ->with("name");
+        $this->validator->expects($this->at(2))
+            ->method("field")
+            ->with("email");
+        $this->validator->expects($this->once())
+            ->method("isValid")
+            ->with([
+                "id" => 1,
+                "name" => "Dave",
+                "email" => "foo"
+            ])
+            ->willReturn(false);
+        $this->validator->expects($this->once())
+            ->method("getErrors")
+            ->willReturn($this->getMock(ErrorCollection::class, [], [], "", false));
+        $modelState = new UserModelState($user, $this->validatorFactory);
+        $this->assertFalse($modelState->isValid());
+        $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());
+    }
+
+    /**
+     * Tests a valid model
+     */
+    public function testValidModel()
+    {
+        $user = new User(1, "Dave", "foo@bar.com");
+        $this->validator->expects($this->at(0))
+            ->method("field")
+            ->with("id");
+        $this->validator->expects($this->at(1))
+            ->method("field")
+            ->with("name");
+        $this->validator->expects($this->at(2))
+            ->method("field")
+            ->with("email");
+        $this->validator->expects($this->once())
+            ->method("isValid")
+            ->with([
+                "id" => 1,
+                "name" => "Dave",
+                "email" => "foo@bar.com"
+            ])
+            ->willReturn(true);
+        $this->validator->expects($this->once())
+            ->method("getErrors")
+            ->willReturn($this->getMock(ErrorCollection::class, [], [], "", false));
+        $modelState = new UserModelState($user, $this->validatorFactory);
+        $this->assertTrue($modelState->isValid());
+        $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());
+    }
+}

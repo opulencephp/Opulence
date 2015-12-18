@@ -281,12 +281,30 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the integer rule
+     */
+    public function testIntegerRule()
+    {
+        $this->assertSame($this->rules, $this->rules->integer());
+        $this->assertTrue($this->rules->pass(1));
+    }
+
+    /**
      * Tests the not-in rule
      */
     public function testNotInRule()
     {
         $this->assertSame($this->rules, $this->rules->notIn(["foo", "bar"]));
         $this->assertTrue($this->rules->pass("baz"));
+    }
+
+    /**
+     * Tests the numeric rule
+     */
+    public function testNumericRule()
+    {
+        $this->assertSame($this->rules, $this->rules->numeric());
+        $this->assertTrue($this->rules->pass(1.5));
     }
 
     /**
