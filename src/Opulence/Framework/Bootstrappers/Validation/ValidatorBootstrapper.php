@@ -11,13 +11,13 @@ namespace Opulence\Framework\Bootstrappers\Validation;
 use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
-use Opulence\Validation\IValidator;
+use Opulence\Validation\Factories\IValidatorFactory;
+use Opulence\Validation\Factories\ValidatorFactory;
 use Opulence\Validation\Rules\Errors\Compilers\Compiler;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Rules\RuleExtensionRegistry;
-use Opulence\Validation\Validator;
 
 /**
  * Defines the validator bootstrapper
@@ -32,8 +32,8 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     protected $errorTemplateCompiler = null;
     /** @var RulesFactory The rules factory */
     protected $rulesFactory = null;
-    /** @var IValidator The validator */
-    protected $validator = null;
+    /** @var IValidatorFactory The validator factory */
+    protected $validatorFactory = null;
 
     /**
      * @inheritDoc
@@ -45,7 +45,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
             ICompiler::class,
             RuleExtensionRegistry::class,
             RulesFactory::class,
-            IValidator::class
+            IValidatorFactory::class
         ];
     }
 
@@ -59,12 +59,12 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
         $this->registerErrorTemplates($this->errorTemplateRegistry);
         $this->errorTemplateCompiler = $this->getErrorTemplateCompiler($container);
         $this->rulesFactory = $this->getRulesFactory($container);
-        $this->validator = $this->getValidator($container);
+        $this->validatorFactory = $this->getValidatorFactory($container);
         $container->bind(RuleExtensionRegistry::class, $this->ruleExtensionRegistry);
         $container->bind(ErrorTemplateRegistry::class, $this->errorTemplateRegistry);
         $container->bind(ICompiler::class, $this->errorTemplateCompiler);
         $container->bind(RulesFactory::class, $this->rulesFactory);
-        $container->bind(IValidator::class, $this->validator);
+        $container->bind(IValidatorFactory::class, $this->validatorFactory);
     }
 
     /**
@@ -123,13 +123,13 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     }
 
     /**
-     * Gets the validator
+     * Gets the validator factory
      *
      * @param IContainer $container The IoC container
-     * @return IValidator The validator
+     * @return IValidatorFactory The validator factory
      */
-    protected function getValidator(IContainer $container)
+    protected function getValidatorFactory(IContainer $container)
     {
-        return new Validator($this->rulesFactory, $this->ruleExtensionRegistry);
+        return new ValidatorFactory($this->rulesFactory);
     }
 }

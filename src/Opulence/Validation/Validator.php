@@ -10,7 +10,6 @@ namespace Opulence\Validation;
 
 use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Rules\Factories\RulesFactory;
-use Opulence\Validation\Rules\RuleExtensionRegistry;
 use Opulence\Validation\Rules\Rules;
 
 /**
@@ -20,8 +19,6 @@ class Validator implements IValidator
 {
     /** @var RulesFactory The rules factory */
     protected $rulesFactory = null;
-    /** @var RuleExtensionRegistry The rule extension registry */
-    protected $ruleExtensionRegistry = null;
     /** @var Rules[] The list of rules by field name */
     protected $rulesByField = [];
     /** @var ErrorCollection The error collection */
@@ -29,13 +26,11 @@ class Validator implements IValidator
 
     /**
      * @param RulesFactory $rulesFactory The rules factory
-     * @param RuleExtensionRegistry $ruleExtensionRegistry The rule extension registry
      */
-    public function __construct(RulesFactory $rulesFactory, RuleExtensionRegistry $ruleExtensionRegistry)
+    public function __construct(RulesFactory $rulesFactory)
     {
         $this->errors = new ErrorCollection();
         $this->rulesFactory = $rulesFactory;
-        $this->ruleExtensionRegistry = $ruleExtensionRegistry;
     }
 
     /**
@@ -78,15 +73,5 @@ class Validator implements IValidator
         }
 
         return $passes;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerRule($rule, $slug = "")
-    {
-        $this->ruleExtensionRegistry->registerRuleExtension($rule, $slug);
-
-        return $this;
     }
 }

@@ -46,7 +46,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             [],
             [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]
         );
-        $this->validator = new Validator($this->rulesFactory, $this->ruleExtensionRegistry);
+        $this->validator = new Validator($this->rulesFactory);
     }
 
     /**
@@ -80,19 +80,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(["foo" => ["error 1", "error 2"]], $this->validator->getErrors()->getAll());
         $this->assertFalse($this->validator->isValid(["foo" => "bar"]));
         $this->assertEquals(["foo" => ["error 1", "error 2"]], $this->validator->getErrors()->getAll());
-    }
-
-    /**
-     * Tests that extensions can be registered
-     */
-    public function testExtensionsCanBeRegistered()
-    {
-        $callback = function () {
-        };
-        $this->ruleExtensionRegistry->expects($this->once())
-            ->method("registerRuleExtension")
-            ->with($callback, "foo");
-        $this->assertSame($this->validator, $this->validator->registerRule($callback, "foo"));
     }
 
     /**
