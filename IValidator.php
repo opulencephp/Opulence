@@ -9,7 +9,6 @@
 namespace Opulence\Validation;
 
 use Opulence\Validation\Rules\Errors\ErrorCollection;
-use Opulence\Validation\Rules\IRule;
 use Opulence\Validation\Rules\Rules;
 
 /**
@@ -41,14 +40,4 @@ interface IValidator
      * @return bool True if the values were valid, otherwise false
      */
     public function isValid(array $allValues, $haltFieldValidationOnFailure = false);
-
-    /**
-     * Registers a rule extension
-     *
-     * @param IRule|callable $rule Either the rule object or callback (that accepts a value and list of all values) and
-     *      returns true if the rule passes, otherwise false
-     * @param string $slug The slug name of the rule (only used if the rule is a callback)
-     * @return $this For method chaining
-     */
-    public function registerRule($rule, $slug = "");
 }
