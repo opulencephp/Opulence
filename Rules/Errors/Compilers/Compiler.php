@@ -23,9 +23,7 @@ class Compiler implements ICompiler
             return ":$placeholder";
         }, array_keys($args));
         $values = array_map(function ($value) {
-            $sanitizedValue = mb_convert_encoding($value, "UTF-8", "UTF-8");
-
-            return filter_var($sanitizedValue, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+            return filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         }, array_values($args));
         $compiledTemplate = str_replace($placeholders, $values, $template);
         // Remove leftover placeholders
