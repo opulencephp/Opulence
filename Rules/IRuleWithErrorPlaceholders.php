@@ -11,7 +11,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Defines the interface for rules with error message placeholders
  */
-interface IRuleWithErrorPlaceholders
+interface IRuleWithErrorPlaceholders extends IRule
 {
     /**
      * Gets the keyed array of error placeholders
