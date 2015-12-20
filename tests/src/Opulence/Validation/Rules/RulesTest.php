@@ -43,6 +43,37 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the alpha-numeric rule
+     */
+    public function testAlphaNumericRule()
+    {
+        $this->assertSame($this->rules, $this->rules->alphaNumeric());
+        $this->assertTrue($this->rules->pass("a1"));
+        $this->assertFalse($this->rules->pass("a 1"));
+    }
+
+    /**
+     * Tests the alpha rule
+     */
+    public function testAlphaRule()
+    {
+        $this->assertSame($this->rules, $this->rules->alpha());
+        $this->assertTrue($this->rules->pass("a"));
+        $this->assertFalse($this->rules->pass("a1"));
+    }
+
+    /**
+     * Tests the between rule
+     */
+    public function testBetweenRule()
+    {
+        $this->assertSame($this->rules, $this->rules->between(1, 2, false));
+        $this->assertFalse($this->rules->pass(1));
+        $this->assertFalse($this->rules->pass(2));
+        $this->assertTrue($this->rules->pass(1.5));
+    }
+
+    /**
      * Tests calling an extension
      */
     public function testCallingExtension()
@@ -173,6 +204,10 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rules->pass("bar"));
     }
 
+    /*
+     * Tests the equals rule
+     */
+
     /**
      * Tests that an exception is thrown when nesting conditions
      */
@@ -232,10 +267,6 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rules->pass("blah", [], true));
     }
 
-    /*
-     * Tests the equals rule
-     */
-
     /**
      * Tests halting the field validation on failure
      */
@@ -272,6 +303,15 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests the IP address rule
+     */
+    public function testIPAddressRule()
+    {
+        $this->assertSame($this->rules, $this->rules->ipAddress());
+        $this->assertTrue($this->rules->pass("127.0.0.1"));
+    }
+
+    /**
      * Tests the in rule
      */
     public function testInRule()
@@ -287,6 +327,26 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertSame($this->rules, $this->rules->integer());
         $this->assertTrue($this->rules->pass(1));
+    }
+
+    /**
+     * Tests the maximum rule
+     */
+    public function testMaxRule()
+    {
+        $this->assertSame($this->rules, $this->rules->max(2, false));
+        $this->assertFalse($this->rules->pass(2));
+        $this->assertTrue($this->rules->pass(1.9));
+    }
+
+    /**
+     * Tests the minimum rule
+     */
+    public function testMinRule()
+    {
+        $this->assertSame($this->rules, $this->rules->min(2, false));
+        $this->assertFalse($this->rules->pass(2));
+        $this->assertTrue($this->rules->pass(2.1));
     }
 
     /**

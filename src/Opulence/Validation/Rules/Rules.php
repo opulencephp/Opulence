@@ -73,6 +73,45 @@ class Rules
     }
 
     /**
+     * Marks a field as having to contain only alphabetic characters
+     *
+     * @return $this For method chaining
+     */
+    public function alpha()
+    {
+        $this->createRule(AlphaRule::class);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having to contain only alpha-numeric characters
+     *
+     * @return $this For method chaining
+     */
+    public function alphaNumeric()
+    {
+        $this->createRule(AlphaNumericRule::class);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having to be between values
+     *
+     * @param int|float $min The minimum value to compare against
+     * @param int|float $max The maximum value to compare against
+     * @param bool $isInclusive Whether or not the extremes are inclusive
+     * @return $this For method chaining
+     */
+    public function between($min, $max, $isInclusive = true)
+    {
+        $this->createRule(BetweenRule::class, [$min, $max, $isInclusive]);
+
+        return $this;
+    }
+
+    /**
      * Specifies conditions that must be met for certain rules to be set
      *
      * @param callable $callback The callback to evaluate The variable list of rules
@@ -185,6 +224,46 @@ class Rules
     public function integer()
     {
         $this->createRule(IntegerRule::class);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having to be an IP address
+     *
+     * @return $this For method chaining
+     */
+    public function ipAddress()
+    {
+        $this->createRule(IPAddressRule::class);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having a maximum acceptable value
+     *
+     * @param int|float $max The maximum value to compare against
+     * @param bool $isInclusive Whether or not the maximum is inclusive
+     * @return $this For method chaining
+     */
+    public function max($max, $isInclusive = true)
+    {
+        $this->createRule(MaxRule::class, [$max, $isInclusive]);
+
+        return $this;
+    }
+
+    /**
+     * Marks a field as having a minimum acceptable value
+     *
+     * @param int|float $min The minimum value to compare against
+     * @param bool $isInclusive Whether or not the minimum is inclusive
+     * @return $this For method chaining
+     */
+    public function min($min, $isInclusive = true)
+    {
+        $this->createRule(MinRule::class, [$min, $isInclusive]);
 
         return $this;
     }
