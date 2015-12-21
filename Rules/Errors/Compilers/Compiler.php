@@ -22,10 +22,7 @@ class Compiler implements ICompiler
         $placeholders = array_map(function ($placeholder) {
             return ":$placeholder";
         }, array_keys($args));
-        $values = array_map(function ($value) {
-            return filter_var($value, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-        }, array_values($args));
-        $compiledTemplate = str_replace($placeholders, $values, $template);
+        $compiledTemplate = str_replace($placeholders, array_values($args), $template);
         // Remove leftover placeholders
         $compiledTemplate = preg_replace("/:[a-zA-Z0-9\-_]+\b/", "", $compiledTemplate);
 

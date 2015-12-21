@@ -8,9 +8,9 @@
  */
 namespace Opulence\Validation\Models;
 
-use Opulence\Validation\Rules\Errors\ErrorCollection;
 use Opulence\Validation\Factories\IValidatorFactory;
 use Opulence\Validation\IValidator;
+use Opulence\Validation\Rules\Errors\ErrorCollection;
 
 /**
  * Defines a model state

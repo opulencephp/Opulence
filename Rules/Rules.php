@@ -294,13 +294,13 @@ class Rules
     }
 
     /**
-     * Gets whether or not the rule passes
+     * Gets whether or not all the rules pass
      *
      * @param mixed $value The value to validate
      * @param array $allValues The list of all values
      * @param bool $haltFieldValidationOnFailure True if we want to not check any other rules for a field
      *      once one fails, otherwise false
-     * @return bool True if the rule passes, otherwise false
+     * @return bool True if all the rules pass, otherwise false
      */
     public function pass($value, array $allValues = [], $haltFieldValidationOnFailure = false)
     {
