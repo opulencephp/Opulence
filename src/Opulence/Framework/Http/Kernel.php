@@ -107,11 +107,13 @@ class Kernel
     public function handle(Request $request)
     {
         try {
-            $pipeline = new Pipeline($this->container, $this->getMiddleware(), "handle");
-
-            return $pipeline->send($request, function ($request) {
-                return $this->router->route($request);
-            });
+            return (new Pipeline($this->container))
+                ->send($request)
+                ->through($this->getMiddleware(), "handle")
+                ->then(function ($request) {
+                    return $this->router->route($request);
+                })
+                ->execute();
         } catch (Exception $ex) {
             $this->setExceptionRendererVars($request);
             $this->exceptionHandler->handle($ex);

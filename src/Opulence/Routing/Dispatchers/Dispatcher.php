@@ -46,18 +46,20 @@ class Dispatcher implements IDispatcher
      */
     public function dispatch(CompiledRoute $route, Request $request, &$controller = null)
     {
-        $pipeline = new Pipeline($this->container, $route->getMiddleware(), "handle");
-
         try {
-            $response = $pipeline->send($request, function (Request $request) use ($route, &$controller) {
-                if ($route->usesClosure()) {
-                    $controller = $route->getController();
-                } else {
-                    $controller = $this->createController($route->getControllerName(), $request);
-                }
+            $response = (new Pipeline($this->container))
+                ->send($request)
+                ->through($route->getMiddleware(), "handle")
+                ->then(function (Request $request) use ($route, &$controller) {
+                    if ($route->usesClosure()) {
+                        $controller = $route->getController();
+                    } else {
+                        $controller = $this->createController($route->getControllerName(), $request);
+                    }
 
-                return $this->callController($controller, $route);
-            });
+                    return $this->callController($controller, $route);
+                })
+                ->execute();
 
             if ($response === null) {
                 // Nothing returned a value, so return a basic HTTP response
