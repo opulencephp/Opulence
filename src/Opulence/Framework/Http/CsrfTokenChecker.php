@@ -10,6 +10,7 @@ namespace Opulence\Framework\Http;
 
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Sessions\ISession;
 
 /**
@@ -72,6 +73,6 @@ class CsrfTokenChecker
      */
     private function tokenShouldNotBeChecked(Request $request)
     {
-        return in_array($request->getMethod(), [Request::METHOD_GET, Request::METHOD_HEAD, Request::METHOD_OPTIONS]);
+        return in_array($request->getMethod(), [RequestMethods::GET, RequestMethods::HEAD, RequestMethods::OPTIONS]);
     }
 }

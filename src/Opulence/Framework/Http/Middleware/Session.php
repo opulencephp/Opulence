@@ -12,6 +12,7 @@ use Closure;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
@@ -58,7 +59,7 @@ abstract class Session implements IMiddleware
         $response = $next($request);
 
         // Store the current URL for next time
-        if ($request->getMethod() == Request::METHOD_GET && !$request->isAjax()) {
+        if ($request->getMethod() == RequestMethods::GET && !$request->isAjax()) {
             $request->setPreviousUrl($request->getFullUrl());
         }
 

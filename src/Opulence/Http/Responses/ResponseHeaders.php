@@ -15,7 +15,7 @@ use Opulence\Http\Headers;
  */
 class ResponseHeaders extends Headers
 {
-    /** Html content type */
+    /** HTML content type */
     const CONTENT_TYPE_HTML = "text/html";
     /** JSON content type */
     const CONTENT_TYPE_JSON = "application/json";
@@ -149,7 +149,7 @@ class ResponseHeaders extends Headers
         self::HTTP_BAD_GATEWAY => "Bad Gateway",
         self::HTTP_SERVICE_UNAVAILABLE => "Service Unavailable",
         self::HTTP_GATEWAY_TIMEOUT => "Gateway Timeout",
-        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => "Http Version Not Supported"
+        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => "HTTP Version Not Supported"
     ];
     /**
      * @var array The list of cookie names to their properties

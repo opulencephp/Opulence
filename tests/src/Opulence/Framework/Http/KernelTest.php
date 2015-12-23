@@ -11,6 +11,7 @@ namespace Opulence\Framework\Http;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\Container;
@@ -35,7 +36,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingEmptyMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware([]);
         $this->assertEquals([], $kernel->getMiddleware());
     }
@@ -45,7 +46,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         // Test a single middleware
         $kernel->addMiddleware("foo");
         $this->assertEquals(["foo"], $kernel->getMiddleware());
@@ -59,7 +60,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testDisablingAllMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware("foo");
         $kernel->disableAllMiddleware();
         $this->assertEquals([], $kernel->getMiddleware());
@@ -70,7 +71,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testDisablingCertainMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware("foo");
         $kernel->addMiddleware("bar");
         $kernel->onlyDisableMiddleware(["foo"]);
@@ -82,7 +83,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testEnablingCertainMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware("foo");
         $kernel->addMiddleware("bar");
         $kernel->onlyEnableMiddleware(["foo"]);
@@ -94,7 +95,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $this->assertEquals([], $kernel->getMiddleware());
         $kernel->addMiddleware("foo");
         $this->assertEquals(["foo"], $kernel->getMiddleware());
@@ -105,7 +106,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlingExceptionalRequest()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, true);
+        $kernel = $this->getKernel(RequestMethods::GET, true);
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertInstanceOf(Response::class, $response);
@@ -116,7 +117,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlingRequest()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertInstanceOf(Response::class, $response);
@@ -128,7 +129,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
      */
     public function testHandlingWithMiddleware()
     {
-        $kernel = $this->getKernel(Request::METHOD_GET, false);
+        $kernel = $this->getKernel(RequestMethods::GET, false);
         $kernel->addMiddleware(HeaderSetter::class);
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);

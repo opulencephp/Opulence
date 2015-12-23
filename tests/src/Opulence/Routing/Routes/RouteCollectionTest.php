@@ -9,7 +9,7 @@
 namespace Opulence\Routing\Routes;
 
 use Closure;
-use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;
 
 /**
@@ -33,9 +33,9 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdd()
     {
-        $route = new ParsedRoute(new Route(Request::METHOD_GET, "/users", "foo@bar"));
+        $route = new ParsedRoute(new Route(RequestMethods::GET, "/users", "foo@bar"));
         $this->collection->add($route);
-        $this->assertSame([$route], $this->collection->get(Request::METHOD_GET));
+        $this->assertSame([$route], $this->collection->get(RequestMethods::GET));
     }
 
     /**
@@ -43,10 +43,10 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeepCloning()
     {
-        $route = new ParsedRoute(new Route(Request::METHOD_GET, "/users", "foo@bar"));
+        $route = new ParsedRoute(new Route(RequestMethods::GET, "/users", "foo@bar"));
         $this->collection->add($route);
         $clonedCollection = clone $this->collection;
-        $this->assertNotSame($route, $clonedCollection->get(Request::METHOD_GET)[0]);
+        $this->assertNotSame($route, $clonedCollection->get(RequestMethods::GET)[0]);
     }
 
     /**
@@ -54,21 +54,21 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $getRoute = new ParsedRoute(new Route(Request::METHOD_GET, "/users", "foo@bar"));
-        $postRoute = new ParsedRoute(new Route(Request::METHOD_POST, "/users", "foo@bar"));
+        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, "/users", "foo@bar"));
+        $postRoute = new ParsedRoute(new Route(RequestMethods::POST, "/users", "foo@bar"));
         $expectedRoutes = [];
 
         foreach (RouteCollection::getMethods() as $method) {
             $expectedRoutes[$method] = [];
         }
 
-        $expectedRoutes[Request::METHOD_GET][] = $getRoute;
-        $expectedRoutes[Request::METHOD_POST][] = $postRoute;
+        $expectedRoutes[RequestMethods::GET][] = $getRoute;
+        $expectedRoutes[RequestMethods::POST][] = $postRoute;
         $this->collection->add($getRoute);
         $this->collection->add($postRoute);
         $this->assertSame($expectedRoutes, $this->collection->get());
-        $this->assertSame([$getRoute], $this->collection->get(Request::METHOD_GET));
-        $this->assertSame([$postRoute], $this->collection->get(Request::METHOD_POST));
+        $this->assertSame([$getRoute], $this->collection->get(RequestMethods::GET));
+        $this->assertSame([$postRoute], $this->collection->get(RequestMethods::POST));
     }
 
     /**
@@ -89,7 +89,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $options = [
             "name" => "blah"
         ];
-        $expectedRoute = new ParsedRoute(new Route(Request::METHOD_GET, $path, $controller, $options));
+        $expectedRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, $controller, $options));
         $this->collection->add($expectedRoute);
         $this->assertSame($expectedRoute, $this->collection->getNamedRoute("blah"));
     }
@@ -100,7 +100,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingNonExistentNamedRoute()
     {
         $path = "/foo";
-        $route = new ParsedRoute(new Route(Request::METHOD_GET, $path, MockController::class . "@@noParameters"));
+        $route = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . "@@noParameters"));
         $this->collection->add($route);
         $this->assertNull($this->collection->getNamedRoute("blah"));
     }
@@ -112,13 +112,13 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $path = "/foo";
         $controller = MockController::class . "@@noParameters";
-        $deleteRoute = new ParsedRoute(new Route(Request::METHOD_DELETE, $path, $controller));
-        $getRoute = new ParsedRoute(new Route(Request::METHOD_GET, $path, $controller));
-        $postRoute = new ParsedRoute(new Route(Request::METHOD_POST, $path, $controller));
-        $putRoute = new ParsedRoute(new Route(Request::METHOD_PUT, $path, $controller));
-        $headRoute = new ParsedRoute(new Route(Request::METHOD_HEAD, $path, $controller));
-        $optionsRoute = new ParsedRoute(new Route(Request::METHOD_OPTIONS, $path, $controller));
-        $patchRoute = new ParsedRoute(new Route(Request::METHOD_PATCH, $path, $controller));
+        $deleteRoute = new ParsedRoute(new Route(RequestMethods::DELETE, $path, $controller));
+        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, $controller));
+        $postRoute = new ParsedRoute(new Route(RequestMethods::POST, $path, $controller));
+        $putRoute = new ParsedRoute(new Route(RequestMethods::PUT, $path, $controller));
+        $headRoute = new ParsedRoute(new Route(RequestMethods::HEAD, $path, $controller));
+        $optionsRoute = new ParsedRoute(new Route(RequestMethods::OPTIONS, $path, $controller));
+        $patchRoute = new ParsedRoute(new Route(RequestMethods::PATCH, $path, $controller));
         $this->collection->add($deleteRoute);
         $this->collection->add($getRoute);
         $this->collection->add($postRoute);
@@ -127,13 +127,13 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
         $this->collection->add($optionsRoute);
         $this->collection->add($patchRoute);
         $allRoutes = $this->collection->get();
-        $this->assertSame([$deleteRoute], $allRoutes[Request::METHOD_DELETE]);
-        $this->assertSame([$getRoute], $allRoutes[Request::METHOD_GET]);
-        $this->assertSame([$postRoute], $allRoutes[Request::METHOD_POST]);
-        $this->assertSame([$putRoute], $allRoutes[Request::METHOD_PUT]);
-        $this->assertSame([$headRoute], $allRoutes[Request::METHOD_HEAD]);
-        $this->assertSame([$optionsRoute], $allRoutes[Request::METHOD_OPTIONS]);
-        $this->assertSame([$patchRoute], $allRoutes[Request::METHOD_PATCH]);
+        $this->assertSame([$deleteRoute], $allRoutes[RequestMethods::DELETE]);
+        $this->assertSame([$getRoute], $allRoutes[RequestMethods::GET]);
+        $this->assertSame([$postRoute], $allRoutes[RequestMethods::POST]);
+        $this->assertSame([$putRoute], $allRoutes[RequestMethods::PUT]);
+        $this->assertSame([$headRoute], $allRoutes[RequestMethods::HEAD]);
+        $this->assertSame([$optionsRoute], $allRoutes[RequestMethods::OPTIONS]);
+        $this->assertSame([$patchRoute], $allRoutes[RequestMethods::PATCH]);
     }
 
     /**
@@ -141,7 +141,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingRoutesForMethodThatDoesNotHaveAny()
     {
-        $this->assertEquals([], $this->collection->get(Request::METHOD_GET));
+        $this->assertEquals([], $this->collection->get(RequestMethods::GET));
     }
 
     /**
@@ -150,9 +150,9 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingSpecificMethodRoutes()
     {
         $path = "/foo";
-        $getRoute = new ParsedRoute(new Route(Request::METHOD_GET, $path, MockController::class . "@@noParameters"));
+        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . "@@noParameters"));
         $this->collection->add($getRoute);
-        $getRoutes = $this->collection->get(Request::METHOD_GET);
+        $getRoutes = $this->collection->get(RequestMethods::GET);
         $this->assertSame([$getRoute], $getRoutes);
     }
 

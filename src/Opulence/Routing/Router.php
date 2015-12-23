@@ -11,6 +11,7 @@ namespace Opulence\Routing;
 use Closure;
 use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Dispatchers\IDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
@@ -94,7 +95,7 @@ class Router
      */
     public function delete($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_DELETE, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::DELETE, $path, $controller, $options);
 
         return $this->addRoute($route);
     }
@@ -109,7 +110,7 @@ class Router
      */
     public function get($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_GET, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::GET, $path, $controller, $options);
 
         return $this->addRoute($route);
     }
@@ -168,7 +169,7 @@ class Router
      */
     public function head($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_HEAD, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::HEAD, $path, $controller, $options);
 
         return $this->addRoute($route);
     }
@@ -205,7 +206,7 @@ class Router
      */
     public function options($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_OPTIONS, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::OPTIONS, $path, $controller, $options);
 
         return $this->addRoute($route);
     }
@@ -220,7 +221,7 @@ class Router
      */
     public function patch($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_PATCH, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::PATCH, $path, $controller, $options);
 
         return $this->addRoute($route);
     }
@@ -235,7 +236,7 @@ class Router
      */
     public function post($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_POST, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::POST, $path, $controller, $options);
 
         return $this->addRoute($route);
     }
@@ -250,7 +251,7 @@ class Router
      */
     public function put($path, $controller, array $options = [])
     {
-        $route = $this->createRoute(Request::METHOD_PUT, $path, $controller, $options);
+        $route = $this->createRoute(RequestMethods::PUT, $path, $controller, $options);
 
         return $this->addRoute($route);
     }

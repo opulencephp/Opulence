@@ -16,6 +16,7 @@ use Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions;
 use Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions;
 use Opulence\Framework\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Router;
 
@@ -45,7 +46,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function delete($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_DELETE, $url);
+        return new RequestBuilder($this, RequestMethods::DELETE, $url);
     }
 
     /**
@@ -56,7 +57,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function get($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_GET, $url);
+        return new RequestBuilder($this, RequestMethods::GET, $url);
     }
 
     /**
@@ -67,7 +68,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function head($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_HEAD, $url);
+        return new RequestBuilder($this, RequestMethods::HEAD, $url);
     }
 
     /**
@@ -78,7 +79,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function options($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_OPTIONS, $url);
+        return new RequestBuilder($this, RequestMethods::OPTIONS, $url);
     }
 
     /**
@@ -89,7 +90,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function patch($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_PATCH, $url);
+        return new RequestBuilder($this, RequestMethods::PATCH, $url);
     }
 
     /**
@@ -100,7 +101,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function post($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_POST, $url);
+        return new RequestBuilder($this, RequestMethods::POST, $url);
     }
 
     /**
@@ -111,7 +112,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function put($url = null)
     {
-        return new RequestBuilder($this, Request::METHOD_PUT, $url);
+        return new RequestBuilder($this, RequestMethods::PUT, $url);
     }
 
     /**

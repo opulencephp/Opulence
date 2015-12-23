@@ -1,5 +1,11 @@
 <h2>v1.0.0-alpha32</h2>
 
+<h3>HTTP</h3>
+* Added support for trusted proxies
+* Removed all `Request::METHOD_*` constants, moved them to `Opulence\Http\Requests\RequestMethods` class, and dropped `METHOD_` from constants' names
+* Added `Opulence\Http\Requests\RequestHeaders`
+* Added `Opulence\Http\Requests::getPort()`
+
 <h3>Pipelines</h3>
 * Rewrote to include a fluent syntax, eg `(new Pipeline($container))->send("foo")->through($stages)->then($callback)->execute()`
 

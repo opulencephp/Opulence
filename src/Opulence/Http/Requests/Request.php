@@ -19,44 +19,33 @@ use RuntimeException;
  */
 class Request
 {
-    /** The delete method */
-    const METHOD_DELETE = "DELETE";
-    /** The get method */
-    const METHOD_GET = "GET";
-    /** The post method */
-    const METHOD_POST = "POST";
-    /** The put method */
-    const METHOD_PUT = "PUT";
-    /** The head method */
-    const METHOD_HEAD = "HEAD";
-    /** The trace method */
-    const METHOD_TRACE = "TRACE";
-    /** The purge method */
-    const METHOD_PURGE = "PURGE";
-    /** The connect method */
-    const METHOD_CONNECT = "CONNECT";
-    /** The patch method */
-    const METHOD_PATCH = "PATCH";
-    /** The options method */
-    const METHOD_OPTIONS = "OPTIONS";
-
     /** @var array The list of valid methods */
     private static $validMethods = [
-        self::METHOD_DELETE,
-        self::METHOD_GET,
-        self::METHOD_POST,
-        self::METHOD_PUT,
-        self::METHOD_HEAD,
-        self::METHOD_TRACE,
-        self::METHOD_PURGE,
-        self::METHOD_CONNECT,
-        self::METHOD_PATCH,
-        self::METHOD_OPTIONS
+        RequestMethods::DELETE,
+        RequestMethods::GET,
+        RequestMethods::POST,
+        RequestMethods::PUT,
+        RequestMethods::HEAD,
+        RequestMethods::TRACE,
+        RequestMethods::PURGE,
+        RequestMethods::CONNECT,
+        RequestMethods::PATCH,
+        RequestMethods::OPTIONS
+    ];
+    /** @var array The list of trusted proxy Ips */
+    private static $trustedProxies = [];
+    /** @var array The list of trusted headers */
+    private static $trustedHeaders = [
+        RequestHeaders::FORWARDED => "FORWARDED",
+        RequestHeaders::CLIENT_IP => "X_FORWARDED_FOR",
+        RequestHeaders::CLIENT_HOST => "X_FORWARDED_HOST",
+        RequestHeaders::CLIENT_PORT => "X_FORWARDED_PORT",
+        RequestHeaders::CLIENT_PROTO => "X_FORWARDED_PROTO"
     ];
     /** @var string The method used in the request */
     private $method = "";
-    /** @var string The client's IP address */
-    private $ipAddress = "";
+    /** @var array The client's IP address */
+    private $ipAddresses = [];
     /** @var Collection The list of GET parameters */
     private $query = null;
     /** @var Collection The list of POST parameters */
@@ -114,7 +103,7 @@ class Request
         $this->env = new Collection($env);
         $this->rawBody = $rawBody;
         $this->setMethod();
-        $this->setIPAddress();
+        $this->setIPAddresses();
         $this->setPath();
         // This must go here because it relies on other things being set first
         $this->setUnsupportedMethodsCollections();
@@ -202,12 +191,12 @@ class Request
         $post = [];
 
         // Set the content type for unsupported HTTP methods
-        if ($method == self::METHOD_GET) {
+        if ($method == RequestMethods::GET) {
             $query = $parameters;
-        } elseif ($method == self::METHOD_POST) {
+        } elseif ($method == RequestMethods::POST) {
             $post = $parameters;
         } elseif (
-            in_array($method, [Request::METHOD_PUT, Request::METHOD_PATCH, Request::METHOD_DELETE]) &&
+            in_array($method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE]) &&
             !isset($server["CONTENT_TYPE"])
         ) {
             $server["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
@@ -261,6 +250,27 @@ class Request
         }
 
         return new static($query, $post, $cookies, $server, $parsedFiles, $env, $rawBody);
+    }
+
+    /**
+     * Sets a trusted header
+     *
+     * @param string $name The name of the header
+     * @param mixed $value The value of the header
+     */
+    public static function setTrustedHeader($name, $value)
+    {
+        self::$trustedHeaders[$name] = $value;
+    }
+
+    /**
+     * Sets the list of trusted proxy Ips
+     *
+     * @param array|string $trustedProxies The list of trusted proxies
+     */
+    public static function setTrustedProxies($trustedProxies)
+    {
+        self::$trustedProxies = (array)$trustedProxies;
     }
 
     /**
@@ -323,7 +333,7 @@ class Request
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
         $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . (($isSecure) ? "s" : "");
-        $port = $this->server->get("SERVER_PORT");
+        $port = $this->getPort();
         $host = $this->getHost();
 
         // Prepend a colon if the port is non-standard
@@ -352,7 +362,12 @@ class Request
      */
     public function getHost()
     {
-        $host = $this->headers->get("X_FORWARDED_FOR");
+        if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaders[RequestHeaders::CLIENT_HOST])) {
+            $hosts = explode(",", $this->headers->get(self::$trustedHeaders[RequestHeaders::CLIENT_HOST]));
+            $host = trim(end($hosts));
+        } else {
+            $host = $this->headers->get("X_FORWARDED_FOR");
+        }
 
         if ($host === null) {
             $host = $this->headers->get("HOST");
@@ -384,7 +399,7 @@ class Request
      */
     public function getIPAddress()
     {
-        return $this->ipAddress;
+        return $this->ipAddresses[0];
     }
 
     /**
@@ -405,7 +420,7 @@ class Request
                 return $default;
             }
         } else {
-            if ($this->method === self::METHOD_GET) {
+            if ($this->method === RequestMethods::GET) {
                 return $this->query->get($name, $default);
             } else {
                 return $this->post->get($name, $default);
@@ -464,6 +479,25 @@ class Request
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Gets the port number
+     *
+     * @return int The port number
+     */
+    public function getPort()
+    {
+        if ($this->isUsingTrustedProxy()) {
+            if ($this->server->has(self::$trustedHeaders[RequestHeaders::CLIENT_PORT])) {
+                return $this->server->get(self::$trustedHeaders[RequestHeaders::CLIENT_PORT]);
+            } elseif ($this->server->get(self::$trustedHeaders[RequestHeaders::CLIENT_PROTO]) === "https") {
+                return 443;
+            }
+        }
+
+        return $this->server->get("SERVER_PORT");
+
     }
 
     /**
@@ -585,6 +619,13 @@ class Request
      */
     public function isSecure()
     {
+        if ($this->isUsingTrustedProxy() && $this->server->has(self::$trustedHeaders[RequestHeaders::CLIENT_PROTO])) {
+            $protoString = $this->server->get(self::$trustedHeaders[RequestHeaders::CLIENT_PROTO]);
+            $protoArray = explode(",", $protoString);
+
+            return count($protoArray) > 0 && in_array(strtolower($protoArray[0]), ["https", "ssl", "on"]);
+        }
+
         return $this->server->has("HTTPS") && $this->server->get("HTTPS") !== "off";
     }
 
@@ -615,9 +656,9 @@ class Request
     public function setMethod($method = null)
     {
         if ($method === null) {
-            $method = $this->server->get("REQUEST_METHOD", self::METHOD_GET);
+            $method = $this->server->get("REQUEST_METHOD", RequestMethods::GET);
 
-            if ($method == self::METHOD_POST) {
+            if ($method == RequestMethods::POST) {
                 if (($overrideMethod = $this->server->get("X-HTTP-METHOD-OVERRIDE")) !== null) {
                     $method = $overrideMethod;
                 } else {
@@ -683,37 +724,57 @@ class Request
     }
 
     /**
-     * Sets the IP address attribute
+     * Gets whether or not we're using a trusted proxy
+     *
+     * @return bool True if using a trusted proxy, otherwise false
      */
-    private function setIPAddress()
+    private function isUsingTrustedProxy()
     {
-        $ipKeys = [
-            "HTTP_CLIENT_IP",
-            "HTTP_X_FORWARDED_FOR",
-            "HTTP_X_FORWARDED",
-            "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_FORWARDED_FOR",
-            "HTTP_FORWARDED",
-            "REMOTE_ADDR"
-        ];
+        return in_array($this->server->get("REMOTE_ADDR"), self::$trustedProxies);
+    }
 
-        foreach ($ipKeys as $key) {
-            if ($this->server->has($key)) {
-                foreach (explode(",", $this->server->get($key)) as $ipAddress) {
-                    $ipAddress = trim($ipAddress);
+    /**
+     * Sets the IP addresses
+     */
+    private function setIPAddresses()
+    {
+        if ($this->isUsingTrustedProxy()) {
+            $this->ipAddresses = [$this->server->get("REMOTE_ADDR")];
+        } else {
+            $ipAddresses = [];
 
-                    if (filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE
-                            | FILTER_FLAG_NO_RES_RANGE) !== false
-                    ) {
-                        $this->ipAddress = $ipAddress;
+            // RFC 7239
+            if ($this->headers->has(self::$trustedHeaders[RequestHeaders::FORWARDED])) {
+                $header = $this->headers->get(self::$trustedHeaders[RequestHeaders::FORWARDED]);
+                preg_match_all("/for=(?:\"?\[?)([a-z0-9:\.\-\/_]*)/", $header, $matches);
+                $ipAddresses = $matches[1];
+            } elseif ($this->headers->has(self::$trustedHeaders[RequestHeaders::CLIENT_IP])) {
+                $ipAddresses = explode(",", $this->headers->get(self::$trustedHeaders[RequestHeaders::CLIENT_IP]));
+                $ipAddresses = array_map("trim", $ipAddresses);
+            }
 
-                        return;
-                    }
+            $ipAddresses[] = $this->server->get("REMOTE_ADDR");
+            $fallbackIpAddresses = [$ipAddresses[0]];
+
+            foreach ($ipAddresses as $index => $ipAddress) {
+                // Check for valid IP address
+                if (
+                    filter_var(
+                        $ipAddress,
+                        FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+                    ) === false
+                ) {
+                    unset($ipAddresses[$index]);
+                }
+
+                // Don't accept trusted proxies
+                if (in_array($ipAddress, self::$trustedProxies)) {
+                    unset($ipAddresses[$index]);
                 }
             }
-        }
 
-        $this->ipAddress = $this->server->get("REMOTE_ADDR", "");
+            $this->ipAddresses = count($ipAddresses) == 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
+        }
     }
 
     /**
@@ -728,18 +789,18 @@ class Request
          */
         if (
             mb_strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
-            in_array($this->method, [self::METHOD_PUT, self::METHOD_PATCH, self::METHOD_DELETE])
+            in_array($this->method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE])
         ) {
             parse_str($this->getRawBody(), $collection);
 
             switch ($this->method) {
-                case self::METHOD_PUT:
+                case RequestMethods::PUT:
                     $this->put->exchangeArray($collection);
                     break;
-                case self::METHOD_PATCH:
+                case RequestMethods::PATCH:
                     $this->patch->exchangeArray($collection);
                     break;
-                case self::METHOD_DELETE:
+                case RequestMethods::DELETE:
                     $this->delete->exchangeArray($collection);
                     break;
             }
