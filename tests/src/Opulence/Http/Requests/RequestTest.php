@@ -183,7 +183,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testClientIPHeaderUsedWhenSet()
     {
-        Request::setTrustedHeader(RequestHeaders::CLIENT_IP, "HTTP_CLIENT_IP");
+        Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, "HTTP_CLIENT_IP");
         $_SERVER["HTTP_CLIENT_IP"] = "192.168.1.1";
         $request = Request::createFromGlobals();
         $this->assertEquals("192.168.1.1", $request->getIPAddress());
@@ -197,7 +197,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REMOTE_ADDR"] = "192.168.1.1";
         $_SERVER["X-Forwarded-Port"] = 8080;
         Request::setTrustedProxies("192.168.1.1");
-        Request::setTrustedHeader(RequestHeaders::CLIENT_PORT, "X-Forwarded-Port");
+        Request::setTrustedHeaderName(RequestHeaders::CLIENT_PORT, "X-Forwarded-Port");
         $request = Request::createFromGlobals();
         $this->assertEquals(8080, $request->getPort());
     }
@@ -211,7 +211,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REMOTE_ADDR"] = "192.168.1.1";
         $_SERVER["X-Forwarded-Proto"] = "HTTPS";
         Request::setTrustedProxies("192.168.1.1");
-        Request::setTrustedHeader(RequestHeaders::CLIENT_PROTO, "X-Forwarded-Proto");
+        Request::setTrustedHeaderName(RequestHeaders::CLIENT_PROTO, "X-Forwarded-Proto");
         $request = Request::createFromGlobals();
         $this->assertTrue($request->isSecure());
 
@@ -239,7 +239,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REMOTE_ADDR"] = "192.168.1.1";
         $_SERVER["X-Forwarded-Proto"] = "https";
         Request::setTrustedProxies("192.168.1.1");
-        Request::setTrustedHeader(RequestHeaders::CLIENT_PROTO, "X-Forwarded-Proto");
+        Request::setTrustedHeaderName(RequestHeaders::CLIENT_PROTO, "X-Forwarded-Proto");
         $request = Request::createFromGlobals();
         $this->assertEquals(443, $request->getPort());
     }
@@ -1346,7 +1346,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             ['for=192.0.2.60;proto=http;by=203.0.113.43', "192.0.2.60"],
             ['for=192.0.2.43, for=198.51.100.17', "198.51.100.17"]
         ];
-        Request::setTrustedHeader(RequestHeaders::FORWARDED, "HTTP_FORWARDED");
+        Request::setTrustedHeaderName(RequestHeaders::FORWARDED, "HTTP_FORWARDED");
 
         foreach ($ipData as $ipDatum) {
             $_SERVER["HTTP_FORWARDED"] = $ipDatum[0];

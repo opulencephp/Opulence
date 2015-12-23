@@ -35,7 +35,7 @@ class Request
     /** @var array The list of trusted proxy Ips */
     private static $trustedProxies = [];
     /** @var array The list of trusted headers */
-    private static $trustedHeaders = [
+    private static $trustedHeaderNames = [
         RequestHeaders::FORWARDED => "FORWARDED",
         RequestHeaders::CLIENT_IP => "X_FORWARDED_FOR",
         RequestHeaders::CLIENT_HOST => "X_FORWARDED_HOST",
@@ -253,14 +253,14 @@ class Request
     }
 
     /**
-     * Sets a trusted header
+     * Sets a trusted header name
      *
      * @param string $name The name of the header
      * @param mixed $value The value of the header
      */
-    public static function setTrustedHeader($name, $value)
+    public static function setTrustedHeaderName($name, $value)
     {
-        self::$trustedHeaders[$name] = $value;
+        self::$trustedHeaderNames[$name] = $value;
     }
 
     /**
@@ -362,8 +362,8 @@ class Request
      */
     public function getHost()
     {
-        if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaders[RequestHeaders::CLIENT_HOST])) {
-            $hosts = explode(",", $this->headers->get(self::$trustedHeaders[RequestHeaders::CLIENT_HOST]));
+        if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST])) {
+            $hosts = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST]));
             $host = trim(end($hosts));
         } else {
             $host = $this->headers->get("X_FORWARDED_FOR");
@@ -489,9 +489,9 @@ class Request
     public function getPort()
     {
         if ($this->isUsingTrustedProxy()) {
-            if ($this->server->has(self::$trustedHeaders[RequestHeaders::CLIENT_PORT])) {
-                return $this->server->get(self::$trustedHeaders[RequestHeaders::CLIENT_PORT]);
-            } elseif ($this->server->get(self::$trustedHeaders[RequestHeaders::CLIENT_PROTO]) === "https") {
+            if ($this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT])) {
+                return $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT]);
+            } elseif ($this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]) === "https") {
                 return 443;
             }
         }
@@ -619,8 +619,8 @@ class Request
      */
     public function isSecure()
     {
-        if ($this->isUsingTrustedProxy() && $this->server->has(self::$trustedHeaders[RequestHeaders::CLIENT_PROTO])) {
-            $protoString = $this->server->get(self::$trustedHeaders[RequestHeaders::CLIENT_PROTO]);
+        if ($this->isUsingTrustedProxy() && $this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO])) {
+            $protoString = $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]);
             $protoArray = explode(",", $protoString);
 
             return count($protoArray) > 0 && in_array(strtolower($protoArray[0]), ["https", "ssl", "on"]);
@@ -744,12 +744,12 @@ class Request
             $ipAddresses = [];
 
             // RFC 7239
-            if ($this->headers->has(self::$trustedHeaders[RequestHeaders::FORWARDED])) {
-                $header = $this->headers->get(self::$trustedHeaders[RequestHeaders::FORWARDED]);
+            if ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::FORWARDED])) {
+                $header = $this->headers->get(self::$trustedHeaderNames[RequestHeaders::FORWARDED]);
                 preg_match_all("/for=(?:\"?\[?)([a-z0-9:\.\-\/_]*)/", $header, $matches);
                 $ipAddresses = $matches[1];
-            } elseif ($this->headers->has(self::$trustedHeaders[RequestHeaders::CLIENT_IP])) {
-                $ipAddresses = explode(",", $this->headers->get(self::$trustedHeaders[RequestHeaders::CLIENT_IP]));
+            } elseif ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP])) {
+                $ipAddresses = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP]));
                 $ipAddresses = array_map("trim", $ipAddresses);
             }
 
