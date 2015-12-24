@@ -186,7 +186,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         Request::setTrustedHeaderName(RequestHeaders::CLIENT_IP, "HTTP_CLIENT_IP");
         $_SERVER["HTTP_CLIENT_IP"] = "192.168.1.1";
         $request = Request::createFromGlobals();
-        $this->assertEquals("192.168.1.1", $request->getIPAddress());
+        $this->assertEquals("192.168.1.1", $request->getClientIPAddress());
     }
 
     /**
@@ -1291,7 +1291,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["REMOTE_ADDR"] = "192.168.1.1";
         Request::setTrustedProxies("192.168.1.1");
         $request = Request::createFromGlobals();
-        $this->assertEquals("192.168.1.1", $request->getIPAddress());
+        $this->assertEquals("192.168.1.1", $request->getClientIPAddress());
     }
 
     /**
@@ -1351,7 +1351,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         foreach ($ipData as $ipDatum) {
             $_SERVER["HTTP_FORWARDED"] = $ipDatum[0];
             $request = Request::createFromGlobals();
-            $this->assertEquals($ipDatum[1], $request->getIPAddress());
+            $this->assertEquals($ipDatum[1], $request->getClientIPAddress());
         }
     }
 

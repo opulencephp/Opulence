@@ -5,6 +5,7 @@
 * Removed all `Request::METHOD_*` constants, moved them to `Opulence\Http\Requests\RequestMethods` class, and dropped `METHOD_` from constants' names
 * Added `Opulence\Http\Requests\RequestHeaders`
 * Added `Opulence\Http\Requests::getPort()`
+* Renamed `Opulence\Http\Requests::getIPAddress()` to `getClientIPAddress()`
 
 <h3>Pipelines</h3>
 * Rewrote to include a fluent syntax, eg `(new Pipeline($container))->send("foo")->through($stages)->then($callback)->execute()`

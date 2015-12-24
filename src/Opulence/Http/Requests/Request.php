@@ -44,8 +44,8 @@ class Request
     ];
     /** @var string The method used in the request */
     private $method = "";
-    /** @var array The client's IP address */
-    private $ipAddresses = [];
+    /** @var array The client's IP addresses */
+    private $clientIPAddresses = [];
     /** @var Collection The list of GET parameters */
     private $query = null;
     /** @var Collection The list of POST parameters */
@@ -103,7 +103,7 @@ class Request
         $this->env = new Collection($env);
         $this->rawBody = $rawBody;
         $this->setMethod();
-        $this->setIPAddresses();
+        $this->setClientIPAddresses();
         $this->setPath();
         // This must go here because it relies on other things being set first
         $this->setUnsupportedMethodsCollections();
@@ -291,6 +291,14 @@ class Request
     }
 
     /**
+     * @return string
+     */
+    public function getClientIPAddress()
+    {
+        return $this->clientIPAddresses[0];
+    }
+
+    /**
      * @return Collection
      */
     public function getCookies()
@@ -392,14 +400,6 @@ class Request
         }
 
         return $host;
-    }
-
-    /**
-     * @return string
-     */
-    public function getIPAddress()
-    {
-        return $this->ipAddresses[0];
     }
 
     /**
@@ -734,12 +734,12 @@ class Request
     }
 
     /**
-     * Sets the IP addresses
+     * Sets the client IP addresses
      */
-    private function setIPAddresses()
+    private function setClientIPAddresses()
     {
         if ($this->isUsingTrustedProxy()) {
-            $this->ipAddresses = [$this->server->get("REMOTE_ADDR")];
+            $this->clientIPAddresses = [$this->server->get("REMOTE_ADDR")];
         } else {
             $ipAddresses = [];
 
@@ -773,7 +773,7 @@ class Request
                 }
             }
 
-            $this->ipAddresses = count($ipAddresses) == 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
+            $this->clientIPAddresses = count($ipAddresses) == 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
         }
     }
 
