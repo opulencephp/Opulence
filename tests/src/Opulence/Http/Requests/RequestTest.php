@@ -73,11 +73,19 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests the bug with PHP that writes CONTENT_ headers to HTTP_CONTENT_
      */
-    public function testBugWithHTTPContentHeaders()
+    public function testBugWithHttpContentHeaders()
     {
         $_SERVER["HTTP_CONTENT_TYPE"] = "application/json";
         $_SERVER["HTTP_CONTENT_LENGTH"] = 24;
         $request = Request::createFromGlobals();
+        $this->assertEquals("application/json", $request->getHeaders()->get("CONTENT_TYPE"));
+        $this->assertEquals(24, $request->getHeaders()->get("CONTENT_LENGTH"));
+
+        // Try again by specifying server array
+        $server = [];
+        $server["HTTP_CONTENT_TYPE"] = "application/json";
+        $server["HTTP_CONTENT_LENGTH"] = 24;
+        $request = Request::createFromGlobals(null, null, null, $server);
         $this->assertEquals("application/json", $request->getHeaders()->get("CONTENT_TYPE"));
         $this->assertEquals(24, $request->getHeaders()->get("CONTENT_LENGTH"));
     }
@@ -235,13 +243,30 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests creating from globals with a body set in the constructor
+     * Tests creating from globals with overridden globals and raw body
      */
-    public function testCreatingFromGlobalsWithBody()
+    public function testCreatingFromGlobalsWithOverriddenGlobalsAndRawBody()
     {
-        $testBody = "It's not Rocket Appliances Julian";
-        $requestFromConstructor = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
-        $this->assertEquals($requestFromConstructor, Request::createFromGlobals($testBody));
+        $get = ["get" => "foo"];
+        $post = ["post" => "foo"];
+        $cookie = ["cookie" => "foo"];
+        $server = ["server" => "foo"];
+        $files = [
+            [
+                "name" => "foo.txt",
+                "type" => "text/plain",
+                "tmp_name" => "/tmp/bar",
+                "error" => UPLOAD_ERR_OK,
+                "size" => 1024
+            ]
+        ];
+        $env = ["env" => "foo"];
+        $rawBody = "It's not Rocket Appliances Julian";
+        $requestFromConstructor = new Request($get, $post, $cookie, $server, $files, $env, $rawBody);
+        $this->assertEquals(
+            $requestFromConstructor,
+            Request::createFromGlobals($get, $post, $cookie, $server, $files, $env, $rawBody)
+        );
     }
 
     /**
@@ -260,6 +285,16 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $request = JsonRequest::createFromGlobals();
         $this->assertEquals("blah", $request->getInput("baz", "blah"));
+    }
+
+    /**
+     * Tests getting raw body when the body is set in the constructor
+     */
+    public function testGetRawBodyWithRequestSetInConstructor()
+    {
+        $testBody = "It's not Rocket Appliances Julian";
+        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
+        $this->assertEquals($testBody, $this->request->getRawBody());
     }
 
     /**
@@ -403,7 +438,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests getting the host from the HTTP_HOST header
      */
-    public function testGettingHostFromHTTPHost()
+    public function testGettingHostFromHttpHost()
     {
         $_SERVER["HTTP_HOST"] = "foo.com";
         $request = Request::createFromGlobals();
@@ -686,16 +721,6 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting raw body when the body is set in the constructor
-     */
-    public function testGetRawBodyWithRequestSetInConstructor()
-    {
-        $testBody = "It's not Rocket Appliances Julian";
-        $this->request = new Request($_GET, $_POST, $_COOKIE, $_SERVER, $_FILES, $_ENV, $testBody);
-        $this->assertEquals($testBody, $this->request->getRawBody());
-    }
-
-    /**
      * Tests getting the request URI
      */
     public function testGettingRequestURI()
@@ -812,7 +837,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that any headers without the HTTP_ prefix are set
      */
-    public function testHeadersWithoutHTTPPrefixAreSet()
+    public function testHeadersWithoutHttpPrefixAreSet()
     {
         $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
         $_SERVER["CONTENT_LENGTH"] = 24;
