@@ -1,4 +1,89 @@
+<h2>v1.0.0-alpha32</h2>
+
+<h3>HTTP</h3>
+* Added support for trusted proxies
+* Removed all `Request::METHOD_*` constants, moved them to `Opulence\Http\Requests\RequestMethods` class, and dropped `METHOD_` from constants' names
+* Added `Opulence\Http\Requests\RequestHeaders`
+* Added `Opulence\Http\Requests::getPort()`
+* Renamed `Opulence\Http\Requests::getIPAddress()` to `getClientIPAddress()`
+
+<h3>Pipelines</h3>
+* Rewrote to include a fluent syntax, eg `(new Pipeline($container))->send("foo")->through($stages)->then($callback)->execute()`
+
+<h3>Validation</h3>
+* Added `Opulence\Validation` library
+* Added `Opulence\Framework\Bootstrappers\Validation\ValidatorBootstrapper`
+
+<h2>v1.0.0-alpha31</h2>
+
+<h3>Testing</h3>
+* Renamed `Opulence\Framework\Testing\PhpUnit\ApplicationTestCase` to `IntegrationTestCase`
+* Renamed `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase` to `IntegrationTestCase`
+* Renamed `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase` to `IntegrationTestCase`
+
+<h2>v1.0.0-alpha30</h2>
+
+<h3>Testing</h3>
+* Renamed `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase::call()` to `execute()`
+* Added `Opulence\Framework\Testing\PhpUnit\Console\CommandBuilder`
+
+<h2>v1.0.0-alpha29</h2>
+
+<h3>Bootstrappers</h3>
+* Removed `Opulence\Framework\Bootstrappers\Php\PhpBootstrapper`
+
+<h3>Console</h3>
+* Added `app:up` and `app:down` console commands
+
+<h3>Debug</h3>
+* Added special template for 503 exceptions
+
+<h3>HTTP</h3>
+* Added `HTTP_ACCEPT` default server var to `Request`
+* Changed `Cookie` to accept either a `DateTime` or an int
+
+<h3>Testing</h3>
+* Added `Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions`
+* Added `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions`
+* Added `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions`
+* Moved all console `assert***()` methods to `Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions`
+* Moved all HTTP `assertResponse***()` methods to `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions`
+* Moved all HTTP `assertView***()` methods to `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions`
+
+<h2>v1.0.0-alpha28</h2>
+
+<h3>Testing</h3>
+* Renamed `Opulence\Framework\Testing\PhpUnit\Http\RequestBuilder::withEnv()` to `withEnvironmentVars()`
+
+<h2>v1.0.0-alpha27</h2>
+
+<h3>Testing</h3>
+* Fixed bug that prevented assertions from working if they weren't chained to `RequestBuilder` calls
+
+<h2>v1.0.0-alpha26</h2>
+
+<h3>HTTP</h3>
+* Added `Opulence\Http\Requests\Request::createFromUrl()`
+
+<h3>Testing</h3>
+* Removed `$method` and `$path` parameters from `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase::route()`
+* Added `Opulence\Framework\Testing\PhpUnit\Http\RequestBuilder`
+* Added following methods to `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase`:
+  * `assertResponseJsonEquals()`
+  * `delete()`
+  * `get()`
+  * `head()`
+  * `options()`
+  * `patch()`
+  * `post()`
+  * `put()`
+* All assertions in `Opulence\Framework\Testing\PhpUnit\Console\ApplicationTestCase` and `Opulence\Framework\Testing\PhpUnit\Http\ApplicationTestCase` now return `$this` for method chaining
+
 <h2>v1.0.0-alpha25</h2>
+
+<h3>HTTP</h3>
+* Added ability to specify raw body in `Request::createFromGlobals()` and `Request::__construct()`
+* Added ability to override globals in `Request::createFromGlobals()`c
 
 <h3>Views</h3>
 * Added `catch()` for `Throwable` exceptions in `PhpCompiler::compile()`

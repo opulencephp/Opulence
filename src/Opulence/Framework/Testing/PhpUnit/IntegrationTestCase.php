@@ -14,9 +14,9 @@ use Opulence\Ioc\IContainer;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Defines the base application test case
+ * Defines the base integration test
  */
-abstract class ApplicationTestCase extends PHPUnit_Framework_TestCase
+abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
 {
     /** @var Application The application */
     protected $application = null;

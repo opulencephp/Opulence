@@ -61,7 +61,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingExpiration()
     {
-        $this->assertEquals($this->expiration, $this->cookie->getExpiration());
+        $this->assertEquals($this->expiration->format("U"), $this->cookie->getExpiration());
     }
 
     /**
@@ -105,6 +105,16 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests passing a timestamp for the expiration
+     */
+    public function testPassingTimestampForExpiration()
+    {
+        $time = time();
+        $cookie = new Cookie($this->name, $this->value, $time);
+        $this->assertEquals($time, $cookie->getExpiration());
+    }
+
+    /**
      * Tests setting the domain
      */
     public function testSettingDomain()
@@ -120,7 +130,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     {
         $expiration = new DateTime("+1 day");
         $this->cookie->setExpiration($expiration);
-        $this->assertEquals($expiration, $this->cookie->getExpiration());
+        $this->assertEquals($expiration->format("U"), $this->cookie->getExpiration());
     }
 
     /**

@@ -11,6 +11,7 @@ namespace Opulence\Framework\Http;
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Http\Headers;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Sessions\ISession;
 
 /**
@@ -135,7 +136,7 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenIsValidForReadHttpGetPMethod()
     {
-        $this->request->expects($this->any())->method("getMethod")->willReturn(Request::METHOD_GET);
+        $this->request->expects($this->any())->method("getMethod")->willReturn(RequestMethods::GET);
         $this->checker->tokenIsValid($this->request, $this->session);
     }
 
@@ -144,7 +145,7 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenIsValidForReadHttpHeadPMethod()
     {
-        $this->request->expects($this->any())->method("getMethod")->willReturn(Request::METHOD_HEAD);
+        $this->request->expects($this->any())->method("getMethod")->willReturn(RequestMethods::HEAD);
         $this->checker->tokenIsValid($this->request, $this->session);
     }
 
@@ -153,7 +154,7 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenIsValidForReadHttpOptionsMethod()
     {
-        $this->request->expects($this->any())->method("getMethod")->willReturn(Request::METHOD_OPTIONS);
+        $this->request->expects($this->any())->method("getMethod")->willReturn(RequestMethods::OPTIONS);
         $this->checker->tokenIsValid($this->request, $this->session);
     }
 }

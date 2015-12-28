@@ -11,6 +11,7 @@ namespace Opulence\Http\Requests;
 use InvalidArgumentException;
 use Opulence\Http\Headers;
 use Opulence\Http\Collection;
+use Opulence\Tests\Http\Requests\Mocks\UploadedFile;
 use RuntimeException;
 
 /**
@@ -18,44 +19,33 @@ use RuntimeException;
  */
 class Request
 {
-    /** The delete method */
-    const METHOD_DELETE = "DELETE";
-    /** The get method */
-    const METHOD_GET = "GET";
-    /** The post method */
-    const METHOD_POST = "POST";
-    /** The put method */
-    const METHOD_PUT = "PUT";
-    /** The head method */
-    const METHOD_HEAD = "HEAD";
-    /** The trace method */
-    const METHOD_TRACE = "TRACE";
-    /** The purge method */
-    const METHOD_PURGE = "PURGE";
-    /** The connect method */
-    const METHOD_CONNECT = "CONNECT";
-    /** The patch method */
-    const METHOD_PATCH = "PATCH";
-    /** The options method */
-    const METHOD_OPTIONS = "OPTIONS";
-
     /** @var array The list of valid methods */
     private static $validMethods = [
-        self::METHOD_DELETE,
-        self::METHOD_GET,
-        self::METHOD_POST,
-        self::METHOD_PUT,
-        self::METHOD_HEAD,
-        self::METHOD_TRACE,
-        self::METHOD_PURGE,
-        self::METHOD_CONNECT,
-        self::METHOD_PATCH,
-        self::METHOD_OPTIONS
+        RequestMethods::DELETE,
+        RequestMethods::GET,
+        RequestMethods::POST,
+        RequestMethods::PUT,
+        RequestMethods::HEAD,
+        RequestMethods::TRACE,
+        RequestMethods::PURGE,
+        RequestMethods::CONNECT,
+        RequestMethods::PATCH,
+        RequestMethods::OPTIONS
+    ];
+    /** @var array The list of trusted proxy Ips */
+    private static $trustedProxies = [];
+    /** @var array The list of trusted headers */
+    private static $trustedHeaderNames = [
+        RequestHeaders::FORWARDED => "FORWARDED",
+        RequestHeaders::CLIENT_IP => "X_FORWARDED_FOR",
+        RequestHeaders::CLIENT_HOST => "X_FORWARDED_HOST",
+        RequestHeaders::CLIENT_PORT => "X_FORWARDED_PORT",
+        RequestHeaders::CLIENT_PROTO => "X_FORWARDED_PROTO"
     ];
     /** @var string The method used in the request */
     private $method = "";
-    /** @var string The client's IP address */
-    private $ipAddress = "";
+    /** @var array The client's IP addresses */
+    private $clientIPAddresses = [];
     /** @var Collection The list of GET parameters */
     private $query = null;
     /** @var Collection The list of POST parameters */
@@ -113,7 +103,7 @@ class Request
         $this->env = new Collection($env);
         $this->rawBody = $rawBody;
         $this->setMethod();
-        $this->setIPAddress();
+        $this->setClientIPAddresses();
         $this->setPath();
         // This must go here because it relies on other things being set first
         $this->setUnsupportedMethodsCollections();
@@ -160,6 +150,130 @@ class Request
     }
 
     /**
+     * Creates an instance of this class from a URL
+     *
+     * @param string $url The URL
+     * @param string $method The HTTP method
+     * @param array $parameters The parameters (will be bound to query if GET request, otherwise bound to post)
+     * @param array $cookies The COOKIE parameters
+     * @param array $server The SERVER parameters
+     * @param UploadedFile[] $files The list of uploaded files
+     * @param array $env The ENV parameters
+     * @param string|null $rawBody The raw body
+     * @return Request An instance of this class
+     */
+    public static function createFromUrl(
+        $url,
+        $method,
+        array $parameters = [],
+        array $cookies = [],
+        array $server = [],
+        array $files = [],
+        array $env = [],
+        $rawBody = null
+    ) {
+        // Define some basic server vars, but override them with with input on collision
+        $server = array_replace(
+            [
+                "HTTP_ACCEPT" => "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                "HTTP_HOST" => "localhost",
+                "REMOTE_ADDR" => "127.0.01",
+                "SCRIPT_FILENAME" => "",
+                "SCRIPT_NAME" => "",
+                "SERVER_NAME" => "localhost",
+                "SERVER_PORT" => 80,
+                "SERVER_PROTOCOL" => "HTTP/1.1"
+            ],
+            $server
+        );
+
+        $query = [];
+        $post = [];
+
+        // Set the content type for unsupported HTTP methods
+        if ($method == RequestMethods::GET) {
+            $query = $parameters;
+        } elseif ($method == RequestMethods::POST) {
+            $post = $parameters;
+        } elseif (
+            in_array($method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE]) &&
+            !isset($server["CONTENT_TYPE"])
+        ) {
+            $server["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+        }
+
+        $server["REQUEST_METHOD"] = $method;
+        $parsedUrl = parse_url($url);
+
+        if (isset($parsedUrl["host"])) {
+            $server["HTTP_HOST"] = $parsedUrl["host"];
+        }
+
+        if (isset($parsedUrl["path"])) {
+            $server["REQUEST_URI"] = $parsedUrl["path"];
+        }
+
+        if (isset($parsedUrl["query"])) {
+            parse_str(html_entity_decode($parsedUrl["query"]), $queryFromUrl);
+            $query = array_replace($queryFromUrl, $query);
+        }
+
+        $queryString = http_build_query($query, "", "&");
+        $server["QUERY_STRING"] = $queryString;
+        $server["REQUEST_URI"] .= count($query) > 0 ? "?$queryString" : "";
+
+        if (isset($parsedUrl["scheme"])) {
+            if ($parsedUrl["scheme"] == "https") {
+                $server["HTTPS"] = "on";
+                $server["SERVER_PORT"] = 443;
+            } else {
+                unset($server["HTTPS"]);
+                $server["SERVER_PORT"] = 80;
+            }
+        }
+
+        if (isset($parsedUrl["port"])) {
+            $server["SERVER_PORT"] = $parsedUrl["port"];
+            $server["HTTP_HOST"] .= ":{$parsedUrl["port"]}";
+        }
+
+        $parsedFiles = [];
+
+        foreach ($files as $file) {
+            $parsedFiles[] = [
+                "tmp_name" => $file->getFilename(),
+                "name" => $file->getTempFilename(),
+                "size" => $file->getTempSize(),
+                "type" => $file->getTempMimeType(),
+                "error" => $file->getError()
+            ];
+        }
+
+        return new static($query, $post, $cookies, $server, $parsedFiles, $env, $rawBody);
+    }
+
+    /**
+     * Sets a trusted header name
+     *
+     * @param string $name The name of the header
+     * @param mixed $value The value of the header
+     */
+    public static function setTrustedHeaderName($name, $value)
+    {
+        self::$trustedHeaderNames[$name] = $value;
+    }
+
+    /**
+     * Sets the list of trusted proxy Ips
+     *
+     * @param array|string $trustedProxies The list of trusted proxies
+     */
+    public static function setTrustedProxies($trustedProxies)
+    {
+        self::$trustedProxies = (array)$trustedProxies;
+    }
+
+    /**
      * Clones the objects in the request
      */
     public function __clone()
@@ -174,6 +288,14 @@ class Request
         $this->headers = clone $this->headers;
         $this->files = clone $this->files;
         $this->env = clone $this->env;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClientIPAddress()
+    {
+        return $this->clientIPAddresses[0];
     }
 
     /**
@@ -219,7 +341,7 @@ class Request
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
         $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . (($isSecure) ? "s" : "");
-        $port = $this->server->get("SERVER_PORT");
+        $port = $this->getPort();
         $host = $this->getHost();
 
         // Prepend a colon if the port is non-standard
@@ -248,7 +370,12 @@ class Request
      */
     public function getHost()
     {
-        $host = $this->headers->get("X_FORWARDED_FOR");
+        if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST])) {
+            $hosts = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST]));
+            $host = trim(end($hosts));
+        } else {
+            $host = $this->headers->get("X_FORWARDED_FOR");
+        }
 
         if ($host === null) {
             $host = $this->headers->get("HOST");
@@ -276,14 +403,6 @@ class Request
     }
 
     /**
-     * @return string
-     */
-    public function getIPAddress()
-    {
-        return $this->ipAddress;
-    }
-
-    /**
      * Gets the input from either GET or POST data
      *
      * @param string $name The name of the input to get
@@ -301,7 +420,7 @@ class Request
                 return $default;
             }
         } else {
-            if ($this->method === self::METHOD_GET) {
+            if ($this->method === RequestMethods::GET) {
                 return $this->query->get($name, $default);
             } else {
                 return $this->post->get($name, $default);
@@ -360,6 +479,25 @@ class Request
     public function getPath()
     {
         return $this->path;
+    }
+
+    /**
+     * Gets the port number
+     *
+     * @return int The port number
+     */
+    public function getPort()
+    {
+        if ($this->isUsingTrustedProxy()) {
+            if ($this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT])) {
+                return $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT]);
+            } elseif ($this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]) === "https") {
+                return 443;
+            }
+        }
+
+        return $this->server->get("SERVER_PORT");
+
     }
 
     /**
@@ -481,6 +619,13 @@ class Request
      */
     public function isSecure()
     {
+        if ($this->isUsingTrustedProxy() && $this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO])) {
+            $protoString = $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]);
+            $protoArray = explode(",", $protoString);
+
+            return count($protoArray) > 0 && in_array(strtolower($protoArray[0]), ["https", "ssl", "on"]);
+        }
+
         return $this->server->has("HTTPS") && $this->server->get("HTTPS") !== "off";
     }
 
@@ -511,9 +656,9 @@ class Request
     public function setMethod($method = null)
     {
         if ($method === null) {
-            $method = $this->server->get("REQUEST_METHOD", self::METHOD_GET);
+            $method = $this->server->get("REQUEST_METHOD", RequestMethods::GET);
 
-            if ($method == self::METHOD_POST) {
+            if ($method == RequestMethods::POST) {
                 if (($overrideMethod = $this->server->get("X-HTTP-METHOD-OVERRIDE")) !== null) {
                     $method = $overrideMethod;
                 } else {
@@ -525,7 +670,7 @@ class Request
         if (!is_string($method)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Http method must be string, %s provided',
+                    'HTTP method must be string, %s provided',
                     is_object($method) ? get_class($method) : gettype($method)
                 )
             );
@@ -536,7 +681,7 @@ class Request
         if (!in_array($method, self::$validMethods)) {
             throw new InvalidArgumentException(
                 sprintf(
-                    'Invalid Http method "%s"',
+                    'Invalid HTTP method "%s"',
                     $method
                 )
             );
@@ -579,37 +724,57 @@ class Request
     }
 
     /**
-     * Sets the IP address attribute
+     * Gets whether or not we're using a trusted proxy
+     *
+     * @return bool True if using a trusted proxy, otherwise false
      */
-    private function setIPAddress()
+    private function isUsingTrustedProxy()
     {
-        $ipKeys = [
-            "HTTP_CLIENT_IP",
-            "HTTP_X_FORWARDED_FOR",
-            "HTTP_X_FORWARDED",
-            "HTTP_X_CLUSTER_CLIENT_IP",
-            "HTTP_FORWARDED_FOR",
-            "HTTP_FORWARDED",
-            "REMOTE_ADDR"
-        ];
+        return in_array($this->server->get("REMOTE_ADDR"), self::$trustedProxies);
+    }
 
-        foreach ($ipKeys as $key) {
-            if ($this->server->has($key)) {
-                foreach (explode(",", $this->server->get($key)) as $ipAddress) {
-                    $ipAddress = trim($ipAddress);
+    /**
+     * Sets the client IP addresses
+     */
+    private function setClientIPAddresses()
+    {
+        if ($this->isUsingTrustedProxy()) {
+            $this->clientIPAddresses = [$this->server->get("REMOTE_ADDR")];
+        } else {
+            $ipAddresses = [];
 
-                    if (filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE
-                            | FILTER_FLAG_NO_RES_RANGE) !== false
-                    ) {
-                        $this->ipAddress = $ipAddress;
+            // RFC 7239
+            if ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::FORWARDED])) {
+                $header = $this->headers->get(self::$trustedHeaderNames[RequestHeaders::FORWARDED]);
+                preg_match_all("/for=(?:\"?\[?)([a-z0-9:\.\-\/_]*)/", $header, $matches);
+                $ipAddresses = $matches[1];
+            } elseif ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP])) {
+                $ipAddresses = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP]));
+                $ipAddresses = array_map("trim", $ipAddresses);
+            }
 
-                        return;
-                    }
+            $ipAddresses[] = $this->server->get("REMOTE_ADDR");
+            $fallbackIpAddresses = [$ipAddresses[0]];
+
+            foreach ($ipAddresses as $index => $ipAddress) {
+                // Check for valid IP address
+                if (
+                    filter_var(
+                        $ipAddress,
+                        FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
+                    ) === false
+                ) {
+                    unset($ipAddresses[$index]);
+                }
+
+                // Don't accept trusted proxies
+                if (in_array($ipAddress, self::$trustedProxies)) {
+                    unset($ipAddresses[$index]);
                 }
             }
-        }
 
-        $this->ipAddress = $this->server->get("REMOTE_ADDR", "");
+            $this->clientIPAddresses = count($ipAddresses) == 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
+        }
     }
 
     /**
@@ -624,18 +789,18 @@ class Request
          */
         if (
             mb_strpos($this->headers->get("CONTENT_TYPE"), "application/x-www-form-urlencoded") === 0 &&
-            in_array($this->method, [self::METHOD_PUT, self::METHOD_PATCH, self::METHOD_DELETE])
+            in_array($this->method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE])
         ) {
             parse_str($this->getRawBody(), $collection);
 
             switch ($this->method) {
-                case self::METHOD_PUT:
+                case RequestMethods::PUT:
                     $this->put->exchangeArray($collection);
                     break;
-                case self::METHOD_PATCH:
+                case RequestMethods::PATCH:
                     $this->patch->exchangeArray($collection);
                     break;
-                case self::METHOD_DELETE:
+                case RequestMethods::DELETE:
                     $this->delete->exchangeArray($collection);
                     break;
             }

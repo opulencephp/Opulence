@@ -10,7 +10,7 @@ namespace Opulence\Routing\Routes;
 
 use SuperClosure\Analyzer\AstAnalyzer;
 use SuperClosure\Serializer;
-use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 
 /**
  * Defines a list of routes that can be used by a router
@@ -19,13 +19,13 @@ class RouteCollection
 {
     /** @var array The list of methods */
     private static $methods = [
-        Request::METHOD_DELETE,
-        Request::METHOD_GET,
-        Request::METHOD_POST,
-        Request::METHOD_PUT,
-        Request::METHOD_HEAD,
-        Request::METHOD_OPTIONS,
-        Request::METHOD_PATCH
+        RequestMethods::DELETE,
+        RequestMethods::GET,
+        RequestMethods::POST,
+        RequestMethods::PUT,
+        RequestMethods::HEAD,
+        RequestMethods::OPTIONS,
+        RequestMethods::PATCH
     ];
     /** @var array The list of methods to their various routes */
     private $routes = [];

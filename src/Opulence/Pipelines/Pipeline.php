@@ -19,50 +19,70 @@ class Pipeline implements IPipeline
 {
     /** @var IContainer The dependency injection container to use */
     private $container;
+    /** @var mixed The input to send through the pipeline */
+    private $input = null;
     /** @var array The list of stages to send input through */
     private $stages = [];
     /** @var string The method to call if the stages are not closures */
     private $methodToCall = null;
+    /** @var callable The callback to execute at the end */
+    private $callback = null;
 
     /**
      * @param IContainer $container The dependency injection container to use
-     * @param Closure[]|array $stages The list of stages to send input through
-     * @param string $methodToCall The method to call if the pipes are not closures
      */
-    public function __construct(IContainer $container, array $stages, $methodToCall = null)
+    public function __construct(IContainer $container)
     {
         $this->container = $container;
-        $this->setStages($stages, $methodToCall);
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function send($input, Closure $callback = null)
+    public function execute()
     {
         return call_user_func(
             array_reduce(
                 array_reverse($this->stages),
                 $this->createStageCallback(),
-                function ($input) use ($callback) {
-                    if ($callback === null) {
+                function ($input) {
+                    if ($this->callback === null) {
                         return $input;
                     }
 
-                    return call_user_func($callback, $input);
+                    return call_user_func($this->callback, $input);
                 }
             ),
-            $input
+            $this->input
         );
     }
 
     /**
      * @inheritdoc
      */
-    public function setStages(array $stages, $methodToCall = null)
+    public function send($input)
+    {
+        $this->input = $input;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function then(callable $callback)
+    {
+        $this->callback = $callback;
+
+        return $this;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function through(array $stages, $methodToCall = null)
     {
         $this->stages = $stages;
         $this->methodToCall = $methodToCall;
+
+        return $this;
     }
 
     /**

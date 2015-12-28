@@ -8,7 +8,7 @@
  */
 namespace Opulence\Routing\Urls;
 
-use Opulence\Http\Requests\Request;
+use Opulence\Http\Requests\RequestMethods;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\RouteCollection;
@@ -28,43 +28,43 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $namedRoutes = [
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users",
                 "foo@bar",
                 ["name" => "pathNoParameters"]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users/:userId",
                 "foo@bar",
                 ["name" => "pathOneParameter"]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users/:userId/profile/:mode",
                 "foo@bar",
                 ["name" => "pathTwoParameters"]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users[:foo]",
                 "foo@bar",
                 ["name" => "pathOptionalVariable"]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users[/:foo]",
                 "foo@bar",
                 ["name" => "pathOptionalSlashAndVariable"]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users[/:foo[/:bar]]",
                 "foo@bar",
                 ["name" => "pathOptionalNestedSlashesAndVariables"]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users/:userId",
                 "foo@bar",
                 [
@@ -73,7 +73,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users",
                 "foo@bar",
                 [
@@ -82,7 +82,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users",
                 "foo@bar",
                 [
@@ -91,7 +91,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users",
                 "foo@bar",
                 [
@@ -100,7 +100,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users",
                 "foo@bar",
                 [
@@ -109,7 +109,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users/:userId/profile/:mode",
                 "foo@bar",
                 [
@@ -118,7 +118,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users[:foo]",
                 "foo@bar",
                 [
@@ -127,7 +127,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
                 ]
             ),
             new Route(
-                Request::METHOD_GET,
+                RequestMethods::GET,
                 "/users",
                 "foo@bar",
                 [

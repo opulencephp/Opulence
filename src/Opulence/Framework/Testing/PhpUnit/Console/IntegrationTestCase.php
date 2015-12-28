@@ -19,16 +19,17 @@ use Opulence\Console\Responses\Compilers\ICompiler as IResponseCompiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer as ResponseLexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
+use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
-use Opulence\Console\StatusCodes;
 use Opulence\Environments\Environment;
-use Opulence\Framework\Testing\PhpUnit\ApplicationTestCase as BaseApplicationTestCase;
+use Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions;
+use Opulence\Framework\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 
 /**
- * Defines the console application test case
+ * Defines the console integration test
  */
-abstract class ApplicationTestCase extends BaseApplicationTestCase
+abstract class IntegrationTestCase extends BaseIntegrationTestCase
 {
     /** @var CommandCollection The list of registered commands */
     protected $commandCollection = null;
@@ -40,78 +41,37 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
     protected $kernel = null;
     /** @var IRequestParser The request parser */
     protected $requestParser = null;
-    /** @var StreamResponse The response stream */
+    /** @var ResponseAssertions The response assertions */
+    protected $assertResponse = null;
+    /** @var Response The last response */
     protected $response = null;
-    /** @var int The status code */
-    protected $statusCode = 0;
+    /** @var int The last status code */
+    protected $statusCode = -1;
     /** @var PHPUnit_Framework_MockObject_MockObject The prompt to use in tests */
     protected $prompt = null;
 
     /**
-     * Asserts that the output is an expected value
+     * Creates a command builder
      *
-     * @param string $expected The expected output
+     * @param string $commandName The name of the command to build
+     * @return CommandBuilder The command builder
      */
-    public function assertOutputEquals($expected)
+    public function command($commandName)
     {
-        $this->checkResponseIsSet();
-        $this->assertEquals($expected, $this->getOutput());
+        return new CommandBuilder($this, $commandName);
     }
 
     /**
-     * Asserts that the status code equals an expected value
-     *
-     * @param int $expected The expected status code
-     */
-    public function assertStatusCodeEquals($expected)
-    {
-        $this->checkResponseIsSet();
-        $this->assertEquals($expected, $this->statusCode);
-    }
-
-    /**
-     * Asserts that the status code is an error
-     */
-    public function assertStatusCodeIsError()
-    {
-        $this->assertStatusCodeEquals(StatusCodes::ERROR);
-    }
-
-    /**
-     * Asserts that the status code is fatal
-     */
-    public function assertStatusCodeIsFatal()
-    {
-        $this->assertStatusCodeEquals(StatusCodes::FATAL);
-    }
-
-    /**
-     * Asserts that the status code is OK
-     */
-    public function assertStatusCodeIsOK()
-    {
-        $this->assertStatusCodeEquals(StatusCodes::OK);
-    }
-
-    /**
-     * Asserts that the status code is a warning
-     */
-    public function assertStatusCodeIsWarning()
-    {
-        $this->assertStatusCodeEquals(StatusCodes::WARNING);
-    }
-
-    /**
-     * Calls a command to test
+     * Executes a command to test
      *
      * @param string $commandName The name of the command to run
      * @param array $arguments The list of arguments
      * @param array $options The list of options
      * @param array|string $promptAnswers The answer or list of answers to use in any prompts
      * @param bool $isStyled Whether or not the output should be styled
-     * @return int The status code of the command
+     * @return $this For method chaining
      */
-    public function call(
+    public function execute(
         $commandName,
         array $arguments = [],
         array $options = [],
@@ -129,29 +89,9 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
         $this->response->setStyled($isStyled);
         $input = ["name" => $commandName, "arguments" => $arguments, "options" => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);
+        $this->assertResponse->setResponse($this->response, $this->statusCode);
 
-        return $this->statusCode;
-    }
-
-    /**
-     * @return CommandCollection
-     */
-    public function getCommandCollection()
-    {
-        return $this->commandCollection;
-    }
-
-    /**
-     * Gets the output of the previous command
-     *
-     * @return string The output
-     */
-    public function getOutput()
-    {
-        $this->checkResponseIsSet();
-        rewind($this->response->getStream());
-
-        return stream_get_contents($this->response->getStream());
+        return $this;
     }
 
     /**
@@ -171,21 +111,11 @@ abstract class ApplicationTestCase extends BaseApplicationTestCase
             $this->commandCollection,
             $this->application->getVersion()
         );
+        $this->assertResponse = new ResponseAssertions();
 
         // Bind a mock prompt that can output pre-determined answers
         $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
         $this->container->bind(Prompt::class, $this->prompt);
-    }
-
-    /**
-     * Checks if the response was set
-     * Useful for making sure the response was set before making any assertions on it
-     */
-    private function checkResponseIsSet()
-    {
-        if ($this->response === null) {
-            $this->fail("Must call call() before assertions");
-        }
     }
 
     /**

@@ -58,6 +58,7 @@ abstract class CheckCsrfToken implements IMiddleware
      * Writes data to the response
      *
      * @param Response $response The response to write to
+     * @return Response The response with data written to it
      */
     abstract protected function writeToResponse(Response $response);
 }
