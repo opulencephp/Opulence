@@ -10,6 +10,9 @@
 <h3>Pipelines</h3>
 * Rewrote to include a fluent syntax, eg `(new Pipeline($container))->send("foo")->through($stages)->then($callback)->execute()`
 
+<h3>Query Builders</h3>
+* Added ability to create select query without a table (useful for stored procedures)
+
 <h3>Validation</h3>
 * Added `Opulence\Validation` library
 * Added `Opulence\Framework\Bootstrappers\Validation\ValidatorBootstrapper`
