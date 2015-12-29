@@ -292,6 +292,15 @@ class SelectQueryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests a really basic query
+     */
+    public function testReallyBasicQuery()
+    {
+        $query = new SelectQuery("id");
+        $this->assertEquals("SELECT id", $query->getSql());
+    }
+
+    /**
      * Tests adding an "RIGHT JOIN" statement
      */
     public function testRightJoin()

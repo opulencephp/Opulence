@@ -125,7 +125,8 @@ class SelectQuery extends Query
     public function getSql()
     {
         // Build the selector
-        $sql = "SELECT " . implode(", ", $this->selectExpressions) . " FROM {$this->tableName}"
+        $sql = "SELECT " . implode(", ", $this->selectExpressions)
+            . (empty($this->tableName) ? "" :" FROM {$this->tableName}")
             . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
 
         // Add any joins
