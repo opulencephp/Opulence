@@ -3,6 +3,39 @@ SUBTREE_DIR="src/Opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/Applications/Application.php"
 REMOTE_URL="https://github.com/opulencephp"
 
+function checkOutPullRequest()
+{
+    read -p "   Repository Name: " repository
+    read -p "   Branch: " branch
+    read -p "   Username: " username
+
+    # Check out pull request
+    cd ../$repository
+    git co -b $username-$branch $branch
+    git pull https://github.com/$username/$repository.git $branch
+
+    # Switch back to home directory
+    cd ../opulence
+}
+
+function mergePullRequest()
+{
+    read -p "   Repository Name: " repository
+    read -p "   Branch: " branch
+    read -p "   Username: " username
+
+    # Merge pull request
+    git ../$repository
+    git co $branch
+    git merge --no-ff $username-$branch
+    git push origin $branch
+    git branch -d $username-$branch
+    echo "Remember to merge to other appropriate branches"
+
+    # Switch back to home directory
+    cd ../opulence
+}
+
 function split()
 {
     git co master
@@ -94,6 +127,7 @@ function tag()
         git push origin $tagname
     done
 
+    // Switch back to home directory
     cd ../opulence
 }
 
@@ -102,6 +136,8 @@ while true; do
     echo "   Select an action"
     echo "   t: Tag"
     echo "   s: Split Subtree"
+    echo "   c: Check Out Pull Request"
+    echo "   m: Merge Pull Request"
     echo "   e: Exit"
     echo "--------------------------"
     read -p "   Choice: " choice
@@ -109,6 +145,8 @@ while true; do
     case $choice in
         [tT]* ) tag;;
         [sS]* ) split;;
+        [cC]* ) checkOutPullRequest;;
+        [mM]* ) mergePullRequest;;
         [eE]* ) exit 0;;
         * ) echo "   Invalid choice";;
     esac

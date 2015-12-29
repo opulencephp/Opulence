@@ -1,5 +1,9 @@
 <h2>v1.0.0-alpha32</h2>
 
+<h3>Build</h3>
+* Renamed `build/commit.sh` to `build/git.sh`
+* Added checking out and merging of pull requests
+
 <h3>HTTP</h3>
 * Added support for trusted proxies
 * Removed all `Request::METHOD_*` constants, moved them to `Opulence\Http\Requests\RequestMethods` class, and dropped `METHOD_` from constants' names
