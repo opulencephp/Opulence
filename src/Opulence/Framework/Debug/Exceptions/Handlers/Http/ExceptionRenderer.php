@@ -11,6 +11,7 @@ namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 use Exception;
 use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\JsonResponse;
 use Opulence\Http\Responses\Response;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
@@ -39,7 +40,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function setRequest(Request $request)
     {
@@ -63,7 +64,23 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
+     */
+    protected function getRequestFormat()
+    {
+        if ($this->request === null) {
+            return "html";
+        }
+
+        if ($this->request->isJson()) {
+            return "json";
+        } else {
+            return "html";
+        }
+    }
+
+    /**
+     * @inheritdoc
      */
     protected function getResponseContent($ex, $statusCode, array $headers)
     {
@@ -78,7 +95,14 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
             $content = $this->getDefaultResponseContent($ex, $statusCode);
         }
 
-        $this->response = new Response($content, $statusCode);
+        switch ($this->getRequestFormat()) {
+            case "json":
+                // The response will be JSON-encoded, but JsonResponse requires a decoded array
+                $this->response = new JsonResponse(json_decode($content, true), $statusCode);
+                break;
+            default:
+                $this->response = new Response($content, $statusCode);
+        }
 
         foreach ($headers as $name => $values) {
             $this->response->getHeaders()->add($name, $values);
@@ -97,6 +121,6 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
      */
     protected function getViewName($ex, $statusCode, array $headers)
     {
-        return "errors/$statusCode";
+        return "errors/{$this->getRequestFormat()}/$statusCode";
     }
 }

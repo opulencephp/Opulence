@@ -48,6 +48,22 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that JSON headers are set
+     */
+    public function testJsonHeadersSet()
+    {
+        $this->renderer = new MockRenderer(false);
+        $this->renderer->setRequestFormat("json");
+        $ex = new Exception("foo");
+        ob_start();
+        $this->renderer->render($ex);
+        $contents = ob_get_clean();
+        $this->assertTrue($this->hasHeaderString($contents, "HTTP/1.1 500"));
+        $this->assertTrue($this->hasHeaderString($contents, "Content-Type:application/json"));
+        $this->assertEquals("Something went wrong", $this->getContentWithoutHeaders($contents));
+    }
+
+    /**
      * Tests rendering an exception without a view in the development environment
      */
     public function testRenderingExceptionWithoutViewInDevelopmentEnvironment()

@@ -16,8 +16,21 @@ use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
  */
 class ExceptionRenderer extends BaseRenderer
 {
+    /** @var string The request format */
+    private $requestFormat = "html";
+
     /**
-     * @inheritDoc
+     * Sets the request format (useful for testing
+     *
+     * @param string $requestFormat The format to use
+     */
+    public function setRequestFormat($requestFormat)
+    {
+        $this->requestFormat = $requestFormat;
+    }
+
+    /**
+     * @inheritdoc
      */
     protected function getDevelopmentEnvironmentContent(Exception $ex, $statusCode)
     {
@@ -25,10 +38,18 @@ class ExceptionRenderer extends BaseRenderer
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     protected function getProductionEnvironmentContent(Exception $ex, $statusCode)
     {
         return "Something went wrong";
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getRequestFormat()
+    {
+        return $this->requestFormat;
     }
 }

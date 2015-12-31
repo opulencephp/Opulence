@@ -48,6 +48,14 @@ class ExceptionRenderer implements IExceptionRenderer
         if (!headers_sent()) {
             header("HTTP/1.1 $statusCode", true, $statusCode);
 
+            switch ($this->getRequestFormat()) {
+                case "json":
+                    $headers["Content-Type"] = "application/json";
+                    break;
+                default:
+                    $headers["Content-Type"] = "text/html";
+            }
+
             foreach ($headers as $name => $values) {
                 $values = (array)$values;
 
@@ -92,9 +100,9 @@ class ExceptionRenderer implements IExceptionRenderer
         ob_start();
 
         if ($statusCode === 503) {
-            require __DIR__ . "/templates/MaintenanceModePage.php";
+            require __DIR__ . "/templates/{$this->getRequestFormat()}/MaintenanceMode.php";
         } else {
-            require __DIR__ . "/templates/DevelopmentExceptionPage.php";
+            require __DIR__ . "/templates/{$this->getRequestFormat()}/DevelopmentException.php";
         }
 
         return ob_get_clean();
@@ -112,12 +120,26 @@ class ExceptionRenderer implements IExceptionRenderer
         ob_start();
 
         if ($statusCode === 503) {
-            require __DIR__ . "/templates/MaintenanceModePage.php";
+            require __DIR__ . "/templates/{$this->getRequestFormat()}/MaintenanceMode.php";
         } else {
-            require __DIR__ . "/templates/ProductionExceptionPage.php";
+            require __DIR__ . "/templates/{$this->getRequestFormat()}/ProductionException.php";
         }
 
         return ob_get_clean();
+    }
+
+    /**
+     * Gets the request format
+     *
+     * @return string The request format, eg "html" (default), "json"
+     */
+    protected function getRequestFormat()
+    {
+        if (isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] == "application/json") {
+            return "json";
+        } else {
+            return "html";
+        }
     }
 
     /**

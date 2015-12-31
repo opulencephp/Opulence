@@ -10,6 +10,9 @@ namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
 use Opulence\Http\HttpException;
+use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\JsonResponse;
+use Opulence\Http\Responses\Response;
 use Opulence\Tests\Framework\Debug\Exceptions\Handlers\Http\Mocks\ExceptionRenderer as MockRenderer;
 use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
@@ -49,7 +52,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests rendering an HTTP exception with a view
+     * Tests rendering an HTTP exception with an HTML view
      */
     public function testRenderingHttpExceptionWithView()
     {
@@ -58,17 +61,18 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock(IView::class);
         $this->viewFactory->expects($this->once())
             ->method("has")
-            ->with("errors/404")
+            ->with("errors/html/404")
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
             ->method("create")
-            ->with("errors/404")
+            ->with("errors/html/404")
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
             ->method("compile")
             ->with($view)
             ->willReturn("bar");
         $this->renderer->render($ex);
+        $this->assertInstanceOf(Response::class, $this->renderer->getResponse());
         $this->assertEquals("bar", $this->renderer->getResponse()->getContent());
         $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
     }
@@ -95,7 +99,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new HttpException(404, "foo");
         $this->viewFactory->expects($this->once())
             ->method("has")
-            ->with("errors/404")
+            ->with("errors/html/404")
             ->willReturn(false);
         $this->renderer->render($ex);
         $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
@@ -112,11 +116,46 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new HttpException(404, "foo");
         $this->viewFactory->expects($this->once())
             ->method("has")
-            ->with("errors/404")
+            ->with("errors/html/404")
             ->willReturn(false);
         $this->renderer->render($ex);
         $this->assertEquals("Something went wrong", $this->renderer->getResponse()->getContent());
         $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
+    }
+
+    /**
+     * Tests rendering a JSON view
+     */
+    public function testRenderingJsonView()
+    {
+        $this->setViewComponents();
+        $this->viewCompiler->expects($this->once())
+            ->method("compile")
+            ->willReturn(json_encode(["foo" => "bar"]));
+        /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
+        $request = $this->getMock(Request::class, [], [], "", false);
+        $request->expects($this->exactly(3))
+            ->method("isJson")
+            ->willReturn(true);
+        $this->renderer->setRequest($request);
+        $ex = new Exception();
+        $view = $this->getMock(IView::class);
+        $this->viewFactory->expects($this->once())
+            ->method("has")
+            ->with("errors/json/500")
+            ->willReturn(true);
+        $this->viewFactory->expects($this->once())
+            ->method("create")
+            ->with("errors/json/500")
+            ->willReturn($view);
+        $this->viewCompiler->expects($this->once())
+            ->method("compile")
+            ->with($view)
+            ->willReturn("bar");
+        $this->renderer->render($ex);
+        $this->assertInstanceOf(JsonResponse::class, $this->renderer->getResponse());
+        $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
+        $this->assertEquals(json_encode(["foo" => "bar"]), $this->renderer->getResponse()->getContent());
     }
 
     /**
@@ -129,11 +168,11 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock(IView::class);
         $this->viewFactory->expects($this->once())
             ->method("has")
-            ->with("errors/500")
+            ->with("errors/html/500")
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
             ->method("create")
-            ->with("errors/500")
+            ->with("errors/html/500")
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
             ->method("compile")
@@ -153,7 +192,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new Exception("foo");
         $this->viewFactory->expects($this->once())
             ->method("has")
-            ->with("errors/500")
+            ->with("errors/html/500")
             ->willReturn(false);
         $this->renderer->render($ex);
         $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
@@ -170,7 +209,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new Exception("foo");
         $this->viewFactory->expects($this->once())
             ->method("has")
-            ->with("errors/500")
+            ->with("errors/html/500")
             ->willReturn(false);
         $this->renderer->render($ex);
         $this->assertEquals("Something went wrong", $this->renderer->getResponse()->getContent());
