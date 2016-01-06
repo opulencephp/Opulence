@@ -9,6 +9,7 @@
 namespace Opulence\Validation\Rules;
 
 use BadMethodCallException;
+use DateTime;
 use LogicException;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
 use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
@@ -180,6 +181,18 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /*
+     * Tests the date rule
+     */
+    public function testDateRule()
+    {
+        $format1 = "Y-m-d";
+        $format2 = "F j";
+        $this->assertSame($this->rules, $this->rules->date([$format1, $format2]));
+        $this->assertTrue($this->rules->pass((new DateTime)->format($format1)));
+        $this->assertTrue($this->rules->pass((new DateTime)->format($format2)));
+    }
+
     /**
      * Tests the email rule
      */
@@ -198,15 +211,14 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->rules->pass("baz", ["bar" => "baz"]));
     }
 
+    /*
+     * Tests the equals rule
+     */
     public function testEqualsRule()
     {
         $this->assertSame($this->rules, $this->rules->equals("bar"));
         $this->assertTrue($this->rules->pass("bar"));
     }
-
-    /*
-     * Tests the equals rule
-     */
 
     /**
      * Tests that an exception is thrown when nesting conditions

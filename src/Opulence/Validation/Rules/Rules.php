@@ -133,6 +133,19 @@ class Rules
     }
 
     /**
+     * Marks a field as having to be a date in the input format(s)
+     *
+     * @param string|array $formats The expected formats
+     * @return $this For method chaining
+     */
+    public function date($formats)
+    {
+        $this->createRule(DateRule::class, [$formats]);
+
+        return $this;
+    }
+
+    /**
      * Marks a field as having to be an email
      *
      * @return $this For method chaining
