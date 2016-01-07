@@ -1,13 +1,13 @@
 <?php
-$messages = [htmlentities($ex->getMessage(), ENT_QUOTES, "UTF-8")];
+$messages = [$ex->getMessage()];
 
 while ($ex = $ex->getPrevious()) {
-    $messages[] = htmlentities($ex->getMessage(), ENT_QUOTES, "UTF-8");
+    $messages[] = $ex->getMessage();
 }
 
 echo json_encode([
     "error" => [
-        "code" => htmlentities($statusCode, ENT_QUOTES, "UTF-8"),
+        "code" => $statusCode,
         "message" => implode("\n", $messages)
     ]
 ]);

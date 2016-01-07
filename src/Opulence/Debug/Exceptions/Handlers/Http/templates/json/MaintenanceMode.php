@@ -1,7 +1,7 @@
 <?php
 echo json_encode([
     "error" => [
-        "code" => htmlentities($statusCode, ENT_QUOTES, "UTF-8"),
+        "code" => $statusCode,
         "message" => "Please check back later"
     ]
 ]);
