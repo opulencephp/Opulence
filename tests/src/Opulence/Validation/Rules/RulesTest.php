@@ -9,6 +9,7 @@
 namespace Opulence\Validation\Rules;
 
 use BadMethodCallException;
+use Countable;
 use DateTime;
 use LogicException;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
@@ -359,6 +360,23 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->rules, $this->rules->min(2, false));
         $this->assertFalse($this->rules->pass(2));
         $this->assertTrue($this->rules->pass(2.1));
+    }
+
+    /**
+     * Tests that a non-required field passes all rules when empty
+     */
+    public function testNonRequiredFieldPassesAllRulesWhenEmpty()
+    {
+        $this->rules
+            ->email()
+            ->date("Y-m-d");
+        $this->assertTrue($this->rules->pass(null));
+        $this->assertTrue($this->rules->pass([]));
+        $countable = $this->getMock(Countable::class);
+        $countable->expects($this->exactly(2))
+            ->method("count")
+            ->willReturn(0);
+        $this->assertTrue($this->rules->pass($countable));
     }
 
     /**

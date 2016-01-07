@@ -9,6 +9,7 @@
 namespace Opulence\Validation\Rules;
 
 use BadMethodCallException;
+use Countable;
 use InvalidArgumentException;
 use LogicException;
 use Opulence\Validation\Rules\Errors\Compilers\ICompiler;
@@ -29,6 +30,8 @@ class Rules
     protected $errorSlugsAndPlaceholders = [];
     /** @var IRule[] The list of rules */
     protected $rules = [];
+    /** @var bool Whether or not a value is required */
+    protected $isRequired = false;
     /** @var bool Whether or not we're building a conditional rule */
     protected $inCondition = false;
 
@@ -321,6 +324,17 @@ class Rules
         $passes = true;
 
         foreach ($this->rules as $rule) {
+            // Non-required fields do not need to evaluate all rules when empty
+            if (!$this->isRequired) {
+                if (
+                    $value === null ||
+                    (is_string($value) && mb_strlen($value) == 0) ||
+                    ((is_array($value) || $value instanceof Countable) && count($value) == 0)
+                ) {
+                    continue;
+                }
+            }
+
             $thisRulePasses = $rule->passes($value, $allValues);
 
             if (!$thisRulePasses) {
@@ -360,6 +374,7 @@ class Rules
     public function required()
     {
         $this->createRule(RequiredRule::class);
+        $this->isRequired = true;
 
         return $this;
     }
