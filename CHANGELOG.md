@@ -4,6 +4,9 @@
 * Renamed `build/commit.sh` to `build/git.sh`
 * Added checking out and merging of pull requests
 
+<h3>Databases</h3>
+* Changed time/date related fields in type mappers to accept `DateTimeInterface` rather than `DateTime` to allow for `DateTimeImmutable` arguments
+
 <h3>Debug</h3>
 * Added support for different response formats depending on the request type
 
@@ -14,11 +17,17 @@
 * Added `Opulence\Http\Requests::getPort()`
 * Renamed `Opulence\Http\Requests::getIPAddress()` to `getClientIPAddress()`
 
+<h3>Memcached</h3>
+* Changed time/date related fields in type mappers to accept `DateTimeInterface` rather than `DateTime` to allow for `DateTimeImmutable` arguments
+
 <h3>Pipelines</h3>
 * Rewrote to include a fluent syntax, eg `(new Pipeline($container))->send("foo")->through($stages)->then($callback)->execute()`
 
 <h3>Query Builders</h3>
 * Added ability to create select query without a table (useful for stored procedures)
+
+<h3>Redis</h3>
+* Changed time/date related fields in type mappers to accept `DateTimeInterface` rather than `DateTime` to allow for `DateTimeImmutable` arguments
 
 <h3>Validation</h3>
 * Added `Opulence\Validation` library

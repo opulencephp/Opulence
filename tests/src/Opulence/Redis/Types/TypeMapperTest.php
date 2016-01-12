@@ -9,6 +9,7 @@
 namespace Opulence\Redis\Types;
 
 use DateTime;
+use DateTimeImmutable;
 
 /**
  * Tests the Redis type mapper class
@@ -66,6 +67,15 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingToRedisTimestamp()
     {
         $time = new DateTime("now");
+        $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
+    }
+
+    /**
+     * Tests converting to a Redis timestamp from an immutable date time
+     */
+    public function testConvertingToRedisTimestampFromImmutable()
+    {
+        $time = new DateTimeImmutable("now");
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 

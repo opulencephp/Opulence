@@ -9,6 +9,7 @@
 namespace Opulence\Redis\Types;
 
 use DateTime;
+use DateTimeInterface;
 use DateTimeZone;
 
 /**
@@ -59,10 +60,10 @@ class TypeMapper
     /**
      * Converts a PHP timestamp to a Redis Unix timestamp
      *
-     * @param DateTime $timestamp The PHP timestamp to convert
+     * @param DateTimeInterface $timestamp The PHP timestamp to convert
      * @return int The Unix timestamp
      */
-    public function toRedisTimestamp(DateTime $timestamp)
+    public function toRedisTimestamp(DateTimeInterface $timestamp)
     {
         return $timestamp->getTimestamp();
     }

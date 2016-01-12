@@ -9,6 +9,7 @@
 namespace Opulence\Memcached\Types;
 
 use DateTime;
+use DateTimeImmutable;
 
 /**
  * Tests the Memcached type mapper class
@@ -66,6 +67,15 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
     public function testConvertingToMemcachedTimestamp()
     {
         $time = new DateTime("now");
+        $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
+    }
+
+    /**
+     * Tests converting to a Memcached timestamp from an immutable date time
+     */
+    public function testConvertingToMemcachedTimestampFromImmutable()
+    {
+        $time = new DateTimeImmutable("now");
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 

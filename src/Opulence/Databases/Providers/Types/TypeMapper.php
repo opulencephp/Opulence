@@ -9,6 +9,7 @@
 namespace Opulence\Databases\Providers\Types;
 
 use DateTime;
+use DateTimeInterface;
 use Exception;
 use InvalidArgumentException;
 use Opulence\Databases\Providers\Provider;
@@ -201,11 +202,11 @@ class TypeMapper
     /**
      * Converts a PHP date time to an SQL date
      *
-     * @param DateTime $date The date time to convert
+     * @param DateTimeInterface $date The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL date suitable for database storage
      */
-    public function toSqlDate(DateTime $date, Provider $provider = null)
+    public function toSqlDate(DateTimeInterface $date, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -227,11 +228,11 @@ class TypeMapper
     /**
      * Converts a PHP date time with time zone to an SQL time
      *
-     * @param DateTime $time The date time to convert
+     * @param DateTimeInterface $time The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL time suitable for database storage
      */
-    public function toSqlTimeWithTimeZone(DateTime $time, Provider $provider = null)
+    public function toSqlTimeWithTimeZone(DateTimeInterface $time, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -241,11 +242,11 @@ class TypeMapper
     /**
      * Converts a PHP date time without time zone to an SQL time
      *
-     * @param DateTime $time The date time to convert
+     * @param DateTimeInterface $time The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL time suitable for database storage
      */
-    public function toSqlTimeWithoutTimeZone(DateTime $time, Provider $provider = null)
+    public function toSqlTimeWithoutTimeZone(DateTimeInterface $time, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -255,11 +256,11 @@ class TypeMapper
     /**
      * Converts a PHP date time to an SQL timestamp with time zone
      *
-     * @param DateTime $timestamp The date time to convert
+     * @param DateTimeInterface $timestamp The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL timestamp with time zone suitable for database storage
      */
-    public function toSqlTimestampWithTimeZone(DateTime $timestamp, Provider $provider = null)
+    public function toSqlTimestampWithTimeZone(DateTimeInterface $timestamp, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 
@@ -269,11 +270,11 @@ class TypeMapper
     /**
      * Converts a PHP date time to an SQL timestamp without time zone
      *
-     * @param DateTime $timestamp The date time to convert
+     * @param DateTimeInterface $timestamp The date time to convert
      * @param Provider $provider The provider to convert to
      * @return string The SQL timestamp without time zone suitable for database storage
      */
-    public function toSqlTimestampWithoutTimeZone(DateTime $timestamp, Provider $provider = null)
+    public function toSqlTimestampWithoutTimeZone(DateTimeInterface $timestamp, Provider $provider = null)
     {
         $this->setParameterProvider($provider);
 

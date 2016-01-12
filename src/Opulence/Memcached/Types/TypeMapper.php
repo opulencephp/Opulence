@@ -9,6 +9,7 @@
 namespace Opulence\Memcached\Types;
 
 use DateTime;
+use DateTimeInterface;
 use DateTimeZone;
 
 /**
@@ -59,10 +60,10 @@ class TypeMapper
     /**
      * Converts a PHP timestamp to a Memcached Unix timestamp
      *
-     * @param DateTime $timestamp The PHP timestamp to convert
+     * @param DateTimeInterface $timestamp The PHP timestamp to convert
      * @return int The Unix timestamp
      */
-    public function toMemcachedTimestamp(DateTime $timestamp)
+    public function toMemcachedTimestamp(DateTimeInterface $timestamp)
     {
         return $timestamp->getTimestamp();
     }
