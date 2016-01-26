@@ -11,6 +11,7 @@
 * Added support for different response formats depending on the request type
 
 <h3>HTTP</h3>
+* Added ability to stream responses via `Opulence\Http\Responses\StreamResponse`
 * Added support for trusted proxies
 * Removed all `Request::METHOD_*` constants, moved them to `Opulence\Http\Requests\RequestMethods` class, and dropped `METHOD_` from constants' names
 * Added `Opulence\Http\Requests\RequestHeaders`
