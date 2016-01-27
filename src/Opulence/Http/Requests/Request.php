@@ -423,7 +423,14 @@ class Request
             if ($this->method === RequestMethods::GET) {
                 return $this->query->get($name, $default);
             } else {
-                return $this->post->get($name, $default);
+                $value = $this->post->get($name, $default);
+
+                if ($value === null) {
+                    // Try falling back to query
+                    $value = $this->query->get($name, $default);
+                }
+
+                return $value;
             }
         }
     }

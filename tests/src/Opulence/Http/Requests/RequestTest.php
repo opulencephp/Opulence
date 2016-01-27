@@ -1245,6 +1245,17 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the query var is returned when no matching var exists in post data on post request
+     */
+    public function testQueryIsReturnedOnPostRequestWhenNoPostVarExists()
+    {
+        $_SERVER["REQUEST_METHOD"] = "POST";
+        $_GET["foo"] = "bar";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("bar", $request->getInput("foo"));
+    }
+
+    /**
      * Tests that the query string is set from the URL
      */
     public function testQueryStringSetFromUrl()

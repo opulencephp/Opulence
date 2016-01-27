@@ -12,6 +12,7 @@
 
 <h3>HTTP</h3>
 * Added ability to stream responses via `Opulence\Http\Responses\StreamResponse`
+* Fixed bug that prevented `Request::getInput()` from searching query parameters on post requests when no post parameter matched the input name
 * Added support for trusted proxies
 * Removed all `Request::METHOD_*` constants, moved them to `Opulence\Http\Requests\RequestMethods` class, and dropped `METHOD_` from constants' names
 * Added `Opulence\Http\Requests\RequestHeaders`
