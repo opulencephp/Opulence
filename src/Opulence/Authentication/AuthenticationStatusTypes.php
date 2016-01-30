@@ -9,12 +9,12 @@
 namespace Opulence\Authentication;
 
 /**
- * Defines different types of entities that can be authenticated
+ * Defines the different authentication status types
  */
-class EntityTypes
+class AuthenticationStatusTypes
 {
-    /** A user */
-    const USER = 1;
-    /** An application */
-    const APPLICATION = 2;
+    /** The user is not authenticated */
+    const UNAUTHENTICATED = 1;
+    /** The user is authenticated */
+    const AUTHENTICATED = 2;
 }

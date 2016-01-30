@@ -6,9 +6,9 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Users;
+namespace Opulence\Authentication\Users;
 
-use DateTime;
+use DateTimeImmutable;
 
 /**
  * Tests the user object
@@ -23,7 +23,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->user = new User(18175, new DateTime("1776-07-04 12:34:56"), [1, 2, 3]);
+        $this->user = new User(18175, "foo", new DateTimeImmutable("1776-07-04 12:34:56"), [1, 2, 3]);
     }
 
     /**
@@ -47,7 +47,15 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingDateCreated()
     {
-        $this->assertEquals(new DateTime("1776-07-04 12:34:56"), $this->user->getDateCreated());
+        $this->assertEquals(new DateTimeImmutable("1776-07-04 12:34:56"), $this->user->getDateCreated());
+    }
+
+    /**
+     * Tests getting the hashed password
+     */
+    public function testGettingHashedPassword()
+    {
+        $this->assertEquals("foo", $this->user->getHashedPassword());
     }
 
     /**
@@ -71,8 +79,17 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingRolesInConstructor()
     {
-        $user = new User(18175, new DateTime());
+        $user = new User(18175, "foo", new DateTimeImmutable());
         $this->assertEquals([], $user->getRoles());
+    }
+
+    /**
+     * Tests setting the hashed password
+     */
+    public function testSettingHashedPassword()
+    {
+        $this->user->setHashedPassword("bar");
+        $this->assertEquals("bar", $this->user->getHashedPassword());
     }
 
     /**

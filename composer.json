@@ -82,7 +82,6 @@
     "opulence/redis": "self.version",
     "opulence/routing": "self.version",
     "opulence/sessions": "self.version",
-    "opulence/users": "self.version",
     "opulence/validation": "self.version",
     "opulence/views": "self.version"
   },

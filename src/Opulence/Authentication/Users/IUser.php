@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Users;
+namespace Opulence\Authentication\Users;
 
 use DateTime;
 
@@ -21,6 +21,13 @@ interface IUser
      * @return DateTime The date the user was created
      */
     public function getDateCreated();
+
+    /**
+     * Gets the user's hashed password
+     *
+     * @return string The user's hashed password
+     */
+    public function getHashedPassword();
 
     /**
      * Gets the database Id
@@ -43,6 +50,13 @@ interface IUser
      * @return bool True if the user has the role, otherwise false
      */
     public function hasRole($role);
+
+    /**
+     * Sets the user's hashed password
+     *
+     * @param string $hashedPassword The user's hashed password
+     */
+    public function setHashedPassword($hashedPassword);
 
     /**
      * Sets the database Id of the user

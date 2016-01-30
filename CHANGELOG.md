@@ -1,5 +1,10 @@
 <h2>v1.0.0-alpha32</h2>
 
+<h3>Authentication</h3>
+* Added `Opulence\Authentication\AuthenticationStatusTypes`
+* Added user Id to `Opulence\Authentication\Tokens\IToken` and `Token`
+* Changed `DateTime` instances to `DateTimeImmutable` in `Opulence\Authentication\Tokens\IToken` and `Token`
+
 <h3>Build</h3>
 * Renamed `build/commit.sh` to `build/git.sh`
 * Added checking out and merging of pull requests
@@ -30,6 +35,12 @@
 
 <h3>Redis</h3>
 * Changed time/date related fields in type mappers to accept `DateTimeInterface` rather than `DateTime` to allow for `DateTimeImmutable` arguments
+
+<h3>Users</h3>
+* Moved `Opulence\Users\*` to `Opulence\Authentication\Users\*`
+* Made all `DateTime` objects instances of `DateTimeImmutable`
+* Removed `Opulence\Users\Factories\UserFactory`
+* Removed `Opulence\Users\GuestUser`
 
 <h3>Validation</h3>
 * Added `Opulence\Validation` library

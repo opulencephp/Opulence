@@ -8,7 +8,7 @@
  */
 namespace Opulence\Tests\Authentication\Tokens\Mocks;
 
-use DateTime;
+use DateTimeImmutable;
 use Opulence\Authentication\Tokens\Token as BaseToken;
 
 /**
@@ -23,6 +23,6 @@ class Token extends BaseToken
      */
     public static function create()
     {
-        return new Token(1, "foo", new DateTime("now"), new DateTime("+1 week"), true);
+        return new Token(1, 2, "foo", new DateTimeImmutable("now"), new DateTimeImmutable("+1 week"), true);
     }
 } 
