@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens;
 
-use DateTime;
+use DateTimeImmutable;
 
 /**
  * Defines the interface for cryptographic tokens
@@ -35,16 +35,23 @@ interface IToken
     public function getId();
 
     /**
+     * Gets the user Id
+     *
+     * @return int The user Id
+     */
+    public function getUserId();
+
+    /**
      * Gets the valid-from date of this token
      *
-     * @return DateTime The valid-from date
+     * @return DateTimeImmutable The valid-from date
      */
     public function getValidFrom();
 
     /**
      * Gets the valid-to date of this token
      *
-     * @return DateTime The valid-to date
+     * @return DateTimeImmutable The valid-to date
      */
     public function getValidTo();
 

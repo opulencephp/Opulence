@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens;
 
-use DateTime;
+use DateTimeImmutable;
 
 /**
  * Defines a cryptographic token used for security
@@ -17,25 +17,35 @@ class Token implements IToken
 {
     /** @var int|string The database Id of this token */
     protected $id = -1;
+    /** @var int The Id of the user that owns this token */
+    protected $userId = -1;
     /** @var string The hashed value */
     protected $hashedValue = "";
-    /** @var DateTime The valid-from date */
+    /** @var DateTimeImmutable The valid-from date */
     protected $validFrom = null;
-    /** @var DateTime The valid-to date */
+    /** @var DateTimeImmutable The valid-to date */
     protected $validTo = null;
     /** @var bool Whether or not this token is active */
     protected $isActive = false;
 
     /**
      * @param int|string $id The database Id of this token
+     * @param int|string $userId The Id of the user that owns this token
      * @param string $hashedValue The hashed value
-     * @param DateTime $validFrom The valid-from date
-     * @param DateTime $validTo The valid-to date
+     * @param DateTimeImmutable $validFrom The valid-from date
+     * @param DateTimeImmutable $validTo The valid-to date
      * @param bool $isActive Whether or not this token is active
      */
-    public function __construct($id, $hashedValue, DateTime $validFrom, DateTime $validTo, $isActive)
-    {
+    public function __construct(
+        $id,
+        $userId,
+        $hashedValue,
+        DateTimeImmutable $validFrom,
+        DateTimeImmutable $validTo,
+        $isActive
+    ) {
         $this->id = $id;
+        $this->userId = $userId;
         $this->hashedValue = $hashedValue;
         $this->validFrom = $validFrom;
         $this->validTo = $validTo;
@@ -69,6 +79,14 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
+    public function getUserId()
+    {
+        return $this->userId;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function getValidFrom()
     {
         return $this->validFrom;
@@ -87,7 +105,7 @@ class Token implements IToken
      */
     public function isActive()
     {
-        $now = new DateTime("now");
+        $now = new DateTimeImmutable();
 
         return $this->isActive && $this->validFrom <= $now && $now < $this->validTo;
     }
