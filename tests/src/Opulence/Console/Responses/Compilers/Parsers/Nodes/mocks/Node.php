@@ -18,7 +18,7 @@ class Node extends BaseNode
     /**
      * @inheritdoc
      */
-    public function isTag()
+    public function isTag() : bool
     {
         return false;
     }

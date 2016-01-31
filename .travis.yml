@@ -2,7 +2,7 @@ language: php
 
 php:
   - 7.0
-  - hhvm
+  - hhvm-nightly
 
 before_script:
   - composer self-update
