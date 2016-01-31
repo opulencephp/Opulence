@@ -16,7 +16,7 @@ class NotInRule extends InRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "notIn";
     }
@@ -24,7 +24,7 @@ class NotInRule extends InRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return !parent::passes($value, $allValues);
     }

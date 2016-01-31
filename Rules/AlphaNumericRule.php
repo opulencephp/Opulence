@@ -16,7 +16,7 @@ class AlphaNumericRule implements IRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "alphaNumeric";
     }
@@ -24,7 +24,7 @@ class AlphaNumericRule implements IRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return ctype_alnum($value) && strpos($value, " ") === false;
     }

@@ -42,7 +42,7 @@ abstract class ModelState
      *
      * @return ErrorCollection The errors
      */
-    public function getErrors()
+    public function getErrors() : ErrorCollection
     {
         return $this->errors;
     }
@@ -52,7 +52,7 @@ abstract class ModelState
      *
      * @return bool True if the model is valid, otherwise false
      */
-    public function isValid()
+    public function isValid() : bool
     {
         return $this->isValid;
     }
@@ -63,7 +63,7 @@ abstract class ModelState
      * @param object $model The model being validated
      * @return array The mapping of property names => property values
      */
-    abstract protected function getModelProperties($model);
+    abstract protected function getModelProperties($model) : array;
 
     /**
      * Registers rules for fields in the model

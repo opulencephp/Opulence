@@ -22,14 +22,14 @@ interface IValidator
      * @param string $name The name of the field to create rules for
      * @return Rules The rules for the input field
      */
-    public function field($name);
+    public function field(string $name) : Rules;
 
     /**
      * Gets the list of errors
      *
      * @return ErrorCollection The list of errors
      */
-    public function getErrors();
+    public function getErrors() : ErrorCollection;
 
     /**
      * Checks if a list of values are valid
@@ -39,5 +39,5 @@ interface IValidator
      *      once one fails, otherwise false
      * @return bool True if the values were valid, otherwise false
      */
-    public function isValid(array $allValues, $haltFieldValidationOnFailure = false);
+    public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false) : bool;
 }

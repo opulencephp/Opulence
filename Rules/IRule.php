@@ -20,7 +20,7 @@ interface IRule
      *
      * @return string The slug
      */
-    public function getSlug();
+    public function getSlug() : string;
 
     /**
      * Gets whether or not the rule passes
@@ -30,5 +30,5 @@ interface IRule
      * @return bool True if the rule passes, otherwise false
      * @throws LogicException Thrown if the rule was not set up correctly
      */
-    public function passes($value, array $allValues = []);
+    public function passes($value, array $allValues = []) : bool;
 }

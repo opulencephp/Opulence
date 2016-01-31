@@ -18,7 +18,7 @@ class RequiredRule implements IRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "required";
     }
@@ -26,7 +26,7 @@ class RequiredRule implements IRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($value === null) {
             return false;

@@ -45,7 +45,7 @@ class RulesFactory
      *
      * @return Rules The new rules
      */
-    public function createRules()
+    public function createRules() : Rules
     {
         return new Rules($this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler);
     }

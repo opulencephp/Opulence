@@ -22,7 +22,7 @@ class InRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "in";
     }
@@ -30,7 +30,7 @@ class InRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($this->array === null) {
             throw new LogicException("Array not set");

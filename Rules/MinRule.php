@@ -24,7 +24,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getErrorPlaceholders()
+    public function getErrorPlaceholders() : array
     {
         return ["min" => $this->min];
     }
@@ -32,7 +32,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "min";
     }
@@ -40,7 +40,7 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($this->min === null) {
             throw new LogicException("Minimum value not set");

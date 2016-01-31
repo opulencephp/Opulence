@@ -16,7 +16,7 @@ class IntegerRule implements IRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "integer";
     }
@@ -24,7 +24,7 @@ class IntegerRule implements IRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return filter_var($value, FILTER_VALIDATE_INT) !== false;
     }

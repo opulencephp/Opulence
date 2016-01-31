@@ -22,7 +22,7 @@ class DateRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "date";
     }
@@ -30,7 +30,7 @@ class DateRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         foreach ($this->formats as $format) {
             $dateTime = DateTime::createFromFormat($format, $value);

@@ -27,7 +27,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we want
      * @return string The error template
      */
-    public function get($field, $ruleSlug)
+    public function get(string $field, string $ruleSlug) : string
     {
         if (isset($this->fieldTemplates[$field]) && isset($this->fieldTemplates[$field][$ruleSlug])) {
             return $this->fieldTemplates[$field][$ruleSlug];
@@ -76,7 +76,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
-    public function registerFieldErrorTemplate($field, $ruleSlug, $template)
+    public function registerFieldErrorTemplate(string $field, string $ruleSlug, string $template)
     {
         if (!isset($this->fieldTemplates[$field])) {
             $this->fieldTemplates[$field] = [];
@@ -91,7 +91,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we're registering
      * @param string $template The template to register
      */
-    public function registerGlobalErrorTemplate($ruleSlug, $template)
+    public function registerGlobalErrorTemplate(string $ruleSlug, string $template)
     {
         $this->globalTemplates[$ruleSlug] = $template;
     }
