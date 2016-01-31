@@ -22,7 +22,7 @@ abstract class Parser implements IParser
      * @param string $token The token to parse
      * @return string The parsed argument
      */
-    protected function parseArgument($token)
+    protected function parseArgument(string $token) : string
     {
         return $this->trimQuotes($token);
     }
@@ -35,7 +35,7 @@ abstract class Parser implements IParser
      * @return array The name of the option mapped to its value
      * @throws RuntimeException Thrown if the option could not be parsed
      */
-    protected function parseLongOption($token, array &$remainingTokens)
+    protected function parseLongOption(string $token, array &$remainingTokens) : array
     {
         if (mb_substr($token, 0, 2) !== "--") {
             throw new RuntimeException("Invalid long option \"$token\"");
@@ -76,7 +76,7 @@ abstract class Parser implements IParser
      * @return array The name of the option mapped to its value
      * @throws RuntimeException Thrown if the option could not be parsed
      */
-    protected function parseShortOption($token)
+    protected function parseShortOption(string $token) : array
     {
         if (mb_substr($token, 0, 1) !== "-") {
             throw new RuntimeException("Invalid short option \"$token\"");
@@ -101,7 +101,7 @@ abstract class Parser implements IParser
      * @param array $tokens The tokens to parse
      * @return Request The parsed request
      */
-    protected function parseTokens(array $tokens)
+    protected function parseTokens(array $tokens) : Request
     {
         $request = new Request();
         $hasParsedCommandName = false;
@@ -137,7 +137,7 @@ abstract class Parser implements IParser
      * @param string $token Trims quotes off of a token
      * @return string The trimmed token
      */
-    protected function trimQuotes($token)
+    protected function trimQuotes(string $token) : string
     {
         // Trim any quotes
         if (($firstValueChar = mb_substr($token, 0, 1)) == mb_substr($token, -1)) {

@@ -33,7 +33,7 @@ class ConditionalRule extends CallbackRule
      *
      * @return IRule[] The list of rules
      */
-    public function getRules()
+    public function getRules() : array
     {
         return $this->rules;
     }
@@ -41,7 +41,7 @@ class ConditionalRule extends CallbackRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "conditional";
     }
@@ -49,7 +49,7 @@ class ConditionalRule extends CallbackRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($this->callback === null) {
             throw new LogicException("Condition not set");

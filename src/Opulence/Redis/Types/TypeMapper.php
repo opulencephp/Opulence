@@ -23,7 +23,7 @@ class TypeMapper
      * @param int $boolean The Redis boolean to convert from
      * @return bool The PHP boolean
      */
-    public function fromRedisBoolean($boolean)
+    public function fromRedisBoolean($boolean) : bool
     {
         return $boolean == 1;
     }
@@ -34,7 +34,7 @@ class TypeMapper
      * @param int $timestamp The Unix timestamp to convert from
      * @return DateTime The PHP timestamp
      */
-    public function fromRedisTimestamp($timestamp)
+    public function fromRedisTimestamp($timestamp) : DateTime
     {
         $date = DateTime::createFromFormat("U", $timestamp);
         $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
@@ -48,7 +48,7 @@ class TypeMapper
      * @param bool $boolean The PHP boolean to convert
      * @return int The Redis boolean
      */
-    public function toRedisBoolean($boolean)
+    public function toRedisBoolean(bool $boolean) : int
     {
         if ($boolean) {
             return 1;
@@ -63,7 +63,7 @@ class TypeMapper
      * @param DateTimeInterface $timestamp The PHP timestamp to convert
      * @return int The Unix timestamp
      */
-    public function toRedisTimestamp(DateTimeInterface $timestamp)
+    public function toRedisTimestamp(DateTimeInterface $timestamp) : int
     {
         return $timestamp->getTimestamp();
     }

@@ -36,8 +36,8 @@ class ErrorHandler implements IErrorHandler
     public function __construct(
         LoggerInterface $logger,
         IExceptionHandler $exceptionHandler,
-        $loggedLevels = null,
-        $thrownLevels = null
+        int $loggedLevels = null,
+        int $thrownLevels = null
     ) {
         $this->logger = $logger;
         $this->exceptionHandler = $exceptionHandler;
@@ -58,7 +58,7 @@ class ErrorHandler implements IErrorHandler
     /**
      * @inheritDoc
      */
-    public function handle($level, $message, $file = "", $line = 0, array $context = [])
+    public function handle(int $level, string $message, string $file = "", int $line = 0, array $context = [])
     {
         if ($this->levelIsLoggable($level)) {
             $this->logger->log($level, $message, $context);
@@ -104,7 +104,7 @@ class ErrorHandler implements IErrorHandler
      * @param int $level The bitwise level
      * @return bool True if the level is loggable, otherwise false
      */
-    protected function levelIsLoggable($level)
+    protected function levelIsLoggable(int $level) : bool
     {
         return ($this->loggedLevels & $level) !== 0;
     }
@@ -115,7 +115,7 @@ class ErrorHandler implements IErrorHandler
      * @param int $level The bitwise level
      * @return bool True if the level is throwable, otherwise false
      */
-    protected function levelIsThrowable($level)
+    protected function levelIsThrowable(int $level) : bool
     {
         return ($this->thrownLevels & $level) !== 0;
     }

@@ -48,7 +48,7 @@ abstract class MakeCommand extends Command
      *
      * @return string The template path
      */
-    abstract protected function getFileTemplatePath();
+    abstract protected function getFileTemplatePath() : string;
 
     /**
      * Compiles a template
@@ -57,7 +57,7 @@ abstract class MakeCommand extends Command
      * @param string $fullyQualifiedClassName The fully-qualified class name
      * @return string the compiled template
      */
-    protected function compile($templateContents, $fullyQualifiedClassName)
+    protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
     {
         $explodedClass = explode("\\", $fullyQualifiedClassName);
         $namespace = implode("\\", array_slice($explodedClass, 0, -1));
@@ -115,7 +115,7 @@ abstract class MakeCommand extends Command
      * @param string $rootNamespace The root namespace
      * @return string The default namespace
      */
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace(string $rootNamespace) : string
     {
         return $rootNamespace;
     }
@@ -125,7 +125,7 @@ abstract class MakeCommand extends Command
      *
      * @param string $path The fully-qualified class name
      */
-    protected function makeDirectories($path)
+    protected function makeDirectories(string $path)
     {
         $directoryName = dirname($path);
 

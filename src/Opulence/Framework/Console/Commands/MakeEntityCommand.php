@@ -27,7 +27,7 @@ class MakeEntityCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath()
+    protected function getFileTemplatePath() : string
     {
         return __DIR__ . "/templates/Entity.template";
     }

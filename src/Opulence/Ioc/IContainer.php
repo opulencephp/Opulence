@@ -20,7 +20,7 @@ interface IContainer
      * @param string|callable|mixed $concrete Either the name of or an instance of the concrete class to bind
      * @param string|null $targetClass The name of the target class to bind on, or null if binding to all classes
      */
-    public function bind($interfaces, $concrete, $targetClass = null);
+    public function bind($interfaces, $concrete, string $targetClass = null);
 
     /**
      * Calls a method on an object and automatically resolves any type hinted arguments
@@ -32,7 +32,12 @@ interface IContainer
      * @return mixed|null The return value of the method if there was one, otherwise null
      * @throws IocException Thrown if there was an error calling the method
      */
-    public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false);
+    public function call(
+        $function,
+        array $primitives = [],
+        bool $ignoreMissing = false,
+        bool $forceNewInstance = false
+    );
 
     /**
      * Gets the name of the concrete class bound to the interface
@@ -43,7 +48,7 @@ interface IContainer
      * @return string|callable|null The name of the concrete class or callback bound to the interface if there is one,
      *      otherwise null
      */
-    public function getBinding($interface, $targetClass = null);
+    public function getBinding(string $interface, string $targetClass = null);
 
     /**
      * Gets whether or not an interface is bound
@@ -53,7 +58,7 @@ interface IContainer
      * @param string|null $targetClass The name of the class whose bindings we're checking, or null for universal bindings
      * @return bool True if the interface is bound, otherwise false
      */
-    public function isBound($interface, $targetClass = null);
+    public function isBound(string $interface, string $targetClass = null);
 
     /**
      * Creates an instance of the input class name
@@ -72,9 +77,9 @@ interface IContainer
      * @throws IocException Thrown if there was an error making the component
      */
     public function make(
-        $component,
-        $forceNewInstance,
-        $targetClass = null,
+        string $component,
+        bool $forceNewInstance,
+        string $targetClass = null,
         array $constructorPrimitives = [],
         array $methodCalls = []
     );
@@ -95,8 +100,8 @@ interface IContainer
      * @throws IocException Thrown if there was an error making the component
      */
     public function makeNew(
-        $component,
-        $targetClass = null,
+        string $component,
+        string $targetClass = null,
         array $constructorPrimitives = [],
         array $methodCalls = []
     );
@@ -117,8 +122,8 @@ interface IContainer
      * @throws IocException Thrown if there was an error making the component
      */
     public function makeShared(
-        $component,
-        $targetClass = null,
+        string $component,
+        string $targetClass = null,
         array $constructorPrimitives = [],
         array $methodCalls = []
     );
@@ -129,5 +134,5 @@ interface IContainer
      * @param string $interface The name of the interface whose binding we're removing
      * @param string|null $targetClass The name of the target class whose binding we're removing, or null if it's universal
      */
-    public function unbind($interface, $targetClass = null);
+    public function unbind(string $interface, string $targetClass = null);
 } 

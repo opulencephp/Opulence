@@ -47,7 +47,7 @@ class Connection extends PDO implements IConnection
      * @param string $dsn The Data Name Source to connect with
      * @param array $driverOptions The list of driver options to use
      */
-    public function __construct(Provider $provider, Server $server, $dsn, array $driverOptions = [])
+    public function __construct(Provider $provider, Server $server, string $dsn, array $driverOptions = [])
     {
         $this->provider = $provider;
         $this->server = $server;

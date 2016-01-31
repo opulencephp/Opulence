@@ -50,7 +50,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return array_values($this->entities);
     }

@@ -71,7 +71,7 @@ class ExceptionHandler implements IExceptionHandler
      * @param Throwable|Exception $ex The exception to check
      * @return bool True if the exception should be logged, otherwise false
      */
-    protected function shouldLog($ex)
+    protected function shouldLog($ex) : bool
     {
         return !in_array(get_class($ex), $this->exceptionsNotLogged);
     }

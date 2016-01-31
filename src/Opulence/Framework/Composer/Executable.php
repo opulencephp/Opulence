@@ -36,7 +36,7 @@ class Executable
      * @param string $options The options to run
      * @return string The output of the autoload
      */
-    public function dumpAutoload($options = "")
+    public function dumpAutoload(string $options = "") : string
     {
         return $this->execute("{$this->executable} dump-autoload $options");
     }
@@ -47,7 +47,7 @@ class Executable
      * @param string $options The options to run
      * @return string The output of the update
      */
-    public function update($options = "")
+    public function update(string $options = "") : string
     {
         return $this->execute("{$this->executable} update $options");
     }
@@ -58,7 +58,7 @@ class Executable
      * @param string $command The command to execute
      * @return string The output of the command
      */
-    protected function execute($command)
+    protected function execute(string $command) : string
     {
         return shell_exec($command);
     }

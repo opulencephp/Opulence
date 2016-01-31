@@ -138,6 +138,10 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingRulesTwiceDoesNotAppendErrors()
     {
+        $this->errorTemplateRegistry->expects($this->exactly(2))
+            ->method("get")
+            ->with("the-field", "email")
+            ->willReturn("");
         $this->errorTemplateCompiler->expects($this->exactly(2))
             ->method("compile")
             ->with("the-field", "", [])

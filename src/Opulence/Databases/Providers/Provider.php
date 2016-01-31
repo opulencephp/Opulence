@@ -45,7 +45,7 @@ class Provider
      * @param bool $value The boolean value to convert
      * @return int The boolean in an SQL boolean format
      */
-    public function convertToSqlBoolean($value)
+    public function convertToSqlBoolean(bool $value)
     {
         if (is_bool($value)) {
             return (int)$value;
@@ -57,7 +57,7 @@ class Provider
     /**
      * @return string
      */
-    public function getDateFormat()
+    public function getDateFormat() : string
     {
         return $this->dateFormat;
     }
@@ -65,7 +65,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimeWithTimeZoneFormat()
+    public function getTimeWithTimeZoneFormat() : string
     {
         return $this->timeWithTimeZoneFormat;
     }
@@ -73,7 +73,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimeWithoutTimeZoneFormat()
+    public function getTimeWithoutTimeZoneFormat() : string
     {
         return $this->timeWithoutTimeZoneFormat;
     }
@@ -81,7 +81,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimestampWithTimeZoneFormat()
+    public function getTimestampWithTimeZoneFormat() : string
     {
         return $this->timestampWithTimeZoneFormat;
     }
@@ -89,7 +89,7 @@ class Provider
     /**
      * @return string
      */
-    public function getTimestampWithoutTimeZoneFormat()
+    public function getTimestampWithoutTimeZoneFormat() : string
     {
         return $this->timestampWithoutTimeZoneFormat;
     }

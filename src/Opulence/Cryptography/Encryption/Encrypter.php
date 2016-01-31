@@ -28,7 +28,7 @@ class Encrypter implements IEncrypter
      * @param Strings $strings The string utility
      * @param string $cipher The encryption cipher
      */
-    public function __construct($key, Strings $strings, $cipher = "AES-128-CBC")
+    public function __construct(string $key, Strings $strings, string $cipher = "AES-128-CBC")
     {
         $this->setKey($key);
         $this->strings = $strings;
@@ -38,7 +38,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function decrypt($data)
+    public function decrypt(string $data) : string
     {
         $pieces = $this->getPieces($data);
 
@@ -65,7 +65,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function encrypt($data)
+    public function encrypt(string $data) : string
     {
         $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->cipher));
         $encryptedValue = openssl_encrypt(serialize($data), $this->cipher, $this->key, 0, $iv);
@@ -88,7 +88,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function setCipher($cipher)
+    public function setCipher(string $cipher)
     {
         if (!in_array($cipher, openssl_get_cipher_methods())) {
             throw new EncryptionException("Invalid cipher \"$cipher\"");
@@ -100,7 +100,7 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function setKey($key)
+    public function setKey(string $key)
     {
         $this->key = $key;
     }
@@ -112,7 +112,7 @@ class Encrypter implements IEncrypter
      * @param string $value The value to hash
      * @return string The hash string
      */
-    private function createHash($iv, $value)
+    private function createHash(string $iv, string $value) : string
     {
         return hash_hmac("sha256", $iv . $value, $this->key);
     }
@@ -124,7 +124,7 @@ class Encrypter implements IEncrypter
      * @return array The pieces
      * @throws EncryptionException Thrown if the data was not valid JSON
      */
-    private function getPieces($data)
+    private function getPieces(string $data) : array
     {
         $pieces = json_decode(base64_decode($data), true);
 
@@ -141,7 +141,7 @@ class Encrypter implements IEncrypter
      * @param array $pieces The pieces to validate
      * @return bool True if the MAC is valid, otherwise false
      */
-    private function macIsValid(array $pieces)
+    private function macIsValid(array $pieces) : bool
     {
         $randomBytes = $this->strings->generateRandomString(16);
         $correctHmac = hash_hmac("sha256", $pieces["mac"], $randomBytes, true);

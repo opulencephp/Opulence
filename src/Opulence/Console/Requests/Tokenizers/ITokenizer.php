@@ -19,5 +19,5 @@ interface ITokenizer
      * @param mixed $input The input to tokenize
      * @return array The list of tokens
      */
-    public function tokenize($input);
+    public function tokenize($input) : array;
 }

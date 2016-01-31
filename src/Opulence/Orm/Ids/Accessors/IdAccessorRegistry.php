@@ -78,7 +78,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     /**
      * @inheritDoc
      */
-    public function registerReflectionIdAccessors($classNames, $idPropertyName)
+    public function registerReflectionIdAccessors($classNames, string $idPropertyName)
     {
         foreach ((array)$classNames as $className) {
             $getter = function ($entity) use ($className, $idPropertyName) {

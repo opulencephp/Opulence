@@ -63,7 +63,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function bind($interfaces, $concrete, $targetClass = null)
+    public function bind($interfaces, $concrete, string $targetClass = null)
     {
         if (!is_string($concrete) && !is_callable($concrete)) {
             $this->registerInstance($concrete);
@@ -80,7 +80,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function call($function, array $primitives = [], $ignoreMissing = false, $forceNewInstance = false)
+    public function call($function, array $primitives = [], bool $ignoreMissing = false, bool $forceNewInstance = false)
     {
         // We have to check if the method exists in case the class implements a __call() magic method
         // __call() will force all calls to is_callable() to return true
@@ -117,7 +117,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function getBinding($interface, $targetClass = null)
+    public function getBinding(string $interface, string $targetClass = null)
     {
         if ($targetClass === null) {
             return $this->getUniversalBinding($interface);
@@ -129,7 +129,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function isBound($interface, $targetClass = null)
+    public function isBound(string $interface, string $targetClass = null)
     {
         if ($targetClass === null) {
             return $this->isBoundUniversally($interface);
@@ -142,9 +142,9 @@ class Container implements IContainer
      * @inheritdoc
      */
     public function make(
-        $component,
-        $forceNewInstance,
-        $targetClass = null,
+        string $component,
+        bool $forceNewInstance,
+        string $targetClass = null,
         array $constructorPrimitives = [],
         array $methodCalls = []
     ) {
@@ -204,8 +204,12 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function makeNew($component, $targetClass = null, array $constructorPrimitives = [], array $methodCalls = [])
-    {
+    public function makeNew(
+        string $component,
+        string $targetClass = null,
+        array $constructorPrimitives = [],
+        array $methodCalls = []
+    ) {
         return $this->make($component, true, $targetClass, $constructorPrimitives, $methodCalls);
     }
 
@@ -213,8 +217,8 @@ class Container implements IContainer
      * @inheritdoc
      */
     public function makeShared(
-        $component,
-        $targetClass = null,
+        string $component,
+        string $targetClass = null,
         array $constructorPrimitives = [],
         array $methodCalls = []
     ) {
@@ -224,7 +228,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function unbind($interface, $targetClass = null)
+    public function unbind(string $interface, string $targetClass = null)
     {
         if ($targetClass === null) {
             $this->unbindUniversally($interface);
@@ -240,7 +244,7 @@ class Container implements IContainer
      * @param string|callable $concrete The concrete class or callback to bind
      * @param string $targetClass The name of the target class to bind on
      */
-    protected function bindToTarget(array $interfaces, $concrete, $targetClass)
+    protected function bindToTarget(array $interfaces, $concrete, string $targetClass)
     {
         $binding = [
             "concrete" => is_string($concrete) ? $concrete : "",
@@ -280,7 +284,7 @@ class Container implements IContainer
      * @param bool $forceNewInstance True if we want a new instance, otherwise false
      * @throws IocException Thrown if there was a problem calling the methods
      */
-    protected function callMethods(&$instance, array $methodCalls, $forceNewInstance)
+    protected function callMethods(&$instance, array $methodCalls, bool $forceNewInstance)
     {
         // Call any methods
         foreach ($methodCalls as $methodName => $methodPrimitives) {
@@ -295,7 +299,7 @@ class Container implements IContainer
      * @param string|null $targetClass The target class, if there was one
      * @return bool True if the callback was used, otherwise false
      */
-    protected function callbackWasUsed($component, $targetClass = null)
+    protected function callbackWasUsed(string $component, string $targetClass = null) : bool
     {
         if ($targetClass === null) {
             $bindingData =& $this->universalBindings[$component];
@@ -314,7 +318,7 @@ class Container implements IContainer
      * @return string The name of the concrete class bound to the component
      *      If the input was a concrete class, then it's returned
      */
-    protected function getConcrete($component, $targetClass = null)
+    protected function getConcrete(string $component, string $targetClass = null) : string
     {
         if ($targetClass === null) {
             if (isset($this->universalBindings[$component])) {
@@ -358,7 +362,7 @@ class Container implements IContainer
     /**
      * Gets a list of parameters for a function call with all the dependencies resolved
      *
-     * @param string $callingClass The name of the class whose parameters we're resolving
+     * @param string|null $callingClass The name of the class whose parameters we're resolving
      * @param ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
      * @param array $primitives The list of primitive values
      * @param bool $forceNewInstances True if the dependencies should be new instances, otherwise they'll be shared
@@ -369,8 +373,9 @@ class Container implements IContainer
         $callingClass,
         array $unresolvedParameters,
         array $primitives,
-        $forceNewInstances
-    ) {
+        bool $forceNewInstances
+    ) : array
+    {
         $resolvedParameters = [];
 
         foreach ($unresolvedParameters as $parameter) {
@@ -408,7 +413,7 @@ class Container implements IContainer
      * @return string|callable|null The name of the concrete class or callable bound to the interface if it exists,
      *      otherwise null
      */
-    protected function getTargetedBinding($interface, $targetClass)
+    protected function getTargetedBinding(string $interface, string $targetClass)
     {
         if ($this->isBoundToTarget($interface, $targetClass)) {
             $bindingData = $this->targetedBindings[$targetClass][$interface];
@@ -431,7 +436,7 @@ class Container implements IContainer
      * @return string|callable|null The name of the concrete class or callable bound to the interface if it exists,
      *      otherwise null
      */
-    protected function getUniversalBinding($interface)
+    protected function getUniversalBinding(string $interface)
     {
         if ($this->isBound($interface)) {
             $bindingData = $this->universalBindings[$interface];
@@ -453,7 +458,7 @@ class Container implements IContainer
      * @param string $targetClass The target class
      * @return bool True if the interface is bound to a target, otherwise false
      */
-    protected function isBoundToTarget($interface, $targetClass)
+    protected function isBoundToTarget(string $interface, string $targetClass) : bool
     {
         return isset($this->targetedBindings[$targetClass]) && isset($this->targetedBindings[$targetClass][$interface]);
     }
@@ -464,7 +469,7 @@ class Container implements IContainer
      * @param string $interface The name of the interface to check
      * @return bool True if the interface is bound universally, otherwise false
      */
-    protected function isBoundUniversally($interface)
+    protected function isBoundUniversally(string $interface) : bool
     {
         return isset($this->universalBindings[$interface]);
     }
@@ -477,7 +482,7 @@ class Container implements IContainer
      * @return mixed The result of the callback
      * @throws IocException Thrown if the callback could not be called
      */
-    protected function makeCallback($component, $targetClass = null)
+    protected function makeCallback(string $component, string $targetClass = null)
     {
         if ($targetClass === null) {
             $bindingData =& $this->universalBindings[$component];
@@ -520,13 +525,13 @@ class Container implements IContainer
     /**
      * Resolves a class
      *
-     * @param string $callingClass The name of the class that is attempting to resolve this class
+     * @param string|null $callingClass The name of the class that is attempting to resolve this class
      * @param string $component The name of the class to resolve
      * @param bool $forceNewInstance True if we want to force a new instance, otherwise false
      * @return mixed The instantiated class
      * @throws IocException Thrown if there was a problem resolving the class
      */
-    protected function resolveClass($callingClass, $component, $forceNewInstance)
+    protected function resolveClass($callingClass, string $component, bool $forceNewInstance)
     {
         $concrete = $this->getBinding($component, $callingClass);
 
@@ -592,7 +597,7 @@ class Container implements IContainer
      * @param string $interface The name of the interface to unbind
      * @param string $targetClass The name of the target to unbind from
      */
-    protected function unbindFromTarget($interface, $targetClass)
+    protected function unbindFromTarget(string $interface, string $targetClass)
     {
         if (isset($this->targetedBindings[$targetClass])) {
             unset($this->targetedBindings[$targetClass][$interface]);
@@ -604,7 +609,7 @@ class Container implements IContainer
      *
      * @param string $interface The name of the interface to unbind
      */
-    protected function unbindUniversally($interface)
+    protected function unbindUniversally(string $interface)
     {
         unset($this->universalBindings[$interface]);
     }
@@ -616,7 +621,7 @@ class Container implements IContainer
      * @param string|null $targetClass The target class
      * @return bool True if the component uses a callback, otherwise false
      */
-    protected function usesCallback($component, $targetClass = null)
+    protected function usesCallback(string $component, string $targetClass = null) : bool
     {
         if ($targetClass === null) {
             return isset($this->universalBindings[$component]) &&

@@ -26,9 +26,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the status code is an error
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isError()
+    public function isError() : self
     {
         $this->statusCodeEquals(StatusCodes::ERROR);
 
@@ -38,9 +38,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the status code is fatal
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isFatal()
+    public function isFatal() : self
     {
         $this->statusCodeEquals(StatusCodes::FATAL);
 
@@ -50,9 +50,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the status code is OK
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isOK()
+    public function isOK() : self
     {
         $this->statusCodeEquals(StatusCodes::OK);
 
@@ -62,9 +62,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the status code is a warning
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isWarning()
+    public function isWarning() : self
     {
         $this->statusCodeEquals(StatusCodes::WARNING);
 
@@ -75,9 +75,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the output is an expected value
      *
      * @param string $expected The expected output
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function outputEquals($expected)
+    public function outputEquals(string $expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->getOutput());
@@ -91,7 +91,7 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * @param StreamResponse $response The response
      * @param int $statusCode The status code
      */
-    public function setResponse(StreamResponse $response, $statusCode)
+    public function setResponse(StreamResponse $response, int $statusCode)
     {
         $this->response = $response;
         $this->statusCode = $statusCode;
@@ -101,9 +101,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the status code equals an expected value
      *
      * @param int $expected The expected status code
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function statusCodeEquals($expected)
+    public function statusCodeEquals(int $expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->statusCode);
@@ -128,7 +128,7 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * @return string The output
      * @throws LogicException Thrown if the response is not set
      */
-    private function getOutput()
+    private function getOutput() : string
     {
         if ($this->response === null) {
             throw new LogicException("Must call call() before assertions");

@@ -13,6 +13,7 @@ use Opulence\Bootstrappers\Paths;
 use Opulence\Http\HttpException;
 use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 
 /**
  * Checks if the application is in maintenance mode
@@ -33,7 +34,7 @@ class CheckMaintenanceMode implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         if (file_exists("{$this->paths["tmp.framework.http"]}/down")) {
             throw new HttpException(503, "Down for scheduled maintenance");

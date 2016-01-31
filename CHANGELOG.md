@@ -1,3 +1,10 @@
+<h2>v1.0.0-alpha33</h3>
+
+<h2>General</h2>
+* Dropped support for ALL PHP 5.\* versions
+* Added scalar type hints and return types
+* Adopted all other PHP 7 techniques that required hacks in PHP 5
+
 <h2>v1.0.0-alpha32</h2>
 
 <h3>Authentication</h3>

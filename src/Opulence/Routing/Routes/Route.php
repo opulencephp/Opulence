@@ -48,7 +48,7 @@ class Route
      * @throws RuntimeException Thrown if there is no controller specified in the options
      * @throws InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
      */
-    public function __construct($methods, $rawPath, $controller, array $options = [])
+    public function __construct($methods, string $rawPath, $controller, array $options = [])
     {
         $this->methods = (array)$methods;
         $this->rawPath = $rawPath;
@@ -82,7 +82,7 @@ class Route
      * @param string|array $filters The filter or list of pre-filters to add
      * @param bool $prepend True if we want to prepend the filters (give them higher priority), otherwise false
      */
-    public function addMiddleware($filters, $prepend = false)
+    public function addMiddleware($filters, bool $prepend = false)
     {
         $filters = (array)$filters;
 
@@ -106,7 +106,7 @@ class Route
     /**
      * @return string
      */
-    public function getControllerMethod()
+    public function getControllerMethod() : string
     {
         return $this->controllerMethod;
     }
@@ -114,7 +114,7 @@ class Route
     /**
      * @return string
      */
-    public function getControllerName()
+    public function getControllerName() : string
     {
         return $this->controllerName;
     }
@@ -122,7 +122,7 @@ class Route
     /**
      * @return array
      */
-    public function getMethods()
+    public function getMethods() : array
     {
         return $this->methods;
     }
@@ -130,7 +130,7 @@ class Route
     /**
      * @return array
      */
-    public function getMiddleware()
+    public function getMiddleware() : array
     {
         return $this->middleware;
     }
@@ -138,7 +138,7 @@ class Route
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -146,7 +146,7 @@ class Route
     /**
      * @return string
      */
-    public function getRawHost()
+    public function getRawHost() : string
     {
         return $this->rawHost;
     }
@@ -154,7 +154,7 @@ class Route
     /**
      * @return string
      */
-    public function getRawPath()
+    public function getRawPath() : string
     {
         return $this->rawPath;
     }
@@ -165,7 +165,7 @@ class Route
      * @param string $name The name of the parameter whose regex we want
      * @return string|null The regex for the parameter if there are any, otherwise null
      */
-    public function getVarRegex($name)
+    public function getVarRegex(string $name)
     {
         return isset($this->varRegexes[$name]) ? $this->varRegexes[$name] : null;
     }
@@ -175,7 +175,7 @@ class Route
      *
      * @return array The mapping of variable names to regexes
      */
-    public function getVarRegexes()
+    public function getVarRegexes() : array
     {
         return $this->varRegexes;
     }
@@ -183,7 +183,7 @@ class Route
     /**
      * @return bool
      */
-    public function isSecure()
+    public function isSecure() : bool
     {
         return $this->isSecure;
     }
@@ -200,7 +200,7 @@ class Route
     /**
      * @param string $controllerMethod
      */
-    public function setControllerMethod($controllerMethod)
+    public function setControllerMethod(string $controllerMethod)
     {
         $this->controllerMethod = $controllerMethod;
         $this->controller = "{$this->controllerName}@{$this->controllerMethod}";
@@ -209,7 +209,7 @@ class Route
     /**
      * @param string $controllerName
      */
-    public function setControllerName($controllerName)
+    public function setControllerName(string $controllerName)
     {
         $this->controllerName = $controllerName;
         $this->controller = "{$this->controllerName}@{$this->controllerMethod}";
@@ -218,7 +218,7 @@ class Route
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -226,7 +226,7 @@ class Route
     /**
      * @param string $rawHost
      */
-    public function setRawHost($rawHost)
+    public function setRawHost(string $rawHost)
     {
         $this->rawHost = $rawHost;
     }
@@ -234,7 +234,7 @@ class Route
     /**
      * @param string $rawPath
      */
-    public function setRawPath($rawPath)
+    public function setRawPath(string $rawPath)
     {
         $this->rawPath = $rawPath;
     }
@@ -242,9 +242,9 @@ class Route
     /**
      * @param bool $isSecure
      */
-    public function setSecure($isSecure)
+    public function setSecure(bool $isSecure)
     {
-        $this->isSecure = (bool)$isSecure;
+        $this->isSecure = $isSecure;
     }
 
     /**
@@ -253,7 +253,7 @@ class Route
      * @param string $name The name of the variable whose regex we're setting
      * @param string $regex The regex to set
      */
-    public function setVarRegex($name, $regex)
+    public function setVarRegex(string $name, string $regex)
     {
         $this->varRegexes[$name] = $regex;
     }
@@ -273,7 +273,7 @@ class Route
     /**
      * @return bool
      */
-    public function usesClosure()
+    public function usesClosure() : bool
     {
         return $this->usesClosure;
     }

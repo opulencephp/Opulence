@@ -10,6 +10,7 @@ namespace Opulence\Tests\Routing\Mocks;
 
 use Exception;
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 use Opulence\Routing\Router;
 
 /**
@@ -20,7 +21,7 @@ class ExceptionalRouter extends Router
     /**
      * @inheritdoc
      */
-    public function route(Request $request)
+    public function route(Request $request) : Response
     {
         throw new Exception("Foo");
     }

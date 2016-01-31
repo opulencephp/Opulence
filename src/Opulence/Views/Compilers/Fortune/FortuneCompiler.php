@@ -35,7 +35,7 @@ class FortuneCompiler extends PhpCompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view)
+    public function compile(IView $view) : string
     {
         // Set some variables that will be used by the transpiled code
         $view->setContents($this->transpiler->transpile($view));

@@ -42,14 +42,6 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests converting a non-boolean value to an SQL boolean
-     */
-    public function testConvertingNonBooleanValueToSqlBoolean()
-    {
-        $this->assertEquals("foo", $this->provider->convertToSqlBoolean("foo"));
-    }
-
-    /**
      * Tests converting to an SQL boolean
      */
     public function testConvertingToSqlBoolean()

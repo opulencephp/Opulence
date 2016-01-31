@@ -36,7 +36,7 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function field($name)
+    public function field(string $name) : Rules
     {
         if (!isset($this->rulesByField[$name])) {
             $this->rulesByField[$name] = $this->rulesFactory->createRules();
@@ -48,7 +48,7 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function getErrors()
+    public function getErrors() : ErrorCollection
     {
         return $this->errors;
     }
@@ -56,7 +56,7 @@ class Validator implements IValidator
     /**
      * @inheritdoc
      */
-    public function isValid(array $allValues, $haltFieldValidationOnFailure = false)
+    public function isValid(array $allValues, bool $haltFieldValidationOnFailure = false) : bool
     {
         $this->errors = new ErrorCollection();
         $passes = true;

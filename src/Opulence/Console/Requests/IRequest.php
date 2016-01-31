@@ -30,21 +30,21 @@ interface IRequest
      * @param string $name The name of the option
      * @param mixed $value The value of the option
      */
-    public function addOptionValue($name, $value);
+    public function addOptionValue(string $name, $value);
 
     /**
      * Gets all the values of arguments
      *
      * @return array The list of argument values
      */
-    public function getArgumentValues();
+    public function getArgumentValues() : array;
 
     /**
      * Gets the name of the command the request calls
      *
      * @return string The name of the command the request calls
      */
-    public function getCommandName();
+    public function getCommandName() : string;
 
     /**
      * Gets the value of an option
@@ -53,14 +53,14 @@ interface IRequest
      * @return mixed The value of the option
      * @throws InvalidArgumentException Thrown if the option does not exist
      */
-    public function getOptionValue($name);
+    public function getOptionValue(string $name);
 
     /**
      * Gets all the values of options
      *
      * @return array The mapping of option names to their values
      */
-    public function getOptionValues();
+    public function getOptionValues() : array;
 
     /**
      * Gets whether or not the input contains an option
@@ -68,12 +68,12 @@ interface IRequest
      * @param string $name The name of the option
      * @return bool True if the input has the option, otherwise false
      */
-    public function optionIsSet($name);
+    public function optionIsSet(string $name) : bool;
 
     /**
      * Sets the name of the command the request calls
      *
      * @param string $name The name of the command the request calls
      */
-    public function setCommandName($name);
+    public function setCommandName(string $name);
 }

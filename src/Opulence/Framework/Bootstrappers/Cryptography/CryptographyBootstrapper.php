@@ -25,7 +25,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     /**
      * @inheritdoc
      */
-    public function getBindings()
+    public function getBindings() : array
     {
         return [IEncrypter::class, IHasher::class, Strings::class];
     }
@@ -47,7 +47,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      * @param Strings $strings The string utility
      * @return IEncrypter The encrypter
      */
-    protected function getEncrypter(Strings $strings)
+    protected function getEncrypter(Strings $strings) : IEncrypter
     {
         return new Encrypter($this->environment->getVar("ENCRYPTION_KEY"), $strings);
     }
@@ -58,7 +58,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      * @param Strings $strings The string utility
      * @return IHasher The hasher to use
      */
-    protected function getHasher(Strings $strings)
+    protected function getHasher(Strings $strings) : IHasher
     {
         return new BcryptHasher($strings);
     }
@@ -68,7 +68,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      *
      * @return Strings The string utility
      */
-    protected function getStringUtility()
+    protected function getStringUtility() : Strings
     {
         return new Strings();
     }

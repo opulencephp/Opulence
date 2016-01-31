@@ -37,7 +37,7 @@ interface IRepository
      * @return object[] The list of all the entities of this type
      * @throws OrmException Thrown if there was an error getting the entities
      */
-    public function getAll();
+    public function getAll() : array;
 
     /**
      * Gets the entity with the input Id

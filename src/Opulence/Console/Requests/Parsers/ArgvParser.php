@@ -9,6 +9,7 @@
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
+use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Tokenizers\ArgvTokenizer;
 
 /**
@@ -27,7 +28,7 @@ class ArgvParser extends Parser
     /**
      * @inheritdoc
      */
-    public function parse($input)
+    public function parse($input) : IRequest
     {
         if ($input === null) {
             $input = $_SERVER["argv"];

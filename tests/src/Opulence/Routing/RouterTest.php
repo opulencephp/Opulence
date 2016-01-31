@@ -608,7 +608,8 @@ class RouterTest extends \PHPUnit_Framework_TestCase
 
         $parsedRoute = $this->parser->parse($routeToHandle);
         $compiledRoute = $this->compiler->compile($parsedRoute, $request);
-        $this->assertEquals($compiledRoute, $mockRouter->route($request));
+        $mockRouter->route($request);
+        $this->assertEquals($compiledRoute, $mockRouter->getLastRoute());
         $this->assertEquals($compiledRoute, $mockRouter->getMatchedRoute());
         // The mock router does not actually instantiate the input controller
         // Instead, its dispatcher always sets the controller to the same object every time

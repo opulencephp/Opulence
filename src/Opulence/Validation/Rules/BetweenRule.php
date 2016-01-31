@@ -26,7 +26,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getErrorPlaceholders()
+    public function getErrorPlaceholders() : array
     {
         return ["min" => $this->min, "max" => $this->max];
     }
@@ -34,7 +34,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "between";
     }
@@ -42,7 +42,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($this->min === null) {
             throw new LogicException("Minimum value not set");

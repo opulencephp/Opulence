@@ -19,7 +19,7 @@ class Event implements IEvent
     /**
      * @inheritdoc
      */
-    public function propagationIsStopped()
+    public function propagationIsStopped() : bool
     {
         return $this->propagationIsStopped;
     }

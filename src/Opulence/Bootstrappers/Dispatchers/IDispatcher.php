@@ -29,5 +29,5 @@ interface IDispatcher
      *
      * @param bool $doForce Whether or not to force eager loading
      */
-    public function forceEagerLoading($doForce);
+    public function forceEagerLoading(bool $doForce);
 }

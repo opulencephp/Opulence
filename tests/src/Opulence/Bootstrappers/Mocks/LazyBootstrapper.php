@@ -20,7 +20,7 @@ class LazyBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
     /**
      * @inheritdoc
      */
-    public function getBindings()
+    public function getBindings() : array
     {
         return [LazyFooInterface::class];
     }

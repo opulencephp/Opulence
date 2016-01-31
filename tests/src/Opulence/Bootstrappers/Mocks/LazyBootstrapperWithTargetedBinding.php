@@ -20,7 +20,7 @@ class LazyBootstrapperWithTargetedBinding extends BaseBootstrapper implements IL
     /**
      * @inheritdoc
      */
-    public function getBindings()
+    public function getBindings() : array
     {
         return [
             [LazyFooInterface::class => EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class]

@@ -16,7 +16,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile($field, $template, array $args = [])
+    public function compile(string $field, string $template, array $args = []) : string
     {
         $args["field"] = $field;
         $placeholders = array_map(function ($placeholder) {

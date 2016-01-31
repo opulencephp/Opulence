@@ -21,7 +21,7 @@ class RedirectResponse extends Response
      * @param int $statusCode The HTTP status code
      * @param array $headers The headers to set
      */
-    public function __construct($targetUrl, $statusCode = ResponseHeaders::HTTP_FOUND, array $headers = [])
+    public function __construct(string $targetUrl, int $statusCode = ResponseHeaders::HTTP_FOUND, array $headers = [])
     {
         parent::__construct("", $statusCode, $headers);
 
@@ -31,7 +31,7 @@ class RedirectResponse extends Response
     /**
      * @return string
      */
-    public function getTargetUrl()
+    public function getTargetUrl() : string
     {
         return $this->targetUrl;
     }
@@ -39,7 +39,7 @@ class RedirectResponse extends Response
     /**
      * @param string $targetUrl
      */
-    public function setTargetUrl($targetUrl)
+    public function setTargetUrl(string $targetUrl)
     {
         $this->targetUrl = $targetUrl;
         $this->headers->set("Location", $this->targetUrl);

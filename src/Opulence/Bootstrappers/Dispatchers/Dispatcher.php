@@ -65,9 +65,9 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function forceEagerLoading($doForce)
+    public function forceEagerLoading(bool $doForce)
     {
-        $this->forceEagerLoading = (bool)$doForce;
+        $this->forceEagerLoading = $doForce;
     }
 
     /**

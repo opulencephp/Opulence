@@ -24,7 +24,7 @@ interface IViewFactory
      * @return IView The view with the contents from the path
      * @throws InvalidArgumentException Thrown if the view does not exist
      */
-    public function create($name);
+    public function create(string $name) : IView;
 
     /**
      * Checks whether or not a view exists
@@ -32,7 +32,7 @@ interface IViewFactory
      * @param string $name The name of the view to search for
      * @return bool True if the view exists, otherwise false
      */
-    public function has($name);
+    public function has(string $name) : bool;
 
     /**
      * Registers a builder for a particular view

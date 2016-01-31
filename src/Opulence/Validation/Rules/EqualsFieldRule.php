@@ -22,7 +22,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getErrorPlaceholders()
+    public function getErrorPlaceholders() : array
     {
         return ["other" => $this->fieldName];
     }
@@ -30,7 +30,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "equalsField";
     }
@@ -38,7 +38,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($this->fieldName === null) {
             throw new LogicException("Field name not set");

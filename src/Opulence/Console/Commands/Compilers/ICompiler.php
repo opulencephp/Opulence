@@ -25,5 +25,5 @@ interface ICompiler
      * @return ICommand The compiled command
      * @throws RuntimeException Thrown if there was an error compiling the command
      */
-    public function compile(ICommand $command, IRequest $request);
+    public function compile(ICommand $command, IRequest $request) : ICommand;
 }

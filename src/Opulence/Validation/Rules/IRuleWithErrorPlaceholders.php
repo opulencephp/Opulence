@@ -18,5 +18,5 @@ interface IRuleWithErrorPlaceholders extends IRule
      *
      * @return array The keyed array of placeholders => values
      */
-    public function getErrorPlaceholders();
+    public function getErrorPlaceholders() : array;
 }

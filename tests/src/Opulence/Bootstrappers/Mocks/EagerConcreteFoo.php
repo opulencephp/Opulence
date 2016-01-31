@@ -16,7 +16,7 @@ class EagerConcreteFoo implements EagerFooInterface
     /**
      * @inheritdoc
      */
-    public function getClass()
+    public function getClass() : string
     {
         return self::class;
     }

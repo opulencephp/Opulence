@@ -16,7 +16,7 @@ class LazyConcreteFoo implements LazyFooInterface
     /**
      * @inheritdoc
      */
-    public function getClass()
+    public function getClass() : string
     {
         return self::class;
     }

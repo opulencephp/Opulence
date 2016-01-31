@@ -36,7 +36,7 @@ class Composer
      * @param Paths $paths The paths of the application
      * @return Composer An instance of this class
      */
-    public static function createFromRawConfig(Paths $paths)
+    public static function createFromRawConfig(Paths $paths) : Composer
     {
         $composerPath = $paths["root"] . "/composer.json";
 
@@ -53,7 +53,7 @@ class Composer
      * @param string $property The property to get (use periods to denote sub-properties)
      * @return mixed|null The value if it exists, otherwise null
      */
-    public function get($property)
+    public function get(string $property)
     {
         $properties = explode(".", $property);
         $value = $this->rawConfig;
@@ -75,7 +75,7 @@ class Composer
      * @param string $fullyQualifiedClassName The fully-qualified class name
      * @return string The path
      */
-    public function getClassPath($fullyQualifiedClassName)
+    public function getClassPath(string $fullyQualifiedClassName) : string
     {
         $parts = explode("\\", $fullyQualifiedClassName);
         $path = array_slice($parts, 0, -1);
@@ -92,7 +92,7 @@ class Composer
      * @param string $defaultNamespace The default namespace
      * @return string The fully-qualified class name
      */
-    public function getFullyQualifiedClassName($className, $defaultNamespace)
+    public function getFullyQualifiedClassName(string $className, string $defaultNamespace) : string
     {
         $rootNamespace = $this->getRootNamespace();
 
@@ -107,7 +107,7 @@ class Composer
     /**
      * @return array
      */
-    public function getRawConfig()
+    public function getRawConfig() : array
     {
         return $this->rawConfig;
     }

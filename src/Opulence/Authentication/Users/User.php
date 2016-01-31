@@ -15,7 +15,7 @@ use DateTimeImmutable;
  */
 class User implements IUser
 {
-    /** @var int The database Id of the user */
+    /** @var int|string The database Id of the user */
     protected $id = -1;
     /** @var string The hashed password of the user */
     protected $hashedPassword = "";
@@ -25,12 +25,12 @@ class User implements IUser
     protected $roles = [];
 
     /**
-     * @param int $id The database Id of this user
+     * @param int|string $id The database Id of this user
      * @param string $hashedPassword The hashed password of this user
      * @param DateTimeImmutable $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
      */
-    public function __construct($id, $hashedPassword, DateTimeImmutable $dateCreated, array $roles = [])
+    public function __construct($id, string $hashedPassword, DateTimeImmutable $dateCreated, array $roles = [])
     {
         $this->setId($id);
         $this->setHashedPassword($hashedPassword);
@@ -41,7 +41,7 @@ class User implements IUser
     /**
      * @inheritdoc
      */
-    public function getDateCreated()
+    public function getDateCreated() : DateTimeImmutable
     {
         return $this->dateCreated;
     }
@@ -49,7 +49,7 @@ class User implements IUser
     /**
      * @inheritdoc
      */
-    public function getHashedPassword()
+    public function getHashedPassword() : string
     {
         return $this->hashedPassword;
     }
@@ -65,7 +65,7 @@ class User implements IUser
     /**
      * @inheritdoc
      */
-    public function getRoles()
+    public function getRoles() : array
     {
         return $this->roles;
     }
@@ -73,7 +73,7 @@ class User implements IUser
     /**
      * @inheritdoc
      */
-    public function hasRole($role)
+    public function hasRole($role) : bool
     {
         return in_array($role, $this->roles);
     }
@@ -81,7 +81,7 @@ class User implements IUser
     /**
      * @inheritdoc
      */
-    public function setHashedPassword($hashedPassword)
+    public function setHashedPassword(string $hashedPassword)
     {
         $this->hashedPassword = $hashedPassword;
     }

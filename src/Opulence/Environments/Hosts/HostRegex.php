@@ -16,7 +16,7 @@ class HostRegex extends HostName
     /**
      * @param string $value The value of the regex, which should not have regex delimiters
      */
-    public function __construct($value)
+    public function __construct(string $value)
     {
         parent::__construct("#$value#");
     }

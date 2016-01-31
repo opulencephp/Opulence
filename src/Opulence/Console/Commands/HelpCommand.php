@@ -115,7 +115,7 @@ EOF;
      *
      * @return string The arguments as text
      */
-    private function getArgumentText()
+    private function getArgumentText() : string
     {
         if (count($this->command->getArguments()) == 0) {
             return "  No arguments";
@@ -138,7 +138,7 @@ EOF;
      * @param Option $option The option to convert to text
      * @return string The option names as text
      */
-    private function getOptionNames(Option $option)
+    private function getOptionNames(Option $option) : string
     {
         $optionNames = "--{$option->getName()}";
 
@@ -154,7 +154,7 @@ EOF;
      *
      * @return string The options as text
      */
-    private function getOptionText()
+    private function getOptionText() : string
     {
         if (count($this->command->getOptions()) == 0) {
             return "  No options";

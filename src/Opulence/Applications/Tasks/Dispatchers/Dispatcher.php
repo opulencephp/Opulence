@@ -27,7 +27,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch($taskType)
+    public function dispatch(string $taskType)
     {
         try {
             foreach ($this->tasks[$taskType] as $task) {
@@ -41,7 +41,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function registerTask($taskType, callable $task)
+    public function registerTask(string $taskType, callable $task)
     {
         if (!isset($this->tasks[$taskType])) {
             $this->tasks[$taskType] = [];

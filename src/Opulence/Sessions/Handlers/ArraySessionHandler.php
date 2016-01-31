@@ -19,7 +19,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function close()
+    public function close() : bool
     {
         return true;
     }
@@ -27,15 +27,17 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId)
+    public function destroy($sessionId) : bool
     {
         $this->storage = [];
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime)
+    public function gc($maxLifetime) : bool
     {
         return true;
     }
@@ -43,7 +45,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId)
+    public function open($savePath, $sessionId) : bool
     {
         return true;
     }
@@ -51,7 +53,7 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doRead($sessionId)
+    protected function doRead(string $sessionId) : string
     {
         if (array_key_exists($sessionId, $this->storage)) {
             return $this->storage[$sessionId];
@@ -63,8 +65,10 @@ class ArraySessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doWrite($sessionId, $sessionData)
+    protected function doWrite(string $sessionId, string $sessionData) : bool
     {
         $this->storage[$sessionId] = $sessionData;
+
+        return true;
     }
 }

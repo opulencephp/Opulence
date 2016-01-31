@@ -24,5 +24,5 @@ interface IParser
      * @return ParsedRoute The parsed route
      * @throws RouteException Thrown if the route is not valid
      */
-    public function parse(Route $route);
+    public function parse(Route $route) : ParsedRoute;
 } 

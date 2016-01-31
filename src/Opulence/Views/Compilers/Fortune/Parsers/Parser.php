@@ -26,7 +26,7 @@ class Parser implements IParser
     /**
      * @inheritdoc
      */
-    public function parse(array $tokens)
+    public function parse(array $tokens) : AbstractSyntaxTree
     {
         $ast = new AbstractSyntaxTree();
 

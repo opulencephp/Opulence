@@ -43,8 +43,8 @@ class CacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCacheGetIsCalledOnRead()
     {
-        $this->bridge->expects($this->once())->method("get")->with("foo");
-        $this->handler->read("foo");
+        $this->bridge->expects($this->once())->method("get")->with("foo")->willReturn("bar");
+        $this->assertEquals("bar", $this->handler->read("foo"));
     }
 
     /**

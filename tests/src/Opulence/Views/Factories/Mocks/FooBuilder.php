@@ -19,7 +19,7 @@ class FooBuilder implements IViewBuilder
     /**
      * @inheritdoc
      */
-    public function build(IView $view)
+    public function build(IView $view) : IView
     {
         $view->setVar("foo", "bar");
 

@@ -81,7 +81,7 @@ class Kernel
     /**
      * @return array
      */
-    public function getMiddleware()
+    public function getMiddleware() : array
     {
         if ($this->middlewareAreDisabled) {
             return [];
@@ -104,7 +104,7 @@ class Kernel
      * @param Request $request The HTTP request to handle
      * @return Response The HTTP response
      */
-    public function handle(Request $request)
+    public function handle(Request $request) : Response
     {
         try {
             return (new Pipeline($this->container))

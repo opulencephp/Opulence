@@ -8,6 +8,7 @@
  */
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
+use LogicException;
 use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer as IBaseRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
@@ -22,9 +23,10 @@ interface IExceptionRenderer extends IBaseRenderer
     /**
      * Gets the last response
      *
+     * @throws LogicException Thrown if the response has not been rendered yet
      * @return Response The last response
      */
-    public function getResponse();
+    public function getResponse() : Response;
 
     /**
      * Sets the HTTP request

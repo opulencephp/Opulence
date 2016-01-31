@@ -22,5 +22,5 @@ interface IViewReader
      * @return string The contents of the view
      * @throws InvalidArgumentException Thrown if the path is not valid
      */
-    public function read($path);
+    public function read(string $path) : string;
 }

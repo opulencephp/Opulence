@@ -8,6 +8,7 @@
  */
 namespace Opulence\Tests\Databases\Mocks;
 
+use Opulence\Databases\IConnection;
 use Opulence\Databases\IDriver;
 use Opulence\Databases\Server as BaseServer;
 
@@ -19,7 +20,7 @@ class Driver implements IDriver
     /**
      * @inheritdoc
      */
-    public function connect(BaseServer $server, array $connectionOptions = [], array $driverOptions = [])
+    public function connect(BaseServer $server, array $connectionOptions = [], array $driverOptions = []) : IConnection
     {
         return new Connection($server);
     }

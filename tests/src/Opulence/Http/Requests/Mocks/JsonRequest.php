@@ -18,7 +18,7 @@ class JsonRequest extends Request
     /**
      * @inheritdoc
      */
-    public function getRawBody()
+    public function getRawBody() : string
     {
         return json_encode(["foo" => "bar"]);
     }
@@ -26,7 +26,7 @@ class JsonRequest extends Request
     /**
      * @inheritdoc
      */
-    public function isJson()
+    public function isJson() : bool
     {
         return true;
     }

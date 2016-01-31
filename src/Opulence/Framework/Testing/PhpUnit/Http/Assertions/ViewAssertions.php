@@ -24,10 +24,10 @@ class ViewAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the view has a variable
      *
      * @param string $name The name of the variable to search for
-     * @return $this For method chaining
+     * @return self For method chaining
      * @throws LogicException Thrown if the controller does not extend the base controller
      */
-    public function hasVar($name)
+    public function hasVar(string $name) : self
     {
         $this->checkControllerSet();
 
@@ -53,10 +53,10 @@ class ViewAssertions extends PHPUnit_Framework_TestCase
      *
      * @param string $name The name of the tag to search for
      * @param mixed $expected The expected value
-     * @return $this For method chaining
+     * @return self For method chaining
      * @throws LogicException Thrown if the controller does not extend the base controller
      */
-    public function varEquals($name, $expected)
+    public function varEquals(string $name, $expected) : self
     {
         $this->checkControllerSet();
 

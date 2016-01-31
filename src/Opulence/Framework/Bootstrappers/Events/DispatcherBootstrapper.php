@@ -41,7 +41,7 @@ abstract class DispatcherBootstrapper extends Bootstrapper
      *
      * @return array The event listener config
      */
-    abstract protected function getEventListenerConfig();
+    abstract protected function getEventListenerConfig() : array;
 
     /**
      * Gets the event dispatcher
@@ -49,7 +49,7 @@ abstract class DispatcherBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return IDispatcher The event dispatcher
      */
-    protected function getEventDispatcher(IContainer $container)
+    protected function getEventDispatcher(IContainer $container) : IDispatcher
     {
         return new Dispatcher();
     }
@@ -61,7 +61,7 @@ abstract class DispatcherBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC container
      * @return callable The event listener callable
      */
-    protected function getEventListenerCallback($listenerConfig, IContainer $container)
+    protected function getEventListenerCallback($listenerConfig, IContainer $container) : callable
     {
         if (is_callable($listenerConfig)) {
             return $listenerConfig;

@@ -26,7 +26,7 @@ class StreamResponse extends Response
      */
     public function __construct(
         callable $streamCallback = null,
-        $statusCode = ResponseHeaders::HTTP_OK,
+        int $statusCode = ResponseHeaders::HTTP_OK,
         array $headers = []
     ) {
         parent::__construct("", $statusCode, $headers);

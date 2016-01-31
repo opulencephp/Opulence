@@ -62,7 +62,7 @@ class View implements IView
      * @param string $path The path to the raw view
      * @param string $contents The contents of the view
      */
-    public function __construct($path = "", $contents = "")
+    public function __construct(string $path = "", string $contents = "")
     {
         $this->setPath($path);
         $this->setContents($contents);
@@ -71,7 +71,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getContents()
+    public function getContents() : string
     {
         return $this->contents;
     }
@@ -79,7 +79,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getDelimiters($type)
+    public function getDelimiters($type) : array
     {
         if (!isset($this->delimiters[$type])) {
             return [null, null];
@@ -91,7 +91,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
@@ -99,7 +99,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getVar($name)
+    public function getVar(string $name)
     {
         if (isset($this->vars[$name])) {
             return $this->vars[$name];
@@ -111,7 +111,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function getVars()
+    public function getVars() : array
     {
         return $this->vars;
     }
@@ -119,7 +119,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function hasVar($name)
+    public function hasVar(string $name) : bool
     {
         return array_key_exists($name, $this->vars);
     }
@@ -127,7 +127,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setContents($contents)
+    public function setContents(string $contents)
     {
         if (!is_string($contents)) {
             throw new InvalidArgumentException("Contents are not a string");
@@ -147,7 +147,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = $path;
     }
@@ -155,7 +155,7 @@ class View implements IView
     /**
      * @inheritdoc
      */
-    public function setVar($name, $value)
+    public function setVar(string $name, $value)
     {
         $this->vars[$name] = $value;
     }

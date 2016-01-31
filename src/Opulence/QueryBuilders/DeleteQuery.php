@@ -22,7 +22,7 @@ class DeleteQuery extends Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The alias of the table we're querying
      */
-    public function __construct($tableName, $tableAlias = "")
+    public function __construct(string $tableName, string $tableAlias = "")
     {
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;
@@ -32,12 +32,12 @@ class DeleteQuery extends Query
     /**
      * Adds to a "USING" expression
      *
-     * @param string $expression,... A variable list of other tables' names to use in the WHERE condition
-     * @return $this
+     * @param array $expression,... A variable list of other tables' names to use in the WHERE condition
+     * @return self For method chaining
      */
-    public function addUsing($expression)
+    public function addUsing(string ...$expression) : self
     {
-        $this->usingExpressions = array_merge($this->usingExpressions, func_get_args());
+        $this->usingExpressions = array_merge($this->usingExpressions, $expression);
 
         return $this;
     }
@@ -45,12 +45,12 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function andWhere($condition)
+    public function andWhere(string ...$condition) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], $condition);
 
         return $this;
     }
@@ -58,7 +58,7 @@ class DeleteQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql()
+    public function getSql() : string
     {
         $sql = "DELETE FROM {$this->tableName}" . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
 
@@ -76,12 +76,12 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function orWhere($condition)
+    public function orWhere(string ...$condition) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], $condition);
 
         return $this;
     }
@@ -90,12 +90,12 @@ class DeleteQuery extends Query
      * Starts a "USING" expression
      * Only call this method once per query because it will overwrite any previously-set "USING" expressions
      *
-     * @param string $expression,... A variable list of other tables' names to use in the WHERE condition
-     * @return $this
+     * @param array $expression,... A variable list of other tables' names to use in the WHERE condition
+     * @return self For method chaining
      */
-    public function using($expression)
+    public function using(string ...$expression) : self
     {
-        $this->usingExpressions = func_get_args();
+        $this->usingExpressions = $expression;
 
         return $this;
     }
@@ -104,12 +104,12 @@ class DeleteQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function where($condition)
+    public function where(string ...$condition) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "where"], func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "where"], $condition);
 
         return $this;
     }

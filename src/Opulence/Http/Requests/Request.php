@@ -89,7 +89,7 @@ class Request
         array $server,
         array $files,
         array $env,
-        $rawBody = null
+        string $rawBody = null
     ) {
         $this->query = new Collection($query);
         $this->post = new Collection($post);
@@ -128,8 +128,9 @@ class Request
         array $server = null,
         array $files = null,
         array $env = null,
-        $rawBody = null
-    ) {
+        string $rawBody = null
+    ) : Request
+    {
         $query = isset($query) ? $query : $_GET;
         $post = isset($post) ? $post : $_POST;
         $cookies = isset($cookies) ? $cookies : $_COOKIE;
@@ -163,15 +164,16 @@ class Request
      * @return Request An instance of this class
      */
     public static function createFromUrl(
-        $url,
-        $method,
+        string $url,
+        string $method,
         array $parameters = [],
         array $cookies = [],
         array $server = [],
         array $files = [],
         array $env = [],
-        $rawBody = null
-    ) {
+        string $rawBody = null
+    ) : Request
+    {
         // Define some basic server vars, but override them with with input on collision
         $server = array_replace(
             [
@@ -258,7 +260,7 @@ class Request
      * @param string $name The name of the header
      * @param mixed $value The value of the header
      */
-    public static function setTrustedHeaderName($name, $value)
+    public static function setTrustedHeaderName(string $name, $value)
     {
         self::$trustedHeaderNames[$name] = $value;
     }
@@ -293,7 +295,7 @@ class Request
     /**
      * @return string
      */
-    public function getClientIPAddress()
+    public function getClientIPAddress() : string
     {
         return $this->clientIPAddresses[0];
     }
@@ -301,7 +303,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getCookies()
+    public function getCookies() : Collection
     {
         return $this->cookies;
     }
@@ -309,7 +311,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getDelete()
+    public function getDelete() : Collection
     {
         return $this->delete;
     }
@@ -317,7 +319,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getEnv()
+    public function getEnv() : Collection
     {
         return $this->env;
     }
@@ -325,7 +327,7 @@ class Request
     /**
      * @return Files
      */
-    public function getFiles()
+    public function getFiles() : Files
     {
         return $this->files;
     }
@@ -336,7 +338,7 @@ class Request
      * @return string The full URL
      * @link http://stackoverflow.com/questions/6768793/get-the-full-url-in-php#answer-8891890
      */
-    public function getFullUrl()
+    public function getFullUrl() : string
     {
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
@@ -357,7 +359,7 @@ class Request
     /**
      * @return Headers
      */
-    public function getHeaders()
+    public function getHeaders() : Headers
     {
         return $this->headers;
     }
@@ -368,7 +370,7 @@ class Request
      * @return string The host
      * @throws InvalidArgumentException Thrown if the host was invalid
      */
-    public function getHost()
+    public function getHost() : string
     {
         if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST])) {
             $hosts = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST]));
@@ -409,7 +411,7 @@ class Request
      * @param null|mixed $default The default value to return if the input could not be found
      * @return mixed The value of the input if it was found, otherwise the default value
      */
-    public function getInput($name, $default = null)
+    public function getInput(string $name, $default = null)
     {
         if ($this->isJson()) {
             $json = $this->getJsonBody();
@@ -441,7 +443,7 @@ class Request
      * @return array The JSON-decoded body
      * @throws RuntimeException Thrown if the body could not be decoded
      */
-    public function getJsonBody()
+    public function getJsonBody() : array
     {
         $json = json_decode($this->getRawBody(), true);
 
@@ -457,7 +459,7 @@ class Request
      *
      * @return string The method used in the request
      */
-    public function getMethod()
+    public function getMethod() : string
     {
         return $this->method;
     }
@@ -475,7 +477,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getPatch()
+    public function getPatch() : Collection
     {
         return $this->patch;
     }
@@ -483,7 +485,7 @@ class Request
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
@@ -493,24 +495,24 @@ class Request
      *
      * @return int The port number
      */
-    public function getPort()
+    public function getPort() : int
     {
         if ($this->isUsingTrustedProxy()) {
             if ($this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT])) {
-                return $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT]);
+                return (int)$this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PORT]);
             } elseif ($this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]) === "https") {
                 return 443;
             }
         }
 
-        return $this->server->get("SERVER_PORT");
+        return (int)$this->server->get("SERVER_PORT");
 
     }
 
     /**
      * @return Collection
      */
-    public function getPost()
+    public function getPost() : Collection
     {
         return $this->post;
     }
@@ -521,7 +523,7 @@ class Request
      * @param bool $fallBackToReferer True if we fall back to the HTTP referer header, otherwise false
      * @return string The previous URL
      */
-    public function getPreviousUrl($fallBackToReferer = true)
+    public function getPreviousUrl(bool $fallBackToReferer = true) : string
     {
         if (!empty($this->previousUrl)) {
             return $this->previousUrl;
@@ -537,7 +539,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getPut()
+    public function getPut() : Collection
     {
         return $this->put;
     }
@@ -545,7 +547,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getQuery()
+    public function getQuery() : Collection
     {
         return $this->query;
     }
@@ -555,7 +557,7 @@ class Request
      *
      * @return string The raw body
      */
-    public function getRawBody()
+    public function getRawBody() : string
     {
         if ($this->rawBody === null) {
             $this->rawBody = file_get_contents("php://input");
@@ -567,7 +569,7 @@ class Request
     /**
      * @return Collection
      */
-    public function getServer()
+    public function getServer() : Collection
     {
         return $this->server;
     }
@@ -587,7 +589,7 @@ class Request
      *
      * @return bool True if the request was made by AJAX, otherwise false
      */
-    public function isAjax()
+    public function isAjax() : bool
     {
         return $this->headers->get("X_REQUESTED_WITH") == "XMLHttpRequest";
     }
@@ -597,7 +599,7 @@ class Request
      *
      * @return bool True if the request body was JSON, otherwise false
      */
-    public function isJson()
+    public function isJson() : bool
     {
         return $this->headers->get("CONTENT_TYPE") == "application/json";
     }
@@ -610,7 +612,7 @@ class Request
      * @param bool $isRegex True if the path is a regular expression, otherwise false
      * @return bool True if the current path matched the path, otherwise false
      */
-    public function isPath($path, $isRegex = false)
+    public function isPath(string $path, bool $isRegex = false) : bool
     {
         if ($isRegex) {
             return preg_match("#^" . $path . "$#", $this->path) === 1;
@@ -624,7 +626,7 @@ class Request
      *
      * @return bool True if the request is secure, otherwise false
      */
-    public function isSecure()
+    public function isSecure() : bool
     {
         if ($this->isUsingTrustedProxy() && $this->server->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO])) {
             $protoString = $this->server->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_PROTO]);
@@ -644,7 +646,7 @@ class Request
      * @param bool $isRegex True if the URL is a regular expression, otherwise false
      * @return bool True if the current URL matched the URL, otherwise false
      */
-    public function isUrl($url, $isRegex = false)
+    public function isUrl(string $url, bool $isRegex = false) : bool
     {
         if ($isRegex) {
             return preg_match("#^" . $url . "$#", $this->getFullUrl()) === 1;
@@ -660,7 +662,7 @@ class Request
      * @param string|null $method The method to set, otherwise null to automatically set the method
      * @throws InvalidArgumentException Thrown if the method is not an acceptable one
      */
-    public function setMethod($method = null)
+    public function setMethod(string $method = null)
     {
         if ($method === null) {
             $method = $this->server->get("REQUEST_METHOD", RequestMethods::GET);
@@ -703,7 +705,7 @@ class Request
      *
      * @param string|null $path The path to set, otherwise null to automatically set the path
      */
-    public function setPath($path = null)
+    public function setPath(string $path = null)
     {
         if ($path === null) {
             $uri = $this->server->get("REQUEST_URI");
@@ -725,7 +727,7 @@ class Request
      *
      * @param string $previousUrl The previous URL
      */
-    public function setPreviousUrl($previousUrl)
+    public function setPreviousUrl(string $previousUrl)
     {
         $this->previousUrl = $previousUrl;
     }
@@ -735,7 +737,7 @@ class Request
      *
      * @return bool True if using a trusted proxy, otherwise false
      */
-    private function isUsingTrustedProxy()
+    private function isUsingTrustedProxy() : bool
     {
         return in_array($this->server->get("REMOTE_ADDR"), self::$trustedProxies);
     }

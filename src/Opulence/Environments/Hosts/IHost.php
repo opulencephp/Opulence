@@ -18,5 +18,5 @@ interface IHost
      *
      * @return string The host
      */
-    public function getValue();
+    public function getValue() : string;
 }

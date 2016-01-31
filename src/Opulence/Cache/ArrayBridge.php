@@ -19,7 +19,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function decrement($key, $by = 1)
+    public function decrement(string $key, int $by = 1) : int
     {
         $this->storage[$key] -= $by;
 
@@ -29,7 +29,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete($key)
+    public function delete(string $key)
     {
         unset($this->storage[$key]);
     }
@@ -45,7 +45,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function get($key)
+    public function get(string $key)
     {
         if (array_key_exists($key, $this->storage)) {
             return $this->storage[$key];
@@ -57,7 +57,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function has($key)
+    public function has(string $key) : bool
     {
         return array_key_exists($key, $this->storage);
     }
@@ -65,7 +65,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function increment($key, $by = 1)
+    public function increment(string $key, int $by = 1) : int
     {
         $this->storage[$key] += $by;
 
@@ -75,7 +75,7 @@ class ArrayBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set($key, $value, $lifetime)
+    public function set(string $key, $value, int $lifetime)
     {
         $this->storage[$key] = $value;
     }

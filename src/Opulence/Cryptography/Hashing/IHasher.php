@@ -23,7 +23,7 @@ interface IHasher
      * @param string $pepper The optional pepper to append prior to verifying the value
      * @return bool True if the unhashed value matches the hashed value
      */
-    public static function verify($hashedValue, $unhashedValue, $pepper = "");
+    public static function verify(string $hashedValue, string $unhashedValue, string $pepper = "") : bool;
 
     /**
      * Gets the hash of a value, which is suitable for storage
@@ -34,7 +34,7 @@ interface IHasher
      * @return string The hashed value
      * @throws RuntimeException Thrown if the hashing failed
      */
-    public function hash($unhashedValue, array $options = [], $pepper = "");
+    public function hash(string $unhashedValue, array $options = [], string $pepper = "") : string;
 
     /**
      * Checks if a hashed value was hashed with the input options
@@ -43,5 +43,5 @@ interface IHasher
      * @param array $options The list of algorithm-specific options
      * @return bool True if the hash needs to be rehashed, otherwise false
      */
-    public function needsRehash($hashedValue, array $options = []);
+    public function needsRehash(string $hashedValue, array $options = []) : bool;
 } 

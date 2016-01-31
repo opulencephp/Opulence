@@ -18,7 +18,7 @@ class FormUrlEncodedRequest extends Request
     /**
      * @inheritdoc
      */
-    public function getRawBody()
+    public function getRawBody() : string
     {
         return http_build_query(["foo" => "bar"]);
     }

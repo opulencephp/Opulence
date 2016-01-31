@@ -16,7 +16,7 @@ class DirectiveNameNode extends Node
     /**
      * @inheritdoc
      */
-    public function isComment()
+    public function isComment() : bool
     {
         return false;
     }
@@ -24,7 +24,7 @@ class DirectiveNameNode extends Node
     /**
      * @inheritdoc
      */
-    public function isDirective()
+    public function isDirective() : bool
     {
         return false;
     }
@@ -32,7 +32,7 @@ class DirectiveNameNode extends Node
     /**
      * @inheritdoc
      */
-    public function isDirectiveName()
+    public function isDirectiveName() : bool
     {
         return true;
     }
@@ -40,7 +40,7 @@ class DirectiveNameNode extends Node
     /**
      * @inheritdoc
      */
-    public function isExpression()
+    public function isExpression() : bool
     {
         return false;
     }
@@ -48,7 +48,7 @@ class DirectiveNameNode extends Node
     /**
      * @inheritdoc
      */
-    public function isSanitizedTag()
+    public function isSanitizedTag() : bool
     {
         return false;
     }
@@ -56,7 +56,7 @@ class DirectiveNameNode extends Node
     /**
      * @inheritdoc
      */
-    public function isUnsanitizedTag()
+    public function isUnsanitizedTag() : bool
     {
         return false;
     }

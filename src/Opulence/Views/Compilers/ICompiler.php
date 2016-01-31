@@ -24,5 +24,5 @@ interface ICompiler
      * @return string The compiled view
      * @throws Exception|Throwable Thrown if there was an error compiling the view
      */
-    public function compile(IView $view);
+    public function compile(IView $view) : string;
 }

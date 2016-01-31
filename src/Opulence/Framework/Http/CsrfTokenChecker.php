@@ -39,7 +39,7 @@ class CsrfTokenChecker
      * @param ISession $session The current session
      * @return bool True if the token is valid, otherwise false
      */
-    public function tokenIsValid(Request $request, ISession $session)
+    public function tokenIsValid(Request $request, ISession $session) : bool
     {
         if (!$session->has(self::TOKEN_INPUT_NAME)) {
             $session->set(self::TOKEN_INPUT_NAME, $this->strings->generateRandomString(32));
@@ -71,7 +71,7 @@ class CsrfTokenChecker
      * @param Request $request The current request
      * @return bool True if the token should be checked, otherwise false
      */
-    private function tokenShouldNotBeChecked(Request $request)
+    private function tokenShouldNotBeChecked(Request $request) : bool
     {
         return in_array($request->getMethod(), [RequestMethods::GET, RequestMethods::HEAD, RequestMethods::OPTIONS]);
     }

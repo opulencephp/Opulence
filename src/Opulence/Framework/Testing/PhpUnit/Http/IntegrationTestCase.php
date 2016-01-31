@@ -44,7 +44,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function delete($url = null)
+    public function delete(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::DELETE, $url);
     }
@@ -55,7 +55,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function get($url = null)
+    public function get(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::GET, $url);
     }
@@ -66,7 +66,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function head($url = null)
+    public function head(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::HEAD, $url);
     }
@@ -77,7 +77,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function options($url = null)
+    public function options(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::OPTIONS, $url);
     }
@@ -88,7 +88,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function patch($url = null)
+    public function patch(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::PATCH, $url);
     }
@@ -99,7 +99,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function post($url = null)
+    public function post(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::POST, $url);
     }
@@ -110,7 +110,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string|null $url The URL to request
      * @return RequestBuilder The request builder
      */
-    public function put($url = null)
+    public function put(string $url = null) : RequestBuilder
     {
         return new RequestBuilder($this, RequestMethods::PUT, $url);
     }
@@ -119,9 +119,9 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * Simulates a route for use in testing
      *
      * @param Request|null $request The request to use
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function route(Request $request = null)
+    public function route(Request $request = null) : self
     {
         if ($request === null) {
             $request = $this->defaultRequest;
@@ -156,19 +156,19 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      *
      * @return IExceptionHandler The exception handler used in the kernel
      */
-    abstract protected function getExceptionHandler();
+    abstract protected function getExceptionHandler() : IExceptionHandler;
 
     /**
      * Gets the exception renderer
      *
      * @return IExceptionRenderer The exception renderer
      */
-    abstract protected function getExceptionRenderer();
+    abstract protected function getExceptionRenderer() : IExceptionRenderer;
 
     /**
      * Gets the list of global middleware
      *
      * @return array The list of global middleware classes
      */
-    abstract protected function getGlobalMiddleware();
+    abstract protected function getGlobalMiddleware() : array;
 }

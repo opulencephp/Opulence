@@ -11,7 +11,6 @@ namespace Opulence\Tests\Routing\Mocks;
 use Closure;
 use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
-use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\Response;
 
 /**
@@ -22,17 +21,12 @@ class ReturnsSomethingMiddleware implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         /** @var Response $response */
         $response = $next($request);
+        $response->setContent($response->getContent() . ":something");
 
-        if ($response !== null) {
-            $response->setContent($response->getContent() . ":something");
-
-            return $response;
-        } else {
-            return new RedirectResponse("/bar");
-        }
+        return $response;
     }
 }

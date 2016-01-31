@@ -29,7 +29,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
+    "php": ">=7.0.0",
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "jeremeamia/superclosure": "~2.1",
@@ -38,13 +38,12 @@
   "require-dev": {
     "phpredis": "2.2.7",
     "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "4.6.*",
-    "phpunit/php-file-iterator": ">=1.3.4",
-    "phpunit/php-token-stream": ">=1.4.0",
-    "phpunit/php-text-template": ">=1.2.0",
-    "phpunit/php-invoker": ">=1.1.3",
-    "phpunit/phpunit-selenium": ">=1.4",
-    "phpunit/phpunit-story": "*"
+    "phpunit/phpunit": "5.1.*",
+    "phpunit/php-file-iterator": ">=1.4.1",
+    "phpunit/php-token-stream": ">=1.4.8",
+    "phpunit/php-text-template": ">=1.2.1",
+    "phpunit/php-invoker": ">=1.1.4",
+    "phpunit/phpunit-selenium": ">=2.0.0"
   },
   "repositories": [
     {

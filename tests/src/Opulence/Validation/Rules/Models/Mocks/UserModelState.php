@@ -20,7 +20,7 @@ class UserModelState extends ModelState
      * @inheritdoc
      * @param User $model
      */
-    protected function getModelProperties($model)
+    protected function getModelProperties($model) : array
     {
         return [
             "id" => $model->getId(),

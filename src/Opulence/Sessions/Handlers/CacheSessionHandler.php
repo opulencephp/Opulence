@@ -24,7 +24,7 @@ class CacheSessionHandler extends SessionHandler
      * @param ICacheBridge $cache The cache to use
      * @param int $lifetime The lifetime in seconds
      */
-    public function __construct(ICacheBridge $cache, $lifetime)
+    public function __construct(ICacheBridge $cache, int $lifetime)
     {
         $this->cache = $cache;
         $this->lifetime = $lifetime;
@@ -33,7 +33,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function close()
+    public function close() : bool
     {
         return true;
     }
@@ -41,15 +41,17 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId)
+    public function destroy($sessionId) : bool
     {
         $this->cache->delete($sessionId);
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime)
+    public function gc($maxLifetime) : bool
     {
         return true;
     }
@@ -57,7 +59,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId)
+    public function open($savePath, $sessionId) : bool
     {
         return true;
     }
@@ -65,7 +67,7 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doRead($sessionId)
+    protected function doRead(string $sessionId) : string
     {
         return $this->cache->get($sessionId);
     }
@@ -73,8 +75,10 @@ class CacheSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doWrite($sessionId, $sessionData)
+    protected function doWrite(string $sessionId, string $sessionData) : bool
     {
         $this->cache->set($sessionId, $sessionData, $this->lifetime);
+
+        return true;
     }
 }

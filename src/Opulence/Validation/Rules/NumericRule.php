@@ -16,7 +16,7 @@ class NumericRule implements IRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "numeric";
     }
@@ -24,7 +24,7 @@ class NumericRule implements IRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return is_numeric($value);
     }

@@ -20,7 +20,7 @@ interface IAuthenticationContext
      *
      * @return int The current authentication status
      */
-    public function getStatus();
+    public function getStatus() : int;
 
     /**
      * Gets the current user if there is one
@@ -34,14 +34,14 @@ interface IAuthenticationContext
      *
      * @return bool True if the current user is authenticated, otherwise false
      */
-    public function isAuthenticated();
+    public function isAuthenticated() : bool;
 
     /**
      * Sets the current status
      *
      * @param int $status The current status
      */
-    public function setStatus($status);
+    public function setStatus(int $status);
 
     /**
      * Sets the current user

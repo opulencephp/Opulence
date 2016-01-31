@@ -126,7 +126,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function getEntityRegistry()
+    public function getEntityRegistry() : IEntityRegistry
     {
         return $this->entityRegistry;
     }
@@ -134,7 +134,7 @@ class UnitOfWork implements IUnitOfWork
     /**
      * @inheritdoc
      */
-    public function registerDataMapper($className, IDataMapper $dataMapper)
+    public function registerDataMapper(string $className, IDataMapper $dataMapper)
     {
         $this->dataMappers[$className] = $dataMapper;
     }
@@ -215,7 +215,7 @@ class UnitOfWork implements IUnitOfWork
      * @return IDataMapper The data mapper for the input class
      * @throws RuntimeException Thrown if there was no data mapper for the input class name
      */
-    protected function getDataMapper($className)
+    protected function getDataMapper(string $className) : IDataMapper
     {
         if (!isset($this->dataMappers[$className])) {
             throw new RuntimeException("No data mapper for $className");
@@ -229,7 +229,7 @@ class UnitOfWork implements IUnitOfWork
      *
      * @return object[] The list of entities scheduled for deletion
      */
-    protected function getScheduledEntityDeletions()
+    protected function getScheduledEntityDeletions() : array
     {
         return array_values($this->scheduledForDeletion);
     }
@@ -239,7 +239,7 @@ class UnitOfWork implements IUnitOfWork
      *
      * @return object[] The list of entities scheduled for insertion
      */
-    protected function getScheduledEntityInsertions()
+    protected function getScheduledEntityInsertions() : array
     {
         return array_values($this->scheduledForInsertion);
     }
@@ -249,7 +249,7 @@ class UnitOfWork implements IUnitOfWork
      *
      * @return object[] The list of entities scheduled for update
      */
-    protected function getScheduledEntityUpdates()
+    protected function getScheduledEntityUpdates() : array
     {
         return array_values($this->scheduledForUpdate);
     }

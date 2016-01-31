@@ -19,7 +19,7 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @inheritdoc
      */
-    public function delete($tableName, $alias = "")
+    public function delete(string $tableName, string $alias = "") : DeleteQuery
     {
         return new DeleteQuery($tableName, $alias);
     }
@@ -27,7 +27,7 @@ class QueryBuilder extends BaseQueryBuilder
     /**
      * @inheritdoc
      */
-    public function insert($tableName, array $columnNamesToValues)
+    public function insert(string $tableName, array $columnNamesToValues) : InsertQuery
     {
         return new InsertQuery($tableName, $columnNamesToValues);
     }
@@ -36,18 +36,18 @@ class QueryBuilder extends BaseQueryBuilder
      * @inheritdoc
      * @return SelectQuery
      */
-    public function select($expression)
+    public function select(...$expression) : SelectQuery
     {
         // This code allows us to pass a variable list of parameters to a class constructor
         $queryClass = new ReflectionClass(SelectQuery::class);
 
-        return $queryClass->newInstanceArgs(func_get_args());
+        return $queryClass->newInstanceArgs($expression);
     }
 
     /**
      * @inheritdoc
      */
-    public function update($tableName, $alias, array $columnNamesToValues)
+    public function update(string $tableName, string $alias, array $columnNamesToValues) : UpdateQuery
     {
         return new UpdateQuery($tableName, $alias, $columnNamesToValues);
     }

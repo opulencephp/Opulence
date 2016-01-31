@@ -26,7 +26,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function read($sessionId)
+    public function read($sessionId) : string
     {
         return $this->prepareForUnserialization($this->doRead($sessionId));
     }
@@ -42,15 +42,15 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function useEncryption($useEncryption)
+    public function useEncryption(bool $useEncryption)
     {
-        $this->usesEncryption = (bool)$useEncryption;
+        $this->usesEncryption = $useEncryption;
     }
 
     /**
      * @inheritdoc
      */
-    public function write($sessionId, $sessionData)
+    public function write($sessionId, $sessionData) : bool
     {
         return $this->doWrite($sessionId, $this->prepareForWrite($sessionData));
     }
@@ -61,7 +61,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @param string $sessionId The Id of the session to read
      * @return string The unserialized session data
      */
-    abstract protected function doRead($sessionId);
+    abstract protected function doRead(string $sessionId) : string;
 
     /**
      * Actually performs the writing of the session data to storage
@@ -70,17 +70,21 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @param string $sessionData The session data to write
      * @return bool True on success, otherwise false on failure
      */
-    abstract protected function doWrite($sessionId, $sessionData);
+    abstract protected function doWrite(string $sessionId, string $sessionData) : bool;
 
     /**
      * Prepares data that is about to be unserialized
      *
-     * @param string $data The data to be unserialized
+     * @param string|null $data The data to be unserialized
      * @return string The data to be unserializd
      * @throws LogicException Thrown if using encryption but an encrypter has not been set
      */
-    protected function prepareForUnserialization($data)
+    protected function prepareForUnserialization(string $data = null) : string
     {
+        if ($data === null) {
+            return "";
+        }
+
         if ($this->usesEncryption) {
             if ($this->encrypter === null) {
                 throw new LogicException("Encrypter not set on session handler");
@@ -103,11 +107,11 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
      * @return string The prepared data
      * @throws LogicException Thrown if using encryption but an encrypter has not been set
      */
-    protected function prepareForWrite($data)
+    protected function prepareForWrite(string $data) : string
     {
         if ($this->usesEncryption) {
             if ($this->encrypter === null) {
-                throw new LogicException("Encrypter not set on session handler");
+                throw new LogicException("Encrypter not set in session handler");
             }
 
             try {

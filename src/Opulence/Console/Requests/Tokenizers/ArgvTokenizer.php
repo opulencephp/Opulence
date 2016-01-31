@@ -16,7 +16,7 @@ class ArgvTokenizer implements ITokenizer
     /**
      * @inheritdoc
      */
-    public function tokenize($input)
+    public function tokenize($input) : array
     {
         // Get rid of the application name
         array_shift($input);

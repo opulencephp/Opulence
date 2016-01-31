@@ -33,42 +33,42 @@ abstract class Node
      *
      * @return bool True if this is a comment node, otherwise false
      */
-    abstract public function isComment();
+    abstract public function isComment() : bool;
 
     /**
      * Gets whether or not this is a directive node
      *
      * @return bool True if this is a directive node, otherwise false
      */
-    abstract public function isDirective();
+    abstract public function isDirective() : bool;
 
     /**
      * Gets whether or not this is a directive name node
      *
      * @return bool True if this is a directive name node, otherwise false
      */
-    abstract public function isDirectiveName();
+    abstract public function isDirectiveName() : bool;
 
     /**
      * Gets whether or not this is an expression node
      *
      * @return bool True if this is an expression node, otherwise false
      */
-    abstract public function isExpression();
+    abstract public function isExpression() : bool;
 
     /**
      * Gets whether or not this is a sanitized tag node
      *
      * @return bool True if this is a sanitized tag node, otherwise false
      */
-    abstract public function isSanitizedTag();
+    abstract public function isSanitizedTag() : bool;
 
     /**
      * Gets whether or not this is an unsanitized tag node
      *
      * @return bool True if this is an unsanitized tag node, otherwise false
      */
-    abstract public function isUnsanitizedTag();
+    abstract public function isUnsanitizedTag() : bool;
 
     /**
      * Adds a child to this node
@@ -76,7 +76,7 @@ abstract class Node
      * @param Node $node The child to add
      * @return Node Returns this for chaining
      */
-    public function addChild(Node $node)
+    public function addChild(Node $node) : Node
     {
         $node->setParent($this);
         $this->children[] = $node;
@@ -89,7 +89,7 @@ abstract class Node
      *
      * @return Node[] The list of children
      */
-    public function getChildren()
+    public function getChildren() : array
     {
         return $this->children;
     }
@@ -99,7 +99,7 @@ abstract class Node
      *
      * @return Node The parent node
      */
-    public function getParent()
+    public function getParent() : Node
     {
         return $this->parent;
     }
@@ -119,7 +119,7 @@ abstract class Node
      *
      * @return bool True if this is a leaf, otherwise false
      */
-    public function isLeaf()
+    public function isLeaf() : bool
     {
         return count($this->children) == 0;
     }
@@ -129,13 +129,13 @@ abstract class Node
      *
      * @return bool True if this is a root node, otherwise false
      */
-    public function isRoot()
+    public function isRoot() : bool
     {
         return $this->parent == null;
     }
 
     /**
-     * @param null|Node $parent
+     * @param Node|null $parent
      */
     public function setParent($parent)
     {

@@ -18,7 +18,7 @@ interface IDispatcher
      *
      * @param string $taskType The type of tasks to dispatch
      */
-    public function dispatch($taskType);
+    public function dispatch(string $taskType);
 
     /**
      * Registers a task of a certain type
@@ -26,5 +26,5 @@ interface IDispatcher
      * @param string $taskType The type of task being registered
      * @param callable $task The task to run
      */
-    public function registerTask($taskType, callable $task);
+    public function registerTask(string $taskType, callable $task);
 }

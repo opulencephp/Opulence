@@ -33,8 +33,11 @@ EOF;
      * @param PaddingFormatter $paddingFormatter The space padding formatter to use
      * @param string $applicationVersion The version number of the application
      */
-    public function __construct(CommandCollection &$commands, PaddingFormatter $paddingFormatter, $applicationVersion)
-    {
+    public function __construct(
+        CommandCollection &$commands,
+        PaddingFormatter $paddingFormatter,
+        string $applicationVersion
+    ) {
         parent::__construct();
 
         $this->setCommandCollection($commands);
@@ -69,7 +72,7 @@ EOF;
      *
      * @return string The commands as text
      */
-    private function getCommandText()
+    private function getCommandText() : string
     {
         if (count($this->commandCollection->getAll()) == 0) {
             return "  <info>No commands</info>";

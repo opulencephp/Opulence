@@ -8,6 +8,7 @@
  */
 namespace Opulence\Databases\Adapters\Pdo;
 
+use Opulence\Databases\IConnection;
 use Opulence\Databases\IDriver;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server;
@@ -29,7 +30,7 @@ abstract class Driver implements IDriver
      * @inheritdoc
      * @return Connection The PDO connection
      */
-    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = [])
+    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = []) : IConnection
     {
         $dsn = $this->getDsn($server, $connectionOptions);
 
@@ -43,7 +44,7 @@ abstract class Driver implements IDriver
      * @param array $options The list of driver-specific options
      * @return string The DSN to use to connect to PDO
      */
-    abstract protected function getDsn(Server $server, array $options = []);
+    abstract protected function getDsn(Server $server, array $options = []) : string;
 
     /**
      * Sets the provider used by this driver's connections

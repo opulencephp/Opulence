@@ -8,7 +8,6 @@
  */
 namespace Opulence\Views;
 
-use InvalidArgumentException;
 use Opulence\Files\FileSystem;
 use RuntimeException;
 
@@ -158,15 +157,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $view = new View("foo", "bar");
         $this->assertEquals("bar", $view->getContents());
-    }
-
-    /**
-     * Tests setting the contents to a non-string
-     */
-    public function testSettingContentsToNonString()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $this->view->setContents(["Not a string"]);
     }
 
     /**

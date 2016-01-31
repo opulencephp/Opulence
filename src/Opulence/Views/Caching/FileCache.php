@@ -34,10 +34,10 @@ class FileCache implements ICache
      * @param int $gcDivisor The number the chance will be divided by to calculate the probability
      */
     public function __construct(
-        $path = null,
-        $lifetime = self::DEFAULT_LIFETIME,
-        $gcChance = self::DEFAULT_GC_CHANCE,
-        $gcDivisor = self::DEFAULT_GC_DIVISOR
+        string $path = null,
+        int $lifetime = self::DEFAULT_LIFETIME,
+        int $gcChance = self::DEFAULT_GC_CHANCE,
+        int $gcDivisor = self::DEFAULT_GC_DIVISOR
     ) {
         if ($path !== null) {
             $this->setPath($path);
@@ -94,7 +94,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function has(IView $view)
+    public function has(IView $view) : bool
     {
         if (!$this->cachingIsEnabled()) {
             return false;
@@ -120,7 +120,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, $compiledContents)
+    public function set(IView $view, string $compiledContents)
     {
         if ($this->cachingIsEnabled()) {
             file_put_contents($this->getViewPath($view), $compiledContents, 0);
@@ -130,7 +130,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function setGCChance($chance, $divisor = 100)
+    public function setGCChance(int $chance, int $divisor = 100)
     {
         $this->gcChance = $chance;
         $this->gcDivisor = $divisor;
@@ -139,7 +139,7 @@ class FileCache implements ICache
     /**
      * @param string $path
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = rtrim($path, "/");
 
@@ -155,7 +155,7 @@ class FileCache implements ICache
      *
      * @return bool True if caching is enabled, otherwise false
      */
-    private function cachingIsEnabled()
+    private function cachingIsEnabled() : bool
     {
         return $this->lifetime > 0;
     }
@@ -166,7 +166,7 @@ class FileCache implements ICache
      * @param string $path The path to search
      * @return array The list of view paths
      */
-    private function getCompiledViewPaths($path)
+    private function getCompiledViewPaths(string $path) : array
     {
         if (!is_dir($path)) {
             return [];
@@ -194,7 +194,7 @@ class FileCache implements ICache
      * @param IView $view The view whose cached file path we want
      * @return string The path to the cached view
      */
-    private function getViewPath(IView $view)
+    private function getViewPath(IView $view) : string
     {
         return $this->path . "/" . md5(http_build_query([
             "u" => $view->getContents(),
@@ -208,7 +208,7 @@ class FileCache implements ICache
      * @param string $viewPath The view path to check
      * @return bool True if the path is expired, otherwise false
      */
-    private function isExpired($viewPath)
+    private function isExpired(string $viewPath) : bool
     {
         $lastModified = DateTime::createFromFormat("U", filemtime($viewPath));
 

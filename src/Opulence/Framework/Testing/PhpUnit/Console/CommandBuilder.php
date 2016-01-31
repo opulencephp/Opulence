@@ -30,7 +30,7 @@ class CommandBuilder
      * @param IntegrationTestCase $integrationTest The integration test that created this builder
      * @param string $commandName The command name
      */
-    public function __construct(IntegrationTestCase $integrationTest, $commandName)
+    public function __construct(IntegrationTestCase $integrationTest, string $commandName)
     {
         $this->integrationTest = $integrationTest;
         $this->commandName = $commandName;
@@ -41,7 +41,7 @@ class CommandBuilder
      *
      * @return IntegrationTestCase For method chaining
      */
-    public function execute()
+    public function execute() : IntegrationTestCase
     {
         return $this->integrationTest->execute(
             $this->commandName,
@@ -57,9 +57,9 @@ class CommandBuilder
      *
      * @param array|string $answers The answers to add
      * @param bool $overwriteOld Whether or not to overwrite all old answers
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withAnswers($answers, $overwriteOld = false)
+    public function withAnswers($answers, bool $overwriteOld = false) : self
     {
         $answers = (array)$answers;
         $this->addValuesToCollection($answers, $this->promptAnswers, $overwriteOld);
@@ -72,9 +72,9 @@ class CommandBuilder
      *
      * @param array|string $arguments The arguments to add
      * @param bool $overwriteOld Whether or not to overwrite all old arguments
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withArguments($arguments, $overwriteOld = false)
+    public function withArguments($arguments, bool $overwriteOld = false) : self
     {
         $arguments = (array)$arguments;
         $this->addValuesToCollection($arguments, $this->arguments, $overwriteOld);
@@ -87,9 +87,9 @@ class CommandBuilder
      *
      * @param array|string $options The options to add
      * @param bool $overwriteOld Whether or not to overwrite all old options
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withOptions($options, $overwriteOld = false)
+    public function withOptions($options, bool $overwriteOld = false) : self
     {
         $options = (array)$options;
         $this->addValuesToCollection($options, $this->options, $overwriteOld);
@@ -101,9 +101,9 @@ class CommandBuilder
      * Sets whether or not the response is styled
      *
      * @param bool $isStyled Whether or not the response is styled
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withStyle($isStyled)
+    public function withStyle(bool $isStyled) : self
     {
         $this->isStyled = $isStyled;
 
@@ -117,7 +117,7 @@ class CommandBuilder
      * @param array $collection The collection to add to
      * @param bool $overwriteOld Whether or not clear the collection before adding the new values
      */
-    private function addValuesToCollection(array $values, array &$collection, $overwriteOld)
+    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld)
     {
         if ($overwriteOld) {
             $collection = [];

@@ -33,15 +33,15 @@ abstract class Node
      *
      * @return bool True if this is a tag node, otherwise false
      */
-    abstract public function isTag();
+    abstract public function isTag() : bool;
 
     /**
      * Adds a child to this node
      *
      * @param Node $node The child to add
-     * @return Node Returns this for chaining
+     * @return self Returns this for chaining
      */
-    public function addChild(Node $node)
+    public function addChild(Node $node) : self
     {
         $node->setParent($this);
         $this->children[] = $node;
@@ -54,7 +54,7 @@ abstract class Node
      *
      * @return Node[] The list of children
      */
-    public function getChildren()
+    public function getChildren() : array
     {
         return $this->children;
     }
@@ -64,7 +64,7 @@ abstract class Node
      *
      * @return Node The parent node
      */
-    public function getParent()
+    public function getParent() : Node
     {
         return $this->parent;
     }
@@ -84,7 +84,7 @@ abstract class Node
      *
      * @return bool True if this is a leaf, otherwise false
      */
-    public function isLeaf()
+    public function isLeaf() : bool
     {
         return count($this->children) == 0;
     }
@@ -94,13 +94,13 @@ abstract class Node
      *
      * @return bool True if this is a root node, otherwise false
      */
-    public function isRoot()
+    public function isRoot() : bool
     {
         return $this->parent == null;
     }
 
     /**
-     * @param null|Node $parent
+     * @param Node|null $parent
      */
     public function setParent($parent)
     {

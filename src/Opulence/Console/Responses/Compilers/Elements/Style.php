@@ -70,7 +70,7 @@ class Style
      * @param string|null $backgroundColor The background color
      * @param array $textStyles The list of text styles to apply
      */
-    public function __construct($foregroundColor = null, $backgroundColor = null, array $textStyles = [])
+    public function __construct(string $foregroundColor = null, string $backgroundColor = null, array $textStyles = [])
     {
         $this->setForegroundColor($foregroundColor);
         $this->setBackgroundColor($backgroundColor);
@@ -83,7 +83,7 @@ class Style
      * @param string $style The name of the text style
      * @throws InvalidArgumentException Thrown if the text style does not exist
      */
-    public function addTextStyle($style)
+    public function addTextStyle(string $style)
     {
         if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
@@ -114,7 +114,7 @@ class Style
      * @param string $text The text to format
      * @return string The formatted text
      */
-    public function format($text)
+    public function format(string $text) : string
     {
         if ($text === "") {
             return $text;
@@ -152,7 +152,7 @@ class Style
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getBackgroundColor()
     {
@@ -160,7 +160,7 @@ class Style
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getForegroundColor()
     {
@@ -170,7 +170,7 @@ class Style
     /**
      * @return array
      */
-    public function getTextStyles()
+    public function getTextStyles() : array
     {
         return $this->textStyles;
     }
@@ -181,7 +181,7 @@ class Style
      * @param string $style The style to remove
      * @throws InvalidArgumentException Thrown if the text style is invalid
      */
-    public function removeTextStyle($style)
+    public function removeTextStyle(string $style)
     {
         if (!isset(self::$supportedTextStyles[$style])) {
             throw new InvalidArgumentException("Invalid text style \"$style\"");
@@ -193,10 +193,10 @@ class Style
     }
 
     /**
-     * @param null|string $backgroundColor
+     * @param string|null $backgroundColor
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
-    public function setBackgroundColor($backgroundColor)
+    public function setBackgroundColor(string $backgroundColor = null)
     {
         if ($backgroundColor !== null && !isset(self::$supportedBackgroundColors[$backgroundColor])) {
             throw new InvalidArgumentException("Invalid background color \"$backgroundColor\"");
@@ -206,10 +206,10 @@ class Style
     }
 
     /**
-     * @param null|string $foregroundColor
+     * @param string|null $foregroundColor
      * @throws InvalidArgumentException Thrown if the color was invalid
      */
-    public function setForegroundColor($foregroundColor)
+    public function setForegroundColor(string $foregroundColor = null)
     {
         if ($foregroundColor !== null && !isset(self::$supportedForegroundColors[$foregroundColor])) {
             throw new InvalidArgumentException("Invalid foreground color \"$foregroundColor\"");

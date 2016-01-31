@@ -20,7 +20,7 @@ interface IEncrypter
      * @return string The decrypted data
      * @throws EncryptionException Thrown if there was an error decrypting the data
      */
-    public function decrypt($data);
+    public function decrypt(string $data) : string;
 
     /**
      * Encrypts data
@@ -29,7 +29,7 @@ interface IEncrypter
      * @return string The encrypted data
      * @throws EncryptionException Thrown if there was an error encrypting the data
      */
-    public function encrypt($data);
+    public function encrypt(string $data) : string;
 
     /**
      * Sets the encryption cipher
@@ -37,12 +37,12 @@ interface IEncrypter
      * @param string $cipher The cipher
      * @throws EncryptionException Thrown if the cipher was invalid
      */
-    public function setCipher($cipher);
+    public function setCipher(string $cipher);
 
     /**
      * Sets the encryption key
      *
      * @param string $key The key
      */
-    public function setKey($key);
+    public function setKey(string $key);
 }

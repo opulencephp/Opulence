@@ -78,7 +78,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
     /**
      * @return Server[]
      */
-    public function getSlaves()
+    public function getSlaves() : array
     {
         return array_column($this->servers["slaves"], "server");
     }

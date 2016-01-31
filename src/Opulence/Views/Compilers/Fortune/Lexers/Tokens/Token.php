@@ -21,11 +21,11 @@ class Token
     private $line = 0;
 
     /**
-     * @param int $type The token type
+     * @param string $type The token type
      * @param mixed $value The value of the token
      * @param int $line The line the token is on
      */
-    public function __construct($type, $value, $line)
+    public function __construct(string $type, $value, int $line)
     {
         $this->type = $type;
         $this->value = $value;
@@ -35,15 +35,15 @@ class Token
     /**
      * @return int
      */
-    public function getLine()
+    public function getLine() : int
     {
         return $this->line;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }

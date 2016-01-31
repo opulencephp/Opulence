@@ -47,7 +47,7 @@ class SilentResponse extends Response
     /**
      * @inheritdoc
      */
-    protected function doWrite($message, $includeNewLine)
+    protected function doWrite(string $message, bool $includeNewLine)
     {
         // Don't do anything
     }

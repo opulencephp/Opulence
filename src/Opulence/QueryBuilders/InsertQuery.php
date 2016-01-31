@@ -21,7 +21,7 @@ class InsertQuery extends Query
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @throws InvalidQueryException Thrown if the query is invalid
      */
-    public function __construct($tableName, array $columnNamesToValues)
+    public function __construct(string $tableName, array $columnNamesToValues)
     {
         $this->tableName = $tableName;
         $this->augmentingQueryBuilder = new AugmentingQueryBuilder();
@@ -34,10 +34,10 @@ class InsertQuery extends Query
      * @param array $columnNamesToValues The mapping of column names to their respective values
      *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
      *      the PDO constant indicating the type of data the value represents
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the query is invalid
      */
-    public function addColumnValues(array $columnNamesToValues)
+    public function addColumnValues(array $columnNamesToValues) : self
     {
         $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
 
@@ -60,7 +60,7 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql()
+    public function getSql() : string
     {
         $sql = "INSERT INTO {$this->tableName}"
             . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES ("
@@ -74,7 +74,7 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function setTable($tableName, $tableAlias = "")
+    public function setTable(string $tableName, string $tableAlias = "")
     {
         parent::setTable($tableName);
     }

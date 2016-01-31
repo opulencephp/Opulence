@@ -40,7 +40,7 @@ interface IUnitOfWork
      *
      * @return IEntityRegistry The entity registry used by the unit of work
      */
-    public function getEntityRegistry();
+    public function getEntityRegistry() : IEntityRegistry;
 
     /**
      * Registers a data mapper for a class
@@ -49,7 +49,7 @@ interface IUnitOfWork
      * @param string $className The name of the class whose data mapper we're registering
      * @param IDataMapper $dataMapper The data mapper for the class
      */
-    public function registerDataMapper($className, IDataMapper $dataMapper);
+    public function registerDataMapper(string $className, IDataMapper $dataMapper);
 
     /**
      * Schedules an entity for deletion

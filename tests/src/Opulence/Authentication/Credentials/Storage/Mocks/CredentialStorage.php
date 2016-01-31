@@ -34,7 +34,7 @@ class CredentialStorage implements ICredentialStorage
     /**
      * @inheritdoc
      */
-    public function exists()
+    public function exists() : bool
     {
         return $this->credential !== null;
     }
@@ -50,7 +50,7 @@ class CredentialStorage implements ICredentialStorage
     /**
      * @inheritdoc
      */
-    public function save(Response $response, ICredential $credential, $unhashedToken)
+    public function save(Response $response, ICredential $credential, string $unhashedToken)
     {
         $this->credential = $credential;
         $this->unhashedToken = $unhashedToken;

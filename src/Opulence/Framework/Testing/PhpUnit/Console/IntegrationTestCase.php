@@ -56,7 +56,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string $commandName The name of the command to build
      * @return CommandBuilder The command builder
      */
-    public function command($commandName)
+    public function command(string $commandName) : CommandBuilder
     {
         return new CommandBuilder($this, $commandName);
     }
@@ -69,15 +69,16 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param array $options The list of options
      * @param array|string $promptAnswers The answer or list of answers to use in any prompts
      * @param bool $isStyled Whether or not the output should be styled
-     * @return $this For method chaining
+     * @return self For method chaining
      */
     public function execute(
-        $commandName,
+        string $commandName,
         array $arguments = [],
         array $options = [],
         $promptAnswers = [],
-        $isStyled = true
-    ) {
+        bool $isStyled = true
+    ) : self
+    {
         $promptAnswers = (array)$promptAnswers;
 
         if (count($promptAnswers) > 0) {
@@ -124,7 +125,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
      * @param string $commandName The name of the command
      * @param array $answers The list of answers to return for each question
      */
-    private function setPromptAnswers($commandName, array $answers)
+    private function setPromptAnswers(string $commandName, array $answers)
     {
         $commandClassName = get_class($this->commandCollection->get($commandName));
 

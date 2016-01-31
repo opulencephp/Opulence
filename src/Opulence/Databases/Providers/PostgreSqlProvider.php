@@ -51,7 +51,7 @@ class PostgreSqlProvider extends Provider
     /**
      * @inheritdoc
      */
-    public function convertToSqlBoolean($value)
+    public function convertToSqlBoolean(bool $value)
     {
         if (is_bool($value)) {
             if ($value) {

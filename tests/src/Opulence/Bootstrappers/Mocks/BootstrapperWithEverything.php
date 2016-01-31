@@ -20,7 +20,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     /**
      * @inheritDoc
      */
-    public function getBindings()
+    public function getBindings() : array
     {
         return [LazyFooInterface::class];
     }

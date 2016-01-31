@@ -30,7 +30,7 @@ interface ICredentialStorage
      * @return bool True if the credential exists in storage, otherwise false
      * @throws InvalidCredentialException Thrown if the credentials exist but are invalid
      */
-    public function exists();
+    public function exists() : bool;
 
     /**
      * Gets the credential from storage
@@ -47,5 +47,5 @@ interface ICredentialStorage
      * @param ICredential $credential The credential to save
      * @param string $unhashedToken The unhashed token to save
      */
-    public function save(Response $response, ICredential $credential, $unhashedToken);
+    public function save(Response $response, ICredential $credential, string $unhashedToken);
 } 

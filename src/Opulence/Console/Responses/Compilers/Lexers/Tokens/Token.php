@@ -21,11 +21,11 @@ class Token
     private $position = 0;
 
     /**
-     * @param int $type The token type
+     * @param string $type The token type
      * @param mixed $value The value of the token
      * @param int $position The position of the token in the original text
      */
-    public function __construct($type, $value, $position)
+    public function __construct(string $type, $value, int $position)
     {
         $this->type = $type;
         $this->value = $value;
@@ -35,15 +35,15 @@ class Token
     /**
      * @return int
      */
-    public function getPosition()
+    public function getPosition() : int
     {
         return $this->position;
     }
 
     /**
-     * @return int
+     * @return string
      */
-    public function getType()
+    public function getType() : string
     {
         return $this->type;
     }

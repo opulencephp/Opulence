@@ -21,7 +21,7 @@ class RootNode extends Node
     /**
      * @inheritdoc
      */
-    public function getParent()
+    public function getParent() : Node
     {
         return $this;
     }
@@ -29,7 +29,7 @@ class RootNode extends Node
     /**
      * @inheritdoc
      */
-    public function isTag()
+    public function isTag() : bool
     {
         return false;
     }

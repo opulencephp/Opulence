@@ -45,7 +45,7 @@ abstract class CheckCsrfToken implements IMiddleware
      * @inheritdoc
      * @throws InvalidCsrfTokenException Thrown if the CSRF token is invalid
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         if (!$this->csrfTokenChecker->tokenIsValid($request, $this->session)) {
             throw new InvalidCsrfTokenException("Invalid CSRF token");
@@ -60,5 +60,5 @@ abstract class CheckCsrfToken implements IMiddleware
      * @param Response $response The response to write to
      * @return Response The response with data written to it
      */
-    abstract protected function writeToResponse(Response $response);
+    abstract protected function writeToResponse(Response $response) : Response;
 }

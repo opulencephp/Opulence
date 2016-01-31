@@ -54,7 +54,7 @@ class StreamResponse extends Response
     /**
      * @inheritdoc
      */
-    protected function doWrite($message, $includeNewLine)
+    protected function doWrite(string $message, bool $includeNewLine)
     {
         fwrite($this->stream, $message . ($includeNewLine ? PHP_EOL : ""));
         fflush($this->stream);

@@ -36,6 +36,9 @@ class Pipeline implements IPipeline
         $this->container = $container;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function execute()
     {
         return call_user_func(
@@ -57,7 +60,7 @@ class Pipeline implements IPipeline
     /**
      * @inheritdoc
      */
-    public function send($input)
+    public function send($input) : IPipeline
     {
         $this->input = $input;
 
@@ -67,7 +70,7 @@ class Pipeline implements IPipeline
     /**
      * @inheritdoc
      */
-    public function then(callable $callback)
+    public function then(callable $callback) : IPipeline
     {
         $this->callback = $callback;
 
@@ -77,7 +80,7 @@ class Pipeline implements IPipeline
     /**
      * @inheritdoc
      */
-    public function through(array $stages, $methodToCall = null)
+    public function through(array $stages, string $methodToCall = null) : IPipeline
     {
         $this->stages = $stages;
         $this->methodToCall = $methodToCall;
@@ -91,7 +94,7 @@ class Pipeline implements IPipeline
      * @return Closure The callback
      * @throws PipelineException Thrown if there was a problem creating a stage
      */
-    private function createStageCallback()
+    private function createStageCallback() : Closure
     {
         return function ($stages, $stage) {
             return function ($input) use ($stages, $stage) {

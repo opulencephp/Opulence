@@ -40,7 +40,7 @@ abstract class Bootstrapper
      * @param array $arguments The list of arguments to pass in
      * @throws BadMethodCallException Thrown if a method other than "run" is called
      */
-    public function __call($name, array $arguments)
+    public function __call(string $name, array $arguments)
     {
         if ($name !== "initialize" && $name !== "run" && $name !== "shutdown") {
             throw new BadMethodCallException(

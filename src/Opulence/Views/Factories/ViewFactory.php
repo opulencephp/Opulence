@@ -39,7 +39,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function create($name)
+    public function create(string $name) : IView
     {
         $resolvedPath = $this->viewNameResolver->resolve($name);
         $content = $this->viewReader->read($resolvedPath);
@@ -51,7 +51,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritDoc
      */
-    public function has($name)
+    public function has(string $name) : bool
     {
         try {
             $this->viewNameResolver->resolve($name);
@@ -84,7 +84,7 @@ class ViewFactory implements IViewFactory
      * @param IView $view The view to run builders on
      * @return IView The built view
      */
-    protected function runBuilders($name, $resolvedPath, IView $view)
+    protected function runBuilders(string $name, string $resolvedPath, IView $view) : IView
     {
         $builders = null;
 

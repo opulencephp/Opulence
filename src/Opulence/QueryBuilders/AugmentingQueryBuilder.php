@@ -20,9 +20,9 @@ class AugmentingQueryBuilder
      * Adds column values to the query
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values
-     * @return $this
+     * @return self For method chaining
      */
-    public function addColumnValues(array $columnNamesToValues)
+    public function addColumnValues(array $columnNamesToValues) : self
     {
         $this->columnNamesToValues = array_merge($this->columnNamesToValues, $columnNamesToValues);
 
@@ -32,7 +32,7 @@ class AugmentingQueryBuilder
     /**
      * @return array
      */
-    public function getColumnNamesToValues()
+    public function getColumnNamesToValues() : array
     {
         return $this->columnNamesToValues;
     }

@@ -22,7 +22,7 @@ class CompilerRegistry implements ICompilerRegistry
     /**
      * @inheritdoc
      */
-    public function get(IView $view)
+    public function get(IView $view) : ICompiler
     {
         $extension = $this->getExtension($view);
 
@@ -36,7 +36,7 @@ class CompilerRegistry implements ICompilerRegistry
     /**
      * @inheritdoc
      */
-    public function registerCompiler($extension, ICompiler $compiler)
+    public function registerCompiler(string $extension, ICompiler $compiler)
     {
         $this->compilers[$extension] = $compiler;
     }
@@ -48,7 +48,7 @@ class CompilerRegistry implements ICompilerRegistry
      * @return string The view's extension
      * @throws InvalidArgumentException Thrown if no extension was found
      */
-    protected function getExtension(IView $view)
+    protected function getExtension(IView $view) : string
     {
         // Find a registered extension that the view's path ends with
         foreach (array_keys($this->compilers) as $extension) {

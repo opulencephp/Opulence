@@ -56,7 +56,7 @@ abstract class SqlDataMapper implements IDataMapper
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      * @throws OrmException Thrown if there was an error querying the entities
      */
-    protected function read($sql, array $sqlParameters, $valueType, $expectSingleResult = false)
+    protected function read(string $sql, array $sqlParameters, int $valueType, bool $expectSingleResult = false)
     {
         try {
             $statement = $this->readConnection->prepare($sql);

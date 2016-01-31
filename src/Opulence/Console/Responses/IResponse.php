@@ -25,7 +25,7 @@ interface IResponse
      *
      * @param bool $isStyled Whether or not messages should be styled
      */
-    public function setStyled($isStyled);
+    public function setStyled(bool $isStyled);
 
     /**
      * Writes to output

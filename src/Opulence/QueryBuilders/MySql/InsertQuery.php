@@ -23,9 +23,9 @@ class InsertQuery extends BaseInsertQuery
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an
      *      "ON DUPLICATE KEY UPDATE" clause
-     * @return $this
+     * @return self For method chaining
      */
-    public function addUpdateColumnValues(array $columnNamesToValues)
+    public function addUpdateColumnValues(array $columnNamesToValues) : self
     {
         $this->duplicateKeyUpdateColumnNamesToValues = array_merge(
             $this->duplicateKeyUpdateColumnNamesToValues,
@@ -38,7 +38,7 @@ class InsertQuery extends BaseInsertQuery
     /**
      * @inheritdoc
      */
-    public function getSql()
+    public function getSql() : string
     {
         $sql = parent::getSql();
 
@@ -62,9 +62,9 @@ class InsertQuery extends BaseInsertQuery
      *
      * @param array $columnNamesToValues The mapping of column names to their respective values in the case of an
      *      "ON DUPLICATE KEY UPDATE" clause
-     * @return $this
+     * @return self For method chaining
      */
-    public function update(array $columnNamesToValues)
+    public function update(array $columnNamesToValues) : self
     {
         $this->duplicateKeyUpdateColumnNamesToValues = $columnNamesToValues;
 

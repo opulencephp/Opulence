@@ -33,7 +33,7 @@ class Credential implements ICredential
      * @param int $entityTypeId The Id of the type of entity whose credential this is
      * @param IToken $token The contained in this credential
      */
-    public function __construct($id, $typeId, $entityId, $entityTypeId, IToken $token)
+    public function __construct($id, int $typeId, int $entityId, int $entityTypeId, IToken $token)
     {
         $this->setId($id);
         $this->typeId = $typeId;
@@ -69,7 +69,7 @@ class Credential implements ICredential
     /**
      * @inheritdoc
      */
-    public function getEntityTypeId()
+    public function getEntityTypeId() : int
     {
         return $this->entityTypeId;
     }
@@ -85,7 +85,7 @@ class Credential implements ICredential
     /**
      * @inheritdoc
      */
-    public function getToken()
+    public function getToken() : IToken
     {
         return $this->token;
     }
@@ -93,7 +93,7 @@ class Credential implements ICredential
     /**
      * @inheritdoc
      */
-    public function getTypeId()
+    public function getTypeId() : int
     {
         return $this->typeId;
     }
@@ -101,7 +101,7 @@ class Credential implements ICredential
     /**
      * @inheritdoc
      */
-    public function isActive()
+    public function isActive() : bool
     {
         return $this->token->isActive();
     }

@@ -39,8 +39,8 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->handler->useEncryption(true);
         $this->handler->setEncrypter($this->encrypter);
         $this->handler->expects($this->any())->method("doWrite")->with("theId", "");
-        $this->encrypter->expects($this->any())->method("decrypt")
-            ->will($this->throwException(new EncryptionException));
+        $this->encrypter->expects($this->any())->method("encrypt")
+            ->willThrowException(new EncryptionException);
         $this->handler->write("theId", "foo");
     }
 
@@ -62,6 +62,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(LogicException::class);
         $this->handler->useEncryption(true);
+        $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
         $this->handler->read("baz");
     }
 

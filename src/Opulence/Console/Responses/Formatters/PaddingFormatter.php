@@ -25,9 +25,9 @@ class PaddingFormatter
      *
      * @param array $rows The rows to pad
      * @param callable $callback The callback that returns a formatted row of text
-     * @return array A list of formatted rows
+     * @return string A list of formatted rows
      */
-    public function format(array $rows, callable $callback)
+    public function format(array $rows, callable $callback) : string
     {
         foreach ($rows as &$row) {
             $row = (array)$row;
@@ -58,7 +58,7 @@ class PaddingFormatter
     /**
      * @return string
      */
-    public function getEolChar()
+    public function getEolChar() : string
     {
         return $this->eolChar;
     }
@@ -69,7 +69,7 @@ class PaddingFormatter
      * @param array $rows The rows to equalize
      * @return array The max length of each column
      */
-    public function normalizeColumns(array &$rows)
+    public function normalizeColumns(array &$rows) : array
     {
         $maxNumColumns = 0;
 
@@ -99,7 +99,7 @@ class PaddingFormatter
     /**
      * @param string $eolChar
      */
-    public function setEolChar($eolChar)
+    public function setEolChar(string $eolChar)
     {
         $this->eolChar = $eolChar;
     }
@@ -107,7 +107,7 @@ class PaddingFormatter
     /**
      * @param bool $padAfter
      */
-    public function setPadAfter($padAfter)
+    public function setPadAfter(bool $padAfter)
     {
         $this->padAfter = $padAfter;
     }
@@ -115,7 +115,7 @@ class PaddingFormatter
     /**
      * @param string $paddingString
      */
-    public function setPaddingString($paddingString)
+    public function setPaddingString(string $paddingString)
     {
         $this->paddingString = $paddingString;
     }
