@@ -39,10 +39,10 @@ class Token implements IToken
     public function __construct(
         $id,
         $userId,
-        $hashedValue,
+        string $hashedValue,
         DateTimeImmutable $validFrom,
         DateTimeImmutable $validTo,
-        $isActive
+        bool $isActive
     ) {
         $this->id = $id;
         $this->userId = $userId;
@@ -63,7 +63,7 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
-    public function getHashedValue()
+    public function getHashedValue() : string
     {
         return $this->hashedValue;
     }
@@ -87,7 +87,7 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
-    public function getValidFrom()
+    public function getValidFrom() : DateTimeImmutable
     {
         return $this->validFrom;
     }
@@ -95,7 +95,7 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
-    public function getValidTo()
+    public function getValidTo() : DateTimeImmutable
     {
         return $this->validTo;
     }
@@ -103,7 +103,7 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
-    public function isActive()
+    public function isActive() : bool
     {
         $now = new DateTimeImmutable();
 
