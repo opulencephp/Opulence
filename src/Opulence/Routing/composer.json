@@ -21,7 +21,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
+    "php": ">=7.0.0",
     "opulence/http": "1.0.*",
     "opulence/ioc": "1.0.*",
     "opulence/pipelines": "1.0.*",

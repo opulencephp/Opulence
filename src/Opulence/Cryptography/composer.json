@@ -22,7 +22,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
+    "php": ">=7.0.0",
     "ext-openssl": "*"
   },
   "extra": {

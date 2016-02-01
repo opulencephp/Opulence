@@ -19,7 +19,7 @@
     }
   },
   "require": {
-    "php": ">=5.5.10",
+    "php": ">=7.0.0",
     "opulence/cryptography": "1.0.*"
   },
   "suggest": {
