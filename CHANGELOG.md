@@ -1,9 +1,14 @@
-<h2>v1.0.0-alpha34</h3>
+<h2>v1.0.0-alpha35</h2>
+
+<h3>General</h3>
+* Fixed Composer PHP versions in individual libraries
+
+<h2>v1.0.0-alpha34</h2>
 
 <h3>Routing</h3>
 * Fixed double-compile bug for controller responses
 
-<h2>v1.0.0-alpha33</h3>
+<h2>v1.0.0-alpha33</h2>
 
 <h3>General</h3>
 * Dropped support for ALL PHP 5.\* versions
