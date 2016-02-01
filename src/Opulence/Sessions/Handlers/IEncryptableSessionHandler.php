@@ -27,5 +27,5 @@ interface IEncryptableSessionHandler
      *
      * @param bool $useEncryption Whether or not to use encryption
      */
-    public function useEncryption($useEncryption);
+    public function useEncryption(bool $useEncryption);
 }

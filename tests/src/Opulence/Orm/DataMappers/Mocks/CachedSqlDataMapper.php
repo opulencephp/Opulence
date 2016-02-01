@@ -44,7 +44,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->read("getAll");
     }

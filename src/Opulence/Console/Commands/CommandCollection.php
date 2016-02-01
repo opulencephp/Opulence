@@ -41,7 +41,7 @@ class CommandCollection
      * @param bool $overwrite True if we will overwrite a command with the same name if it already exists
      * @throws InvalidArgumentException Thrown if a command with the input name already exists
      */
-    public function add(ICommand $command, $overwrite = false)
+    public function add(ICommand $command, bool $overwrite = false)
     {
         if (!$overwrite && $this->has($command->getName())) {
             throw new InvalidArgumentException("A command with name \"{$command->getName()}\" already exists");
@@ -58,10 +58,10 @@ class CommandCollection
      * @param IResponse $response The response to write output to
      * @param array $arguments The list of arguments
      * @param array $options The list of options
-     * @return int The status code of the command
+     * @return int|null The status code of the command
      * @throws InvalidArgumentException Thrown if no command exists with the input name
      */
-    public function call($commandName, IResponse $response, array $arguments = [], array $options = [])
+    public function call(string $commandName, IResponse $response, array $arguments = [], array $options = [])
     {
         $request = $this->requestParser->parse([
             "name" => $commandName,
@@ -80,7 +80,7 @@ class CommandCollection
      * @return ICommand The command
      * @throws InvalidArgumentException Thrown if no command with the input name exists
      */
-    public function get($name)
+    public function get(string $name) : ICommand
     {
         if (!$this->has($name)) {
             throw new InvalidArgumentException("No command with name \"$name\" exists");
@@ -94,7 +94,7 @@ class CommandCollection
      *
      * @return ICommand[] The list of commands
      */
-    public function getAll()
+    public function getAll() : array
     {
         return array_values($this->commands);
     }
@@ -105,7 +105,7 @@ class CommandCollection
      * @param string $name The name of the command to look for
      * @return bool True if the command has been added, otherwise false
      */
-    public function has($name)
+    public function has(string $name) : bool
     {
         return isset($this->commands[$name]);
     }

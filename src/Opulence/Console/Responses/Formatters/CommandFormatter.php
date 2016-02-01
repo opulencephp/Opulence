@@ -23,7 +23,7 @@ class CommandFormatter
      * @param ICommand $command The command to convert
      * @return string The command as text
      */
-    public function format(ICommand $command)
+    public function format(ICommand $command) : string
     {
         $text = $command->getName() . " ";
 
@@ -76,7 +76,7 @@ class CommandFormatter
      * @param Argument $argument The argument to format
      * @return string The formatted array argument
      */
-    private function formatArrayArgument(Argument $argument)
+    private function formatArrayArgument(Argument $argument) : string
     {
         $arrayArgumentTextOne = $argument->getName() . "1";
         $arrayArgumentTextN = $argument->getName() . "N";
@@ -95,7 +95,7 @@ class CommandFormatter
      * @param Option $option The option to format
      * @return string The formatted option
      */
-    private function formatOption(Option $option)
+    private function formatOption(Option $option) : string
     {
         $text = "[--{$option->getName()}";
 

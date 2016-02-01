@@ -27,7 +27,7 @@ class Parser implements IParser
     /**
      * @inheritdoc
      */
-    public function parse(Route $route)
+    public function parse(Route $route) : ParsedRoute
     {
         $parsedRoute = new ParsedRoute($route);
         $parsedRoute->setPathRegex($this->convertRawStringToRegex($parsedRoute, $parsedRoute->getRawPath()));
@@ -44,7 +44,7 @@ class Parser implements IParser
      * @return string The regex
      * @throws RouteException Thrown if the route variables are not correctly defined
      */
-    private function convertRawStringToRegex(ParsedRoute &$parsedRoute, $rawString)
+    private function convertRawStringToRegex(ParsedRoute &$parsedRoute, string $rawString) : string
     {
         if (empty($rawString)) {
             return "#^.*$#";
@@ -131,7 +131,7 @@ class Parser implements IParser
      * @return string The variable regex
      * @throws RouteException Thrown if the variable definition is invalid
      */
-    private function getVarRegex(ParsedRoute $parsedRoute, $segment)
+    private function getVarRegex(ParsedRoute $parsedRoute, string $segment) : string
     {
         preg_match(self::$variableMatchingRegex, $segment, $matches);
         $variableName = $matches[1];

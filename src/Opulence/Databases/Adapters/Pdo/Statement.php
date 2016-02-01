@@ -50,7 +50,7 @@ class Statement extends PDOStatement implements IStatement
      */
     public function bindValues(array $values)
     {
-        $isAssociativeArray = (bool)count(array_filter(array_keys($values), "is_string"));
+        $isAssociativeArray = count(array_filter(array_keys($values), "is_string")) > 0;
 
         foreach ($values as $parameterName => $value) {
             if (!is_array($value)) {

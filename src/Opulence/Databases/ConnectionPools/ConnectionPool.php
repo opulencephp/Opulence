@@ -65,7 +65,7 @@ abstract class ConnectionPool
      *
      * @return array The list of driver names
      */
-    public static function getDriverNames()
+    public static function getDriverNames() : array
     {
         return array_keys(self::$drivers);
     }
@@ -73,7 +73,7 @@ abstract class ConnectionPool
     /**
      * @return IDriver
      */
-    public function getDriver()
+    public function getDriver() : IDriver
     {
         return $this->driver;
     }
@@ -93,7 +93,7 @@ abstract class ConnectionPool
      * @return IConnection The connection to use for reads
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    public function getReadConnection(Server $preferredServer = null)
+    public function getReadConnection(Server $preferredServer = null) : IConnection
     {
         if ($preferredServer !== null) {
             $this->addServer("custom", $preferredServer);
@@ -112,7 +112,7 @@ abstract class ConnectionPool
      * @return IConnection The connection to use for writes
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    public function getWriteConnection(Server $preferredServer = null)
+    public function getWriteConnection(Server $preferredServer = null) : IConnection
     {
         if ($preferredServer != null) {
             $this->addServer("custom", $preferredServer);
@@ -154,7 +154,7 @@ abstract class ConnectionPool
      * @param string $type The type of server we're trying to add, eg "master", "custom"
      * @param Server $server The server to add
      */
-    protected function addServer($type, Server $server)
+    protected function addServer(string $type, Server $server)
     {
         switch ($type) {
             case "master":
@@ -178,7 +178,7 @@ abstract class ConnectionPool
      * @param Server $server The server to connect to
      * @return IConnection The database connection
      */
-    protected function connectToServer(Server $server)
+    protected function connectToServer(Server $server) : IConnection
     {
         return $this->driver->connect($server, $this->connectionOptions, $this->driverOptions);
     }
@@ -191,7 +191,7 @@ abstract class ConnectionPool
      * @return IConnection The connection to the server
      * @throws RuntimeException Thrown if the connection pool wasn't configured correctly
      */
-    protected function getConnection($type, Server $server)
+    protected function getConnection(string $type, Server $server) : IConnection
     {
         switch ($type) {
             case "master":

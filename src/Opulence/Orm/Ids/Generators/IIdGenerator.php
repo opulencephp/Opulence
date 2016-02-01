@@ -34,5 +34,5 @@ interface IIdGenerator
      *
      * @return bool True if the generator should be executed post-insert, otherwise false
      */
-    public function isPostInsert();
+    public function isPostInsert() : bool;
 }

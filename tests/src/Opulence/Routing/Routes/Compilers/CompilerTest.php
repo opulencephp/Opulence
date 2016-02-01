@@ -166,6 +166,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $route->expects($this->any())->method("getController")->willReturn($controller);
         $route->expects($this->any())->method("getHostRegex")->willReturn("#^$hostRegex$#");
         $route->expects($this->any())->method("getPathRegex")->willReturn("#^$pathRegex$#");
+        // The following data are necessary in the parsed route's constructor
+        $route->expects($this->any())->method("getRawPath")->willReturn("");
+        $route->expects($this->any())->method("getRawHost")->willReturn("");
+        $route->expects($this->any())->method("getName")->willReturn("");
 
         return $route;
     }

@@ -22,5 +22,5 @@ interface ILexer
      * @param IView $view The view to lex
      * @return Token[] The list of tokens
      */
-    public function lex(IView $view);
+    public function lex(IView $view) : array;
 }

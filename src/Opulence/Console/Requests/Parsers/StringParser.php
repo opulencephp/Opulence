@@ -8,6 +8,7 @@
  */
 namespace Opulence\Console\Requests\Parsers;
 
+use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 
 /**
@@ -26,7 +27,7 @@ class StringParser extends Parser
     /**
      * @inheritdoc
      */
-    public function parse($input)
+    public function parse($input) : IRequest
     {
         $tokens = $this->tokenizer->tokenize($input);
 

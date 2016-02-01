@@ -18,7 +18,7 @@ class ArrayListTokenizer implements ITokenizer
     /**
      * @inheritdoc
      */
-    public function tokenize($input)
+    public function tokenize($input) : array
     {
         if (!isset($input["name"])) {
             throw new RuntimeException("No command name given");

@@ -29,7 +29,7 @@ class Repository implements IRepository
      * @param IDataMapper $dataMapper The data mapper to use in this repo
      * @param IUnitOfWork $unitOfWork The unit of work to use in this repo
      */
-    public function __construct($className, IDataMapper $dataMapper, IUnitOfWork $unitOfWork)
+    public function __construct(string $className, IDataMapper $dataMapper, IUnitOfWork $unitOfWork)
     {
         $this->className = $className;
         $this->unitOfWork = $unitOfWork;
@@ -56,7 +56,7 @@ class Repository implements IRepository
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->getFromDataMapper("getAll");
     }
@@ -83,7 +83,7 @@ class Repository implements IRepository
      * @return object|object[] The entity or list of entities
      * @throws OrmException Thrown if there was an error getting the entity(ies)
      */
-    protected function getFromDataMapper($functionName, array $args = [])
+    protected function getFromDataMapper(string $functionName, array $args = [])
     {
         $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
 

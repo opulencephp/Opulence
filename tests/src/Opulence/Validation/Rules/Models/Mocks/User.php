@@ -25,7 +25,7 @@ class User
      * @param string $name The user's name
      * @param string $email The user's email
      */
-    public function __construct($id, $name, $email)
+    public function __construct(int $id, string $name, string $email)
     {
         $this->id = $id;
         $this->name = $name;
@@ -35,7 +35,7 @@ class User
     /**
      * @return string
      */
-    public function getEmail()
+    public function getEmail() : string
     {
         return $this->email;
     }
@@ -43,7 +43,7 @@ class User
     /**
      * @return int
      */
-    public function getId()
+    public function getId() : int
     {
         return $this->id;
     }
@@ -51,7 +51,7 @@ class User
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }

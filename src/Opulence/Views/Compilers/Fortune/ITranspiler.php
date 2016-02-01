@@ -29,17 +29,18 @@ interface ITranspiler
      *
      * @param string $text The text to append
      */
-    public function append($text);
+    public function append(string $text);
 
     /**
      * Calls a view function
      * Pass in any arguments as the 2nd, 3rd, 4th, etc parameters
      *
      * @param string $functionName The name of the function to call
+     * @param array $args,... The list of args
      * @return mixed The output of the view function
      * @throws InvalidArgumentException Thrown if the function name is invalid
      */
-    public function callViewFunction($functionName);
+    public function callViewFunction(string $functionName, ...$args);
 
     /**
      * Ends a view part
@@ -51,7 +52,7 @@ interface ITranspiler
      *
      * @param string $text The text to prepend
      */
-    public function prepend($text);
+    public function prepend(string $text);
 
     /**
      * Registers a directive transpiler
@@ -59,7 +60,7 @@ interface ITranspiler
      * @param string $name The name of the directive whose transpiler we're registering
      * @param callable $transpiler The transpiler, which accepts an optional expression from the directive
      */
-    public function registerDirectiveTranspiler($name, callable $transpiler);
+    public function registerDirectiveTranspiler(string $name, callable $transpiler);
 
     /**
      * Registers a function that appears in a view
@@ -69,7 +70,7 @@ interface ITranspiler
      * @param callable $function The function that returns the replacement string for the function in a view
      *      It must accept one parameter (the view's contents) and return a printable value
      */
-    public function registerViewFunction($functionName, callable $function);
+    public function registerViewFunction(string $functionName, callable $function);
 
     /**
      * Sanitizes a value
@@ -77,7 +78,7 @@ interface ITranspiler
      * @param mixed $value The value to sanitize
      * @return string The sanitized value
      */
-    public function sanitize($value);
+    public function sanitize($value) : string;
 
     /**
      * Shows a view part
@@ -85,14 +86,14 @@ interface ITranspiler
      * @param string $name The name of the part to show, or empty if we should show the last part in the stack
      * @return string The content of the part
      */
-    public function showPart($name = "");
+    public function showPart(string $name = "") : string;
 
     /**
      * Starts a view part
      *
      * @param string $name The name of the part to start
      */
-    public function startPart($name);
+    public function startPart(string $name);
 
     /**
      * Transpiles a view to PHP code
@@ -100,5 +101,5 @@ interface ITranspiler
      * @param IView $view The view to compile
      * @return string The transpiled PHP code
      */
-    public function transpile(IView $view);
+    public function transpile(IView $view) : string;
 }

@@ -21,12 +21,12 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
     /**
      * Adds to a "RETURNING" clause
      *
-     * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
-     * @return $this
+     * @param array $expression,... A variable list of expressions to add to the "RETURNING" clause
+     * @return self For method chaining
      */
-    public function addReturning($expression)
+    public function addReturning(string ...$expression) : self
     {
-        $this->returningExpressions = array_merge($this->returningExpressions, func_get_args());
+        $this->returningExpressions = array_merge($this->returningExpressions, $expression);
 
         return $this;
     }
@@ -36,7 +36,7 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
      *
      * @return string The SQL making up the "RETURNING" clause
      */
-    public function getReturningClauseSql()
+    public function getReturningClauseSql() : string
     {
         if (count($this->returningExpressions) > 0) {
             return " RETURNING " . implode(", ", $this->returningExpressions);
@@ -49,12 +49,12 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
      * Starts a "RETURNING" clause
      * Only call this method once per query because it will overwrite any previously-set "RETURNING" expressions
      *
-     * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
-     * @return $this
+     * @param array $expression,... A variable list of expressions to add to the "RETURNING" clause
+     * @return self For method chaining
      */
-    public function returning($expression)
+    public function returning(string ...$expression) : self
     {
-        $this->returningExpressions = func_get_args();
+        $this->returningExpressions = $expression;
 
         return $this;
     }

@@ -25,7 +25,7 @@ interface ISession extends ArrayAccess
      *
      * @param string $key The name of the variable to delete
      */
-    public function delete($key);
+    public function delete(string $key);
 
     /**
      * Flashes data for exactly one request
@@ -33,7 +33,7 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to set
      * @param mixed $value The value of the variable
      */
-    public function flash($key, $value);
+    public function flash(string $key, $value);
 
     /**
      * Flushes all the session variables
@@ -47,14 +47,14 @@ interface ISession extends ArrayAccess
      * @param mixed|null $defaultValue The default value to use if the variable does not exist
      * @return mixed|null The value of the variable if it exists, otherwise the default value
      */
-    public function get($key, $defaultValue = null);
+    public function get(string $key, $defaultValue = null);
 
     /**
      * Gets the mapping of all session variable names to their values
      *
      * @return array The list of all session variables
      */
-    public function getAll();
+    public function getAll() : array;
 
     /**
      * Gets the session Id
@@ -68,7 +68,7 @@ interface ISession extends ArrayAccess
      *
      * @return string The session name
      */
-    public function getName();
+    public function getName() : string;
 
     /**
      * Gets whether or not a session variable is set
@@ -76,14 +76,14 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to search for
      * @return bool True if the session has a variable, otherwise false
      */
-    public function has($key);
+    public function has(string $key) : bool;
 
     /**
      * Gets whether or not the session has started
      *
      * @return bool True if the session has started, otherwise false
      */
-    public function hasStarted();
+    public function hasStarted() : bool;
 
     /**
      * Reflashes all of the flash data
@@ -101,7 +101,7 @@ interface ISession extends ArrayAccess
      * @param string $key The name of the variable to set
      * @param mixed $value The value of the variable
      */
-    public function set($key, $value);
+    public function set(string $key, $value);
 
     /**
      * Sets the session Id
@@ -124,7 +124,7 @@ interface ISession extends ArrayAccess
      *
      * @param string $name The session name
      */
-    public function setName($name);
+    public function setName(string $name);
 
     /**
      * Starts the session
@@ -132,5 +132,5 @@ interface ISession extends ArrayAccess
      * @param array $vars The list of variables in this session
      * @return bool True if the session started successfully
      */
-    public function start(array $vars = []);
+    public function start(array $vars = []) : bool;
 } 

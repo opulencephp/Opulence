@@ -24,7 +24,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
      * @param string $sequenceName The name of the sequence
      * @param IConnection|null $connection The connection to use
      */
-    public function __construct($sequenceName, IConnection $connection = null)
+    public function __construct(string $sequenceName, IConnection $connection = null)
     {
         $this->sequenceName = $sequenceName;
 
@@ -36,7 +36,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
     /**
      * @inheritDoc
      */
-    public function isPostInsert()
+    public function isPostInsert() : bool
     {
         return true;
     }

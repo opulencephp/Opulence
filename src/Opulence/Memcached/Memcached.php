@@ -42,7 +42,7 @@ class Memcached
      * @param array $arguments The arguments to pass
      * @return mixed The return value of the method
      */
-    public function __call($name, array $arguments)
+    public function __call(string $name, array $arguments)
     {
         return call_user_func_array([$this->getClient(), $name], $arguments);
     }
@@ -54,7 +54,7 @@ class Memcached
      * @return mixed The client
      * @throws InvalidArgumentException Thrown if no client with the input name exists
      */
-    public function getClient($name = "default")
+    public function getClient(string $name = "default")
     {
         if (!isset($this->clients[$name])) {
             throw new InvalidArgumentException("No client with name \"$name\"");

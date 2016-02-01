@@ -53,7 +53,7 @@ class Headers extends Collection
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
-    public function add($name, $values, $shouldReplace = true)
+    public function add(string $name, $values, bool $shouldReplace = true)
     {
         $this->set($name, $values, $shouldReplace);
     }
@@ -62,7 +62,7 @@ class Headers extends Collection
      * @inheritdoc
      * @param bool $onlyReturnFirst True if we only want the first header, otherwise we'll return all of them
      */
-    public function get($name, $default = null, $onlyReturnFirst = true)
+    public function get(string $name, $default = null, bool $onlyReturnFirst = true)
     {
         if ($this->has($name)) {
             $value = $this->values[$this->normalizeName($name)];
@@ -80,7 +80,7 @@ class Headers extends Collection
     /**
      * @inheritDoc
      */
-    public function has($name)
+    public function has(string $name) : bool
     {
         return parent::has($this->normalizeName($name));
     }
@@ -88,7 +88,7 @@ class Headers extends Collection
     /**
      * @inheritDoc
      */
-    public function remove($name)
+    public function remove(string $name)
     {
         parent::remove($this->normalizeName($name));
     }
@@ -100,7 +100,7 @@ class Headers extends Collection
      * @param string|array $values The value or values
      * @param bool $shouldReplace Whether or not to replace the value
      */
-    public function set($name, $values, $shouldReplace = true)
+    public function set(string $name, $values, bool $shouldReplace = true)
     {
         $name = $this->normalizeName($name);
         $values = (array)$values;
@@ -118,7 +118,7 @@ class Headers extends Collection
      * @param string $name The name to normalize
      * @return string The normalized name
      */
-    protected function normalizeName($name)
+    protected function normalizeName(string $name) : string
     {
         $name = strtr(strtolower($name), "_", "-");
 

@@ -44,7 +44,7 @@ class RouteCollection
      *
      * @return array The list of methods
      */
-    public static function getMethods()
+    public static function getMethods() : array
     {
         return self::$methods;
     }
@@ -66,7 +66,7 @@ class RouteCollection
      *
      * @return array The list of properties to store
      */
-    public function __sleep()
+    public function __sleep() : array
     {
         $serializer = new Serializer(new AstAnalyzer());
 
@@ -122,7 +122,7 @@ class RouteCollection
      *      If null, all routes will be returned, keyed by method
      * @return ParsedRoute[] The list of routes
      */
-    public function get($method = null)
+    public function get(string $method = null) : array
     {
         if ($method === null) {
             return $this->routes;
@@ -139,7 +139,7 @@ class RouteCollection
      * @param string $name The name to search for
      * @return ParsedRoute|null The route with the input name if one existed, otherwise null
      */
-    public function getNamedRoute($name)
+    public function getNamedRoute(string $name)
     {
         if (isset($this->namedRoutes[$name])) {
             return $this->namedRoutes[$name];

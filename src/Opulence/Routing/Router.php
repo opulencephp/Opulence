@@ -63,7 +63,7 @@ class Router
      * @param Route $route The route to add
      * @return ParsedRoute The route with the group settings applied
      */
-    public function addRoute(Route $route)
+    public function addRoute(Route $route) : ParsedRoute
     {
         $route = $this->applyGroupSettings($route);
         $parsedRoute = $this->parser->parse($route);
@@ -80,7 +80,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute[] The list of generated routes
      */
-    public function any($path, $controller, array $options = [])
+    public function any(string $path, $controller, array $options = []) : array
     {
         return $this->multiple($this->routeCollection->getMethods(), $path, $controller, $options);
     }
@@ -93,7 +93,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function delete($path, $controller, array $options = [])
+    public function delete(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::DELETE, $path, $controller, $options);
 
@@ -108,7 +108,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function get($path, $controller, array $options = [])
+    public function get(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::GET, $path, $controller, $options);
 
@@ -134,9 +134,9 @@ class Router
     /**
      * Gets the reference to the list of routes
      *
-     * @return RouteCollection
+     * @return RouteCollection The route collection
      */
-    public function &getRouteCollection()
+    public function &getRouteCollection() : RouteCollection
     {
         return $this->routeCollection;
     }
@@ -167,7 +167,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function head($path, $controller, array $options = [])
+    public function head(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::HEAD, $path, $controller, $options);
 
@@ -183,7 +183,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute[] The list of routes generated
      */
-    public function multiple(array $methods, $path, $controller, array $options = [])
+    public function multiple(array $methods, string $path, $controller, array $options = []) : array
     {
         $routes = [];
 
@@ -204,7 +204,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function options($path, $controller, array $options = [])
+    public function options(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::OPTIONS, $path, $controller, $options);
 
@@ -219,7 +219,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function patch($path, $controller, array $options = [])
+    public function patch(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::PATCH, $path, $controller, $options);
 
@@ -234,7 +234,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function post($path, $controller, array $options = [])
+    public function post(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::POST, $path, $controller, $options);
 
@@ -249,7 +249,7 @@ class Router
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
-    public function put($path, $controller, array $options = [])
+    public function put(string $path, $controller, array $options = []) : ParsedRoute
     {
         $route = $this->createRoute(RequestMethods::PUT, $path, $controller, $options);
 
@@ -264,7 +264,7 @@ class Router
      * @throws RouteException Thrown if the controller or method could not be called
      * @throws HttpException Thrown if there was no matching route
      */
-    public function route(Request $request)
+    public function route(Request $request) : Response
     {
         $method = $request->getMethod();
 
@@ -297,7 +297,7 @@ class Router
      * @param Route $route The route to apply the settings to
      * @return Route The route with the applied settings
      */
-    private function applyGroupSettings(Route $route)
+    private function applyGroupSettings(Route $route) : Route
     {
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
@@ -327,7 +327,7 @@ class Router
      * @param array $options The list of options for this path
      * @return Route The route from the input
      */
-    private function createRoute($method, $path, $controller, array $options = [])
+    private function createRoute(string $method, string $path, $controller, array $options = []) : Route
     {
         return new Route([$method], $path, $controller, $options);
     }
@@ -337,7 +337,7 @@ class Router
      *
      * @return string The controller namespace
      */
-    private function getGroupControllerNamespace()
+    private function getGroupControllerNamespace() : string
     {
         $controllerNamespace = "";
 
@@ -360,7 +360,7 @@ class Router
      *
      * @return string The host
      */
-    private function getGroupHost()
+    private function getGroupHost() : string
     {
         $host = "";
 
@@ -378,7 +378,7 @@ class Router
      *
      * @return array The list of middleware of all the groups
      */
-    private function getGroupMiddleware()
+    private function getGroupMiddleware() : array
     {
         $middleware = [];
 
@@ -396,7 +396,7 @@ class Router
      *
      * @return string The path of all the groups concatenated together
      */
-    private function getGroupPath()
+    private function getGroupPath() : string
     {
         $path = "";
 
@@ -414,7 +414,7 @@ class Router
      *
      * @return array The The mapping of variable names to regexes
      */
-    private function getVarRegexes()
+    private function getVarRegexes() : array
     {
         $variableRegexes = [];
 
@@ -433,7 +433,7 @@ class Router
      *
      * @return bool True if the group is secure, otherwise false
      */
-    private function groupIsSecure()
+    private function groupIsSecure() : bool
     {
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions["https"]) && $groupOptions["https"]) {

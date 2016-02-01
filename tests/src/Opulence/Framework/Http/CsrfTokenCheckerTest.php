@@ -127,6 +127,7 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
     {
         $this->strings->expects($this->once())->method("generateRandomString")->willReturn("foo");
         $this->session->expects($this->once())->method("set")->with(CsrfTokenChecker::TOKEN_INPUT_NAME, "foo");
+        $this->session->expects($this->once())->method("get")->with(CsrfTokenChecker::TOKEN_INPUT_NAME)->willReturn("foo");
         $this->request->expects($this->once())->method("getInput")->willReturn("foo");
         $this->checker->tokenIsValid($this->request, $this->session);
     }

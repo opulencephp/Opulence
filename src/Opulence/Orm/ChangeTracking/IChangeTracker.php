@@ -22,7 +22,7 @@ interface IChangeTracker
      * @return bool True if the entity has changed, otherwise false
      * @throws OrmException Thrown if the entity was not registered in the first place
      */
-    public function hasChanged($entity);
+    public function hasChanged($entity) : bool;
 
     /**
      * Registers a function that compares two entities and determines whether or not they're the same
@@ -30,7 +30,7 @@ interface IChangeTracker
      * @param string $className The name of the class whose comparator we're registering
      * @param callable $comparator The function that accepts two entities and returns whether or not they're the same
      */
-    public function registerComparator($className, callable $comparator);
+    public function registerComparator(string $className, callable $comparator);
 
     /**
      * Starts tracking an entity

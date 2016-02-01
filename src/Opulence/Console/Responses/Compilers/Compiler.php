@@ -44,7 +44,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile($message)
+    public function compile(string $message) : string
     {
         if (!$this->isStyled) {
             return strip_tags($message);
@@ -63,7 +63,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function registerElement($name, Style $style)
+    public function registerElement(string $name, Style $style)
     {
         $this->elements[$name] = $style;
     }
@@ -71,7 +71,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function setStyled($isStyled)
+    public function setStyled(bool $isStyled)
     {
         $this->isStyled = $isStyled;
     }
@@ -84,7 +84,7 @@ class Compiler implements ICompiler
      * @throws RuntimeException Thrown if there was an error compiling the node
      * @throws InvalidArgumentException Thrown if there is no matching element for a particular tag
      */
-    private function compileNode(Node $node)
+    private function compileNode(Node $node) : string
     {
         if ($node->isLeaf()) {
             // Don't compile a leaf that is a tag because that means it doesn't have any content
@@ -92,7 +92,7 @@ class Compiler implements ICompiler
                 return "";
             }
 
-            return $node->getValue();
+            return $node->getValue() ?: "";
         } else {
             $output = "";
 

@@ -17,7 +17,7 @@ use DateTime;
  */
 class Response
 {
-    /** @var string The content of the response */
+    /** @var mixed The content of the response */
     protected $content = "";
     /** @var ResponseHeaders The headers in this response */
     protected $headers = null;
@@ -29,11 +29,11 @@ class Response
     protected $httpVersion = "1.1";
 
     /**
-     * @param string $content The content of the response
+     * @param mixed $content The content of the response
      * @param int $statusCode The HTTP status code
      * @param array $headers The headers to set
      */
-    public function __construct($content = "", $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
+    public function __construct($content = "", int $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
     {
         $this->setContent($content);
         $this->headers = new ResponseHeaders($headers);
@@ -43,7 +43,7 @@ class Response
     /**
      * @return string
      */
-    public function getContent()
+    public function getContent() : string
     {
         return $this->content;
     }
@@ -51,7 +51,7 @@ class Response
     /**
      * @return ResponseHeaders
      */
-    public function getHeaders()
+    public function getHeaders() : ResponseHeaders
     {
         return $this->headers;
     }
@@ -59,7 +59,7 @@ class Response
     /**
      * @return string
      */
-    public function getHttpVersion()
+    public function getHttpVersion() : string
     {
         return $this->httpVersion;
     }
@@ -67,7 +67,7 @@ class Response
     /**
      * @return int
      */
-    public function getStatusCode()
+    public function getStatusCode() : int
     {
         return $this->statusCode;
     }
@@ -77,7 +77,7 @@ class Response
      *
      * @return bool True if they've been sent, otherwise false
      */
-    public function headersAreSent()
+    public function headersAreSent() : bool
     {
         return headers_sent();
     }
@@ -145,7 +145,7 @@ class Response
     }
 
     /**
-     * @param string $content
+     * @param mixed $content
      */
     public function setContent($content)
     {
@@ -165,7 +165,7 @@ class Response
     /**
      * @param string $httpVersion
      */
-    public function setHttpVersion($httpVersion)
+    public function setHttpVersion(string $httpVersion)
     {
         $this->httpVersion = $httpVersion;
     }
@@ -177,7 +177,7 @@ class Response
      * @param string|null $statusText The status text
      *      If null, the default text is used for the input code
      */
-    public function setStatusCode($statusCode, $statusText = null)
+    public function setStatusCode(int $statusCode, string $statusText = null)
     {
         $this->statusCode = $statusCode;
 

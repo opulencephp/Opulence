@@ -22,7 +22,7 @@ class RegexRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "regex";
     }
@@ -30,7 +30,7 @@ class RegexRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         if ($this->regex === null) {
             throw new LogicException("Regex not set");

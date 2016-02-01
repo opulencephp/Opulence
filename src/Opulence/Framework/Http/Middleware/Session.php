@@ -47,7 +47,7 @@ abstract class Session implements IMiddleware
     /**
      * @inheritdoc
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         $this->startSession($request);
 
@@ -79,7 +79,7 @@ abstract class Session implements IMiddleware
      * @param Response $response The response to write to
      * @return Response The response with data written to it
      */
-    abstract protected function writeToResponse(Response $response);
+    abstract protected function writeToResponse(Response $response) : Response;
 
     /**
      * Starts the session

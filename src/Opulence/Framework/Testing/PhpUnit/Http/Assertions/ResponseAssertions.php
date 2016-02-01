@@ -27,9 +27,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response's contents match the input
      *
      * @param mixed $expected The expected value
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function contentEquals($expected)
+    public function contentEquals($expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->response->getContent());
@@ -42,9 +42,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      *
      * @param string $name The name of the cookie to search for
      * @param mixed $expected The expected value
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function cookieValueEquals($name, $expected)
+    public function cookieValueEquals(string $name, $expected) : self
     {
         $this->checkResponseIsSet();
         $cookies = $this->response->getHeaders()->getCookies();
@@ -67,9 +67,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response has a cookie
      *
      * @param string $name The name of the cookie to search for
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function hasCookie($name)
+    public function hasCookie(string $name) : self
     {
         $this->checkResponseIsSet();
         $cookies = $this->response->getHeaders()->getCookies();
@@ -92,9 +92,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response has a header
      *
      * @param string $name The name of the header to search for
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function hasHeader($name)
+    public function hasHeader(string $name) : self
     {
         $this->checkResponseIsSet();
         $this->assertTrue(
@@ -110,9 +110,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      *
      * @param string $name The name of the header to search for
      * @param mixed $expected The expected value
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function headerEquals($name, $expected)
+    public function headerEquals(string $name, $expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($expected, $this->response->getHeaders()->get($name));
@@ -123,9 +123,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is an internal server error
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isInternalServerError()
+    public function isInternalServerError() : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR, $this->response->getStatusCode());
@@ -136,9 +136,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is not found
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isNotFound()
+    public function isNotFound() : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_NOT_FOUND, $this->response->getStatusCode());
@@ -149,9 +149,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is OK
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isOK()
+    public function isOK() : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_OK, $this->response->getStatusCode());
@@ -162,9 +162,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
     /**
      * Asserts that the response is unauthorized
      *
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function isUnauthorized()
+    public function isUnauthorized() : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals(ResponseHeaders::HTTP_UNAUTHORIZED, $this->response->getStatusCode());
@@ -176,9 +176,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response's JSON contains the input
      *
      * @param array $expected The expected value
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function jsonContains(array $expected)
+    public function jsonContains(array $expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertJson($this->response->getContent());
@@ -209,9 +209,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response's JSON contains a key
      *
      * @param string $expected The expected key
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function jsonContainsKey($expected)
+    public function jsonContainsKey(string $expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertJson($this->response->getContent());
@@ -238,9 +238,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response's JSON matches the input
      *
      * @param array $expected The expected value
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function jsonEquals(array $expected)
+    public function jsonEquals(array $expected) : self
     {
         $this->checkResponseIsSet();
         $this->assertJson($this->response->getContent());
@@ -253,9 +253,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response redirects to a URL
      *
      * @param string $url The expected URL
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function redirectsTo($url)
+    public function redirectsTo(string $url) : self
     {
         $this->checkResponseIsSet();
         $this->assertTrue(
@@ -278,9 +278,9 @@ class ResponseAssertions extends PHPUnit_Framework_TestCase
      * Asserts that the response status code equals a particular value
      *
      * @param int $statusCode The expected status code
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function statusCodeEquals($statusCode)
+    public function statusCodeEquals(int $statusCode) : self
     {
         $this->checkResponseIsSet();
         $this->assertEquals($statusCode, $this->response->getStatusCode());

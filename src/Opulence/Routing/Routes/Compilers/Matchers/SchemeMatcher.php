@@ -19,7 +19,7 @@ class SchemeMatcher implements IRouteMatcher
     /**
      * @inheritdoc
      */
-    public function isMatch(ParsedRoute $route, Request $request)
+    public function isMatch(ParsedRoute $route, Request $request) : bool
     {
         return ($route->isSecure() && $request->isSecure()) || !$route->isSecure();
     }

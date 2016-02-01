@@ -99,7 +99,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->read("getAll");
     }
@@ -115,7 +115,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getCacheDataMapper()
+    public function getCacheDataMapper() : ICacheDataMapper
     {
         return $this->cacheDataMapper;
     }
@@ -123,7 +123,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getSqlDataMapper()
+    public function getSqlDataMapper() : SqlDataMapper
     {
         return $this->sqlDataMapper;
     }
@@ -131,7 +131,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getUnsyncedEntities()
+    public function getUnsyncedEntities() : array
     {
         return $this->compareCacheAndSqlEntities(false);
     }
@@ -139,7 +139,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function refreshCache()
+    public function refreshCache() : array
     {
         return $this->compareCacheAndSqlEntities(true);
     }
@@ -198,8 +198,12 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a cache miss
      * @return object|array|null The entity(ies) if it was found, otherwise null
      */
-    protected function read($funcName, array $getFuncArgs = [], $addDataToCacheOnMiss = true, array $setFuncArgs = [])
-    {
+    protected function read(
+        string $funcName,
+        array $getFuncArgs = [],
+        bool $addDataToCacheOnMiss = true,
+        array $setFuncArgs = []
+    ) {
         // Always attempt to retrieve from cache first
         $data = call_user_func_array([$this->cacheDataMapper, $funcName], $getFuncArgs);
 
@@ -271,7 +275,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      *      The "additional" list contains entities in cache that were not at all in SQL
      * @throws OrmException Thrown if there was an error getting the unsynced entities
      */
-    private function compareCacheAndSqlEntities($doRefresh)
+    private function compareCacheAndSqlEntities(bool $doRefresh) : array
     {
         // If there was an issue grabbing all entities in cache, null will be returned
         $unkeyedCacheEntities = $this->cacheDataMapper->getAll();
@@ -337,7 +341,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param object[] $entities The list of entities
      * @return object[] The keyed array
      */
-    private function keyEntityArray(array $entities)
+    private function keyEntityArray(array $entities) : array
     {
         $keyedArray = [];
 

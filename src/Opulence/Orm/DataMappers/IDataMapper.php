@@ -36,7 +36,7 @@ interface IDataMapper
      *
      * @return array The list of all the entities
      */
-    public function getAll();
+    public function getAll() : array;
 
     /**
      * Gets the entity with the input Id

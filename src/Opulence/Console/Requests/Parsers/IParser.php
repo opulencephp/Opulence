@@ -25,5 +25,5 @@ interface IParser
      * @throws InvalidArgumentException Thrown if the input was not of the type the parser was expecting
      * @throws RuntimeException Thrown if the input could not be parsed
      */
-    public function parse($input);
+    public function parse($input) : IRequest;
 }

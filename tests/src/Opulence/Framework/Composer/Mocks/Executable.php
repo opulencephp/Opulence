@@ -19,7 +19,7 @@ class Executable extends BaseExecutable
      * @inheritdoc
      * @return string The command itself
      */
-    protected function execute($command)
+    protected function execute(string $command) : string
     {
         return $command;
     }

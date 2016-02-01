@@ -28,7 +28,7 @@ class Environment
     /**
      * @param string $name The name of the environment
      */
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->setName($name);
     }
@@ -36,7 +36,7 @@ class Environment
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -47,7 +47,7 @@ class Environment
      * @param string $name The name of the environment variable to get
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public function getVar($name)
+    public function getVar(string $name)
     {
         if (array_key_exists($name, $_ENV)) {
             return $_ENV[$name];
@@ -69,7 +69,7 @@ class Environment
      *
      * @return bool True if the application is running in a console, otherwise false
      */
-    public function isRunningInConsole()
+    public function isRunningInConsole() : bool
     {
         return php_sapi_name() == "cli";
     }
@@ -77,7 +77,7 @@ class Environment
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -88,7 +88,7 @@ class Environment
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
-    public function setVar($name, $value)
+    public function setVar(string $name, $value)
     {
         putenv("$name=$value");
         $_ENV[$name] = $value;

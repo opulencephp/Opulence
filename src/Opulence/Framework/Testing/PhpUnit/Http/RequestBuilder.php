@@ -41,7 +41,7 @@ class RequestBuilder
      * @param string $method The HTTP method of the request
      * @param string|null $url The URL of the request
      */
-    public function __construct(IntegrationTestCase $integrationTest, $method, $url = null)
+    public function __construct(IntegrationTestCase $integrationTest, string $method, string $url = null)
     {
         $this->integrationTest = $integrationTest;
         $this->method = strtoupper($method);
@@ -55,11 +55,11 @@ class RequestBuilder
      * Sets the URL of the request (synonymous with to())
      *
      * @param string $url
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function from($url)
+    public function from(string $url) : self
     {
-        $this->to($url);
+        return $this->to($url);
     }
 
     /**
@@ -68,7 +68,7 @@ class RequestBuilder
      * @return IntegrationTestCase The application test case that created this
      * @throws InvalidArgumentException Thrown if the build request is invalid
      */
-    public function go()
+    public function go() : IntegrationTestCase
     {
         $this->validate();
 
@@ -91,11 +91,13 @@ class RequestBuilder
      * Sets the URL of the request
      *
      * @param string $url
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function to($url)
+    public function to(string $url) : self
     {
         $this->url = $url;
+
+        return $this;
     }
 
     /**
@@ -103,9 +105,9 @@ class RequestBuilder
      *
      * @param array $cookies The cookies to add
      * @param bool $overwriteOld Whether or not to overwrite all old cookies
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withCookies(array $cookies, $overwriteOld = false)
+    public function withCookies(array $cookies, bool $overwriteOld = false) : self
     {
         $this->addValuesToCollection($cookies, $this->cookies, $overwriteOld);
 
@@ -117,9 +119,9 @@ class RequestBuilder
      *
      * @param array $env The environment vars to add
      * @param bool $overwriteOld Whether or not to overwrite all old environment vars
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withEnvironmentVars(array $env, $overwriteOld = false)
+    public function withEnvironmentVars(array $env, bool $overwriteOld = false) : self
     {
         $this->addValuesToCollection($env, $this->env, $overwriteOld);
 
@@ -131,9 +133,9 @@ class RequestBuilder
      *
      * @param UploadedFile[] $files The files to upload
      * @param bool $overwriteOld Whether or not to overwrite all old files
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withFiles(array $files, $overwriteOld = false)
+    public function withFiles(array $files, bool $overwriteOld = false) : self
     {
         $this->addValuesToCollection($files, $this->files, $overwriteOld);
 
@@ -145,9 +147,9 @@ class RequestBuilder
      *
      * @param array $headers The headers to add
      * @param bool $overwriteOld Whether or not to overwrite all old headers
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withHeaders(array $headers, $overwriteOld = false)
+    public function withHeaders(array $headers, bool $overwriteOld = false) : self
     {
         $prefixedServerVars = [];
 
@@ -169,9 +171,9 @@ class RequestBuilder
      * Adds JSON to the response
      *
      * @param array $json The JSON to add
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withJson(array $json)
+    public function withJson(array $json) : self
     {
         $encodedJson = json_encode($json);
         $headers = [
@@ -191,9 +193,9 @@ class RequestBuilder
      *
      * @param array $parameters The parameters to add
      * @param bool $overwriteOld Whether or not to overwrite all old parameters
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withParameters(array $parameters, $overwriteOld = false)
+    public function withParameters(array $parameters, bool $overwriteOld = false) : self
     {
         $this->addValuesToCollection($parameters, $this->parameters, $overwriteOld);
 
@@ -204,9 +206,9 @@ class RequestBuilder
      * Sets the raw body of the request
      *
      * @param mixed $rawBody The raw body
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withRawBody($rawBody)
+    public function withRawBody($rawBody) : self
     {
         $this->rawBody = $rawBody;
 
@@ -218,9 +220,9 @@ class RequestBuilder
      *
      * @param array $serverVars The server vars to add
      * @param bool $overwriteOld Whether or not to overwrite all old server vars
-     * @return $this For method chaining
+     * @return self For method chaining
      */
-    public function withServerVars(array $serverVars, $overwriteOld = false)
+    public function withServerVars(array $serverVars, bool $overwriteOld = false) : self
     {
         $this->addValuesToCollection($serverVars, $this->server, $overwriteOld);
 
@@ -234,7 +236,7 @@ class RequestBuilder
      * @param array $collection The collection to add to
      * @param bool $overwriteOld Whether or not clear the collection before adding the new values
      */
-    private function addValuesToCollection(array $values, array &$collection, $overwriteOld)
+    private function addValuesToCollection(array $values, array &$collection, bool $overwriteOld)
     {
         if ($overwriteOld) {
             $collection = [];

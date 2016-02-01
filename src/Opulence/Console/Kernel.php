@@ -51,7 +51,7 @@ class Kernel
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
-        $applicationVersion = "Unknown"
+        string $applicationVersion = "Unknown"
     ) {
         $this->requestParser = $requestParser;
         $this->commandCompiler = $commandCompiler;
@@ -66,7 +66,7 @@ class Kernel
      * @param IResponse $response The response to write to
      * @return int The status code
      */
-    public function handle($input, IResponse $response = null)
+    public function handle($input, IResponse $response = null) : int
     {
         if ($response === null) {
             $response = new ConsoleResponse(new Compiler(new Lexer(), new Parser()));
@@ -120,7 +120,7 @@ class Kernel
      * @return ICommand The compiled help command
      * @throws InvalidArgumentException Thrown if the command that is requesting help does not exist
      */
-    private function getCompiledHelpCommand(IRequest $request)
+    private function getCompiledHelpCommand(IRequest $request) : ICommand
     {
         $helpCommand = new HelpCommand(new CommandFormatter(), new PaddingFormatter());
         $commandName = null;
@@ -154,7 +154,7 @@ class Kernel
      * @param IRequest $request The parsed request
      * @return bool True if it is invoking the help command, otherwise false
      */
-    private function isInvokingHelpCommand(IRequest $request)
+    private function isInvokingHelpCommand(IRequest $request) : bool
     {
         return $request->getCommandName() == "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
     }
@@ -165,7 +165,7 @@ class Kernel
      * @param IRequest $request The parsed request
      * @return bool True if it is invoking the version command, otherwise false
      */
-    private function isInvokingVersionCommand(IRequest $request)
+    private function isInvokingVersionCommand(IRequest $request) : bool
     {
         return $request->optionIsSet("v") || $request->optionIsSet("version");
     }

@@ -33,7 +33,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function addOptionValue($name, $value)
+    public function addOptionValue(string $name, $value)
     {
         if ($this->optionIsSet($name)) {
             // We now consider this option to have multiple values
@@ -50,7 +50,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getArgumentValues()
+    public function getArgumentValues() : array
     {
         return $this->arguments;
     }
@@ -58,7 +58,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getCommandName()
+    public function getCommandName() : string
     {
         return $this->commandName;
     }
@@ -66,7 +66,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getOptionValue($name)
+    public function getOptionValue(string $name)
     {
         if (!$this->optionIsSet($name)) {
             throw new InvalidArgumentException("Option with name \"$name\" does not exist");
@@ -78,7 +78,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function getOptionValues()
+    public function getOptionValues() : array
     {
         return $this->options;
     }
@@ -86,7 +86,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function optionIsSet($name)
+    public function optionIsSet(string $name) : bool
     {
         // Don't use isset because the value very well might be null, in which case we'd still return true
         return array_key_exists($name, $this->options);
@@ -95,7 +95,7 @@ class Request implements IRequest
     /**
      * @inheritdoc
      */
-    public function setCommandName($name)
+    public function setCommandName(string $name)
     {
         $this->commandName = $name;
     }

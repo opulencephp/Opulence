@@ -1059,6 +1059,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER["SERVER_PROTOCOL"] = "HTTP/1.1";
         $_SERVER["HTTP_HOST"] = "baz.com";
+        $_SERVER["SERVER_PORT"] = 80;
         $_SERVER["REQUEST_URI"] = "/foo/bar/baz";
         $request = Request::createFromGlobals();
         $this->assertFalse($request->isUrl("http://foo.com/foo/bar/baz"));

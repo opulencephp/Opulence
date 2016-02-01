@@ -20,7 +20,7 @@ class Lexer implements ILexer
     /**
      * @inheritdoc
      */
-    public function lex($text)
+    public function lex(string $text) : array
     {
         $tokens = [];
         $wordBuffer = "";
@@ -131,7 +131,7 @@ class Lexer implements ILexer
      * @param int $position The numerical position to grab text around
      * @return string The surrounding text
      */
-    private function getSurroundingText($text, $position)
+    private function getSurroundingText(string $text, int $position) : string
     {
         if (mb_strlen($text) <= 3) {
             return $text;
@@ -151,7 +151,7 @@ class Lexer implements ILexer
      * @param int $currPosition The current position
      * @return string|null The previous character if there is one, otherwise null
      */
-    private function lookBehind($text, $currPosition)
+    private function lookBehind(string $text, int $currPosition)
     {
         if (mb_strlen($text) == 0 || $currPosition == 0) {
             return null;
@@ -167,7 +167,7 @@ class Lexer implements ILexer
      * @param int $currPosition The current position
      * @return string|null The next character if there is one, otherwise null
      */
-    private function peek($text, $currPosition)
+    private function peek(string $text, int $currPosition)
     {
         if (mb_strlen($text) == 0 || mb_strlen($text) == $currPosition + 1) {
             return null;

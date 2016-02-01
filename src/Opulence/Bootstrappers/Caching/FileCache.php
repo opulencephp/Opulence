@@ -18,7 +18,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush($filePath)
+    public function flush(string $filePath)
     {
         if (file_exists($filePath)) {
             @unlink($filePath);
@@ -28,7 +28,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get($filePath, IBootstrapperRegistry &$registry)
+    public function get(string $filePath, IBootstrapperRegistry &$registry)
     {
         if (file_exists($filePath)) {
             $this->loadRegistryFromCache($filePath, $registry);
@@ -42,7 +42,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set($filePath, IBootstrapperRegistry $registry)
+    public function set(string $filePath, IBootstrapperRegistry $registry)
     {
         $data = [
             "eager" => $registry->getEagerBootstrappers(),
@@ -65,7 +65,7 @@ class FileCache implements ICache
      * @param string $filePath The cache registry file path
      * @param IBootstrapperRegistry $registry The registry to read settings into
      */
-    protected function loadRegistryFromCache($filePath, IBootstrapperRegistry &$registry)
+    protected function loadRegistryFromCache(string $filePath, IBootstrapperRegistry &$registry)
     {
         $rawContents = file_get_contents($filePath);
         $decodedContents = json_decode($rawContents, true);

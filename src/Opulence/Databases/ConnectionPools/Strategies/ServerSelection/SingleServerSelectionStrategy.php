@@ -9,6 +9,7 @@
 namespace Opulence\Databases\ConnectionPools\Strategies\ServerSelection;
 
 use InvalidArgumentException;
+use Opulence\Databases\Server;
 
 /**
  * Defines the single server selection strategy
@@ -18,7 +19,7 @@ class SingleServerSelectionStrategy implements IServerSelectionStrategy
     /**
      * @inheritdoc
      */
-    public function select($servers)
+    public function select($servers) : Server
     {
         if (!is_array($servers)) {
             $servers = [$servers];

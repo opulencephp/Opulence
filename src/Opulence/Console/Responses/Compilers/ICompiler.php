@@ -23,7 +23,7 @@ interface ICompiler
      * @return string The compiled message
      * @throws RuntimeException Thrown if there was an issue compiling the message
      */
-    public function compile($message);
+    public function compile(string $message) : string;
 
     /**
      * Registers an element
@@ -31,12 +31,12 @@ interface ICompiler
      * @param string $name The name of the element
      * @param Style $style The style of the element
      */
-    public function registerElement($name, Style $style);
+    public function registerElement(string $name, Style $style);
 
     /**
      * Sets whether or not messages should be styled
      *
      * @param bool $isStyled Whether or not messages should be styled
      */
-    public function setStyled($isStyled);
+    public function setStyled(bool $isStyled);
 }

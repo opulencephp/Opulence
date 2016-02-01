@@ -29,7 +29,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view)
+    public function compile(IView $view) : string
     {
         return $this->registry->get($view)->compile($view);
     }

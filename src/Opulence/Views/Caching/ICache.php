@@ -46,16 +46,15 @@ interface ICache
      * @param IView $view The view to check
      * @return bool True if the cache has an unexpired compiled view, otherwise false
      */
-    public function has(IView $view);
+    public function has(IView $view) : bool;
 
     /**
      * Stores a compiled view to cache
      *
      * @param IView $view The view whose compiled contents we're caching
      * @param string $compiledContents The compiled view contents
-     * @return bool True if successful, otherwise false
      */
-    public function set(IView $view, $compiledContents);
+    public function set(IView $view, string $compiledContents);
 
     /**
      * Sets the chance that garbage collection will be run
@@ -64,5 +63,5 @@ interface ICache
      * @param int $chance The chance (out of the total) that garbage collection will be run
      * @param int $divisor The number the chance will be divided by to calculate the probability
      */
-    public function setGCChance($chance, $divisor = 100);
+    public function setGCChance(int $chance, int $divisor = 100);
 }

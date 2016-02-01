@@ -20,7 +20,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(ICommand $command, IRequest $request)
+    public function compile(ICommand $command, IRequest $request) : ICommand
     {
         $this->compileArguments($command, $request);
         $this->compileOptions($command, $request);
@@ -119,7 +119,7 @@ class Compiler implements ICompiler
      * @param ICommand[] $commandArguments The list of command arguments
      * @return bool True if there are too many arguments, otherwise false
      */
-    private function hasTooManyArguments(array $argumentValues, array $commandArguments)
+    private function hasTooManyArguments(array $argumentValues, array $commandArguments) : bool
     {
         if (count($argumentValues) > count($commandArguments)) {
             // Only when the last argument is an array do we allow more request arguments than command arguments

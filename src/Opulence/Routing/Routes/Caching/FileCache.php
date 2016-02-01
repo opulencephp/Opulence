@@ -19,7 +19,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function flush($filePath)
+    public function flush(string $filePath)
     {
         if (file_exists($filePath)) {
             @unlink($filePath);
@@ -29,7 +29,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get($cacheFilePath, Router &$router, $rawFilePath)
+    public function get(string $cacheFilePath, Router &$router, string $rawFilePath) : RouteCollection
     {
         if (file_exists($cacheFilePath)) {
             return unserialize(base64_decode(file_get_contents($cacheFilePath)));
@@ -46,7 +46,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set($filePath, RouteCollection $routes)
+    public function set(string $filePath, RouteCollection $routes)
     {
         // Clone the routes so that serialization of closures can work correctly
         file_put_contents($filePath, base64_encode(serialize(clone $routes)));

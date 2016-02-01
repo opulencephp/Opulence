@@ -44,7 +44,7 @@ class Lexer implements ILexer
     /**
      * @inheritdoc
      */
-    public function lex(IView $view)
+    public function lex(IView $view) : array
     {
         $this->initializeVars($view);
         $this->lexExpression();
@@ -57,7 +57,7 @@ class Lexer implements ILexer
      *
      * @return bool True if we're at the end of the file, otherwise false
      */
-    private function atEof()
+    private function atEof() : bool
     {
         return $this->getStream() == "";
     }
@@ -80,7 +80,7 @@ class Lexer implements ILexer
      *
      * @return string The current character
      */
-    private function getCurrentChar()
+    private function getCurrentChar() : string
     {
         return isset($this->input[$this->cursor]) ? $this->input[$this->cursor] : "";
     }
@@ -90,7 +90,7 @@ class Lexer implements ILexer
      *
      * @return array The mapping of opening statement delimiters to the methods
      */
-    private function getStatementLexingMethods()
+    private function getStatementLexingMethods() : array
     {
         $statements = [
             $this->directiveDelimiters[0] => "lexDirectiveStatement",
@@ -123,7 +123,7 @@ class Lexer implements ILexer
      * @param int|null $length The length of input to return
      * @return string The stream of input
      */
-    private function getStream($cursor = null, $length = null)
+    private function getStream(int $cursor = null, int $length = null) : string
     {
         if ($cursor === null) {
             $cursor = $this->cursor;
@@ -195,7 +195,7 @@ class Lexer implements ILexer
      *
      * @param string $closeDelimiter The close delimiter
      */
-    private function lexDelimitedExpression($closeDelimiter)
+    private function lexDelimitedExpression(string $closeDelimiter)
     {
         $expressionBuffer = "";
         $newLinesAfterExpression = 0;
@@ -237,11 +237,11 @@ class Lexer implements ILexer
      * @param bool $closeDelimiterOptional Whether or not the close delimiter is optional
      */
     private function lexDelimitedExpressionStatement(
-        $openTokenType,
-        $openDelimiter,
-        $closeTokenType,
-        $closeDelimiter,
-        $closeDelimiterOptional
+        string $openTokenType,
+        string $openDelimiter,
+        string $closeTokenType,
+        string $closeDelimiter,
+        bool $closeDelimiterOptional
     ) {
         $this->flushExpressionBuffer();
         $this->tokens[] = new Token($openTokenType, $openDelimiter, $this->line);
@@ -486,7 +486,7 @@ class Lexer implements ILexer
      * @param int|null $cursor The cursor position to match at
      * @return bool True if the input at the cursor matches the expected value, otherwise false
      */
-    private function matches($expected, $shouldConsume = true, $cursor = null)
+    private function matches(string $expected, bool $shouldConsume = true, int $cursor = null) : bool
     {
         $stream = $this->getStream($cursor);
         $expectedLength = strlen($expected);
@@ -508,7 +508,7 @@ class Lexer implements ILexer
      * @param string $expression The expression to replace calls in
      * @return string The expression with replaced calls
      */
-    private function replaceViewFunctionCalls($expression)
+    private function replaceViewFunctionCalls(string $expression) : string
     {
         $phpTokens = token_get_all('<?php ' . $expression . ' ?>');
         $opulenceTokens = [];

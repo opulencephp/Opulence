@@ -18,7 +18,7 @@ class UnitOfWork extends BaseUnitOfWork
     /**
      * @inheritDoc
      */
-    public function getScheduledEntityDeletions()
+    public function getScheduledEntityDeletions() : array
     {
         return parent::getScheduledEntityDeletions();
     }
@@ -26,7 +26,7 @@ class UnitOfWork extends BaseUnitOfWork
     /**
      * @inheritDoc
      */
-    public function getScheduledEntityInsertions()
+    public function getScheduledEntityInsertions() : array
     {
         return parent::getScheduledEntityInsertions();
     }
@@ -34,7 +34,7 @@ class UnitOfWork extends BaseUnitOfWork
     /**
      * @inheritDoc
      */
-    public function getScheduledEntityUpdates()
+    public function getScheduledEntityUpdates() : array
     {
         return parent::getScheduledEntityUpdates();
     }

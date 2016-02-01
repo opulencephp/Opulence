@@ -6,26 +6,15 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
+namespace Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks;
+
+use Opulence\Console\Responses\Compilers\Parsers\Nodes\Node as BaseNode;
 
 /**
- * Defines a root node
+ * Mocks a node for use in testing
  */
-class RootNode extends Node
+class Node extends BaseNode
 {
-    public function __construct()
-    {
-        parent::__construct(null);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getParent() : Node
-    {
-        return $this;
-    }
-
     /**
      * @inheritdoc
      */

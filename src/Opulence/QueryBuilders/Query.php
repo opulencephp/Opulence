@@ -35,7 +35,7 @@ abstract class Query
      *
      * @return string The SQL statement
      */
-    abstract public function getSql();
+    abstract public function getSql() : string;
 
     /**
      * Adds a named placeholder's value
@@ -44,10 +44,10 @@ abstract class Query
      * @param string $placeholderName The name of the placeholder (what comes after the ":")
      * @param mixed $value The value of the placeholder
      * @param int $dataType The PDO constant that indicates the type of data the value represents
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addNamedPlaceholderValue($placeholderName, $value, $dataType = PDO::PARAM_STR)
+    public function addNamedPlaceholderValue(string $placeholderName, $value, int $dataType = PDO::PARAM_STR) : self
     {
         if ($this->usingUnnamedPlaceholders === true) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
@@ -66,11 +66,11 @@ abstract class Query
      * @param array $placeholderNamesToValues The mapping of placeholder names to their respective values
      *      Optionally, the names can map to an array whose first item is the value and whose second value is the
      *      PDO constant indicating the type of data the value represents
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
      *      if the value is an array that doesn't contain the correct number of items
      */
-    public function addNamedPlaceholderValues(array $placeholderNamesToValues)
+    public function addNamedPlaceholderValues(array $placeholderNamesToValues) : self
     {
         foreach ($placeholderNamesToValues as $placeholderName => $value) {
             if (is_array($value)) {
@@ -93,10 +93,10 @@ abstract class Query
      *
      * @param mixed $value
      * @param int $dataType The PDO constant that indicates the type of data the value represents
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function addUnnamedPlaceholderValue($value, $dataType = PDO::PARAM_STR)
+    public function addUnnamedPlaceholderValue($value, int $dataType = PDO::PARAM_STR) : self
     {
         if ($this->usingUnnamedPlaceholders === false) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
@@ -115,11 +115,11 @@ abstract class Query
      * @param array $placeholderValues The list of placeholder values
      *      Optionally, each value can be contained in an array whose first item is the value and whose second value is
      *      the PDO constant indicating the type of data the value represents
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders or
      *      if the value is an array that doesn't contain the correct number of items
      */
-    public function addUnnamedPlaceholderValues(array $placeholderValues)
+    public function addUnnamedPlaceholderValues(array $placeholderValues) : self
     {
         foreach ($placeholderValues as $value) {
             if (is_array($value)) {
@@ -141,7 +141,7 @@ abstract class Query
      *
      * @return array The array of bound query parameters
      */
-    public function getParameters()
+    public function getParameters() : array
     {
         return $this->parameters;
     }
@@ -150,10 +150,10 @@ abstract class Query
      * Removes a named placeholder from the query
      *
      * @param string $placeholderName The name of the placeholder to remove
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function removeNamedPlaceHolder($placeholderName)
+    public function removeNamedPlaceHolder(string $placeholderName) : self
     {
         if ($this->usingUnnamedPlaceholders === true) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
@@ -168,10 +168,10 @@ abstract class Query
      * Removes an unnamed placeholder from the query
      *
      * @param int $placeholderIndex The index of the placeholder in the parameters to remove
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the user mixed unnamed placeholders with named placeholders
      */
-    public function removeUnnamedPlaceHolder($placeholderIndex)
+    public function removeUnnamedPlaceHolder(int $placeholderIndex) : self
     {
         if ($this->usingUnnamedPlaceholders === false) {
             throw new InvalidQueryException("Cannot mix unnamed placeholders with named placeholders");
@@ -190,7 +190,7 @@ abstract class Query
      * @param string $tableName The name of the table we're querying
      * @param string $tableAlias The table alias
      */
-    protected function setTable($tableName, $tableAlias = "")
+    protected function setTable(string $tableName, string $tableAlias = "")
     {
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;

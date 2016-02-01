@@ -20,5 +20,5 @@ interface IValidatorFactory
      *
      * @return IValidator The validator
      */
-    public function createValidator();
+    public function createValidator() : IValidator;
 }

@@ -18,7 +18,7 @@ class StringTokenizer implements ITokenizer
     /**
      * @inheritdoc
      */
-    public function tokenize($input)
+    public function tokenize($input) : array
     {
         $input = trim($input);
         $inDoubleQuotes = false;

@@ -19,7 +19,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $version = "1.0.0-alpha32";
+    private static $version = "1.0.0-alpha33";
     /** @var IDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var bool Whether or not the application is currently running */
@@ -36,7 +36,7 @@ class Application
     /**
      * @return string
      */
-    public static function getVersion()
+    public static function getVersion() : string
     {
         return self::$version;
     }
@@ -44,7 +44,7 @@ class Application
     /**
      * @return bool
      */
-    public function isRunning()
+    public function isRunning() : bool
     {
         return $this->isRunning;
     }

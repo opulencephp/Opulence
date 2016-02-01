@@ -9,29 +9,40 @@
 namespace Opulence\Tests\Routing\Dispatchers\Mocks;
 
 use Opulence\Http\Requests\Request;
+use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller;
 use Opulence\Routing\Dispatchers\Dispatcher as BaseDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
-use Opulence\Routing\Routes\Route;
 
 /**
  * Mocks the dispatcher for use in testing
  */
 class Dispatcher extends BaseDispatcher
 {
+    /** @var CompiledRoute The last route */
+    private $lastRoute = null;
+
     /**
-     * For the sake of testing the router, simply return the dispatched route rather than its output
+     * For the sake of testing the router, simply store the dispatched route rather than its output
      * This makes it easy to test that the router is selecting the correct route
      *
-     * @param CompiledRoute $route The route to be dispatched
-     * @param Request $request The request made by the user
-     * @param Controller|mixed|null $controller Will be set to the instance of the controller that was matched
-     * @return Route The chosen route
+     * @inheritdoc
      */
-    public function dispatch(CompiledRoute $route, Request $request, &$controller = null)
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
     {
         $controller = new Controller();
+        $this->lastRoute = $route;
 
-        return $route;
+        return new Response();
+    }
+
+    /**
+     * Gets the last route for testing purposes
+     *
+     * @return CompiledRoute
+     */
+    public function getLastRoute() : CompiledRoute
+    {
+        return $this->lastRoute;
     }
 } 

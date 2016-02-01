@@ -31,7 +31,7 @@ class Argument
      * @param mixed $defaultValue The default value for the argument if it's optional
      * @throws InvalidArgumentException Thrown if the type is invalid
      */
-    public function __construct($name, $type, $description, $defaultValue = null)
+    public function __construct(string $name, int $type, string $description, $defaultValue = null)
     {
         if (($type & 3) === 3) {
             throw new InvalidArgumentException("Argument type cannot be both optional and required");
@@ -54,7 +54,7 @@ class Argument
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -62,7 +62,7 @@ class Argument
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -72,7 +72,7 @@ class Argument
      *
      * @return bool True if the argument is an array, otherwise false
      */
-    public function isArray()
+    public function isArray() : bool
     {
         return ($this->type & ArgumentTypes::IS_ARRAY) === ArgumentTypes::IS_ARRAY;
     }
@@ -82,7 +82,7 @@ class Argument
      *
      * @return bool True if the argument is optional, otherwise false
      */
-    public function isOptional()
+    public function isOptional() : bool
     {
         return ($this->type & ArgumentTypes::OPTIONAL) === ArgumentTypes::OPTIONAL;
     }
@@ -92,7 +92,7 @@ class Argument
      *
      * @return bool True if the argument is required, otherwise false
      */
-    public function isRequired()
+    public function isRequired() : bool
     {
         return ($this->type & ArgumentTypes::REQUIRED) === ArgumentTypes::REQUIRED;
     }

@@ -35,7 +35,7 @@ class Collection implements ArrayAccess, Countable
      * @param string $name The key to add
      * @param mixed $value The value to add
      */
-    public function add($name, $value)
+    public function add(string $name, $value)
     {
         $this->values[$name] = $value;
     }
@@ -45,7 +45,7 @@ class Collection implements ArrayAccess, Countable
      *
      * @return int The number of values
      */
-    public function count()
+    public function count() : int
     {
         return count($this->values);
     }
@@ -56,7 +56,7 @@ class Collection implements ArrayAccess, Countable
      * @param mixed $array The values to exchange with
      * @return array The old array
      */
-    public function exchangeArray($array)
+    public function exchangeArray($array) : array
     {
         $oldValues = $this->values;
         $this->values = $array;
@@ -71,7 +71,7 @@ class Collection implements ArrayAccess, Countable
      * @param mixed $default The default value
      * @return mixed The value of the value if it was found, otherwise the default value
      */
-    public function get($name, $default = null)
+    public function get(string $name, $default = null)
     {
         return $this->has($name) ? $this->values[$name] : $default;
     }
@@ -81,7 +81,7 @@ class Collection implements ArrayAccess, Countable
      *
      * @return array All of the values
      */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->values;
     }
@@ -92,7 +92,7 @@ class Collection implements ArrayAccess, Countable
      * @param string $name The key to check for
      * @return bool True if the key exists, otherwise false
      */
-    public function has($name)
+    public function has(string $name) : bool
     {
         return isset($this->values[$name]);
     }
@@ -100,7 +100,7 @@ class Collection implements ArrayAccess, Countable
     /**
      * @inheritdoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
         return $this->has($offset);
     }
@@ -134,7 +134,7 @@ class Collection implements ArrayAccess, Countable
      *
      * @param string $name The name of the key to remove
      */
-    public function remove($name)
+    public function remove(string $name)
     {
         unset($this->values[$name]);
     }
@@ -145,7 +145,7 @@ class Collection implements ArrayAccess, Countable
      * @param string $name The key to set
      * @param mixed $value The value to set
      */
-    public function set($name, $value)
+    public function set(string $name, $value)
     {
         $this->values[$name] = $value;
     }

@@ -39,7 +39,7 @@ class TableFormatter
      * @param array $headers The list of headers
      * @return string The formatted table
      */
-    public function format(array $rows, array $headers = [])
+    public function format(array $rows, array $headers = []) : string
     {
         if (count($rows) == 0) {
             return "";
@@ -80,7 +80,7 @@ class TableFormatter
     /**
      * @param string $cellPaddingString
      */
-    public function setCellPaddingString($cellPaddingString)
+    public function setCellPaddingString(string $cellPaddingString)
     {
         $this->cellPaddingString = $cellPaddingString;
     }
@@ -88,7 +88,7 @@ class TableFormatter
     /**
      * @param string $eolChar
      */
-    public function setEolChar($eolChar)
+    public function setEolChar(string $eolChar)
     {
         $this->padding->setEolChar($eolChar);
     }
@@ -96,7 +96,7 @@ class TableFormatter
     /**
      * @param string $horizontalBorderChar
      */
-    public function setHorizontalBorderChar($horizontalBorderChar)
+    public function setHorizontalBorderChar(string $horizontalBorderChar)
     {
         $this->horizontalBorderChar = $horizontalBorderChar;
     }
@@ -104,7 +104,7 @@ class TableFormatter
     /**
      * @param string $intersectionChar
      */
-    public function setIntersectionChar($intersectionChar)
+    public function setIntersectionChar(string $intersectionChar)
     {
         $this->intersectionChar = $intersectionChar;
     }
@@ -112,7 +112,7 @@ class TableFormatter
     /**
      * @param bool $padAfter
      */
-    public function setPadAfter($padAfter)
+    public function setPadAfter(bool $padAfter)
     {
         $this->padding->setPadAfter($padAfter);
     }
@@ -120,7 +120,7 @@ class TableFormatter
     /**
      * @param string $verticalBorderChar
      */
-    public function setVerticalBorderChar($verticalBorderChar)
+    public function setVerticalBorderChar(string $verticalBorderChar)
     {
         $this->verticalBorderChar = $verticalBorderChar;
     }

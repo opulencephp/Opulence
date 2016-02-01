@@ -86,7 +86,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getClassName($object)
+    public function getClassName($object) : string
     {
         return get_class($object);
     }
@@ -94,7 +94,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntities()
+    public function getEntities() : array
     {
         if (count($this->entities) == 0) {
             return [];
@@ -112,7 +112,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntity($className, $id)
+    public function getEntity(string $className, $id)
     {
         if (!isset($this->entities[$className]) || !isset($this->entities[$className][$id])) {
             return null;
@@ -124,7 +124,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getEntityState($entity)
+    public function getEntityState($entity) : int
     {
         $objectHashId = $this->getObjectHashId($entity);
 
@@ -138,7 +138,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function getObjectHashId($object)
+    public function getObjectHashId($object) : string
     {
         return spl_object_hash($object);
     }
@@ -146,7 +146,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function isRegistered($entity)
+    public function isRegistered($entity) : bool
     {
         try {
             $entityId = $this->idAccessorRegistry->getEntityId($entity);
@@ -223,7 +223,7 @@ class EntityRegistry implements IEntityRegistry
     /**
      * @inheritdoc
      */
-    public function setState($entity, $entityState)
+    public function setState($entity, int $entityState)
     {
         $this->entityStates[$this->getObjectHashId($entity)] = $entityState;
     }

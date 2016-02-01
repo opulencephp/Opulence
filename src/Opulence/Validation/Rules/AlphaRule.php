@@ -16,7 +16,7 @@ class AlphaRule implements IRule
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "alpha";
     }
@@ -24,7 +24,7 @@ class AlphaRule implements IRule
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return ctype_alpha($value) && strpos($value, " ") === false;
     }

@@ -21,5 +21,5 @@ interface ICompiler
      * @param array $args The arguments used by the rule
      * @return string The compiled error template
      */
-    public function compile($field, $template, array $args = []);
+    public function compile(string $field, string $template, array $args = []) : string;
 }

@@ -19,7 +19,7 @@ class BcryptHasher extends Hasher
     /**
      * @inheritdoc
      */
-    public function hash($unhashedValue, array $options = [], $pepper = "")
+    public function hash(string $unhashedValue, array $options = [], string $pepper = "") : string
     {
         if (!isset($options["cost"])) {
             $options["cost"] = self::DEFAULT_COST;
@@ -31,7 +31,7 @@ class BcryptHasher extends Hasher
     /**
      * @inheritdoc
      */
-    public function needsRehash($hashedValue, array $options = [])
+    public function needsRehash(string $hashedValue, array $options = []) : bool
     {
         if (!isset($options["cost"])) {
             $options["cost"] = self::DEFAULT_COST;

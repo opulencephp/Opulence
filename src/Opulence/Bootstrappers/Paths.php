@@ -32,7 +32,7 @@ class Paths implements ArrayAccess
     /**
      * @inheritdoc
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset) : bool
     {
         return isset($this->paths[$offset]);
     }

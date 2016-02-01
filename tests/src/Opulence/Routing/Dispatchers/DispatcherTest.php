@@ -10,7 +10,6 @@ namespace Opulence\Routing\Dispatchers;
 
 use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
-use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\Container;
@@ -306,19 +305,6 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request));
-    }
-
-    /**
-     * Tests using a middleware that returns something
-     */
-    public function testUsingMiddlewareThatReturnsSomething()
-    {
-        $controller = MockController::class . "@returnsNothing";
-        $options = [
-            "middleware" => ReturnsSomethingMiddleware::class
-        ];
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
-        $this->assertEquals(new RedirectResponse("/bar"), $this->dispatcher->dispatch($route, $this->request));
     }
 
     /**

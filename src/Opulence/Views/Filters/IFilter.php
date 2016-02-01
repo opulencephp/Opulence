@@ -20,5 +20,5 @@ interface IFilter
      * @param array $options The list of options to use to filter the input
      * @return string The filtered input
      */
-    public function run($input, array $options = []);
+    public function run(string $input, array $options = []) : string;
 }

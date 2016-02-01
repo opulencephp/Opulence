@@ -18,7 +18,7 @@ class FileViewReader implements IViewReader
     /**
      * @inheritdoc
      */
-    public function read($path)
+    public function read(string $path) : string
     {
         if (!file_exists($path)) {
             throw new InvalidArgumentException("Path $path does not exist");

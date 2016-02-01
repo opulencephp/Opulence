@@ -22,5 +22,5 @@ interface IViewBuilder
      * @param IView $view The view to build
      * @return IView The built view
      */
-    public function build(IView $view);
+    public function build(IView $view) : IView;
 }

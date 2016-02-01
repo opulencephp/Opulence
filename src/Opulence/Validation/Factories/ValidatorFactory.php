@@ -9,6 +9,7 @@
 namespace Opulence\Validation\Factories;
 
 use Opulence\Validation\Rules\Factories\RulesFactory;
+use Opulence\Validation\IValidator;
 use Opulence\Validation\Validator;
 
 /**
@@ -30,7 +31,7 @@ class ValidatorFactory implements IValidatorFactory
     /**
      * @inheritdoc
      */
-    public function createValidator()
+    public function createValidator() : IValidator
     {
         return new Validator($this->rulesFactory);
     }

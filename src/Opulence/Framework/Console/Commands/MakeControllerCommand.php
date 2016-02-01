@@ -27,7 +27,7 @@ class MakeControllerCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace(string $rootNamespace) : string
     {
         return $rootNamespace . "\\Http\\Controllers";
     }
@@ -35,7 +35,7 @@ class MakeControllerCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath()
+    protected function getFileTemplatePath() : string
     {
         return __DIR__ . "/templates/Controller.template";
     }

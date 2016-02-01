@@ -9,6 +9,7 @@
 namespace Opulence\Console\Requests\Parsers;
 
 use InvalidArgumentException;
+use Opulence\Console\Requests\IRequest;
 use Opulence\Console\Requests\Tokenizers\ArrayListTokenizer;
 
 /**
@@ -27,7 +28,7 @@ class ArrayListParser extends Parser
     /**
      * @inheritdoc
      */
-    public function parse($input)
+    public function parse($input) : IRequest
     {
         if (!is_array($input)) {
             throw new InvalidArgumentException(__METHOD__ . " only accepts arrays as input");

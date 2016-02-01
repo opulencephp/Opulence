@@ -22,7 +22,7 @@ class Question implements IQuestion
      * @param string $question The question text
      * @param mixed $defaultAnswer The default answer to the question
      */
-    public function __construct($question, $defaultAnswer = null)
+    public function __construct(string $question, $defaultAnswer = null)
     {
         $this->question = $question;
         $this->defaultAnswer = $defaultAnswer;
@@ -48,7 +48,7 @@ class Question implements IQuestion
     /**
      * @inheritdoc
      */
-    public function getText()
+    public function getText() : string
     {
         return $this->question;
     }

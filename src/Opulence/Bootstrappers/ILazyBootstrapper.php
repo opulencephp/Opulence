@@ -18,5 +18,5 @@ interface ILazyBootstrapper
      *
      * @return array The list of bound classes
      */
-    public function getBindings();
+    public function getBindings() : array;
 }

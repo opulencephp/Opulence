@@ -19,7 +19,7 @@ class FileBridge implements ICacheBridge
     /**
      * @param string $path The path to the files
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = rtrim($path, "/");
 
@@ -31,7 +31,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function decrement($key, $by = 1)
+    public function decrement(string $key, int $by = 1) : int
     {
         $parsedData = $this->parseData($key);
         $incrementedValue = (int)$parsedData["d"] - $by;
@@ -43,7 +43,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function delete($key)
+    public function delete(string $key)
     {
         @unlink($this->getPath($key));
     }
@@ -63,7 +63,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function get($key)
+    public function get(string $key)
     {
         return $this->parseData($key)["d"];
     }
@@ -71,7 +71,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function has($key)
+    public function has(string $key) : bool
     {
         $parsedData = $this->parseData($key);
 
@@ -83,7 +83,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function increment($key, $by = 1)
+    public function increment(string $key, int $by = 1) : int
     {
         $parsedData = $this->parseData($key);
         $incrementedValue = (int)$parsedData["d"] + $by;
@@ -95,7 +95,7 @@ class FileBridge implements ICacheBridge
     /**
      * @inheritdoc
      */
-    public function set($key, $value, $lifetime)
+    public function set(string $key, $value, int $lifetime)
     {
         file_put_contents($this->getPath($key), $this->serialize($value, $lifetime));
     }
@@ -106,7 +106,7 @@ class FileBridge implements ICacheBridge
      * @param string $key The key to get
      * @return string The path to the key
      */
-    protected function getPath($key)
+    protected function getPath(string $key) : string
     {
         return $this->path . "/" . md5($key);
     }
@@ -117,7 +117,7 @@ class FileBridge implements ICacheBridge
      * @param string $key The key to run garbage collection on
      * @return array The array of data after running any garbage collection
      */
-    protected function parseData($key)
+    protected function parseData(string $key) : array
     {
         if (file_exists($this->getPath($key))) {
             $rawData = json_decode(file_get_contents($this->getPath($key)), true);
@@ -142,7 +142,7 @@ class FileBridge implements ICacheBridge
      * @param int $lifetime The lifetime in seconds
      * @return string The serialized data
      */
-    protected function serialize($data, $lifetime)
+    protected function serialize($data, int $lifetime) : string
     {
         return json_encode(
             ["d" => serialize($data), "t" => time() + $lifetime]
@@ -155,7 +155,7 @@ class FileBridge implements ICacheBridge
      * @param string $data The data to unserialize
      * @return mixed The serialized data
      */
-    protected function unserialize($data)
+    protected function unserialize(string $data)
     {
         $unserializedData = json_decode($data, true);
         $unserializedData["d"] = unserialize($unserializedData["d"]);

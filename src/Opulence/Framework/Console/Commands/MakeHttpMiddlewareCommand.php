@@ -27,7 +27,7 @@ class MakeHttpMiddlewareCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getDefaultNamespace($rootNamespace)
+    protected function getDefaultNamespace(string $rootNamespace) : string
     {
         return $rootNamespace . "\\Http\\Middleware";
     }
@@ -35,7 +35,7 @@ class MakeHttpMiddlewareCommand extends MakeCommand
     /**
      * @inheritdoc
      */
-    protected function getFileTemplatePath()
+    protected function getFileTemplatePath() : string
     {
         return __DIR__ . "/templates/HttpMiddleware.template";
     }

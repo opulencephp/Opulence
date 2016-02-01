@@ -23,7 +23,7 @@ class CompiledRoute extends ParsedRoute
      * @param bool $isMatch Whether or not this route is a match for the request
      * @param array $pathVars The mapping of path variable names to values
      */
-    public function __construct(ParsedRoute $parsedRoute, $isMatch, array $pathVars = [])
+    public function __construct(ParsedRoute $parsedRoute, bool $isMatch, array $pathVars = [])
     {
         parent::__construct($parsedRoute);
 
@@ -40,7 +40,7 @@ class CompiledRoute extends ParsedRoute
      * @param string $name The name of the variable to get
      * @return mixed|null The value of the variable if it exists, otherwise null
      */
-    public function getPathVar($name)
+    public function getPathVar(string $name)
     {
         if (isset($this->pathVars[$name])) {
             return $this->pathVars[$name];
@@ -52,7 +52,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @return array
      */
-    public function getPathVars()
+    public function getPathVars() : array
     {
         return $this->pathVars;
     }
@@ -60,7 +60,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @return bool
      */
-    public function isMatch()
+    public function isMatch() : bool
     {
         return $this->isMatch;
     }
@@ -68,7 +68,7 @@ class CompiledRoute extends ParsedRoute
     /**
      * @param bool $isMatch
      */
-    public function setMatch($isMatch)
+    public function setMatch(bool $isMatch)
     {
         $this->isMatch = $isMatch;
     }

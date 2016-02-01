@@ -19,7 +19,7 @@ class ParentBuilder implements IViewBuilder
     /**
      * @inheritdoc
      */
-    public function build(IView $view)
+    public function build(IView $view) : IView
     {
         $view->setVar("foo", "blah");
         $view->setVar("bar", true);

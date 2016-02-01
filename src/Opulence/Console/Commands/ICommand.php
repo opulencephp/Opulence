@@ -23,17 +23,17 @@ interface ICommand
      * Adds an argument to the command
      *
      * @param Argument $argument The argument to add
-     * @return ICommand For method chaining
+     * @return self For method chaining
      */
-    public function addArgument(Argument $argument);
+    public function addArgument(Argument $argument) : self;
 
     /**
      * Adds an option to the command
      *
      * @param Option $option The option to add
-     * @return ICommand For method chaining
+     * @return self For method chaining
      */
-    public function addOption(Option $option);
+    public function addOption(Option $option) : self;
 
     /**
      * Gets whether or not an argument has a value
@@ -41,7 +41,7 @@ interface ICommand
      * @param string $name The name of the argument to check
      * @return bool True if the input argument has a value, otherwise false
      */
-    public function argumentValueIsSet($name);
+    public function argumentValueIsSet(string $name) : bool;
 
     /**
      * Executes the command
@@ -59,7 +59,7 @@ interface ICommand
      * @return Argument The argument with the input name
      * @throws InvalidArgumentException Thrown if no argument exists with that name
      */
-    public function getArgument($name);
+    public function getArgument(string $name) : Argument;
 
     /**
      * Gets the value of an argument
@@ -68,35 +68,35 @@ interface ICommand
      * @return mixed The value of the argument
      * @throws InvalidArgumentException Thrown if there is no argument with the input name
      */
-    public function getArgumentValue($name);
+    public function getArgumentValue(string $name);
 
     /**
      * Gets the list of arguments this command accepts
      *
      * @return Argument[] The list of arguments
      */
-    public function getArguments();
+    public function getArguments() : array;
 
     /**
      * Gets the description of the command
      *
      * @return string The description
      */
-    public function getDescription();
+    public function getDescription() : string;
 
     /**
      * Gets the help text
      *
      * @return string The help text
      */
-    public function getHelpText();
+    public function getHelpText() : string;
 
     /**
      * Gets the name of the command
      *
      * @return string The name
      */
-    public function getName();
+    public function getName() : string;
 
     /**
      * Gets the option with the input name
@@ -105,7 +105,7 @@ interface ICommand
      * @return Option The option with the input name
      * @throws InvalidArgumentException Thrown if no option exists with that name
      */
-    public function getOption($name);
+    public function getOption(string $name) : Option;
 
     /**
      * Gets the value of an option
@@ -114,14 +114,14 @@ interface ICommand
      * @return mixed The value of the option
      * @throws InvalidArgumentException Thrown if there is no option with the input name
      */
-    public function getOptionValue($name);
+    public function getOptionValue(string $name);
 
     /**
      * Gets the list of options this command accepts
      *
      * @return Option[] The list of options
      */
-    public function getOptions();
+    public function getOptions() : array;
 
     /**
      * Gets whether or not the command has a certain option set
@@ -130,7 +130,7 @@ interface ICommand
      * @param string $name The name of the option to check
      * @return bool True if the option is set, otherwise false
      */
-    public function optionIsSet($name);
+    public function optionIsSet(string $name) : bool;
 
     /**
      * Sets the value of an argument
@@ -138,7 +138,7 @@ interface ICommand
      * @param string $name The name of the argument to set
      * @param mixed $value The value to set
      */
-    public function setArgumentValue($name, $value);
+    public function setArgumentValue(string $name, $value);
 
     /**
      * Sets the list of registered commands
@@ -153,5 +153,5 @@ interface ICommand
      * @param string $name The name of the option to set
      * @param mixed $value The value to set
      */
-    public function setOptionValue($name, $value);
+    public function setOptionValue(string $name, $value);
 }

@@ -9,6 +9,7 @@
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
+use LogicException;
 use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\JsonResponse;
@@ -49,6 +50,15 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     public function tearDown()
     {
         ob_end_clean();
+    }
+
+    /**
+     * Tests that the response is null before being rendered
+     */
+    public function testExceptionThrownWhenGettingResponseBeforeItIsRendered()
+    {
+        $this->setExpectedException(LogicException::class);
+        $this->renderer->getResponse();
     }
 
     /**
@@ -214,14 +224,6 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $this->renderer->render($ex);
         $this->assertEquals("Something went wrong", $this->renderer->getResponse()->getContent());
         $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
-    }
-
-    /**
-     * Tests that the response is null before being rendered
-     */
-    public function testResponseIsNullBeforeBeingRendered()
-    {
-        $this->assertNull($this->renderer->getResponse());
     }
 
     /**

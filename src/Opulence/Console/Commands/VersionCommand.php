@@ -25,7 +25,7 @@ EOF;
     /**
      * @param string $applicationVersion The version number of the application
      */
-    public function __construct($applicationVersion)
+    public function __construct(string $applicationVersion)
     {
         parent::__construct();
 

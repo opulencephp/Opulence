@@ -34,7 +34,7 @@ class Compiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(ParsedRoute $route, Request $request)
+    public function compile(ParsedRoute $route, Request $request) : CompiledRoute
     {
         $hostMatches = [];
         $pathMatches = [];

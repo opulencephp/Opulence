@@ -21,7 +21,7 @@ interface IDispatcher
      * @param string $eventName The name of the event to dispatch
      * @param IEvent $event The event to dispatch
      */
-    public function dispatch($eventName, IEvent $event);
+    public function dispatch(string $eventName, IEvent $event);
 
     /**
      * Gets the list of listeners for an event name
@@ -29,7 +29,7 @@ interface IDispatcher
      * @param string $eventName The event whose listeners we want
      * @return callable[] The list of listeners for the event
      */
-    public function getListeners($eventName);
+    public function getListeners(string $eventName) : array;
 
     /**
      * Gets whether or not an event name has any listeners
@@ -37,7 +37,7 @@ interface IDispatcher
      * @param string $eventName The event name to look for
      * @return bool Whether or not the event name has listeners
      */
-    public function hasListeners($eventName);
+    public function hasListeners(string $eventName) : bool;
 
     /**
      * Adds a listener for an event
@@ -45,7 +45,7 @@ interface IDispatcher
      * @param string $eventName The name of the event the listener listens to
      * @param callable $listener The listener to add
      */
-    public function registerListener($eventName, callable $listener);
+    public function registerListener(string $eventName, callable $listener);
 
     /**
      * Removes a listener from an event name
@@ -53,5 +53,5 @@ interface IDispatcher
      * @param string $eventName The event name to look for
      * @param callable $listener the listener to remove
      */
-    public function removeListener($eventName, callable $listener);
+    public function removeListener(string $eventName, callable $listener);
 }

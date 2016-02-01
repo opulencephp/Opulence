@@ -33,7 +33,7 @@ class RequestsBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IParser The request parser
      */
-    protected function getRequestParser(IContainer $container)
+    protected function getRequestParser(IContainer $container) : IParser
     {
         return new ArgvParser();
     }

@@ -18,7 +18,7 @@ interface IEvent
      *
      * @return bool True if the propagation is stopped, otherwise false
      */
-    public function propagationIsStopped();
+    public function propagationIsStopped() : bool;
 
     /**
      * Stops the propagation of this event

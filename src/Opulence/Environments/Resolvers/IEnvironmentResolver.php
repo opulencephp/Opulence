@@ -21,7 +21,7 @@ interface IEnvironmentResolver
      * @param string $environmentName The name of the environment this host belongs to
      * @param IHost|IHost[] $hosts The host or hosts to add
      */
-    public function registerHost($environmentName, $hosts);
+    public function registerHost(string $environmentName, $hosts);
 
     /**
      * Gets the environment the server belongs to, eg "production"
@@ -29,5 +29,5 @@ interface IEnvironmentResolver
      * @param string $hostName The host name to resolve
      * @return string The environment the server belongs to
      */
-    public function resolve($hostName);
+    public function resolve(string $hostName) : string;
 }

@@ -21,7 +21,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @param string $path The path to the session files
      */
-    public function __construct($path)
+    public function __construct(string $path)
     {
         $this->path = $path;
     }
@@ -29,7 +29,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function close()
+    public function close() : bool
     {
         return true;
     }
@@ -37,15 +37,17 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    public function destroy($sessionId)
+    public function destroy($sessionId) : bool
     {
         @unlink("{$this->path}/$sessionId");
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function gc($maxLifetime)
+    public function gc($maxLifetime) : bool
     {
         $sessionFiles = glob($this->path . "/*");
 
@@ -56,12 +58,14 @@ class FileSessionHandler extends SessionHandler
                 @unlink($sessionFile);
             }
         }
+
+        return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function open($savePath, $sessionId)
+    public function open($savePath, $sessionId) : bool
     {
         return true;
     }
@@ -69,7 +73,7 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doRead($sessionId)
+    protected function doRead(string $sessionId) : string
     {
         if (file_exists("{$this->path}/$sessionId")) {
             return file_get_contents("{$this->path}/$sessionId");
@@ -81,8 +85,8 @@ class FileSessionHandler extends SessionHandler
     /**
      * @inheritdoc
      */
-    protected function doWrite($sessionId, $sessionData)
+    protected function doWrite(string $sessionId, string $sessionData) : bool
     {
-        file_put_contents("{$this->path}/$sessionId", $sessionData, LOCK_EX);
+        return file_put_contents("{$this->path}/$sessionId", $sessionData, LOCK_EX) !== false;
     }
 }

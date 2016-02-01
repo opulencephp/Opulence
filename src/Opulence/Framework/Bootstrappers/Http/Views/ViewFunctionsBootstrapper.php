@@ -56,7 +56,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
             }
         });
         // Add the ability to generate URLs to named routes from views
-        $transpiler->registerViewFunction("route", function ($routeName) use ($urlGenerator) {
+        $transpiler->registerViewFunction("route", function ($routeName, ...$args) use ($urlGenerator) {
             return call_user_func_array([$urlGenerator, "createFromName"], func_get_args());
         });
     }

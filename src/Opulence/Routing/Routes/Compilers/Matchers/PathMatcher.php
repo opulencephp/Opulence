@@ -20,7 +20,7 @@ class PathMatcher implements IRouteMatcher
      * @inheritdoc
      * @param array $matches The list of regex matches
      */
-    public function isMatch(ParsedRoute $route, Request $request, array &$matches = [])
+    public function isMatch(ParsedRoute $route, Request $request, array &$matches = []) : bool
     {
         $isMatch = preg_match($route->getPathRegex(), $request->getPath(), $matches) === 1;
         // Remove the subject

@@ -17,7 +17,7 @@ class Confirmation extends Question
      * @param string $question The question text
      * @param bool $defaultAnswer The default answer to the question
      */
-    public function __construct($question, $defaultAnswer = true)
+    public function __construct(string $question, bool $defaultAnswer = true)
     {
         parent::__construct($question, $defaultAnswer);
     }
@@ -25,7 +25,7 @@ class Confirmation extends Question
     /**
      * @inheritdoc
      */
-    public function formatAnswer($answer)
+    public function formatAnswer($answer) : bool
     {
         if (is_bool($answer)) {
             return $answer;

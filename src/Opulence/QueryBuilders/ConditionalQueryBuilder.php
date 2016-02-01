@@ -21,14 +21,11 @@ class ConditionalQueryBuilder
      *
      * @param array $clauseConditions The list of conditions that already belong to the clause
      * @param string $operation Either "AND" or "OR", indicating how this condition is being added to the list of conditions
-     * @param string $condition,... A variable list of conditions to be met
+     * @param array $conditions,... A variable list of conditions to be met
      * @return array The input array with the condition added
      */
-    public function addConditionToClause(array $clauseConditions, $operation, $condition)
+    public function addConditionToClause(array $clauseConditions, string $operation, string ...$conditions) : array
     {
-        // This will grab just the list of conditions
-        $conditions = array_slice(func_get_args(), 2);
-
         foreach ($conditions as $condition) {
             $clauseConditions[] = ["operation" => $operation, "condition" => $condition];
         }
@@ -39,14 +36,14 @@ class ConditionalQueryBuilder
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function andWhere($condition)
+    public function andWhere(string ...$condition) : self
     {
         $this->whereConditions = call_user_func_array(
             [$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "AND"], func_get_args())
+            array_merge([$this->whereConditions, "AND"], $condition)
         );
 
         return $this;
@@ -59,7 +56,7 @@ class ConditionalQueryBuilder
      * @param array $clauseConditions The array of condition data whose SQL we want
      * @return string The SQL that makes up the input clause(s)
      */
-    public function getClauseConditionSql($conditionType, array $clauseConditions)
+    public function getClauseConditionSql(string $conditionType, array $clauseConditions) : string
     {
         if (count($clauseConditions) === 0) {
             return "";
@@ -81,7 +78,7 @@ class ConditionalQueryBuilder
     /**
      * @return array
      */
-    public function getWhereConditions()
+    public function getWhereConditions() : array
     {
         return $this->whereConditions;
     }
@@ -89,13 +86,15 @@ class ConditionalQueryBuilder
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function orWhere($condition)
+    public function orWhere(string ...$condition) : self
     {
-        $this->whereConditions = call_user_func_array([$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "OR"], func_get_args()));
+        $this->whereConditions = call_user_func_array(
+            [$this, "addConditionToClause"],
+            array_merge([$this->whereConditions, "OR"], $condition)
+        );
 
         return $this;
     }
@@ -104,15 +103,15 @@ class ConditionalQueryBuilder
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function where($condition)
+    public function where(string ...$condition) : self
     {
         // We want to wipe out anything already in the condition list
         $this->whereConditions = [];
         $this->whereConditions = call_user_func_array([$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "AND"], func_get_args()));
+            array_merge([$this->whereConditions, "AND"], $condition));
 
         return $this;
     }

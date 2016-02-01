@@ -23,7 +23,7 @@ class EnvironmentResolver implements IEnvironmentResolver
     /**
      * @inheritdoc
      */
-    public function registerHost($environmentName, $hosts)
+    public function registerHost(string $environmentName, $hosts)
     {
         if (!isset($this->environmentsToHosts[$environmentName])) {
             $this->environmentsToHosts[$environmentName] = [];
@@ -41,7 +41,7 @@ class EnvironmentResolver implements IEnvironmentResolver
     /**
      * @inheritdoc
      */
-    public function resolve($hostName)
+    public function resolve(string $hostName) : string
     {
         foreach ($this->environmentsToHosts as $environmentName => $hosts) {
             /** @var IHost $host */

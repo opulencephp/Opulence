@@ -37,5 +37,5 @@ interface IQuestion
      *
      * @return string The question text
      */
-    public function getText();
+    public function getText() : string;
 }

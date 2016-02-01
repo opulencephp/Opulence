@@ -24,7 +24,7 @@ class UpdateQuery extends Query
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @throws InvalidQueryException Thrown if the query is invalid
      */
-    public function __construct($tableName, $tableAlias, array $columnNamesToValues)
+    public function __construct(string $tableName, string $tableAlias, array $columnNamesToValues)
     {
         $this->setTable($tableName, $tableAlias);
         $this->augmentingQueryBuilder = new AugmentingQueryBuilder();
@@ -38,10 +38,10 @@ class UpdateQuery extends Query
      * @param array $columnNamesToValues The mapping of column names to their respective values
      *      Optionally, the values can be contained in an array whose first item is the value and whose second value is
      *      the PDO constant indicating the type of data the value represents
-     * @return $this
+     * @return self For method chaining
      * @throws InvalidQueryException Thrown if the query is invalid
      */
-    public function addColumnValues(array $columnNamesToValues)
+    public function addColumnValues(array $columnNamesToValues) : self
     {
         if (count($columnNamesToValues) > 0) {
             $this->addUnnamedPlaceholderValues(array_values($columnNamesToValues));
@@ -66,12 +66,12 @@ class UpdateQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function andWhere($condition)
+    public function andWhere(string ...$condition) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], $condition);
 
         return $this;
     }
@@ -79,7 +79,7 @@ class UpdateQuery extends Query
     /**
      * @inheritdoc
      */
-    public function getSql()
+    public function getSql() : string
     {
         $sql = "UPDATE " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias) . " SET";
 
@@ -98,12 +98,12 @@ class UpdateQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function orWhere($condition)
+    public function orWhere(string ...$condition) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], $condition);
 
         return $this;
     }
@@ -112,12 +112,12 @@ class UpdateQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param string $condition,... A variable list of conditions to be met
-     * @return $this
+     * @param array $condition,... A variable list of conditions to be met
+     * @return self For method chaining
      */
-    public function where($condition)
+    public function where(string ...$condition) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "where"], func_get_args());
+        call_user_func_array([$this->conditionalQueryBuilder, "where"], $condition);
 
         return $this;
     }

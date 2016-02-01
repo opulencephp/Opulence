@@ -21,7 +21,7 @@ class DeleteQuery extends BaseDeleteQuery
     /**
      * @inheritdoc
      */
-    public function getSql()
+    public function getSql() : string
     {
         $sql = parent::getSql();
 
@@ -38,9 +38,9 @@ class DeleteQuery extends BaseDeleteQuery
      *
      * @param int|string $numRows The number of rows to limit in the results
      *      or the named placeholder value that will contain the number of rows
-     * @return $this
+     * @return self For method chaining
      */
-    public function limit($numRows)
+    public function limit($numRows) : self
     {
         $this->limit = $numRows;
 

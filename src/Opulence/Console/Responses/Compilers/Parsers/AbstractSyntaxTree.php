@@ -32,7 +32,7 @@ class AbstractSyntaxTree
      *
      * @return Node The current node
      */
-    public function getCurrentNode()
+    public function getCurrentNode() : Node
     {
         return $this->currentNode;
     }
@@ -42,7 +42,7 @@ class AbstractSyntaxTree
      *
      * @return RootNode The root node
      */
-    public function getRootNode()
+    public function getRootNode() : Node
     {
         return $this->rootNode;
     }
@@ -53,7 +53,7 @@ class AbstractSyntaxTree
      * @param Node $node The node to set
      * @return Node The current node
      */
-    public function setCurrentNode(Node $node)
+    public function setCurrentNode(Node $node) : Node
     {
         $this->currentNode = $node;
 

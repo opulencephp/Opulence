@@ -34,7 +34,7 @@ class Option
      * @param mixed $defaultValue The default value for the option if it's optional
      * @throws InvalidArgumentException Thrown if the type is invalid
      */
-    public function __construct($name, $shortName, $type, $description, $defaultValue = null)
+    public function __construct(string $name, $shortName, int $type, string $description, $defaultValue = null)
     {
         if (($type & 3) === 3) {
             throw new InvalidArgumentException("Option type cannot be both optional and required");
@@ -72,7 +72,7 @@ class Option
     /**
      * @return string
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -80,13 +80,13 @@ class Option
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getShortName()
     {
@@ -98,7 +98,7 @@ class Option
      *
      * @return bool True if the option value is an array, otherwise false
      */
-    public function valueIsArray()
+    public function valueIsArray() : bool
     {
         return ($this->type & OptionTypes::IS_ARRAY) === OptionTypes::IS_ARRAY;
     }
@@ -108,7 +108,7 @@ class Option
      *
      * @return bool True if the option value is optional, otherwise false
      */
-    public function valueIsOptional()
+    public function valueIsOptional() : bool
     {
         return ($this->type & OptionTypes::OPTIONAL_VALUE) === OptionTypes::OPTIONAL_VALUE;
     }
@@ -118,7 +118,7 @@ class Option
      *
      * @return bool True if the option value is allowed, otherwise false
      */
-    public function valueIsPermitted()
+    public function valueIsPermitted() : bool
     {
         return ($this->type & OptionTypes::NO_VALUE) !== OptionTypes::NO_VALUE;
     }
@@ -128,7 +128,7 @@ class Option
      *
      * @return bool True if the option value is required, otherwise false
      */
-    public function valueIsRequired()
+    public function valueIsRequired() : bool
     {
         return ($this->type & OptionTypes::REQUIRED_VALUE) === OptionTypes::REQUIRED_VALUE;
     }

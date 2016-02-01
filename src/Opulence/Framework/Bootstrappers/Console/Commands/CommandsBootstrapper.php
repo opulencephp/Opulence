@@ -84,7 +84,7 @@ class CommandsBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICompiler The command compiler
      */
-    protected function getCommandCompiler(IContainer $container)
+    protected function getCommandCompiler(IContainer $container) : ICompiler
     {
         return new Compiler();
     }

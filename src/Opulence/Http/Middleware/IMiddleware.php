@@ -24,5 +24,5 @@ interface IMiddleware
      * @param Closure $next The next middleware item
      * @return Response The response after the middleware was run
      */
-    public function handle(Request $request, Closure $next);
+    public function handle(Request $request, Closure $next) : Response;
 }

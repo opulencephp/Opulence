@@ -19,7 +19,7 @@ class HostName implements IHost
     /**
      * @param string $value The host name value
      */
-    public function __construct($value)
+    public function __construct(string $value)
     {
         $this->value = $value;
     }
@@ -27,7 +27,7 @@ class HostName implements IHost
     /**
      * @inheritdoc
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }

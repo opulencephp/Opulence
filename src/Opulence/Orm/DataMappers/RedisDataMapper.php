@@ -62,7 +62,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param string $key The key whose members we want
      * @return array|bool The list of members if successful, otherwise false
      */
-    abstract protected function getSetMembersFromRedis($key);
+    abstract protected function getSetMembersFromRedis(string $key);
 
     /**
      * Gets the list of members of the sorted set at the given key
@@ -71,7 +71,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param string $key The key whose members we want
      * @return array|bool The list of members if successful, otherwise false
      */
-    abstract protected function getSortedSetMembersFromRedis($key);
+    abstract protected function getSortedSetMembersFromRedis(string $key);
 
     /**
      * Gets the item at the given key
@@ -80,7 +80,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param string $key The key whose value we want
      * @return mixed|bool The value of the key
      */
-    abstract protected function getValueFromRedis($key);
+    abstract protected function getValueFromRedis(string $key);
 
     /**
      * Loads an entity from a hash of data
@@ -126,7 +126,7 @@ abstract class RedisDataMapper implements ICacheDataMapper
      * @param int $valueType The constant indicating the type of value at the key
      * @return array|mixed|null The list of entities or an individual entity if successful, otherwise null
      */
-    protected function read($keyOfEntityIds, $valueType)
+    protected function read(string $keyOfEntityIds, int $valueType)
     {
         switch ($valueType) {
             case self::VALUE_TYPE_STRING:

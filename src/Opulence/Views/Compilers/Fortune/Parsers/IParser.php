@@ -23,5 +23,5 @@ interface IParser
      * @return AbstractSyntaxTree The abstract syntax tree
      * @throws RuntimeException Thrown if the stream of tokens was invalid
      */
-    public function parse(array $tokens);
+    public function parse(array $tokens) : AbstractSyntaxTree;
 }

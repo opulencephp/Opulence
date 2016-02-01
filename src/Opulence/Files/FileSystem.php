@@ -27,7 +27,7 @@ class FileSystem
      * @return int|bool The number of bytes written if successful, otherwise false
      * @throws FileSystemException Thrown if there was a problem appending to the file
      */
-    public function append($path, $data)
+    public function append(string $path, $data)
     {
         return $this->write($path, $data, FILE_APPEND);
     }
@@ -40,7 +40,7 @@ class FileSystem
      * @param null|int $flags The file permissions to use for the new directory(ies)
      * @return bool True if successful, otherwise false
      */
-    public function copyDirectory($source, $target, $flags = null)
+    public function copyDirectory(string $source, string $target, int $flags = null) : bool
     {
         if (!$this->exists($source)) {
             return false;
@@ -80,7 +80,7 @@ class FileSystem
      * @param string $target The path to copy to
      * @return bool True if successful, otherwise false
      */
-    public function copyFile($source, $target)
+    public function copyFile(string $source, string $target) : bool
     {
         return copy($source, $target);
     }
@@ -92,7 +92,7 @@ class FileSystem
      * @param bool $keepDirectoryStructure True if we want to keep the directory structure, otherwise false
      * @return bool True if successful, otherwise false
      */
-    public function deleteDirectory($path, $keepDirectoryStructure = false)
+    public function deleteDirectory(string $path, bool $keepDirectoryStructure = false) : bool
     {
         if (!$this->isDirectory($path)) {
             return false;
@@ -125,7 +125,7 @@ class FileSystem
      * @param string $path The file to delete
      * @return bool True if successful, otherwise false
      */
-    public function deleteFile($path)
+    public function deleteFile(string $path) : bool
     {
         return @unlink($path);
     }
@@ -136,7 +136,7 @@ class FileSystem
      * @param string $path The path to check
      * @return bool Whether or not the file/directory exists
      */
-    public function exists($path)
+    public function exists(string $path) : bool
     {
         return file_exists($path);
     }
@@ -148,7 +148,7 @@ class FileSystem
      * @return string The basename of the path
      * @throws FileSystemException Thrown if the path does not exist
      */
-    public function getBasename($path)
+    public function getBasename(string $path) : string
     {
         if (!$this->exists($path)) {
             throw new FileSystemException("Path $path not found");
@@ -164,7 +164,7 @@ class FileSystem
      * @param bool $isRecursive Whether or not we should recurse through child directories
      * @return array All of the directories at the path
      */
-    public function getDirectories($path, $isRecursive = false)
+    public function getDirectories(string $path, bool $isRecursive = false) : array
     {
         if (!$this->isDirectory($path)) {
             return [];
@@ -197,7 +197,7 @@ class FileSystem
      * @return string The directory name of the file
      * @throws FileSystemException Thrown if the file does not exist
      */
-    public function getDirectoryName($path)
+    public function getDirectoryName(string $path) : string
     {
         if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
@@ -213,7 +213,7 @@ class FileSystem
      * @return string The extension of the file
      * @throws FileSystemException Thrown if the file does not exist
      */
-    public function getExtension($path)
+    public function getExtension(string $path) : string
     {
         if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
@@ -229,7 +229,7 @@ class FileSystem
      * @return string The file name
      * @throws FileSystemException Thrown if the file does not exist
      */
-    public function getFileName($path)
+    public function getFileName(string $path) : string
     {
         if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
@@ -245,7 +245,7 @@ class FileSystem
      * @return int The number of bytes the file has
      * @throws FileSystemException Thrown if the file does not exist
      */
-    public function getFileSize($path)
+    public function getFileSize(string $path) : int
     {
         if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
@@ -267,7 +267,7 @@ class FileSystem
      * @param bool $isRecursive Whether or not we should recurse through child directories
      * @return array All of the files at the path
      */
-    public function getFiles($path, $isRecursive = false)
+    public function getFiles(string $path, bool $isRecursive = false) : array
     {
         if (!$this->isDirectory($path)) {
             return [];
@@ -300,7 +300,7 @@ class FileSystem
      * @return DateTime The last modified time
      * @throws FileSystemException Thrown if the file was not found or if the modified time was not readable
      */
-    public function getLastModified($path)
+    public function getLastModified(string $path) : DateTime
     {
         if (!$this->exists($path)) {
             throw new FileSystemException("File at path $path not found");
@@ -312,7 +312,13 @@ class FileSystem
             throw new FileSystemException("Failed to get last modified time of $path");
         }
 
-        return DateTime::createFromFormat("U", $modifiedTimestamp);
+        $modifiedDateTime = DateTime::createFromFormat("U", $modifiedTimestamp);
+
+        if ($modifiedDateTime === false) {
+            throw new FileSystemException("Failed to convert last modified time to DateTime object");
+        }
+
+        return $modifiedDateTime;
     }
 
     /**
@@ -325,7 +331,7 @@ class FileSystem
      * @return array The list of matched files
      * @throws FileSystemException Thrown if the search failed
      */
-    public function glob($pattern, $flags = 0)
+    public function glob(string $pattern, int $flags = 0) : array
     {
         $files = glob($pattern, $flags);
 
@@ -342,7 +348,7 @@ class FileSystem
      * @param string $path The path to check
      * @return bool True if the path points a directory, otherwise false
      */
-    public function isDirectory($path)
+    public function isDirectory(string $path) : bool
     {
         return is_dir($path);
     }
@@ -353,7 +359,7 @@ class FileSystem
      * @param string $path The path to check
      * @return bool True if the path points to a file, otherwise false
      */
-    public function isFile($path)
+    public function isFile(string $path) : bool
     {
         return is_file($path);
     }
@@ -364,7 +370,7 @@ class FileSystem
      * @param string $path The path to check
      * @return bool True if the path is readable, otherwise false
      */
-    public function isReadable($path)
+    public function isReadable(string $path) : bool
     {
         return is_readable($path);
     }
@@ -375,7 +381,7 @@ class FileSystem
      * @param string $path The path to check
      * @return bool True if the path is writable, otherwise false
      */
-    public function isWritable($path)
+    public function isWritable(string $path) : bool
     {
         return is_writable($path);
     }
@@ -388,7 +394,7 @@ class FileSystem
      * @param bool $isRecursive Whether or not we create nested directories
      * @return bool True if successful, otherwise false
      */
-    public function makeDirectory($path, $mode = 0777, $isRecursive = false)
+    public function makeDirectory(string $path, int $mode = 0777, bool $isRecursive = false) : bool
     {
         $result = mkdir($path, $mode, $isRecursive);
         // The directory might not get the correct mode due to umask, so we have to chmod it
@@ -405,7 +411,7 @@ class FileSystem
      * @param string $target The path to move to
      * @return bool True if successful, otherwise false
      */
-    public function move($source, $target)
+    public function move(string $source, string $target) : bool
     {
         return rename($source, $target);
     }
@@ -418,12 +424,8 @@ class FileSystem
      * @throws FileSystemException Thrown if the path was not a valid path
      * @throws InvalidArgumentException Thrown if the path was not a string
      */
-    public function read($path)
+    public function read(string $path) : string
     {
-        if (!is_string($path)) {
-            throw new InvalidArgumentException("Path is not a string");
-        }
-
         if (!$this->isFile($path)) {
             throw new FileSystemException("File at path $path not found");
         }
@@ -440,7 +442,7 @@ class FileSystem
      * @return int The number of bytes written
      * @throws FileSystemException Thrown if there was a problem writing to the file
      */
-    public function write($path, $data, $flags = 0)
+    public function write(string $path, $data, int $flags = 0) : int
     {
         $bytesWritten = file_put_contents($path, $data, $flags);
 

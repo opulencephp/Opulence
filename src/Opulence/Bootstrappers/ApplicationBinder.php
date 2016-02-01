@@ -63,9 +63,9 @@ class ApplicationBinder
      */
     public function bindToApplication(
         array $kernelBootstrapperClasses,
-        $forceEagerLoading,
-        $useCache,
-        $cachedRegistryFilePath = ""
+        bool $forceEagerLoading,
+        bool $useCache,
+        string $cachedRegistryFilePath = ""
     ) {
         $this->bootstrapperDispatcher->forceEagerLoading($forceEagerLoading);
         $this->bootstrapperRegistry->registerBootstrappers($kernelBootstrapperClasses);

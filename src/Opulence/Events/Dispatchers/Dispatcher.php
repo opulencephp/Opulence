@@ -21,7 +21,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch($eventName, IEvent $event)
+    public function dispatch(string $eventName, IEvent $event)
     {
         if (isset($this->eventNamesToListeners[$eventName])) {
             foreach ($this->eventNamesToListeners[$eventName] as $listener) {
@@ -37,7 +37,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function getListeners($eventName)
+    public function getListeners(string $eventName) : array
     {
         if (!isset($this->eventNamesToListeners[$eventName])) {
             return [];
@@ -49,7 +49,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function hasListeners($eventName)
+    public function hasListeners(string $eventName) : bool
     {
         return isset($this->eventNamesToListeners[$eventName]) && count($this->eventNamesToListeners[$eventName]) > 0;
     }
@@ -57,7 +57,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function registerListener($eventName, callable $listener)
+    public function registerListener(string $eventName, callable $listener)
     {
         if (!isset($this->eventNamesToListeners[$eventName])) {
             $this->eventNamesToListeners[$eventName] = [];
@@ -71,7 +71,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function removeListener($eventName, callable $listener)
+    public function removeListener(string $eventName, callable $listener)
     {
         if (
             isset($this->eventNamesToListeners[$eventName]) &&

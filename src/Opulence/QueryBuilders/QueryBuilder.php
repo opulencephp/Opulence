@@ -20,7 +20,7 @@ abstract class QueryBuilder
      * @param string $alias The alias of the table name
      * @return DeleteQuery The delete query builder
      */
-    abstract public function delete($tableName, $alias = "");
+    abstract public function delete(string $tableName, string $alias = "");
 
     /**
      * Starts a new insert query
@@ -29,15 +29,15 @@ abstract class QueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return InsertQuery The insert query builder
      */
-    abstract public function insert($tableName, array $columnNamesToValues);
+    abstract public function insert(string $tableName, array $columnNamesToValues);
 
     /**
      * Starts a new select query
      *
-     * @param string $expression,... A variable list of select expressions
+     * @param array $expression,... A variable list of select expressions
      * @return SelectQuery The select query builder
      */
-    abstract public function select($expression);
+    abstract public function select(...$expression);
 
     /**
      * Starts a new update query
@@ -47,5 +47,5 @@ abstract class QueryBuilder
      * @param array $columnNamesToValues The mapping of column names to their respective values
      * @return UpdateQuery The update query builder
      */
-    abstract public function update($tableName, $alias, array $columnNamesToValues);
+    abstract public function update(string $tableName, string $alias, array $columnNamesToValues);
 }

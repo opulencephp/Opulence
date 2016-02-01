@@ -22,5 +22,5 @@ interface IDriver
      * @param array $driverOptions The list of driver options
      * @return IConnection The database connection
      */
-    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = []);
+    public function connect(Server $server, array $connectionOptions = [], array $driverOptions = []) : IConnection;
 }

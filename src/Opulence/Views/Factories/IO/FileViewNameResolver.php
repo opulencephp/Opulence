@@ -23,7 +23,7 @@ class FileViewNameResolver implements IViewNameResolver
     /**
      * @inheritdoc
      */
-    public function registerExtension($extension, $priority = -1)
+    public function registerExtension(string $extension, int $priority = -1)
     {
         $this->extensions[ltrim($extension, ".")] = $priority;
     }
@@ -31,7 +31,7 @@ class FileViewNameResolver implements IViewNameResolver
     /**
      * @inheritdoc
      */
-    public function registerPath($path, $priority = -1)
+    public function registerPath(string $path, int $priority = -1)
     {
         $this->paths[rtrim($path, "/")] = $priority;
     }
@@ -39,7 +39,7 @@ class FileViewNameResolver implements IViewNameResolver
     /**
      * @inheritdoc
      */
-    public function resolve($name)
+    public function resolve(string $name) : string
     {
         $sortedExtensions = $this->sortByPriority($this->extensions);
         $sortedPaths = $this->sortByPriority($this->paths);
@@ -74,7 +74,7 @@ class FileViewNameResolver implements IViewNameResolver
      * @param array $sortedExtensions The list of sorted extensions to check against
      * @return bool True if the name has an extension, otherwise false
      */
-    protected function nameHasExtension($name, array $sortedExtensions)
+    protected function nameHasExtension(string $name, array $sortedExtensions) : bool
     {
         foreach ($sortedExtensions as $extension) {
             $lengthDifference = strlen($name) - strlen($extension);
@@ -93,7 +93,7 @@ class FileViewNameResolver implements IViewNameResolver
      * @param array $list The list to sort
      * @return array The sorted list
      */
-    protected function sortByPriority(array $list)
+    protected function sortByPriority(array $list) : array
     {
         $nonPriorityItems = [];
         $priorityItems = [];

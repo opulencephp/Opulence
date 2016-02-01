@@ -43,7 +43,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     /**
      * @inheritdoc
      */
-    public function getBindings()
+    public function getBindings() : array
     {
         return [
             ICache::class,
@@ -85,7 +85,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
      * @param IContainer $container The dependency injection container
      * @return ICache The view cache
      */
-    abstract protected function getViewCache(IContainer $container);
+    abstract protected function getViewCache(IContainer $container) : ICache;
 
     /**
      * Gets the view compiler
@@ -94,7 +94,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
      * @param IContainer $container The dependency injection container
      * @return ICompiler The view compiler
      */
-    protected function getViewCompiler(IContainer $container)
+    protected function getViewCompiler(IContainer $container) : ICompiler
     {
         $registry = new CompilerRegistry();
         $viewCompiler = new Compiler($registry);
@@ -117,7 +117,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
      * @param IContainer $container The dependency injection container
      * @return IViewFactory The view factory
      */
-    protected function getViewFactory(IContainer $container)
+    protected function getViewFactory(IContainer $container) : IViewFactory
     {
         $resolver = new FileViewNameResolver();
         $resolver->registerPath($this->paths["views.raw"]);
@@ -138,7 +138,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
      * @param IContainer $container The dependency injection container
      * @return IViewReader The view reader
      */
-    protected function getViewReader(IContainer $container)
+    protected function getViewReader(IContainer $container) : IViewReader
     {
         return new FileViewReader();
     }

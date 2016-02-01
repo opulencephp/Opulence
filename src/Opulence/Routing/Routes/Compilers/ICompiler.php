@@ -24,5 +24,5 @@ interface ICompiler
      * @param Request $request The request
      * @return CompiledRoute The compiled route
      */
-    public function compile(ParsedRoute $route, Request $request);
+    public function compile(ParsedRoute $route, Request $request) : CompiledRoute;
 }

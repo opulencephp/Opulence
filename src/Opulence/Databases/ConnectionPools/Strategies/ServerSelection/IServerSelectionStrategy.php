@@ -23,5 +23,5 @@ interface IServerSelectionStrategy
      * @return Server The selected server
      * @throws InvalidArgumentException Thrown if a server could not be selected
      */
-    public function select($servers);
+    public function select($servers) : Server;
 }

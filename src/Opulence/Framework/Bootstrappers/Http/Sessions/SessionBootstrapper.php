@@ -33,7 +33,7 @@ abstract class SessionBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC Container
      * @return ISession The session to use
      */
-    abstract protected function getSession(IContainer $container);
+    abstract protected function getSession(IContainer $container) : ISession;
 
     /**
      * Gets the session handler object to use
@@ -41,5 +41,5 @@ abstract class SessionBootstrapper extends Bootstrapper
      * @param IContainer $container The IoC Container
      * @return SessionHandlerInterface The session handler to use
      */
-    abstract protected function getSessionHandler(IContainer $container);
+    abstract protected function getSessionHandler(IContainer $container) : SessionHandlerInterface;
 }

@@ -38,14 +38,14 @@ interface IEntityRegistry
      * @param mixed $object The object whose class name we want
      * @return string The object's class name
      */
-    public function getClassName($object);
+    public function getClassName($object) : string;
 
     /**
      * Gets the list of all registered entities
      *
      * @return object[] The list of all registered entities
      */
-    public function getEntities();
+    public function getEntities() : array;
 
     /**
      * Attempts to get a registered entity
@@ -54,7 +54,7 @@ interface IEntityRegistry
      * @param int|string $id The entity's Id
      * @return object|null The entity if it was found, otherwise null
      */
-    public function getEntity($className, $id);
+    public function getEntity(string $className, $id);
 
     /**
      * Gets the entity state for the input entity
@@ -62,7 +62,7 @@ interface IEntityRegistry
      * @param object $entity The entity to check
      * @return int The entity state
      */
-    public function getEntityState($entity);
+    public function getEntityState($entity) : int;
 
     /**
      * Gets a unique hash Id for an object
@@ -70,7 +70,7 @@ interface IEntityRegistry
      * @param mixed $object The object whose hash we want
      * @return string The object hash Id
      */
-    public function getObjectHashId($object);
+    public function getObjectHashId($object) : string;
 
     /**
      * Gets whether or not an entity is registered
@@ -78,7 +78,7 @@ interface IEntityRegistry
      * @param object $entity The entity to check
      * @return bool True if the entity is registered, otherwise false
      */
-    public function isRegistered($entity);
+    public function isRegistered($entity) : bool;
 
     /**
      * Registers a function to set the aggregate root Id in a child entity after the aggregate root has been inserted
@@ -111,5 +111,5 @@ interface IEntityRegistry
      * @param object $entity The entity whose state we're setting
      * @param int $entityState The entity state
      */
-    public function setState($entity, $entityState);
+    public function setState($entity, int $entityState);
 }

@@ -71,7 +71,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICache The route cache
      */
-    protected function getRouteCache(IContainer $container)
+    protected function getRouteCache(IContainer $container) : ICache
     {
         return new FileCache();
     }
@@ -83,7 +83,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return ICompiler The route compiler
      */
-    protected function getRouteCompiler(IContainer $container)
+    protected function getRouteCompiler(IContainer $container) : ICompiler
     {
         return new Compiler($this->getRouteMatchers($container));
     }
@@ -95,7 +95,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IDispatcher The route dispatcher
      */
-    protected function getRouteDispatcher(IContainer $container)
+    protected function getRouteDispatcher(IContainer $container) : IDispatcher
     {
         return new Dispatcher($container);
     }
@@ -106,7 +106,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IRouteMatcher[] The list of route matchers
      */
-    protected function getRouteMatchers(IContainer $container)
+    protected function getRouteMatchers(IContainer $container) : array
     {
         return [
             new PathMatcher(),
@@ -122,7 +122,7 @@ class RouterBootstrapper extends Bootstrapper
      * @param IContainer $container The dependency injection container
      * @return IParser The route parser
      */
-    protected function getRouteParser(IContainer $container)
+    protected function getRouteParser(IContainer $container) : IParser
     {
         return new Parser();
     }

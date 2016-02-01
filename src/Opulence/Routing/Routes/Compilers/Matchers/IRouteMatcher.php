@@ -23,5 +23,5 @@ interface IRouteMatcher
      * @param Request $request The current request
      * @return bool True if the route is a match, otherwise false
      */
-    public function isMatch(ParsedRoute $route, Request $request);
+    public function isMatch(ParsedRoute $route, Request $request) : bool;
 }

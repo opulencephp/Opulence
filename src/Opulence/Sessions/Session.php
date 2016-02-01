@@ -64,7 +64,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function delete($key)
+    public function delete(string $key)
     {
         unset($this->vars[$key]);
     }
@@ -72,7 +72,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function flash($key, $value)
+    public function flash(string $key, $value)
     {
         $this->set($key, $value);
         $newFlashKeys = $this->getNewFlashKeys();
@@ -99,7 +99,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function get($key, $defaultValue = null)
+    public function get(string $key, $defaultValue = null)
     {
         if (isset($this->vars[$key])) {
             return $this->vars[$key];
@@ -111,7 +111,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return $this->vars;
     }
@@ -127,7 +127,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -135,7 +135,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function has($key)
+    public function has(string $key) : bool
     {
         return isset($this->vars[$key]);
     }
@@ -143,7 +143,7 @@ class Session implements ISession
     /**
      * @return bool
      */
-    public function hasStarted()
+    public function hasStarted() : bool
     {
         return $this->hasStarted;
     }
@@ -151,7 +151,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function offsetExists($key)
+    public function offsetExists($key) : bool
     {
         return $this->has($key);
     }
@@ -206,7 +206,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function set($key, $value)
+    public function set(string $key, $value)
     {
         $this->vars[$key] = $value;
     }
@@ -234,7 +234,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -242,7 +242,7 @@ class Session implements ISession
     /**
      * @inheritdoc
      */
-    public function start(array $vars = [])
+    public function start(array $vars = []) : bool
     {
         $this->setMany($vars);
         $this->hasStarted = true;
@@ -255,7 +255,7 @@ class Session implements ISession
      *
      * @return array The list of new flashed keys
      */
-    protected function getNewFlashKeys()
+    protected function getNewFlashKeys() : array
     {
         return $this->get(self::NEW_FLASH_KEYS_KEY, []);
     }
@@ -265,7 +265,7 @@ class Session implements ISession
      *
      * @return array The list of stale flashed keys
      */
-    protected function getStaleFlashKeys()
+    protected function getStaleFlashKeys() : array
     {
         return $this->get(self::STALE_FLASH_KEYS_KEY, []);
     }

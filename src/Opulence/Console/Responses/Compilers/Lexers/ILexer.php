@@ -23,5 +23,5 @@ interface ILexer
      * @return Token[] The list of tokens
      * @throws RuntimeException Thrown if there was an error lexing the text
      */
-    public function lex($text);
+    public function lex(string $text) : array;
 }

@@ -68,7 +68,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function addArgument(Argument $argument)
+    public function addArgument(Argument $argument) : ICommand
     {
         $this->arguments[$argument->getName()] = $argument;
 
@@ -78,7 +78,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function addOption(Option $option)
+    public function addOption(Option $option) : ICommand
     {
         $this->options[$option->getName()] = $option;
 
@@ -88,7 +88,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function argumentValueIsSet($name)
+    public function argumentValueIsSet(string $name) : bool
     {
         return isset($this->argumentValues[$name]);
     }
@@ -108,7 +108,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getArgument($name)
+    public function getArgument(string $name) : Argument
     {
         if (!isset($this->arguments[$name])) {
             throw new InvalidArgumentException("No argument with name \"$name\" exists");
@@ -120,7 +120,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getArgumentValue($name)
+    public function getArgumentValue(string $name)
     {
         if (!$this->argumentValueIsSet($name)) {
             throw new InvalidArgumentException("No argument with name \"$name\" exists");
@@ -132,7 +132,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getArguments()
+    public function getArguments() : array
     {
         return array_values($this->arguments);
     }
@@ -140,7 +140,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -148,7 +148,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getHelpText()
+    public function getHelpText() : string
     {
         return $this->helpText;
     }
@@ -156,7 +156,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -164,7 +164,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getOption($name)
+    public function getOption(string $name) : Option
     {
         if (!isset($this->options[$name])) {
             throw new InvalidArgumentException("No option with name \"$name\" exists");
@@ -176,7 +176,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getOptionValue($name)
+    public function getOptionValue(string $name)
     {
         if (!isset($this->options[$name])) {
             throw new InvalidArgumentException("No option with name \"$name\" exists");
@@ -192,7 +192,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function getOptions()
+    public function getOptions() : array
     {
         return array_values($this->options);
     }
@@ -200,7 +200,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function optionIsSet($name)
+    public function optionIsSet(string $name) : bool
     {
         // Don't use isset because the value very well might be null, in which case we'd still return true
         return array_key_exists($name, $this->optionValues);
@@ -209,7 +209,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setArgumentValue($name, $value)
+    public function setArgumentValue(string $name, $value)
     {
         $this->argumentValues[$name] = $value;
     }
@@ -225,7 +225,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setOptionValue($name, $value)
+    public function setOptionValue(string $name, $value)
     {
         $this->optionValues[$name] = $value;
     }
@@ -248,9 +248,9 @@ abstract class Command implements ICommand
      * Sets the description of the command
      *
      * @param string $description The description to use
-     * @return Command For method chaining
+     * @return self For method chaining
      */
-    protected function setDescription($description)
+    protected function setDescription(string $description) : self
     {
         $this->description = $description;
 
@@ -261,9 +261,9 @@ abstract class Command implements ICommand
      * Sets the help text
      *
      * @param string $helpText The help text
-     * @return Command for method chaining
+     * @return self for method chaining
      */
-    protected function setHelpText($helpText)
+    protected function setHelpText(string $helpText) : self
     {
         $this->helpText = $helpText;
 
@@ -274,9 +274,9 @@ abstract class Command implements ICommand
      * Sets the name of the command
      *
      * @param string $name The name to use
-     * @return Command For method chaining
+     * @return self For method chaining
      */
-    protected function setName($name)
+    protected function setName(string $name) : self
     {
         $this->name = $name;
 

@@ -40,13 +40,13 @@ class Cookie
      * @param bool $isHttpOnly Whether or not this cookie is HTTP only
      */
     public function __construct(
-        $name,
+        string $name,
         $value,
         $expiration,
-        $path = "/",
-        $domain = "",
-        $isSecure = false,
-        $isHttpOnly = true
+        string $path = "/",
+        string $domain = "",
+        bool $isSecure = false,
+        bool $isHttpOnly = true
     ) {
         $this->name = $name;
         $this->value = $value;
@@ -60,7 +60,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getDomain()
+    public function getDomain() : string
     {
         return $this->domain;
     }
@@ -68,7 +68,7 @@ class Cookie
     /**
      * @return int
      */
-    public function getExpiration()
+    public function getExpiration() : int
     {
         return $this->expiration;
     }
@@ -76,7 +76,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->name;
     }
@@ -84,7 +84,7 @@ class Cookie
     /**
      * @return string
      */
-    public function getPath()
+    public function getPath() : string
     {
         return $this->path;
     }
@@ -100,7 +100,7 @@ class Cookie
     /**
      * @return bool
      */
-    public function isHttpOnly()
+    public function isHttpOnly() : bool
     {
         return $this->isHttpOnly;
     }
@@ -108,7 +108,7 @@ class Cookie
     /**
      * @return bool
      */
-    public function isSecure()
+    public function isSecure() : bool
     {
         return $this->isSecure;
     }
@@ -116,7 +116,7 @@ class Cookie
     /**
      * @param string $domain
      */
-    public function setDomain($domain)
+    public function setDomain(string $domain)
     {
         $this->domain = $domain;
     }
@@ -136,7 +136,7 @@ class Cookie
     /**
      * @param bool $isHttpOnly
      */
-    public function setHttpOnly($isHttpOnly)
+    public function setHttpOnly(bool $isHttpOnly)
     {
         $this->isHttpOnly = $isHttpOnly;
     }
@@ -144,7 +144,7 @@ class Cookie
     /**
      * @param string $name
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
     }
@@ -152,7 +152,7 @@ class Cookie
     /**
      * @param string $path
      */
-    public function setPath($path)
+    public function setPath(string $path)
     {
         $this->path = $path;
     }
@@ -160,7 +160,7 @@ class Cookie
     /**
      * @param bool $isSecure
      */
-    public function setSecure($isSecure)
+    public function setSecure(bool $isSecure)
     {
         $this->isSecure = $isSecure;
     }

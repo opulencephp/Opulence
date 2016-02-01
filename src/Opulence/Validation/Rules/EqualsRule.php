@@ -21,7 +21,7 @@ class EqualsRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function getSlug()
+    public function getSlug() : string
     {
         return "equals";
     }
@@ -29,7 +29,7 @@ class EqualsRule implements IRuleWithArgs
     /**
      * @inheritdoc
      */
-    public function passes($value, array $allValues = [])
+    public function passes($value, array $allValues = []) : bool
     {
         return $value === $this->value;
     }

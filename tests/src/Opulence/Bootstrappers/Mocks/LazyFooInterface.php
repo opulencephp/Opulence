@@ -18,5 +18,5 @@ interface LazyFooInterface
      *
      * @return string The name of the class
      */
-    public function getClass();
+    public function getClass() : string;
 }

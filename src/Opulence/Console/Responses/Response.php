@@ -29,7 +29,7 @@ abstract class Response implements IResponse
     /**
      * @inheritdoc
      */
-    public function setStyled($isStyled)
+    public function setStyled(bool $isStyled)
     {
         $this->compiler->setStyled($isStyled);
     }
@@ -60,5 +60,5 @@ abstract class Response implements IResponse
      * @param string $message The message to write
      * @param bool $includeNewLine True if we are to include a new line character at the end of the message
      */
-    abstract protected function doWrite($message, $includeNewLine);
+    abstract protected function doWrite(string $message, bool $includeNewLine);
 }

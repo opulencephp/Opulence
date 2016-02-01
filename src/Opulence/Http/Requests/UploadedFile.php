@@ -32,8 +32,13 @@ class UploadedFile extends SplFileInfo
      * @param string $tmpMimeType The mime type of the temporary file
      * @param int $error The error message, if there was any
      */
-    public function __construct($path, $tmpFilename, $tmpSize, $tmpMimeType = "", $error = UPLOAD_ERR_OK)
-    {
+    public function __construct(
+        string $path,
+        string $tmpFilename,
+        int $tmpSize,
+        string $tmpMimeType = "",
+        int $error = UPLOAD_ERR_OK
+    ) {
         parent::__construct($path);
 
         $this->tmpFilename = $tmpFilename;
@@ -45,7 +50,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return int
      */
-    public function getError()
+    public function getError() : int
     {
         return $this->error;
     }
@@ -55,7 +60,7 @@ class UploadedFile extends SplFileInfo
      *
      * @return string The actual mime type
      */
-    public function getMimeType()
+    public function getMimeType() : string
     {
         $fInfo = new finfo(FILEINFO_MIME_TYPE);
 
@@ -67,7 +72,7 @@ class UploadedFile extends SplFileInfo
      *
      * @return string The temporary file's extension
      */
-    public function getTempExtension()
+    public function getTempExtension() : string
     {
         return pathinfo($this->tmpFilename, PATHINFO_EXTENSION);
     }
@@ -75,7 +80,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return string
      */
-    public function getTempFilename()
+    public function getTempFilename() : string
     {
         return $this->tmpFilename;
     }
@@ -83,7 +88,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return string
      */
-    public function getTempMimeType()
+    public function getTempMimeType() : string
     {
         return $this->tmpMimeType;
     }
@@ -91,7 +96,7 @@ class UploadedFile extends SplFileInfo
     /**
      * @return int
      */
-    public function getTempSize()
+    public function getTempSize() : int
     {
         return $this->tmpSize;
     }
@@ -101,7 +106,7 @@ class UploadedFile extends SplFileInfo
      *
      * @return bool True if the file has errors, otherwise false
      */
-    public function hasErrors()
+    public function hasErrors() : bool
     {
         return $this->error !== UPLOAD_ERR_OK;
     }
@@ -113,7 +118,7 @@ class UploadedFile extends SplFileInfo
      * @param string|null $name The new name
      * @throws UploadException Thrown if the file could not be moved
      */
-    public function move($targetDirectory, $name = null)
+    public function move(string $targetDirectory, string $name = null)
     {
         if ($this->hasErrors()) {
             throw new UploadException("Cannot move file with errors");
@@ -143,7 +148,7 @@ class UploadedFile extends SplFileInfo
      * @param string $target The path to move to
      * @return bool True if the move was successful, otherwise false
      */
-    protected function doMove($source, $target)
+    protected function doMove(string $source, string $target) : bool
     {
         return @move_uploaded_file($source, $target);
     }

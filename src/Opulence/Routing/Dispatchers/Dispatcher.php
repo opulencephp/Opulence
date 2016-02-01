@@ -44,7 +44,7 @@ class Dispatcher implements IDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch(CompiledRoute $route, Request $request, &$controller = null)
+    public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
     {
         try {
             $response = (new Pipeline($this->container))
@@ -81,7 +81,7 @@ class Dispatcher implements IDispatcher
      * @throws RouteException Thrown if the method could not be called on the controller
      * @throws HttpException Thrown if the controller threw an HttpException
      */
-    private function callController($controller, CompiledRoute $route)
+    private function callController($controller, CompiledRoute $route) : Response
     {
         try {
             if (is_callable($controller)) {
@@ -146,7 +146,7 @@ class Dispatcher implements IDispatcher
      * @return Controller|mixed The instantiated controller
      * @throws RouteException Thrown if the controller could not be instantiated
      */
-    private function createController($controllerName, Request $request)
+    private function createController(string $controllerName, Request $request)
     {
         if (!class_exists($controllerName)) {
             throw new RouteException("Controller class $controllerName does not exist");
@@ -189,8 +189,9 @@ class Dispatcher implements IDispatcher
         array $reflectionParameters,
         array $pathVars,
         CompiledRoute $route,
-        $acceptObjectParameters
-    ) {
+        bool $acceptObjectParameters
+    ) : array
+    {
         $resolvedParameters = [];
 
         // Match the route variables to the method parameters

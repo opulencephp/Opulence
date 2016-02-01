@@ -84,7 +84,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function append($text)
+    public function append(string $text)
     {
         $this->appendedText[] = $text;
     }
@@ -92,14 +92,11 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function callViewFunction($functionName)
+    public function callViewFunction(string $functionName, ...$args)
     {
         if (!isset($this->viewFunctions[$functionName])) {
             throw new InvalidArgumentException("View function \"$functionName\" does not exist");
         }
-
-        $args = func_get_args();
-        array_shift($args);
 
         return call_user_func_array($this->viewFunctions[$functionName], $args);
     }
@@ -124,7 +121,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function prepend($text)
+    public function prepend(string $text)
     {
         $this->prependedText[] = $text;
     }
@@ -132,7 +129,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function registerDirectiveTranspiler($name, callable $transpiler)
+    public function registerDirectiveTranspiler(string $name, callable $transpiler)
     {
         $this->directiveTranspilers[$name] = $transpiler;
     }
@@ -140,7 +137,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function registerViewFunction($functionName, callable $function)
+    public function registerViewFunction(string $functionName, callable $function)
     {
         $this->viewFunctions[$functionName] = $function;
     }
@@ -148,7 +145,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function sanitize($value)
+    public function sanitize($value) : string
     {
         return $this->xssFilter->run($value);
     }
@@ -156,7 +153,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function showPart($name = "")
+    public function showPart(string $name = "") : string
     {
         if (empty($name)) {
             $name = end($this->partStack);
@@ -174,7 +171,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function startPart($name)
+    public function startPart(string $name)
     {
         // If this part already exists, we consider it to be a parent part
         $this->inParentPart = isset($this->parts[$name]);
@@ -186,7 +183,7 @@ class Transpiler implements ITranspiler
     /**
      * @inheritdoc
      */
-    public function transpile(IView $view)
+    public function transpile(IView $view) : string
     {
         $this->appendedText = [];
         $this->prependedText = [];
@@ -220,7 +217,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileCommentNode(Node $node)
+    protected function transpileCommentNode(Node $node) : string
     {
         $code = "";
 
@@ -238,7 +235,7 @@ class Transpiler implements ITranspiler
      * @return string The transpiled node
      * @throws RuntimeException Thrown if the directive could not be transpiled
      */
-    protected function transpileDirectiveNode(Node $node)
+    protected function transpileDirectiveNode(Node $node) : string
     {
         $children = $node->getChildren();
 
@@ -267,7 +264,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileExpressionNode(Node $node)
+    protected function transpileExpressionNode(Node $node) : string
     {
         return $node->getValue();
     }
@@ -279,7 +276,7 @@ class Transpiler implements ITranspiler
      * @return string The view with transpiled nodes
      * @throws RuntimeException Thrown if the nodes could not be transpiled
      */
-    protected function transpileNodes(AbstractSyntaxTree $ast)
+    protected function transpileNodes(AbstractSyntaxTree $ast) : string
     {
         $transpiledView = "";
         $rootNode = $ast->getRootNode();
@@ -336,7 +333,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileSanitizedTagNode(Node $node)
+    protected function transpileSanitizedTagNode(Node $node) : string
     {
         $code = "";
 
@@ -353,7 +350,7 @@ class Transpiler implements ITranspiler
      * @param Node $node The node to transpile
      * @return string The transpiled node
      */
-    protected function transpileUnsanitizedTagNode(Node $node)
+    protected function transpileUnsanitizedTagNode(Node $node) : string
     {
         $code = "";
 

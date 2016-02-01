@@ -39,7 +39,7 @@ class IdGenerator implements IIdGenerator
     /**
      * @inheritdoc
      */
-    public function idIsValid($id)
+    public function idIsValid($id) : bool
     {
         $regex = sprintf(
             "/^[a-z0-9]{%d,%d}$/i",

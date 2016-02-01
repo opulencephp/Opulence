@@ -41,7 +41,7 @@ class ParsedRoute extends Route
      * @param string $variableName The name of the variable whose default value we want
      * @return mixed|null The default value for the variable if it exists, otherwise null
      */
-    public function getDefaultValue($variableName)
+    public function getDefaultValue(string $variableName)
     {
         if (isset($this->defaultValues[$variableName])) {
             return $this->defaultValues[$variableName];
@@ -53,7 +53,7 @@ class ParsedRoute extends Route
     /**
      * @return string
      */
-    public function getHostRegex()
+    public function getHostRegex() : string
     {
         // Default to matching everything if it isn't set
         return $this->hostRegex === null ? "#^.*$#" : $this->hostRegex;
@@ -62,7 +62,7 @@ class ParsedRoute extends Route
     /**
      * @return string
      */
-    public function getPathRegex()
+    public function getPathRegex() : string
     {
         return $this->pathRegex;
     }
@@ -73,7 +73,7 @@ class ParsedRoute extends Route
      * @param string $variableName The name of the variable whose default value we're setting
      * @param mixed $defaultValue The default value for the variable
      */
-    public function setDefaultValue($variableName, $defaultValue)
+    public function setDefaultValue(string $variableName, $defaultValue)
     {
         $this->defaultValues[$variableName] = $defaultValue;
     }
@@ -81,7 +81,7 @@ class ParsedRoute extends Route
     /**
      * @param string $hostRegex
      */
-    public function setHostRegex($hostRegex)
+    public function setHostRegex(string $hostRegex)
     {
         $this->hostRegex = $hostRegex;
     }
@@ -89,7 +89,7 @@ class ParsedRoute extends Route
     /**
      * @param string $regex
      */
-    public function setPathRegex($regex)
+    public function setPathRegex(string $regex)
     {
         $this->pathRegex = $regex;
     }

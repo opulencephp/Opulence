@@ -38,7 +38,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     /**
      * @inheritDoc
      */
-    public function getBindings()
+    public function getBindings() : array
     {
         return [
             ErrorTemplateRegistry::class,
@@ -81,7 +81,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      * @param IContainer $container The IoC container
      * @return ICompiler The error template compiler
      */
-    protected function getErrorTemplateCompiler(IContainer $container)
+    protected function getErrorTemplateCompiler(IContainer $container) : ICompiler
     {
         return new Compiler();
     }
@@ -92,7 +92,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      * @param IContainer $container The IoC container
      * @return ErrorTemplateRegistry The error template registry
      */
-    protected function getErrorTemplateRegistry(IContainer $container)
+    protected function getErrorTemplateRegistry(IContainer $container) : ErrorTemplateRegistry
     {
         return new ErrorTemplateRegistry();
     }
@@ -103,7 +103,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      * @param IContainer $container The IoC container
      * @return RuleExtensionRegistry The rule extension registry
      */
-    protected function getRuleExtensionRegistry(IContainer $container)
+    protected function getRuleExtensionRegistry(IContainer $container) : RuleExtensionRegistry
     {
         return new RuleExtensionRegistry();
     }
@@ -114,7 +114,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      * @param IContainer $container The IoC container
      * @return RulesFactory The rules factory
      */
-    protected function getRulesFactory(IContainer $container)
+    protected function getRulesFactory(IContainer $container) : RulesFactory
     {
         return new RulesFactory(
             $this->ruleExtensionRegistry,
@@ -129,7 +129,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
      * @param IContainer $container The IoC container
      * @return IValidatorFactory The validator factory
      */
-    protected function getValidatorFactory(IContainer $container)
+    protected function getValidatorFactory(IContainer $container) : IValidatorFactory
     {
         return new ValidatorFactory($this->rulesFactory);
     }

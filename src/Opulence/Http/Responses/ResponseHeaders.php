@@ -165,8 +165,13 @@ class ResponseHeaders extends Headers
      * @param bool $isSecure Whether or not the cookie was secure
      * @param bool $isHttpOnly Whether or not the cookie was HTTP-only
      */
-    public function deleteCookie($name, $path = "/", $domain = "", $isSecure = false, $isHttpOnly = true)
-    {
+    public function deleteCookie(
+        string $name,
+        string $path = "/",
+        string $domain = "",
+        bool $isSecure = false,
+        bool $isHttpOnly = true
+    ) {
         // Remove the cookie from the response
         $this->setCookie(new Cookie($name, "", 0, $path, $domain, $isSecure, $isHttpOnly));
     }
@@ -177,7 +182,7 @@ class ResponseHeaders extends Headers
      * @param bool $includeDeletedCookies Whether or not to include deleted cookies
      * @return Cookie[] The list of all the set cookies
      */
-    public function getCookies($includeDeletedCookies = false)
+    public function getCookies(bool $includeDeletedCookies = false) : array
     {
         $cookies = [];
 

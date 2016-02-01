@@ -23,7 +23,7 @@ class UpdateQuery extends BaseUpdateQuery
      * @param string $tableAlias The alias of the table we're querying
      * @param array $columnNamesToValues The mapping of column names to their respective values
      */
-    public function __construct($tableName, $tableAlias, array $columnNamesToValues)
+    public function __construct(string $tableName, string $tableAlias, array $columnNamesToValues)
     {
         parent::__construct($tableName, $tableAlias, $columnNamesToValues);
 
@@ -34,12 +34,12 @@ class UpdateQuery extends BaseUpdateQuery
     /**
      * Adds to a "RETURNING" clause
      *
-     * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
-     * @return $this
+     * @param array $expression,... A variable list of expressions to add to the "RETURNING" clause
+     * @return self For method chaining
      */
-    public function addReturning($expression)
+    public function addReturning(string ...$expression) : self
     {
-        call_user_func_array([$this->augmentingQueryBuilder, "addReturning"], func_get_args());
+        call_user_func_array([$this->augmentingQueryBuilder, "addReturning"], $expression);
 
         return $this;
     }
@@ -47,7 +47,7 @@ class UpdateQuery extends BaseUpdateQuery
     /**
      * @inheritdoc
      */
-    public function getSql()
+    public function getSql() : string
     {
         $sql = parent::getSql();
         $sql .= $this->augmentingQueryBuilder->getReturningClauseSql();
@@ -59,12 +59,12 @@ class UpdateQuery extends BaseUpdateQuery
      * Starts a "RETURNING" clause
      * Only call this method once per query because it will overwrite any previously-set "RETURNING" expressions
      *
-     * @param string $expression,... A variable list of expressions to add to the "RETURNING" clause
-     * @return $this
+     * @param array $expression,... A variable list of expressions to add to the "RETURNING" clause
+     * @return self For method chaining
      */
-    public function returning($expression)
+    public function returning(string ...$expression) : self
     {
-        call_user_func_array([$this->augmentingQueryBuilder, "returning"], func_get_args());
+        call_user_func_array([$this->augmentingQueryBuilder, "returning"], $expression);
 
         return $this;
     }

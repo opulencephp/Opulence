@@ -25,7 +25,7 @@ interface IToken
      *
      * @return string The hashed value
      */
-    public function getHashedValue();
+    public function getHashedValue() : string;
 
     /**
      * Gets the database Id
@@ -37,7 +37,7 @@ interface IToken
     /**
      * Gets the user Id
      *
-     * @return int The user Id
+     * @return int|string The user Id
      */
     public function getUserId();
 
@@ -46,21 +46,21 @@ interface IToken
      *
      * @return DateTimeImmutable The valid-from date
      */
-    public function getValidFrom();
+    public function getValidFrom() : DateTimeImmutable;
 
     /**
      * Gets the valid-to date of this token
      *
      * @return DateTimeImmutable The valid-to date
      */
-    public function getValidTo();
+    public function getValidTo() : DateTimeImmutable;
 
     /**
      * Gets whether or not this token is active
      *
      * @return bool True if the token is active, otherwise false
      */
-    public function isActive();
+    public function isActive() : bool;
 
     /**
      * Sets the database Id of the token

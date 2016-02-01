@@ -22,7 +22,7 @@ class PhpCompiler implements ICompiler
     /**
      * @inheritdoc
      */
-    public function compile(IView $view)
+    public function compile(IView $view) : string
     {
         $obStartLevel = ob_get_level();
         ob_start();
@@ -48,7 +48,7 @@ class PhpCompiler implements ICompiler
      * @param int $obStartLevel The starting output buffer level
      * @throws $ex Always rethrown
      */
-    protected function handleException($ex, $obStartLevel)
+    protected function handleException($ex, int $obStartLevel)
     {
         // Clean the output buffer
         while (ob_get_level() > $obStartLevel) {

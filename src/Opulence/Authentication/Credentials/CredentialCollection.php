@@ -33,7 +33,7 @@ class CredentialCollection implements ICredentialCollection
      * @param ICredential[] $credentials The list of credentials to add
      * @throws RuntimeException Thrown if a credential was added that didn't have a storage mechanism registered
      */
-    public function __construct($entityId = -1, $entityTypeId = -1, array $storages = [], array $credentials = [])
+    public function __construct($entityId = -1, int $entityTypeId = -1, array $storages = [], array $credentials = [])
     {
         $this->setEntityId($entityId);
         $this->setEntityTypeId($entityTypeId);
@@ -64,7 +64,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function delete(Response $response, $type)
+    public function delete(Response $response, int $type)
     {
         if (!isset($this->storages[$type])) {
             throw new RuntimeException("No storage for credential type $type");
@@ -78,7 +78,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function get($type)
+    public function get(int $type)
     {
         if (!$this->has($type)) {
             return null;
@@ -97,7 +97,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         return array_values($this->credentials);
     }
@@ -113,7 +113,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function getEntityTypeId()
+    public function getEntityTypeId() : int
     {
         return $this->entityTypeId;
     }
@@ -121,7 +121,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function getTypes()
+    public function getTypes() : array
     {
         return array_keys($this->credentials);
     }
@@ -129,7 +129,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function has($type)
+    public function has(int $type) : bool
     {
         if (isset($this->credentials[$type])) {
             return true;
@@ -151,7 +151,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function registerStorage($type, Storage\ICredentialStorage $storage)
+    public function registerStorage(int $type, Storage\ICredentialStorage $storage)
     {
         $this->storages[$type] = $storage;
     }
@@ -159,7 +159,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function save(Response $response, ICredential $credential, $unhashedToken)
+    public function save(Response $response, ICredential $credential, string $unhashedToken)
     {
         if (!isset($this->storages[$credential->getTypeId()])) {
             throw new RuntimeException("No storage for credential type {$credential->getTypeId()}");
@@ -179,7 +179,7 @@ class CredentialCollection implements ICredentialCollection
     /**
      * @inheritdoc
      */
-    public function setEntityTypeId($entityTypeId)
+    public function setEntityTypeId(int $entityTypeId)
     {
         $this->entityTypeId = $entityTypeId;
     }

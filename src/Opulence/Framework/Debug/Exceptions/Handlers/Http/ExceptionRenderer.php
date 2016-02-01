@@ -9,6 +9,7 @@
 namespace Opulence\Framework\Debug\Exceptions\Handlers\Http;
 
 use Exception;
+use LogicException;
 use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\JsonResponse;
@@ -34,8 +35,12 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    public function getResponse()
+    public function getResponse() : Response
     {
+        if ($this->response === null) {
+            throw new LogicException("Response not set yet");
+        }
+
         return $this->response;
     }
 
@@ -66,7 +71,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    protected function getRequestFormat()
+    protected function getRequestFormat() : string
     {
         if ($this->request === null) {
             return "html";
@@ -82,7 +87,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     /**
      * @inheritdoc
      */
-    protected function getResponseContent($ex, $statusCode, array $headers)
+    protected function getResponseContent($ex, int $statusCode, array $headers) : string
     {
         $viewName = $this->getViewName($ex, $statusCode, $headers);
 
@@ -119,7 +124,7 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
      * @param array $headers The headers for the exception
      * @return string The view name
      */
-    protected function getViewName($ex, $statusCode, array $headers)
+    protected function getViewName($ex, int $statusCode, array $headers) : string
     {
         return "errors/{$this->getRequestFormat()}/$statusCode";
     }

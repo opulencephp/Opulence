@@ -9,7 +9,6 @@
 namespace Opulence\Files;
 
 use DateTime;
-use InvalidArgumentException;
 
 /**
  * Tests the file system
@@ -312,15 +311,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         file_put_contents(__DIR__ . "/test.txt", "foo");
         $this->assertEquals("foo", $this->fileSystem->read(__DIR__ . "/test.txt"));
-    }
-
-    /**
-     * Tests reading from a path that is not a string
-     */
-    public function testReadingFromPathThatIsNotString()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $this->fileSystem->read(["not a string"]);
     }
 
     /**

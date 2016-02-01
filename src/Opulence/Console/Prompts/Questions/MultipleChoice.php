@@ -27,7 +27,7 @@ class MultipleChoice extends Question
      * @param array $choices The list of choices
      * @param mixed $defaultResponse The default answer to the question
      */
-    public function __construct($question, array $choices, $defaultAnswer = null)
+    public function __construct(string $question, array $choices, $defaultAnswer = null)
     {
         parent::__construct($question, $defaultAnswer);
 
@@ -37,7 +37,7 @@ class MultipleChoice extends Question
     /**
      * @return bool
      */
-    public function allowsMultipleChoices()
+    public function allowsMultipleChoices() : bool
     {
         return $this->allowsMultipleChoices;
     }
@@ -47,9 +47,9 @@ class MultipleChoice extends Question
      *
      * @return bool True if the array is associative, otherwise false
      */
-    public function choicesAreAssociative()
+    public function choicesAreAssociative() : bool
     {
-        return (bool)count(array_filter(array_keys($this->choices), "is_string"));
+        return count(array_filter(array_keys($this->choices), "is_string")) > 0;
     }
 
     /**
@@ -92,7 +92,7 @@ class MultipleChoice extends Question
     /**
      * @return string
      */
-    public function getAnswerLineString()
+    public function getAnswerLineString() : string
     {
         return $this->answerLineString;
     }
@@ -100,7 +100,7 @@ class MultipleChoice extends Question
     /**
      * @return array
      */
-    public function getChoices()
+    public function getChoices() : array
     {
         return $this->choices;
     }
@@ -108,7 +108,7 @@ class MultipleChoice extends Question
     /**
      * @param bool $allowsMultipleChoices
      */
-    public function setAllowsMultipleChoices($allowsMultipleChoices)
+    public function setAllowsMultipleChoices(bool $allowsMultipleChoices)
     {
         $this->allowsMultipleChoices = $allowsMultipleChoices;
     }
@@ -116,7 +116,7 @@ class MultipleChoice extends Question
     /**
      * @param string $answerLineString
      */
-    public function setAnswerLineString($answerLineString)
+    public function setAnswerLineString(string $answerLineString)
     {
         $this->answerLineString = $answerLineString;
     }
@@ -127,7 +127,7 @@ class MultipleChoice extends Question
      * @param array $answers The list of answers
      * @return array The list of selected choices
      */
-    private function getSelectedAssociativeChoices(array $answers)
+    private function getSelectedAssociativeChoices(array $answers) : array
     {
         $selectedChoices = [];
 
@@ -147,7 +147,7 @@ class MultipleChoice extends Question
      * @return array The list of selected choices
      * @throws InvalidArgumentException Thrown if the answers are not of the correct type
      */
-    private function getSelectedIndexChoices(array $answers)
+    private function getSelectedIndexChoices(array $answers) : array
     {
         $selectedChoices = [];
 

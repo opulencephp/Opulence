@@ -47,7 +47,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function getAll()
+    public function getAll() : array
     {
         // We clone all the entities so that they get new object hashes
         $clonedEntities = [];
@@ -74,7 +74,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @return int
      */
-    public function getCurrId()
+    public function getCurrId() : int
     {
         return $this->currId;
     }

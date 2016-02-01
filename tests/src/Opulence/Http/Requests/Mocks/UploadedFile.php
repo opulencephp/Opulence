@@ -18,7 +18,7 @@ class UploadedFile extends BaseUploadedFile
     /**
      * @inheritDoc
      */
-    protected function doMove($source, $target)
+    protected function doMove(string $source, string $target) : bool
     {
         return copy($source, $target);
     }

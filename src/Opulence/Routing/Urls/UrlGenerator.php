@@ -36,19 +36,17 @@ class UrlGenerator
      * This function accepts variable-length arguments after the name
      *
      * @param string $name The named of the route whose URL we're generating
+     * @param array $args,... The list of arguments to pass in
      * @return string The generated URL if the route exists, otherwise an empty string
      * @throws URLException Thrown if there was an error generating the URL
      */
-    public function createFromName($name)
+    public function createFromName(string $name, ...$args) : string
     {
         $route = $this->routeCollection->getNamedRoute($name);
 
         if ($route === null) {
             return "";
         }
-
-        $args = func_get_args();
-        array_shift($args);
 
         return $this->generateHost($route, $args) . $this->generatePath($route, $args);
     }
@@ -60,7 +58,7 @@ class UrlGenerator
      * @return string The generated URL regex
      * @throws URLException Thrown if there was an error generating the URL regex
      */
-    public function createRegexFromName($name)
+    public function createRegexFromName(string $name) : string
     {
         $route = $this->routeCollection->getNamedRoute($name);
 
@@ -88,7 +86,7 @@ class UrlGenerator
      * @return string The generated host value
      * @throws URLException Thrown if the generated host is not valid
      */
-    private function generateHost(ParsedRoute $route, &$values)
+    private function generateHost(ParsedRoute $route, &$values) : string
     {
         $host = "";
 
@@ -109,7 +107,7 @@ class UrlGenerator
      * @return string The generated path value
      * @throws URLException Thrown if the generated path is not valid
      */
-    private function generatePath(ParsedRoute $route, &$values)
+    private function generatePath(ParsedRoute $route, &$values) : string
     {
         return $this->generateUrlPart($route->getRawPath(), $route->getPathRegex(), $route->getName(), $values);
     }
@@ -124,7 +122,7 @@ class UrlGenerator
      * @return string The generated URL part
      * @throws UrlException Thrown if the generated path is not valid
      */
-    private function generateUrlPart($rawPart, $regex, $routeName, &$values)
+    private function generateUrlPart(string $rawPart, string $regex, string $routeName, &$values) : string
     {
         $generatedPart = $rawPart;
         $count = 1000;

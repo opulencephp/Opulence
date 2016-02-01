@@ -18,7 +18,7 @@ class Files extends Collection
     /**
      * @inheritdoc
      */
-    public function add($name, $value)
+    public function add(string $name, $value)
     {
         $this->values[$name] = new UploadedFile(
             $value["tmp_name"],
@@ -33,7 +33,7 @@ class Files extends Collection
      * @inheritdoc
      * @return UploadedFile|mixed
      */
-    public function get($name, $default = null)
+    public function get(string $name, $default = null)
     {
         return parent::get($name, $default);
     }
@@ -42,7 +42,7 @@ class Files extends Collection
      * @inheritdoc
      * @return UploadedFile[]
      */
-    public function getAll()
+    public function getAll() : array
     {
         return parent::getAll();
     }

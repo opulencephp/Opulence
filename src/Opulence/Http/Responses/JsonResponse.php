@@ -22,7 +22,7 @@ class JsonResponse extends Response
      * @param array $headers The headers to set
      * @throws InvalidArgumentException Thrown if the content is not of the correct type
      */
-    public function __construct($content = [], $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
+    public function __construct($content = [], int $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
     {
         parent::__construct($content, $statusCode, $headers);
 
