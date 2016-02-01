@@ -1,6 +1,11 @@
+<h2>v1.0.0-alpha34</h3>
+
+<h3>Routing</h3>
+* Fixed double-compile bug for controller responses
+
 <h2>v1.0.0-alpha33</h3>
 
-<h2>General</h2>
+<h3>General</h3>
 * Dropped support for ALL PHP 5.\* versions
 * Added scalar type hints and return types
 * Adopted all other PHP 7 techniques that required hacks in PHP 5

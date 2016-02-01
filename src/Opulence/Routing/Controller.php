@@ -42,14 +42,12 @@ class Controller
         /** @var Response $response */
         $response = call_user_func_array([$this, $methodName], $parameters);
 
-        if ($response === null) {
-            $response = new Response();
-        } elseif (is_string($response)) {
-            $response = new Response($response);
-        }
+        if ($response === null || is_string($response)) {
+            $response = new Response($response === null ? "" : $response);
 
-        if ($this->viewCompiler instanceof ICompiler && $this->view !== null) {
-            $response->setContent($this->viewCompiler->compile($this->view));
+            if ($this->viewCompiler instanceof ICompiler && $this->view !== null) {
+                $response->setContent($this->viewCompiler->compile($this->view));
+            }
         }
 
         return $response;
