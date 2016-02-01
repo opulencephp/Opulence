@@ -38,12 +38,7 @@
   "require-dev": {
     "phpredis": "2.2.7",
     "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "5.1.*",
-    "phpunit/php-file-iterator": ">=1.4.1",
-    "phpunit/php-token-stream": ">=1.4.8",
-    "phpunit/php-text-template": ">=1.2.1",
-    "phpunit/php-invoker": ">=1.1.4",
-    "phpunit/phpunit-selenium": ">=2.0.0"
+    "phpunit/phpunit": "5.1.*"
   },
   "repositories": [
     {
