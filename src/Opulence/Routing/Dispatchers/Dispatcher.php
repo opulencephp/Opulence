@@ -51,7 +51,7 @@ class Dispatcher implements IDispatcher
                 ->send($request)
                 ->through($route->getMiddleware(), "handle")
                 ->then(function (Request $request) use ($route, &$controller) {
-                    if ($route->usesClosure()) {
+                    if ($route->usesCallable()) {
                         $controller = $route->getController();
                     } else {
                         $controller = $this->createController($route->getControllerName(), $request);
@@ -129,7 +129,7 @@ class Dispatcher implements IDispatcher
             throw new RouteException(
                 sprintf(
                     "Reflection failed for %s: %s",
-                    $route->usesClosure() ? "closure" : "{$route->getControllerName()}::{$route->getControllerMethod()}",
+                    $route->usesCallable() ? "closure" : "{$route->getControllerName()}::{$route->getControllerMethod()}",
                     $ex
                 ),
                 0,

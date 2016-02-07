@@ -8,42 +8,35 @@
  */
 namespace Opulence\Authentication\Users;
 
-use DateTimeImmutable;
+use Opulence\Authentication\Authorization\IAuthorizable;
+use Opulence\Authentication\IAuthenticatable;
 
 /**
- * Defines a user
+ * Defines a basic user
  */
-class User implements IUser
+class User implements IAuthenticatable, IAuthorizable
 {
     /** @var int|string The database Id of the user */
     protected $id = -1;
     /** @var string The hashed password of the user */
     protected $hashedPassword = "";
-    /** @var DateTimeImmutable The date this user was created */
-    protected $dateCreated = null;
     /** @var array The list of roles this user has */
     protected $roles = [];
 
     /**
      * @param int|string $id The database Id of this user
      * @param string $hashedPassword The hashed password of this user
-     * @param DateTimeImmutable $dateCreated The date this user was created
      * @param array $roles The list of roles this user has
      */
-    public function __construct($id, string $hashedPassword, DateTimeImmutable $dateCreated, array $roles = [])
+    public function __construct($id, string $hashedPassword, array $roles = [])
     {
         $this->setId($id);
         $this->setHashedPassword($hashedPassword);
-        $this->dateCreated = $dateCreated;
-        $this->roles = $roles;
-    }
 
-    /**
-     * @inheritdoc
-     */
-    public function getDateCreated() : DateTimeImmutable
-    {
-        return $this->dateCreated;
+        // Convert the roles to a hash table for faster lookup
+        foreach ($roles as $role) {
+            $this->roles[$role] = true;
+        }
     }
 
     /**
@@ -67,7 +60,7 @@ class User implements IUser
      */
     public function getRoles() : array
     {
-        return $this->roles;
+        return array_keys($this->roles);
     }
 
     /**
@@ -75,7 +68,7 @@ class User implements IUser
      */
     public function hasRole($role) : bool
     {
-        return in_array($role, $this->roles);
+        return isset($this->roles[$role]);
     }
 
     /**

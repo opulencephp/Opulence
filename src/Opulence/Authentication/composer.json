@@ -3,7 +3,9 @@
   "description": "The Opulence authentication library",
   "keywords": [
     "PHP",
-    "authentication"
+    "authentication",
+    "authorization",
+    "passwords"
   ],
   "authors": [
     {
@@ -19,8 +21,7 @@
     }
   },
   "require": {
-    "php": ">=7.0.0",
-    "opulence/http": "1.0.*"
+    "php": ">=7.0.0"
   },
   "extra": {
     "branch-alias": {

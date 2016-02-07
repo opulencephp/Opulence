@@ -55,6 +55,22 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
+    public static function hash(string $unhashedValue) : string
+    {
+        return hash("sha256", $unhashedValue);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public static function verify(string $hashedValue, string $unhashedValue) : bool
+    {
+        return hash("sha256", $unhashedValue) === $hashedValue;
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function deactivate()
     {
         $this->isActive = false;

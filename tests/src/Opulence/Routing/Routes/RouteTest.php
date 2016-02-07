@@ -53,7 +53,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testControllerRouteDoesNotSayItsUsingClosure()
     {
         $route = new Route("get", "/{foo}", "foo@bar");
-        $this->assertFalse($route->usesClosure());
+        $this->assertFalse($route->usesCallable());
         $this->assertEquals("foo@bar", $route->getController());
     }
 
@@ -219,10 +219,10 @@ class RouteTest extends \PHPUnit_Framework_TestCase
     public function testSettingControllerClosure()
     {
         $route = new Route("get", "/", "foo@bar");
-        $route->setControllerClosure(function () {
+        $route->setControllerCallable(function () {
         });
         $this->assertInstanceOf(Closure::class, $route->getController());
-        $this->assertTrue($route->usesClosure());
+        $this->assertTrue($route->usesCallable());
     }
 
     /**
@@ -349,7 +349,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
             return "foo";
         };
         $route = new Route("get", "/{foo}", $closure);
-        $this->assertTrue($route->usesClosure());
+        $this->assertTrue($route->usesCallable());
         $this->assertEquals($closure, $route->getController());
     }
 } 

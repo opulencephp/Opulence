@@ -9,14 +9,14 @@
 namespace Opulence\Authentication\Users;
 
 /**
- * Defines the different user role types
+ * Defines the different role types
  */
-class UserRoles
+class Roles
 {
-    /** A guest user */
-    const GUEST = 1;
     /** An administrator user */
-    const ADMINISTRATOR = 2;
+    const ADMINISTRATOR = 1;
+    /** A guest user */
+    const GUEST = 2;
     /** A subscriber user */
     const SUBSCRIBER = 3;
 } 

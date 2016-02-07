@@ -8,7 +8,6 @@
  */
 namespace Opulence\Applications;
 
-use Closure;
 use Exception;
 use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
@@ -52,11 +51,11 @@ class Application
     /**
      * Shuts down this application
      *
-     * @param Closure $shutdownTask The task to perform on shutdown
+     * @param callable $shutdownTask The task to perform on shutdown
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws Exception Thrown if there was an error shutting down the application
      */
-    public function shutDown(Closure $shutdownTask = null)
+    public function shutDown(callable $shutdownTask = null)
     {
         $taskReturnValue = null;
 
@@ -84,11 +83,11 @@ class Application
     /**
      * Starts this application
      *
-     * @param Closure $startTask The task to perform on startup
+     * @param callable $startTask The task to perform on startup
      * @return mixed|null The return value of the task if there was one, otherwise null
      * @throws Exception Thrown if there was a problem starting the application
      */
-    public function start(Closure $startTask = null)
+    public function start(callable $startTask = null)
     {
         $taskReturnValue = null;
 

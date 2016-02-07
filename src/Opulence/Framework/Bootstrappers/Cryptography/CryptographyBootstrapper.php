@@ -35,10 +35,9 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $strings = $this->getStringUtility();
-        $container->bind(IEncrypter::class, $this->getEncrypter($strings));
-        $container->bind(IHasher::class, $this->getHasher($strings));
-        $container->bind(Strings::class, $strings);
+        $container->bind(IEncrypter::class, $this->getEncrypter());
+        $container->bind(IHasher::class, $this->getHasher());
+        $container->bind(Strings::class, $this->getStringUtility());
     }
 
     /**
@@ -47,20 +46,19 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      * @param Strings $strings The string utility
      * @return IEncrypter The encrypter
      */
-    protected function getEncrypter(Strings $strings) : IEncrypter
+    protected function getEncrypter() : IEncrypter
     {
-        return new Encrypter($this->environment->getVar("ENCRYPTION_KEY"), $strings);
+        return new Encrypter($this->environment->getVar("ENCRYPTION_KEY"));
     }
 
     /**
      * Gets the hasher to use
      *
-     * @param Strings $strings The string utility
      * @return IHasher The hasher to use
      */
-    protected function getHasher(Strings $strings) : IHasher
+    protected function getHasher() : IHasher
     {
-        return new BcryptHasher($strings);
+        return new BcryptHasher();
     }
 
     /**

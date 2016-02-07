@@ -8,8 +8,6 @@
  */
 namespace Opulence\Cryptography\Hashing;
 
-use Opulence\Cryptography\Utilities\Strings;
-
 /**
  * Tests the Bcrypt hasher
  */
@@ -23,7 +21,7 @@ class BcryptHasherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->hasher = new BcryptHasher(new Strings());
+        $this->hasher = new BcryptHasher();
     }
 
     /**

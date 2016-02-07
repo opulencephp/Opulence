@@ -73,8 +73,8 @@ class RouteCollection
         foreach ($this->routes as $method => $routesByMethod) {
             /** @var ParsedRoute $route */
             foreach ($routesByMethod as $route) {
-                if ($route->usesClosure()) {
-                    $route->setControllerClosure($serializer->serialize($route->getController()));
+                if ($route->usesCallable()) {
+                    $route->setControllerCallable($serializer->serialize($route->getController()));
                 }
             }
         }
@@ -92,8 +92,8 @@ class RouteCollection
         foreach ($this->routes as $method => $routesByMethod) {
             /** @var ParsedRoute $route */
             foreach ($routesByMethod as $route) {
-                if ($route->usesClosure()) {
-                    $route->setControllerClosure($serializer->unserialize($route->getController()));
+                if ($route->usesCallable()) {
+                    $route->setControllerCallable($serializer->unserialize($route->getController()));
                 }
             }
         }

@@ -9,7 +9,6 @@
 namespace Opulence\Cryptography\Encryption;
 
 use Exception;
-use Opulence\Cryptography\Utilities\Strings;
 
 /**
  * Defines an encrypter
@@ -18,20 +17,16 @@ class Encrypter implements IEncrypter
 {
     /** @var string The encryption key */
     private $key = "";
-    /** @var Strings The string utility */
-    private $strings = null;
     /** @var string The encryption cipher */
     private $cipher = "AES-128-CBC";
 
     /**
      * @param string $key The encryption key
-     * @param Strings $strings The string utility
      * @param string $cipher The encryption cipher
      */
-    public function __construct(string $key, Strings $strings, string $cipher = "AES-128-CBC")
+    public function __construct(string $key, string $cipher = "AES-128-CBC")
     {
         $this->setKey($key);
-        $this->strings = $strings;
         $this->setCipher($cipher);
     }
 
@@ -143,10 +138,10 @@ class Encrypter implements IEncrypter
      */
     private function macIsValid(array $pieces) : bool
     {
-        $randomBytes = $this->strings->generateRandomString(16);
+        $randomBytes = bin2hex(random_bytes(8));
         $correctHmac = hash_hmac("sha256", $pieces["mac"], $randomBytes, true);
         $generatedHmac = hash_hmac("sha256", $this->createHash($pieces["iv"], $pieces["value"]), $randomBytes, true);
 
-        return $this->strings->isEqual($correctHmac, $generatedHmac);
+        return hash_equals($correctHmac, $generatedHmac);
     }
 }

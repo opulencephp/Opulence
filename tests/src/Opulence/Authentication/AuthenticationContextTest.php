@@ -8,8 +8,6 @@
  */
 namespace Opulence\Authentication;
 
-use Opulence\Authentication\Users\IUser;
-
 /**
  * Tests the authentication context
  */
@@ -60,8 +58,8 @@ class AuthenticationContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingUserInConstructor()
     {
-        /** @var IUser $user */
-        $user = $this->getMock(IUser::class);
+        /** @var IAuthenticatable $user */
+        $user = $this->getMock(IAuthenticatable::class);
         $context = new AuthenticationContext($user);
         $this->assertSame($user, $context->getUser());
     }
@@ -71,8 +69,8 @@ class AuthenticationContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingUserInSetter()
     {
-        /** @var IUser $user */
-        $user = $this->getMock(IUser::class);
+        /** @var IAuthenticatable $user */
+        $user = $this->getMock(IAuthenticatable::class);
         $this->context->setUser($user);
         $this->assertSame($user, $this->context->getUser());
     }

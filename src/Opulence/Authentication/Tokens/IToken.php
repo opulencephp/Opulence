@@ -16,6 +16,23 @@ use DateTimeImmutable;
 interface IToken
 {
     /**
+     * Hashes a value
+     *
+     * @param string $unhashedValue The value to hash
+     * @return string The hashed value
+     */
+    public static function hash(string $unhashedValue) : string;
+
+    /**
+     * Verifies an unhashed value
+     *
+     * @param string $hashedValue The hashed value to compare against
+     * @param string $unhashedValue The unhashed value to check
+     * @return bool Whether or not the unhashed value is correct
+     */
+    public static function verify(string $hashedValue, string $unhashedValue) : bool;
+
+    /**
      * Marks this token is inactive
      */
     public function deactivate();

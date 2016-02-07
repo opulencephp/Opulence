@@ -138,7 +138,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         $this->router->group(["controllerNamespace" => "MyApp"], function () {
             $this->router->get("bar", "MyController@index");
         });
-        $this->assertTrue($closureRoute->usesClosure());
+        $this->assertTrue($closureRoute->usesCallable());
         $this->assertSame($controller, $closureRoute->getController());
     }
 

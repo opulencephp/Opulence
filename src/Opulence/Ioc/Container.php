@@ -184,7 +184,7 @@ class Container implements IContainer
                         $constructorPrimitives,
                         false
                     );
-                    $instance = $reflectionClass->newInstanceArgs($constructorParameters);
+                    $instance = new $concrete(...$constructorParameters);
                 }
             }
 

@@ -8,8 +8,6 @@
  */
 namespace Opulence\Authentication;
 
-use Opulence\Authentication\Users\IUser;
-
 /**
  * Defines the interface for authentication contexts to implement
  */
@@ -25,7 +23,7 @@ interface IAuthenticationContext
     /**
      * Gets the current user if there is one
      *
-     * @return IUser|null The current user if there is one, otherwise null
+     * @return IAuthenticatable|null The current user if there is one, otherwise null
      */
     public function getUser();
 
@@ -46,7 +44,7 @@ interface IAuthenticationContext
     /**
      * Sets the current user
      *
-     * @param IUser $user The current user
+     * @param IAuthenticatable $user The current user
      */
-    public function setUser(IUser $user);
+    public function setUser(IAuthenticatable $user);
 }

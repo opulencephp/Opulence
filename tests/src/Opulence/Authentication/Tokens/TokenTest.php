@@ -127,6 +127,14 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests hashing value
+     */
+    public function testHashingValue()
+    {
+        $this->assertEquals(hash("sha256", "foo"), Token::hash("foo"));
+    }
+
+    /**
      * Tests setting the Id
      */
     public function testSettingId()
@@ -138,5 +146,15 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $token = new Token($oldId, 2, "", $validFrom, $validTo, true);
         $token->setId($newId);
         $this->assertEquals($newId, $token->getId());
+    }
+
+    /**
+     * Tests verifying a hash
+     */
+    public function testVerifyingHash()
+    {
+        $this->assertTrue(Token::verify(Token::hash("foo"), "foo"));
+        $this->assertFalse(Token::verify(Token::hash("foo"), "bar"));
+        $this->assertFalse(Token::verify(Token::hash("bar"), "foo"));
     }
 } 

@@ -8,7 +8,6 @@
  */
 namespace Opulence\Routing;
 
-use Closure;
 use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
@@ -76,7 +75,7 @@ class Router
      * Adds a route for the any method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute[] The list of generated routes
      */
@@ -89,7 +88,7 @@ class Router
      * Adds a route for the DELETE method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -104,7 +103,7 @@ class Router
      * Adds a route for the GET method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -163,7 +162,7 @@ class Router
      * Adds a route for the HEAD method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -179,7 +178,7 @@ class Router
      *
      * @param array $methods The list of methods to match on
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute[] The list of routes generated
      */
@@ -200,7 +199,7 @@ class Router
      * Adds a route for the OPTIONS method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -215,7 +214,7 @@ class Router
      * Adds a route for the PATCH method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -230,7 +229,7 @@ class Router
      * Adds a route for the POST method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -245,7 +244,7 @@ class Router
      * Adds a route for the PUT method at the given path
      *
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return ParsedRoute The generated route
      */
@@ -302,7 +301,7 @@ class Router
         $route->setRawPath($this->getGroupPath() . $route->getRawPath());
         $route->setRawHost($this->getGroupHost() . $route->getRawHost());
 
-        if (!$route->usesClosure()) {
+        if (!$route->usesCallable()) {
             $route->setControllerName($this->getGroupControllerNamespace() . $route->getControllerName());
         }
 
@@ -323,7 +322,7 @@ class Router
      *
      * @param string $method The method whose route this is
      * @param string $path The path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options for this path
      * @return Route The route from the input
      */

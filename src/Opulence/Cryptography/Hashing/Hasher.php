@@ -8,7 +8,6 @@
  */
 namespace Opulence\Cryptography\Hashing;
 
-use Opulence\Cryptography\Utilities\Strings;
 use RuntimeException;
 
 /**
@@ -18,16 +17,10 @@ abstract class Hasher implements IHasher
 {
     /** @var int The hash algorithm constant used by this hasher */
     protected $hashAlgorithm = -1;
-    /** @var Strings The string utility */
-    private $strings = null;
 
-    /**
-     * @param Strings $strings The string utility
-     */
-    public function __construct(Strings $strings)
+    public function __construct()
     {
         $this->setHashAlgorithm();
-        $this->strings = $strings;
     }
 
     /**

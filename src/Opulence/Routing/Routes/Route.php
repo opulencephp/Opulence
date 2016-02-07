@@ -8,7 +8,6 @@
  */
 namespace Opulence\Routing\Routes;
 
-use Closure;
 use InvalidArgumentException;
 use RuntimeException;
 
@@ -27,14 +26,14 @@ class Route
     protected $controllerName = "";
     /** @var string The name of the controller method this route calls */
     protected $controllerMethod = "";
-    /** @var string|Closure|null The controller/method or closure to be used as a controller */
+    /** @var string|callable|null The controller/method or closure to be used as a controller */
     protected $controller = null;
     /** @var string The name of this route, if it is a named route */
     protected $name = "";
     /** @var bool Whether or not this route only matches HTTPS requests */
     protected $isSecure = false;
-    /** @var bool Whether or not this route uses a closure as a controller */
-    protected $usesClosure = false;
+    /** @var bool Whether or not this route uses a callable as a controller */
+    protected $usesCallable = false;
     /** @var array The mapping of route variable names to their regexes */
     protected $varRegexes = [];
     /** @var array The list of middleware to run when dispatching this route */
@@ -43,7 +42,7 @@ class Route
     /**
      * @param string|array $methods The HTTP method or list of methods this route matches on
      * @param string $rawPath The raw path to match on
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @param array $options The list of options
      * @throws RuntimeException Thrown if there is no controller specified in the options
      * @throws InvalidArgumentException Thrown if the controller name/method is incorrectly formatted
@@ -96,7 +95,7 @@ class Route
     }
 
     /**
-     * @return Closure|string|null
+     * @return callable|string|null
      */
     public function getController()
     {
@@ -189,11 +188,11 @@ class Route
     }
 
     /**
-     * @param Closure $controller
+     * @param callable|string $controller The callable controller (or the serialized callable if the route is cached)
      */
-    public function setControllerClosure($controller)
+    public function setControllerCallable($controller)
     {
-        $this->usesClosure = true;
+        $this->usesCallable = true;
         $this->controller = $controller;
     }
 
@@ -273,15 +272,15 @@ class Route
     /**
      * @return bool
      */
-    public function usesClosure() : bool
+    public function usesCallable() : bool
     {
-        return $this->usesClosure;
+        return $this->usesCallable;
     }
 
     /**
      * Sets the controller name and method from the raw string
      *
-     * @param string|Closure $controller The name of the controller/method or the callback
+     * @param string|callable $controller The name of the controller/method or the callback
      * @throws InvalidArgumentException Thrown if the controller string is not formatted correctly
      */
     protected function setControllerVars($controller)
@@ -289,9 +288,9 @@ class Route
         $this->controller = $controller;
 
         if (is_callable($controller)) {
-            $this->setControllerClosure($controller);
+            $this->setControllerCallable($controller);
         } else {
-            $this->usesClosure = false;
+            $this->usesCallable = false;
             $atCharPos = strpos($controller, "@");
 
             // Make sure the "@" is somewhere in the middle of the string

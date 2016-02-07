@@ -8,8 +8,6 @@
  */
 namespace Opulence\Cryptography\Encryption;
 
-use Opulence\Cryptography\Utilities\Strings;
-
 /**
  * Tests the encrypter
  */
@@ -23,7 +21,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->encrypter = new Encrypter("abcdefghijklmnoq", new Strings());
+        $this->encrypter = new Encrypter("abcdefghijklmnoq");
     }
 
     /**
@@ -93,7 +91,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingCustomCipherThroughConstructor()
     {
-        $encrypter = new Encrypter("abcdefghijklmnopq", new Strings(), "AES-256-CBC");
+        $encrypter = new Encrypter("abcdefghijklmnopq", "AES-256-CBC");
         $decryptedValue = "foobar";
         $encryptedValue = $encrypter->encrypt($decryptedValue);
         $this->assertNotEquals($decryptedValue, $encryptedValue);

@@ -3,6 +3,27 @@
 <h3>General</h3>
 * Fixed Composer PHP versions in individual libraries
 
+<h3>Applications</h3>
+* Changed `Opulence\Applications\Application::start()` and `shutdown()` to accept optional `callable` rather than `Closure`
+
+<h3>Authentication</h3>
+* Removed all classes under `Opulence\Authentication\Credentials` because they've been rendered useless
+* Removed `Opulence\Authentication\EntityTypes`
+* Removed `Opulence\Authentication\Users\IUser`
+* Added `Opulence\Authentication\Tokens\IToken::hash()` and `verify()`
+* Added `Opulence\Authentication\IAuthenticator`
+* Added `Opulence\Authentication\Authorization\IAuthorizable`
+
+<h3>Cryptography</h3>
+* Removed `Strings` from `Opulence\Cryptography\Encryption\Encrypter::__construct()`
+* Removed `Strings` from `Opulence\Cryptography\Hashing\Hasher::__construct()`
+
+<h3>Framework</h3>
+* Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
+
+<h3>Ioc</h3>
+* Improved speed of instantiating classes via container by using the splat operator rather than reflection
+
 <h2>v1.0.0-alpha34</h2>
 
 <h3>Routing</h3>
