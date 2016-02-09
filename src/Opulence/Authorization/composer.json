@@ -1,10 +1,10 @@
 {
-  "name": "opulence/authentication",
-  "description": "The Opulence authentication library",
+  "name": "opulence/authorization",
+  "description": "The Opulence authorization library",
   "keywords": [
     "PHP",
-    "authentication",
-    "passwords"
+    "authorization",
+    "permissions"
   ],
   "authors": [
     {
@@ -16,7 +16,7 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\Authentication\\": ""
+      "Opulence\\Authorization\\": ""
     }
   },
   "require": {

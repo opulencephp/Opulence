@@ -21,23 +21,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->user = new User(18175, "foo", [1, 2, 3]);
-    }
-
-    /**
-     * Tests checking for a role that a user doesn't have
-     */
-    public function testCheckingForRoleThatUserDoesNotHave()
-    {
-        $this->assertFalse($this->user->hasRole(998877));
-    }
-
-    /**
-     * Tests verifying that a user has a role
-     */
-    public function testCheckingForRoleThatUserHas()
-    {
-        $this->assertTrue($this->user->hasRole(1));
+        $this->user = new User(18175, "foo");
     }
 
     /**
@@ -54,23 +38,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testGettingId()
     {
         $this->assertEquals(18175, $this->user->getId());
-    }
-
-    /**
-     * Tests getting the user's roles
-     */
-    public function testGettingRoles()
-    {
-        $this->assertEquals([1, 2, 3], $this->user->getRoles());
-    }
-
-    /**
-     * Tests not setting any roles in constructor
-     */
-    public function testNotSettingRolesInConstructor()
-    {
-        $user = new User(18175, "foo");
-        $this->assertEquals([], $user->getRoles());
     }
 
     /**

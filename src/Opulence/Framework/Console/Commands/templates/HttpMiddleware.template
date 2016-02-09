@@ -15,7 +15,7 @@ class {{class}} implements IMiddleware
      * @param Closure $next The next stage in the pipeline
      * @return Response The response
      */
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next) : Response
     {
         return $next($request);
     }

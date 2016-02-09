@@ -11,7 +11,7 @@ class {{class}} extends Controller
      *
      * @return Response The response
      */
-    public function create()
+    public function create() : Response
     {
 
     }
@@ -22,7 +22,7 @@ class {{class}} extends Controller
      * @param mixed $id The Id of the entity
      * @return Response The response
      */
-    public function delete($id)
+    public function delete($id) : Response
     {
 
     }
@@ -33,7 +33,7 @@ class {{class}} extends Controller
      * @param mixed $id The Id of the entity
      * @return Response The response
      */
-    public function show($id)
+    public function show($id) : Response
     {
 
     }
@@ -43,7 +43,7 @@ class {{class}} extends Controller
      *
      * @return Response The response
      */
-    public function showAll()
+    public function showAll() : Response
     {
 
     }
@@ -54,7 +54,7 @@ class {{class}} extends Controller
      * @param mixed $id The Id of the entity
      * @return Response The response
      */
-    public function update($id)
+    public function update($id) : Response
     {
 
     }

@@ -43,7 +43,7 @@ class {{class}} extends PredisDataMapper
      *
      * @return object[] The list of all the entities
      */
-    public function getAll()
+    public function getAll() : array
     {
 
     }

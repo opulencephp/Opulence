@@ -43,7 +43,7 @@ class {{class}} extends PhpRedisDataMapper
      *
      * @return object[] The list of all the entities
      */
-    public function getAll()
+    public function getAll() : array
     {
 
     }

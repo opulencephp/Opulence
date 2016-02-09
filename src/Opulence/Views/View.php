@@ -8,8 +8,6 @@
  */
 namespace Opulence\Views;
 
-use InvalidArgumentException;
-
 /**
  * Defines a basic view
  */
@@ -129,10 +127,6 @@ class View implements IView
      */
     public function setContents(string $contents)
     {
-        if (!is_string($contents)) {
-            throw new InvalidArgumentException("Contents are not a string");
-        }
-
         $this->contents = $contents;
     }
 

@@ -8,35 +8,26 @@
  */
 namespace Opulence\Authentication\Users;
 
-use Opulence\Authentication\Authorization\IAuthorizable;
 use Opulence\Authentication\IAuthenticatable;
 
 /**
  * Defines a basic user
  */
-class User implements IAuthenticatable, IAuthorizable
+class User implements IAuthenticatable
 {
     /** @var int|string The database Id of the user */
     protected $id = -1;
     /** @var string The hashed password of the user */
     protected $hashedPassword = "";
-    /** @var array The list of roles this user has */
-    protected $roles = [];
 
     /**
      * @param int|string $id The database Id of this user
      * @param string $hashedPassword The hashed password of this user
-     * @param array $roles The list of roles this user has
      */
-    public function __construct($id, string $hashedPassword, array $roles = [])
+    public function __construct($id, string $hashedPassword)
     {
         $this->setId($id);
         $this->setHashedPassword($hashedPassword);
-
-        // Convert the roles to a hash table for faster lookup
-        foreach ($roles as $role) {
-            $this->roles[$role] = true;
-        }
     }
 
     /**
@@ -53,22 +44,6 @@ class User implements IAuthenticatable, IAuthorizable
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getRoles() : array
-    {
-        return array_keys($this->roles);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function hasRole($role) : bool
-    {
-        return isset($this->roles[$role]);
     }
 
     /**

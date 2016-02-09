@@ -14,12 +14,16 @@
 * Added `Opulence\Authentication\IAuthenticator`
 * Added `Opulence\Authentication\Authorization\IAuthorizable`
 
+<h3>Authorization</h3>
+* Added `Opulence\Authorization` library
+
 <h3>Cryptography</h3>
 * Removed `Strings` from `Opulence\Cryptography\Encryption\Encrypter::__construct()`
 * Removed `Strings` from `Opulence\Cryptography\Hashing\Hasher::__construct()`
 
 <h3>Framework</h3>
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
+* Fixed various command templates to include PHP 7 return types
 
 <h3>Ioc</h3>
 * Improved speed of instantiating classes via container by using the splat operator rather than reflection
