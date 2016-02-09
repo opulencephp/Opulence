@@ -16,6 +16,27 @@ use Opulence\Authentication\IAuthenticatable;
 interface IUserRepository
 {
     /**
+     * Adds a user to the repo
+     *
+     * @param IAuthenticatable $user The user to add
+     */
+    public function add(&$user);
+
+    /**
+     * Deletes a user from the repo
+     *
+     * @param IAuthenticatable $user The user to delete
+     */
+    public function delete(&$user);
+
+    /**
+     * Gets all the users
+     *
+     * @return IAuthenticatable[] The list of all the users
+     */
+    public function getAll() : array;
+
+    /**
      * Gets the user with the input Id
      *
      * @param int|string $id The user Id

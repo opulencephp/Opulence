@@ -21,4 +21,13 @@ interface IAuthority
      * @return bool True if the user has the input privilege, otherwise false
      */
     public function can(string $privilege, ...$arguments) : bool;
+
+    /**
+     * Checks if a user does not have a privilege
+     *
+     * @param string $privilege The privilege being sought
+     * @param array ...$arguments The optional list of arguments to use when considering privilege
+     * @return bool True if the user does not have the input privilege, otherwise false
+     */
+    public function cannot(string $privilege, ...$arguments) : bool;
 }

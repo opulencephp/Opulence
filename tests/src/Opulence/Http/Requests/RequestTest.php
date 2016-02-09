@@ -433,6 +433,21 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the DELETE collection is returned on delete requests
+     */
+    public function testDeleteCollectionIsReturnedOnDeleteRequestWhenVarExists()
+    {
+        $methods = ["PUT", "PATCH", "DELETE"];
+
+        foreach ($methods as $method) {
+            $_SERVER["REQUEST_METHOD"] = $method;
+            $_SERVER["CONTENT_TYPE"] = "application/x-www-form-urlencoded";
+            $request = FormUrlEncodedRequest::createFromGlobals();
+            $this->assertEquals("bar", $request->getInput("foo"));
+        }
+    }
+
+    /**
      * Tests the env vars are set from the URL
      */
     public function testEnvIsSetFromUrl()

@@ -9,6 +9,8 @@
 namespace Opulence\Authorization;
 
 use Opulence\Authorization\Privileges\PrivilegeRegistry;
+use Opulence\Authorization\Roles\IRoles;
+use Opulence\Tests\Authorization\Mocks\User;
 
 /**
  * Tests the authority
@@ -17,64 +19,73 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
 {
     /** @var Authority The authority to use in tests */
     private $authority = null;
-    /** @var IAuthorizable|\PHPUnit_Framework_MockObject_MockObject The user to use in tests */
+    /** @var User The user to use in tests */
     private $user = null;
     /** @var PrivilegeRegistry The registry to use in tests */
     private $privilegeRegistry = null;
+    /** @var IRoles|\PHPUnit_Framework_MockObject_MockObject The roles to use in tests */
+    private $roles = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->user = $this->getMock(IAuthorizable::class);
+        $this->user = new User(23);
         $this->privilegeRegistry = new PrivilegeRegistry();
-        $this->authority = new Authority($this->user, $this->privilegeRegistry);
+        $this->roles = $this->getMock(IRoles::class);
+        $this->authority = new Authority($this->user->getId(), $this->user, $this->privilegeRegistry, $this->roles);
     }
 
     /**
      * Tests can returns false when callback returns false
      */
-    public function testCanReturnsFalseWhenCallbackReturnsFalse()
+    public function testFalseCallback()
     {
         $this->privilegeRegistry->registerCallback("foo", function () {
             return false;
         });
         $this->assertFalse($this->authority->can("foo"));
+        $this->assertTrue($this->authority->cannot("foo"));
     }
 
     /**
      * Tests can returns false when user is does not have role
      */
-    public function testCanReturnsFalseWhenUserDoesNotHaveRole()
+    public function testNoRoles()
     {
         $this->privilegeRegistry->registerRoles("foo", "bar");
-        $this->user->expects($this->once())
-            ->method("getRoles")
+        $this->roles->expects($this->exactly(2))
+            ->method("getRolesForUser")
+            ->with($this->user->getId())
             ->willReturn(["baz"]);
         $this->assertFalse($this->authority->can("foo"));
+        $this->assertTrue($this->authority->cannot("foo"));
     }
 
     /**
      * Tests can returns true when callback returns true
      */
-    public function testCanReturnsTrueWhenCallbackReturnsTrue()
+    public function testTrueCallback()
     {
         $this->privilegeRegistry->registerCallback("foo", function () {
             return true;
         });
         $this->assertTrue($this->authority->can("foo"));
+        $this->assertFalse($this->authority->cannot("foo"));
     }
 
     /**
      * Tests can returns true when user has role
      */
-    public function testCanReturnsTrueWhenUserHasRole()
+    public function testWithRoles()
     {
         $this->privilegeRegistry->registerRoles("foo", "bar");
-        $this->user->expects($this->once())
-            ->method("getRoles")
+        $this->roles->expects($this->exactly(2))
+            ->method("getRolesForUser")
+            ->with($this->user->getId())
             ->willReturn(["bar"]);
         $this->assertTrue($this->authority->can("foo"));
+        $this->assertFalse($this->authority->cannot("foo"));
     }
 }

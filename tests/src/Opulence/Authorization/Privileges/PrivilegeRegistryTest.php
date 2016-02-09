@@ -8,8 +8,6 @@
  */
 namespace Opulence\Authorization\Privileges;
 
-use InvalidArgumentException;
-
 /**
  * Tests the privilege registry
  */
@@ -27,33 +25,19 @@ class PrivilegeRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests callbacks take priority over roles
-     */
-    public function testCallbacksTakePriorityOverRoles()
-    {
-        $callback = function () {
-            return false;
-        };
-        $this->registry->registerCallback("foo", $callback);
-        $this->registry->registerRoles("foo", "bar");
-        $this->assertSame($callback, $this->registry->getCallback("foo"));
-    }
-
-    /**
-     * Tests empty array returned when no roles registered
+     * Tests null returned when no roles registered
      */
     public function testEmptyArrayReturnedWhenNoRolesRegistered()
     {
-        $this->assertEquals([], $this->registry->getRoles("foo"));
+        $this->assertNull($this->registry->getRoles("foo"));
     }
 
     /**
-     * Tests that an exception is thrown when no rules nor callback are registered
+     * Tests that null is returned when no callback is registered
      */
-    public function testExceptionThrownWhenNoRolesNorCallbackRegistered()
+    public function testNullReturnedWhenNoCallbackRegistered()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $this->registry->getCallback("foo");
+        $this->assertNull($this->registry->getCallback("foo"));
     }
 
     /**

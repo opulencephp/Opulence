@@ -8,9 +8,6 @@
  */
 namespace Opulence\Authorization\Privileges;
 
-use InvalidArgumentException;
-use Opulence\Authorization\IAuthorizable;
-
 /**
  * Defines the privilege registry
  */
@@ -24,30 +21,22 @@ class PrivilegeRegistry implements IPrivilegeRegistry
     /**
      * @inheritdoc
      */
-    public function getCallback(string $privilege) : callable
+    public function getCallback(string $privilege)
     {
-        // Default to callbacks
-        if (isset($this->privilegeCallbacks[$privilege])) {
-            return $this->privilegeCallbacks[$privilege];
+        if (!isset($this->privilegeCallbacks[$privilege])) {
+            return null;
         }
 
-        // Fall back to using roles
-        if (isset($this->privilegesToRoles[$privilege])) {
-            return function (IAuthorizable $user) use ($privilege) {
-                return count(array_intersect($user->getRoles(), $this->privilegesToRoles[$privilege])) > 0;
-            };
-        }
-
-        throw new InvalidArgumentException("No callback nor roles registered for privilege \"$privilege\"");
+        return $this->privilegeCallbacks[$privilege];
     }
 
     /**
      * @inheritdoc
      */
-    public function getRoles(string $privilege) : array
+    public function getRoles(string $privilege)
     {
         if (!isset($this->privilegesToRoles[$privilege])) {
-            return [];
+            return null;
         }
 
         return $this->privilegesToRoles[$privilege];

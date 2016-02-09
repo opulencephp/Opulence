@@ -25,6 +25,9 @@
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
 * Fixed various command templates to include PHP 7 return types
 
+<h3>HTTP</h3>
+* Fixed bug that did not attempt to check the current request method's parameter collection when calling `Opulence\Http\Requests\Request::getInput()`
+
 <h3>Ioc</h3>
 * Improved speed of instantiating classes via container by using the splat operator rather than reflection
 

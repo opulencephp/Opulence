@@ -422,18 +422,31 @@ class Request
                 return $default;
             }
         } else {
-            if ($this->method === RequestMethods::GET) {
-                return $this->query->get($name, $default);
-            } else {
-                $value = $this->post->get($name, $default);
+            $value = null;
 
-                if ($value === null) {
-                    // Try falling back to query
-                    $value = $this->query->get($name, $default);
-                }
-
-                return $value;
+            switch ($this->method) {
+                case RequestMethods::GET:
+                    return $this->query->get($name, $default);
+                case RequestMethods::POST:
+                    $value = $this->post->get($name, $default);
+                    break;
+                case RequestMethods::DELETE:
+                    $value = $this->delete->get($name, $default);
+                    break;
+                case RequestMethods::PUT:
+                    $value = $this->put->get($name, $default);
+                    break;
+                case RequestMethods::PATCH:
+                    $value = $this->patch->get($name, $default);
+                    break;
             }
+
+            if ($value === null) {
+                // Try falling back to query
+                $value = $this->query->get($name, $default);
+            }
+
+            return $value;
         }
     }
 
@@ -671,7 +684,7 @@ class Request
                 if (($overrideMethod = $this->server->get("X-HTTP-METHOD-OVERRIDE")) !== null) {
                     $method = $overrideMethod;
                 } else {
-                    $method = $this->getInput("_method", $method);
+                    $method = $this->post->get("_method", $this->query->get("_method", $method));
                 }
             }
         }
