@@ -8,29 +8,26 @@
  */
 namespace Opulence\Authorization\Privileges;
 
-use InvalidArgumentException;
-
 /**
  * Defines the interface for privilege registries to implement
  */
 interface IPrivilegeRegistry
 {
     /**
-     * Gets the list of roles that have the input privilege
+     * Gets the list of callbacks that return whether or not a user has a privilege
      *
      * @param string $privilege The privilege to search for
-     * @return callable The callback
-     * @throws InvalidArgumentException Thrown if no callback nor roles were registered for the privilege
+     * @return callable|null The callback if one was found, otherwise null
      */
-    public function getCallback(string $privilege) : callable;
+    public function getCallback(string $privilege);
 
     /**
      * Gets the list of roles that have the input privilege
      *
      * @param string $privilege The privilege to search for
-     * @return array The list of roles
+     * @return array|null The list of roles if any were found, otherwise null
      */
-    public function getRoles(string $privilege) : array;
+    public function getRoles(string $privilege);
 
     /**
      * Registers a callback to be evaluated for a privilege
