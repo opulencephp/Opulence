@@ -8,7 +8,6 @@
  */
 namespace Opulence\Authorization\Roles\Orm;
 
-use Opulence\Authorization\Roles\Role;
 use Opulence\Authorization\Roles\RoleMembership;
 
 /**
@@ -26,7 +25,7 @@ interface IRoleMembershipRepository
     /**
      * Deletes a role membership
      *
-     * @param Role $roleMembership The role membership to delete
+     * @param RoleMembership $roleMembership The role membership to delete
      */
     public function delete(&$roleMembership);
 
@@ -44,6 +43,23 @@ interface IRoleMembershipRepository
      * @return RoleMembership The role membership with the input Id
      */
     public function getById($id);
+
+    /**
+     * Gets the memberships with the role Id
+     *
+     * @param int|string $roleId The role Id whose memberships we want
+     * @return RoleMembership[] Gets the memberships by role Id
+     */
+    public function getByRoleId($roleId) : array;
+
+    /**
+     * Gets the membership for a user with the input Id
+     *
+     * @param int|string $userId The user Id
+     * @param int|string $roleId The role Id to search for
+     * @return RoleMembership|null The role membership if one was found, otherwise false
+     */
+    public function getByUserAndRoleId($userId, $roleId);
 
     /**
      * Gets the list of role memberships for a user

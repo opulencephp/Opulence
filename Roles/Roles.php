@@ -45,8 +45,6 @@ class Roles implements IRoles
             $membership = new RoleMembership(-1, $userId, $role);
             $this->roleMembershipRepository->add($membership);
         }
-
-        // Todo:  Where do we commit UoW?  Here?  Outside?
     }
 
     /**
@@ -54,7 +52,10 @@ class Roles implements IRoles
      */
     public function createRole(string $roleName) : Role
     {
-        // TODO: Implement createRole() method.
+        $role = new Role(-1, $roleName);
+        $this->roleRepository->add($role);
+
+        return $role;
     }
 
     /**
@@ -62,7 +63,9 @@ class Roles implements IRoles
      */
     public function deleteRole(string $roleName)
     {
-        // TODO: Implement deleteRole() method.
+        if (($role = $this->roleRepository->getByName($roleName)) !== null) {
+            $this->roleRepository->delete($role);
+        }
     }
 
     /**
@@ -70,7 +73,7 @@ class Roles implements IRoles
      */
     public function getRolesForUser($userId) : array
     {
-        // TODO: Implement get() method.
+        return $this->roleMembershipRepository->getByUserId($userId);
     }
 
     /**
@@ -78,7 +81,17 @@ class Roles implements IRoles
      */
     public function getUserIdsWithRole(string $roleName) : array
     {
-        // TODO: Implement getUserIdsWithRole() method.
+        if (($role = $this->roleRepository->getByName($roleName)) === null) {
+            return [];
+        }
+
+        $userIds = [];
+
+        foreach ($this->roleMembershipRepository->getByRoleId($role->getId()) as $membership) {
+            $userIds[] = $membership->getUserId();
+        }
+
+        return $userIds;
     }
 
     /**
@@ -86,7 +99,14 @@ class Roles implements IRoles
      */
     public function removeRolesFromUser($userId, $roleNames)
     {
-        // TODO: Implement removeRolesFromUser() method.
+        $roleNames = (array)$roleNames;
+
+        // Pass membership by reference because delete() accepts references
+        foreach ($this->roleMembershipRepository->getByUserId($userId) as &$membership) {
+            if (in_array($membership->getRole()->getName(), $roleNames)) {
+                $this->roleMembershipRepository->delete($membership);
+            }
+        }
     }
 
     /**
@@ -94,7 +114,7 @@ class Roles implements IRoles
      */
     public function roleExists(string $roleName) : bool
     {
-        // TODO: Implement roleExists() method.
+        return $this->roleRepository->getByName($roleName) !== null;
     }
 
     /**
@@ -102,6 +122,10 @@ class Roles implements IRoles
      */
     public function userHasRole($userId, string $roleName) : bool
     {
-        // TODO: Implement userHasRole() method.
+        if (($role = $this->roleRepository->getByName($roleName)) === null) {
+            return false;
+        }
+
+        return $this->roleMembershipRepository->getByUserAndRoleId($userId, $role->getId()) !== null;
     }
 }
