@@ -6,14 +6,14 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authorization\Privileges;
+namespace Opulence\Authorization\Permissions;
 
 /**
- * Tests the privilege registry
+ * Tests the permission registry
  */
-class PrivilegeRegistryTest extends \PHPUnit_Framework_TestCase
+class PermissionRegistryTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var PrivilegeRegistry The registry to use in tests */
+    /** @var PermissionRegistry The registry to use in tests */
     private $registry = null;
 
     /**
@@ -21,7 +21,7 @@ class PrivilegeRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->registry = new PrivilegeRegistry();
+        $this->registry = new PermissionRegistry();
     }
 
     /**
@@ -71,9 +71,9 @@ class PrivilegeRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests roles are not overwritten when double registering privilege
+     * Tests roles are not overwritten when double registering permission
      */
-    public function testRolesNotOverwrittenWhenDoubleRegisteringPrivilege()
+    public function testRolesNotOverwrittenWhenDoubleRegisteringPermission()
     {
         $this->registry->registerRoles("foo", "bar");
         $this->registry->registerRoles("foo", "baz");

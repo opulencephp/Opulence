@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authorization;
 
-use Opulence\Authorization\Privileges\PrivilegeRegistry;
+use Opulence\Authorization\Permissions\PermissionRegistry;
 use Opulence\Authorization\Roles\IRoles;
 use Opulence\Tests\Authorization\Mocks\User;
 
@@ -21,8 +21,8 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     private $authority = null;
     /** @var User The user to use in tests */
     private $user = null;
-    /** @var PrivilegeRegistry The registry to use in tests */
-    private $privilegeRegistry = null;
+    /** @var PermissionRegistry The registry to use in tests */
+    private $permissionRegistry = null;
     /** @var IRoles|\PHPUnit_Framework_MockObject_MockObject The roles to use in tests */
     private $roles = null;
 
@@ -32,9 +32,9 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->user = new User(23);
-        $this->privilegeRegistry = new PrivilegeRegistry();
+        $this->permissionRegistry = new PermissionRegistry();
         $this->roles = $this->getMock(IRoles::class);
-        $this->authority = new Authority($this->user->getId(), $this->user, $this->privilegeRegistry, $this->roles);
+        $this->authority = new Authority($this->user->getId(), $this->user, $this->permissionRegistry, $this->roles);
     }
 
     /**
@@ -42,7 +42,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testFalseCallback()
     {
-        $this->privilegeRegistry->registerCallback("foo", function () {
+        $this->permissionRegistry->registerCallback("foo", function () {
             return false;
         });
         $this->assertFalse($this->authority->can("foo"));
@@ -54,7 +54,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testNoRoles()
     {
-        $this->privilegeRegistry->registerRoles("foo", "bar");
+        $this->permissionRegistry->registerRoles("foo", "bar");
         $this->roles->expects($this->exactly(2))
             ->method("getRolesForUser")
             ->with($this->user->getId())
@@ -68,7 +68,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testTrueCallback()
     {
-        $this->privilegeRegistry->registerCallback("foo", function () {
+        $this->permissionRegistry->registerCallback("foo", function () {
             return true;
         });
         $this->assertTrue($this->authority->can("foo"));
@@ -80,7 +80,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testWithRoles()
     {
-        $this->privilegeRegistry->registerRoles("foo", "bar");
+        $this->permissionRegistry->registerRoles("foo", "bar");
         $this->roles->expects($this->exactly(2))
             ->method("getRolesForUser")
             ->with($this->user->getId())

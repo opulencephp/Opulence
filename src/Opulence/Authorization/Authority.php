@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authorization;
 
-use Opulence\Authorization\Privileges\IPrivilegeRegistry;
+use Opulence\Authorization\Permissions\IPermissionRegistry;
 use Opulence\Authorization\Roles\IRoles;
 
 /**
@@ -20,31 +20,31 @@ class Authority implements IAuthority
     private $userId = -1;
     /** @var mixed The current user */
     private $user = null;
-    /** @var IPrivilegeRegistry The privilege registry */
-    private $privilegeRegistry = null;
+    /** @var IPermissionRegistry The permission registry */
+    private $permissionRegistry = null;
     /** @var IRoles The roles */
     private $roles = null;
 
     /**
      * @param int|string $userId The Id of the current user
      * @param mixed $user The current user
-     * @param IPrivilegeRegistry $privilegeRegistry The privilege registry
+     * @param IPermissionRegistry $permissionRegistry The permission registry
      * @param IRoles $roles The roles
      */
-    public function __construct($userId, $user, IPrivilegeRegistry $privilegeRegistry, IRoles $roles)
+    public function __construct($userId, $user, IPermissionRegistry $permissionRegistry, IRoles $roles)
     {
         $this->userId = $userId;
         $this->user = $user;
-        $this->privilegeRegistry = $privilegeRegistry;
+        $this->permissionRegistry = $permissionRegistry;
         $this->roles = $roles;
     }
 
     /**
      * @inheritdoc
      */
-    public function can(string $privilege, ...$arguments) : bool
+    public function can(string $permission, ...$arguments) : bool
     {
-        $requiredRoles = $this->privilegeRegistry->getRoles($privilege);
+        $requiredRoles = $this->permissionRegistry->getRoles($permission);
 
         // If our user has at least one of the required roles
         if (
@@ -54,7 +54,7 @@ class Authority implements IAuthority
             return true;
         }
 
-        if (($callback = $this->privilegeRegistry->getCallback($privilege)) === null) {
+        if (($callback = $this->permissionRegistry->getCallback($permission)) === null) {
             return false;
         }
 
@@ -64,8 +64,8 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function cannot(string $privilege, ...$arguments) : bool
+    public function cannot(string $permission, ...$arguments) : bool
     {
-        return !$this->can($privilege, ...$arguments);
+        return !$this->can($permission, ...$arguments);
     }
 }
