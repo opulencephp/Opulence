@@ -14,11 +14,11 @@ namespace Opulence\Authorization\Roles;
 class RoleMembership
 {
     /** @var int|string The database Id */
-    private $id = -1;
+    protected $id = -1;
     /** @var int|string The user Id */
-    private $userId = -1;
+    protected $userId = -1;
     /** @var Role The role */
-    private $role = null;
+    protected $role = null;
 
     /**
      * @param int|string $id The database Id

@@ -97,6 +97,17 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
+    public function removeAllRolesFromUser($userId)
+    {
+        // Pass membership by reference because delete() accepts references
+        foreach ($this->roleMembershipRepository->getByUserId($userId) as &$membership) {
+            $this->roleMembershipRepository->delete($membership);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function removeRolesFromUser($userId, $roleNames)
     {
         $roleNames = (array)$roleNames;

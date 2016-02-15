@@ -56,6 +56,13 @@ interface IRoles
     public function getUserIdsWithRole(string $roleName) : array;
 
     /**
+     * Removes all roles from a user
+     *
+     * @param int|string $userId The Id of the user to remove
+     */
+    public function removeAllRolesFromUser($userId);
+
+    /**
      * Removes roles from a user
      *
      * @param int|string $userId The Id of the user to remove

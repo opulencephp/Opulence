@@ -14,9 +14,9 @@ namespace Opulence\Authorization\Roles;
 class Role
 {
     /** @var int|string The database Id */
-    private $id = -1;
+    protected $id = -1;
     /** @var string The name of the role */
-    private $name = "";
+    protected $name = "";
 
     /**
      * @param int|string $id The database Id

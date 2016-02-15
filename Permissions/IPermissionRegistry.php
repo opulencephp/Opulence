@@ -22,6 +22,13 @@ interface IPermissionRegistry
     public function getCallback(string $permission);
 
     /**
+     * Gets the list of callbacks that are evaluated before any permissions
+     *
+     * @return callable[] The list of override callbacks
+     */
+    public function getOverrideCallbacks() : array;
+
+    /**
      * Gets the list of roles that have the input permission
      *
      * @param string $permission The permission to search for
@@ -33,9 +40,16 @@ interface IPermissionRegistry
      * Registers a callback to be evaluated for a permission
      *
      * @param string $permission The permission being registered
-     * @param callable $callback The callback that will be evaluated
+     * @param callable $callback The callback that will be evaluated (user Id must be first argument)
      */
     public function registerCallback(string $permission, callable $callback);
+
+    /**
+     * Registers a callback to be evaluated before considering any permissions
+     *
+     * @param callable $callback The callback that will be evaluated (user Id must be first argument, permission second)
+     */
+    public function registerOverrideCallback(callable $callback);
 
     /**
      * Registers a permission for certain roles
