@@ -76,7 +76,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function registerReflectionIdAccessors($classNames, string $idPropertyName)
     {

@@ -158,13 +158,40 @@ class RolesTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests all removing roles from a user
+     */
+    public function testRemovingAllRolesFromUser()
+    {
+        $memberships = [
+            new RoleMembership(1, 2, new Role(3, "foo")),
+            new RoleMembership(4, 2, new Role(5, "bar")),
+            new RoleMembership(6, 2, new Role(7, "baz"))
+        ];
+        $this->roleMembershipRepository->expects($this->at(0))
+            ->method("getByUserId")
+            ->with(2)
+            ->willReturn($memberships);
+        $this->roleMembershipRepository->expects($this->at(1))
+            ->method("delete")
+            ->with($memberships[0]);
+        $this->roleMembershipRepository->expects($this->at(2))
+            ->method("delete")
+            ->with($memberships[1]);
+        $this->roleMembershipRepository->expects($this->at(3))
+            ->method("delete")
+            ->with($memberships[2]);
+        $this->roles->removeAllRolesFromUser(2);
+    }
+
+    /**
      * Tests removing roles from a user
      */
     public function testRemovingRolesFromUser()
     {
         $memberships = [
             new RoleMembership(1, 2, new Role(3, "foo")),
-            new RoleMembership(4, 2, new Role(5, "bar"))
+            new RoleMembership(4, 2, new Role(5, "bar")),
+            new RoleMembership(6, 2, new Role(7, "baz"))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
             ->method("getByUserId")

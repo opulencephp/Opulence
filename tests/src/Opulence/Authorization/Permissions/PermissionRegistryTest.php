@@ -25,6 +25,14 @@ class PermissionRegistryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting override callbacks when none registered
+     */
+    public function testEmptyArrayReturnedWhenNoOverrideCallbacksRegistered()
+    {
+        $this->assertEquals([], $this->registry->getOverrideCallbacks());
+    }
+
+    /**
      * Tests null returned when no roles registered
      */
     public function testEmptyArrayReturnedWhenNoRolesRegistered()
@@ -59,6 +67,18 @@ class PermissionRegistryTest extends \PHPUnit_Framework_TestCase
         };
         $this->registry->registerCallback("foo", $callback);
         $this->assertSame($callback, $this->registry->getCallback("foo"));
+    }
+
+    /**
+     * Tests registering an override
+     */
+    public function testRegisteringOverride()
+    {
+        $override = function () {
+            return true;
+        };
+        $this->registry->registerOverrideCallback($override);
+        $this->assertSame([$override], $this->registry->getOverrideCallbacks());
     }
 
     /**

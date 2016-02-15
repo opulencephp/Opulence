@@ -14,20 +14,28 @@ namespace Opulence\Authorization;
 interface IAuthority
 {
     /**
-     * Checks if a user has a privilege
+     * Checks if a user has a permission
      *
-     * @param string $permission The privilege being sought
-     * @param array ...$arguments The optional list of arguments to use when considering privilege
-     * @return bool True if the user has the input privilege, otherwise false
+     * @param string $permission The permission being sought
+     * @param array ...$arguments The optional list of arguments to use when considering permission
+     * @return bool True if the user has the input permission, otherwise false
      */
     public function can(string $permission, ...$arguments) : bool;
 
     /**
-     * Checks if a user does not have a privilege
+     * Checks if a user does not have a permission
      *
-     * @param string $permission The privilege being sought
-     * @param array ...$arguments The optional list of arguments to use when considering privilege
-     * @return bool True if the user does not have the input privilege, otherwise false
+     * @param string $permission The permission being sought
+     * @param array ...$arguments The optional list of arguments to use when considering permission
+     * @return bool True if the user does not have the input permission, otherwise false
      */
     public function cannot(string $permission, ...$arguments) : bool;
+
+    /**
+     * Creates an instance of this class for a given user
+     *
+     * @param mixed $userId The Id of the user to check
+     * @return IAuthority The instance for the input user
+     */
+    public function forUser($userId) : IAuthority;
 }

@@ -34,7 +34,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function isPostInsert() : bool
     {

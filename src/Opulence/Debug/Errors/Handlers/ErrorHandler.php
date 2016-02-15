@@ -56,7 +56,7 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function handle(int $level, string $message, string $file = "", int $line = 0, array $context = [])
     {
@@ -88,7 +88,7 @@ class ErrorHandler implements IErrorHandler
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function register()
     {

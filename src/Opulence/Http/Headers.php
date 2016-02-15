@@ -78,7 +78,7 @@ class Headers extends Collection
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function has(string $name) : bool
     {
@@ -86,7 +86,7 @@ class Headers extends Collection
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function remove(string $name)
     {

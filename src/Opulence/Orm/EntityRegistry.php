@@ -58,7 +58,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function clearAggregateRoots()
     {
@@ -206,7 +206,7 @@ class EntityRegistry implements IEntityRegistry
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function runAggregateRootCallbacks($child)
     {

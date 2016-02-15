@@ -36,7 +36,7 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
     protected $validatorFactory = null;
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getBindings() : array
     {

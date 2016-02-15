@@ -17,7 +17,7 @@ class IdGeneratorRegistry implements IIdGeneratorRegistry
     private $generators = [];
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getIdGenerator(string $className)
     {
@@ -29,7 +29,7 @@ class IdGeneratorRegistry implements IIdGeneratorRegistry
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function registerIdGenerator(string $className, IIdGenerator $generator)
     {

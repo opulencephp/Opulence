@@ -13,10 +13,12 @@ namespace Opulence\Authorization\Permissions;
  */
 class PermissionRegistry implements IPermissionRegistry
 {
+    /** @var callable[] The list of override callbacks */
+    protected $overrideCallbacks = [];
     /** @var callable[] The mapping of permissions to callbacks */
-    private $permissionCallbacks = [];
+    protected $permissionCallbacks = [];
     /** @var array The mapping of permissions to user roles */
-    private $permissionsToRoles = [];
+    protected $permissionsToRoles = [];
 
     /**
      * @inheritdoc
@@ -28,6 +30,14 @@ class PermissionRegistry implements IPermissionRegistry
         }
 
         return $this->permissionCallbacks[$permission];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getOverrideCallbacks() : array
+    {
+        return $this->overrideCallbacks;
     }
 
     /**
@@ -48,6 +58,14 @@ class PermissionRegistry implements IPermissionRegistry
     public function registerCallback(string $permission, callable $callback)
     {
         $this->permissionCallbacks[$permission] = $callback;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function registerOverrideCallback(callable $callback)
+    {
+        $this->overrideCallbacks[] = $callback;
     }
 
     /**

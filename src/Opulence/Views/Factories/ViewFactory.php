@@ -49,7 +49,7 @@ class ViewFactory implements IViewFactory
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function has(string $name) : bool
     {

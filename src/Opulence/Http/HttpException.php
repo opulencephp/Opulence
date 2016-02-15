@@ -21,7 +21,7 @@ class HttpException extends Exception
     private $headers = [];
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      * @param int $statusCode The HTTP status code
      * @param array $headers The HTTP headers
      */

@@ -17,24 +17,20 @@ use Opulence\Authorization\Roles\IRoles;
 class Authority implements IAuthority
 {
     /** @var int|string The Id of the current user */
-    private $userId = -1;
-    /** @var mixed The current user */
-    private $user = null;
+    protected $userId = -1;
     /** @var IPermissionRegistry The permission registry */
-    private $permissionRegistry = null;
+    protected $permissionRegistry = null;
     /** @var IRoles The roles */
-    private $roles = null;
+    protected $roles = null;
 
     /**
      * @param int|string $userId The Id of the current user
-     * @param mixed $user The current user
      * @param IPermissionRegistry $permissionRegistry The permission registry
      * @param IRoles $roles The roles
      */
-    public function __construct($userId, $user, IPermissionRegistry $permissionRegistry, IRoles $roles)
+    public function __construct($userId, IPermissionRegistry $permissionRegistry, IRoles $roles)
     {
         $this->userId = $userId;
-        $this->user = $user;
         $this->permissionRegistry = $permissionRegistry;
         $this->roles = $roles;
     }
@@ -44,6 +40,13 @@ class Authority implements IAuthority
      */
     public function can(string $permission, ...$arguments) : bool
     {
+        // Check the overrides first
+        foreach ($this->permissionRegistry->getOverrideCallbacks() as $overrideCallback) {
+            if (call_user_func($overrideCallback, $this->userId, $permission, ...$arguments)) {
+                return true;
+            }
+        }
+
         $requiredRoles = $this->permissionRegistry->getRoles($permission);
 
         // If our user has at least one of the required roles
@@ -58,7 +61,7 @@ class Authority implements IAuthority
             return false;
         }
 
-        return call_user_func($callback, $this->user, ...$arguments);
+        return call_user_func($callback, $this->userId, ...$arguments);
     }
 
     /**
@@ -67,5 +70,13 @@ class Authority implements IAuthority
     public function cannot(string $permission, ...$arguments) : bool
     {
         return !$this->can($permission, ...$arguments);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function forUser($userId) : IAuthority
+    {
+        return new self($userId, $this->permissionRegistry, $this->roles);
     }
 }

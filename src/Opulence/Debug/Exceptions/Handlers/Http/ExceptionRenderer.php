@@ -29,7 +29,7 @@ class ExceptionRenderer implements IExceptionRenderer
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function render($ex)
     {
