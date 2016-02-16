@@ -448,6 +448,15 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that an empty string is returned when no referrer nor previous URL is set
+     */
+    public function testEmptyStringWhenNoReferrerNorPreviousUrlIsSet()
+    {
+        $request = Request::createFromGlobals();
+        $this->assertEquals("", $request->getPreviousUrl());
+    }
+
+    /**
      * Tests the env vars are set from the URL
      */
     public function testEnvIsSetFromUrl()
@@ -1220,7 +1229,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that the previous URL is just the referrer header when it wasn't specifically set
      */
-    public function testPreviousURLIsReferrerWhenItIsNotSet()
+    public function testPreviousUrlIsReferrerWhenItIsNotSet()
     {
         $_SERVER["HTTP_REFERER"] = "http://foo.com";
         $request = Request::createFromGlobals();
