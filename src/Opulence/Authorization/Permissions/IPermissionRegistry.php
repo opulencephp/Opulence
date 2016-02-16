@@ -55,6 +55,7 @@ interface IPermissionRegistry
      * Registers a permission for certain roles
      *
      * @param string $permission The permission being registered
-     * c     */
+     * @param string|array The role name or list of role names that have the input permission
+     */
     public function registerRoles(string $permission, $roles);
 }

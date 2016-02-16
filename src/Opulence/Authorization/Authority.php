@@ -30,7 +30,7 @@ class Authority implements IAuthority
      */
     public function __construct($userId, IPermissionRegistry $permissionRegistry, IRoles $roles)
     {
-        $this->userId = $userId;
+        $this->setUserId($userId);
         $this->permissionRegistry = $permissionRegistry;
         $this->roles = $roles;
     }
@@ -78,5 +78,13 @@ class Authority implements IAuthority
     public function forUser($userId) : IAuthority
     {
         return new self($userId, $this->permissionRegistry, $this->roles);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setUserId($userId)
+    {
+        $this->userId = $userId;
     }
 }

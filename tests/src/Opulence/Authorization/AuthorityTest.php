@@ -89,6 +89,21 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting the user Id
+     */
+    public function testSettingUserId()
+    {
+        $this->authority->setUserId(345);
+        $this->permissionRegistry->registerRoles("foo", "bar");
+        $this->roles->expects($this->exactly(2))
+            ->method("getRolesForUser")
+            ->with(345)
+            ->willReturn([]);
+        $this->assertFalse($this->authority->can("foo"));
+        $this->assertTrue($this->authority->cannot("foo"));
+    }
+
+    /**
      * Tests can returns true when callback returns true
      */
     public function testTrueCallback()
