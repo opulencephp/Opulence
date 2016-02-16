@@ -543,7 +543,7 @@ class Request
         }
 
         if ($fallBackToReferer) {
-            return $this->headers->get("REFERER");
+            return $this->headers->get("REFERER", "");
         }
 
         return "";
