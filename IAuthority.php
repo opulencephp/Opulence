@@ -38,4 +38,11 @@ interface IAuthority
      * @return IAuthority The instance for the input user
      */
     public function forUser($userId) : IAuthority;
+
+    /**
+     * Sets the user Id
+     *
+     * @param int|string $userId The Id of the user
+     */
+    public function setUserId($userId);
 }
