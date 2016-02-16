@@ -36,8 +36,8 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
         };
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $this->registry->registerRuleExtension($rule, "foo");
-        $this->assertInstanceOf(CallbackRule::class, $this->registry->get("foo"));
-        $this->assertTrue($this->registry->get("foo")->passes("bar"));
+        $this->assertInstanceOf(CallbackRule::class, $this->registry->getRule("foo"));
+        $this->assertTrue($this->registry->getRule("foo")->passes("bar"));
     }
 
     /**
@@ -51,8 +51,8 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
             ->method("getSlug")
             ->willReturn("foo");
         $this->registry->registerRuleExtension($rule);
-        $this->assertTrue($this->registry->has("foo"));
-        $this->assertFalse($this->registry->has("bar"));
+        $this->assertTrue($this->registry->hasRule("foo"));
+        $this->assertFalse($this->registry->hasRule("bar"));
     }
 
     /**
@@ -61,7 +61,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
     public function testExceptionThrownWhenNoExtensionExists()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $this->registry->get("foo");
+        $this->registry->getRule("foo");
     }
 
     /**
@@ -84,7 +84,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
             ->method("getSlug")
             ->willReturn("foo");
         $this->registry->registerRuleExtension($rule);
-        $this->assertSame($rule, $this->registry->get("foo"));
+        $this->assertSame($rule, $this->registry->getRule("foo"));
     }
 
     /**
@@ -98,6 +98,6 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
             ->method("getSlug")
             ->willReturn("foo");
         $this->registry->registerRuleExtension($rule, "bar");
-        $this->assertTrue($this->registry->has("foo"));
+        $this->assertTrue($this->registry->hasRule("foo"));
     }
 }

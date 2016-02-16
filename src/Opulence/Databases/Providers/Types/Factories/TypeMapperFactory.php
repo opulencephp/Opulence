@@ -22,7 +22,7 @@ class TypeMapperFactory
      * @param Provider $provider The provider whose type mapper we're creating
      * @return TypeMapper The type mapper
      */
-    public function create(Provider $provider) : TypeMapper
+    public function createTypeMapper(Provider $provider) : TypeMapper
     {
         return new TypeMapper($provider);
     }

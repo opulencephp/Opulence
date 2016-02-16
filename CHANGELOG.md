@@ -7,7 +7,6 @@
 * Changed `Opulence\Applications\Application::start()` and `shutdown()` to accept optional `callable` rather than `Closure`
 
 <h3>Authentication</h3>
-* Removed all classes under `Opulence\Authentication\Credentials` because they've been rendered useless
 * Removed `Opulence\Authentication\EntityTypes`
 * Removed `Opulence\Authentication\Users\IUser`
 * Added `Opulence\Authentication\Tokens\IToken::hash()` and `verify()`
@@ -21,15 +20,36 @@
 * Removed `Strings` from `Opulence\Cryptography\Encryption\Encrypter::__construct()`
 * Removed `Strings` from `Opulence\Cryptography\Hashing\Hasher::__construct()`
 
+<h3>Databases</h3>
+* Renamed `Opulence\Databases\Providers\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
+
 <h3>Framework</h3>
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
 * Fixed various command templates to include PHP 7 return types
 
 <h3>HTTP</h3>
 * Fixed bug that did not attempt to check the current request method's parameter collection when calling `Opulence\Http\Requests\Request::getInput()`
+* Fixed bug that returned `null` when getting the previous URL and none is set, nor is the referrer header set
 
 <h3>Ioc</h3>
 * Improved speed of instantiating classes via container by using the splat operator rather than reflection
+
+<h3>Memcached</h3>
+* Renamed `Opulence\Memcached\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
+
+<h3>Redis</h3>
+* Renamed `Opulence\Redis\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
+
+<h3>Validation</h3>
+* Renamed `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry::get()` to `getErrorTemplate()`
+* Renamed `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry::has()` to `hasErrorTemplate()`
+* Renamed `Opulence\Validation\Rules\RuleExtensionRegistry::get()` to `getRule()`
+* Renamed `Opulence\Validation\Rules\RuleExtensionRegistry::has()` to `hasRule()`
+
+<h3>Views</h3>
+* Renamed `Opulence\Views\Compilers\ICompilerRegistry::get()` to `getCompiler()`
+* Renamed `Opulence\Views\Factories\IViewFactory::create()` to `createView()`
+* Renamed `Opulence\Views\Factories\IViewFactory::has()` to `hasView()`
 
 <h2>v1.0.0-alpha34</h2>
 

@@ -91,8 +91,8 @@ class ExceptionRenderer extends BaseRenderer implements IExceptionRenderer
     {
         $viewName = $this->getViewName($ex, $statusCode, $headers);
 
-        if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->has($viewName)) {
-            $view = $this->viewFactory->create($viewName);
+        if ($this->viewFactory !== null && $this->viewCompiler !== null && $this->viewFactory->hasView($viewName)) {
+            $view = $this->viewFactory->createView($viewName);
             $view->setVar("__exception", $ex);
             $view->setVar("__inDevelopmentEnvironment", $this->inDevelopmentEnvironment);
             $content = $this->viewCompiler->compile($view);

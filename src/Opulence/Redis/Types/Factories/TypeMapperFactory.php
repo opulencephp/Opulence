@@ -20,7 +20,7 @@ class TypeMapperFactory
      *
      * @return TypeMapper The type mapper
      */
-    public function create() : TypeMapper
+    public function createTypeMapper() : TypeMapper
     {
         return new TypeMapper();
     }

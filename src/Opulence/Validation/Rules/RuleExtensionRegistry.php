@@ -25,9 +25,9 @@ class RuleExtensionRegistry
      * @return IRule The rule extension
      * @throws InvalidArgumentException Thrown if no extension is registered with the name
      */
-    public function get(string $ruleName) : IRule
+    public function getRule(string $ruleName) : IRule
     {
-        if (!$this->has($ruleName)) {
+        if (!$this->hasRule($ruleName)) {
             throw new InvalidArgumentException("No rule extension with name \"$ruleName\" found");
         }
 
@@ -40,7 +40,7 @@ class RuleExtensionRegistry
      * @param string $ruleName The name of the rule to search for
      * @return bool Whether or not the rule extension exists
      */
-    public function has(string $ruleName) : bool
+    public function hasRule(string $ruleName) : bool
     {
         return isset($this->extensions[$ruleName]);
     }

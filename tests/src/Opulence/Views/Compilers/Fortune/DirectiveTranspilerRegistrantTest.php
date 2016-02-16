@@ -132,7 +132,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% extends("foo.php") %>bar');
         $expected = [
-            '<?php $__opulenceViewParent = $__opulenceViewFactory->create("foo.php");$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);extract($__opulenceView->getVars()); ?>',
+            '<?php $__opulenceViewParent = $__opulenceViewFactory->createView("foo.php");$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);extract($__opulenceView->getVars()); ?>',
             '<?php $__opulenceParentContents = isset($__opulenceParentContents) ? $__opulenceParentContents : [];$__opulenceParentContents[] = $__opulenceFortuneTranspiler->transpile($__opulenceViewParent); ?>',
             'bar',
             '<?php echo eval("?>" . array_shift($__opulenceParentContents)); ?>'
@@ -212,7 +212,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include("foo.php") %>bar');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
-        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->createView("foo.php");';
         $code .= 'extract($__opulenceIncludedView->getVars());';
         $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
@@ -231,7 +231,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include("foo.php", ["foo" => "bar"]) %>baz');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
-        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->createView("foo.php");';
         $code .= 'extract($__opulenceIncludedView->getVars());';
         $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
@@ -250,7 +250,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include("foo.php", compact("foo", "bar")) %>baz');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
-        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create("foo.php");';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->createView("foo.php");';
         $code .= 'extract($__opulenceIncludedView->getVars());';
         $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';
@@ -269,7 +269,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $this->view->setContents('<% include($foo, ["foo" => "bar"]) %>baz');
         $code = '<?php call_user_func(function() use ($__opulenceViewFactory, $__opulenceFortuneTranspiler){';
-        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->create($foo);';
+        $code .= '$__opulenceIncludedView = $__opulenceViewFactory->createView($foo);';
         $code .= 'extract($__opulenceIncludedView->getVars());';
         $code .= 'if(count(func_get_arg(0)) > 0){extract(func_get_arg(0));}';
         $code .= 'eval("?>" . $__opulenceFortuneTranspiler->transpile($__opulenceIncludedView));';

@@ -20,6 +20,6 @@ class TypeMapperFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testTypeMapperIsCreated()
     {
-        $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->create());
+        $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->createTypeMapper());
     }
 }

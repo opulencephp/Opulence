@@ -70,11 +70,11 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new HttpException(404, "foo");
         $view = $this->getMock(IView::class);
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/html/404")
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("errors/html/404")
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
@@ -94,7 +94,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     {
         $ex = new HttpException(404, "foo");
         $this->viewFactory->expects($this->never())
-            ->method("has");
+            ->method("hasView");
         $this->renderer->render($ex);
         $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
         $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
@@ -108,7 +108,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $this->setViewComponents();
         $ex = new HttpException(404, "foo");
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/html/404")
             ->willReturn(false);
         $this->renderer->render($ex);
@@ -125,7 +125,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $this->setViewComponents();
         $ex = new HttpException(404, "foo");
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/html/404")
             ->willReturn(false);
         $this->renderer->render($ex);
@@ -151,11 +151,11 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new Exception();
         $view = $this->getMock(IView::class);
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/json/500")
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("errors/json/500")
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
@@ -177,11 +177,11 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $ex = new Exception("foo");
         $view = $this->getMock(IView::class);
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/html/500")
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("errors/html/500")
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
@@ -201,7 +201,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $this->setViewComponents();
         $ex = new Exception("foo");
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/html/500")
             ->willReturn(false);
         $this->renderer->render($ex);
@@ -218,7 +218,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
         $this->setViewComponents();
         $ex = new Exception("foo");
         $this->viewFactory->expects($this->once())
-            ->method("has")
+            ->method("hasView")
             ->with("errors/html/500")
             ->willReturn(false);
         $this->renderer->render($ex);

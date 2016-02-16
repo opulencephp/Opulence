@@ -21,9 +21,17 @@ interface ICredential
     public function getTypeId() : int;
 
     /**
+     * Gets the value for the input name
+     *
+     * @param string $name The name of the value to get
+     * @return mixed|null The value, if any exists, otherwise null
+     */
+    public function getValue(string $name);
+
+    /**
      * Gets the list of credential values
      *
-     * @return array The list of values that make up the credentials
+     * @return array The mapping of value names to their values
      */
     public function getValues() : array;
 }

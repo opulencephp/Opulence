@@ -23,6 +23,6 @@ class TypeMapperFactoryTest extends \PHPUnit_Framework_TestCase
     {
         /** @var Provider|\PHPUnit_Framework_TestCase $provider */
         $provider = $this->getMockForAbstractClass(Provider::class);
-        $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->create($provider));
+        $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->createTypeMapper($provider));
     }
 }

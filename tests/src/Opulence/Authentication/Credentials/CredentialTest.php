@@ -33,10 +33,26 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests getting the value
+     */
+    public function testGettingValue()
+    {
+        $this->assertEquals("bar", $this->credential->getValue("foo"));
+    }
+
+    /**
      * Tests getting the values
      */
     public function testGettingValues()
     {
         $this->assertEquals(["foo" => "bar"], $this->credential->getValues());
+    }
+
+    /**
+     * Tests that non-existent values return null
+     */
+    public function testNullReturnedForNonExistentValues()
+    {
+        $this->assertNull($this->credential->getValue("doesNotExist"));
     }
 }

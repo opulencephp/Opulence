@@ -49,7 +49,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $this->view = new View();
         // Need to make sure we always return the Fortune compiler
         $registry->expects($this->any())
-            ->method("get")
+            ->method("getCompiler")
             ->willReturn($this->fortuneCompiler);
     }
 
@@ -61,7 +61,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $parentView = new View("Foo", "");
         $parentView->setVar("foo", "bar");
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("Foo")
             ->willReturn($parentView);
         $this->view->setContents('<% extends("Foo") %>{{$foo}}');
@@ -189,7 +189,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $includedView = new View("Foo", "foo");
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo") %>bar');
         $this->assertEquals(
@@ -228,10 +228,10 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $includedView1 = new View("Foo", 'foo<% include("Bar") %>');
         $includedView2 = new View("Bar", 'bar');
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->willReturn($includedView1);
         $this->viewFactory->expects($this->at(1))
-            ->method("create")
+            ->method("createView")
             ->willReturn($includedView2);
         $this->view->setContents('<% include("Foo") %>baz');
         $this->assertEquals(
@@ -248,11 +248,11 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $parent1 = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
         $parent2 = new View("Bar", '<% extends("Foo") %><% part("foo") %><% parent %>baz<% endpart %>');
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->with("Bar")
             ->willReturn($parent2);
         $this->viewFactory->expects($this->at(1))
-            ->method("create")
+            ->method("createView")
             ->with("Foo")
             ->willReturn($parent1);
         $this->view->setContents('<% extends("Bar") %><% part("foo") %><% parent %>blah<% endpart %>');
@@ -269,7 +269,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $parentView = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("Foo")
             ->willReturn($parentView);
         $this->view->setContents('<% extends("Foo") %><% part("foo") %><% parent %>baz<% endpart %>');
@@ -338,7 +338,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $includedView = new View("Foo", 'foo');
         $includedView->setVar("foo", "bar");
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo") %><?php echo isset($foo) ? "set" : "not set"; ?>');
         $this->assertEquals(
@@ -354,7 +354,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $includedView = new View("Foo", '<?php echo isset($foo) ? "set" : "not set"; ?>');
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo") %>');
         $this->view->setVar("foo", "bar");
@@ -381,11 +381,11 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $grandparentView = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
         $parentView = new View("Foo", '<% extends("Grandparent") %><% part("foo") %>baz<% endpart %>');
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->with("Parent")
             ->willReturn($parentView);
         $this->viewFactory->expects($this->at(1))
-            ->method("create")
+            ->method("createView")
             ->with("Grandparent")
             ->willReturn($grandparentView);
         $this->view->setContents('<% extends("Parent") %><% part("foo") %>blah<% endpart %>');
@@ -404,11 +404,11 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $grandparentView->setVar("foo", "bar");
         $parentView = new View("Foo", '<% extends("Grandparent") %>');
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->with("Parent")
             ->willReturn($parentView);
         $this->viewFactory->expects($this->at(1))
-            ->method("create")
+            ->method("createView")
             ->with("Grandparent")
             ->willReturn($grandparentView);
         $this->view->setContents('<% extends("Parent") %>');
@@ -427,7 +427,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $parentView = new View("Foo", '{{$foo}}');
         $parentView->setVar("foo", "bar");
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("Foo")
             ->willReturn($parentView);
         $this->view->setContents('<% extends("Foo") %>');
@@ -445,7 +445,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $includedView = new View("Foo", '<% part("foo") %>bar<% endpart %><% show("foo") %>');
         $this->viewFactory->expects($this->once())
-            ->method("create")
+            ->method("createView")
             ->with("Foo")
             ->willReturn($includedView);
         $this->view->setContents('<% extends("Foo") %><% part("foo") %>baz<% endpart %>');
@@ -476,7 +476,7 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
         $includedView = new View("Foo", '<?php echo $foo; ?>');
         $includedView->setVar("foo", "bar");
         $this->viewFactory->expects($this->at(0))
-            ->method("create")
+            ->method("createView")
             ->willReturn($includedView);
         $this->view->setContents('<% include("Foo", ["foo" => "baz"]) %>bar');
         $this->assertEquals(

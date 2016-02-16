@@ -23,7 +23,7 @@ interface ICompilerRegistry
      * @return ICompiler The compiler registered to the view
      * @throws InvalidArgumentException Thrown if no compiler is registered to the view
      */
-    public function get(IView $view) : ICompiler;
+    public function getCompiler(IView $view) : ICompiler;
 
     /**
      * Registers a compiler for all view files with the input extension

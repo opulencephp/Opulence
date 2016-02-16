@@ -31,6 +31,6 @@ class Compiler implements ICompiler
      */
     public function compile(IView $view) : string
     {
-        return $this->registry->get($view)->compile($view);
+        return $this->registry->getCompiler($view)->compile($view);
     }
 } 

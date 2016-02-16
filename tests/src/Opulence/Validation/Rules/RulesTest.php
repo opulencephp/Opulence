@@ -81,12 +81,12 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testCallingExtension()
     {
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("has")
+            ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
         $rule = $this->getMock(IRule::class);
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("get")
+            ->method("getRule")
             ->willReturn($rule);
         $rule->expects($this->once())
             ->method("passes")
@@ -102,7 +102,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testCallingExtensionWithArgs()
     {
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("has")
+            ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
         $rule = $this->getMock(IRuleWithArgs::class);
@@ -110,7 +110,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->method("setArgs")
             ->with(["baz"]);
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("get")
+            ->method("getRule")
             ->willReturn($rule);
         $rule->expects($this->once())
             ->method("passes")
@@ -127,7 +127,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     {
         $this->setExpectedException(BadMethodCallException::class);
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("has")
+            ->method("hasRule")
             ->with("foo")
             ->willReturn(false);
         $this->rules->foo("bar");
@@ -139,7 +139,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testCheckingRulesTwiceDoesNotAppendErrors()
     {
         $this->errorTemplateRegistry->expects($this->exactly(2))
-            ->method("get")
+            ->method("getErrorTemplate")
             ->with("the-field", "email")
             ->willReturn("");
         $this->errorTemplateCompiler->expects($this->exactly(2))
@@ -159,11 +159,11 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testConditionalRulesErrorsAreAdded()
     {
         $this->errorTemplateRegistry->expects($this->at(0))
-            ->method("get")
+            ->method("getErrorTemplate")
             ->with("the-field", "equals")
             ->willReturn("equals template");
         $this->errorTemplateRegistry->expects($this->at(1))
-            ->method("get")
+            ->method("getErrorTemplate")
             ->with("the-field", "email")
             ->willReturn("email template");
         $this->errorTemplateCompiler->expects($this->at(0))
@@ -264,19 +264,19 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->method("passes")
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(0))
-            ->method("has")
+            ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(1))
-            ->method("get")
+            ->method("getRule")
             ->with("foo")
             ->willReturn($rule1);
         $this->ruleExtensionRegistry->expects($this->at(2))
-            ->method("has")
+            ->method("hasRule")
             ->with("bar")
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(3))
-            ->method("get")
+            ->method("getRule")
             ->with("bar")
             ->willReturn($rule2);
         $this->rules->foo();
@@ -299,19 +299,19 @@ class RulesTest extends \PHPUnit_Framework_TestCase
         $rule2->expects($this->never())
             ->method("passes");
         $this->ruleExtensionRegistry->expects($this->at(0))
-            ->method("has")
+            ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(1))
-            ->method("get")
+            ->method("getRule")
             ->with("foo")
             ->willReturn($rule1);
         $this->ruleExtensionRegistry->expects($this->at(2))
-            ->method("has")
+            ->method("hasRule")
             ->with("bar")
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(3))
-            ->method("get")
+            ->method("getRule")
             ->with("bar")
             ->willReturn($rule2);
         $this->rules->foo();
@@ -425,14 +425,14 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testRuleExtensionsInConditionAreRespected()
     {
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("has")
+            ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
         $rule = $this->getMock(IRule::class);
         $rule->expects($this->never())
             ->method("passes");
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("get")
+            ->method("getRule")
             ->with("foo")
             ->willReturn($rule);
         $this->rules->condition(function () {

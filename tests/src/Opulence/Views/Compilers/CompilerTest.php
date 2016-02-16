@@ -49,7 +49,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             ->with($view)
             ->willReturn("bar");
         $this->registry->expects($this->once())
-            ->method("get")
+            ->method("getCompiler")
             ->with($view)
             ->willReturn($compiler);
         $this->registry->registerCompiler("MockView", $compiler);

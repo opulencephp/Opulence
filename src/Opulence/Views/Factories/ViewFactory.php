@@ -39,7 +39,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function create(string $name) : IView
+    public function createView(string $name) : IView
     {
         $resolvedPath = $this->viewNameResolver->resolve($name);
         $content = $this->viewReader->read($resolvedPath);
@@ -51,7 +51,7 @@ class ViewFactory implements IViewFactory
     /**
      * @inheritdoc
      */
-    public function has(string $name) : bool
+    public function hasView(string $name) : bool
     {
         try {
             $this->viewNameResolver->resolve($name);

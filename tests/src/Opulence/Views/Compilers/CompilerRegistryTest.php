@@ -38,7 +38,7 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
         $view->expects($this->any())
             ->method("getPath")
             ->willReturn("foo");
-        $this->registry->get($view);
+        $this->registry->getCompiler($view);
     }
 
     /**
@@ -54,6 +54,6 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
             ->method("getPath")
             ->willReturn("php");
         $this->registry->registerCompiler("php", $compiler);
-        $this->assertSame($compiler, $this->registry->get($view));
+        $this->assertSame($compiler, $this->registry->getCompiler($view));
     }
 }

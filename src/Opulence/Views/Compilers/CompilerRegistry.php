@@ -22,7 +22,7 @@ class CompilerRegistry implements ICompilerRegistry
     /**
      * @inheritdoc
      */
-    public function get(IView $view) : ICompiler
+    public function getCompiler(IView $view) : ICompiler
     {
         $extension = $this->getExtension($view);
 

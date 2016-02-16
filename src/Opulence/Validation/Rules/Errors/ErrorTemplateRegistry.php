@@ -27,7 +27,7 @@ class ErrorTemplateRegistry
      * @param string $ruleSlug The rule slug whose template we want
      * @return string The error template
      */
-    public function get(string $field, string $ruleSlug) : string
+    public function getErrorTemplate(string $field, string $ruleSlug) : string
     {
         if (isset($this->fieldTemplates[$field]) && isset($this->fieldTemplates[$field][$ruleSlug])) {
             return $this->fieldTemplates[$field][$ruleSlug];

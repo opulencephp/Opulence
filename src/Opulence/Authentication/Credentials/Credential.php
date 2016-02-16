@@ -15,12 +15,12 @@ class Credential implements ICredential
 {
     /** @var int The type Id */
     protected $typeId = -1;
-    /** @var array The list of values */
+    /** @var array The mapping of value names to their values */
     protected $values = [];
 
     /**
      * @param int $typeId The type Id
-     * @param array $values The list of values
+     * @param array $values The mapping of value names to their values
      */
     public function __construct(int $typeId, array $values)
     {
@@ -34,6 +34,18 @@ class Credential implements ICredential
     public function getTypeId() : int
     {
         return $this->typeId;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getValue(string $name)
+    {
+        if (!array_key_exists($name, $this->values)) {
+            return null;
+        }
+
+        return $this->values[$name];
     }
 
     /**

@@ -46,7 +46,7 @@ class DirectiveTranspilerRegistrant
         });
         $transpiler->registerDirectiveTranspiler("extends", function ($expression) use ($transpiler) {
             // Create the parent
-            $code = '$__opulenceViewParent = $__opulenceViewFactory->create' . $expression . ';';
+            $code = '$__opulenceViewParent = $__opulenceViewFactory->createView' . $expression . ';';
             $code .= '$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);';
             $code .= 'extract($__opulenceView->getVars());';
             $transpiler->prepend('<?php ' . $code . ' ?>');
@@ -89,10 +89,10 @@ class DirectiveTranspilerRegistrant
                 ) === 1
             ) {
                 $sharedVars = trim($matches[5]);
-                $factoryCreateCall = 'create(' . $matches[1] . ')';
+                $factoryCreateCall = 'createView(' . $matches[1] . ')';
             } else {
                 $sharedVars = '[]';
-                $factoryCreateCall = 'create' . $expression;
+                $factoryCreateCall = 'createView' . $expression;
             }
 
             // Create an isolate scope for the included view

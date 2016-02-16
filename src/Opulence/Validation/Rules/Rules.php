@@ -60,11 +60,11 @@ class Rules
      */
     public function __call(string $methodName, array $args) : self
     {
-        if (!$this->ruleExtensionRegistry->has($methodName)) {
+        if (!$this->ruleExtensionRegistry->hasRule($methodName)) {
             throw new BadMethodCallException("No rule extension with name \"$methodName\" exists");
         }
 
-        $rule = $this->ruleExtensionRegistry->get($methodName);
+        $rule = $this->ruleExtensionRegistry->getRule($methodName);
 
         if ($rule instanceof IRuleWithArgs) {
             $rule->setArgs($args);
@@ -211,7 +211,7 @@ class Rules
         foreach ($this->errorSlugsAndPlaceholders as $errorData) {
             $compiledErrors[] = $this->errorTemplateCompiler->compile(
                 $field,
-                $this->errorTemplateRegistry->get($field, $errorData["slug"]),
+                $this->errorTemplateRegistry->getErrorTemplate($field, $errorData["slug"]),
                 $errorData["placeholders"]
             );
         }
