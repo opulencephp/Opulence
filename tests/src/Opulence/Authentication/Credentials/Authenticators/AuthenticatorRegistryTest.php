@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authentication;
+namespace Opulence\Authentication\Credentials\Authenticators;
 
 use InvalidArgumentException;
 
@@ -33,8 +33,8 @@ class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
     {
         /** @var IAuthenticator $authenticator */
         $authenticator = $this->getMock(IAuthenticator::class);
-        $this->registry->registerAuthenticator(1, $authenticator);
-        $this->assertSame($authenticator, $this->registry->getAuthenticator(1));
+        $this->registry->registerAuthenticator("foo", $authenticator);
+        $this->assertSame($authenticator, $this->registry->getAuthenticator("foo"));
     }
 
     /**
@@ -43,6 +43,6 @@ class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
     public function testExceptionThrownOnNonExistentAuthenticator()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        $this->registry->getAuthenticator(1);
+        $this->registry->getAuthenticator("foo");
     }
 }

@@ -14,11 +14,11 @@ namespace Opulence\Authentication\Credentials;
 interface ICredential
 {
     /**
-     * Gets the type Id
+     * Gets the type of credential this is
      *
-     * @return int The type Id
+     * @return string The type of credential this is
      */
-    public function getTypeId() : int;
+    public function getType() : string;
 
     /**
      * Gets the value for the input name

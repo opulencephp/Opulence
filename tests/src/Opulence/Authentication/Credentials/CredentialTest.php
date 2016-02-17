@@ -21,15 +21,15 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->credential = new Credential(1, ["foo" => "bar"]);
+        $this->credential = new Credential("foo", ["bar" => "baz"]);
     }
 
     /**
-     * Tests getting the type Id
+     * Tests getting the type
      */
-    public function testGettingTypeId()
+    public function testGettingType()
     {
-        $this->assertEquals(1, $this->credential->getTypeId());
+        $this->assertEquals("foo", $this->credential->getType());
     }
 
     /**
@@ -37,7 +37,7 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValue()
     {
-        $this->assertEquals("bar", $this->credential->getValue("foo"));
+        $this->assertEquals("baz", $this->credential->getValue("bar"));
     }
 
     /**
@@ -45,7 +45,7 @@ class CredentialTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValues()
     {
-        $this->assertEquals(["foo" => "bar"], $this->credential->getValues());
+        $this->assertEquals(["bar" => "baz"], $this->credential->getValues());
     }
 
     /**

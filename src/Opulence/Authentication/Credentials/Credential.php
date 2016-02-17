@@ -13,27 +13,27 @@ namespace Opulence\Authentication\Credentials;
  */
 class Credential implements ICredential
 {
-    /** @var int The type Id */
-    protected $typeId = -1;
+    /** @var string The type of credential this is */
+    protected $type = -1;
     /** @var array The mapping of value names to their values */
     protected $values = [];
 
     /**
-     * @param int $typeId The type Id
+     * @param string $type The type of credential this is
      * @param array $values The mapping of value names to their values
      */
-    public function __construct(int $typeId, array $values)
+    public function __construct(string $type, array $values)
     {
-        $this->typeId = $typeId;
+        $this->type = $type;
         $this->values = $values;
     }
 
     /**
      * @inheritdoc
      */
-    public function getTypeId() : int
+    public function getType() : string
     {
-        return $this->typeId;
+        return $this->type;
     }
 
     /**

@@ -14,7 +14,7 @@ namespace Opulence\Authentication\Credentials;
 class CredentialTypes
 {
     /** A username/password credential */
-    const USERNAME_PASSWORD = 1;
+    const USERNAME_PASSWORD = "USERNAME_PASSWORD";
     /** An API token credential */
-    const API_TOKEN = 2;
+    const API_TOKEN = "API_TOKEN";
 }
