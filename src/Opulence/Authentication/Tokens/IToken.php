@@ -18,19 +18,12 @@ interface IToken
     /**
      * Hashes a value
      *
+     * @param int|string $algorithm The algorithm to use
      * @param string $unhashedValue The value to hash
+     * @param array $options The options (for example, the cost if using Bcrypt algorithm)
      * @return string The hashed value
      */
-    public static function hash(string $unhashedValue) : string;
-
-    /**
-     * Verifies an unhashed value
-     *
-     * @param string $hashedValue The hashed value to compare against
-     * @param string $unhashedValue The unhashed value to check
-     * @return bool Whether or not the unhashed value is correct
-     */
-    public static function verify(string $hashedValue, string $unhashedValue) : bool;
+    public static function hash($algorithm, string $unhashedValue, array $options = []) : string;
 
     /**
      * Marks this token is inactive
@@ -85,4 +78,12 @@ interface IToken
      * @param int|string $id The database Id
      */
     public function setId($id);
+
+    /**
+     * Verifies an unhashed value against the stored hashed value
+     *
+     * @param string $unhashedValue The unhashed value to compare against
+     * @return bool Whether or not the unhashed value is correct
+     */
+    public function verify(string $unhashedValue) : bool;
 }

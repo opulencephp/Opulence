@@ -15,15 +15,17 @@ class AuthenticationContext implements IAuthenticationContext
 {
     /** @var IAuthenticatable|null The current user */
     private $user = null;
-    /** @var int The current authentication status */
+    /** @var string The current authentication status */
     private $status = AuthenticationStatusTypes::UNAUTHENTICATED;
 
     /**
      * @param IAuthenticatable|null $user The current user
-     * @param int $status The current authentication status
+     * @param string $status The current authentication status
      */
-    public function __construct(IAuthenticatable $user = null, int $status = AuthenticationStatusTypes::UNAUTHENTICATED)
-    {
+    public function __construct(
+        IAuthenticatable $user = null,
+        string $status = AuthenticationStatusTypes::UNAUTHENTICATED
+    ) {
         if ($user !== null) {
             $this->setUser($user);
         }
@@ -34,7 +36,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getStatus() : int
+    public function getStatus() : string
     {
         return $this->status;
     }
@@ -58,7 +60,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setStatus(int $status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
     }

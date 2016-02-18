@@ -9,7 +9,6 @@
 namespace Opulence\Sessions;
 
 use InvalidArgumentException;
-use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Sessions\Ids\Generators\IdGenerator;
 use Opulence\Sessions\Ids\Generators\IIdGenerator;
 
@@ -41,7 +40,7 @@ class Session implements ISession
     public function __construct($id = null, IIdGenerator $idGenerator = null)
     {
         if ($idGenerator === null) {
-            $idGenerator = new IdGenerator(new Strings());
+            $idGenerator = new IdGenerator();
         }
 
         $this->idGenerator = $idGenerator;

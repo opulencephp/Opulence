@@ -9,6 +9,7 @@
 namespace Opulence\Authentication\Tokens\Factories;
 
 use DateTimeImmutable;
+use Opulence\Authentication\Tokens\Algorithms;
 use Opulence\Authentication\Tokens\Token;
 
 /**
@@ -33,8 +34,9 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     public function testHashedTokenIsSet()
     {
         $unhashedValue = "";
-        $token = $this->factory->createToken(1, new DateTimeImmutable(), new DateTimeImmutable(), $unhashedValue);
-        $this->assertEquals(Token::hash($unhashedValue), $token->getHashedValue());
+        $token = $this->factory->createToken(1, Algorithms::SHA256, new DateTimeImmutable(), new DateTimeImmutable(),
+            $unhashedValue);
+        $this->assertEquals(Token::hash(Algorithms::SHA256, $unhashedValue), $token->getHashedValue());
         $this->assertNotEquals($unhashedValue, $token->getHashedValue());
     }
 
@@ -46,7 +48,8 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
         $unhashedValue = "";
         $this->assertInstanceOf(
             Token::class,
-            $this->factory->createToken(1, new DateTimeImmutable(), new DateTimeImmutable(), $unhashedValue)
+            $this->factory->createToken(1, Algorithms::SHA256, new DateTimeImmutable(), new DateTimeImmutable(),
+                $unhashedValue)
         );
     }
 
@@ -58,9 +61,9 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
         $unhashedValue = "";
         $validFrom = new DateTimeImmutable();
         $validTo = new DateTimeImmutable("+1 week");
-        $token = $this->factory->createToken(1, $validFrom, $validTo, $unhashedValue);
+        $token = $this->factory->createToken(1, Algorithms::SHA256, $validFrom, $validTo, $unhashedValue);
         $this->assertEquals(-1, $token->getId());
-        $this->assertEquals(Token::hash($unhashedValue), $token->getHashedValue());
+        $this->assertEquals(Token::hash(Algorithms::SHA256, $unhashedValue), $token->getHashedValue());
         $this->assertEquals(1, $token->getUserId());
         $this->assertSame($validFrom, $token->getValidFrom());
         $this->assertSame($validTo, $token->getValidTo());

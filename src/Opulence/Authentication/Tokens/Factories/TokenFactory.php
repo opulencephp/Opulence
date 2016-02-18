@@ -35,6 +35,7 @@ class TokenFactory implements ITokenFactory
      */
     public function createToken(
         $userId,
+        $algorithm,
         DateTimeImmutable $validFrom,
         DateTimeImmutable $validTo,
         string &$unhashedToken
@@ -42,7 +43,7 @@ class TokenFactory implements ITokenFactory
     {
         $unhashedToken = $this->generateRandomString($this->tokenLength);
 
-        return new Token(-1, $userId, Token::hash($unhashedToken), $validFrom, $validTo, true);
+        return new Token(-1, $userId, $algorithm, Token::hash($algorithm, $unhashedToken), $validFrom, $validTo, true);
     }
 
     /**

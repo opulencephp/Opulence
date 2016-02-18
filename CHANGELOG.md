@@ -40,6 +40,9 @@
 <h3>Redis</h3>
 * Renamed `Opulence\Redis\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
 
+<h3>Sessions</h3>
+* Removed `Opulence\Cryptography\Utilities\Strings` dependency in `Opulence\Sessions\Ids\Generators\IdGenerator`
+
 <h3>Validation</h3>
 * Renamed `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry::get()` to `getErrorTemplate()`
 * Renamed `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry::has()` to `hasErrorTemplate()`

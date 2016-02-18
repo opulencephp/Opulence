@@ -8,8 +8,6 @@
  */
 namespace Opulence\Sessions\Ids\Generators;
 
-use Opulence\Cryptography\Utilities\Strings;
-
 /**
  * Tests the Id generator
  */
@@ -23,7 +21,7 @@ class IdGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->generator = new IdGenerator(new Strings());
+        $this->generator = new IdGenerator();
     }
 
     /**

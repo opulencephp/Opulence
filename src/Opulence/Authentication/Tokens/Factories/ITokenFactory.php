@@ -20,6 +20,7 @@ interface ITokenFactory
      * Creates a token
      *
      * @param int|string $userId The Id of the user that owns the token
+     * @param int|string $algorithm The algorithm to use
      * @param DateTimeImmutable $validFrom The valid-from date
      * @param DateTimeImmutable $validTo The valid-to date
      * @param string $unhashedToken The unhashed token
@@ -27,6 +28,7 @@ interface ITokenFactory
      */
     public function createToken(
         $userId,
+        $algorithm,
         DateTimeImmutable $validFrom,
         DateTimeImmutable $validTo,
         string &$unhashedToken

@@ -9,6 +9,7 @@
 namespace Opulence\Authentication\Tokens;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 
 /**
  * Defines a cryptographic token used for security
@@ -19,6 +20,8 @@ class Token implements IToken
     protected $id = -1;
     /** @var int The Id of the user that owns this token */
     protected $userId = -1;
+    /** @var int|string The algorithm used by this token */
+    protected $algorithm = Algorithms::SHA256;
     /** @var string The hashed value */
     protected $hashedValue = "";
     /** @var DateTimeImmutable The valid-from date */
@@ -31,6 +34,7 @@ class Token implements IToken
     /**
      * @param int|string $id The database Id of this token
      * @param int|string $userId The Id of the user that owns this token
+     * @param int|string $algorithm The algorithm used to hash and verify the value
      * @param string $hashedValue The hashed value
      * @param DateTimeImmutable $validFrom The valid-from date
      * @param DateTimeImmutable $validTo The valid-to date
@@ -39,6 +43,7 @@ class Token implements IToken
     public function __construct(
         $id,
         $userId,
+        $algorithm,
         string $hashedValue,
         DateTimeImmutable $validFrom,
         DateTimeImmutable $validTo,
@@ -46,6 +51,7 @@ class Token implements IToken
     ) {
         $this->id = $id;
         $this->userId = $userId;
+        $this->setAlgorithm($algorithm);
         $this->hashedValue = $hashedValue;
         $this->validFrom = $validFrom;
         $this->validTo = $validTo;
@@ -55,17 +61,24 @@ class Token implements IToken
     /**
      * @inheritdoc
      */
-    public static function hash(string $unhashedValue) : string
+    public static function hash($algorithm, string $unhashedValue, array $options = []) : string
     {
-        return hash("sha256", $unhashedValue);
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public static function verify(string $hashedValue, string $unhashedValue) : bool
-    {
-        return hash("sha256", $unhashedValue) === $hashedValue;
+        switch ($algorithm) {
+            case Algorithms::BCRYPT:
+                return password_hash($unhashedValue, PASSWORD_BCRYPT, $options);
+            case Algorithms::CRC32:
+                return crc32($unhashedValue);
+            case Algorithms::MD5:
+                return md5($unhashedValue);
+            case Algorithms::SHA1:
+                return hash("sha1", $unhashedValue);
+            case Algorithms::SHA256:
+                return hash("sha256", $unhashedValue);
+            case Algorithms::SHA512:
+                return hash("sha512", $unhashedValue);
+            default:
+                throw new InvalidArgumentException("Algorithm \"{$algorithm}\" is not supported");
+        }
     }
 
     /**
@@ -132,5 +145,42 @@ class Token implements IToken
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function verify(string $unhashedValue) : bool
+    {
+        switch ($this->algorithm) {
+            case Algorithms::BCRYPT:
+                return password_verify($unhashedValue, $this->hashedValue);
+            default:
+                return self::hash($this->algorithm, $unhashedValue) === $this->hashedValue;
+        }
+    }
+
+    /**
+     * Sets the algorithm
+     *
+     * @param int|string $algorithm The algorithm
+     * @throws InvalidArgumentException Thrown if the input algorithm is not supported
+     */
+    protected function setAlgorithm($algorithm)
+    {
+        $supportedAlgorithms = [
+            Algorithms::BCRYPT,
+            Algorithms::CRC32,
+            Algorithms::MD5,
+            Algorithms::SHA1,
+            Algorithms::SHA256,
+            Algorithms::SHA512
+        ];
+
+        if (!in_array($algorithm, $supportedAlgorithms)) {
+            throw new InvalidArgumentException("Algorithm \"$algorithm\" not supported");
+        }
+
+        $this->algorithm = $algorithm;
     }
 } 

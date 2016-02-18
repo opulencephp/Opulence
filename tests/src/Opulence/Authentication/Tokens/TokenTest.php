@@ -17,13 +17,25 @@ use Opulence\Tests\Authentication\Tokens\Mocks\Token;
 class TokenTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * Tests Bcrypt hashing
+     */
+    public function testBcryptHashing()
+    {
+        $validFromDate = new DateTimeImmutable("1970-01-01 01:00:00");
+        $validToDate = new DateTimeImmutable("3000-01-01 01:00:00");
+        $hashedValue = Token::hash(Algorithms::BCRYPT, "foo", ["cost" => 4]);
+        $token = new Token(1, 2, Algorithms::BCRYPT, $hashedValue, $validFromDate, $validToDate, true);
+        $this->assertTrue($token->verify("foo"));
+    }
+
+    /**
      * Tests seeing if a token with a valid-from value in the future is expired
      */
     public function testCheckingIsActiveWithFutureValidFrom()
     {
         $validFrom = new DateTimeImmutable("+1 day");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token(1, 2, "", $validFrom, $validTo, true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $this->assertFalse($token->isActive());
     }
 
@@ -34,7 +46,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $validFrom = new DateTimeImmutable("now");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token(1, 2, "", $validFrom, $validTo, true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $this->assertTrue($token->isActive());
     }
 
@@ -45,7 +57,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $validFrom = new DateTimeImmutable("-1 week");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token(1, 2, "", $validFrom, $validTo, false);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFrom, $validTo, false);
         $this->assertFalse($token->isActive());
     }
 
@@ -56,7 +68,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $validFrom = new DateTimeImmutable("-1 week");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token(1, 2, "", $validFrom, $validTo, true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $this->assertTrue($token->isActive());
     }
 
@@ -67,7 +79,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $validFrom = new DateTimeImmutable("now");
         $validTo = new DateTimeImmutable("-1 week");
-        $token = new Token(1, 2, "", $validFrom, $validTo, true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $this->assertFalse($token->isActive());
     }
 
@@ -79,7 +91,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $hashedValue = "foo";
         $validFrom = new DateTimeImmutable("-1 week");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token(1, 2, $hashedValue, $validFrom, $validTo, false);
+        $token = new Token(1, 2, Algorithms::SHA256, $hashedValue, $validFrom, $validTo, false);
         $this->assertEquals($hashedValue, $token->getHashedValue());
     }
 
@@ -91,7 +103,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $id = 1;
         $validFrom = new DateTimeImmutable("-1 week");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token($id, 2, "", $validFrom, $validTo, true);
+        $token = new Token($id, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $this->assertEquals($id, $token->getId());
     }
 
@@ -102,7 +114,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     {
         $validFrom = new DateTimeImmutable("-1 week");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token(1, 2, "", $validFrom, $validTo, true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $this->assertEquals(2, $token->getUserId());
     }
 
@@ -112,7 +124,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function testGettingValidFromDate()
     {
         $validFromDate = new DateTimeImmutable("1776-07-04 12:34:56");
-        $token = new Token(1, 2, "", $validFromDate, new DateTimeImmutable("1970-01-01 01:00:00"), true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", $validFromDate, new DateTimeImmutable("1970-01-01"), true);
         $this->assertEquals($validFromDate, $token->getValidFrom());
     }
 
@@ -122,16 +134,26 @@ class TokenTest extends \PHPUnit_Framework_TestCase
     public function testGettingValidToDate()
     {
         $validToDate = new DateTimeImmutable("1970-01-01 01:00:00");
-        $token = new Token(1, 2, "", new DateTimeImmutable("1776-07-04 12:34:56"), $validToDate, true);
+        $token = new Token(1, 2, Algorithms::SHA256, "", new DateTimeImmutable("1776-07-04"), $validToDate, true);
         $this->assertEquals($validToDate, $token->getValidTo());
     }
 
     /**
-     * Tests hashing value
+     * Tests hashing values using all algorithms
      */
-    public function testHashingValue()
+    public function testHashingValueUsingAllAlgorithms()
     {
-        $this->assertEquals(hash("sha256", "foo"), Token::hash("foo"));
+        $algorithms = [
+            Algorithms::CRC32 => crc32("foo"),
+            Algorithms::MD5 => md5("foo"),
+            Algorithms::SHA1 => hash("sha1", "foo"),
+            Algorithms::SHA256 => hash("sha256", "foo"),
+            Algorithms::SHA512 => hash("sha512", "foo")
+        ];
+
+        foreach ($algorithms as $algorithm => $expectedValue) {
+            $this->assertEquals($expectedValue, Token::hash($algorithm, "foo"));
+        }
     }
 
     /**
@@ -143,7 +165,7 @@ class TokenTest extends \PHPUnit_Framework_TestCase
         $newId = 2;
         $validFrom = new DateTimeImmutable("-1 week");
         $validTo = new DateTimeImmutable("+1 week");
-        $token = new Token($oldId, 2, "", $validFrom, $validTo, true);
+        $token = new Token($oldId, 2, Algorithms::SHA256, "", $validFrom, $validTo, true);
         $token->setId($newId);
         $this->assertEquals($newId, $token->getId());
     }
@@ -153,8 +175,21 @@ class TokenTest extends \PHPUnit_Framework_TestCase
      */
     public function testVerifyingHash()
     {
-        $this->assertTrue(Token::verify(Token::hash("foo"), "foo"));
-        $this->assertFalse(Token::verify(Token::hash("foo"), "bar"));
-        $this->assertFalse(Token::verify(Token::hash("bar"), "foo"));
+        $algorithms = [
+            Algorithms::BCRYPT => password_hash("foo", PASSWORD_BCRYPT),
+            Algorithms::CRC32 => crc32("foo"),
+            Algorithms::MD5 => md5("foo"),
+            Algorithms::SHA1 => hash("sha1", "foo"),
+            Algorithms::SHA256 => hash("sha256", "foo"),
+            Algorithms::SHA512 => hash("sha512", "foo")
+        ];
+        $validFromDate = new DateTimeImmutable("1970-01-01 01:00:00");
+        $validToDate = new DateTimeImmutable("3000-01-01 01:00:00");
+
+        foreach ($algorithms as $algorithm => $hashedValue) {
+            $token = new Token(1, 2, $algorithm, $hashedValue, $validFromDate, $validToDate, true);
+            $this->assertTrue($token->verify("foo"));
+            $this->assertFalse($token->verify("bar"));
+        }
     }
 } 
