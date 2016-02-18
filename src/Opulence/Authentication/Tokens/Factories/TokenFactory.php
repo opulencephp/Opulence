@@ -10,6 +10,7 @@ namespace Opulence\Authentication\Tokens\Factories;
 
 use DateTimeImmutable;
 use Opulence\Authentication\Tokens\IToken;
+use Opulence\Authentication\Tokens\Password;
 use Opulence\Authentication\Tokens\Token;
 
 /**
@@ -28,6 +29,21 @@ class TokenFactory implements ITokenFactory
     public function __construct(int $tokenLength = self::DEFAULT_TOKEN_LENGTH)
     {
         $this->tokenLength = $tokenLength;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function createPassword(
+        $userId,
+        DateTimeImmutable $validFrom,
+        DateTimeImmutable $validTo,
+        string &$unhashedToken
+    ) : IToken
+    {
+        $unhashedToken = $this->generateRandomString($this->tokenLength);
+
+        return new Password(-1, $userId, Password::hash(PASSWORD_BCRYPT, $unhashedToken), $validFrom, $validTo, true);
     }
 
     /**

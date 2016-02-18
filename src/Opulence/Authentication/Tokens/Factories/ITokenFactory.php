@@ -17,6 +17,22 @@ use Opulence\Authentication\Tokens\IToken;
 interface ITokenFactory
 {
     /**
+     * Creates a password token
+     *
+     * @param int|string $userId The Id of the user that owns the token
+     * @param DateTimeImmutable $validFrom The valid-from date
+     * @param DateTimeImmutable $validTo The valid-to date
+     * @param string $unhashedToken The unhashed token
+     * @return IToken The token The token
+     */
+    public function createPassword(
+        $userId,
+        DateTimeImmutable $validFrom,
+        DateTimeImmutable $validTo,
+        string &$unhashedToken
+    ) : IToken;
+
+    /**
      * Creates a token
      *
      * @param int|string $userId The Id of the user that owns the token

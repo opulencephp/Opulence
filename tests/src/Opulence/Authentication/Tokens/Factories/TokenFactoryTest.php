@@ -10,6 +10,7 @@ namespace Opulence\Authentication\Tokens\Factories;
 
 use DateTimeImmutable;
 use Opulence\Authentication\Tokens\Algorithms;
+use Opulence\Authentication\Tokens\Password;
 use Opulence\Authentication\Tokens\Token;
 
 /**
@@ -29,6 +30,16 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests that the hashed password is set
+     */
+    public function testHashedPasswordIsSet()
+    {
+        $unhashedValue = "";
+        $password = $this->factory->createPassword(1, new DateTimeImmutable(), new DateTimeImmutable(), $unhashedValue);
+        $this->assertNotEquals($unhashedValue, $password->getHashedValue());
+    }
+
+    /**
      * Tests that the hashed token is set
      */
     public function testHashedTokenIsSet()
@@ -38,6 +49,19 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
             $unhashedValue);
         $this->assertEquals(Token::hash(Algorithms::SHA256, $unhashedValue), $token->getHashedValue());
         $this->assertNotEquals($unhashedValue, $token->getHashedValue());
+    }
+
+    /**
+     * Tests that an instance of password is created
+     */
+    public function testInstanceOfPasswordCreated()
+    {
+        $unhashedValue = "";
+        $this->assertInstanceOf(
+            Password::class,
+            $this->factory->createPassword(1, new DateTimeImmutable(), new DateTimeImmutable(),
+                $unhashedValue)
+        );
     }
 
     /**
@@ -51,6 +75,22 @@ class TokenFactoryTest extends \PHPUnit_Framework_TestCase
             $this->factory->createToken(1, Algorithms::SHA256, new DateTimeImmutable(), new DateTimeImmutable(),
                 $unhashedValue)
         );
+    }
+
+    /**
+     * Tests that the properties are correctly set on the password
+     */
+    public function testPropertiesCorrectlySetOnPassword()
+    {
+        $unhashedValue = "";
+        $validFrom = new DateTimeImmutable();
+        $validTo = new DateTimeImmutable("+1 week");
+        $password = $this->factory->createPassword(1, $validFrom, $validTo, $unhashedValue);
+        $this->assertEquals(-1, $password->getId());
+        $this->assertEquals(1, $password->getUserId());
+        $this->assertSame($validFrom, $password->getValidFrom());
+        $this->assertSame($validTo, $password->getValidTo());
+        $this->assertTrue($password->isActive());
     }
 
     /**
