@@ -47,9 +47,9 @@ interface IUserRepository
     /**
      * Gets the user with the input Id and token
      *
-     * @param int|string $id The user Id
+     * @param int|string $userId The user Id
      * @param string $token The unhashed token to search by
      * @return IAuthenticatable|null The user, if one was found, otherwise null
      */
-    public function getByToken($id, string $token);
+    public function getByToken($userId, string $token);
 }

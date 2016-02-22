@@ -9,7 +9,8 @@
 <h3>Authentication</h3>
 * Removed `Opulence\Authentication\EntityTypes`
 * Removed `Opulence\Authentication\Users\IUser`
-* Added `Opulence\Authentication\Tokens\IToken::hash()` and `verify()`
+* Added JWT support
+* Removed `Opulence\Authentication\Tokens\IToken` and `Token`
 * Added `Opulence\Authentication\IAuthenticator`
 * Added `Opulence\Authentication\Authorization\IAuthorizable`
 
@@ -24,6 +25,8 @@
 * Renamed `Opulence\Databases\Providers\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
 
 <h3>Framework</h3>
+* Added `Opulence\Framework\Bootstrappers\Authentication\AuthenticationBootstrapper`
+* Added `Opulence\Framework\Bootstrappers\Authorization\AuthorizationBootstrapper`
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
 * Fixed various command templates to include PHP 7 return types
 

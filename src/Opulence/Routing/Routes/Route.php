@@ -76,19 +76,19 @@ class Route
     }
 
     /**
-     * Adds pre-filters to this route
+     * Adds middleware to this route
      *
-     * @param string|array $filters The filter or list of pre-filters to add
-     * @param bool $prepend True if we want to prepend the filters (give them higher priority), otherwise false
+     * @param string|array $middleware The middleware or list of middleware to add
+     * @param bool $prepend True if we want to prepend the middleware (give them higher priority), otherwise false
      */
-    public function addMiddleware($filters, bool $prepend = false)
+    public function addMiddleware($middleware, bool $prepend = false)
     {
-        $filters = (array)$filters;
+        $middleware = (array)$middleware;
 
         if ($prepend) {
-            $this->middleware = array_merge($filters, $this->middleware);
+            $this->middleware = array_merge($middleware, $this->middleware);
         } else {
-            $this->middleware = array_merge($this->middleware, $filters);
+            $this->middleware = array_merge($this->middleware, $middleware);
         }
 
         $this->middleware = array_unique($this->middleware);

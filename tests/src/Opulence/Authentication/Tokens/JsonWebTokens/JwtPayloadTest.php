@@ -1,0 +1,184 @@
+<?php
+/**
+ * Opulence
+ *
+ * @link      https://www.opulencephp.com
+ * @copyright Copyright (C) 2016 David Young
+ * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
+ */
+namespace Opulence\Authentication\Tokens\JsonWebTokens;
+
+use DateTimeImmutable;
+
+/**
+ * Tests the JWT payload
+ */
+class JwtPayloadTest extends \PHPUnit_Framework_TestCase
+{
+    /** @var JwtPayload The payload to use in tests */
+    private $payload = null;
+
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->payload = new JwtPayload();
+    }
+
+    /**
+     * Tests getting all values
+     */
+    public function testGettingAllValues()
+    {
+        $claims = [
+            "iss" => null,
+            "sub" => null,
+            "aud" => null,
+            "exp" => null,
+            "nbf" => null,
+            "iat" => null,
+            "jti" => null
+        ];
+        $this->assertEquals($claims, $this->payload->getAll());
+        $this->payload->setIssuer("foo");
+        $claims["iss"] = "foo";
+        $this->assertEquals($claims, $this->payload->getAll());
+        $this->payload->setSubject("bar");
+        $claims["sub"] = "bar";
+        $this->assertEquals($claims, $this->payload->getAll());
+        $this->payload->setAudience("baz");
+        $claims["aud"] = "baz";
+        $this->assertEquals($claims, $this->payload->getAll());
+        $validTo = new DateTimeImmutable();
+        $this->payload->setValidTo($validTo);
+        $claims["exp"] = $validTo->getTimestamp();
+        $this->assertEquals($claims, $this->payload->getAll());
+        $validFrom = new DateTimeImmutable();
+        $this->payload->setValidFrom($validFrom);
+        $claims["nbf"] = $validFrom->getTimestamp();
+        $this->assertEquals($claims, $this->payload->getAll());
+        $issuedAt = new DateTimeImmutable();
+        $this->payload->setIssuedAt($issuedAt);
+        $claims["iat"] = $issuedAt->getTimestamp();
+        $this->assertEquals($claims, $this->payload->getAll());
+        $this->payload->setId("blah");
+        $claims["jti"] = "blah";
+        $this->assertEquals($claims, $this->payload->getAll());
+        $this->payload->add("name", "dave");
+        $claims["name"] = "dave";
+        $this->assertEquals($claims, $this->payload->getAll());
+    }
+
+    /**
+     * Tests getting the audience
+     */
+    public function testGettingAudience()
+    {
+        $this->assertNull($this->payload->getAudience());
+        $this->payload->setAudience("foo");
+        $this->assertEquals("foo", $this->payload->getAudience());
+    }
+
+    /**
+     * Tests getting the encoded string
+     */
+    public function testGettingEncodedString()
+    {
+        $this->payload->setIssuer("foo");
+        $claims = [
+            "iss" => "foo",
+            "sub" => null,
+            "aud" => null,
+            "exp" => null,
+            "nbf" => null,
+            "iat" => null,
+            "jti" => null
+        ];
+        $this->assertEquals(
+            rtrim(strtr(base64_encode(json_encode($claims)), "+/", "-_"), "="),
+            $this->payload->encode()
+        );
+        $this->payload->add("bar", "baz");
+        $claims["bar"] = "baz";
+        $this->assertEquals(
+            rtrim(strtr(base64_encode(json_encode($claims)), "+/", "-_"), "="),
+            $this->payload->encode()
+        );
+    }
+
+    /**
+     * Tests getting the Id
+     */
+    public function testGettingId()
+    {
+        $this->assertNull($this->payload->getId());
+        $this->payload->setId("foo");
+        $this->assertEquals("foo", $this->payload->getId());
+    }
+
+    /**
+     * Tests getting the issued at
+     */
+    public function testGettingIssuedAt()
+    {
+        $this->assertNull($this->payload->getIssuedAt());
+        $date = new DateTimeImmutable();
+        $this->payload->setIssuedAt($date);
+        $this->assertSame($date, $this->payload->getIssuedAt());
+    }
+
+    /**
+     * Tests getting the issuer
+     */
+    public function testGettingIssuer()
+    {
+        $this->assertNull($this->payload->getIssuer());
+        $this->payload->setIssuer("foo");
+        $this->assertEquals("foo", $this->payload->getIssuer());
+    }
+
+    /**
+     * Tests getting the subject
+     */
+    public function testGettingSubject()
+    {
+        $this->assertNull($this->payload->getSubject());
+        $this->payload->setSubject("foo");
+        $this->assertEquals("foo", $this->payload->getSubject());
+    }
+
+    /**
+     * Tests getting the valid from
+     */
+    public function testGettingValidFrom()
+    {
+        $this->assertNull($this->payload->getValidFrom());
+        $date = new DateTimeImmutable();
+        $this->payload->setValidFrom($date);
+        $this->assertSame($date, $this->payload->getValidFrom());
+    }
+
+    /**
+     * Tests getting the valid to
+     */
+    public function testGettingValidTo()
+    {
+        $this->assertNull($this->payload->getValidTo());
+        $date = new DateTimeImmutable();
+        $this->payload->setValidTo($date);
+        $this->assertSame($date, $this->payload->getValidTo());
+    }
+
+    /**
+     * Tests getting the value for an extra claim
+     */
+    public function testGettingValue()
+    {
+        $this->assertNull($this->payload->get("foo"));
+        $this->payload->add("foo", "bar");
+        $this->assertEquals("bar", $this->payload->get("foo"));
+        $this->payload->add("foo", "baz");
+        $this->assertEquals("baz", $this->payload->get("foo"));
+    }
+}
