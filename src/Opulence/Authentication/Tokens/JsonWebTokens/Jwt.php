@@ -168,6 +168,58 @@ class Jwt
     }
 
     /**
+     * Verifies the payload
+     *
+     * @param array|string $payload The payload to verify
+     * @param string|null $error The error message
+     * @return bool True if the signature is valid, otherwise false
+     */
+    private static function verifyPayload($payload, string &$error = null) : bool
+    {
+        if (!is_array($payload)) {
+            return true;
+        }
+
+        // Handle the not-before time
+        if (isset($payload["nbf"])) {
+            if ($payload["nbf"] > time()) {
+                $error = "Token cannot be used before {$payload["nbf"]}";
+
+                return false;
+            }
+        }
+
+        // Handle the expiration time
+        if (isset($payload["exp"])) {
+            if ($payload["exp"] < time()) {
+                $error = "Token expired at {$payload["exp"]}";
+
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Verifies the signature
+     *
+     * @param string $data The data to verify
+     * @param string $signature The signature used
+     * @param string|resource $key The key to use (resource for RSA algorithms)
+     * @param string $algorithm The algorithm used
+     * @return bool True if the signature is valid, otherwise false
+     */
+    private static function verifySignature(string $data, string $signature, $key, string $algorithm) : bool
+    {
+        if (self::isRsaAlgorithm($algorithm)) {
+            return openssl_verify($data, $signature, $key, self::getOpenSslAlgorithm($algorithm));
+        } else {
+            return hash_equals($signature, hash_hmac(self::getHashAlgorithm($algorithm), $data, $key, true));
+        }
+    }
+
+    /**
      * Encodes this token as a string
      *
      * @param string|resource $key The key to sign the token with, or the private key if using RSA algorithm
@@ -223,58 +275,6 @@ class Jwt
             return $signature;
         } else {
             return hash_hmac(self::getHashAlgorithm($this->header->getAlgorithm()), $data, $key, true);
-        }
-    }
-
-    /**
-     * Verifies the payload
-     *
-     * @param array|string $payload The payload to verify
-     * @param string|null $error The error message
-     * @return bool True if the signature is valid, otherwise false
-     */
-    private function verifyPayload($payload, string &$error = null) : bool
-    {
-        if (!is_array($payload)) {
-            return true;
-        }
-
-        // Handle the not-before time
-        if (isset($payload["nbf"])) {
-            if ($payload["nbf"] > time()) {
-                $error = "Token cannot be used before {$payload["nbf"]}";
-
-                return false;
-            }
-        }
-
-        // Handle the expiration time
-        if (isset($payload["exp"])) {
-            if ($payload["exp"] < time()) {
-                $error = "Token expired at {$payload["exp"]}";
-
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Verifies the signature
-     *
-     * @param string $data The data to verify
-     * @param string $signature The signature used
-     * @param string|resource $key The key to use (resource for RSA algorithms)
-     * @param string $algorithm The algorithm used
-     * @return bool True if the signature is valid, otherwise false
-     */
-    private function verifySignature(string $data, string $signature, $key, string $algorithm) : bool
-    {
-        if (self::isRsaAlgorithm($algorithm)) {
-            return openssl_verify($data, $signature, $key, self::getOpenSslAlgorithm($algorithm));
-        } else {
-            return hash_equals($signature, hash_hmac(self::getHashAlgorithm($algorithm), $data, $key, true));
         }
     }
 }
