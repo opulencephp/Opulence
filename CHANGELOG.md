@@ -2,6 +2,7 @@
 
 <h3>General</h3>
 * Fixed Composer PHP versions in individual libraries
+* Updated to SuperClosure v2.2.0
 
 <h3>Applications</h3>
 * Changed `Opulence\Applications\Application::start()` and `shutdown()` to accept optional `callable` rather than `Closure`

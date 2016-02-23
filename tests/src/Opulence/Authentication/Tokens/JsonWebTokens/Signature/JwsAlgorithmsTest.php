@@ -6,20 +6,20 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authentication\Tokens\JsonWebTokens;
+namespace Opulence\Authentication\Tokens\JsonWebTokens\Signature;
 
 /**
- * Tests the JWT algorithms
+ * Tests the JWS algorithms
  */
-class JwtAlgorithmsTest extends \PHPUnit_Framework_TestCase
+class JwsAlgorithmsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Tests checking for a supported algorithm
      */
     public function testCheckingForSupportedAlgorithm()
     {
-        foreach (JwtAlgorithms::getAll() as $algorithm) {
-            $this->assertTrue(JwtAlgorithms::has($algorithm));
+        foreach (JwsAlgorithms::getAll() as $algorithm) {
+            $this->assertTrue(JwsAlgorithms::has($algorithm));
         }
     }
 
@@ -28,7 +28,7 @@ class JwtAlgorithmsTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForUnsupportedAlgorithm()
     {
-        $this->assertFalse(JwtAlgorithms::has("foo"));
+        $this->assertFalse(JwsAlgorithms::has("foo"));
     }
 
     /**
@@ -37,13 +37,13 @@ class JwtAlgorithmsTest extends \PHPUnit_Framework_TestCase
     public function testGettingAllAlgorithms()
     {
         $expected = [
-            JwtAlgorithms::RSA_SHA256,
-            JwtAlgorithms::RSA_SHA384,
-            JwtAlgorithms::RSA_SHA512,
-            JwtAlgorithms::SHA256,
-            JwtAlgorithms::SHA384,
-            JwtAlgorithms::SHA512
+            JwsAlgorithms::RSA_SHA256,
+            JwsAlgorithms::RSA_SHA384,
+            JwsAlgorithms::RSA_SHA512,
+            JwsAlgorithms::SHA256,
+            JwsAlgorithms::SHA384,
+            JwsAlgorithms::SHA512
         ];
-        $this->assertEquals($expected, JwtAlgorithms::getAll());
+        $this->assertEquals($expected, JwsAlgorithms::getAll());
     }
 }

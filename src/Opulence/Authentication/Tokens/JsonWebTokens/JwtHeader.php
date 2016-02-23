@@ -9,6 +9,7 @@
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
+use Opulence\Authentication\Tokens\JsonWebTokens\Signature\JwsAlgorithms;
 
 /**
  * Defines a JWT header
@@ -19,14 +20,14 @@ class JwtHeader
     private $headers = [
         "typ" => "JWT",
         "cty" => "JWT",
-        "alg" => JwtAlgorithms::SHA256
+        "alg" => JwsAlgorithms::SHA256
     ];
 
     /**
      * @param string $algorithm The algorithm
      * @param array $headers The headers
      */
-    public function __construct(string $algorithm = JwtAlgorithms::SHA256, array $headers = [])
+    public function __construct(string $algorithm = JwsAlgorithms::SHA256, array $headers = [])
     {
         $this->setAlgorithm($algorithm);
 
@@ -130,7 +131,7 @@ class JwtHeader
      */
     private function setAlgorithm(string $algorithm)
     {
-        if (!JwtAlgorithms::has($algorithm)) {
+        if (!JwsAlgorithms::has($algorithm)) {
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not supported");
         }
 

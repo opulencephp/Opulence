@@ -6,14 +6,14 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authentication\Tokens\JsonWebTokens;
+namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
 use Exception;
 
 /**
- * Defines a JWT signature verification exception
+ * Defines a JWT verification exception
  */
-class SignatureVerificationException extends Exception
+class VerificationException extends Exception
 {
     // Don't do anything
 }

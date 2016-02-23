@@ -32,7 +32,7 @@
     "php": ">=7.0.0",
     "ext-openssl": "*",
     "ext-mbstring": "*",
-    "jeremeamia/superclosure": "~2.1",
+    "jeremeamia/superclosure": "~2.2",
     "psr/log": "~1.0"
   },
   "require-dev": {

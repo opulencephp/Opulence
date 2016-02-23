@@ -8,9 +8,9 @@
  */
 namespace Opulence\Routing\Routes;
 
+use Opulence\Http\Requests\RequestMethods;
 use SuperClosure\Analyzer\AstAnalyzer;
 use SuperClosure\Serializer;
-use Opulence\Http\Requests\RequestMethods;
 
 /**
  * Defines a list of routes that can be used by a router

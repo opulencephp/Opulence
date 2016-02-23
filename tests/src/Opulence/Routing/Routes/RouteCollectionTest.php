@@ -150,7 +150,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     public function testGettingSpecificMethodRoutes()
     {
         $path = "/foo";
-        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . "@@noParameters"));
+        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . "@noParameters"));
         $this->collection->add($getRoute);
         $getRoutes = $this->collection->get(RequestMethods::GET);
         $this->assertSame([$getRoute], $getRoutes);
@@ -178,7 +178,7 @@ class RouteCollectionTest extends \PHPUnit_Framework_TestCase
     {
         $route = new Route("get", "/", function () {
             return "foo";
-        });
+        }, ["name" => "foo"]);
         $parsedRoute = new ParsedRoute($route);
         $this->collection->add($parsedRoute);
         $serializedCollection = serialize($this->collection);

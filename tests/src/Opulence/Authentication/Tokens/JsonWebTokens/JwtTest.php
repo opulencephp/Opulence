@@ -8,8 +8,10 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
-use DateTimeImmutable;
 use InvalidArgumentException;
+use LogicException;
+use Opulence\Authentication\Tokens\JsonWebTokens\Signature\Jws;
+use Opulence\Authentication\Tokens\JsonWebTokens\Signature\JwsAlgorithms;
 
 /**
  * Tests the JSON web token
@@ -38,8 +40,10 @@ class JwtTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecodingEncodedToken()
     {
-        $token = $this->jwt->encode("foo");
-        $this->assertEquals($this->jwt, Jwt::createFromString($token, "foo"));
+        $jws = new Jws(JwsAlgorithms::SHA256, "public");
+        $jws->sign($this->jwt);
+        $token = $this->jwt->encode();
+        $this->assertTokensEqual($this->jwt, Jwt::createFromString($token), false);
     }
 
     /**
@@ -48,9 +52,9 @@ class JwtTest extends \PHPUnit_Framework_TestCase
     public function testEncodingDecodingRsaAlgorithms()
     {
         $algorithms = [
-            JwtAlgorithms::RSA_SHA256 => "sha256",
-            JwtAlgorithms::RSA_SHA384 => "sha384",
-            JwtAlgorithms::RSA_SHA512 => "sha512"
+            JwsAlgorithms::RSA_SHA256 => "sha256",
+            JwsAlgorithms::RSA_SHA384 => "sha384",
+            JwsAlgorithms::RSA_SHA512 => "sha512"
         ];
 
         foreach ($algorithms as $algorithm => $digestAlgorithm) {
@@ -63,30 +67,20 @@ class JwtTest extends \PHPUnit_Framework_TestCase
             );
             $publicKey = openssl_pkey_get_details($privateKey);
             $this->jwt->getHeader()->add("alg", $algorithm);
-            $token = $this->jwt->encode($privateKey);
-            $this->assertEquals($this->jwt, Jwt::createFromString($token, $publicKey["key"], true));
+            $jws = new Jws($algorithm, $publicKey["key"], $privateKey);
+            $jws->sign($this->jwt);
+            $token = $this->jwt->encode();
+            $this->assertTokensEqual($this->jwt, Jwt::createFromString($token), false);
         }
     }
 
     /**
-     * Tests verifying an expired token throws an exception
+     * Tests an exception is thrown when encoding a token without a signature
      */
-    public function testExceptionThrownWhenVerifyingExpiredToken()
+    public function testExceptionThrownWhenEncodingTokenWithoutSignature()
     {
-        $this->setExpectedException(SignatureVerificationException::class);
-        $this->jwt->getPayload()->setValidTo(new DateTimeImmutable("-30 second"));
-        $token = $this->jwt->encode("foo");
-        Jwt::createFromString($token, "foo", true);
-    }
-
-    /**
-     * Tests that an exception is thrown with an empty key
-     */
-    public function testExceptionThrownWithEmptyKey()
-    {
-        $this->setExpectedException(InvalidArgumentException::class);
-        $token = $this->jwt->encode("foo");
-        Jwt::createFromString($token, "");
+        $this->setExpectedException(LogicException::class);
+        $this->jwt->encode();
     }
 
     /**
@@ -95,18 +89,7 @@ class JwtTest extends \PHPUnit_Framework_TestCase
     public function testExceptionThrownWithInvalidNumberSegments()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        Jwt::createFromString("foo.bar", "baz");
-    }
-
-    /**
-     * Tests verifying an NBF in the future throws an exception
-     */
-    public function testExceptionThrownWithNbfInFuture()
-    {
-        $this->setExpectedException(SignatureVerificationException::class);
-        $this->jwt->getPayload()->setValidFrom(new DateTimeImmutable("+30 second"));
-        $token = $this->jwt->encode("foo");
-        Jwt::createFromString($token, "foo", true);
+        Jwt::createFromString("foo.bar");
     }
 
     /**
@@ -115,7 +98,7 @@ class JwtTest extends \PHPUnit_Framework_TestCase
     public function testExceptionThrownWithNoAlgorithmSet()
     {
         $this->setExpectedException(InvalidArgumentException::class);
-        Jwt::createFromString(base64_encode("foo") . "." . base64_encode("bar") . "." . base64_encode("baz"), "blah");
+        Jwt::createFromString(base64_encode("foo") . "." . base64_encode("bar") . "." . base64_encode("baz"));
     }
 
     /**
@@ -135,42 +118,30 @@ class JwtTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an invalid key throws an exception
+     * Tests getting the signature
      */
-    public function testInvalidKeyThrowsException()
+    public function testGettingSignature()
     {
-        $this->setExpectedException(SignatureVerificationException::class);
-        $token = $this->jwt->encode("foo");
-        Jwt::createFromString($token, "bar", true);
+        $jwtWithSignature = new Jwt($this->header, $this->payload, "signature");
+        $this->assertEquals("signature", $jwtWithSignature->getSignature());
     }
 
     /**
-     * Tests that an invalid signature throws an exception
+     * Tests setting the signature
      */
-    public function testInvalidSignatureThrowsException()
+    public function testSettingSignature()
     {
-        $this->setExpectedException(SignatureVerificationException::class);
-        $token = base64_encode(json_encode(["alg" => "HS256"])) . "." . base64_encode(json_encode("foo")) . ".bar";
-        Jwt::createFromString($token, "baz");
+        $this->jwt->setSignature("new-signature");
+        $this->assertEquals("new-signature", $this->jwt->getSignature());
     }
 
-    /**
-     * Tests verifying NBF
-     */
-    public function testVerifyingNbf()
+    private function assertTokensEqual(Jwt $a, Jwt $b, bool $checkSignature)
     {
-        $this->jwt->getPayload()->setValidFrom(new DateTimeImmutable("-30 second"));
-        $token = $this->jwt->encode("foo");
-        $this->assertEquals($this->jwt, Jwt::createFromString($token, "foo", true));
-    }
+        $this->assertEquals($a->getHeader(), $b->getHeader());
+        $this->assertEquals($a->getPayload(), $b->getPayload());
 
-    /**
-     * Tests verifying an unexpired token
-     */
-    public function testVerifyingUnexpiredToken()
-    {
-        $this->jwt->getPayload()->setValidTo(new DateTimeImmutable("+30 second"));
-        $token = $this->jwt->encode("foo");
-        $this->assertEquals($this->jwt, Jwt::createFromString($token, "foo", true));
+        if ($checkSignature) {
+            $this->assertEquals($a->getSignature(), $b->getSignature());
+        }
     }
 }

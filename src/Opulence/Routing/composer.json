@@ -25,7 +25,7 @@
     "opulence/http": "1.0.*",
     "opulence/ioc": "1.0.*",
     "opulence/pipelines": "1.0.*",
-    "jeremeamia/superclosure": "~2.1"
+    "jeremeamia/superclosure": "~2.2"
   },
   "suggest": {
     "opulence/views": "Required if your controllers extend the base Controller class"

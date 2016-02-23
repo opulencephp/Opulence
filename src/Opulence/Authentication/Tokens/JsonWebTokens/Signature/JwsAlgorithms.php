@@ -6,12 +6,12 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authentication\Tokens\JsonWebTokens;
+namespace Opulence\Authentication\Tokens\JsonWebTokens\Signature;
 
 /**
  * Defines the various algorithms that can be used by JSON web tokens
  */
-class JwtAlgorithms
+class JwsAlgorithms
 {
     /** The RSA SHA256 algorithm */
     const RSA_SHA256 = "RS256";

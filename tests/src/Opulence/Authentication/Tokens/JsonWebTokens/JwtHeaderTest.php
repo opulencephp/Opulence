@@ -9,6 +9,7 @@
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
+use Opulence\Authentication\Tokens\JsonWebTokens\Signature\JwsAlgorithms;
 
 /**
  * Tests the JWT header
@@ -23,7 +24,7 @@ class JwtHeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->header = new JwtHeader(JwtAlgorithms::SHA512);
+        $this->header = new JwtHeader(JwsAlgorithms::SHA512);
     }
 
     /**
