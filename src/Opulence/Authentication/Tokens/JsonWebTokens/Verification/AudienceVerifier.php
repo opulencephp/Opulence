@@ -41,6 +41,10 @@ class AudienceVerifier implements IVerifier
             $audience = [$audience];
         }
 
+        if (count($this->audience) === 0) {
+            return;
+        }
+
         if (count(array_intersect($audience, $this->audience)) == 0) {
             throw new VerificationException("Audience is invalid");
         }

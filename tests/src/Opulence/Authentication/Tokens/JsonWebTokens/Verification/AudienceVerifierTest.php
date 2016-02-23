@@ -60,6 +60,18 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests verifying against an empty audience is successful
+     */
+    public function testVerifyingEmptyAudienceIsSuccessful()
+    {
+        $verifier = new AudienceVerifier([]);
+        $this->jwtPayload->expects($this->once())
+            ->method("getAudience")
+            ->willReturn("bar");
+        $verifier->verify($this->jwt);
+    }
+
+    /**
      * Tests verifying valid array audience
      */
     public function testVerifyingValidArrayAudience()

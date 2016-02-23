@@ -103,7 +103,7 @@ class JwtPayload
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getAudience()
     {
@@ -111,7 +111,7 @@ class JwtPayload
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getId()
     {
@@ -127,7 +127,7 @@ class JwtPayload
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getIssuer()
     {
@@ -135,7 +135,7 @@ class JwtPayload
     }
 
     /**
-     * @return null|string
+     * @return string|null
      */
     public function getSubject()
     {
