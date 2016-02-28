@@ -51,7 +51,6 @@ class JwtHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $expected = [
             "typ" => "JWT",
-            "cty" => "JWT",
             "alg" => "HS512"
         ];
         $this->assertEquals($expected, $this->header->getAll());
@@ -65,6 +64,7 @@ class JwtHeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingContentType()
     {
+        $this->header->add("cty", "JWT");
         $this->assertEquals("JWT", $this->header->getContentType());
     }
 
@@ -75,7 +75,6 @@ class JwtHeaderTest extends \PHPUnit_Framework_TestCase
     {
         $headers = [
             "typ" => "JWT",
-            "cty" => "JWT",
             "alg" => "HS512"
         ];
         $this->assertEquals(

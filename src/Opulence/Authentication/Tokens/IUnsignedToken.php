@@ -9,7 +9,7 @@
 namespace Opulence\Authentication\Tokens;
 
 /**
- * The interface for unsigned tokens to implement
+ * Defines the interface for unsigned tokens to implement
  */
 interface IUnsignedToken
 {
