@@ -26,10 +26,14 @@ class SignerFactory
      * @param string|resource $publicKey The public key to sign data with
      * @param string|resource|null $privateKey The private key to sign data with (required for asymmetric algorithms)
      * @return ISigner The signer
-     * @throws InvalidArgumentException Thrown if no private key is provided for an asymmetric algorithm
+     * @throws InvalidArgumentException Thrown if the keys are not in a valid format
      */
     public function createSigner(string $algorithm, $publicKey, $privateKey = null) : ISigner
     {
+        if (!is_string($publicKey) && !is_resource($publicKey)) {
+            throw new InvalidArgumentException("Public key must either be a string or a resource");
+        }
+
         if ($this->algorithmIsSymmetric($algorithm)) {
             return new SymmetricSigner($algorithm, $publicKey);
         } else {

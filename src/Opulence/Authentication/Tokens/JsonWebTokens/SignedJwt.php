@@ -23,7 +23,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      * @inheritdoc
      * @param string $signature The signature
      */
-    public function __construct(JwtHeader $header, JwtPayload $payload, string $signature = "")
+    public function __construct(JwtHeader $header, JwtPayload $payload, string $signature)
     {
         parent::__construct($header, $payload);
 
@@ -72,6 +72,30 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
         }
 
         return new self($header, $payload, $signature);
+    }
+
+    /**
+     * Base 64 decodes data for use in URLs
+     *
+     * @param string $data The data to decode
+     * @return string The base 64 decoded data that's safe for URLs
+     * @link http://php.net/manual/en/function.base64-encode.php#103849
+     */
+    protected static function base64UrlDecode(string $data) : string
+    {
+        return base64_decode(str_pad(strtr($data, "-_", "+/"), strlen($data) % 4, "=", STR_PAD_RIGHT));
+    }
+
+    /**
+     * Base 64 encodes data for use in URLs
+     *
+     * @param string $data The data to encode
+     * @return string The base 64 encoded data that's safe for URLs
+     * @link http://php.net/manual/en/function.base64-encode.php#103849
+     */
+    protected static function base64UrlEncode(string $data) : string
+    {
+        return rtrim(strtr(base64_encode($data), "+/", "-_"), "=");
     }
 
     /**

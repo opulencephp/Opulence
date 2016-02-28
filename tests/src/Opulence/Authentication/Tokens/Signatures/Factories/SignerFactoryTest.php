@@ -65,4 +65,13 @@ class SignerFactoryTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(InvalidArgumentException::class);
         $this->factory->createSigner(Algorithms::RSA_SHA256, "public");
     }
+
+    /**
+     * Tests that an exception is thrown when the public key is in the incorrect format
+     */
+    public function testExceptionThrownWhenPublicKeyIsInIncorrectFormat()
+    {
+        $this->setExpectedException(InvalidArgumentException::class);
+        $this->factory->createSigner(Algorithms::SHA256, ["foo"]);
+    }
 }
