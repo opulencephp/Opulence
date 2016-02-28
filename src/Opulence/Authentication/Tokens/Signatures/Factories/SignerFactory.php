@@ -10,9 +10,9 @@ namespace Opulence\Authentication\Tokens\Signatures\Factories;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\AsymmetricSigner;
+use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
-use Opulence\Authentication\Tokens\Signatures\SymmetricSigner;
+use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 
 /**
  * Defines a signer factory
@@ -35,13 +35,13 @@ class SignerFactory
         }
 
         if ($this->algorithmIsSymmetric($algorithm)) {
-            return new SymmetricSigner($algorithm, $publicKey);
+            return new HmacSigner($algorithm, $publicKey);
         } else {
             if (!is_string($privateKey) && !is_resource($privateKey)) {
                 throw new InvalidArgumentException("Must specify private key for asymmetric algorithms");
             }
 
-            return new AsymmetricSigner($algorithm, $publicKey, $privateKey);
+            return new RsaSsaPkcsSigner($algorithm, $publicKey, $privateKey);
         }
     }
 

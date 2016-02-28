@@ -12,9 +12,9 @@ use Opulence\Authentication\Tokens\ISignedToken;
 use Opulence\Authentication\Tokens\IUnsignedToken;
 
 /**
- * Tests the asymmetric signer
+ * Tests the RSA SSA PKCS signer
  */
-class AsymmetricSignerTest extends \PHPUnit_Framework_TestCase
+class RsaSsaPkcsSignerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var IUnsignedToken|\PHPUnit_Framework_MockObject_MockObject The unsigned token to use in tests */
     private $unsignedToken = null;
@@ -41,7 +41,7 @@ class AsymmetricSignerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAlgorithm()
     {
-        $signer = new AsymmetricSigner(Algorithms::RSA_SHA512, "public", "private");
+        $signer = new RsaSsaPkcsSigner(Algorithms::RSA_SHA512, "public", "private");
         $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
@@ -65,7 +65,7 @@ class AsymmetricSignerTest extends \PHPUnit_Framework_TestCase
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
-            $signer = new AsymmetricSigner($algorithm, $publicKey, $privateKey);
+            $signer = new RsaSsaPkcsSigner($algorithm, $publicKey, $privateKey);
             $signature = "";
             openssl_sign($this->unsignedToken->getUnsignedValue(), $signature, $privateKey, $algorithmData[0]);
             $this->assertEquals($signature, $signer->sign($this->unsignedToken->getUnsignedValue()));
@@ -94,7 +94,7 @@ class AsymmetricSignerTest extends \PHPUnit_Framework_TestCase
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
-            $signer = new AsymmetricSigner($jwtAlgorithm, $publicKey["key"], $privateKey);
+            $signer = new RsaSsaPkcsSigner($jwtAlgorithm, $publicKey["key"], $privateKey);
             openssl_sign($this->unsignedToken->getUnsignedValue(), $correctSignature, $privateKey, $algorithmData[0]);
             $signatures = [$correctSignature, "incorrect"];
 
@@ -116,7 +116,7 @@ class AsymmetricSignerTest extends \PHPUnit_Framework_TestCase
      */
     public function testVerifyingEmptySignatureReturnsFalse()
     {
-        $jws = new AsymmetricSigner(Algorithms::SHA256, "public", "private");
+        $jws = new RsaSsaPkcsSigner(Algorithms::SHA256, "public", "private");
         $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ""));
     }
 }

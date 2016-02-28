@@ -10,8 +10,8 @@ namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\AsymmetricSigner;
-use Opulence\Authentication\Tokens\Signatures\SymmetricSigner;
+use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
+use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 
 /**
  * Tests the signed JWT
@@ -37,7 +37,7 @@ class SignedJwtTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecodingEncodedToken()
     {
-        $signer = new SymmetricSigner(Algorithms::SHA256, "public");
+        $signer = new HmacSigner(Algorithms::SHA256, "public");
         $unsignedJwt = new UnsignedJwt($this->header, $this->payload);
         $signature = $signer->sign($unsignedJwt->getUnsignedValue());
         $signedJwt = new SignedJwt($this->header, $this->payload, $signature);
@@ -65,7 +65,7 @@ class SignedJwtTest extends \PHPUnit_Framework_TestCase
                 ]
             );
             $publicKey = openssl_pkey_get_details($privateKey);
-            $signer = new AsymmetricSigner($algorithm, $publicKey["key"], $privateKey);
+            $signer = new RsaSsaPkcsSigner($algorithm, $publicKey["key"], $privateKey);
             $unsignedJwt = new UnsignedJwt($this->header, $this->payload);
             $unsignedJwt->getHeader()->add("alg", $algorithm);
             $signature = $signer->sign($unsignedJwt->getUnsignedValue());

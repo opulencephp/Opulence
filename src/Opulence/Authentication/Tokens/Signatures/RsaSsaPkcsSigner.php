@@ -12,9 +12,9 @@ use InvalidArgumentException;
 use RuntimeException;
 
 /**
- * Defines the asymmetric signer
+ * Defines the RSA SSA PKCS signer
  */
-class AsymmetricSigner implements IAsymmetricSigner
+class RsaSsaPkcsSigner implements ISigner
 {
     /** @var string The algorithm to use */
     private $algorithm = Algorithms::SHA256;

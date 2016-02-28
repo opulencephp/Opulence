@@ -12,9 +12,9 @@ use Opulence\Authentication\Tokens\ISignedToken;
 use Opulence\Authentication\Tokens\IUnsignedToken;
 
 /**
- * Tests the symmetric signer
+ * Tests the HMAC signer
  */
-class SymmetricSignerTest extends \PHPUnit_Framework_TestCase
+class HmacSignerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var IUnsignedToken|\PHPUnit_Framework_MockObject_MockObject The unsigned token to use in tests */
     private $unsignedToken = null;
@@ -41,7 +41,7 @@ class SymmetricSignerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingAlgorithm()
     {
-        $signer = new SymmetricSigner(Algorithms::RSA_SHA512, "public", "private");
+        $signer = new HmacSigner(Algorithms::RSA_SHA512, "public", "private");
         $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
@@ -57,7 +57,7 @@ class SymmetricSignerTest extends \PHPUnit_Framework_TestCase
         ];
 
         foreach ($algorithms as $jwtAlgorithm => $hashAlgorithm) {
-            $signer = new SymmetricSigner($jwtAlgorithm, "public");
+            $signer = new HmacSigner($jwtAlgorithm, "public");
             $this->assertEquals(
                 hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), "public", true),
                 $signer->sign($this->unsignedToken->getUnsignedValue())
@@ -70,7 +70,7 @@ class SymmetricSignerTest extends \PHPUnit_Framework_TestCase
      */
     public function testVerifyingEmptySignatureReturnsFalse()
     {
-        $jws = new SymmetricSigner(Algorithms::SHA256, "public");
+        $jws = new HmacSigner(Algorithms::SHA256, "public");
         $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ""));
     }
 
@@ -88,7 +88,7 @@ class SymmetricSignerTest extends \PHPUnit_Framework_TestCase
         $numUnverified = 0;
 
         foreach ($algorithms as $jwtAlgorithm => $hashAlgorithm) {
-            $signer = new SymmetricSigner($jwtAlgorithm, "public");
+            $signer = new HmacSigner($jwtAlgorithm, "public");
             $signatures = [
                 hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), "public", true),
                 hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), "incorrect", true),

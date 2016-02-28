@@ -10,8 +10,8 @@ namespace Opulence\Authentication\Tokens\Signatures\Factories;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\IAsymmetricSigner;
-use Opulence\Authentication\Tokens\Signatures\ISymmetricSigner;
+use Opulence\Authentication\Tokens\Signatures\HmacSigner;
+use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 
 /**
  * Tests the signer factory
@@ -38,7 +38,7 @@ class SignerFactoryTest extends \PHPUnit_Framework_TestCase
 
         foreach ($algorithms as $algorithm) {
             $signer = $this->factory->createSigner($algorithm, "public", "private");
-            $this->assertInstanceOf(IAsymmetricSigner::class, $signer);
+            $this->assertInstanceOf(RsaSsaPkcsSigner::class, $signer);
             $this->assertEquals($algorithm, $signer->getAlgorithm());
         }
     }
@@ -52,7 +52,7 @@ class SignerFactoryTest extends \PHPUnit_Framework_TestCase
 
         foreach ($algorithms as $algorithm) {
             $signer = $this->factory->createSigner($algorithm, "public");
-            $this->assertInstanceOf(ISymmetricSigner::class, $signer);
+            $this->assertInstanceOf(HmacSigner::class, $signer);
             $this->assertEquals($algorithm, $signer->getAlgorithm());
         }
     }

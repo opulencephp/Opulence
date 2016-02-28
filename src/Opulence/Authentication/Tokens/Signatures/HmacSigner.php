@@ -11,9 +11,9 @@ namespace Opulence\Authentication\Tokens\Signatures;
 use InvalidArgumentException;
 
 /**
- * Defines the symmetric signer
+ * Defines the HMAC signer
  */
-class SymmetricSigner implements ISymmetricSigner
+class HmacSigner implements ISigner
 {
     /** @var string The algorithm to use */
     private $algorithm = Algorithms::SHA256;
