@@ -81,15 +81,15 @@ class RsaSsaPkcsSigner implements ISigner
     }
 
     /**
-     * Gets the OpenSSL Id for a JWT algorithm
+     * Gets the OpenSSL Id for a algorithm
      *
-     * @param string $jwtAlgorithm The JWT algorithm whose OpenSSL Id we want
+     * @param string $algorithm The algorithm whose OpenSSL Id we want
      * @return int The PHP Id for the algorithm
      * @throws InvalidArgumentException Thrown if the algorithm is not an OpenSSL algorithm
      */
-    private function getOpenSslAlgorithm(string $jwtAlgorithm) : int
+    private function getOpenSslAlgorithm(string $algorithm) : int
     {
-        switch ($jwtAlgorithm) {
+        switch ($algorithm) {
             case Algorithms::RSA_SHA256:
                 return OPENSSL_ALGO_SHA256;
             case Algorithms::RSA_SHA384:
@@ -97,7 +97,7 @@ class RsaSsaPkcsSigner implements ISigner
             case Algorithms::RSA_SHA512:
                 return OPENSSL_ALGO_SHA512;
             default:
-                throw new InvalidArgumentException("Algorithm \"$jwtAlgorithm\" is not an OpenSSL algorithm");
+                throw new InvalidArgumentException("Algorithm \"$algorithm\" is not an OpenSSL algorithm");
         }
     }
 }

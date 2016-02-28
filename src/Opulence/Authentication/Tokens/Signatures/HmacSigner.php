@@ -72,15 +72,15 @@ class HmacSigner implements ISigner
     }
 
     /**
-     * Gets the hash algorithm for a JWT algorithm
+     * Gets the hash algorithm for an algorithm
      *
-     * @param string $jwtAlgorithm The JWT algorithm whose hash algorithm we want
+     * @param string $algorithm The algorithm whose hash algorithm we want
      * @return string The algorithm to use in a hash function
      * @throws InvalidArgumentException Thrown if the algorithm is not an OpenSSL algorithm
      */
-    private function getHashAlgorithm(string $jwtAlgorithm) : string
+    private function getHashAlgorithm(string $algorithm) : string
     {
-        switch ($jwtAlgorithm) {
+        switch ($algorithm) {
             case Algorithms::SHA256:
                 return "sha256";
             case Algorithms::SHA384:
@@ -88,7 +88,7 @@ class HmacSigner implements ISigner
             case Algorithms::SHA512:
                 return "sha512";
             default:
-                throw new InvalidArgumentException("Algorithm \"$jwtAlgorithm\" is not a hash algorithm");
+                throw new InvalidArgumentException("Algorithm \"$algorithm\" is not a hash algorithm");
         }
     }
 }
