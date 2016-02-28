@@ -41,11 +41,11 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnInvalidToken()
     {
-        $this->setExpectedException(VerificationException::class);
         $this->jwtPayload->expects($this->once())
             ->method("getIssuer")
             ->willReturn("bar");
-        $this->verifier->verify($this->jwt);
+        $this->assertFalse($this->verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -56,6 +56,7 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
         $this->jwtPayload->expects($this->once())
             ->method("getIssuer")
             ->willReturn("foo");
-        $this->verifier->verify($this->jwt);
+        $this->assertTrue($this->verifier->verify($this->jwt, $error));
+        $this->assertNull($error);
     }
 }

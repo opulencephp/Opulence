@@ -48,6 +48,8 @@ class JwtVerifierTest extends \PHPUnit_Framework_TestCase
     public function testVerifyingValidToken()
     {
         $jwt = new SignedJwt(new JwtHeader(), new JwtPayload(), "signature");
-        $this->assertTrue($this->verifier->verify($jwt, $this->context));
+        $errors = [];
+        $this->assertTrue($this->verifier->verify($jwt, $this->context, $errors));
+        $this->assertEquals([], $errors);
     }
 }

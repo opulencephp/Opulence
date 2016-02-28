@@ -19,7 +19,8 @@ interface IVerifier
      * Verifies a token
      *
      * @param SignedJwt $jwt The token to verify
-     * @throws VerificationException Thrown if the token is not valid
+     * @param string $error The error, if there was one
+     * @return bool True if the token is valid, otherwise false
      */
-    public function verify(SignedJwt $jwt);
+    public function verify(SignedJwt $jwt, string &$error = null) : bool;
 }

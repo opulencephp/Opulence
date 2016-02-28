@@ -20,10 +20,10 @@ class JwtVerifier
      *
      * @param SignedJwt $jwt The token to verify
      * @param VerificationContext $verificationContext The context to verify against
+     * @param array $errors The list of errors, if there are any
      * @return bool True if the token is valid
-     * @throws VerificationContext Thrown if the token is not valid
      */
-    public function verify(SignedJwt $jwt, VerificationContext $verificationContext) : bool
+    public function verify(SignedJwt $jwt, VerificationContext $verificationContext, array &$errors) : bool
     {
         $verifiers = [
             new SignatureVerifier($verificationContext->getSigner()),
@@ -33,12 +33,18 @@ class JwtVerifier
             new IssuerVerifier($verificationContext->getIssuer()),
             new SubjectVerifier($verificationContext->getSubject())
         ];
+        $isVerified = true;
 
         /** @var IVerifier $verifier */
         foreach ($verifiers as $verifier) {
-            $verifier->verify($jwt);
+            $error = "";
+
+            if (!$verifier->verify($jwt, $error)) {
+                $isVerified = false;
+                $errors[] = $error;
+            }
         }
 
-        return true;
+        return $isVerified;
     }
 }

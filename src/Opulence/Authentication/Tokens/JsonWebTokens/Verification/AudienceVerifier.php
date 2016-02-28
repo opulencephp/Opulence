@@ -33,7 +33,7 @@ class AudienceVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt)
+    public function verify(SignedJwt $jwt, string &$error = null) : bool
     {
         $audience = $jwt->getPayload()->getAudience();
 
@@ -42,11 +42,15 @@ class AudienceVerifier implements IVerifier
         }
 
         if (count($this->audience) === 0) {
-            return;
+            return true;
         }
 
         if (count(array_intersect($audience, $this->audience)) == 0) {
-            throw new VerificationException("Audience is invalid");
+            $error = "Audience is invalid";
+
+            return false;
         }
+
+        return true;
     }
 }

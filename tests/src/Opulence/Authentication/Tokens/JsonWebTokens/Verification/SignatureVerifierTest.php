@@ -40,11 +40,11 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnEmptySignature()
     {
-        $this->setExpectedException(VerificationException::class);
         $this->jwt->expects($this->once())
             ->method("getSignature")
             ->willReturn("");
-        $this->verifier->verify($this->jwt);
+        $this->assertFalse($this->verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -52,14 +52,14 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnInvalidToken()
     {
-        $this->setExpectedException(VerificationException::class);
         $this->jwt->expects($this->once())
             ->method("getSignature")
             ->willReturn("foo");
         $this->signer->expects($this->once())
             ->method("verify")
             ->willReturn(false);
-        $this->verifier->verify($this->jwt);
+        $this->assertFalse($this->verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -67,7 +67,6 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenSignersAlgorithmDoesNotMatchTokens()
     {
-        $this->setExpectedException(VerificationException::class);
         $this->jwt->expects($this->once())
             ->method("getSignature")
             ->willReturn("foo");
@@ -84,7 +83,8 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
         $this->signer->expects($this->once())
             ->method("getAlgorithm")
             ->willReturn(Algorithms::RSA_SHA384);
-        $this->verifier->verify($this->jwt);
+        $this->assertFalse($this->verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -98,6 +98,7 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
         $this->signer->expects($this->once())
             ->method("verify")
             ->willReturn(true);
-        $this->verifier->verify($this->jwt);
+        $this->assertTrue($this->verifier->verify($this->jwt, $error));
+        $this->assertNull($error);
     }
 }

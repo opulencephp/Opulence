@@ -19,16 +19,20 @@ class NotBeforeVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt)
+    public function verify(SignedJwt $jwt, string &$error = null) : bool
     {
         $notBefore = $jwt->getPayload()->getValidFrom();
 
         if ($notBefore === null) {
-            return;
+            return true;
         }
 
         if ($notBefore > new DateTimeImmutable()) {
-            throw new VerificationException("Token cannot be processed yet");
+            $error = "Token cannot be processed yet";
+
+            return false;
         }
+
+        return true;
     }
 }

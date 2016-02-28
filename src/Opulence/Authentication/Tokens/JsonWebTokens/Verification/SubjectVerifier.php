@@ -29,12 +29,16 @@ class SubjectVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt)
+    public function verify(SignedJwt $jwt, string &$error = null) : bool
     {
         $subject = $jwt->getPayload()->getSubject();
 
         if ($subject !== $this->subject) {
-            throw new VerificationException("Subject is invalid");
+            $error = "Subject is invalid";
+
+            return false;
         }
+
+        return true;
     }
 }

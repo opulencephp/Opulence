@@ -42,12 +42,12 @@ class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnExpiredToken()
     {
-        $this->setExpectedException(VerificationException::class);
         $date = new DateTimeImmutable("-30 second");
         $this->jwtPayload->expects($this->once())
             ->method("getValidTo")
             ->willReturn($date);
-        $this->verifier->verify($this->jwt);
+        $this->assertFalse($this->verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -59,6 +59,7 @@ class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
         $this->jwtPayload->expects($this->once())
             ->method("getValidTo")
             ->willReturn($date);
-        $this->verifier->verify($this->jwt);
+        $this->assertTrue($this->verifier->verify($this->jwt, $error));
+        $this->assertNull($error);
     }
 }

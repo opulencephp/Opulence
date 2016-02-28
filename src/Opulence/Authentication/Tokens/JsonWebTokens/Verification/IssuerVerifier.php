@@ -29,12 +29,16 @@ class IssuerVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt)
+    public function verify(SignedJwt $jwt, string &$error = null) : bool
     {
         $issuer = $jwt->getPayload()->getIssuer();
 
         if ($issuer !== $this->issuer) {
-            throw new VerificationException("Issuer is invalid");
+            $error = "Issuer is invalid";
+
+            return false;
         }
+
+        return true;
     }
 }

@@ -19,16 +19,20 @@ class ExpirationVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt)
+    public function verify(SignedJwt $jwt, string &$error = null) : bool
     {
         $expiration = $jwt->getPayload()->getValidTo();
 
         if ($expiration === null) {
-            return;
+            return true;
         }
 
         if ($expiration < new DateTimeImmutable()) {
-            throw new VerificationException("Token has expired");
+            $error = "Token has expired";
+
+            return false;
         }
+
+        return true;
     }
 }

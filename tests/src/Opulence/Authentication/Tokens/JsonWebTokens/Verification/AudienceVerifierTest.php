@@ -38,12 +38,12 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnMismatchingArray()
     {
-        $this->setExpectedException(VerificationException::class);
         $verifier = new AudienceVerifier("foo");
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn("bar");
-        $verifier->verify($this->jwt);
+        $this->assertFalse($verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -51,12 +51,12 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnMismatchingString()
     {
-        $this->setExpectedException(VerificationException::class);
         $verifier = new AudienceVerifier("foo");
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn("bar");
-        $verifier->verify($this->jwt);
+        $this->assertFalse($verifier->verify($this->jwt, $error));
+        $this->assertNotEmpty($error);
     }
 
     /**
@@ -68,7 +68,8 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn("bar");
-        $verifier->verify($this->jwt);
+        $this->assertTrue($verifier->verify($this->jwt, $error));
+        $this->assertNull($error);
     }
 
     /**
@@ -80,7 +81,8 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn(["bar", "baz"]);
-        $verifier->verify($this->jwt);
+        $this->assertTrue($verifier->verify($this->jwt, $error));
+        $this->assertNull($error);
     }
 
     /**
@@ -92,6 +94,7 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn("foo");
-        $verifier->verify($this->jwt);
+        $this->assertTrue($verifier->verify($this->jwt, $error));
+        $this->assertNull($error);
     }
 }

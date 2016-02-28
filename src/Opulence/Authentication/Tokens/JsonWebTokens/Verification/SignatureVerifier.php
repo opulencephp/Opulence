@@ -30,20 +30,28 @@ class SignatureVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(SignedJwt $jwt)
+    public function verify(SignedJwt $jwt, string &$error = null) : bool
     {
         $signature = $jwt->getSignature();
 
         if ($signature === "") {
-            throw new VerificationException("Signature cannot be empty");
+            $error = "Signature cannot be empty";
+
+            return false;
         }
 
         if ($jwt->getHeader()->getAlgorithm() !== $this->signer->getAlgorithm()) {
-            throw new VerificationException("Token's algorithm does not match signer's");
+            $error = "Token's algorithm does not match signer's";
+
+            return false;
         }
 
         if (!$this->signer->verify($jwt->getUnsignedValue(), $signature)) {
-            throw new VerificationException("Signature is invalid");
+            $error = "Signature is invalid";
+
+            return false;
         }
+
+        return true;
     }
 }
