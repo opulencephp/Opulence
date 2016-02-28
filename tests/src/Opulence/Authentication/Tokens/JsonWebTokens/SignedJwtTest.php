@@ -33,6 +33,18 @@ class SignedJwtTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests creating a JWT from a string with the "none" algorithm
+     */
+    public function testCreatingJwtFromStringWithNoneAlgorithm()
+    {
+        $header = new JwtHeader("none");
+        $unsignedJwt = new UnsignedJwt($header, new JwtPayload());
+        $signedJwt = SignedJwt::createFromString($unsignedJwt->getUnsignedValue());
+        $this->assertEquals("none", $signedJwt->getHeader()->getAlgorithm());
+        $this->assertEquals("", $signedJwt->getSignature());
+    }
+
+    /**
      * Tests creating token from string
      */
     public function testDecodingEncodedToken()
