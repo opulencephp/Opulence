@@ -17,6 +17,7 @@ class JwtHeader
 {
     /** @var array The list of valid algorithms */
     private static $validAlgorithms = [
+        "none",
         "HS256",
         "HS348",
         "HS512",

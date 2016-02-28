@@ -117,4 +117,13 @@ class JwtHeaderTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException(InvalidArgumentException::class);
         new JwtHeader("foo");
     }
+
+    /**
+     * Tests setting the "none" algorithm
+     */
+    public function testSettingNoneAlgorithm()
+    {
+        $this->header->add("alg", "none");
+        $this->assertEquals("none", $this->header->getAlgorithm());
+    }
 }

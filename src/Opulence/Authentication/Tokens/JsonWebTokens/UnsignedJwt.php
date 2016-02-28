@@ -51,6 +51,12 @@ class UnsignedJwt implements IUnsignedToken
      */
     public function getUnsignedValue() : string
     {
-        return "{$this->header->encode()}.{$this->payload->encode()}";
+        $unsignedValue = "{$this->header->encode()}.{$this->payload->encode()}";
+
+        if ($this->header->getAlgorithm() === "none") {
+            $unsignedValue .= ".";
+        }
+
+        return $unsignedValue;
     }
 }

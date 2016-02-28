@@ -56,4 +56,16 @@ class UnsignedJwtTest extends \PHPUnit_Framework_TestCase
             $this->jwt->getUnsignedValue()
         );
     }
+
+    /**
+     * Tests getting the unsigned value with a "none" algorithm
+     */
+    public function testGettingUnsignedValueWithNoneAlgorithm()
+    {
+        $this->header->add("alg", "none");
+        $this->assertEquals(
+            "{$this->jwt->getHeader()->encode()}.{$this->jwt->getPayload()->encode()}.",
+            $this->jwt->getUnsignedValue()
+        );
+    }
 }
