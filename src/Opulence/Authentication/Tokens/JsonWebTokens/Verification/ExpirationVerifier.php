@@ -9,7 +9,7 @@
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
 use DateTimeImmutable;
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
  * Defines the expiration verifier
@@ -19,7 +19,7 @@ class ExpirationVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(Jwt $jwt)
+    public function verify(SignedJwt $jwt)
     {
         $expiration = $jwt->getPayload()->getValidTo();
 

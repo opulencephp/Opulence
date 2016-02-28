@@ -8,11 +8,11 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\ISigner;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\JwsAlgorithms;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+use Opulence\Authentication\Tokens\Signatures\Algorithms;
+use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
  * Tests the JWT verifier
@@ -35,7 +35,7 @@ class JwtVerifierTest extends \PHPUnit_Framework_TestCase
         $this->signer = $this->getMock(ISigner::class);
         $this->signer->expects($this->any())
             ->method("getAlgorithm")
-            ->willReturn(JwsAlgorithms::SHA256);
+            ->willReturn(Algorithms::SHA256);
         $this->signer->expects($this->any())
             ->method("verify")
             ->willReturn(true);
@@ -47,8 +47,7 @@ class JwtVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function testVerifyingValidToken()
     {
-        $jwt = new Jwt(new JwtHeader(), new JwtPayload());
-        $jwt->setSignature("signature");
+        $jwt = new SignedJwt(new JwtHeader(), new JwtPayload(), "signature");
         $this->assertTrue($this->verifier->verify($jwt, $this->context));
     }
 }

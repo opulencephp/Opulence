@@ -8,8 +8,8 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
  * Tests the subject verifier
@@ -18,7 +18,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SubjectVerifier The verifier to use in tests */
     private $verifier = null;
-    /** @var Jwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
+    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
     private $jwt = null;
     /** @var JwtPayload|\PHPUnit_Framework_MockObject_MockObject The payload to use in tests */
     private $jwtPayload = null;
@@ -29,7 +29,7 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->verifier = new SubjectVerifier("foo");
-        $this->jwt = $this->getMock(Jwt::class, [], [], "", false);
+        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
         $this->jwtPayload = $this->getMock(JwtPayload::class);
         $this->jwt->expects($this->any())
             ->method("getPayload")

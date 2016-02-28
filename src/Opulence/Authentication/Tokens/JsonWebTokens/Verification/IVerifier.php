@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
  * Defines the interface for a JWT verifier to implement
@@ -18,8 +18,8 @@ interface IVerifier
     /**
      * Verifies a token
      *
-     * @param Jwt $jwt The token to verify
+     * @param SignedJwt $jwt The token to verify
      * @throws VerificationException Thrown if the token is not valid
      */
-    public function verify(Jwt $jwt);
+    public function verify(SignedJwt $jwt);
 }

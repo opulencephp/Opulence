@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\ISigner;
+use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
  * Defines the verification context

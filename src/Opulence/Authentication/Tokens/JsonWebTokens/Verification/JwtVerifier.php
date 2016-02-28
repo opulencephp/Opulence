@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
  * Defines the JWT verifier
@@ -18,12 +18,12 @@ class JwtVerifier
     /**
      * Verifies a token
      *
-     * @param Jwt $jwt The token to verify
+     * @param SignedJwt $jwt The token to verify
      * @param VerificationContext $verificationContext The context to verify against
      * @return bool True if the token is valid
      * @throws VerificationContext Thrown if the token is not valid
      */
-    public function verify(Jwt $jwt, VerificationContext $verificationContext) : bool
+    public function verify(SignedJwt $jwt, VerificationContext $verificationContext) : bool
     {
         $verifiers = [
             new SignatureVerifier($verificationContext->getSigner()),

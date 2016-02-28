@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 
 /**
@@ -16,7 +16,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
  */
 class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var Jwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
+    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
     private $jwt = null;
     /** @var JwtPayload|\PHPUnit_Framework_MockObject_MockObject The payload to use in tests */
     private $jwtPayload = null;
@@ -26,7 +26,7 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->jwt = $this->getMock(Jwt::class, [], [], "", false);
+        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
         $this->jwtPayload = $this->getMock(JwtPayload::class);
         $this->jwt->expects($this->any())
             ->method("getPayload")

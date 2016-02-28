@@ -9,40 +9,35 @@
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
-use LogicException;
+use Opulence\Authentication\Tokens\ISignedToken;
 
 /**
- * Defines a JSON web token
+ * Defines the signed JWT
  */
-class Jwt
+class SignedJwt extends UnsignedJwt implements ISignedToken
 {
-    /** @var JwtHeader The header */
-    private $header = null;
-    /** @var JwtPayload The payload */
-    private $payload = null;
     /** @var string The signature */
-    private $signature = "";
+    protected $signature = "";
 
     /**
-     * @param JwtHeader $header The header
-     * @param JwtPayload $payload The payload
+     * @inheritdoc
      * @param string $signature The signature
      */
     public function __construct(JwtHeader $header, JwtPayload $payload, string $signature = "")
     {
-        $this->header = $header;
-        $this->payload = $payload;
+        parent::__construct($header, $payload);
+
         $this->signature = $signature;
     }
 
     /**
-     * Creates a JWT from a raw string
+     * Creates a signed JWT from a raw string
      *
      * @param string $token The token to create from
-     * @return Jwt The JSON web token
+     * @return SignedJwt The signed JSON web token
      * @throws InvalidArgumentException Thrown if the token was not correctly formatted
      */
-    public static function createFromString(string $token) : Jwt
+    public static function createFromString(string $token) : SignedJwt
     {
         $segments = explode(".", $token);
 
@@ -76,45 +71,16 @@ class Jwt
             }
         }
 
-        return new Jwt($header, $payload, $signature);
-    }
-
-    /**
-     * Base 64 decodes data for use in URLs
-     *
-     * @param string $data The data to decode
-     * @return string The base 64 decoded data that's safe for URLs
-     * @link http://php.net/manual/en/function.base64-encode.php#103849
-     */
-    private static function base64UrlDecode(string $data) : string
-    {
-        return base64_decode(str_pad(strtr($data, "-_", "+/"), strlen($data) % 4, "=", STR_PAD_RIGHT));
-    }
-
-    /**
-     * Base 64 encodes data for use in URLs
-     *
-     * @param string $data The data to encode
-     * @return string The base 64 encoded data that's safe for URLs
-     * @link http://php.net/manual/en/function.base64-encode.php#103849
-     */
-    private static function base64UrlEncode(string $data) : string
-    {
-        return rtrim(strtr(base64_encode($data), "+/", "-_"), "=");
+        return new self($header, $payload, $signature);
     }
 
     /**
      * Encodes this token as a string
      *
      * @return string The encoded string
-     * @throws LogicException Thrown if the token has not been signed
      */
     public function encode() : string
     {
-        if ($this->signature === "") {
-            throw new LogicException("Token has not been signed");
-        }
-
         $segments = [
             $this->header->encode(),
             $this->payload->encode(),
@@ -125,34 +91,10 @@ class Jwt
     }
 
     /**
-     * @return JwtHeader
-     */
-    public function getHeader() : JwtHeader
-    {
-        return $this->header;
-    }
-
-    /**
-     * @return JwtPayload
-     */
-    public function getPayload() : JwtPayload
-    {
-        return $this->payload;
-    }
-
-    /**
-     * @return string
+     * @inheritdoc
      */
     public function getSignature() : string
     {
         return $this->signature;
-    }
-
-    /**
-     * @param string $signature
-     */
-    public function setSignature(string $signature)
-    {
-        $this->signature = $signature;
     }
 }

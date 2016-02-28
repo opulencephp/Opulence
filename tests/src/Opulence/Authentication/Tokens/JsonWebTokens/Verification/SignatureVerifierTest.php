@@ -8,10 +8,10 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\ISigner;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\JwsAlgorithms;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+use Opulence\Authentication\Tokens\Signatures\Algorithms;
+use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
  * Tests the signature verifier
@@ -22,7 +22,7 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
     private $verifier = null;
     /** @var ISigner|\PHPUnit_Framework_MockObject_MockObject The signer to use in tests */
     private $signer = null;
-    /** @var Jwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
+    /** @var SignedJwt|\PHPUnit_Framework_MockObject_MockObject The token to use in tests */
     private $jwt = null;
 
     /**
@@ -32,7 +32,7 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
     {
         $this->signer = $this->getMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);
-        $this->jwt = $this->getMock(Jwt::class, [], [], "", false);
+        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
     }
 
     /**
@@ -74,7 +74,7 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
         $header = $this->getMock(JwtHeader::class);
         $header->expects($this->once())
             ->method("getAlgorithm")
-            ->willReturn(JwsAlgorithms::RSA_SHA384);
+            ->willReturn(Algorithms::RSA_SHA384);
         $this->jwt->expects($this->once())
             ->method("getHeader")
             ->willReturn($header);
@@ -83,7 +83,7 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
             ->willReturn("foo");
         $this->signer->expects($this->once())
             ->method("getAlgorithm")
-            ->willReturn(JwsAlgorithms::RSA_SHA384);
+            ->willReturn(Algorithms::RSA_SHA384);
         $this->verifier->verify($this->jwt);
     }
 

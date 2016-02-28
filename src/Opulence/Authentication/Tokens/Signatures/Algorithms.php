@@ -6,12 +6,14 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authentication\Tokens\JsonWebTokens\Signature;
+namespace Opulence\Authentication\Tokens\Signatures;
+
+use InvalidArgumentException;
 
 /**
- * Defines the various algorithms that can be used by JSON web tokens
+ * Defines the various algorithms that can be used to sign tokens
  */
-class JwsAlgorithms
+class Algorithms
 {
     /** The RSA SHA256 algorithm */
     const RSA_SHA256 = "RS256";
@@ -44,7 +46,7 @@ class JwsAlgorithms
     }
 
     /**
-     * Gets whether or not an algorithm is supported by JWT
+     * Gets whether or not an algorithm is supported
      *
      * @param mixed $algorithm The algorithm to search
      * @return bool True if the algorithm is supported, otherwise false
@@ -52,5 +54,21 @@ class JwsAlgorithms
     public static function has($algorithm) : bool
     {
         return in_array($algorithm, self::getAll());
+    }
+
+    /**
+     * Checks if an algorithm is symmetric
+     *
+     * @param mixed $algorithm The algorithm to check
+     * @return bool True if the algorithm is symmetric, otherwise false
+     * @throws InvalidArgumentException Thrown if the algorithm is not valid
+     */
+    public static function isSymmetric($algorithm) : bool
+    {
+        if (!self::has($algorithm)) {
+            throw new InvalidArgumentException("Algorithm \"$algorithm\" is not valid");
+        }
+
+        return in_array($algorithm, [Algorithms::SHA256, Algorithms::SHA384, Algorithms::SHA512]);
     }
 }

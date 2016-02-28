@@ -8,8 +8,8 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
-use Opulence\Authentication\Tokens\JsonWebTokens\Signature\ISigner;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
  * Defines the signature verifier
@@ -30,9 +30,11 @@ class SignatureVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(Jwt $jwt)
+    public function verify(SignedJwt $jwt)
     {
-        if ($jwt->getSignature() === "") {
+        $signature = $jwt->getSignature();
+
+        if ($signature === "") {
             throw new VerificationException("Signature cannot be empty");
         }
 
@@ -40,7 +42,7 @@ class SignatureVerifier implements IVerifier
             throw new VerificationException("Token's algorithm does not match signer's");
         }
 
-        if (!$this->signer->verify($jwt)) {
+        if (!$this->signer->verify($jwt->getUnsignedValue(), $signature)) {
             throw new VerificationException("Signature is invalid");
         }
     }

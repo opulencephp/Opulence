@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
  * Defines the audience verifier
@@ -33,7 +33,7 @@ class AudienceVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(Jwt $jwt)
+    public function verify(SignedJwt $jwt)
     {
         $audience = $jwt->getPayload()->getAudience();
 

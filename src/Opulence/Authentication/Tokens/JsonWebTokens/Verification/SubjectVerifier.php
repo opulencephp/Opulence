@@ -8,7 +8,7 @@
  */
 namespace Opulence\Authentication\Tokens\JsonWebTokens\Verification;
 
-use Opulence\Authentication\Tokens\JsonWebTokens\Jwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 
 /**
  * Defines the subject verifier
@@ -29,7 +29,7 @@ class SubjectVerifier implements IVerifier
     /**
      * @inheritdoc
      */
-    public function verify(Jwt $jwt)
+    public function verify(SignedJwt $jwt)
     {
         $subject = $jwt->getPayload()->getSubject();
 
