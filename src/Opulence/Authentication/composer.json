@@ -4,7 +4,9 @@
   "keywords": [
     "PHP",
     "authentication",
-    "passwords"
+    "passwords",
+    "jwt",
+    "json web tokens"
   ],
   "authors": [
     {

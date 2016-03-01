@@ -75,6 +75,18 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
     }
 
     /**
+     * Creates a signed JWT from an unsigned JWT and signature
+     *
+     * @param UnsignedJwt $unsignedJwt The unsigned token to create the signed token from
+     * @param string $signature The signature
+     * @return SignedJwt The signed JSON web token
+     */
+    public static function createFromUnsignedJwt(UnsignedJwt $unsignedJwt, string $signature) : SignedJwt
+    {
+        return new self($unsignedJwt->getHeader(), $unsignedJwt->getPayload(), $signature);
+    }
+
+    /**
      * Base 64 decodes data for use in URLs
      *
      * @param string $data The data to decode
