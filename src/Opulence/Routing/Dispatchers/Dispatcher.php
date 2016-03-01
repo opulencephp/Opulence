@@ -47,9 +47,9 @@ class Dispatcher implements IDispatcher
     public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
     {
         try {
-            $response = (new Pipeline($this->container))
+            $response = (new Pipeline)
                 ->send($request)
-                ->through($route->getMiddleware(), "handle")
+                ->through($this->convertMiddlewareToPipelineStages($route->getMiddleware()), "handle")
                 ->then(function (Request $request) use ($route, &$controller) {
                     if ($route->usesCallable()) {
                         $controller = $route->getController();
@@ -136,6 +136,27 @@ class Dispatcher implements IDispatcher
                 $ex
             );
         }
+    }
+
+    /**
+     * Converts middleware to pipeline stages
+     *
+     * @param array $middleware The middleware to convert to pipeline stages
+     * @return callable[] The list of pipeline stages
+     */
+    private function convertMiddlewareToPipelineStages(array $middleware) : array
+    {
+        $stages = [];
+
+        foreach ($middleware as $singleMiddleware) {
+            if (is_string($singleMiddleware)) {
+                $singleMiddleware = $this->container->makeShared($singleMiddleware);
+            }
+
+            $stages[] = $singleMiddleware;
+        }
+
+        return $stages;
     }
 
     /**

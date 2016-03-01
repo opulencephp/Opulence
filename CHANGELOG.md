@@ -4,6 +4,10 @@
 * Fixed Composer PHP versions in individual libraries
 * Updated to SuperClosure v2.2.0
 
+<h3>Backwards Incompatibilities</h3>
+* Removed ability to "make" classes via an IoC container in `Opulence\Pipelines\Pipeline`
+* Removed `IContainer` from `Pipeline::__construct()`
+
 <h3>Applications</h3>
 * Changed `Opulence\Applications\Application::start()` and `shutdown()` to accept optional `callable` rather than `Closure`
 

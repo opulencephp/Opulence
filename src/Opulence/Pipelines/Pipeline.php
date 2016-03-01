@@ -9,16 +9,12 @@
 namespace Opulence\Pipelines;
 
 use Closure;
-use Opulence\Ioc\IContainer;
-use Opulence\Ioc\IocException;
 
 /**
  * Defines the pipeline
  */
 class Pipeline implements IPipeline
 {
-    /** @var IContainer The dependency injection container to use */
-    private $container;
     /** @var mixed The input to send through the pipeline */
     private $input = null;
     /** @var array The list of stages to send input through */
@@ -27,14 +23,6 @@ class Pipeline implements IPipeline
     private $methodToCall = null;
     /** @var callable The callback to execute at the end */
     private $callback = null;
-
-    /**
-     * @param IContainer $container The dependency injection container to use
-     */
-    public function __construct(IContainer $container)
-    {
-        $this->container = $container;
-    }
 
     /**
      * @inheritdoc
@@ -105,22 +93,14 @@ class Pipeline implements IPipeline
                         throw new PipelineException("Method must not be null");
                     }
 
-                    try {
-                        if (is_string($stage)) {
-                            $stage = $this->container->makeShared($stage);
-                        }
-
-                        if (!method_exists($stage, $this->methodToCall)) {
-                            throw new PipelineException(get_class($stage) . "::{$this->methodToCall} does not exist");
-                        }
-
-                        return call_user_func_array(
-                            [$stage, $this->methodToCall],
-                            [$input, $stages]
-                        );
-                    } catch (IocException $ex) {
-                        throw new PipelineException("Failed to pipeline input", 0, $ex);
+                    if (!method_exists($stage, $this->methodToCall)) {
+                        throw new PipelineException(get_class($stage) . "::{$this->methodToCall} does not exist");
                     }
+
+                    return call_user_func_array(
+                        [$stage, $this->methodToCall],
+                        [$input, $stages]
+                    );
                 }
             };
         };

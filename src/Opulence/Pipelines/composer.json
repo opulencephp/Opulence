@@ -19,8 +19,7 @@
     }
   },
   "require": {
-    "php": ">=7.0.0",
-    "opulence/ioc": "1.0.*"
+    "php": ">=7.0.0"
   },
   "extra": {
     "branch-alias": {

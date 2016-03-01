@@ -107,9 +107,9 @@ class Kernel
     public function handle(Request $request) : Response
     {
         try {
-            return (new Pipeline($this->container))
+            return (new Pipeline)
                 ->send($request)
-                ->through($this->getMiddleware(), "handle")
+                ->through($this->convertMiddlewareToPipelineStages($this->getMiddleware()), "handle")
                 ->then(function ($request) {
                     return $this->router->route($request);
                 })
@@ -145,6 +145,27 @@ class Kernel
     public function onlyEnableMiddleware(array $middleware)
     {
         $this->enabledMiddleware = $middleware;
+    }
+
+    /**
+     * Converts middleware to pipeline stages
+     *
+     * @param array $middleware The middleware to convert to pipeline stages
+     * @return callable[] The list of pipeline stages
+     */
+    protected function convertMiddlewareToPipelineStages(array $middleware) : array
+    {
+        $stages = [];
+
+        foreach ($middleware as $singleMiddleware) {
+            if (is_string($singleMiddleware)) {
+                $singleMiddleware = $this->container->makeShared($singleMiddleware);
+            }
+
+            $stages[] = $singleMiddleware;
+        }
+
+        return $stages;
     }
 
     /**
