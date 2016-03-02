@@ -29,7 +29,7 @@
         "name": "phpredis",
         "version": "2.2.7",
         "source": {
-          "url": "git://github.com/phpredis/phpredis.git",
+          "url": "https://github.com/phpredis/phpredis.git",
           "type": "git",
           "reference": "2.2.7"
         }
