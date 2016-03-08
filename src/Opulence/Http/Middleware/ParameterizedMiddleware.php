@@ -14,7 +14,7 @@ namespace Opulence\Http\Middleware;
 abstract class ParameterizedMiddleware implements IMiddleware
 {
     /** @var array The middleware parameters */
-    protected $parameters = [];
+    private $parameters = [];
 
     /**
      * Creates middleware parameters to be used by this middleware
@@ -33,5 +33,20 @@ abstract class ParameterizedMiddleware implements IMiddleware
     public function setParameters(array $parameters)
     {
         $this->parameters = $parameters;
+    }
+
+    /**
+     * Gets the value of a parameter
+     *
+     * @param string $name The name of the parameter to get
+     * @return mixed|null The parameter's value if it is set, otherwise null
+     */
+    protected function getParameter(string $name)
+    {
+        if (!array_key_exists($name, $this->parameters)) {
+            return null;
+        }
+
+        return $this->parameters[$name];
     }
 }

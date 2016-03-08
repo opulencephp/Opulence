@@ -26,7 +26,7 @@ class ParameterizedMiddleware extends Base
         /** @var Response $response */
         $response = $next($request);
         $response->getHeaders()->set("parameterized", "middleware");
-        $response->getHeaders()->set("parameters", $this->parameters);
+        $response->getHeaders()->set("parameters", $this->getParameter("foo"));
 
         return $response;
     }

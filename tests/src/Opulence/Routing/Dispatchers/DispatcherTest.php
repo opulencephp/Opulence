@@ -320,7 +320,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
         $response = $this->dispatcher->dispatch($route, $this->request);
-        $this->assertEquals(["foo" => "bar"], $response->getHeaders()->get("parameters", null, false));
+        $this->assertEquals("bar", $response->getHeaders()->get("parameters"));
     }
 
     /**
