@@ -11,6 +11,8 @@ namespace Opulence\Routing\Dispatchers;
 use Closure;
 use Exception;
 use Opulence\Http\HttpException;
+use Opulence\Http\Middleware\MiddlewareParameters;
+use Opulence\Http\Middleware\ParameterizedMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\IContainer;
@@ -149,7 +151,13 @@ class Dispatcher implements IDispatcher
         $stages = [];
 
         foreach ($middleware as $singleMiddleware) {
-            if (is_string($singleMiddleware)) {
+            if ($singleMiddleware instanceof MiddlewareParameters) {
+                /** @var MiddlewareParameters $singleMiddleware */
+                /** @var ParameterizedMiddleware $tempMiddleware */
+                $tempMiddleware = $this->container->makeShared($singleMiddleware->getMiddlewareClassName());
+                $tempMiddleware->setParameters($singleMiddleware->getParameters());
+                $singleMiddleware = $tempMiddleware;
+            } elseif (is_string($singleMiddleware)) {
                 $singleMiddleware = $this->container->makeShared($singleMiddleware);
             }
 

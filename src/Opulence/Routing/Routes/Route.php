@@ -83,7 +83,9 @@ class Route
      */
     public function addMiddleware($middleware, bool $prepend = false)
     {
-        $middleware = (array)$middleware;
+        if (!is_array($middleware)) {
+            $middleware = [$middleware];
+        }
 
         if ($prepend) {
             $this->middleware = array_merge($middleware, $this->middleware);

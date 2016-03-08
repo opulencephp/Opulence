@@ -10,6 +10,7 @@ namespace Opulence\Routing\Routes;
 
 use Closure;
 use InvalidArgumentException;
+use Opulence\Http\Middleware\MiddlewareParameters;
 
 /**
  * Tests the route class
@@ -95,6 +96,18 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         ];
         $route = new Route("get", "/foo", "foo@bar", $options);
         $this->assertEquals(["foo"], $route->getMiddleware());
+    }
+
+    /**
+     * Tests getting the middleware when it is an object
+     */
+    public function testGettingMiddlewareWhenItIsAnObject()
+    {
+        $options = [
+            "middleware" => new MiddlewareParameters("foo", ["bar" => "baz"])
+        ];
+        $route = new Route("get", "/foo", "foo@bar", $options);
+        $this->assertEquals([$options["middleware"]], $route->getMiddleware());
     }
 
     /**

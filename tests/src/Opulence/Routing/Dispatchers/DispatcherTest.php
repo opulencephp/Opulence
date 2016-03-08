@@ -9,6 +9,7 @@
 namespace Opulence\Routing\Dispatchers;
 
 use Opulence\Http\HttpException;
+use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
@@ -17,6 +18,7 @@ use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\RouteException;
+use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;
 use Opulence\Tests\Routing\Mocks\DoesNotReturnSomethingMiddleware;
 use Opulence\Tests\Routing\Mocks\NonOpulenceController;
@@ -305,6 +307,20 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         ];
         $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request));
+    }
+
+    /**
+     * Tests using parameterized middleware
+     */
+    public function testUsingParameterizedMiddleware()
+    {
+        $controller = MockController::class . "@returnsNothing";
+        $options = [
+            "middleware" => new MiddlewareParameters(ParameterizedMiddleware::class, ["foo" => "bar"])
+        ];
+        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
+        $response = $this->dispatcher->dispatch($route, $this->request);
+        $this->assertEquals(["foo" => "bar"], $response->getHeaders()->get("parameters", null, false));
     }
 
     /**

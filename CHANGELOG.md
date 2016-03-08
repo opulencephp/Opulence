@@ -36,6 +36,7 @@
 * Fixed various command templates to include PHP 7 return types
 
 <h3>HTTP</h3>
+* Added parameterized middleware support
 * Fixed bug that did not attempt to check the current request method's parameter collection when calling `Opulence\Http\Requests\Request::getInput()`
 * Fixed bug that returned `null` when getting the previous URL and none is set, nor is the referrer header set
 

@@ -10,6 +10,7 @@ namespace Opulence\Framework\Http;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
+use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
@@ -22,6 +23,7 @@ use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Tests\Http\Middleware\Mocks\HeaderSetter;
+use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Tests\Routing\Mocks\Controller;
 use Opulence\Tests\Routing\Mocks\ExceptionalRouter;
 use Psr\Log\LoggerInterface;
@@ -72,10 +74,17 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     public function testDisablingCertainMiddleware()
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
+        $parameterizedMiddleware = new MiddlewareParameters("parameterized", []);
+        $middlewareObject = new HeaderSetter();
         $kernel->addMiddleware("foo");
-        $kernel->addMiddleware("bar");
+        $kernel->addMiddleware($parameterizedMiddleware);
+        $kernel->addMiddleware($middlewareObject);
         $kernel->onlyDisableMiddleware(["foo"]);
-        $this->assertEquals(["bar"], $kernel->getMiddleware());
+        $this->assertEquals([$parameterizedMiddleware, $middlewareObject], $kernel->getMiddleware());
+        $kernel->onlyDisableMiddleware(["parameterized"]);
+        $this->assertEquals(["foo", $middlewareObject], $kernel->getMiddleware());
+        $kernel->onlyDisableMiddleware([get_class($middlewareObject)]);
+        $this->assertEquals(["foo", $parameterizedMiddleware], $kernel->getMiddleware());
     }
 
     /**
@@ -134,6 +143,18 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
         $this->assertEquals("bar", $response->getHeaders()->get("foo"));
+    }
+
+    /**
+     * Tests handling a request with parameterized middleware
+     */
+    public function testHandlingWithParameterizedMiddleware()
+    {
+        $kernel = $this->getKernel(RequestMethods::GET, false);
+        $kernel->addMiddleware(ParameterizedMiddleware::withParameters(["foo" => "bar"]));
+        $request = Request::createFromGlobals();
+        $response = $kernel->handle($request);
+        $this->assertEquals("middleware", $response->getHeaders()->get("parameterized"));
     }
 
     /**

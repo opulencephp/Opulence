@@ -11,6 +11,8 @@ namespace Opulence\Framework\Http;
 use Exception;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
+use Opulence\Http\Middleware\MiddlewareParameters;
+use Opulence\Http\Middleware\ParameterizedMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\IContainer;
@@ -63,11 +65,15 @@ class Kernel
     /**
      * Adds middleware to the kernel
      *
-     * @param string|array $middleware The middleware class or list of middleware classes to add
+     * @param string|object|array $middleware The middleware object, class, or list of middleware classes to add
      */
     public function addMiddleware($middleware)
     {
-        $this->middleware = array_merge($this->middleware, (array)$middleware);
+        if (!is_array($middleware)) {
+            $middleware = [$middleware];
+        }
+
+        $this->middleware = array_merge($this->middleware, $middleware);
     }
 
     /**
@@ -92,7 +98,23 @@ class Kernel
         }
 
         if (count($this->disabledMiddleware) > 0) {
-            return array_values(array_diff($this->middleware, $this->disabledMiddleware));
+            $enabledMiddleware = [];
+
+            foreach ($this->middleware as $middleware) {
+                if (is_string($middleware)) {
+                    $middlewareClass = $middleware;
+                } elseif ($middleware instanceof MiddlewareParameters) {
+                    $middlewareClass = $middleware->getMiddlewareClassName();
+                } else {
+                    $middlewareClass = get_class($middleware);
+                }
+
+                if (!in_array($middlewareClass, $this->disabledMiddleware)) {
+                    $enabledMiddleware[] = $middleware;
+                }
+            }
+
+            return $enabledMiddleware;
         }
 
         return $this->middleware;
@@ -158,7 +180,13 @@ class Kernel
         $stages = [];
 
         foreach ($middleware as $singleMiddleware) {
-            if (is_string($singleMiddleware)) {
+            if ($singleMiddleware instanceof MiddlewareParameters) {
+                /** @var MiddlewareParameters $singleMiddleware */
+                /** @var ParameterizedMiddleware $tempMiddleware */
+                $tempMiddleware = $this->container->makeShared($singleMiddleware->getMiddlewareClassName());
+                $tempMiddleware->setParameters($singleMiddleware->getParameters());
+                $singleMiddleware = $tempMiddleware;
+            } elseif (is_string($singleMiddleware)) {
                 $singleMiddleware = $this->container->makeShared($singleMiddleware);
             }
 
