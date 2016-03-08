@@ -57,7 +57,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenGettingResponseBeforeItIsRendered()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $this->renderer->getResponse();
     }
 

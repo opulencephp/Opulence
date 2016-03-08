@@ -85,7 +85,7 @@ class StringTokenizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenizingUnclosedDoubleQuote()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->tokenizer->tokenize('foo "blah');
     }
 
@@ -94,7 +94,7 @@ class StringTokenizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTokenizingUnclosedSingleQuote()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->tokenizer->tokenize("foo 'blah");
     }
 

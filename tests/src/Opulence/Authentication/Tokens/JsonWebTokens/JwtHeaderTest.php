@@ -114,7 +114,7 @@ class JwtHeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidAlgorithmInConstructorThrowsException()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new JwtHeader("foo");
     }
 

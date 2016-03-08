@@ -50,7 +50,7 @@ class InRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingArgBeforePasses()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $rule = new InRule();
         $rule->passes("foo");
     }
@@ -60,7 +60,7 @@ class InRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new InRule();
         $rule->setArgs([]);
     }
@@ -70,7 +70,7 @@ class InRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidArgs()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new InRule();
         $rule->setArgs([1]);
     }

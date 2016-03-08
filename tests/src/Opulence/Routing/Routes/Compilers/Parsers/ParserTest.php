@@ -248,7 +248,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithDuplicateVariables()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = new Route(["get"], "/:foo/:foo", "foo@bar");
         $this->parser->parse($route);
     }
@@ -258,7 +258,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnclosedOpenBracket()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = new Route(["get"], "/:foo/[bar", "foo@bar");
         $this->parser->parse($route);
     }
@@ -268,7 +268,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnopenedCloseBracket()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = new Route(["get"], "/:foo/:bar]", "foo@bar");
         $this->parser->parse($route);
     }

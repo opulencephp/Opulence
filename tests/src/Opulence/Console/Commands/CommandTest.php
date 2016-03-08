@@ -117,7 +117,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingCommandThatDoesNotConstructParent()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $command = new CommandThatDoesNotCallParentConstructor();
         $command->execute(new Response(new ResponseCompiler(new Lexer(), new Parser())));
     }
@@ -151,7 +151,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentArgument()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->command->getArgumentValue("fake");
     }
 
@@ -160,7 +160,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentArgumentValue()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->command->getArgument("fake");
     }
 
@@ -169,7 +169,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentOption()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->command->getOption("fake");
     }
 
@@ -178,7 +178,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingValueOfNonExistentOption()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->command->getOptionValue("fake");
     }
 
@@ -197,7 +197,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingNameInConstructor()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new NamelessCommand(new CommandCollection(new CommandCompiler()));
     }
 

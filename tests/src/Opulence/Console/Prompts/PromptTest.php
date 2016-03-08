@@ -169,7 +169,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidInputStreamThroughConstructor()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Prompt($this->paddingFormatter, "foo");
     }
 
@@ -178,7 +178,7 @@ class PromptTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidInputStreamThroughSetter()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $prompt = new Prompt($this->paddingFormatter, $this->getInputStream("foo"));
         $prompt->setInputStream("foo");
     }

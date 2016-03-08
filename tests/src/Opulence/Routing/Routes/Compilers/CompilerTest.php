@@ -161,7 +161,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     private function getParsedRoute($method, $controller, $isSecure, $hostRegex, $pathRegex)
     {
         $route = $this->getMock(ParsedRoute::class, [], [], "", false);
-        $route->expects($this->any())->method("getMethod")->willReturn($method);
+        $route->expects($this->any())->method("getMethods")->willReturn([$method]);
         $route->expects($this->any())->method("isSecure")->willReturn($isSecure);
         $route->expects($this->any())->method("getController")->willReturn($controller);
         $route->expects($this->any())->method("getHostRegex")->willReturn("#^$hostRegex$#");

@@ -66,7 +66,7 @@ class CallbackRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingArgBeforePasses()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $rule = new CallbackRule();
         $rule->passes("foo");
     }
@@ -76,7 +76,7 @@ class CallbackRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new CallbackRule();
         $rule->setArgs([]);
     }
@@ -86,7 +86,7 @@ class CallbackRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidArg()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new CallbackRule();
         $rule->setArgs(["foo"]);
     }

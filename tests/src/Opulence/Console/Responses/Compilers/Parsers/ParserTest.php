@@ -35,7 +35,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncorrectlyNestedTags()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, "foo", 1),
             new Token(TokenTypes::T_TAG_OPEN, "bar", 1),
@@ -251,7 +251,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnclosedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_TAG_OPEN, "foo", 1),
             new Token(TokenTypes::T_WORD, "bar", 1),
@@ -265,7 +265,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testParsingWithUnopenedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_WORD, "foo", 0),
             new Token(TokenTypes::T_TAG_CLOSE, "bar", 3),

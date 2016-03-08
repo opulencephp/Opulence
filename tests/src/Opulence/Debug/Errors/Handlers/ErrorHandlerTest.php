@@ -55,7 +55,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testErrorHandlerIsSet()
     {
-        $this->setExpectedException(ErrorException::class);
+        $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
         $handler->register();
         trigger_error("foo", E_USER_NOTICE);
@@ -88,7 +88,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoggerIsNeverUsedByDefault()
     {
-        $this->setExpectedException(ErrorException::class);
+        $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler();
         $this->logger->expects($this->never())
             ->method("log");
@@ -112,7 +112,7 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testSpecifiedLevelsAreThrown()
     {
-        $this->setExpectedException(ErrorException::class);
+        $this->expectException(ErrorException::class);
         $handler = $this->getErrorHandler(null, E_DEPRECATED);
         $handler->handle(E_DEPRECATED, "foo");
     }

@@ -270,7 +270,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->unitOfWork->commit();
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
 
@@ -295,7 +295,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingConnection()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
@@ -342,7 +342,7 @@ class UnitOfWorkTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(in_array($this->entity1, $scheduledFoDeletion));
         $this->assertFalse($this->entityRegistry->isRegistered($this->entity1));
         $this->assertEquals(EntityStates::DEQUEUED, $this->entityRegistry->getEntityState($this->entity1));
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->dataMapper->getById($this->entity1->getId());
     }
 

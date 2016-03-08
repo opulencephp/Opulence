@@ -344,7 +344,7 @@ class TypeMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingAnyProviders()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $typeMapper = new TypeMapper();
         $typeMapper->toSqlBoolean(true);
     }

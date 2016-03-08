@@ -49,7 +49,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionIsThrownWhenReadingWithEncrypterNotSet()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $this->handler->useEncryption(true);
         $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
         $this->handler->read("baz");
@@ -60,7 +60,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionIsThrownWhenWritingWithEncrypterNotSet()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $this->handler->useEncryption(true);
         $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
         $this->handler->read("baz");

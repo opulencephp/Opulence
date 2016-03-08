@@ -103,7 +103,7 @@ class SignedJwtTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithInvalidNumberSegments()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         SignedJwt::createFromString("foo.bar");
     }
 
@@ -112,7 +112,7 @@ class SignedJwtTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithNoAlgorithmSet()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         SignedJwt::createFromString(base64_encode("foo") . "." . base64_encode("bar") . "." . base64_encode("baz"));
     }
 

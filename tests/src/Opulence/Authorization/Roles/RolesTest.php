@@ -39,7 +39,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssigningNonExistentRoleThrowsException()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->roleRepository->expects($this->once())
             ->method("getByName")
             ->with("foo")

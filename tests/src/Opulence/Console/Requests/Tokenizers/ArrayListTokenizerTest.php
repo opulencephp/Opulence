@@ -31,7 +31,7 @@ class ArrayListTokenizerTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPassingCommandName()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->tokenizer->tokenize([
             "foo" => "bar"
         ]);

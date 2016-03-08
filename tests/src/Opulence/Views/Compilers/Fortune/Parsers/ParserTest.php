@@ -42,7 +42,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithInvalidTokenType()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token("foo", "bar", 1)]);
     }
 
@@ -51,7 +51,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithNestedComment()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_COMMENT_OPEN, "{#", 1),
             new Token(TokenTypes::T_EXPRESSION, "foo", 1),
@@ -68,7 +68,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithNestedDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, "foo", 1),
@@ -85,7 +85,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithNestedSanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, "{{", 1),
             new Token(TokenTypes::T_EXPRESSION, "foo", 1),
@@ -102,7 +102,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithNestedUnsanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $tokens = [
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1),
             new Token(TokenTypes::T_EXPRESSION, "foo", 1),
@@ -119,7 +119,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedComment()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_COMMENT_OPEN, "{#", 1)]);
     }
 
@@ -128,7 +128,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1)]);
     }
 
@@ -137,7 +137,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedSanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_SANITIZED_TAG_OPEN, "{{", 1)]);
     }
 
@@ -146,7 +146,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedUnsanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1)]);
     }
 
@@ -155,7 +155,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnopenedComment()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_COMMENT_CLOSE, "#}", 1)]);
     }
 
@@ -164,7 +164,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnopenedDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_DIRECTIVE_CLOSE, "%>", 1)]);
     }
 
@@ -173,7 +173,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnopenedSanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, "}}", 1)]);
     }
 
@@ -182,7 +182,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnopenedUnsanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->parser->parse([new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, "!}}", 1)]);
     }
 

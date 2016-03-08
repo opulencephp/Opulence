@@ -44,7 +44,7 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPassingDefault()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Memcached(["foo" => "bar"]);
     }
 

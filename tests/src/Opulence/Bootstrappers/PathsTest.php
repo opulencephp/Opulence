@@ -52,7 +52,7 @@ class PathsTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNullOffset()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $paths = new Paths([]);
         $paths[] = "foo";
     }

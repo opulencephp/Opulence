@@ -38,7 +38,7 @@
   "require-dev": {
     "phpredis": "2.2.7",
     "predis/predis": "1.1.*@dev",
-    "phpunit/phpunit": "5.1.*"
+    "phpunit/phpunit": "5.2.*"
   },
   "repositories": [
     {

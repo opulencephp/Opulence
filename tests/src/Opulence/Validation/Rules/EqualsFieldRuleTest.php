@@ -50,7 +50,7 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingArgBeforePasses()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $rule = new EqualsFieldRule();
         $rule->passes("foo");
     }
@@ -70,7 +70,7 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new EqualsFieldRule();
         $rule->setArgs([]);
     }
@@ -80,7 +80,7 @@ class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidArg()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new EqualsFieldRule();
         $rule->setArgs([
             function () {

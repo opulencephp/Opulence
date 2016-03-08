@@ -39,7 +39,7 @@ class JsonResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentOfIncorrectTypeInConstructor()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new JsonResponse("\xB1\x31");
     }
 
@@ -48,7 +48,7 @@ class JsonResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContentOfIncorrectTypeInSetter()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $response = new JsonResponse();
         $response->setContent("\xB1\x31");
     }

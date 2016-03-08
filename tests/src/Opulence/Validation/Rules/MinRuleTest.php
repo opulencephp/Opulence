@@ -51,7 +51,7 @@ class MinRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingArgBeforePasses()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $rule = new MinRule();
         $rule->passes(2);
     }
@@ -61,7 +61,7 @@ class MinRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new MinRule();
         $rule->setArgs([]);
     }
@@ -71,7 +71,7 @@ class MinRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidArg()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new MinRule();
         $rule->setArgs([
             function () {

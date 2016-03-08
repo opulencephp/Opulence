@@ -94,7 +94,7 @@ class PipelineTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingMethodToCall()
     {
-        $this->setExpectedException(PipelineException::class);
+        $this->expectException(PipelineException::class);
         $stages = [new Stage1()];
         $this->pipeline->send("input")
             ->through($stages)

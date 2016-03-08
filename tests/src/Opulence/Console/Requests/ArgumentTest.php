@@ -98,7 +98,7 @@ class ArgumentTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingTypeToOptionalAndRequired()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Argument("foo", ArgumentTypes::OPTIONAL | ArgumentTypes::REQUIRED, "Foo argument");
     }
 }

@@ -47,7 +47,7 @@ class StreamResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingContent()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $response = new StreamResponse();
         $response->setContent("foo");
     }

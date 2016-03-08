@@ -64,7 +64,7 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingArgBeforePasses()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $rule = new ConditionalRule();
         $rule->passes("foo");
     }
@@ -93,7 +93,7 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new ConditionalRule();
         $rule->setArgs([]);
     }
@@ -103,7 +103,7 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidArg()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new ConditionalRule();
         $rule->setArgs(["foo"]);
     }

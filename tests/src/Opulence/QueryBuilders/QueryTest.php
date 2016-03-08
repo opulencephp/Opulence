@@ -42,7 +42,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder()
     {
-        $this->setExpectedException(InvalidQueryException::class);
+        $this->expectException(InvalidQueryException::class);
         $this->query->addUnnamedPlaceholderValue("dave")
             ->addNamedPlaceholderValue("id", 18175);
     }
@@ -63,7 +63,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingNamedPlaceholderWithIncorrectArrayValueCount()
     {
-        $this->setExpectedException(InvalidQueryException::class);
+        $this->expectException(InvalidQueryException::class);
         $this->query->addNamedPlaceholderValues(["foo" => ["bar"]]);
     }
 
@@ -83,7 +83,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder()
     {
-        $this->setExpectedException(InvalidQueryException::class);
+        $this->expectException(InvalidQueryException::class);
         $this->query->addNamedPlaceholderValue("id", 18175)
             ->addUnnamedPlaceholderValue("dave");
     }
@@ -104,7 +104,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount()
     {
-        $this->setExpectedException(InvalidQueryException::class);
+        $this->expectException(InvalidQueryException::class);
         $this->query->addUnnamedPlaceholderValues([["bar"]]);
     }
 
@@ -125,7 +125,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
     {
-        $this->setExpectedException(InvalidQueryException::class);
+        $this->expectException(InvalidQueryException::class);
         $this->query->addUnnamedPlaceholderValue("foo");
         $this->query->removeNamedPlaceHolder("bar");
     }
@@ -159,7 +159,7 @@ class QueryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders()
     {
-        $this->setExpectedException(InvalidQueryException::class);
+        $this->expectException(InvalidQueryException::class);
         $this->query->addNamedPlaceholderValue("foo", "bar");
         $this->query->removeUnnamedPlaceHolder(0);
     }

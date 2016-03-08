@@ -32,7 +32,7 @@ class SingleServerSelectionStrategyTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithEmptyListOfServers()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->strategy->select([]);
     }
 

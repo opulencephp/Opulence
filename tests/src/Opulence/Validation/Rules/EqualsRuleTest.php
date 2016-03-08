@@ -39,7 +39,7 @@ class EqualsRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new EqualsRule();
         $rule->setArgs([]);
     }

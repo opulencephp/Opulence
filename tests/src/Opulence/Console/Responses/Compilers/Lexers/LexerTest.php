@@ -155,7 +155,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLexingOpenTagInsideOfCloseTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->lexer->lex("<foo></<bar>foo>");
     }
 
@@ -164,7 +164,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testLexingOpenTagInsideOfOpenTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->lexer->lex("<foo<bar>>");
     }
 

@@ -32,7 +32,7 @@ class IntSequenceIdGeneratorTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenConnectionNotSet()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $idGenerator = new IntSequenceIdGenerator("foo");
         $idGenerator->generate(new stdClass());
     }

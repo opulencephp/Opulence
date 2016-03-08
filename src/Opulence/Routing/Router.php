@@ -383,7 +383,11 @@ class Router
 
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions["middleware"])) {
-                $middleware = array_merge($middleware, (array)$groupOptions["middleware"]);
+                if (!is_array($groupOptions["middleware"])) {
+                    $groupOptions["middleware"] = [$groupOptions["middleware"]];
+                }
+
+                $middleware = array_merge($middleware, $groupOptions["middleware"]);
             }
         }
 

@@ -31,7 +31,7 @@ class FileViewReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownForInvalidPath()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->reader->read(__DIR__ . "/fileThatDoesNotExist.html");
     }
 

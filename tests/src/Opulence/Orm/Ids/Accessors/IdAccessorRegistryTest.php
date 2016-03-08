@@ -76,7 +76,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingEntityIdWithoutRegisteringGetter()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->registry->getEntityId($entity);
     }
@@ -86,7 +86,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingIdWithReflectionForNonExistentProperty()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->registry->registerReflectionIdAccessors(Foo::class, "doesNotExist");
         $foo = new Foo();
         $this->registry->getEntityId(new Foo());
@@ -108,11 +108,11 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringArrayOfClassNames()
     {
-        $entity1 = $this->getMock(User::class, [], [], "Foo", false);
+        $entity1 = $this->getMock(User::class, [], [], "FooEntity", false);
         $entity1->expects($this->any())
             ->method("setId")
             ->with(123);
-        $entity2 = $this->getMock(User::class, [], [], "Bar", false);
+        $entity2 = $this->getMock(User::class, [], [], "BarEntity", false);
         $entity2->expects($this->any())
             ->method("setId")
             ->with(456);
@@ -123,7 +123,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
             /** @var User $entity */
             $entity->setId($id);
         };
-        $this->registry->registerIdAccessors(["Foo", "Bar"], $getter, $setter);
+        $this->registry->registerIdAccessors(["FooEntity", "BarEntity"], $getter, $setter);
         $this->assertEquals(123, $this->registry->getEntityId($entity1));
         $this->registry->setEntityId($entity1, 123);
         $this->assertEquals(123, $this->registry->getEntityId($entity2));
@@ -144,7 +144,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingEntityIdWithoutRegisteringGetter()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->registry->setEntityId($entity, 24);
     }
@@ -154,7 +154,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingIdWithReflectionForNonExistentProperty()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->registry->registerReflectionIdAccessors(Foo::class, "doesNotExist");
         $this->registry->setEntityId(new Foo(), 24);
     }

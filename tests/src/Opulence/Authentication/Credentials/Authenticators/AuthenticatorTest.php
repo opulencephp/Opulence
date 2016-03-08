@@ -81,7 +81,7 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithNoAuthenticatorForCredential()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->getMock(ICredential::class);
         $credential->expects($this->once())

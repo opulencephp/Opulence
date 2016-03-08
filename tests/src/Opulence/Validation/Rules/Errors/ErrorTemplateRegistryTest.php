@@ -39,7 +39,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithEmptyKeyInConfig()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->registry->registerErrorTemplatesFromConfig(["" => "template"]);
     }
 
@@ -48,7 +48,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithInvalidFieldTemplateKeyInConfig()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->registry->registerErrorTemplatesFromConfig([" . " => "template"]);
     }
 

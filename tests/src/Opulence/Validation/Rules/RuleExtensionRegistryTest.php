@@ -60,7 +60,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenNoExtensionExists()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->registry->getRule("foo");
     }
 
@@ -69,7 +69,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenRegisteringAnInvalidRule()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->registry->registerRuleExtension("foo", "bar");
     }
 

@@ -77,7 +77,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingArrayArgumentWitRequiredArgumentAfter()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $arrayArgument = new Argument("foo", ArgumentTypes::IS_ARRAY, "Foo command");
         $requiredArgument = new Argument("bar", ArgumentTypes::REQUIRED, "Bar command");
         $this->command->addArgument($arrayArgument);
@@ -103,7 +103,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingNoValueOptionWithAValue()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $option = new Option("foo", "f", OptionTypes::NO_VALUE, "Foo command");
         $this->command->addOption($option);
         $this->request->addOptionValue("foo", "bar");
@@ -191,7 +191,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRequiredArgumentWithoutValue()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $required = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
         $this->command->addArgument($required);
         $this->compiler->compile($this->command, $this->request);
@@ -202,7 +202,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRequiredArgumentsWithoutSpecifyingAllValues()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $requiredArgument1 = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
         $requiredArgument2 = new Argument("bar", ArgumentTypes::REQUIRED, "Bar command");
         $this->command->addArgument($requiredArgument1);
@@ -228,7 +228,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingRequiredValueOptionWithoutValue()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo command");
         $this->command->addOption($option);
         $this->request->addOptionValue("foo", null);
@@ -240,7 +240,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingTooManyArguments()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $argument = new Argument("foo", ArgumentTypes::REQUIRED, "Foo command");
         $this->command->addArgument($argument);
         $this->request->addArgumentValue("bar");

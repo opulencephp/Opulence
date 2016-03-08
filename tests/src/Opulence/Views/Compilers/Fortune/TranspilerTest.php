@@ -137,7 +137,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionIsThrownWithInvalidNodeType()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         /** @var Node|\PHPUnit_Framework_MockObject_MockObject $invalidNode */
         $invalidNode = $this->getMockForAbstractClass(Node::class, [], "FakeNode");
         $this->ast->getCurrentNode()
@@ -150,7 +150,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenNoTranspilerRegisteredForDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $directiveNode = new DirectiveNode();
         $directiveNode->addChild(new DirectiveNameNode("foo"));
         $directiveNode->addChild(new ExpressionNode("bar"));
@@ -164,7 +164,7 @@ class TranspilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithInvalidViewFunctionName()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->transpiler->callViewFunction("foo");
     }
 

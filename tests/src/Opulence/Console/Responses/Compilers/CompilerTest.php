@@ -157,7 +157,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingUnclosedElement()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->compiler->compile("<foo>bar");
     }
 
@@ -166,7 +166,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingUnregisteredElement()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->compiler->compile("<foo>bar</foo>");
     }
 
@@ -175,7 +175,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testIncorrectlyNestedElements()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->compiler->registerElement("foo", new Style("green"));
         $this->compiler->registerElement("bar", new Style("blue"));
         $this->compiler->compile("<foo><bar>blah</foo></bar>");

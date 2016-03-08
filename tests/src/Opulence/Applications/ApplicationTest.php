@@ -74,7 +74,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPostShutdownTask()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->dispatcher->expects($this->at(3))
             ->method("dispatch")
             ->with(TaskTypes::POST_SHUTDOWN)
@@ -89,7 +89,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPostStartTask()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->dispatcher->expects($this->at(1))
             ->method("dispatch")
             ->will($this->throwException(new InvalidArgumentException("foo")));
@@ -102,7 +102,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadPreShutdownTask()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->dispatcher->expects($this->at(2))
             ->method("dispatch")
             ->with(TaskTypes::PRE_SHUTDOWN)
@@ -117,7 +117,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadShutdownTask()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->assertNull($this->application->start());
         $this->assertNull($this->application->shutDown(function () {
             // Throw anything other than a runtime exception
@@ -131,7 +131,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testBadStartTask()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->assertNull($this->application->start(function () {
             // Throw anything other than a runtime exception
             throw new InvalidArgumentException("foobar");

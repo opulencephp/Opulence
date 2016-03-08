@@ -87,7 +87,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingMethodThatThrowsHttpException()
     {
-        $this->setExpectedException(HttpException::class);
+        $this->expectException(HttpException::class);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo", MockController::class . "@throwsHttpException")
         );
@@ -99,7 +99,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentController()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo", "Opulence\\Controller\\That\\Does\\Not\\Exist@foo")
         );
@@ -111,7 +111,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentMethod()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo", MockController::class . "@doesNotExist")
         );
@@ -139,7 +139,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingPrivateMethod()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo", MockController::class . "@privateMethod")
         );
@@ -197,7 +197,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidMiddleware()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $controller = MockController::class . "@returnsNothing";
         $options = [
             "middleware" => get_class($this)
@@ -227,7 +227,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotPassingRequiredPathVariableToClosure()
     {
-        $this->setExpectedException(RouteException::class);
+        $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo", function ($id) {
                 return new Response("Closure: Id: $id");

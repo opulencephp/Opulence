@@ -351,7 +351,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function testRoutingMissingPath()
     {
-        $this->setExpectedException(HttpException::class);
+        $this->expectException(HttpException::class);
         $request = new Request([], [], [], [
             "REQUEST_METHOD" => RequestMethods::GET,
             "REQUEST_URI" => "/foo/"

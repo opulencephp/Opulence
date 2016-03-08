@@ -71,7 +71,7 @@ class ChangeTrackerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingForChangesOnUnregisteredEntity()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->changeTracker->hasChanged($this->entity1);
     }
 

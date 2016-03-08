@@ -85,7 +85,7 @@ class CachedSqlDataMapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper->add($this->entity1);
         $this->dataMapper->delete($this->entity1);
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId());
     }
 
@@ -195,7 +195,7 @@ class CachedSqlDataMapperTest extends \PHPUnit_Framework_TestCase
      */
     public function testRefreshingNullEntity()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $this->dataMapper->refreshEntity($this->entity1->getId());
     }
 

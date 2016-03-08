@@ -89,7 +89,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingNonExistentOption()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->request->getOptionValue("foo");
     }
 

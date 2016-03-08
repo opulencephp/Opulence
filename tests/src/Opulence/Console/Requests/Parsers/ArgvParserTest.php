@@ -65,7 +65,7 @@ class ArgvParserTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingInvalidInputType()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->parser->parse("foo");
     }
 }

@@ -33,7 +33,7 @@ class PhpCompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionsThrownAsThemselves()
     {
-        $this->setExpectedException(Exception::class);
+        $this->expectException(Exception::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())

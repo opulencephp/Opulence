@@ -66,7 +66,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedCommentTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->view->setContents('{# foo');
         $this->lexer->lex($this->view);
     }
@@ -76,7 +76,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->view->setContents('<% show');
         $this->lexer->lex($this->view);
     }
@@ -86,7 +86,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedParenthesisInDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->view->setContents('<% show(foo() %>');
         $this->lexer->lex($this->view);
     }
@@ -96,7 +96,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedSanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->view->setContents('{{ show');
         $this->lexer->lex($this->view);
     }
@@ -106,7 +106,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnclosedUnsanitizedTag()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->view->setContents('{{! show');
         $this->lexer->lex($this->view);
     }
@@ -116,7 +116,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUnopenedParenthesisInDirective()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $this->view->setContents('<% show(foo)) %>');
         $this->lexer->lex($this->view);
     }

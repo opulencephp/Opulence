@@ -138,7 +138,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeregisteringEntityWithoutRegisteringIdGetter()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->entityRegistry->setState($entity, EntityStates::REGISTERED);
         $this->entityRegistry->deregisterEntity($entity);
@@ -209,7 +209,7 @@ class EntityRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringEntityWithoutRegisteringIdGetter()
     {
-        $this->setExpectedException(OrmException::class);
+        $this->expectException(OrmException::class);
         $entity = $this->getMock(User::class, [], [], "Foo", false);
         $this->entityRegistry->registerEntity($entity);
     }

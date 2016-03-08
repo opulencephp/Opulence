@@ -44,7 +44,7 @@ class DateRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidArgType()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new DateRule();
         $rule->setArgs([1]);
     }
@@ -54,7 +54,7 @@ class DateRuleTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingEmptyArgArray()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $rule = new DateRule();
         $rule->setArgs([]);
     }

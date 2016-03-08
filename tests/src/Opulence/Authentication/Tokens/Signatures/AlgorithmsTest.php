@@ -51,7 +51,7 @@ class AlgorithmsTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnInvalidAlgorithmSymmetryCheck()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         Algorithms::isSymmetric("foo");
     }
 

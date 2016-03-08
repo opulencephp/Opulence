@@ -192,7 +192,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingMethodThrowsException()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
         $requestBuilder->go();
     }
@@ -202,7 +202,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testNotSettingUrlThrowsException()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $requestBuilder = new RequestBuilder($this->integrationTest, "GET");
         $requestBuilder->go();
     }

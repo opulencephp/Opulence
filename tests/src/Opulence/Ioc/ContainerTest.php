@@ -130,7 +130,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingMethodWithPrimitiveTypesWithoutSpecifyingValue()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $instance = new ConstructorWithSetters();
         $this->container->call([$instance, "setPrimitive"]);
     }
@@ -176,7 +176,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentMethod()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $instance = new ConstructorWithSetters();
         $this->container->call([$instance, "foobar"]);
     }
@@ -230,7 +230,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingInterfaceWithoutBinding()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->makeNew($this->fooInterface);
     }
 
@@ -312,7 +312,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingNewObjectWithUnsetConstructorPrimitive()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->makeNew($this->constructorWithPrimitives);
     }
 
@@ -414,7 +414,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreatingSharedInstanceWithUnsetConstructorPrimitive()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->makeShared($this->constructorWithPrimitives);
     }
 
@@ -463,7 +463,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testDependencyThatHasDependencyWithoutBindingAllDependencies()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->bind($this->fooInterface, $this->concreteFooWithIPersonDependency);
         $this->container->makeShared($this->fooInterface);
     }
@@ -572,7 +572,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingNewNonExistentClass()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->makeNew("DoesNotExist");
     }
 
@@ -581,7 +581,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingNonExistentClass()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->make("DoesNotExist", false);
     }
 
@@ -624,7 +624,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMakingSharedNonExistentClass()
     {
-        $this->setExpectedException(IocException::class);
+        $this->expectException(IocException::class);
         $this->container->makeShared("DoesNotExist");
     }
 

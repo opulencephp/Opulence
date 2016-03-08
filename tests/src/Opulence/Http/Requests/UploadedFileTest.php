@@ -188,7 +188,7 @@ class UploadedFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testMovingFileWithErrors()
     {
-        $this->setExpectedException(UploadException::class);
+        $this->expectException(UploadException::class);
         $file = new MockUploadedFile(
             __DIR__ . self::UPLOADED_FILE_FILENAME,
             __DIR__ . self::TEMP_FILENAME,

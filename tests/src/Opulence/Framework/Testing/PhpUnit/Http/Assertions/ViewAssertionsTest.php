@@ -55,7 +55,7 @@ class ViewAssertionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionCheckingIfViewHasVariableFromNonOpulenceController()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $this->assertions->setController(new stdClass());
         $this->assertions->hasVar("foo");
     }
@@ -65,7 +65,7 @@ class ViewAssertionsTest extends \PHPUnit_Framework_TestCase
      */
     public function testLogicExceptionGettingViewVariableFromNonOpulenceController()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $this->assertions->setController(new stdClass());
         $this->assertions->varEquals("bar", "foo");
     }

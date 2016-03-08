@@ -327,7 +327,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingNullOffset()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $session = new Session();
         $session[] = "foo";
     }

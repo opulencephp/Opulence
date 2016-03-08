@@ -32,7 +32,7 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCompilingViewThatDoesNotHaveCompiler()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
         $view = $this->getMock(IView::class);
         $view->expects($this->any())

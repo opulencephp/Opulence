@@ -29,7 +29,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingDataWithoutIV()
     {
-        $this->setExpectedException(EncryptionException::class);
+        $this->expectException(EncryptionException::class);
         $data = ["mac" => "foo", "value" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
     }
@@ -39,7 +39,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingDataWithoutMAC()
     {
-        $this->setExpectedException(EncryptionException::class);
+        $this->expectException(EncryptionException::class);
         $data = ["iv" => "foo", "value" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
     }
@@ -49,7 +49,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingDataWithoutValue()
     {
-        $this->setExpectedException(EncryptionException::class);
+        $this->expectException(EncryptionException::class);
         $data = ["mac" => "foo", "iv" => "bar"];
         $this->encrypter->decrypt(json_encode($data));
     }
@@ -59,7 +59,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecryptingInvalidJson()
     {
-        $this->setExpectedException(EncryptionException::class);
+        $this->expectException(EncryptionException::class);
         $this->encrypter->decrypt("foo");
     }
 
@@ -103,7 +103,7 @@ class EncrypterTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidCipher()
     {
-        $this->setExpectedException(EncryptionException::class);
+        $this->expectException(EncryptionException::class);
         $this->encrypter->setCipher("foo");
     }
 }

@@ -471,7 +471,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWithUntrustedProxy()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $_SERVER["HTTP_X_FORWARDED_FOR"] = "192.168.1.1, 192.168.1.2, 192.168.1.3";
         $_SERVER["REMOTE_ADDR"] = "192.168.2.1";
         $request = Request::createFromGlobals();
@@ -603,7 +603,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingForbiddenHost()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $_SERVER["HTTP_HOST"] = "!";
         $request = Request::createFromGlobals();
         $request->getHost();
@@ -717,7 +717,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingJsonBodyWhenContentIsNotJson()
     {
-        $this->setExpectedException(RuntimeException::class);
+        $this->expectException(RuntimeException::class);
         $request = FormUrlEncodedRequest::createFromGlobals();
         $request->getJsonBody();
     }
@@ -1095,7 +1095,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidObjectMethod()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $_SERVER["REQUEST_METHOD"] = new stdClass();
         Request::createFromGlobals();
     }
@@ -1105,7 +1105,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidStringMethod()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $_SERVER["REQUEST_METHOD"] = "foo";
         Request::createFromGlobals();
     }

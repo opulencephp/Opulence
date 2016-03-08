@@ -125,7 +125,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingNonExistentExtension()
     {
-        $this->setExpectedException(BadMethodCallException::class);
+        $this->expectException(BadMethodCallException::class);
         $this->ruleExtensionRegistry->expects($this->once())
             ->method("hasRule")
             ->with("foo")
@@ -230,7 +230,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenNestingConditions()
     {
-        $this->setExpectedException(LogicException::class);
+        $this->expectException(LogicException::class);
         $this->rules->condition(function () {
         });
         $this->rules->condition(function () {

@@ -109,7 +109,7 @@ class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownWhenNoViewFound()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->resolver->registerExtension("php");
         $this->resolver->registerPath(self::getTmpFilePath());
         $this->resolver->resolve("doesNotExist");

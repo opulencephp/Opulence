@@ -45,7 +45,7 @@ class StreamResponseTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidStream()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new StreamResponse("foo", $this->compiler);
     }
 

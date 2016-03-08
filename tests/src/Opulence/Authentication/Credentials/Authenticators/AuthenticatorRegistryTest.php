@@ -42,7 +42,7 @@ class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionThrownOnNonExistentAuthenticator()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->registry->getAuthenticator("foo");
     }
 }

@@ -175,7 +175,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingControllerWithNoMethod()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Route("get", "/{foo}", "foo@");
     }
 
@@ -184,7 +184,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingControllerWithNoName()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Route("get", "/{foo}", "@bar");
     }
 
@@ -193,7 +193,7 @@ class RouteTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingIncorrectlyFormattedController()
     {
-        $this->setExpectedException(InvalidArgumentException::class);
+        $this->expectException(InvalidArgumentException::class);
         new Route("get", "/{foo}", "foo");
     }
 
