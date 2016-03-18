@@ -9,7 +9,7 @@
 namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
-use Opulence\Authentication\IAuthenticatable;
+use Opulence\Authentication\ISubject;
 
 /**
  * Defines an authenticator that can be used to authenticate all credential types
@@ -30,10 +30,18 @@ class Authenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, IAuthenticatable &$user = null) : bool
+    public function authenticate(ICredential $credential, ISubject &$subject = null) : bool
     {
-        $authenticator = $this->authenticatorRegistry->getAuthenticator($credential->getType());
+        $authenticators = $this->authenticatorRegistry->getAuthenticators($credential->getType());
+        $allAuthenticated = true;
 
-        return $authenticator->authenticate($credential, $user);
+        foreach ($authenticators as $authenticator) {
+            if (!$authenticator->authenticate($credential, $subject)) {
+                $allAuthenticated = false;
+                break;
+            }
+        }
+
+        return $allAuthenticated;
     }
 }

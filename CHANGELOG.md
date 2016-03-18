@@ -13,11 +13,9 @@
 
 <h3>Authentication</h3>
 * Removed `Opulence\Authentication\EntityTypes`
-* Removed `Opulence\Authentication\Users\IUser`
 * Added JWT support
 * Removed `Opulence\Authentication\Tokens\IToken` and `Token`
 * Added `Opulence\Authentication\IAuthenticator`
-* Added `Opulence\Authentication\Authorization\IAuthorizable`
 
 <h3>Authorization</h3>
 * Added `Opulence\Authorization` library

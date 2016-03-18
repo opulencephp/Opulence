@@ -40,17 +40,17 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
         $credential->expects($this->once())
             ->method("getType")
             ->willReturn("foo");
-        $user = null;
+        $subject = null;
         $actualAuthenticator = $this->getMock(IAuthenticator::class);
         $actualAuthenticator->expects($this->once())
             ->method("authenticate")
-            ->with($credential, $user)
+            ->with($credential, $subject)
             ->willReturn(true);
         $this->authenticatorRegistry->expects($this->once())
-            ->method("getAuthenticator")
+            ->method("getAuthenticators")
             ->with("foo")
-            ->willReturn($actualAuthenticator);
-        $this->assertTrue($this->authenticator->authenticate($credential, $user));
+            ->willReturn([$actualAuthenticator]);
+        $this->assertTrue($this->authenticator->authenticate($credential, $subject));
     }
 
     /**
@@ -63,17 +63,17 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
         $credential->expects($this->once())
             ->method("getType")
             ->willReturn("foo");
-        $user = null;
+        $subject = null;
         $actualAuthenticator = $this->getMock(IAuthenticator::class);
         $actualAuthenticator->expects($this->once())
             ->method("authenticate")
-            ->with($credential, $user)
+            ->with($credential, $subject)
             ->willReturn(false);
         $this->authenticatorRegistry->expects($this->once())
-            ->method("getAuthenticator")
+            ->method("getAuthenticators")
             ->with("foo")
-            ->willReturn($actualAuthenticator);
-        $this->assertFalse($this->authenticator->authenticate($credential, $user));
+            ->willReturn([$actualAuthenticator]);
+        $this->assertFalse($this->authenticator->authenticate($credential, $subject));
     }
 
     /**
@@ -87,11 +87,11 @@ class AuthenticatorTest extends \PHPUnit_Framework_TestCase
         $credential->expects($this->once())
             ->method("getType")
             ->willReturn("foo");
-        $user = null;
+        $subject = null;
         $this->authenticatorRegistry->expects($this->once())
-            ->method("getAuthenticator")
+            ->method("getAuthenticators")
             ->with("foo")
             ->willThrowException(new InvalidArgumentException);
-        $this->authenticator->authenticate($credential, $user);
+        $this->authenticator->authenticate($credential, $subject);
     }
 }

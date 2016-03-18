@@ -17,7 +17,7 @@ class PermissionRegistry implements IPermissionRegistry
     protected $overrideCallbacks = [];
     /** @var callable[] The mapping of permissions to callbacks */
     protected $permissionCallbacks = [];
-    /** @var array The mapping of permissions to user roles */
+    /** @var array The mapping of permissions to subject roles */
     protected $permissionsToRoles = [];
 
     /**

@@ -35,14 +35,14 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function assignRoles($userId, $roleNames)
+    public function assignRoles($primaryIdentity, $roleNames)
     {
         foreach ((array)$roleNames as $roleName) {
             if (($role = $this->roleRepository->getByName($roleName)) === null) {
                 throw new InvalidArgumentException("No role with name \"$roleName\" exists");
             }
 
-            $membership = new RoleMembership(-1, $userId, $role);
+            $membership = new RoleMembership(-1, $primaryIdentity, $role);
             $this->roleMembershipRepository->add($membership);
         }
     }
@@ -71,36 +71,36 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function getRolesForUser($userId) : array
+    public function getRolesForSubject($primaryIdentity) : array
     {
-        return $this->roleMembershipRepository->getByUserId($userId);
+        return $this->roleMembershipRepository->getBySubjectIdentity($primaryIdentity);
     }
 
     /**
      * @inheritdoc
      */
-    public function getUserIdsWithRole(string $roleName) : array
+    public function getSubjectIdentitiesWithRole(string $roleName) : array
     {
         if (($role = $this->roleRepository->getByName($roleName)) === null) {
             return [];
         }
 
-        $userIds = [];
+        $subjectIds = [];
 
         foreach ($this->roleMembershipRepository->getByRoleId($role->getId()) as $membership) {
-            $userIds[] = $membership->getUserId();
+            $subjectIds[] = $membership->getSubjectIdentity();
         }
 
-        return $userIds;
+        return $subjectIds;
     }
 
     /**
      * @inheritdoc
      */
-    public function removeAllRolesFromUser($userId)
+    public function removeAllRolesFromSubject($primaryIdentity)
     {
         // Pass membership by reference because delete() accepts references
-        foreach ($this->roleMembershipRepository->getByUserId($userId) as &$membership) {
+        foreach ($this->roleMembershipRepository->getBySubjectIdentity($primaryIdentity) as &$membership) {
             $this->roleMembershipRepository->delete($membership);
         }
     }
@@ -108,12 +108,12 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function removeRolesFromUser($userId, $roleNames)
+    public function removeRolesFromSubject($primaryIdentity, $roleNames)
     {
         $roleNames = (array)$roleNames;
 
         // Pass membership by reference because delete() accepts references
-        foreach ($this->roleMembershipRepository->getByUserId($userId) as &$membership) {
+        foreach ($this->roleMembershipRepository->getBySubjectIdentity($primaryIdentity) as &$membership) {
             if (in_array($membership->getRole()->getName(), $roleNames)) {
                 $this->roleMembershipRepository->delete($membership);
             }
@@ -131,12 +131,12 @@ class Roles implements IRoles
     /**
      * @inheritdoc
      */
-    public function userHasRole($userId, string $roleName) : bool
+    public function subjectHasRole($primaryIdentity, string $roleName) : bool
     {
         if (($role = $this->roleRepository->getByName($roleName)) === null) {
             return false;
         }
 
-        return $this->roleMembershipRepository->getByUserAndRoleId($userId, $role->getId()) !== null;
+        return $this->roleMembershipRepository->getBySubjectAndRoleId($primaryIdentity, $role->getId()) !== null;
     }
 }

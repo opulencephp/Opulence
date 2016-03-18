@@ -6,17 +6,17 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Authentication;
+namespace Opulence\Authentication\Users;
 
 /**
- * Defines the interface for authenticatable entities
+ * Defines the interface for users
  */
-interface IAuthenticatable
+interface IUser
 {
     /**
      * Gets the entity's hashed password
      *
-     * @return string The entity's hashed password
+     * @return string The user's hashed password
      */
     public function getHashedPassword() : string;
 
@@ -28,9 +28,16 @@ interface IAuthenticatable
     public function getId();
 
     /**
+     * Gets the user's username
+     *
+     * @return string The user's username
+     */
+    public function getUsername() : string;
+
+    /**
      * Sets the entity's hashed password
      *
-     * @param string $hashedPassword The entity's hashed password
+     * @param string $hashedPassword The user's hashed password
      */
     public function setHashedPassword(string $hashedPassword);
 
@@ -40,4 +47,11 @@ interface IAuthenticatable
      * @param int|string $id The database Id
      */
     public function setId($id);
+
+    /**
+     * Sets the user's username
+     *
+     * @param string $username The user's username
+     */
+    public function setUsername(string $username);
 }

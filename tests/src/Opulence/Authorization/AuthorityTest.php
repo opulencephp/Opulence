@@ -50,7 +50,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testForUserCreatesNewInstance()
     {
-        $forUserInstance = $this->authority->forUser(1);
+        $forUserInstance = $this->authority->forSubject(1);
         $this->assertInstanceOf(IAuthority::class, $forUserInstance);
         $this->assertNotSame($forUserInstance, $this->authority);
     }
@@ -62,7 +62,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     {
         $this->permissionRegistry->registerRoles("foo", "bar");
         $this->roles->expects($this->exactly(2))
-            ->method("getRolesForUser")
+            ->method("getRolesForSubject")
             ->with(23)
             ->willReturn(["baz"]);
         $this->assertFalse($this->authority->can("foo"));
@@ -93,10 +93,10 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingUserId()
     {
-        $this->authority->setUserId(345);
+        $this->authority->setPrimaryIdentity(345);
         $this->permissionRegistry->registerRoles("foo", "bar");
         $this->roles->expects($this->exactly(2))
-            ->method("getRolesForUser")
+            ->method("getRolesForSubject")
             ->with(345)
             ->willReturn([]);
         $this->assertFalse($this->authority->can("foo"));
@@ -122,7 +122,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     {
         $this->permissionRegistry->registerRoles("foo", "bar");
         $this->roles->expects($this->exactly(2))
-            ->method("getRolesForUser")
+            ->method("getRolesForSubject")
             ->with(23)
             ->willReturn(["bar"]);
         $this->assertTrue($this->authority->can("foo"));

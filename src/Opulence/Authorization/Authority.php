@@ -16,21 +16,21 @@ use Opulence\Authorization\Roles\IRoles;
  */
 class Authority implements IAuthority
 {
-    /** @var int|string The Id of the current user */
-    protected $userId = -1;
+    /** @var int|string The primary identity of the current subject */
+    protected $primaryIdentity = -1;
     /** @var IPermissionRegistry The permission registry */
     protected $permissionRegistry = null;
     /** @var IRoles The roles */
     protected $roles = null;
 
     /**
-     * @param int|string $userId The Id of the current user
+     * @param int|string $primaryIdentity The primary identity of the current subject
      * @param IPermissionRegistry $permissionRegistry The permission registry
      * @param IRoles $roles The roles
      */
-    public function __construct($userId, IPermissionRegistry $permissionRegistry, IRoles $roles)
+    public function __construct($primaryIdentity, IPermissionRegistry $permissionRegistry, IRoles $roles)
     {
-        $this->setUserId($userId);
+        $this->setPrimaryIdentity($primaryIdentity);
         $this->permissionRegistry = $permissionRegistry;
         $this->roles = $roles;
     }
@@ -42,17 +42,17 @@ class Authority implements IAuthority
     {
         // Check the overrides first
         foreach ($this->permissionRegistry->getOverrideCallbacks() as $overrideCallback) {
-            if (call_user_func($overrideCallback, $this->userId, $permission, ...$arguments)) {
+            if (call_user_func($overrideCallback, $this->primaryIdentity, $permission, ...$arguments)) {
                 return true;
             }
         }
 
         $requiredRoles = $this->permissionRegistry->getRoles($permission);
 
-        // If our user has at least one of the required roles
+        // If our subject has at least one of the required roles
         if (
             $requiredRoles !== null
-            && count(array_intersect($requiredRoles, $this->roles->getRolesForUser($this->userId))) > 0
+            && count(array_intersect($requiredRoles, $this->roles->getRolesForSubject($this->primaryIdentity))) > 0
         ) {
             return true;
         }
@@ -61,7 +61,7 @@ class Authority implements IAuthority
             return false;
         }
 
-        return call_user_func($callback, $this->userId, ...$arguments);
+        return call_user_func($callback, $this->primaryIdentity, ...$arguments);
     }
 
     /**
@@ -75,16 +75,16 @@ class Authority implements IAuthority
     /**
      * @inheritdoc
      */
-    public function forUser($userId) : IAuthority
+    public function forSubject($primaryIdentity) : IAuthority
     {
-        return new self($userId, $this->permissionRegistry, $this->roles);
+        return new self($primaryIdentity, $this->permissionRegistry, $this->roles);
     }
 
     /**
      * @inheritdoc
      */
-    public function setUserId($userId)
+    public function setPrimaryIdentity($primaryIdentity)
     {
-        $this->userId = $userId;
+        $this->primaryIdentity = $primaryIdentity;
     }
 }

@@ -10,8 +10,13 @@ namespace Opulence\Framework\Http\Middleware;
 
 use Closure;
 use Opulence\Authentication\Credentials\Authenticators\IAuthenticator;
+use Opulence\Authentication\Credentials\Credential;
+use Opulence\Authentication\Credentials\CredentialTypes;
+use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\IAuthenticationContext;
+use Opulence\Authentication\ISubject;
 use Opulence\Authorization\IAuthority;
+use Opulence\Http\HttpException;
 use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
@@ -19,7 +24,7 @@ use Opulence\Http\Responses\Response;
 /**
  * Defines the authentication and authorization middleware
  */
-class Auth implements IMiddleware
+class Authenticate implements IMiddleware
 {
     /** @var IAuthenticator The authenticator */
     protected $authenticator = null;
@@ -48,15 +53,26 @@ class Auth implements IMiddleware
      */
     public function handle(Request $request, Closure $next) : Response
     {
-        /**
-         * Todo:  Set authenticator, user, and user Id, eg:
-         *
-         * if($this->authenticator->authenticate([$request->getInput("token")], $user)
-         * {
-         *      $this->authenticationContext->setUser($user);
-         *      $this->authority->setUserId($user->getId());
-         * }
-         */
+        $credential = $this->getCredential($request);
+
+        if (!$this->authenticator->authenticate($credential, $subject)) {
+            throw new HttpException(403);
+        }
+
+        /** @var ISubject $subject */
+        $this->authenticationContext->setSubject($subject);
+        $this->authority->setPrimaryIdentity($subject->getPrimaryPrincipal()->getIdentity());
+
         return $next($request);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function getCredential(Request $request) : ICredential
+    {
+        $values = ["token" => $request->getInput("access-token")];
+
+        return new Credential(CredentialTypes::JWT_ACCESS_TOKEN, $values);
     }
 }

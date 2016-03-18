@@ -21,16 +21,16 @@ interface IAuthenticationContext
     public function getStatus() : string;
 
     /**
-     * Gets the current user if there is one
+     * Gets the current subject, if there is one
      *
-     * @return IAuthenticatable|null The current user if there is one, otherwise null
+     * @return ISubject|null The current subject, if there is one, otherwise null
      */
-    public function getUser();
+    public function getSubject();
 
     /**
-     * Gets whether or not the current user has been authenticated
+     * Gets whether or not the current subject has been authenticated
      *
-     * @return bool True if the current user is authenticated, otherwise false
+     * @return bool True if the current subject is authenticated, otherwise false
      */
     public function isAuthenticated() : bool;
 
@@ -42,9 +42,9 @@ interface IAuthenticationContext
     public function setStatus(string $status);
 
     /**
-     * Sets the current user
+     * Sets the current subject
      *
-     * @param IAuthenticatable $user The current user
+     * @param ISubject $subject The current subject
      */
-    public function setUser(IAuthenticatable $user);
+    public function setSubject(ISubject $subject);
 }

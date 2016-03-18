@@ -117,7 +117,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->method("getByName")
             ->with("foo")
             ->willReturn(null);
-        $this->assertEquals([], $this->roles->getUserIdsWithRole("foo"));
+        $this->assertEquals([], $this->roles->getSubjectIdentitiesWithRole("foo"));
     }
 
     /**
@@ -137,7 +137,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->method("getByRoleId")
             ->with(3)
             ->willReturn($memberships);
-        $this->assertEquals([2, 4], $this->roles->getUserIdsWithRole("foo"));
+        $this->assertEquals([2, 4], $this->roles->getSubjectIdentitiesWithRole("foo"));
     }
 
     /**
@@ -168,7 +168,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             new RoleMembership(6, 2, new Role(7, "baz"))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
-            ->method("getByUserId")
+            ->method("getBySubjectIdentity")
             ->with(2)
             ->willReturn($memberships);
         $this->roleMembershipRepository->expects($this->at(1))
@@ -180,7 +180,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
         $this->roleMembershipRepository->expects($this->at(3))
             ->method("delete")
             ->with($memberships[2]);
-        $this->roles->removeAllRolesFromUser(2);
+        $this->roles->removeAllRolesFromSubject(2);
     }
 
     /**
@@ -194,7 +194,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             new RoleMembership(6, 2, new Role(7, "baz"))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
-            ->method("getByUserId")
+            ->method("getBySubjectIdentity")
             ->with(2)
             ->willReturn($memberships);
         $this->roleMembershipRepository->expects($this->at(1))
@@ -203,7 +203,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
         $this->roleMembershipRepository->expects($this->at(2))
             ->method("delete")
             ->with($memberships[1]);
-        $this->roles->removeRolesFromUser(2, ["foo", "bar"]);
+        $this->roles->removeRolesFromSubject(2, ["foo", "bar"]);
     }
 
     /**
@@ -215,7 +215,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->method("getByName")
             ->with("foo")
             ->willReturn(null);
-        $this->assertFalse($this->roles->userHasRole(2, "foo"));
+        $this->assertFalse($this->roles->subjectHasRole(2, "foo"));
     }
 
     /**
@@ -228,10 +228,10 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->with("foo")
             ->willReturn(new Role(3, "foo"));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getByUserAndRoleId")
+            ->method("getBySubjectAndRoleId")
             ->with(2, 3)
             ->willReturn(null);
-        $this->assertFalse($this->roles->userHasRole(2, "foo"));
+        $this->assertFalse($this->roles->subjectHasRole(2, "foo"));
     }
 
     /**
@@ -244,10 +244,10 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->with("foo")
             ->willReturn(new Role(3, "foo"));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getByUserAndRoleId")
+            ->method("getBySubjectAndRoleId")
             ->with(2, 3)
             ->willReturn([new RoleMembership(1, 2, new Role(3, "foo"))]);
-        $this->assertTrue($this->roles->userHasRole(2, "foo"));
+        $this->assertTrue($this->roles->subjectHasRole(2, "foo"));
     }
 
     /**
@@ -257,9 +257,9 @@ class RolesTest extends \PHPUnit_Framework_TestCase
     {
         $membership = new RoleMembership(1, 2, new Role(3, "foo"));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getByUserId")
+            ->method("getBySubjectIdentity")
             ->with(2)
             ->willReturn([$membership]);
-        $this->assertEquals([$membership], $this->roles->getRolesForUser(2));
+        $this->assertEquals([$membership], $this->roles->getRolesForSubject(2));
     }
 }

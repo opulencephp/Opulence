@@ -14,7 +14,7 @@ namespace Opulence\Authorization\Permissions;
 interface IPermissionRegistry
 {
     /**
-     * Gets the list of callbacks that return whether or not a user has a permission
+     * Gets the list of callbacks that return whether or not a subject has a permission
      *
      * @param string $permission The permission to search for
      * @return callable|null The callback if one was found, otherwise null
@@ -40,14 +40,14 @@ interface IPermissionRegistry
      * Registers a callback to be evaluated for a permission
      *
      * @param string $permission The permission being registered
-     * @param callable $callback The callback that will be evaluated (user Id must be first argument)
+     * @param callable $callback The callback that will be evaluated (subject identity must be first argument)
      */
     public function registerCallback(string $permission, callable $callback);
 
     /**
      * Registers a callback to be evaluated before considering any permissions
      *
-     * @param callable $callback The callback that will be evaluated (user Id must be first argument, permission second)
+     * @param callable $callback The callback that will be evaluated (subject identity must be first argument, permission second)
      */
     public function registerOverrideCallback(callable $callback);
 

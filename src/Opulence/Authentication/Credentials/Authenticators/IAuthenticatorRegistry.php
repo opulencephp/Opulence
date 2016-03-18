@@ -16,13 +16,13 @@ use InvalidArgumentException;
 interface IAuthenticatorRegistry
 {
     /**
-     * Gets the authenticator for a credential type
+     * Gets the authenticators for a credential type
      *
      * @param string $credentialType The credential type whose authenticator we want
-     * @return IAuthenticator The authenticator for the input credential type
+     * @return IAuthenticator[] The list of authenticators for the input credential type
      * @throws InvalidArgumentException Thrown if no authenticator was registered for the credential type
      */
-    public function getAuthenticator(string $credentialType) : IAuthenticator;
+    public function getAuthenticators(string $credentialType) : array;
 
     /**
      * Registers an authenticator for the input credential type

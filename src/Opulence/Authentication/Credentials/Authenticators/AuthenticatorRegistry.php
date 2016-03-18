@@ -21,7 +21,7 @@ class AuthenticatorRegistry implements IAuthenticatorRegistry
     /**
      * @inheritdoc
      */
-    public function getAuthenticator(string $credentialType) : IAuthenticator
+    public function getAuthenticators(string $credentialType) : array
     {
         if (!isset($this->credentialTypesToAuthenticators[$credentialType])) {
             throw new InvalidArgumentException("No authenticator registered for credential type $credentialType");
@@ -35,6 +35,10 @@ class AuthenticatorRegistry implements IAuthenticatorRegistry
      */
     public function registerAuthenticator(string $credentialType, IAuthenticator $authenticator)
     {
-        $this->credentialTypesToAuthenticators[$credentialType] = $authenticator;
+        if (!isset($this->credentialTypesToAuthenticators[$credentialType])) {
+            $this->credentialTypesToAuthenticators[$credentialType] = [];
+        }
+
+        $this->credentialTypesToAuthenticators[$credentialType][] = $authenticator;
     }
 }

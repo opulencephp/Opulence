@@ -13,21 +13,21 @@ namespace Opulence\Authentication;
  */
 class AuthenticationContext implements IAuthenticationContext
 {
-    /** @var IAuthenticatable|null The current user */
-    private $user = null;
+    /** @var ISubject|null The current subject */
+    private $subject = null;
     /** @var string The current authentication status */
     private $status = AuthenticationStatusTypes::UNAUTHENTICATED;
 
     /**
-     * @param IAuthenticatable|null $user The current user
+     * @param ISubject|null $subject The current subject
      * @param string $status The current authentication status
      */
     public function __construct(
-        IAuthenticatable $user = null,
+        ISubject $subject = null,
         string $status = AuthenticationStatusTypes::UNAUTHENTICATED
     ) {
-        if ($user !== null) {
-            $this->setUser($user);
+        if ($subject !== null) {
+            $this->setSubject($subject);
         }
 
         $this->setStatus($status);
@@ -44,9 +44,9 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getUser()
+    public function getSubject()
     {
-        return $this->user;
+        return $this->subject;
     }
 
     /**
@@ -68,8 +68,8 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setUser(IAuthenticatable $user)
+    public function setSubject(ISubject $subject)
     {
-        $this->user = $user;
+        $this->subject = $subject;
     }
 }

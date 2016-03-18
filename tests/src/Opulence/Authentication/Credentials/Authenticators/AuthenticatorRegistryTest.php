@@ -34,7 +34,7 @@ class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
         /** @var IAuthenticator $authenticator */
         $authenticator = $this->getMock(IAuthenticator::class);
         $this->registry->registerAuthenticator("foo", $authenticator);
-        $this->assertSame($authenticator, $this->registry->getAuthenticator("foo"));
+        $this->assertEquals([$authenticator], $this->registry->getAuthenticators("foo"));
     }
 
     /**
@@ -43,6 +43,6 @@ class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
     public function testExceptionThrownOnNonExistentAuthenticator()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->registry->getAuthenticator("foo");
+        $this->registry->getAuthenticators("foo");
     }
 }

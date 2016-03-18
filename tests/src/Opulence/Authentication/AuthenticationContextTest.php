@@ -54,24 +54,24 @@ class AuthenticationContextTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the user in the constructor
+     * Tests setting the subject in the constructor
      */
-    public function testSettingUserInConstructor()
+    public function testSettingSubjectInConstructor()
     {
-        /** @var IAuthenticatable $user */
-        $user = $this->getMock(IAuthenticatable::class);
-        $context = new AuthenticationContext($user);
-        $this->assertSame($user, $context->getUser());
+        /** @var ISubject $subject */
+        $subject = $this->getMock(ISubject::class);
+        $context = new AuthenticationContext($subject);
+        $this->assertSame($subject, $context->getSubject());
     }
 
     /**
-     * Tests setting the user in the setter
+     * Tests setting the subject in the setter
      */
-    public function testSettingUserInSetter()
+    public function testSettingSubjectInSetter()
     {
-        /** @var IAuthenticatable $user */
-        $user = $this->getMock(IAuthenticatable::class);
-        $this->context->setUser($user);
-        $this->assertSame($user, $this->context->getUser());
+        /** @var ISubject $subject */
+        $subject = $this->getMock(ISubject::class);
+        $this->context->setSubject($subject);
+        $this->assertSame($subject, $this->context->getSubject());
     }
 }

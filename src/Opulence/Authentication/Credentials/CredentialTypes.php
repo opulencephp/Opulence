@@ -15,6 +15,6 @@ class CredentialTypes
 {
     /** A username/password credential */
     const USERNAME_PASSWORD = "USERNAME_PASSWORD";
-    /** An API token credential */
-    const API_TOKEN = "API_TOKEN";
+    /** An JWT access token credential */
+    const JWT_ACCESS_TOKEN = "JWT_ACCESS_TOKEN";
 }
