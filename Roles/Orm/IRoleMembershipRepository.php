@@ -53,19 +53,19 @@ interface IRoleMembershipRepository
     public function getByRoleId($roleId) : array;
 
     /**
-     * Gets the membership for a user with the input Id
+     * Gets the membership for a subject with the input identity
      *
-     * @param int|string $userId The user Id
+     * @param int|string $subjectIdentity The subject identity
      * @param int|string $roleId The role Id to search for
      * @return RoleMembership|null The role membership if one was found, otherwise false
      */
-    public function getByUserAndRoleId($userId, $roleId);
+    public function getBySubjectAndRoleId($subjectIdentity, $roleId);
 
     /**
-     * Gets the list of role memberships for a user
+     * Gets the list of role memberships for a subject
      *
-     * @param int|string $userId The user Id
-     * @return RoleMembership[] The list of role memberships for this user
+     * @param int|string $subjectIdentity The subject Id
+     * @return RoleMembership[] The list of role memberships for this subject
      */
-    public function getByUserId($userId) : array;
+    public function getBySubjectIdentity($subjectIdentity) : array;
 }

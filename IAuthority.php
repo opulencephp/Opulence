@@ -14,35 +14,35 @@ namespace Opulence\Authorization;
 interface IAuthority
 {
     /**
-     * Checks if a user has a permission
+     * Checks if a subject has a permission
      *
      * @param string $permission The permission being sought
      * @param array ...$arguments The optional list of arguments to use when considering permission
-     * @return bool True if the user has the input permission, otherwise false
+     * @return bool True if the subject has the input permission, otherwise false
      */
     public function can(string $permission, ...$arguments) : bool;
 
     /**
-     * Checks if a user does not have a permission
+     * Checks if a subject does not have a permission
      *
      * @param string $permission The permission being sought
      * @param array ...$arguments The optional list of arguments to use when considering permission
-     * @return bool True if the user does not have the input permission, otherwise false
+     * @return bool True if the subject does not have the input permission, otherwise false
      */
     public function cannot(string $permission, ...$arguments) : bool;
 
     /**
-     * Creates an instance of this class for a given user
+     * Creates an instance of this class for a given subject
      *
-     * @param mixed $userId The Id of the user to check
-     * @return IAuthority The instance for the input user
+     * @param mixed $primaryIdentity The primary identity of the subject to check
+     * @return IAuthority The instance for the input subject
      */
-    public function forUser($userId) : IAuthority;
+    public function forSubject($primaryIdentity) : IAuthority;
 
     /**
-     * Sets the user Id
+     * Sets the subject's primary identity
      *
-     * @param int|string $userId The Id of the user
+     * @param int|string $primaryIdentity The primary identity of the subject
      */
-    public function setUserId($userId);
+    public function setPrimaryIdentity($primaryIdentity);
 }

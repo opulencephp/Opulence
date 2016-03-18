@@ -16,13 +16,13 @@ use InvalidArgumentException;
 interface IRoles
 {
     /**
-     * Assigns roles to a user
+     * Assigns roles to a subject
      *
-     * @param int|string $userId The user Id to assign to
+     * @param int|string $primaryIdentity The subject identity to assign to
      * @param string|string[] $roleNames The name of the role or roles to assign
      * @throws InvalidArgumentException Thrown if the input rule names do not exist
      */
-    public function assignRoles($userId, $roleNames);
+    public function assignRoles($primaryIdentity, $roleNames);
 
     /**
      * Creates a role
@@ -40,35 +40,35 @@ interface IRoles
     public function deleteRole(string $roleName);
 
     /**
-     * Gets all roles for a user
+     * Gets all roles for a subject
      *
-     * @param int|string $userId The user Id whose roles we want
+     * @param int|string $primaryIdentity The subject identity whose roles we want
      * @return Role[] The list of roles
      */
-    public function getRolesForUser($userId) : array;
+    public function getRolesForSubject($primaryIdentity) : array;
 
     /**
-     * Gets the list of user Ids with the role
+     * Gets the list of subject identities with the role
      *
      * @param string $roleName The name of the role to search for
-     * @return array The list of user Ids with the role
+     * @return array The list of subject identities with the role
      */
-    public function getUserIdsWithRole(string $roleName) : array;
+    public function getSubjectIdentitiesWithRole(string $roleName) : array;
 
     /**
-     * Removes all roles from a user
+     * Removes all roles from a subject
      *
-     * @param int|string $userId The Id of the user to remove
+     * @param int|string $primaryIdentity The primary identity of the subject to remove
      */
-    public function removeAllRolesFromUser($userId);
+    public function removeAllRolesFromSubject($primaryIdentity);
 
     /**
-     * Removes roles from a user
+     * Removes roles from a subject
      *
-     * @param int|string $userId The Id of the user to remove
+     * @param int|string $primaryIdentity The identity of the subject to remove
      * @param string|string[] $roleNames The name of the role or roles to remove
      */
-    public function removeRolesFromUser($userId, $roleNames);
+    public function removeRolesFromSubject($primaryIdentity, $roleNames);
 
     /**
      * Gets whether or not a role exists
@@ -79,11 +79,11 @@ interface IRoles
     public function roleExists(string $roleName) : bool;
 
     /**
-     * Gets whether or not a user has a role
+     * Gets whether or not a subject has a role
      *
-     * @param int|string $userId The Id of the user
+     * @param int|string $primaryIdentity The Id of the subject
      * @param string $roleName The name of the role to search for
-     * @return bool True if the user has the role, otherwise false
+     * @return bool True if the subject has the role, otherwise false
      */
-    public function userHasRole($userId, string $roleName) : bool;
+    public function subjectHasRole($primaryIdentity, string $roleName) : bool;
 }
