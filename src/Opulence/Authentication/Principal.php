@@ -16,24 +16,36 @@ class Principal implements IPrincipal
     /** @var string The type of principal this is */
     protected $type = "";
     /** @var mixed|null The identity of the principal */
-    protected $identity = null;
+    protected $id = null;
+    /** @var array The list of roles this principal has */
+    protected $roles = [];
 
     /**
      * @param string $type The type of principal this is
-     * @param mixed $identity The identity of the principal
+     * @param mixed $id The identity of the principal
+     * @param array $roles The list of roles this principal has
      */
-    public function __construct(string $type, $identity)
+    public function __construct(string $type, $id, array $roles)
     {
         $this->type = $type;
-        $this->identity = $identity;
+        $this->id = $id;
+        $this->roles = $roles;
     }
 
     /**
      * @inheritdoc
      */
-    public function getIdentity()
+    public function getId()
     {
-        return $this->identity;
+        return $this->id;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRoles() : array
+    {
+        return $this->roles;
     }
 
     /**
@@ -42,5 +54,13 @@ class Principal implements IPrincipal
     public function getType() : string
     {
         return $this->type;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasRole(string $roleName) : bool
+    {
+        return in_array($roleName, $this->roles);
     }
 }

@@ -94,7 +94,7 @@ class JwtAuthenticatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
         /** @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
-        $this->assertEquals("Dave", $subject->getPrimaryPrincipal()->getIdentity());
+        $this->assertEquals("Dave", $subject->getPrimaryPrincipal()->getId());
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
 }

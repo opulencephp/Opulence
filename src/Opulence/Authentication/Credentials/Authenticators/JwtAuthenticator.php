@@ -71,6 +71,11 @@ class JwtAuthenticator implements IAuthenticator
      */
     protected function getSubjectFromJwt(SignedJwt $jwt, ICredential $credential) : ISubject
     {
-        return new Subject([new Principal(PrincipalTypes::PRIMARY, $jwt->getPayload()->getSubject())], [$credential]);
+        $roles = $jwt->getPayload()->get("roles") ?: [];
+
+        return new Subject(
+            [new Principal(PrincipalTypes::PRIMARY, $jwt->getPayload()->getSubject(), $roles)],
+            [$credential]
+        );
     }
 }

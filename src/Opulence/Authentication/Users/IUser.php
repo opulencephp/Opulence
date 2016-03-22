@@ -47,11 +47,4 @@ interface IUser
      * @param int|string $id The database Id
      */
     public function setId($id);
-
-    /**
-     * Sets the user's username
-     *
-     * @param string $username The user's username
-     */
-    public function setUsername(string $username);
 }

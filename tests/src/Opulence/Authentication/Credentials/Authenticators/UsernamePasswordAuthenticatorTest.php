@@ -10,6 +10,7 @@ namespace Opulence\Authentication\Credentials\Authenticators;
 
 use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\ISubject;
+use Opulence\Authentication\Roles\Orm\IRoleRepository;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
 
@@ -22,6 +23,8 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
     private $authenticator = null;
     /** @var IUserRepository|\PHPUnit_Framework_MockObject_MockObject The user repository to use in tests */
     private $userRepository = null;
+    /** @var IRoleRepository|\PHPUnit_Framework_MockObject_MockObject The role repository to use in tests */
+    private $roleRepository = null;
     /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject The credential to use in tests */
     private $credential = null;
 
@@ -31,7 +34,8 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->userRepository = $this->getMock(IUserRepository::class);
-        $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository);
+        $this->roleRepository = $this->getMock(IRoleRepository::class);
+        $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository, $this->roleRepository);
         $this->credential = $this->getMock(ICredential::class);
     }
 
@@ -40,6 +44,9 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testCorrectPasswordReturnsTrue()
     {
+        $this->roleRepository->expects($this->once())
+            ->method("getRoleNamesForSubject")
+            ->willReturn(["role"]);
         $this->credential->expects($this->at(0))
             ->method("getValue")
             ->with("username")
@@ -63,7 +70,8 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
         /** @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
-        $this->assertEquals("userId", $subject->getPrimaryPrincipal()->getIdentity());
+        $this->assertEquals("userId", $subject->getPrimaryPrincipal()->getId());
+        $this->assertEquals(["role"], $subject->getPrimaryPrincipal()->getRoles());
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
 

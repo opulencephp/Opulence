@@ -20,8 +20,6 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     private $authority = null;
     /** @var PermissionRegistry The registry to use in tests */
     private $permissionRegistry = null;
-    /** @var IRoles|\PHPUnit_Framework_MockObject_MockObject The roles to use in tests */
-    private $roles = null;
 
     /**
      * Sets up the tests
@@ -30,7 +28,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     {
         $this->permissionRegistry = new PermissionRegistry();
         $this->roles = $this->getMock(IRoles::class);
-        $this->authority = new Authority(23, $this->permissionRegistry, $this->roles);
+        $this->authority = new Authority(23, ["foo", "bar"], $this->permissionRegistry);
     }
 
     /**
@@ -50,7 +48,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
      */
     public function testForUserCreatesNewInstance()
     {
-        $forUserInstance = $this->authority->forSubject(1);
+        $forUserInstance = $this->authority->forSubject(1, []);
         $this->assertInstanceOf(IAuthority::class, $forUserInstance);
         $this->assertNotSame($forUserInstance, $this->authority);
     }
@@ -61,12 +59,8 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     public function testNoRoles()
     {
         $this->permissionRegistry->registerRoles("foo", "bar");
-        $this->roles->expects($this->exactly(2))
-            ->method("getRolesForSubject")
-            ->with(23)
-            ->willReturn(["baz"]);
-        $this->assertFalse($this->authority->can("foo"));
-        $this->assertTrue($this->authority->cannot("foo"));
+        $this->assertFalse($this->authority->can("baz"));
+        $this->assertTrue($this->authority->cannot("baz"));
     }
 
     /**
@@ -89,21 +83,6 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests setting the user Id
-     */
-    public function testSettingUserId()
-    {
-        $this->authority->setPrimaryIdentity(345);
-        $this->permissionRegistry->registerRoles("foo", "bar");
-        $this->roles->expects($this->exactly(2))
-            ->method("getRolesForSubject")
-            ->with(345)
-            ->willReturn([]);
-        $this->assertFalse($this->authority->can("foo"));
-        $this->assertTrue($this->authority->cannot("foo"));
-    }
-
-    /**
      * Tests can returns true when callback returns true
      */
     public function testTrueCallback()
@@ -121,10 +100,6 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     public function testWithRoles()
     {
         $this->permissionRegistry->registerRoles("foo", "bar");
-        $this->roles->expects($this->exactly(2))
-            ->method("getRolesForSubject")
-            ->with(23)
-            ->willReturn(["bar"]);
         $this->assertTrue($this->authority->can("foo"));
         $this->assertFalse($this->authority->cannot("foo"));
     }

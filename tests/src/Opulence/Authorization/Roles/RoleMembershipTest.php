@@ -48,7 +48,7 @@ class RoleMembershipTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingUserId()
     {
-        $this->assertEquals(2, $this->membership->getSubjectIdentity());
+        $this->assertEquals(2, $this->membership->getSubjectId());
     }
 
     /**

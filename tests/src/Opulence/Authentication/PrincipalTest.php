@@ -21,15 +21,32 @@ class PrincipalTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->principal = new Principal("foo", "bar");
+        $this->principal = new Principal("foo", "bar", ["baz"]);
     }
 
     /**
-     * Tests getting the identity
+     * Tests checking if a principal has roles
      */
-    public function testGettingIdentity()
+    public function testCheckingRoles()
     {
-        $this->assertEquals("bar", $this->principal->getIdentity());
+        $this->assertTrue($this->principal->hasRole("baz"));
+        $this->assertFalse($this->principal->hasRole("doesNotExist"));
+    }
+
+    /**
+     * Tests getting the Id
+     */
+    public function testGettingId()
+    {
+        $this->assertEquals("bar", $this->principal->getId());
+    }
+
+    /**
+     * Tests getting the roles
+     */
+    public function testGettingRoles()
+    {
+        $this->assertEquals(["baz"], $this->principal->getRoles());
     }
 
     /**

@@ -55,17 +55,17 @@ interface IRoleMembershipRepository
     /**
      * Gets the membership for a subject with the input identity
      *
-     * @param int|string $subjectIdentity The subject identity
+     * @param int|string $subjectId The subject identity
      * @param int|string $roleId The role Id to search for
      * @return RoleMembership|null The role membership if one was found, otherwise false
      */
-    public function getBySubjectAndRoleId($subjectIdentity, $roleId);
+    public function getBySubjectAndRoleId($subjectId, $roleId);
 
     /**
      * Gets the list of role memberships for a subject
      *
-     * @param int|string $subjectIdentity The subject Id
+     * @param int|string $subjectId The subject Id
      * @return RoleMembership[] The list of role memberships for this subject
      */
-    public function getBySubjectIdentity($subjectIdentity) : array;
+    public function getBySubjectId($subjectId) : array;
 }

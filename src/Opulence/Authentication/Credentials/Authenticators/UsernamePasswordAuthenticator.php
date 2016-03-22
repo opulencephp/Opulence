@@ -12,6 +12,7 @@ use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\ISubject;
 use Opulence\Authentication\Principal;
 use Opulence\Authentication\PrincipalTypes;
+use Opulence\Authentication\Roles\Orm\IRoleRepository;
 use Opulence\Authentication\Subject;
 use Opulence\Authentication\Users\IUser;
 use Opulence\Authentication\Users\Orm\IUserRepository;
@@ -23,13 +24,17 @@ class UsernamePasswordAuthenticator implements IAuthenticator
 {
     /** @var IUserRepository The user repository */
     protected $userRepository = null;
+    /** @var IRoleRepository The role repository */
+    protected $roleRepository = null;
 
     /**
      * @param IUserRepository $userRepository The user repository
+     * @param IRoleRepository $roleRepository The role repository
      */
-    public function __construct(IUserRepository $userRepository)
+    public function __construct(IUserRepository $userRepository, IRoleRepository $roleRepository)
     {
         $this->userRepository = $userRepository;
+        $this->roleRepository = $roleRepository;
     }
 
     /**
@@ -68,6 +73,9 @@ class UsernamePasswordAuthenticator implements IAuthenticator
      */
     protected function getSubjectFromUser(IUser $user, ICredential $credential) : ISubject
     {
-        return new Subject([new Principal(PrincipalTypes::PRIMARY, $user->getId())], [$credential]);
+        $userId = $user->getId();
+        $roles = $this->roleRepository->getRoleNamesForSubject($userId);
+
+        return new Subject([new Principal(PrincipalTypes::PRIMARY, $userId, $roles)], [$credential]);
     }
 }

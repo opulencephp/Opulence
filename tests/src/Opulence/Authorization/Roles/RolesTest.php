@@ -117,7 +117,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->method("getByName")
             ->with("foo")
             ->willReturn(null);
-        $this->assertEquals([], $this->roles->getSubjectIdentitiesWithRole("foo"));
+        $this->assertEquals([], $this->roles->getSubjectIdsWithRole("foo"));
     }
 
     /**
@@ -137,7 +137,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             ->method("getByRoleId")
             ->with(3)
             ->willReturn($memberships);
-        $this->assertEquals([2, 4], $this->roles->getSubjectIdentitiesWithRole("foo"));
+        $this->assertEquals([2, 4], $this->roles->getSubjectIdsWithRole("foo"));
     }
 
     /**
@@ -168,7 +168,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             new RoleMembership(6, 2, new Role(7, "baz"))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
-            ->method("getBySubjectIdentity")
+            ->method("getBySubjectId")
             ->with(2)
             ->willReturn($memberships);
         $this->roleMembershipRepository->expects($this->at(1))
@@ -194,7 +194,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
             new RoleMembership(6, 2, new Role(7, "baz"))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
-            ->method("getBySubjectIdentity")
+            ->method("getBySubjectId")
             ->with(2)
             ->willReturn($memberships);
         $this->roleMembershipRepository->expects($this->at(1))
@@ -257,7 +257,7 @@ class RolesTest extends \PHPUnit_Framework_TestCase
     {
         $membership = new RoleMembership(1, 2, new Role(3, "foo"));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getBySubjectIdentity")
+            ->method("getBySubjectId")
             ->with(2)
             ->willReturn([$membership]);
         $this->assertEquals([$membership], $this->roles->getRolesForSubject(2));
