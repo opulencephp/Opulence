@@ -34,15 +34,17 @@ interface IAuthority
     /**
      * Creates an instance of this class for a given subject
      *
-     * @param mixed $primaryIdentity The primary identity of the subject to check
+     * @param mixed $subjectId The primary identity of the subject to check
+     * @param array|null $subjectRoles The list of role names the subject has
      * @return IAuthority The instance for the input subject
      */
-    public function forSubject($primaryIdentity) : IAuthority;
+    public function forSubject($subjectId, array $subjectRoles) : IAuthority;
 
     /**
-     * Sets the subject's primary identity
+     * Sets the subject of the authority
      *
-     * @param int|string $primaryIdentity The primary identity of the subject
+     * @param mixed $subjectId The primary identity of the subject to check
+     * @param array $subjectRoles The list of role names the subject has
      */
-    public function setPrimaryIdentity($primaryIdentity);
+    public function setSubject($subjectId, array $subjectRoles);
 }

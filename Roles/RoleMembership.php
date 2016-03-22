@@ -16,19 +16,19 @@ class RoleMembership
     /** @var int|string The database Id */
     protected $id = -1;
     /** @var int|string The subject Id */
-    protected $subjectIdentity = -1;
+    protected $subjectId = -1;
     /** @var Role The role */
     protected $role = null;
 
     /**
      * @param int|string $id The database Id
-     * @param int|string $subjectIdentity The subject identity
+     * @param int|string $subjectId The subject identity
      * @param Role $role The role
      */
-    public function __construct($id, $subjectIdentity, Role $role)
+    public function __construct($id, $subjectId, Role $role)
     {
         $this->id = $id;
-        $this->subjectIdentity = $subjectIdentity;
+        $this->subjectId = $subjectId;
         $this->role = $role;
     }
 
@@ -51,9 +51,9 @@ class RoleMembership
     /**
      * @return int|string
      */
-    public function getSubjectIdentity()
+    public function getSubjectId()
     {
-        return $this->subjectIdentity;
+        return $this->subjectId;
     }
 
     /**
