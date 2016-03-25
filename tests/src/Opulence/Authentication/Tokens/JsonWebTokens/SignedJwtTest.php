@@ -134,8 +134,12 @@ class SignedJwtTest extends \PHPUnit_Framework_TestCase
      */
     private function assertTokensEqual(SignedJwt $a, SignedJwt $b, bool $checkSignature)
     {
+        // Because the JTI is random for each payload, exclude it
+        $payloadA = $a->getPayload()->getAll();
+        $payloadB = $b->getPayload()->getAll();
+        unset($payloadA["jti"], $payloadB["jti"]);
         $this->assertEquals($a->getHeader(), $b->getHeader());
-        $this->assertEquals($a->getPayload(), $b->getPayload());
+        $this->assertEquals($payloadA, $payloadB);
 
         if ($checkSignature) {
             $this->assertEquals($a->getSignature(), $b->getSignature());

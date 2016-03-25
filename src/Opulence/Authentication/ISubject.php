@@ -65,4 +65,19 @@ interface ISubject
      * @return IPrincipal[] The list of all principals
      */
     public function getPrincipals() : array;
+
+    /**
+     * Gets the list of role names
+     *
+     * @return array The list of role names
+     */
+    public function getRoles() : array;
+
+    /**
+     * Gets whether or not a subject has a role
+     *
+     * @param string $roleName The role to check for
+     * @return bool True if the subject has a role, otherwise false
+     */
+    public function hasRole(string $roleName) : bool;
 }

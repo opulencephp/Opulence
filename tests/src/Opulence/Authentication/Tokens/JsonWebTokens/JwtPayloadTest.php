@@ -38,28 +38,34 @@ class JwtPayloadTest extends \PHPUnit_Framework_TestCase
             "exp" => null,
             "nbf" => null,
             "iat" => null,
-            "jti" => null
+            "jti" => $this->payload->getId()
         ];
         $this->assertEquals($claims, $this->payload->getAll());
         $this->payload->setIssuer("foo");
+        $claims["jti"] = $this->payload->getId();
         $claims["iss"] = "foo";
         $this->assertEquals($claims, $this->payload->getAll());
         $this->payload->setSubject("bar");
+        $claims["jti"] = $this->payload->getId();
         $claims["sub"] = "bar";
         $this->assertEquals($claims, $this->payload->getAll());
         $this->payload->setAudience("baz");
+        $claims["jti"] = $this->payload->getId();
         $claims["aud"] = "baz";
         $this->assertEquals($claims, $this->payload->getAll());
         $validTo = new DateTimeImmutable();
         $this->payload->setValidTo($validTo);
+        $claims["jti"] = $this->payload->getId();
         $claims["exp"] = $validTo->getTimestamp();
         $this->assertEquals($claims, $this->payload->getAll());
         $validFrom = new DateTimeImmutable();
         $this->payload->setValidFrom($validFrom);
+        $claims["jti"] = $this->payload->getId();
         $claims["nbf"] = $validFrom->getTimestamp();
         $this->assertEquals($claims, $this->payload->getAll());
         $issuedAt = new DateTimeImmutable();
         $this->payload->setIssuedAt($issuedAt);
+        $claims["jti"] = $this->payload->getId();
         $claims["iat"] = $issuedAt->getTimestamp();
         $this->assertEquals($claims, $this->payload->getAll());
         $this->payload->setId("blah");
@@ -93,13 +99,14 @@ class JwtPayloadTest extends \PHPUnit_Framework_TestCase
             "exp" => null,
             "nbf" => null,
             "iat" => null,
-            "jti" => null
+            "jti" => $this->payload->getId()
         ];
         $this->assertEquals(
             rtrim(strtr(base64_encode(json_encode($claims)), "+/", "-_"), "="),
             $this->payload->encode()
         );
         $this->payload->add("bar", "baz");
+        $claims["jti"] = $this->payload->getId();
         $claims["bar"] = "baz";
         $this->assertEquals(
             rtrim(strtr(base64_encode(json_encode($claims)), "+/", "-_"), "="),
@@ -112,9 +119,8 @@ class JwtPayloadTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingId()
     {
-        $this->assertNull($this->payload->getId());
-        $this->payload->setId("foo");
-        $this->assertEquals("foo", $this->payload->getId());
+        $this->assertNotEmpty($this->payload->get("jti"));
+        $this->assertNotEmpty($this->payload->getId());
     }
 
     /**
@@ -180,5 +186,46 @@ class JwtPayloadTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("bar", $this->payload->get("foo"));
         $this->payload->add("foo", "baz");
         $this->assertEquals("baz", $this->payload->get("foo"));
+    }
+
+    /**
+     * Tests that the Id changes with new claims
+     */
+    public function testIdChangesWithNewClaims()
+    {
+        $jti1 = $this->payload->getId();
+        $this->payload->add("foo", "bar");
+        $jti2 = $this->payload->getId();
+        $this->payload->add("baz", "blah");
+        $jti3 = $this->payload->getId();
+        $this->assertNotEquals($jti1, $jti2);
+        $this->assertNotEquals($jti2, $jti3);
+    }
+
+    /**
+     * Tests that the Id does not change with new claims when manually set
+     */
+    public function testIdDoesNotChangeWithNewClaimsWhenManuallySet()
+    {
+        $this->payload->setId("theJti");
+        $jti1 = $this->payload->getId();
+        $this->payload->add("foo", "bar");
+        $jti2 = $this->payload->getId();
+        $this->payload->add("baz", "blah");
+        $jti3 = $this->payload->getId();
+        $this->assertEquals("theJti", $this->payload->getId());
+        $this->assertEquals("theJti", $this->payload->get("jti"));
+        $this->assertEquals($jti1, $jti2);
+        $this->assertEquals($jti2, $jti3);
+    }
+
+    /**
+     * Tests setting the Id
+     */
+    public function testSettingId()
+    {
+        $this->payload->setId("foo");
+        $this->assertEquals("foo", $this->payload->get("jti"));
+        $this->assertEquals("foo", $this->payload->getId());
     }
 }

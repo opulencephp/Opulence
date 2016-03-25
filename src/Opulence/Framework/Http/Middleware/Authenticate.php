@@ -61,8 +61,7 @@ class Authenticate implements IMiddleware
 
         /** @var ISubject $subject */
         $this->authenticationContext->setSubject($subject);
-        $primaryPrincipal = $subject->getPrimaryPrincipal();
-        $this->authority->setSubject($primaryPrincipal->getId(), $primaryPrincipal->getRoles());
+        $this->authority->setSubject($subject->getPrimaryPrincipal()->getId(), $subject->getRoles());
 
         return $next($request);
     }

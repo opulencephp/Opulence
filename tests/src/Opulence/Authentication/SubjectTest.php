@@ -27,6 +27,21 @@ class SubjectTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests checking roles
+     */
+    public function testCheckingRoles()
+    {
+        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal */
+        $principal = $this->getMock(IPrincipal::class);
+        $principal->expects($this->any())
+            ->method("getRoles")
+            ->willReturn(["foo"]);
+        $this->subject->addPrincipal($principal);
+        $this->assertTrue($this->subject->hasRole("foo"));
+        $this->assertFalse($this->subject->hasRole("bar"));
+    }
+
+    /**
      * Tests creating a subject with principals and credentials
      */
     public function testCreatingSubjectWithPrincipalsAndCredentials()
@@ -95,6 +110,32 @@ class SubjectTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($principal, $this->subject->getPrimaryPrincipal());
         $this->assertSame($principal, $this->subject->getPrincipal(PrincipalTypes::PRIMARY));
         $this->assertEquals([$principal], $this->subject->getPrincipals());
+    }
+
+    /**
+     * Tests getting roles
+     */
+    public function testGettingRoles()
+    {
+        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal1 */
+        $principal1 = $this->getMock(IPrincipal::class);
+        $principal1->expects($this->any())
+            ->method("getRoles")
+            ->willReturn(["foo"]);
+        $principal1->expects($this->any())
+            ->method("getType")
+            ->willReturn("one");
+        /** @var IPrincipal|\PHPUnit_Framework_MockObject_MockObject $principal2 */
+        $principal2 = $this->getMock(IPrincipal::class);
+        $principal2->expects($this->any())
+            ->method("getRoles")
+            ->willReturn(["bar"]);
+        $principal2->expects($this->any())
+            ->method("getType")
+            ->willReturn("two");
+        $this->subject->addPrincipal($principal1);
+        $this->subject->addPrincipal($principal2);
+        $this->assertEquals(["foo", "bar"], $this->subject->getRoles());
     }
 
     /**

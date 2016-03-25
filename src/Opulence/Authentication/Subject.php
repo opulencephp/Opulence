@@ -102,4 +102,26 @@ class Subject implements ISubject
     {
         return array_values($this->principals);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getRoles() : array
+    {
+        $roles = [];
+
+        foreach ($this->principals as $type => $principal) {
+            $roles = array_merge($roles, $principal->getRoles());
+        }
+
+        return $roles;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function hasRole(string $roleName) : bool
+    {
+        return in_array($roleName, $this->getRoles());
+    }
 }

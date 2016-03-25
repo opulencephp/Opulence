@@ -25,6 +25,13 @@ class JwtPayload
         "iat" => null,
         "jti" => null
     ];
+    /** @var string The salt used to make the JTI random */
+    private $jtiSalt = "";
+
+    public function __construct()
+    {
+        $this->jtiSalt = $this->generateJtiSalt();
+    }
 
     /**
      * Base 64 encodes data for use in URLs
@@ -99,6 +106,10 @@ class JwtPayload
             $convertedClaims[$name] = $value;
         }
 
+        if (!isset($this->claims["jti"])) {
+            $convertedClaims["jti"] = $this->getId();
+        }
+
         return $convertedClaims;
     }
 
@@ -115,7 +126,11 @@ class JwtPayload
      */
     public function getId()
     {
-        return $this->claims["jti"];
+        if (isset($this->claims["jti"])) {
+            return $this->claims["jti"];
+        }
+
+        return md5(json_encode($this->claims) . $this->jtiSalt);
     }
 
     /**
@@ -212,5 +227,15 @@ class JwtPayload
     public function setValidTo(DateTimeImmutable $validTo)
     {
         $this->claims["exp"] = $validTo;
+    }
+
+    /**
+     * Generates a JTI salt to ensure randomness
+     *
+     * @return string The salt
+     */
+    private function generateJtiSalt() : string
+    {
+        return bin2hex(random_bytes(8));
     }
 }
