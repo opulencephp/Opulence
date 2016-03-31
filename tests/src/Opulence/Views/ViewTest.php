@@ -19,7 +19,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** The path to the test view with default tags */
     const VIEW_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTagDelimiters.html";
     /** The path to the test view with PHP code */
-    const VIEW_PATH_WITH_INVALID_PHP_CODE = "/files/TestWithInvalidPHP.html";
+    const VIEW_PATH_WITH_INVALID_PHP_CODE = "/files/TestWithInvalidPhp.html";
 
     /** @var View The view to use in the tests */
     private $view = null;

@@ -263,7 +263,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests parsing a PHP expression
      */
-    public function testParsingPHPExpression()
+    public function testParsingPhpExpression()
     {
         $tokens = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),

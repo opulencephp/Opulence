@@ -9,11 +9,11 @@
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Bootstrappers\Paths;
-use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Cryptography\Utilities\Strings;
 
 /**
  * Defines the encryption key generator command

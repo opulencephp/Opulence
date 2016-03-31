@@ -124,7 +124,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests lexing a backslash inside PHP
      */
-    public function testLexingBackslashInPHP()
+    public function testLexingBackslashInPhp()
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -173,7 +173,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests a directive inside PHP
      */
-    public function testLexingDirectiveInsidePHP()
+    public function testLexingDirectiveInsidePhp()
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -187,7 +187,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests a directive surrounded by PHP
      */
-    public function testLexingDirectiveSurroundedByPHP()
+    public function testLexingDirectiveSurroundedByPhp()
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -275,7 +275,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests multiple lines of PHP
      */
-    public function testLexingMultipleLinesOfPHP()
+    public function testLexingMultipleLinesOfPhp()
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -289,7 +289,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests that native PHP functions are lexed inside statements
      */
-    public function testLexingNativePHPFunctionsInsideStatements()
+    public function testLexingNativePhpFunctionsInsideStatements()
     {
         $text = '%s date("Y") %s';
         $expectedOutput = [
@@ -406,7 +406,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests lexing PHP
      */
-    public function testLexingPHP()
+    public function testLexingPhp()
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
@@ -430,7 +430,7 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     /**
      * Tests lexing PHP without close tag
      */
-    public function testLexingPHPWithoutCloseTag()
+    public function testLexingPhpWithoutCloseTag()
     {
         $expectedOutput = [
             new Token(TokenTypes::T_PHP_TAG_OPEN, '<?php', 1),
