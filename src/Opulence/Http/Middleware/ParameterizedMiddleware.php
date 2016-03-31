@@ -39,12 +39,13 @@ abstract class ParameterizedMiddleware implements IMiddleware
      * Gets the value of a parameter
      *
      * @param string $name The name of the parameter to get
+     * @param mixed $default The default value
      * @return mixed|null The parameter's value if it is set, otherwise null
      */
-    protected function getParameter(string $name)
+    protected function getParameter(string $name, $default = null)
     {
         if (!array_key_exists($name, $this->parameters)) {
-            return null;
+            return $default;
         }
 
         return $this->parameters[$name];
