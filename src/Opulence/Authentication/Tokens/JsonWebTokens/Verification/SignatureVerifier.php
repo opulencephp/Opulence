@@ -35,19 +35,19 @@ class SignatureVerifier implements IVerifier
         $signature = $jwt->getSignature();
 
         if ($signature === "") {
-            $error = "Signature cannot be empty";
+            $error = JwtErrorTypes::SIGNATURE_INCORRECT;
 
             return false;
         }
 
         if ($jwt->getHeader()->getAlgorithm() !== $this->signer->getAlgorithm()) {
-            $error = "Token's algorithm does not match signer's";
+            $error = JwtErrorTypes::SIGNATURE_ALGORITHM_MISMATCH;
 
             return false;
         }
 
         if (!$this->signer->verify($jwt->getUnsignedValue(), $signature)) {
-            $error = "Signature is invalid";
+            $error = JwtErrorTypes::SIGNATURE_INCORRECT;
 
             return false;
         }

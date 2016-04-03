@@ -37,15 +37,15 @@ class SubjectVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an exception is thrown on an invalid token
+     * Tests an invalid subject
      */
-    public function testExceptionThrownOnInvalidToken()
+    public function testInvalidSubject()
     {
         $this->jwtPayload->expects($this->once())
             ->method("getSubject")
             ->willReturn("bar");
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::SUBJECT_INVALID, $error);
     }
 
     /**

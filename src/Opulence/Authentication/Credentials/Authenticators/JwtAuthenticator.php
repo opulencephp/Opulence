@@ -41,11 +41,13 @@ class JwtAuthenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null) : bool
+    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {
         $tokenString = $credential->getValue("token");
 
         if ($tokenString === null) {
+            $error = AuthenticatorErrorTypes::CREDENTIAL_MISSING;
+
             return false;
         }
 
@@ -54,6 +56,8 @@ class JwtAuthenticator implements IAuthenticator
         $errors = [];
 
         if (!$this->jwtVerifier->verify($jwt, $verificationContext, $errors)) {
+            $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
+
             return false;
         }
 

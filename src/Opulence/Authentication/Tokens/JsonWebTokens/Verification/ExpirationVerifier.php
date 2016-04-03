@@ -28,7 +28,7 @@ class ExpirationVerifier implements IVerifier
         }
 
         if ($expiration < new DateTimeImmutable()) {
-            $error = "Token has expired";
+            $error = JwtErrorTypes::EXPIRED;
 
             return false;
         }

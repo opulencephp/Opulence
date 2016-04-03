@@ -40,22 +40,28 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     /**
      * @inheritdoc
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null) : bool
+    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {
         $username = $credential->getValue("username");
         $password = $credential->getValue("password");
 
         if ($username === null || $password === null) {
+            $error = AuthenticatorErrorTypes::CREDENTIAL_MISSING;
+
             return false;
         }
 
         $user = $this->userRepository->getByUsername($username);
 
         if ($user === null) {
+            $error = AuthenticatorErrorTypes::NO_SUBJECT;
+
             return false;
         }
 
         if (!password_verify($password, $user->getHashedPassword())) {
+            $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
+
             return false;
         }
 

@@ -28,7 +28,7 @@ class NotBeforeVerifier implements IVerifier
         }
 
         if ($notBefore > new DateTimeImmutable()) {
-            $error = "Token cannot be processed yet";
+            $error = JwtErrorTypes::NOT_ACTIVATED;
 
             return false;
         }

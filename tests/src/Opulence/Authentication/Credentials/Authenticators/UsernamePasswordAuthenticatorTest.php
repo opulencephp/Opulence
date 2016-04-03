@@ -97,7 +97,9 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->with("foo")
             ->willReturn($user);
         $subject = null;
-        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject));
+        $error = null;
+        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
+        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
     }
 
     /**
@@ -118,7 +120,9 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->with("foo")
             ->willReturn(null);
         $subject = null;
-        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject));
+        $error = null;
+        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
+        $this->assertEquals(AuthenticatorErrorTypes::NO_SUBJECT, $error);
     }
 
     /**
@@ -135,7 +139,9 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->with("password")
             ->willReturn(null);
         $subject = null;
-        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject));
+        $error = null;
+        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
+        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 
     /**
@@ -152,6 +158,8 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->with("password")
             ->willReturn("foo");
         $subject = null;
-        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject));
+        $error = null;
+        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
+        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 }

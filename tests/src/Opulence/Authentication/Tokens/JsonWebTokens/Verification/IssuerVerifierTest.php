@@ -37,15 +37,15 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an exception is thrown on an invalid token
+     * Tests that an invalid issuer
      */
-    public function testExceptionThrownOnInvalidToken()
+    public function testInvalidIssuer()
     {
         $this->jwtPayload->expects($this->once())
             ->method("getIssuer")
             ->willReturn("bar");
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::ISSUER_INVALID, $error);
     }
 
     /**

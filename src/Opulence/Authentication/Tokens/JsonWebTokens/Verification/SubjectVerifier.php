@@ -34,7 +34,7 @@ class SubjectVerifier implements IVerifier
         $subject = $jwt->getPayload()->getSubject();
 
         if ($subject !== $this->subject) {
-            $error = "Subject is invalid";
+            $error = JwtErrorTypes::SUBJECT_INVALID;
 
             return false;
         }

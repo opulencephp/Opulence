@@ -38,16 +38,16 @@ class NotBeforeVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an exception is thrown on an expired token
+     * Tests that a not activated token
      */
-    public function testExceptionThrownOnInvalidToken()
+    public function testNotActivatedToken()
     {
         $date = new DateTimeImmutable("+30 second");
         $this->jwtPayload->expects($this->once())
             ->method("getValidFrom")
             ->willReturn($date);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::NOT_ACTIVATED, $error);
     }
 
     /**

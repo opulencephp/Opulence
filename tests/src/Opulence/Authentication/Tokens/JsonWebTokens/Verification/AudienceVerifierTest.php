@@ -34,29 +34,29 @@ class AudienceVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an exception is thrown on a mismatching array audience
+     * Tests a mismatched audience
      */
-    public function testExceptionThrownOnMismatchingArray()
+    public function testMismatchedAudience()
     {
         $verifier = new AudienceVerifier("foo");
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn("bar");
         $this->assertFalse($verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
 
     /**
-     * Tests that an exception is thrown on a mismatching string audience
+     * Tests a mismatched array audience
      */
-    public function testExceptionThrownOnMismatchingString()
+    public function testMismatchedAudienceArray()
     {
         $verifier = new AudienceVerifier("foo");
         $this->jwtPayload->expects($this->once())
             ->method("getAudience")
             ->willReturn("bar");
         $this->assertFalse($verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::AUDIENCE_INVALID, $error);
     }
 
     /**

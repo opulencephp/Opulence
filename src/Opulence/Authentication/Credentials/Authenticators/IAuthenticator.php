@@ -21,7 +21,8 @@ interface IAuthenticator
      *
      * @param ICredential $credential The credential to authenticate
      * @param ISubject $subject The authenticated subject, if one was found (used as an "out" parameter)
+     * @param string $error The error type, if there was one
      * @return bool True if the credential is authentic, otherwise false
      */
-    public function authenticate(ICredential $credential, ISubject &$subject = null) : bool;
+    public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool;
 }

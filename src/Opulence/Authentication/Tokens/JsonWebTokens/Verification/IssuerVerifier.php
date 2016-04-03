@@ -34,7 +34,7 @@ class IssuerVerifier implements IVerifier
         $issuer = $jwt->getPayload()->getIssuer();
 
         if ($issuer !== $this->issuer) {
-            $error = "Issuer is invalid";
+            $error = JwtErrorTypes::ISSUER_INVALID;
 
             return false;
         }

@@ -60,12 +60,15 @@ class JwtAuthenticatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsetTokenCredentialReturnsFalse()
     {
-        $this->credential->expects($this->any())
+        $credential = $this->getMock(ICredential::class);
+        $credential->expects($this->any())
             ->method("getValue")
             ->with("token")
             ->willReturn(null);
         $subject = null;
-        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject));
+        $error = null;
+        $this->assertFalse($this->authenticator->authenticate($credential, $subject, $error));
+        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_MISSING, $error);
     }
 
     /**
@@ -78,13 +81,15 @@ class JwtAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->method("verify")
             ->willReturn(false);
         $subject = null;
-        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject));
+        $error = null;
+        $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));
+        $this->assertEquals(AuthenticatorErrorTypes::CREDENTIAL_INCORRECT, $error);
     }
 
     /**
      * Tests that a verified JWT returns true
      */
-    public function testUnverifiedJwtReturnsTrue()
+    public function testVerifiedJwtReturnsTrue()
     {
         $this->jwtVerifier
             ->expects($this->any())

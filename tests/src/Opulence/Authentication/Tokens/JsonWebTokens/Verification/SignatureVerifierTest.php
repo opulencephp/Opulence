@@ -36,21 +36,21 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests that an exception is thrown on an empty signature
+     * Tests an empty signature
      */
-    public function testExceptionThrownOnEmptySignature()
+    public function testEmptySignature()
     {
         $this->jwt->expects($this->once())
             ->method("getSignature")
             ->willReturn("");
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
 
     /**
-     * Tests that an exception is thrown on an invalid token
+     * Tests an incorrect signature
      */
-    public function testExceptionThrownOnInvalidToken()
+    public function testIncorrectSignature()
     {
         $this->jwt->expects($this->once())
             ->method("getSignature")
@@ -59,13 +59,13 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
             ->method("verify")
             ->willReturn(false);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::SIGNATURE_INCORRECT, $error);
     }
 
     /**
-     * Tests that an exception is thrown when signer's algorithm does not match token's
+     * Tests mismatched algorithm
      */
-    public function testExceptionThrownWhenSignersAlgorithmDoesNotMatchTokens()
+    public function testMismatchedAlgorithm()
     {
         $this->jwt->expects($this->once())
             ->method("getSignature")
@@ -82,9 +82,9 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
             ->willReturn("foo");
         $this->signer->expects($this->once())
             ->method("getAlgorithm")
-            ->willReturn(Algorithms::RSA_SHA384);
+            ->willReturn(Algorithms::SHA384);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
-        $this->assertNotEmpty($error);
+        $this->assertEquals(JwtErrorTypes::SIGNATURE_ALGORITHM_MISMATCH, $error);
     }
 
     /**
