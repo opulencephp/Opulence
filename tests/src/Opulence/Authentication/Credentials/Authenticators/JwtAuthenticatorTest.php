@@ -60,6 +60,7 @@ class JwtAuthenticatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnsetTokenCredentialReturnsFalse()
     {
+        /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->getMock(ICredential::class);
         $credential->expects($this->any())
             ->method("getValue")

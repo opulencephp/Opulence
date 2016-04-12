@@ -9,6 +9,7 @@
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 
 /**
  * Defines a JWT payload
@@ -88,6 +89,7 @@ class JwtPayload
     }
 
     /**
+     * Gets the value for all the claims
      *
      * @return array The mapping of set claims to their values
      */
@@ -114,7 +116,7 @@ class JwtPayload
     }
 
     /**
-     * @return string|null
+     * @return array|string|null
      */
     public function getAudience()
     {
@@ -174,10 +176,15 @@ class JwtPayload
     }
 
     /**
-     * @param string $audience
+     * @param array|string $audience
+     * @throws InvalidArgumentException Thrown if the audience is not the correct type
      */
-    public function setAudience(string $audience)
+    public function setAudience($audience)
     {
+        if (!is_string($audience) && !is_array($audience)) {
+            throw new InvalidArgumentException("Audience must be of type string or array");
+        }
+
         $this->claims["aud"] = $audience;
     }
 

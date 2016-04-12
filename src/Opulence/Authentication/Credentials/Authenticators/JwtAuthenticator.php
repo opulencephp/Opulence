@@ -52,7 +52,7 @@ class JwtAuthenticator implements IAuthenticator
         }
 
         $jwt = SignedJwt::createFromString($tokenString);
-        $verificationContext = new VerificationContext($this->signer);
+        $verificationContext = $this->getVerificationContext();
         $errors = [];
 
         if (!$this->jwtVerifier->verify($jwt, $verificationContext, $errors)) {
@@ -81,5 +81,15 @@ class JwtAuthenticator implements IAuthenticator
             [new Principal(PrincipalTypes::PRIMARY, $jwt->getPayload()->getSubject(), $roles)],
             [$credential]
         );
+    }
+
+    /**
+     * Gets the verification context used to verify a JWT
+     *
+     * @return VerificationContext The verification context
+     */
+    protected function getVerificationContext() : VerificationContext
+    {
+        return new VerificationContext($this->signer);
     }
 }

@@ -9,6 +9,7 @@
 namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use DateTimeImmutable;
+use InvalidArgumentException;
 
 /**
  * Tests the JWT payload
@@ -220,6 +221,15 @@ class JwtPayloadTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Tests setting the audience with an invalid type throws an exception
+     */
+    public function testInvalidAudienceThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->payload->setAudience(new DateTimeImmutable());
+    }
+
+    /**
      * Tests setting the Id
      */
     public function testSettingId()
@@ -227,5 +237,14 @@ class JwtPayloadTest extends \PHPUnit_Framework_TestCase
         $this->payload->setId("foo");
         $this->assertEquals("foo", $this->payload->get("jti"));
         $this->assertEquals("foo", $this->payload->getId());
+    }
+
+    /**
+     * Tests setting multiple audiences
+     */
+    public function testSettingMultipleAudiences()
+    {
+        $this->payload->setAudience(["foo", "bar"]);
+        $this->assertEquals(["foo", "bar"], $this->payload->getAudience());
     }
 }
