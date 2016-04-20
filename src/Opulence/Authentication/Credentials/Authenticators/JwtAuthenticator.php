@@ -16,26 +16,25 @@ use Opulence\Authentication\Subject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
-use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**
  * Defines the JWT authenticator
  */
 class JwtAuthenticator implements IAuthenticator
 {
-    /** @var ISigner The token signer */
-    protected $signer = null;
     /** @var JwtVerifier The JWT verifier */
     protected $jwtVerifier = null;
+    /** @var VerificationContext The verification context to use */
+    protected $verificationContext = null;
 
     /**
-     * @param ISigner $signer The token signer
      * @param JwtVerifier $jwtVerifier The JWT verifier
+     * @param VerificationContext $verificationContext The verification context to use
      */
-    public function __construct(ISigner $signer, JwtVerifier $jwtVerifier)
+    public function __construct(JwtVerifier $jwtVerifier, VerificationContext $verificationContext)
     {
-        $this->signer = $signer;
         $this->jwtVerifier = $jwtVerifier;
+        $this->verificationContext = $verificationContext;
     }
 
     /**
@@ -52,10 +51,9 @@ class JwtAuthenticator implements IAuthenticator
         }
 
         $jwt = SignedJwt::createFromString($tokenString);
-        $verificationContext = $this->getVerificationContext();
         $errors = [];
 
-        if (!$this->jwtVerifier->verify($jwt, $verificationContext, $errors)) {
+        if (!$this->jwtVerifier->verify($jwt, $this->verificationContext, $errors)) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
 
             return false;
@@ -81,15 +79,5 @@ class JwtAuthenticator implements IAuthenticator
             [new Principal(PrincipalTypes::PRIMARY, $jwt->getPayload()->getSubject(), $roles)],
             [$credential]
         );
-    }
-
-    /**
-     * Gets the verification context used to verify a JWT
-     *
-     * @return VerificationContext The verification context
-     */
-    protected function getVerificationContext() : VerificationContext
-    {
-        return new VerificationContext($this->signer);
     }
 }

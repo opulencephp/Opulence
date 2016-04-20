@@ -15,6 +15,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
+use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
@@ -38,8 +39,9 @@ class JwtAuthenticatorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var ISigner $signer */
         $signer = $this->getMock(ISigner::class);
+        $verificationContext = new VerificationContext($signer);
         $this->jwtVerifier = $this->getMock(JwtVerifier::class, ["verify"]);
-        $this->authenticator = new JwtAuthenticator($signer, $this->jwtVerifier);
+        $this->authenticator = new JwtAuthenticator($this->jwtVerifier, $verificationContext);
         $this->credential = $this->getMock(ICredential::class);
 
         // Set up the signed JWT

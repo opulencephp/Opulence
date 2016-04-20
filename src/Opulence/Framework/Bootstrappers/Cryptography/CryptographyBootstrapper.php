@@ -43,7 +43,6 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     /**
      * Gets the encrypter to use
      *
-     * @param Strings $strings The string utility
      * @return IEncrypter The encrypter
      */
     protected function getEncrypter() : IEncrypter

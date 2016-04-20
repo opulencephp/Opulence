@@ -40,7 +40,7 @@ interface IUserRepository
      * Gets the user with the input Id
      *
      * @param int|string $id The user Id
-     * @return IUser|null The user, if one was found, otherwise null
+     * @return IUser The user
      */
     public function getById($id);
 
