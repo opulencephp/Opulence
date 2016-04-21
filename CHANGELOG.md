@@ -7,6 +7,7 @@
 <h3>Backwards Incompatibilities</h3>
 * Removed ability to "make" classes via an IoC container in `Opulence\Pipelines\Pipeline`
 * Removed `IContainer` from `Pipeline::__construct()`
+* Completely re-architected the IoC container (see below)
 
 <h3>Applications</h3>
 * Changed `Opulence\Applications\Application::start()` and `shutdown()` to accept optional `callable` rather than `Closure`
@@ -19,6 +20,9 @@
 
 <h3>Authorization</h3>
 * Added `Opulence\Authorization` library
+
+<h3>Bootstrappers</h3>
+* Updated to use the new IoC container (see below)
 
 <h3>Cryptography</h3>
 * Removed `Strings` from `Opulence\Cryptography\Encryption\Encrypter::__construct()`
@@ -38,14 +42,34 @@
 * Fixed bug that did not attempt to check the current request method's parameter collection when calling `Opulence\Http\Requests\Request::getInput()`
 * Fixed bug that returned `null` when getting the previous URL and none is set, nor is the referrer header set
 
-<h3>Ioc</h3>
-* Improved speed of instantiating classes via container by using the splat operator rather than reflection
+<h3>IoC</h3>
+* Completely rewrote IoC container to specify binding scope when you bind to the container rather than when you resolve something from it
+  * For example, before, to get a singleton, you'd call `$container->bind($interface, $singletonClass)`, and then `$container->makeShared($interface)`
+  * Now, you call `$container->bindSingleton($interface, $singletonClass)`, and then `$container->resolve($interface)`
+* To bind a factory that will return the instance to bind, use `bindFactory($interface, $factory)` method
+* To bind an instance of an object, use `bindInstance($interface, $instance)`
+* To bind a prototype (non-singleton) class, use `bindPrototype($interface, $prototypeClass)`
+  * Useful for interfaces previously resolve using `makeNew($interface)`
+* To bind a singleton (shared) class, use `$container->bindSingleton($interface, $singletonClass)`
+  * Useful for interfaces previously resolved using `$container->makeShared($interface)`
+* To specify a targeted binding, use `$container->for($targetClass)->bindSingleton($interface, $singletonClass)`
+  * `$container->for($targetClass)` applies to only the next call to `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `resolve()`, and `unbind()`
+  * All other calls after these will resume being universal bindings
+* To specify primitive values, do so when you bind to the container, eg `$container->bindSingleton($interface, $singletonClass, $arrayOfPrimitives)`
+  * You no longer specify primitives when resolving dependencies - only when you bind them
+* To call a closure, use `$container->callClosure($closure, $arrayOfPrimitives)`
+* To call a method, use `$container->callMethod($instance, $methodName, $arrayOfPrimitives)`
+* To check if an interface has a binding, use `$container->hasBinding($interface)`
+* To unbind an interface, use `$container->unbind($interface)`
 
 <h3>Memcached</h3>
 * Renamed `Opulence\Memcached\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
 
 <h3>Redis</h3>
 * Renamed `Opulence\Redis\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
+
+<h3>Routing</h3>
+* Updated to use the new IoC container (see above)
 
 <h3>Sessions</h3>
 * Removed `Opulence\Cryptography\Utilities\Strings` dependency in `Opulence\Sessions\Ids\Generators\IdGenerator`

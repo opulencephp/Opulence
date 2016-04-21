@@ -14,6 +14,7 @@ use Opulence\Authentication\Principal;
 use Opulence\Authentication\PrincipalTypes;
 use Opulence\Authentication\Subject;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtErrorTypes;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\JwtVerifier;
 use Opulence\Authentication\Tokens\JsonWebTokens\Verification\VerificationContext;
 
@@ -26,6 +27,8 @@ class JwtAuthenticator implements IAuthenticator
     protected $jwtVerifier = null;
     /** @var VerificationContext The verification context to use */
     protected $verificationContext = null;
+    /** @var SignedJwt|null The signed JWT generated from authentication */
+    protected $signedJwt = null;
 
     /**
      * @param JwtVerifier $jwtVerifier The JWT verifier
@@ -42,6 +45,8 @@ class JwtAuthenticator implements IAuthenticator
      */
     public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {
+        // Reset the JWT
+        $this->signedJwt = null;
         $tokenString = $credential->getValue("token");
 
         if ($tokenString === null) {
@@ -50,16 +55,20 @@ class JwtAuthenticator implements IAuthenticator
             return false;
         }
 
-        $jwt = SignedJwt::createFromString($tokenString);
-        $errors = [];
+        $this->signedJwt = SignedJwt::createFromString($tokenString);
+        $jwtErrors = [];
 
-        if (!$this->jwtVerifier->verify($jwt, $this->verificationContext, $errors)) {
-            $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
+        if (!$this->jwtVerifier->verify($this->signedJwt, $this->verificationContext, $jwtErrors)) {
+            if (in_array(JwtErrorTypes::EXPIRED, $jwtErrors)) {
+                $error = AuthenticatorErrorTypes::CREDENTIAL_EXPIRED;
+            } else {
+                $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
+            }
 
             return false;
         }
 
-        $subject = $this->getSubjectFromJwt($jwt, $credential);
+        $subject = $this->getSubjectFromJwt($this->signedJwt, $credential);
 
         return true;
     }

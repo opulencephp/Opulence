@@ -13,6 +13,8 @@ namespace Opulence\Authentication\Credentials\Authenticators;
  */
 class AuthenticatorErrorTypes
 {
+    /** Defines the error that occurs when a credential value is expired */
+    const CREDENTIAL_EXPIRED = "CREDENTIAL_EXPIRED";
     /** Defines the error that occurs when a credential value is incorrect */
     const CREDENTIAL_INCORRECT = "CREDENTIAL_INCORRECT";
     /** Defines the error that occurs when a credential is missing a value */
