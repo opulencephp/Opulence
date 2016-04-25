@@ -183,11 +183,11 @@ class Kernel
             if ($singleMiddleware instanceof MiddlewareParameters) {
                 /** @var MiddlewareParameters $singleMiddleware */
                 /** @var ParameterizedMiddleware $tempMiddleware */
-                $tempMiddleware = $this->container->makeShared($singleMiddleware->getMiddlewareClassName());
+                $tempMiddleware = $this->container->resolve($singleMiddleware->getMiddlewareClassName());
                 $tempMiddleware->setParameters($singleMiddleware->getParameters());
                 $singleMiddleware = $tempMiddleware;
             } elseif (is_string($singleMiddleware)) {
-                $singleMiddleware = $this->container->makeShared($singleMiddleware);
+                $singleMiddleware = $this->container->resolve($singleMiddleware);
             }
 
             $stages[] = $singleMiddleware;
@@ -205,12 +205,12 @@ class Kernel
     {
         $this->exceptionRenderer->setRequest($request);
 
-        if ($this->container->isBound(ICompiler::class)) {
-            $this->exceptionRenderer->setViewCompiler($this->container->makeShared(ICompiler::class));
+        if ($this->container->hasBinding(ICompiler::class)) {
+            $this->exceptionRenderer->setViewCompiler($this->container->resolve(ICompiler::class));
         }
 
-        if ($this->container->isBound(IViewFactory::class)) {
-            $this->exceptionRenderer->setViewFactory($this->container->makeShared(IViewFactory::class));
+        if ($this->container->hasBinding(IViewFactory::class)) {
+            $this->exceptionRenderer->setViewFactory($this->container->resolve(IViewFactory::class));
         }
     }
 }

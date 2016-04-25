@@ -68,7 +68,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingClosureWithDependencies()
     {
-        $this->container->bind(Request::class, $this->request);
+        $this->container->bindInstance(Request::class, $this->request);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo/{primitive}", function (Request $request, $primitive) {
                 return get_class($request) . ":" . $primitive;

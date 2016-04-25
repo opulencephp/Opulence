@@ -22,6 +22,6 @@ class RequestBootstrapper extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(Request::class, Request::createFromGlobals());
+        $container->bindInstance(Request::class, Request::createFromGlobals());
     }
 }

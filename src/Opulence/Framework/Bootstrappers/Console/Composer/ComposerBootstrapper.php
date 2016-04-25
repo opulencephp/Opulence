@@ -34,7 +34,7 @@ class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
     {
         $composer = Composer::createFromRawConfig($this->paths);
         $executable = new Executable($this->paths);
-        $container->bind(Composer::class, $composer);
-        $container->bind(Executable::class, $executable);
+        $container->bindInstance(Composer::class, $composer);
+        $container->bindInstance(Executable::class, $executable);
     }
 }

@@ -141,10 +141,10 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
     {
         $this->environment->setName(Environment::TESTING);
         $this->application->start();
-        $this->container->bind(IExceptionHandler::class, $this->getExceptionHandler());
-        $this->container->bind(IExceptionRenderer::class, $this->getExceptionRenderer());
-        $this->router = $this->container->makeShared(Router::class);
-        $this->kernel = $this->container->makeShared(Kernel::class);
+        $this->container->bindInstance(IExceptionHandler::class, $this->getExceptionHandler());
+        $this->container->bindInstance(IExceptionRenderer::class, $this->getExceptionRenderer());
+        $this->router = $this->container->resolve(Router::class);
+        $this->kernel = $this->container->resolve(Kernel::class);
         $this->kernel->addMiddleware($this->getGlobalMiddleware());
         $this->defaultRequest = new Request([], [], [], [], [], []);
         $this->assertResponse = new ResponseAssertions();

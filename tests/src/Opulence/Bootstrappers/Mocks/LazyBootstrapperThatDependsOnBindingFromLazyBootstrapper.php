@@ -30,7 +30,7 @@ class LazyBootstrapperThatDependsOnBindingFromLazyBootstrapper extends BaseBoots
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(EagerFooInterface::class, EagerConcreteFoo::class);
+        $container->bindSingleton(EagerFooInterface::class, EagerConcreteFoo::class);
     }
 
     /**

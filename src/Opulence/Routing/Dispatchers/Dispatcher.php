@@ -154,11 +154,11 @@ class Dispatcher implements IDispatcher
             if ($singleMiddleware instanceof MiddlewareParameters) {
                 /** @var MiddlewareParameters $singleMiddleware */
                 /** @var ParameterizedMiddleware $tempMiddleware */
-                $tempMiddleware = $this->container->makeShared($singleMiddleware->getMiddlewareClassName());
+                $tempMiddleware = $this->container->resolve($singleMiddleware->getMiddlewareClassName());
                 $tempMiddleware->setParameters($singleMiddleware->getParameters());
                 $singleMiddleware = $tempMiddleware;
             } elseif (is_string($singleMiddleware)) {
-                $singleMiddleware = $this->container->makeShared($singleMiddleware);
+                $singleMiddleware = $this->container->resolve($singleMiddleware);
             }
 
             $stages[] = $singleMiddleware;
@@ -183,21 +183,21 @@ class Dispatcher implements IDispatcher
 
         // Just in case the request hasn't already been bound, bind it
         // This allows us to use it when resolving the controller class
-        if (!is_object($this->container->getBinding(Request::class))) {
-            $this->container->bind(Request::class, $request);
+        if (!$this->container->hasBinding(Request::class)) {
+            $this->container->bindInstance(Request::class, $request);
         }
 
-        $controller = $this->container->makeShared($controllerName);
+        $controller = $this->container->resolve($controllerName);
 
         if ($controller instanceof Controller) {
             $controller->setRequest($request);
 
-            if ($this->container->isBound(IViewFactory::class)) {
-                $controller->setViewFactory($this->container->makeShared(IViewFactory::class));
+            if ($this->container->hasBinding(IViewFactory::class)) {
+                $controller->setViewFactory($this->container->resolve(IViewFactory::class));
             }
 
-            if ($this->container->isBound(ICompiler::class)) {
-                $controller->setViewCompiler($this->container->makeShared(ICompiler::class));
+            if ($this->container->hasBinding(ICompiler::class)) {
+                $controller->setViewCompiler($this->container->resolve(ICompiler::class));
             }
         }
 
@@ -227,7 +227,7 @@ class Dispatcher implements IDispatcher
         foreach ($reflectionParameters as $parameter) {
             if ($acceptObjectParameters && $parameter->getClass() !== null) {
                 $className = $parameter->getClass()->getName();
-                $resolvedParameters[$parameter->getPosition()] = $this->container->makeShared($className);
+                $resolvedParameters[$parameter->getPosition()] = $this->container->resolve($className);
             } elseif (isset($pathVars[$parameter->getName()])) {
                 // There is a value set in the route
                 $resolvedParameters[$parameter->getPosition()] = $pathVars[$parameter->getName()];

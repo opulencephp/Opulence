@@ -48,9 +48,9 @@ abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyB
         $userRepository = $this->getUserRepository($container);
 
         // Bind to the container
-        $container->bind(IAuthenticationContext::class, $authenticationContext);
-        $container->bind(IAuthenticator::class, $authenticator);
-        $container->bind(IUserRepository::class, $userRepository);
+        $container->bindInstance(IAuthenticationContext::class, $authenticationContext);
+        $container->bindInstance(IAuthenticator::class, $authenticator);
+        $container->bindInstance(IUserRepository::class, $userRepository);
     }
 
     /**
@@ -82,7 +82,7 @@ abstract class AuthenticationBootstrapper extends Bootstrapper implements ILazyB
     {
         $authenticatorRegistry = new AuthenticatorRegistry();
         $authenticator = new Authenticator($authenticatorRegistry);
-        $container->bind(IAuthenticatorRegistry::class, $authenticatorRegistry);
+        $container->bindInstance(IAuthenticatorRegistry::class, $authenticatorRegistry);
 
         return $authenticator;
     }

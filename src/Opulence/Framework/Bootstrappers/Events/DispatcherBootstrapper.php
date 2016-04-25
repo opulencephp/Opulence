@@ -33,7 +33,7 @@ abstract class DispatcherBootstrapper extends Bootstrapper
             }
         }
 
-        $container->bind(IDispatcher::class, $dispatcher);
+        $container->bindInstance(IDispatcher::class, $dispatcher);
     }
 
     /**
@@ -81,7 +81,7 @@ abstract class DispatcherBootstrapper extends Bootstrapper
                 $listenerClass,
                 $listenerMethod
             ) {
-                $listenerObject = $container->makeShared($listenerClass);
+                $listenerObject = $container->resolve($listenerClass);
                 call_user_func_array([$listenerObject, $listenerMethod], [$event, $eventName, $dispatcher]);
             };
         }

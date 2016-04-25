@@ -62,9 +62,9 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
         $this->viewCache = $this->getViewCache($container);
         $this->viewFactory = $this->getViewFactory($container);
         $compiler = $this->getViewCompiler($container);
-        $container->bind(ICompiler::class, $compiler);
-        $container->bind(ICache::class, $this->viewCache);
-        $container->bind(IViewFactory::class, $this->viewFactory);
+        $container->bindInstance(ICompiler::class, $compiler);
+        $container->bindInstance(ICache::class, $this->viewCache);
+        $container->bindInstance(IViewFactory::class, $this->viewFactory);
     }
 
     /**
@@ -101,7 +101,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
 
         // Setup our various sub-compilers
         $transpiler = new Transpiler(new Lexer(), new Parser(), $this->viewCache, new XssFilter());
-        $container->bind(ITranspiler::class, $transpiler);
+        $container->bindInstance(ITranspiler::class, $transpiler);
         $fortuneCompiler = new FortuneCompiler($transpiler, $this->viewFactory);
         $registry->registerCompiler("fortune", $fortuneCompiler);
         $registry->registerCompiler("fortune.php", $fortuneCompiler);
@@ -125,8 +125,8 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
         $resolver->registerExtension("fortune.php");
         $resolver->registerExtension("php");
         $viewReader = $this->getViewReader($container);
-        $container->bind(IViewNameResolver::class, $resolver);
-        $container->bind(IViewReader::class, $viewReader);
+        $container->bindInstance(IViewNameResolver::class, $resolver);
+        $container->bindInstance(IViewReader::class, $viewReader);
 
         return new ViewFactory($resolver, $viewReader);
     }

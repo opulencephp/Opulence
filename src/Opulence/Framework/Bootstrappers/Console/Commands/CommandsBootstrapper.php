@@ -59,9 +59,9 @@ class CommandsBootstrapper extends Bootstrapper
     public function registerBindings(IContainer $container)
     {
         $compiler = $this->getCommandCompiler($container);
-        $container->bind(ICompiler::class, $compiler);
+        $container->bindInstance(ICompiler::class, $compiler);
         $this->commandCollection = new CommandCollection($compiler);
-        $container->bind(CommandCollection::class, $this->commandCollection);
+        $container->bindInstance(CommandCollection::class, $this->commandCollection);
     }
 
     /**
@@ -73,7 +73,7 @@ class CommandsBootstrapper extends Bootstrapper
     {
         // Instantiate each command class
         foreach (self::$commandClasses as $commandClass) {
-            $this->commandCollection->add($container->makeShared($commandClass));
+            $this->commandCollection->add($container->resolve($commandClass));
         }
     }
 

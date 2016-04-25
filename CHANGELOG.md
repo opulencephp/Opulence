@@ -45,15 +45,15 @@
 <h3>IoC</h3>
 * Completely rewrote IoC container to specify binding scope when you bind to the container rather than when you resolve something from it
   * For example, before, to get a singleton, you'd call `$container->bind($interface, $singletonClass)`, and then `$container->makeShared($interface)`
-  * Now, you call `$container->bindSingleton($interface, $singletonClass)`, and then `$container->resolve($interface)`
-* To bind a factory that will return the instance to bind, use `bindFactory($interface, $factory)` method
-* To bind an instance of an object, use `bindInstance($interface, $instance)`
-* To bind a prototype (non-singleton) class, use `bindPrototype($interface, $prototypeClass)`
-  * Useful for interfaces previously resolve using `makeNew($interface)`
+  * Now, you call `$container->bindSingleton($interface, $singletonClass)`, and then `$container->resolve($interface)` to resolve an instance
+* To bind a factory that will return the instance to bind, use `$container->bindFactory($interface, $factory)` method
+* To bind an instance of an object, use `$container->bindInstance($interface, $instance)`
+* To bind a prototype (non-singleton) class, use `$container->bindPrototype($interface, $prototypeClass)`
+  * Useful for interfaces previously resolve using `$container->makeNew($interface)`
 * To bind a singleton (shared) class, use `$container->bindSingleton($interface, $singletonClass)`
   * Useful for interfaces previously resolved using `$container->makeShared($interface)`
 * To specify a targeted binding, use `$container->for($targetClass)->bindSingleton($interface, $singletonClass)`
-  * `$container->for($targetClass)` applies to only the next call to `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `resolve()`, and `unbind()`
+  * `$container->for($targetClass)` applies to only the next call to `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `hasBinding()`, `resolve()`, and `unbind()`
   * All other calls after these will resume being universal bindings
 * To specify primitive values, do so when you bind to the container, eg `$container->bindSingleton($interface, $singletonClass, $arrayOfPrimitives)`
   * You no longer specify primitives when resolving dependencies - only when you bind them

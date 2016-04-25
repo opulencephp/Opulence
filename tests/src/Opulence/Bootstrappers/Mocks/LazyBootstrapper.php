@@ -30,6 +30,6 @@ class LazyBootstrapper extends BaseBootstrapper implements ILazyBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(LazyFooInterface::class, LazyConcreteFoo::class);
+        $container->bindSingleton(LazyFooInterface::class, LazyConcreteFoo::class);
     }
 }

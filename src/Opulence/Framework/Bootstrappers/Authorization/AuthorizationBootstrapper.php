@@ -44,7 +44,7 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(IAuthority::class, $this->getAuthority($container));
+        $container->bindInstance(IAuthority::class, $this->getAuthority($container));
     }
 
     /**
@@ -73,8 +73,8 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     {
         $permissionRegistry = $this->getPermissionRegistry($container);
         $roles = $this->getRoles($container);
-        $container->bind(IPermissionRegistry::class, $permissionRegistry);
-        $container->bind(IRoles::class, $roles);
+        $container->bindInstance(IPermissionRegistry::class, $permissionRegistry);
+        $container->bindInstance(IRoles::class, $roles);
 
         return new Authority(-1, $permissionRegistry, $roles);
     }
@@ -100,8 +100,8 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     {
         $roleRepository = $this->getRoleRepository($container);
         $roleMembershipRepository = $this->getRoleMembershipRepository($container);
-        $container->bind(IRoleRepository::class, $roleRepository);
-        $container->bind(IRoleMembershipRepository::class, $roleMembershipRepository);
+        $container->bindInstance(IRoleRepository::class, $roleRepository);
+        $container->bindInstance(IRoleMembershipRepository::class, $roleMembershipRepository);
 
         return new Roles($roleRepository, $roleMembershipRepository);
     }

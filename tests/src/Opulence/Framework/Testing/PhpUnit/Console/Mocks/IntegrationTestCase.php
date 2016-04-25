@@ -68,13 +68,13 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->environment = new Environment("foo");
         $this->container = new Container();
-        $this->container->bind(Paths::class, $paths);
-        $this->container->bind(TaskDispatcher::class, $taskDispatcher);
-        $this->container->bind(Environment::class, $this->environment);
-        $this->container->bind(BootstrapperCache::class, $this->getMock(BootstrapperCache::class));
-        $this->container->bind(RouteCache::class, $this->getMock(RouteCache::class));
-        $this->container->bind(ViewCache::class, $this->getMock(ViewCache::class));
-        $this->container->bind(IContainer::class, $this->container);
+        $this->container->bindInstance(Paths::class, $paths);
+        $this->container->bindInstance(TaskDispatcher::class, $taskDispatcher);
+        $this->container->bindInstance(Environment::class, $this->environment);
+        $this->container->bindInstance(BootstrapperCache::class, $this->getMock(BootstrapperCache::class));
+        $this->container->bindInstance(RouteCache::class, $this->getMock(RouteCache::class));
+        $this->container->bindInstance(ViewCache::class, $this->getMock(ViewCache::class));
+        $this->container->bindInstance(IContainer::class, $this->container);
         $this->application = new Application($taskDispatcher);
 
         // Setup the bootstrappers

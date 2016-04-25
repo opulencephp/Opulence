@@ -103,8 +103,8 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
         $this->environment->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
-        $this->commandCollection = $this->container->makeShared(CommandCollection::class);
-        $this->commandCompiler = $this->container->makeShared(ICompiler::class);
+        $this->commandCollection = $this->container->resolve(CommandCollection::class);
+        $this->commandCompiler = $this->container->resolve(ICompiler::class);
         $this->responseCompiler = new ResponseCompiler(new ResponseLexer(), new ResponseParser());
         $this->kernel = new Kernel(
             $this->requestParser,
@@ -116,7 +116,7 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
 
         // Bind a mock prompt that can output pre-determined answers
         $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
-        $this->container->bind(Prompt::class, $this->prompt);
+        $this->container->bindInstance(Prompt::class, $this->prompt);
     }
 
     /**
@@ -136,6 +136,6 @@ abstract class IntegrationTestCase extends BaseIntegrationTestCase
         }
 
         // Remake the command to have this latest binding
-        $this->commandCollection->add($this->container->makeShared($commandClassName), true);
+        $this->commandCollection->add($this->container->resolve($commandClassName), true);
     }
 }

@@ -61,11 +61,11 @@ abstract class ValidatorBootstrapper extends Bootstrapper implements ILazyBootst
         $this->errorTemplateCompiler = $this->getErrorTemplateCompiler($container);
         $this->rulesFactory = $this->getRulesFactory($container);
         $this->validatorFactory = $this->getValidatorFactory($container);
-        $container->bind(RuleExtensionRegistry::class, $this->ruleExtensionRegistry);
-        $container->bind(ErrorTemplateRegistry::class, $this->errorTemplateRegistry);
-        $container->bind(ICompiler::class, $this->errorTemplateCompiler);
-        $container->bind(RulesFactory::class, $this->rulesFactory);
-        $container->bind(IValidatorFactory::class, $this->validatorFactory);
+        $container->bindInstance(RuleExtensionRegistry::class, $this->ruleExtensionRegistry);
+        $container->bindInstance(ErrorTemplateRegistry::class, $this->errorTemplateRegistry);
+        $container->bindInstance(ICompiler::class, $this->errorTemplateCompiler);
+        $container->bindInstance(RulesFactory::class, $this->rulesFactory);
+        $container->bindInstance(IValidatorFactory::class, $this->validatorFactory);
     }
 
     /**

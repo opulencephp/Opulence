@@ -94,13 +94,13 @@ class Dispatcher implements IDispatcher
         }
 
         foreach ($bootstrapperObjects as $bootstrapper) {
-            $this->container->call([$bootstrapper, "run"], [], true);
+            $this->container->callMethod($bootstrapper, "run", [], true);
         }
 
         // Call the shutdown method
         $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use ($bootstrapperObjects) {
             foreach ($bootstrapperObjects as $bootstrapper) {
-                $this->container->call([$bootstrapper, "shutdown"], [], true);
+                $this->container->callMethod($bootstrapper, "shutdown", [], true);
             }
         });
     }
@@ -120,9 +120,22 @@ class Dispatcher implements IDispatcher
         foreach ($boundClassesToBindingData as $boundClass => $bindingData) {
             $bootstrapperClass = $bindingData["bootstrapper"];
             $target = $bindingData["target"];
-            $this->container->bind(
+
+            if ($target !== null) {
+                $this->container->for($target);
+            }
+
+            $this->container->bindFactory(
                 $boundClass,
                 function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass, $target) {
+                    // To make sure this factory isn't used anymore to resolve the bound class, unbind it
+                    // Otherwise, we'd get into an infinite loop every time we tried to resolve it
+                    if ($target !== null) {
+                        $this->container->for($target);
+                    }
+
+                    $this->container->unbind($boundClass);
+
                     $bootstrapper = $registry->getInstance($bootstrapperClass);
 
                     if (!in_array($bootstrapper, $bootstrapperObjects)) {
@@ -132,20 +145,23 @@ class Dispatcher implements IDispatcher
                     if (!isset($this->runBootstrappers[$bootstrapperClass])) {
                         $bootstrapper->initialize();
                         $bootstrapper->registerBindings($this->container);
-                        $this->container->call([$bootstrapper, "run"], [], true);
+                        $this->container->callMethod($bootstrapper, "run", [], true);
                         $this->runBootstrappers[$bootstrapperClass] = true;
                     }
 
-                    return $this->container->makeShared($boundClass, $target);
-                },
-                $target
+                    if ($target !== null) {
+                        $this->container->for($target);
+                    }
+
+                    return $this->container->resolve($boundClass);
+                }
             );
         }
 
         // Call the shutdown method
         $this->taskDispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$bootstrapperObjects) {
             foreach ($bootstrapperObjects as $bootstrapper) {
-                $this->container->call([$bootstrapper, "shutdown"], [], true);
+                $this->container->callMethod($bootstrapper, "shutdown", [], true);
             }
         });
     }

@@ -14,125 +14,96 @@ namespace Opulence\Ioc;
 interface IContainer
 {
     /**
-     * Binds a class to an interface or abstract class
+     * Binds a factory that will return a concrete instance of the interface
      *
-     * @param string|array $interfaces The name of the interface or interfaces to bind to
-     * @param string|callable|mixed $concrete Either the name of or an instance of the concrete class to bind
-     * @param string|null $targetClass The name of the target class to bind on, or null if binding to all classes
+     * @param string|array $interfaces The interface or interfaces to bind to
+     * @param callable $factory The factory to bind
+     * @param bool $resolveAsSingleton Whether or not to resolve the factory as a singleton
      */
-    public function bind($interfaces, $concrete, string $targetClass = null);
+    public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false);
 
     /**
-     * Calls a method on an object and automatically resolves any type hinted arguments
+     * Binds a concrete instance to the interface
      *
-     * @param callable|array $function The function to call
-     * @param array $primitives The list of any argument primitives
-     * @param bool $ignoreMissing True if we will accept it when the method is missing, otherwise false
-     * @param bool $forceNewInstance True if we are going to force a new instance, otherwise false
-     * @return mixed|null The return value of the method if there was one, otherwise null
+     * @param string|array $interfaces The interface or interfaces to bind to
+     * @param object $instance The instance to bind
+     */
+    public function bindInstance($interfaces, $instance);
+
+    /**
+     * Binds a non-singleton concrete class to an interface
+     *
+     * @param string|array $interfaces The interface or interfaces to bind to
+     * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
+     * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
+     */
+    public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = []);
+
+    /**
+     * Binds a singleton concrete class to an interface
+     *
+     * @param string|array $interfaces The interface or interfaces to bind to
+     * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
+     * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
+     */
+    public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = []);
+
+    /**
+     * Resolves a closure's parameters and calls it
+     *
+     * @param callable $closure The closure to resolve
+     * @param array $primitives The list of primitives to inject (must be in same order they appear in closure)
+     * @return mixed The result of the call
      * @throws IocException Thrown if there was an error calling the method
      */
-    public function call(
-        $function,
+    public function callClosure(callable $closure, array $primitives = []);
+
+    /**
+     * Resolves a method's parameters and calls it
+     *
+     * @param object|string $instance The instance (or class name if the method is static) whose method we're calling
+     * @param string $methodName The name of the method we're calling
+     * @param array $primitives The list of primitives to inject (must be in same order they appear in closure)
+     * @param bool $ignoreMissingMethod Whether or not we ignore if the method does not exist
+     * @return mixed The result of the call
+     * @throws IocException Thrown if there was an error calling the method
+     */
+    public function callMethod(
+        $instance,
+        string $methodName,
         array $primitives = [],
-        bool $ignoreMissing = false,
-        bool $forceNewInstance = false
+        bool $ignoreMissingMethod = false
     );
 
     /**
-     * Gets the name of the concrete class bound to the interface
-     * If a target is specified, but nothing has been explicitly bound to it, then the universal binding is returned
+     * Sets up the next binding call to use the input target class
      *
-     * @param string $interface The name of the interface whose binding we want
-     * @param string|null $targetClass The name of the target class whose binding we want, or null for universal bindings
-     * @return string|callable|null The name of the concrete class or callback bound to the interface if there is one,
-     *      otherwise null
+     * @param string $targetClass The target class
+     * @return IContainer The container with the target class set
      */
-    public function getBinding(string $interface, string $targetClass = null);
+    public function for (string $targetClass) : IContainer;
 
     /**
-     * Gets whether or not an interface is bound
-     * If a target is specified, but the interface has not been explicitly bound to it, then this returns false
+     * Gets whether or not an interface has a binding
      *
-     * @param string $interface The name of the interface
-     * @param string|null $targetClass The name of the class whose bindings we're checking, or null for universal bindings
-     * @return bool True if the interface is bound, otherwise false
+     * @param string $interface The interface to check
+     * @return bool True if the interface has a binding, otherwise false
      */
-    public function isBound(string $interface, string $targetClass = null);
+    public function hasBinding(string $interface) : bool;
 
     /**
-     * Creates an instance of the input class name
+     * Resolve an instance of the interface
      *
-     * @param string $component The name of the component to instantiate
-     * @param bool $forceNewInstance True if we want to create a new instance, otherwise false
-     * @param string|null $targetClass The target of the component if instantiating for a particular class
-     * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
-     * @param array $methodCalls The array of method calls and their primitive parameter values
-     *      Should be structured like so:
-     *      [
-     *          NAME_OF_METHOD => [VALUES_OF_PRIMITIVE_PARAMETERS],
-     *          ...
-     *      ]
-     * @return mixed An instance of the input class
-     * @throws IocException Thrown if there was an error making the component
+     * @param string $interface The interface to resolve
+     * @return mixed The resolved instance
+     * @throws IocException Thrown if there was an error resolving the interface
      */
-    public function make(
-        string $component,
-        bool $forceNewInstance,
-        string $targetClass = null,
-        array $constructorPrimitives = [],
-        array $methodCalls = []
-    );
+    public function resolve(string $interface);
 
     /**
-     * Creates a new instance of the input class name
+     * Unbinds the interface from the container
      *
-     * @param string $component The name of the component to instantiate
-     * @param string|null $targetClass The target of the component if instantiating for a particular class
-     * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
-     * @param array $methodCalls The array of method calls and their primitive parameter values
-     *      Should be structured like so:
-     *      [
-     *          NAME_OF_METHOD => [VALUES_OF_PRIMITIVE_PARAMETERS],
-     *          ...
-     *      ]
-     * @return mixed A new instance of the input class
-     * @throws IocException Thrown if there was an error making the component
+     * @param string|array $interface The interface or interfaces to unbind from
      */
-    public function makeNew(
-        string $component,
-        string $targetClass = null,
-        array $constructorPrimitives = [],
-        array $methodCalls = []
-    );
-
-    /**
-     * Creates a shared instance of the input class name
-     *
-     * @param string $component The name of the component to instantiate
-     * @param string|null $targetClass The target of the component if instantiating for a particular class
-     * @param array $constructorPrimitives The primitive parameter values to pass into the constructor
-     * @param array $methodCalls The array of method calls and their primitive parameter values
-     *      Should be structured like so:
-     *      [
-     *          NAME_OF_METHOD => [VALUES_OF_PRIMITIVE_PARAMETERS],
-     *          ...
-     *      ]
-     * @return mixed An instance of the input class
-     * @throws IocException Thrown if there was an error making the component
-     */
-    public function makeShared(
-        string $component,
-        string $targetClass = null,
-        array $constructorPrimitives = [],
-        array $methodCalls = []
-    );
-
-    /**
-     * Removes a binding from the container
-     *
-     * @param string $interface The name of the interface whose binding we're removing
-     * @param string|null $targetClass The name of the target class whose binding we're removing, or null if it's universal
-     */
-    public function unbind(string $interface, string $targetClass = null);
-} 
+    public function unbind($interfaces);
+}

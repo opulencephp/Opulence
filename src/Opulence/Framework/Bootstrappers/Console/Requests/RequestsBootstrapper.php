@@ -23,7 +23,7 @@ class RequestsBootstrapper extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $container->bind(IParser::class, $this->getRequestParser($container));
+        $container->bindInstance(IParser::class, $this->getRequestParser($container));
     }
 
     /**

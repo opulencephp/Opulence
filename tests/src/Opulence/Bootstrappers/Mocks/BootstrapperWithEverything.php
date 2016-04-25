@@ -18,7 +18,7 @@ use Opulence\Ioc\IContainer;
 class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootstrapper
 {
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function getBindings() : array
     {
@@ -26,7 +26,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function initialize()
     {
@@ -34,16 +34,16 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function registerBindings(IContainer $container)
     {
         echo "registerBindings";
-        $container->bind(LazyFooInterface::class, LazyConcreteFoo::class);
+        $container->bindSingleton(LazyFooInterface::class, LazyConcreteFoo::class);
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function run()
     {
@@ -51,7 +51,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     }
 
     /**
-     * @inheritDoc
+     * @inheritdoc
      */
     public function shutdown()
     {
