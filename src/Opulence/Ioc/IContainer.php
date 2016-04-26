@@ -76,12 +76,12 @@ interface IContainer
     );
 
     /**
-     * Sets up the next binding call to use the input target class
+     * Sets a target for all calls in the callback
      *
      * @param string $targetClass The target class
-     * @return IContainer The container with the target class set
+     * @param callable $callback The callback containing targeted container method calls
      */
-    public function for (string $targetClass) : IContainer;
+    public function for (string $targetClass, callable $callback);
 
     /**
      * Gets whether or not an interface has a binding

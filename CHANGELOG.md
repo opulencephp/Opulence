@@ -7,6 +7,7 @@
 <h3>Backwards Incompatibilities</h3>
 * Removed ability to "make" classes via an IoC container in `Opulence\Pipelines\Pipeline`
 * Removed `IContainer` from `Pipeline::__construct()`
+* A `Router` object is now required in the `Router::group()` callback, eg `$router->group($config, function (Router $router) {...})`
 * Completely re-architected the IoC container (see below)
 
 <h3>Applications</h3>
@@ -52,9 +53,9 @@
   * Useful for interfaces previously resolve using `$container->makeNew($interface)`
 * To bind a singleton (shared) class, use `$container->bindSingleton($interface, $singletonClass)`
   * Useful for interfaces previously resolved using `$container->makeShared($interface)`
-* To specify a targeted binding, use `$container->for($targetClass)->bindSingleton($interface, $singletonClass)`
-  * `$container->for($targetClass)` applies to only the next call to `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `hasBinding()`, `resolve()`, and `unbind()`
-  * All other calls after these will resume being universal bindings
+* To specify a targeted binding, use `$container->for($targetClass, $callback)->bindSingleton($interface, $singletonClass)`
+  * The callback should contain all bindings and resolutions that are targeted
+  * The only methods that are targetable are `bindFactory()`, `bindInstance()`, `bindPrototype()`, `bindSingleton()`, `hasBinding()`, `resolve()`, and `unbind()`
 * To specify primitive values, do so when you bind to the container, eg `$container->bindSingleton($interface, $singletonClass, $arrayOfPrimitives)`
   * You no longer specify primitives when resolving dependencies - only when you bind them
 * To call a closure, use `$container->callClosure($closure, $arrayOfPrimitives)`
@@ -69,6 +70,7 @@
 * Renamed `Opulence\Redis\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
 
 <h3>Routing</h3>
+* `Router::group()` now requires a `Router` object as a parameter, eg `$router->group($config, function (Router $router) {...})`
 * Updated to use the new IoC container (see above)
 
 <h3>Sessions</h3>

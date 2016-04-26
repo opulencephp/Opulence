@@ -69,10 +69,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingTargetedFactory()
     {
-        $this->container->for($this->constructorWithIFoo)
-            ->bindFactory($this->fooInterface, function () {
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindFactory($this->fooInterface, function () {
                 return new $this->concreteFoo;
             });
+        });
         $instance1 = $this->container->resolve($this->constructorWithIFoo);
         $instance2 = $this->container->resolve($this->constructorWithIFoo);
         $this->assertInstanceOf($this->concreteFoo, $instance1->getFoo());
@@ -86,10 +87,11 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testBindingTargetedSingletonFactory()
     {
-        $this->container->for($this->constructorWithIFoo)
-            ->bindFactory($this->fooInterface, function () {
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindFactory($this->fooInterface, function () {
                 return new $this->concreteFoo;
             }, true);
+        });
         $instance1 = $this->container->resolve($this->constructorWithIFoo);
         $instance2 = $this->container->resolve($this->constructorWithIFoo);
         $this->assertInstanceOf($this->constructorWithIFoo, $instance1);
@@ -254,29 +256,44 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckingIfTargetBoundInterfaceIsBound()
     {
-        $this->container->for($this->constructorWithIFoo)
-            ->bindPrototype($this->fooInterface, $this->concreteFoo);
-        $this->assertTrue($this->container->for($this->constructorWithIFoo)->hasBinding($this->fooInterface));
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindPrototype($this->fooInterface, $this->concreteFoo);
+        });
+        $this->assertTrue($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->hasBinding($this->fooInterface);
+        }));
         // Reset for factory
-        $this->container->for($this->constructorWithIFoo)
-            ->unbind($this->fooInterface);
-        $this->container->for($this->constructorWithIFoo)
-            ->bindFactory($this->fooInterface, function () {
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->unbind($this->fooInterface);
+        });
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindFactory($this->fooInterface, function () {
                 return new $this->concreteFoo;
             });
-        $this->assertTrue($this->container->for($this->constructorWithIFoo)->hasBinding($this->fooInterface));
+        });
+        $this->assertTrue($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->hasBinding($this->fooInterface);
+        }));
         // Reset for instance
-        $this->container->for($this->constructorWithIFoo)
-            ->unbind($this->fooInterface);
-        $this->container->for($this->constructorWithIFoo)
-            ->bindInstance($this->fooInterface, new $this->concreteFoo);
-        $this->assertTrue($this->container->for($this->constructorWithIFoo)->hasBinding($this->fooInterface));
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->unbind($this->fooInterface);
+        });
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindInstance($this->fooInterface, new $this->concreteFoo);
+        });
+        $this->assertTrue($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->hasBinding($this->fooInterface);
+        }));
         // Reset for singleton
-        $this->container->for($this->constructorWithIFoo)
-            ->unbind($this->fooInterface);
-        $this->container->for($this->constructorWithIFoo)
-            ->bindSingleton($this->fooInterface, $this->concreteFoo);
-        $this->assertTrue($this->container->for($this->constructorWithIFoo)->hasBinding($this->fooInterface));
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->unbind($this->fooInterface);
+        });
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindSingleton($this->fooInterface, $this->concreteFoo);
+        });
+        $this->assertTrue($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->hasBinding($this->fooInterface);
+        }));
     }
 
     /**
@@ -299,8 +316,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testCheckingUnboundTargetedBinding()
     {
         $this->assertFalse(
-            $this->container->for($this->constructorWithIFoo)
-                ->hasBinding($this->fooInterface)
+            $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+                return $container->hasBinding($this->fooInterface);
+            })
         );
     }
 
@@ -502,8 +520,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testGettingTargetedBindingWhenOneDoesNotExistButUniversalBindingExists()
     {
         $this->container->bindSingleton($this->fooInterface, $this->concreteFoo);
-        $instance = $this->container->for($this->constructorWithIFoo)
-            ->resolve($this->fooInterface);
+        $instance = $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->resolve($this->fooInterface);
+        });
         $this->assertInstanceOf($this->fooInterface, $instance);
     }
 
@@ -553,10 +572,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testMultipleTargetedBindings()
     {
-        $this->container->for("baz")
-            ->bindSingleton(["foo", "bar"], $this->concreteFoo);
-        $this->assertTrue($this->container->for("baz")->hasBinding("foo"));
-        $this->assertTrue($this->container->for("baz")->hasBinding("bar"));
+        $this->container->for("baz", function (IContainer $container) {
+            $container->bindSingleton(["foo", "bar"], $this->concreteFoo);
+        });
+        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
+            return $container->hasBinding("foo");
+        }));
+        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
+            return $container->hasBinding("bar");
+        }));
     }
 
     /**
@@ -587,12 +611,14 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolvingInstanceBoundInTargetedCallback()
     {
-        $this->container->for($this->constructorWithIFoo)
-            ->bindFactory($this->fooInterface, function () {
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindFactory($this->fooInterface, function () {
                 return new $this->concreteFoo;
             });
-        $instance = $this->container->for($this->constructorWithIFoo)
-            ->resolve($this->fooInterface);
+        });
+        $instance = $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->resolve($this->fooInterface);
+        });
         $this->assertInstanceOf($this->concreteFoo, $instance);
     }
 
@@ -601,12 +627,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolvingPrototypeForTarget()
     {
-        $this->container->for($this->constructorWithIFoo)
-            ->bindPrototype($this->fooInterface, $this->concreteFoo);
-        $instance1 = $this->container->for($this->constructorWithIFoo)
-            ->resolve($this->fooInterface);
-        $instance2 = $this->container->for($this->constructorWithIFoo)
-            ->resolve($this->fooInterface);
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindPrototype($this->fooInterface, $this->concreteFoo);
+        });
+        $instance1 = $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->resolve($this->fooInterface);
+        });
+        $instance2 = $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->resolve($this->fooInterface);
+        });
         $this->assertInstanceOf($this->concreteFoo, $instance1);
         $this->assertInstanceOf($this->concreteFoo, $instance2);
         $this->assertNotSame($instance1, $instance2);
@@ -626,12 +655,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testResolvingSingletonForTarget()
     {
-        $this->container->for("foo")
-            ->bindSingleton($this->fooInterface, $this->concreteFoo);
-        $instance1 = $this->container->for("foo")
-            ->resolve($this->fooInterface);
-        $instance2 = $this->container->for("foo")
-            ->resolve($this->fooInterface);
+        $this->container->for("foo", function (IContainer $container) {
+            $container->bindSingleton($this->fooInterface, $this->concreteFoo);
+        });
+        $instance1 = $this->container->for("foo", function (IContainer $container) {
+            return $container->resolve($this->fooInterface);
+        });
+        $instance2 = $this->container->for("foo", function (IContainer $container) {
+            return $container->resolve($this->fooInterface);
+        });
         $this->assertInstanceOf($this->concreteFoo, $instance1);
         $this->assertInstanceOf($this->concreteFoo, $instance2);
         $this->assertSame($instance1, $instance2);
@@ -688,8 +720,9 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testTargetedBindingOfInstanceToInterface()
     {
         $targetedInstance = new $this->concreteFoo();
-        $this->container->for($this->constructorWithIFoo)
-            ->bindInstance($this->fooInterface, $targetedInstance);
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) use ($targetedInstance) {
+            $container->bindInstance($this->fooInterface, $targetedInstance);
+        });
         // This universal binding should NOT take precedence over the class binding
         $this->container->bindPrototype($this->fooInterface, $this->secondConcreteIFoo);
         $resolvedInstance = $this->container->resolve($this->constructorWithIFoo);
@@ -701,14 +734,17 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTargetedFactoryBindingsOnlyApplyToNextCall()
     {
-        $this->container->for("foo")
-            ->bindFactory($this->fooInterface, function () {
+        $this->container->for("foo", function (IContainer $container) {
+            $container->bindFactory($this->fooInterface, function () {
                 return new $this->concreteFoo();
             });
+        });
         $this->container->bindFactory("doesNotExist", function () {
             return new $this->concreteFoo();
         });
-        $this->assertFalse($this->container->for("foo")->hasBinding("doesNotExist"));
+        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
     }
 
     /**
@@ -718,10 +754,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     {
         $instance1 = new $this->concreteFoo();
         $instance2 = new $this->concreteFoo();
-        $this->container->for("foo")
-            ->bindInstance($this->fooInterface, $instance1);
+        $this->container->for("foo", function (IContainer $container) use ($instance1) {
+            $container->bindInstance($this->fooInterface, $instance1);
+        });
         $this->container->bindInstance("doesNotExist", $instance2);
-        $this->assertFalse($this->container->for("foo")->hasBinding("doesNotExist"));
+        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
     }
 
     /**
@@ -729,10 +768,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTargetedPrototypeBindingsOnlyApplyToNextCall()
     {
-        $this->container->for("foo")
-            ->bindPrototype($this->fooInterface, "bar");
+        $this->container->for("foo", function (IContainer $container) {
+            $container->bindPrototype($this->fooInterface, "bar");
+        });
         $this->container->bindPrototype("doesNotExist", "bar");
-        $this->assertFalse($this->container->for("foo")->hasBinding("doesNotExist"));
+        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
     }
 
     /**
@@ -740,10 +782,13 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testTargetedSingletonBindingsOnlyApplyToNextCall()
     {
-        $this->container->for("foo")
-            ->bindSingleton($this->fooInterface, "bar");
+        $this->container->for("foo", function (IContainer $container) {
+            $container->bindSingleton($this->fooInterface, "bar");
+        });
         $this->container->bindSingleton("doesNotExist", "bar");
-        $this->assertFalse($this->container->for("foo")->hasBinding("doesNotExist"));
+        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
     }
 
     /**
@@ -775,11 +820,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testUnbindingTargetedBinding()
     {
-        $this->container->for($this->constructorWithIFoo)
-            ->bindPrototype($this->fooInterface, $this->concreteFoo);
-        $this->container->for($this->constructorWithIFoo)
-            ->unbind($this->fooInterface);
-        $this->assertFalse($this->container->for($this->constructorWithIFoo)->hasBinding($this->fooInterface));
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->bindPrototype($this->fooInterface, $this->concreteFoo);
+        });
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $container->unbind($this->fooInterface);
+        });
+        $this->assertFalse($this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            return $container->hasBinding($this->fooInterface);
+        }));
     }
 
     /**

@@ -121,41 +121,46 @@ class Dispatcher implements IDispatcher
             $bootstrapperClass = $bindingData["bootstrapper"];
             $target = $bindingData["target"];
 
-            if ($target !== null) {
-                $this->container->for($target);
-            }
-
-            $this->container->bindFactory(
-                $boundClass,
-                function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass, $target) {
-                    // To make sure this factory isn't used anymore to resolve the bound class, unbind it
-                    // Otherwise, we'd get into an infinite loop every time we tried to resolve it
-                    if ($target !== null) {
-                        $this->container->for($target);
-                    }
-
+            $factory = function () use ($registry, &$bootstrapperObjects, $boundClass, $bootstrapperClass, $target) {
+                // To make sure this factory isn't used anymore to resolve the bound class, unbind it
+                // Otherwise, we'd get into an infinite loop every time we tried to resolve it
+                if ($target === null) {
                     $this->container->unbind($boundClass);
-
-                    $bootstrapper = $registry->getInstance($bootstrapperClass);
-
-                    if (!in_array($bootstrapper, $bootstrapperObjects)) {
-                        $bootstrapperObjects[] = $bootstrapper;
-                    }
-
-                    if (!isset($this->runBootstrappers[$bootstrapperClass])) {
-                        $bootstrapper->initialize();
-                        $bootstrapper->registerBindings($this->container);
-                        $this->container->callMethod($bootstrapper, "run", [], true);
-                        $this->runBootstrappers[$bootstrapperClass] = true;
-                    }
-
-                    if ($target !== null) {
-                        $this->container->for($target);
-                    }
-
-                    return $this->container->resolve($boundClass);
+                } else {
+                    $this->container->for($target, function (IContainer $container) use ($boundClass) {
+                        $container->unbind($boundClass);
+                    });
                 }
-            );
+
+                $bootstrapper = $registry->getInstance($bootstrapperClass);
+
+                if (!in_array($bootstrapper, $bootstrapperObjects)) {
+                    $bootstrapperObjects[] = $bootstrapper;
+                }
+
+                if (!isset($this->runBootstrappers[$bootstrapperClass])) {
+                    $bootstrapper->initialize();
+                    $bootstrapper->registerBindings($this->container);
+                    $this->container->callMethod($bootstrapper, "run", [], true);
+                    $this->runBootstrappers[$bootstrapperClass] = true;
+                }
+
+                if ($target === null) {
+                    return $this->container->resolve($boundClass);
+                } else {
+                    return $this->container->for($target, function (IContainer $container) use ($boundClass) {
+                        return $this->container->resolve($boundClass);
+                    });
+                }
+            };
+
+            if ($target === null) {
+                $this->container->bindFactory($boundClass, $factory);
+            } else {
+                $this->container->for($target, function (IContainer $container) use ($boundClass, $factory) {
+                    $container->bindFactory($boundClass, $factory);
+                });
+            }
         }
 
         // Call the shutdown method

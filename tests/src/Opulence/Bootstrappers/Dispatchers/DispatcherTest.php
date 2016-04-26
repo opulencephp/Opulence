@@ -14,6 +14,7 @@ use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Environments\Environment;
+use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
 use Opulence\Tests\Bootstrappers\Mocks\BootstrapperWithEverything;
 use Opulence\Tests\Bootstrappers\Mocks\EagerBootstrapper;
@@ -189,14 +190,20 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
         $this->dispatcher->dispatch($this->registry);
         // Make sure it's bound to the target
         $this->assertTrue(
-            $this->container->for(EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class)->hasBinding(
-                LazyFooInterface::class
+            $this->container->for(
+                EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class,
+                function (IContainer $container) {
+                    return $container->hasBinding(LazyFooInterface::class);
+                }
             )
         );
         $this->assertInstanceOf(
             LazyConcreteFoo::class,
-            $this->container->for(EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class)->resolve(
-                LazyFooInterface::class
+            $this->container->for(
+                EagerBootstrapperThatDependsOnBindingFromLazyBootstrapper::class,
+                function (IContainer $container) {
+                    return $container->resolve(LazyFooInterface::class);
+                }
             )
         );
         // Make sure it wasn't bound universally

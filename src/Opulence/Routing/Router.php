@@ -149,12 +149,12 @@ class Router
      *          "middleware" => The middleware to be added to all the grouped routes,
      *          "https" => Whether or not all the grouped routes are HTTPS,
      *          "vars" => The list of path variable regular expressions all the routes must match
-     * @param callable $closure A function that adds routes to the router
+     * @param callable $callback A function that adds routes to the router
      */
-    public function group(array $options, callable $closure)
+    public function group(array $options, callable $callback)
     {
         array_push($this->groupOptionsStack, $options);
-        call_user_func($closure);
+        call_user_func($callback, $this);
         array_pop($this->groupOptionsStack);
     }
 

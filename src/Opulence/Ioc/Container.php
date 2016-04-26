@@ -56,8 +56,6 @@ class Container implements IContainer
         foreach ((array)$interfaces as $interface) {
             $this->doFactoryBinding($interface, $factory, $resolveAsSingleton);
         }
-
-        $this->stopTargeting();
     }
 
     /**
@@ -68,8 +66,6 @@ class Container implements IContainer
         foreach ((array)$interfaces as $interface) {
             $this->doInstanceBinding($interface, $instance);
         }
-
-        $this->stopTargeting();
     }
 
     /**
@@ -80,8 +76,6 @@ class Container implements IContainer
         foreach ((array)$interfaces as $interface) {
             $this->doPrototypeBinding($interface, $concreteClass, $primitives);
         }
-
-        $this->stopTargeting();
     }
 
     /**
@@ -92,8 +86,6 @@ class Container implements IContainer
         foreach ((array)$interfaces as $interface) {
             $this->doSingletonBinding($interface, $concreteClass, $primitives);
         }
-
-        $this->stopTargeting();
     }
 
     /**
@@ -130,11 +122,13 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function for (string $targetClass) : IContainer
+    public function for (string $targetClass, callable $callback)
     {
         $this->targetStack[] = $targetClass;
+        $result = call_user_func($callback, $this);
+        $this->stopTargeting();
 
-        return $this;
+        return $result;
     }
 
     /**
@@ -143,7 +137,6 @@ class Container implements IContainer
     public function hasBinding(string $interface) : bool
     {
         $hasBinding = $this->getBindingData($interface, false) !== null;
-        $this->stopTargeting();
 
         return $hasBinding;
     }
@@ -172,17 +165,11 @@ class Container implements IContainer
                     $this->doInstanceBinding($interface, $instance);
                 }
 
-                $this->stopTargeting();
-
                 return $instance;
             case "i":
-                $instance = $this->getInstance($interface, $target);
-                $this->stopTargeting();
-
-                return $instance;
+                return $this->getInstance($interface, $target);
             case "p":
                 $classBinding = $this->getPrototype($interface, $target);
-                $this->stopTargeting();
 
                 return $this->resolveClass(
                     $classBinding->getConcreteClass(),
@@ -196,7 +183,6 @@ class Container implements IContainer
                 );
 
                 $this->doInstanceBinding($interface, $instance);
-                $this->stopTargeting();
 
                 return $instance;
             default:
@@ -241,8 +227,6 @@ class Container implements IContainer
                 unset($this->universalBindingTypeMappings[$interface]);
             }
         }
-
-        $this->stopTargeting();
     }
 
     /**
@@ -525,9 +509,9 @@ class Container implements IContainer
                 if ($class === null) {
                     $resolvedParameter = $this->resolve($parameter->getClass()->getName());
                 } else {
-                    $resolvedParameter = $this->for($class)
-                        ->resolve($parameter->getClass()->getName());
-                    $this->stopTargeting();
+                    $resolvedParameter = $this->for($class, function (IContainer $container) use ($parameter) {
+                        return $container->resolve($parameter->getClass()->getName());
+                    });
                 }
             }
 
