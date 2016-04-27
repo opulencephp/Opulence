@@ -93,7 +93,7 @@ class Route
             $this->middleware = array_merge($this->middleware, $middleware);
         }
 
-        $this->middleware = array_unique($this->middleware);
+        $this->middleware = array_unique($this->middleware, SORT_REGULAR);
     }
 
     /**

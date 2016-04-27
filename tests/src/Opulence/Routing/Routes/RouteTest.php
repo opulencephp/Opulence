@@ -11,6 +11,7 @@ namespace Opulence\Routing\Routes;
 use Closure;
 use InvalidArgumentException;
 use Opulence\Http\Middleware\MiddlewareParameters;
+use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware;
 
 /**
  * Tests the route class
@@ -36,6 +37,17 @@ class RouteTest extends \PHPUnit_Framework_TestCase
         $route->addMiddleware("foo");
         $route->addMiddleware("foo");
         $this->assertEquals(["foo"], $route->getMiddleware());
+    }
+
+    /**
+     * Tests adding non-unique parameterized middleware
+     */
+    public function testAddingNonUniqueParameterizedMiddleware()
+    {
+        $route = new Route("get", "/{foo}", "foo@bar");
+        $route->addMiddleware(ParameterizedMiddleware::withParameters(["foo" => "bar"]));
+        $route->addMiddleware(ParameterizedMiddleware::withParameters(["foo" => "bar"]));
+        $this->assertEquals([ParameterizedMiddleware::withParameters(["foo" => "bar"])], $route->getMiddleware());
     }
 
     /**
