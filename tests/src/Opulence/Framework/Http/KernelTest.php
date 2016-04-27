@@ -10,6 +10,7 @@ namespace Opulence\Framework\Http;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
+use Opulence\Framework\Routing\Dispatchers\DependencyResolver;
 use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
@@ -167,6 +168,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     private function getKernel($method, $shouldThrowException)
     {
         $container = new Container();
+        $dependencyResolver = new DependencyResolver($container);
         $compiledRoute = $this->getMock(CompiledRoute::class, [], [], "", false);
         $compiledRoute->expects($this->any())->method("isMatch")->willReturn(true);
         $compiledRoute->expects($this->any())->method("getControllerName")->willReturn(Controller::class);
@@ -183,9 +185,9 @@ class KernelTest extends \PHPUnit_Framework_TestCase
         $routeCompiler->expects($this->any())->method("compile")->willReturn($compiledRoute);
 
         if ($shouldThrowException) {
-            $router = new ExceptionalRouter(new Dispatcher($container), $routeCompiler, $routeParser);
+            $router = new ExceptionalRouter(new Dispatcher($dependencyResolver), $routeCompiler, $routeParser);
         } else {
-            $router = new Router(new Dispatcher($container), $routeCompiler, $routeParser);
+            $router = new Router(new Dispatcher($dependencyResolver), $routeCompiler, $routeParser);
         }
 
         $router->any("/", Controller::class . "@noParameters");

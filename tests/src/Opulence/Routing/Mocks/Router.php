@@ -8,7 +8,6 @@
  */
 namespace Opulence\Tests\Routing\Mocks;
 
-use Opulence\Ioc\Container;
 use Opulence\Routing\Router as BaseRouter;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\Compilers\Compiler;
@@ -16,6 +15,7 @@ use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
+use Opulence\Tests\Routing\Dispatchers\Mocks\DependencyResolver;
 use Opulence\Tests\Routing\Dispatchers\Mocks\Dispatcher;
 
 /**
@@ -39,7 +39,7 @@ class Router extends BaseRouter
         $parser = new Parser();
         $compiler = new Compiler($routeMatchers);
 
-        parent::__construct(new Dispatcher(new Container()), $compiler, $parser);
+        parent::__construct(new Dispatcher(new DependencyResolver()), $compiler, $parser);
     }
 
     /**

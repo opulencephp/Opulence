@@ -8,11 +8,11 @@
  */
 namespace Opulence\Routing\Routes\Caching;
 
-use Opulence\Ioc\Container;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
+use Opulence\Tests\Routing\Dispatchers\Mocks\DependencyResolver;
 
 /**
  * Tests the route cache
@@ -104,6 +104,6 @@ class FileCacheTest extends \PHPUnit_Framework_TestCase
      */
     private function getRouter()
     {
-        return new Router(new Dispatcher(new Container()), new Compiler([]), new Parser());
+        return new Router(new Dispatcher(new DependencyResolver()), new Compiler([]), new Parser());
     }
 }

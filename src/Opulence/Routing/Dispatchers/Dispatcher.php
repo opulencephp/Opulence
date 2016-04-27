@@ -15,7 +15,6 @@ use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Middleware\ParameterizedMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
-use Opulence\Ioc\IContainer;
 use Opulence\Pipelines\Pipeline;
 use Opulence\Pipelines\PipelineException;
 use Opulence\Routing\Controller;
@@ -32,15 +31,15 @@ use ReflectionParameter;
  */
 class Dispatcher implements IDispatcher
 {
-    /** @var IContainer The dependency injection container */
-    private $container = null;
+    /** @var IDependencyResolver The dependency resolver */
+    private $dependencyResolver = null;
 
     /**
-     * @param IContainer $container The dependency injection container
+     * @param IDependencyResolver $dependencyResolver The dependency resolver
      */
-    public function __construct(IContainer $container)
+    public function __construct(IDependencyResolver $dependencyResolver)
     {
-        $this->container = $container;
+        $this->dependencyResolver = $dependencyResolver;
     }
 
     /**
@@ -154,11 +153,11 @@ class Dispatcher implements IDispatcher
             if ($singleMiddleware instanceof MiddlewareParameters) {
                 /** @var MiddlewareParameters $singleMiddleware */
                 /** @var ParameterizedMiddleware $tempMiddleware */
-                $tempMiddleware = $this->container->resolve($singleMiddleware->getMiddlewareClassName());
+                $tempMiddleware = $this->dependencyResolver->resolve($singleMiddleware->getMiddlewareClassName());
                 $tempMiddleware->setParameters($singleMiddleware->getParameters());
                 $singleMiddleware = $tempMiddleware;
             } elseif (is_string($singleMiddleware)) {
-                $singleMiddleware = $this->container->resolve($singleMiddleware);
+                $singleMiddleware = $this->dependencyResolver->resolve($singleMiddleware);
             }
 
             $stages[] = $singleMiddleware;
@@ -181,23 +180,21 @@ class Dispatcher implements IDispatcher
             throw new RouteException("Controller class $controllerName does not exist");
         }
 
-        // Just in case the request hasn't already been bound, bind it
-        // This allows us to use it when resolving the controller class
-        if (!$this->container->hasBinding(Request::class)) {
-            $this->container->bindInstance(Request::class, $request);
-        }
-
-        $controller = $this->container->resolve($controllerName);
+        $controller = $this->dependencyResolver->resolve($controllerName);
 
         if ($controller instanceof Controller) {
             $controller->setRequest($request);
 
-            if ($this->container->hasBinding(IViewFactory::class)) {
-                $controller->setViewFactory($this->container->resolve(IViewFactory::class));
+            try {
+                $controller->setViewFactory($this->dependencyResolver->resolve(IViewFactory::class));
+            } catch (DependencyResolutionException $ex) {
+                // Don't do anything
             }
 
-            if ($this->container->hasBinding(ICompiler::class)) {
-                $controller->setViewCompiler($this->container->resolve(ICompiler::class));
+            try {
+                $controller->setViewCompiler($this->dependencyResolver->resolve(ICompiler::class));
+            } catch (DependencyResolutionException $ex) {
+                // Don't do anything
             }
         }
 
@@ -227,7 +224,7 @@ class Dispatcher implements IDispatcher
         foreach ($reflectionParameters as $parameter) {
             if ($acceptObjectParameters && $parameter->getClass() !== null) {
                 $className = $parameter->getClass()->getName();
-                $resolvedParameters[$parameter->getPosition()] = $this->container->resolve($className);
+                $resolvedParameters[$parameter->getPosition()] = $this->dependencyResolver->resolve($className);
             } elseif (isset($pathVars[$parameter->getName()])) {
                 // There is a value set in the route
                 $resolvedParameters[$parameter->getPosition()] = $pathVars[$parameter->getName()];

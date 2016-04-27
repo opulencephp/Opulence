@@ -71,7 +71,7 @@
 
 <h3>Routing</h3>
 * `Router::group()` now requires a `Router` object as a parameter, eg `$router->group($config, function (Router $router) {...})`
-* Updated to use the new IoC container (see above)
+* Updated to use a new interface `Opulence\Routing\Dispatchers\IDependencyResolver` to resolve interfaces (removed dependency on IoC container)
 
 <h3>Sessions</h3>
 * Removed `Opulence\Cryptography\Utilities\Strings` dependency in `Opulence\Sessions\Ids\Generators\IdGenerator`

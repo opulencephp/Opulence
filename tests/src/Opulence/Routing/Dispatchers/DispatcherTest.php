@@ -8,12 +8,12 @@
  */
 namespace Opulence\Routing\Dispatchers;
 
+use InvalidArgumentException;
 use Opulence\Http\HttpException;
 use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
-use Opulence\Ioc\Container;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
@@ -23,6 +23,8 @@ use Opulence\Tests\Routing\Mocks\Controller as MockController;
 use Opulence\Tests\Routing\Mocks\DoesNotReturnSomethingMiddleware;
 use Opulence\Tests\Routing\Mocks\NonOpulenceController;
 use Opulence\Tests\Routing\Mocks\ReturnsSomethingMiddleware;
+use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Factories\IViewFactory;
 
 /**
  * Tests the dispatcher class
@@ -33,16 +35,44 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     private $dispatcher = null;
     /** @var Request The request to use in tests */
     private $request = null;
-    /** @var Container The IoC container to use in tests */
-    private $container = null;
+    /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject The dependency resolver to use in tests */
+    private $dependencyResolver = null;
 
     /**
      * Sets up the tests
      */
     public function setUp()
     {
-        $this->container = new Container();
-        $this->dispatcher = new Dispatcher($this->container);
+        $this->dependencyResolver = $this->getMock(IDependencyResolver::class);
+        $this->dependencyResolver->expects($this->any())
+            ->method("resolve")
+            ->willReturnCallback(function () {
+                $interface = func_get_arg(0);
+
+                switch ($interface) {
+                    case MockController::class:
+                        return new MockController();
+                    case NonOpulenceController::class:
+                        return new NonOpulenceController(Request::createFromGlobals());
+                    case IViewFactory::class:
+                        return $this->getMock(IViewFactory::class);
+                    case ICompiler::class:
+                        return $this->getMock(ICompiler::class);
+                    case __CLASS__:
+                        return $this;
+                    case DoesNotReturnSomethingMiddleware::class:
+                        return new DoesNotReturnSomethingMiddleware();
+                    case ReturnsSomethingMiddleware::class:
+                        return new ReturnsSomethingMiddleware();
+                    case ParameterizedMiddleware::class:
+                        return new ParameterizedMiddleware();
+                    case Request::class:
+                        return Request::createFromGlobals();
+                    default:
+                        throw new InvalidArgumentException("Interface $interface is not setup in mock");
+                }
+            });
+        $this->dispatcher = new Dispatcher($this->dependencyResolver);
         $this->request = new Request([], [], [], [], [], []);
     }
 
@@ -68,7 +98,10 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testCallingClosureWithDependencies()
     {
-        $this->container->bindInstance(Request::class, $this->request);
+        $this->dependencyResolver->expects($this->once())
+            ->method("resolve")
+            ->with(Request::class)
+            ->willReturn($this->request);
         $route = $this->getCompiledRoute(
             new Route(["GET"], "/foo/{primitive}", function (Request $request, $primitive) {
                 return get_class($request) . ":" . $primitive;

@@ -8,11 +8,13 @@
  */
 namespace Opulence\Routing;
 
+use InvalidArgumentException;
 use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Dispatchers\Dispatcher;
+use Opulence\Routing\Dispatchers\IDependencyResolver;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
@@ -20,7 +22,6 @@ use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\RouteCollection;
-use Opulence\Ioc\Container;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;
 use Opulence\Tests\Routing\Mocks\NonOpulenceController;
 use Opulence\Tests\Routing\Mocks\Router as MockRouter;
@@ -42,7 +43,20 @@ class RouterTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $container = new Container();
+        /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject $dependencyResolver */
+        $dependencyResolver = $this->getMock(IDependencyResolver::class);
+        $dependencyResolver->expects($this->any())
+            ->method("resolve")
+            ->willReturnCallback(function () {
+                $interface = func_get_arg(0);
+
+                switch ($interface) {
+                    case NonOpulenceController::class:
+                        return new NonOpulenceController(Request::createFromGlobals());
+                    default:
+                        throw new InvalidArgumentException("Interface $interface is not setup in mock");
+                }
+            });
         $routeMatchers = [
             new PathMatcher(),
             new HostMatcher(),
@@ -50,7 +64,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
         ];
         $this->parser = new Parser();
         $this->compiler = new Compiler($routeMatchers);
-        $this->router = new Router(new Dispatcher($container), $this->compiler, $this->parser);
+        $this->router = new Router(new Dispatcher($dependencyResolver), $this->compiler, $this->parser);
     }
 
     /**
