@@ -24,15 +24,6 @@ interface IBootstrapperRegistry
     public function getEagerBootstrappers() : array;
 
     /**
-     * Gets an instance of the bootstrapper class
-     *
-     * @param string $bootstrapperClass The name of the class whose instance we want
-     * @return Bootstrapper The instance of the bootstrapper
-     * @throws RuntimeException Thrown if the bootstrapper is not an instance of Bootstrapper
-     */
-    public function getInstance(string $bootstrapperClass) : Bootstrapper;
-
-    /**
      * Gets the mapping of bound classes to their bootstrapper classes
      *
      * @return array The mapping of bound classes to ["bootstrapper" => BootstrapperClass, "target" => TargetClass]
@@ -62,6 +53,15 @@ interface IBootstrapperRegistry
      * @throws InvalidArgumentException Thrown if the bindings are not of the correct format
      */
     public function registerLazyBootstrapper(array $bindings, string $lazyBootstrapperClass);
+
+    /**
+     * Resolves an instance of the bootstrapper class
+     *
+     * @param string $bootstrapperClass The name of the class whose instance we want
+     * @return Bootstrapper The instance of the bootstrapper
+     * @throws RuntimeException Thrown if the bootstrapper is not an instance of Bootstrapper
+     */
+    public function resolve(string $bootstrapperClass) : Bootstrapper;
 
     /**
      * Sets the eager and lazy bootstrappers

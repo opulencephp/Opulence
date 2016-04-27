@@ -84,7 +84,7 @@ class Dispatcher implements IDispatcher
 
         foreach ($bootstrapperClasses as $bootstrapperClass) {
             /** @var Bootstrapper $bootstrapper */
-            $bootstrapper = $registry->getInstance($bootstrapperClass);
+            $bootstrapper = $registry->resolve($bootstrapperClass);
             $bootstrapper->initialize();
             $bootstrapperObjects[] = $bootstrapper;
         }
@@ -132,7 +132,7 @@ class Dispatcher implements IDispatcher
                     });
                 }
 
-                $bootstrapper = $registry->getInstance($bootstrapperClass);
+                $bootstrapper = $registry->resolve($bootstrapperClass);
 
                 if (!in_array($bootstrapper, $bootstrapperObjects)) {
                     $bootstrapperObjects[] = $bootstrapper;
@@ -149,7 +149,7 @@ class Dispatcher implements IDispatcher
                     return $this->container->resolve($boundClass);
                 } else {
                     return $this->container->for($target, function (IContainer $container) use ($boundClass) {
-                        return $this->container->resolve($boundClass);
+                        return $container->resolve($boundClass);
                     });
                 }
             };

@@ -44,7 +44,7 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGettingInstanceOfBootstrapper()
     {
-        $this->assertInstanceOf(LazyBootstrapper::class, $this->registry->getInstance(LazyBootstrapper::class));
+        $this->assertInstanceOf(LazyBootstrapper::class, $this->registry->resolve(LazyBootstrapper::class));
     }
 
     /**
@@ -53,7 +53,7 @@ class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGettingInstanceOfNonBootstrapperThrowsException()
     {
         $this->expectException(RuntimeException::class);
-        $this->registry->getInstance(NonBootstrapper::class);
+        $this->registry->resolve(NonBootstrapper::class);
     }
 
     /**

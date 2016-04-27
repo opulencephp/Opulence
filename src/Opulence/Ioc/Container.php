@@ -161,7 +161,9 @@ class Container implements IContainer
                 $factoryBinding = $this->getFactory($interface, $target);
                 $instance = $this->callClosure($factoryBinding->getFactory());
 
+                // If we are to resolve as a singleton, then remove the factory binding
                 if ($factoryBinding->resolveAsSingleton()) {
+                    $this->unbind($interface);
                     $this->doInstanceBinding($interface, $instance);
                 }
 
@@ -195,36 +197,64 @@ class Container implements IContainer
      */
     public function unbind($interfaces)
     {
-        $isUsingTarget = $this->usingTarget();
-        $currentTarget = $this->getCurrentTarget();
-
         foreach ((array)$interfaces as $interface) {
-            if ($isUsingTarget) {
-                if (isset($this->targetedFactories[$currentTarget])) {
-                    unset($this->targetedFactories[$currentTarget][$interface]);
+            $bindingData = $this->getBindingData($interface, true);
+
+            if ($bindingData === null) {
+                continue;
+            }
+
+            $bindingType = $bindingData[0];
+            $target = $bindingData[1];
+
+            if ($target === null) {
+                switch ($bindingType) {
+                    case "f":
+                        unset($this->universalFactories[$interface]);
+                        break;
+                    case "i":
+                        unset($this->universalInstances[$interface]);
+                        break;
+                    case "p":
+                        unset($this->universalPrototypes[$interface]);
+                        break;
+                    case "s":
+                        unset($this->universalSingletons[$interface]);
+                        break;
                 }
 
-                if (isset($this->targetedInstances[$currentTarget])) {
-                    unset($this->targetedInstances[$currentTarget][$interface]);
-                }
-
-                if (isset($this->targetedPrototypes[$currentTarget])) {
-                    unset($this->targetedPrototypes[$currentTarget][$interface]);
-                }
-
-                if (isset($this->targetedSingletons[$currentTarget])) {
-                    unset($this->targetedSingletons[$currentTarget][$interface]);
-                }
-
-                if (isset($this->targetedBindingTypeMappings[$currentTarget])) {
-                    unset($this->targetedBindingTypeMappings[$currentTarget][$interface]);
-                }
-            } else {
-                unset($this->universalFactories[$interface]);
-                unset($this->universalInstances[$interface]);
-                unset($this->universalPrototypes[$interface]);
-                unset($this->universalSingletons[$interface]);
                 unset($this->universalBindingTypeMappings[$interface]);
+            } else {
+                switch ($bindingType) {
+                    case "f":
+                        if (isset($this->targetedFactories[$target])) {
+                            unset($this->targetedFactories[$target][$interface]);
+                        }
+
+                        break;
+                    case "i":
+                        if (isset($this->targetedInstances[$target])) {
+                            unset($this->targetedInstances[$target][$interface]);
+                        }
+
+                        break;
+                    case "p":
+                        if (isset($this->targetedPrototypes[$target])) {
+                            unset($this->targetedPrototypes[$target][$interface]);
+                        }
+
+                        break;
+                    case "s":
+                        if (isset($this->targetedSingletons[$target])) {
+                            unset($this->targetedSingletons[$target][$interface]);
+                        }
+
+                        break;
+                }
+
+                if (isset($this->targetedBindingTypeMappings[$target])) {
+                    unset($this->targetedBindingTypeMappings[$target][$interface]);
+                }
             }
         }
     }
@@ -458,7 +488,13 @@ class Container implements IContainer
             $reflectionClass = new ReflectionClass($class);
 
             if (!$reflectionClass->isInstantiable()) {
-                throw new IocException("$class is not instantiable");
+                throw new IocException(
+                    sprintf(
+                        "%s is not instantiable%s",
+                        $class,
+                        $this->getCurrentTarget() === null ? "" : " (dependency of {$this->getCurrentTarget()})"
+                    )
+                );
             }
 
             $constructor = $reflectionClass->getConstructor();
@@ -506,12 +542,21 @@ class Container implements IContainer
                 $resolvedParameter = $this->resolvePrimitive($parameter, $primitives);
             } else {
                 // The parameter is an object
-                if ($class === null) {
-                    $resolvedParameter = $this->resolve($parameter->getClass()->getName());
-                } else {
+                $parameterClassName = $parameter->getClass()->getName();
+
+                /**
+                 * We need to first check if the input class is a target for the parameter
+                 * If it is, resolve it using the input class as a target
+                 * Otherwise, attempt to resolve it universally
+                 */
+                if ($class !== null && isset($this->targetedBindingTypeMappings[$class])
+                    && isset($this->targetedBindingTypeMappings[$class][$parameterClassName])
+                ) {
                     $resolvedParameter = $this->for($class, function (IContainer $container) use ($parameter) {
                         return $container->resolve($parameter->getClass()->getName());
                     });
+                } else {
+                    $resolvedParameter = $this->resolve($parameterClassName);
                 }
             }
 

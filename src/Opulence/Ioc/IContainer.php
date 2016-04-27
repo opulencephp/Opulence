@@ -103,7 +103,7 @@ interface IContainer
     /**
      * Unbinds the interface from the container
      *
-     * @param string|array $interface The interface or interfaces to unbind from
+     * @param string|array $interfaces The interface or interfaces to unbind from
      */
     public function unbind($interfaces);
 }
