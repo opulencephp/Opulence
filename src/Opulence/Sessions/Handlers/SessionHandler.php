@@ -9,8 +9,6 @@
 namespace Opulence\Sessions\Handlers;
 
 use LogicException;
-use Opulence\Cryptography\Encryption\EncryptionException;
-use Opulence\Cryptography\Encryption\IEncrypter;
 use SessionHandlerInterface;
 
 /**
@@ -20,7 +18,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
 {
     /** @var bool Whether or not this handler encrypts the session when storing it */
     protected $usesEncryption = false;
-    /** @var IEncrypter The encrypter to use for encrypted sessions */
+    /** @var ISessionEncrypter The encrypter to use for encrypted sessions */
     protected $encrypter = null;
 
     /**
@@ -34,7 +32,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     /**
      * @inheritdoc
      */
-    public function setEncrypter(IEncrypter $encrypter)
+    public function setEncrypter(ISessionEncrypter $encrypter)
     {
         $this->encrypter = $encrypter;
     }
@@ -92,7 +90,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
 
             try {
                 return $this->encrypter->decrypt($data);
-            } catch (EncryptionException $ex) {
+            } catch (SessionEncryptionException $ex) {
                 return serialize([]);
             }
         } else {
@@ -116,7 +114,7 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
 
             try {
                 return $this->encrypter->encrypt($data);
-            } catch (EncryptionException $ex) {
+            } catch (SessionEncryptionException $ex) {
                 return "";
             }
         } else {

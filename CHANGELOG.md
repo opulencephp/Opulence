@@ -37,6 +37,7 @@
 * Added `Opulence\Framework\Bootstrappers\Authorization\AuthorizationBootstrapper`
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
 * Fixed various command templates to include PHP 7 return types
+* Updated `Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper` to inject an `Opulence\Routing\Dispatchers\ContainerDependencyResolver` into the router dispatcher
 
 <h3>HTTP</h3>
 * Added parameterized middleware support
@@ -72,10 +73,13 @@
 <h3>Routing</h3>
 * `Router::group()` now requires a `Router` object as a parameter, eg `$router->group($config, function (Router $router) {...})`
 * Updated to use a new interface `Opulence\Routing\Dispatchers\IDependencyResolver` to resolve interfaces (removed dependency on IoC container)
+* Added `Opulence\Routing\Dispatchers\ContainerDependencyResolver` that uses Opulence's container library so it is easy to get up and running
 * Fixed bug that prevented parameterized middleware from being added to a route
 
 <h3>Sessions</h3>
 * Removed `Opulence\Cryptography\Utilities\Strings` dependency in `Opulence\Sessions\Ids\Generators\IdGenerator`
+* Added `Opulence\Sessions\Handlers\ISessionEncrypter`, `SessionEncrypter`, and `SessionEncryptionException`
+* Removed required dependency on Cryptography library to encrypt/decrypt session data and changed it to use above classes
 
 <h3>Validation</h3>
 * Renamed `Opulence\Validation\Rules\Errors\ErrorTemplateRegistry::get()` to `getErrorTemplate()`

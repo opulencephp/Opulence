@@ -9,8 +9,8 @@
 namespace Opulence\Framework\Bootstrappers\Http\Routing;
 
 use Opulence\Bootstrappers\Bootstrapper;
-use Opulence\Framework\Routing\Dispatchers\DependencyResolver;
 use Opulence\Ioc\IContainer;
+use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Dispatchers\IDispatcher;
 use Opulence\Routing\Router;
@@ -98,7 +98,7 @@ class RouterBootstrapper extends Bootstrapper
      */
     protected function getRouteDispatcher(IContainer $container) : IDispatcher
     {
-        return new Dispatcher(new DependencyResolver($container));
+        return new Dispatcher(new ContainerDependencyResolver($container));
     }
 
     /**

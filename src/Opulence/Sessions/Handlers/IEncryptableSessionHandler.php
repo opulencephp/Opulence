@@ -8,8 +8,6 @@
  */
 namespace Opulence\Sessions\Handlers;
 
-use Opulence\Cryptography\Encryption\IEncrypter;
-
 /**
  * Defines the interface for session handlers that can encrypt session data
  */
@@ -18,9 +16,9 @@ interface IEncryptableSessionHandler
     /**
      * Sets the encrypter to use
      *
-     * @param IEncrypter $encrypter The encrypter to use
+     * @param ISessionEncrypter $encrypter The encrypter to use
      */
-    public function setEncrypter(IEncrypter $encrypter);
+    public function setEncrypter(ISessionEncrypter $encrypter);
 
     /**
      * Sets whether or not to use encryption

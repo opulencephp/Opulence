@@ -10,6 +10,8 @@ namespace Opulence\Framework\Bootstrappers\Http\Sessions;
 
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
+use Opulence\Sessions\Handlers\ISessionEncrypter;
+use Opulence\Sessions\Handlers\SessionEncrypter;
 use Opulence\Sessions\ISession;
 use SessionHandlerInterface;
 
@@ -42,4 +44,15 @@ abstract class SessionBootstrapper extends Bootstrapper
      * @return SessionHandlerInterface The session handler to use
      */
     abstract protected function getSessionHandler(IContainer $container) : SessionHandlerInterface;
+
+    /**
+     * Gets the session encrypter to use if our sessions are encrypted
+     *
+     * @param IContainer $container The IoC Container
+     * @return ISessionEncrypter The session encrypter to use
+     */
+    protected function getSessionEncrypter(IContainer $container) : ISessionEncrypter
+    {
+        return new SessionEncrypter($container->resolve($container));
+    }
 }

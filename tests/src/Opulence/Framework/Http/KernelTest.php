@@ -10,13 +10,13 @@ namespace Opulence\Framework\Http;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
-use Opulence\Framework\Routing\Dispatchers\DependencyResolver;
 use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\Container;
+use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\ICompiler;
@@ -168,7 +168,7 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     private function getKernel($method, $shouldThrowException)
     {
         $container = new Container();
-        $dependencyResolver = new DependencyResolver($container);
+        $dependencyResolver = new ContainerDependencyResolver($container);
         $compiledRoute = $this->getMock(CompiledRoute::class, [], [], "", false);
         $compiledRoute->expects($this->any())->method("isMatch")->willReturn(true);
         $compiledRoute->expects($this->any())->method("getControllerName")->willReturn(Controller::class);

@@ -6,17 +6,15 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Routing\Dispatchers;
+namespace Opulence\Routing\Dispatchers;
 
 use Opulence\Ioc\IContainer;
 use Opulence\Ioc\IocException;
-use Opulence\Routing\Dispatchers\DependencyResolutionException;
-use Opulence\Routing\Dispatchers\IDependencyResolver;
 
 /**
  * Defines the dependency resolver that uses the IoC container
  */
-class DependencyResolver implements IDependencyResolver
+class ContainerDependencyResolver implements IDependencyResolver
 {
     /** @var IContainer The IoC container */
     private $container = null;

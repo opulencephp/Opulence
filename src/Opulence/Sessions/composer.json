@@ -19,11 +19,11 @@
     }
   },
   "require": {
-    "php": ">=7.0.0",
-    "opulence/cryptography": "1.0.*"
+    "php": ">=7.0.0"
   },
   "suggest": {
-    "opulence/cache": "Required for CacheSessionHandler"
+    "opulence/cache": "Required for CacheSessionHandler",
+    "opulence/cryptography": "Required for SessionEncrypter"
   },
   "extra": {
     "branch-alias": {

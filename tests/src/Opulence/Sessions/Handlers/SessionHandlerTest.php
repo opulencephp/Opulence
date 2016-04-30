@@ -9,8 +9,6 @@
 namespace Opulence\Sessions\Handlers;
 
 use LogicException;
-use Opulence\Cryptography\Encryption\EncryptionException;
-use Opulence\Cryptography\Encryption\IEncrypter;
 
 /**
  * Tests the base session handler
@@ -19,7 +17,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var SessionHandler|\PHPUnit_Framework_MockObject_MockObject The session handler to use in tests */
     private $handler = null;
-    /** @var IEncrypter|\PHPUnit_Framework_MockObject_MockObject The encrypter to use in tests */
+    /** @var ISessionEncrypter|\PHPUnit_Framework_MockObject_MockObject The encrypter to use in tests */
     private $encrypter = null;
 
     /**
@@ -28,7 +26,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->handler = $this->getMockForAbstractClass(SessionHandler::class);
-        $this->encrypter = $this->getMock(IEncrypter::class);
+        $this->encrypter = $this->getMock(ISessionEncrypter::class);
     }
 
     /**
@@ -40,7 +38,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->handler->setEncrypter($this->encrypter);
         $this->handler->expects($this->any())->method("doWrite")->with("theId", "");
         $this->encrypter->expects($this->any())->method("encrypt")
-            ->willThrowException(new EncryptionException);
+            ->willThrowException(new SessionEncryptionException());
         $this->handler->write("theId", "foo");
     }
 
@@ -96,7 +94,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
         $this->handler->setEncrypter($this->encrypter);
         $this->handler->expects($this->any())->method("doRead")->will($this->returnValue("foo"));
         $this->encrypter->expects($this->any())->method("decrypt")
-            ->will($this->throwException(new EncryptionException));
+            ->will($this->throwException(new SessionEncryptionException()));
         $this->assertEquals(serialize([]), $this->handler->read("bar"));
     }
 

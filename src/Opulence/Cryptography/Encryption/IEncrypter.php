@@ -14,7 +14,7 @@ namespace Opulence\Cryptography\Encryption;
 interface IEncrypter
 {
     /**
-     * Decrypts data
+     * Decrypts the data
      *
      * @param string $data The data to decrypt
      * @return string The decrypted data
@@ -23,7 +23,7 @@ interface IEncrypter
     public function decrypt(string $data) : string;
 
     /**
-     * Encrypts data
+     * Encrypts the data
      *
      * @param string $data The data to encrypt
      * @return string The encrypted data
