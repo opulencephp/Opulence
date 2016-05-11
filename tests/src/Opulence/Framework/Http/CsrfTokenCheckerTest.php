@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Http;
 
-use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Http\Headers;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
@@ -21,8 +20,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
 {
     /** @var CsrfTokenChecker The token checker to use in tests */
     private $checker = null;
-    /** @var Strings|\PHPUnit_Framework_MockObject_MockObject The string utility */
-    private $strings = null;
     /** @var Request|\PHPUnit_Framework_MockObject_MockObject The request mock */
     private $request = null;
     /** @var ISession|\PHPUnit_Framework_MockObject_MockObject The session mock */
@@ -33,8 +30,7 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->strings = $this->getMock(Strings::class);
-        $this->checker = new CsrfTokenChecker($this->strings);
+        $this->checker = new CsrfTokenChecker();
         $this->request = $this->getMock(Request::class, [], [], "", false);
         $this->session = $this->getMock(ISession::class);
     }
@@ -46,7 +42,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
     {
         $this->session->expects($this->any())->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getInput")->willReturn("bar");
-        $this->strings->expects($this->any())->method("isEqual")->with("foo", "bar")->willReturn(false);
         $this->assertFalse($this->checker->tokenIsValid($this->request, $this->session));
     }
 
@@ -60,7 +55,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
         $mockHeaders = $this->getMock(Headers::class);
         $mockHeaders->expects($this->any())->method("get")->willReturn("bar");
         $this->request->expects($this->any())->method("getHeaders")->willReturn($mockHeaders);
-        $this->strings->expects($this->any())->method("isEqual")->with("foo", "bar")->willReturn(false);
         $this->assertFalse($this->checker->tokenIsValid($this->request, $this->session));
     }
 
@@ -75,7 +69,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
         $mockHeaders->expects($this->at(0))->method("get")->willReturn(null);
         $mockHeaders->expects($this->at(1))->method("get")->willReturn("bar");
         $this->request->expects($this->any())->method("getHeaders")->willReturn($mockHeaders);
-        $this->strings->expects($this->any())->method("isEqual")->with("foo", "bar")->willReturn(false);
         $this->assertFalse($this->checker->tokenIsValid($this->request, $this->session));
     }
 
@@ -86,8 +79,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
     {
         $this->session->expects($this->any())->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getInput")->willReturn("foo");
-        $this->strings->expects($this->any())->method("isEqual")->willReturn(true);
-        $this->strings->expects($this->any())->method("isEqual")->with("foo", "foo")->willReturn(true);
         $this->assertTrue($this->checker->tokenIsValid($this->request, $this->session));
     }
 
@@ -101,7 +92,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
         $mockHeaders = $this->getMock(Headers::class);
         $mockHeaders->expects($this->any())->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getHeaders")->willReturn($mockHeaders);
-        $this->strings->expects($this->any())->method("isEqual")->with("foo", "foo")->willReturn(true);
         $this->assertTrue($this->checker->tokenIsValid($this->request, $this->session));
     }
 
@@ -116,7 +106,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
         $mockHeaders->expects($this->at(0))->method("get")->willReturn(null);
         $mockHeaders->expects($this->at(1))->method("get")->willReturn("foo");
         $this->request->expects($this->any())->method("getHeaders")->willReturn($mockHeaders);
-        $this->strings->expects($this->any())->method("isEqual")->with("foo", "foo")->willReturn(true);
         $this->assertTrue($this->checker->tokenIsValid($this->request, $this->session));
     }
 
@@ -125,8 +114,6 @@ class CsrfTokenCheckerTest extends \PHPUnit_Framework_TestCase
      */
     public function testCsrfTokenIsSetInSessionWhenItIsNotAlreadyThere()
     {
-        $this->strings->expects($this->once())->method("generateRandomString")->willReturn("foo");
-        $this->session->expects($this->once())->method("set")->with(CsrfTokenChecker::TOKEN_INPUT_NAME, "foo");
         $this->session->expects($this->once())->method("get")->with(CsrfTokenChecker::TOKEN_INPUT_NAME)->willReturn("foo");
         $this->request->expects($this->once())->method("getInput")->willReturn("foo");
         $this->checker->tokenIsValid($this->request, $this->session);

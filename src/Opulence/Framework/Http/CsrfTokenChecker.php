@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Http;
 
-use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Sessions\ISession;
@@ -21,17 +20,6 @@ class CsrfTokenChecker
     /** The token input name */
     const TOKEN_INPUT_NAME = "__OPULENCE_CSRF_TOKEN";
 
-    /** @var Strings The string utility */
-    private $strings = null;
-
-    /**
-     * @param Strings $strings The string utility
-     */
-    public function __construct(Strings $strings)
-    {
-        $this->strings = $strings;
-    }
-
     /**
      * Checks if the token is valid
      *
@@ -42,7 +30,7 @@ class CsrfTokenChecker
     public function tokenIsValid(Request $request, ISession $session) : bool
     {
         if (!$session->has(self::TOKEN_INPUT_NAME)) {
-            $session->set(self::TOKEN_INPUT_NAME, $this->strings->generateRandomString(32));
+            $session->set(self::TOKEN_INPUT_NAME, bin2hex(random_bytes(16)));
         }
 
         if ($this->tokenShouldNotBeChecked($request)) {
@@ -62,7 +50,7 @@ class CsrfTokenChecker
             $token = $request->getHeaders()->get("X-XSRF-TOKEN");
         }
 
-        return $this->strings->isEqual($session->get(self::TOKEN_INPUT_NAME), $token);
+        return hash_equals($session->get(self::TOKEN_INPUT_NAME), $token);
     }
 
     /**

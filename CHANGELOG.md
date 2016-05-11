@@ -38,6 +38,8 @@
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
 * Fixed various command templates to include PHP 7 return types
 * Updated `Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper` to inject an `Opulence\Routing\Dispatchers\ContainerDependencyResolver` into the router dispatcher
+* Removed `Opulence\Cryptography\Utilities\Strings` dependency from `Opulence\Framework\Console\Commands\EncryptionKeyGenerationCommand`
+* Removed `Opulence\Cryptography\Utilities\Strings` dependency from `Opulence\Framework\Http\CsrfTokenChecker`
 
 <h3>HTTP</h3>
 * Added parameterized middleware support

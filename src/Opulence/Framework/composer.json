@@ -32,6 +32,7 @@
     "opulence/ioc": "1.0.*",
     "opulence/routing": "1.0.*",
     "opulence/sessions": "1.0.*",
+    "opulence/validation": "1.0.*",
     "opulence/views": "1.0.*"
   },
   "extra": {

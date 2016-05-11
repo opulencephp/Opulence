@@ -614,7 +614,7 @@ class Request
      */
     public function isJson() : bool
     {
-        return $this->headers->get("CONTENT_TYPE") == "application/json";
+        return preg_match("/application\/json/i", $this->headers->get("CONTENT_TYPE")) === 1;
     }
 
     /**

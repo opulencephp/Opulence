@@ -13,27 +13,22 @@ use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Cryptography\Utilities\Strings;
 
 /**
  * Defines the encryption key generator command
  */
 class EncryptionKeyGenerationCommand extends Command
 {
-    /** @var Strings The string utility */
-    private $strings = null;
     /** @var Paths The application paths */
     private $paths = null;
 
     /**
-     * @param Strings $strings The string utility
      * @param Paths $paths The application paths
      */
-    public function __construct(Strings $strings, Paths $paths)
+    public function __construct(Paths $paths)
     {
         parent::__construct();
 
-        $this->strings = $strings;
         $this->paths = $paths;
     }
 
@@ -57,7 +52,7 @@ class EncryptionKeyGenerationCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $key = $this->strings->generateRandomString(32);
+        $key = bin2hex(random_bytes(16));
         $environmentConfigPath = $this->paths["config"] . "/environment/.env.app.php";
 
         if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
