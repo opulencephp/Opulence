@@ -1132,6 +1132,9 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $_SERVER["HTTP_CONTENT_TYPE"] = "application/json";
         $request = Request::createFromGlobals();
         $this->assertTrue($request->isJson());
+        $_SERVER["HTTP_CONTENT_TYPE"] = "application/json; charset=utf-8";
+        $request = Request::createFromGlobals();
+        $this->assertTrue($request->isJson());
     }
 
     /**
