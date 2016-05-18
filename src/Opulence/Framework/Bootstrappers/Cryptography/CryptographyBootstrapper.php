@@ -16,6 +16,7 @@ use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
 use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Ioc\IContainer;
+use RuntimeException;
 
 /**
  * Defines the cryptography bootstrapper
@@ -44,10 +45,17 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      * Gets the encrypter to use
      *
      * @return IEncrypter The encrypter
+     * @throws RuntimeException Thrown if the encryption key is not set
      */
     protected function getEncrypter() : IEncrypter
     {
-        return new Encrypter($this->environment->getVar("ENCRYPTION_KEY"));
+        $encryptionKey = $this->environment->getVar("ENCRYPTION_KEY");
+
+        if ($encryptionKey === null) {
+            throw new RuntimeException("\"ENCRYPTION_KEY\" value not set in environment.  Check that you have it set in an environment config file such as \".env.app.php\".  Note:  \".env.example.php\" is only a template for environment config files - it is not actually used.");
+        }
+
+        return new Encrypter($encryptionKey);
     }
 
     /**
