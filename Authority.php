@@ -9,7 +9,6 @@
 namespace Opulence\Authorization;
 
 use Opulence\Authorization\Permissions\IPermissionRegistry;
-use Opulence\Authorization\Roles\IRoles;
 
 /**
  * Defines the authority
@@ -25,8 +24,8 @@ class Authority implements IAuthority
 
     /**
      * @param int|string $subjectId The primary identity of the current subject
+     * @param array $subjectRoles The list of roles the subject has
      * @param IPermissionRegistry $permissionRegistry The permission registry
-     * @param IRoles $roles The roles
      */
     public function __construct($subjectId, array $subjectRoles, IPermissionRegistry $permissionRegistry)
     {
