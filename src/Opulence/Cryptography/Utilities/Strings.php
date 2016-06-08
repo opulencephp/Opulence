@@ -44,6 +44,20 @@ class Strings
     }
 
     /**
+     * Creates a cryptographically-strong UUID version 4
+     *
+     * @return string The UUID
+     */
+    public function generateUuidV4() : string
+    {
+        $string = $this->generateRandomBytes(16);
+        $string[6] = chr(ord($string[6]) & 0x0f | 0x40);
+        $string[8] = chr(ord($string[8]) & 0x3f | 0x80);
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($string), 4));
+    }
+
+    /**
      * Checks if two strings are equal without having to worry about timing attacks
      *
      * @param string $knownString The known string

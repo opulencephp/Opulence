@@ -49,6 +49,18 @@ class StringsTest extends \PHPUnit_Framework_TestCase
         $randomString = $this->strings->generateRandomString($tokenLength);
         $this->assertEquals($tokenLength, mb_strlen($randomString));
     }
+    
+    /**
+     * Tests generating a UUID V4
+     */
+    public function testGeneratingUuidV4()
+    {
+        $uuid1 = $this->strings->generateUuidV4();
+        $uuid2 = $this->strings->generateUuidV4();
+        $this->assertNotEquals($uuid1, $uuid2);
+        $this->assertEquals(36, strlen($uuid1));
+        $this->assertEquals(36, strlen($uuid2));
+    }
 
     /**
      * Tests creating an odd-length token and checking its length

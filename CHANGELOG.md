@@ -28,6 +28,7 @@
 <h3>Cryptography</h3>
 * Removed `Strings` from `Opulence\Cryptography\Encryption\Encrypter::__construct()`
 * Removed `Strings` from `Opulence\Cryptography\Hashing\Hasher::__construct()`
+* Added `Opulence\Cryptography\Utilities\Strings::generateUuidV4()`
 
 <h3>Databases</h3>
 * Renamed `Opulence\Databases\Providers\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
@@ -68,6 +69,9 @@
 
 <h3>Memcached</h3>
 * Renamed `Opulence\Memcached\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
+
+<h3>ORM</h3>
+* Added `Opulence\Orm\Ids\Generators\UuidV4Generator`
 
 <h3>Redis</h3>
 * Renamed `Opulence\Redis\Types\Factories\TypeMapperFactory::create()` to `createTypeMapper()`
