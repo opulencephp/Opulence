@@ -37,6 +37,7 @@
 * Added `Opulence\Framework\Bootstrappers\Authentication\AuthenticationBootstrapper`
 * Added `Opulence\Framework\Bootstrappers\Authorization\AuthorizationBootstrapper`
 * Updated `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to not pass `Strings` to `getEncrypter()` nor `getHasher()`
+* Added `Opulence\Framework\Console\Commands\UuidGenerationCommand`
 * Fixed various command templates to include PHP 7 return types
 * Updated `Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper` to inject an `Opulence\Routing\Dispatchers\ContainerDependencyResolver` into the router dispatcher
 * Removed `Opulence\Cryptography\Utilities\Strings` dependency from `Opulence\Framework\Console\Commands\EncryptionKeyGenerationCommand`
