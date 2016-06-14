@@ -29,7 +29,7 @@ class MakeHttpMiddlewareCommand extends MakeCommand
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Http\\Middleware";
+        return $rootNamespace . "\\Application\\Http\\Middleware";
     }
 
     /**
