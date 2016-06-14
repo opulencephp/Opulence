@@ -2,6 +2,7 @@
 
 <h3>Framework</h3>
 * Fixed `Make*` commands to use latest directory structure in skeleton project
+* Fixed bug that prevented `UuidGenerationCommand` from being included
 
 <h2>v1.0.0-alpha35</h2>
 

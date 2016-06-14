@@ -26,6 +26,7 @@ use Opulence\Framework\Console\Commands\MakeDataMapperCommand;
 use Opulence\Framework\Console\Commands\MakeEntityCommand;
 use Opulence\Framework\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Console\Commands\RenameAppCommand;
+use Opulence\Framework\Console\Commands\UuidGenerationCommand;
 use Opulence\Ioc\IContainer;
 
 /**
@@ -48,7 +49,8 @@ class CommandsBootstrapper extends Bootstrapper
         MakeDataMapperCommand::class,
         MakeEntityCommand::class,
         MakeHttpMiddlewareCommand::class,
-        RenameAppCommand::class
+        RenameAppCommand::class,
+        UUidGenerationCommand::class
     ];
     /** @var CommandCollection The list of console commands */
     private $commandCollection = null;
