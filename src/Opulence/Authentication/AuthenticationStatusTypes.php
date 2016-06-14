@@ -13,8 +13,8 @@ namespace Opulence\Authentication;
  */
 class AuthenticationStatusTypes
 {
-    /** The user is not authenticated */
-    const UNAUTHENTICATED = 1;
-    /** The user is authenticated */
-    const AUTHENTICATED = 2;
+    /** The subject is not authenticated */
+    const UNAUTHENTICATED = "UNAUTHENTICATED";
+    /** The subject is authenticated */
+    const AUTHENTICATED = "AUTHENTICATED";
 }

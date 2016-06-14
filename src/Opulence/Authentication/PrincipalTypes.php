@@ -9,12 +9,10 @@
 namespace Opulence\Authentication;
 
 /**
- * Defines different types of entities that can be authenticated
+ * Defines the different principal types
  */
-class EntityTypes
+class PrincipalTypes
 {
-    /** A user */
-    const USER = 1;
-    /** An application */
-    const APPLICATION = 2;
+    /** The primary principal, which is required for all subjects */
+    const PRIMARY = "PRIMARY";
 }

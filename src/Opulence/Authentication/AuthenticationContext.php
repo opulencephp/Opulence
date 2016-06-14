@@ -8,26 +8,26 @@
  */
 namespace Opulence\Authentication;
 
-use Opulence\Authentication\Users\IUser;
-
 /**
  * Defines the current authentication context
  */
 class AuthenticationContext implements IAuthenticationContext
 {
-    /** @var IUser|null The current user */
-    private $user = null;
-    /** @var int The current authentication status */
+    /** @var ISubject|null The current subject */
+    private $subject = null;
+    /** @var string The current authentication status */
     private $status = AuthenticationStatusTypes::UNAUTHENTICATED;
 
     /**
-     * @param IUser|null $user The current user
-     * @param int $status The current authentication status
+     * @param ISubject|null $subject The current subject
+     * @param string $status The current authentication status
      */
-    public function __construct(IUser $user = null, int $status = AuthenticationStatusTypes::UNAUTHENTICATED)
-    {
-        if ($user !== null) {
-            $this->setUser($user);
+    public function __construct(
+        ISubject $subject = null,
+        string $status = AuthenticationStatusTypes::UNAUTHENTICATED
+    ) {
+        if ($subject !== null) {
+            $this->setSubject($subject);
         }
 
         $this->setStatus($status);
@@ -36,7 +36,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getStatus() : int
+    public function getStatus() : string
     {
         return $this->status;
     }
@@ -44,9 +44,9 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function getUser()
+    public function getSubject()
     {
-        return $this->user;
+        return $this->subject;
     }
 
     /**
@@ -60,7 +60,7 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setStatus(int $status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
     }
@@ -68,8 +68,8 @@ class AuthenticationContext implements IAuthenticationContext
     /**
      * @inheritdoc
      */
-    public function setUser(IUser $user)
+    public function setSubject(ISubject $subject)
     {
-        $this->user = $user;
+        $this->subject = $subject;
     }
 }

@@ -9,14 +9,14 @@
 namespace Opulence\Authentication\Credentials;
 
 /**
- * Defines the different types of credentials
+ * Defines the different credential types
  */
 class CredentialTypes
 {
-    /** A password */
-    const PASSWORD = 1;
-    /** A login credential */
-    const LOGIN = 2;
-    /** A credential used to authenticate the identity of an entity, but not log it in */
-    const AUTHENTICATION = 3;
-} 
+    /** A username/password credential */
+    const USERNAME_PASSWORD = "USERNAME_PASSWORD";
+    /** An JWT access token credential */
+    const JWT_ACCESS_TOKEN = "JWT_ACCESS_TOKEN";
+    /** An JWT refresh token credential */
+    const JWT_REFRESH_TOKEN = "JWT_REFRESH_TOKEN";
+}

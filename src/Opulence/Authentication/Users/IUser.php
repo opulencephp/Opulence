@@ -8,22 +8,13 @@
  */
 namespace Opulence\Authentication\Users;
 
-use DateTimeImmutable;
-
 /**
- * Defines the user interface
+ * Defines the interface for users
  */
 interface IUser
 {
     /**
-     * Gets the date the user was created
-     *
-     * @return DateTimeImmutable The date the user was created
-     */
-    public function getDateCreated() : DateTimeImmutable;
-
-    /**
-     * Gets the user's hashed password
+     * Gets the entity's hashed password
      *
      * @return string The user's hashed password
      */
@@ -37,31 +28,23 @@ interface IUser
     public function getId();
 
     /**
-     * Gets the list of this user's roles
+     * Gets the user's username
      *
-     * @return array The list of rules
+     * @return string The user's username
      */
-    public function getRoles() : array;
+    public function getUsername() : string;
 
     /**
-     * Gets whether or not a user has a particular role
-     *
-     * @param mixed $role The role to search for
-     * @return bool True if the user has the role, otherwise false
-     */
-    public function hasRole($role) : bool;
-
-    /**
-     * Sets the user's hashed password
+     * Sets the entity's hashed password
      *
      * @param string $hashedPassword The user's hashed password
      */
     public function setHashedPassword(string $hashedPassword);
 
     /**
-     * Sets the database Id of the user
+     * Sets the database Id of the entity
      *
      * @param int|string $id The database Id
      */
     public function setId($id);
-} 
+}

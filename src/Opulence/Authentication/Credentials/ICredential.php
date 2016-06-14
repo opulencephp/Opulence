@@ -8,69 +8,30 @@
  */
 namespace Opulence\Authentication\Credentials;
 
-use Opulence\Authentication\Tokens\IToken;
-
 /**
- * Defines the interface for a single credential
+ * Defines the interface for credentials to implement
  */
 interface ICredential
 {
     /**
-     * Deactivates this credential
-     */
-    public function deactivate();
-
-    /**
-     * Gets the Id of the entity whose credential this is
+     * Gets the type of credential this is
      *
-     * @return int|string The Id of the entity whose credential this is
+     * @return string The type of credential this is
      */
-    public function getEntityId();
+    public function getType() : string;
 
     /**
-     * Gets the Id of the type of entity whose credential this is
+     * Gets the value for the input name
      *
-     * @return int|string The Id of the type of entity whose credential this is
+     * @param string $name The name of the value to get
+     * @return mixed|null The value, if any exists, otherwise null
      */
-    public function getEntityTypeId();
+    public function getValue(string $name);
 
     /**
-     * Gets the database Id
+     * Gets the list of credential values
      *
-     * @return int|string The database Id
+     * @return array The mapping of value names to their values
      */
-    public function getId();
-
-    /**
-     * Gets the token contained in this credential
-     *
-     * @return IToken The token contained in this credential
-     */
-    public function getToken() : IToken;
-
-    /**
-     * Gets the type of this credential
-     *
-     * @return int The type of credential
-     */
-    public function getTypeId() : int;
-
-    /**
-     * Gets whether or not a credential is active
-     *
-     * @return bool True if the credential is active, otherwise false
-     */
-    public function isActive() : bool;
-
-    /**
-     * @param int|string $entityId
-     */
-    public function setEntityId($entityId);
-
-    /**
-     * Sets the database Id of the credential
-     *
-     * @param int|string $id The database Id
-     */
-    public function setId($id);
-} 
+    public function getValues() : array;
+}

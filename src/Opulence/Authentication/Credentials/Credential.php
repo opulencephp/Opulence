@@ -8,117 +8,51 @@
  */
 namespace Opulence\Authentication\Credentials;
 
-use Opulence\Authentication\Tokens\IToken;
-
 /**
- * Defines a single credential
+ * Defines a credential
  */
 class Credential implements ICredential
 {
-    /** @var int|string The database Id of this credential */
-    private $id = -1;
-    /** @var int|string The Id of the entity whose credential this is */
-    private $entityId = -1;
-    /** @var int The Id of the type of entity whose credential this is */
-    private $entityTypeId = -1;
-    /** @var IToken The token contained in this credential */
-    private $token = null;
-    /** @var int The type of credential this is */
-    private $typeId = -1;
+    /** @var string The type of credential this is */
+    protected $type = -1;
+    /** @var array The mapping of value names to their values */
+    protected $values = [];
 
     /**
-     * @param int|string $id The database Id of this credential
-     * @param int $typeId The type of credential this is
-     * @param int $entityId The Id of the entity whose credential this is
-     * @param int $entityTypeId The Id of the type of entity whose credential this is
-     * @param IToken $token The contained in this credential
+     * @param string $type The type of credential this is
+     * @param array $values The mapping of value names to their values
      */
-    public function __construct($id, int $typeId, int $entityId, int $entityTypeId, IToken $token)
+    public function __construct(string $type, array $values)
     {
-        $this->setId($id);
-        $this->typeId = $typeId;
-        $this->setEntityId($entityId);
-        $this->entityTypeId = $entityTypeId;
-        $this->token = $token;
-    }
-
-    /**
-     * Clones the token contained in this class
-     */
-    public function __clone()
-    {
-        $this->token = clone $this->token;
+        $this->type = $type;
+        $this->values = $values;
     }
 
     /**
      * @inheritdoc
      */
-    public function deactivate()
+    public function getType() : string
     {
-        $this->token->deactivate();
+        return $this->type;
     }
 
     /**
      * @inheritdoc
      */
-    public function getEntityId()
+    public function getValue(string $name)
     {
-        return $this->entityId;
+        if (!array_key_exists($name, $this->values)) {
+            return null;
+        }
+
+        return $this->values[$name];
     }
 
     /**
      * @inheritdoc
      */
-    public function getEntityTypeId() : int
+    public function getValues() : array
     {
-        return $this->entityTypeId;
+        return $this->values;
     }
-
-    /**
-     * @return int|string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getToken() : IToken
-    {
-        return $this->token;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function getTypeId() : int
-    {
-        return $this->typeId;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function isActive() : bool
-    {
-        return $this->token->isActive();
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setEntityId($entityId)
-    {
-        $this->entityId = $entityId;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-} 
+}
