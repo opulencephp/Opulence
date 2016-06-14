@@ -19,7 +19,7 @@ class Client implements IClient
     private $name = "";
     /** @var string The client secret */
     private $secret = "";
-    
+
     /**
      * @param int|string $id The client Id
      * @param string $name The client name
@@ -31,7 +31,7 @@ class Client implements IClient
         $this->name = $name;
         $this->secret = $secret;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -63,7 +63,7 @@ class Client implements IClient
     {
         $this->id = $id;
     }
-    
+
     /**
      * @inheritdoc
      */

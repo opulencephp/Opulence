@@ -29,7 +29,7 @@ class MakeCommandCommand extends MakeCommand
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Console\\Commands";
+        return $rootNamespace . "\\Application\\Console\\Commands";
     }
 
     /**
