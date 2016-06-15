@@ -1,5 +1,31 @@
 <h2>v1.0.0-alpha36</h2>
 
+<h3>Backwards Incompatibilities</h3>
+* Rewrote directory structure under `Opulence\Framework` to support eventual splitting of its subdirectories into their own repositories
+  * This will make is possible to, for example, use a library's bootstrapper without having to download all the other bootstrappers
+* Moved `Opulence\Framework\Bootstrappers\Authentication\AuthenticationBootstrapper` to `Opulence\Framework\Authentication\Bootstrappers\AuthenticationBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Authorization\AuthorizationBootstrapper` to `Opulence\Framework\Authorization\Bootstrappers\AuthorizationBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Console\Commands\CommandsBootstrapper` to `Opulence\Framework\Console\Bootstrappers\CommandsBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Console\Composer\ComposerBootstrapper` to `Opulence\Framework\Composer\Bootstrappers\ComposerBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Console\Requests\RequestsBootstrapper` to `Opulence\Framework\Console\Bootstrappers\RequestBootstrapper` (note the drop in the "s" in "RequestBootstrapper")
+* Moved `Opulence\Framework\Bootstrappers\Cryptography\CryptographyBootstrapper` to `Opulence\Framework\Cryptography\Bootstrappers\CryptographyBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Events\DispatcherBootstrapper` to `Opulence\Framework\Events\Bootstrappers\DispatcherBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Http\Requests\RequestBootstrapper` to `Opulence\Framework\Http\Bootstrappers\RequestBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Http\Routing\RouterBootstrapper` to `Opulence\Framework\Routing\Bootstrappers\RouterBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Http\Sessions\SessionBootstrapper` to `Opulence\Framework\Sessions\Bootstrappers\SessionBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Http\Views\ViewBootstrapper` to `Opulence\Framework\Views\Bootstrappers\ViewBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Http\Views\ViewFunctionsBootstrapper` to `Opulence\Framework\Views\Bootstrappers\ViewFunctionsBootstrapper`
+* Moved `Opulence\Framework\Bootstrappers\Validation\ValidatorBootstrapper` to `Opulence\Framework\Validation\Bootstrappers\ValidatorBootstrapper`
+* Moved `Opulence\Framework\Http\Middleware\Authenticate` to `Opulence\Framework\Authentication\Http\Middleware\Authenticate`
+* Moved `Opulence\Framework\Http\Middleware\Session` to `Opulence\Framework\Sessions\Http\Middleware\Session`
+* Moved `Opulence\Framework\Testing\PhpUnit\Console\Assertions\ResponseAssertions` to `Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions`
+* Moved `Opulence\Framework\Testing\PhpUnit\Console\CommandBuilder` to `Opulence\Framework\Console\Testing\PhpUnit\CommandBuilder`
+* Moved `Opulence\Framework\Testing\PhpUnit\Console\IntegrationTestCase` to `Opulence\Framework\Console\Testing\PhpUnit\IntegrationTestCase`
+* Moved `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ResponseAssertions` to `Opulence\Framework\Http\Testing\PhpUnit\Assertions\ResponseAssertions`
+* Moved `Opulence\Framework\Testing\PhpUnit\Http\Assertions\ViewAssertions` to `Opulence\Framework\Http\Testing\PhpUnit\Assertions\ViewAssertions`
+* Moved `Opulence\Framework\Testing\PhpUnit\Http\IntegrationTestCase` to `Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase`
+* Moved `Opulence\Framework\Testing\PhpUnit\Http\RequestBuilder` to `Opulence\Framework\Http\Testing\PhpUnit\RequestBuilder`
+
 <h3>Framework</h3>
 * Fixed `Make*` commands to use latest directory structure in skeleton project
 * Fixed bug that prevented `UuidGenerationCommand` from being included
