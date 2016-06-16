@@ -14,7 +14,7 @@ use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 /**
  * Tests the response abstract syntax tree
  */
-class AbstractSyntaxTreeTest extends \PHPUnit_Framework_TestCase
+class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AbstractSyntaxTree The tree to use in tests */
     private $tree = null;

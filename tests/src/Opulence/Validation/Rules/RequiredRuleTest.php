@@ -13,7 +13,7 @@ use Countable;
 /**
  * Tests the required rule
  */
-class RequiredRuleTest extends \PHPUnit_Framework_TestCase
+class RequiredRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that an empty array fails
@@ -22,7 +22,7 @@ class RequiredRuleTest extends \PHPUnit_Framework_TestCase
     {
         $rule = new RequiredRule();
         $this->assertFalse($rule->passes([]));
-        $countable = $this->getMock(Countable::class);
+        $countable = $this->createMock(Countable::class);
         $countable->expects($this->once())
             ->method("count")
             ->willReturn(0);

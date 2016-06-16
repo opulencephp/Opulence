@@ -14,19 +14,25 @@ use Predis\Client;
 /**
  * Tests the Redis wrapper
  */
-class RedisTest extends \PHPUnit_Framework_TestCase
+class RedisTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that commands go to the default client
      */
     public function testCommandsGoToDefaultClient()
     {
-        $default = $this->getMock(Client::class, ["get"], [], "", false);
+        $default = $this->getMockBuilder(Client::class)
+            ->setMethods(["get"])
+            ->disableOriginalConstructor()
+            ->getMock();
         $default->expects($this->any())
             ->method("get")
             ->with("baz")
             ->willReturn("foo");
-        $foo = $this->getMock(Client::class, ["get"], [], "", false);
+        $foo = $this->getMockBuilder(Client::class)
+            ->setMethods(["get"])
+            ->disableOriginalConstructor()
+            ->getMock();
         $foo->expects($this->any())
             ->method("get")
             ->willReturn("bar");
@@ -53,8 +59,8 @@ class RedisTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingArrayOfClients()
     {
-        $default = $this->getMock(Client::class);
-        $foo = $this->getMock(Client::class);
+        $default = $this->createMock(Client::class);
+        $foo = $this->createMock(Client::class);
         $redis = new Redis(
             [
                 "default" => $default,
@@ -71,7 +77,7 @@ class RedisTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingSingleClient()
     {
-        $default = $this->getMock(Client::class);
+        $default = $this->createMock(Client::class);
         $redis = new Redis($default);
         $this->assertSame($default, $redis->getClient());
         $this->assertSame($default, $redis->getClient("default"));

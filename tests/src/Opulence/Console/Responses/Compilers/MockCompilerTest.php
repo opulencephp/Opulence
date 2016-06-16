@@ -11,7 +11,7 @@ namespace Opulence\Console\Responses\Compilers;
 /**
  * Tests the mock compiler
  */
-class MockCompilerTest extends \PHPUnit_Framework_TestCase
+class MockCompilerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests compiling a styled message

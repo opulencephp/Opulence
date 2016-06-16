@@ -11,7 +11,7 @@ namespace Opulence\Console\Prompts\Questions;
 /**
  * Tests the confirmation question
  */
-class ConfirmationTest extends \PHPUnit_Framework_TestCase
+class ConfirmationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Confirmation The question to use in tests */
     private $question = null;

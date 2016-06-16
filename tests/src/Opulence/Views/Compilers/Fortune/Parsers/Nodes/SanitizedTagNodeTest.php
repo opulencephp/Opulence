@@ -11,7 +11,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Tests the sanitized tag node
  */
-class SanitizedTagNodeTest extends \PHPUnit_Framework_TestCase
+class SanitizedTagNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests the "is a" methods

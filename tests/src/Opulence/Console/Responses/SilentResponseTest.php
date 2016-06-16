@@ -11,7 +11,7 @@ namespace Opulence\Console\Responses;
 /**
  * Tests the silent response
  */
-class SilentResponseTest extends \PHPUnit_Framework_TestCase
+class SilentResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SilentResponse The response to use in tests */
     private $response = null;

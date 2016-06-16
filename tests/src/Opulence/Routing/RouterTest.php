@@ -29,7 +29,7 @@ use Opulence\Tests\Routing\Mocks\Router as MockRouter;
 /**
  * Tests the router
  */
-class RouterTest extends \PHPUnit_Framework_TestCase
+class RouterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Router The router to use in tests */
     private $router = null;
@@ -44,7 +44,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var IDependencyResolver|\PHPUnit_Framework_MockObject_MockObject $dependencyResolver */
-        $dependencyResolver = $this->getMock(IDependencyResolver::class);
+        $dependencyResolver = $this->createMock(IDependencyResolver::class);
         $dependencyResolver->expects($this->any())
             ->method("resolve")
             ->willReturnCallback(function () {
@@ -466,7 +466,7 @@ class RouterTest extends \PHPUnit_Framework_TestCase
     public function testSettingRouteCollection()
     {
         /** @var RouteCollection $collection */
-        $collection = $this->getMock(RouteCollection::class);
+        $collection = $this->createMock(RouteCollection::class);
         $this->router->setRouteCollection($collection);
         $this->assertSame($collection, $this->router->getRouteCollection());
     }

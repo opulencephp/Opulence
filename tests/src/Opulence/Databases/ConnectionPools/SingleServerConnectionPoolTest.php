@@ -15,7 +15,7 @@ use Opulence\Tests\Databases\Mocks\Server;
 /**
  * Tests the single server connection pool
  */
-class SingleServerConnectionPoolTest extends \PHPUnit_Framework_TestCase
+class SingleServerConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the read connection without a preferred server

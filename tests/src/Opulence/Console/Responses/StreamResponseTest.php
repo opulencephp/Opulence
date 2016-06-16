@@ -16,7 +16,7 @@ use Opulence\Console\Responses\Compilers\Parsers\Parser;
 /**
  * Tests the stream response
  */
-class StreamResponseTest extends \PHPUnit_Framework_TestCase
+class StreamResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StreamResponse The response to use in tests */
     private $response = null;

@@ -16,7 +16,7 @@ use Opulence\Views\Compilers\Fortune\Parsers\Parser;
 /**
  * Tests the Fortune view function registrant
  */
-class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
+class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Transpiler The transpiler to use in tests */
     private $transpiler = null;
@@ -28,7 +28,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit_Framework_TestCase
     {
         $xssFilter = new XssFilter();
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
-        $cache = $this->getMock(ICache::class);
+        $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method("has")
             ->willReturn(false);

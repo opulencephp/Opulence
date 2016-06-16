@@ -15,7 +15,7 @@ use Opulence\Tests\Databases\Mocks\Server;
 /**
  * Tests the PDO driver
  */
-class DriverTest extends \PHPUnit_Framework_TestCase
+class DriverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests connecting to a server

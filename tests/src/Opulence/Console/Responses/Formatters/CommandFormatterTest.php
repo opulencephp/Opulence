@@ -19,7 +19,7 @@ use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 /**
  * Tests the command formatter
  */
-class CommandFormatterTest extends \PHPUnit_Framework_TestCase
+class CommandFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandFormatter The formatter to use in tests */
     private $formatter = null;

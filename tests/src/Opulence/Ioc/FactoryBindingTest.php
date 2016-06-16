@@ -11,7 +11,7 @@ namespace Opulence\Ioc;
 /**
  * Tests the factory binding
  */
-class FactoryBindingTest extends \PHPUnit_Framework_TestCase
+class FactoryBindingTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests checking if we should resolve as a singleton

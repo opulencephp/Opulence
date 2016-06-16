@@ -15,7 +15,7 @@ use Opulence\Authorization\Roles\Orm\IRoleRepository;
 /**
  * Tests the roles
  */
-class RolesTest extends \PHPUnit_Framework_TestCase
+class RolesTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Roles The roles to use in tests */
     private $roles = null;
@@ -29,8 +29,8 @@ class RolesTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->roleRepository = $this->getMock(IRoleRepository::class);
-        $this->roleMembershipRepository = $this->getMock(IRoleMembershipRepository::class);
+        $this->roleRepository = $this->createMock(IRoleRepository::class);
+        $this->roleMembershipRepository = $this->createMock(IRoleMembershipRepository::class);
         $this->roles = new Roles($this->roleRepository, $this->roleMembershipRepository);
     }
 

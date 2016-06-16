@@ -13,7 +13,7 @@ use Exception;
 /**
  * Tests the HTTP exception
  */
-class HttpExceptionTest extends \PHPUnit_Framework_TestCase
+class HttpExceptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HttpException The exception to use in tests */
     private $exception = null;

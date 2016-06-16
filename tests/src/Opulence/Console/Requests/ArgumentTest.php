@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the console argument
  */
-class ArgumentTest extends \PHPUnit_Framework_TestCase
+class ArgumentTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Argument The argument to use in tests */
     private $argument = null;

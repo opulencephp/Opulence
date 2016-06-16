@@ -21,7 +21,7 @@ use Opulence\Tests\Console\Responses\Mocks\Response;
 /**
  * Tests the command collection class
  */
-class CommandsCollectionTest extends \PHPUnit_Framework_TestCase
+class CommandsCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandCollection The list of commands to test */
     private $collection = null;

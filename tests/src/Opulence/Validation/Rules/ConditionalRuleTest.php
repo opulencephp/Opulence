@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the conditional rule
  */
-class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
+class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that it fails when the condition is true and an extra rule fails
@@ -27,7 +27,7 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
         $rule = new ConditionalRule();
         $rule->setArgs([$callback]);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
-        $extraRule = $this->getMock(IRule::class);
+        $extraRule = $this->createMock(IRule::class);
         $extraRule->expects($this->once())
             ->method("passes")
             ->willReturn(false);
@@ -50,9 +50,9 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
     public function testGettingSubRules()
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $subRule1 */
-        $subRule1 = $this->getMock(IRule::class);
+        $subRule1 = $this->createMock(IRule::class);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $subRule2 */
-        $subRule2 = $this->getMock(IRule::class);
+        $subRule2 = $this->createMock(IRule::class);
         $rule = new ConditionalRule();
         $rule->addRule($subRule1);
         $rule->addRule($subRule2);
@@ -119,7 +119,7 @@ class ConditionalRuleTest extends \PHPUnit_Framework_TestCase
         $rule = new ConditionalRule();
         $rule->setArgs([$callback]);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
-        $extraRule = $this->getMock(IRule::class);
+        $extraRule = $this->createMock(IRule::class);
         $extraRule->expects($this->any())
             ->method("passes")
             ->willReturn(false);

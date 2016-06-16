@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the authenticator registry
  */
-class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
+class AuthenticatorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthenticatorRegistry The registry to use in tests */
     private $registry = null;
@@ -32,7 +32,7 @@ class AuthenticatorRegistryTest extends \PHPUnit_Framework_TestCase
     public function testCorrectAuthenticatorReturned()
     {
         /** @var IAuthenticator $authenticator */
-        $authenticator = $this->getMock(IAuthenticator::class);
+        $authenticator = $this->createMock(IAuthenticator::class);
         $this->registry->registerAuthenticator("foo", $authenticator);
         $this->assertEquals([$authenticator], $this->registry->getAuthenticators("foo"));
     }

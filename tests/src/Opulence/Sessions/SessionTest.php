@@ -15,7 +15,7 @@ use Opulence\Sessions\Ids\Generators\IIdGenerator;
 /**
  * Tests the session class
  */
-class SessionTest extends \PHPUnit_Framework_TestCase
+class SessionTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests aging flashed data
@@ -174,7 +174,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testGettingId()
     {
         $id = str_repeat(1, IIdGenerator::MIN_LENGTH);
-        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator = $this->createMock(IIdGenerator::class);
         $idGenerator->expects($this->any())->method("idIsValid")->willReturn(true);
         $session = new Session($id, $idGenerator);
         $this->assertEquals($id, $session->getId());
@@ -247,7 +247,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testRegenerateId()
     {
         $generatedId = str_repeat(1, IIdGenerator::MIN_LENGTH);
-        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator = $this->createMock(IIdGenerator::class);
         $idGenerator->expects($this->at(0))->method("idIsValid")->willReturn(false);
         $idGenerator->expects($this->at(2))->method("idIsValid")->willReturn(true);
         $idGenerator->expects($this->at(4))->method("idIsValid")->willReturn(true);
@@ -284,7 +284,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     public function testSettingId()
     {
         $constructorId = str_repeat(1, IIdGenerator::MIN_LENGTH);
-        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator = $this->createMock(IIdGenerator::class);
         $idGenerator->expects($this->any())->method("idIsValid")->willReturn(true);
         $session = new Session($constructorId, $idGenerator);
         $setterId = str_repeat(2, IIdGenerator::MIN_LENGTH);
@@ -297,7 +297,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSettingInvalidIdCausesNewIdToBeGenerated()
     {
-        $idGenerator = $this->getMock(IIdGenerator::class);
+        $idGenerator = $this->createMock(IIdGenerator::class);
         $idGenerator->expects($this->at(0))->method("idIsValid")->willReturn(false);
         $idGenerator->expects($this->at(2))->method("idIsValid")->willReturn(true);
         $idGenerator->expects($this->at(3))->method("idIsValid")->willReturn(false);

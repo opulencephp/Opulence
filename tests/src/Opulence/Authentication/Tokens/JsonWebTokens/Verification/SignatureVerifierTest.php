@@ -16,7 +16,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Tests the signature verifier
  */
-class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
+class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SignatureVerifier The verifier to use in tests */
     private $verifier = null;
@@ -30,9 +30,9 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->signer = $this->getMock(ISigner::class);
+        $this->signer = $this->createMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);
-        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
+        $this->jwt = $this->createMock(SignedJwt::class, [], [], "", false);
     }
 
     /**
@@ -70,7 +70,7 @@ class SignatureVerifierTest extends \PHPUnit_Framework_TestCase
         $this->jwt->expects($this->once())
             ->method("getSignature")
             ->willReturn("foo");
-        $header = $this->getMock(JwtHeader::class);
+        $header = $this->createMock(JwtHeader::class);
         $header->expects($this->once())
             ->method("getAlgorithm")
             ->willReturn(Algorithms::RSA_SHA384);

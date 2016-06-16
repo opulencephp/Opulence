@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the equals field rule
  */
-class EqualsFieldRuleTest extends \PHPUnit_Framework_TestCase
+class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that equal values pass

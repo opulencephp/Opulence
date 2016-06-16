@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the file view reader
  */
-class FileViewReaderTest extends \PHPUnit_Framework_TestCase
+class FileViewReaderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileViewReader The reader to use in tests */
     private $reader = null;

@@ -11,7 +11,7 @@ namespace Opulence\Authorization\Roles;
 /**
  * Tests the role membership
  */
-class RoleMembershipTest extends \PHPUnit_Framework_TestCase
+class RoleMembershipTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RoleMembership The role membership to use in tests */
     private $membership = null;

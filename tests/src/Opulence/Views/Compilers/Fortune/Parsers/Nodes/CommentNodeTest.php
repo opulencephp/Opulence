@@ -11,7 +11,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Tests the comment node
  */
-class CommentNodeTest extends \PHPUnit_Framework_TestCase
+class CommentNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests the "is a" methods

@@ -18,7 +18,7 @@ use Opulence\Views\Factories\IO\IViewReader;
 /**
  * Tests the view factory
  */
-class ViewFactoryTest extends \PHPUnit_Framework_TestCase
+class ViewFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IViewNameResolver|\PHPUnit_Framework_MockObject_MockObject The view name resolver to use in tests */
     private $viewNameResolver = null;
@@ -32,15 +32,15 @@ class ViewFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->viewNameResolver = $this->getMock(IViewNameResolver::class);
-        $this->viewReader = $this->getMock(IViewReader::class);
+        $this->viewNameResolver = $this->createMock(IViewNameResolver::class);
+        $this->viewReader = $this->createMock(IViewReader::class);
         $this->viewReader->expects($this->any())
             ->method("read")
             ->willReturn("foo");
-        $this->viewFactory = $this->getMock(
-            ViewFactory::class, null,
-            [$this->viewNameResolver, $this->viewReader]
-        );
+        $this->viewFactory = $this->getMockBuilder(ViewFactory::class)
+            ->setMethods(null)
+            ->setConstructorArgs([$this->viewNameResolver, $this->viewReader])
+            ->getMock();
     }
 
     /**

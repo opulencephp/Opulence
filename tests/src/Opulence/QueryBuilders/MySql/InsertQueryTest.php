@@ -13,7 +13,7 @@ use PDO;
 /**
  * Tests the insert query
  */
-class InsertQueryTest extends \PHPUnit_Framework_TestCase
+class InsertQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding columns to the update portion of an INSERT/UPDATE

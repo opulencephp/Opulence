@@ -11,7 +11,7 @@ namespace Opulence\Cryptography\Utilities;
 /**
  * Tests the strings utility
  */
-class StringsTest extends \PHPUnit_Framework_TestCase
+class StringsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Strings The string utility to use in tests */
     private $strings = null;

@@ -14,14 +14,14 @@ use Opulence\Databases\Providers\Types\TypeMapper;
 /**
  * Tests the type mapper factory
  */
-class TypeMapperFactoryTest extends \PHPUnit_Framework_TestCase
+class TypeMapperFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that a type mapper is created
      */
     public function testTypeMapperIsCreated()
     {
-        /** @var Provider|\PHPUnit_Framework_TestCase $provider */
+        /** @var Provider|\PHPUnit\Framework\TestCase $provider */
         $provider = $this->getMockForAbstractClass(Provider::class);
         $this->assertInstanceOf(TypeMapper::class, (new TypeMapperFactory)->createTypeMapper($provider));
     }

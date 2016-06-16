@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the console option
  */
-class OptionTest extends \PHPUnit_Framework_TestCase
+class OptionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Option The option to use in tests */
     private $option = null;

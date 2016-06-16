@@ -14,7 +14,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Tests the issuer verifier
  */
-class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
+class IssuerVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IssuerVerifier The verifier to use in tests */
     private $verifier = null;
@@ -29,8 +29,8 @@ class IssuerVerifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->verifier = new IssuerVerifier("foo");
-        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
-        $this->jwtPayload = $this->getMock(JwtPayload::class);
+        $this->jwt = $this->createMock(SignedJwt::class, [], [], "", false);
+        $this->jwtPayload = $this->createMock(JwtPayload::class);
         $this->jwt->expects($this->any())
             ->method("getPayload")
             ->willReturn($this->jwtPayload);

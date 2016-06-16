@@ -14,7 +14,7 @@ use Opulence\Tests\Framework\Composer\Mocks\Executable;
 /**
  * Tests the Composer executable wrapper
  */
-class ExecutableTest extends \PHPUnit_Framework_TestCase
+class ExecutableTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Executable The executable without a composer.phar to use in tests */
     private $executableWithoutPHAR = null;

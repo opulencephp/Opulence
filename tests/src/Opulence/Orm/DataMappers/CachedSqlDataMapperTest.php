@@ -16,7 +16,7 @@ use Opulence\Tests\Orm\DataMappers\Mocks\CachedSqlDataMapper;
 /**
  * Tests the cached SQL data mapper
  */
-class CachedSqlDataMapperTest extends \PHPUnit_Framework_TestCase
+class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CachedSQLDataMapper The data mapper to use for tests */
     private $dataMapper = null;

@@ -16,7 +16,7 @@ use Opulence\Tests\Bootstrappers\Mocks\Bootstrapper;
 /**
  * Tests the bootstrapper
  */
-class BootstrapperTest extends \PHPUnit_Framework_TestCase
+class BootstrapperTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Bootstrapper The bootstrapper to use in tests */
     private $bootstrapper = null;

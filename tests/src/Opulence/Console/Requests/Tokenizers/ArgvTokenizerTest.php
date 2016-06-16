@@ -11,7 +11,7 @@ namespace Opulence\Console\Requests\Tokenizers;
 /**
  * Tests the argv tokenizer
  */
-class ArgvTokenizerTest extends \PHPUnit_Framework_TestCase
+class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArgvTokenizer The tokenizer to use in tests */
     private $tokenizer = null;

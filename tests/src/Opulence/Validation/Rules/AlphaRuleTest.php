@@ -11,7 +11,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Tests the alphabetic rule
  */
-class AlphaRuleTest extends \PHPUnit_Framework_TestCase
+class AlphaRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that a failing value

@@ -13,7 +13,7 @@ use DateTime;
 /**
  * Tests the response headers
  */
-class ResponseHeadersTest extends \PHPUnit_Framework_TestCase
+class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseHeaders The headers to use in tests */
     private $headers = null;

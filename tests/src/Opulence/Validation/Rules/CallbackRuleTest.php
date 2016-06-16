@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the callback rule
  */
-class CallbackRuleTest extends \PHPUnit_Framework_TestCase
+class CallbackRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that the callback is executed

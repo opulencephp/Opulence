@@ -14,7 +14,7 @@ use Opulence\Databases\Server;
 /**
  * Tests the single server selection strategy
  */
-class SingleServerSelectionStrategyTest extends \PHPUnit_Framework_TestCase
+class SingleServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SingleServerSelectionStrategy The strategy to use in tests */
     private $strategy = null;
@@ -75,6 +75,6 @@ class SingleServerSelectionStrategyTest extends \PHPUnit_Framework_TestCase
      */
     private function getServerMock()
     {
-        return $this->getMock(Server::class, [], [], "", false);
+        return $this->createMock(Server::class, [], [], "", false);
     }
 }

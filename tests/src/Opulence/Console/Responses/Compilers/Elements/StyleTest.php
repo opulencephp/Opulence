@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the style class
  */
-class StyleTest extends \PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding an invalid text style

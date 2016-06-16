@@ -14,7 +14,7 @@ use Opulence\Tests\Events\Mocks\Listener;
 /**
  * Tests the event dispatcher
  */
-class DispatcherTest extends \PHPUnit_Framework_TestCase
+class DispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Dispatcher The dispatcher to use in tests */
     private $dispatcher = null;
@@ -30,7 +30,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
     {
         $this->dispatcher = new Dispatcher();
         $this->event = $this->getMockForAbstractClass(Event::class);
-        $this->listener = $this->getMock(Listener::class);
+        $this->listener = $this->createMock(Listener::class);
     }
 
     /**

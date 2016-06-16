@@ -31,7 +31,7 @@ use Opulence\Tests\Bootstrappers\Mocks\LazyFooInterface;
 /**
  * Tests the bootstrapper dispatcher
  */
-class DispatcherTest extends \PHPUnit_Framework_TestCase
+class DispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Dispatcher The dispatcher to use in tests */
     private $dispatcher = null;

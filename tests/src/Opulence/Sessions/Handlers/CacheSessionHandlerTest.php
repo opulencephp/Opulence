@@ -13,7 +13,7 @@ use Opulence\Cache\ICacheBridge;
 /**
  * Tests the cache session handler
  */
-class CacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
+class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CacheSessionHandler The handler to use in tests */
     private $handler = null;
@@ -25,7 +25,7 @@ class CacheSessionHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->bridge = $this->getMock(ICacheBridge::class);
+        $this->bridge = $this->createMock(ICacheBridge::class);
         $this->handler = new CacheSessionHandler($this->bridge, 123);
     }
 

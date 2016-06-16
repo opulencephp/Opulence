@@ -14,7 +14,7 @@ use InvalidArgumentException;
 /**
  * Tests the JWT payload
  */
-class JwtPayloadTest extends \PHPUnit_Framework_TestCase
+class JwtPayloadTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtPayload The payload to use in tests */
     private $payload = null;

@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Tests the view assertions
  */
-class ViewAssertionsTest extends \PHPUnit_Framework_TestCase
+class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ViewAssertions The assertions to use in tests */
     private $assertions = null;
@@ -29,7 +29,7 @@ class ViewAssertionsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->assertions = new ViewAssertions();
-        $this->mockView = $this->getMock(IView::class);
+        $this->mockView = $this->createMock(IView::class);
     }
 
     /**
@@ -41,7 +41,7 @@ class ViewAssertionsTest extends \PHPUnit_Framework_TestCase
             ->method("getVar")
             ->with("foo")
             ->willReturn("bar");
-        $controller = $this->getMock(Controller::class);
+        $controller = $this->createMock(Controller::class);
         $controller->expects($this->exactly(2))
             ->method("getView")
             ->willReturn($this->mockView);

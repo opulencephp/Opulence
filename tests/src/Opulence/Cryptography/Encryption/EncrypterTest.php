@@ -11,7 +11,7 @@ namespace Opulence\Cryptography\Encryption;
 /**
  * Tests the encrypter
  */
-class EncrypterTest extends \PHPUnit_Framework_TestCase
+class EncrypterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Encrypter The encrypter to use in tests */
     private $encrypter = null;

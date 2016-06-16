@@ -16,7 +16,7 @@ use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware;
 /**
  * Tests the route class
  */
-class RouteTest extends \PHPUnit_Framework_TestCase
+class RouteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding multiple middleware

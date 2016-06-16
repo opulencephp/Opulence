@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the max rule
  */
-class MaxRuleTest extends \PHPUnit_Framework_TestCase
+class MaxRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests a failing rule

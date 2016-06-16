@@ -14,7 +14,7 @@ use Opulence\Databases\Server;
 /**
  * Tests the random server selection strategy
  */
-class RandomServerSelectionStrategyTest extends \PHPUnit_Framework_TestCase
+class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RandomServerSelectionStrategy The strategy to use in tests */
     private $strategy = null;
@@ -71,6 +71,6 @@ class RandomServerSelectionStrategyTest extends \PHPUnit_Framework_TestCase
      */
     private function getServerMock()
     {
-        return $this->getMock(Server::class, [], [], "", false);
+        return $this->createMock(Server::class, [], [], "", false);
     }
 }

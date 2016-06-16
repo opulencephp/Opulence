@@ -13,7 +13,7 @@ use DateTime;
 /**
  * Tests the cookie class
  */
-class CookieTest extends \PHPUnit_Framework_TestCase
+class CookieTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Cookie The cookie to test */
     private $cookie = null;

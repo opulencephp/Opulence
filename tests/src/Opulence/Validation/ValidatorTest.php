@@ -18,7 +18,7 @@ use Opulence\Validation\Rules\Rules;
 /**
  * Tests the validator
  */
-class ValidatorTest extends \PHPUnit_Framework_TestCase
+class ValidatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Validator The validator to use in tests */
     private $validator = null;
@@ -36,12 +36,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->ruleExtensionRegistry = $this->getMock(RuleExtensionRegistry::class);
+        $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
-        $this->errorTemplateRegistry = $this->getMock(ErrorTemplateRegistry::class);
+        $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $errorTemplateCompiler */
-        $this->errorTemplateCompiler = $this->getMock(ICompiler::class);
-        $this->rulesFactory = $this->getMock(
+        $this->errorTemplateCompiler = $this->createMock(ICompiler::class);
+        $this->rulesFactory = $this->createMock(
             RulesFactory::class,
             [],
             [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]
@@ -141,7 +141,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     private function getRules()
     {
-        return $this->getMock(
+        return $this->createMock(
             Rules::class,
             [],
             [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]

@@ -11,7 +11,7 @@ namespace Opulence\Http;
 /**
  * Tests the headers class
  */
-class HeadersTest extends \PHPUnit_Framework_TestCase
+class HeadersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Headers The headers to use in tests */
     private $headers = null;

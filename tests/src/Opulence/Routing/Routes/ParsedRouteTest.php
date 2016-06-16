@@ -11,7 +11,7 @@ namespace Opulence\Routing\Routes;
 /**
  * Tests the parsed route
  */
-class ParsedRouteTest extends \PHPUnit_Framework_TestCase
+class ParsedRouteTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests creating a parsed route

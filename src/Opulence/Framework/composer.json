@@ -35,7 +35,8 @@
     "opulence/routing": "1.0.*",
     "opulence/sessions": "1.0.*",
     "opulence/validation": "1.0.*",
-    "opulence/views": "1.0.*"
+    "opulence/views": "1.0.*",
+    "phpunit/phpunit": "5.4.*"
   },
   "extra": {
     "branch-alias": {

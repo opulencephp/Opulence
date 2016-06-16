@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the not-in-array rule
  */
-class NotInRuleTest extends \PHPUnit_Framework_TestCase
+class NotInRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the slug

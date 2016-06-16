@@ -13,7 +13,7 @@ use LogicException;
 /**
  * Tests the base session handler
  */
-class SessionHandlerTest extends \PHPUnit_Framework_TestCase
+class SessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SessionHandler|\PHPUnit_Framework_MockObject_MockObject The session handler to use in tests */
     private $handler = null;
@@ -26,7 +26,7 @@ class SessionHandlerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->handler = $this->getMockForAbstractClass(SessionHandler::class);
-        $this->encrypter = $this->getMock(ISessionEncrypter::class);
+        $this->encrypter = $this->createMock(ISessionEncrypter::class);
     }
 
     /**

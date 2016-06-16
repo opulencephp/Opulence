@@ -15,7 +15,7 @@ use Opulence\Tests\Routing\Mocks\Controller as MockController;
 /**
  * Tests the routes
  */
-class RouteCollectionTest extends \PHPUnit_Framework_TestCase
+class RouteCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RouteCollection The routes to use in tests */
     private $collection = null;

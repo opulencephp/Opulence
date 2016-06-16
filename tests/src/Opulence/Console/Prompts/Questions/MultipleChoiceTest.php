@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the multiple choice question
  */
-class MultipleChoiceTest extends \PHPUnit_Framework_TestCase
+class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MultipleChoice The indexed-choice question to use in tests */
     private $indexedChoiceQuestion = null;

@@ -11,7 +11,7 @@ namespace Opulence\Framework\Console\Testing\PhpUnit;
 /**
  * Tests the command builder
  */
-class CommandBuilderTest extends \PHPUnit_Framework_TestCase
+class CommandBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IntegrationTestCase|\PHPUnit_Framework_MockObject_MockObject The integration test to use in tests */
     private $integrationTest = null;
@@ -23,7 +23,7 @@ class CommandBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->integrationTest = $this->getMock(IntegrationTestCase::class);
+        $this->integrationTest = $this->createMock(IntegrationTestCase::class);
         $this->integrationTest->expects($this->any())
             ->method("execute")
             ->willReturn($this->integrationTest);

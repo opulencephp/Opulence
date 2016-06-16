@@ -11,7 +11,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Tests the directive name node
  */
-class DirectiveNameNodeTest extends \PHPUnit_Framework_TestCase
+class DirectiveNameNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests the "is a" methods

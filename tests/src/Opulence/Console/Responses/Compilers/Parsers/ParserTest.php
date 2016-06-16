@@ -17,7 +17,7 @@ use RuntimeException;
 /**
  * Tests the response parser
  */
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Parser The parser to use in tests */
     private $parser = null;

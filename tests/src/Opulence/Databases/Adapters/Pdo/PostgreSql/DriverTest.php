@@ -14,7 +14,7 @@ use Opulence\Tests\Databases\Mocks\Server;
 /**
  * Tests the pgsql PDO driver
  */
-class DriverTest extends \PHPUnit_Framework_TestCase
+class DriverTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests creating the DSN with an SSL mode specified

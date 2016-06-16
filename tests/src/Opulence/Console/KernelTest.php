@@ -22,7 +22,7 @@ use Opulence\Tests\Console\Responses\Mocks\Response;
 /**
  * Tests the console kernel
  */
-class KernelTest extends \PHPUnit_Framework_TestCase
+class KernelTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CommandCompiler The command compiler */
     private $compiler = null;

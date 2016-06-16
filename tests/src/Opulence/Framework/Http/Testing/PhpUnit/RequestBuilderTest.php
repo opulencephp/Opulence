@@ -15,7 +15,7 @@ use Opulence\Http\Requests\UploadedFile;
 /**
  * Tests the request builder
  */
-class RequestBuilderTest extends \PHPUnit_Framework_TestCase
+class RequestBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IntegrationTestCase|\PHPUnit_Framework_MockObject_MockObject The integration test to use in tests */
     private $integrationTest = null;
@@ -25,7 +25,7 @@ class RequestBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->integrationTest = $this->getMock(IntegrationTestCase::class);
+        $this->integrationTest = $this->createMock(IntegrationTestCase::class);
     }
 
     /**

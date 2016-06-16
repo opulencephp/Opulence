@@ -15,7 +15,7 @@ use RuntimeException;
 /**
  * Tests the exception handler
  */
-class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
+class ExceptionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ExceptionHandler The handler to use in tests */
     private $handler = null;
@@ -29,8 +29,8 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->logger = $this->getMock(LoggerInterface::class);
-        $this->renderer = $this->getMock(IExceptionRenderer::class);
+        $this->logger = $this->createMock(LoggerInterface::class);
+        $this->renderer = $this->createMock(IExceptionRenderer::class);
         $this->handler = new ExceptionHandler($this->logger, $this->renderer);
         $this->handler->register();
     }
@@ -64,9 +64,9 @@ class ExceptionHandlerTest extends \PHPUnit_Framework_TestCase
     public function testExceptionNotLoggedWhenToldNotTo()
     {
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
-        $logger = $this->getMock(LoggerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
         /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
-        $renderer = $this->getMock(IExceptionRenderer::class);
+        $renderer = $this->createMock(IExceptionRenderer::class);
         $handler = new ExceptionHandler($logger, $renderer, RuntimeException::class);
         $exception = new RuntimeException();
         $logger->expects($this->never())

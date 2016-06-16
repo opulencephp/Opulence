@@ -11,7 +11,7 @@ namespace Opulence\Console\Prompts\Questions;
 /**
  * Tests the console prompt question
  */
-class QuestionTest extends \PHPUnit_Framework_TestCase
+class QuestionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Question The question to use in tests */
     private $question = null;

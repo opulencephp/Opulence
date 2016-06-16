@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the console request
  */
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Request The request to use in tests */
     private $request = null;

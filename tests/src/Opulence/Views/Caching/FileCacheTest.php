@@ -14,7 +14,7 @@ use Opulence\Views\IView;
 /**
  * Tests the view cache
  */
-class FileCacheTest extends \PHPUnit_Framework_TestCase
+class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileSystem The file system to use to read cached views */
     private $fileSystem = null;
@@ -54,7 +54,7 @@ class FileCacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->fileSystem = new FileSystem();
         $this->cache = new FileCache(__DIR__ . "/tmp", 3600);
-        $this->view = $this->getMock(IView::class);
+        $this->view = $this->createMock(IView::class);
     }
 
     /**

@@ -14,7 +14,7 @@ use Opulence\Console\StatusCodes;
 /**
  * Tests the response assertions
  */
-class ResponseAssertionsTest extends \PHPUnit_Framework_TestCase
+class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseAssertions The response assertions to use in tests */
     private $assertions = null;
@@ -27,7 +27,7 @@ class ResponseAssertionsTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->assertions = new ResponseAssertions();
-        $this->mockResponse = $this->getMock(StreamResponse::class, [], [], "", false);
+        $this->mockResponse = $this->createMock(StreamResponse::class, [], [], "", false);
     }
 
     /**

@@ -13,7 +13,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Tests the verification context
  */
-class VerificationContextTest extends \PHPUnit_Framework_TestCase
+class VerificationContextTest extends \PHPUnit\Framework\TestCase
 {
     /** @var VerificationContext The context to use in tests */
     private $context = null;
@@ -25,7 +25,7 @@ class VerificationContextTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->signer = $this->getMock(ISigner::class);
+        $this->signer = $this->createMock(ISigner::class);
         $this->context = new VerificationContext($this->signer);
     }
 
@@ -64,7 +64,7 @@ class VerificationContextTest extends \PHPUnit_Framework_TestCase
     public function testSettingSigner()
     {
         /** @var ISigner $signer */
-        $signer = $this->getMock(ISigner::class);
+        $signer = $this->createMock(ISigner::class);
         $this->context->setSigner($signer);
         $this->assertSame($signer, $this->context->getSigner());
     }

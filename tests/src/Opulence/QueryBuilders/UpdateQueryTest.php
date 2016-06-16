@@ -13,7 +13,7 @@ use PDO;
 /**
  * Tests the update query
  */
-class UpdateQueryTest extends \PHPUnit_Framework_TestCase
+class UpdateQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding more columns

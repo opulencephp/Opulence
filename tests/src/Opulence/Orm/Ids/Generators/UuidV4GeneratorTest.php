@@ -13,7 +13,7 @@ use stdClass;
 /**
  * Tests the UUID V4 generator
  */
-class UuidV4GeneratorTest extends \PHPUnit_Framework_TestCase
+class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test checking if this generator is post-insert

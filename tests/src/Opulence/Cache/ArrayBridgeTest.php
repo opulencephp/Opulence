@@ -11,7 +11,7 @@ namespace Opulence\Cache;
 /**
  * Tests that array bridge
  */
-class ArrayBridgeTest extends \PHPUnit_Framework_TestCase
+class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayBridge The bridge to use in tests */
     private $bridge = null;

@@ -14,7 +14,7 @@ use RuntimeException;
 /**
  * Tests the view
  */
-class ViewTest extends \PHPUnit_Framework_TestCase
+class ViewTest extends \PHPUnit\Framework\TestCase
 {
     /** The path to the test view with default tags */
     const VIEW_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTagDelimiters.html";

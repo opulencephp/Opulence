@@ -13,7 +13,7 @@ use Opulence\Redis\Types\TypeMapper;
 /**
  * Tests the type mapper factory
  */
-class TypeMapperFactoryTest extends \PHPUnit_Framework_TestCase
+class TypeMapperFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that a type mapper is created

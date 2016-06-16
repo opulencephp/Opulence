@@ -11,7 +11,7 @@ namespace Opulence\Sessions\Ids\Generators;
 /**
  * Tests the Id generator
  */
-class IdGeneratorTest extends \PHPUnit_Framework_TestCase
+class IdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IdGenerator The Id generator to use in tests */
     private $generator = null;

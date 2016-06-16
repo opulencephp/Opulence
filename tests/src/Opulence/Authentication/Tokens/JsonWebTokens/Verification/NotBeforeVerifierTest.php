@@ -15,7 +15,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Tests the not-before verifier
  */
-class NotBeforeVerifierTest extends \PHPUnit_Framework_TestCase
+class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var NotBeforeVerifier The verifier to use in tests */
     private $verifier = null;
@@ -30,8 +30,8 @@ class NotBeforeVerifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->verifier = new NotBeforeVerifier();
-        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
-        $this->jwtPayload = $this->getMock(JwtPayload::class);
+        $this->jwt = $this->createMock(SignedJwt::class, [], [], "", false);
+        $this->jwtPayload = $this->createMock(JwtPayload::class);
         $this->jwt->expects($this->any())
             ->method("getPayload")
             ->willReturn($this->jwtPayload);

@@ -11,7 +11,7 @@ namespace Opulence\Authentication\Credentials;
 /**
  * Tests the credentials
  */
-class CredentialTest extends \PHPUnit_Framework_TestCase
+class CredentialTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Credential The credential to use in tests */
     private $credential = null;

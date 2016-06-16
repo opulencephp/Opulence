@@ -16,7 +16,7 @@ use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
 /**
  * Tests the Id accessor registry
  */
-class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
+class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IdAccessorRegistry The registry to use in tests */
     private $registry = null;
@@ -48,7 +48,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testEntityInterfaceAccessorsAutomaticallySet()
     {
-        $entity = $this->getMock(IEntity::class);
+        $entity = $this->createMock(IEntity::class);
         $entity->expects($this->at(0))
             ->method("getId")
             ->willReturn(1);
@@ -77,7 +77,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGettingEntityIdWithoutRegisteringGetter()
     {
         $this->expectException(OrmException::class);
-        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $entity = $this->createMock(User::class, [], [], "Foo", false);
         $this->registry->getEntityId($entity);
     }
 
@@ -108,11 +108,17 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testRegisteringArrayOfClassNames()
     {
-        $entity1 = $this->getMock(User::class, [], [], "FooEntity", false);
+        $entity1 = $this->getMockBuilder(User::class)
+            ->setMockClassName("FooEntity")
+            ->disableOriginalConstructor()
+            ->getMock();
         $entity1->expects($this->any())
             ->method("setId")
             ->with(123);
-        $entity2 = $this->getMock(User::class, [], [], "BarEntity", false);
+        $entity2 = $this->getMockBuilder(User::class)
+            ->setMockClassName("BarEntity")
+            ->disableOriginalConstructor()
+            ->getMock();
         $entity2->expects($this->any())
             ->method("setId")
             ->with(456);
@@ -145,7 +151,7 @@ class IdAccessorRegistryTest extends \PHPUnit_Framework_TestCase
     public function testSettingEntityIdWithoutRegisteringGetter()
     {
         $this->expectException(OrmException::class);
-        $entity = $this->getMock(User::class, [], [], "Foo", false);
+        $entity = $this->createMock(User::class, [], [], "Foo", false);
         $this->registry->setEntityId($entity, 24);
     }
 

@@ -16,7 +16,7 @@ use stdClass;
 /**
  * Tests the integer sequence Id generator
  */
-class IntSequenceIdGeneratorTest extends \PHPUnit_Framework_TestCase
+class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Test checking if this generator is post-insert

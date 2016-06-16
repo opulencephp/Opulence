@@ -11,7 +11,7 @@ namespace Opulence\Authorization\Roles;
 /**
  * Tests the role
  */
-class RoleTest extends \PHPUnit_Framework_TestCase
+class RoleTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Role The role to use in tests */
     private $role = null;

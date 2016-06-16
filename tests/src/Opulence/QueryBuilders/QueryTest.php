@@ -13,7 +13,7 @@ use PDO;
 /**
  * Tests the query class
  */
-class QueryTest extends \PHPUnit_Framework_TestCase
+class QueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Query The query object stub */
     private $query = null;

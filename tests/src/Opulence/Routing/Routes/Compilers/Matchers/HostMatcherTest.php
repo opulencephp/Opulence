@@ -15,7 +15,7 @@ use Opulence\Routing\Routes\ParsedRoute;
 /**
  * Tests the host matcher
  */
-class HostMatcherTest extends \PHPUnit_Framework_TestCase
+class HostMatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var HostMatcher The matcher to use in tests */
     private $matcher = null;
@@ -30,8 +30,8 @@ class HostMatcherTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->matcher = new HostMatcher();
-        $this->request = $this->getMock(Request::class, [], [], "", false);
-        $this->route = $this->getMock(ParsedRoute::class, [], [], "", false);
+        $this->request = $this->createMock(Request::class, [], [], "", false);
+        $this->route = $this->createMock(ParsedRoute::class, [], [], "", false);
     }
 
     /**
@@ -40,7 +40,7 @@ class HostMatcherTest extends \PHPUnit_Framework_TestCase
     public function testMatchWithMatchingRegex()
     {
         $this->route->expects($this->any())->method("getHostRegex")->willReturn("#^foo$#");
-        $headers = $this->getMock(Headers::class);
+        $headers = $this->createMock(Headers::class);
         $headers->expects($this->any())->method("get")->with("HOST")->willReturn("foo");
         $this->request->expects($this->any())->method("getHeaders")->willReturn($headers);
         $this->assertTrue($this->matcher->isMatch($this->route, $this->request));
@@ -52,7 +52,7 @@ class HostMatcherTest extends \PHPUnit_Framework_TestCase
     public function testNoMatchWithNoMatchingRegex()
     {
         $this->route->expects($this->any())->method("getHostRegex")->willReturn("#^foo$#");
-        $headers = $this->getMock(Headers::class);
+        $headers = $this->createMock(Headers::class);
         $headers->expects($this->any())->method("get")->with("HOST")->willReturn("#^bar$#");
         $this->request->expects($this->any())->method("getHeaders")->willReturn($headers);
         $this->assertFalse($this->matcher->isMatch($this->route, $this->request));

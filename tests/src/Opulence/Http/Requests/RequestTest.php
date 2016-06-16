@@ -17,7 +17,7 @@ use stdClass;
 /**
  * Tests the HTTP request
  */
-class RequestTest extends \PHPUnit_Framework_TestCase
+class RequestTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array A clone of the $_COOKIE array, which we can use to restore original values */
     private static $cookieClone = [];

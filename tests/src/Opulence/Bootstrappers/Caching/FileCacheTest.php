@@ -19,7 +19,7 @@ use Opulence\Tests\Bootstrappers\Mocks\LazyBootstrapperWithTargetedBinding;
 /**
  * Tests the bootstrapper file cache
  */
-class FileCacheTest extends \PHPUnit_Framework_TestCase
+class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileCache The cache to use in tests */
     private $cache = null;

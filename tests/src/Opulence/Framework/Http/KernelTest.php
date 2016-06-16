@@ -32,7 +32,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Tests the HTTP kernel
  */
-class KernelTest extends \PHPUnit_Framework_TestCase
+class KernelTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding empty middleware
@@ -169,19 +169,19 @@ class KernelTest extends \PHPUnit_Framework_TestCase
     {
         $container = new Container();
         $dependencyResolver = new ContainerDependencyResolver($container);
-        $compiledRoute = $this->getMock(CompiledRoute::class, [], [], "", false);
+        $compiledRoute = $this->createMock(CompiledRoute::class, [], [], "", false);
         $compiledRoute->expects($this->any())->method("isMatch")->willReturn(true);
         $compiledRoute->expects($this->any())->method("getControllerName")->willReturn(Controller::class);
         $compiledRoute->expects($this->any())->method("getControllerMethod")->willReturn("noParameters");
         $compiledRoute->expects($this->any())->method("getMiddleware")->willReturn([]);
         $compiledRoute->expects($this->any())->method("getPathVars")->willReturn([]);
-        $parsedRoute = $this->getMock(ParsedRoute::class, [], [], "", false);
+        $parsedRoute = $this->createMock(ParsedRoute::class, [], [], "", false);
         $parsedRoute->expects($this->any())->method("getMethods")->willReturn([$method]);
         /** @var IParser|\PHPUnit_Framework_MockObject_MockObject $routeParser */
-        $routeParser = $this->getMock(IParser::class);
+        $routeParser = $this->createMock(IParser::class);
         $routeParser->expects($this->any())->method("parse")->willReturn($parsedRoute);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $routeCompiler */
-        $routeCompiler = $this->getMock(ICompiler::class);
+        $routeCompiler = $this->createMock(ICompiler::class);
         $routeCompiler->expects($this->any())->method("compile")->willReturn($compiledRoute);
 
         if ($shouldThrowException) {
@@ -192,12 +192,12 @@ class KernelTest extends \PHPUnit_Framework_TestCase
 
         $router->any("/", Controller::class . "@noParameters");
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
-        $logger = $this->getMock(LoggerInterface::class);
+        $logger = $this->createMock(LoggerInterface::class);
         /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
-        $exceptionRenderer = $this->getMock(IExceptionRenderer::class);
+        $exceptionRenderer = $this->createMock(IExceptionRenderer::class);
         $exceptionRenderer->expects($this->any())
             ->method("getResponse")
-            ->willReturn($this->getMock(Response::class));
+            ->willReturn($this->createMock(Response::class));
         $exceptionHandler = new ExceptionHandler($logger, $exceptionRenderer);
 
         return new Kernel($container, $router, $exceptionHandler, $exceptionRenderer);

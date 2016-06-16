@@ -11,7 +11,7 @@ namespace Opulence\Http\Responses;
 /**
  * Tests the redirect response class
  */
-class RedirectResponseTest extends \PHPUnit_Framework_TestCase
+class RedirectResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RedirectResponse The response to use in tests */
     private $redirectResponse = null;

@@ -15,7 +15,7 @@ use Opulence\Environments\Hosts\HostRegex;
 /**
  * Tests the environment resolver class
  */
-class EnvironmentResolverTest extends \PHPUnit_Framework_TestCase
+class EnvironmentResolverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var EnvironmentResolver The resolver to use in tests */
     private $resolver = null;

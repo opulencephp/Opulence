@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the framework paths
  */
-class PathsTest extends \PHPUnit_Framework_TestCase
+class PathsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests constructing with an empty array

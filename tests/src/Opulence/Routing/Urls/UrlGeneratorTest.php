@@ -16,7 +16,7 @@ use Opulence\Routing\Routes\RouteCollection;
 /**
  * Tests the URL generator
  */
-class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
+class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UrlGenerator The generator to use in tests */
     private $generator = null;

@@ -15,7 +15,7 @@ use Opulence\Tests\Databases\Mocks\Server;
 /**
  * Tests the Connection class
  */
-class ConnectionTest extends \PHPUnit_Framework_TestCase
+class ConnectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Provider They provider this connection uses */
     private $provider = null;

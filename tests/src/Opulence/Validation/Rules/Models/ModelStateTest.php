@@ -18,7 +18,7 @@ use Opulence\Validation\Rules\Rules;
 /**
  * Tests the model state
  */
-class ModelStateTest extends \PHPUnit_Framework_TestCase
+class ModelStateTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IValidatorFactory|\PHPUnit_Framework_MockObject_MockObject The validator factory */
     private $validatorFactory = null;
@@ -32,12 +32,12 @@ class ModelStateTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->rules = $this->getMock(Rules::class, [], [], "", false);
-        $this->validator = $this->getMock(IValidator::class);
+        $this->rules = $this->createMock(Rules::class, [], [], "", false);
+        $this->validator = $this->createMock(IValidator::class);
         $this->validator->expects($this->any())
             ->method("field")
             ->willReturn($this->rules);
-        $this->validatorFactory = $this->getMock(IValidatorFactory::class);
+        $this->validatorFactory = $this->createMock(IValidatorFactory::class);
         $this->validatorFactory->expects($this->any())
             ->method("createValidator")
             ->willReturn($this->validator);
@@ -68,7 +68,7 @@ class ModelStateTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
         $this->validator->expects($this->once())
             ->method("getErrors")
-            ->willReturn($this->getMock(ErrorCollection::class, [], [], "", false));
+            ->willReturn($this->createMock(ErrorCollection::class, [], [], "", false));
         $modelState = new UserModelState($user, $this->validatorFactory);
         $this->assertFalse($modelState->isValid());
         $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());
@@ -99,7 +99,7 @@ class ModelStateTest extends \PHPUnit_Framework_TestCase
             ->willReturn(true);
         $this->validator->expects($this->once())
             ->method("getErrors")
-            ->willReturn($this->getMock(ErrorCollection::class, [], [], "", false));
+            ->willReturn($this->createMock(ErrorCollection::class, [], [], "", false));
         $modelState = new UserModelState($user, $this->validatorFactory);
         $this->assertTrue($modelState->isValid());
         $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());

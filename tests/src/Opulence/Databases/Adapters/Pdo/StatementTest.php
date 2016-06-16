@@ -14,7 +14,7 @@ use Opulence\Tests\Databases\Adapters\Pdo\Mocks\Statement;
 /**
  * Tests the PDO statement
  */
-class StatementTest extends \PHPUnit_Framework_TestCase
+class StatementTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests binding an invalid associative array

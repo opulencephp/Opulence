@@ -24,7 +24,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Tests the refresh token authenticator
  */
-class RefreshTokenAuthenticatorTest extends \PHPUnit_Framework_TestCase
+class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RefreshTokenAuthenticator The authenticator to use in tests */
     private $authenticator = null;
@@ -40,17 +40,17 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->refreshTokenRepository = $this->getMock(IJwtRepository::class);
+        $this->refreshTokenRepository = $this->createMock(IJwtRepository::class);
         /** @var ISigner $signer */
-        $signer = $this->getMock(ISigner::class);
+        $signer = $this->createMock(ISigner::class);
         $verificationContext = new VerificationContext($signer);
-        $this->jwtVerifier = $this->getMock(JwtVerifier::class, ["verify"]);
+        $this->jwtVerifier = $this->createMock(JwtVerifier::class, ["verify"]);
         $this->authenticator = new RefreshTokenAuthenticator(
             $this->refreshTokenRepository,
             $this->jwtVerifier,
             $verificationContext
         );
-        $this->credential = $this->getMock(ICredential::class);
+        $this->credential = $this->createMock(ICredential::class);
 
         // Set up the signed JWT
         $signer = new HmacSigner(Algorithms::SHA256, "public");
@@ -71,7 +71,7 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit_Framework_TestCase
     public function testUnsetTokenCredentialReturnsFalse()
     {
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
-        $credential = $this->getMock(ICredential::class);
+        $credential = $this->createMock(ICredential::class);
         $credential->expects($this->any())
             ->method("getValue")
             ->with("token")

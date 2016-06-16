@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the regex rule
  */
-class RegexRuleTest extends \PHPUnit_Framework_TestCase
+class RegexRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the slug

@@ -15,7 +15,7 @@ use RuntimeException;
 /**
  * Tests the type mapper class
  */
-class TypeMapperTest extends \PHPUnit_Framework_TestCase
+class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TypeMapper The type mapper without a provider to use for tests */
     private $typeMapperWithNoProvider = null;

@@ -11,7 +11,7 @@ namespace Opulence\Http\Requests;
 /**
  * Tests the file parameters
  */
-class FilesTest extends \PHPUnit_Framework_TestCase
+class FilesTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding files creates files

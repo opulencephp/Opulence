@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the algorithms
  */
-class AlgorithmsTest extends \PHPUnit_Framework_TestCase
+class AlgorithmsTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests checking for a supported algorithm

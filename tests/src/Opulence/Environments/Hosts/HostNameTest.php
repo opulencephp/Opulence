@@ -11,7 +11,7 @@ namespace Opulence\Environments\Hosts;
 /**
  * Tests the host name
  */
-class HostNameTest extends \PHPUnit_Framework_TestCase
+class HostNameTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the value

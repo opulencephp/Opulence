@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the equals rule
  */
-class EqualsRuleTest extends \PHPUnit_Framework_TestCase
+class EqualsRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that equal values pass

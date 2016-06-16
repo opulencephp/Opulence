@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the array list parser
  */
-class ArrayListParserTest extends \PHPUnit_Framework_TestCase
+class ArrayListParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayListParser The parser to use in tests */
     private $parser = null;

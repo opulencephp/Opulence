@@ -11,7 +11,7 @@ namespace Opulence\QueryBuilders;
 /**
  * Tests the augmenting query builder
  */
-class AugmentingQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding multiple columns

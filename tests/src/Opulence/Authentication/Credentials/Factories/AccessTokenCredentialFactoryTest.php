@@ -21,7 +21,7 @@ use Opulence\Authentication\Users\Orm\IUserRepository;
 /**
  * Tests the access credential factory
  */
-class AccessTokenCredentialFactoryTest extends \PHPUnit_Framework_TestCase
+class AccessTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AccessTokenCredentialFactory The factory to use in tests */
     private $factory = null;
@@ -39,26 +39,26 @@ class AccessTokenCredentialFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->signer = $this->getMock(ISigner::class);
+        $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())
             ->method("sign")
             ->willReturn("signed");
-        $user = $this->getMock(IUser::class);
+        $user = $this->createMock(IUser::class);
         $user->expects($this->any())
             ->method("getUsername")
             ->willReturn("Dave");
-        $this->userRepository = $this->getMock(IUserRepository::class);
+        $this->userRepository = $this->createMock(IUserRepository::class);
         $this->userRepository->expects($this->any())
             ->method("getById")
             ->with("principalId")
             ->willReturn($user);
-        $this->roleRepository = $this->getMock(IRoleRepository::class);
+        $this->roleRepository = $this->createMock(IRoleRepository::class);
         $this->roleRepository->expects($this->any())
             ->method("getRoleNamesForSubject")
             ->with("principalId")
             ->willReturn(["role1", "role2"]);
-        $this->subject = $this->getMock(ISubject::class);
-        $principal = $this->getMock(IPrincipal::class);
+        $this->subject = $this->createMock(ISubject::class);
+        $principal = $this->createMock(IPrincipal::class);
         $principal->expects($this->any())
             ->method("getId")
             ->willReturn("principalId");

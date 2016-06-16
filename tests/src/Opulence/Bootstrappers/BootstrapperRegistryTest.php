@@ -20,7 +20,7 @@ use RuntimeException;
 /**
  * Tests the bootstrapper registry
  */
-class BootstrapperRegistryTest extends \PHPUnit_Framework_TestCase
+class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var BootstrapperRegistry The registry to test */
     private $registry = null;

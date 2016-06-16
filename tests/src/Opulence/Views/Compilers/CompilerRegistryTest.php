@@ -14,7 +14,7 @@ use Opulence\Views\IView;
 /**
  * Tests the compiler dispatcher
  */
-class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
+class CompilerRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CompilerRegistry The registry to use in tests */
     private $registry = null;
@@ -34,7 +34,7 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method("getPath")
             ->willReturn("foo");
@@ -47,9 +47,9 @@ class CompilerRegistryTest extends \PHPUnit_Framework_TestCase
     public function testRegisteringCompiler()
     {
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
-        $compiler = $this->getMock(ICompiler::class);
+        $compiler = $this->createMock(ICompiler::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method("getPath")
             ->willReturn("php");

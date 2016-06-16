@@ -14,7 +14,7 @@ use DateTimeImmutable;
 /**
  * Tests the Redis type mapper class
  */
-class TypeMapperTest extends \PHPUnit_Framework_TestCase
+class TypeMapperTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TypeMapper The type mapper to use for tests */
     private $typeMapper = null;

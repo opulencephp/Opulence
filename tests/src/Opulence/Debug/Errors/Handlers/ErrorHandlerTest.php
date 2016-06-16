@@ -15,7 +15,7 @@ use Psr\Log\LoggerInterface;
 /**
  * Tests the error handler
  */
-class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
+class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var IExceptionHandler|\PHPUnit_Framework_MockObject_MockObject */
     private $exceptionHandler = null;
@@ -28,8 +28,8 @@ class ErrorHandlerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
 
-        $this->exceptionHandler = $this->getMock(IExceptionHandler::class, [], [], "", false);
-        $this->logger = $this->getMock(LoggerInterface::class);
+        $this->exceptionHandler = $this->createMock(IExceptionHandler::class, [], [], "", false);
+        $this->logger = $this->createMock(LoggerInterface::class);
     }
 
     /**

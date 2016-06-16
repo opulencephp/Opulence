@@ -13,7 +13,7 @@ use Opulence\Console\Requests\Tokenizers\StringTokenizer;
 /**
  * Tests the string parser
  */
-class StringParserTest extends \PHPUnit_Framework_TestCase
+class StringParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StringParser The parser to use in tests */
     private $parser = null;

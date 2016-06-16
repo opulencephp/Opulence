@@ -11,7 +11,7 @@ namespace Opulence\Databases\Providers;
 /**
  * Tests the provider class
  */
-class ProviderTest extends \PHPUnit_Framework_TestCase
+class ProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Provider The provider to use for tests */
     private $provider = null;

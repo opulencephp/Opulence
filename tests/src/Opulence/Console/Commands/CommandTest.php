@@ -27,7 +27,7 @@ use RuntimeException;
 /**
  * Tests the console command
  */
-class CommandTest extends \PHPUnit_Framework_TestCase
+class CommandTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SimpleCommand The command to use in tests */
     private $command = null;

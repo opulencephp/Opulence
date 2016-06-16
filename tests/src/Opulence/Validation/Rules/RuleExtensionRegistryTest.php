@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the rule extension registry
  */
-class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
+class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RuleExtensionRegistry The registry to use in tests */
     private $registry = null;
@@ -46,7 +46,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
     public function testCheckingIfRegistryHasRule()
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
-        $rule = $this->getMock(IRule::class);
+        $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
             ->method("getSlug")
             ->willReturn("foo");
@@ -79,7 +79,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
     public function testGettingRuleObject()
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
-        $rule = $this->getMock(IRule::class);
+        $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
             ->method("getSlug")
             ->willReturn("foo");
@@ -93,7 +93,7 @@ class RuleExtensionRegistryTest extends \PHPUnit_Framework_TestCase
     public function testSlugIgnoredIfRegisteringRuleObject()
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
-        $rule = $this->getMock(IRule::class);
+        $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
             ->method("getSlug")
             ->willReturn("foo");

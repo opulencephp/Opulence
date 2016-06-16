@@ -11,7 +11,7 @@ namespace Opulence\QueryBuilders\PostgreSql;
 /**
  * Tests the query builder
  */
-class QueryBuilderTest extends \PHPUnit_Framework_TestCase
+class QueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that the query builder returns a DeleteQuery when we call delete()

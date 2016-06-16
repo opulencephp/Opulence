@@ -14,7 +14,7 @@ use Predis\Client;
 /**
  * Tests the Redis bridge
  */
-class RedisBridgeTest extends \PHPUnit_Framework_TestCase
+class RedisBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RedisBridge The bridge to use in tests */
     private $bridge = null;
@@ -29,8 +29,13 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $methods = ["get", "decrBy", "del", "flushAll", "incrBy", "setEx"];
-        $this->client = $this->getMock(Client::class, $methods, [], "", false);
-        $this->redis = $this->getMock(Redis::class, [], [], "", false);
+        $this->client = $this->getMockBuilder(Client::class)
+            ->setMethods($methods)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->redis = $this->getMockBuilder(Redis::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->redis->expects($this->any())
             ->method("getClient")
             ->with("default")
@@ -159,7 +164,9 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
     public function testUsingBaseRedisInstance()
     {
         /** @var Redis|\PHPUnit_Framework_MockObject_MockObject $redis */
-        $redis = $this->getMock(Redis::class, [], [], "", false);
+        $redis = $this->getMockBuilder(Redis::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $bridge = new RedisBridge($redis);
         $this->assertSame($redis, $bridge->getRedis());
     }
@@ -169,13 +176,16 @@ class RedisBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingClientBesidesDefaultOne()
     {
-        $client = $this->getMock(Client::class, ["get"], [], "", false);
+        $client = $this->getMockBuilder(Client::class)
+            ->setMethods(["get"])
+            ->disableOriginalConstructor()
+            ->getMock();
         $client->expects($this->any())
             ->method("get")
             ->with("bar")
             ->willReturn("baz");
         /** @var Redis|\PHPUnit_Framework_MockObject_MockObject $redis */
-        $redis = $this->getMock(Redis::class, [], [], "", false);
+        $redis = $this->createMock(Redis::class, [], [], "", false);
         $redis->expects($this->any())
             ->method("getClient")
             ->with("foo")

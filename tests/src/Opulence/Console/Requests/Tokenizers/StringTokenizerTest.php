@@ -13,7 +13,7 @@ use RuntimeException;
 /**
  * Tests the string tokenizer
  */
-class StringTokenizerTest extends \PHPUnit_Framework_TestCase
+class StringTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var StringTokenizer The tokenizer to use in tests */
     private $tokenizer = null;

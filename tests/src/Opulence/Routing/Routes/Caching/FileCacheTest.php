@@ -17,7 +17,7 @@ use Opulence\Tests\Routing\Dispatchers\Mocks\DependencyResolver;
 /**
  * Tests the route cache
  */
-class FileCacheTest extends \PHPUnit_Framework_TestCase
+class FileCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileCache The cache to use in tests */
     private $cache = null;

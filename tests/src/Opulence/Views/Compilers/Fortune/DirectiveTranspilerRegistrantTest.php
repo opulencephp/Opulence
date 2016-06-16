@@ -17,7 +17,7 @@ use Opulence\Views\View;
 /**
  * Test the Fortune directive transpiler registrant
  */
-class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
+class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DirectiveTranspilerRegistrant The registrant to use in tests */
     private $registrant = null;
@@ -34,7 +34,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit_Framework_TestCase
         $this->view = new View();
         $this->registrant = new DirectiveTranspilerRegistrant();
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
-        $cache = $this->getMock(ICache::class);
+        $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method("has")
             ->willReturn(false);

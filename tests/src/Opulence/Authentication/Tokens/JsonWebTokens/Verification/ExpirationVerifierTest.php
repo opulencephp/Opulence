@@ -15,7 +15,7 @@ use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
 /**
  * Tests the expiration verifier
  */
-class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
+class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ExpirationVerifier The verifier to use in tests */
     private $verifier = null;
@@ -30,8 +30,8 @@ class ExpirationVerifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->verifier = new ExpirationVerifier();
-        $this->jwt = $this->getMock(SignedJwt::class, [], [], "", false);
-        $this->jwtPayload = $this->getMock(JwtPayload::class);
+        $this->jwt = $this->createMock(SignedJwt::class, [], [], "", false);
+        $this->jwtPayload = $this->createMock(JwtPayload::class);
         $this->jwt->expects($this->any())
             ->method("getPayload")
             ->willReturn($this->jwtPayload);

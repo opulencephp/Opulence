@@ -20,7 +20,7 @@ use Opulence\Views\View;
 /**
  * Tests the Fortune compiler
  */
-class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
+class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FortuneCompiler The compiler to use in tests */
     private $fortuneCompiler = null;
@@ -37,14 +37,14 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         /** @var ICompilerRegistry|\PHPUnit_Framework_MockObject_MockObject $registry */
-        $registry = $this->getMock(ICompilerRegistry::class);
+        $registry = $this->createMock(ICompilerRegistry::class);
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
-        $cache = $this->getMock(ICache::class);
+        $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
             ->method("has")
             ->willReturn(false);
         $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XssFilter());
-        $this->viewFactory = $this->getMock(IViewFactory::class);
+        $this->viewFactory = $this->createMock(IViewFactory::class);
         $this->fortuneCompiler = new FortuneCompiler($this->transpiler, $this->viewFactory);
         $this->view = new View();
         // Need to make sure we always return the Fortune compiler
@@ -491,13 +491,13 @@ class FortuneCompilerTest extends \PHPUnit_Framework_TestCase
     public function testTranspilerIsCalled()
     {
         /** @var ITranspiler|\PHPUnit_Framework_MockObject_MockObject $transpiler */
-        $transpiler = $this->getMock(ITranspiler::class);
+        $transpiler = $this->createMock(ITranspiler::class);
         $transpiler->expects($this->once())
             ->method("transpile")
             ->with($this->view)
             ->willReturn('<?php echo "bar"; ?>');
         /** @var IViewFactory|\PHPUnit_Framework_MockObject_MockObject $viewFactory */
-        $viewFactory = $this->getMock(IViewFactory::class);
+        $viewFactory = $this->createMock(IViewFactory::class);
         $this->view->setContents('foo');
         $compiler = new FortuneCompiler($transpiler, $viewFactory);
         $this->assertEquals("bar", $compiler->compile($this->view));

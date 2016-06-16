@@ -11,7 +11,7 @@ namespace Opulence\Validation\Rules\Errors;
 /**
  * Tests the error collection
  */
-class ErrorCollectionTest extends \PHPUnit_Framework_TestCase
+class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ErrorCollection The parameters to use in tests */
     private $collection = null;

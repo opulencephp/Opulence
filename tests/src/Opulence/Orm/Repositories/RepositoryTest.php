@@ -23,7 +23,7 @@ use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
 /**
  * Tests the repository class
  */
-class RepoTest extends \PHPUnit_Framework_TestCase
+class RepoTest extends \PHPUnit\Framework\TestCase
 {
     /** @var User An entity to use in the tests */
     private $entity1 = null;
@@ -54,7 +54,7 @@ class RepoTest extends \PHPUnit_Framework_TestCase
             }
         );
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
-        $idGeneratorRegistry = $this->getMock(IIdGeneratorRegistry::class);
+        $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
             ->method("getIdGenerator")
             ->with(User::class)

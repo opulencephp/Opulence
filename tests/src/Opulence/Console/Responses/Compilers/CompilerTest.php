@@ -16,7 +16,7 @@ use RuntimeException;
 /**
  * Tests the element compiler
  */
-class CompilerTest extends \PHPUnit_Framework_TestCase
+class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
     private $compiler = null;

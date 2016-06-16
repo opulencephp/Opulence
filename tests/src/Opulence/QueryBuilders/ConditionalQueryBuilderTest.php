@@ -11,7 +11,7 @@ namespace Opulence\QueryBuilders;
 /**
  * Tests the conditional query builder
  */
-class ConditionalQueryBuilderTest extends \PHPUnit_Framework_TestCase
+class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding a condition to an empty clause

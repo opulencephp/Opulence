@@ -11,7 +11,7 @@ namespace Opulence\Cache;
 /**
  * Tests the file bridge
  */
-class FileBridgeTest extends \PHPUnit_Framework_TestCase
+class FileBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileBridge The bridge to use in tests */
     private $bridge = null;

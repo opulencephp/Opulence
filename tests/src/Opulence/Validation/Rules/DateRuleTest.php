@@ -14,7 +14,7 @@ use InvalidArgumentException;
 /**
  * Tests the date rule
  */
-class DateRuleTest extends \PHPUnit_Framework_TestCase
+class DateRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that equal values pass

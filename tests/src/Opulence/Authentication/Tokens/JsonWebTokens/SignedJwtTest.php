@@ -16,7 +16,7 @@ use Opulence\Authentication\Tokens\Signatures\HmacSigner;
 /**
  * Tests the signed JWT
  */
-class SignedJwtTest extends \PHPUnit_Framework_TestCase
+class SignedJwtTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtHeader The header to use in tests */
     private $header = null;

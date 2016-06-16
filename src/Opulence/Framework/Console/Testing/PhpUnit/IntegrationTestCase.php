@@ -23,13 +23,13 @@ use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
+use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use PHPUnit_Framework_TestCase;
 
 /**
  * Defines the console integration test
  */
-abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
+abstract class IntegrationTestCase extends TestCase
 {
     /** @var Application The application */
     protected $application = null;
@@ -121,7 +121,10 @@ abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
         $this->assertResponse = new ResponseAssertions();
 
         // Bind a mock prompt that can output pre-determined answers
-        $this->prompt = $this->getMock(Prompt::class, ["ask"], [new PaddingFormatter()]);
+        $this->prompt = $this->getMockBuilder(Prompt::class)
+            ->setMethods(["ask"])
+            ->setConstructorArgs([new PaddingFormatter()])
+            ->getMock();
         $this->container->bindInstance(Prompt::class, $this->prompt);
     }
 

@@ -13,7 +13,7 @@ use Opulence\Tests\Http\Requests\Mocks\UploadedFile as MockUploadedFile;
 /**
  * Tests the uploaded file
  */
-class UploadedFileTest extends \PHPUnit_Framework_TestCase
+class UploadedFileTest extends \PHPUnit\Framework\TestCase
 {
     /** The uploaded file's filename */
     const UPLOADED_FILE_FILENAME = "/files/UploadedFile.txt";

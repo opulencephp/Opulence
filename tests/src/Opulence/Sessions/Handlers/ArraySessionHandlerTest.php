@@ -11,7 +11,7 @@ namespace Opulence\Sessions\Handlers;
 /**
  * Tests the array session handler
  */
-class ArraySessionHandlerTest extends \PHPUnit_Framework_TestCase
+class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArraySessionHandler The handler to use in tests */
     private $handler = null;

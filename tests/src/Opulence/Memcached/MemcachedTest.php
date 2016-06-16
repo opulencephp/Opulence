@@ -14,19 +14,25 @@ use Memcached as Client;
 /**
  * Tests the Memcached wrapper
  */
-class MemcachedTest extends \PHPUnit_Framework_TestCase
+class MemcachedTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that commands go to the default client
      */
     public function testCommandsGoToDefaultClient()
     {
-        $default = $this->getMock(Client::class, ["get"], [], "", false);
+        $default = $this->getMockBuilder(Client::class)
+            ->setMethods(["get"])
+            ->disableOriginalConstructor()
+            ->getMock();
         $default->expects($this->any())
             ->method("get")
             ->with("baz")
             ->willReturn("foo");
-        $foo = $this->getMock(Client::class, ["get"], [], "", false);
+        $foo = $this->getMockBuilder(Client::class)
+            ->setMethods(["get"])
+            ->disableOriginalConstructor()
+            ->getMock();
         $foo->expects($this->any())
             ->method("get")
             ->willReturn("bar");
@@ -53,8 +59,8 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingArrayOfClients()
     {
-        $default = $this->getMock(Client::class);
-        $foo = $this->getMock(Client::class);
+        $default = $this->createMock(Client::class);
+        $foo = $this->createMock(Client::class);
         $memcached = new Memcached(
             [
                 "default" => $default,
@@ -71,7 +77,7 @@ class MemcachedTest extends \PHPUnit_Framework_TestCase
      */
     public function testPassingSingleClient()
     {
-        $default = $this->getMock(Client::class);
+        $default = $this->createMock(Client::class);
         $memcached = new Memcached($default);
         $this->assertSame($default, $memcached->getClient());
         $this->assertSame($default, $memcached->getClient("default"));

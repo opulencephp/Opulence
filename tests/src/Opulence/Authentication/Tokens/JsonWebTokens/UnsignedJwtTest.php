@@ -11,7 +11,7 @@ namespace Opulence\Authentication\Tokens\JsonWebTokens;
 /**
  * Tests the unsigned JWT
  */
-class UnsignedJwtTest extends \PHPUnit_Framework_TestCase
+class UnsignedJwtTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UnsignedJwt The JWT to use in tests */
     private $jwt = null;

@@ -11,7 +11,7 @@ namespace Opulence\Authorization\Permissions;
 /**
  * Tests the permission registry
  */
-class PermissionRegistryTest extends \PHPUnit_Framework_TestCase
+class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PermissionRegistry The registry to use in tests */
     private $registry = null;

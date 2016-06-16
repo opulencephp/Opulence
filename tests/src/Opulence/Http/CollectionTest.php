@@ -11,7 +11,7 @@ namespace Opulence\Http;
 /**
  * Tests the request collection
  */
-class CollectionTest extends \PHPUnit_Framework_TestCase
+class CollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Collection The parameters to use in tests */
     private $parameters = null;

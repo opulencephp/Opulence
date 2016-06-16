@@ -11,7 +11,7 @@ namespace Opulence\Routing\Routes;
 /**
  * Tests the compiled route
  */
-class CompiledRouteTest extends \PHPUnit_Framework_TestCase
+class CompiledRouteTest extends \PHPUnit\Framework\TestCase
 {
     /** @var CompiledRoute The route to test */
     private $compiledRoute = null;

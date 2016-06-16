@@ -11,7 +11,7 @@ namespace Opulence\Views\Compilers\Fortune\Lexers\Tokens;
 /**
  * Tests the view token
  */
-class TokenTest extends \PHPUnit_Framework_TestCase
+class TokenTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Token The token to use in tests */
     private $token = null;

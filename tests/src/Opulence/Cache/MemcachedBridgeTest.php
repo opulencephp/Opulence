@@ -14,7 +14,7 @@ use Opulence\Memcached\Memcached;
 /**
  * Tests the Memcached bridge
  */
-class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
+class MemcachedBridgeTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MemcachedBridge The bridge to use in tests */
     private $bridge = null;
@@ -29,8 +29,13 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $methods = ["decrement", "delete", "flush", "get", "getResultCode", "increment", "set"];
-        $this->client = $this->getMock(Client::class, $methods, [], "", false);
-        $this->memcached = $this->getMock(Memcached::class, [], [], "", false);
+        $this->client = $this->getMockBuilder(Client::class)
+            ->setMethods($methods)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->memcached = $this->getMockBuilder(Memcached::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->memcached->expects($this->any())
             ->method("getClient")
             ->with("default")
@@ -176,7 +181,10 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
     public function testUsingBaseMemcachedInstance()
     {
         /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
-        $memcached = $this->getMock(Memcached::class, [], [], "Foo", false);
+        $memcached = $this->getMockBuilder(Memcached::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("Foo")
+            ->getMock();
         $bridge = new MemcachedBridge($memcached);
         $this->assertSame($memcached, $bridge->getMemcached());
     }
@@ -186,7 +194,10 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
      */
     public function testUsingClientBesidesDefaultOne()
     {
-        $client = $this->getMock(Client::class, ["get", "getResultCode"], [], "", false);
+        $client = $this->getMockBuilder(Client::class)
+            ->setMethods(["get", "getResultCode"])
+            ->disableOriginalConstructor()
+            ->getMock();
         $client->expects($this->any())
             ->method("get")
             ->with("bar")
@@ -195,7 +206,9 @@ class MemcachedBridgeTest extends \PHPUnit_Framework_TestCase
             ->method("getResultCode")
             ->willReturn(0);
         /** @var Memcached|\PHPUnit_Framework_MockObject_MockObject $memcached */
-        $memcached = $this->getMock(Memcached::class, [], [], "", false);
+        $memcached = $this->getMockBuilder(Memcached::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $memcached->expects($this->any())
             ->method("getClient")
             ->with("foo")

@@ -13,7 +13,7 @@ use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware as Parameterize
 /**
  * Tests the parameterized middleware
  */
-class ParameterizedMiddlewareTest extends \PHPUnit_Framework_TestCase
+class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ParameterizedMiddlewareMock The middleware to use in tests */
     private $middleware = null;

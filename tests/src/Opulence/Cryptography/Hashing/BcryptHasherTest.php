@@ -11,7 +11,7 @@ namespace Opulence\Cryptography\Hashing;
 /**
  * Tests the Bcrypt hasher
  */
-class BcryptHasherTest extends \PHPUnit_Framework_TestCase
+class BcryptHasherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var BcryptHasher The hasher to use in the tests */
     private $hasher = null;

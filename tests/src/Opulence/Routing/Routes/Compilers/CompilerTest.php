@@ -18,7 +18,7 @@ use Opulence\Routing\Routes\ParsedRoute;
 /**
  * Tests the route compiler
  */
-class CompilerTest extends \PHPUnit_Framework_TestCase
+class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
     private $compiler = null;
@@ -160,7 +160,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     private function getParsedRoute($method, $controller, $isSecure, $hostRegex, $pathRegex)
     {
-        $route = $this->getMock(ParsedRoute::class, [], [], "", false);
+        $route = $this->createMock(ParsedRoute::class, [], [], "", false);
         $route->expects($this->any())->method("getMethods")->willReturn([$method]);
         $route->expects($this->any())->method("isSecure")->willReturn($isSecure);
         $route->expects($this->any())->method("getController")->willReturn($controller);

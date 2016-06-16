@@ -11,7 +11,7 @@ namespace Opulence\QueryBuilders;
 /**
  * Tests the delete query
  */
-class DeleteQueryTest extends \PHPUnit_Framework_TestCase
+class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding a "USING" expression

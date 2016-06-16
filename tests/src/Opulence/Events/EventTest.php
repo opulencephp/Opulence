@@ -11,7 +11,7 @@ namespace Opulence\Events;
 /**
  * Tests the event class
  */
-class EventTest extends \PHPUnit_Framework_TestCase
+class EventTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Event The event to test */
     private $event = null;
@@ -21,7 +21,9 @@ class EventTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->event = $this->getMock(Event::class, null);
+        $this->event = $this->getMockBuilder(Event::class)
+            ->setMethods(null)
+            ->getMock();
     }
 
     /**

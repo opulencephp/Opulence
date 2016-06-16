@@ -13,7 +13,7 @@ use DateTime;
 /**
  * Tests the HTTP response
  */
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Response The response to use in tests */
     private $response = null;

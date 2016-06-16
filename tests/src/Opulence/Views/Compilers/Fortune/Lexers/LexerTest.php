@@ -16,7 +16,7 @@ use RuntimeException;
 /**
  * Tests the view lexer
  */
-class LexerTest extends \PHPUnit_Framework_TestCase
+class LexerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Lexer The lexer to use in tests */
     private $lexer = null;
@@ -29,7 +29,9 @@ class LexerTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->lexer = new Lexer();
-        $this->view = $this->getMock(View::class, null);
+        $this->view = $this->getMockBuilder(View::class)
+            ->setMethods(null)
+            ->getMock();
     }
 
     /**

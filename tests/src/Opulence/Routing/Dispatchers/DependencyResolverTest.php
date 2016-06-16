@@ -14,7 +14,7 @@ use Opulence\Ioc\IocException;
 /**
  * Tests the dependency resolver
  */
-class DependencyResolverTest extends \PHPUnit_Framework_TestCase
+class DependencyResolverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ContainerDependencyResolver The dependency resolver to use in tests */
     private $dependencyResolver = null;
@@ -26,7 +26,7 @@ class DependencyResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->container = $this->getMock(IContainer::class);
+        $this->container = $this->createMock(IContainer::class);
         $this->dependencyResolver = new ContainerDependencyResolver($this->container);
     }
 

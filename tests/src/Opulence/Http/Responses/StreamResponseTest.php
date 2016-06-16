@@ -13,7 +13,7 @@ use LogicException;
 /**
  * Tests the stream response
  */
-class StreamResponseTest extends \PHPUnit_Framework_TestCase
+class StreamResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that the contents are output once

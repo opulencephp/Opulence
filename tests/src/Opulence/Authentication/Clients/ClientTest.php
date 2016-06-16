@@ -11,7 +11,7 @@ namespace Opulence\Authentication\Clients;
 /**
  * Tests the client
  */
-class ClientTest extends \PHPUnit_Framework_TestCase
+class ClientTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Client The client to use in tests */
     private $client = null;

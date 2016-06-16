@@ -11,7 +11,7 @@ namespace Opulence\Ioc;
 /**
  * Tests the class binding
  */
-class ClassBindingTest extends \PHPUnit_Framework_TestCase
+class ClassBindingTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ClassBinding The binding to use in tests */
     private $binding = null;

@@ -11,7 +11,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Tests the expression node
  */
-class ExpressionNodeTest extends \PHPUnit_Framework_TestCase
+class ExpressionNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests the "is a" methods

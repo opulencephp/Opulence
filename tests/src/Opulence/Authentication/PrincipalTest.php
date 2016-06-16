@@ -11,7 +11,7 @@ namespace Opulence\Authentication;
 /**
  * Tests the principal
  */
-class PrincipalTest extends \PHPUnit_Framework_TestCase
+class PrincipalTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Principal The principal to use in tests */
     private $principal = null;

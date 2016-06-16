@@ -13,7 +13,7 @@ use Opulence\Files\FileSystem;
 /**
  *
  */
-class FileSessionHandlerTest extends \PHPUnit_Framework_TestCase
+class FileSessionHandlerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var string The path to the temporary session files */
     private static $path = "tmp";

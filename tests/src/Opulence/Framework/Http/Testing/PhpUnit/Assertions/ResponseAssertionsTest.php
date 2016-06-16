@@ -18,7 +18,7 @@ use Opulence\Http\Responses\ResponseHeaders;
 /**
  * Tests the response assertions
  */
-class ResponseAssertionsTest extends \PHPUnit_Framework_TestCase
+class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ResponseAssertions The assertions to use in tests */
     private $assertions = null;

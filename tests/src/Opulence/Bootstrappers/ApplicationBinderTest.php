@@ -16,7 +16,7 @@ use Opulence\Bootstrappers\Dispatchers\IDispatcher as IBootstrapperDispatcher;
 /**
  * Tests the bootstrapper configurator
  */
-class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
+class ApplicationBinderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ApplicationBinder The application binder to use in tests */
     private $applicationBinder = null;
@@ -34,10 +34,10 @@ class ApplicationBinderTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->taskDispatcher = $this->getMock(ITaskDispatcher::class);
-        $this->bootstrapperCache = $this->getMock(ICache::class);
-        $this->bootstrapperDispatcher = $this->getMock(IBootstrapperDispatcher::class);
-        $this->bootstrapperRegistry = $this->getMock(IBootstrapperRegistry::class);
+        $this->taskDispatcher = $this->createMock(ITaskDispatcher::class);
+        $this->bootstrapperCache = $this->createMock(ICache::class);
+        $this->bootstrapperDispatcher = $this->createMock(IBootstrapperDispatcher::class);
+        $this->bootstrapperRegistry = $this->createMock(IBootstrapperRegistry::class);
         $this->applicationBinder = new ApplicationBinder(
             $this->bootstrapperRegistry,
             $this->bootstrapperDispatcher,

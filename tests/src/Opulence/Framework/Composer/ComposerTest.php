@@ -13,7 +13,7 @@ use Opulence\Bootstrappers\Paths;
 /**
  * Tests the Composer wrapper
  */
-class ComposerTest extends \PHPUnit_Framework_TestCase
+class ComposerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var array A fully-loaded Composer config */
     private static $fullyLoadedConfig = [

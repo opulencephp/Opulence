@@ -105,7 +105,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      */
     protected function getExceptionHandler() : IExceptionHandler
     {
-        return $this->getMock(ExceptionHandler::class, [], [], "", false);
+        return $this->createMock(ExceptionHandler::class, [], [], "", false);
     }
 
     /**
@@ -114,9 +114,9 @@ class IntegrationTestCase extends BaseIntegrationTestCase
     protected function getExceptionRenderer() : IExceptionRenderer
     {
         /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $renderer */
-        $renderer = $this->getMock(IExceptionRenderer::class);
+        $renderer = $this->createMock(IExceptionRenderer::class);
         /** @var Response|\PHPUnit_Framework_MockObject_MockObject $response */
-        $response = $this->getMock(Response::class);
+        $response = $this->createMock(Response::class);
         // Mock a 404 status code because this will primarily be used for missing routes in our tests
         $response->expects($this->any())
             ->method("getStatusCode")

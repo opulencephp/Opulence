@@ -11,7 +11,7 @@ namespace Opulence\Views\Compilers\Fortune\Parsers\Nodes;
 /**
  * Tests the root node
  */
-class RootNodeTest extends \PHPUnit_Framework_TestCase
+class RootNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the parent

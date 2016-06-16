@@ -11,7 +11,7 @@ namespace Opulence\Console\Responses\Formatters;
 /**
  * Tests the table formatter
  */
-class TableFormatterTest extends \PHPUnit_Framework_TestCase
+class TableFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var TableFormatter The formatter to use in tests */
     private $formatter = null;

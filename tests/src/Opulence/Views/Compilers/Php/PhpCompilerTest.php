@@ -15,7 +15,7 @@ use Opulence\Views\IView;
 /**
  * Tests the PHP compiler
  */
-class PhpCompilerTest extends \PHPUnit_Framework_TestCase
+class PhpCompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PhpCompiler The compiler to use in tests */
     private $compiler = null;
@@ -35,7 +35,7 @@ class PhpCompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectException(Exception::class);
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method("getContents")
             ->willReturn('<?php ob_start();throw new \Exception("foo"); ?>');
@@ -51,7 +51,7 @@ class PhpCompilerTest extends \PHPUnit_Framework_TestCase
     public function testOutputBufferLevelIsResetAfterException()
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method("getContents")
             ->willReturn('<?php ob_start();throw new ' . ViewCompilerException::class . '("foo"); ?>');
@@ -75,7 +75,7 @@ class PhpCompilerTest extends \PHPUnit_Framework_TestCase
     public function testThatVarsAreSet()
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $view->expects($this->any())
             ->method("getContents")
             ->willReturn('<?php echo "$foo, $bar"; ?>');

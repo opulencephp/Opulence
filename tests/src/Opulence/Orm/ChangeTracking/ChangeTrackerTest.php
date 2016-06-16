@@ -14,7 +14,7 @@ use Opulence\Tests\Mocks\User;
 /**
  * Tests the change tracker
  */
-class ChangeTrackerTest extends \PHPUnit_Framework_TestCase
+class ChangeTrackerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ChangeTracker The change tracker to use in tests */
     private $changeTracker = null;

@@ -14,7 +14,7 @@ use Opulence\Authorization\Roles\IRoles;
 /**
  * Tests the authority
  */
-class AuthorityTest extends \PHPUnit_Framework_TestCase
+class AuthorityTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Authority The authority to use in tests */
     private $authority = null;
@@ -27,7 +27,7 @@ class AuthorityTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->permissionRegistry = new PermissionRegistry();
-        $this->roles = $this->getMock(IRoles::class);
+        $this->roles = $this->createMock(IRoles::class);
         $this->authority = new Authority(23, ["foo", "bar"], $this->permissionRegistry);
     }
 

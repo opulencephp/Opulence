@@ -16,7 +16,7 @@ use ReflectionClass;
 /**
  * Tests the application class
  */
-class ApplicationTest extends \PHPUnit_Framework_TestCase
+class ApplicationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
@@ -28,7 +28,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->dispatcher = $this->getMock(IDispatcher::class);
+        $this->dispatcher = $this->createMock(IDispatcher::class);
         $this->application = new Application($this->dispatcher);
     }
 
@@ -167,14 +167,23 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Tests getting the application version
+     * Tests getting the custom application version
      */
-    public function testGettingVersion()
+    public function testGettingCustomVersion()
+    {
+        $application = new Application($this->createMock(IDispatcher::class), "foo");
+        $this->assertEquals("foo", $application->getVersion());
+    }
+
+    /**
+     * Tests getting the default application version
+     */
+    public function testGettingDefaultVersion()
     {
         $reflectionClass = new ReflectionClass($this->application);
-        $property = $reflectionClass->getProperty("version");
+        $property = $reflectionClass->getProperty("opulenceVersion");
         $property->setAccessible(true);
-        $this->assertEquals($property->getValue(), Application::getVersion());
+        $this->assertEquals($property->getValue(), $this->application->getVersion());
     }
 
     /**

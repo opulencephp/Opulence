@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the min rule
  */
-class MinRuleTest extends \PHPUnit_Framework_TestCase
+class MinRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests a failing rule

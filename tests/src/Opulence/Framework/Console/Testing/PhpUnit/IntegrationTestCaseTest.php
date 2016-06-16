@@ -22,7 +22,7 @@ use Opulence\Tests\Framework\Console\Testing\PhpUnit\Mocks\IntegrationTestCase a
 /**
  * Tests the console integration test
  */
-class IntegrationTestCaseTest extends \PHPUnit_Framework_TestCase
+class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockIntegrationTestCase The console integration test to use in tests */
     private $testCase = null;

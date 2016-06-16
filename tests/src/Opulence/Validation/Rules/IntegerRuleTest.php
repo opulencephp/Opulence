@@ -11,7 +11,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Tests the integer rule
  */
-class IntegerRuleTest extends \PHPUnit_Framework_TestCase
+class IntegerRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that a failing value

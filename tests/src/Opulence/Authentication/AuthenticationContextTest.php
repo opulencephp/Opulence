@@ -11,7 +11,7 @@ namespace Opulence\Authentication;
 /**
  * Tests the authentication context
  */
-class AuthenticationContextTest extends \PHPUnit_Framework_TestCase
+class AuthenticationContextTest extends \PHPUnit\Framework\TestCase
 {
     /** @var AuthenticationContext The context to use in tests */
     private $context = null;
@@ -59,7 +59,7 @@ class AuthenticationContextTest extends \PHPUnit_Framework_TestCase
     public function testSettingSubjectInConstructor()
     {
         /** @var ISubject $subject */
-        $subject = $this->getMock(ISubject::class);
+        $subject = $this->createMock(ISubject::class);
         $context = new AuthenticationContext($subject);
         $this->assertSame($subject, $context->getSubject());
     }
@@ -70,7 +70,7 @@ class AuthenticationContextTest extends \PHPUnit_Framework_TestCase
     public function testSettingSubjectInSetter()
     {
         /** @var ISubject $subject */
-        $subject = $this->getMock(ISubject::class);
+        $subject = $this->createMock(ISubject::class);
         $this->context->setSubject($subject);
         $this->assertSame($subject, $this->context->getSubject());
     }

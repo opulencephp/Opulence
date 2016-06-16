@@ -11,7 +11,7 @@ namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 /**
  * Tests the tag node
  */
-class TagNodeTest extends \PHPUnit_Framework_TestCase
+class TagNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests checking if a root node is a tag

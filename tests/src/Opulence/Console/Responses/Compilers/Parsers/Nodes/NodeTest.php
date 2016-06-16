@@ -13,7 +13,7 @@ use Opulence\Tests\Console\Responses\Compilers\Parsers\Nodes\Mocks\Node;
 /**
  * Tests the response node
  */
-class NodeTest extends \PHPUnit_Framework_TestCase
+class NodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding a child

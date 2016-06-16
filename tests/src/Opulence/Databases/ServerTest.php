@@ -13,7 +13,7 @@ use Opulence\Tests\Databases\Mocks\Server;
 /**
  * Tests the relational database server
  */
-class ServerTest extends \PHPUnit_Framework_TestCase
+class ServerTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests setting the character set

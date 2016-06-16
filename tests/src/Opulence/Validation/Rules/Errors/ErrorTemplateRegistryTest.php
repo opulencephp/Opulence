@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the error template registry
  */
-class ErrorTemplateRegistryTest extends \PHPUnit_Framework_TestCase
+class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ErrorTemplateRegistry The error template registry to use in tests */
     private $registry = null;

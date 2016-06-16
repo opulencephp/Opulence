@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the file view name resolver
  */
-class FileViewNameResolverTest extends \PHPUnit_Framework_TestCase
+class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileViewNameResolver The resolver to use in tests */
     private $resolver = null;

@@ -20,7 +20,7 @@ use Opulence\Tests\Ioc\Mocks\MagicCallMethod;
 /**
  * Tests the dependency injection container
  */
-class ContainerTest extends \PHPUnit_Framework_TestCase
+class ContainerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Container The container to use in tests */
     private $container = null;

@@ -81,7 +81,7 @@ function tag()
     fi
 
     while ( [ $isstable == false ] && [ $hasacknowledgedprompt == false ] ); do
-        read -p "   Have you manually updated version constant on master branch?: " hasupdated
+        read -p "   Have you manually updated the Opulence version constant on master branch?: " hasupdated
 
         if [ "$hasupdated" == "y" ]; then
             hasacknowledgedprompt=true
@@ -96,7 +96,7 @@ function tag()
         # Update version
         # Remove "v" from tag name
         shorttagname=${tagname:1}
-        sed -i "s/private static \$version = \"[0-9\.]*\";/private static \$version = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
+        sed -i "s/private static \$opulenceVersion = \"[0-9\.]*\";/private static \$opulenceVersion = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
 
         # Commit changes to application file
         git commit -m "Incrementing version" $APPLICATION_CLASS_FILE

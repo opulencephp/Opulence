@@ -14,7 +14,7 @@ use Opulence\Validation\Validator;
 /**
  * Tests the validator factory
  */
-class ValidatorFactoryTest extends \PHPUnit_Framework_TestCase
+class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ValidatorFactory The factory to use in tests */
     private $validatorFactory = null;
@@ -26,7 +26,7 @@ class ValidatorFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->rulesFactory = $this->getMock(RulesFactory::class, [], [], "", false);
+        $this->rulesFactory = $this->createMock(RulesFactory::class, [], [], "", false);
         $this->validatorFactory = new ValidatorFactory($this->rulesFactory);
     }
 

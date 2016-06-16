@@ -11,7 +11,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Tests the email rule
  */
-class EmailRuleTest extends \PHPUnit_Framework_TestCase
+class EmailRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the slug

@@ -16,7 +16,7 @@ use Opulence\Validation\Rules\Rules;
 /**
  * Tests the rules factory
  */
-class RulesFactoryTest extends \PHPUnit_Framework_TestCase
+class RulesFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that rules are created
@@ -24,11 +24,11 @@ class RulesFactoryTest extends \PHPUnit_Framework_TestCase
     public function testRulesCreated()
     {
         /** @var RuleExtensionRegistry|\PHPUnit_Framework_MockObject_MockObject $ruleExtensionRegistry */
-        $ruleExtensionRegistry = $this->getMock(RuleExtensionRegistry::class);
+        $ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
         /** @var ErrorTemplateRegistry|\PHPUnit_Framework_MockObject_MockObject $errorTemplateRegistry */
-        $errorTemplateRegistry = $this->getMock(ErrorTemplateRegistry::class);
+        $errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $errorTemplateCompiler */
-        $errorTemplateCompiler = $this->getMock(ICompiler::class);
+        $errorTemplateCompiler = $this->createMock(ICompiler::class);
         $factory = new RulesFactory($ruleExtensionRegistry, $errorTemplateRegistry, $errorTemplateCompiler);
         $this->assertInstanceOf(Rules::class, $factory->createRules());
     }

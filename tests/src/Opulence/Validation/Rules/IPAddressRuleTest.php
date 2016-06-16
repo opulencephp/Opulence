@@ -11,7 +11,7 @@ namespace Opulence\Validation\Rules;
 /**
  * Tests the IP address rule
  */
-class IPAddressRuleTest extends \PHPUnit_Framework_TestCase
+class IPAddressRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that a failing value

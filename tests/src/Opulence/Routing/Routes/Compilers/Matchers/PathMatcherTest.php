@@ -14,7 +14,7 @@ use Opulence\Routing\Routes\ParsedRoute;
 /**
  * Tests the path matcher
  */
-class PathMatcherTest extends \PHPUnit_Framework_TestCase
+class PathMatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PathMatcher The matcher to use in tests */
     private $matcher = null;
@@ -29,8 +29,8 @@ class PathMatcherTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->matcher = new PathMatcher();
-        $this->request = $this->getMock(Request::class, [], [], "", false);
-        $this->route = $this->getMock(ParsedRoute::class, [], [], "", false);
+        $this->request = $this->createMock(Request::class, [], [], "", false);
+        $this->route = $this->createMock(ParsedRoute::class, [], [], "", false);
     }
 
     /**

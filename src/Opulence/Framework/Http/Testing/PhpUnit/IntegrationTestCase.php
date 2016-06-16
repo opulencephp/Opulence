@@ -18,12 +18,12 @@ use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Router;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Defines the HTTP integration test
  */
-abstract class IntegrationTestCase extends PHPUnit_Framework_TestCase
+abstract class IntegrationTestCase extends TestCase
 {
     /** @var Application The application */
     protected $application = null;

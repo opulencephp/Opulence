@@ -16,7 +16,7 @@ use Opulence\Tests\Databases\Mocks\Server;
 /**
  * Tests the master/slave connection pool
  */
-class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
+class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding a slave
@@ -138,7 +138,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit_Framework_TestCase
     public function testSpecifyingSlaveServerSelectionStrategy()
     {
         $slave = $this->createServer();
-        $strategy = $this->getMock(IServerSelectionStrategy::class);
+        $strategy = $this->createMock(IServerSelectionStrategy::class);
         $strategy->expects($this->once())
             ->method("select")
             ->with([$slave])

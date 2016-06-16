@@ -17,7 +17,7 @@ use Opulence\Authentication\Users\Orm\IUserRepository;
 /**
  * Tests the username/password authenticator
  */
-class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
+class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
 {
     /** @var UsernamePasswordAuthenticator The authenticator to use in tests */
     private $authenticator = null;
@@ -33,10 +33,10 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->userRepository = $this->getMock(IUserRepository::class);
-        $this->roleRepository = $this->getMock(IRoleRepository::class);
+        $this->userRepository = $this->createMock(IUserRepository::class);
+        $this->roleRepository = $this->createMock(IRoleRepository::class);
         $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository, $this->roleRepository);
-        $this->credential = $this->getMock(ICredential::class);
+        $this->credential = $this->createMock(ICredential::class);
     }
 
     /**
@@ -55,7 +55,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->method("getValue")
             ->with("password")
             ->willReturn("password");
-        $user = $this->getMock(IUser::class);
+        $user = $this->createMock(IUser::class);
         $user->expects($this->once())
             ->method("getHashedPassword")
             ->willReturn(password_hash("password", PASSWORD_BCRYPT));
@@ -88,7 +88,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit_Framework_TestCase
             ->method("getValue")
             ->with("password")
             ->willReturn("bar");
-        $user = $this->getMock(IUser::class);
+        $user = $this->createMock(IUser::class);
         $user->expects($this->once())
             ->method("getHashedPassword")
             ->willReturn(password_hash("password", PASSWORD_BCRYPT));

@@ -11,7 +11,7 @@ namespace Opulence\Environments\Hosts;
 /**
  * Tests the host regex
  */
-class HostRegexTest extends \PHPUnit_Framework_TestCase
+class HostRegexTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests that delimiters are added

@@ -29,7 +29,7 @@ use Opulence\Views\Factories\IViewFactory;
 /**
  * Tests the dispatcher class
  */
-class DispatcherTest extends \PHPUnit_Framework_TestCase
+class DispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Dispatcher The dispatcher to use in tests */
     private $dispatcher = null;
@@ -43,7 +43,7 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->dependencyResolver = $this->getMock(IDependencyResolver::class);
+        $this->dependencyResolver = $this->createMock(IDependencyResolver::class);
         $this->dependencyResolver->expects($this->any())
             ->method("resolve")
             ->willReturnCallback(function () {
@@ -55,9 +55,9 @@ class DispatcherTest extends \PHPUnit_Framework_TestCase
                     case NonOpulenceController::class:
                         return new NonOpulenceController(Request::createFromGlobals());
                     case IViewFactory::class:
-                        return $this->getMock(IViewFactory::class);
+                        return $this->createMock(IViewFactory::class);
                     case ICompiler::class:
-                        return $this->getMock(ICompiler::class);
+                        return $this->createMock(ICompiler::class);
                     case __CLASS__:
                         return $this;
                     case DoesNotReturnSomethingMiddleware::class:

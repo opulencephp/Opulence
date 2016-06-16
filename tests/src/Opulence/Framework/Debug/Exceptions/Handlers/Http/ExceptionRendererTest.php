@@ -22,7 +22,7 @@ use Opulence\Views\IView;
 /**
  * Tests the HTTP exception renderer
  */
-class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
+class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MockRenderer The renderer to use in tests */
     private $renderer = null;
@@ -36,8 +36,8 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->viewFactory = $this->getMock(IViewFactory::class);
-        $this->viewCompiler = $this->getMock(ICompiler::class);
+        $this->viewFactory = $this->createMock(IViewFactory::class);
+        $this->viewCompiler = $this->createMock(ICompiler::class);
         $this->renderer = new MockRenderer(true);
 
         // The tests will output data, which we want to buffer
@@ -68,7 +68,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     {
         $this->setViewComponents();
         $ex = new HttpException(404, "foo");
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $this->viewFactory->expects($this->once())
             ->method("hasView")
             ->with("errors/html/404")
@@ -143,13 +143,13 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
             ->method("compile")
             ->willReturn(json_encode(["foo" => "bar"]));
         /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->getMock(Request::class, [], [], "", false);
+        $request = $this->createMock(Request::class, [], [], "", false);
         $request->expects($this->exactly(3))
             ->method("isJson")
             ->willReturn(true);
         $this->renderer->setRequest($request);
         $ex = new Exception();
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $this->viewFactory->expects($this->once())
             ->method("hasView")
             ->with("errors/json/500")
@@ -175,7 +175,7 @@ class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
     {
         $this->setViewComponents();
         $ex = new Exception("foo");
-        $view = $this->getMock(IView::class);
+        $view = $this->createMock(IView::class);
         $this->viewFactory->expects($this->once())
             ->method("hasView")
             ->with("errors/html/500")

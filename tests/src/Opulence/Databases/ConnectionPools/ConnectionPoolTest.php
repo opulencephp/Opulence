@@ -15,7 +15,7 @@ use Opulence\Tests\Databases\Mocks\Server as MockServer;
 /**
  * Tests the connection pool
  */
-class ConnectionPoolTest extends \PHPUnit_Framework_TestCase
+class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the list of driver names

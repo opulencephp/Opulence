@@ -13,7 +13,7 @@ use DateTime;
 /**
  * Tests the file system
  */
-class FileSystemTest extends \PHPUnit_Framework_TestCase
+class FileSystemTest extends \PHPUnit\Framework\TestCase
 {
     /** @var FileSystem The file system to use in tests */
     private $fileSystem = null;

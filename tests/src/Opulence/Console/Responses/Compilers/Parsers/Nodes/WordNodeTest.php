@@ -11,7 +11,7 @@ namespace Opulence\Console\Responses\Compilers\Parsers\Nodes;
 /**
  * Tests the word node
  */
-class WordNodeTest extends \PHPUnit_Framework_TestCase
+class WordNodeTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests checking if a root node is a tag

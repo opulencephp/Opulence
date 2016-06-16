@@ -13,7 +13,7 @@ use PDO;
 /**
  * Tests the delete query
  */
-class DeleteQueryTest extends \PHPUnit_Framework_TestCase
+class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests all the methods in a single, complicated query

@@ -13,7 +13,7 @@ use RuntimeException;
 /**
  * Tests the array list tokenizer
  */
-class ArrayListTokenizerTest extends \PHPUnit_Framework_TestCase
+class ArrayListTokenizerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayListTokenizer The tokenizer to use in tests */
     private $tokenizer = null;

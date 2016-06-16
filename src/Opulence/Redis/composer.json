@@ -27,11 +27,11 @@
       "type": "package",
       "package": {
         "name": "phpredis",
-        "version": "2.2.7",
+        "version": "3.0.*",
         "source": {
           "url": "https://github.com/phpredis/phpredis.git",
           "type": "git",
-          "reference": "2.2.7"
+          "reference": "3.0.0"
         }
       }
     }

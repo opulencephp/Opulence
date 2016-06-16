@@ -13,7 +13,7 @@ use Opulence\Http\Requests\Request;
 /**
  * Tests the controller
  */
-class ControllerTest extends \PHPUnit_Framework_TestCase
+class ControllerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Controller The controller to use in tests */
     private $controller = null;

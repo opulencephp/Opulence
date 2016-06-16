@@ -13,7 +13,7 @@ use InvalidArgumentException;
 /**
  * Tests the argv parser
  */
-class ArgvParserTest extends \PHPUnit_Framework_TestCase
+class ArgvParserTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArgvParser The parser to use in tests */
     private $parser = null;

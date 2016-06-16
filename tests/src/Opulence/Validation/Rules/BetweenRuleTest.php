@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Tests the between rule
  */
-class BetweenRuleTest extends \PHPUnit_Framework_TestCase
+class BetweenRuleTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests a failing rule

@@ -71,9 +71,9 @@ class IntegrationTestCase extends BaseIntegrationTestCase
         $this->container->bindInstance(Paths::class, $paths);
         $this->container->bindInstance(TaskDispatcher::class, $taskDispatcher);
         $this->container->bindInstance(Environment::class, $this->environment);
-        $this->container->bindInstance(BootstrapperCache::class, $this->getMock(BootstrapperCache::class));
-        $this->container->bindInstance(RouteCache::class, $this->getMock(RouteCache::class));
-        $this->container->bindInstance(ViewCache::class, $this->getMock(ViewCache::class));
+        $this->container->bindInstance(BootstrapperCache::class, $this->createMock(BootstrapperCache::class));
+        $this->container->bindInstance(RouteCache::class, $this->createMock(RouteCache::class));
+        $this->container->bindInstance(ViewCache::class, $this->createMock(ViewCache::class));
         $this->container->bindInstance(IContainer::class, $this->container);
         $this->application = new Application($taskDispatcher);
 

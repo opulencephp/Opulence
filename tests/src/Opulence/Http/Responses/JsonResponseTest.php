@@ -14,7 +14,7 @@ use InvalidArgumentException;
 /**
  * Tests the JSON response
  */
-class JsonResponseTest extends \PHPUnit_Framework_TestCase
+class JsonResponseTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests getting the content type

@@ -11,7 +11,7 @@ namespace Opulence\Databases\Providers;
 /**
  * Tests the PostgreSQL provider class
  */
-class PostgreSqlProviderTest extends \PHPUnit_Framework_TestCase
+class PostgreSqlProviderTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PostgreSqlProvider The provider to use for tests */
     private $provider = null;

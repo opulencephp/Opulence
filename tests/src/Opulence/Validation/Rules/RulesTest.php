@@ -18,7 +18,7 @@ use Opulence\Validation\Rules\Errors\ErrorTemplateRegistry;
 /**
  * Tests the rules
  */
-class RulesTest extends \PHPUnit_Framework_TestCase
+class RulesTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Rules The rules to use in the tests */
     private $rules = null;
@@ -34,9 +34,9 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->ruleExtensionRegistry = $this->getMock(RuleExtensionRegistry::class);
-        $this->errorTemplateRegistry = $this->getMock(ErrorTemplateRegistry::class);
-        $this->errorTemplateCompiler = $this->getMock(ICompiler::class);
+        $this->ruleExtensionRegistry = $this->createMock(RuleExtensionRegistry::class);
+        $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
+        $this->errorTemplateCompiler = $this->createMock(ICompiler::class);
         $this->rules = new Rules(
             $this->ruleExtensionRegistry,
             $this->errorTemplateRegistry,
@@ -84,7 +84,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
-        $rule = $this->getMock(IRule::class);
+        $rule = $this->createMock(IRule::class);
         $this->ruleExtensionRegistry->expects($this->once())
             ->method("getRule")
             ->willReturn($rule);
@@ -105,7 +105,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
-        $rule = $this->getMock(IRuleWithArgs::class);
+        $rule = $this->createMock(IRuleWithArgs::class);
         $rule->expects($this->once())
             ->method("setArgs")
             ->with(["baz"]);
@@ -254,9 +254,9 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testHaltingFieldValidationDoesNothingOnPassingRules()
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule1 */
-        $rule1 = $this->getMock(IRule::class);
+        $rule1 = $this->createMock(IRule::class);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
-        $rule2 = $this->getMock(IRule::class);
+        $rule2 = $this->createMock(IRule::class);
         $rule1->expects($this->once())
             ->method("passes")
             ->willReturn(true);
@@ -290,9 +290,9 @@ class RulesTest extends \PHPUnit_Framework_TestCase
     public function testHaltingFieldValidationOnFailure()
     {
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule1 */
-        $rule1 = $this->getMock(IRule::class);
+        $rule1 = $this->createMock(IRule::class);
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
-        $rule2 = $this->getMock(IRule::class);
+        $rule2 = $this->createMock(IRule::class);
         $rule1->expects($this->once())
             ->method("passes")
             ->willReturn(false);
@@ -376,7 +376,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->date("Y-m-d");
         $this->assertTrue($this->rules->pass(null));
         $this->assertTrue($this->rules->pass([]));
-        $countable = $this->getMock(Countable::class);
+        $countable = $this->createMock(Countable::class);
         $countable->expects($this->exactly(2))
             ->method("count")
             ->willReturn(0);
@@ -428,7 +428,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->method("hasRule")
             ->with("foo")
             ->willReturn(true);
-        $rule = $this->getMock(IRule::class);
+        $rule = $this->createMock(IRule::class);
         $rule->expects($this->never())
             ->method("passes");
         $this->ruleExtensionRegistry->expects($this->once())

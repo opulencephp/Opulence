@@ -13,7 +13,7 @@ use Opulence\Views\IView;
 /**
  * Tests the view compiler
  */
-class CompilerTest extends \PHPUnit_Framework_TestCase
+class CompilerTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Compiler The compiler to use in tests */
     private $compiler = null;
@@ -25,7 +25,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->registry = $this->getMock(ICompilerRegistry::class);
+        $this->registry = $this->createMock(ICompilerRegistry::class);
         $this->compiler = new Compiler($this->registry);
     }
 
@@ -35,7 +35,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testCorrectCompilerIsUsed()
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->getMock(IView::class, [], [], "MockView");
+        $view = $this->createMock(IView::class, [], [], "MockView");
         $view->expects($this->any())
             ->method("getContents")
             ->willReturn("foo");
@@ -43,7 +43,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
             ->method("getVars")
             ->willReturn([]);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
-        $compiler = $this->getMock(ICompiler::class);
+        $compiler = $this->createMock(ICompiler::class);
         $compiler->expects($this->once())
             ->method("compile")
             ->with($view)

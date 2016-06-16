@@ -17,7 +17,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Tests the JWT verifier
  */
-class JwtVerifierTest extends \PHPUnit_Framework_TestCase
+class JwtVerifierTest extends \PHPUnit\Framework\TestCase
 {
     /** @var JwtVerifier The verifier to use in tests */
     private $verifier = null;
@@ -32,7 +32,7 @@ class JwtVerifierTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->verifier = new JwtVerifier();
-        $this->signer = $this->getMock(ISigner::class);
+        $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())
             ->method("getAlgorithm")
             ->willReturn(Algorithms::SHA256);

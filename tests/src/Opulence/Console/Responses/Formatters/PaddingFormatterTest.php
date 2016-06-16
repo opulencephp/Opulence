@@ -11,7 +11,7 @@ namespace Opulence\Console\Responses\Formatters;
 /**
  * Tests the padding formatter
  */
-class PaddingFormatterTest extends \PHPUnit_Framework_TestCase
+class PaddingFormatterTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PaddingFormatter The formatter to use in tests */
     private $formatter = null;

@@ -18,7 +18,7 @@ use Opulence\Authentication\Tokens\Signatures\ISigner;
 /**
  * Tests the refresh credential factory
  */
-class RefreshTokenCredentialFactoryTest extends \PHPUnit_Framework_TestCase
+class RefreshTokenCredentialFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RefreshTokenCredentialFactory The factory to use in tests */
     private $factory = null;
@@ -32,12 +32,12 @@ class RefreshTokenCredentialFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->signer = $this->getMock(ISigner::class);
+        $this->signer = $this->createMock(ISigner::class);
         $this->signer->expects($this->any())
             ->method("sign")
             ->willReturn("signed");
-        $this->subject = $this->getMock(ISubject::class);
-        $principal = $this->getMock(IPrincipal::class);
+        $this->subject = $this->createMock(ISubject::class);
+        $principal = $this->createMock(IPrincipal::class);
         $principal->expects($this->any())
             ->method("getId")
             ->willReturn("principalId");

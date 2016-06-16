@@ -13,7 +13,7 @@ use PDO;
 /**
  * Tests the select query
  */
-class SelectQueryTest extends \PHPUnit_Framework_TestCase
+class SelectQueryTest extends \PHPUnit\Framework\TestCase
 {
     /**
      * Tests adding a "GROUP BY" statement to one that was already started

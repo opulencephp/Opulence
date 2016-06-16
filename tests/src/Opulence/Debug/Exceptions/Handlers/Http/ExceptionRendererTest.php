@@ -34,7 +34,7 @@ function headers_sent()
 /**
  * Tests the HTTP exception renderer
  */
-class ExceptionRendererTest extends \PHPUnit_Framework_TestCase
+class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ExceptionRenderer The renderer to use in tests */
     private $renderer = null;

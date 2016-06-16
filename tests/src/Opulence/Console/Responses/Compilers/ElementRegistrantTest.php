@@ -15,7 +15,7 @@ use Opulence\Console\Responses\Compilers\Elements\TextStyles;
 /**
  * Tests the element registrant
  */
-class ElementRegistrantTest extends \PHPUnit_Framework_TestCase
+class ElementRegistrantTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ElementRegistrant The registrant to use in tests */
     private $registrant = null;
@@ -34,7 +34,7 @@ class ElementRegistrantTest extends \PHPUnit_Framework_TestCase
     public function testCorrectElementsAreRegistered()
     {
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $compiler */
-        $compiler = $this->getMock(ICompiler::class);
+        $compiler = $this->createMock(ICompiler::class);
         $compiler->expects($this->at(0))
             ->method("registerElement")
             ->with("success", new Style(Colors::BLACK, Colors::GREEN));

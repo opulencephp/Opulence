@@ -11,7 +11,7 @@ namespace Opulence\Environments;
 /**
  * Tests the environment
  */
-class EnvironmentTest extends \PHPUnit_Framework_TestCase
+class EnvironmentTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Environment The environment to use in tests */
     private $environment = null;

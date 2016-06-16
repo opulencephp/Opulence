@@ -11,7 +11,7 @@ namespace Opulence\Http\Middleware;
 /**
  * Tests the middleware parameters
  */
-class MiddlewareParametersTest extends \PHPUnit_Framework_TestCase
+class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
 {
     /** @var MiddlewareParameters The parameters to use in tests */
     private $parameters = null;
