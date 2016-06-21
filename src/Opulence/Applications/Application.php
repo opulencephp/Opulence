@@ -18,7 +18,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $opulenceVersion = "1.0.0-beta1";
+    private static $opulenceVersion = "1.0.0-beta2";
     /** @var IDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var string The version of the application */
@@ -33,7 +33,7 @@ class Application
     public function __construct(IDispatcher $taskDispatcher, string $version = null)
     {
         $this->taskDispatcher = $taskDispatcher;
-        
+
         if ($version === null) {
             $this->version = self::$opulenceVersion;
         } else {
