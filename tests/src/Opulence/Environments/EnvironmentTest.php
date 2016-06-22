@@ -25,6 +25,15 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests default name is production
+     */
+    public function testDefaultNameIsProduction()
+    {
+        $environment = new Environment();
+        $this->assertEquals(Environment::PRODUCTION, $environment->getName());
+    }
+
+    /**
      * Tests getting the name
      */
     public function testGettingName()

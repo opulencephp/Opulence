@@ -6,6 +6,9 @@
 <h3>Console</h3>
 * Fixed bug that escaped all slashes in arguments when we actually wanted them for everything except escaped quotes (issue #4)
 
+<h3>Environments</h3>
+* Made the name optional in `Opulence\Environments\Environment::__construct()`
+
 <h3>Framework</h3>
 * Fixed `Opulence\Composer\Executable` so that it always returns a string, even when `shell_exec()` returns null
 * Added ability to make changing the directory optional when renaming the application (issue #5)

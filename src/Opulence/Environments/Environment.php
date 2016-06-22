@@ -28,7 +28,7 @@ class Environment
     /**
      * @param string $name The name of the environment
      */
-    public function __construct(string $name)
+    public function __construct(string $name = Environment::PRODUCTION)
     {
         $this->setName($name);
     }
