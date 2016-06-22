@@ -6,9 +6,10 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Views\Caching;
+namespace Opulence\Framework\Views\Caching;
 
 use Opulence\Cache\ICacheBridge;
+use Opulence\Views\Caching\ICache;
 use Opulence\Views\IView;
 
 /**

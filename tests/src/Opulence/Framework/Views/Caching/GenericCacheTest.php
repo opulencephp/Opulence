@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Views\Caching;
+namespace Opulence\Framework\Views\Caching;
 
 use Opulence\Cache\ArrayBridge;
 use Opulence\Files\FileSystem;
