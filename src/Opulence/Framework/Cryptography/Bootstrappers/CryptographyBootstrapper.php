@@ -14,7 +14,6 @@ use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\IEncrypter;
 use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
-use Opulence\Cryptography\Utilities\Strings;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
@@ -28,7 +27,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function getBindings() : array
     {
-        return [IEncrypter::class, IHasher::class, Strings::class];
+        return [IEncrypter::class, IHasher::class];
     }
 
     /**
@@ -38,7 +37,6 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     {
         $container->bindInstance(IEncrypter::class, $this->getEncrypter());
         $container->bindInstance(IHasher::class, $this->getHasher());
-        $container->bindInstance(Strings::class, $this->getStringUtility());
     }
 
     /**
@@ -66,15 +64,5 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
     protected function getHasher() : IHasher
     {
         return new BcryptHasher();
-    }
-
-    /**
-     * Gets the string utility to use
-     *
-     * @return Strings The string utility
-     */
-    protected function getStringUtility() : Strings
-    {
-        return new Strings();
     }
 }

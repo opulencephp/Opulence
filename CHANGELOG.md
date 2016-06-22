@@ -1,7 +1,14 @@
 <h2>v1.0.0-beta3</h2>
 
+<h3>Deprecated</h3>
+* `Opulence\Cryptography\Utilities\Strings`
+
+<h3>Console</h3>
+* Fixed bug that escaped all slashes in arguments when we actually wanted them for everything except escaped quotes (issue #4)
+
 <h3>Framework</h3>
 * Fixed `Opulence\Composer\Executable` so that it always returns a string, even when `shell_exec()` returns null
+* Removed `Opulence\Cryptography\Utilities\Strings` dependency from `Opulence\Framework\Console\Commands\UuidGenerationCommand`
 
 <h2>v1.0.0-beta2</h2>
 

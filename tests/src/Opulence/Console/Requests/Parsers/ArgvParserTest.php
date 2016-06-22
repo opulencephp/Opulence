@@ -27,6 +27,15 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that backslashes are respected
+     */
+    public function testBackslashesAreRespected()
+    {
+        $request = $this->parser->parse(["apex", "foo", "bar\\baz"]);
+        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+    }
+
+    /**
      * Tests parsing arguments and options
      */
     public function testParsingArgumentsAndOptions()

@@ -10,26 +10,12 @@ namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
-use Opulence\Cryptography\Utilities\Strings;
 
 /**
  * Defines the UUID generator command
  */
 class UuidGenerationCommand extends Command
 {
-    /** @var Strings The string utility */
-    private $strings = null;
-
-    /**
-     * @param Strings $strings The string utility
-     */
-    public function __construct(Strings $strings)
-    {
-        parent::__construct();
-
-        $this->strings = $strings;
-    }
-
     /**
      * @inheritdoc
      */
@@ -44,6 +30,16 @@ class UuidGenerationCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $response->writeln("<info>{$this->strings->generateUuidV4()}</info>");
+        $response->writeln("<info>{$this->generateUuidV4()}</info>");
+    }
+
+    private function generateUuidV4() : string
+    {
+
+        $string = random_bytes(16);
+        $string[6] = chr(ord($string[6]) & 0x0f | 0x40);
+        $string[8] = chr(ord($string[8]) & 0x3f | 0x80);
+
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($string), 4));
     }
 }

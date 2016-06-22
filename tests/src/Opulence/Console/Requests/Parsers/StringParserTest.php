@@ -27,6 +27,15 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that backslashes are respected
+     */
+    public function testBackslashesAreRespected()
+    {
+        $request = $this->parser->parse("foo bar\\baz");
+        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+    }
+
+    /**
      * Tests parsing argument and short option and long option
      */
     public function testParsingArgumentShortOptionLongOption()

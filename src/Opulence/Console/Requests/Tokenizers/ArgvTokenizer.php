@@ -22,7 +22,8 @@ class ArgvTokenizer implements ITokenizer
         array_shift($input);
 
         foreach ($input as &$token) {
-            $token = stripslashes($token);
+            // We don't use stripslashes() because we want to backslashes when they're not escaping quotes
+            $token = str_replace(["\\'", '\\"'], ["'", '"'], $token);
         }
 
         return $input;

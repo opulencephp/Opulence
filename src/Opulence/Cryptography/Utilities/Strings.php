@@ -10,6 +10,8 @@ namespace Opulence\Cryptography\Utilities;
 
 /**
  * Defines some string utilities
+ *
+ * @deprecated since version 1.0.0-beta3
  */
 class Strings
 {

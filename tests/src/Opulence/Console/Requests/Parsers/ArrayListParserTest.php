@@ -27,6 +27,18 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests that backslashes are respected
+     */
+    public function testBackslashesAreRespected()
+    {
+        $request = $this->parser->parse([
+            "name" => "foo",
+            "arguments" => ["bar\\baz"]
+        ]);
+        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+    }
+
+    /**
      * Test not passing arguments
      */
     public function testNotPassingArguments()
