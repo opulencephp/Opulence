@@ -60,6 +60,6 @@ class Executable
      */
     protected function execute(string $command) : string
     {
-        return shell_exec($command);
+        return shell_exec($command) ?? "";
     }
 }

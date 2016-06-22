@@ -1,3 +1,8 @@
+<h2>v1.0.0-beta3</h2>
+
+<h3>Framework</h3>
+* Fixed `Opulence\Composer\Executable` so that it always returns a string, even when `shell_exec()` returns null
+
 <h2>v1.0.0-beta2</h2>
 
 <h3>Applications</h3>
