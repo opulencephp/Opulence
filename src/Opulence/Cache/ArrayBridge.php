@@ -77,6 +77,10 @@ class ArrayBridge implements ICacheBridge
      */
     public function set(string $key, $value, int $lifetime)
     {
+        if ($lifetime <= 0) {
+            return;
+        }
+
         $this->storage[$key] = $value;
     }
 }
