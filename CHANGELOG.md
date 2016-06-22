@@ -8,6 +8,7 @@
 
 <h3>Framework</h3>
 * Fixed `Opulence\Composer\Executable` so that it always returns a string, even when `shell_exec()` returns null
+* Added ability to make changing the directory optional when renaming the application (issue #5)
 * Removed `Opulence\Cryptography\Utilities\Strings` dependency from `Opulence\Framework\Console\Commands\UuidGenerationCommand`
 
 <h2>v1.0.0-beta2</h2>

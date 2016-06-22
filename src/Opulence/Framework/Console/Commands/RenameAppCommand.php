@@ -70,15 +70,25 @@ class RenameAppCommand extends Command
     {
         $confirmationQuestion = new Confirmation(
             sprintf(
-                "Are you sure you want to rename \"%s\" to \"%s\"? ",
+                "Are you sure you want to rename %s to %s? ",
+                $this->getArgumentValue("currName"),
+                $this->getArgumentValue("newName")
+            )
+        );
+        $renameDirectoriesQuestion = new Confirmation(
+            sprintf(
+                "Do you want to rename src/%s to src/%s and tests/%s to tests/%s? ",
+                $this->getArgumentValue("currName"),
+                $this->getArgumentValue("newName"),
                 $this->getArgumentValue("currName"),
                 $this->getArgumentValue("newName")
             )
         );
 
         if ($this->prompt->ask($confirmationQuestion, $response)) {
-            $this->updateComposer();
-            $this->updateDirectories();
+            $renameDirectories = $this->prompt->ask($renameDirectoriesQuestion, $response);
+            $this->updateComposer($renameDirectories);
+            $this->updateSrcAndTestDirectories($renameDirectories);
             $this->updateNamespaces();
             $this->updateConfigs();
             $response->writeln("<success>Updated name successfully</success>");
@@ -89,8 +99,10 @@ class RenameAppCommand extends Command
 
     /**
      * Updates the Composer config
+     *
+     * @param bool $renameDirectories Whether or not to rename directories
      */
-    protected function updateComposer()
+    protected function updateComposer(bool $renameDirectories)
     {
         $currComposerContents = $this->fileSystem->read($this->paths["root"] . "/composer.json");
         // Change the PSR-4 namespace
@@ -99,12 +111,15 @@ class RenameAppCommand extends Command
             $this->getArgumentValue("newName") . "\\\\",
             $currComposerContents
         );
-        // Change the PSR-4 directory
-        $updatedComposerContents = str_replace(
-            "src/" . $this->getArgumentValue("currName"),
-            "src/" . $this->getArgumentValue("newName"),
-            $updatedComposerContents
-        );
+
+        if ($renameDirectories) {
+            // Change the PSR-4 directory
+            $updatedComposerContents = str_replace(
+                "src/" . $this->getArgumentValue("currName"),
+                "src/" . $this->getArgumentValue("newName"),
+                $updatedComposerContents
+            );
+        }
         $this->fileSystem->write($this->paths["root"] . "/composer.json", $updatedComposerContents);
     }
 
@@ -123,33 +138,6 @@ class RenameAppCommand extends Command
                 $currentContents
             );
             $this->fileSystem->write($file, $updatedContents);
-        }
-    }
-
-    /**
-     * Updates the app and test directories
-     */
-    protected function updateDirectories()
-    {
-        foreach (["src", "tests"] as $pathToUpdate) {
-            // Move the directory to the new name
-            $this->fileSystem->move(
-                $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("currName"),
-                $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("newName")
-            );
-
-            // Rename any references to the new namespace
-            $appFiles = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
-
-            foreach ($appFiles as $file) {
-                $currentContents = $this->fileSystem->read($file);
-                $updatedContents = str_replace(
-                    $this->getArgumentValue("currName") . "\\",
-                    $this->getArgumentValue("newName") . "\\",
-                    $currentContents
-                );
-                $this->fileSystem->write($file, $updatedContents);
-            }
         }
     }
 
@@ -186,6 +174,36 @@ class RenameAppCommand extends Command
                         "use " . $this->getArgumentValue("newName") . "\\"
                     ],
                     $updatedContents
+                );
+                $this->fileSystem->write($file, $updatedContents);
+            }
+        }
+    }
+
+    /**
+     * Updates the src and test directories
+     *
+     * @param bool $renameDirectories Whether or not to rename directories
+     */
+    protected function updateSrcAndTestDirectories(bool $renameDirectories)
+    {
+        foreach (["src", "tests"] as $pathToUpdate) {
+            if ($renameDirectories) {
+                $this->fileSystem->move(
+                    $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("currName"),
+                    $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("newName")
+                );
+            }
+
+            // Rename any references to the new namespace
+            $appFiles = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
+
+            foreach ($appFiles as $file) {
+                $currentContents = $this->fileSystem->read($file);
+                $updatedContents = str_replace(
+                    $this->getArgumentValue("currName") . "\\",
+                    $this->getArgumentValue("newName") . "\\",
+                    $currentContents
                 );
                 $this->fileSystem->write($file, $updatedContents);
             }
