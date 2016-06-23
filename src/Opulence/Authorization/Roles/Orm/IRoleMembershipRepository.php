@@ -20,14 +20,14 @@ interface IRoleMembershipRepository
      *
      * @param RoleMembership $roleMembership The role membership to add
      */
-    public function add(&$roleMembership);
+    public function add($roleMembership);
 
     /**
      * Deletes a role membership
      *
      * @param RoleMembership $roleMembership The role membership to delete
      */
-    public function delete(&$roleMembership);
+    public function delete($roleMembership);
 
     /**
      * Gets all the role memberships

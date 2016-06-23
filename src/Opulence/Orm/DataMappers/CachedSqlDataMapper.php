@@ -51,7 +51,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function add(&$entity)
+    public function add($entity)
     {
         $this->sqlDataMapper->add($entity);
         $this->scheduleForCacheInsertion($entity);
@@ -90,7 +90,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function delete(&$entity)
+    public function delete($entity)
     {
         $this->sqlDataMapper->delete($entity);
         $this->scheduleForCacheDeletion($entity);
@@ -168,7 +168,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function update(&$entity)
+    public function update($entity)
     {
         $this->sqlDataMapper->update($entity);
         $this->scheduleForCacheUpdate($entity);
@@ -223,10 +223,10 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
             if ($addDataToCacheOnMiss) {
                 if (is_array($data)) {
                     foreach ($data as $datum) {
-                        call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$datum], $setFuncArgs));
+                        call_user_func_array([$this->cacheDataMapper, "add"], array_merge([$datum], $setFuncArgs));
                     }
                 } else {
-                    call_user_func_array([$this->cacheDataMapper, "add"], array_merge([&$data], $setFuncArgs));
+                    call_user_func_array([$this->cacheDataMapper, "add"], array_merge([$data], $setFuncArgs));
                 }
             }
         }

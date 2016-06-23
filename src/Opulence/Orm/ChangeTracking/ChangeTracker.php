@@ -58,7 +58,7 @@ class ChangeTracker implements IChangeTracker
     /**
      * @inheritdoc
      */
-    public function startTracking(&$entity)
+    public function startTracking($entity)
     {
         $objectHashId = spl_object_hash($entity);
         $this->objectHashIdsToOriginalData[$objectHashId] = clone $entity;

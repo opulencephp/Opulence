@@ -26,7 +26,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function add(&$entity)
+    public function add($entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }
@@ -34,7 +34,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function delete(&$entity)
+    public function delete($entity)
     {
         unset($this->entities[$entity->getId()]);
     }
@@ -70,7 +70,7 @@ class CacheDataMapper implements ICacheDataMapper
     /**
      * @inheritdoc
      */
-    public function update(&$entity)
+    public function update($entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }

@@ -20,7 +20,7 @@ interface IClientRepository
      *
      * @param IClient $client The client to add
      */
-    public function add(IClient &$client);
+    public function add(IClient $client);
 
     /**
      * Deletes a client

@@ -29,7 +29,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function add(&$entity)
+    public function add($entity)
     {
         $this->currId++;
         $entity->setId($this->currId);
@@ -39,7 +39,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function delete(&$entity)
+    public function delete($entity)
     {
         unset($this->entities[$entity->getId()]);
     }
@@ -82,7 +82,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     /**
      * @inheritdoc
      */
-    public function update(&$entity)
+    public function update($entity)
     {
         $this->entities[$entity->getId()] = $entity;
     }

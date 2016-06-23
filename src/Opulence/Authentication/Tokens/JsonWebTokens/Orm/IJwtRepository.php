@@ -20,7 +20,7 @@ interface IJwtRepository
      *
      * @param SignedJwt $jwt The token to add
      */
-    public function add(SignedJwt &$jwt);
+    public function add(SignedJwt $jwt);
 
     /**
      * Deletes a token

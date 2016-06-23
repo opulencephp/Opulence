@@ -20,14 +20,14 @@ interface IUserRepository
      *
      * @param IUser $user The user to add
      */
-    public function add(&$user);
+    public function add($user);
 
     /**
      * Deletes a user from the repo
      *
      * @param IUser $user The user to delete
      */
-    public function delete(&$user);
+    public function delete($user);
 
     /**
      * Gets all the users

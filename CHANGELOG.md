@@ -1,7 +1,27 @@
 <h2>v1.0.0-beta3</h2>
 
+<h3>Backwards Incompatibilities</h3>
+* Passing by reference has been removed from all repositories and data mappers because it is not needed anymore.  The following methods have been updated to now pass by value:
+  * `Opulence\Authentication\Clients\Orm\IClientRepository::add()`, `IClientRepository::delete()`
+  * `Opulence\Authentication\Credentials\Orm\IJwtRepository::add()`, `IJwtRepository::delete()`
+  * `Opulence\Authentication\Tokens\Orm\IJwtRepository::add()`, `IJwtRepository::delete()`
+  * `Opulence\Authentication\Users\Orm\IUserRepository::add()`, `IUserRepository::delete()`
+  * `Opulence\Authorization\Roles\Orm\IRoleMembershipRepository::add()`, `IRoleMembershipRepository::delete()`
+  * `Opulence\Authorization\Roles\Orm\IRoleRepository::add()`, `IRoleRepository::delete()`
+  * `Opulence\Orm\ChangeTracking\IChangeTracker::startTracking()`, `ChangeTracker::startTracking()`
+  * `Opulence\Orm\DataMappers\IDataMapper::add()`, `IDataMapper::delete()`, `IDataMapper::update()`
+  * `Opulence\Orm\DataMappers\CachedSqlDataMapper::add()`, `CachedSqlDataMapper::delete()`, `CachedSqlDataMapper::update()`
+  * `Opulence\Orm\Repositories\IRepository::add()`, `IRepository::delete()`
+  * `Opulence\Orm\Repositories\Repository::add()`, `Repository::delete()`
+
 <h3>Deprecated</h3>
 * `Opulence\Cryptography\Utilities\Strings`
+
+<h3>Authentication</h3>
+* Check the backwards incompatibilities for methods that no longer pass by reference
+
+<h3>Authorization</h3>
+* Check the backwards incompatibilities for methods that no longer pass by reference
 
 <h3>Console</h3>
 * Fixed bug that escaped all slashes in arguments when we actually wanted them for everything except escaped quotes (issue #4)
@@ -14,6 +34,9 @@
 * Added ability to make changing the directory optional when renaming the application (issue #5)
 * Added `Opulence\Framework\Views\Caching\GenericCache` for `Opulence\Caching\ICacheBridge` support
 * Removed `Opulence\Cryptography\Utilities\Strings` dependency from `Opulence\Framework\Console\Commands\UuidGenerationCommand`
+
+<h3>ORM</h3>
+* Check the backwards incompatibilities for methods that no longer pass by reference
 
 <h2>v1.0.0-beta2</h2>
 

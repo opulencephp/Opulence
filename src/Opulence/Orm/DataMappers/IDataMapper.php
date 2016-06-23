@@ -21,7 +21,7 @@ interface IDataMapper
      * @param object $entity The entity to add
      * @throws OrmException Thrown if the entity couldn't be added
      */
-    public function add(&$entity);
+    public function add($entity);
 
     /**
      * Deletes an entity
@@ -29,7 +29,7 @@ interface IDataMapper
      * @param object $entity The entity to delete
      * @throws OrmException Thrown if the entity couldn't be deleted
      */
-    public function delete(&$entity);
+    public function delete($entity);
 
     /**
      * Gets all the entities
@@ -53,5 +53,5 @@ interface IDataMapper
      * @param object $entity The entity to save
      * @throws OrmException Thrown if the entity couldn't be saved
      */
-    public function update(&$entity);
+    public function update($entity);
 } 

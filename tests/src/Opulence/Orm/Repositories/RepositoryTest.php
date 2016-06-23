@@ -23,7 +23,7 @@ use Opulence\Tests\Orm\DataMappers\Mocks\SqlDataMapper;
 /**
  * Tests the repository class
  */
-class RepoTest extends \PHPUnit\Framework\TestCase
+class RepositoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var User An entity to use in the tests */
     private $entity1 = null;

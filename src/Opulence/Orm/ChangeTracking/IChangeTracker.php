@@ -37,7 +37,7 @@ interface IChangeTracker
      *
      * @param object $entity The entity to start tracking
      */
-    public function startTracking(&$entity);
+    public function startTracking($entity);
 
     /**
      * Stops tracking an entity

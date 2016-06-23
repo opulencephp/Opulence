@@ -20,14 +20,14 @@ interface IRoleRepository
      *
      * @param Role $role The role to add
      */
-    public function add(&$role);
+    public function add($role);
 
     /**
      * Deletes a role
      *
      * @param Role $role The role to delete
      */
-    public function delete(&$role);
+    public function delete($role);
 
     /**
      * Gets all the roles
