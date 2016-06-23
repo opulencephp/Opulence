@@ -13,15 +13,14 @@ use Opulence\Views\Caching\ICache;
 use Opulence\Views\IView;
 
 /**
- * Defines a generic cache for compiled views, using an ICacheBridge
- * implementation as a storage back-end.
+ * Defines an cache bridge implementation of a compiled view cache as a storage back-end
  */
 class GenericCache implements ICache
 {
     /** @var ICacheBridge A caching implementation */
-    private $bridge;
+    private $bridge = null;
     /** @var int The cache lifetime in seconds */
-    private $lifetime;
+    private $lifetime = -1;
 
     /**
      * @param ICacheBridge $bridge A caching implementation
@@ -82,7 +81,7 @@ class GenericCache implements ICache
     }
 
     /**
-     * Gets key for cached view
+     * Gets the key for the cached view
      *
      * @param IView $view The view whose cache key we want
      * @return string The key for the cached view
