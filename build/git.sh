@@ -6,13 +6,14 @@ REMOTE_URL="https://github.com/opulencephp"
 function checkOutPullRequest()
 {
     read -p "   Repository Name: " repository
-    read -p "   Branch: " branch
+    read -p "   Branch to Merge to: " opulencebranch
     read -p "   Username: " username
+    read -p "   Branch to Pull From: " userbranch
 
     # Check out pull request
     cd ../$repository
-    git co -b $username-$branch $branch
-    git pull https://github.com/$username/$repository.git $branch
+    git co -b $username-$userbranch $opulencebranch
+    git pull https://github.com/$username/$repository.git $userbranch
 
     # Switch back to home directory
     cd ../opulence
@@ -21,15 +22,16 @@ function checkOutPullRequest()
 function mergePullRequest()
 {
     read -p "   Repository Name: " repository
-    read -p "   Branch: " branch
+    read -p "   Branch to Merge to: " opulencebranch
     read -p "   Username: " username
+    read -p "   Branch to Pull From: " userbranch
 
     # Merge pull request
-    git ../$repository
-    git co $branch
-    git merge --no-ff $username-$branch
-    git push origin $branch
-    git branch -d $username-$branch
+    cd ../$repository
+    git co $opulencebranch
+    git merge --no-ff $username-$userbranch
+    git push origin $opulencebranch
+    git branch -d $username-$userbranch
     echo "Remember to merge to other appropriate branches"
 
     # Switch back to home directory

@@ -8,8 +8,7 @@
  */
 namespace Opulence\Framework\Views\Caching;
 
-use Opulence\Cache\ArrayBridge;
-use Opulence\Files\FileSystem;
+use Opulence\Cache\ICacheBridge;
 use Opulence\Views\IView;
 
 /**
@@ -17,7 +16,7 @@ use Opulence\Views\IView;
  */
 class GenericCacheTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ArrayBridge The caching bridge to use in tests */
+    /** @var ICacheBridge|\PHPUnit_Framework_MockObject_MockObject The caching bridge to use in tests */
     private $bridge = null;
     /** @var GenericCache The cache to use in tests */
     private $cache = null;
@@ -29,64 +28,26 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->bridge = new ArrayBridge();
+        $this->bridge = $this->createMock(ICacheBridge::class);
         $this->cache = new GenericCache($this->bridge, 3600);
         $this->view = $this->createMock(IView::class);
     }
 
     /**
-     * Tests caching a view with a non-positive lifetime
-     */
-    public function testCachingWithNonPositiveLifetime()
-    {
-        $this->bridge = new ArrayBridge();
-        $this->cache = new GenericCache($this->bridge, 0);
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled");
-        $this->assertFalse($this->cache->has($this->view));
-        $this->assertNull($this->cache->get($this->view));
-    }
-
-    /**
-     * Tests checking for a view that does exist
+     * Tests checking for an existing view
      */
     public function testCheckingForExistingView()
     {
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled");
-        $this->assertTrue($this->cache->has($this->view));
+        $this->bridge->expects($this->once())
+            ->method("get")
+            ->with($this->getKey($this->view))
+            ->willReturn("compiled");
+        $this->bridge->expects($this->once())
+            ->method("has")
+            ->with($this->getKey($this->view))
+            ->willReturn(true);
         $this->assertEquals("compiled", $this->cache->get($this->view));
-    }
-
-    /**
-     * Tests checking for a view that exists but doesn't match on variables
-     */
-    public function testCheckingForExistingViewWithNoVariableMatches()
-    {
-        $this->view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
-        $this->view->expects($this->at(0))
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
-        $this->view->expects($this->at(1))
-            ->method("getVars")
-            ->willReturn(["wrong" => "ahh"]);
-        $this->cache->set($this->view, "compiled");
-        $this->assertFalse($this->cache->has($this->view));
-    }
-
-    /**
-     * Tests checking for an expired view
-     */
-    public function testCheckingForExpiredView()
-    {
-        // The negative expiration is a way of forcing everything to expire right away
-        $cache = new GenericCache($this->bridge, -1);
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $cache->set($this->view, "compiled");
-        $this->assertFalse($cache->has($this->view));
-        $this->assertNull($cache->get($this->view));
+        $this->assertTrue($this->cache->has($this->view));
     }
 
     /**
@@ -94,9 +55,16 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingForNonExistentView()
     {
-        $this->setViewContentsAndVars("foo", []);
-        $this->assertFalse($this->cache->has($this->view));
+        $this->bridge->expects($this->once())
+            ->method("get")
+            ->with($this->getKey($this->view))
+            ->willReturn(null);
+        $this->bridge->expects($this->once())
+            ->method("has")
+            ->with($this->getKey($this->view))
+            ->willReturn(false);
         $this->assertNull($this->cache->get($this->view));
+        $this->assertFalse($this->cache->has($this->view));
     }
 
     /**
@@ -104,52 +72,45 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testFlushingCache()
     {
-        $this->view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
-        $this->view->expects($this->at(0))
-            ->method("getVars")
-            ->willReturn(["bar1" => "baz"]);
-        $this->view->expects($this->at(1))
-            ->method("getVars")
-            ->willReturn(["bar1" => "baz"]);
-        $this->view->expects($this->at(2))
-            ->method("getVars")
-            ->willReturn(["bar2" => "baz"]);
-        $this->view->expects($this->at(3))
-            ->method("getVars")
-            ->willReturn(["bar2" => "baz"]);
-        $this->cache->set($this->view, "compiled1");
-        $this->cache->set($this->view, "compiled2");
+        $this->bridge->expects($this->once())
+            ->method("flush");
         $this->cache->flush();
-        $this->assertFalse($this->cache->has($this->view));
-        $this->assertFalse($this->cache->has($this->view));
     }
 
     /**
-     * Tests not creating a directory before attempting to cache views in it
+     * Tests getting the view
      */
-    public function testNotCreatingDirectoryBeforeCaching()
+    public function testGettingView()
     {
-        $this->cache = new GenericCache($this->bridge, 3600);
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
+        $this->bridge->expects($this->once())
+            ->method("get")
+            ->with($this->getKey($this->view))
+            ->willReturn("compiled");
+        $this->assertEquals("compiled", $this->cache->get($this->view));
+    }
+
+    /**
+     * Tests setting the view
+     */
+    public function testSettingView()
+    {
+        $this->bridge->expects($this->once())
+            ->method("set")
+            ->with($this->getKey($this->view), "compiled", 3600);
         $this->cache->set($this->view, "compiled");
-        $this->assertTrue($this->cache->has($this->view));
     }
 
     /**
-     * Sets the contents and vars in a view
+     * Gets the key for the cached view
      *
-     * @param string $contents The contents to set
-     * @param array $vars The vars to set
+     * @param IView $view The view whose cache key we want
+     * @return string The key for the cached view
      */
-    private function setViewContentsAndVars($contents, array $vars)
+    private function getKey(IView $view) : string
     {
-        $this->view->expects($this->any())
-            ->method("getContents")
-            ->willReturn($contents);
-        $this->view->expects($this->any())
-            ->method("getVars")
-            ->willReturn($vars);
+        return md5(http_build_query([
+            "u" => $view->getContents(),
+            "v" => $view->getVars()
+        ]));
     }
 }

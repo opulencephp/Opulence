@@ -90,18 +90,6 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests that setting a value with a lifetime of 0 or lower is not retained
-     * in cache
-     */
-    public function testSettingValueWithNegativeLifetime()
-    {
-        $this->bridge->set("foo", "bar", 0);
-        $this->assertFalse($this->bridge->has("foo"));
-        $this->bridge->set("foo", "bar", -1);
-        $this->assertFalse($this->bridge->has("foo"));
-    }
-
-    /**
      * Tests incrementing values
      */
     public function testIncrementingValues()
@@ -111,5 +99,16 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(2, $this->bridge->increment("foo"));
         // Test using a custom value
         $this->assertEquals(7, $this->bridge->increment("foo", 5));
+    }
+
+    /**
+     * Tests that setting a value with a lifetime of 0 or lower is not retained in cache
+     */
+    public function testSettingValueWithNegativeLifetime()
+    {
+        $this->bridge->set("foo", "bar", 0);
+        $this->assertFalse($this->bridge->has("foo"));
+        $this->bridge->set("foo", "bar", -1);
+        $this->assertFalse($this->bridge->has("foo"));
     }
 }
