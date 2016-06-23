@@ -27,7 +27,9 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->assertions = new ResponseAssertions();
-        $this->mockResponse = $this->createMock(StreamResponse::class, [], [], "", false);
+        $this->mockResponse = $this->getMockBuilder(StreamResponse::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**

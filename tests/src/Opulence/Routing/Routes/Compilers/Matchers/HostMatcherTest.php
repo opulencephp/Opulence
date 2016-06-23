@@ -30,8 +30,12 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->matcher = new HostMatcher();
-        $this->request = $this->createMock(Request::class, [], [], "", false);
-        $this->route = $this->createMock(ParsedRoute::class, [], [], "", false);
+        $this->request = $this->getMockBuilder(Request::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->route = $this->getMockBuilder(ParsedRoute::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**

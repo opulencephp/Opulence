@@ -105,7 +105,9 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      */
     protected function getExceptionHandler() : IExceptionHandler
     {
-        return $this->createMock(ExceptionHandler::class, [], [], "", false);
+        return $this->getMockBuilder(ExceptionHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**

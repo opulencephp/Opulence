@@ -44,7 +44,9 @@ class RefreshTokenAuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
         $verificationContext = new VerificationContext($signer);
-        $this->jwtVerifier = $this->createMock(JwtVerifier::class, ["verify"]);
+        $this->jwtVerifier = $this->getMockBuilder(JwtVerifier::class)
+            ->setMethods(["verify"])
+            ->getMock();
         $this->authenticator = new RefreshTokenAuthenticator(
             $this->refreshTokenRepository,
             $this->jwtVerifier,

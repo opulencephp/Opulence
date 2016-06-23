@@ -71,6 +71,8 @@ class RandomServerSelectionStrategyTest extends \PHPUnit\Framework\TestCase
      */
     private function getServerMock()
     {
-        return $this->createMock(Server::class, [], [], "", false);
+        return $this->getMockBuilder(Server::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 }

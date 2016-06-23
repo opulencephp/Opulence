@@ -169,13 +169,17 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         $container = new Container();
         $dependencyResolver = new ContainerDependencyResolver($container);
-        $compiledRoute = $this->createMock(CompiledRoute::class, [], [], "", false);
+        $compiledRoute = $this->getMockBuilder(CompiledRoute::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $compiledRoute->expects($this->any())->method("isMatch")->willReturn(true);
         $compiledRoute->expects($this->any())->method("getControllerName")->willReturn(Controller::class);
         $compiledRoute->expects($this->any())->method("getControllerMethod")->willReturn("noParameters");
         $compiledRoute->expects($this->any())->method("getMiddleware")->willReturn([]);
         $compiledRoute->expects($this->any())->method("getPathVars")->willReturn([]);
-        $parsedRoute = $this->createMock(ParsedRoute::class, [], [], "", false);
+        $parsedRoute = $this->getMockBuilder(ParsedRoute::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $parsedRoute->expects($this->any())->method("getMethods")->willReturn([$method]);
         /** @var IParser|\PHPUnit_Framework_MockObject_MockObject $routeParser */
         $routeParser = $this->createMock(IParser::class);

@@ -28,7 +28,9 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
 
-        $this->exceptionHandler = $this->createMock(IExceptionHandler::class, [], [], "", false);
+        $this->exceptionHandler = $this->getMockBuilder(IExceptionHandler::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->logger = $this->createMock(LoggerInterface::class);
     }
 

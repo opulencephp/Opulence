@@ -30,7 +30,9 @@ class NotBeforeVerifierTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->verifier = new NotBeforeVerifier();
-        $this->jwt = $this->createMock(SignedJwt::class, [], [], "", false);
+        $this->jwt = $this->getMockBuilder(SignedJwt::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->jwtPayload = $this->createMock(JwtPayload::class);
         $this->jwt->expects($this->any())
             ->method("getPayload")

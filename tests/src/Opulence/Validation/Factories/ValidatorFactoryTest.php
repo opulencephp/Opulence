@@ -26,7 +26,9 @@ class ValidatorFactoryTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->rulesFactory = $this->createMock(RulesFactory::class, [], [], "", false);
+        $this->rulesFactory = $this->getMockBuilder(RulesFactory::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->validatorFactory = new ValidatorFactory($this->rulesFactory);
     }
 

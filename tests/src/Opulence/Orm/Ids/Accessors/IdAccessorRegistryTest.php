@@ -77,7 +77,10 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     public function testGettingEntityIdWithoutRegisteringGetter()
     {
         $this->expectException(OrmException::class);
-        $entity = $this->createMock(User::class, [], [], "Foo", false);
+        $entity = $this->getMockBuilder(User::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("Foo")
+            ->getMock();
         $this->registry->getEntityId($entity);
     }
 
@@ -151,7 +154,10 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     public function testSettingEntityIdWithoutRegisteringGetter()
     {
         $this->expectException(OrmException::class);
-        $entity = $this->createMock(User::class, [], [], "Foo", false);
+        $entity = $this->getMockBuilder(User::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("Foo")
+            ->getMock();
         $this->registry->setEntityId($entity, 24);
     }
 

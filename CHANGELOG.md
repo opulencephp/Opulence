@@ -1,3 +1,5 @@
+<h2>v1.0.0-beta4</h2>
+
 <h2>v1.0.0-beta3</h2>
 
 <h3>Backwards Incompatibilities</h3>

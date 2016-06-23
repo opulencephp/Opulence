@@ -31,7 +31,9 @@ class CsrfTokenCheckerTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->checker = new CsrfTokenChecker();
-        $this->request = $this->createMock(Request::class, [], [], "", false);
+        $this->request = $this->getMockBuilder(Request::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->session = $this->createMock(ISession::class);
     }
 

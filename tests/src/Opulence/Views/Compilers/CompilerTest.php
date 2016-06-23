@@ -35,7 +35,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCorrectCompilerIsUsed()
     {
         /** @var IView|\PHPUnit_Framework_MockObject_MockObject $view */
-        $view = $this->createMock(IView::class, [], [], "MockView");
+        $view = $this->getMockBuilder(IView::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("MockView")
+            ->getMock();
         $view->expects($this->any())
             ->method("getContents")
             ->willReturn("foo");

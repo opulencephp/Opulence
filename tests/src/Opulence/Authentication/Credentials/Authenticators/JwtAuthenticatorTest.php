@@ -40,7 +40,9 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ISigner $signer */
         $signer = $this->createMock(ISigner::class);
         $verificationContext = new VerificationContext($signer);
-        $this->jwtVerifier = $this->createMock(JwtVerifier::class, ["verify"]);
+        $this->jwtVerifier = $this->getMockBuilder(JwtVerifier::class)
+            ->setMethods(["verify"])
+            ->getMock();
         $this->authenticator = new JwtAuthenticator($this->jwtVerifier, $verificationContext);
         $this->credential = $this->createMock(ICredential::class);
 

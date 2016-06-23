@@ -80,7 +80,10 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfEntityIsRegisteredWithoutRegisteringIdGetter()
     {
-        $entity = $this->createMock(User::class, [], [], "Foo", false);
+        $entity = $this->getMockBuilder(User::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("Foo")
+            ->getMock();
         $this->assertFalse($this->entityRegistry->isRegistered($entity));
     }
 
@@ -139,7 +142,10 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     public function testDeregisteringEntityWithoutRegisteringIdGetter()
     {
         $this->expectException(OrmException::class);
-        $entity = $this->createMock(User::class, [], [], "Foo", false);
+        $entity = $this->getMockBuilder(User::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("Foo")
+            ->getMock();
         $this->entityRegistry->setState($entity, EntityStates::REGISTERED);
         $this->entityRegistry->deregisterEntity($entity);
     }
@@ -210,7 +216,10 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     public function testRegisteringEntityWithoutRegisteringIdGetter()
     {
         $this->expectException(OrmException::class);
-        $entity = $this->createMock(User::class, [], [], "Foo", false);
+        $entity = $this->getMockBuilder(User::class)
+            ->disableOriginalConstructor()
+            ->setMockClassName("Foo")
+            ->getMock();
         $this->entityRegistry->registerEntity($entity);
     }
 

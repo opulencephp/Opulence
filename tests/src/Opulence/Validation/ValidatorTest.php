@@ -41,11 +41,13 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
         $this->errorTemplateRegistry = $this->createMock(ErrorTemplateRegistry::class);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $errorTemplateCompiler */
         $this->errorTemplateCompiler = $this->createMock(ICompiler::class);
-        $this->rulesFactory = $this->createMock(
-            RulesFactory::class,
-            [],
-            [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]
-        );
+        $this->rulesFactory = $this->getMockBuilder(RulesFactory::class)
+            ->setConstructorArgs([
+                $this->ruleExtensionRegistry,
+                $this->errorTemplateRegistry,
+                $this->errorTemplateCompiler
+            ])
+            ->getMock();
         $this->validator = new Validator($this->rulesFactory);
     }
 
@@ -141,10 +143,12 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
      */
     private function getRules()
     {
-        return $this->createMock(
-            Rules::class,
-            [],
-            [$this->ruleExtensionRegistry, $this->errorTemplateRegistry, $this->errorTemplateCompiler]
-        );
+        return $this->getMockBuilder(Rules::class)
+            ->setConstructorArgs([
+                $this->ruleExtensionRegistry,
+                $this->errorTemplateRegistry,
+                $this->errorTemplateCompiler
+            ])
+            ->getMock();
     }
 }

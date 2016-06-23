@@ -32,7 +32,9 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->rules = $this->createMock(Rules::class, [], [], "", false);
+        $this->rules = $this->getMockBuilder(Rules::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->validator = $this->createMock(IValidator::class);
         $this->validator->expects($this->any())
             ->method("field")
@@ -66,9 +68,12 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
                 "email" => "foo"
             ])
             ->willReturn(false);
+        $errorCollection = $this->getMockBuilder(ErrorCollection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->validator->expects($this->once())
             ->method("getErrors")
-            ->willReturn($this->createMock(ErrorCollection::class, [], [], "", false));
+            ->willReturn($errorCollection);
         $modelState = new UserModelState($user, $this->validatorFactory);
         $this->assertFalse($modelState->isValid());
         $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());
@@ -97,9 +102,12 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
                 "email" => "foo@bar.com"
             ])
             ->willReturn(true);
+        $errorCollection = $this->getMockBuilder(ErrorCollection::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $this->validator->expects($this->once())
             ->method("getErrors")
-            ->willReturn($this->createMock(ErrorCollection::class, [], [], "", false));
+            ->willReturn($errorCollection);
         $modelState = new UserModelState($user, $this->validatorFactory);
         $this->assertTrue($modelState->isValid());
         $this->assertInstanceOf(ErrorCollection::class, $modelState->getErrors());

@@ -185,7 +185,9 @@ class RedisBridgeTest extends \PHPUnit\Framework\TestCase
             ->with("bar")
             ->willReturn("baz");
         /** @var Redis|\PHPUnit_Framework_MockObject_MockObject $redis */
-        $redis = $this->createMock(Redis::class, [], [], "", false);
+        $redis = $this->getMockBuilder(Redis::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $redis->expects($this->any())
             ->method("getClient")
             ->with("foo")

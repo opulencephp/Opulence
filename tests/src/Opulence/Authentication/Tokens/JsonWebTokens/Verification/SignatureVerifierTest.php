@@ -32,7 +32,9 @@ class SignatureVerifierTest extends \PHPUnit\Framework\TestCase
     {
         $this->signer = $this->createMock(ISigner::class);
         $this->verifier = new SignatureVerifier($this->signer);
-        $this->jwt = $this->createMock(SignedJwt::class, [], [], "", false);
+        $this->jwt = $this->getMockBuilder(SignedJwt::class)
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     /**

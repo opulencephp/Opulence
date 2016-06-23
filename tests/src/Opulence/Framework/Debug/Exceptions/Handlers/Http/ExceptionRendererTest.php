@@ -143,7 +143,9 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
             ->method("compile")
             ->willReturn(json_encode(["foo" => "bar"]));
         /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
-        $request = $this->createMock(Request::class, [], [], "", false);
+        $request = $this->getMockBuilder(Request::class)
+            ->disableOriginalConstructor()
+            ->getMock();
         $request->expects($this->exactly(3))
             ->method("isJson")
             ->willReturn(true);
