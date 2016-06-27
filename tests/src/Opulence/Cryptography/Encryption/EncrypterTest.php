@@ -91,11 +91,28 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingCustomCipherThroughConstructor()
     {
-        $encrypter = new Encrypter("abcdefghijklmnopq", "AES-256-CBC");
-        $decryptedValue = "foobar";
-        $encryptedValue = $encrypter->encrypt($decryptedValue);
-        $this->assertNotEquals($decryptedValue, $encryptedValue);
-        $this->assertEquals($decryptedValue, $encrypter->decrypt($encryptedValue));
+        $approvedCiphers = [
+            "AES-128-CBC",
+            "AES-192-CBC",
+            "AES-256-CBC",
+            "AES-128-CTR",
+            "AES-192-CTR",
+            "AES-256-CTR",
+            "aes-128-cbc",
+            "aes-192-cbc",
+            "aes-256-cbc",
+            "aes-128-ctr",
+            "aes-192-ctr",
+            "aes-256-ctr"
+        ];
+
+        foreach ($approvedCiphers as $cipher) {
+            $encrypter = new Encrypter("abcdefghijklmnopq", $cipher);
+            $decryptedValue = "foobar";
+            $encryptedValue = $encrypter->encrypt($decryptedValue);
+            $this->assertNotEquals($decryptedValue, $encryptedValue);
+            $this->assertEquals($decryptedValue, $encrypter->decrypt($encryptedValue));
+        }
     }
 
     /**

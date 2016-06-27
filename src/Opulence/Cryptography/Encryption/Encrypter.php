@@ -15,16 +15,25 @@ use Exception;
  */
 class Encrypter implements IEncrypter
 {
+    /** @var array The list of approved ciphers */
+    protected static $approvedCiphers = [
+        "AES-128-CBC",
+        "AES-192-CBC",
+        "AES-256-CBC",
+        "AES-128-CTR",
+        "AES-192-CTR",
+        "AES-256-CTR"
+    ];
     /** @var string The encryption key */
     private $key = "";
     /** @var string The encryption cipher */
-    private $cipher = "AES-128-CBC";
+    private $cipher = "AES-128-CTR";
 
     /**
      * @param string $key The encryption key
      * @param string $cipher The encryption cipher
      */
-    public function __construct(string $key, string $cipher = "AES-128-CBC")
+    public function __construct(string $key, string $cipher = "AES-128-CTR")
     {
         $this->setKey($key);
         $this->setCipher($cipher);
@@ -62,7 +71,7 @@ class Encrypter implements IEncrypter
      */
     public function encrypt(string $data) : string
     {
-        $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->cipher));
+        $iv = random_bytes(openssl_cipher_iv_length($this->cipher));
         $encryptedValue = openssl_encrypt(serialize($data), $this->cipher, $this->key, 0, $iv);
 
         if ($encryptedValue === false) {
@@ -85,7 +94,9 @@ class Encrypter implements IEncrypter
      */
     public function setCipher(string $cipher)
     {
-        if (!in_array($cipher, openssl_get_cipher_methods())) {
+        $cipher = strtoupper($cipher);
+
+        if (!in_array($cipher, self::$approvedCiphers)) {
             throw new EncryptionException("Invalid cipher \"$cipher\"");
         }
 

@@ -1,5 +1,10 @@
 <h2>v1.0.0-beta4</h2>
 
+<h3>Cryptography</h3>
+* Changed default cipher from `AES-128-CBC` to `AES-128-CTR`
+* Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
+* Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
+
 <h2>v1.0.0-beta3</h2>
 
 <h3>Backwards Incompatibilities</h3>
