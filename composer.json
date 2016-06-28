@@ -29,7 +29,7 @@
     }
   },
   "require": {
-    "php": ">=7.0.0",
+    "php": "^7.0",
     "ext-openssl": "*",
     "ext-mbstring": "*",
     "jeremeamia/superclosure": "~2.2",
