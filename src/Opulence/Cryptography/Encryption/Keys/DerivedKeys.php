@@ -8,18 +8,18 @@
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 
-namespace Opulence\Cryptography\Encryption;
+namespace Opulence\Cryptography\Encryption\Keys;
 
 /**
  * Defines encryption and authentication keys that are derived from a user-supplied password
  */
-class DerivedKeys 
+class DerivedKeys
 {
     /** @var string The encryption key */
     private $encryptionKey = "";
     /** @var string The authentication key */
     private $authenticationKey = "";
-    
+
     /**
      * @param string $encryptionKey The encryption key
      * @param string $authenticationKey The authentication key
@@ -29,7 +29,7 @@ class DerivedKeys
         $this->encryptionKey = $encryptionKey;
         $this->authenticationKey = $authenticationKey;
     }
-    
+
     /**
      * @return string
      */
@@ -37,7 +37,7 @@ class DerivedKeys
     {
         return $this->authenticationKey;
     }
-    
+
     /**
      * @return string
      */

@@ -5,11 +5,12 @@
   * Now, a key derivation function is run on it to generate encryption and authentication keys
 
 <h3>Deprecated</h3>
-* `php apex encryption:generatekey` has been deprecated.  Use `php apex encryption:generatepassword` instead.
+* `php apex encryption:generatekey` has been deprecated in favor of`php apex encryption:generatepassword`
 
 <h3>Cryptography</h3>
 * `Opulence\Cryptography\Encryption\Encrypter` no longer uses the user-supplied password as the encryption key (issue #13)
   * Now, a key derivation function is run on it to generate encryption and authentication keys
+  * Added `Opulence\Cryptography\Encryption\Keys\IKeyDeriver` and `Pbkdf2KeyDeriver`
 * Changed default cipher from `AES-128-CBC` to `AES-256-CTR`
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)

@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Cryptography\Encryption;
+namespace Opulence\Cryptography\Encryption\Keys;
 
 use InvalidArgumentException;
 
@@ -21,7 +21,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     const PBKDF2_NUM_ITERATIONS = 10000;
     /** @var int The number of iterations to perform */
     private $numIterations = self::PBKDF2_NUM_ITERATIONS;
-    
+
     /**
      * @param int $numIterations The number of iterations to perform
      */
@@ -38,7 +38,7 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
         if (mb_strlen($salt, "8bit") !== self::SALT_NUM_BYTES) {
             throw new InvalidArgumentException("Salt must be " . self::SALT_NUM_BYTES . " bytes long");
         }
-        
+
         $hash = hash("sha256", $password, true);
         $singleDerivedKey = hash_pbkdf2("sha256", $hash, $salt, $this->numIterations, self::KEY_NUM_BYTES);
         $bothKeys = hash_pbkdf2("sha256", $singleDerivedKey, $salt, 1, self::KEY_NUM_BYTES * 2);

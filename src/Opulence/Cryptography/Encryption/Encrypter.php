@@ -9,6 +9,8 @@
 namespace Opulence\Cryptography\Encryption;
 
 use Exception;
+use Opulence\Cryptography\Encryption\Keys\IKeyDeriver;
+use Opulence\Cryptography\Encryption\Keys\Pbkdf2KeyDeriver;
 
 /**
  * Defines an encrypter
@@ -64,7 +66,7 @@ class Encrypter implements IEncrypter
 
         try {
             $decryptedData = openssl_decrypt(
-                $encryptedValue, 
+                $encryptedValue,
                 $this->cipher,
                 $derivedKeys->getEncryptionKey(),
                 0,
@@ -92,9 +94,9 @@ class Encrypter implements IEncrypter
         $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $keySalt);
         $encryptedValue = openssl_encrypt(
             serialize($data),
-            $this->cipher, 
-            $derivedKeys->getEncryptionKey(), 
-            0, 
+            $this->cipher,
+            $derivedKeys->getEncryptionKey(),
+            0,
             $decodedIv
         );
 
@@ -145,7 +147,7 @@ class Encrypter implements IEncrypter
      * @param string $authenticationKey The authentication key
      * @return string The HMAC
      */
-    private function createHMac(string $iv, string $value, string $authenticationKey) : string
+    private function createHmac(string $iv, string $value, string $authenticationKey) : string
     {
         return hash_hmac("sha256", $iv . $value, $authenticationKey);
     }
@@ -162,7 +164,8 @@ class Encrypter implements IEncrypter
         $pieces = json_decode(base64_decode($data), true);
 
         if ($pieces === false || !isset($pieces["hmac"]) || !isset($pieces["value"]) || !isset($pieces["iv"])
-                || !isset($pieces["keySalt"])) {
+            || !isset($pieces["keySalt"])
+        ) {
             throw new EncryptionException("Data is not in correct format");
         }
 

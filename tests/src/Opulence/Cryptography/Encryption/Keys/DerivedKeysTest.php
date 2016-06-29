@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Cryptography\Encryption;
+namespace Opulence\Cryptography\Encryption\Keys;
 
 /**
  * Tests the derived keys

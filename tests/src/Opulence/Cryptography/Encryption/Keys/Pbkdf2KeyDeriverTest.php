@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Cryptography\Encryption;
+namespace Opulence\Cryptography\Encryption\Keys;
 
 use InvalidArgumentException;
 
@@ -36,7 +36,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(32, mb_strlen($keys->getEncryptionKey(), "8bit"));
         $this->assertNotEquals($keys->getAuthenticationKey(), mb_strlen($keys->getEncryptionKey()));
     }
-    
+
     /**
      * Tests that an invalid salt length throws an exception
      */
