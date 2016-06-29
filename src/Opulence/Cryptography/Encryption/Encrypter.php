@@ -52,10 +52,11 @@ class Encrypter implements IEncrypter
     {
         $pieces = $this->getPieces($data);
         $encodedIv = $pieces["iv"];
-        $keySalt = base64_decode($pieces["keySalt"]);
+        $encodedKeySalt = $pieces["keySalt"];
+        $decodedKeySalt = base64_decode($encodedKeySalt);
         $encryptedValue = $pieces["value"];
-        $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $keySalt);
-        $correctHmac = $this->createHmac($encodedIv, $encryptedValue, $derivedKeys->getAuthenticationKey());
+        $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $decodedKeySalt);
+        $correctHmac = $this->createHmac($encodedIv, $encodedKeySalt, $encryptedValue, $derivedKeys->getAuthenticationKey());
         $userHmac = $pieces["hmac"];
 
         if (!$this->hmacIsValid($correctHmac, $userHmac)) {
@@ -90,8 +91,8 @@ class Encrypter implements IEncrypter
     public function encrypt(string $data) : string
     {
         $decodedIv = random_bytes(openssl_cipher_iv_length($this->cipher));
-        $keySalt = random_bytes(IKeyDeriver::SALT_NUM_BYTES);
-        $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $keySalt);
+        $decodedKeySalt = random_bytes(IKeyDeriver::SALT_NUM_BYTES);
+        $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $decodedKeySalt);
         $encryptedValue = openssl_encrypt(
             serialize($data),
             $this->cipher,
@@ -105,11 +106,11 @@ class Encrypter implements IEncrypter
         }
 
         $encodedIv = base64_encode($decodedIv);
-        $keySalt = base64_encode($keySalt);
-        $hmac = $this->createHmac($encodedIv, $encryptedValue, $derivedKeys->getAuthenticationKey());
+        $encodedKeySalt = base64_encode($decodedKeySalt);
+        $hmac = $this->createHmac($encodedIv, $encodedKeySalt, $encryptedValue, $derivedKeys->getAuthenticationKey());
         $pieces = [
             "iv" => $encodedIv,
-            "keySalt" => $keySalt,
+            "keySalt" => $encodedKeySalt,
             "value" => $encryptedValue,
             "hmac" => $hmac
         ];
@@ -129,13 +130,14 @@ class Encrypter implements IEncrypter
      * Creates an HMAC
      *
      * @param string $iv The initialization vector
+     * @param string $keySalt The key salt
      * @param string $value The value to hash
      * @param string $authenticationKey The authentication key
      * @return string The HMAC
      */
-    private function createHmac(string $iv, string $value, string $authenticationKey) : string
+    private function createHmac(string $iv, string $keySalt, string $value, string $authenticationKey) : string
     {
-        return hash_hmac("sha256", $iv . $value, $authenticationKey);
+        return hash_hmac("sha256", $iv . $keySalt . $value, $authenticationKey);
     }
 
     /**
