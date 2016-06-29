@@ -75,18 +75,6 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests encrypting and decrypting a value using a custom cipher
-     */
-    public function testEncryptingAndDecryptingValueUsingCustomCipher()
-    {
-        $this->encrypter->setCipher("AES-256-CBC");
-        $decryptedValue = "foobar";
-        $encryptedValue = $this->encrypter->encrypt($decryptedValue);
-        $this->assertNotEquals($decryptedValue, $encryptedValue);
-        $this->assertEquals($decryptedValue, $this->encrypter->decrypt($encryptedValue));
-    }
-
-    /**
      * Tests passing a custom cipher through the constructor
      */
     public function testPassingCustomCipherThroughConstructor()
@@ -121,6 +109,6 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testSettingInvalidCipher()
     {
         $this->expectException(EncryptionException::class);
-        $this->encrypter->setCipher("foo");
+        new Encrypter("foo", "bar");
     }
 }

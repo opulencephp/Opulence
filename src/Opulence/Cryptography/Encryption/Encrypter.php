@@ -120,20 +120,6 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function setCipher(string $cipher)
-    {
-        $cipher = strtoupper($cipher);
-
-        if (!in_array($cipher, self::$approvedCiphers)) {
-            throw new EncryptionException("Invalid cipher \"$cipher\"");
-        }
-
-        $this->cipher = $cipher;
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function setPassword(string $password)
     {
         $this->password = $password;
@@ -185,5 +171,19 @@ class Encrypter implements IEncrypter
             $correctHmac,
             $userHmac
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    private function setCipher(string $cipher)
+    {
+        $cipher = strtoupper($cipher);
+
+        if (!in_array($cipher, self::$approvedCiphers)) {
+            throw new EncryptionException("Invalid cipher \"$cipher\"");
+        }
+
+        $this->cipher = $cipher;
     }
 }

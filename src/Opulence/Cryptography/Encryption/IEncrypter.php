@@ -32,14 +32,6 @@ interface IEncrypter
     public function encrypt(string $data) : string;
 
     /**
-     * Sets the encryption cipher
-     *
-     * @param string $cipher The cipher
-     * @throws EncryptionException Thrown if the cipher was invalid
-     */
-    public function setCipher(string $cipher);
-
-    /**
      * Sets the encryption password that will be used to derive keys
      *
      * @param string $password The password to use
