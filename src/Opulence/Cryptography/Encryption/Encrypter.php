@@ -29,7 +29,7 @@ class Encrypter implements IEncrypter
     /** @var string The encryption password that will be used to derive keys */
     private $password = "";
     /** @var string The encryption cipher */
-    private $cipher = "AES-128-CTR";
+    private $cipher = "AES-256-CTR";
     /** @var IKeyDeriver The key deriver to use */
     private $keyDeriver = null;
 
