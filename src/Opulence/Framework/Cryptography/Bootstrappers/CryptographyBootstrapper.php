@@ -47,13 +47,13 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     protected function getEncrypter() : IEncrypter
     {
-        $encryptionKey = $this->environment->getVar("ENCRYPTION_PASSWORD") ?? $this->environment->getVar("ENCRYPTION_KEY");
+        $encryptionPassword = $this->environment->getVar("ENCRYPTION_PASSWORD") ?? $this->environment->getVar("ENCRYPTION_KEY");
 
-        if ($encryptionKey === null) {
+        if ($encryptionPassword === null) {
             throw new RuntimeException("\"ENCRYPTION_PASSWORD\" value not set in environment.  Check that you have it set in an environment config file such as \".env.app.php\".  Note:  \".env.example.php\" is only a template for environment config files - it is not actually used.");
         }
 
-        return new Encrypter($encryptionKey);
+        return new Encrypter($encryptionPassword);
     }
 
     /**
