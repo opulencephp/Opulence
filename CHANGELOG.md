@@ -1,7 +1,16 @@
 <h2>v1.0.0-beta4</h2>
 
+<h3>Backwards Incompatibilities</h3>
+* `Opulence\Cryptography\Encryption\Encrypter` no longer uses the user-supplied password as the encryption key (issue #13)
+  * Now, a key derivation function is run on it to generate encryption and authentication keys
+
+<h3>Deprecated</h3>
+* `php apex encryption:generatekey` has been deprecated.  Use `php apex encryption:generatepassword` instead.
+
 <h3>Cryptography</h3>
-* Changed default cipher from `AES-128-CBC` to `AES-128-CTR`
+* `Opulence\Cryptography\Encryption\Encrypter` no longer uses the user-supplied password as the encryption key (issue #13)
+  * Now, a key derivation function is run on it to generate encryption and authentication keys
+* Changed default cipher from `AES-128-CBC` to `AES-256-CTR`
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
 

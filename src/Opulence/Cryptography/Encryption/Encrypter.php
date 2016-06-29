@@ -24,19 +24,23 @@ class Encrypter implements IEncrypter
         "AES-192-CTR",
         "AES-256-CTR"
     ];
-    /** @var string The encryption key */
-    private $key = "";
+    /** @var string The encryption password that will be used to derive keys */
+    private $password = "";
     /** @var string The encryption cipher */
     private $cipher = "AES-128-CTR";
+    /** @var IKeyDeriver The key deriver to use */
+    private $keyDeriver = null;
 
     /**
-     * @param string $key The encryption key
+     * @param string $password The encryption password that will be used to derive keys
      * @param string $cipher The encryption cipher
+     * @param IKeyDeriver $keyDeriver The key deriver
      */
-    public function __construct(string $key, string $cipher = "AES-128-CTR")
+    public function __construct(string $password, string $cipher = "AES-256-CTR", IKeyDeriver $keyDeriver = null)
     {
-        $this->setKey($key);
+        $this->setPassword($password);
         $this->setCipher($cipher);
+        $this->keyDeriver = $keyDeriver ?? new Pbkdf2KeyDeriver();
     }
 
     /**
@@ -45,15 +49,27 @@ class Encrypter implements IEncrypter
     public function decrypt(string $data) : string
     {
         $pieces = $this->getPieces($data);
+        $encodedIv = $pieces["iv"];
+        $keySalt = base64_decode($pieces["keySalt"]);
+        $encryptedValue = $pieces["value"];
+        $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $keySalt);
+        $correctHmac = $this->createHmac($encodedIv, $encryptedValue, $derivedKeys->getAuthenticationKey());
+        $userHmac = $pieces["hmac"];
 
-        if (!$this->macIsValid($pieces)) {
+        if (!$this->hmacIsValid($correctHmac, $userHmac)) {
             throw new EncryptionException("Invalid MAC");
         }
 
-        $pieces["iv"] = base64_decode($pieces["iv"]);
+        $decodedIv = base64_decode($encodedIv);
 
         try {
-            $decryptedData = openssl_decrypt($pieces["value"], $this->cipher, $this->key, 0, $pieces["iv"]);
+            $decryptedData = openssl_decrypt(
+                $encryptedValue, 
+                $this->cipher,
+                $derivedKeys->getEncryptionKey(),
+                0,
+                $decodedIv
+            );
 
             if ($decryptedData === false) {
                 throw new EncryptionException("Failed to decrypt data");
@@ -71,19 +87,29 @@ class Encrypter implements IEncrypter
      */
     public function encrypt(string $data) : string
     {
-        $iv = random_bytes(openssl_cipher_iv_length($this->cipher));
-        $encryptedValue = openssl_encrypt(serialize($data), $this->cipher, $this->key, 0, $iv);
+        $decodedIv = random_bytes(openssl_cipher_iv_length($this->cipher));
+        $keySalt = random_bytes(IKeyDeriver::SALT_NUM_BYTES);
+        $derivedKeys = $this->keyDeriver->deriveKeys($this->password, $keySalt);
+        $encryptedValue = openssl_encrypt(
+            serialize($data),
+            $this->cipher, 
+            $derivedKeys->getEncryptionKey(), 
+            0, 
+            $decodedIv
+        );
 
         if ($encryptedValue === false) {
             throw new EncryptionException("Failed to encrypt the data");
         }
 
-        $iv = base64_encode($iv);
-        $mac = $this->createHash($iv, $encryptedValue);
+        $encodedIv = base64_encode($decodedIv);
+        $keySalt = base64_encode($keySalt);
+        $hmac = $this->createHmac($encodedIv, $encryptedValue, $derivedKeys->getAuthenticationKey());
         $pieces = [
-            "iv" => $iv,
+            "iv" => $encodedIv,
+            "keySalt" => $keySalt,
             "value" => $encryptedValue,
-            "mac" => $mac
+            "hmac" => $hmac
         ];
 
         return base64_encode(json_encode($pieces));
@@ -106,21 +132,22 @@ class Encrypter implements IEncrypter
     /**
      * @inheritdoc
      */
-    public function setKey(string $key)
+    public function setPassword(string $password)
     {
-        $this->key = $key;
+        $this->password = $password;
     }
 
     /**
-     * Creates a hash
+     * Creates an HMAC
      *
      * @param string $iv The initialization vector
      * @param string $value The value to hash
-     * @return string The hash string
+     * @param string $authenticationKey The authentication key
+     * @return string The HMAC
      */
-    private function createHash(string $iv, string $value) : string
+    private function createHMac(string $iv, string $value, string $authenticationKey) : string
     {
-        return hash_hmac("sha256", $iv . $value, $this->key);
+        return hash_hmac("sha256", $iv . $value, $authenticationKey);
     }
 
     /**
@@ -134,7 +161,8 @@ class Encrypter implements IEncrypter
     {
         $pieces = json_decode(base64_decode($data), true);
 
-        if ($pieces === false || !isset($pieces["mac"]) || !isset($pieces["value"]) || !isset($pieces["iv"])) {
+        if ($pieces === false || !isset($pieces["hmac"]) || !isset($pieces["value"]) || !isset($pieces["iv"])
+                || !isset($pieces["keySalt"])) {
             throw new EncryptionException("Data is not in correct format");
         }
 
@@ -142,17 +170,17 @@ class Encrypter implements IEncrypter
     }
 
     /**
-     * Gets whether or not a MAC is valid
+     * Gets whether or not a HMAC is valid
      *
-     * @param array $pieces The pieces to validate
-     * @return bool True if the MAC is valid, otherwise false
+     * @param string $correctHmac The correct HMAC
+     * @param string $userHmac The user-supplied HMAC to check
+     * @return bool True if the HMAC is valid, otherwise false
      */
-    private function macIsValid(array $pieces) : bool
+    private function hmacIsValid(string $correctHmac, string $userHmac) : bool
     {
-        $randomBytes = bin2hex(random_bytes(8));
-        $correctHmac = hash_hmac("sha256", $pieces["mac"], $randomBytes, true);
-        $generatedHmac = hash_hmac("sha256", $this->createHash($pieces["iv"], $pieces["value"]), $randomBytes, true);
-
-        return hash_equals($correctHmac, $generatedHmac);
+        return hash_equals(
+            $correctHmac,
+            $userHmac
+        );
     }
 }

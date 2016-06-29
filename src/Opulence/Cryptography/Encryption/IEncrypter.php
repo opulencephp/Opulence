@@ -40,9 +40,9 @@ interface IEncrypter
     public function setCipher(string $cipher);
 
     /**
-     * Sets the encryption key
+     * Sets the encryption password that will be used to derive keys
      *
-     * @param string $key The key
+     * @param string $password The password to use
      */
-    public function setKey(string $key);
+    public function setPassword(string $password);
 }
