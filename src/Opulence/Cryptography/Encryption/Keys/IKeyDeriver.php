@@ -17,11 +17,22 @@ interface IKeyDeriver
     const SALT_NUM_BYTES = 32;
 
     /**
+     * Derives suitable encryption keys from a cryptographically-strong key
+     *
+     * @param string $key The cryptographically-strong key
+     * @param string $salt The salt to use on the keys
+     * @param int $keyByteLength The desired number of bytes the keys should be
+     * @return DerivedKeys The derived keys
+     */
+    public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength) : DerivedKeys;
+
+    /**
      * Derives suitable encryption keys from a password
      *
      * @param string $password The user-supplied encryption password
      * @param string $salt The salt to use on the keys
+     * @param int $keyByteLength The desired number of bytes the keys should be
      * @return DerivedKeys The derived keys
      */
-    public function deriveKeys(string $password, string $salt) : DerivedKeys;
+    public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength) : DerivedKeys;
 }

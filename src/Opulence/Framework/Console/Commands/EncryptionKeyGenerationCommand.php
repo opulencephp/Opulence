@@ -8,17 +8,30 @@
  */
 namespace Opulence\Framework\Console\Commands;
 
+use Opulence\Bootstrappers\Paths;
+use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
 
 /**
  * Defines the encryption key generator command
- *
- * @deprecated since v1.0.0-beta4
  */
-class EncryptionKeyGenerationCommand extends EncryptionPasswordGenerationCommand
+class EncryptionKeyGenerationCommand extends Command
 {
+    /** @var Paths The application paths */
+    private $paths = null;
+
+    /**
+     * @param Paths $paths The application paths
+     */
+    public function __construct(Paths $paths)
+    {
+        parent::__construct();
+
+        $this->paths = $paths;
+    }
+
     /**
      * @inheritdoc
      */
@@ -39,8 +52,17 @@ class EncryptionKeyGenerationCommand extends EncryptionPasswordGenerationCommand
      */
     protected function doExecute(IResponse $response)
     {
-        $deprecationMessage = '"encryption:generatekey" has been deprecated in favor of "encryption:generatepassword"';
-        trigger_error($deprecationMessage, E_USER_DEPRECATED);
-        parent::doExecute($response);
+        // Create a suitably-long key that can be used with sha512
+        $key = bin2hex(random_bytes(32));
+        $environmentConfigPath = $this->paths["config"] . "/environment/.env.app.php";
+
+        if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
+            $contents = file_get_contents($environmentConfigPath);
+            $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"',
+                $contents);
+            file_put_contents($environmentConfigPath, $newContents);
+        }
+
+        $response->writeln("Generated key: <info>$key</info>");
     }
 }

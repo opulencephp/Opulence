@@ -18,7 +18,6 @@ use Opulence\Framework\Console\Commands\AppUpCommand;
 use Opulence\Framework\Console\Commands\ComposerDumpAutoloadCommand;
 use Opulence\Framework\Console\Commands\ComposerUpdateCommand;
 use Opulence\Framework\Console\Commands\EncryptionKeyGenerationCommand;
-use Opulence\Framework\Console\Commands\EncryptionPasswordGenerationCommand;
 use Opulence\Framework\Console\Commands\FlushFrameworkCacheCommand;
 use Opulence\Framework\Console\Commands\FlushViewCacheCommand;
 use Opulence\Framework\Console\Commands\MakeCommandCommand;
@@ -43,7 +42,6 @@ class CommandsBootstrapper extends Bootstrapper
         ComposerDumpAutoloadCommand::class,
         ComposerUpdateCommand::class,
         EncryptionKeyGenerationCommand::class,
-        EncryptionPasswordGenerationCommand::class,
         FlushFrameworkCacheCommand::class,
         FlushViewCacheCommand::class,
         MakeCommandCommand::class,

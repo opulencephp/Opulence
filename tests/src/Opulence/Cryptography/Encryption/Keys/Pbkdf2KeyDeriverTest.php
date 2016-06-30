@@ -27,14 +27,36 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Test deriving keys
+     * Test deriving keys from a key
      */
-    public function testDerivingKeys()
+    public function testDerivingKeysFromKey()
     {
-        $keys = $this->keyDeriver->deriveKeys("foo", random_bytes(32));
-        $this->assertEquals(32, mb_strlen($keys->getAuthenticationKey(), "8bit"));
-        $this->assertEquals(32, mb_strlen($keys->getEncryptionKey(), "8bit"));
-        $this->assertNotEquals($keys->getAuthenticationKey(), mb_strlen($keys->getEncryptionKey()));
+        $salt = random_bytes(IKeyDeriver::SALT_NUM_BYTES);
+        $keyLengths = [16, 24, 32];
+        
+        foreach ($keyLengths as $keyLength) {
+            $key = str_repeat("a", $keyLength);
+            $keys = $this->keyDeriver->deriveKeysFromKey($key, $salt, $keyLength);
+            $this->assertEquals($keyLength, mb_strlen($keys->getAuthenticationKey(), "8bit"));
+            $this->assertEquals($keyLength, mb_strlen($keys->getEncryptionKey(), "8bit"));
+            $this->assertNotEquals($keys->getAuthenticationKey(), mb_strlen($keys->getEncryptionKey()));
+        }
+    }
+
+    /**
+     * Test deriving keys from a password
+     */
+    public function testDerivingKeysFromPassword()
+    {
+        $salt = random_bytes(IKeyDeriver::SALT_NUM_BYTES);
+        $keyLengths = [16, 24, 32];
+        
+        foreach ($keyLengths as $keyLength) {
+            $keys = $this->keyDeriver->deriveKeysFromPassword("foo", $salt, $keyLength);
+            $this->assertEquals($keyLength, mb_strlen($keys->getAuthenticationKey(), "8bit"));
+            $this->assertEquals($keyLength, mb_strlen($keys->getEncryptionKey(), "8bit"));
+            $this->assertNotEquals($keys->getAuthenticationKey(), mb_strlen($keys->getEncryptionKey()));
+        }
     }
 
     /**
@@ -43,6 +65,6 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     public function testInvalidSaltLengthThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->keyDeriver->deriveKeys("foo", "bar");
+        $this->keyDeriver->deriveKeysFromPassword("foo", "bar", 512);
     }
 }

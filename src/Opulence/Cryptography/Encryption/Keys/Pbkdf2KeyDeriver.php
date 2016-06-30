@@ -15,10 +15,8 @@ use InvalidArgumentException;
  */
 class Pbkdf2KeyDeriver implements IKeyDeriver
 {
-    /** The number of bytes a derived key should be */
-    const KEY_NUM_BYTES = 32;
     /** The number of iterations to perform when deriving a key */
-    const PBKDF2_NUM_ITERATIONS = 10000;
+    const PBKDF2_NUM_ITERATIONS = 25000;
     /** @var int The number of iterations to perform */
     private $numIterations = self::PBKDF2_NUM_ITERATIONS;
 
@@ -33,18 +31,40 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
     /**
      * @inheritdoc
      */
-    public function deriveKeys(string $password, string $salt) : DerivedKeys
+    public function deriveKeysFromKey(string $key, string $salt, int $keyByteLength) : DerivedKeys
+    {
+        $this->validateSaltLength($salt);
+        $bothKeys = hash_pbkdf2("sha512", $key, $salt, 1, $keyByteLength * 2);
+        $authenticationKey = substr($bothKeys, 0, $keyByteLength);
+        $encryptionKey = substr($bothKeys, $keyByteLength);
+
+        return new DerivedKeys($encryptionKey, $authenticationKey);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function deriveKeysFromPassword(string $password, string $salt, int $keyByteLength) : DerivedKeys
+    {
+        $this->validateSaltLength($salt);
+        $hash = hash("sha512", $password, true);
+        $singleDerivedKey = hash_pbkdf2("sha512", $hash, $salt, $this->numIterations, $keyByteLength);
+        $bothKeys = hash_pbkdf2("sha512", $singleDerivedKey, $salt, 1, $keyByteLength * 2);
+        $authenticationKey = substr($bothKeys, 0, $keyByteLength);
+        $encryptionKey = substr($bothKeys, $keyByteLength);
+
+        return new DerivedKeys($encryptionKey, $authenticationKey);
+    }
+    
+    /**
+     * Verifies the salt length
+     * 
+     * @throws InvalidArgumentException Thrown if the salt is not the correct length
+     */
+    private function validateSaltLength(string $salt)
     {
         if (mb_strlen($salt, "8bit") !== self::SALT_NUM_BYTES) {
             throw new InvalidArgumentException("Salt must be " . self::SALT_NUM_BYTES . " bytes long");
         }
-
-        $hash = hash("sha256", $password, true);
-        $singleDerivedKey = hash_pbkdf2("sha256", $hash, $salt, $this->numIterations, self::KEY_NUM_BYTES);
-        $bothKeys = hash_pbkdf2("sha256", $singleDerivedKey, $salt, 1, self::KEY_NUM_BYTES * 2);
-        $authenticationKey = substr($bothKeys, 0, self::KEY_NUM_BYTES);
-        $encryptionKey = substr($bothKeys, self::KEY_NUM_BYTES);
-
-        return new DerivedKeys($encryptionKey, $authenticationKey);
     }
 }
