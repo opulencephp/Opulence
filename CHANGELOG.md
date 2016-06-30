@@ -4,6 +4,8 @@
 * `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
   * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
   * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
+* Increased encryption key length stored in `ENCRYPTION_KEY` environment variable from 16 bytes to 32 bytes
+  * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
 
 <h3>Cryptography</h3>
 * `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
@@ -14,7 +16,7 @@
 * Changed default cipher from `AES-128-CBC` to `AES-256-CTR`
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
-* Increased key length of `php apex encryption:generatekey` command from 16 bytes to 32 bytes
+* Increased encryption key length stored in `ENCRYPTION_KEY` from 16 bytes to 32 bytes
 
 <h2>v1.0.0-beta3</h2>
 
