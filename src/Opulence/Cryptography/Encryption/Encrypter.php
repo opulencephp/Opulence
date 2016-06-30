@@ -31,7 +31,7 @@ class Encrypter implements IEncrypter
     ];
     /** @var string The current version of this encrypter */
     private static $version = "1.0.0";
-    /** @var string The encryption secret that will be used to derive keys */
+    /** @var Secret The encryption secret that will be used to derive keys */
     private $secret = null;
     /** @var string The encryption cipher */
     private $cipher = Ciphers::AES_256_CTR;
@@ -39,7 +39,7 @@ class Encrypter implements IEncrypter
     private $keyDeriver = null;
 
     /**
-     * @param string $secret The encryption secret that will be used to derive keys
+     * @param Secret $secret The encryption secret that will be used to derive keys
      * @param string $cipher The encryption cipher
      * @param IKeyDeriver $keyDeriver The key deriver
      */
@@ -63,10 +63,10 @@ class Encrypter implements IEncrypter
         $cipher = $pieces["cipher"];
         $derivedKeys = $this->deriveKeys($cipher, $decodedKeySalt);
         $correctHmac = $this->createHmac(
-            $encodedIv, 
-            $encodedKeySalt, 
-            $cipher, 
-            $encryptedValue, 
+            $encodedIv,
+            $encodedKeySalt,
+            $cipher,
+            $encryptedValue,
             $derivedKeys->getAuthenticationKey()
         );
         $userHmac = $pieces["hmac"];
@@ -103,7 +103,7 @@ class Encrypter implements IEncrypter
     public function encrypt(string $data) : string
     {
         $decodedIv = random_bytes(openssl_cipher_iv_length($this->cipher));
-        $decodedKeySalt = random_bytes(IKeyDeriver::SALT_NUM_BYTES);
+        $decodedKeySalt = random_bytes(IKeyDeriver::KEY_SALT_NUM_BYTES);
         $derivedKeys = $this->deriveKeys($this->cipher, $decodedKeySalt);
         $encryptedValue = openssl_encrypt(
             serialize($data),
@@ -120,10 +120,10 @@ class Encrypter implements IEncrypter
         $encodedIv = base64_encode($decodedIv);
         $encodedKeySalt = base64_encode($decodedKeySalt);
         $hmac = $this->createHmac(
-            $encodedIv, 
-            $encodedKeySalt, 
+            $encodedIv,
+            $encodedKeySalt,
             $this->cipher,
-            $encryptedValue, 
+            $encryptedValue,
             $derivedKeys->getAuthenticationKey()
         );
         $pieces = [
@@ -158,18 +158,19 @@ class Encrypter implements IEncrypter
      * @return string The HMAC
      */
     private function createHmac(
-        string $iv, 
-        string $keySalt, 
-        string $cipher, 
-        string $value, 
-        string $authenticationKey) : string
+        string $iv,
+        string $keySalt,
+        string $cipher,
+        string $value,
+        string $authenticationKey
+    ) : string
     {
         return hash_hmac("sha512", self::$version . $cipher . $iv . $keySalt . $value, $authenticationKey);
     }
-    
+
     /**
      * Derives keys that are suitable for encryption and decryption
-     * 
+     *
      * @param string $cipher The cipher used
      * @param string $keySalt The salt to use on the keys
      * @return DerivedKeys The derived keys
@@ -178,17 +179,17 @@ class Encrypter implements IEncrypter
     {
         // Extract the number of bytes from the cipher
         $keyByteLength = $this->getCipherByteLength($cipher);
-        
+
         if ($this->secret->getType() === SecretTypes::KEY) {
             return $this->keyDeriver->deriveKeysFromKey($this->secret->getValue(), $keySalt, $keyByteLength);
         } else {
             return $this->keyDeriver->deriveKeysFromPassword($this->secret->getValue(), $keySalt, $keyByteLength);
         }
     }
-    
+
     /**
      * Gets the length of the cipher in bytes
-     * 
+     *
      * @param string $cipher The cipher whose bytes we want
      * @return int The number of bytes
      */
@@ -208,7 +209,7 @@ class Encrypter implements IEncrypter
     {
         $pieces = json_decode(base64_decode($data), true);
 
-        if ($pieces === false || !isset($pieces["version"]) || !isset($pieces["hmac"]) || !isset($pieces["value"]) 
+        if ($pieces === false || !isset($pieces["version"]) || !isset($pieces["hmac"]) || !isset($pieces["value"])
             || !isset($pieces["iv"]) || !isset($pieces["keySalt"]) || !isset($pieces["cipher"])
         ) {
             throw new EncryptionException("Data is not in correct format");
@@ -230,10 +231,10 @@ class Encrypter implements IEncrypter
 
         $this->cipher = $cipher;
     }
-    
+
     /**
      * Validates the secret
-     * 
+     *
      * @param string $cipher The cipher used
      * @throws EncryptionException Thrown if the secret is not valid
      */

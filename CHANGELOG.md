@@ -14,6 +14,7 @@
 * Changed default cipher from `AES-128-CBC` to `AES-256-CTR`
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
+* Increased key length of `php apex encryption:generatekey` command from 16 bytes to 32 bytes
 
 <h2>v1.0.0-beta3</h2>
 

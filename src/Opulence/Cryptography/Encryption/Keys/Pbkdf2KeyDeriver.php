@@ -55,16 +55,17 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
 
         return new DerivedKeys($encryptionKey, $authenticationKey);
     }
-    
+
     /**
      * Verifies the salt length
-     * 
+     *
+     * @param string $salt The salt to validate
      * @throws InvalidArgumentException Thrown if the salt is not the correct length
      */
     private function validateSaltLength(string $salt)
     {
-        if (mb_strlen($salt, "8bit") !== self::SALT_NUM_BYTES) {
-            throw new InvalidArgumentException("Salt must be " . self::SALT_NUM_BYTES . " bytes long");
+        if (mb_strlen($salt, "8bit") !== self::KEY_SALT_NUM_BYTES) {
+            throw new InvalidArgumentException("Salt must be " . self::KEY_SALT_NUM_BYTES . " bytes long");
         }
     }
 }

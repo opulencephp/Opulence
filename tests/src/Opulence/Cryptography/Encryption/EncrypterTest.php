@@ -36,17 +36,13 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testDecryptingDataWithoutCipher()
     {
         $this->expectException(EncryptionException::class);
-        $data = ["version" => "1", "iv" => "bar", "keySalt" => "baz", "value" => "blah", "hmac" => "foo"];
-        $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
-    }
-
-    /**
-     * Tests decrypting data without an IV
-     */
-    public function testDecryptingDataWithoutIV()
-    {
-        $this->expectException(EncryptionException::class);
-        $data = ["version" => "1", "ciper" => Ciphers::AES_256_CTR, "keySalt" => "bar", "value" => "baz", "hmac" => "foo"];
+        $data = [
+            "version" => "1",
+            "iv" => "bar",
+            "keySalt" => "baz",
+            "value" => "blah",
+            "hmac" => "foo"
+        ];
         $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
     }
 
@@ -56,7 +52,29 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testDecryptingDataWithoutHmac()
     {
         $this->expectException(EncryptionException::class);
-        $data = ["version" => "1", "ciper" => Ciphers::AES_256_CTR, "iv" => "foo", "keySalt" => "bar", "value" => "baz"];
+        $data = [
+            "version" => "1",
+            "ciper" => Ciphers::AES_256_CTR,
+            "iv" => "foo",
+            "keySalt" => "bar",
+            "value" => "baz"
+        ];
+        $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
+    }
+
+    /**
+     * Tests decrypting data without an IV
+     */
+    public function testDecryptingDataWithoutIV()
+    {
+        $this->expectException(EncryptionException::class);
+        $data = [
+            "version" => "1",
+            "ciper" => Ciphers::AES_256_CTR,
+            "keySalt" => "bar",
+            "value" => "baz",
+            "hmac" => "foo"
+        ];
         $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
     }
 
@@ -66,7 +84,13 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testDecryptingDataWithoutKeySalt()
     {
         $this->expectException(EncryptionException::class);
-        $data = ["version" => "1", "ciper" => Ciphers::AES_256_CTR, "iv" => "bar", "value" => "baz", "hmac" => "foo"];
+        $data = [
+            "version" => "1",
+            "ciper" => Ciphers::AES_256_CTR,
+            "iv" => "bar",
+            "value" => "baz",
+            "hmac" => "foo"
+        ];
         $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
     }
 
@@ -76,7 +100,13 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testDecryptingDataWithoutValue()
     {
         $this->expectException(EncryptionException::class);
-        $data = ["version" => "1", "ciper" => Ciphers::AES_256_CTR, "iv" => "bar", "keySalt" => "baz", "hmac" => "foo"];
+        $data = [
+            "version" => "1",
+            "ciper" => Ciphers::AES_256_CTR,
+            "iv" => "bar",
+            "keySalt" => "baz",
+            "hmac" => "foo"
+        ];
         $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
     }
 
@@ -86,7 +116,13 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testDecryptingDataWithoutVersion()
     {
         $this->expectException(EncryptionException::class);
-        $data = ["cipher" => Ciphers::AES_256_CTR, "iv" => "bar", "keySalt" => "baz", "value" => "blah", "hmac" => "foo"];
+        $data = [
+            "cipher" => Ciphers::AES_256_CTR,
+            "iv" => "bar",
+            "keySalt" => "baz",
+            "value" => "blah",
+            "hmac" => "foo"
+        ];
         $this->encrypterWithPassword->decrypt(base64_encode(json_encode($data)));
     }
 
@@ -106,9 +142,9 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     {
         $key = str_repeat("a", 16);
         $encrypter1 = new Encrypter(new Key($key), Ciphers::AES_128_CBC);
-        $encrptedValue = $encrypter1->encrypt("foo");
+        $encryptedValue = $encrypter1->encrypt("foo");
         $encrypter2 = new Encrypter(new Key($key), Ciphers::AES_128_CTR);
-        $this->assertEquals("foo", $encrypter2->decrypt($encrptedValue));
+        $this->assertEquals("foo", $encrypter2->decrypt($encryptedValue));
     }
 
     /**
@@ -150,12 +186,12 @@ class EncrypterTest extends \PHPUnit\Framework\TestCase
     public function testPassingCustomCipherThroughConstructor()
     {
         $approvedCiphersToKeyByteLengths = [
-        Ciphers::AES_128_CBC => 16,
-        Ciphers::AES_192_CBC => 24,
-        Ciphers::AES_256_CBC => 32,
-        Ciphers::AES_128_CTR => 16,
-        Ciphers::AES_192_CTR => 24,
-        Ciphers::AES_256_CTR => 32
+            Ciphers::AES_128_CBC => 16,
+            Ciphers::AES_192_CBC => 24,
+            Ciphers::AES_256_CBC => 32,
+            Ciphers::AES_128_CTR => 16,
+            Ciphers::AES_192_CTR => 24,
+            Ciphers::AES_256_CTR => 32
         ];
 
         // Test using passwords

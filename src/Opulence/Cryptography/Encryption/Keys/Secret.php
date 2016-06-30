@@ -8,8 +8,6 @@
  */
 namespace Opulence\Cryptography\Encryption\Keys;
 
-use InvalidArgumentException;
-
 /**
  * Defines a cryptographic secret
  */
@@ -19,7 +17,7 @@ class Secret
     private $type = "";
     /** @var string The secret value */
     private $value = "";
-    
+
     /**
      * @param string $type The type of secret this is
      * @param string $value The secret value
