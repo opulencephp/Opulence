@@ -57,6 +57,7 @@ class Encrypter implements IEncrypter
     {
         $pieces = $this->getPieces($data);
         $encodedIv = $pieces["iv"];
+        $decodedIv = base64_decode($encodedIv);
         $encodedKeySalt = $pieces["keySalt"];
         $decodedKeySalt = base64_decode($encodedKeySalt);
         $encryptedValue = $pieces["value"];
@@ -74,8 +75,6 @@ class Encrypter implements IEncrypter
         if (!hash_equals($correctHmac, $userHmac)) {
             throw new EncryptionException("Invalid HMAC");
         }
-
-        $decodedIv = base64_decode($encodedIv);
 
         try {
             $decryptedData = openssl_decrypt(
@@ -103,7 +102,9 @@ class Encrypter implements IEncrypter
     public function encrypt(string $data) : string
     {
         $decodedIv = random_bytes(openssl_cipher_iv_length($this->cipher));
+        $encodedIv = base64_encode($decodedIv);
         $decodedKeySalt = random_bytes(IKeyDeriver::KEY_SALT_NUM_BYTES);
+        $encodedKeySalt = base64_encode($decodedKeySalt);
         $derivedKeys = $this->deriveKeys($this->cipher, $decodedKeySalt);
         $encryptedValue = openssl_encrypt(
             serialize($data),
@@ -117,8 +118,6 @@ class Encrypter implements IEncrypter
             throw new EncryptionException("Failed to encrypt the data");
         }
 
-        $encodedIv = base64_encode($decodedIv);
-        $encodedKeySalt = base64_encode($decodedKeySalt);
         $hmac = $this->createHmac(
             $encodedIv,
             $encodedKeySalt,
