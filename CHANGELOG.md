@@ -17,6 +17,7 @@
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
 * Increased encryption key length stored in `ENCRYPTION_KEY` from 16 bytes to 32 bytes
+* Forced only native PHP functions in the global namespace to be used
 
 <h2>v1.0.0-beta3</h2>
 
