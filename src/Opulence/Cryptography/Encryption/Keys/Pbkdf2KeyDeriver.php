@@ -64,8 +64,8 @@ class Pbkdf2KeyDeriver implements IKeyDeriver
      */
     private function validateSaltLength(string $salt)
     {
-        if (mb_strlen($salt, "8bit") !== self::KEY_SALT_NUM_BYTES) {
-            throw new InvalidArgumentException("Salt must be " . self::KEY_SALT_NUM_BYTES . " bytes long");
+        if (mb_strlen($salt, "8bit") !== self::KEY_SALT_BYTE_LENGTH) {
+            throw new InvalidArgumentException("Salt must be " . self::KEY_SALT_BYTE_LENGTH . " bytes long");
         }
     }
 }
