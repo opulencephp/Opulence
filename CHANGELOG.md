@@ -31,7 +31,7 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 * Increased encryption key length stored in `ENCRYPTION_KEY` from 16 bytes to 32 bytes
 
 <h3>Routing</h3>
-* Added `Opulence\Routing\Dispatchers\IMiddlewarePipeline` and `MiddlewarePipeline` to the `Dispatcher` constructor
+* Added `Opulence\Routing\Dispatchers\IMiddlewarePipeline` and `MiddlewarePipeline` to the `RouteDispatcher` constructor
 * Removed required dependency on `Pipelines` library
 
 <h2>v1.0.0-beta3</h2>
