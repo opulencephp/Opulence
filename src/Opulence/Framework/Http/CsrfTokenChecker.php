@@ -50,7 +50,7 @@ class CsrfTokenChecker
             $token = $request->getHeaders()->get("X-XSRF-TOKEN");
         }
 
-        return hash_equals($session->get(self::TOKEN_INPUT_NAME), $token);
+        return \hash_equals($session->get(self::TOKEN_INPUT_NAME), $token);
     }
 
     /**

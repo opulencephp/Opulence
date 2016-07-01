@@ -43,7 +43,7 @@ class JwtPayload
      */
     private static function base64UrlEncode(string $data) : string
     {
-        return rtrim(strtr(base64_encode($data), "+/", "-_"), "=");
+        return \rtrim(\strtr(\base64_encode($data), "+/", "-_"), "=");
     }
 
     /**
@@ -68,7 +68,7 @@ class JwtPayload
      */
     public function encode() : string
     {
-        return self::base64UrlEncode(json_encode($this->getAll()));
+        return self::base64UrlEncode(\json_encode($this->getAll()));
     }
 
     /**
@@ -132,7 +132,7 @@ class JwtPayload
             return $this->claims["jti"];
         }
 
-        return md5(json_encode($this->claims) . $this->jtiSalt);
+        return \md5(\json_encode($this->claims) . $this->jtiSalt);
     }
 
     /**

@@ -23,11 +23,11 @@
   "require": {
     "php": ">=7.0.0",
     "opulence/http": "1.0.*",
-    "opulence/pipelines": "1.0.*",
     "jeremeamia/superclosure": "~2.2"
   },
   "suggest": {
     "opulence/ioc": "Required if you use the ContainerDependencyResolver",
+    "opulence/pipelines": "Required if you use the MiddlewarePipeline",
     "opulence/views": "Required if your controllers extend the base Controller class"
   },
   "extra": {

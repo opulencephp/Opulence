@@ -72,7 +72,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
                         throw new InvalidArgumentException("Interface $interface is not setup in mock");
                 }
             });
-        $this->dispatcher = new Dispatcher($this->dependencyResolver);
+        $this->dispatcher = new Dispatcher($this->dependencyResolver, new MiddlewarePipeline());
         $this->request = new Request([], [], [], [], [], []);
     }
 

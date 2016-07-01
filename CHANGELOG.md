@@ -7,6 +7,9 @@
 * Increased encryption key length stored in `ENCRYPTION_KEY` environment variable from 16 bytes to 32 bytes
   * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
 
+<h3>General</h3>
+* Forced only native PHP functions in the global namespace to be used for security-related classes
+
 <h3>Cryptography</h3>
 * `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
   * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
@@ -17,7 +20,10 @@
 * Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
 * Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
 * Increased encryption key length stored in `ENCRYPTION_KEY` from 16 bytes to 32 bytes
-* Forced only native PHP functions in the global namespace to be used
+
+<h3>Routing</h3>
+* Added `Opulence\Routing\Dispatchers\IMiddlewarePipeline` and `MiddlewarePipeline` to the `Dispatcher` constructor
+* Removed required dependency on `Pipelines` library
 
 <h2>v1.0.0-beta3</h2>
 

@@ -50,7 +50,7 @@ class RsaSsaPkcsSigner implements ISigner
     {
         $signature = "";
 
-        if (!openssl_sign(
+        if (!\openssl_sign(
             $data,
             $signature,
             $this->privateKey,
@@ -72,7 +72,7 @@ class RsaSsaPkcsSigner implements ISigner
             return false;
         }
 
-        return openssl_verify(
+        return \openssl_verify(
             $data,
             $signature,
             $this->publicKey,
