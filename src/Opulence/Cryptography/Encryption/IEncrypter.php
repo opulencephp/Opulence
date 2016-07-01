@@ -8,6 +8,8 @@
  */
 namespace Opulence\Cryptography\Encryption;
 
+use Opulence\Cryptography\Encryption\Keys\Secret;
+
 /**
  * Defines the interface for encrypters to implement
  */
@@ -32,17 +34,9 @@ interface IEncrypter
     public function encrypt(string $data) : string;
 
     /**
-     * Sets the encryption cipher
+     * Sets the encryption secret that will be used to derive keys
      *
-     * @param string $cipher The cipher
-     * @throws EncryptionException Thrown if the cipher was invalid
+     * @param Secret $secret The secret to use
      */
-    public function setCipher(string $cipher);
-
-    /**
-     * Sets the encryption key
-     *
-     * @param string $key The key
-     */
-    public function setKey(string $key);
+    public function setSecret(Secret $secret);
 }

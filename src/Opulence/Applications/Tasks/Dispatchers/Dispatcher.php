@@ -8,45 +8,12 @@
  */
 namespace Opulence\Applications\Tasks\Dispatchers;
 
-use Exception;
-use RuntimeException;
-
 /**
  * Defines the task dispatcher
+ *
+ * @deprecated since 1.0.0-beta4
  */
-class Dispatcher implements IDispatcher
+class Dispatcher extends TaskDispatcher
 {
-    /** @var array The list of task callbacks */
-    private $tasks = [
-        "preStart" => [],
-        "postStart" => [],
-        "preShutdown" => [],
-        "postShutdown" => []
-    ];
-
-    /**
-     * @inheritdoc
-     */
-    public function dispatch(string $taskType)
-    {
-        try {
-            foreach ($this->tasks[$taskType] as $task) {
-                call_user_func($task);
-            }
-        } catch (Exception $ex) {
-            throw new RuntimeException("Failed to run tasks", 0, $ex);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerTask(string $taskType, callable $task)
-    {
-        if (!isset($this->tasks[$taskType])) {
-            $this->tasks[$taskType] = [];
-        }
-
-        $this->tasks[$taskType][] = $task;
-    }
+    // Don't do anything
 }

@@ -13,9 +13,9 @@ use Opulence\Applications\Tasks\TaskTypes;
 /**
  * Tests the task dispatcher
  */
-class DispatcherTest extends \PHPUnit\Framework\TestCase
+class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Dispatcher The dispatcher to use in tests */
+    /** @var TaskDispatcher The dispatcher to use in tests */
     private $dispatcher = null;
 
     /**
@@ -23,7 +23,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->dispatcher = new Dispatcher();
+        $this->dispatcher = new TaskDispatcher();
     }
 
     public function testRegisteringCustomTaskType()

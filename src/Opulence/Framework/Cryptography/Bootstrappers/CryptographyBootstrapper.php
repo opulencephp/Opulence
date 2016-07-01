@@ -12,6 +12,7 @@ use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Cryptography\Encryption\Encrypter;
 use Opulence\Cryptography\Encryption\IEncrypter;
+use Opulence\Cryptography\Encryption\Keys\Key;
 use Opulence\Cryptography\Hashing\BcryptHasher;
 use Opulence\Cryptography\Hashing\IHasher;
 use Opulence\Ioc\IContainer;
@@ -47,13 +48,19 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     protected function getEncrypter() : IEncrypter
     {
-        $encryptionKey = $this->environment->getVar("ENCRYPTION_KEY");
+        $encodedEncryptionKey = $this->environment->getVar("ENCRYPTION_KEY");
 
-        if ($encryptionKey === null) {
+        if ($encodedEncryptionKey === null) {
             throw new RuntimeException("\"ENCRYPTION_KEY\" value not set in environment.  Check that you have it set in an environment config file such as \".env.app.php\".  Note:  \".env.example.php\" is only a template for environment config files - it is not actually used.");
         }
 
-        return new Encrypter($encryptionKey);
+        $decodedEncryptionKey = hex2bin($encodedEncryptionKey);
+
+        if (\mb_strlen($decodedEncryptionKey, "8bit") < 32) {
+            throw new RuntimeException("The minimum length encryption key has been upgraded from 16 bytes to 32 bytes.  Please re-run \"php apex encryption:generatekey\" to create a new, suitably-long encryption key.");
+        }
+
+        return new Encrypter(new Key($decodedEncryptionKey));
     }
 
     /**

@@ -10,7 +10,7 @@ namespace Opulence\Bootstrappers\Dispatchers;
 
 use Opulence\Ioc\Container;
 use Opulence\Applications\Application;
-use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
+use Opulence\Applications\Tasks\Dispatchers\TaskDispatcher;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Environments\Environment;
@@ -31,9 +31,9 @@ use Opulence\Tests\Bootstrappers\Mocks\LazyFooInterface;
 /**
  * Tests the bootstrapper dispatcher
  */
-class DispatcherTest extends \PHPUnit\Framework\TestCase
+class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Dispatcher The dispatcher to use in tests */
+    /** @var BootstrapperDispatcher The dispatcher to use in tests */
     private $dispatcher = null;
     /** @var Application The application */
     private $application = null;
@@ -54,7 +54,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
         $this->environment = new Environment(Environment::TESTING);
         $this->container = new Container();
         $this->application = new Application($taskDispatcher);
-        $this->dispatcher = new Dispatcher($taskDispatcher, $this->container);
+        $this->dispatcher = new BootstrapperDispatcher($taskDispatcher, $this->container);
         $this->registry = new BootstrapperRegistry($paths, $this->environment);
     }
 

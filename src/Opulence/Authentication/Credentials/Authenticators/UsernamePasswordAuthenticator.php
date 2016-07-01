@@ -59,7 +59,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
             return false;
         }
 
-        if (!password_verify($password, $user->getHashedPassword())) {
+        if (!\password_verify($password, $user->getHashedPassword())) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
 
             return false;

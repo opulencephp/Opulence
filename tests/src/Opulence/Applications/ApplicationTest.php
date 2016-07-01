@@ -9,7 +9,7 @@
 namespace Opulence\Applications;
 
 use InvalidArgumentException;
-use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
+use Opulence\Applications\Tasks\Dispatchers\ITaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use ReflectionClass;
 
@@ -20,7 +20,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
 {
     /** @var Application The application to use in the tests */
     private $application = null;
-    /** @var IDispatcher|\PHPUnit_Framework_MockObject_MockObject The task dispatcher */
+    /** @var ITaskDispatcher|\PHPUnit_Framework_MockObject_MockObject The task dispatcher */
     private $dispatcher = null;
 
     /**
@@ -28,7 +28,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->dispatcher = $this->createMock(IDispatcher::class);
+        $this->dispatcher = $this->createMock(ITaskDispatcher::class);
         $this->application = new Application($this->dispatcher);
     }
 
@@ -171,7 +171,7 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingCustomVersion()
     {
-        $application = new Application($this->createMock(IDispatcher::class), "foo");
+        $application = new Application($this->createMock(ITaskDispatcher::class), "foo");
         $this->assertEquals("foo", $application->getVersion());
     }
 

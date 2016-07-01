@@ -1,5 +1,39 @@
 <h2>v1.0.0-beta4</h2>
 
+<h3>Backwards Incompatibilities</h3>
+* `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
+  * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
+  * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
+* Increased encryption key length stored in `ENCRYPTION_KEY` environment variable from 16 bytes to 32 bytes
+  * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
+  
+<h3>Deprecated</h3>
+Deprecated names of various dispatcher classes in favor of more descriptive `{Model}Dispatcher` class names:
+
+* Deprecated `Opulence\Applications\Tasks\Dispatchers\IDispatcher` and `Dispatcher` in favor of `ITaskDispatcher` and `TaskDispatcher`
+* Deprecated `Opulence\Bootstrappers\Dispatchers\IDispatcher` and `Dispatcher` in favor of `IBootstrapperDispatcher` and `BootstrapperDispatcher`
+* Deprecated `Opulence\Events\Dispatchers\IDispatcher` and `Dispatcher` in favor of `IEventDispatcher` and `EventDispatcher`
+* Deprecated `Opulence\Framework\Events\Bootstrappers\DispatcherBootstrapper` in favor of `EventDispatcherBootstrapper`
+* Deprecated `Opulence\Routing\Dispatchers\IDispatcher` and `Dispatcher` in favor of `IRouteDispatcher` and `RouteDispatcher`
+
+<h3>General</h3>
+* Forced only native PHP functions in the global namespace to be used for security-related classes
+
+<h3>Cryptography</h3>
+* `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
+  * An `Opulence\Cryptography\Encryption\Keys\Secret` is now passed in (`Key` and `Password` both extend `Secret`)
+  * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
+  * Added `Opulence\Cryptography\Encryption\Keys\IKeyDeriver` and `Pbkdf2KeyDeriver`
+  * Added `Opulence\Cryptography\Encryption\Keys\Secret`, `Key`, and `Password`
+* Changed default cipher from `AES-128-CBC` to `AES-256-CTR`
+* Locked down cipher selection to `AES` ciphers in `CBC` or `CTR` modes
+* Updated `Opulence\Cryptography\Encryption\Encrypter` to use `random_bytes()` rather than `openssl_random_pseudo_bytes()` (issue #12)
+* Increased encryption key length stored in `ENCRYPTION_KEY` from 16 bytes to 32 bytes
+
+<h3>Routing</h3>
+* Added `Opulence\Routing\Dispatchers\IMiddlewarePipeline` and `MiddlewarePipeline` to the `RouteDispatcher` constructor
+* Removed required dependency on `Pipelines` library
+
 <h2>v1.0.0-beta3</h2>
 
 <h3>Backwards Incompatibilities</h3>

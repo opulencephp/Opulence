@@ -50,7 +50,7 @@ class CommandsBootstrapper extends Bootstrapper
         MakeEntityCommand::class,
         MakeHttpMiddlewareCommand::class,
         RenameAppCommand::class,
-        UUidGenerationCommand::class
+        UuidGenerationCommand::class
     ];
     /** @var CommandCollection The list of console commands */
     private $commandCollection = null;

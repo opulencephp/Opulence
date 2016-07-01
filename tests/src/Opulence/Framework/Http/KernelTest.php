@@ -17,7 +17,8 @@ use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\Container;
 use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
-use Opulence\Routing\Dispatchers\Dispatcher;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
+use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
@@ -189,9 +190,17 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $routeCompiler->expects($this->any())->method("compile")->willReturn($compiledRoute);
 
         if ($shouldThrowException) {
-            $router = new ExceptionalRouter(new Dispatcher($dependencyResolver), $routeCompiler, $routeParser);
+            $router = new ExceptionalRouter(
+                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()), 
+                $routeCompiler, 
+                $routeParser
+            );
         } else {
-            $router = new Router(new Dispatcher($dependencyResolver), $routeCompiler, $routeParser);
+            $router = new Router(
+                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()), 
+                $routeCompiler, 
+                $routeParser
+            );
         }
 
         $router->any("/", Controller::class . "@noParameters");

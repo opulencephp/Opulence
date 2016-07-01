@@ -13,8 +13,9 @@ use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
-use Opulence\Routing\Dispatchers\Dispatcher;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Dispatchers\IDependencyResolver;
+use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Matchers\HostMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
@@ -64,7 +65,11 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         ];
         $this->parser = new Parser();
         $this->compiler = new Compiler($routeMatchers);
-        $this->router = new Router(new Dispatcher($dependencyResolver), $this->compiler, $this->parser);
+        $this->router = new Router(
+            new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()),
+            $this->compiler,
+            $this->parser
+        );
     }
 
     /**

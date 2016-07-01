@@ -46,8 +46,8 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
         }
 
         list($encodedHeader, $encodedPayload, $encodedSignature) = $segments;
-        $decodedHeader = json_decode(self::base64UrlDecode($encodedHeader), true, 512, JSON_BIGINT_AS_STRING);
-        $decodedPayload = json_decode(self::base64UrlDecode($encodedPayload), true, 512, JSON_BIGINT_AS_STRING);
+        $decodedHeader = \json_decode(self::base64UrlDecode($encodedHeader), true, 512, JSON_BIGINT_AS_STRING);
+        $decodedPayload = \json_decode(self::base64UrlDecode($encodedPayload), true, 512, JSON_BIGINT_AS_STRING);
         $signature = self::base64UrlDecode($encodedSignature);
 
         if ($decodedHeader === null) {
@@ -95,7 +95,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      */
     protected static function base64UrlDecode(string $data) : string
     {
-        return base64_decode(str_pad(strtr($data, "-_", "+/"), strlen($data) % 4, "=", STR_PAD_RIGHT));
+        return \base64_decode(\str_pad(\strtr($data, "-_", "+/"), \strlen($data) % 4, "=", STR_PAD_RIGHT));
     }
 
     /**
@@ -107,7 +107,7 @@ class SignedJwt extends UnsignedJwt implements ISignedToken
      */
     protected static function base64UrlEncode(string $data) : string
     {
-        return rtrim(strtr(base64_encode($data), "+/", "-_"), "=");
+        return \rtrim(\strtr(\base64_encode($data), "+/", "-_"), "=");
     }
 
     /**
