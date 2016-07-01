@@ -21,7 +21,7 @@
     }
   },
   "require": {
-    "php": ">=7.0.0",
+    "php": "^7.0",
     "opulence/http": "1.0.*",
     "opulence/pipelines": "1.0.*",
     "jeremeamia/superclosure": "~2.2"

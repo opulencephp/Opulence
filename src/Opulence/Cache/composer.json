@@ -21,7 +21,7 @@
     }
   },
   "require": {
-    "php": ">=7.0.0"
+    "php": "^7.0"
   },
   "suggest": {
     "opulence/memcached": "Required for Memcached cache",

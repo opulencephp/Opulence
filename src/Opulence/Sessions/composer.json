@@ -19,7 +19,7 @@
     }
   },
   "require": {
-    "php": ">=7.0.0"
+    "php": "^7.0"
   },
   "suggest": {
     "opulence/cache": "Required for CacheSessionHandler",
