@@ -14,7 +14,7 @@ namespace Opulence\Cryptography\Encryption\Keys;
 interface IKeyDeriver
 {
     /** The number of bytes the key salt should be */
-    const KEY_SALT_NUM_BYTES = 32;
+    const KEY_SALT_BYTE_LENGTH = 32;
 
     /**
      * Derives suitable encryption keys from a cryptographically-strong key

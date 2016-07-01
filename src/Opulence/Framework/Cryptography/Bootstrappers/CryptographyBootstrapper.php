@@ -56,7 +56,7 @@ class CryptographyBootstrapper extends Bootstrapper implements ILazyBootstrapper
 
         $decodedEncryptionKey = hex2bin($encodedEncryptionKey);
 
-        if (mb_strlen($decodedEncryptionKey, "8bit") < 32) {
+        if (\mb_strlen($decodedEncryptionKey, "8bit") < 32) {
             throw new RuntimeException("The minimum length encryption key has been upgraded from 16 bytes to 32 bytes.  Please re-run \"php apex encryption:generatekey\" to create a new, suitably-long encryption key.");
         }
 

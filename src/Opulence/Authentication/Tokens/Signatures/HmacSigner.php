@@ -43,7 +43,7 @@ class HmacSigner implements ISigner
      */
     public function sign(string $data) : string
     {
-        return hash_hmac(
+        return \hash_hmac(
             $this->getHashAlgorithm($this->algorithm),
             $data,
             $this->publicKey,
@@ -60,9 +60,9 @@ class HmacSigner implements ISigner
             return false;
         }
 
-        return hash_equals(
+        return \hash_equals(
             $signature,
-            hash_hmac(
+            \hash_hmac(
                 $this->getHashAlgorithm($this->algorithm),
                 $data,
                 $this->publicKey,

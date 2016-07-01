@@ -39,7 +39,7 @@ class Strings
 
         if ($length % 2 == 1) {
             // Slice off one character to make it the appropriate odd length
-            $string = mb_substr($string, 1);
+            $string = \mb_substr($string, 1, null, "8bit");
         }
 
         return $string;
@@ -68,6 +68,6 @@ class Strings
      */
     public function isEqual(string $knownString, string $userString) : bool
     {
-        return hash_equals($knownString, $userString);
+        return \hash_equals($knownString, $userString);
     }
 }

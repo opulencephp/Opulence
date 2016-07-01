@@ -31,6 +31,10 @@ class Encrypter implements IEncrypter
     ];
     /** @var string The current version of this encrypter */
     private static $version = "1.0.0";
+    /** @var string The HMAC algorithm */
+    private static $hmacAlgorithm = "sha512";
+    /** @var string The byte length of generated HMACs */
+    private static $hmacByteLength = 128;
     /** @var Secret The encryption secret that will be used to derive keys */
     private $secret = null;
     /** @var string The encryption cipher */
@@ -57,9 +61,9 @@ class Encrypter implements IEncrypter
     {
         $pieces = $this->getPieces($data);
         $encodedIv = $pieces["iv"];
-        $decodedIv = base64_decode($encodedIv);
+        $decodedIv = \base64_decode($encodedIv);
         $encodedKeySalt = $pieces["keySalt"];
-        $decodedKeySalt = base64_decode($encodedKeySalt);
+        $decodedKeySalt = \base64_decode($encodedKeySalt);
         $encryptedValue = $pieces["value"];
         $cipher = $pieces["cipher"];
         $derivedKeys = $this->deriveKeys($cipher, $decodedKeySalt);
@@ -72,12 +76,12 @@ class Encrypter implements IEncrypter
         );
         $userHmac = $pieces["hmac"];
 
-        if (!hash_equals($correctHmac, $userHmac)) {
+        if (!\hash_equals($correctHmac, $userHmac)) {
             throw new EncryptionException("Invalid HMAC");
         }
 
         try {
-            $decryptedData = openssl_decrypt(
+            $decryptedData = \openssl_decrypt(
                 $encryptedValue,
                 $cipher,
                 $derivedKeys->getEncryptionKey(),
@@ -93,7 +97,7 @@ class Encrypter implements IEncrypter
         }
 
         // In case the data was not a primitive, unserialize it
-        return unserialize($decryptedData);
+        return \unserialize($decryptedData);
     }
 
     /**
@@ -101,13 +105,13 @@ class Encrypter implements IEncrypter
      */
     public function encrypt(string $data) : string
     {
-        $decodedIv = random_bytes(openssl_cipher_iv_length($this->cipher));
-        $encodedIv = base64_encode($decodedIv);
-        $decodedKeySalt = random_bytes(IKeyDeriver::KEY_SALT_NUM_BYTES);
-        $encodedKeySalt = base64_encode($decodedKeySalt);
+        $decodedIv = \random_bytes(\openssl_cipher_iv_length($this->cipher));
+        $encodedIv = \base64_encode($decodedIv);
+        $decodedKeySalt = \random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
+        $encodedKeySalt = \base64_encode($decodedKeySalt);
         $derivedKeys = $this->deriveKeys($this->cipher, $decodedKeySalt);
-        $encryptedValue = openssl_encrypt(
-            serialize($data),
+        $encryptedValue = \openssl_encrypt(
+            \serialize($data),
             $this->cipher,
             $derivedKeys->getEncryptionKey(),
             0,
@@ -134,7 +138,7 @@ class Encrypter implements IEncrypter
             "hmac" => $hmac
         ];
 
-        return base64_encode(json_encode($pieces));
+        return \base64_encode(\json_encode($pieces));
     }
 
     /**
@@ -164,7 +168,7 @@ class Encrypter implements IEncrypter
         string $authenticationKey
     ) : string
     {
-        return hash_hmac("sha512", self::$version . $cipher . $iv . $keySalt . $value, $authenticationKey);
+        return \hash_hmac(self::$hmacAlgorithm, self::$version . $cipher . $iv . $keySalt . $value, $authenticationKey);
     }
 
     /**
@@ -194,7 +198,7 @@ class Encrypter implements IEncrypter
      */
     private function getCipherByteLength(string $cipher) : int
     {
-        return (int)substr($cipher, 4, 3) / 8;
+        return (int)\mb_substr($cipher, 4, 3, "8bit") / 8;
     }
 
     /**
@@ -202,16 +206,32 @@ class Encrypter implements IEncrypter
      *
      * @param string $data The JSON data to convert
      * @return array The pieces
-     * @throws EncryptionException Thrown if the data was not valid JSON
+     * @throws EncryptionException Thrown if the pieces were not correctly set
      */
     private function getPieces(string $data) : array
     {
-        $pieces = json_decode(base64_decode($data), true);
+        $pieces = \json_decode(\base64_decode($data), true);
 
         if ($pieces === false || !isset($pieces["version"]) || !isset($pieces["hmac"]) || !isset($pieces["value"])
             || !isset($pieces["iv"]) || !isset($pieces["keySalt"]) || !isset($pieces["cipher"])
         ) {
             throw new EncryptionException("Data is not in correct format");
+        }
+        
+        if (!in_array($pieces["cipher"], self::$approvedCiphers)) {
+            throw new EncryptionException("Cipher \"{$pieces["ciper"]}\" is not supported");
+        }
+        
+        if (\mb_strlen(\base64_decode($pieces["iv"]), "8bit") !== \openssl_cipher_iv_length($pieces["cipher"])) {
+            throw new EncryptionException("IV is incorrect length");
+        }
+        
+        if (\mb_strlen(\base64_decode($pieces["keySalt"]), "8bit") !== IKeyDeriver::KEY_SALT_BYTE_LENGTH) {
+            throw new EncryptionException("Key salt is incorrect length");
+        }
+        
+        if (\mb_strlen($pieces["hmac"], "8bit") !== self::$hmacByteLength) {
+            throw new EncryptionException("HMAC is incorrect length");
         }
 
         return $pieces;
@@ -222,7 +242,7 @@ class Encrypter implements IEncrypter
      */
     private function setCipher(string $cipher)
     {
-        $cipher = strtoupper($cipher);
+        $cipher = \mb_strtoupper($cipher, "8bit");
 
         if (!in_array($cipher, self::$approvedCiphers)) {
             throw new EncryptionException("Invalid cipher \"$cipher\"");
@@ -240,10 +260,10 @@ class Encrypter implements IEncrypter
     private function validateSecret(string $cipher)
     {
         if ($this->secret->getType() === SecretTypes::KEY) {
-            if (mb_strlen($this->secret->getValue(), "8bit") < $this->getCipherByteLength($cipher)) {
+            if (\mb_strlen($this->secret->getValue(), "8bit") < $this->getCipherByteLength($cipher)) {
                 throw new EncryptionException("Key must be at least {$this->getCipherByteLength($cipher)} bytes long");
             }
-        } elseif (mb_strlen($this->secret->getValue(), "8bit") === 0) {
+        } elseif (\mb_strlen($this->secret->getValue(), "8bit") === 0) {
             throw new EncryptionException("Password cannot be empty");
         }
     }

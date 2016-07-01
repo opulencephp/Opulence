@@ -8,6 +8,7 @@
  */
 namespace Opulence\Tests\Routing\Mocks;
 
+use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Router as BaseRouter;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\Compilers\Compiler;
@@ -38,8 +39,12 @@ class Router extends BaseRouter
         ];
         $parser = new Parser();
         $compiler = new Compiler($routeMatchers);
-
-        parent::__construct(new Dispatcher(new DependencyResolver()), $compiler, $parser);
+        
+        parent::__construct(
+            new Dispatcher(new DependencyResolver(), new MiddlewarePipeline()), 
+            $compiler, 
+            $parser
+        );
     }
 
     /**

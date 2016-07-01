@@ -11,17 +11,14 @@ namespace Opulence\Routing\Dispatchers;
 use Closure;
 use Exception;
 use Opulence\Http\HttpException;
+use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Middleware\ParameterizedMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
-use Opulence\Pipelines\Pipeline;
-use Opulence\Pipelines\PipelineException;
 use Opulence\Routing\Controller;
 use Opulence\Routing\RouteException;
 use Opulence\Routing\Routes\CompiledRoute;
-use Opulence\Views\Compilers\ICompiler;
-use Opulence\Views\Factories\IViewFactory;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -33,13 +30,17 @@ class Dispatcher implements IDispatcher
 {
     /** @var IDependencyResolver The dependency resolver */
     private $dependencyResolver = null;
+    /** @var IMiddlewarePipeline The middleware pipeline */
+    private $middlewarePipeline = null;
 
     /**
      * @param IDependencyResolver $dependencyResolver The dependency resolver
+     * @param IMiddlewarePipeline $middlewarePipeline The middleware pipeline
      */
-    public function __construct(IDependencyResolver $dependencyResolver)
+    public function __construct(IDependencyResolver $dependencyResolver, IMiddlewarePipeline $middlewarePipeline)
     {
         $this->dependencyResolver = $dependencyResolver;
+        $this->middlewarePipeline = $middlewarePipeline;
     }
 
     /**
@@ -47,30 +48,18 @@ class Dispatcher implements IDispatcher
      */
     public function dispatch(CompiledRoute $route, Request $request, &$controller = null) : Response
     {
-        try {
-            $response = (new Pipeline)
-                ->send($request)
-                ->through($this->convertMiddlewareToPipelineStages($route->getMiddleware()), "handle")
-                ->then(function (Request $request) use ($route, &$controller) {
-                    if ($route->usesCallable()) {
-                        $controller = $route->getController();
-                    } else {
-                        $controller = $this->createController($route->getControllerName(), $request);
-                    }
-
-                    return $this->callController($controller, $route);
-                })
-                ->execute();
-
-            if ($response === null) {
-                // Nothing returned a value, so return a basic HTTP response
-                return new Response();
+        $resolvedMiddleware = $this->resolveMiddleware($route->getMiddleware());
+        $controllerCallable = function (Request $request) use ($route, &$controller) {
+            if ($route->usesCallable()) {
+                $controller = $route->getController();
+            } else {
+                $controller = $this->resolveController($route->getControllerName(), $request);
             }
 
-            return $response;
-        } catch (PipelineException $ex) {
-            throw new RouteException("Failed to dispatch route", 0, $ex);
-        }
+            return $this->callController($controller, $route);
+        };
+
+        return $this->middlewarePipeline->send($request, $resolvedMiddleware, $controllerCallable);
     }
 
     /**
@@ -87,7 +76,7 @@ class Dispatcher implements IDispatcher
         try {
             if (is_callable($controller)) {
                 $reflection = new ReflectionFunction($controller);
-                $parameters = $this->getResolvedControllerParameters(
+                $parameters = $this->resolveControllerParameters(
                     $reflection->getParameters(),
                     $route->getPathVars(),
                     $route,
@@ -97,7 +86,7 @@ class Dispatcher implements IDispatcher
                 $response = call_user_func_array($controller, $parameters);
             } else {
                 $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
-                $parameters = $this->getResolvedControllerParameters(
+                $parameters = $this->resolveControllerParameters(
                     $reflection->getParameters(),
                     $route->getPathVars(),
                     $route,
@@ -140,33 +129,6 @@ class Dispatcher implements IDispatcher
     }
 
     /**
-     * Converts middleware to pipeline stages
-     *
-     * @param array $middleware The middleware to convert to pipeline stages
-     * @return callable[] The list of pipeline stages
-     */
-    private function convertMiddlewareToPipelineStages(array $middleware) : array
-    {
-        $stages = [];
-
-        foreach ($middleware as $singleMiddleware) {
-            if ($singleMiddleware instanceof MiddlewareParameters) {
-                /** @var MiddlewareParameters $singleMiddleware */
-                /** @var ParameterizedMiddleware $tempMiddleware */
-                $tempMiddleware = $this->dependencyResolver->resolve($singleMiddleware->getMiddlewareClassName());
-                $tempMiddleware->setParameters($singleMiddleware->getParameters());
-                $singleMiddleware = $tempMiddleware;
-            } elseif (is_string($singleMiddleware)) {
-                $singleMiddleware = $this->dependencyResolver->resolve($singleMiddleware);
-            }
-
-            $stages[] = $singleMiddleware;
-        }
-
-        return $stages;
-    }
-
-    /**
      * Creates an instance of the input controller
      *
      * @param string $controllerName The fully-qualified name of the controller class to instantiate
@@ -174,7 +136,7 @@ class Dispatcher implements IDispatcher
      * @return Controller|mixed The instantiated controller
      * @throws RouteException Thrown if the controller could not be instantiated
      */
-    private function createController(string $controllerName, Request $request)
+    private function resolveController(string $controllerName, Request $request)
     {
         if (!class_exists($controllerName)) {
             throw new RouteException("Controller class $controllerName does not exist");
@@ -185,14 +147,19 @@ class Dispatcher implements IDispatcher
         if ($controller instanceof Controller) {
             $controller->setRequest($request);
 
+            // The following class names are strings so that we don't HAVE to require the view library
             try {
-                $controller->setViewFactory($this->dependencyResolver->resolve(IViewFactory::class));
+                $controller->setViewFactory(
+                    $this->dependencyResolver->resolve("Opulence\\Views\\Factories\\IViewFactory")
+                );
             } catch (DependencyResolutionException $ex) {
                 // Don't do anything
             }
 
             try {
-                $controller->setViewCompiler($this->dependencyResolver->resolve(ICompiler::class));
+                $controller->setViewCompiler(
+                    $this->dependencyResolver->resolve("Opulence\\Views\\Compilers\\ICompiler")
+                );
             } catch (DependencyResolutionException $ex) {
                 // Don't do anything
             }
@@ -211,7 +178,7 @@ class Dispatcher implements IDispatcher
      * @return array The mapping of parameter names to their resolved values
      * @throws RouteException Thrown if the parameters could not be resolved
      */
-    private function getResolvedControllerParameters(
+    private function resolveControllerParameters(
         array $reflectionParameters,
         array $pathVars,
         CompiledRoute $route,
@@ -240,5 +207,32 @@ class Dispatcher implements IDispatcher
         }
 
         return $resolvedParameters;
+    }
+
+    /**
+     * Resolves the list of middleware
+     *
+     * @param array $middleware The middleware to resolve
+     * @return IMiddleware[] The list of resolved middleware
+     */
+    private function resolveMiddleware(array $middleware) : array
+    {
+        $resolvedMiddleware = [];
+
+        foreach ($middleware as $singleMiddleware) {
+            if ($singleMiddleware instanceof MiddlewareParameters) {
+                /** @var MiddlewareParameters $singleMiddleware */
+                /** @var ParameterizedMiddleware $tempMiddleware */
+                $tempMiddleware = $this->dependencyResolver->resolve($singleMiddleware->getMiddlewareClassName());
+                $tempMiddleware->setParameters($singleMiddleware->getParameters());
+                $singleMiddleware = $tempMiddleware;
+            } elseif (is_string($singleMiddleware)) {
+                $singleMiddleware = $this->dependencyResolver->resolve($singleMiddleware);
+            }
+
+            $resolvedMiddleware[] = $singleMiddleware;
+        }
+
+        return $resolvedMiddleware;
     }
 } 

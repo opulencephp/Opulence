@@ -13,6 +13,7 @@ use Opulence\Ioc\IContainer;
 use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
 use Opulence\Routing\Dispatchers\Dispatcher;
 use Opulence\Routing\Dispatchers\IDispatcher;
+use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Caching\FileCache;
 use Opulence\Routing\Routes\Caching\ICache;
@@ -98,7 +99,7 @@ class RouterBootstrapper extends Bootstrapper
      */
     protected function getRouteDispatcher(IContainer $container) : IDispatcher
     {
-        return new Dispatcher(new ContainerDependencyResolver($container));
+        return new Dispatcher(new ContainerDependencyResolver($container), new MiddlewarePipeline());
     }
 
     /**

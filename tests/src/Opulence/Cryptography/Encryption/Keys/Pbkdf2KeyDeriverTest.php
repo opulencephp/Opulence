@@ -31,7 +31,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
      */
     public function testDerivingKeysFromKey()
     {
-        $salt = random_bytes(IKeyDeriver::KEY_SALT_NUM_BYTES);
+        $salt = random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
         $keyLengths = [16, 24, 32];
 
         foreach ($keyLengths as $keyLength) {
@@ -48,7 +48,7 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
      */
     public function testDerivingKeysFromPassword()
     {
-        $salt = random_bytes(IKeyDeriver::KEY_SALT_NUM_BYTES);
+        $salt = random_bytes(IKeyDeriver::KEY_SALT_BYTE_LENGTH);
         $keyLengths = [16, 24, 32];
 
         foreach ($keyLengths as $keyLength) {

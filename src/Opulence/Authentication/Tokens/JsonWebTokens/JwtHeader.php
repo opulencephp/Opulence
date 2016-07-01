@@ -53,7 +53,7 @@ class JwtHeader
      */
     private static function base64UrlEncode(string $data) : string
     {
-        return rtrim(strtr(base64_encode($data), "+/", "-_"), "=");
+        return \rtrim(\strtr(\base64_encode($data), "+/", "-_"), "=");
     }
 
     /**
@@ -81,7 +81,7 @@ class JwtHeader
      */
     public function encode() : string
     {
-        return self::base64UrlEncode(json_encode($this->getAll()));
+        return self::base64UrlEncode(\json_encode($this->getAll()));
     }
 
     /**
