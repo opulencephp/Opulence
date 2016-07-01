@@ -9,11 +9,11 @@
 namespace Opulence\Tests\Framework\Console\Testing\PhpUnit\Mocks;
 
 use Opulence\Applications\Application;
-use Opulence\Applications\Tasks\Dispatchers\Dispatcher as TaskDispatcher;
+use Opulence\Applications\Tasks\Dispatchers\TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Bootstrappers\BootstrapperRegistry;
 use Opulence\Bootstrappers\Caching\ICache as BootstrapperCache;
-use Opulence\Bootstrappers\Dispatchers\Dispatcher;
+use Opulence\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Environments\Environment;
@@ -79,7 +79,7 @@ class IntegrationTestCase extends BaseIntegrationTestCase
 
         // Setup the bootstrappers
         $bootstrapperRegistry = new BootstrapperRegistry($paths, $this->environment);
-        $bootstrapperDispatcher = new Dispatcher($taskDispatcher, $this->container);
+        $bootstrapperDispatcher = new BootstrapperDispatcher($taskDispatcher, $this->container);
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
         $taskDispatcher->registerTask(
             TaskTypes::PRE_START,

@@ -8,7 +8,7 @@
  */
 namespace Opulence\Tests\Events\Mocks;
 
-use Opulence\Events\Dispatchers\IDispatcher;
+use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Events\IEvent;
 
 /**
@@ -21,9 +21,9 @@ class Listener
      *
      * @param IEvent $event The event to handle
      * @param string $eventName The name of the event
-     * @param IDispatcher $dispatcher The event dispatcher
+     * @param IEventDispatcher $dispatcher The event dispatcher
      */
-    public function doNothing1(IEvent $event, $eventName, IDispatcher $dispatcher)
+    public function doNothing1(IEvent $event, $eventName, IEventDispatcher $dispatcher)
     {
         // Don't do anything
     }
@@ -33,9 +33,9 @@ class Listener
      *
      * @param IEvent $event The event to handle
      * @param string $eventName The name of the event
-     * @param IDispatcher $dispatcher The event dispatcher
+     * @param IEventDispatcher $dispatcher The event dispatcher
      */
-    public function doNothing2(IEvent $event, $eventName, IDispatcher $dispatcher)
+    public function doNothing2(IEvent $event, $eventName, IEventDispatcher $dispatcher)
     {
         // Don't do anything
     }
@@ -45,9 +45,9 @@ class Listener
      *
      * @param IEvent $event The event to handle
      * @param string $eventName The name of the event
-     * @param IDispatcher $dispatcher The event dispatcher
+     * @param IEventDispatcher $dispatcher The event dispatcher
      */
-    public function stopsPropagation(IEvent $event, $eventName, IDispatcher $dispatcher)
+    public function stopsPropagation(IEvent $event, $eventName, IEventDispatcher $dispatcher)
     {
         $event->stopPropagation();
     }

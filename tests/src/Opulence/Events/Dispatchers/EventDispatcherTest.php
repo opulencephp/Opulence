@@ -14,9 +14,9 @@ use Opulence\Tests\Events\Mocks\Listener;
 /**
  * Tests the event dispatcher
  */
-class DispatcherTest extends \PHPUnit\Framework\TestCase
+class EventDispatcherTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Dispatcher The dispatcher to use in tests */
+    /** @var EventDispatcher The dispatcher to use in tests */
     private $dispatcher = null;
     /** @var Event|\PHPUnit_Framework_MockObject_MockObject The event to use in tests */
     private $event = null;
@@ -28,7 +28,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->dispatcher = new Dispatcher();
+        $this->dispatcher = new EventDispatcher();
         $this->event = $this->getMockForAbstractClass(Event::class);
         $this->listener = $this->createMock(Listener::class);
     }

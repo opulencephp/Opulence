@@ -11,13 +11,13 @@ namespace Opulence\Tests\Routing\Dispatchers\Mocks;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller;
-use Opulence\Routing\Dispatchers\Dispatcher as BaseDispatcher;
+use Opulence\Routing\Dispatchers\RouteDispatcher as BaseDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 
 /**
  * Mocks the dispatcher for use in testing
  */
-class Dispatcher extends BaseDispatcher
+class RouteDispatcher extends BaseDispatcher
 {
     /** @var CompiledRoute The last route */
     private $lastRoute = null;

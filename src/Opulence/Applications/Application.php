@@ -9,7 +9,7 @@
 namespace Opulence\Applications;
 
 use Exception;
-use Opulence\Applications\Tasks\Dispatchers\IDispatcher;
+use Opulence\Applications\Tasks\Dispatchers\ITaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 
 /**
@@ -19,7 +19,7 @@ class Application
 {
     /** @var string The current Opulence version */
     private static $opulenceVersion = "1.0.0-beta4";
-    /** @var IDispatcher The task dispatcher */
+    /** @var ITaskDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var string The version of the application */
     private $version = "";
@@ -27,10 +27,10 @@ class Application
     private $isRunning = false;
 
     /**
-     * @param IDispatcher $taskDispatcher The task dispatcher
+     * @param ITaskDispatcher $taskDispatcher The task dispatcher
      * @param string $version The version of the application
      */
-    public function __construct(IDispatcher $taskDispatcher, string $version = null)
+    public function __construct(ITaskDispatcher $taskDispatcher, string $version = null)
     {
         $this->taskDispatcher = $taskDispatcher;
 

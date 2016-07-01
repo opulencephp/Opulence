@@ -27,11 +27,11 @@ use Opulence\Views\Compilers\ICompiler;
 use Opulence\Views\Factories\IViewFactory;
 
 /**
- * Tests the dispatcher class
+ * Tests the route dispatcher class
  */
-class DispatcherTest extends \PHPUnit\Framework\TestCase
+class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Dispatcher The dispatcher to use in tests */
+    /** @var RouteDispatcher The dispatcher to use in tests */
     private $dispatcher = null;
     /** @var Request The request to use in tests */
     private $request = null;
@@ -72,7 +72,7 @@ class DispatcherTest extends \PHPUnit\Framework\TestCase
                         throw new InvalidArgumentException("Interface $interface is not setup in mock");
                 }
             });
-        $this->dispatcher = new Dispatcher($this->dependencyResolver, new MiddlewarePipeline());
+        $this->dispatcher = new RouteDispatcher($this->dependencyResolver, new MiddlewarePipeline());
         $this->request = new Request([], [], [], [], [], []);
     }
 

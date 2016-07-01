@@ -11,8 +11,8 @@ namespace Opulence\Framework\Routing\Bootstrappers;
 use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
-use Opulence\Routing\Dispatchers\Dispatcher;
-use Opulence\Routing\Dispatchers\IDispatcher;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
+use Opulence\Routing\Dispatchers\IRouteDispatcher;
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Caching\FileCache;
@@ -50,7 +50,7 @@ class RouterBootstrapper extends Bootstrapper
         $this->configureRouter($router);
         $urlGenerator = new UrlGenerator($router->getRouteCollection());
         $container->bindInstance(ICache::class, $this->cache);
-        $container->bindInstance(IDispatcher::class, $dispatcher);
+        $container->bindInstance(IRouteDispatcher::class, $dispatcher);
         $container->bindInstance(ICompiler::class, $compiler);
         $container->bindInstance(Router::class, $router);
         $container->bindInstance(UrlGenerator::class, $urlGenerator);
@@ -95,11 +95,11 @@ class RouterBootstrapper extends Bootstrapper
      * To use a different route dispatcher than the one returned here, extend this class and override this method
      *
      * @param IContainer $container The dependency injection container
-     * @return IDispatcher The route dispatcher
+     * @return IRouteDispatcher The route dispatcher
      */
-    protected function getRouteDispatcher(IContainer $container) : IDispatcher
+    protected function getRouteDispatcher(IContainer $container) : IRouteDispatcher
     {
-        return new Dispatcher(new ContainerDependencyResolver($container), new MiddlewarePipeline());
+        return new RouteDispatcher(new ContainerDependencyResolver($container), new MiddlewarePipeline());
     }
 
     /**

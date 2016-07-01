@@ -12,7 +12,7 @@ use Opulence\Http\HttpException;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
-use Opulence\Routing\Dispatchers\IDispatcher;
+use Opulence\Routing\Dispatchers\IRouteDispatcher;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
@@ -29,7 +29,7 @@ class Router
     protected $compiler = null;
     /** @var IParser The parser used by this router */
     protected $parser = null;
-    /** @var IDispatcher The route dispatcher */
+    /** @var IRouteDispatcher The route dispatcher */
     protected $dispatcher = null;
     /** @var RouteCollection The list of routes */
     protected $routeCollection = null;
@@ -41,12 +41,12 @@ class Router
     protected $groupOptionsStack = [];
 
     /**
-     * @param IDispatcher $dispatcher The route dispatcher
+     * @param IRouteDispatcher $dispatcher The route dispatcher
      * @param ICompiler $compiler The route compiler
      * @param IParser $parser The route parser
      */
     public function __construct(
-        IDispatcher $dispatcher,
+        IRouteDispatcher $dispatcher,
         ICompiler $compiler,
         IParser $parser
     ) {

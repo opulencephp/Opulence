@@ -17,7 +17,7 @@ use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Ioc\Container;
 use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
-use Opulence\Routing\Dispatchers\Dispatcher;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\ICompiler;
@@ -191,13 +191,13 @@ class KernelTest extends \PHPUnit\Framework\TestCase
 
         if ($shouldThrowException) {
             $router = new ExceptionalRouter(
-                new Dispatcher($dependencyResolver, new MiddlewarePipeline()), 
+                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()), 
                 $routeCompiler, 
                 $routeParser
             );
         } else {
             $router = new Router(
-                new Dispatcher($dependencyResolver, new MiddlewarePipeline()), 
+                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()), 
                 $routeCompiler, 
                 $routeParser
             );

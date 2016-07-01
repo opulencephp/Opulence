@@ -17,14 +17,14 @@ use Opulence\Routing\Routes\Compilers\Matchers\PathMatcher;
 use Opulence\Routing\Routes\Compilers\Matchers\SchemeMatcher;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
 use Opulence\Tests\Routing\Dispatchers\Mocks\DependencyResolver;
-use Opulence\Tests\Routing\Dispatchers\Mocks\Dispatcher;
+use Opulence\Tests\Routing\Dispatchers\Mocks\RouteDispatcher;
 
 /**
  * Mocks the router for use in testing
  */
 class Router extends BaseRouter
 {
-    /** @var Dispatcher The mock dispatcher */
+    /** @var RouteDispatcher The mock dispatcher */
     protected $dispatcher = null;
 
     /**
@@ -41,7 +41,7 @@ class Router extends BaseRouter
         $compiler = new Compiler($routeMatchers);
         
         parent::__construct(
-            new Dispatcher(new DependencyResolver(), new MiddlewarePipeline()), 
+            new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()), 
             $compiler, 
             $parser
         );

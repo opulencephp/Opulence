@@ -6,6 +6,15 @@
   * Now, a key derivation function is run on it to generate encryption and authentication keys from the secret
 * Increased encryption key length stored in `ENCRYPTION_KEY` environment variable from 16 bytes to 32 bytes
   * To fix this, rerun `php apex encryption:generatekey` to create a new, suitably-long encryption key
+  
+<h3>Deprecated</h3>
+Deprecated names of various dispatcher classes in favor of more descriptive `{Model}Dispatcher` class names:
+
+* Deprecated `Opulence\Applications\Tasks\Dispatchers\IDispatcher` and `Dispatcher` in favor of `ITaskDispatcher` and `TaskDispatcher`
+* Deprecated `Opulence\Bootstrappers\Dispatchers\IDispatcher` and `Dispatcher` in favor of `IBootstrapperDispatcher` and `BootstrapperDispatcher`
+* Deprecated `Opulence\Events\Dispatchers\IDispatcher` and `Dispatcher` in favor of `IEventDispatcher` and `EventDispatcher`
+* Deprecated `Opulence\Framework\Events\Bootstrappers\DispatcherBootstrapper` in favor of `EventDispatcherBootstrapper`
+* Deprecated `Opulence\Routing\Dispatchers\IDispatcher` and `Dispatcher` in favor of `IRouteDispatcher` and `RouteDispatcher`
 
 <h3>General</h3>
 * Forced only native PHP functions in the global namespace to be used for security-related classes
