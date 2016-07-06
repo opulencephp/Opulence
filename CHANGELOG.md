@@ -1,3 +1,11 @@
+<h2>v1.0.0-beta5</h2>
+
+<h3>Deprecated</h3>
+If Opulence ever moves to a standard HTTP request/response implementation, the `Routing` library shouldn't have any more dependencies on the `Http` library.  To make this possible, the following middleware classes are being moved:
+  * Deprecated `Opulence\Http\Middleware\IMiddleware` in favor of `Opulence\Routing\Middleware\IMiddleware`
+  * Deprecated `Opulence\Http\Middleware\MiddlewareParameters` in favor of `Opulence\Routing\Middleware\MiddlewareParameters`
+  * Deprecated `Opulence\Http\Middleware\ParameterizedMiddleware` in favor of `Opulence\Routing\Middleware\ParameterizedMiddleware`
+
 <h2>v1.0.0-beta4</h2>
 
 <h3>Backwards Incompatibilities</h3>

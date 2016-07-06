@@ -6,7 +6,9 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Console\Commands;
+namespace Opulence\Framework\Orm\Console\Commands;
+
+use Opulence\Framework\Console\Commands\MakeCommand;
 
 /**
  * Makes an entity class
