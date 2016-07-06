@@ -6,9 +6,9 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Http\Middleware;
+namespace Opulence\Routing\Middleware;
 
-use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware as ParameterizedMiddlewareMock;
+use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware as ParameterizedMiddlewareMock;
 
 /**
  * Tests the parameterized middleware

@@ -6,16 +6,16 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Console\Commands;
+namespace Opulence\Framework\Http\Console\Commands;
 
 use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
 
 /**
- * Defines the application-down command
+ * Defines the application-up command
  */
-class AppDownCommand extends Command
+class AppUpCommand extends Command
 {
     /** @var Paths The application paths */
     private $paths = null;
@@ -35,8 +35,8 @@ class AppDownCommand extends Command
      */
     protected function define()
     {
-        $this->setName("app:down")
-            ->setDescription("Puts the application into maintenance mode");
+        $this->setName("app:up")
+            ->setDescription("Takes the application out of maintenance mode");
     }
 
     /**
@@ -44,10 +44,7 @@ class AppDownCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        if (file_put_contents("{$this->paths["tmp.framework.http"]}/down", "down") === false) {
-            $response->writeln("<error>Failed to put application into maintenance mode</error>");
-        } else {
-            $response->writeln("<success>Application in maintenance mode</success>");
-        }
+        @unlink("{$this->paths["tmp.framework.http"]}/down");
+        $response->writeln("<success>Application out of maintenance mode</success>");
     }
 }

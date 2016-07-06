@@ -6,17 +6,17 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Routing\Mocks;
+namespace Opulence\Tests\Routing\Middleware\Mocks;
 
 use Closure;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\ParameterizedMiddleware as BaseParameterizedMiddleware;
 
 /**
- * Mocks middleware that returns something
+ * Mocks the parameterized middleware for use in tests
  */
-class ReturnsSomethingMiddleware implements IMiddleware
+class ParameterizedMiddleware extends BaseParameterizedMiddleware
 {
     /**
      * @inheritdoc
@@ -25,7 +25,8 @@ class ReturnsSomethingMiddleware implements IMiddleware
     {
         /** @var Response $response */
         $response = $next($request);
-        $response->setContent($response->getContent() . ":something");
+        $response->getHeaders()->set("parameterized", "middleware");
+        $response->getHeaders()->set("parameters", $this->getParameter("foo"));
 
         return $response;
     }

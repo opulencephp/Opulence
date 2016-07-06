@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Console\Commands;
+namespace Opulence\Framework\Http\Console\Commands;
 
 use Opulence\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Bootstrappers\Paths;
