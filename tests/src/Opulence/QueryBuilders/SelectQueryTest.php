@@ -8,6 +8,7 @@
  */
 namespace Opulence\QueryBuilders;
 
+use Opulence\QueryBuilders\Conditions\ICondition;
 use PDO;
 
 /**
@@ -15,6 +16,23 @@ use PDO;
  */
 class SelectQueryTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var ICondition The condition to use in tests */
+    private $condition = null;
+    
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->condition = $this->createMock(ICondition::class);
+        $this->condition->expects($this->any())
+            ->method("getSql")
+            ->willReturn("c1 IN (?)");
+        $this->condition->expects($this->any())
+            ->method("getParameters")
+            ->willReturn([[1, PDO::PARAM_INT]]);
+    } 
+    
     /**
      * Tests adding a "GROUP BY" statement to one that was already started
      */
@@ -76,6 +94,21 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests adding a "HAVING" condition object that will be "AND"ed
+     */
+    public function testAndHavingConditionObject()
+    {
+        $query = new SelectQuery("name");
+        $query->from("users")
+            ->groupBy("name")
+            ->having("COUNT(name) > 1")
+            ->andHaving($this->condition);
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) AND (c1 IN (?))",
+            $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
+    }
+
+    /**
      * Tests adding a "WHERE" condition that will be "AND"ed
      */
     public function testAndWhere()
@@ -85,6 +118,19 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
             ->where("id > 10")
             ->andWhere("name <> 'dave'");
         $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (name <> 'dave')", $query->getSql());
+    }
+
+    /**
+     * Tests adding a "WHERE" condition object that will be "AND"ed
+     */
+    public function testAndWhereConditionObject()
+    {
+        $query = new SelectQuery("id");
+        $query->from("users")
+            ->where("id > 10")
+            ->andWhere($this->condition);
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
@@ -165,6 +211,19 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests adding a "HAVING" condition object
+     */
+    public function testHavingConditionObject()
+    {
+        $query = new SelectQuery("name");
+        $query->from("users")
+            ->groupBy("name")
+            ->having($this->condition);
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
+    }
+
+    /**
      * Tests adding an "INNER JOIN" statement
      */
     public function testInnerJoin()
@@ -206,6 +265,19 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $query->from("users")
             ->limit(5);
         $this->assertEquals("SELECT id, name FROM users LIMIT 5", $query->getSql());
+    }
+
+    /**
+     * Tests mixing a WHERE expression and a WHERE condition object
+     */
+    public function testMixingWhereExpessionAndObject()
+    {
+        $query = new SelectQuery("id");
+        $query->from("users")
+            ->where("id > 10", $this->condition);
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (c1 IN (?))",
+            $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
@@ -266,6 +338,34 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
             ->orHaving("COUNT(name) < 5");
         $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (COUNT(name) < 5)",
             $query->getSql());
+    }
+
+    /**
+     * Tests adding a "HAVING" condition object that will be "OR"ed
+     */
+    public function testOrHavingConditionObject()
+    {
+        $query = new SelectQuery("name");
+        $query->from("users")
+            ->groupBy("name")
+            ->having("COUNT(name) > 1")
+            ->orHaving($this->condition);
+        $this->assertEquals("SELECT name FROM users GROUP BY name HAVING (COUNT(name) > 1) OR (c1 IN (?))",
+            $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
+    }
+
+    /**
+     * Tests adding a "WHERE" condition object that will be "OR"ed
+     */
+    public function testOrWhereConditionObject()
+    {
+        $query = new SelectQuery("id");
+        $query->from("users")
+            ->where("id > 10")
+            ->orWhere($this->condition);
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
@@ -345,5 +445,17 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $query->from("users")
             ->where("id > 10", "name <> 'dave'");
         $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (name <> 'dave')", $query->getSql());
+    }
+
+    /**
+     * Tests adding a "WHERE" condition object
+     */
+    public function testWhereConditionObject()
+    {
+        $query = new SelectQuery("id");
+        $query->from("users")
+            ->where($this->condition, $this->condition);
+        $this->assertEquals("SELECT id FROM users WHERE (c1 IN (?)) AND (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT], [1, PDO::PARAM_INT]], $query->getParameters());
     }
 } 

@@ -8,6 +8,9 @@
  */
 namespace Opulence\QueryBuilders;
 
+use InvalidArgumentException;
+use Opulence\QueryBuilders\Conditions\ICondition;
+
 /**
  * Builds a delete query
  */
@@ -45,12 +48,15 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param array $condition,... A variable list of conditions to be met
+     * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function andWhere(string ...$condition) : self
+    public function andWhere(...$conditions) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "andWhere"], $condition);
+        call_user_func_array(
+            [$this->conditionalQueryBuilder, "andWhere"],
+            $this->createConditionExpressions($conditions)
+        );
 
         return $this;
     }
@@ -76,12 +82,15 @@ class DeleteQuery extends Query
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param array $condition,... A variable list of conditions to be met
+     * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function orWhere(string ...$condition) : self
+    public function orWhere(...$conditions) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "orWhere"], $condition);
+        call_user_func_array(
+            [$this->conditionalQueryBuilder, "orWhere"], 
+            $this->createConditionExpressions($conditions)
+        );
 
         return $this;
     }
@@ -104,13 +113,40 @@ class DeleteQuery extends Query
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param array $condition,... A variable list of conditions to be met
+     * @param array $conditions,... A variable list of conditions to be met
      * @return self For method chaining
      */
-    public function where(string ...$condition) : self
+    public function where(...$conditions) : self
     {
-        call_user_func_array([$this->conditionalQueryBuilder, "where"], $condition);
+        call_user_func_array(
+            [$this->conditionalQueryBuilder, "where"], 
+            $this->createConditionExpressions($conditions)
+        );
 
         return $this;
     }
-} 
+    
+    /**
+     * Converts a list of condition strings or objects to their string representations
+     * 
+     * @param array $conditions The list of strings of condition objects to convert
+     * @return array The list of condition expressions
+     */
+    private function createConditionExpressions(array $conditions) : array
+    {
+        $conditionExpressions = [];
+        
+        foreach ($conditions as $condition) {
+            if ($condition instanceof ICondition) {
+                $this->addUnnamedPlaceholderValues($condition->getParameters());
+                $conditionExpressions[] = $condition->getSql();
+            } elseif (is_string($condition)) {
+                $conditionExpressions[] = $condition;
+            } else {
+                throw new InvalidArgumentException("Condition must either be string or ICondition object");
+            }
+        }
+        
+        return $conditionExpressions;
+    }
+}
