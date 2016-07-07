@@ -11,9 +11,9 @@ namespace Opulence\Framework\Http\Middleware;
 use Closure;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Http\HttpException;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 
 /**
  * Checks if the application is in maintenance mode

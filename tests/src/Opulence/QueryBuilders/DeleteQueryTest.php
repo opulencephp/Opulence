@@ -8,11 +8,31 @@
  */
 namespace Opulence\QueryBuilders;
 
+use Opulence\QueryBuilders\Conditions\ICondition;
+use PDO;
+
 /**
  * Tests the delete query
  */
 class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var ICondition The condition to use in tests */
+    private $condition = null;
+    
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->condition = $this->createMock(ICondition::class);
+        $this->condition->expects($this->any())
+            ->method("getSql")
+            ->willReturn("c1 IN (?)");
+        $this->condition->expects($this->any())
+            ->method("getParameters")
+            ->willReturn([[1, PDO::PARAM_INT]]);
+    }
+    
     /**
      * Tests adding a "USING" expression
      */
@@ -36,6 +56,18 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $query->where("id = 1")
             ->andWhere("name = 'dave'");
         $this->assertEquals("DELETE FROM users WHERE (id = 1) AND (name = 'dave')", $query->getSql());
+    }
+
+    /**
+     * Tests adding an "AND" where condition object
+     */
+    public function testAndWhereConditionObject()
+    {
+        $query = new DeleteQuery("users");
+        $query->where("id = 1")
+            ->andWhere($this->condition);
+        $this->assertEquals("DELETE FROM users WHERE (id = 1) AND (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 
     /**
@@ -75,6 +107,18 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests adding an "OR" where condition
+     */
+    public function testOrWhereConditionObject()
+    {
+        $query = new DeleteQuery("users");
+        $query->where("id = 1")
+            ->orWhere($this->condition);
+        $this->assertEquals("DELETE FROM users WHERE (id = 1) OR (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
+    }
+
+    /**
      * Tests using an alias on the table name
      */
     public function testTableAlias()
@@ -103,5 +147,16 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $query = new DeleteQuery("users");
         $query->where("id = 1");
         $this->assertEquals("DELETE FROM users WHERE (id = 1)", $query->getSql());
+    }
+
+    /**
+     * Tests adding a simple where clause with a condition object
+     */
+    public function testWhereConditionObject()
+    {
+        $query = new DeleteQuery("users");
+        $query->where($this->condition);
+        $this->assertEquals("DELETE FROM users WHERE (c1 IN (?))", $query->getSql());
+        $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
 } 

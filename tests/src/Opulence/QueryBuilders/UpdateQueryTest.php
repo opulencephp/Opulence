@@ -8,6 +8,7 @@
  */
 namespace Opulence\QueryBuilders;
 
+use Opulence\QueryBuilders\Conditions\ICondition;
 use PDO;
 
 /**
@@ -15,6 +16,23 @@ use PDO;
  */
 class UpdateQueryTest extends \PHPUnit\Framework\TestCase
 {
+    /** @var ICondition The condition to use in tests */
+    private $condition = null;
+    
+    /**
+     * Sets up the tests
+     */
+    public function setUp()
+    {
+        $this->condition = $this->createMock(ICondition::class);
+        $this->condition->expects($this->any())
+            ->method("getSql")
+            ->willReturn("c1 IN (?)");
+        $this->condition->expects($this->any())
+            ->method("getParameters")
+            ->willReturn([[1, PDO::PARAM_INT]]);
+    }
+    
     /**
      * Tests adding more columns
      */
@@ -77,4 +95,20 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             [18175, PDO::PARAM_INT]
         ], $query->getParameters());
     }
-} 
+
+    /**
+     * Tests adding a "WHERE" clause condition object
+     */
+    public function testWhereConditionObject()
+    {
+        $query = new UpdateQuery("users", "", ["name" => "david"]);
+        $query->where($this->condition)
+            ->addUnnamedPlaceholderValue(18175, PDO::PARAM_INT);
+        $this->assertEquals("UPDATE users SET name = ? WHERE (c1 IN (?))", $query->getSql());
+        $this->assertEquals([
+            ["david", PDO::PARAM_STR],
+            [1, PDO::PARAM_INT],
+            [18175, PDO::PARAM_INT]
+        ], $query->getParameters());
+    }
+}

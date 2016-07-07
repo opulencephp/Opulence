@@ -103,7 +103,7 @@ abstract class MakeCommand extends Command
             $fullyQualifiedClassName
         );
         $this->fileSystem->write($path, $compiledTemplate);
-        $response->writeln("<success>File was created</success>");
+        $response->writeln("<success>File was created at $path</success>");
 
         return StatusCodes::OK;
     }

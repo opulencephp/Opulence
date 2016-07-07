@@ -10,7 +10,6 @@ namespace Opulence\Framework\Http;
 
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
-use Opulence\Http\Middleware\MiddlewareParameters;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
@@ -19,13 +18,14 @@ use Opulence\Ioc\Container;
 use Opulence\Routing\Dispatchers\ContainerDependencyResolver;
 use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
+use Opulence\Routing\Middleware\MiddlewareParameters;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\ICompiler;
 use Opulence\Routing\Routes\Compilers\Parsers\IParser;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
-use Opulence\Tests\Http\Middleware\Mocks\HeaderSetter;
-use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware;
+use Opulence\Tests\Routing\Middleware\Mocks\HeaderSetter;
+use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Tests\Routing\Mocks\Controller;
 use Opulence\Tests\Routing\Mocks\ExceptionalRouter;
 use Psr\Log\LoggerInterface;
@@ -191,14 +191,14 @@ class KernelTest extends \PHPUnit\Framework\TestCase
 
         if ($shouldThrowException) {
             $router = new ExceptionalRouter(
-                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()), 
-                $routeCompiler, 
+                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()),
+                $routeCompiler,
                 $routeParser
             );
         } else {
             $router = new Router(
-                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()), 
-                $routeCompiler, 
+                new RouteDispatcher($dependencyResolver, new MiddlewarePipeline()),
+                $routeCompiler,
                 $routeParser
             );
         }

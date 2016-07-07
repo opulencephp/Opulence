@@ -181,7 +181,7 @@ class Encrypter implements IEncrypter
     private function deriveKeys(string $cipher, string $keySalt) : DerivedKeys
     {
         // Extract the number of bytes from the cipher
-        $keyByteLength = $this->getCipherByteLength($cipher);
+        $keyByteLength = $this->getKeyByteLengthForCipher($cipher);
 
         if ($this->secret->getType() === SecretTypes::KEY) {
             return $this->keyDeriver->deriveKeysFromKey($this->secret->getValue(), $keySalt, $keyByteLength);
@@ -196,7 +196,7 @@ class Encrypter implements IEncrypter
      * @param string $cipher The cipher whose bytes we want
      * @return int The number of bytes
      */
-    private function getCipherByteLength(string $cipher) : int
+    private function getKeyByteLengthForCipher(string $cipher) : int
     {
         return (int)\mb_substr($cipher, 4, 3, "8bit") / 8;
     }
@@ -260,8 +260,8 @@ class Encrypter implements IEncrypter
     private function validateSecret(string $cipher)
     {
         if ($this->secret->getType() === SecretTypes::KEY) {
-            if (\mb_strlen($this->secret->getValue(), "8bit") < $this->getCipherByteLength($cipher)) {
-                throw new EncryptionException("Key must be at least {$this->getCipherByteLength($cipher)} bytes long");
+            if (\mb_strlen($this->secret->getValue(), "8bit") < $this->getKeyByteLengthForCipher($cipher)) {
+                throw new EncryptionException("Key must be at least {$this->getKeyByteLengthForCipher($cipher)} bytes long");
             }
         } elseif (\mb_strlen($this->secret->getValue(), "8bit") === 0) {
             throw new EncryptionException("Password cannot be empty");

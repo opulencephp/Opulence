@@ -11,7 +11,7 @@ namespace Opulence\Routing\Dispatchers;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
-use Opulence\Tests\Routing\Mocks\ReturnsSomethingMiddleware;
+use Opulence\Tests\Routing\Middleware\Mocks\ReturnsSomethingMiddleware;
 
 /**
  * Tests the pipeline middleware pipeline
@@ -43,7 +43,7 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
         $this->assertEmpty($response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
-    
+
     /**
      * Tests that middleware can affect the response
      */
