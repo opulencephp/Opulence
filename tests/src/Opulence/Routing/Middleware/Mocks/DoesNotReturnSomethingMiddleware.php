@@ -6,12 +6,12 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Tests\Routing\Mocks;
+namespace Opulence\Tests\Routing\Middleware\Mocks;
 
 use Closure;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 
 /**
  * Mocks middleware that does not return something

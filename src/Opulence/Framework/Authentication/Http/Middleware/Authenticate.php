@@ -15,9 +15,9 @@ use Opulence\Authentication\ISubject;
 use Opulence\Authorization\IAuthority;
 use Opulence\Framework\Authentication\Credentials\IHttpCredentialIO;
 use Opulence\Http\HttpException;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 
 /**
  * Defines the authentication and authorization middleware
@@ -56,7 +56,7 @@ class Authenticate implements IMiddleware
      */
     public function handle(Request $request, Closure $next) : Response
     {
-        $credential = $this->credentialStore->read($request);
+        $credential = $this->credentialIO->read($request);
 
         if (!$this->authenticator->authenticate($credential, $subject)) {
             throw new HttpException(403);

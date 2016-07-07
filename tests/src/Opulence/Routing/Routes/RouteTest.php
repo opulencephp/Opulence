@@ -10,8 +10,8 @@ namespace Opulence\Routing\Routes;
 
 use Closure;
 use InvalidArgumentException;
-use Opulence\Http\Middleware\MiddlewareParameters;
-use Opulence\Tests\Http\Middleware\Mocks\ParameterizedMiddleware;
+use Opulence\Routing\Middleware\MiddlewareParameters;
+use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware;
 
 /**
  * Tests the route class

@@ -12,9 +12,9 @@ use Closure;
 use Opulence\Bootstrappers\Paths;
 use Opulence\Framework\Http\CsrfTokenChecker;
 use Opulence\Http\InvalidCsrfTokenException;
-use Opulence\Http\Middleware\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 use Opulence\Sessions\ISession;
 
 /**
