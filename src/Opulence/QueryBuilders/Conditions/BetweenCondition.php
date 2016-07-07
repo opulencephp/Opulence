@@ -28,7 +28,7 @@ class BetweenCondition extends Condition
      * @param mixed $max The max value
      * @param int $dataType The PDO data type for the min and max
      */
-    public function __construct(string $column, $min, $max, $dataType = PDO::PARAM_STR)
+    public function __construct(string $column, $min, $max, int $dataType = PDO::PARAM_STR)
     {
         parent::__construct($column);
         
