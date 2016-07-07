@@ -22,11 +22,11 @@ class IdGenerator implements IIdGenerator
     public function generate($length = self::DEFAULT_LENGTH)
     {
         // N bytes becomes 2N characters in bin2hex(), hence the division by 2
-        $string = bin2hex(random_bytes(ceil($length / 2)));
+        $string = \bin2hex(\random_bytes(\ceil($length / 2)));
 
         if ($length % 2 == 1) {
             // Slice off one character to make it the appropriate odd length
-            $string = mb_substr($string, 1);
+            $string = \mb_substr($string, 1);
         }
 
         return $string;
@@ -37,12 +37,12 @@ class IdGenerator implements IIdGenerator
      */
     public function idIsValid($id) : bool
     {
-        $regex = sprintf(
+        $regex = \sprintf(
             "/^[a-z0-9]{%d,%d}$/i",
             self::MIN_LENGTH,
             self::MAX_LENGTH
         );
 
-        return is_string($id) && preg_match($regex, $id);
+        return \is_string($id) && \preg_match($regex, $id);
     }
 }

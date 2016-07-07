@@ -243,6 +243,6 @@ class JwtPayload
      */
     private function generateJtiSalt() : string
     {
-        return bin2hex(random_bytes(8));
+        return \bin2hex(\random_bytes(8));
     }
 }

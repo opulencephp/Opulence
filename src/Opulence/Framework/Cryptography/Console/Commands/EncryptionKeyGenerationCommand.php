@@ -53,7 +53,7 @@ class EncryptionKeyGenerationCommand extends Command
     protected function doExecute(IResponse $response)
     {
         // Create a suitably-long key that can be used with sha512
-        $key = bin2hex(random_bytes(32));
+        $key = \bin2hex(\random_bytes(32));
         $environmentConfigPath = $this->paths["config"] . "/environment/.env.app.php";
 
         if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
