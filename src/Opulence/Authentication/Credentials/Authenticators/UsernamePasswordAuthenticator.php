@@ -63,7 +63,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
             return false;
         }
 
-        if (!\password_verify($password.$this->pepper, $user->getHashedPassword())) {
+        if (!\password_verify($password . $this->pepper, $user->getHashedPassword())) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
 
             return false;
