@@ -35,7 +35,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);
-        $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository, $this->roleRepository);
+        $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository, $this->roleRepository, "pepper");
         $this->credential = $this->createMock(ICredential::class);
     }
 
@@ -58,7 +58,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $user = $this->createMock(IUser::class);
         $user->expects($this->once())
             ->method("getHashedPassword")
-            ->willReturn(password_hash("password", PASSWORD_BCRYPT));
+            ->willReturn(password_hash("password"."pepper", PASSWORD_BCRYPT));
         $user->expects($this->once())
             ->method("getId")
             ->willReturn("userId");

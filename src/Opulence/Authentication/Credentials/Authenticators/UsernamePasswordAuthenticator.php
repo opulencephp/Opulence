@@ -26,15 +26,19 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     protected $userRepository = null;
     /** @var IRoleRepository The role repository */
     protected $roleRepository = null;
+    /** @var string The pepper used for hashing */
+    protected $pepper = "";
 
     /**
      * @param IUserRepository $userRepository The user repository
      * @param IRoleRepository $roleRepository The role repository
+     * @param string $pepper The pepper used for hashing
      */
-    public function __construct(IUserRepository $userRepository, IRoleRepository $roleRepository)
+    public function __construct(IUserRepository $userRepository, IRoleRepository $roleRepository, string $pepper = "")
     {
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
+        $this->pepper = $pepper;
     }
 
     /**
@@ -59,7 +63,7 @@ class UsernamePasswordAuthenticator implements IAuthenticator
             return false;
         }
 
-        if (!\password_verify($password, $user->getHashedPassword())) {
+        if (!\password_verify($password.$this->pepper, $user->getHashedPassword())) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_INCORRECT;
 
             return false;
