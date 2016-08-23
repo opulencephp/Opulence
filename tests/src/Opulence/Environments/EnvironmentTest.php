@@ -42,6 +42,14 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests getting a non-existent variable
+     */
+    public function testGettingNonExistentVariable()
+    {
+        $this->assertEquals("bar", $this->environment->getVar("foo", "bar"));
+    }
+
+    /**
      * Tests getting a variable
      */
     public function testGettingVariable()

@@ -15,6 +15,8 @@ use Opulence\Ioc\IContainer;
 /**
  * Defines the base bootstrapper
  * Note:  This class also accepts a run() method with a variable number of parameters
+ *
+ * @deprecated since 1.0.0-beta6
  */
 abstract class Bootstrapper
 {

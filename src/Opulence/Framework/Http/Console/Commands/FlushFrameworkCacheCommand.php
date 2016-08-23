@@ -8,10 +8,10 @@
  */
 namespace Opulence\Framework\Http\Console\Commands;
 
-use Opulence\Bootstrappers\Caching\ICache as BootstrapperCache;
-use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Framework\Configuration\Config;
+use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Routing\Routes\Caching\ICache as RouteCache;
 use Opulence\Views\Caching\ICache as ViewCache;
 
@@ -20,8 +20,6 @@ use Opulence\Views\Caching\ICache as ViewCache;
  */
 class FlushFrameworkCacheCommand extends Command
 {
-    /** @var Paths The application paths */
-    private $paths = null;
     /** @var BootstrapperCache The bootstrapper cache */
     private $bootstrapperCache = null;
     /** @var RouteCache The route cache */
@@ -30,20 +28,17 @@ class FlushFrameworkCacheCommand extends Command
     private $viewCache = null;
 
     /**
-     * @param Paths $paths The application paths
      * @param BootstrapperCache $bootstrapperCache The bootstrapper cache
      * @param RouteCache $routeCache The route cache
      * @param ViewCache $viewCache The view cache
      */
     public function __construct(
-        Paths $paths,
         BootstrapperCache $bootstrapperCache,
         RouteCache $routeCache,
         ViewCache $viewCache
     ) {
         parent::__construct();
 
-        $this->paths = $paths;
         $this->bootstrapperCache = $bootstrapperCache;
         $this->routeCache = $routeCache;
         $this->viewCache = $viewCache;
@@ -78,12 +73,12 @@ class FlushFrameworkCacheCommand extends Command
     {
         $fileNames = [];
 
-        if (isset($this->paths["tmp.framework.console"])) {
-            $fileNames[] = "{$this->paths["tmp.framework.console"]}/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
+        if (($path = Config::get("paths", "tmp.framework.console")) !== null) {
+            $fileNames[] = "$path/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
         }
 
-        if (isset($this->paths["tmp.framework.http"])) {
-            $fileNames[] = "{$this->paths["tmp.framework.http"]}/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
+        if (($path = Config::get("paths", "tmp.framework.http")) !== null) {
+            $fileNames[] = "$path/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
         }
 
         foreach ($fileNames as $cachedRegistryFileName) {
@@ -100,8 +95,8 @@ class FlushFrameworkCacheCommand extends Command
      */
     private function flushRouteCache(IResponse $response)
     {
-        if (isset($this->paths["routes.cache"])) {
-            $this->routeCache->flush("{$this->paths["routes.cache"]}/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
+        if (($path = Config::get("paths", "routes.cache")) !== null) {
+            $this->routeCache->flush("$path/" . RouteCache::DEFAULT_CACHED_ROUTES_FILE_NAME);
         }
 
         $response->writeln("<info>Route cache flushed</info>");

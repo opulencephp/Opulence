@@ -8,8 +8,6 @@
  */
 namespace Opulence\Framework\Composer;
 
-use Opulence\Bootstrappers\Paths;
-
 /**
  * Defines a wrapper for the Composer executable
  */
@@ -19,11 +17,11 @@ class Executable
     private $executable = "";
 
     /**
-     * @param Paths $paths The paths of the application
+     * @param string $rootPath The path to the project's root directory
      */
-    public function __construct(Paths $paths)
+    public function __construct(string $rootPath)
     {
-        if (file_exists($paths["root"] . "/composer.phar")) {
+        if (file_exists($rootPath . "/composer.phar")) {
             $this->executable = '"' . PHP_BINARY . '" composer.phar';
         } else {
             $this->executable = "composer";

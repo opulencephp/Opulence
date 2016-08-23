@@ -45,9 +45,10 @@ class Environment
      * Gets the value of an environment variable
      *
      * @param string $name The name of the environment variable to get
+     * @param mixed $default The default value if none existed
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public function getVar(string $name)
+    public function getVar(string $name, $default = null)
     {
         if (array_key_exists($name, $_ENV)) {
             return $_ENV[$name];
@@ -57,7 +58,7 @@ class Environment
             $value = getenv($name);
 
             if ($value === false) {
-                return null;
+                return $default;
             }
 
             return $value;

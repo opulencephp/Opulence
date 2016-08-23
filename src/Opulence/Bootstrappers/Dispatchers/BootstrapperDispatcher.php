@@ -17,6 +17,8 @@ use RuntimeException;
 
 /**
  * Defines the bootstrapper dispatcher
+ *
+ * @deprecated since 1.0.0-beta6
  */
 class BootstrapperDispatcher implements IBootstrapperDispatcher
 {

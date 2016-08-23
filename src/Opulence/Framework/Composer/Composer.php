@@ -8,8 +8,6 @@
  */
 namespace Opulence\Framework\Composer;
 
-use Opulence\Bootstrappers\Paths;
-
 /**
  * Defines a wrapper around Composer
  */
@@ -17,34 +15,39 @@ class Composer
 {
     /** @var array The raw config */
     private $rawConfig = [];
-    /** @var Paths The paths of the application */
-    private $paths = null;
+    /** @var string The path to the root of the project */
+    private $rootPath = "";
+    /** @var string The path to the PSR-4 source directory */
+    private $psr4RootPath = "";
 
     /**
      * @param array $config The raw config
-     * @param Paths $paths The paths of the application
+     * @param string $rootPath The path to the roof of the project
+     * @param string $psr4RootPath The path to the PSR-4 source directory
      */
-    public function __construct(array $config, Paths $paths)
+    public function __construct(array $config, string $rootPath, string $psr4RootPath)
     {
         $this->rawConfig = $config;
-        $this->paths = $paths;
+        $this->rootPath = $rootPath;
+        $this->psr4RootPath = $psr4RootPath;
     }
 
     /**
      * Creates an instance of this class from a raw Composer config file
      *
-     * @param Paths $paths The paths of the application
+     * @param string $rootPath The path to the roof of the project
+     * @param string $psr4RootPath The path to the PSR-4 source directory
      * @return Composer An instance of this class
      */
-    public static function createFromRawConfig(Paths $paths) : Composer
+    public static function createFromRawConfig(string $rootPath, string $psr4RootPath) : Composer
     {
-        $composerPath = $paths["root"] . "/composer.json";
+        $composerConfigPath = "$rootPath/composer.json";
 
-        if (file_exists($composerPath)) {
-            return new Composer(json_decode(file_get_contents($composerPath), true), $paths);
+        if (file_exists($composerConfigPath)) {
+            return new Composer(json_decode(file_get_contents($composerConfigPath), true), $rootPath, $psr4RootPath);
         }
 
-        return new Composer([], $paths);
+        return new Composer([], $rootPath, $psr4RootPath);
     }
 
     /**
@@ -80,7 +83,7 @@ class Composer
         $parts = explode("\\", $fullyQualifiedClassName);
         $path = array_slice($parts, 0, -1);
         $path[] = end($parts) . ".php";
-        array_unshift($path, $this->paths["src"]);
+        array_unshift($path, $this->psr4RootPath);
 
         return implode(DIRECTORY_SEPARATOR, $path);
     }
@@ -126,9 +129,7 @@ class Composer
         foreach ($psr4 as $namespace => $namespacePaths) {
             foreach ((array)$namespacePaths as $namespacePath) {
                 // The namespace path should be a subdirectory of the "src" directory
-                if (mb_strpos(realpath($this->paths["root"] . "/" . $namespacePath),
-                        realpath($this->paths["src"])) === 0
-                ) {
+                if (mb_strpos(realpath($this->rootPath . "/" . $namespacePath), realpath($this->psr4RootPath)) === 0) {
                     return rtrim($namespace, "\\");
                 }
             }

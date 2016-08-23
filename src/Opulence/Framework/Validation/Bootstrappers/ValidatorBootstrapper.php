@@ -8,8 +8,8 @@
  */
 namespace Opulence\Framework\Validation\Bootstrappers;
 
-use Opulence\Bootstrappers\ILazyBootstrapper;
-use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Validation\Factories\IValidatorFactory;
 use Opulence\Validation\Factories\ValidatorFactory;

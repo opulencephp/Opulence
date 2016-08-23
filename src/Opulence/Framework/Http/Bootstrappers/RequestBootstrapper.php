@@ -8,8 +8,8 @@
  */
 namespace Opulence\Framework\Http\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Http\Requests\Request;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**

@@ -8,9 +8,9 @@
  */
 namespace Opulence\Framework\Console\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Requests\Parsers\ArgvParser;
 use Opulence\Console\Requests\Parsers\IParser;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**

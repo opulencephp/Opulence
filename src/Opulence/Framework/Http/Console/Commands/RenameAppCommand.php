@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Http\Console\Commands;
 
-use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Prompts\Prompt;
 use Opulence\Console\Prompts\Questions\Confirmation;
@@ -16,6 +15,7 @@ use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Responses\IResponse;
 use Opulence\Files\FileSystem;
+use Opulence\Framework\Configuration\Config;
 
 /**
  * Defines the command that renames an application
@@ -26,21 +26,17 @@ class RenameAppCommand extends Command
     protected $fileSystem = null;
     /** @var Prompt The prompt to confirm things with the user */
     protected $prompt = null;
-    /** @var Paths The paths of the application */
-    protected $paths = null;
 
     /**
      * @param FileSystem $fileSystem The filesystem to use to write to files
      * @param Prompt $prompt The prompt to confirm things with the user
-     * @param Paths $paths The paths of the application
      */
-    public function __construct(FileSystem $fileSystem, Prompt $prompt, Paths $paths)
+    public function __construct(FileSystem $fileSystem, Prompt $prompt)
     {
         parent::__construct();
 
         $this->fileSystem = $fileSystem;
         $this->prompt = $prompt;
-        $this->paths = $paths;
     }
 
     /**
@@ -104,7 +100,8 @@ class RenameAppCommand extends Command
      */
     protected function updateComposer(bool $renameDirectories)
     {
-        $currComposerContents = $this->fileSystem->read($this->paths["root"] . "/composer.json");
+        $rootPath = Config::get("paths", "root");
+        $currComposerContents = $this->fileSystem->read("$rootPath/composer.json");
         // Change the PSR-4 namespace
         $updatedComposerContents = str_replace(
             $this->getArgumentValue("currName") . "\\\\",
@@ -120,7 +117,7 @@ class RenameAppCommand extends Command
                 $updatedComposerContents
             );
         }
-        $this->fileSystem->write($this->paths["root"] . "/composer.json", $updatedComposerContents);
+        $this->fileSystem->write("$rootPath/composer.json", $updatedComposerContents);
     }
 
     /**
@@ -128,7 +125,7 @@ class RenameAppCommand extends Command
      */
     protected function updateConfigs()
     {
-        $configFiles = $this->fileSystem->getFiles($this->paths["config"], true);
+        $configFiles = $this->fileSystem->getFiles(Config::get("paths", "config"), true);
 
         foreach ($configFiles as $file) {
             $currentContents = $this->fileSystem->read($file);
@@ -146,32 +143,34 @@ class RenameAppCommand extends Command
      */
     protected function updateNamespaces()
     {
-        foreach (["src", "tests"] as $pathToUpdate) {
-            $files = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
+        $paths = [Config::get("paths", "src"), Config::get("paths", "tests")];
+
+        foreach ($paths as $pathToUpdate) {
+            $files = $this->fileSystem->getFiles($pathToUpdate, true);
 
             foreach ($files as $file) {
                 $currContents = $this->fileSystem->read($file);
                 // Change the "namespace" statements
                 $updatedContents = str_replace(
                     [
-                        "namespace " . $this->getArgumentValue("currName") . ";",
-                        "namespace " . $this->getArgumentValue("currName") . "\\"
+                        "namespace {$this->getArgumentValue("currName")};",
+                        "namespace {$this->getArgumentValue("currName")}\\"
                     ],
                     [
-                        "namespace " . $this->getArgumentValue("newName") . ";",
-                        "namespace " . $this->getArgumentValue("newName") . "\\"
+                        "namespace {$this->getArgumentValue("newName")};",
+                        "namespace {$this->getArgumentValue("newName")}\\"
                     ],
                     $currContents
                 );
                 // Change the "use" statements
                 $updatedContents = str_replace(
                     [
-                        "use " . $this->getArgumentValue("currName") . ";",
-                        "use " . $this->getArgumentValue("currName") . "\\"
+                        "use {$this->getArgumentValue("currName")};",
+                        "use {$this->getArgumentValue("currName")}\\"
                     ],
                     [
-                        "use " . $this->getArgumentValue("newName") . ";",
-                        "use " . $this->getArgumentValue("newName") . "\\"
+                        "use {$this->getArgumentValue("newName")};",
+                        "use {$this->getArgumentValue("newName")}\\"
                     ],
                     $updatedContents
                 );
@@ -187,16 +186,18 @@ class RenameAppCommand extends Command
      */
     protected function updateSrcAndTestDirectories(bool $renameDirectories)
     {
-        foreach (["src", "tests"] as $pathToUpdate) {
+        $paths = [Config::get("paths", "src"), Config::get("paths", "tests")];
+
+        foreach ($paths as $pathToUpdate) {
             if ($renameDirectories) {
                 $this->fileSystem->move(
-                    $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("currName"),
-                    $this->paths[$pathToUpdate] . "/" . $this->getArgumentValue("newName")
+                    "$pathToUpdate/{$this->getArgumentValue("currName")}",
+                    "$pathToUpdate/{$this->getArgumentValue("newName")}"
                 );
             }
 
             // Rename any references to the new namespace
-            $appFiles = $this->fileSystem->getFiles($this->paths[$pathToUpdate], true);
+            $appFiles = $this->fileSystem->getFiles($pathToUpdate, true);
 
             foreach ($appFiles as $file) {
                 $currentContents = $this->fileSystem->read($file);

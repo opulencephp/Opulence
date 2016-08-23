@@ -8,7 +8,7 @@
  */
 namespace Opulence\Framework\Sessions\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Sessions\Handlers\ISessionEncrypter;
 use Opulence\Sessions\Handlers\SessionEncrypter;

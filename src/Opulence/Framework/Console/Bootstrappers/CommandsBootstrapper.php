@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Console\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\Compiler;
 use Opulence\Console\Commands\Compilers\ICompiler;
@@ -27,6 +26,7 @@ use Opulence\Framework\Orm\Console\Commands\MakeEntityCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeControllerCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**

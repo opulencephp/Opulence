@@ -8,6 +8,7 @@
  */
 namespace Opulence\Framework\Console\Testing\PhpUnit;
 
+use Opulence\Applications\Application;
 use Opulence\Console\Commands\CommandCollection;
 use Opulence\Console\Commands\Compilers\ICompiler;
 use Opulence\Console\Kernel;
@@ -23,6 +24,7 @@ use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
+use Opulence\Ioc\IContainer;
 use PHPUnit\Framework\TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
 

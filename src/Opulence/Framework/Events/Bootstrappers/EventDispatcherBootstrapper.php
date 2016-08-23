@@ -9,10 +9,10 @@
 namespace Opulence\Framework\Events\Bootstrappers;
 
 use InvalidArgumentException;
-use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Events\Dispatchers\EventDispatcher;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Events\IEvent;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**

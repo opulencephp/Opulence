@@ -13,6 +13,8 @@ use RuntimeException;
 
 /**
  * Defines the interface for bootstrapper registries to implement
+ *
+ * @deprecated since 1.0.0-beta6
  */
 interface IBootstrapperRegistry
 {

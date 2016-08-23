@@ -12,6 +12,8 @@ use Opulence\Bootstrappers\IBootstrapperRegistry;
 
 /**
  * Defines the bootstrapper file cache
+ *
+ * @deprecated since 1.0.0-beta6
  */
 class FileCache implements ICache
 {

@@ -9,7 +9,6 @@
 namespace Opulence\Framework\Sessions\Http\Middleware;
 
 use Closure;
-use Opulence\Bootstrappers\Paths;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
@@ -25,21 +24,17 @@ abstract class Session implements IMiddleware
     /** The key of the previous URL */
     const PREVIOUS_URL_KEY = "__opulence_previous_url";
 
-    /** @var Paths The application paths */
-    protected $paths = null;
     /** @var ISession The session used by the application */
     protected $session = null;
     /** @var SessionHandlerInterface The session handler used by the application */
     protected $sessionHandler = null;
 
     /**
-     * @param Paths $paths The application paths
      * @param ISession $session The session used by the application
      * @param SessionHandlerInterface $sessionHandler The session handler used by the application
      */
-    public function __construct(Paths $paths, ISession $session, SessionHandlerInterface $sessionHandler)
+    public function __construct(ISession $session, SessionHandlerInterface $sessionHandler)
     {
-        $this->paths = $paths;
         $this->session = $session;
         $this->sessionHandler = $sessionHandler;
     }

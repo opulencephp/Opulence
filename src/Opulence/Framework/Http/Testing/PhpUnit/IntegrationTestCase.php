@@ -8,6 +8,7 @@
  */
 namespace Opulence\Framework\Http\Testing\PhpUnit;
 
+use Opulence\Applications\Application;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Environments\Environment;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
@@ -17,6 +18,7 @@ use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ViewAssertions;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Requests\RequestMethods;
 use Opulence\Http\Responses\Response;
+use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
 use PHPUnit\Framework\TestCase;
 

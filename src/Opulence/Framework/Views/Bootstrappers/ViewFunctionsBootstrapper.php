@@ -8,9 +8,9 @@
  */
 namespace Opulence\Framework\Views\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
 use Opulence\Framework\Http\CsrfTokenChecker;
 use Opulence\Http\Requests\Request;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Routing\Urls\UrlGenerator;
 use Opulence\Sessions\ISession;
 use Opulence\Views\Compilers\Fortune\ITranspiler;

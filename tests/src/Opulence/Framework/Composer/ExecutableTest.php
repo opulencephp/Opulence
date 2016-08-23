@@ -8,7 +8,6 @@
  */
 namespace Opulence\Framework\Composer;
 
-use Opulence\Bootstrappers\Paths;
 use Opulence\Tests\Framework\Composer\Mocks\Executable;
 
 /**
@@ -26,10 +25,8 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $paths = new Paths(["root" => __DIR__]);
-        $this->executableWithoutPHAR = new Executable($paths);
-        $paths["root"] = __DIR__ . "/Mocks";
-        $this->executableWithPHAR = new Executable($paths);
+        $this->executableWithoutPHAR = new Executable(__DIR__);
+        $this->executableWithPHAR = new Executable(__DIR__ . "/Mocks");
     }
 
     /**

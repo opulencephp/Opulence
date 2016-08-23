@@ -11,12 +11,10 @@ namespace Opulence\Tests\Framework\Http\Testing\PhpUnit\Mocks;
 use Opulence\Applications\Application;
 use Opulence\Applications\Tasks\Dispatchers\TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
-use Opulence\Bootstrappers\BootstrapperRegistry;
-use Opulence\Bootstrappers\Dispatchers\BootstrapperDispatcher;
-use Opulence\Bootstrappers\Paths;
 use Opulence\Debug\Exceptions\Handlers\ExceptionHandler;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
 use Opulence\Environments\Environment;
+use Opulence\Framework\Configuration\Config;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Http\Bootstrappers\RequestBootstrapper;
 use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ResponseAssertions;
@@ -24,6 +22,8 @@ use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ViewAssertions;
 use Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase as BaseIntegrationTestCase;
 use Opulence\Framework\Routing\Bootstrappers\RouterBootstrapper;
 use Opulence\Http\Responses\Response;
+use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
+use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
 use Opulence\Routing\Router;
@@ -72,28 +72,35 @@ class IntegrationTestCase extends BaseIntegrationTestCase
      */
     public function setUp()
     {
-        // Create and bind all of the components of our application
-        $paths = new Paths([
-            "configs" => __DIR__ . "/../../configs"
+        Config::setCategory("paths", [
+            "configs" => realpath(__DIR__ . "/../../configs"),
+            "root" => realpath(__DIR__ . "/../../../../../.."),
+            "src" => realpath(__DIR__ . "/../../../../../../src")
         ]);
+        // Create and bind all of the components of our application
         $taskDispatcher = new TaskDispatcher();
         // Purposely set this to a weird value so we can test that it gets overwritten with the "test" environment
         $this->environment = new Environment("foo");
         $this->container = new Container();
-        $this->container->bindInstance(Paths::class, $paths);
         $this->container->bindInstance(TaskDispatcher::class, $taskDispatcher);
         $this->container->bindInstance(Environment::class, $this->environment);
         $this->container->bindInstance(IContainer::class, $this->container);
         $this->application = new Application($taskDispatcher);
 
         // Setup the bootstrappers
-        $bootstrapperRegistry = new BootstrapperRegistry($paths, $this->environment);
-        $bootstrapperDispatcher = new BootstrapperDispatcher($taskDispatcher, $this->container);
+        $bootstrapperRegistry = new BootstrapperRegistry();
+        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container, $bootstrapperRegistry);
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
         $taskDispatcher->registerTask(
             TaskTypes::PRE_START,
-            function () use ($bootstrapperDispatcher, $bootstrapperRegistry) {
-                $bootstrapperDispatcher->dispatch($bootstrapperRegistry);
+            function () use ($bootstrapperDispatcher) {
+                $bootstrapperDispatcher->startBootstrappers(false, false);
+            }
+        );
+        $taskDispatcher->registerTask(
+            TaskTypes::PRE_SHUTDOWN,
+            function () use ($bootstrapperDispatcher) {
+                $bootstrapperDispatcher->shutDownBootstrappers();
             }
         );
 

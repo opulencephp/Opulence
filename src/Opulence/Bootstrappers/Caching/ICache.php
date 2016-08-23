@@ -12,6 +12,8 @@ use Opulence\Bootstrappers\IBootstrapperRegistry;
 
 /**
  * Defines the interface for bootstrapper caches to implement
+ *
+ * @deprecated since 1.0.0-beta6
  */
 interface ICache
 {

@@ -8,28 +8,15 @@
  */
 namespace Opulence\Framework\Http\Console\Commands;
 
-use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Framework\Configuration\Config;
 
 /**
  * Defines the application-down command
  */
 class AppDownCommand extends Command
 {
-    /** @var Paths The application paths */
-    private $paths = null;
-
-    /**
-     * @param Paths $paths The application paths
-     */
-    public function __construct(Paths $paths)
-    {
-        parent::__construct();
-
-        $this->paths = $paths;
-    }
-
     /**
      * @inheritdoc
      */
@@ -44,7 +31,7 @@ class AppDownCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        if (file_put_contents("{$this->paths["tmp.framework.http"]}/down", "down") === false) {
+        if (file_put_contents(Config::get("paths", "tmp.framework.http") . "/down", "down") === false) {
             $response->writeln("<error>Failed to put application into maintenance mode</error>");
         } else {
             $response->writeln("<success>Application in maintenance mode</success>");

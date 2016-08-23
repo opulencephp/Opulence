@@ -10,6 +10,8 @@ namespace Opulence\Bootstrappers;
 
 /**
  * Defines the interface for lazy bootstrappers to implement
+ *
+ * @deprecated since 1.0.0-beta6
  */
 interface ILazyBootstrapper
 {

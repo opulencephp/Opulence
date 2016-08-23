@@ -15,6 +15,8 @@ use Opulence\Bootstrappers\Dispatchers\IBootstrapperDispatcher as IBootstrapperD
 
 /**
  * Defines the class that binds the bootstrapper library to the application
+ *
+ * @deprecated since 1.0.0-beta6
  */
 class ApplicationBinder
 {

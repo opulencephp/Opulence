@@ -8,30 +8,17 @@
  */
 namespace Opulence\Framework\Cryptography\Console\Commands;
 
-use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Requests\Option;
 use Opulence\Console\Requests\OptionTypes;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Framework\Configuration\Config;
 
 /**
  * Defines the encryption key generator command
  */
 class EncryptionKeyGenerationCommand extends Command
 {
-    /** @var Paths The application paths */
-    private $paths = null;
-
-    /**
-     * @param Paths $paths The application paths
-     */
-    public function __construct(Paths $paths)
-    {
-        parent::__construct();
-
-        $this->paths = $paths;
-    }
-
     /**
      * @inheritdoc
      */
@@ -54,7 +41,7 @@ class EncryptionKeyGenerationCommand extends Command
     {
         // Create a suitably-long key that can be used with sha512
         $key = \bin2hex(\random_bytes(32));
-        $environmentConfigPath = $this->paths["config"] . "/environment/.env.app.php";
+        $environmentConfigPath = Config::get("paths", "config") . "/environment/.env.app.php";
 
         if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
             $contents = file_get_contents($environmentConfigPath);

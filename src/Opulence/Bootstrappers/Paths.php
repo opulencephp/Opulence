@@ -13,6 +13,8 @@ use InvalidArgumentException;
 
 /**
  * Defines the list of paths used by the application
+ *
+ * @deprecated since 1.0.0-beta6
  */
 class Paths implements ArrayAccess
 {

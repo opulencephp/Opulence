@@ -8,28 +8,15 @@
  */
 namespace Opulence\Framework\Http\Console\Commands;
 
-use Opulence\Bootstrappers\Paths;
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
+use Opulence\Framework\Configuration\Config;
 
 /**
  * Defines the application-up command
  */
 class AppUpCommand extends Command
 {
-    /** @var Paths The application paths */
-    private $paths = null;
-
-    /**
-     * @param Paths $paths The application paths
-     */
-    public function __construct(Paths $paths)
-    {
-        parent::__construct();
-
-        $this->paths = $paths;
-    }
-
     /**
      * @inheritdoc
      */
@@ -44,7 +31,7 @@ class AppUpCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        @unlink("{$this->paths["tmp.framework.http"]}/down");
+        @unlink(Config::get("paths", "tmp.framework.http") . "/down");
         $response->writeln("<success>Application out of maintenance mode</success>");
     }
 }

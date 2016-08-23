@@ -16,8 +16,8 @@ use Opulence\Authorization\Roles\Orm\IRoleRepository;
 use Opulence\Authorization\Roles\IRoles;
 use Opulence\Authorization\Roles\Roles;
 use Opulence\Authorization\IAuthority;
-use Opulence\Bootstrappers\Bootstrapper;
-use Opulence\Bootstrappers\ILazyBootstrapper;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 
 /**

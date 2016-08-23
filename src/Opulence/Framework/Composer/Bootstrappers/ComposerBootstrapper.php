@@ -8,8 +8,9 @@
  */
 namespace Opulence\Framework\Composer\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
-use Opulence\Bootstrappers\ILazyBootstrapper;
+use Opulence\Framework\Configuration\Config;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Framework\Composer\Composer;
 use Opulence\Framework\Composer\Executable;
 use Opulence\Ioc\IContainer;
@@ -32,8 +33,10 @@ class ComposerBootstrapper extends Bootstrapper implements ILazyBootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $composer = Composer::createFromRawConfig($this->paths);
-        $executable = new Executable($this->paths);
+        $rootPath = Config::get("paths", "root");
+        $psr4RootPath = Config::get("paths", "src");
+        $composer = Composer::createFromRawConfig($rootPath, $psr4RootPath);
+        $executable = new Executable($rootPath);
         $container->bindInstance(Composer::class, $composer);
         $container->bindInstance(Executable::class, $executable);
     }

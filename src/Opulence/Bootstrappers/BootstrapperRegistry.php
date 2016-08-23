@@ -14,6 +14,8 @@ use RuntimeException;
 
 /**
  * Defines the bootstrapper registry
+ *
+ * @deprecated since 1.0.0-beta6
  */
 class BootstrapperRegistry implements IBootstrapperRegistry
 {

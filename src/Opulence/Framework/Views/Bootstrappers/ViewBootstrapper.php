@@ -8,9 +8,10 @@
  */
 namespace Opulence\Framework\Views\Bootstrappers;
 
-use Opulence\Bootstrappers\Bootstrapper;
-use Opulence\Bootstrappers\ILazyBootstrapper;
 use Opulence\Environments\Environment;
+use Opulence\Framework\Configuration\Config;
+use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;
 use Opulence\Views\Caching\ICache;
 use Opulence\Views\Compilers\Compiler;
@@ -73,7 +74,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     public function run()
     {
         // If we're developing, wipe out the view cache
-        if ($this->environment->getName() == Environment::DEVELOPMENT) {
+        if (getenv("ENV_NAME") == Environment::DEVELOPMENT) {
             $this->viewCache->flush();
         }
     }
@@ -120,7 +121,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     protected function getViewFactory(IContainer $container) : IViewFactory
     {
         $resolver = new FileViewNameResolver();
-        $resolver->registerPath($this->paths["views.raw"]);
+        $resolver->registerPath(Config::get("paths", "views.raw"));
         $resolver->registerExtension("fortune");
         $resolver->registerExtension("fortune.php");
         $resolver->registerExtension("php");
