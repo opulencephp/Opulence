@@ -20,24 +20,20 @@ interface ICache
 
     /**
      * Flushes the cache
-     *
-     * @param string $filePath The cache registry file path
      */
-    public function flush(string $filePath);
+    public function flush();
 
     /**
-     * Reads the bootstrapper details from cache, if it exists, otherwise manually sets the details and caches them
+     * Gets the bootstrapper registry from cache if it exists
      *
-     * @param string $filePath The cache registry file path
-     * @param IBootstrapperRegistry $registry The registry to read settings into
+     * @return IBootstrapperRegistry|null The bootstrapper registry if one was found, otherwise null
      */
-    public function get(string $filePath, IBootstrapperRegistry &$registry);
+    public function get();
 
     /**
      * Writes the bootstrapper registry
      *
-     * @param string $filePath The cache registry file path
      * @param IBootstrapperRegistry $registry The config to write
      */
-    public function set(string $filePath, IBootstrapperRegistry $registry);
+    public function set(IBootstrapperRegistry $registry);
 }

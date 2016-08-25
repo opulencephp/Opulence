@@ -9,21 +9,16 @@
 namespace Opulence\Ioc\Bootstrappers;
 
 use InvalidArgumentException;
-use RuntimeException;
 
 /**
  * Defines the bootstrapper registry
  */
 class BootstrapperRegistry implements IBootstrapperRegistry
 {
-    /** @var array The list of all bootstrapper classes in the application */
-    private $allBootstrappers = [];
     /** @var array The list of lazy bootstrapper classes */
     private $bindingsToLazyBootstrapperClasses = [];
     /** @var array The list of expedited bootstrapper classes */
     private $eagerBootstrapperClasses = [];
-    /** @var array The list of bootstrapper classes to their instances */
-    private $instances = [];
 
     /**
      * @inheritdoc
@@ -39,14 +34,6 @@ class BootstrapperRegistry implements IBootstrapperRegistry
     public function getLazyBootstrapperBindings() : array
     {
         return $this->bindingsToLazyBootstrapperClasses;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function registerBootstrappers(array $bootstrapperClasses)
-    {
-        $this->allBootstrappers = array_merge($this->allBootstrappers, $bootstrapperClasses);
     }
 
     /**
@@ -82,40 +69,6 @@ class BootstrapperRegistry implements IBootstrapperRegistry
                 "bootstrapper" => $lazyBootstrapperClass,
                 "target" => $targetClass
             ];
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function resolve(string $bootstrapperClass) : Bootstrapper
-    {
-        if (!isset($this->instances[$bootstrapperClass])) {
-            $this->instances[$bootstrapperClass] = new $bootstrapperClass();
-        }
-
-        $bootstrapper = $this->instances[$bootstrapperClass];
-
-        if (!$bootstrapper instanceof Bootstrapper) {
-            throw new RuntimeException("\"$bootstrapperClass\" does not extend Bootstrapper");
-        }
-
-        return $bootstrapper;
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function setBootstrapperDetails()
-    {
-        foreach ($this->allBootstrappers as $bootstrapperClass) {
-            $bootstrapper = $this->resolve($bootstrapperClass);
-
-            if ($bootstrapper instanceof ILazyBootstrapper) {
-                $this->registerLazyBootstrapper($bootstrapper->getBindings(), $bootstrapperClass);
-            } else {
-                $this->registerEagerBootstrapper($bootstrapperClass);
-            }
         }
     }
 }

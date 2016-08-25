@@ -22,7 +22,6 @@ interface IBootstrapperDispatcher
      * Starts the bootstrappers
      *
      * @param bool $forceEagerLoading Whether or not to force eager loading
-     * @param bool $useCache Whether or not to use cache
      */
-    public function startBootstrappers(bool $forceEagerLoading, bool $useCache);
+    public function startBootstrappers(bool $forceEagerLoading);
 }

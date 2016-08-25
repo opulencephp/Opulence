@@ -23,6 +23,7 @@ use Opulence\Framework\Http\Testing\PhpUnit\IntegrationTestCase as BaseIntegrati
 use Opulence\Framework\Routing\Bootstrappers\RouterBootstrapper;
 use Opulence\Http\Responses\Response;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
+use Opulence\Ioc\Bootstrappers\BootstrapperResolver;
 use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Ioc\Container;
 use Opulence\Ioc\IContainer;
@@ -89,12 +90,16 @@ class IntegrationTestCase extends BaseIntegrationTestCase
 
         // Setup the bootstrappers
         $bootstrapperRegistry = new BootstrapperRegistry();
-        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container, $bootstrapperRegistry);
+        $bootstrapperDispatcher = new BootstrapperDispatcher(
+            $this->container,
+            $bootstrapperRegistry,
+            new BootstrapperResolver()
+        );
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
         $taskDispatcher->registerTask(
             TaskTypes::PRE_START,
             function () use ($bootstrapperDispatcher) {
-                $bootstrapperDispatcher->startBootstrappers(false, false);
+                $bootstrapperDispatcher->startBootstrappers(false);
             }
         );
         $taskDispatcher->registerTask(

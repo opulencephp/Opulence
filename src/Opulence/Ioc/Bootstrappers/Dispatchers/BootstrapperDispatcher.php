@@ -9,8 +9,8 @@
 namespace Opulence\Ioc\Bootstrappers\Dispatchers;
 
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
-use Opulence\Ioc\Bootstrappers\Caching\ICache;
 use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
+use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
 use Opulence\Ioc\IContainer;
 use RuntimeException;
 
@@ -23,10 +23,8 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     private $container = null;
     /** @var IBootstrapperRegistry The bootstrapper registry */
     private $bootstrapperRegistry = null;
-    /** @var ICache The bootstrapper cache */
-    private $bootstrapperCache = null;
-    /** @var string The path to the cached registry */
-    private $cachedRegistryPath = "";
+    /** @var IBootstrapperResolver The bootstrapper resolver */
+    private $bootstrapperResolver = null;
     /** @var array The list of bootstrapper classes that have been run */
     private $runBootstrappers = [];
     /** @var Bootstrapper[] The list of instantiated bootstrappers */
@@ -35,19 +33,16 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     /**
      * @param IContainer $container The IoC container
      * @param IBootstrapperRegistry $bootstrapperRegistry The bootstrapper registry
-     * @param ICache $bootstrapperCache The bootstrapper cache
-     * @param string $cachedRegistryPath The path to the cached registry
+     * @param IBootstrapperResolver $bootstrapperResolver The bootstrapper resolver
      */
     public function __construct(
         IContainer $container,
         IBootstrapperRegistry $bootstrapperRegistry,
-        ICache $bootstrapperCache = null,
-        string $cachedRegistryPath = ""
+        IBootstrapperResolver $bootstrapperResolver
     ) {
         $this->container = $container;
         $this->bootstrapperRegistry = $bootstrapperRegistry;
-        $this->bootstrapperCache = $bootstrapperCache;
-        $this->cachedRegistryPath = $cachedRegistryPath;
+        $this->bootstrapperResolver = $bootstrapperResolver;
     }
 
     /**
@@ -63,14 +58,8 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     /**
      * @inheritdoc
      */
-    public function startBootstrappers(bool $forceEagerLoading, bool $useCache)
+    public function startBootstrappers(bool $forceEagerLoading)
     {
-        if ($useCache && !empty($this->cachedRegistryPath)) {
-            $this->bootstrapperCache->get($this->cachedRegistryPath, $this->bootstrapperRegistry);
-        } else {
-            $this->bootstrapperRegistry->setBootstrapperDetails();
-        }
-
         if ($forceEagerLoading) {
             $eagerBootstrapperClasses = $this->bootstrapperRegistry->getEagerBootstrappers();
             $lazyBootstrapperClasses = [];
@@ -99,7 +88,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     {
         foreach ($bootstrapperClasses as $bootstrapperClass) {
             /** @var Bootstrapper $bootstrapper */
-            $bootstrapper = $this->bootstrapperRegistry->resolve($bootstrapperClass);
+            $bootstrapper = $this->bootstrapperResolver->resolve($bootstrapperClass);
             $bootstrapper->initialize();
             $this->bootstrapperObjects[] = $bootstrapper;
         }
@@ -136,7 +125,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
                     });
                 }
 
-                $bootstrapper = $this->bootstrapperRegistry->resolve($bootstrapperClass);
+                $bootstrapper = $this->bootstrapperResolver->resolve($bootstrapperClass);
 
                 if (!in_array($bootstrapper, $this->bootstrapperObjects)) {
                     $this->bootstrapperObjects[] = $bootstrapper;

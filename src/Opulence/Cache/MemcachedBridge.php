@@ -13,7 +13,7 @@ use Opulence\Memcached\Memcached;
 /**
  * Defines the Memcached bridge
  */
-class MemcachedBridge
+class MemcachedBridge implements ICacheBridge
 {
     /** @var Memcached The Memcached driver */
     protected $memcached = null;

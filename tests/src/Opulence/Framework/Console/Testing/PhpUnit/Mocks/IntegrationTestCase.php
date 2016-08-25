@@ -13,6 +13,7 @@ use Opulence\Applications\Tasks\Dispatchers\TaskDispatcher;
 use Opulence\Applications\Tasks\TaskTypes;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
+use Opulence\Ioc\Bootstrappers\BootstrapperResolver;
 use Opulence\Ioc\Bootstrappers\Caching\ICache as BootstrapperCache;
 use Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher;
 use Opulence\Console\Commands\CommandCollection;
@@ -80,12 +81,16 @@ class IntegrationTestCase extends BaseIntegrationTestCase
 
         // Setup the bootstrappers
         $bootstrapperRegistry = new BootstrapperRegistry();
-        $bootstrapperDispatcher = new BootstrapperDispatcher($this->container, $bootstrapperRegistry);
+        $bootstrapperDispatcher = new BootstrapperDispatcher(
+            $this->container,
+            $bootstrapperRegistry,
+            new BootstrapperResolver()
+        );
         $bootstrapperRegistry->registerEagerBootstrapper(self::$bootstrappers);
         $taskDispatcher->registerTask(
             TaskTypes::PRE_START,
             function () use ($bootstrapperDispatcher) {
-                $bootstrapperDispatcher->startBootstrappers(false, false);
+                $bootstrapperDispatcher->startBootstrappers(false);
             }
         );
         $taskDispatcher->registerTask(

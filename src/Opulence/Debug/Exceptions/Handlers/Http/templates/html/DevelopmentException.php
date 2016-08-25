@@ -15,15 +15,15 @@
                 text-decoration: none;
             }
 
-            ul.errors
+            ol.errors
             {
-                list-style: disc inside none;
+                list-style-position: inside;
             }
         </style>
     </head>
     <body>
         <h2>Something went wrong</h2>
-        <ul class="errors">
+        <ol class="errors">
             <li>
                 <pre><?php echo htmlentities($ex->getMessage(), ENT_QUOTES, "UTF-8"); ?></pre>
             </li>
@@ -32,6 +32,6 @@
                     <pre><?php echo htmlentities($ex->getMessage(), ENT_QUOTES, "UTF-8"); ?></pre>
                 </li>
             <?php endwhile; ?>
-        </ul>
+        </ol>
     </body>
 </html>

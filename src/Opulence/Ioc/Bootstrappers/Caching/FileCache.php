@@ -8,6 +8,7 @@
  */
 namespace Opulence\Ioc\Bootstrappers\Caching;
 
+use Opulence\Ioc\Bootstrappers\BootstrapperRegistry;
 use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
 
 /**
@@ -15,60 +16,39 @@ use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
  */
 class FileCache implements ICache
 {
-    /**
-     * @inheritdoc
-     */
-    public function flush(string $filePath)
-    {
-        if (file_exists($filePath)) {
-            @unlink($filePath);
-        }
-    }
+    /** @var string The cache registry file path */
+    private $filePath = "";
 
     /**
-     * @inheritdoc
-     */
-    public function get(string $filePath, IBootstrapperRegistry &$registry)
-    {
-        if (file_exists($filePath)) {
-            $this->loadRegistryFromCache($filePath, $registry);
-        } else {
-            $registry->setBootstrapperDetails();
-            // Write this for next time
-            $this->set($filePath, $registry);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function set(string $filePath, IBootstrapperRegistry $registry)
-    {
-        $data = [
-            "eager" => $registry->getEagerBootstrappers(),
-            "lazy" => []
-        ];
-
-        foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bindingData) {
-            $data["lazy"][$boundClass] = [
-                "bootstrapper" => $bindingData["bootstrapper"],
-                "target" => $bindingData["target"]
-            ];
-        }
-
-        file_put_contents($filePath, json_encode($data));
-    }
-
-    /**
-     * Loads a cached registry file's data into a registry
-     *
      * @param string $filePath The cache registry file path
-     * @param IBootstrapperRegistry $registry The registry to read settings into
      */
-    protected function loadRegistryFromCache(string $filePath, IBootstrapperRegistry &$registry)
+    public function __construct(string $filePath)
     {
-        $rawContents = file_get_contents($filePath);
+        $this->filePath = $filePath;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function flush()
+    {
+        if (file_exists($this->filePath)) {
+            @unlink($this->filePath);
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function get()
+    {
+        if (!file_exists($this->filePath)) {
+            return null;
+        }
+
+        $rawContents = file_get_contents($this->filePath);
         $decodedContents = json_decode($rawContents, true);
+        $registry = new BootstrapperRegistry();
 
         foreach ($decodedContents["eager"] as $eagerBootstrapperClass) {
             $registry->registerEagerBootstrapper($eagerBootstrapperClass);
@@ -84,5 +64,27 @@ class FileCache implements ICache
                 );
             }
         }
+
+        return $registry;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function set(IBootstrapperRegistry $registry)
+    {
+        $data = [
+            "eager" => $registry->getEagerBootstrappers(),
+            "lazy" => []
+        ];
+
+        foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bindingData) {
+            $data["lazy"][$boundClass] = [
+                "bootstrapper" => $bindingData["bootstrapper"],
+                "target" => $bindingData["target"]
+            ];
+        }
+
+        file_put_contents($this->filePath, json_encode($data));
     }
 }
