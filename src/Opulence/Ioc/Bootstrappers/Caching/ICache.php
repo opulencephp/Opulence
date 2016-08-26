@@ -15,9 +15,6 @@ use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
  */
 interface ICache
 {
-    /** The default cached registry file name */
-    const DEFAULT_CACHED_REGISTRY_FILE_NAME = "cachedBootstrapperRegistry.json";
-
     /**
      * Flushes the cache
      */

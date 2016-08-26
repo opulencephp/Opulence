@@ -13,21 +13,25 @@ use Opulence\Console\Commands\Compilers\Compiler;
 use Opulence\Console\Commands\Compilers\ICompiler;
 use Opulence\Framework\Composer\Console\Commands\ComposerDumpAutoloadCommand;
 use Opulence\Framework\Composer\Console\Commands\ComposerUpdateCommand;
+use Opulence\Framework\Configuration\Config;
+use Opulence\Framework\Console\Commands\AppDownCommand;
+use Opulence\Framework\Console\Commands\AppEnvironmentCommand;
+use Opulence\Framework\Console\Commands\AppUpCommand;
+use Opulence\Framework\Console\Commands\FlushFrameworkCacheCommand;
 use Opulence\Framework\Console\Commands\MakeCommandCommand;
+use Opulence\Framework\Console\Commands\RenameAppCommand;
 use Opulence\Framework\Cryptography\Console\Commands\EncryptionKeyGenerationCommand;
 use Opulence\Framework\Cryptography\Console\Commands\UuidGenerationCommand;
-use Opulence\Framework\Http\Console\Commands\AppDownCommand;
-use Opulence\Framework\Http\Console\Commands\AppEnvironmentCommand;
-use Opulence\Framework\Http\Console\Commands\AppUpCommand;
-use Opulence\Framework\Http\Console\Commands\FlushFrameworkCacheCommand;
-use Opulence\Framework\Http\Console\Commands\RenameAppCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeDataMapperCommand;
 use Opulence\Framework\Orm\Console\Commands\MakeEntityCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeControllerCommand;
 use Opulence\Framework\Routing\Console\Commands\MakeHttpMiddlewareCommand;
 use Opulence\Framework\Views\Console\Commands\FlushViewCacheCommand;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
+use Opulence\Ioc\Bootstrappers\Caching\FileCache;
 use Opulence\Ioc\IContainer;
+use Opulence\Routing\Routes\Caching\ICache as RouteCache;
+use Opulence\Views\Caching\ICache as ViewCache;
 
 /**
  * Defines the command bootstrapper
@@ -64,6 +68,14 @@ class CommandsBootstrapper extends Bootstrapper
         $container->bindInstance(ICompiler::class, $compiler);
         $this->commandCollection = new CommandCollection($compiler);
         $container->bindInstance(CommandCollection::class, $this->commandCollection);
+        $container->bindFactory(FlushFrameworkCacheCommand::class, function (IContainer $container) {
+            return new FlushFrameworkCacheCommand(
+                new FileCache(Config::get("paths", "tmp.framework.http") . "/cachedBootstrapperRegistry.json"),
+                new FileCache(Config::get("paths", "tmp.framework.console") . "/cachedBootstrapperRegistry.json"),
+                $container->resolve(RouteCache::class),
+                $container->resolve(ViewCache::class)
+            );
+        });
     }
 
     /**

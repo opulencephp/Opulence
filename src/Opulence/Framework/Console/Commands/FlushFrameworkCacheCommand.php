@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Framework\Http\Console\Commands;
+namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
 use Opulence\Console\Responses\IResponse;
@@ -20,26 +20,31 @@ use Opulence\Views\Caching\ICache as ViewCache;
  */
 class FlushFrameworkCacheCommand extends Command
 {
-    /** @var BootstrapperCache The bootstrapper cache */
-    private $bootstrapperCache = null;
+    /** @var BootstrapperCache The console kernel bootstrapper cache */
+    private $consoleBootstrapperCache = null;
+    /** @var BootstrapperCache The HTTP kernel bootstrapper cache */
+    private $httpBootstrapperCache = null;
     /** @var RouteCache The route cache */
     private $routeCache = null;
     /** @var ViewCache The view cache */
     private $viewCache = null;
 
     /**
-     * @param BootstrapperCache $bootstrapperCache The bootstrapper cache
+     * @param BootstrapperCache $httpBootstrapperCache The HTTP bootstrapper cache
+     * @param BootstrapperCache $consoleBootstrapperCache The console bootstrapper cache
      * @param RouteCache $routeCache The route cache
      * @param ViewCache $viewCache The view cache
      */
     public function __construct(
-        BootstrapperCache $bootstrapperCache,
+        BootstrapperCache $httpBootstrapperCache,
+        BootstrapperCache $consoleBootstrapperCache,
         RouteCache $routeCache,
         ViewCache $viewCache
     ) {
         parent::__construct();
 
-        $this->bootstrapperCache = $bootstrapperCache;
+        $this->httpBootstrapperCache = $httpBootstrapperCache;
+        $this->consoleBootstrapperCache = $consoleBootstrapperCache;
         $this->routeCache = $routeCache;
         $this->viewCache = $viewCache;
     }
@@ -71,19 +76,8 @@ class FlushFrameworkCacheCommand extends Command
      */
     private function flushBootstrapperCache(IResponse $response)
     {
-        $fileNames = [];
-
-        if (($path = Config::get("paths", "tmp.framework.console")) !== null) {
-            $fileNames[] = "$path/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
-        }
-
-        if (($path = Config::get("paths", "tmp.framework.http")) !== null) {
-            $fileNames[] = "$path/" . BootstrapperCache::DEFAULT_CACHED_REGISTRY_FILE_NAME;
-        }
-
-        foreach ($fileNames as $cachedRegistryFileName) {
-            $this->bootstrapperCache->flush($cachedRegistryFileName);
-        }
+        $this->httpBootstrapperCache->flush();
+        $this->consoleBootstrapperCache->flush();
 
         $response->writeln("<info>Bootstrapper cache flushed</info>");
     }

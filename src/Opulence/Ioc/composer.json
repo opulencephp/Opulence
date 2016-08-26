@@ -5,7 +5,8 @@
     "PHP",
     "ioc",
     "container",
-    "dependency injection"
+    "dependency injection",
+    "bootstrappers"
   ],
   "authors": [
     {
