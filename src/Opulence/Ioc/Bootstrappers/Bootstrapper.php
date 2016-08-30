@@ -31,11 +31,10 @@ abstract class Bootstrapper
      */
     public function __call(string $name, array $arguments)
     {
-        if ($name !== "initialize" && $name !== "run" && $name !== "shutdown") {
+        if ($name !== "run" && $name !== "shutdown") {
             throw new BadMethodCallException(
                 sprintf(
-                    "Only %s, %s, and %s are supported",
-                    "Bootstrapper::initialize()",
+                    "Only %s, and %s are supported",
                     "Bootstrapper::run()",
                     "Bootstrapper::shutdown()"
                 )

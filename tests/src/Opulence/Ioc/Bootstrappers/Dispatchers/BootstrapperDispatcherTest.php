@@ -125,7 +125,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         $this->bootstrapperRegistry->registerEagerBootstrapper(BootstrapperWithEverything::class);
         ob_start();
         $this->dispatcher->startBootstrappers(true);
-        $this->assertEquals("initializeregisterBindingsrun", ob_get_clean());
+        $this->assertEquals("registerBindingsrun", ob_get_clean());
     }
 
     /**
@@ -150,7 +150,7 @@ class BootstrapperDispatcherTest extends \PHPUnit\Framework\TestCase
         ob_start();
         $this->dispatcher->startBootstrappers(false);
         $this->container->resolve(LazyFooInterface::class);
-        $this->assertEquals("initializeregisterBindingsrun", ob_get_clean());
+        $this->assertEquals("registerBindingsrun", ob_get_clean());
     }
 
     /**

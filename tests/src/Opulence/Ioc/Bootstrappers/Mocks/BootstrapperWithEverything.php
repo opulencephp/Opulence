@@ -28,14 +28,6 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
     /**
      * @inheritdoc
      */
-    public function initialize()
-    {
-        echo "initialize";
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function registerBindings(IContainer $container)
     {
         echo "registerBindings";

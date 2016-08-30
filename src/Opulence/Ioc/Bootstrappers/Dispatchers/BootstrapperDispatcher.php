@@ -89,11 +89,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
         foreach ($bootstrapperClasses as $bootstrapperClass) {
             /** @var Bootstrapper $bootstrapper */
             $bootstrapper = $this->bootstrapperResolver->resolve($bootstrapperClass);
-            $bootstrapper->initialize();
             $this->bootstrapperObjects[] = $bootstrapper;
-        }
-
-        foreach ($this->bootstrapperObjects as $bootstrapper) {
             $bootstrapper->registerBindings($this->container);
         }
 
@@ -132,7 +128,6 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
                 }
 
                 if (!isset($this->runBootstrappers[$bootstrapperClass])) {
-                    $bootstrapper->initialize();
                     $bootstrapper->registerBindings($this->container);
                     $this->container->callMethod($bootstrapper, "run", [], true);
                     $this->runBootstrappers[$bootstrapperClass] = true;

@@ -1,3 +1,29 @@
+<h2>v1.0.0-beta6</h3>
+This release consolidated bootstrappers into the `Ioc` library.  This makes them more usable to people only using the `Ioc` library.  It also removes some necessary hackiness for application configuration.  All of Opulence's bootstrappers have been updated to use the new `Ioc` bootstrappers.
+
+<h3>Bootstrappers</h3>
+* The entire library has been deprecated in favor of `Opulence\Ioc\Bootstrappers`
+
+<h3>Ioc</h3>
+* Added the following:
+  * `Opulence\Ioc\Bootstrappers\Caching\FileCache`
+  * `Opulence\Ioc\Bootstrappers\Caching\ICache`
+  * `Opulence\Ioc\Bootstrappers\Dispatchers\BootstrapperDispatcher`
+  * `Opulence\Ioc\Bootstrappers\Dispatchers\IBootstrapperDispatcher`
+  * `Opulence\Ioc\Bootstrappers\Factories\BootstrapperRegistryFactory`
+  * `Opulence\Ioc\Bootstrappers\Factories\CachedBootstrapperRegistryFactory`
+  * `Opulence\Ioc\Bootstrappers\Factories\IBootstrapperRegistryFactory`
+  * `Opulence\Ioc\Bootstrappers\Bootstrapper`
+  * `Opulence\Ioc\Bootstrappers\BootstrapperRegistry`
+  * `Opulence\Ioc\Bootstrappers\BootstrapperResolver`
+  * `Opulence\Ioc\Bootstrappers\IBootstrapperRegistry`
+  * `Opulence\Ioc\Bootstrappers\IBootstrapperResolver`
+  * `Opulence\Ioc\Bootstrappers\ILazyBootstrapper`
+* Removed `Bootstrapper::initialize()` functionality because it doesn't serve a purpose anymore
+
+<h3>Framework</h3>
+* Added `Opulence\Framework\Configuration\Config` as a container to hold config data to be read in your bootstrappers
+
 <h2>v1.0.0-beta5</h2>
 
 <h3>Deprecated</h3>
