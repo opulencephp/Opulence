@@ -21,7 +21,6 @@ For complete documentation, <a href="https://www.opulencephp.com" target="_blank
 * PHP 7.0, or HHVM >= 3.11.0
 * OpenSSL
 * mbstring
-* A default PHP timezone set in the PHP.ini
 
 ## License
 This software is licensed under the MIT license.  Please read the LICENSE for more information.
