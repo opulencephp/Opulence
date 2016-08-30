@@ -1,4 +1,4 @@
-REPOS=(Applications Authentication Authorization Bootstrappers Cache Console Cryptography Databases Debug Environments Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Validation Views)
+REPOS=(Applications Authentication Authorization Cache Console Cryptography Databases Debug Environments Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Validation Views)
 SUBTREE_DIR="src/Opulence"
 APPLICATION_CLASS_FILE="$SUBTREE_DIR/Applications/Application.php"
 REMOTE_URL="https://github.com/opulencephp"
