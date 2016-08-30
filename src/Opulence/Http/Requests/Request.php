@@ -769,6 +769,7 @@ class Request
             if ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::FORWARDED])) {
                 $header = $this->headers->get(self::$trustedHeaderNames[RequestHeaders::FORWARDED]);
                 preg_match_all("/for=(?:\"?\[?)([a-z0-9:\.\-\/_]*)/", $header, $matches);
+                error_log(print_r($matches, true));
                 $ipAddresses = $matches[1];
             } elseif ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP])) {
                 $ipAddresses = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP]));
