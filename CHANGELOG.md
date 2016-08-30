@@ -4,6 +4,9 @@ This release consolidated bootstrappers into the `Ioc` library.  This makes them
 <h3>Bootstrappers</h3>
 * The entire library has been deprecated in favor of `Opulence\Ioc\Bootstrappers`
 
+<h3>Framework</h3>
+* Added `Opulence\Framework\Configuration\Config` as a container to hold config data to be read in your bootstrappers
+
 <h3>Ioc</h3>
 * Added the following:
   * `Opulence\Ioc\Bootstrappers\Caching\FileCache`
@@ -21,8 +24,8 @@ This release consolidated bootstrappers into the `Ioc` library.  This makes them
   * `Opulence\Ioc\Bootstrappers\ILazyBootstrapper`
 * Removed `Bootstrapper::initialize()` functionality because it doesn't serve a purpose anymore
 
-<h3>Framework</h3>
-* Added `Opulence\Framework\Configuration\Config` as a container to hold config data to be read in your bootstrappers
+<h3>Query Builders</h3>
+* Added conditions to `where()`, `andWhere()`, `orWhere()`, `having()`, `andHaving()`, and `orHaving()` methods on various queries (issue #9)
 
 <h2>v1.0.0-beta5</h2>
 
