@@ -769,7 +769,6 @@ class Request
             if ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::FORWARDED])) {
                 $header = $this->headers->get(self::$trustedHeaderNames[RequestHeaders::FORWARDED]);
                 preg_match_all("/for=(?:\"?\[?)([a-z0-9:\.\-\/_]*)/", $header, $matches);
-                error_log(print_r($matches, true));
                 $ipAddresses = $matches[1];
             } elseif ($this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP])) {
                 $ipAddresses = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_IP]));
@@ -781,12 +780,7 @@ class Request
 
             foreach ($ipAddresses as $index => $ipAddress) {
                 // Check for valid IP address
-                if (
-                    filter_var(
-                        $ipAddress,
-                        FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE
-                    ) === false
-                ) {
+                if (filter_var($ipAddress, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
                     unset($ipAddresses[$index]);
                 }
 
