@@ -8,7 +8,7 @@
  */
 namespace Opulence\Ioc;
 
-use Opulence\Ioc\Mocks\StaticSetters;
+use Opulence\Tests\Ioc\Mocks\StaticSetters;
 use Opulence\Tests\Ioc\Mocks\Bar;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;

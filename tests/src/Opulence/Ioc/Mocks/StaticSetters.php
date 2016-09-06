@@ -6,7 +6,7 @@
  * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
-namespace Opulence\Ioc\Mocks;
+namespace Opulence\Tests\Ioc\Mocks;
 
 use Opulence\Tests\Ioc\Mocks\IPerson;
 
