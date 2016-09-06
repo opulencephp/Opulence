@@ -25,7 +25,7 @@ class EventDispatcher implements IEventDispatcher
     {
         if (isset($this->eventNamesToListeners[$eventName])) {
             foreach ($this->eventNamesToListeners[$eventName] as $listener) {
-                call_user_func($listener, $event, $eventName, $this);
+                $listener($event, $eventName, $this);
 
                 if ($event->propagationIsStopped()) {
                     break;

@@ -154,7 +154,7 @@ class Router
     public function group(array $options, callable $callback)
     {
         array_push($this->groupOptionsStack, $options);
-        call_user_func($callback, $this);
+        $callback($this);
         array_pop($this->groupOptionsStack);
     }
 

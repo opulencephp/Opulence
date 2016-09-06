@@ -55,7 +55,7 @@ class ConditionalRule extends CallbackRule
             throw new LogicException("Condition not set");
         }
 
-        if (!call_user_func($this->callback, $value, $allValues)) {
+        if (!($this->callback)($value, $allValues)) {
             return true;
         }
 

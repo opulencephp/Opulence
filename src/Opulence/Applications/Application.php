@@ -75,7 +75,7 @@ class Application
                 $this->isRunning = false;
 
                 if ($shutdownTask !== null) {
-                    $taskReturnValue = call_user_func($shutdownTask);
+                    $taskReturnValue = $shutdownTask();
                 }
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
@@ -107,7 +107,7 @@ class Application
                 $this->isRunning = true;
 
                 if ($startTask !== null) {
-                    $taskReturnValue = call_user_func($startTask);
+                    $taskReturnValue = $startTask();
                 }
 
                 $this->taskDispatcher->dispatch(TaskTypes::POST_START);

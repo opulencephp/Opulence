@@ -85,7 +85,7 @@ class Repository implements IRepository
      */
     protected function getFromDataMapper(string $functionName, array $args = [])
     {
-        $entities = call_user_func_array([$this->dataMapper, $functionName], $args);
+        $entities = $this->dataMapper->$functionName(...$args);
 
         if (is_array($entities)) {
             // Passing by reference here is important because that reference may be updated in the unit of work

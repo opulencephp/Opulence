@@ -38,7 +38,7 @@ class Pipeline implements IPipeline
                         return $input;
                     }
 
-                    return call_user_func($this->callback, $input);
+                    return ($this->callback)($input);
                 }
             ),
             $this->input
@@ -87,7 +87,7 @@ class Pipeline implements IPipeline
         return function ($stages, $stage) {
             return function ($input) use ($stages, $stage) {
                 if ($stage instanceof Closure) {
-                    return call_user_func($stage, $input, $stages);
+                    return $stage($input, $stages);
                 } else {
                     if ($this->methodToCall === null) {
                         throw new PipelineException("Method must not be null");
@@ -97,10 +97,7 @@ class Pipeline implements IPipeline
                         throw new PipelineException(get_class($stage) . "::{$this->methodToCall} does not exist");
                     }
 
-                    return call_user_func_array(
-                        [$stage, $this->methodToCall],
-                        [$input, $stages]
-                    );
+                    return $stage->{$this->methodToCall}($input, $stages);
                 }
             };
         };

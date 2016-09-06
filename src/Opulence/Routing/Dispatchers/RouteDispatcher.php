@@ -83,7 +83,7 @@ class RouteDispatcher implements IRouteDispatcher
                     true
                 );
 
-                $response = call_user_func_array($controller, $parameters);
+                $response = $controller(...$parameters);
             } else {
                 $reflection = new ReflectionMethod($controller, $route->getControllerMethod());
                 $parameters = $this->resolveControllerParameters(
@@ -98,12 +98,11 @@ class RouteDispatcher implements IRouteDispatcher
                 }
 
                 if ($controller instanceof Controller) {
-                    $response = call_user_func_array(
-                        [$controller, "callMethod"],
-                        [$route->getControllerMethod(), $parameters]
+                    $response = $controller->callMethod(
+                        $route->getControllerMethod(), $parameters
                     );
                 } else {
-                    $response = call_user_func_array([$controller, $route->getControllerMethod()], $parameters);
+                    $response = $controller->{$route->getControllerMethod()}(...$parameters);
                 }
             }
 

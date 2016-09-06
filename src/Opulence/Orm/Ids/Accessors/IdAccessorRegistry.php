@@ -56,7 +56,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
         }
 
         try {
-            return call_user_func($this->idAccessorFunctions[$className]["getter"], $entity);
+            return $this->idAccessorFunctions[$className]["getter"]($entity);
         } catch (ReflectionException $ex) {
             throw new OrmException("Failed to get entity Id", 0, $ex);
         }
@@ -114,7 +114,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
         }
 
         try {
-            call_user_func($this->idAccessorFunctions[$className]["setter"], $entity, $id);
+            $this->idAccessorFunctions[$className]["setter"]($entity, $id);
         } catch (ReflectionException $ex) {
             throw new OrmException("Failed to set entity Id", 0, $ex);
         }

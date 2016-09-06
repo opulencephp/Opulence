@@ -89,9 +89,8 @@ class SelectQuery extends Query
      */
     public function andHaving(...$conditions) : self
     {
-        $this->havingConditions = call_user_func_array(
-            [$this->conditionalQueryBuilder, "addConditionToClause"],
-            array_merge([$this->havingConditions, "AND"], $this->createConditionExpressions($conditions))
+        $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
+            $this->havingConditions, "AND", ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -105,9 +104,8 @@ class SelectQuery extends Query
      */
     public function andWhere(...$conditions) : self
     {
-        call_user_func_array(
-            [$this->conditionalQueryBuilder, "andWhere"], 
-            $this->createConditionExpressions($conditions)
+        $this->conditionalQueryBuilder->andWhere(
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -200,9 +198,8 @@ class SelectQuery extends Query
     {
         // We want to wipe out anything already in the condition list
         $this->havingConditions = [];
-        $this->havingConditions = call_user_func_array(
-            [$this->conditionalQueryBuilder, "addConditionToClause"],
-            array_merge([$this->havingConditions, "AND"], $this->createConditionExpressions($conditions))
+        $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
+            $this->havingConditions, "AND", ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -288,9 +285,8 @@ class SelectQuery extends Query
      */
     public function orHaving(...$conditions) : self
     {
-        $this->havingConditions = call_user_func_array(
-            [$this->conditionalQueryBuilder, "addConditionToClause"],
-            array_merge([$this->havingConditions, "OR"], $this->createConditionExpressions($conditions))
+        $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
+            $this->havingConditions, "OR", ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -304,9 +300,8 @@ class SelectQuery extends Query
      */
     public function orWhere(...$conditions) : self
     {
-        call_user_func_array(
-            [$this->conditionalQueryBuilder, "orWhere"], 
-            $this->createConditionExpressions($conditions)
+        $this->conditionalQueryBuilder->orWhere(
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -350,9 +345,8 @@ class SelectQuery extends Query
      */
     public function where(...$conditions) : self
     {
-        call_user_func_array(
-            [$this->conditionalQueryBuilder, "where"], 
-            $this->createConditionExpressions($conditions)
+        $this->conditionalQueryBuilder->where(
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;

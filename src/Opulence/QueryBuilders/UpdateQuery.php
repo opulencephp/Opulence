@@ -74,9 +74,8 @@ class UpdateQuery extends Query
      */
     public function andWhere(...$conditions) : self
     {
-        call_user_func_array(
-            [$this->conditionalQueryBuilder, "andWhere"],
-            $this->createConditionExpressions($conditions)
+        $this->conditionalQueryBuilder->andWhere(
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -109,9 +108,8 @@ class UpdateQuery extends Query
      */
     public function orWhere(...$conditions) : self
     {
-        call_user_func_array(
-            [$this->conditionalQueryBuilder, "orWhere"], 
-            $this->createConditionExpressions($conditions)
+        $this->conditionalQueryBuilder->orWhere(
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -126,9 +124,8 @@ class UpdateQuery extends Query
      */
     public function where(...$conditions) : self
     {
-        call_user_func_array(
-            [$this->conditionalQueryBuilder, "where"], 
-            $this->createConditionExpressions($conditions)
+        $this->conditionalQueryBuilder->where(
+            ...$this->createConditionExpressions($conditions)
         );
 
         return $this;

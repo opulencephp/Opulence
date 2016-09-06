@@ -82,7 +82,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
                 $listenerMethod
             ) {
                 $listenerObject = $container->resolve($listenerClass);
-                call_user_func_array([$listenerObject, $listenerMethod], [$event, $eventName, $dispatcher]);
+                $listenerObject->$listenerMethod($event, $eventName, $dispatcher);
             };
         }
 
