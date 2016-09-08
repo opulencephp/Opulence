@@ -8,8 +8,6 @@
  */
 namespace Opulence\Sessions\Handlers;
 
-use DateTime;
-
 /**
  * Defines the file session handler
  */
@@ -49,7 +47,7 @@ class FileSessionHandler extends SessionHandler
      */
     public function gc($maxLifetime) : bool
     {
-        $sessionFiles = glob($this->path . "/*");
+        $sessionFiles = glob($this->path . "/*", GLOB_NOSORT);
 
         $limit = time() - $maxLifetime;
         foreach ($sessionFiles as $sessionFile) {
