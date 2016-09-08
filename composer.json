@@ -22,10 +22,12 @@
   "license": "MIT",
   "autoload": {
     "psr-4": {
-      "Opulence\\": [
-        "src/Opulence",
-        "tests/src/Opulence"
-      ]
+      "Opulence\\": "src/Opulence"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Opulence\\Tests\\": "tests/src/Opulence"
     }
   },
   "require": {
