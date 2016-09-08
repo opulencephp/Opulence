@@ -1,4 +1,13 @@
-<h2>v1.0.0-beta6</h3>
+<h2>v1.0.0-beta7</h2>
+
+<h3>General</h3>
+* Better optimized PSR-4 autoloading (issue #19)
+* Removed many instances of `call_user_func` and `call_user_func_array` for readability (issue #20)
+
+<h3>Sessions</h3>
+* Improved speed of session garbage collection (issue #21)
+
+<h2>v1.0.0-beta6</h2>
 This release consolidated bootstrappers into the `Ioc` library.  This makes them more usable to people only using the `Ioc` library.  It also removes some necessary hackiness for application configuration.  All of Opulence's bootstrappers have been updated to use the new `Ioc` bootstrappers.
 
 <h3>Bootstrappers</h3>
