@@ -51,10 +51,10 @@ class FileSessionHandler extends SessionHandler
     {
         $sessionFiles = glob($this->path . "/*");
 
+        $limit = time() - $maxLifetime;
         foreach ($sessionFiles as $sessionFile) {
-            $lastModified = DateTime::createFromFormat("U", filemtime($sessionFile));
-
-            if (new DateTime("$maxLifetime seconds ago") > $lastModified) {
+            $lastModified = filemtime($sessionFile);
+            if ($lastModified < $limit) {
                 @unlink($sessionFile);
             }
         }
