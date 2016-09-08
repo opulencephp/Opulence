@@ -40,7 +40,7 @@ class Controller
     {
         $this->setUpView();
         /** @var Response $response */
-        $response = call_user_func_array([$this, $methodName], $parameters);
+        $response = $this->$methodName(...$parameters);
 
         if ($response === null || is_string($response)) {
             $response = new Response($response === null ? "" : $response);

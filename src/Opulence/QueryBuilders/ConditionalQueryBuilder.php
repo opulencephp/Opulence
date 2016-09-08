@@ -41,10 +41,8 @@ class ConditionalQueryBuilder
      */
     public function andWhere(string ...$condition) : self
     {
-        $this->whereConditions = call_user_func_array(
-            [$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "AND"], $condition)
-        );
+        $this->whereConditions = $this->addConditionToClause(
+            $this->whereConditions, "AND", ...$condition);
 
         return $this;
     }
@@ -91,10 +89,8 @@ class ConditionalQueryBuilder
      */
     public function orWhere(string ...$condition) : self
     {
-        $this->whereConditions = call_user_func_array(
-            [$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "OR"], $condition)
-        );
+        $this->whereConditions = $this->addConditionToClause(
+            $this->whereConditions, "OR", ...$condition);
 
         return $this;
     }
@@ -110,8 +106,8 @@ class ConditionalQueryBuilder
     {
         // We want to wipe out anything already in the condition list
         $this->whereConditions = [];
-        $this->whereConditions = call_user_func_array([$this, "addConditionToClause"],
-            array_merge([$this->whereConditions, "AND"], $condition));
+        $this->whereConditions = $this->addConditionToClause(
+            $this->whereConditions, "AND", ...$condition);
 
         return $this;
     }

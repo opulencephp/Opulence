@@ -40,7 +40,7 @@ class Authority implements IAuthority
     {
         // Check the overrides first
         foreach ($this->permissionRegistry->getOverrideCallbacks() as $overrideCallback) {
-            if (call_user_func($overrideCallback, $this->subjectId, $permission, ...$arguments)) {
+            if ($overrideCallback($this->subjectId, $permission, ...$arguments)) {
                 return true;
             }
         }
@@ -56,7 +56,7 @@ class Authority implements IAuthority
             return false;
         }
 
-        return call_user_func($callback, $this->subjectId, ...$arguments);
+        return $callback($this->subjectId, ...$arguments);
     }
 
     /**

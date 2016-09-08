@@ -101,7 +101,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $controller = "foo@bar";
 
         foreach (RouteCollection::getMethods() as $method) {
-            call_user_func_array([$this->router, strtolower($method)], [$path, $controller]);
+            $this->router->{strtolower($method)}($path, $controller);
             $expectedRoute = $this->parser->parse(new Route($method, $path, $controller));
             $this->assertEquals([$expectedRoute], $this->router->getRouteCollection()->get($method));
         }

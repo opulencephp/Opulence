@@ -42,7 +42,7 @@ class StreamResponse extends Response
     public function sendContent()
     {
         if (!$this->hasSentStream && $this->streamCallback !== null) {
-            call_user_func($this->streamCallback);
+            ($this->streamCallback)();
             $this->hasSentStream = true;
         }
     }

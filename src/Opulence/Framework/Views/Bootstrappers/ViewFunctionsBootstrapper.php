@@ -44,7 +44,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
         });
         // Add the ability to tell if the current route is a particular route
         $transpiler->registerViewFunction("currentRouteIs", function ($routeName) use ($request, $urlGenerator) {
-            $regex = call_user_func([$urlGenerator, "createRegexFromName"], $routeName);
+            $regex = $urlGenerator->createRegexFromName($routeName);
             // Strip the delimiters
             $regex = substr($regex, 1, -1);
 
@@ -57,7 +57,7 @@ class ViewFunctionsBootstrapper extends Bootstrapper
         });
         // Add the ability to generate URLs to named routes from views
         $transpiler->registerViewFunction("route", function ($routeName, ...$args) use ($urlGenerator) {
-            return call_user_func_array([$urlGenerator, "createFromName"], func_get_args());
+            return $urlGenerator->createFromName(...func_get_args());
         });
     }
 }

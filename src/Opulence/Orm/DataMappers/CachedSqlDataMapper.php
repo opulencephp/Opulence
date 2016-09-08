@@ -205,7 +205,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
         array $setFuncArgs = []
     ) {
         // Always attempt to retrieve from cache first
-        $data = call_user_func_array([$this->cacheDataMapper, $funcName], $getFuncArgs);
+        $data = $this->cacheDataMapper->$funcName(...$getFuncArgs);
 
         /**
          * If an entity wasn't returned or the list of entities was empty, we have no way of knowing if they really
@@ -213,7 +213,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
          * So, we must try looking in the SQL data mapper
          */
         if ($data === null || $data === []) {
-            $data = call_user_func_array([$this->sqlDataMapper, $funcName], $getFuncArgs);
+            $data = $this->sqlDataMapper->$funcName(...$getFuncArgs);
 
             // Try to store the data back to cache
             if ($data === null) {
@@ -223,10 +223,10 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
             if ($addDataToCacheOnMiss) {
                 if (is_array($data)) {
                     foreach ($data as $datum) {
-                        call_user_func_array([$this->cacheDataMapper, "add"], array_merge([$datum], $setFuncArgs));
+                        $this->cacheDataMapper->add($datum, ...$setFuncArgs);
                     }
                 } else {
-                    call_user_func_array([$this->cacheDataMapper, "add"], array_merge([$data], $setFuncArgs));
+                    $this->cacheDataMapper->add($data, ...$setFuncArgs);
                 }
             }
         }

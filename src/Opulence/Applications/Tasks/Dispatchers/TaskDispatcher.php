@@ -31,7 +31,7 @@ class TaskDispatcher implements ITaskDispatcher
     {
         try {
             foreach ($this->tasks[$taskType] as $task) {
-                call_user_func($task);
+                $task();
             }
         } catch (Exception $ex) {
             throw new RuntimeException("Failed to run tasks", 0, $ex);

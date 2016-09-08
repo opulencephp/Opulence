@@ -98,7 +98,7 @@ class Transpiler implements ITranspiler
             throw new InvalidArgumentException("View function \"$functionName\" does not exist");
         }
 
-        return call_user_func_array($this->viewFunctions[$functionName], $args);
+        return $this->viewFunctions[$functionName](...$args);
     }
 
     /**
@@ -255,7 +255,7 @@ class Transpiler implements ITranspiler
             );
         }
 
-        return call_user_func($this->directiveTranspilers[$directiveName], $expression);
+        return $this->directiveTranspilers[$directiveName]($expression);
     }
 
     /**

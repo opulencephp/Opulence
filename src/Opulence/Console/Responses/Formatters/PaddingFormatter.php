@@ -46,7 +46,7 @@ class PaddingFormatter
         $formattedText = "";
 
         foreach ($rows as &$row) {
-            $formattedText .= call_user_func($callback, $row) . $this->eolChar;
+            $formattedText .= $callback($row) . $this->eolChar;
         }
 
         // Trim the excess separator

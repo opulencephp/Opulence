@@ -38,7 +38,7 @@ class InsertQuery extends BaseInsertQuery
      */
     public function addReturning(string ...$expression) : self
     {
-        call_user_func_array([$this->augmentingQueryBuilder, "addReturning"], $expression);
+        $this->augmentingQueryBuilder->addReturning(...$expression);
 
         return $this;
     }
@@ -63,7 +63,7 @@ class InsertQuery extends BaseInsertQuery
      */
     public function returning(string ...$expression) : self
     {
-        call_user_func_array([$this->augmentingQueryBuilder, "returning"], $expression);
+        $this->augmentingQueryBuilder->returning(...$expression);
 
         return $this;
     }

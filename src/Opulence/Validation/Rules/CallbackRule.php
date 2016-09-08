@@ -36,7 +36,7 @@ class CallbackRule implements IRuleWithArgs
             throw new LogicException("Callback not set");
         }
 
-        return call_user_func($this->callback, $value, $allValues);
+        return ($this->callback)($value, $allValues);
     }
 
     /**

@@ -44,7 +44,7 @@ class Memcached
      */
     public function __call(string $name, array $arguments)
     {
-        return call_user_func_array([$this->getClient(), $name], $arguments);
+        return $this->getClient()->$name(...$arguments);
     }
 
     /**

@@ -96,7 +96,7 @@ class Container implements IContainer
         $unresolvedParameters = (new ReflectionFunction($closure))->getParameters();
         $resolvedParameters = $this->resolveParameters(null, $unresolvedParameters, $primitives);
 
-        return call_user_func_array($closure, $resolvedParameters);
+        return $closure(...$resolvedParameters);
     }
 
     /**
@@ -116,7 +116,7 @@ class Container implements IContainer
         $className = is_string($instance) ? $instance : get_class($instance);
         $resolvedParameters = $this->resolveParameters($className, $unresolvedParameters, $primitives);
 
-        return call_user_func_array([$instance, $methodName], $resolvedParameters);
+        return [$instance, $methodName](...$resolvedParameters);
     }
 
     /**
@@ -125,7 +125,7 @@ class Container implements IContainer
     public function for (string $targetClass, callable $callback)
     {
         $this->targetStack[] = $targetClass;
-        $result = call_user_func($callback, $this);
+        $result = $callback($this);
         $this->stopTargeting();
 
         return $result;
