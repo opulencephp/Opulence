@@ -22,8 +22,7 @@ class Environment
     /** The development environment */
     const DEVELOPMENT = "development";
 
-    /** @var string The name of the environment */
-    private $name = "";
+    const ENV_NAME_KEY = "ENV_NAME";
 
     /**
      * @param string $name The name of the environment
@@ -38,7 +37,7 @@ class Environment
      */
     public function getName() : string
     {
-        return $this->name;
+        return $this->getVar(Environment::ENV_NAME_KEY);
     }
 
     /**
@@ -80,7 +79,7 @@ class Environment
      */
     public function setName(string $name)
     {
-        $this->name = $name;
+        $this->setVar(Environment::ENV_NAME_KEY, $name);
     }
 
     /**
