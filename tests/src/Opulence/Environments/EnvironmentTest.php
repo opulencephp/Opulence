@@ -120,4 +120,10 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
         $_SERVER["bar"] = "baz";
         $this->assertEquals("baz", $this->environment->getVar("bar"));
     }
+
+    public function testEnvironmentNameAndEnvNameAreInSync()
+    {
+        $this->environment->setVar(Environment::ENV_NAME_KEY, "bar");
+        $this->assertEquals("bar", $this->environment->getName());
+    }
 }
