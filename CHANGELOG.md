@@ -1,13 +1,26 @@
-<h2>v1.0.0-beta7</h2>
+<h2>v1.0.0-beta7 (2016-09-22)</h2>
 
 <h3>General</h3>
 * Better optimized PSR-4 autoloading (issue #19)
 * Removed many instances of `call_user_func` and `call_user_func_array` for readability (issue #20)
 
+<h3>Deprecated</h3>
+* The Environment library was slimmed down, and some recently-made-irrelevant classes were marked as deprecated:
+  * `Opulence\Environments\Hosts\HostName`
+  * `Opulence\Environments\Hosts\HostRegex`
+  * `Opulence\Environments\Hosts\IHost`
+  * `Opulence\Environments\Resolvers\EnvironmentResolver`
+  * `Opulence\Environments\Resolvers\IEnvironmentResolver`
+
+<h3>Environments</h3>
+* Made all `Opulence\Environments\Environment` methods static
+* Removed `Opulence\Environments\Environment::getName()` and `setName()`
+  * Instead, simply read the variable that's holding that data, eg `Environment::getVar("ENV_NAME")`
+
 <h3>Sessions</h3>
 * Improved speed of session garbage collection (issue #21)
 
-<h2>v1.0.0-beta6</h2>
+<h2>v1.0.0-beta6 (2016-08-29)</h2>
 This release consolidated bootstrappers into the `Ioc` library.  This makes them more usable to people only using the `Ioc` library.  It also removes some necessary hackiness for application configuration.  All of Opulence's bootstrappers have been updated to use the new `Ioc` bootstrappers.
 
 <h3>Bootstrappers</h3>
@@ -36,7 +49,7 @@ This release consolidated bootstrappers into the `Ioc` library.  This makes them
 <h3>Query Builders</h3>
 * Added conditions to `where()`, `andWhere()`, `orWhere()`, `having()`, `andHaving()`, and `orHaving()` methods on various queries (issue #9)
 
-<h2>v1.0.0-beta5</h2>
+<h2>v1.0.0-beta5 (2016-07-05)</h2>
 
 <h3>Deprecated</h3>
 If Opulence ever moves to a standard HTTP request/response implementation, the `Routing` library shouldn't have any more dependencies on the Opulence `Http` library.  However, it still would have one because middleware previously existed in the `Http` library.  So, to potentially future-proof Opulence in the case that it adopts standardized request/response objects (not that we plan on doing so yet), the following classes are being deprecated:
@@ -44,7 +57,7 @@ If Opulence ever moves to a standard HTTP request/response implementation, the `
   * Deprecated `Opulence\Http\Middleware\MiddlewareParameters` in favor of `Opulence\Routing\Middleware\MiddlewareParameters`
   * Deprecated `Opulence\Http\Middleware\ParameterizedMiddleware` in favor of `Opulence\Routing\Middleware\ParameterizedMiddleware`
 
-<h2>v1.0.0-beta4</h2>
+<h2>v1.0.0-beta4 (2016-06-30)</h2>
 
 <h3>Backwards Incompatibilities</h3>
 * `Opulence\Cryptography\Encryption\Encrypter` no longer accepts a string as the encryption key (issue #13)
@@ -80,7 +93,7 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 * Added `Opulence\Routing\Dispatchers\IMiddlewarePipeline` and `MiddlewarePipeline` to the `RouteDispatcher` constructor
 * Removed required dependency on `Pipelines` library
 
-<h2>v1.0.0-beta3</h2>
+<h2>v1.0.0-beta3 (2016-06-22)</h2>
 
 <h3>Backwards Incompatibilities</h3>
 * Passing by reference has been removed from all repositories and data mappers because it is not needed anymore.  The following methods have been updated to now pass by value:
@@ -120,7 +133,7 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 <h3>ORM</h3>
 * Check the backwards incompatibilities for methods that no longer pass by reference
 
-<h2>v1.0.0-beta2</h2>
+<h2>v1.0.0-beta2 (2016-06-16)</h2>
 
 <h3>Applications</h3>
 * Made the version number be overridable
@@ -131,7 +144,7 @@ Deprecated names of various dispatcher classes in favor of more descriptive `{Mo
 <h3>Tests</h3>
 * Incremented PHPUnit version from 5.2 to 5.4
 
-<h2>v1.0.0-beta1</h2>
+<h2>v1.0.0-beta1 (2016-06-15)</h2>
 
 <h3>General</h3>
 * First beta

@@ -13,40 +13,12 @@ namespace Opulence\Environments;
  */
 class EnvironmentTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var Environment The environment to use in tests */
-    private $environment = null;
-
-    /**
-     * Sets up the tests
-     */
-    public function setUp()
-    {
-        $this->environment = new Environment("foo");
-    }
-
-    /**
-     * Tests default name is production
-     */
-    public function testDefaultNameIsProduction()
-    {
-        $environment = new Environment();
-        $this->assertEquals(Environment::PRODUCTION, $environment->getName());
-    }
-
-    /**
-     * Tests getting the name
-     */
-    public function testGettingName()
-    {
-        $this->assertEquals("foo", $this->environment->getName());
-    }
-
     /**
      * Tests getting a non-existent variable
      */
     public function testGettingNonExistentVariable()
     {
-        $this->assertEquals("bar", $this->environment->getVar("foo", "bar"));
+        $this->assertEquals("bar", Environment::getVar("foo", "bar"));
     }
 
     /**
@@ -54,7 +26,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingVariable()
     {
-        $this->environment->setVar("baz", "blah");
+        Environment::setVar("baz", "blah");
         $this->assertEquals("blah", getenv("baz"));
         $this->assertEquals("blah", $_ENV["baz"]);
         $this->assertEquals("blah", $_SERVER["baz"]);
@@ -65,7 +37,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsRunningInConsole()
     {
-        $isRunningInConsole = $this->environment->isRunningInConsole();
+        $isRunningInConsole = Environment::isRunningInConsole();
 
         if (php_sapi_name() == "cli") {
             $this->assertTrue($isRunningInConsole);
@@ -75,20 +47,11 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests setting the name
-     */
-    public function testSettingName()
-    {
-        $this->environment->setName("foo");
-        $this->assertEquals("foo", $this->environment->getName());
-    }
-
-    /**
      * Tests setting a variable
      */
     public function testSettingVariable()
     {
-        $this->environment->setVar("foo", "bar");
+        Environment::setVar("foo", "bar");
         $this->assertEquals("bar", getenv("foo"));
         $this->assertEquals("bar", $_ENV["foo"]);
         $this->assertEquals("bar", $_SERVER["foo"]);
@@ -100,7 +63,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariableInEnvironmentGlobalArray()
     {
         $_ENV["bar"] = "baz";
-        $this->assertEquals("baz", $this->environment->getVar("bar"));
+        $this->assertEquals("baz", Environment::getVar("bar"));
     }
 
     /**
@@ -109,7 +72,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariableInPutenv()
     {
         putenv("bar=baz");
-        $this->assertEquals("baz", $this->environment->getVar("bar"));
+        $this->assertEquals("baz", Environment::getVar("bar"));
     }
 
     /**
@@ -118,6 +81,6 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariableInServerGlobalArray()
     {
         $_SERVER["bar"] = "baz";
-        $this->assertEquals("baz", $this->environment->getVar("bar"));
+        $this->assertEquals("baz", Environment::getVar("bar"));
     }
 }

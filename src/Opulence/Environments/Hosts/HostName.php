@@ -10,6 +10,8 @@ namespace Opulence\Environments\Hosts;
 
 /**
  * Defines a host
+ *
+ * @deprecated since 1.0.0-beta7
  */
 class HostName implements IHost
 {

@@ -14,6 +14,8 @@ use Opulence\Environments\Hosts\IHost;
 
 /**
  * Defines the environment resolver
+ *
+ * @deprecated since 1.0.0-beta7
  */
 class EnvironmentResolver implements IEnvironmentResolver
 {

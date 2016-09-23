@@ -10,6 +10,8 @@ namespace Opulence\Environments\Hosts;
 
 /**
  * Defines the interface for hosts to implement
+ *
+ * @deprecated since 1.0.0-beta7
  */
 interface IHost
 {

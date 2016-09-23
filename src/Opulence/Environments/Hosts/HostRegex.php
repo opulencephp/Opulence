@@ -10,6 +10,8 @@ namespace Opulence\Environments\Hosts;
 
 /**
  * Defines a host that uses a regex to match against the name
+ *
+ * @deprecated since 1.0.0-beta7
  */
 class HostRegex extends HostName
 {

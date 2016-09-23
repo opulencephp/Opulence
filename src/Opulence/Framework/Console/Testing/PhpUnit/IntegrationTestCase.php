@@ -22,7 +22,6 @@ use Opulence\Console\Responses\Compilers\Parsers\Parser as ResponseParser;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\Response;
 use Opulence\Console\Responses\StreamResponse;
-use Opulence\Environments\Environment;
 use Opulence\Framework\Console\Testing\PhpUnit\Assertions\ResponseAssertions;
 use Opulence\Ioc\IContainer;
 use PHPUnit\Framework\TestCase;
@@ -35,8 +34,6 @@ abstract class IntegrationTestCase extends TestCase
 {
     /** @var Application The application */
     protected $application = null;
-    /** @var Environment The current environment */
-    protected $environment = null;
     /** @var IContainer The IoC container */
     protected $container = null;
     /** @var CommandCollection The list of registered commands */
@@ -108,7 +105,6 @@ abstract class IntegrationTestCase extends TestCase
      */
     public function setUp()
     {
-        $this->environment->setName(Environment::TESTING);
         $this->application->start();
         $this->requestParser = new ArrayListParser();
         $this->commandCollection = $this->container->resolve(CommandCollection::class);

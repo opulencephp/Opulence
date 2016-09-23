@@ -22,25 +22,6 @@ class Environment
     /** The development environment */
     const DEVELOPMENT = "development";
 
-    /** @var string The name of the environment */
-    private $name = "";
-
-    /**
-     * @param string $name The name of the environment
-     */
-    public function __construct(string $name = Environment::PRODUCTION)
-    {
-        $this->setName($name);
-    }
-
-    /**
-     * @return string
-     */
-    public function getName() : string
-    {
-        return $this->name;
-    }
-
     /**
      * Gets the value of an environment variable
      *
@@ -48,7 +29,7 @@ class Environment
      * @param mixed $default The default value if none existed
      * @return string|null The value of the environment value if one was set, otherwise null
      */
-    public function getVar(string $name, $default = null)
+    public static function getVar(string $name, $default = null)
     {
         if (array_key_exists($name, $_ENV)) {
             return $_ENV[$name];
@@ -70,17 +51,9 @@ class Environment
      *
      * @return bool True if the application is running in a console, otherwise false
      */
-    public function isRunningInConsole() : bool
+    public static function isRunningInConsole() : bool
     {
         return php_sapi_name() == "cli";
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName(string $name)
-    {
-        $this->name = $name;
     }
 
     /**
@@ -89,7 +62,7 @@ class Environment
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
-    public function setVar(string $name, $value)
+    public static function setVar(string $name, $value)
     {
         putenv("$name=$value");
         $_ENV[$name] = $value;

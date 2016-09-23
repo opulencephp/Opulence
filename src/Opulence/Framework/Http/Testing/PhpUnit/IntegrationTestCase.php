@@ -10,7 +10,6 @@ namespace Opulence\Framework\Http\Testing\PhpUnit;
 
 use Opulence\Applications\Application;
 use Opulence\Debug\Exceptions\Handlers\IExceptionHandler;
-use Opulence\Environments\Environment;
 use Opulence\Framework\Debug\Exceptions\Handlers\Http\IExceptionRenderer;
 use Opulence\Framework\Http\Kernel;
 use Opulence\Framework\Http\Testing\PhpUnit\Assertions\ResponseAssertions;
@@ -29,8 +28,6 @@ abstract class IntegrationTestCase extends TestCase
 {
     /** @var Application The application */
     protected $application = null;
-    /** @var Environment The current environment */
-    protected $environment = null;
     /** @var IContainer The IoC container */
     protected $container = null;
     /** @var Router The router */
@@ -147,7 +144,6 @@ abstract class IntegrationTestCase extends TestCase
      */
     public function setUp()
     {
-        $this->environment->setName(Environment::TESTING);
         $this->application->start();
         $this->container->bindInstance(IExceptionHandler::class, $this->getExceptionHandler());
         $this->container->bindInstance(IExceptionRenderer::class, $this->getExceptionRenderer());

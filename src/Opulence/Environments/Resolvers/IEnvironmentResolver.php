@@ -12,6 +12,8 @@ use Opulence\Environments\Hosts\IHost;
 
 /**
  * Defines the interface for environment resolvers to implement
+ *
+ * @deprecated since 1.0.0-beta7
  */
 interface IEnvironmentResolver
 {
