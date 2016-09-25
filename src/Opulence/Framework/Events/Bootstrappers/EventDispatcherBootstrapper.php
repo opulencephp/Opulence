@@ -9,8 +9,9 @@
 namespace Opulence\Framework\Events\Bootstrappers;
 
 use InvalidArgumentException;
-use Opulence\Events\Dispatchers\EventDispatcher;
+use Opulence\Events\Dispatchers\EventRegistry;
 use Opulence\Events\Dispatchers\IEventDispatcher;
+use Opulence\Events\Dispatchers\SynchronousEventDispatcher;
 use Opulence\Events\IEvent;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
@@ -25,15 +26,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
      */
     public function registerBindings(IContainer $container)
     {
-        $dispatcher = $this->getEventDispatcher($container);
-
-        foreach ($this->getEventListenerConfig() as $eventName => $listeners) {
-            foreach ($listeners as $listener) {
-                $dispatcher->registerListener($eventName, $this->getEventListenerCallback($listener, $container));
-            }
-        }
-
-        $container->bindInstance(IEventDispatcher::class, $dispatcher);
+        $container->bindInstance(IEventDispatcher::class, $this->getEventDispatcher($container));
     }
 
     /**
@@ -51,7 +44,15 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
      */
     protected function getEventDispatcher(IContainer $container) : IEventDispatcher
     {
-        return new EventDispatcher();
+        $eventRegistry = new EventRegistry();
+
+        foreach ($this->getEventListenerConfig() as $eventName => $listeners) {
+            foreach ($listeners as $listener) {
+                $eventRegistry->registerListener($eventName, $this->getEventListenerCallback($listener, $container));
+            }
+        }
+
+        return new SynchronousEventDispatcher($eventRegistry);
     }
 
     /**

@@ -8,31 +8,13 @@
  */
 namespace Opulence\Events\Dispatchers;
 
-use Opulence\Events\IEvent;
-
 /**
- * Defines the event dispatcher
+ * Defines the event registry
  */
-class EventDispatcher implements IEventDispatcher
+class EventRegistry implements IEventRegistry
 {
     /** @var array The mapping of event names to the list of listener */
-    protected $eventNamesToListeners = [];
-
-    /**
-     * @inheritdoc
-     */
-    public function dispatch(string $eventName, IEvent $event)
-    {
-        if (isset($this->eventNamesToListeners[$eventName])) {
-            foreach ($this->eventNamesToListeners[$eventName] as $listener) {
-                $listener($event, $eventName, $this);
-
-                if ($event->propagationIsStopped()) {
-                    break;
-                }
-            }
-        }
-    }
+    private $eventNamesToListeners = [];
 
     /**
      * @inheritdoc

@@ -1,3 +1,13 @@
+<h2>v1.0.0-rc1 (?)</h2>
+
+<h3>Deprecated</h3>
+* Removed all deprecated classes from the framework, including the entire `Bootstrappers` library
+
+<h3>Events</h3>
+* Renamed `Opulence\Events\Dispatchers\EventDispatcher` to `SynchronousEventDispatcher`
+* Changed `Opulence\Events\Dispatchers\IEventDispatcher` to have only a single method:  `dispatch($eventName, $event)`
+  * This will make it much easier to add asynchronous event handling in the future with things like Azure Service Bus
+
 <h2>v1.0.0-beta7 (2016-09-22)</h2>
 
 <h3>General</h3>
