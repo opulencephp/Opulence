@@ -8,8 +8,7 @@
  */
 namespace Opulence\Events\Dispatchers;
 
-use Opulence\Events\Event;
-use Opulence\Events\IEvent;
+use Opulence\Tests\Events\Mocks\Event;
 use Opulence\Tests\Events\Mocks\Listener;
 
 /**
@@ -19,9 +18,9 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
 {
     /** @var SynchronousEventDispatcher The dispatcher to use in tests */
     private $dispatcher = null;
-    /** @var IEvent|\PHPUnit_Framework_MockObject_MockObject The event registry to use in tests */
+    /** @var IEventRegistry|\PHPUnit_Framework_MockObject_MockObject The event registry to use in tests */
     private $eventRegistry = null;
-    /** @var Event|\PHPUnit_Framework_MockObject_MockObject The event to use in tests */
+    /** @var Event The event to use in tests */
     private $event = null;
     /** @var Listener|\PHPUnit_Framework_MockObject_MockObject The mock listener to use in tests */
     private $listener = null;
@@ -33,7 +32,7 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->eventRegistry = $this->createMock(IEventRegistry::class);
         $this->dispatcher = new SynchronousEventDispatcher($this->eventRegistry);
-        $this->event = $this->getMockForAbstractClass(Event::class);
+        $this->event = new Event();
         $this->listener = $this->createMock(Listener::class);
     }
 
@@ -74,27 +73,6 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testDispatchingWithNoListeners()
     {
-        $this->dispatcher->dispatch("foo", $this->event);
-    }
-
-    /**
-     * Tests that the second listener is not called when event propagation is stopped
-     */
-    public function testSecondListenerIsNotCalledWhenEventPropagationIsStopped()
-    {
-        $listeners = [
-            [$this->listener, "stopsPropagation"],
-            [$this->listener, "doNothing1"]
-        ];
-        $this->eventRegistry->expects($this->once())
-            ->method("getListeners")
-            ->willReturn($listeners);
-        // Need to manually stop the event from propagating in the stub
-        $this->listener->expects($this->once())
-            ->method("stopsPropagation")
-            ->with($this->event, "foo", $this->dispatcher)
-            ->willReturn($this->event->stopPropagation());
-        $this->listener->expects($this->never())->method("doNothing1");
         $this->dispatcher->dispatch("foo", $this->event);
     }
 }

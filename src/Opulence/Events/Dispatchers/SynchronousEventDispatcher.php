@@ -8,8 +8,6 @@
  */
 namespace Opulence\Events\Dispatchers;
 
-use Opulence\Events\IEvent;
-
 /**
  * Defines the synchronous event dispatcher
  */
@@ -29,14 +27,10 @@ class SynchronousEventDispatcher implements IEventDispatcher
     /**
      * @inheritdoc
      */
-    public function dispatch(string $eventName, IEvent $event)
+    public function dispatch(string $eventName, $event)
     {
         foreach ($this->eventRegistry->getListeners($eventName) as $listener) {
             $listener($event, $eventName, $this);
-
-            if ($event->propagationIsStopped()) {
-                break;
-            }
         }
     }
 }

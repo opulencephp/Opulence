@@ -8,8 +8,6 @@
  */
 namespace Opulence\Events\Dispatchers;
 
-use Opulence\Events\IEvent;
-
 /**
  * Defines the interface for event dispatchers to implement
  */
@@ -19,7 +17,7 @@ interface IEventDispatcher
      * Dispatches an event
      *
      * @param string $eventName The name of the event to dispatch
-     * @param IEvent $event The event to dispatch
+     * @param object $event The event to dispatch
      */
-    public function dispatch(string $eventName, IEvent $event);
+    public function dispatch(string $eventName, $event);
 }

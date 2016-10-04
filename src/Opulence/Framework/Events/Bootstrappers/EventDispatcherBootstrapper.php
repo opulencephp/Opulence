@@ -12,7 +12,6 @@ use InvalidArgumentException;
 use Opulence\Events\Dispatchers\EventRegistry;
 use Opulence\Events\Dispatchers\IEventDispatcher;
 use Opulence\Events\Dispatchers\SynchronousEventDispatcher;
-use Opulence\Events\IEvent;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\IContainer;
 
@@ -77,7 +76,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
             $listenerClass = $listenerConfigParts[0];
             $listenerMethod = $listenerConfigParts[1];
 
-            return function (IEvent $event, $eventName, IEventDispatcher $dispatcher) use (
+            return function ($event, $eventName, IEventDispatcher $dispatcher) use (
                 $container,
                 $listenerClass,
                 $listenerMethod

@@ -4,8 +4,11 @@
 * Removed all deprecated classes from the framework, including the entire `Bootstrappers` library
 
 <h3>Events</h3>
+* Removed `Opulence\Events\Event` and `Opulence\Events\IEvent`
 * Renamed `Opulence\Events\Dispatchers\EventDispatcher` to `SynchronousEventDispatcher`
 * Changed `Opulence\Events\Dispatchers\IEventDispatcher` to have only a single method:  `dispatch($eventName, $event)`
+  * `$event` is no longer restricted to only being an `IEvent` - it can be a POPO
+  * Events' propagation can no longer be stopped, which is for the best, architecturally
   * This will make it much easier to add asynchronous event handling in the future with things like Azure Service Bus
 
 <h2>v1.0.0-beta7 (2016-09-22)</h2>

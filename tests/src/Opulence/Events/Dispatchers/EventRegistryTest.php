@@ -8,7 +8,7 @@
  */
 namespace Opulence\Events\Dispatchers;
 
-use Opulence\Events\Event;
+use Opulence\Tests\Events\Mocks\Event;
 use Opulence\Tests\Events\Mocks\Listener;
 
 /**
@@ -18,7 +18,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var EventRegistry The registry to use in tests */
     private $eventRegistry = null;
-    /** @var Event|\PHPUnit_Framework_MockObject_MockObject The event to use in tests */
+    /** @var Event The event to use in tests */
     private $event = null;
     /** @var Listener|\PHPUnit_Framework_MockObject_MockObject The mock listener to use in tests */
     private $listener = null;
@@ -29,7 +29,7 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->eventRegistry = new EventRegistry();
-        $this->event = $this->getMockForAbstractClass(Event::class);
+        $this->event = new Event();
         $this->listener = $this->createMock(Listener::class);
     }
 
