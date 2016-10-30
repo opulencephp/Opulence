@@ -66,14 +66,14 @@ class RenameAppCommand extends Command
     {
         $confirmationQuestion = new Confirmation(
             sprintf(
-                "Are you sure you want to rename %s to %s? ",
+                "Are you sure you want to rename %s to %s? [y/n] ",
                 $this->getArgumentValue("currName"),
                 $this->getArgumentValue("newName")
             )
         );
         $renameDirectoriesQuestion = new Confirmation(
             sprintf(
-                "Do you want to rename src/%s to src/%s and tests/%s to tests/%s? ",
+                "Do you want to rename src/%s to src/%s and tests/%s to tests/%s? [y/n] ",
                 $this->getArgumentValue("currName"),
                 $this->getArgumentValue("newName"),
                 $this->getArgumentValue("currName"),
