@@ -472,8 +472,7 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUntrustedProxy()
     {
         $this->expectException(InvalidArgumentException::class);
-        $_SERVER["HTTP_X_FORWARDED_FOR"] = "192.168.1.1, 192.168.1.2, 192.168.1.3";
-        $_SERVER["REMOTE_ADDR"] = "192.168.2.1";
+        $_SERVER["HTTP_HOST"] = "192.168.1.1, 192.168.1.2, 192.168.1.3";
         $request = Request::createFromGlobals();
         $request->getHost();
     }
@@ -637,6 +636,17 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests getting the host as it's set in Gogo inflight wifi
+     */
+    public function testGettingHostFromGogoInflightWifiHeaders()
+    {
+        $_SERVER["HTTP_X_FORWARDED_HOST"] = "172.19.131.152, 10.33.185.152";
+        $_SERVER["HTTP_HOST"] = "123.456.789.101";
+        $request = Request::createFromGlobals();
+        $this->assertEquals("123.456.789.101", $request->getHost());
+    }
+
+    /**
      * Tests getting the host from the HTTP_HOST header
      */
     public function testGettingHostFromHttpHost()
@@ -662,16 +672,6 @@ class RequestTest extends \PHPUnit\Framework\TestCase
     public function testGettingHostFromServerName()
     {
         $_SERVER["SERVER_NAME"] = "foo.com";
-        $request = Request::createFromGlobals();
-        $this->assertEquals("foo.com", $request->getHost());
-    }
-
-    /**
-     * Tests getting the host from the X_FORWARDED_FOR header
-     */
-    public function testGettingHostFromXForwardedFor()
-    {
-        $_SERVER["HTTP_X_FORWARDED_FOR"] = "foo.com";
         $request = Request::createFromGlobals();
         $this->assertEquals("foo.com", $request->getHost());
     }
