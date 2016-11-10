@@ -178,10 +178,15 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
             ->fromSqlTimestampWithTimeZone($sqlTimestampWithMicroseconds));
         $phpTimestamp = new DateTime("now");
         $sqlTimestamp = $phpTimestamp->format($this->provider->getTimestampWithoutTimeZoneFormat());
-        $this->assertEquals($phpTimestamp, $this->typeMapperWithNoProvider
-            ->fromSqlTimestampWithoutTimeZone($sqlTimestamp, $this->provider));
-        $this->assertEquals($phpTimestamp, $this->typeMapperWithProvider
-            ->fromSqlTimestampWithoutTimeZone($sqlTimestamp));
+        // We do the flooring of the timestamp because, since PHP 7.1, new DateTime("now") contains microseconds
+        $this->assertEquals(
+            floor($phpTimestamp->getTimestamp()),
+            floor($this->typeMapperWithNoProvider
+                ->fromSqlTimestampWithoutTimeZone($sqlTimestamp, $this->provider)->getTimestamp()));
+        $this->assertEquals(
+            floor($phpTimestamp->getTimestamp()),
+            floor($this->typeMapperWithProvider
+                ->fromSqlTimestampWithoutTimeZone($sqlTimestamp)->getTimestamp()));
     }
 
     /**
