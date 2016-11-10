@@ -1,7 +1,10 @@
-<h2>v1.0.0-rc2 (?)</h2>
+<h2>v1.0.0-rc2 (2016-11-09)</h2>
 
 <h3>Console</h3>
 * Added better guidance to console prompts that require a yes/no answer
+
+<h3>HTTP</h3>
+* Fixed #25 (bug with how `Request::getHost()` is calculated)
 
 <h2>v1.0.0-rc1 (2016-10-15)</h2>
 
