@@ -130,12 +130,16 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
             ->fromSqlTimestampWithTimeZone($sqlTimeWithMicroseconds));
         $phpTime = new DateTime("now");
         $sqlTime = $phpTime->format($this->provider->getTimeWithoutTimeZoneFormat());
+        // We do the flooring of the timestamp because, since PHP 7.1, new DateTime("now") contains microseconds
         $this->assertEquals(
             floor($phpTime->getTimestamp()),
             floor($this->typeMapperWithNoProvider->fromSqlTimeWithoutTimeZone($sqlTime,
                 $this->provider)->getTimestamp())
         );
-        $this->assertEquals($phpTime, $this->typeMapperWithProvider->fromSqlTimeWithoutTimeZone($sqlTime));
+        $this->assertEquals(
+            floor($phpTime->getTimestamp()),
+            floor($this->typeMapperWithProvider->fromSqlTimeWithoutTimeZone($sqlTime)->getTimestamp())
+        );
     }
 
     /**
@@ -151,11 +155,14 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
             ->fromSqlTimestampWithTimeZone($sqlTimestampWithMicroseconds)->getTimestamp());
         $phpTimestamp = new DateTime("now");
         $sqlTimestamp = $phpTimestamp->format($this->provider->getTimestampWithTimeZoneFormat());
-        $this->assertEquals($phpTimestamp->getTimestamp(),
-            $this->typeMapperWithNoProvider->fromSqlTimestampWithTimeZone($sqlTimestamp,
-                $this->provider)->getTimestamp());
-        $this->assertEquals($phpTimestamp->getTimestamp(),
-            $this->typeMapperWithProvider->fromSqlTimestampWithTimeZone($sqlTimestamp)->getTimestamp());
+        // We do the flooring of the timestamp because, since PHP 7.1, new DateTime("now") contains microseconds
+        $this->assertEquals(
+            floor($phpTimestamp->getTimestamp()),
+            floor($this->typeMapperWithNoProvider->fromSqlTimestampWithTimeZone($sqlTimestamp,
+                $this->provider)->getTimestamp()));
+        $this->assertEquals(
+            floor($phpTimestamp->getTimestamp()),
+            floor($this->typeMapperWithProvider->fromSqlTimestampWithTimeZone($sqlTimestamp)->getTimestamp()));
     }
 
     /**
