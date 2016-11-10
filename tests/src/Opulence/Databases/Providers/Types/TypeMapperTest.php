@@ -130,6 +130,9 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
             ->fromSqlTimestampWithTimeZone($sqlTimeWithMicroseconds));
         $phpTime = new DateTime("now");
         $sqlTime = $phpTime->format($this->provider->getTimeWithoutTimeZoneFormat());
+        error_log(var_export($phpTime, true));
+        error_log(var_export($this->typeMapperWithNoProvider->fromSqlTimeWithoutTimeZone($sqlTime, $this->provider),
+            true));
         $this->assertEquals($phpTime,
             $this->typeMapperWithNoProvider->fromSqlTimeWithoutTimeZone($sqlTime, $this->provider));
         $this->assertEquals($phpTime, $this->typeMapperWithProvider->fromSqlTimeWithoutTimeZone($sqlTime));
