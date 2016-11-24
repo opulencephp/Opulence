@@ -18,13 +18,17 @@ class FileCache implements ICache
 {
     /** @var string The cache registry file path */
     private $filePath = "";
+    /** @var int The expiration time for cached files */
+    private $expirationTime = null;
 
     /**
      * @param string $filePath The cache registry file path
+     * @param int|null $expirationTime The expiration time for cached files
      */
-    public function __construct(string $filePath)
+    public function __construct(string $filePath, int $expirationTime = null)
     {
         $this->filePath = $filePath;
+        $this->expirationTime = $expirationTime;
     }
 
     /**
@@ -43,6 +47,13 @@ class FileCache implements ICache
     public function get()
     {
         if (!file_exists($this->filePath)) {
+            return null;
+        }
+
+        // Perform garbage collection if this file has expired
+        if ($this->expirationTime !== null && filemtime($this->filePath) < $this->expirationTime) {
+            $this->flush();
+
             return null;
         }
 

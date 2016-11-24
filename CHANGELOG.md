@@ -1,3 +1,11 @@
+<h2>v1.0.0-rc3 (?)</h2>
+
+<h3>General</h3>
+* Bumped PHPUnit version to 5.6
+
+<h3>IoC</h3>
+* Closed #30 (removing bootstrappers causing you to not be able to clear framework cache)
+
 <h2>v1.0.0-rc2 (2016-11-09)</h2>
 
 <h3>Console</h3>

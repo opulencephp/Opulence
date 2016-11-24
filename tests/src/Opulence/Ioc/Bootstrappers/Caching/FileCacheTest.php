@@ -27,6 +27,39 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     private $cachedRegistryFilePath = "";
 
     /**
+     * Gets the bindings to lazy bootstrapper class mappings
+     *
+     * @param string|array $lazyBootstrapperClasses The lazy bootstrapper to create
+     * @return array The bindings to lazy bootstrappers
+     */
+    private static function getBindingsToLazyBootstrappers($lazyBootstrapperClasses)
+    {
+        $lazyBootstrapperClasses = (array)$lazyBootstrapperClasses;
+        $bindingsToLazyBootstrappers = [];
+
+        foreach ($lazyBootstrapperClasses as $lazyBootstrapperClass) {
+            /** @var ILazyBootstrapper $lazyBootstrapper */
+            $lazyBootstrapper = new $lazyBootstrapperClass();
+
+            foreach ($lazyBootstrapper->getBindings() as $boundClass) {
+                $targetClass = null;
+
+                if (is_array($boundClass)) {
+                    $targetClass = array_values($boundClass)[0];
+                    $boundClass = array_keys($boundClass)[0];
+                }
+
+                $bindingsToLazyBootstrappers[$boundClass] = [
+                    "bootstrapper" => $lazyBootstrapperClass,
+                    "target" => $targetClass
+                ];
+            }
+        }
+
+        return $bindingsToLazyBootstrappers;
+    }
+
+    /**
      * Sets up the tests
      */
     public function setUp()
@@ -57,19 +90,34 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests reading from an expired cache flushes it
+     */
+    public function testReadingFromExpiredCacheFlushesIt()
+    {
+        // Set the expiration so that it will definitely be more recent than the cached file's last modified time
+        $cache = new FileCache($this->cachedRegistryFilePath, time() + 3600);
+        $this->writeRegistry([
+            "eager" => [EagerBootstrapper::class],
+            "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+        ]);
+        $this->assertNull($cache->get());
+        $this->assertFalse(file_exists($this->cachedRegistryFilePath));
+    }
+
+    /**
      * Tests reading when there is a cached registry
      */
     public function testReadingWhenCachedRegistryExists()
     {
         $this->writeRegistry([
             "eager" => [EagerBootstrapper::class],
-            "lazy" => $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+            "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $registry = $this->cache->get();
         $this->assertInstanceOf(BootstrapperRegistry::class, $registry);
         $this->assertEquals([EagerBootstrapper::class], $registry->getEagerBootstrappers());
         $this->assertEquals(
-            $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class),
+            self::getBindingsToLazyBootstrappers(LazyBootstrapper::class),
             $registry->getLazyBootstrapperBindings()
         );
     }
@@ -121,7 +169,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             [
                 "eager" => [EagerBootstrapper::class],
-                "lazy" => $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+                "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
             ],
             $this->readFromCachedRegistryFile()
         );
@@ -139,7 +187,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(
             [
                 "eager" => [],
-                "lazy" => $this->getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+                "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
             ],
             $this->readFromCachedRegistryFile()
         );
@@ -160,39 +208,6 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
             ],
             $this->readFromCachedRegistryFile()
         );
-    }
-
-    /**
-     * Gets the bindings to lazy bootstrapper class mappings
-     *
-     * @param string|array $lazyBootstrapperClasses The lazy bootstrapper to create
-     * @return array The bindings to lazy bootstrappers
-     */
-    private function getBindingsToLazyBootstrappers($lazyBootstrapperClasses)
-    {
-        $lazyBootstrapperClasses = (array)$lazyBootstrapperClasses;
-        $bindingsToLazyBootstrappers = [];
-
-        foreach ($lazyBootstrapperClasses as $lazyBootstrapperClass) {
-            /** @var ILazyBootstrapper $lazyBootstrapper */
-            $lazyBootstrapper = new $lazyBootstrapperClass();
-
-            foreach ($lazyBootstrapper->getBindings() as $boundClass) {
-                $targetClass = null;
-
-                if (is_array($boundClass)) {
-                    $targetClass = array_values($boundClass)[0];
-                    $boundClass = array_keys($boundClass)[0];
-                }
-
-                $bindingsToLazyBootstrappers[$boundClass] = [
-                    "bootstrapper" => $lazyBootstrapperClass,
-                    "target" => $targetClass
-                ];
-            }
-        }
-
-        return $bindingsToLazyBootstrappers;
     }
 
     /**
