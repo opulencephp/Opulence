@@ -1,4 +1,4 @@
-<h2>v1.0.0-rc3 (?)</h2>
+<h2>v1.0.0-rc3 (2016-11-24)</h2>
 
 <h3>General</h3>
 * Bumped PHPUnit version to 5.6
