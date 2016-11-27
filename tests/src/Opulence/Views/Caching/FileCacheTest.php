@@ -168,6 +168,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
         $this->cache->set($this->view, "compiled");
         $this->assertTrue($this->cache->has($this->view));
+        // Cleanup this cache
+        $this->cache->flush();
     }
 
     /**

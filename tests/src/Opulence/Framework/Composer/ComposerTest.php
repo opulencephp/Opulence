@@ -132,7 +132,10 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     public function testGettingPathFromClass()
     {
         $class = "Opulence\\Foo\\Bar";
-        $this->assertEquals($this->psr4RootPath . "/Opulence/Foo/Bar.php", $this->composer->getClassPath($class));
+        $this->assertEquals(
+            $this->psr4RootPath . DIRECTORY_SEPARATOR . "Opulence" . DIRECTORY_SEPARATOR . "Foo" . DIRECTORY_SEPARATOR . "Bar.php",
+            $this->composer->getClassPath($class)
+        );
     }
 
     /**
@@ -141,7 +144,10 @@ class ComposerTest extends \PHPUnit\Framework\TestCase
     public function testGettingPathFromClassInRootNamespace()
     {
         $class = "Opulence\\Bar";
-        $this->assertEquals($this->psr4RootPath . "/Opulence/Bar.php", $this->composer->getClassPath($class));
+        $this->assertEquals(
+            $this->psr4RootPath . DIRECTORY_SEPARATOR . "Opulence" . DIRECTORY_SEPARATOR . "Bar.php",
+            $this->composer->getClassPath($class)
+        );
     }
 
     /**

@@ -18,6 +18,8 @@ use RuntimeException;
  */
 class Lexer implements ILexer
 {
+    /** @var bool Whether or not the PHP newline char is a CRLF character */
+    private static $isCrLf = PHP_EOL == "\r\n";
     /** @var IView The current view being lexed */
     private $view = null;
     /** @var string The current input being lexed */
@@ -82,7 +84,19 @@ class Lexer implements ILexer
      */
     private function getCurrentChar() : string
     {
-        return isset($this->input[$this->cursor]) ? $this->input[$this->cursor] : "";
+        if (!isset($this->input[$this->cursor])) {
+            return "";
+        }
+
+        // If the newline char is \r\n, check if we matched it
+        // Otherwise, we run into issues with the fact that newline chars in Windows are really two chars long
+        if (self::$isCrLf && ($currentChar = $this->input[$this->cursor]) == "\r") {
+            if (isset($this->input[$this->cursor + 1]) && $this->input[$this->cursor + 1] == "\n") {
+                return PHP_EOL;
+            }
+        }
+
+        return $this->input[$this->cursor];
     }
 
     /**
@@ -212,7 +226,7 @@ class Lexer implements ILexer
             }
 
             $expressionBuffer .= $currentChar;
-            $this->cursor++;
+            $this->cursor += strlen($currentChar);
         }
 
         $expressionBuffer = trim($expressionBuffer);
@@ -291,7 +305,7 @@ class Lexer implements ILexer
                 $expressionBuffer .= $currentChar;
             }
 
-            $this->cursor++;
+            $this->cursor += strlen($currentChar);
         }
 
         if ($parenthesisLevel != 0) {
@@ -335,7 +349,7 @@ class Lexer implements ILexer
             }
 
             $name .= $currentChar;
-            $this->cursor++;
+            $this->cursor += strlen($currentChar);
         } while (
             preg_match("/^[a-zA-Z0-9_\s]$/", $this->getCurrentChar()) === 1 &&
             ($this->getCurrentChar() != " " || trim($name) == "")
@@ -415,13 +429,15 @@ class Lexer implements ILexer
 
             // Handle any text outside statements
             if (!$matchedStatement && !$this->atEof()) {
-                $this->expressionBuffer .= $this->getCurrentChar();
-                $this->cursor++;
+                $currentChar = $this->getCurrentChar();
+                $this->expressionBuffer .= $currentChar;
+                $this->cursor += strlen($currentChar);
 
                 // Keep on going if we're seeing alphanumeric text
                 while (ctype_alnum($this->getCurrentChar())) {
-                    $this->expressionBuffer .= $this->getCurrentChar();
-                    $this->cursor++;
+                    $currentChar = $this->getCurrentChar();
+                    $this->expressionBuffer .= $currentChar;
+                    $this->cursor += strlen($currentChar);
                 }
             } else {
                 $this->flushExpressionBuffer();

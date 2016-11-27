@@ -65,7 +65,7 @@ class ViewFunctionRegistrant
                 return '<script type="' . $type . '" src="' . $path . '"></script>';
             };
 
-            return implode("\n", array_map($callback, (array)$paths));
+            return implode(PHP_EOL, array_map($callback, (array)$paths));
         });
     }
 }

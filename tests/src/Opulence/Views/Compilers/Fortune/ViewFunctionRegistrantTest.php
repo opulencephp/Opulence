@@ -156,7 +156,7 @@ class ViewFunctionRegistrantTest extends \PHPUnit\Framework\TestCase
         // Test multiple values with a type
         $this->assertEquals(
             '<script type="text/ecmascript" src="foo"></script>' .
-            "\n" .
+            PHP_EOL .
             '<script type="text/ecmascript" src="bar"></script>',
             $this->transpiler->callViewFunction("script", ["foo", "bar"], "text/ecmascript")
         );

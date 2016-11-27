@@ -130,8 +130,8 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testGettingDirectoriesWithRecursion()
     {
         $this->assertEquals([
-            __DIR__ . "/subdirectory",
-            __DIR__ . "/subdirectory/subdirectory"
+            __DIR__ . DIRECTORY_SEPARATOR . "subdirectory",
+            __DIR__ . DIRECTORY_SEPARATOR . "subdirectory" . DIRECTORY_SEPARATOR . "subdirectory"
         ], $this->fileSystem->getDirectories(__DIR__, true));
     }
 
@@ -140,7 +140,10 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDirectoriesWithoutRecursion()
     {
-        $this->assertEquals([__DIR__ . "/subdirectory"], $this->fileSystem->getDirectories(__DIR__));
+        $this->assertEquals(
+            [__DIR__ . DIRECTORY_SEPARATOR . "subdirectory"],
+            $this->fileSystem->getDirectories(__DIR__)
+        );
     }
 
     /**
@@ -209,8 +212,8 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
     public function testGettingFilesWithRecursion()
     {
         $this->assertTrue(count(array_diff([
-                __DIR__ . "/subdirectory/subdirectory/bar.txt",
-                __DIR__ . "/subdirectory/foo.txt",
+                __DIR__ . DIRECTORY_SEPARATOR . "subdirectory" . DIRECTORY_SEPARATOR . "subdirectory" . DIRECTORY_SEPARATOR . "bar.txt",
+                __DIR__ . DIRECTORY_SEPARATOR . "subdirectory" . DIRECTORY_SEPARATOR . "foo.txt",
                 __FILE__
             ], $this->fileSystem->getFiles(__DIR__, true))) == 0);
     }

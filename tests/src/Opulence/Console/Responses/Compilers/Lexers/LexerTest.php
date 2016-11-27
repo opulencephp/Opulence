@@ -101,9 +101,9 @@ class LexerTest extends \PHPUnit\Framework\TestCase
         $expectedOutput = [
             new Token(TokenTypes::T_TAG_OPEN, "foo", 0),
             new Token(TokenTypes::T_WORD, PHP_EOL . "bar" . PHP_EOL, 5),
-            new Token(TokenTypes::T_TAG_CLOSE, "foo", 8 + (2 * $eolLength)),
-            new Token(TokenTypes::T_WORD, PHP_EOL . "baz", 16),
-            new Token(TokenTypes::T_EOF, null, 19 + $eolLength)
+            new Token(TokenTypes::T_TAG_CLOSE, "foo", 5 + 3 + (2 * $eolLength)),
+            new Token(TokenTypes::T_WORD, PHP_EOL . "baz", 5 + 3 + (2 * $eolLength) + 6),
+            new Token(TokenTypes::T_EOF, null, 5 + 3 + (3 * $eolLength) + 6 + 3)
         ];
         $this->assertEquals(
             $expectedOutput,

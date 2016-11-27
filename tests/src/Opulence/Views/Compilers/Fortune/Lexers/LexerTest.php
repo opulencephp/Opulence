@@ -241,9 +241,7 @@ class LexerTest extends \PHPUnit\Framework\TestCase
      */
     public function testLexingMultiLineStatements()
     {
-        $text = '%s
-        foo
-        %s';
+        $text = '%s' . PHP_EOL . 'foo' . PHP_EOL . '%s';
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 2),
