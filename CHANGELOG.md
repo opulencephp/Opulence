@@ -1,3 +1,8 @@
+<h2>v1.0.0-rc4 (2016-12-?)</h2>
+
+<h3>General</h3>
+* Fixed broken unit tests in Windows due to different newline characters
+
 <h2>v1.0.0-rc3 (2016-11-24)</h2>
 
 <h3>General</h3>
