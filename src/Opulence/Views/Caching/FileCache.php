@@ -171,6 +171,7 @@ class FileCache implements ICache
         if (!is_dir($path)) {
             return [];
         }
+
         $files = [];
         $iter = new RecursiveIteratorIterator(
             new RecursiveDirectoryIterator($path, RecursiveDirectoryIterator::SKIP_DOTS),
@@ -197,9 +198,9 @@ class FileCache implements ICache
     private function getViewPath(IView $view) : string
     {
         return $this->path . "/" . md5(http_build_query([
-            "u" => $view->getContents(),
-            "v" => $view->getVars()
-        ]));
+                "u" => $view->getContents(),
+                "v" => $view->getVars()
+            ]));
     }
 
     /**

@@ -6,6 +6,9 @@
 <h3>Environments</h3>
 * Fixed `Opulence\Environments\Environment::setVar()` so that it does not overwrite existing environment variables
 
+<h3>Views</h3>
+* Added `Opulence\Views\Caching\ArrayCache` for testing purposes
+
 <h2>v1.0.0-rc3 (2016-11-24)</h2>
 
 <h3>General</h3>
