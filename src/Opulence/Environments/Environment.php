@@ -57,15 +57,18 @@ class Environment
     }
 
     /**
-     * Sets an environment variable
+     * Sets an environment variable, but does not overwrite existing variables
      *
      * @param string $name The name of the environment variable to set
      * @param mixed $value The value
      */
     public static function setVar(string $name, $value)
     {
-        putenv("$name=$value");
-        $_ENV[$name] = $value;
-        $_SERVER[$name] = $value;
+        // Do not overwrite the variable if it already exists
+        if (self::getVar($name) === null) {
+            putenv("$name=$value");
+            $_ENV[$name] = $value;
+            $_SERVER[$name] = $value;
+        }
     }
 }

@@ -3,6 +3,9 @@
 <h3>General</h3>
 * Fixed broken unit tests in Windows due to different newline characters
 
+<h3>Environments</h3>
+* Fixed `Opulence\Environments\Environment::setVar()` so that it does not overwrite existing environment variables
+
 <h2>v1.0.0-rc3 (2016-11-24)</h2>
 
 <h3>General</h3>

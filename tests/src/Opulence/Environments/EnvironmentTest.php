@@ -83,4 +83,15 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
         $_SERVER["bar"] = "baz";
         $this->assertEquals("baz", Environment::getVar("bar"));
     }
+
+    /**
+     * Tests that environment variables are not overwritten
+     */
+    public function testVariablesNotOverwritten()
+    {
+        Environment::setVar("foo", "bar");
+        Environment::setVar("foo", "baz");
+        $this->assertEquals("bar", Environment::getVar("foo"));
+        $this->assertEquals("bar", getenv("foo"));
+    }
 }
