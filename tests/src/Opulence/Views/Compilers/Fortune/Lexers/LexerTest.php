@@ -574,24 +574,24 @@ class LexerTest extends \PHPUnit\Framework\TestCase
             '{#' . PHP_EOL . 'h' . PHP_EOL . '#}' . PHP_EOL .
             'i';
         $expectedOutput = [
-            new Token(TokenTypes::T_EXPRESSION, 'a' . PHP_EOL, 1),
+            new Token(TokenTypes::T_EXPRESSION, "a\n", 1),
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 2),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'b', 3),
             new Token(TokenTypes::T_EXPRESSION, '(foo)', 4),
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 7),
-            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'c' . PHP_EOL, 7),
+            new Token(TokenTypes::T_EXPRESSION, "\nc\n", 7),
             new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 9),
             new Token(TokenTypes::T_EXPRESSION, 'd', 10),
             new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 11),
-            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'e' . PHP_EOL, 11),
+            new Token(TokenTypes::T_EXPRESSION, "\ne\n", 11),
             new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 13),
             new Token(TokenTypes::T_EXPRESSION, 'f', 14),
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 15),
-            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'g' . PHP_EOL, 15),
+            new Token(TokenTypes::T_EXPRESSION, "\ng\n", 15),
             new Token(TokenTypes::T_COMMENT_OPEN, '{#', 17),
             new Token(TokenTypes::T_EXPRESSION, 'h', 18),
             new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 19),
-            new Token(TokenTypes::T_EXPRESSION, PHP_EOL . 'i', 19)
+            new Token(TokenTypes::T_EXPRESSION, "\ni", 19)
         ];
         $this->view->setContents($text);
         $this->assertEquals($expectedOutput, $this->lexer->lex($this->view));
