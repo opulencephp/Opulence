@@ -21,7 +21,7 @@ class InCondition extends Condition
     protected $parameters = [];
     /** @var bool True if we're using parameters, otherwise we're using a sub-expression */
     protected $usingParameters = true;
-    
+
     /**
      * @inheritdoc
      * @param array|string $parametersOrExpression Either the parameters or the sub-expression
@@ -30,18 +30,18 @@ class InCondition extends Condition
     public function __construct(string $column, $parametersOrExpression)
     {
         parent::__construct($column);
-        
+
         if (is_string($parametersOrExpression)) {
             $this->usingParameters = false;
             $this->expression = $parametersOrExpression;
-        } else if (is_array($parametersOrExpression)) {
+        } elseif (is_array($parametersOrExpression)) {
             $this->usingParameters = true;
             $this->parameters = $parametersOrExpression;
         } else {
             throw new InvalidArgumentException("Must pass either parameters or sub-expression to IN condition");
         }
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -49,22 +49,22 @@ class InCondition extends Condition
     {
         return $this->parameters;
     }
-        
+
     /**
      * @inheritdoc
      */
     public function getSql() : string
     {
         $sql = "{$this->column} IN (";
-        
+
         if ($this->usingParameters) {
             $sql .= implode(",", array_fill(0, count($this->parameters), "?"));
         } else {
             $sql .= $this->expression;
         }
-        
+
         $sql .= ")";
-        
+
         return $sql;
     }
 }

@@ -1,3 +1,12 @@
+<h2>v1.0.1 (2016-12-?)</h2>
+
+<h3>QueryBuilders</h3>
+* Changed `Opulence\QueryBuilders\Conditions\NotBetweenCondition` to not inherit from `BetweenCondition`
+* Changed `Opulence\QueryBuilders\Conditions\NotInCondition` to not inherit from `InCondition`
+
+<h3>Validation</h3>
+* Changed `Opulence\Validation\Rules\NotInRule` to not inherit from `InRule`
+
 <h2>v1.0.0 (2016-12-05)</h2>
 
 <h3>General</h3>
