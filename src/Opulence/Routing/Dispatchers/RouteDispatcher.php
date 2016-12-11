@@ -19,6 +19,8 @@ use Opulence\Routing\Middleware\MiddlewareParameters;
 use Opulence\Routing\Middleware\ParameterizedMiddleware;
 use Opulence\Routing\RouteException;
 use Opulence\Routing\Routes\CompiledRoute;
+use Opulence\Views\Compilers\ICompiler;
+use Opulence\Views\Factories\IViewFactory;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionParameter;
@@ -146,10 +148,9 @@ class RouteDispatcher implements IRouteDispatcher
         if ($controller instanceof Controller) {
             $controller->setRequest($request);
 
-            // The following class names are strings so that we don't HAVE to require the view library
             try {
                 $controller->setViewFactory(
-                    $this->dependencyResolver->resolve("Opulence\\Views\\Factories\\IViewFactory")
+                    $this->dependencyResolver->resolve(IViewFactory::class)
                 );
             } catch (DependencyResolutionException $ex) {
                 // Don't do anything
@@ -157,7 +158,7 @@ class RouteDispatcher implements IRouteDispatcher
 
             try {
                 $controller->setViewCompiler(
-                    $this->dependencyResolver->resolve("Opulence\\Views\\Compilers\\ICompiler")
+                    $this->dependencyResolver->resolve(ICompiler::class)
                 );
             } catch (DependencyResolutionException $ex) {
                 // Don't do anything
