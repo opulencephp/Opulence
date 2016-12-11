@@ -10,6 +10,7 @@ namespace Opulence\Debug\Exceptions\Handlers\Http;
 
 use Exception;
 use Opulence\Debug\Exceptions\Handlers\IExceptionRenderer;
+use Opulence\Http\HttpException;
 use Throwable;
 
 /**
@@ -34,7 +35,7 @@ class ExceptionRenderer implements IExceptionRenderer
     public function render($ex)
     {
         // Add support for HTTP library without having to necessarily depend on it
-        if (get_class($ex) == "Opulence\\Http\\HttpException") {
+        if (get_class($ex) == HttpException::class) {
             $statusCode = $ex->getStatusCode();
             $headers = $ex->getHeaders();
         } else {
