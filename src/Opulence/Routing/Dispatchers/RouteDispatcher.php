@@ -183,8 +183,7 @@ class RouteDispatcher implements IRouteDispatcher
         array $pathVars,
         CompiledRoute $route,
         bool $acceptObjectParameters
-    ) : array
-    {
+    ) : array {
         $resolvedParameters = [];
 
         // Match the route variables to the method parameters

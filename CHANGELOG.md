@@ -1,5 +1,8 @@
 <h2>v1.0.1 (2016-12-?)</h2>
 
+<h3>HTTP</h3>
+* Fixed incorrect `use` statement in `Opulence\Http\Requests\Request`
+
 <h3>QueryBuilders</h3>
 * Changed `Opulence\QueryBuilders\Conditions\NotBetweenCondition` to not inherit from `BetweenCondition`
 * Changed `Opulence\QueryBuilders\Conditions\NotInCondition` to not inherit from `InCondition`
