@@ -74,36 +74,9 @@ function tag()
 {
     hasacknowledgedprompt=false
     read -p "   Tag Name: " tagname
-    read -p "   Is Stable?: " isstable
-
-    if [ "$isstable" == "y" ]; then
-        isstable=true
-    else
-        isstable=false
-    fi
-
-    while ( [ $isstable == false ] && [ $hasacknowledgedprompt == false ] ); do
-        read -p "   Have you manually updated the Opulence version constant on master branch?: " hasupdated
-
-        if [ "$hasupdated" == "y" ]; then
-            hasacknowledgedprompt=true
-        fi
-    done
-
     read -p "   Commit message: " message
 
     git co master
-
-    if $isstable; then
-        # Update version
-        # Remove "v" from tag name
-        shorttagname=${tagname:1}
-        sed -i "s/private static \$opulenceVersion = \"[0-9\.]*\";/private static \$opulenceVersion = \"$shorttagname\";/" $APPLICATION_CLASS_FILE
-
-        # Commit changes to application file
-        git commit -m "Incrementing version" $APPLICATION_CLASS_FILE
-        git push origin master
-    fi
 
     # Check if we need to commit components
     for repo in ${REPOS[@]}
