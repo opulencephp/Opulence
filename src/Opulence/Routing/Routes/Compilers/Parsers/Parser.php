@@ -84,7 +84,7 @@ class Parser implements IParser
                 sprintf("Route has %s brackets", $bracketDepth > 0 ? "unclosed" : "unopened")
             );
         }
-
+      
         return sprintf("#^%s$#", $regex);
     }
 
