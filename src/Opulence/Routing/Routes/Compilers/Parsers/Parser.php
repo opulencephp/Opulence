@@ -18,7 +18,7 @@ use Opulence\Routing\Routes\Route;
 class Parser implements IParser
 {
     /** @var string The variable matching regex */
-    private static $variableMatchingRegex = "#:([\w]+)(?:=([^:\[\]/]+))?#";
+    private static $variableMatchingRegex = '#:([\w]+)(?:=([^:\[\]/]+))?#';
     /** @var int The cursor of the currently parsed route */
     private $cursor = 0;
     /** @var array The list of variable names in the currently parsed route */
@@ -51,67 +51,32 @@ class Parser implements IParser
         }
 
         $this->variableNames = [];
-        $regexPieces = [];
-        $quotedTextBuffer = "";
         $bracketDepth = 0;
+        $this->cursor = 0;
+        $rawStringLength = mb_strlen($rawString);
+        $regex = "";
 
-        foreach (explode("/", $rawString) as $segment) {
-            $this->cursor = 0;
-            $segmentLength = mb_strlen($segment);
+        while ($this->cursor < $rawStringLength) {
+            $char = $rawString[$this->cursor];
 
-            if ($segmentLength == 0) {
-                // There was nothing in this segment, so add an empty regex and continue
-                $regexPieces[] = "";
-                continue;
+            switch ($char) {
+                case ":":
+                    $regex .= $this->getVarRegex($parsedRoute, mb_substr($rawString, $this->cursor));
+                    break;
+                case "[":
+                    $regex .= "(?:";
+                    $bracketDepth++;
+                    $this->cursor++;
+                    break;
+                case "]":
+                    $regex .= ")?";
+                    $bracketDepth--;
+                    $this->cursor++;
+                    break;
+                default:
+                    $regex .= preg_quote($char, "#");
+                    $this->cursor++;
             }
-
-            $segmentRegex = "";
-
-            while ($this->cursor < $segmentLength) {
-                $char = $segment[$this->cursor];
-
-                switch ($char) {
-                    case ":":
-                        if (!empty($quotedTextBuffer)) {
-                            $segmentRegex .= preg_quote($quotedTextBuffer, "#");
-                            $quotedTextBuffer = "";
-                        }
-
-                        $segmentRegex .= $this->getVarRegex($parsedRoute, mb_substr($segment, $this->cursor));
-                        break;
-                    case "[":
-                        if (!empty($quotedTextBuffer)) {
-                            $segmentRegex .= preg_quote($quotedTextBuffer, "#");
-                            $quotedTextBuffer = "";
-                        }
-
-                        $segmentRegex .= "(?:";
-                        $bracketDepth++;
-                        $this->cursor++;
-                        break;
-                    case "]":
-                        if (!empty($quotedTextBuffer)) {
-                            $segmentRegex .= preg_quote($quotedTextBuffer, "#");
-                            $quotedTextBuffer = "";
-                        }
-
-                        $segmentRegex .= ")?";
-                        $bracketDepth--;
-                        $this->cursor++;
-                        break;
-                    default:
-                        $quotedTextBuffer .= $char;
-                        $this->cursor++;
-                }
-            }
-
-            // Finish flushing out the buffer
-            if (!empty($quotedTextBuffer)) {
-                $segmentRegex .= preg_quote($quotedTextBuffer, "#");
-                $quotedTextBuffer = "";
-            }
-
-            $regexPieces[] = $segmentRegex;
         }
 
         if ($bracketDepth != 0) {
@@ -120,7 +85,7 @@ class Parser implements IParser
             );
         }
 
-        return sprintf("#^%s$#", implode(preg_quote("/", "#"), $regexPieces));
+        return sprintf("#^%s$#", $regex);
     }
 
     /**
@@ -133,7 +98,10 @@ class Parser implements IParser
      */
     private function getVarRegex(ParsedRoute $parsedRoute, string $segment) : string
     {
-        preg_match(self::$variableMatchingRegex, $segment, $matches);
+        if (preg_match(self::$variableMatchingRegex, $segment, $matches) !== 1) {
+            throw new RouteException("Variable name can't be empty");
+        }
+
         $variableName = $matches[1];
         $defaultValue = isset($matches[2]) ? $matches[2] : "";
 
