@@ -51,12 +51,9 @@ class Parser implements IParser
         }
 
         $this->variableNames = [];
-        $quotedTextBuffer = "";
         $bracketDepth = 0;
-
         $this->cursor = 0;
         $rawStringLength = mb_strlen($rawString);
-
         $regExp = "";
 
         while ($this->cursor < $rawStringLength) {
@@ -64,32 +61,23 @@ class Parser implements IParser
 
             switch ($char) {
                 case ":":
-                    $this->flushBuffer($regExp, $quotedTextBuffer);
-
                     $regExp .= $this->getVarRegex($parsedRoute, mb_substr($rawString, $this->cursor));
                     break;
                 case "[":
-                    $this->flushBuffer($regExp, $quotedTextBuffer);
-
                     $regExp .= "(?:";
                     $bracketDepth++;
                     $this->cursor++;
                     break;
                 case "]":
-                    $this->flushBuffer($regExp, $quotedTextBuffer);
-
                     $regExp .= ")?";
                     $bracketDepth--;
                     $this->cursor++;
                     break;
                 default:
-                    $quotedTextBuffer .= $char;
+                    $regExp .= preg_quote($char, "#");
                     $this->cursor++;
             }
         }
-
-        // Finish flushing out the buffer
-        $this->flushBuffer($regExp, $quotedTextBuffer);
 
         if ($bracketDepth != 0) {
             throw new RouteException(
@@ -98,14 +86,6 @@ class Parser implements IParser
         }
 
         return sprintf("#^%s$#", $regExp);
-    }
-
-    private function flushBuffer(string &$regExp, string &$buffer)
-    {
-        if (!empty($buffer)) {
-            $regExp .= preg_quote($buffer, "#");
-            $buffer = "";
-        }
     }
 
     /**
