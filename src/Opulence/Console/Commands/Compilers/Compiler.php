@@ -84,7 +84,9 @@ class Compiler implements ICompiler
     protected function compileOptions(ICommand &$command, IRequest $request)
     {
         foreach ($command->getOptions() as $option) {
-            $shortNameIsSet = $request->optionIsSet($option->getShortName());
+            $shortNameIsSet = $option->getShortName() === null ? 
+                    false :
+                    $request->optionIsSet($option->getShortName());
             $longNameIsSet = $request->optionIsSet($option->getName());
 
             // All options are optional (duh)

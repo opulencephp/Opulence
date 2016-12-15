@@ -109,6 +109,18 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->request->addOptionValue("foo", "bar");
         $this->compiler->compile($this->command, $this->request);
     }
+    
+    /**
+     * Tests compiling an option with a null short name still compiles
+     */
+    public function testCompilingOptionWithNullShortNameStillCompiles()
+    {
+        $option = new Option("foo", null, OptionTypes::REQUIRED_VALUE, "Foo command");
+        $this->command->addOption($option);
+        $this->request->addOptionValue("foo", "bar");
+        $compiledCommand = $this->compiler->compile($this->command, $this->request);
+        $this->assertEquals("bar", $compiledCommand->getOptionValue("foo"));
+    }
 
     /**
      * Tests compiling an optional argument
