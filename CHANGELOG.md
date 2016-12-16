@@ -1,4 +1,4 @@
-<h2>v1.0.2 (2016-12-?)</h2>
+<h2>v1.0.2 (2016-12-16)</h2>
 
 <h3>Console</h3>
 * Fixed bug that occurred with `null` short option names
