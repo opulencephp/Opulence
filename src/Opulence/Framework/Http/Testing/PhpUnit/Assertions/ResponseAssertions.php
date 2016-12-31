@@ -11,14 +11,14 @@ namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 use Opulence\Http\Responses\RedirectResponse;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 
 /**
  * Defines the HTTP response assertions
  */
-class ResponseAssertions extends PHPUnit_Framework_TestCase
+class ResponseAssertions extends TestCase
 {
     /** @var Response The HTTP response */
     protected $response = null;
