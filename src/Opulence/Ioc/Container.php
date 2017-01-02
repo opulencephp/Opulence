@@ -136,7 +136,7 @@ class Container implements IContainer
      */
     public function hasBinding(string $interface) : bool
     {
-        $hasBinding = $this->getBindingData($interface, false) !== null;
+        $hasBinding = $this->getBindingData($interface, true) !== null;
 
         return $hasBinding;
     }
@@ -530,8 +530,7 @@ class Container implements IContainer
         $class,
         array $unresolvedParameters,
         array $primitives
-    ) : array
-    {
+    ) : array {
         $resolvedParameters = [];
 
         foreach ($unresolvedParameters as $parameter) {
