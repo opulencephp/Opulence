@@ -1,4 +1,4 @@
-<h2>v1.0.3 (2017-01-?)</h2>
+<h2>v1.0.3 (2017-01-02)</h2>
 
 <h3>General</h3>
 * Updated copyright years
