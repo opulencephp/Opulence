@@ -3,7 +3,7 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2016 David Young
+ * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\QueryBuilders;
@@ -268,6 +268,17 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests adding a "LIMIT" statement with a named placeholder
+     */
+    public function testLimitWithNamedPlaceholder()
+    {
+        $query = new SelectQuery("id", "name");
+        $query->from("users")
+            ->limit(":limit");
+        $this->assertEquals("SELECT id, name FROM users LIMIT :limit", $query->getSql());
+    }
+
+    /**
      * Tests mixing a WHERE expression and a WHERE condition object
      */
     public function testMixingWhereExpessionAndObject()
@@ -278,17 +289,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("SELECT id FROM users WHERE (id > 10) AND (c1 IN (?))",
             $query->getSql());
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
-    }
-
-    /**
-     * Tests adding a "LIMIT" statement with a named placeholder
-     */
-    public function testLimitWithNamedPlaceholder()
-    {
-        $query = new SelectQuery("id", "name");
-        $query->from("users")
-            ->limit(":limit");
-        $this->assertEquals("SELECT id, name FROM users LIMIT :limit", $query->getSql());
     }
 
     /**
@@ -356,6 +356,18 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests adding a "WHERE" condition that will be "OR"ed
+     */
+    public function testOrWhere()
+    {
+        $query = new SelectQuery("id");
+        $query->from("users")
+            ->where("id > 10")
+            ->orWhere("name <> 'dave'");
+        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave')", $query->getSql());
+    }
+
+    /**
      * Tests adding a "WHERE" condition object that will be "OR"ed
      */
     public function testOrWhereConditionObject()
@@ -366,18 +378,6 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
             ->orWhere($this->condition);
         $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (c1 IN (?))", $query->getSql());
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
-    }
-
-    /**
-     * Tests adding a "WHERE" condition that will be "OR"ed
-     */
-    public function testOrWhere()
-    {
-        $query = new SelectQuery("id");
-        $query->from("users")
-            ->where("id > 10")
-            ->orWhere("name <> 'dave'");
-        $this->assertEquals("SELECT id FROM users WHERE (id > 10) OR (name <> 'dave')", $query->getSql());
     }
 
     /**

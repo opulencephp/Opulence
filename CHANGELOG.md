@@ -1,5 +1,8 @@
 <h2>v1.0.3 (2017-01-?)</h2>
 
+<h3>General</h3>
+* Updated copyright years
+
 <h3>Framework</h3>
 * Fixed PHPUnit to be 5.6.* in `opulence/framework` (it was errantly still requiring 5.4.*)
 * Updated the various `Assertions` classes to extend the namespaced `PHPUnit\Framework\TestCase` class rather than the soon-to-be-outdated `PHPUnit_Framework_TestCase`
