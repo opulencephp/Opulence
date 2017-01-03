@@ -3,7 +3,7 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2016 David Young
+ * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Applications;
@@ -18,7 +18,7 @@ use Opulence\Applications\Tasks\TaskTypes;
 class Application
 {
     /** @var string The current Opulence version */
-    private static $opulenceVersion = "1.0.2";
+    private static $opulenceVersion = "1.0.3";
     /** @var ITaskDispatcher The task dispatcher */
     private $taskDispatcher = null;
     /** @var string The version of the application */

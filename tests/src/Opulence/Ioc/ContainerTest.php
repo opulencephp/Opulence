@@ -3,12 +3,11 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2016 David Young
+ * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Ioc;
 
-use Opulence\Tests\Ioc\Mocks\StaticSetters;
 use Opulence\Tests\Ioc\Mocks\Bar;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
@@ -16,6 +15,7 @@ use Opulence\Tests\Ioc\Mocks\ConstructorWithReference;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithSetters;
 use Opulence\Tests\Ioc\Mocks\IFoo;
 use Opulence\Tests\Ioc\Mocks\MagicCallMethod;
+use Opulence\Tests\Ioc\Mocks\StaticSetters;
 
 /**
  * Tests the dependency injection container
@@ -308,6 +308,17 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
             return new $this->concreteFoo;
         });
         $this->assertTrue($this->container->hasBinding($this->fooInterface));
+    }
+
+    /**
+     * Tests that a target has a binding when it only has a universal binding
+     */
+    public function testCheckingTargetHasBindingWhenItOnlyHasUniversalBinding()
+    {
+        $this->container->bindPrototype($this->fooInterface, $this->concreteFoo);
+        $this->container->for($this->constructorWithIFoo, function (IContainer $container) {
+            $this->assertTrue($container->hasBinding($this->fooInterface));
+        });
     }
 
     /**
@@ -739,10 +750,15 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
                 return new $this->concreteFoo();
             });
         });
-        $this->container->bindFactory("doesNotExist", function () {
-            return new $this->concreteFoo();
+        $this->container->for("bar", function (IContainer $container) {
+            $container->bindFactory("doesNotExist", function () {
+                return new $this->concreteFoo();
+            });
         });
         $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
+        $this->assertTrue($this->container->for("bar", function (IContainer $container) {
             return $container->hasBinding("doesNotExist");
         }));
     }
@@ -757,8 +773,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->container->for("foo", function (IContainer $container) use ($instance1) {
             $container->bindInstance($this->fooInterface, $instance1);
         });
-        $this->container->bindInstance("doesNotExist", $instance2);
+        $this->container->for("bar", function (IContainer $container) use ($instance2) {
+            $container->bindInstance("doesNotExist", $instance2);
+        });
         $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
+        $this->assertTrue($this->container->for("bar", function (IContainer $container) {
             return $container->hasBinding("doesNotExist");
         }));
     }
@@ -771,8 +792,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->container->for("foo", function (IContainer $container) {
             $container->bindPrototype($this->fooInterface, "bar");
         });
-        $this->container->bindPrototype("doesNotExist", "bar");
+        $this->container->for("baz", function (IContainer $container) {
+            $container->bindPrototype("doesNotExist", "bar");
+        });
         $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
+        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
             return $container->hasBinding("doesNotExist");
         }));
     }
@@ -785,8 +811,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->container->for("foo", function (IContainer $container) {
             $container->bindSingleton($this->fooInterface, "bar");
         });
-        $this->container->bindSingleton("doesNotExist", "bar");
+        $this->container->for("baz", function (IContainer $container) {
+            $container->bindSingleton("doesNotExist", "bar");
+        });
         $this->assertFalse($this->container->for("foo", function (IContainer $container) {
+            return $container->hasBinding("doesNotExist");
+        }));
+        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
             return $container->hasBinding("doesNotExist");
         }));
     }

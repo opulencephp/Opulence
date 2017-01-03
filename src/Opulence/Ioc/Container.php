@@ -3,7 +3,7 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2016 David Young
+ * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Ioc;
@@ -305,7 +305,7 @@ class Container implements IContainer
         $class,
         array $unresolvedParameters,
         array $primitives
-    ): array {
+    ) : array {
         $resolvedParameters = [];
 
         foreach ($unresolvedParameters as $parameter) {

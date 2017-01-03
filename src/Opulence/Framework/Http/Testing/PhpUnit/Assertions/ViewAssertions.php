@@ -3,19 +3,19 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2016 David Young
+ * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Http\Testing\PhpUnit\Assertions;
 
 use LogicException;
 use Opulence\Routing\Controller;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Defines the HTTP view assertions
  */
-class ViewAssertions extends PHPUnit_Framework_TestCase
+class ViewAssertions extends TestCase
 {
     /** @var Controller|mixed The matched controller */
     protected $controller = null;

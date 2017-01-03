@@ -3,7 +3,7 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2016 David Young
+ * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Framework\Console\Testing\PhpUnit\Assertions;
@@ -11,12 +11,12 @@ namespace Opulence\Framework\Console\Testing\PhpUnit\Assertions;
 use LogicException;
 use Opulence\Console\Responses\StreamResponse;
 use Opulence\Console\StatusCodes;
-use PHPUnit_Framework_TestCase;
+use PHPUnit\Framework\TestCase;
 
 /**
  * Defines the console response assertions
  */
-class ResponseAssertions extends PHPUnit_Framework_TestCase
+class ResponseAssertions extends TestCase
 {
     /** @var StreamResponse The response stream */
     protected $response = null;

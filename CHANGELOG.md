@@ -1,3 +1,15 @@
+<h2>v1.0.3 (2017-01-02)</h2>
+
+<h3>General</h3>
+* Updated copyright years
+
+<h3>Framework</h3>
+* Fixed PHPUnit to be 5.6.* in `opulence/framework` (it was errantly still requiring 5.4.*)
+* Updated the various `Assertions` classes to extend the namespaced `PHPUnit\Framework\TestCase` class rather than the soon-to-be-outdated `PHPUnit_Framework_TestCase`
+
+<h3>IoC</h3>
+* Fixed #38 (`hasBinding()` was not falling back to universal bindings when checking a targeted binding)
+
 <h2>v1.0.2 (2016-12-16)</h2>
 
 <h3>Console</h3>
