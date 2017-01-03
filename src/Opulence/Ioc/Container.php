@@ -81,7 +81,7 @@ class Container implements IContainer
     public function callClosure(callable $closure, array $primitives = [])
     {
         $unresolvedParameters = (new ReflectionFunction($closure))->getParameters();
-        $resolvedParameters   = $this->resolveParameters(null, $unresolvedParameters, $primitives);
+        $resolvedParameters = $this->resolveParameters(null, $unresolvedParameters, $primitives);
 
         return $closure(...$resolvedParameters);
     }
@@ -100,8 +100,8 @@ class Container implements IContainer
         }
 
         $unresolvedParameters = (new ReflectionMethod($instance, $methodName))->getParameters();
-        $className            = is_string($instance) ? $instance : get_class($instance);
-        $resolvedParameters   = $this->resolveParameters($className, $unresolvedParameters, $primitives);
+        $className = is_string($instance) ? $instance : get_class($instance);
+        $resolvedParameters = $this->resolveParameters($className, $unresolvedParameters, $primitives);
 
         return ([$instance, $methodName])(...$resolvedParameters);
     }
@@ -112,7 +112,7 @@ class Container implements IContainer
     public function for (string $targetClass, callable $callback)
     {
         $this->targetStack[] = $targetClass;
-        $result              = $callback($this);
+        $result = $callback($this);
         array_pop($this->targetStack);
 
         return $result;
@@ -295,9 +295,9 @@ class Container implements IContainer
     /**
      * Resolves a list of parameters for a function call
      *
-     * @param string|null           $class                The name of the class whose parameters we're resolving
+     * @param string|null $class The name of the class whose parameters we're resolving
      * @param ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
-     * @param array                 $primitives           The list of primitive values
+     * @param array $primitives The list of primitive values
      * @return array The list of parameters with all the dependencies resolved
      * @throws IocException Thrown if there was an error resolving the parameters
      */
@@ -353,7 +353,7 @@ class Container implements IContainer
      * Resolves a primitive parameter
      *
      * @param ReflectionParameter $parameter  The primitive parameter to resolve
-     * @param array               $primitives The list of primitive values
+     * @param array $primitives The list of primitive values
      * @return mixed The resolved primitive
      * @throws IocException Thrown if there was a problem resolving the primitive
      */

@@ -3,7 +3,7 @@
  * Opulence
  *
  * @link      https://www.opulencephp.com
- * @copyright Copyright (C) 2017 David Young
+ * @copyright Copyright (C) 2016 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
 namespace Opulence\Ioc;
@@ -17,10 +17,8 @@ class ClassBinding implements IBinding
     private $concreteClass = "";
     /** @var array The list of constructor primitives */
     private $constructorPrimitives = [];
-    /**
-     * @var bool
-     */
-    private $resolveAsSingleton;
+    /** @var bool Whether or not the class should be resolved as a singleton */
+    private $resolveAsSingleton = false;
 
     /**
      * @param string $concreteClass         The name of the concrete class
