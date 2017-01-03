@@ -20,28 +20,15 @@ use RuntimeException;
  */
 class Container implements IContainer
 {
+    const EMPTY_TARGET = null;
+
     /** @var array The stack of targets */
     protected $targetStack = [];
-    /** @var array The mapping of interfaces to factory bindings */
-    protected $universalFactories = [];
-    /** @var array The mapping of interfaces to an array of instances */
-    protected $universalInstances = [];
-    /** @var array The mapping of interfaces to an array of prototype class bindings */
-    protected $universalPrototypes = [];
-    /** @var array The mapping of interfaces to an array of singleton class bindings */
-    protected $universalSingletons = [];
-    /** @var array The mapping of targets to interfaces to factory bindings */
-    protected $targetedFactories = [];
-    /** @var array The mapping of targets to interfaces to an array of instances */
-    protected $targetedInstances = [];
-    /** @var array The mapping of targets to interfaces to an array of prototypes and constructor primitives */
-    protected $targetedPrototypes = [];
-    /** @var array The mapping of targets to interfaces to an array of singletons and constructor primitives */
-    protected $targetedSingletons = [];
-    /** @var array The mapping of universal bindings to their binding types */
-    private $universalBindingTypeMappings = [];
-    /** @var array The mapping of targeted bindings to their binding types */
-    private $targetedBindingTypeMappings = [];
+
+    /** @var array */
+    protected $definitions = [];
+    /** @var array */
+    protected $instances = [];
 
     public function __sleep()
     {
@@ -54,7 +41,7 @@ class Container implements IContainer
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false)
     {
         foreach ((array)$interfaces as $interface) {
-            $this->doFactoryBinding($interface, $factory, $resolveAsSingleton);
+            $this->addDefinition($interface, new FactoryBinding($factory, $resolveAsSingleton));
         }
     }
 
@@ -64,7 +51,7 @@ class Container implements IContainer
     public function bindInstance($interfaces, $instance)
     {
         foreach ((array)$interfaces as $interface) {
-            $this->doInstanceBinding($interface, $instance);
+            $this->addInstance($interface, $instance);
         }
     }
 
@@ -74,7 +61,7 @@ class Container implements IContainer
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = [])
     {
         foreach ((array)$interfaces as $interface) {
-            $this->doPrototypeBinding($interface, $concreteClass, $primitives);
+            $this->addDefinition($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
         }
     }
 
@@ -84,7 +71,7 @@ class Container implements IContainer
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = [])
     {
         foreach ((array)$interfaces as $interface) {
-            $this->doSingletonBinding($interface, $concreteClass, $primitives);
+            $this->addDefinition($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
         }
     }
 
@@ -94,7 +81,7 @@ class Container implements IContainer
     public function callClosure(callable $closure, array $primitives = [])
     {
         $unresolvedParameters = (new ReflectionFunction($closure))->getParameters();
-        $resolvedParameters = $this->resolveParameters(null, $unresolvedParameters, $primitives);
+        $resolvedParameters   = $this->resolveParameters(null, $unresolvedParameters, $primitives);
 
         return $closure(...$resolvedParameters);
     }
@@ -113,10 +100,10 @@ class Container implements IContainer
         }
 
         $unresolvedParameters = (new ReflectionMethod($instance, $methodName))->getParameters();
-        $className = is_string($instance) ? $instance : get_class($instance);
-        $resolvedParameters = $this->resolveParameters($className, $unresolvedParameters, $primitives);
+        $className            = is_string($instance) ? $instance : get_class($instance);
+        $resolvedParameters   = $this->resolveParameters($className, $unresolvedParameters, $primitives);
 
-        return [$instance, $methodName](...$resolvedParameters);
+        return ([$instance, $methodName])(...$resolvedParameters);
     }
 
     /**
@@ -125,8 +112,8 @@ class Container implements IContainer
     public function for (string $targetClass, callable $callback)
     {
         $this->targetStack[] = $targetClass;
-        $result = $callback($this);
-        $this->stopTargeting();
+        $result              = $callback($this);
+        array_pop($this->targetStack);
 
         return $result;
     }
@@ -134,11 +121,15 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function hasBinding(string $interface) : bool
+    public function hasBinding(string $interface): bool
     {
-        $hasBinding = $this->getBindingData($interface, false) !== null;
+        $target = $this->getCurrentTarget();
 
-        return $hasBinding;
+        if ($target !== self::EMPTY_TARGET && $this->hasTargetedBinding($interface, $target)) {
+            return true;
+        }
+
+        return $this->hasTargetedBinding($interface, self::EMPTY_TARGET);
     }
 
     /**
@@ -146,50 +137,34 @@ class Container implements IContainer
      */
     public function resolve(string $interface)
     {
-        $bindingData = $this->getBindingData($interface, true);
-
-        if ($bindingData === null) {
+        if (!$this->hasBinding($interface)) {
             // Try just resolving this directly
             return $this->resolveClass($interface);
         }
 
-        $bindingType = $bindingData[0];
-        $target = $bindingData[1];
-
-        switch ($bindingType) {
-            case "f":
-                $factoryBinding = $this->getFactory($interface, $target);
-                $instance = $this->callClosure($factoryBinding->getFactory());
-
-                // If we are to resolve as a singleton, then remove the factory binding
-                if ($factoryBinding->resolveAsSingleton()) {
-                    $this->unbind($interface);
-                    $this->doInstanceBinding($interface, $instance);
-                }
-
-                return $instance;
-            case "i":
-                return $this->getInstance($interface, $target);
-            case "p":
-                $classBinding = $this->getPrototype($interface, $target);
-
-                return $this->resolveClass(
-                    $classBinding->getConcreteClass(),
-                    $classBinding->getConstructorPrimitives()
-                );
-            case "s":
-                $classBinding = $this->getSingleton($interface, $target);
-                $instance = $this->resolveClass(
-                    $classBinding->getConcreteClass(),
-                    $classBinding->getConstructorPrimitives()
-                );
-
-                $this->doInstanceBinding($interface, $instance);
-
-                return $instance;
-            default:
-                throw new RuntimeException("Invalid binding type \"$bindingType\"");
+        $instance = $this->getInstance($interface);
+        if ($instance !== null) {
+            return $instance;
         }
+
+        $definition = $this->getDefinition($interface);
+        if ($definition instanceof ClassBinding) {
+            $instance = $this->resolveClass(
+                $definition->getConcreteClass(),
+                $definition->getConstructorPrimitives()
+            );
+        } elseif ($definition instanceof FactoryBinding) {
+            $instance = $this->callClosure($definition->getFactory());
+        } else {
+            throw new RuntimeException('Invalid binding type "' . get_class($definition) . '');
+        }
+
+        if ($definition->resolveAsSingleton()) {
+            $this->unbind($interface);
+            $this->addInstance($interface, $instance);
+        }
+
+        return $instance;
     }
 
     /**
@@ -198,166 +173,32 @@ class Container implements IContainer
     public function unbind($interfaces)
     {
         foreach ((array)$interfaces as $interface) {
-            $bindingData = $this->getBindingData($interface, true);
+            $target = $this->getCurrentTarget();
 
-            if ($bindingData === null) {
-                continue;
-            }
-
-            $bindingType = $bindingData[0];
-            $target = $bindingData[1];
-
-            if ($target === null) {
-                switch ($bindingType) {
-                    case "f":
-                        unset($this->universalFactories[$interface]);
-                        break;
-                    case "i":
-                        unset($this->universalInstances[$interface]);
-                        break;
-                    case "p":
-                        unset($this->universalPrototypes[$interface]);
-                        break;
-                    case "s":
-                        unset($this->universalSingletons[$interface]);
-                        break;
-                }
-
-                unset($this->universalBindingTypeMappings[$interface]);
-            } else {
-                switch ($bindingType) {
-                    case "f":
-                        if (isset($this->targetedFactories[$target])) {
-                            unset($this->targetedFactories[$target][$interface]);
-                        }
-
-                        break;
-                    case "i":
-                        if (isset($this->targetedInstances[$target])) {
-                            unset($this->targetedInstances[$target][$interface]);
-                        }
-
-                        break;
-                    case "p":
-                        if (isset($this->targetedPrototypes[$target])) {
-                            unset($this->targetedPrototypes[$target][$interface]);
-                        }
-
-                        break;
-                    case "s":
-                        if (isset($this->targetedSingletons[$target])) {
-                            unset($this->targetedSingletons[$target][$interface]);
-                        }
-
-                        break;
-                }
-
-                if (isset($this->targetedBindingTypeMappings[$target])) {
-                    unset($this->targetedBindingTypeMappings[$target][$interface]);
-                }
-            }
+            unset($this->instances[$target][$interface]);
+            unset($this->definitions[$target][$interface]);
         }
     }
 
-    /**
-     * Does the factory binding
-     *
-     * @param string $interface The interface to bind to
-     * @param callable $factory The factory to bind
-     * @param bool $resolveAsSingleton Whether or not to resolve the factory as a singleton
-     */
-    protected function doFactoryBinding(string $interface, callable $factory, bool $resolveAsSingleton = false)
+    protected function addDefinition(string $interface, $binding)
     {
-        $binding = new FactoryBinding($factory, $resolveAsSingleton);
-
-        if ($this->usingTarget()) {
-            $target = $this->getCurrentTarget();
-
-            if (!isset($this->targetedFactories[$target])) {
-                $this->targetedFactories[$target] = [];
-            }
-
-            $this->targetedFactories[$target][$interface] = $binding;
-            $this->mapTargetedBindingType($interface, $target, "f");
-        } else {
-            $this->universalFactories[$interface] = $binding;
-            $this->mapUniversalBindingType($interface, "f");
-        }
+        $this->addBinding($interface, $binding, $this->definitions);
     }
 
-    /**
-     * Does the binding of an instance to the interface
-     *
-     * @param string $interface The interface to bind to
-     * @param object $instance The instance to bind
-     */
-    protected function doInstanceBinding(string $interface, $instance)
+    protected function addInstance(string $interface, $instance)
     {
-        if ($this->usingTarget()) {
-            $target = $this->getCurrentTarget();
-
-            if (!isset($this->targetedInstances[$target])) {
-                $this->targetedInstances[$target] = [];
-            }
-
-            $this->targetedInstances[$target][$interface] = $instance;
-            $this->mapTargetedBindingType($interface, $target, "i");
-        } else {
-            $this->universalInstances[$interface] = $instance;
-            $this->mapUniversalBindingType($interface, "i");
-        }
+        $this->addBinding($interface, $instance, $this->instances);
     }
 
-    /**
-     * Does the binding of a non-singleton to the interface
-     *
-     * @param string $interface The interface to bind to
-     * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
-     * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
-     */
-    protected function doPrototypeBinding(string $interface, string $concreteClass = null, array $primitives = [])
+    protected function addBinding($interface, $instance, &$collection)
     {
-        $binding = new ClassBinding($concreteClass ?? $interface, $primitives);
+        $target = $this->getCurrentTarget();
 
-        if ($this->usingTarget()) {
-            $target = $this->getCurrentTarget();
-
-            if (!isset($this->targetedPrototypes[$target])) {
-                $this->targetedPrototypes[$target] = [];
-            }
-
-            $this->targetedPrototypes[$target][$interface] = $binding;
-            $this->mapTargetedBindingType($interface, $target, "p");
-        } else {
-            $this->universalPrototypes[$interface] = $binding;
-            $this->mapUniversalBindingType($interface, "p");
+        if (!isset($collection[$target])) {
+            $collection[$target] = [];
         }
-    }
 
-    /**
-     * Does the binding of a singleton to the interface
-     *
-     * @param string $interface The interface to bind to
-     * @param string|null $concreteClass The concrete class to bind, or null if the interface actually is a concrete class
-     * @param array $primitives The list of primitives to inject (must be in same order they appear in constructor)
-     */
-    protected function doSingletonBinding(string $interface, string $concreteClass = null, array $primitives = [])
-    {
-        $binding = new ClassBinding($concreteClass ?? $interface, $primitives);
-
-        if ($this->usingTarget()) {
-            $target = $this->getCurrentTarget();
-
-            if (!isset($this->targetedSingletons[$target])) {
-                $this->targetedSingletons[$target] = [];
-            }
-
-            $this->targetedSingletons[$target][$interface] = $binding;
-            $this->mapTargetedBindingType($interface, $target, "s");
-        } else {
-            $this->universalSingletons[$interface] = $binding;
-            $this->mapUniversalBindingType($interface, "s");
-        }
+        $collection[$target][$interface] = $instance;
     }
 
     /**
@@ -367,118 +208,52 @@ class Container implements IContainer
      */
     protected function getCurrentTarget()
     {
-        if (count($this->targetStack) > 0) {
-            return $this->targetStack[count($this->targetStack) - 1];
+        return end($this->targetStack) ?: self::EMPTY_TARGET;
+    }
+
+    /**
+     * @param string $interface
+     * @return IBinding|null
+     */
+    protected function getDefinition(string $interface)
+    {
+        return $this->getBinding($interface, $this->definitions);
+    }
+
+    /**
+     * @param string $interface
+     * @return IBinding|null
+     */
+    protected function getInstance(string $interface)
+    {
+        return $this->getBinding($interface, $this->instances);
+    }
+
+    /**
+     * @param string $interface
+     * @param array  $collection
+     * @return IBinding|null
+     */
+    protected function getBinding(string $interface, &$collection)
+    {
+        $target = $this->getCurrentTarget();
+
+        if ($target !== self::EMPTY_TARGET && isset($collection[$target][$interface])) {
+            return $collection[$target][$interface];
+        }
+
+        if (isset($collection[self::EMPTY_TARGET][$interface])) {
+            return $collection[self::EMPTY_TARGET][$interface];
         }
 
         return null;
     }
 
     /**
-     * Gets the factory for an interface
-     *
-     * @param string $interface The interface to check
-     * @param string|null $target The target if we're checking for a targeted binding, otherwise null
-     * @return FactoryBinding|null The factory binding if there was one, otherwise null
-     */
-    protected function getFactory(string $interface, string $target = null)
-    {
-        // Fallback to universal bindings if there is no targeted binding
-        if ($target === null || !isset($this->targetedFactories[$target])) {
-            if (!isset($this->universalFactories[$interface])) {
-                return null;
-            }
-
-            return $this->universalFactories[$interface];
-        }
-
-        if (!isset($this->targetedFactories[$target][$interface])) {
-            return null;
-        }
-
-        return $this->targetedFactories[$target][$interface];
-    }
-
-    /**
-     * Gets the instance for an interface
-     *
-     * @param string $interface The interface to check
-     * @param string|null $target The target if we're checking for a targeted binding, otherwise null
-     * @return mixed|null The instance if there was one, otherwise null
-     */
-    protected function getInstance(string $interface, string $target = null)
-    {
-        // Fallback to universal bindings if there is no targeted binding
-        if ($target === null || !isset($this->targetedInstances[$target])) {
-            if (!isset($this->universalInstances[$interface])) {
-                return null;
-            }
-
-            return $this->universalInstances[$interface];
-        }
-
-        if (!isset($this->targetedInstances[$target][$interface])) {
-            return null;
-        }
-
-        return $this->targetedInstances[$target][$interface];
-    }
-
-    /**
-     * Gets the prototype for an interface
-     *
-     * @param string $interface The interface to check
-     * @param string|null $target The target if we're checking for a targeted binding, otherwise null
-     * @return ClassBinding|null The class binding if there was one, otherwise null
-     */
-    protected function getPrototype(string $interface, string $target = null)
-    {
-        // Fallback to universal bindings if there is no targeted binding
-        if ($target === null || !isset($this->targetedPrototypes[$target])) {
-            if (!isset($this->universalPrototypes[$interface])) {
-                return null;
-            }
-
-            return $this->universalPrototypes[$interface];
-        }
-
-        if (!isset($this->targetedPrototypes[$target][$interface])) {
-            return null;
-        }
-
-        return $this->targetedPrototypes[$target][$interface];
-    }
-
-    /**
-     * Gets the targeted singleton for an interface
-     *
-     * @param string $interface The interface to check
-     * @param string|null $target The target if we're checking for a targeted binding, otherwise null
-     * @return ClassBinding|null The class binding if there was one, otherwise null
-     */
-    protected function getSingleton(string $interface, string $target = null)
-    {
-        // Fallback to universal bindings if there is no targeted binding
-        if ($target === null || !isset($this->targetedSingletons[$target])) {
-            if (!isset($this->universalSingletons[$interface])) {
-                return null;
-            }
-
-            return $this->universalSingletons[$interface];
-        }
-
-        if (!isset($this->targetedSingletons[$target][$interface])) {
-            return null;
-        }
-
-        return $this->targetedSingletons[$target][$interface];
-    }
-
-    /**
      * Resolves a class
      *
-     * @param string $class The class name to resolve
-     * @param array $primitives The list of constructor primitives
+     * @param string $class      The class name to resolve
+     * @param array  $primitives The list of constructor primitives
      * @return object The resolved class
      * @throws IocException Thrown if the class could not be resolved
      */
@@ -520,9 +295,9 @@ class Container implements IContainer
     /**
      * Resolves a list of parameters for a function call
      *
-     * @param string|null $class The name of the class whose parameters we're resolving
+     * @param string|null           $class                The name of the class whose parameters we're resolving
      * @param ReflectionParameter[] $unresolvedParameters The list of unresolved parameters
-     * @param array $primitives The list of primitive values
+     * @param array                 $primitives           The list of primitive values
      * @return array The list of parameters with all the dependencies resolved
      * @throws IocException Thrown if there was an error resolving the parameters
      */
@@ -530,8 +305,7 @@ class Container implements IContainer
         $class,
         array $unresolvedParameters,
         array $primitives
-    ) : array
-    {
+    ): array {
         $resolvedParameters = [];
 
         foreach ($unresolvedParameters as $parameter) {
@@ -549,9 +323,7 @@ class Container implements IContainer
                  * If it is, resolve it using the input class as a target
                  * Otherwise, attempt to resolve it universally
                  */
-                if ($class !== null && isset($this->targetedBindingTypeMappings[$class])
-                    && isset($this->targetedBindingTypeMappings[$class][$parameterClassName])
-                ) {
+                if ($class !== null && $this->hasTargetedBinding($parameterClassName, $class)) {
                     $resolvedParameter = $this->for($class, function (IContainer $container) use ($parameter) {
                         return $container->resolve($parameter->getClass()->getName());
                     });
@@ -571,11 +343,17 @@ class Container implements IContainer
         return $resolvedParameters;
     }
 
+    protected function hasTargetedBinding(string $interface, string $target = null)
+    {
+        return isset($this->instances[$target][$interface])
+            || isset($this->definitions[$target][$interface]);
+    }
+
     /**
      * Resolves a primitive parameter
      *
-     * @param ReflectionParameter $parameter The primitive parameter to resolve
-     * @param array $primitives The list of primitive values
+     * @param ReflectionParameter $parameter  The primitive parameter to resolve
+     * @param array               $primitives The list of primitive values
      * @return mixed The resolved primitive
      * @throws IocException Thrown if there was a problem resolving the primitive
      */
@@ -596,82 +374,5 @@ class Container implements IContainer
             $parameter->getDeclaringClass()->getName(),
             $parameter->getDeclaringFunction()->getName()
         ));
-    }
-
-    /**
-     * Stops using a target
-     */
-    protected function stopTargeting()
-    {
-        array_pop($this->targetStack);
-    }
-
-    /**
-     * Gets whether or not we're using a target
-     *
-     * @return bool True if we're using a target, otherwise false
-     */
-    protected function usingTarget() : bool
-    {
-        return count($this->targetStack) > 0;
-    }
-
-    /**
-     * Gets the binding type (and target, if there was one) for an interface
-     *
-     * @param string $interface The interface whose binding type we want
-     * @param bool $fallBackToUniversalBindings Whether or not to fall back to universal bindings
-     * @return array|null An array whose first item is the binding type and second is the target (null if universal)
-     *      Null is returned if there is no binding type
-     */
-    private function getBindingData(string $interface, bool $fallBackToUniversalBindings)
-    {
-        if ($this->usingTarget()) {
-            $target = $this->getCurrentTarget();
-
-            if (isset($this->targetedBindingTypeMappings[$target])
-                && isset($this->targetedBindingTypeMappings[$target][$interface])
-            ) {
-                return [$this->targetedBindingTypeMappings[$target][$interface], $target];
-            }
-
-            if (!$fallBackToUniversalBindings) {
-                return null;
-            }
-        }
-
-        // If there was no targeted binding, then default to universal bindings
-        if (!isset($this->universalBindingTypeMappings[$interface])) {
-            return null;
-        }
-
-        return [$this->universalBindingTypeMappings[$interface], null];
-    }
-
-    /**
-     * Maps a targeted binding to the type of binding
-     *
-     * @param string $interface The interface
-     * @param string $target The target
-     * @param string $type The binding type
-     */
-    private function mapTargetedBindingType(string $interface, string $target, string $type)
-    {
-        if (!isset($this->targetedBindingTypeMappings[$target])) {
-            $this->targetedBindingTypeMappings[$target] = [];
-        }
-
-        $this->targetedBindingTypeMappings[$target][$interface] = $type;
-    }
-
-    /**
-     * Maps a universal binding to the type of binding
-     *
-     * @param string $interface The interface
-     * @param string $type The binding type
-     */
-    private function mapUniversalBindingType(string $interface, string $type)
-    {
-        $this->universalBindingTypeMappings[$interface] = $type;
     }
 }

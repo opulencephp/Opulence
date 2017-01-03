@@ -11,7 +11,7 @@ namespace Opulence\Ioc;
 /**
  * Defines a factory binding
  */
-class FactoryBinding
+class FactoryBinding implements IBinding
 {
     /** @var callable The factory */
     private $factory = null;
