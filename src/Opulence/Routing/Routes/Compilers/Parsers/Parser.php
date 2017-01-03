@@ -17,6 +17,14 @@ use Opulence\Routing\Routes\Route;
  */
 class Parser implements IParser
 {
+    /**
+     * The maximum supported length of a PCRE subpattern name
+     * http://pcre.org/current/doc/html/pcre2pattern.html#SEC16.
+     *
+     * @internal
+     */
+    const VARIABLE_MAXIMUM_LENGTH = 32;
+
     /** @var string The variable matching regex */
     private static $variableMatchingRegex = '#:([a-zA-Z_][a-zA-Z0-9_]*)(?:=([^:\[\]/]+))?#';
     /** @var int The cursor of the currently parsed route */
@@ -104,6 +112,14 @@ class Parser implements IParser
 
         $variableName = $matches[1];
         $defaultValue = isset($matches[2]) ? $matches[2] : "";
+
+        if (strlen($variableName) > self::VARIABLE_MAXIMUM_LENGTH) {
+            throw new RouteException(sprintf(
+                'Variable name "%s" cannot be longer than %s characters. Please use a shorter name.',
+                $variableName,
+                self::VARIABLE_MAXIMUM_LENGTH)
+            );
+        }
 
         if (in_array($variableName, $this->variableNames)) {
             throw new RouteException("Route uses multiple references to \"$variableName\"");

@@ -185,6 +185,13 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->parser->parse($route);
     }
 
+    public function testParsingWithTooLongVariableName()
+    {
+        $this->expectException(RouteException::class);
+        $route = new Route(["get"], '/:' . str_repeat('a', Parser::VARIABLE_MAXIMUM_LENGTH + 1), "foo@bar");
+        $this->parser->parse($route);
+    }
+
     /**
      * Tests parsing a path with a single variable with a default value
      */
