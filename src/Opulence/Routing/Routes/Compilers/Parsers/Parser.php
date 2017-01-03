@@ -18,7 +18,7 @@ use Opulence\Routing\Routes\Route;
 class Parser implements IParser
 {
     /** @var string The variable matching regex */
-    private static $variableMatchingRegex = '#:([\w]+)(?:=([^:\[\]/]+))?#';
+    private static $variableMatchingRegex = '#:([a-zA-Z_][a-zA-Z0-9_]*)(?:=([^:\[\]/]+))?#';
     /** @var int The cursor of the currently parsed route */
     private $cursor = 0;
     /** @var array The list of variable names in the currently parsed route */
@@ -84,7 +84,7 @@ class Parser implements IParser
                 sprintf("Route has %s brackets", $bracketDepth > 0 ? "unclosed" : "unopened")
             );
         }
-      
+
         return sprintf("#^%s$#", $regex);
     }
 

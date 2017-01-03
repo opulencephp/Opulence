@@ -176,6 +176,16 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
+     * Tests parsing a path with a single variable
+     */
+    public function testParsingSingleVariableWithFirstDigit()
+    {
+        $this->expectException(RouteException::class);
+        $route = new Route(["get"], "/:0foo", "foo@bar");
+        $this->parser->parse($route);
+    }
+
+    /**
      * Tests parsing a path with a single variable with a default value
      */
     public function testParsingSingleVariableWithDefaultValue()
