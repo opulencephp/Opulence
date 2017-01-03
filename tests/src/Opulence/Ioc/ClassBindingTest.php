@@ -21,7 +21,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->binding = new ClassBinding("foo", ["bar"]);
+        $this->binding = new ClassBinding("foo", ["bar"], false);
     }
 
     /**
