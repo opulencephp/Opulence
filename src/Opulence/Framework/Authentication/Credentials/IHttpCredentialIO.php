@@ -19,7 +19,7 @@ interface IHttpCredentialIO
 {
     /**
      * Gets the credential from a request
-     * 
+     *
      * @param Request $request The request to read from
      * @return ICredential The credential from the request
      */
@@ -27,14 +27,14 @@ interface IHttpCredentialIO
     
     /**
      * Removes a credential from the response
-     * 
+     *
      * @param Response $response The response to remove from
      */
     public function remove(Response $response);
 
     /**
      * Writes a credential to the response
-     * 
+     *
      * @param ICredential $credential The credential to write
      * @param Response $response The response to write to
      */

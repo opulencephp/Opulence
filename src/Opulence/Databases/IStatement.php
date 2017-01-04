@@ -121,4 +121,4 @@ interface IStatement
      * @return bool True if successful, otherwise false
      */
     public function setFetchMode($fetchMode);
-} 
+}

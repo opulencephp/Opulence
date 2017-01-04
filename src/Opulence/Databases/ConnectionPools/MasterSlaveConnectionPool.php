@@ -123,4 +123,4 @@ class MasterSlaveConnectionPool extends ConnectionPool
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }
-} 
+}

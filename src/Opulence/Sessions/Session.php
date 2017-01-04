@@ -268,4 +268,4 @@ class Session implements ISession
     {
         return $this->get(self::STALE_FLASH_KEYS_KEY, []);
     }
-} 
+}

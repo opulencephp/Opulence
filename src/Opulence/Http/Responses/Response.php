@@ -187,4 +187,4 @@ class Response
             $this->statusText = $statusText;
         }
     }
-} 
+}

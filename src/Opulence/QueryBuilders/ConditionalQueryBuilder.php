@@ -111,4 +111,4 @@ class ConditionalQueryBuilder
 
         return $this;
     }
-} 
+}

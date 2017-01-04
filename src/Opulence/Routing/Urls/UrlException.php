@@ -16,4 +16,4 @@ use Exception;
 class UrlException extends Exception
 {
     // Don't do anything
-} 
+}

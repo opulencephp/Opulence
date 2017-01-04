@@ -53,4 +53,4 @@ class HttpException extends Exception
     {
         return $this->statusCode;
     }
-} 
+}

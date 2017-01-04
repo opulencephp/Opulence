@@ -34,4 +34,4 @@ class XssFilter implements IFilter
 
         return $filteredInput;
     }
-} 
+}

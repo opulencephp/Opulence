@@ -128,8 +128,7 @@ class Request
         array $files = null,
         array $env = null,
         string $rawBody = null
-    ) : Request
-    {
+    ) : Request {
         $query = isset($query) ? $query : $_GET;
         $post = isset($post) ? $post : $_POST;
         $cookies = isset($cookies) ? $cookies : $_COOKIE;
@@ -171,8 +170,7 @@ class Request
         array $files = [],
         array $env = [],
         string $rawBody = null
-    ) : Request
-    {
+    ) : Request {
         // Define some basic server vars, but override them with with input on collision
         $server = array_replace(
             [
@@ -518,7 +516,6 @@ class Request
         }
 
         return (int)$this->server->get("SERVER_PORT");
-
     }
 
     /**
@@ -822,4 +819,4 @@ class Request
             }
         }
     }
-} 
+}

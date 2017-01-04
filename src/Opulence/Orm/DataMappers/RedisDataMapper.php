@@ -168,4 +168,4 @@ abstract class RedisDataMapper implements ICacheDataMapper
 
         return $entities;
     }
-} 
+}

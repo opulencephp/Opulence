@@ -172,4 +172,4 @@ class Cookie
     {
         $this->value = $value;
     }
-} 
+}

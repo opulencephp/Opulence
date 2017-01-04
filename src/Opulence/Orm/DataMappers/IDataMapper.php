@@ -54,4 +54,4 @@ interface IDataMapper
      * @throws OrmException Thrown if the entity couldn't be saved
      */
     public function update($entity);
-} 
+}

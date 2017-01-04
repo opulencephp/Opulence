@@ -166,8 +166,7 @@ class Encrypter implements IEncrypter
         string $cipher,
         string $value,
         string $authenticationKey
-    ) : string
-    {
+    ) : string {
         return \hash_hmac(self::$hmacAlgorithm, self::$version . $cipher . $iv . $keySalt . $value, $authenticationKey);
     }
 

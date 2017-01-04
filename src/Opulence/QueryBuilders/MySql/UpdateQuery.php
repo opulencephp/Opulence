@@ -16,4 +16,4 @@ use Opulence\QueryBuilders\UpdateQuery as BaseUpdateQuery;
 class UpdateQuery extends BaseUpdateQuery
 {
     // Don't do anything
-} 
+}

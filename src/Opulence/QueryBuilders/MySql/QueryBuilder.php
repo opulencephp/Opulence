@@ -51,4 +51,4 @@ class QueryBuilder extends BaseQueryBuilder
     {
         return new UpdateQuery($tableName, $alias, $columnNamesToValues);
     }
-} 
+}

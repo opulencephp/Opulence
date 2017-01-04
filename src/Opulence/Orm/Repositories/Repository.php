@@ -100,4 +100,4 @@ class Repository implements IRepository
 
         return $entities;
     }
-} 
+}

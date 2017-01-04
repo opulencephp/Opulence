@@ -70,4 +70,4 @@ class InsertQuery extends BaseInsertQuery
 
         return $this;
     }
-} 
+}

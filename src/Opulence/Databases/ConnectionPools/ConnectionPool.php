@@ -220,4 +220,4 @@ abstract class ConnectionPool
                 return $this->servers[$type][$serverHashId]["connection"];
         }
     }
-} 
+}

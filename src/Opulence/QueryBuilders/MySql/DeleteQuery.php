@@ -46,4 +46,4 @@ class DeleteQuery extends BaseDeleteQuery
 
         return $this;
     }
-} 
+}

@@ -36,4 +36,4 @@ abstract class PredisDataMapper extends RedisDataMapper
     {
         return $this->redis->get($key);
     }
-} 
+}

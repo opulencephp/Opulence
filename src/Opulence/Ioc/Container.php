@@ -109,7 +109,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function for (string $targetClass, callable $callback)
+    public function for(string $targetClass, callable $callback)
     {
         $this->targetStack[] = $targetClass;
         $result = $callback($this);
@@ -183,7 +183,7 @@ class Container implements IContainer
 
     /**
      * Adds a binding to an interface
-     * 
+     *
      * @param string $interface The interface to bind to
      * @param IBinding The binding to add
      */
@@ -200,7 +200,7 @@ class Container implements IContainer
 
     /**
      * Gets a binding for an interface
-     * 
+     *
      * @param string $interface The interface whose binding we want
      * @return IBinding|null The binding if one exists, otherwise null
      */
@@ -233,7 +233,7 @@ class Container implements IContainer
 
     /**
      * Gets whether or not a targeted binding exists
-     * 
+     *
      * @return bool True if the targeted binding exists, otherwise false
      */
     protected function hasTargetedBinding(string $interface, string $target = null) : bool
@@ -281,7 +281,6 @@ class Container implements IContainer
         } catch (ReflectionException $ex) {
             throw new IocException("Failed to resolve class $class", 0, $ex);
         }
-
     }
 
     /**

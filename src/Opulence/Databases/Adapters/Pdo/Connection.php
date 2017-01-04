@@ -248,4 +248,4 @@ class Connection extends PDO implements IConnection
             $this->isConnected = true;
         }
     }
-} 
+}

@@ -354,7 +354,7 @@ class SelectQuery extends Query
     
     /**
      * Converts a list of condition strings or objects to their string representations
-     * 
+     *
      * @param array $conditions The list of strings of condition objects to convert
      * @return array The list of condition expressions
      */

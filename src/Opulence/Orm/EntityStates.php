@@ -23,4 +23,4 @@ class EntityStates
     const DEQUEUED = 4;
     /** An entity that was never registered */
     const NEVER_REGISTERED = 5;
-} 
+}

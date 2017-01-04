@@ -16,4 +16,4 @@ use Opulence\QueryBuilders\DeleteQuery as BaseDeleteQuery;
 class DeleteQuery extends BaseDeleteQuery
 {
     // Don't do anything
-} 
+}

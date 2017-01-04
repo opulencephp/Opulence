@@ -104,5 +104,4 @@ interface IView
      * @param array $namesToValues The mapping of variable names to their respective values
      */
     public function setVars(array $namesToValues);
-
 }

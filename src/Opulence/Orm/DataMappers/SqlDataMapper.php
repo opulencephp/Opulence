@@ -87,4 +87,4 @@ abstract class SqlDataMapper implements IDataMapper
             throw new OrmException("Unable to query entities", 0, $ex);
         }
     }
-} 
+}

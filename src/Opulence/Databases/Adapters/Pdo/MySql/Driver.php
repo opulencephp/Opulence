@@ -43,4 +43,4 @@ class Driver extends BaseDriver
     {
         $this->provider = new MySqlProvider();
     }
-} 
+}

@@ -44,4 +44,4 @@ interface IHasher
      * @return bool True if the hash needs to be rehashed, otherwise false
      */
     public function needsRehash(string $hashedValue, array $options = []) : bool;
-} 
+}

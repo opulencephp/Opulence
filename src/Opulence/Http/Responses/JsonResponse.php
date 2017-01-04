@@ -48,4 +48,4 @@ class JsonResponse extends Response
 
         parent::setContent($json);
     }
-} 
+}

@@ -133,4 +133,4 @@ interface ISession extends ArrayAccess
      * @return bool True if the session started successfully
      */
     public function start(array $vars = []) : bool;
-} 
+}

@@ -314,4 +314,4 @@ class TypeMapper
             $provider = $this->provider;
         }
     }
-} 
+}

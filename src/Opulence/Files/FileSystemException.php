@@ -16,4 +16,4 @@ use Exception;
 class FileSystemException extends Exception
 {
     // Don't do anything
-} 
+}
