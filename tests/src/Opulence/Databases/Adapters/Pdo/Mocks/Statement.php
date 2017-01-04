@@ -40,4 +40,4 @@ class Statement extends BaseStatement
 
         return true;
     }
-} 
+}

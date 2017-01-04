@@ -95,4 +95,4 @@ class User
     {
         $this->username = $username;
     }
-} 
+}

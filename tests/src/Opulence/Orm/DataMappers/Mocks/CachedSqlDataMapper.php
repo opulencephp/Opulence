@@ -80,4 +80,4 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     {
         $this->sqlDataMapper = new SqlDataMapper();
     }
-} 
+}

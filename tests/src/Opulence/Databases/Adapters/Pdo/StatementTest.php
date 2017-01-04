@@ -55,4 +55,4 @@ class StatementTest extends \PHPUnit\Framework\TestCase
         $values = ["bar", 1, PDO::PARAM_INT];
         $this->assertTrue($statement->bindValues($values));
     }
-} 
+}

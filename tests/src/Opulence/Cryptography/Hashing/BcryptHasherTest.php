@@ -85,4 +85,4 @@ class BcryptHasherTest extends \PHPUnit\Framework\TestCase
         $hashedValue = $this->hasher->hash("foo", ["cost" => 4], "pepper");
         $this->assertFalse(BcryptHasher::verify($hashedValue, "bar"));
     }
-} 
+}

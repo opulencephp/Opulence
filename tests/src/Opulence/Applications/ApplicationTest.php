@@ -354,4 +354,4 @@ class ApplicationTest extends \PHPUnit\Framework\TestCase
             return "foo";
         }));
     }
-} 
+}

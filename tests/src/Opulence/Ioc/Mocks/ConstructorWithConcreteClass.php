@@ -31,4 +31,4 @@ class ConstructorWithConcreteClass
     {
         return $this->foo;
     }
-} 
+}

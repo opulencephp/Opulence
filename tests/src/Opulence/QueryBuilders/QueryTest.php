@@ -163,4 +163,4 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $this->query->addNamedPlaceholderValue("foo", "bar");
         $this->query->removeUnnamedPlaceHolder(0);
     }
-} 
+}

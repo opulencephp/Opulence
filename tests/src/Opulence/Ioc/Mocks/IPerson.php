@@ -19,4 +19,4 @@ interface IPerson
      * @return string The last name
      */
     public function getLastName();
-} 
+}

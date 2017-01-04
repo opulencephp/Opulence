@@ -23,7 +23,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     {
         $condition = new InCondition("foo", [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
         $this->assertEquals(
-            [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]], 
+            [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]],
             $condition->getParameters()
         );
     }

@@ -107,7 +107,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         return new Router(
             new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()),
-            new Compiler([]), 
+            new Compiler([]),
             new Parser()
         );
     }

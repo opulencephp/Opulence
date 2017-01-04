@@ -14,4 +14,4 @@ namespace Opulence\Tests\Ioc\Mocks;
 abstract class BaseClass implements IFoo
 {
     // Don't do anything
-} 
+}

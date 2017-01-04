@@ -273,10 +273,10 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->parser->parse($route);
     }
 
-	/**
+    /**
      * Tests parsing a path with empty variable
      */
-	public function testParsingWithEmptyVariable()
+    public function testParsingWithEmptyVariable()
     {
         $this->expectException(RouteException::class);
         $route = new Route(["get"], "/:/bar", "foo@bar");

@@ -47,4 +47,4 @@ class UuidV4GeneratorTest extends \PHPUnit\Framework\TestCase
         $generator = new UuidV4Generator();
         $this->assertSame("", $generator->getEmptyValue(new stdClass()));
     }
-} 
+}

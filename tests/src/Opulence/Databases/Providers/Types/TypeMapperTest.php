@@ -363,4 +363,4 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         $typeMapper = new TypeMapper();
         $typeMapper->toSqlBoolean(true);
     }
-} 
+}

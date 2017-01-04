@@ -368,4 +368,4 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
 
         return new CompiledRoute($parsedRoute, false);
     }
-} 
+}

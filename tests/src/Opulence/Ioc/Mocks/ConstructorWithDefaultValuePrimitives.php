@@ -43,4 +43,4 @@ class ConstructorWithDefaultValuePrimitives
     {
         return $this->foo;
     }
-} 
+}

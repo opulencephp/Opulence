@@ -129,4 +129,4 @@ class Controller extends BaseController
     {
         return new Response("privateMethod");
     }
-} 
+}

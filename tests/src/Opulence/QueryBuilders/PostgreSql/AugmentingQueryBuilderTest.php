@@ -33,4 +33,4 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder->returning("id");
         $this->assertEquals(" RETURNING id", $queryBuilder->getReturningClauseSql());
     }
-} 
+}

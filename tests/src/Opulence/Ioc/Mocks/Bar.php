@@ -20,4 +20,4 @@ class Bar implements IFoo
     {
         return __CLASS__;
     }
-} 
+}

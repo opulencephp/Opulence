@@ -672,4 +672,4 @@ class RouterTest extends \PHPUnit\Framework\TestCase
             "severalParameters"
         );
     }
-} 
+}

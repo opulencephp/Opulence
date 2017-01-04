@@ -377,4 +377,4 @@ class RouteTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($route->usesCallable());
         $this->assertEquals($closure, $route->getController());
     }
-} 
+}

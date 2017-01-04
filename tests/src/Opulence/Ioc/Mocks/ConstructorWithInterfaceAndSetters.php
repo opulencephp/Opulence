@@ -46,4 +46,4 @@ class ConstructorWithInterfaceAndSetters
     {
         $this->setterDependency = $setterDependency;
     }
-} 
+}

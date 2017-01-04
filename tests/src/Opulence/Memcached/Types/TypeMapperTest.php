@@ -101,4 +101,4 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
         // Reset the timezone
         date_default_timezone_set($currTimezone);
     }
-} 
+}

@@ -119,4 +119,4 @@ class Statement implements IStatement
     {
         return true;
     }
-} 
+}

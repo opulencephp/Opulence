@@ -160,4 +160,4 @@ class Connection implements IConnection
     {
         $this->shouldFailOnPurpose = $shouldFailOnPurpose;
     }
-} 
+}

@@ -35,4 +35,4 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
         $connectionPool->setMaster($master);
         $this->assertSame($master, $connectionPool->getMaster());
     }
-} 
+}

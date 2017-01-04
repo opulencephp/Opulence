@@ -159,4 +159,4 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("DELETE FROM users WHERE (c1 IN (?))", $query->getSql());
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
-} 
+}

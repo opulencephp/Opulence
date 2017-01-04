@@ -179,4 +179,4 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $this->dataMapper->add($this->entity1);
         $this->assertEquals($this->entity1, $this->repo->getById($this->entity1->getId()));
     }
-} 
+}

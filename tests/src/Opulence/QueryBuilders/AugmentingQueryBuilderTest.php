@@ -33,4 +33,4 @@ class AugmentingQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder->addColumnValues(["name" => "dave"]);
         $this->assertEquals(["name" => "dave"], $queryBuilder->getColumnNamesToValues());
     }
-} 
+}

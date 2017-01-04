@@ -24,4 +24,4 @@ class Driver implements IDriver
     {
         return new Connection($server);
     }
-} 
+}

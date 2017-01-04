@@ -83,4 +83,4 @@ class ConditionalQueryBuilderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals([["operation" => "AND", "condition" => "name = 'dave'"]],
             $queryBuilder->getWhereConditions());
     }
-} 
+}

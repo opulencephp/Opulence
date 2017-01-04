@@ -230,4 +230,4 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($entityClone, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->assertNotEquals($entityClone, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
     }
-} 
+}

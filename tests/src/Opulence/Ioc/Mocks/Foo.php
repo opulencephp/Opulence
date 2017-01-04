@@ -28,4 +28,4 @@ class Foo implements IFoo
     {
         return __CLASS__;
     }
-} 
+}
