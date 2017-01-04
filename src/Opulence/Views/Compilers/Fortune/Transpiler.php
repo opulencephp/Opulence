@@ -188,7 +188,7 @@ class Transpiler implements ITranspiler
         $this->appendedText = [];
         $this->prependedText = [];
 
-        if (($transpiledContent = $this->cache->get($view)) !== null) {
+        if (($transpiledContent = $this->cache->get($view, false)) !== null) {
             return $transpiledContent;
         }
 
@@ -206,7 +206,7 @@ class Transpiler implements ITranspiler
             $transpiledContent = trim($transpiledContent, PHP_EOL) . PHP_EOL . implode(PHP_EOL, $this->appendedText);
         }
 
-        $this->cache->set($view, $transpiledContent);
+        $this->cache->set($view, $transpiledContent, false);
 
         return $transpiledContent;
     }

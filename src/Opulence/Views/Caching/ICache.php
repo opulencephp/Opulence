@@ -36,25 +36,28 @@ interface ICache
      * Gets the compiled view contents
      *
      * @param IView $view The view whose cached contents we want
+     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string|null The compiled view contents if it existed, otherwise null
      */
-    public function get(IView $view);
+    public function get(IView $view, bool $checkVars = false);
 
     /**
      * Gets whether or not the cache has the compiled contents for the input view
      *
      * @param IView $view The view to check
+     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return bool True if the cache has an unexpired compiled view, otherwise false
      */
-    public function has(IView $view) : bool;
+    public function has(IView $view, bool $checkVars = false) : bool;
 
     /**
      * Stores a compiled view to cache
      *
      * @param IView $view The view whose compiled contents we're caching
      * @param string $compiledContents The compiled view contents
+     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
      */
-    public function set(IView $view, string $compiledContents);
+    public function set(IView $view, string $compiledContents, bool $checkVars = false);
 
     /**
      * Sets the chance that garbage collection will be run

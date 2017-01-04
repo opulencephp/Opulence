@@ -51,25 +51,25 @@ class GenericCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view)
+    public function get(IView $view, bool $checkVars = false)
     {
-        return $this->bridge->get($this->getKey($view));
+        return $this->bridge->get($this->getKey($view, $checkVars));
     }
 
     /**
      * @inheritdoc
      */
-    public function has(IView $view) : bool
+    public function has(IView $view, bool $checkVars = false) : bool
     {
-        return $this->bridge->has($this->getKey($view));
+        return $this->bridge->has($this->getKey($view, $checkVars));
     }
 
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents)
+    public function set(IView $view, string $compiledContents, bool $checkVars = false)
     {
-        $this->bridge->set($this->getKey($view), $compiledContents, $this->lifetime);
+        $this->bridge->set($this->getKey($view, $checkVars), $compiledContents, $this->lifetime);
     }
 
     /**
@@ -84,13 +84,17 @@ class GenericCache implements ICache
      * Gets the key for the cached view
      *
      * @param IView $view The view whose cache key we want
+     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The key for the cached view
      */
-    private function getKey(IView $view) : string
+    private function getKey(IView $view, bool $checkVars) : string
     {
-        return md5(http_build_query([
-            "u" => $view->getContents(),
-            "v" => $view->getVars()
-        ]));
+        $data = ["u" => $view->getContents()];
+        
+        if ($checkVars) {
+            $data["v"] = $view->getVars();
+        }
+        
+        return md5(http_build_query($data));
     }
 }

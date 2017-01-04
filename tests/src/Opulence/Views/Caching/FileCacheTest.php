@@ -64,9 +64,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         $this->cache = new FileCache(__DIR__ . "/tmp", 0);
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled");
-        $this->assertFalse($this->cache->has($this->view));
-        $this->assertNull($this->cache->get($this->view));
+        $this->cache->set($this->view, "compiled", true);
+        $this->assertFalse($this->cache->has($this->view, true));
+        $this->assertNull($this->cache->get($this->view, true));
     }
 
     /**
@@ -75,9 +75,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForExistingView()
     {
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled");
-        $this->assertTrue($this->cache->has($this->view));
-        $this->assertEquals("compiled", $this->cache->get($this->view));
+        $this->cache->set($this->view, "compiled", true);
+        $this->assertTrue($this->cache->has($this->view, true));
+        $this->assertEquals("compiled", $this->cache->get($this->view, true));
     }
 
     /**
@@ -94,8 +94,26 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->view->expects($this->at(1))
             ->method("getVars")
             ->willReturn(["wrong" => "ahh"]);
-        $this->cache->set($this->view, "compiled");
-        $this->assertFalse($this->cache->has($this->view));
+        $this->cache->set($this->view, "compiled", true);
+        $this->assertFalse($this->cache->has($this->view, true));
+    }
+
+    /**
+     * Tests checking for a view that exists but doesn't match on variables when ignoring view variables' values
+     */
+    public function testCheckingForExistingViewWithNoVariableMatchesWhenIgnoringViewVariablesValues()
+    {
+        $this->view->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $this->view->expects($this->at(0))
+            ->method("getVars")
+            ->willReturn(["bar" => "baz"]);
+        $this->view->expects($this->at(1))
+            ->method("getVars")
+            ->willReturn(["wrong" => "ahh"]);
+        $this->cache->set($this->view, "compiled", false);
+        $this->assertTrue($this->cache->has($this->view, false));
     }
 
     /**
@@ -107,8 +125,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $cache = new FileCache(__DIR__ . "/tmp", -1);
         $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
         $cache->set($this->view, "compiled");
-        $this->assertFalse($cache->has($this->view));
-        $this->assertNull($cache->get($this->view));
+        $this->assertFalse($cache->has($this->view, true));
+        $this->assertNull($cache->get($this->view, true));
     }
 
     /**
@@ -116,9 +134,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingForNonExistentView()
     {
-        $this->setViewContentsAndVars("foo", []);
-        $this->assertFalse($this->cache->has($this->view));
-        $this->assertNull($this->cache->get($this->view));
+        $this->setViewContentsAndVars("this-content-does-not-exist", []);
+        $this->assertFalse($this->cache->has($this->view, true));
+        $this->assertNull($this->cache->get($this->view, true));
     }
 
     /**

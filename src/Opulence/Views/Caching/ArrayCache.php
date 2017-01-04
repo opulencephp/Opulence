@@ -17,7 +17,7 @@ class ArrayCache implements ICache
 {
     /** @var array The storage for our views */
     private $storage = [];
-
+    
     /**
      * @inheritdoc
      */
@@ -37,29 +37,29 @@ class ArrayCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view)
+    public function get(IView $view, bool $checkVars = false)
     {
         if (!$this->has($view)) {
             return null;
         }
 
-        return $this->storage[$this->getViewKey($view)];
+        return $this->storage[$this->getViewKey($view, $checkVars)];
     }
 
     /**
      * @inheritdoc
      */
-    public function has(IView $view) : bool
+    public function has(IView $view, bool $checkVars = false) : bool
     {
-        return isset($this->storage[$this->getViewKey($view)]);
+        return isset($this->storage[$this->getViewKey($view, $checkVars)]);
     }
 
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents)
+    public function set(IView $view, string $compiledContents, bool $checkVars = false)
     {
-        $this->storage[$this->getViewKey($view)] = $compiledContents;
+        $this->storage[$this->getViewKey($view, $checkVars)] = $compiledContents;
     }
 
     /**
@@ -74,13 +74,17 @@ class ArrayCache implements ICache
      * Gets key for the cached view
      *
      * @param IView $view The view whose cached file path we want
+     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The key for the cached view
      */
-    private function getViewKey(IView $view) : string
+    private function getViewKey(IView $view, bool $checkVars) : string
     {
-        return md5(http_build_query([
-            "u" => $view->getContents(),
-            "v" => $view->getVars()
-        ]));
+        $data = ["u" => $view->getContents()];
+        
+        if ($checkVars) {
+            $data["v"] = $view->getVars();
+        }
+        
+        return md5(http_build_query($data));
     }
 }

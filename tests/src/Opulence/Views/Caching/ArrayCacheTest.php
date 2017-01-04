@@ -15,8 +15,8 @@ use Opulence\Views\IView;
  */
 class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var FileCache The cache to use in tests */
-    private $cache = null;
+    /** @var ArrayCache The cache to use in tests */
+    private $cacheIncludingVars = null;
     /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
     private $view = null;
 
@@ -57,5 +57,31 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertNull($this->cache->get($this->view));
         $this->assertFalse($this->cache->has($this->view));
+    }
+
+    /**
+     * Tests getting views with the same content but different view variables
+     */
+    public function testGettingViewsWithSameContentButDifferentViewVariables()
+    {
+        $view1 = $this->createMock(IView::class);
+        $view2 = $this->createMock(IView::class);
+        $view1->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $view2->expects($this->any())
+            ->method("getContents")
+            ->willReturn("foo");
+        $view1->expects($this->any())
+            ->method("getVars")
+            ->willReturn(["bar" => "baz"]);
+        $view2->expects($this->any())
+            ->method("getVars")
+            ->willReturn(["bar" => "blah"]);
+        $this->cache->set($view1, "content");
+        $this->assertEquals("content", $this->cache->get($view1));
+        $this->assertEquals("content", $this->cache->get($view2));
+        $this->assertTrue($this->cache->has($view1));
+        $this->assertTrue($this->cache->has($view2));
     }
 }

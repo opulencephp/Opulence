@@ -82,25 +82,25 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(IView $view)
+    public function get(IView $view, bool $checkVars = false)
     {
-        if (!$this->has($view)) {
+        if (!$this->has($view, $checkVars)) {
             return null;
         }
 
-        return file_get_contents($this->getViewPath($view));
+        return file_get_contents($this->getViewPath($view, $checkVars));
     }
 
     /**
      * @inheritdoc
      */
-    public function has(IView $view) : bool
+    public function has(IView $view, bool $checkVars = false) : bool
     {
         if (!$this->cachingIsEnabled()) {
             return false;
         }
 
-        $viewPath = $this->getViewPath($view);
+        $viewPath = $this->getViewPath($view, $checkVars);
 
         if (!file_exists($viewPath)) {
             return false;
@@ -120,10 +120,10 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function set(IView $view, string $compiledContents)
+    public function set(IView $view, string $compiledContents, bool $checkVars = false)
     {
         if ($this->cachingIsEnabled()) {
-            file_put_contents($this->getViewPath($view), $compiledContents, 0);
+            file_put_contents($this->getViewPath($view, $checkVars), $compiledContents, 0);
         }
     }
 
@@ -193,14 +193,18 @@ class FileCache implements ICache
      * Gets path to cached view
      *
      * @param IView $view The view whose cached file path we want
+     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The path to the cached view
      */
-    private function getViewPath(IView $view) : string
+    private function getViewPath(IView $view, bool $checkVars) : string
     {
-        return $this->path . "/" . md5(http_build_query([
-                "u" => $view->getContents(),
-                "v" => $view->getVars()
-            ]));
+        $data = ["u" => $view->getContents()];
+        
+        if ($checkVars) {
+            $data["v"] = $view->getVars();
+        }
+        
+        return $this->path . "/" . md5(http_build_query($data));
     }
 
     /**

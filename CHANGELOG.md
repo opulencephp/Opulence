@@ -5,6 +5,11 @@
 * Added `Opulence\IoC\InstanceBinding`
 * Fixed factory bindings so that they're called directly rather than through `$container->callClosure()`
 
+<h3>Views</h3>
+* Added optional `$checkVars` parameter to `Opulence\Views\Caching\ICache::get()`, `has()`, and `set()`
+  * Previously, Opulence was incorrectly caching views by including the variables' values, which made it relatively useless when used in the Fortune transpiler
+  * Now, this parameter defaults to `false`.  To enable caching a view by its variables` values, simply set it to `true` in the various cache methods.
+
 <h2>v1.0.3 (2017-01-02)</h2>
 
 <h3>General</h3>
