@@ -23,7 +23,7 @@ class NotInConditionTest extends \PHPUnit\Framework\TestCase
         $condition = new NotInCondition("foo", [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
         $this->assertEquals("foo NOT IN (?,?,?)", $condition->getSql());
     }
-    
+
     /**
      * Tests getting SQL for NOT IN condition with a sub-expression
      */

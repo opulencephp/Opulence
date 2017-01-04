@@ -27,7 +27,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
             $condition->getParameters()
         );
     }
-    
+
     /**
      * Tests getting parameters for IN condition with a sub-expression
      */
@@ -36,7 +36,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
         $condition = new InCondition("foo", "SELECT bar FROM baz");
         $this->assertEquals([], $condition->getParameters());
     }
-    
+
     /**
      * Tests getting SQL for IN condition with parameters
      */
@@ -45,7 +45,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
         $condition = new InCondition("foo", [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
         $this->assertEquals("foo IN (?,?,?)", $condition->getSql());
     }
-    
+
     /**
      * Tests getting SQL for IN condition with a sub-expression
      */
@@ -54,7 +54,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
         $condition = new InCondition("foo", "SELECT bar FROM baz");
         $this->assertEquals("foo IN (SELECT bar FROM baz)", $condition->getSql());
     }
-    
+
     /**
      * Tests passing an invalid argument throws an exception
      */

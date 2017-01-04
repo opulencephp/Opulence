@@ -122,7 +122,7 @@ class DeleteQuery extends Query
 
         return $this;
     }
-    
+
     /**
      * Converts a list of condition strings or objects to their string representations
      *
@@ -132,7 +132,7 @@ class DeleteQuery extends Query
     private function createConditionExpressions(array $conditions) : array
     {
         $conditionExpressions = [];
-        
+
         foreach ($conditions as $condition) {
             if ($condition instanceof ICondition) {
                 $this->addUnnamedPlaceholderValues($condition->getParameters());
@@ -143,7 +143,7 @@ class DeleteQuery extends Query
                 throw new InvalidArgumentException("Condition must either be string or ICondition object");
             }
         }
-        
+
         return $conditionExpressions;
     }
 }

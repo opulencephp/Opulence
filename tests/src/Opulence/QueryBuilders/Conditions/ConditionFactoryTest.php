@@ -15,7 +15,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ConditionFactory The condition factory to use in tests */
     private $conditionFactory = null;
-    
+
     /**
      * Sets up the tests
      */
@@ -23,7 +23,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->conditionFactory = new ConditionFactory();
     }
-    
+
     /**
      * Tests creating a BETWEEN condition
      */
@@ -31,7 +31,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertInstanceOf(BetweenCondition::class, $this->conditionFactory->between("foo", 1, 2));
     }
-    
+
     /**
      * Tests creating an IN condition
      */
@@ -39,7 +39,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertInstanceOf(InCondition::class, $this->conditionFactory->in("foo", [1, 2]));
     }
-    
+
     /**
      * Tests creating a NOT BETWEEN condition
      */
@@ -47,7 +47,7 @@ class ConditionFactoryTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertInstanceOf(NotBetweenCondition::class, $this->conditionFactory->notBetween("foo", 1, 2));
     }
-    
+
     /**
      * Tests creating a NOT IN condition
      */

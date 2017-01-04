@@ -39,7 +39,7 @@ class Router extends BaseRouter
         ];
         $parser = new Parser();
         $compiler = new Compiler($routeMatchers);
-        
+
         parent::__construct(
             new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()),
             $compiler,

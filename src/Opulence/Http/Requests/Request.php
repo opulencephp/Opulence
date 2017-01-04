@@ -370,7 +370,7 @@ class Request
     public function getHost() : string
     {
         $host = null;
-        
+
         if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST])) {
             $hosts = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST]));
             $host = trim(end($hosts));

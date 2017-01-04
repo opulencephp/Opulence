@@ -216,19 +216,19 @@ class Encrypter implements IEncrypter
         ) {
             throw new EncryptionException("Data is not in correct format");
         }
-        
+
         if (!in_array($pieces["cipher"], self::$approvedCiphers)) {
             throw new EncryptionException("Cipher \"{$pieces["ciper"]}\" is not supported");
         }
-        
+
         if (\mb_strlen(\base64_decode($pieces["iv"]), "8bit") !== \openssl_cipher_iv_length($pieces["cipher"])) {
             throw new EncryptionException("IV is incorrect length");
         }
-        
+
         if (\mb_strlen(\base64_decode($pieces["keySalt"]), "8bit") !== IKeyDeriver::KEY_SALT_BYTE_LENGTH) {
             throw new EncryptionException("Key salt is incorrect length");
         }
-        
+
         if (\mb_strlen($pieces["hmac"], "8bit") !== self::$hmacByteLength) {
             throw new EncryptionException("HMAC is incorrect length");
         }

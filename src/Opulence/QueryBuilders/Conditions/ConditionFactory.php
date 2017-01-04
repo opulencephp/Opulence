@@ -29,7 +29,7 @@ class ConditionFactory
     {
         return new BetweenCondition($column, $min, $max, $dataType);
     }
-    
+
     /**
      * Creates a new IN condition
      *
@@ -42,7 +42,7 @@ class ConditionFactory
     {
         return new InCondition($column, $parametersOrExpression);
     }
-    
+
     /**
      * Creates a new NOT BETWEEN condition
      *
@@ -56,7 +56,7 @@ class ConditionFactory
     {
         return new NotBetweenCondition($column, $min, $max, $dataType);
     }
-    
+
     /**
      * Creates a new NOT IN condition
      *

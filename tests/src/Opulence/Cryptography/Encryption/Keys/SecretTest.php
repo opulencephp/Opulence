@@ -39,7 +39,7 @@ class SecretTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals("foo", $this->secret->getValue());
     }
-    
+
     /**
      * Tests setting a valid key
      */

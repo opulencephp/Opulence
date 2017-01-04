@@ -21,7 +21,7 @@ class BetweenCondition extends Condition
     protected $max = "";
     /** @var int The data type of the min/max */
     protected $dataType = PDO::PARAM_STR;
-    
+
     /**
      * @inheritdoc
      * @param mixed $min The min value
@@ -31,12 +31,12 @@ class BetweenCondition extends Condition
     public function __construct(string $column, $min, $max, int $dataType = PDO::PARAM_STR)
     {
         parent::__construct($column);
-        
+
         $this->min = $min;
         $this->max = $max;
         $this->dataType = $dataType;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -44,7 +44,7 @@ class BetweenCondition extends Condition
     {
         return [[$this->min, $this->dataType], [$this->max, $this->dataType]];
     }
-        
+
     /**
      * @inheritdoc
      */

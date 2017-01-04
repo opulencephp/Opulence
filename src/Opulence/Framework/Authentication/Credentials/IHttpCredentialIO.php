@@ -24,7 +24,7 @@ interface IHttpCredentialIO
      * @return ICredential The credential from the request
      */
     public function read(Request $request) : ICredential;
-    
+
     /**
      * Removes a credential from the response
      *

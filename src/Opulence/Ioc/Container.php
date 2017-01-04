@@ -143,7 +143,7 @@ class Container implements IContainer
         }
 
         $binding = $this->getBinding($interface);
-        
+
         switch (get_class($binding)) {
             case InstanceBinding::class:
                 return $binding->getInstance();
