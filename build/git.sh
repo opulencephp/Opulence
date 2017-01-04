@@ -27,7 +27,7 @@ function mergePullRequest()
     # Merge pull request
     cd ../$repository
     git co $opulencebranch
-    git merge --no-ff $username-$userbranch
+    git merge --squash $username-$userbranch
     git push origin $opulencebranch
     git branch -d $username-$userbranch
     echo "Remember to merge to other appropriate branches"
