@@ -21,7 +21,18 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->binding = new ClassBinding("foo", ["bar"]);
+        $this->binding = new ClassBinding("foo", ["bar"], false);
+    }
+    
+    /**
+     * Tests checking if the binding returns the correct flag for resolving as a singleton
+     */
+    public function testCheckingIfShouldResolveAsSingleton()
+    {
+        $singletonBinding = new ClassBinding("foo", [], true);
+        $prototypeBinding = new ClassBinding("foo", [], false);
+        $this->assertTrue($singletonBinding->resolveAsSingleton());
+        $this->assertFalse($prototypeBinding->resolveAsSingleton());
     }
 
     /**
