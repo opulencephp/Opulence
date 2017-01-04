@@ -1,3 +1,10 @@
+<h2>v1.0.4 (2017-01-?)</h2>
+
+<h3>IoC</h3>
+* Greatly simplified logic inside `Opulence\IoC\Container`
+* Added `Opulence\IoC\InstanceBinding`
+* Fixed factory bindings so that they're called directly rather than through `$container->callClosure()`
+
 <h2>v1.0.3 (2017-01-02)</h2>
 
 <h3>General</h3>
