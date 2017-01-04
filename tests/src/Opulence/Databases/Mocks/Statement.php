@@ -8,8 +8,8 @@
  */
 namespace Opulence\Tests\Databases\Mocks;
 
-use PDO;
 use Opulence\Databases\IStatement;
+use PDO;
 
 /**
  * Mocks the statement class for use in testing

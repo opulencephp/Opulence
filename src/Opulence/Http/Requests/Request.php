@@ -9,8 +9,8 @@
 namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
-use Opulence\Http\Headers;
 use Opulence\Http\Collection;
+use Opulence\Http\Headers;
 use RuntimeException;
 
 /**

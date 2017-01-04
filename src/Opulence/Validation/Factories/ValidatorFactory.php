@@ -8,8 +8,8 @@
  */
 namespace Opulence\Validation\Factories;
 
-use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\IValidator;
+use Opulence\Validation\Rules\Factories\RulesFactory;
 use Opulence\Validation\Validator;
 
 /**

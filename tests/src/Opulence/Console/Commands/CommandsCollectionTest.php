@@ -10,10 +10,10 @@ namespace Opulence\Console\Commands;
 
 use InvalidArgumentException;
 use Opulence\Console\Commands\Compilers\Compiler as CommandCompiler;
-use Opulence\Console\Responses\SilentResponse;
 use Opulence\Console\Responses\Compilers\Compiler;
 use Opulence\Console\Responses\Compilers\Lexers\Lexer;
 use Opulence\Console\Responses\Compilers\Parsers\Parser;
+use Opulence\Console\Responses\SilentResponse;
 use Opulence\Tests\Console\Commands\Mocks\HappyHolidayCommand;
 use Opulence\Tests\Console\Commands\Mocks\SimpleCommand;
 use Opulence\Tests\Console\Responses\Mocks\Response;

@@ -8,11 +8,11 @@
  */
 namespace Opulence\Framework\Composer\Bootstrappers;
 
+use Opulence\Framework\Composer\Composer;
+use Opulence\Framework\Composer\Executable;
 use Opulence\Framework\Configuration\Config;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
-use Opulence\Framework\Composer\Composer;
-use Opulence\Framework\Composer\Executable;
 use Opulence\Ioc\IContainer;
 
 /**

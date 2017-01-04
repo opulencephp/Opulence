@@ -8,8 +8,8 @@
  */
 namespace Opulence\Routing\Routes\Caching;
 
-use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;

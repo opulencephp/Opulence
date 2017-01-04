@@ -8,8 +8,8 @@
  */
 namespace Opulence\QueryBuilders\PostgreSql;
 
-use ReflectionClass;
 use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;
+use ReflectionClass;
 
 /**
  * Programmatically builds up a PostgreSQL query

@@ -10,8 +10,8 @@ namespace Opulence\Authentication\Tokens\JsonWebTokens;
 
 use InvalidArgumentException;
 use Opulence\Authentication\Tokens\Signatures\Algorithms;
-use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 use Opulence\Authentication\Tokens\Signatures\HmacSigner;
+use Opulence\Authentication\Tokens\Signatures\RsaSsaPkcsSigner;
 
 /**
  * Tests the signed JWT
