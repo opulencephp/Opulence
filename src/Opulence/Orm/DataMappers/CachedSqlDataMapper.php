@@ -351,4 +351,4 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 
         return $keyedArray;
     }
-} 
+}

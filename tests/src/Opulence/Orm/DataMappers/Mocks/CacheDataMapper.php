@@ -74,4 +74,4 @@ class CacheDataMapper implements ICacheDataMapper
     {
         $this->entities[$entity->getId()] = $entity;
     }
-} 
+}

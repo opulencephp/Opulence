@@ -9,8 +9,8 @@
 namespace Opulence\Routing\Routes\Compilers\Parsers;
 
 use Opulence\Routing\RouteException;
-use Opulence\Routing\Routes\Route;
 use Opulence\Routing\Routes\ParsedRoute;
+use Opulence\Routing\Routes\Route;
 
 /**
  * Tests the route parser
@@ -273,10 +273,10 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->parser->parse($route);
     }
 
-	/**
+    /**
      * Tests parsing a path with empty variable
      */
-	public function testParsingWithEmptyVariable()
+    public function testParsingWithEmptyVariable()
     {
         $this->expectException(RouteException::class);
         $route = new Route(["get"], "/:/bar", "foo@bar");

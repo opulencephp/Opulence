@@ -27,7 +27,6 @@ class ErrorHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-
         $this->exceptionHandler = $this->getMockBuilder(IExceptionHandler::class)
             ->disableOriginalConstructor()
             ->getMock();

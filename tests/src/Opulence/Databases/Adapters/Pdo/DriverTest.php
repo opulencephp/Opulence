@@ -26,4 +26,4 @@ class DriverTest extends \PHPUnit\Framework\TestCase
         $driver = new Driver();
         $this->assertInstanceOf(Connection::class, $driver->connect($server));
     }
-} 
+}

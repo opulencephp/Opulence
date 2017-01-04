@@ -33,4 +33,4 @@ class Compiler implements ICompiler
     {
         return $this->registry->getCompiler($view)->compile($view);
     }
-} 
+}

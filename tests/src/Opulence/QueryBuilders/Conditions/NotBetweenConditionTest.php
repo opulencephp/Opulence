@@ -12,7 +12,7 @@ namespace Opulence\QueryBuilders\Conditions;
  * Tests the NOT BETWEEN condition
  */
 class NotBetweenConditionTest extends \PHPUnit\Framework\TestCase
-{   
+{
     /**
      * Tests getting the SQL
      */

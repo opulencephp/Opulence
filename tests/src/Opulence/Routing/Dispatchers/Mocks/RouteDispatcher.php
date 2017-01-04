@@ -45,4 +45,4 @@ class RouteDispatcher extends BaseDispatcher
     {
         return $this->lastRoute;
     }
-} 
+}

@@ -57,4 +57,4 @@ abstract class Hasher implements IHasher
      * Should set the hash algorithm property to the algorithm used by the concrete class
      */
     abstract protected function setHashAlgorithm();
-} 
+}

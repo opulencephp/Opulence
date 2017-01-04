@@ -18,7 +18,7 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ICondition The condition to use in tests */
     private $condition = null;
-    
+
     /**
      * Sets up the tests
      */
@@ -31,8 +31,8 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->condition->expects($this->any())
             ->method("getParameters")
             ->willReturn([[1, PDO::PARAM_INT]]);
-    } 
-    
+    }
+
     /**
      * Tests adding a "GROUP BY" statement to one that was already started
      */
@@ -458,4 +458,4 @@ class SelectQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("SELECT id FROM users WHERE (c1 IN (?)) AND (c1 IN (?))", $query->getSql());
         $this->assertEquals([[1, PDO::PARAM_INT], [1, PDO::PARAM_INT]], $query->getParameters());
     }
-} 
+}

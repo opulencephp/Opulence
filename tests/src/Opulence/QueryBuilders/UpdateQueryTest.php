@@ -18,7 +18,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ICondition The condition to use in tests */
     private $condition = null;
-    
+
     /**
      * Sets up the tests
      */
@@ -32,7 +32,7 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ->method("getParameters")
             ->willReturn([[1, PDO::PARAM_INT]]);
     }
-    
+
     /**
      * Tests adding more columns
      */

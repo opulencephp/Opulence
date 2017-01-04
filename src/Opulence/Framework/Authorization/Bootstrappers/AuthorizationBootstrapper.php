@@ -9,13 +9,13 @@
 namespace Opulence\Framework\Authorization\Bootstrappers;
 
 use Opulence\Authorization\Authority;
+use Opulence\Authorization\IAuthority;
 use Opulence\Authorization\Permissions\IPermissionRegistry;
 use Opulence\Authorization\Permissions\PermissionRegistry;
+use Opulence\Authorization\Roles\IRoles;
 use Opulence\Authorization\Roles\Orm\IRoleMembershipRepository;
 use Opulence\Authorization\Roles\Orm\IRoleRepository;
-use Opulence\Authorization\Roles\IRoles;
 use Opulence\Authorization\Roles\Roles;
-use Opulence\Authorization\IAuthority;
 use Opulence\Ioc\Bootstrappers\Bootstrapper;
 use Opulence\Ioc\Bootstrappers\ILazyBootstrapper;
 use Opulence\Ioc\IContainer;

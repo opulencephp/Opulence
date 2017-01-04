@@ -47,7 +47,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals("bar", $this->client->getSecret());
     }
-    
+
     /**
      * Tests setting the Id
      */
@@ -56,7 +56,7 @@ class ClientTest extends \PHPUnit\Framework\TestCase
         $this->client->setId("new");
         $this->assertEquals("new", $this->client->getId());
     }
-    
+
     /**
      * Tests setting the name
      */

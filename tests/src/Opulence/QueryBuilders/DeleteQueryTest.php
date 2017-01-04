@@ -18,7 +18,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ICondition The condition to use in tests */
     private $condition = null;
-    
+
     /**
      * Sets up the tests
      */
@@ -32,7 +32,7 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
             ->method("getParameters")
             ->willReturn([[1, PDO::PARAM_INT]]);
     }
-    
+
     /**
      * Tests adding a "USING" expression
      */
@@ -159,4 +159,4 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("DELETE FROM users WHERE (c1 IN (?))", $query->getSql());
         $this->assertEquals([[1, PDO::PARAM_INT]], $query->getParameters());
     }
-} 
+}

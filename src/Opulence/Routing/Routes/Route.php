@@ -304,4 +304,4 @@ class Route
             $this->controllerMethod = substr($controller, $atCharPos + 1);
         }
     }
-} 
+}

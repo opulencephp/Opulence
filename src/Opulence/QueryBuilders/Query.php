@@ -195,4 +195,4 @@ abstract class Query
         $this->tableName = $tableName;
         $this->tableAlias = $tableAlias;
     }
-} 
+}

@@ -14,12 +14,12 @@ use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
 use Opulence\Http\Responses\ResponseHeaders;
 use Opulence\Routing\Middleware\MiddlewareParameters;
+use Opulence\Routing\RouteException;
 use Opulence\Routing\Routes\CompiledRoute;
 use Opulence\Routing\Routes\ParsedRoute;
 use Opulence\Routing\Routes\Route;
-use Opulence\Routing\RouteException;
-use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Tests\Routing\Middleware\Mocks\DoesNotReturnSomethingMiddleware;
+use Opulence\Tests\Routing\Middleware\Mocks\ParameterizedMiddleware;
 use Opulence\Tests\Routing\Middleware\Mocks\ReturnsSomethingMiddleware;
 use Opulence\Tests\Routing\Mocks\Controller as MockController;
 use Opulence\Tests\Routing\Mocks\NonOpulenceController;
@@ -368,4 +368,4 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
 
         return new CompiledRoute($parsedRoute, false);
     }
-} 
+}

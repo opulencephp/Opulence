@@ -9,8 +9,8 @@
 namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
-use Opulence\Http\Headers;
 use Opulence\Http\Collection;
+use Opulence\Http\Headers;
 use RuntimeException;
 
 /**
@@ -128,8 +128,7 @@ class Request
         array $files = null,
         array $env = null,
         string $rawBody = null
-    ) : Request
-    {
+    ) : Request {
         $query = isset($query) ? $query : $_GET;
         $post = isset($post) ? $post : $_POST;
         $cookies = isset($cookies) ? $cookies : $_COOKIE;
@@ -171,8 +170,7 @@ class Request
         array $files = [],
         array $env = [],
         string $rawBody = null
-    ) : Request
-    {
+    ) : Request {
         // Define some basic server vars, but override them with with input on collision
         $server = array_replace(
             [
@@ -372,7 +370,7 @@ class Request
     public function getHost() : string
     {
         $host = null;
-        
+
         if ($this->isUsingTrustedProxy() && $this->headers->has(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST])) {
             $hosts = explode(",", $this->headers->get(self::$trustedHeaderNames[RequestHeaders::CLIENT_HOST]));
             $host = trim(end($hosts));
@@ -518,7 +516,6 @@ class Request
         }
 
         return (int)$this->server->get("SERVER_PORT");
-
     }
 
     /**
@@ -822,4 +819,4 @@ class Request
             }
         }
     }
-} 
+}

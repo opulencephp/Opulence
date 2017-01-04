@@ -90,11 +90,11 @@ class GenericCache implements ICache
     private function getKey(IView $view, bool $checkVars) : string
     {
         $data = ["u" => $view->getContents()];
-        
+
         if ($checkVars) {
             $data["v"] = $view->getVars();
         }
-        
+
         return md5(http_build_query($data));
     }
 }

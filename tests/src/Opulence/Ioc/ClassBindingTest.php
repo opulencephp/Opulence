@@ -23,7 +23,7 @@ class ClassBindingTest extends \PHPUnit\Framework\TestCase
     {
         $this->binding = new ClassBinding("foo", ["bar"], false);
     }
-    
+
     /**
      * Tests checking if the binding returns the correct flag for resolving as a singleton
      */

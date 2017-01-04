@@ -22,4 +22,4 @@ class InvalidController
     {
         return "fooWasCalled";
     }
-} 
+}

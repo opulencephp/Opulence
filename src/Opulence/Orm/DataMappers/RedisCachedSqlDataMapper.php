@@ -31,4 +31,4 @@ abstract class RedisCachedSqlDataMapper extends CachedSqlDataMapper
     ) {
         parent::__construct($cache, $readConnection, $writeConnection, $idAccessorRegistry);
     }
-} 
+}

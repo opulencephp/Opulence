@@ -10,8 +10,8 @@ namespace Opulence\Databases\ConnectionPools;
 
 use Opulence\Databases\Adapters\Pdo\MySql\Driver as MySqlDriver;
 use Opulence\Databases\Adapters\Pdo\PostgreSql\Driver as PostgreSqlDriver;
-use Opulence\Databases\IDriver;
 use Opulence\Databases\IConnection;
+use Opulence\Databases\IDriver;
 use Opulence\Databases\Server;
 use RuntimeException;
 
@@ -220,4 +220,4 @@ abstract class ConnectionPool
                 return $this->servers[$type][$serverHashId]["connection"];
         }
     }
-} 
+}

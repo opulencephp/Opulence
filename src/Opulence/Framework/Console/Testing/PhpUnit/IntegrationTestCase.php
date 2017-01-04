@@ -82,8 +82,7 @@ abstract class IntegrationTestCase extends TestCase
         array $options = [],
         $promptAnswers = [],
         bool $isStyled = true
-    ) : self
-    {
+    ) : self {
         $promptAnswers = (array)$promptAnswers;
 
         if (count($promptAnswers) > 0) {

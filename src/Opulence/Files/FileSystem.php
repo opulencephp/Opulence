@@ -452,4 +452,4 @@ class FileSystem
 
         return $bytesWritten;
     }
-} 
+}

@@ -123,4 +123,4 @@ interface IConnection
      * @throws PDOException Thrown if there was an error connecting to the database
      */
     public function rollBack();
-} 
+}

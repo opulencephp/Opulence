@@ -96,7 +96,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public final function execute(IResponse $response)
+    final public function execute(IResponse $response)
     {
         if (!$this->constructorCalled) {
             throw new RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");

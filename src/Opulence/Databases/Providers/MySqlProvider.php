@@ -19,4 +19,4 @@ class MySqlProvider extends Provider
     protected $falseBooleanFormat = 0;
     /** @var string The format for time with time zone strings */
     protected $timeWithTimeZoneFormat = "H:i:s";
-} 
+}

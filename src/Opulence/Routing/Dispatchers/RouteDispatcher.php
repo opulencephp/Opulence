@@ -234,4 +234,4 @@ class RouteDispatcher implements IRouteDispatcher
 
         return $resolvedMiddleware;
     }
-} 
+}

@@ -8,8 +8,8 @@
  */
 namespace Opulence\QueryBuilders\PostgreSql;
 
-use ReflectionClass;
 use Opulence\QueryBuilders\QueryBuilder as BaseQueryBuilder;
+use ReflectionClass;
 
 /**
  * Programmatically builds up a PostgreSQL query
@@ -51,4 +51,4 @@ class QueryBuilder extends BaseQueryBuilder
     {
         return new UpdateQuery($tableName, $alias, $columnNamesToValues);
     }
-} 
+}

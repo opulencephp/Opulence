@@ -38,7 +38,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
             $condition->getParameters()
         );
     }
-    
+
     /**
      * Tests getting the SQL
      */

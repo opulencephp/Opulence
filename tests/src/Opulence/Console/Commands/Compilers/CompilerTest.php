@@ -109,7 +109,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
         $this->request->addOptionValue("foo", "bar");
         $this->compiler->compile($this->command, $this->request);
     }
-    
+
     /**
      * Tests compiling an option with a null short name still compiles
      */

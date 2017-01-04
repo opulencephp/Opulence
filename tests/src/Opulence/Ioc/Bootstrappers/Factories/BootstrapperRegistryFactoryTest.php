@@ -9,9 +9,9 @@
 namespace Opulence\Ioc\Bootstrappers\Factories;
 
 use Opulence\Ioc\Bootstrappers\IBootstrapperResolver;
-use Opulence\Tests\Ioc\Bootstrappers\Mocks\LazyFooInterface;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\Bootstrapper;
 use Opulence\Tests\Ioc\Bootstrappers\Mocks\BootstrapperWithEverything;
+use Opulence\Tests\Ioc\Bootstrappers\Mocks\LazyFooInterface;
 
 /**
  * Tests the bootstrapper registry factory

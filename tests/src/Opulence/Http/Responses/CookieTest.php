@@ -177,4 +177,4 @@ class CookieTest extends \PHPUnit\Framework\TestCase
         $this->cookie->setValue("blah");
         $this->assertEquals("blah", $this->cookie->getValue());
     }
-} 
+}

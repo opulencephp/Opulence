@@ -18,7 +18,7 @@ class ConditionFactory
 {
     /**
      * Creates a new BETWEEN condition
-     * 
+     *
      * @param string $column The name of the column
      * @param mixed $min The min value
      * @param mixed $max The max value
@@ -29,10 +29,10 @@ class ConditionFactory
     {
         return new BetweenCondition($column, $min, $max, $dataType);
     }
-    
+
     /**
      * Creates a new IN condition
-     * 
+     *
      * @param string $column The name of the column
      * @param array|string $parametersOrExpression Either the parameters or the sub-expression
      * @return InCondition The condition
@@ -42,10 +42,10 @@ class ConditionFactory
     {
         return new InCondition($column, $parametersOrExpression);
     }
-    
+
     /**
      * Creates a new NOT BETWEEN condition
-     * 
+     *
      * @param string $column The name of the column
      * @param mixed $min The min value
      * @param mixed $max The max value
@@ -56,10 +56,10 @@ class ConditionFactory
     {
         return new NotBetweenCondition($column, $min, $max, $dataType);
     }
-    
+
     /**
      * Creates a new NOT IN condition
-     * 
+     *
      * @param string $column The name of the column
      * @param array|string $parametersOrExpression Either the parameters or the sub-expression
      * @return NotInCondition The condition

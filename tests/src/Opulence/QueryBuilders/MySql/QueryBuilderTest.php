@@ -60,4 +60,4 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
             $queryBuilder->update("tableName", "tableAlias", ["columnName" => "columnValue"])
         );
     }
-} 
+}

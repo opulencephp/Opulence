@@ -13,10 +13,10 @@ use DateTimeImmutable;
 use Opulence\Authentication\Credentials\Credential;
 use Opulence\Authentication\Credentials\ICredential;
 use Opulence\Authentication\ISubject;
-use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtHeader;
 use Opulence\Authentication\Tokens\JsonWebTokens\JwtPayload;
 use Opulence\Authentication\Tokens\JsonWebTokens\SignedJwt;
+use Opulence\Authentication\Tokens\JsonWebTokens\UnsignedJwt;
 use Opulence\Authentication\Tokens\Signatures\ISigner;
 
 /**

@@ -94,4 +94,4 @@ class SqlDataMapper extends BaseSqlDataMapper
     {
         // Don't do anything
     }
-} 
+}

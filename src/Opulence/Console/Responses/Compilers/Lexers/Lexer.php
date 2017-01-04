@@ -69,7 +69,7 @@ class Lexer implements ILexer
                     }
 
                     break;
-                case ">";
+                case ">":
                     if ($inOpenTag || $inCloseTag) {
                         if ($inOpenTag) {
                             $tokens[] = new Token(

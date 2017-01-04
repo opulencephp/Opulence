@@ -15,7 +15,7 @@ abstract class Condition implements ICondition
 {
     /** @var string The column */
     protected $column = "";
-    
+
     /**
      * @param string $column The column
      */

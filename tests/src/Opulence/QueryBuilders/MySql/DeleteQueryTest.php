@@ -54,4 +54,4 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
         $query->limit(":limit");
         $this->assertEquals("DELETE FROM users LIMIT :limit", $query->getSql());
     }
-} 
+}

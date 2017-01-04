@@ -74,4 +74,4 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             ["foo@bar.com", PDO::PARAM_STR]
         ], $query->getParameters());
     }
-} 
+}

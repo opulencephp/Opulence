@@ -77,4 +77,4 @@ class ConstructorWithSetters
     {
         $this->primitive = $foo;
     }
-} 
+}

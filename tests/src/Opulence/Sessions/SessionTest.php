@@ -397,4 +397,4 @@ class SessionTest extends \PHPUnit\Framework\TestCase
         $this->assertNull($session["foo"]);
         $this->assertEquals([], $session->getAll());
     }
-} 
+}

@@ -31,4 +31,4 @@ class ConstructorWithInterface
     {
         return $this->foo;
     }
-} 
+}

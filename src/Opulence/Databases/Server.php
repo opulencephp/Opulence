@@ -162,4 +162,4 @@ class Server
     {
         $this->username = $username;
     }
-} 
+}

@@ -49,4 +49,4 @@ class ProviderTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(1, $this->provider->convertToSqlBoolean(true));
         $this->assertEquals(0, $this->provider->convertToSqlBoolean(false));
     }
-} 
+}

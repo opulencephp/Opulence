@@ -69,7 +69,6 @@ class Validator implements IValidator
             if (!$fieldPasses) {
                 $this->errors[$name] = $rules->getErrors($name);
             }
-
         }
 
         return $passes;

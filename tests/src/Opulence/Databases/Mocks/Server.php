@@ -19,4 +19,4 @@ class Server extends BaseServer
     protected $username = "foo";
     protected $password = "bar";
     protected $databaseName = "fakedatabase";
-} 
+}

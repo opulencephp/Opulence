@@ -57,4 +57,4 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
             ["dave", PDO::PARAM_STR]
         ], $query->getParameters());
     }
-} 
+}

@@ -67,4 +67,4 @@ interface ICachedSqlDataMapper extends IDataMapper
      * @throws OrmException Thrown if there was an error refreshing the entity
      */
     public function refreshEntity($id);
-} 
+}

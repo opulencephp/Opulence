@@ -16,4 +16,4 @@ use Exception;
 class InvalidQueryException extends Exception
 {
     // Don't do anything
-} 
+}

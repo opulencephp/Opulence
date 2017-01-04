@@ -320,7 +320,6 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(UrlException::class);
         $this->generator->createFromName("hostOneParameter");
-
     }
 
     /**

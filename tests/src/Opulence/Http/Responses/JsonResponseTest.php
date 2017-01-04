@@ -103,4 +103,4 @@ class JsonResponseTest extends \PHPUnit\Framework\TestCase
         $response = new JsonResponse([], ResponseHeaders::HTTP_OK, ["HTTP_FOO" => "bar"]);
         $this->assertEquals("bar", $response->getHeaders()->get("FOO"));
     }
-} 
+}

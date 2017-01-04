@@ -58,4 +58,4 @@ class DriverTest extends \PHPUnit\Framework\TestCase
 
         return $method->invokeArgs($driver, [$server, $connectionOptions, $connectionOptions]);
     }
-} 
+}
