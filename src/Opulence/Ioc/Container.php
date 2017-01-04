@@ -24,7 +24,7 @@ class Container implements IContainer
     private static $emptyTarget = null;
     /** @var array The stack of targets */
     protected $targetStack = [];
-    /** @var IBinding[] The list of bindings */
+    /** @var IBinding[][] The list of bindings */
     protected $bindings = [];
 
     /**
@@ -143,7 +143,7 @@ class Container implements IContainer
         }
 
         $binding = $this->getBinding($interface);
-        
+
         switch (get_class($binding)) {
             case InstanceBinding::class:
                 return $binding->getInstance();
@@ -154,7 +154,7 @@ class Container implements IContainer
                 );
                 break;
             case FactoryBinding::class:
-                $instance = $binding->getFactory()();
+                $instance = ($binding->getFactory())();
                 break;
             default:
                 throw new RuntimeException('Invalid binding type "' . get_class($binding) . '"');
@@ -173,19 +173,18 @@ class Container implements IContainer
      */
     public function unbind($interfaces)
     {
-        foreach ((array)$interfaces as $interface) {
-            $target = $this->getCurrentTarget();
+        $target = $this->getCurrentTarget();
 
-            unset($this->instances[$target][$interface]);
+        foreach ((array)$interfaces as $interface) {
             unset($this->bindings[$target][$interface]);
         }
     }
 
     /**
      * Adds a binding to an interface
-     * 
+     *
      * @param string $interface The interface to bind to
-     * @param IBinding The binding to add
+     * @param IBinding $binding The binding to add
      */
     protected function addBinding(string $interface, IBinding $binding)
     {
@@ -200,7 +199,7 @@ class Container implements IContainer
 
     /**
      * Gets a binding for an interface
-     * 
+     *
      * @param string $interface The interface whose binding we want
      * @return IBinding|null The binding if one exists, otherwise null
      */
@@ -233,12 +232,14 @@ class Container implements IContainer
 
     /**
      * Gets whether or not a targeted binding exists
-     * 
+     *
+     * @param string $interface
+     * @param string $target
      * @return bool True if the targeted binding exists, otherwise false
      */
     protected function hasTargetedBinding(string $interface, string $target = null) : bool
     {
-        return isset($this->instances[$target][$interface]) || isset($this->bindings[$target][$interface]);
+        return isset($this->bindings[$target][$interface]);
     }
 
     /**
