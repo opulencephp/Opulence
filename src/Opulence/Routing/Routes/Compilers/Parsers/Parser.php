@@ -24,7 +24,6 @@ class Parser implements IParser
      * @internal
      */
     const VARIABLE_MAXIMUM_LENGTH = 32;
-
     /** @var string The variable matching regex */
     private static $variableMatchingRegex = '#:([a-zA-Z_][a-zA-Z0-9_]*)(?:=([^:\[\]/]+))?#';
     /** @var int The cursor of the currently parsed route */
@@ -115,7 +114,7 @@ class Parser implements IParser
 
         if (strlen($variableName) > self::VARIABLE_MAXIMUM_LENGTH) {
             throw new RouteException(sprintf(
-                'Variable name "%s" cannot be longer than %s characters. Please use a shorter name.',
+                'Variable name "%s" cannot be longer than %d characters. Please use a shorter name.',
                 $variableName,
                 self::VARIABLE_MAXIMUM_LENGTH)
             );

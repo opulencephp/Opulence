@@ -185,6 +185,9 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         $this->parser->parse($route);
     }
 
+    /**
+     * Tests parsing with too long a variable name
+     */
     public function testParsingWithTooLongVariableName()
     {
         $this->expectException(RouteException::class);
