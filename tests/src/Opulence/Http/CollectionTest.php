@@ -177,4 +177,4 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
         unset($this->parameters["foo"]);
         $this->assertEquals(null, $this->parameters["foo"]);
     }
-} 
+}

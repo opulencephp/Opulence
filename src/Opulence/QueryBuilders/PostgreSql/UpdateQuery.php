@@ -68,4 +68,4 @@ class UpdateQuery extends BaseUpdateQuery
 
         return $this;
     }
-} 
+}

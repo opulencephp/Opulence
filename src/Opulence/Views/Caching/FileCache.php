@@ -199,11 +199,11 @@ class FileCache implements ICache
     private function getViewPath(IView $view, bool $checkVars) : string
     {
         $data = ["u" => $view->getContents()];
-        
+
         if ($checkVars) {
             $data["v"] = $view->getVars();
         }
-        
+
         return $this->path . "/" . md5(http_build_query($data));
     }
 

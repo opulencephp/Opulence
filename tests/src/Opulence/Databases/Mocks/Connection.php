@@ -9,10 +9,10 @@
 namespace Opulence\Tests\Databases\Mocks;
 
 use Exception;
-use PDO;
 use Opulence\Databases\IConnection;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Databases\Server as RealServer;
+use PDO;
 
 /**
  * Mocks the connection class for use in testing
@@ -160,4 +160,4 @@ class Connection implements IConnection
     {
         $this->shouldFailOnPurpose = $shouldFailOnPurpose;
     }
-} 
+}

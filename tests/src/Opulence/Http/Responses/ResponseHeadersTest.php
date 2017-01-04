@@ -89,4 +89,4 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
         $this->headers->setCookies([$cookie1, $cookie2]);
         $this->assertEquals([$cookie1, $cookie2], $this->headers->getCookies());
     }
-} 
+}

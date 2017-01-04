@@ -34,4 +34,4 @@ class IntSequenceIdGenerator extends SequenceIdGenerator
     {
         return null;
     }
-} 
+}

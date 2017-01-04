@@ -12,7 +12,7 @@ interface IBinding
 {
     /**
      * Gets whether or not this binding should be resolved as a singleton
-     * 
+     *
      * @return bool True if the binding should be resolved as a singleton, otherwise false
      */
     public function resolveAsSingleton() : bool;

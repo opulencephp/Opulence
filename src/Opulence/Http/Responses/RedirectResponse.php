@@ -44,4 +44,4 @@ class RedirectResponse extends Response
         $this->targetUrl = $targetUrl;
         $this->headers->set("Location", $this->targetUrl);
     }
-} 
+}

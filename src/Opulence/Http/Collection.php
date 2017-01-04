@@ -149,4 +149,4 @@ class Collection implements ArrayAccess, Countable
     {
         $this->values[$name] = $value;
     }
-} 
+}

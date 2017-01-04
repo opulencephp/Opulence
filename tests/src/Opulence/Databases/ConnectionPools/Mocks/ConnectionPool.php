@@ -39,4 +39,4 @@ class ConnectionPool extends BaseConnectionPool
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }
-} 
+}

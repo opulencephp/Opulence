@@ -341,4 +341,4 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue(is_numeric($this->fileSystem->write(__DIR__ . "/test.txt", "foo bar")));
         $this->assertEquals("foo bar", $this->fileSystem->read(__DIR__ . "/test.txt"));
     }
-} 
+}

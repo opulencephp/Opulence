@@ -36,4 +36,4 @@ class AugmentingQueryBuilder
     {
         return $this->columnNamesToValues;
     }
-} 
+}

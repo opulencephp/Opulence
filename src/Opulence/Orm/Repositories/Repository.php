@@ -9,8 +9,8 @@
 namespace Opulence\Orm\Repositories;
 
 use Opulence\Orm\DataMappers\IDataMapper;
-use Opulence\Orm\OrmException;
 use Opulence\Orm\IUnitOfWork;
+use Opulence\Orm\OrmException;
 
 /**
  * Defines a generic entity repository that can be extended
@@ -100,4 +100,4 @@ class Repository implements IRepository
 
         return $entities;
     }
-} 
+}

@@ -1421,4 +1421,4 @@ class RequestTest extends \PHPUnit\Framework\TestCase
         $request = Request::createFromGlobals();
         $this->assertEquals("foo.com", $request->getHost());
     }
-} 
+}

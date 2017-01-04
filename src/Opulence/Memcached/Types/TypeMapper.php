@@ -67,4 +67,4 @@ class TypeMapper
     {
         return $timestamp->getTimestamp();
     }
-} 
+}

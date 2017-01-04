@@ -19,4 +19,4 @@ interface IFoo
      * @return string The name of the concrete class
      */
     public function getClassName();
-} 
+}

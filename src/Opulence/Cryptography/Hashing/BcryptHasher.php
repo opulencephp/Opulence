@@ -47,4 +47,4 @@ class BcryptHasher extends Hasher
     {
         $this->hashAlgorithm = PASSWORD_BCRYPT;
     }
-} 
+}

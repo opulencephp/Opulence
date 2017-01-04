@@ -55,4 +55,4 @@ class ConstructorWithMixOfConcreteClassesAndPrimitives
     {
         return $this->person;
     }
-} 
+}

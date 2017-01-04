@@ -38,4 +38,4 @@ class SingleServerConnectionPool extends ConnectionPool
             $this->writeConnection = $this->getConnection("master", $this->getMaster());
         }
     }
-} 
+}

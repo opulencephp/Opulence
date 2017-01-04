@@ -75,4 +75,4 @@ class IntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $this->assertSame(1, $idGenerator->generate($entity));
         $this->assertSame(2, $idGenerator->generate($entity));
     }
-} 
+}

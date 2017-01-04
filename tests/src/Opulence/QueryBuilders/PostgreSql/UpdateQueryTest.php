@@ -65,4 +65,4 @@ class UpdateQueryTest extends \PHPUnit\Framework\TestCase
             ["david", PDO::PARAM_STR]
         ], $query->getParameters());
     }
-} 
+}

@@ -78,4 +78,4 @@ class InsertQuery extends Query
     {
         parent::setTable($tableName);
     }
-} 
+}

@@ -9,9 +9,9 @@
 namespace Opulence\Tests\Orm\DataMappers\Mocks;
 
 use Opulence\Databases\IConnection;
-use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 use Opulence\Orm\DataMappers\CachedSqlDataMapper as BaseCachedSqlDataMapper;
 use Opulence\Orm\DataMappers\ICacheDataMapper;
+use Opulence\Orm\Ids\Accessors\IIdAccessorRegistry;
 
 /**
  * Mocks the cached SQL data mapper for use in tests
@@ -80,4 +80,4 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
     {
         $this->sqlDataMapper = new SqlDataMapper();
     }
-} 
+}

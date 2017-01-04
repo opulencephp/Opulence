@@ -141,4 +141,4 @@ class Statement extends PDOStatement implements IStatement
 
         return parent::setFetchMode($fetchMode, $arg2, $arg3);
     }
-} 
+}

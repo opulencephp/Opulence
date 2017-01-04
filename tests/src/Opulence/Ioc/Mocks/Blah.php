@@ -20,4 +20,4 @@ class Blah implements IFoo
     {
         return __CLASS__;
     }
-} 
+}

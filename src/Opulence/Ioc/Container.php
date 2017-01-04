@@ -109,7 +109,7 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function for (string $targetClass, callable $callback)
+    public function for(string $targetClass, callable $callback)
     {
         $this->targetStack[] = $targetClass;
         $result = $callback($this);
@@ -282,7 +282,6 @@ class Container implements IContainer
         } catch (ReflectionException $ex) {
             throw new IocException("Failed to resolve class $class", 0, $ex);
         }
-
     }
 
     /**

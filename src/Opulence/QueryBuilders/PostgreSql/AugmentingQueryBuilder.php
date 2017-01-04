@@ -58,4 +58,4 @@ class AugmentingQueryBuilder extends BaseAugmentingQueryBuilder
 
         return $this;
     }
-} 
+}

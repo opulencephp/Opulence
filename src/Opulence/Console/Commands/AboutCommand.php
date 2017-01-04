@@ -8,8 +8,8 @@
  */
 namespace Opulence\Console\Commands;
 
-use Opulence\Console\Responses\IResponse;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
+use Opulence\Console\Responses\IResponse;
 
 /**
  * Defines the about command

@@ -8,8 +8,8 @@
  */
 namespace Opulence\Routing\Routes\Caching;
 
-use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Dispatchers\MiddlewarePipeline;
+use Opulence\Routing\Dispatchers\RouteDispatcher;
 use Opulence\Routing\Router;
 use Opulence\Routing\Routes\Compilers\Compiler;
 use Opulence\Routing\Routes\Compilers\Parsers\Parser;
@@ -107,7 +107,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     {
         return new Router(
             new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()),
-            new Compiler([]), 
+            new Compiler([]),
             new Parser()
         );
     }

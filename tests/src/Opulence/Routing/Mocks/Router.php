@@ -39,10 +39,10 @@ class Router extends BaseRouter
         ];
         $parser = new Parser();
         $compiler = new Compiler($routeMatchers);
-        
+
         parent::__construct(
-            new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()), 
-            $compiler, 
+            new RouteDispatcher(new DependencyResolver(), new MiddlewarePipeline()),
+            $compiler,
             $parser
         );
     }
@@ -56,4 +56,4 @@ class Router extends BaseRouter
     {
         return $this->dispatcher->getLastRoute();
     }
-} 
+}

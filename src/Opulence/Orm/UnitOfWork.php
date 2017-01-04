@@ -346,4 +346,4 @@ class UnitOfWork implements IUnitOfWork
             $this->entityRegistry->registerEntity($entity);
         }
     }
-} 
+}

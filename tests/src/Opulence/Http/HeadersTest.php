@@ -166,4 +166,4 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
 
         return $name;
     }
-} 
+}

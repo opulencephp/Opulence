@@ -63,4 +63,4 @@ class PostgreSqlProvider extends Provider
 
         return $value;
     }
-} 
+}

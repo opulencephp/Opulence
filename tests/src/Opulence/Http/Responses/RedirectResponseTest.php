@@ -61,4 +61,4 @@ class RedirectResponseTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals("/bar", $this->redirectResponse->getTargetUrl());
         $this->assertEquals("/bar", $this->redirectResponse->getHeaders()->get("Location"));
     }
-} 
+}

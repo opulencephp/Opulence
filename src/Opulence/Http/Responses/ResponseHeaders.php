@@ -225,4 +225,4 @@ class ResponseHeaders extends Headers
             $this->setCookie($cookie);
         }
     }
-} 
+}

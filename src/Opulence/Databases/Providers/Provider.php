@@ -93,4 +93,4 @@ class Provider
     {
         return $this->timestampWithoutTimeZoneFormat;
     }
-} 
+}

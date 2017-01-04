@@ -16,4 +16,4 @@ use Exception;
 class RouteException extends Exception
 {
     // Don't do anything
-} 
+}

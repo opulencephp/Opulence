@@ -128,4 +128,4 @@ class Headers extends Collection
 
         return $name;
     }
-} 
+}
