@@ -20,16 +20,16 @@ use RuntimeException;
  */
 class Container implements IContainer
 {
-    const EMPTY_TARGET = null;
-
+    /** The value for an empty target */
+    private static $emptyTarget = null;
     /** @var array The stack of targets */
     protected $targetStack = [];
+    /** @var IBinding[] The list of bindings */
+    protected $bindings = [];
 
-    /** @var array */
-    protected $definitions = [];
-    /** @var array */
-    protected $instances = [];
-
+    /**
+     * Prepares the container for serialization
+     */
     public function __sleep()
     {
         return "";
@@ -41,7 +41,7 @@ class Container implements IContainer
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false)
     {
         foreach ((array)$interfaces as $interface) {
-            $this->addDefinition($interface, new FactoryBinding($factory, $resolveAsSingleton));
+            $this->addBinding($interface, new FactoryBinding($factory, $resolveAsSingleton));
         }
     }
 
@@ -51,7 +51,7 @@ class Container implements IContainer
     public function bindInstance($interfaces, $instance)
     {
         foreach ((array)$interfaces as $interface) {
-            $this->addInstance($interface, $instance);
+            $this->addBinding($interface, new InstanceBinding($instance));
         }
     }
 
@@ -61,7 +61,7 @@ class Container implements IContainer
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = [])
     {
         foreach ((array)$interfaces as $interface) {
-            $this->addDefinition($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
+            $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
         }
     }
 
@@ -71,7 +71,7 @@ class Container implements IContainer
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = [])
     {
         foreach ((array)$interfaces as $interface) {
-            $this->addDefinition($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
+            $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
         }
     }
 
@@ -121,15 +121,15 @@ class Container implements IContainer
     /**
      * @inheritdoc
      */
-    public function hasBinding(string $interface): bool
+    public function hasBinding(string $interface) : bool
     {
         $target = $this->getCurrentTarget();
 
-        if ($target !== self::EMPTY_TARGET && $this->hasTargetedBinding($interface, $target)) {
+        if ($target !== self::$emptyTarget && $this->hasTargetedBinding($interface, $target)) {
             return true;
         }
 
-        return $this->hasTargetedBinding($interface, self::EMPTY_TARGET);
+        return $this->hasTargetedBinding($interface, self::$emptyTarget);
     }
 
     /**
@@ -142,26 +142,27 @@ class Container implements IContainer
             return $this->resolveClass($interface);
         }
 
-        $instance = $this->getInstance($interface);
-        if ($instance !== null) {
-            return $instance;
+        $binding = $this->getBinding($interface);
+        
+        switch (get_class($binding)) {
+            case InstanceBinding::class:
+                return $binding->getInstance();
+            case ClassBinding::class:
+                $instance = $this->resolveClass(
+                    $binding->getConcreteClass(),
+                    $binding->getConstructorPrimitives()
+                );
+                break;
+            case FactoryBinding::class:
+                $instance = $binding->getFactory()();
+                break;
+            default:
+                throw new RuntimeException('Invalid binding type "' . get_class($binding) . '"');
         }
 
-        $definition = $this->getDefinition($interface);
-        if ($definition instanceof ClassBinding) {
-            $instance = $this->resolveClass(
-                $definition->getConcreteClass(),
-                $definition->getConstructorPrimitives()
-            );
-        } elseif ($definition instanceof FactoryBinding) {
-            $instance = $this->callClosure($definition->getFactory());
-        } else {
-            throw new RuntimeException('Invalid binding type "' . get_class($definition) . '');
-        }
-
-        if ($definition->resolveAsSingleton()) {
+        if ($binding->resolveAsSingleton()) {
             $this->unbind($interface);
-            $this->addInstance($interface, $instance);
+            $this->addBinding($interface, new InstanceBinding($instance));
         }
 
         return $instance;
@@ -176,29 +177,48 @@ class Container implements IContainer
             $target = $this->getCurrentTarget();
 
             unset($this->instances[$target][$interface]);
-            unset($this->definitions[$target][$interface]);
+            unset($this->bindings[$target][$interface]);
         }
     }
 
-    protected function addDefinition(string $interface, $binding)
-    {
-        $this->addBinding($interface, $binding, $this->definitions);
-    }
-
-    protected function addInstance(string $interface, $instance)
-    {
-        $this->addBinding($interface, $instance, $this->instances);
-    }
-
-    protected function addBinding($interface, $instance, &$collection)
+    /**
+     * Adds a binding to an interface
+     * 
+     * @param string $interface The interface to bind to
+     * @param IBinding The binding to add
+     */
+    protected function addBinding(string $interface, IBinding $binding)
     {
         $target = $this->getCurrentTarget();
 
-        if (!isset($collection[$target])) {
-            $collection[$target] = [];
+        if (!isset($this->bindings[$target])) {
+            $this->bindings[$target] = [];
         }
 
-        $collection[$target][$interface] = $instance;
+        $this->bindings[$target][$interface] = $binding;
+    }
+
+    /**
+     * Gets a binding for an interface
+     * 
+     * @param string $interface The interface whose binding we want
+     * @return IBinding|null The binding if one exists, otherwise null
+     */
+    protected function getBinding(string $interface)
+    {
+        $target = $this->getCurrentTarget();
+
+        // If there's a targeted binding, use it
+        if ($target !== self::$emptyTarget && isset($this->bindings[$target][$interface])) {
+            return $this->bindings[$target][$interface];
+        }
+
+        // If there's a universal binding, use it
+        if (isset($this->bindings[self::$emptyTarget][$interface])) {
+            return $this->bindings[self::$emptyTarget][$interface];
+        }
+
+        return null;
     }
 
     /**
@@ -208,52 +228,24 @@ class Container implements IContainer
      */
     protected function getCurrentTarget()
     {
-        return end($this->targetStack) ?: self::EMPTY_TARGET;
+        return end($this->targetStack) ?: self::$emptyTarget;
     }
 
     /**
-     * @param string $interface
-     * @return IBinding|null
+     * Gets whether or not a targeted binding exists
+     * 
+     * @return bool True if the targeted binding exists, otherwise false
      */
-    protected function getDefinition(string $interface)
+    protected function hasTargetedBinding(string $interface, string $target = null) : bool
     {
-        return $this->getBinding($interface, $this->definitions);
-    }
-
-    /**
-     * @param string $interface
-     * @return IBinding|null
-     */
-    protected function getInstance(string $interface)
-    {
-        return $this->getBinding($interface, $this->instances);
-    }
-
-    /**
-     * @param string $interface
-     * @param array  $collection
-     * @return IBinding|null
-     */
-    protected function getBinding(string $interface, &$collection)
-    {
-        $target = $this->getCurrentTarget();
-
-        if ($target !== self::EMPTY_TARGET && isset($collection[$target][$interface])) {
-            return $collection[$target][$interface];
-        }
-
-        if (isset($collection[self::EMPTY_TARGET][$interface])) {
-            return $collection[self::EMPTY_TARGET][$interface];
-        }
-
-        return null;
+        return isset($this->instances[$target][$interface]) || isset($this->bindings[$target][$interface]);
     }
 
     /**
      * Resolves a class
      *
-     * @param string $class      The class name to resolve
-     * @param array  $primitives The list of constructor primitives
+     * @param string $class The class name to resolve
+     * @param array $primitives The list of constructor primitives
      * @return object The resolved class
      * @throws IocException Thrown if the class could not be resolved
      */
@@ -341,12 +333,6 @@ class Container implements IContainer
         }
 
         return $resolvedParameters;
-    }
-
-    protected function hasTargetedBinding(string $interface, string $target = null)
-    {
-        return isset($this->instances[$target][$interface])
-            || isset($this->definitions[$target][$interface]);
     }
 
     /**

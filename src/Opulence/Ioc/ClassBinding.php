@@ -21,11 +21,11 @@ class ClassBinding implements IBinding
     private $resolveAsSingleton = false;
 
     /**
-     * @param string $concreteClass         The name of the concrete class
-     * @param array  $constructorPrimitives The list of constructor primitives
-     * @param bool   $resolveAsSingleton
+     * @param string $concreteClass The name of the concrete class
+     * @param array $constructorPrimitives The list of constructor primitives
+     * @param bool $resolveAsSingleton Whether or not to resolve as a singleton
      */
-    public function __construct(string $concreteClass, array $constructorPrimitives = [], bool $resolveAsSingleton)
+    public function __construct(string $concreteClass, array $constructorPrimitives, bool $resolveAsSingleton)
     {
         $this->concreteClass = $concreteClass;
         $this->constructorPrimitives = $constructorPrimitives;

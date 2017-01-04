@@ -68,7 +68,7 @@ class CommandsBootstrapper extends Bootstrapper
         $container->bindInstance(ICompiler::class, $compiler);
         $this->commandCollection = new CommandCollection($compiler);
         $container->bindInstance(CommandCollection::class, $this->commandCollection);
-        $container->bindFactory(FlushFrameworkCacheCommand::class, function (IContainer $container) {
+        $container->bindFactory(FlushFrameworkCacheCommand::class, function () use ($container) {
             return new FlushFrameworkCacheCommand(
                 new FileCache(Config::get("paths", "tmp.framework.http") . "/cachedBootstrapperRegistry.json"),
                 new FileCache(Config::get("paths", "tmp.framework.console") . "/cachedBootstrapperRegistry.json"),
