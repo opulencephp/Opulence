@@ -12,6 +12,7 @@ use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
 use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
+use Opulence\Tests\Orm\Ids\Accessors\Mocks\Bar;
 
 /**
  * Tests the Id accessor registry
@@ -91,7 +92,6 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(OrmException::class);
         $this->registry->registerReflectionIdAccessors(Foo::class, "doesNotExist");
-        $foo = new Foo();
         $this->registry->getEntityId(new Foo());
     }
 
@@ -104,6 +104,20 @@ class IdAccessorRegistryTest extends \PHPUnit\Framework\TestCase
         $foo = new Foo();
         $this->registry->setEntityId($foo, 24);
         $this->assertEquals(24, $this->registry->getEntityId($foo));
+    }
+
+    /**
+     * Tests reflection accessors
+     */
+    public function testReflectionAccessorsWithTwoClasses()
+    {
+        $this->registry->registerReflectionIdAccessors([Foo::class, Bar::class], "id");
+        $foo = new Foo();
+        $bar = new Bar();
+        $this->registry->setEntityId($foo, 24);
+        $this->registry->setEntityId($bar, 42);
+        $this->assertEquals(24, $this->registry->getEntityId($foo));
+        $this->assertEquals(42, $this->registry->getEntityId($bar));
     }
 
     /**

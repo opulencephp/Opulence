@@ -11,24 +11,7 @@ namespace Opulence\Tests\Orm\Ids\Accessors\Mocks;
 /**
  * Mocks a class with an Id property
  */
-class Foo
+class Bar extends Foo
 {
-    /** @var int The Id */
-    protected $id = -1;
 
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
 }
