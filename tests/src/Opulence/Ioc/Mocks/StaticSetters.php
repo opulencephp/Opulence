@@ -8,8 +8,6 @@
  */
 namespace Opulence\Tests\Ioc\Mocks;
 
-use Opulence\Tests\Ioc\Mocks\IPerson;
-
 /**
  * Mocks a class with a static setter method
  */

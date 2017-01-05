@@ -8,7 +8,6 @@
  */
 namespace Opulence\Databases\Adapters\Pdo;
 
-use Opulence\Databases;
 use Opulence\Databases\Providers\Provider;
 use Opulence\Tests\Databases\Mocks\Server;
 
