@@ -339,10 +339,10 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $controller = MockController::class . '@noParameters';
         $this->router->any('/foo', $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
-        $this->assertEquals(1, count($allRoutes[RequestMethods::GET]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::POST]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::DELETE]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::PUT]));
+        $this->assertCount(1, $allRoutes[RequestMethods::GET]);
+        $this->assertCount(1, $allRoutes[RequestMethods::POST]);
+        $this->assertCount(1, $allRoutes[RequestMethods::DELETE]);
+        $this->assertCount(1, $allRoutes[RequestMethods::PUT]);
     }
 
     /**
@@ -390,13 +390,13 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $controller = MockController::class . '@noParameters';
         $this->router->multiple([RequestMethods::GET, RequestMethods::POST], '/foo', $controller);
         $allRoutes = $this->router->getRouteCollection()->get();
-        $this->assertEquals(1, count($allRoutes[RequestMethods::GET]));
-        $this->assertEquals(1, count($allRoutes[RequestMethods::POST]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::DELETE]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::PUT]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::HEAD]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::OPTIONS]));
-        $this->assertEquals(0, count($allRoutes[RequestMethods::PATCH]));
+        $this->assertCount(1, $allRoutes[RequestMethods::GET]);
+        $this->assertCount(1, $allRoutes[RequestMethods::POST]);
+        $this->assertCount(0, $allRoutes[RequestMethods::DELETE]);
+        $this->assertCount(0, $allRoutes[RequestMethods::PUT]);
+        $this->assertCount(0, $allRoutes[RequestMethods::HEAD]);
+        $this->assertCount(0, $allRoutes[RequestMethods::OPTIONS]);
+        $this->assertCount(0, $allRoutes[RequestMethods::PATCH]);
     }
 
     /**

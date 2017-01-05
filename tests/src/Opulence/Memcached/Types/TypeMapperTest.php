@@ -34,7 +34,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromFalseMemcachedBoolean()
     {
-        $this->assertSame(false, $this->typeMapper->fromMemcachedBoolean(0));
+        $this->assertFalse($this->typeMapper->fromMemcachedBoolean(0));
     }
 
     /**
@@ -52,7 +52,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromTrueMemcachedBoolean()
     {
-        $this->assertSame(true, $this->typeMapper->fromMemcachedBoolean(1));
+        $this->assertTrue($this->typeMapper->fromMemcachedBoolean(1));
     }
 
     /**

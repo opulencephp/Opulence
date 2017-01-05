@@ -34,7 +34,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromFalseRedisBoolean()
     {
-        $this->assertSame(false, $this->typeMapper->fromRedisBoolean(0));
+        $this->assertFalse($this->typeMapper->fromRedisBoolean(0));
     }
 
     /**
@@ -52,7 +52,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromTrueRedisBoolean()
     {
-        $this->assertSame(true, $this->typeMapper->fromRedisBoolean(1));
+        $this->assertTrue($this->typeMapper->fromRedisBoolean(1));
     }
 
     /**

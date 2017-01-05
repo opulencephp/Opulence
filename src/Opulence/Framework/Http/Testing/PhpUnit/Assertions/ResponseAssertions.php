@@ -202,7 +202,7 @@ class ResponseAssertions extends TestCase
             }
         }
 
-        $this->assertTrue(count($expected) === 0, 'Failed asserting JSON contains ' . json_encode($expected));
+        $this->assertCount(0, $expected, 'Failed asserting JSON contains ' . json_encode($expected));
 
         return $this;
     }
