@@ -74,7 +74,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function tearDown()
     {
-        if (file_exists(($this->cachedRegistryFilePath))) {
+        if (file_exists($this->cachedRegistryFilePath)) {
             @unlink($this->cachedRegistryFilePath);
         }
     }

@@ -339,12 +339,12 @@ class Request
     {
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
-        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . (($isSecure) ? "s" : "");
+        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . ($isSecure ? "s" : "");
         $port = $this->getPort();
         $host = $this->getHost();
 
         // Prepend a colon if the port is non-standard
-        if (((!$isSecure && $port != "80") || ($isSecure && $port != "443"))) {
+        if ((!$isSecure && $port != "80") || ($isSecure && $port != "443")) {
             $port = ":$port";
         } else {
             $port = "";

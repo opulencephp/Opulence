@@ -11,7 +11,7 @@ namespace Opulence\Console\Commands;
 use Opulence\Console\Requests\Argument;
 use Opulence\Console\Requests\ArgumentTypes;
 use Opulence\Console\Requests\Option;
-use Opulence\Console\Responses\Formatters\CommandFormatter as CommandFormatter;
+use Opulence\Console\Responses\Formatters\CommandFormatter;
 use Opulence\Console\Responses\Formatters\PaddingFormatter;
 use Opulence\Console\Responses\IResponse;
 
