@@ -129,12 +129,12 @@ class Request
         array $env = null,
         string $rawBody = null
     ) : Request {
-        $query = isset($query) ? $query : $_GET;
-        $post = isset($post) ? $post : $_POST;
-        $cookies = isset($cookies) ? $cookies : $_COOKIE;
-        $server = isset($server) ? $server : $_SERVER;
-        $files = isset($files) ? $files : $_FILES;
-        $env = isset($env) ? $env : $_ENV;
+        $query = $query ?? $_GET;
+        $post = $post ?? $_POST;
+        $cookies = $cookies ?? $_COOKIE;
+        $server = $server ?? $_SERVER;
+        $files = $files ?? $_FILES;
+        $env = $env ?? $_ENV;
 
         // Handle the a bug that does not set CONTENT_TYPE or CONTENT_LENGTH headers
         if (array_key_exists("HTTP_CONTENT_LENGTH", $server)) {
