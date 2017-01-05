@@ -187,7 +187,6 @@ class EntityRegistry implements IEntityRegistry
     public function registerEntity(&$entity)
     {
         $className = $this->getClassName($entity);
-        $objectHashId = $this->getObjectHashId($entity);
         $entityId = $this->idAccessorRegistry->getEntityId($entity);
 
         if (!isset($this->entities[$className])) {
@@ -196,12 +195,12 @@ class EntityRegistry implements IEntityRegistry
 
         if (isset($this->entities[$className][$entityId])) {
             // Change the reference of the input entity to the one that's already registered
-            $entity = $this->getEntity($this->getClassName($entity), $entityId);
+            $entity = $this->getEntity($className, $entityId);
         } else {
             // Register this entity
             $this->changeTracker->startTracking($entity);
             $this->entities[$className][$entityId] = $entity;
-            $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
+            $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::REGISTERED;
         }
     }
 
