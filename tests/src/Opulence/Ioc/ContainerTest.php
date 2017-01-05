@@ -9,11 +9,20 @@
 namespace Opulence\Ioc;
 
 use Opulence\Tests\Ioc\Mocks\Bar;
+use Opulence\Tests\Ioc\Mocks\BaseClass;
+use Opulence\Tests\Ioc\Mocks\Blah;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithConcreteClass;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithDefaultValuePrimitives;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithInterface;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
+use Opulence\Tests\Ioc\Mocks\ConstructorWithPrimitives;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithReference;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithSetters;
+use Opulence\Tests\Ioc\Mocks\Dave;
+use Opulence\Tests\Ioc\Mocks\Foo;
 use Opulence\Tests\Ioc\Mocks\IFoo;
+use Opulence\Tests\Ioc\Mocks\IPerson;
 use Opulence\Tests\Ioc\Mocks\MagicCallMethod;
 use Opulence\Tests\Ioc\Mocks\StaticSetters;
 
@@ -25,36 +34,33 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     /** @var Container The container to use in tests */
     private $container = null;
     /** @var string The name of the simple interface to use in tests */
-    private $fooInterface = "Opulence\\Tests\\Ioc\\Mocks\\IFoo";
+    private $fooInterface = IFoo::class;
     /** @var string The name of the simple interface to use in tests */
-    private $personInterface = "Opulence\\Tests\\Ioc\\Mocks\\IPerson";
+    private $personInterface = IPerson::class;
     /** @var string The name of a class that implements IPerson */
-    private $concretePerson = "Opulence\\Tests\\Ioc\\Mocks\\Dave";
+    private $concretePerson = Dave::class;
     /** @var string The name of the base class to use in tests */
-    private $baseClass = "Opulence\\Tests\\Ioc\\Mocks\\BaseClass";
+    private $baseClass = BaseClass::class;
     /** @var string The name of the class that implements IFoo to use in tests */
-    private $concreteFoo = "Opulence\\Tests\\Ioc\\Mocks\\Bar";
+    private $concreteFoo = Bar::class;
     /** @var string The name of a second class that implements the IFoo to use in tests */
-    private $secondConcreteIFoo = "Opulence\\Tests\\Ioc\\Mocks\\Blah";
+    private $secondConcreteIFoo = Blah::class;
     /** @var string The name of a another class that implements the IFoo to use in tests */
-    private $concreteFooWithIPersonDependency = "Opulence\\Tests\\Ioc\\Mocks\\Foo";
+    private $concreteFooWithIPersonDependency = Foo::class;
     /** @var string The name of the class that accepts the IFoo in its constructor */
-    private $constructorWithIFoo = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithInterface";
+    private $constructorWithIFoo = ConstructorWithInterface::class;
     /** @var string The name of the class that accepts the concrete class in its constructor */
-    private $constructorWithConcreteClass = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithConcreteClass";
+    private $constructorWithConcreteClass = ConstructorWithConcreteClass::class;
     /** @var string The name of the class that accepts a mix of interfaces and primitives in its constructor */
-    private $constructorWithInterfacesAndPrimitives =
-        "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithMixOfInterfacesAndPrimitives";
+    private $constructorWithInterfacesAndPrimitives = ConstructorWithMixOfInterfacesAndPrimitives::class;
     /** @var string The name of the class that accepts a mix of class names and primitives in its constructor */
-    private $constructorWithConcreteClassesAndPrimitives =
-        "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithMixOfConcreteClassesAndPrimitives";
+    private $constructorWithConcreteClassesAndPrimitives = ConstructorWithMixOfConcreteClassesAndPrimitives::class;
     /** @var string The name of the class that accepts the primitives in its constructor */
-    private $constructorWithPrimitives = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithPrimitives";
+    private $constructorWithPrimitives = ConstructorWithPrimitives::class;
     /** @var string The name of the class that accepts primitives with default values in its constructor */
-    private $constructorWithDefaultValuePrimitives =
-        "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithDefaultValuePrimitives";
+    private $constructorWithDefaultValuePrimitives = ConstructorWithDefaultValuePrimitives::class;
     /** @var string The name of the class that takes in a reference */
-    private $constructorWithReference = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithReference";
+    private $constructorWithReference = ConstructorWithReference::class;
 
     /**
      * Sets up the tests

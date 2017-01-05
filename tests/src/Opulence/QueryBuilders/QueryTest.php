@@ -114,7 +114,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testRemovingNamedPlaceholder()
     {
         $key = "foo";
-        $this->query = $this->getMockForAbstractClass("Opulence\\QueryBuilders\\Query");
+        $this->query = $this->getMockForAbstractClass(Query::class);
         $this->query->addNamedPlaceholderValue($key, "bar");
         $this->query->removeNamedPlaceHolder($key);
         $this->assertFalse(array_key_exists($key, $this->query->getParameters()));
@@ -135,7 +135,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRemovingUnnamedPlaceholder()
     {
-        $this->query = $this->getMockForAbstractClass("Opulence\\QueryBuilders\\Query");
+        $this->query = $this->getMockForAbstractClass(Query::class);
         $this->query->addUnnamedPlaceholderValue("foo")
             ->addUnnamedPlaceholderValue("bar")
             ->addUnnamedPlaceholderValue("xyz");
