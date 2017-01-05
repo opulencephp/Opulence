@@ -127,7 +127,7 @@ class Cookie
     public function setExpiration($expiration)
     {
         if ($expiration instanceof DateTime) {
-            $expiration = $expiration->format("U");
+            $expiration = (int)$expiration->format("U");
         }
 
         $this->expiration = $expiration;
