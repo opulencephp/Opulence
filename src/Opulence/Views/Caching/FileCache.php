@@ -193,7 +193,7 @@ class FileCache implements ICache
      * Gets path to cached view
      *
      * @param IView $view The view whose cached file path we want
-     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
+     * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The path to the cached view
      */
     private function getViewPath(IView $view, bool $checkVars) : string
