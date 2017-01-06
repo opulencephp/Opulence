@@ -1,4 +1,7 @@
-<h2>v1.0.4 (2017-01-?)</h2>
+<h2>v1.0.4 (2017-01-06)</h2>
+
+<h3>General</h3>
+* Fixed CS issues
 
 <h3>IoC</h3>
 * Greatly simplified logic inside `Opulence\IoC\Container`

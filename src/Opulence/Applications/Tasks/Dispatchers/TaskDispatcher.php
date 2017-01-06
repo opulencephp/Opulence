@@ -16,7 +16,7 @@ use RuntimeException;
  */
 class TaskDispatcher implements ITaskDispatcher
 {
-    /** @var array The list of task callbacks */
+    /** @var callable[][] The list of task callbacks */
     private $tasks = [
         "preStart" => [],
         "postStart" => [],

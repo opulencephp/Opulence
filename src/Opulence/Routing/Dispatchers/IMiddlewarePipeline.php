@@ -8,9 +8,9 @@
  */
 namespace Opulence\Routing\Dispatchers;
 
-use Opulence\Http\Requests\IMiddleware;
 use Opulence\Http\Requests\Request;
 use Opulence\Http\Responses\Response;
+use Opulence\Routing\Middleware\IMiddleware;
 use Opulence\Routing\RouteException;
 
 /**

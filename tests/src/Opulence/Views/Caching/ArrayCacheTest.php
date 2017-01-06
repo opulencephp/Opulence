@@ -16,7 +16,7 @@ use Opulence\Views\IView;
 class ArrayCacheTest extends \PHPUnit\Framework\TestCase
 {
     /** @var ArrayCache The cache to use in tests */
-    private $cacheIncludingVars = null;
+    private $cache = null;
     /** @var IView|\PHPUnit_Framework_MockObject_MockObject The view to use in tests */
     private $view = null;
 
