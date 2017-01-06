@@ -138,7 +138,7 @@ class Style
             $endCodes[] = self::$supportedTextStyles[$style][1];
         }
 
-        if (count($startCodes) == 0 && count($endCodes) == 0) {
+        if (count($startCodes) === 0 && count($endCodes) === 0) {
             // No point in trying to format the text
             return $text;
         }

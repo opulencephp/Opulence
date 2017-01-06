@@ -144,7 +144,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
         $fooFound = false;
 
         foreach ($parameters as $parameterData) {
-            if ($parameterData[0] == "bar") {
+            if ($parameterData[0] === "bar") {
                 $fooFound = true;
 
                 break;

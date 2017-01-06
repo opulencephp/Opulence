@@ -73,7 +73,7 @@ class EntityRegistry implements IEntityRegistry
         $entityState = $this->getEntityState($entity);
         unset($this->aggregateRootChildren[$this->getObjectHashId($entity)]);
 
-        if ($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED) {
+        if ($entityState === EntityStates::QUEUED || $entityState === EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
             $entityId = $this->idAccessorRegistry->getEntityId($entity);
@@ -96,7 +96,7 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntities() : array
     {
-        if (count($this->entities) == 0) {
+        if (count($this->entities) === 0) {
             return [];
         }
 
@@ -151,7 +151,7 @@ class EntityRegistry implements IEntityRegistry
         try {
             $entityId = $this->idAccessorRegistry->getEntityId($entity);
 
-            return $this->getEntityState($entity) == EntityStates::REGISTERED
+            return $this->getEntityState($entity) === EntityStates::REGISTERED
             || isset($this->entities[$this->getClassName($entity)][$entityId]);
         } catch (OrmException $ex) {
             return false;

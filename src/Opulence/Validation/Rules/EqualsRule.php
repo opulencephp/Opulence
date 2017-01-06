@@ -39,7 +39,7 @@ class EqualsRule implements IRuleWithArgs
      */
     public function setArgs(array $args)
     {
-        if (count($args) != 1) {
+        if (count($args) !== 1) {
             throw new InvalidArgumentException("Must pass a value to compare against");
         }
 

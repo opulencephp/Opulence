@@ -52,7 +52,7 @@ abstract class Parser implements IParser
             $nextToken = array_shift($remainingTokens);
 
             // Check if the next token is also an option
-            if (mb_substr($nextToken, 0, 1) == "-" || empty($nextToken)) {
+            if (mb_substr($nextToken, 0, 1) === "-" || empty($nextToken)) {
                 // The option must have not had a value, so put the next token back
                 array_unshift($remainingTokens, $nextToken);
 
@@ -107,10 +107,10 @@ abstract class Parser implements IParser
         $hasParsedCommandName = false;
 
         while ($token = array_shift($tokens)) {
-            if (mb_substr($token, 0, 2) == "--") {
+            if (mb_substr($token, 0, 2) === "--") {
                 $option = $this->parseLongOption($token, $tokens);
                 $request->addOptionValue($option[0], $option[1]);
-            } elseif (mb_substr($token, 0, 1) == "-") {
+            } elseif (mb_substr($token, 0, 1) === "-") {
                 $options = $this->parseShortOption($token);
 
                 foreach ($options as $option) {
@@ -140,10 +140,10 @@ abstract class Parser implements IParser
     protected function trimQuotes(string $token) : string
     {
         // Trim any quotes
-        if (($firstValueChar = mb_substr($token, 0, 1)) == mb_substr($token, -1)) {
-            if ($firstValueChar == "'") {
+        if (($firstValueChar = mb_substr($token, 0, 1)) === mb_substr($token, -1)) {
+            if ($firstValueChar === "'") {
                 $token = trim($token, "'");
-            } elseif ($firstValueChar == '"') {
+            } elseif ($firstValueChar === '"') {
                 $token = trim($token, '"');
             }
         }

@@ -23,7 +23,7 @@ class CallbackRuleTest extends \PHPUnit\Framework\TestCase
     {
         $correctInputWasPassed = false;
         $callback = function ($value, array $inputs = []) use (&$correctInputWasPassed) {
-            $correctInputWasPassed = $value == "foo" && $inputs == ["bar" => "baz"];
+            $correctInputWasPassed = $value === "foo" && $inputs === ["bar" => "baz"];
 
             return true;
         };

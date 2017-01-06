@@ -58,13 +58,13 @@ class MaxRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function setArgs(array $args)
     {
-        if (count($args) == 0 || !is_numeric($args[0])) {
+        if (count($args) === 0 || !is_numeric($args[0])) {
             throw new InvalidArgumentException("Must pass a maximum value to compare against");
         }
 
         $this->max = $args[0];
 
-        if (count($args) == 2 && is_bool($args[1])) {
+        if (count($args) === 2 && is_bool($args[1])) {
             $this->isInclusive = $args[1];
         }
     }

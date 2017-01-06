@@ -55,7 +55,7 @@ class BootstrapperRegistry implements IBootstrapperRegistry
 
             // If it's a targeted binding
             if (is_array($boundClass)) {
-                if (count($boundClass) != 1) {
+                if (count($boundClass) !== 1) {
                     throw new InvalidArgumentException(
                         "Targeted bindings must be in format \"BoundClass => TargetClass\""
                     );

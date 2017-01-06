@@ -51,7 +51,7 @@ class ResponseAssertions extends TestCase
         $cookieValue = null;
 
         foreach ($cookies as $cookie) {
-            if ($cookie->getName() == $name) {
+            if ($cookie->getName() === $name) {
                 $cookieValue = $cookie->getValue();
 
                 break;
@@ -76,7 +76,7 @@ class ResponseAssertions extends TestCase
         $wasFound = false;
 
         foreach ($cookies as $cookie) {
-            if ($cookie->getName() == $name) {
+            if ($cookie->getName() === $name) {
                 $wasFound = true;
 
                 break;
@@ -259,7 +259,7 @@ class ResponseAssertions extends TestCase
     {
         $this->checkResponseIsSet();
         $this->assertTrue(
-            $this->response instanceof RedirectResponse && $this->response->getTargetUrl() == $url,
+            $this->response instanceof RedirectResponse && $this->response->getTargetUrl() === $url,
             "Failed asserting that the response redirects to \"$url\""
         );
 

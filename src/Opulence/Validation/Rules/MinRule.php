@@ -58,13 +58,13 @@ class MinRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function setArgs(array $args)
     {
-        if (count($args) == 0 || !is_numeric($args[0])) {
+        if (count($args) === 0 || !is_numeric($args[0])) {
             throw new InvalidArgumentException("Must pass a minimum value to compare against");
         }
 
         $this->min = $args[0];
 
-        if (count($args) == 2 && is_bool($args[1])) {
+        if (count($args) === 2 && is_bool($args[1])) {
             $this->isInclusive = $args[1];
         }
     }

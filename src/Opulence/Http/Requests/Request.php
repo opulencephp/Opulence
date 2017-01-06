@@ -190,9 +190,9 @@ class Request
         $post = [];
 
         // Set the content type for unsupported HTTP methods
-        if ($method == RequestMethods::GET) {
+        if ($method === RequestMethods::GET) {
             $query = $parameters;
-        } elseif ($method == RequestMethods::POST) {
+        } elseif ($method === RequestMethods::POST) {
             $post = $parameters;
         } elseif (
             in_array($method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE]) &&
@@ -222,7 +222,7 @@ class Request
         $server["REQUEST_URI"] .= count($query) > 0 ? "?$queryString" : "";
 
         if (isset($parsedUrl["scheme"])) {
-            if ($parsedUrl["scheme"] == "https") {
+            if ($parsedUrl["scheme"] === "https") {
                 $server["HTTPS"] = "on";
                 $server["SERVER_PORT"] = 443;
             } else {
@@ -600,7 +600,7 @@ class Request
      */
     public function isAjax() : bool
     {
-        return $this->headers->get("X_REQUESTED_WITH") == "XMLHttpRequest";
+        return $this->headers->get("X_REQUESTED_WITH") === "XMLHttpRequest";
     }
 
     /**
@@ -786,7 +786,7 @@ class Request
                 }
             }
 
-            $this->clientIPAddresses = count($ipAddresses) == 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
+            $this->clientIPAddresses = count($ipAddresses) === 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
         }
     }
 

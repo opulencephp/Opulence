@@ -71,7 +71,7 @@ class BetweenRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
         $this->min = $args[0];
         $this->max = $args[1];
 
-        if (count($args) == 3 && is_bool($args[2])) {
+        if (count($args) === 3 && is_bool($args[2])) {
             $this->isInclusive = $args[2];
         }
     }

@@ -51,7 +51,7 @@ class ErrorTemplateRegistry
     public function registerErrorTemplatesFromConfig(array $config)
     {
         foreach ($config as $key => $template) {
-            if (mb_strlen(trim($key)) == 0) {
+            if (mb_strlen(trim($key)) === 0) {
                 throw new InvalidArgumentException("Error template config key cannot be empty");
             }
 
@@ -60,7 +60,7 @@ class ErrorTemplateRegistry
             } else {
                 $keyParts = explode(".", $key);
 
-                if (count($keyParts) != 2 || mb_strlen(trim($keyParts[0])) == 0 || mb_strlen(trim($keyParts[1])) == 0) {
+                if (count($keyParts) !== 2 || mb_strlen(trim($keyParts[0])) === 0 || mb_strlen(trim($keyParts[1])) === 0) {
                     throw new InvalidArgumentException("Error template config key cannot be empty");
                 }
 

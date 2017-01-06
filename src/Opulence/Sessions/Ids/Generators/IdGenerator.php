@@ -24,7 +24,7 @@ class IdGenerator implements IIdGenerator
         // N bytes becomes 2N characters in bin2hex(), hence the division by 2
         $string = \bin2hex(\random_bytes(\ceil($length / 2)));
 
-        if ($length % 2 == 1) {
+        if ($length % 2 === 1) {
             // Slice off one character to make it the appropriate odd length
             $string = \mb_substr($string, 1);
         }

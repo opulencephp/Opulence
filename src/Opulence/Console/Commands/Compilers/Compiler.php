@@ -47,7 +47,7 @@ class Compiler implements ICompiler
         $hasSetArrayArgument = false;
 
         foreach ($commandArguments as $argument) {
-            if (count($argumentValues) == 0) {
+            if (count($argumentValues) === 0) {
                 if (!$argument->isOptional()) {
                     throw new RuntimeException("Argument \"{$argument->getName()}\" does not have default value");
                 }
@@ -105,7 +105,7 @@ class Compiler implements ICompiler
                     throw new RuntimeException("Option \"{$option->getName()}\" requires a value");
                 }
 
-                if ($option->valueIsOptional() && $value == null) {
+                if ($option->valueIsOptional() && $value === null) {
                     $value = $option->getDefaultValue();
                 }
 
@@ -125,7 +125,7 @@ class Compiler implements ICompiler
     {
         if (count($argumentValues) > count($commandArguments)) {
             // Only when the last argument is an array do we allow more request arguments than command arguments
-            if (count($commandArguments) == 0 || !end($commandArguments)->isArray()) {
+            if (count($commandArguments) === 0 || !end($commandArguments)->isArray()) {
                 return true;
             }
         }

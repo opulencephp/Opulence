@@ -62,7 +62,7 @@ class Statement extends PDOStatement implements IStatement
                 $parameterName += 1;
             }
 
-            if (count($value) != 2 || !$this->bindValue($parameterName, $value[0], $value[1])) {
+            if (count($value) !== 2 || !$this->bindValue($parameterName, $value[0], $value[1])) {
                 return false;
             }
         }

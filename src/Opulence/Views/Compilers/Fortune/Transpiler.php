@@ -239,12 +239,12 @@ class Transpiler implements ITranspiler
     {
         $children = $node->getChildren();
 
-        if (count($children) == 0) {
+        if (count($children) === 0) {
             return "";
         }
 
         $directiveName = $children[0]->getValue();
-        $expression = count($children) == 2 ? $children[1]->getValue() : "";
+        $expression = count($children) === 2 ? $children[1]->getValue() : "";
 
         if (!isset($this->directiveTranspilers[$directiveName])) {
             throw new RuntimeException(

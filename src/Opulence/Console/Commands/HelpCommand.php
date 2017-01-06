@@ -88,11 +88,11 @@ EOF;
             $descriptionText = "No description";
             $helpText = "";
 
-            if ($this->command->getDescription() != "") {
+            if ($this->command->getDescription() !== "") {
                 $descriptionText = $this->command->getDescription();
             }
 
-            if ($this->command->getHelpText() != "") {
+            if ($this->command->getHelpText() !== "") {
                 $helpText = PHP_EOL . "<comment>Help:</comment>" . PHP_EOL . "  " . $this->command->getHelpText();
             }
 
@@ -117,7 +117,7 @@ EOF;
      */
     private function getArgumentText() : string
     {
-        if (count($this->command->getArguments()) == 0) {
+        if (count($this->command->getArguments()) === 0) {
             return "  No arguments";
         }
 
@@ -156,7 +156,7 @@ EOF;
      */
     private function getOptionText() : string
     {
-        if (count($this->command->getOptions()) == 0) {
+        if (count($this->command->getOptions()) === 0) {
             return "  No options";
         }
 

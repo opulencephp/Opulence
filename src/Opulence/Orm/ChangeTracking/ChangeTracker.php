@@ -124,7 +124,7 @@ class ChangeTracker implements IChangeTracker
             $originalPropertiesAsHash[$originalProperty->getName()] = $originalProperty->getValue($originalData);
         }
 
-        if (count($originalProperties) != count($currentProperties)) {
+        if (count($originalProperties) !== count($currentProperties)) {
             // Clearly there's a difference here, so update
             return true;
         }
