@@ -81,7 +81,7 @@ class Prompt
 
         $answer = trim($answer);
 
-        if (mb_strlen($answer) === 0) {
+        if ($answer === "") {
             $answer = $question->getDefaultAnswer();
         }
 

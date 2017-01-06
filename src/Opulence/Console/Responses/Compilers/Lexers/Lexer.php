@@ -153,7 +153,7 @@ class Lexer implements ILexer
      */
     private function lookBehind(string $text, int $currPosition)
     {
-        if (mb_strlen($text) === 0 || $currPosition === 0) {
+        if ($text === "" || $currPosition === 0) {
             return null;
         }
 
@@ -169,7 +169,7 @@ class Lexer implements ILexer
      */
     private function peek(string $text, int $currPosition)
     {
-        if (mb_strlen($text) === 0 || mb_strlen($text) === $currPosition + 1) {
+        if ($text === "" || mb_strlen($text) === $currPosition + 1) {
             return null;
         }
 

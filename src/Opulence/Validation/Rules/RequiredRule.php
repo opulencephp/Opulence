@@ -32,7 +32,7 @@ class RequiredRule implements IRule
             return false;
         }
 
-        if (is_string($value) && mb_strlen($value) === 0) {
+        if (is_string($value) && $value === "") {
             return false;
         }
 
