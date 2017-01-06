@@ -42,7 +42,7 @@ class ErrorHandler implements IErrorHandler
         $this->logger = $logger;
         $this->exceptionHandler = $exceptionHandler;
         $this->loggedLevels = $loggedLevels ?? 0;
-        $this->thrownLevels = $thrownLevels ?? ((E_ALL | E_STRICT) & ~(E_DEPRECATED | E_USER_DEPRECATED));
+        $this->thrownLevels = $thrownLevels ?? (E_ALL & ~(E_DEPRECATED | E_USER_DEPRECATED));
     }
 
     /**
