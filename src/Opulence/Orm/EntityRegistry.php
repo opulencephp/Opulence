@@ -114,7 +114,7 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntity(string $className, $id)
     {
-        if (!isset($this->entities[$className]) || !isset($this->entities[$className][$id])) {
+        if (!isset($this->entities[$className][$id])) {
             return null;
         }
 

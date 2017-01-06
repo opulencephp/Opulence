@@ -29,7 +29,7 @@ class ErrorTemplateRegistry
      */
     public function getErrorTemplate(string $field, string $ruleSlug) : string
     {
-        if (isset($this->fieldTemplates[$field]) && isset($this->fieldTemplates[$field][$ruleSlug])) {
+        if (isset($this->fieldTemplates[$field][$ruleSlug])) {
             return $this->fieldTemplates[$field][$ruleSlug];
         }
 
