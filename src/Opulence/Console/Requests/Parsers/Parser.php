@@ -37,7 +37,7 @@ abstract class Parser implements IParser
      */
     protected function parseLongOption(string $token, array &$remainingTokens) : array
     {
-        if (mb_substr($token, 0, 2) !== "--") {
+        if (mb_strpos($token, '--') !== 0) {
             throw new RuntimeException("Invalid long option \"$token\"");
         }
 
@@ -88,8 +88,10 @@ abstract class Parser implements IParser
         $options = [];
 
         // Each character in a short option is an option
-        for ($charIter = 0;$charIter < mb_strlen($token);$charIter++) {
-            $options[] = [$token[$charIter], null];
+        $tokens = preg_split('//u', $token, -1, PREG_SPLIT_NO_EMPTY);
+
+        foreach ($tokens as $singleToken) {
+            $options[] = [$singleToken, null];
         }
 
         return $options;
@@ -100,6 +102,7 @@ abstract class Parser implements IParser
      *
      * @param array $tokens The tokens to parse
      * @return Request The parsed request
+     * @throws RuntimeException Thrown if there is an invalid token
      */
     protected function parseTokens(array $tokens) : Request
     {
@@ -107,7 +110,7 @@ abstract class Parser implements IParser
         $hasParsedCommandName = false;
 
         while ($token = array_shift($tokens)) {
-            if (mb_substr($token, 0, 2) === "--") {
+            if (mb_strpos($token, '--') === 0) {
                 $option = $this->parseLongOption($token, $tokens);
                 $request->addOptionValue($option[0], $option[1]);
             } elseif (mb_substr($token, 0, 1) === "-") {

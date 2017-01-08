@@ -24,14 +24,11 @@ class StringTokenizer implements ITokenizer
         $inDoubleQuotes = false;
         $inSingleQuotes = false;
         $charArray = preg_split('//u', $input, -1, PREG_SPLIT_NO_EMPTY);
-        $inputLength = count($charArray);
         $previousChar = "";
         $buffer = "";
         $tokens = [];
 
-        for ($charIter = 0;$charIter < $inputLength;$charIter++) {
-            $char = $charArray[$charIter];
-
+        foreach ($charArray as $charIter => $char) {
             switch ($char) {
                 case '"':
                     // If the double quote is inside single quotes, we treat it as part of a quoted string

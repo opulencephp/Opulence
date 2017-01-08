@@ -17,7 +17,6 @@ use Opulence\Tests\Ioc\Mocks\ConstructorWithInterface;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfConcreteClassesAndPrimitives;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithMixOfInterfacesAndPrimitives;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithPrimitives;
-use Opulence\Tests\Ioc\Mocks\ConstructorWithReference;
 use Opulence\Tests\Ioc\Mocks\ConstructorWithSetters;
 use Opulence\Tests\Ioc\Mocks\Dave;
 use Opulence\Tests\Ioc\Mocks\Foo;
@@ -59,8 +58,6 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     private $constructorWithPrimitives = ConstructorWithPrimitives::class;
     /** @var string The name of the class that accepts primitives with default values in its constructor */
     private $constructorWithDefaultValuePrimitives = ConstructorWithDefaultValuePrimitives::class;
-    /** @var string The name of the class that takes in a reference */
-    private $constructorWithReference = ConstructorWithReference::class;
 
     /**
      * Sets up the tests

@@ -30,12 +30,10 @@ class Lexer implements ILexer
         $charArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
         $textLength = count($charArray);
 
-        for ($charIter = 0;$charIter < $textLength;$charIter++) {
-            $char = $charArray[$charIter];
-
+        foreach ($charArray as $charIter => $char) {
             switch ($char) {
                 case "<":
-                    if ($this->lookBehind($charArray, $charIter) == "\\") {
+                    if ($this->lookBehind($charArray, $charIter) === "\\") {
                         // This tag was escaped
                         // Don't include the preceding slash
                         $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
@@ -50,7 +48,7 @@ class Lexer implements ILexer
                     } else {
 
                         // Check if this is a closing tag
-                        if ($this->peek($charArray, $charIter) == "/") {
+                        if ($this->peek($charArray, $charIter) === "/") {
                             $inCloseTag = true;
                             $inOpenTag = false;
                         } else {
@@ -59,7 +57,7 @@ class Lexer implements ILexer
                         }
 
                         // Flush the word buffer
-                        if ($wordBuffer != "") {
+                        if ($wordBuffer !== "") {
                             $tokens[] = new Token(
                                 TokenTypes::T_WORD,
                                 $wordBuffer,
@@ -99,7 +97,7 @@ class Lexer implements ILexer
                 default:
                     if ($inOpenTag || $inCloseTag) {
                         // We're in a tag, so buffer the element name
-                        if ($char != "/") {
+                        if ($char !== "/") {
                             $elementNameBuffer .= $char;
                         }
                     } else {
@@ -154,7 +152,7 @@ class Lexer implements ILexer
      */
     private function lookBehind(array $charArray, int $currPosition)
     {
-        if (count($charArray) == 0 || $currPosition == 0) {
+        if ($currPosition === 0 || count($charArray) === 0) {
             return null;
         }
 
@@ -170,7 +168,9 @@ class Lexer implements ILexer
      */
     private function peek(array $charArray, int $currPosition)
     {
-        if (count($charArray) == 0 || count($charArray) == $currPosition + 1) {
+        $charArrayLength = count($charArray);
+
+        if ($charArrayLength === 0 || $charArrayLength === $currPosition + 1) {
             return null;
         }
 

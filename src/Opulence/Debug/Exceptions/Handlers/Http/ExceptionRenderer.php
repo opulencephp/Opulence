@@ -36,6 +36,7 @@ class ExceptionRenderer implements IExceptionRenderer
     {
         // Add support for HTTP library without having to necessarily depend on it
         if (get_class($ex) === HttpException::class) {
+            /** @var HttpException $ex */
             $statusCode = $ex->getStatusCode();
             $headers = $ex->getHeaders();
         } else {

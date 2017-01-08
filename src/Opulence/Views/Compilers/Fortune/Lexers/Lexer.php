@@ -57,7 +57,7 @@ class Lexer implements ILexer
      */
     private function atEof() : bool
     {
-        return $this->getStream() == "";
+        return $this->getStream() === "";
     }
 
     /**
@@ -65,7 +65,7 @@ class Lexer implements ILexer
      */
     private function flushExpressionBuffer()
     {
-        if ($this->expressionBuffer != "") {
+        if ($this->expressionBuffer !== "") {
             $this->tokens[] = new Token(TokenTypes::T_EXPRESSION, $this->expressionBuffer, $this->line);
             // Account for all the new lines
             $this->line += substr_count($this->expressionBuffer, "\n");
@@ -201,8 +201,8 @@ class Lexer implements ILexer
         while (!$this->matches($closeDelimiter, false) && !$this->atEof()) {
             $currentChar = $this->getCurrentChar();
 
-            if ($currentChar == "\n") {
-                if (trim($expressionBuffer) == "") {
+            if ($currentChar === "\n") {
+                if (trim($expressionBuffer) === "") {
                     $this->line++;
                 } else {
                     $newLinesAfterExpression++;
@@ -215,7 +215,7 @@ class Lexer implements ILexer
 
         $expressionBuffer = trim($expressionBuffer);
 
-        if ($expressionBuffer != "") {
+        if ($expressionBuffer !== "") {
             $this->tokens[] = new Token(
                 TokenTypes::T_EXPRESSION,
                 $this->replaceViewFunctionCalls($expressionBuffer),
@@ -233,6 +233,7 @@ class Lexer implements ILexer
      * @param string $closeTokenType The close token type
      * @param string $closeDelimiter The close delimiter
      * @param bool $closeDelimiterOptional Whether or not the close delimiter is optional
+     * @throws RuntimeException Thrown if the expression was not delimited correctly
      */
     private function lexDelimitedExpressionStatement(
         string $openTokenType,
@@ -261,6 +262,8 @@ class Lexer implements ILexer
 
     /**
      * Lexes a directive statement
+     *
+     * @throws RuntimeException Thrown if there's an unmatched parenthesis
      */
     private function lexDirectiveExpression()
     {
@@ -273,14 +276,14 @@ class Lexer implements ILexer
         while (!$this->matches($this->directiveDelimiters[1], false) && !$this->atEof()) {
             $currentChar = $this->getCurrentChar();
 
-            if ($currentChar == "(") {
+            if ($currentChar === "(") {
                 $expressionBuffer .= $currentChar;
                 $parenthesisLevel++;
-            } elseif ($currentChar == ")") {
+            } elseif ($currentChar === ")") {
                 $parenthesisLevel--;
                 $expressionBuffer .= $currentChar;
-            } elseif ($currentChar == "\n") {
-                if (trim($expressionBuffer) == "") {
+            } elseif ($currentChar === "\n") {
+                if (trim($expressionBuffer) === "") {
                     $this->line++;
                 } else {
                     $newLinesAfterExpression++;
@@ -292,7 +295,7 @@ class Lexer implements ILexer
             $this->cursor++;
         }
 
-        if ($parenthesisLevel != 0) {
+        if ($parenthesisLevel !== 0) {
             throw new RuntimeException(
                 sprintf(
                     "Unmatched parenthesis on line %d",
@@ -313,6 +316,8 @@ class Lexer implements ILexer
 
     /**
      * Lexes a directive name
+     *
+     * @throws RuntimeException Thrown if the directive did not have a name
      */
     private function lexDirectiveName()
     {
@@ -324,8 +329,8 @@ class Lexer implements ILexer
             $currentChar = $this->getCurrentChar();
 
             // Handle new line characters between directive delimiters
-            if ($currentChar == "\n") {
-                if (trim($name) == "") {
+            if ($currentChar === "\n") {
+                if (trim($name) === "") {
                     $this->line++;
                 } else {
                     $newLinesAfterName++;
@@ -336,12 +341,12 @@ class Lexer implements ILexer
             $this->cursor++;
         } while (
             preg_match("/^[a-zA-Z0-9_\s]$/", $this->getCurrentChar()) === 1 &&
-            ($this->getCurrentChar() != " " || trim($name) == "")
+            ($this->getCurrentChar() !== " " || trim($name) === "")
         );
 
         $name = trim($name);
 
-        if ($name == "") {
+        if ($name === "") {
             throw new RuntimeException(
                 sprintf(
                     "Expected %s on line %d, none found",
@@ -402,7 +407,7 @@ class Lexer implements ILexer
 
                     // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
                     reset($statementMethods);
-                } elseif ($this->getCurrentChar() == "\\") {
+                } elseif ($this->getCurrentChar() === "\\") {
                     // Now that we know we're on an escape character, spend the resources to check for a match
                     if ($this->matches("\\$statementOpenDelimiter")) {
                         // This is an escaped statement
@@ -434,6 +439,8 @@ class Lexer implements ILexer
 
     /**
      * Lexes a PHP statement
+     *
+     * @throws RuntimeException Thrown if the statement was not delimited correctly
      */
     private function lexPhpStatement()
     {
@@ -525,16 +532,16 @@ class Lexer implements ILexer
             switch ($token[0]) {
                 case T_STRING:
                     // If this is a function
-                    if (count($phpTokens) > $index && $phpTokens[$index + 1] == "(") {
+                    if (count($phpTokens) > $index && $phpTokens[$index + 1] === "(") {
                         $prevToken = $index > 0 ? $phpTokens[$index - 1] : null;
 
                         // If this is a native PHP function or is really a method call, don't convert it
                         if (
-                            function_exists($token[1]) ||
                             (
-                                is_array($prevToken) &&
-                                ($prevToken[0] == T_OBJECT_OPERATOR || $prevToken[0] == T_DOUBLE_COLON)
-                            )
+                                ($prevToken[0] === T_OBJECT_OPERATOR || $prevToken[0] === T_DOUBLE_COLON) &&
+                                is_array($prevToken)
+                            ) ||
+                            function_exists($token[1])
                         ) {
                             $opulenceTokens[] = $token;
                         } else {
@@ -567,7 +574,7 @@ class Lexer implements ILexer
 
         $replacementCount = 0;
         $callback = function (array $matches) {
-            if ($matches[2] == ")") {
+            if ($matches[2] === ")") {
                 // There were no parameters
                 return $matches[1] . ")";
             } else {

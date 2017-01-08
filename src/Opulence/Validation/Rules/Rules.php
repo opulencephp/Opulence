@@ -392,10 +392,10 @@ class Rules
             $rules = [$rule];
         }
 
-        foreach ($rules as $rule) {
+        foreach ($rules as $singleRule) {
             $this->errorSlugsAndPlaceholders[] = [
-                "slug" => $rule->getSlug(),
-                "placeholders" => $rule instanceof IRuleWithErrorPlaceholders ? $rule->getErrorPlaceholders() : []
+                "slug" => $singleRule->getSlug(),
+                "placeholders" => $singleRule instanceof IRuleWithErrorPlaceholders ? $singleRule->getErrorPlaceholders() : []
             ];
         }
     }

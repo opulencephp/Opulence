@@ -49,6 +49,8 @@ class TableFormatter
             $row = (array)$row;
         }
 
+        unset($row);
+
         // If there are headers, we want them to be formatted along with the rows
         $headersAndRows = count($headers) === 0 ? $rows : array_merge([$headers], $rows);
         $headersAndRows = count($headers) === 0 ? $rows : array_merge([$headers], $rows);
