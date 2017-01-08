@@ -324,12 +324,7 @@ class Container implements IContainer
                 }
             }
 
-            // PHP forces a reference operator when passing parameters by reference via an array
-            if ($parameter->isPassedByReference()) {
-                $resolvedParameters[] = &$resolvedParameter;
-            } else {
-                $resolvedParameters[] = $resolvedParameter;
-            }
+            $resolvedParameters[] = $resolvedParameter;
         }
 
         return $resolvedParameters;

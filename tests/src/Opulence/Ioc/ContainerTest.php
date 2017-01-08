@@ -53,8 +53,6 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     /** @var string The name of the class that accepts primitives with default values in its constructor */
     private $constructorWithDefaultValuePrimitives =
         "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithDefaultValuePrimitives";
-    /** @var string The name of the class that takes in a reference */
-    private $constructorWithReference = "Opulence\\Tests\\Ioc\\Mocks\\ConstructorWithReference";
 
     /**
      * Sets up the tests
@@ -602,19 +600,6 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->container->bindSingleton(["foo", "bar"], $this->concreteFoo);
         $this->assertTrue($this->container->hasBinding("foo"));
         $this->assertTrue($this->container->hasBinding("bar"));
-    }
-
-    /**
-     * Tests making a class that takes in a reference in its constructor
-     */
-    public function testResolvingClassWithReferenceParameter()
-    {
-        $bar = new Bar();
-        $this->container->bindInstance($this->fooInterface, $bar);
-        /** @var ConstructorWithReference $instance */
-        $instance = $this->container->resolve($this->constructorWithReference);
-        $this->assertInstanceOf($this->constructorWithReference, $instance);
-        $this->assertSame($bar, $instance->getFoo());
     }
 
     /**
