@@ -34,7 +34,7 @@ class UpdateQuery extends BaseUpdateQuery
     /**
      * Adds to a "RETURNING" clause
      *
-     * @param array $expression,... A variable list of expressions to add to the "RETURNING" clause
+     * @param string[] $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return self For method chaining
      */
     public function addReturning(string ...$expression) : self
@@ -59,7 +59,7 @@ class UpdateQuery extends BaseUpdateQuery
      * Starts a "RETURNING" clause
      * Only call this method once per query because it will overwrite any previously-set "RETURNING" expressions
      *
-     * @param array $expression,... A variable list of expressions to add to the "RETURNING" clause
+     * @param string[] $expression,... A variable list of expressions to add to the "RETURNING" clause
      * @return self For method chaining
      */
     public function returning(string ...$expression) : self

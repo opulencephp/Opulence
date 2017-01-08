@@ -84,7 +84,7 @@ class GenericCache implements ICache
      * Gets the key for the cached view
      *
      * @param IView $view The view whose cache key we want
-     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
+     * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The key for the cached view
      */
     private function getKey(IView $view, bool $checkVars) : string

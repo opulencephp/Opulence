@@ -11,7 +11,6 @@ namespace Opulence\Tests\Routing\Mocks;
 use Opulence\Http\HttpException;
 use Opulence\Http\Responses\Response;
 use Opulence\Routing\Controller as BaseController;
-use Opulence\Tests\Mocks;
 
 /**
  * Defines a mock controller for use in testing

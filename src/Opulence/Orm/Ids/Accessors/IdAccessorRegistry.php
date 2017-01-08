@@ -94,7 +94,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
                 $property->setAccessible(true);
                 $property->setValue($entity, $id);
             };
-            $this->registerIdAccessors($classNames, $getter, $setter);
+            $this->registerIdAccessors($className, $getter, $setter);
         }
     }
 

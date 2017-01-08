@@ -8,7 +8,6 @@
  */
 namespace Opulence\Databases\Adapters\Pdo\PostgreSql;
 
-use Opulence\Databases;
 use Opulence\Tests\Databases\Mocks\Server;
 
 /**

@@ -35,7 +35,7 @@ class DeleteQuery extends Query
     /**
      * Adds to a "USING" expression
      *
-     * @param array $expression,... A variable list of other tables' names to use in the WHERE condition
+     * @param string[] $expression,... A variable list of other tables' names to use in the WHERE condition
      * @return self For method chaining
      */
     public function addUsing(string ...$expression) : self
@@ -97,7 +97,7 @@ class DeleteQuery extends Query
      * Starts a "USING" expression
      * Only call this method once per query because it will overwrite any previously-set "USING" expressions
      *
-     * @param array $expression,... A variable list of other tables' names to use in the WHERE condition
+     * @param string[] $expression,... A variable list of other tables' names to use in the WHERE condition
      * @return self For method chaining
      */
     public function using(string ...$expression) : self

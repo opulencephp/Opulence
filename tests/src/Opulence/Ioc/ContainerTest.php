@@ -611,19 +611,6 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     }
 
     /**
-     * Tests making a class that takes in a reference in its constructor
-     */
-    public function testResolvingClassWithReferenceParameter()
-    {
-        $bar = new Bar();
-        $this->container->bindInstance($this->fooInterface, $bar);
-        /** @var ConstructorWithReference $instance */
-        $instance = $this->container->resolve($this->constructorWithReference);
-        $this->assertInstanceOf($this->constructorWithReference, $instance);
-        $this->assertSame($bar, $instance->getFoo());
-    }
-
-    /**
      * Tests resolving an instance bound in a targeted callback
      */
     public function testResolvingInstanceBoundInTargetedCallback()

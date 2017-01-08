@@ -21,7 +21,7 @@ class ConditionalQueryBuilder
      *
      * @param array $clauseConditions The list of conditions that already belong to the clause
      * @param string $operation Either "AND" or "OR", indicating how this condition is being added to the list of conditions
-     * @param array $conditions,... A variable list of conditions to be met
+     * @param string[] $conditions,... A variable list of conditions to be met
      * @return array The input array with the condition added
      */
     public function addConditionToClause(array $clauseConditions, string $operation, string ...$conditions) : array
@@ -36,7 +36,7 @@ class ConditionalQueryBuilder
     /**
      * Adds to a "WHERE" condition that will be "AND"ed with other conditions
      *
-     * @param array $condition,... A variable list of conditions to be met
+     * @param string[] $condition,... A variable list of conditions to be met
      * @return self For method chaining
      */
     public function andWhere(string ...$condition) : self
@@ -84,7 +84,7 @@ class ConditionalQueryBuilder
     /**
      * Adds to a "WHERE" condition that will be "OR"ed with other conditions
      *
-     * @param array $condition,... A variable list of conditions to be met
+     * @param string[] $condition,... A variable list of conditions to be met
      * @return self For method chaining
      */
     public function orWhere(string ...$condition) : self
@@ -99,7 +99,7 @@ class ConditionalQueryBuilder
      * Starts a "WHERE" condition
      * Only call this method once per query because it will overwrite any previously-set "WHERE" expressions
      *
-     * @param array $condition,... A variable list of conditions to be met
+     * @param string[] $condition,... A variable list of conditions to be met
      * @return self For method chaining
      */
     public function where(string ...$condition) : self

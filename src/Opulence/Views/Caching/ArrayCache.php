@@ -74,7 +74,7 @@ class ArrayCache implements ICache
      * Gets key for the cached view
      *
      * @param IView $view The view whose cached file path we want
-     * @param bool Whether or not we want to also check for variable value equivalence when looking up cached views
+     * @param bool $checkVars Whether or not we want to also check for variable value equivalence when looking up cached views
      * @return string The key for the cached view
      */
     private function getViewKey(IView $view, bool $checkVars) : string
