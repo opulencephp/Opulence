@@ -80,7 +80,7 @@ class Lexer implements ILexer
      */
     private function getCurrentChar() : string
     {
-        return isset($this->input[$this->cursor]) ? $this->input[$this->cursor] : "";
+        return $this->input[$this->cursor] ?? "";
     }
 
     /**

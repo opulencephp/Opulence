@@ -328,8 +328,8 @@ class Rules
             if (!$this->isRequired) {
                 if (
                     $value === null ||
-                    (is_string($value) && mb_strlen($value) == 0) ||
-                    ((is_array($value) || $value instanceof Countable) && count($value) == 0)
+                    (is_string($value) && $value === "") ||
+                    ((is_array($value) || $value instanceof Countable) && count($value) === 0)
                 ) {
                     continue;
                 }

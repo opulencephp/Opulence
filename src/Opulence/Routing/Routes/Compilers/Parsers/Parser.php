@@ -110,7 +110,7 @@ class Parser implements IParser
         }
 
         $variableName = $matches[1];
-        $defaultValue = isset($matches[2]) ? $matches[2] : "";
+        $defaultValue = $matches[2] ?? "";
 
         if (strlen($variableName) > self::VARIABLE_MAXIMUM_LENGTH) {
             throw new RouteException(sprintf(

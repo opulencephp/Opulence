@@ -44,7 +44,7 @@ class CallbackRule implements IRuleWithArgs
      */
     public function setArgs(array $args)
     {
-        if (count($args) != 1 || !is_callable($args[0])) {
+        if (count($args) !== 1 || !is_callable($args[0])) {
             throw new InvalidArgumentException("Must pass valid callback");
         }
 

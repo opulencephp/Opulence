@@ -78,7 +78,7 @@ class MultipleChoice extends Question
             $selectedChoices = $this->getSelectedIndexChoices($answers);
         }
 
-        if (count($selectedChoices) == 0) {
+        if (count($selectedChoices) === 0) {
             throw new InvalidArgumentException("Invalid choice");
         }
 

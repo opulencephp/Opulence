@@ -33,7 +33,7 @@ class Statement extends BaseStatement
             }
 
             // Here we don't actually attempt to bind the value
-            if (count($value) != 2) {
+            if (count($value) !== 2) {
                 return false;
             }
         }

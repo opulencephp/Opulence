@@ -26,7 +26,7 @@ class Config
      */
     public static function get(string $category, string $setting, $default = null)
     {
-        if (!isset(self::$settings[$category]) || !isset(self::$settings[$category][$setting])) {
+        if (!isset(self::$settings[$category][$setting])) {
             return $default;
         }
 

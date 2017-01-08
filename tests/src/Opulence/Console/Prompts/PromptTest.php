@@ -192,7 +192,7 @@ class PromptTest extends \PHPUnit\Framework\TestCase
     private function getInputStream($input)
     {
         $stream = fopen("php://memory", "r+");
-        fputs($stream, $input);
+        fwrite($stream, $input);
         rewind($stream);
 
         return $stream;

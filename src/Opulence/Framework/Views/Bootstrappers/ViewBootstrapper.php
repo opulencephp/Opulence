@@ -74,7 +74,7 @@ abstract class ViewBootstrapper extends Bootstrapper implements ILazyBootstrappe
     public function run()
     {
         // If we're developing, wipe out the view cache
-        if (getenv("ENV_NAME") == Environment::DEVELOPMENT) {
+        if (getenv("ENV_NAME") === Environment::DEVELOPMENT) {
             $this->viewCache->flush();
         }
     }

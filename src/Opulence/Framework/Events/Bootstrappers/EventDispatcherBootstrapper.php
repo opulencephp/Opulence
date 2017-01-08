@@ -72,9 +72,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
                 throw new InvalidArgumentException("Listener data \"$listenerConfig\" is incorrectly formatted");
             }
 
-            $listenerConfigParts = explode("@", $listenerConfig);
-            $listenerClass = $listenerConfigParts[0];
-            $listenerMethod = $listenerConfigParts[1];
+            list($listenerClass, $listenerMethod) = explode("@", $listenerConfig);
 
             return function ($event, $eventName, IEventDispatcher $dispatcher) use (
                 $container,

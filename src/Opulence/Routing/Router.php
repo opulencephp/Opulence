@@ -81,7 +81,7 @@ class Router
      */
     public function any(string $path, $controller, array $options = []) : array
     {
-        return $this->multiple($this->routeCollection->getMethods(), $path, $controller, $options);
+        return $this->multiple(RouteCollection::getMethods(), $path, $controller, $options);
     }
 
     /**
@@ -343,7 +343,7 @@ class Router
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions["controllerNamespace"])) {
                 // Add trailing slashes if they're not there already
-                if (mb_substr($groupOptions["controllerNamespace"], -1) != "\\") {
+                if (mb_substr($groupOptions["controllerNamespace"], -1) !== "\\") {
                     $groupOptions["controllerNamespace"] .= "\\";
                 }
 

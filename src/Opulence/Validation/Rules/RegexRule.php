@@ -44,7 +44,7 @@ class RegexRule implements IRuleWithArgs
      */
     public function setArgs(array $args)
     {
-        if (count($args) != 1 || !is_string($args[0])) {
+        if (count($args) !== 1 || !is_string($args[0])) {
             throw new InvalidArgumentException("Must pass a regex to compare against");
         }
 

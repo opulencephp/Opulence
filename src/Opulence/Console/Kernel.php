@@ -125,7 +125,7 @@ class Kernel
         $helpCommand = new HelpCommand(new CommandFormatter(), new PaddingFormatter());
         $commandName = null;
 
-        if ($request->getCommandName() == "help") {
+        if ($request->getCommandName() === "help") {
             $compiledHelpCommand = $this->commandCompiler->compile($helpCommand, $request);
 
             if ($compiledHelpCommand->argumentValueIsSet("command")) {
@@ -156,7 +156,7 @@ class Kernel
      */
     private function isInvokingHelpCommand(IRequest $request) : bool
     {
-        return $request->getCommandName() == "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
+        return $request->getCommandName() === "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
     }
 
     /**

@@ -35,7 +35,7 @@ class ExceptionRenderer implements IExceptionRenderer
     public function render($ex)
     {
         // Add support for HTTP library without having to necessarily depend on it
-        if (get_class($ex) == HttpException::class) {
+        if (get_class($ex) === HttpException::class) {
             $statusCode = $ex->getStatusCode();
             $headers = $ex->getHeaders();
         } else {
@@ -136,7 +136,7 @@ class ExceptionRenderer implements IExceptionRenderer
      */
     protected function getRequestFormat() : string
     {
-        if (isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] == "application/json") {
+        if (isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] === "application/json") {
             return "json";
         } else {
             return "html";

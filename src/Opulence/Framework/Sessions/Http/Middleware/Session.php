@@ -54,7 +54,7 @@ abstract class Session implements IMiddleware
         $response = $next($request);
 
         // Store the current URL for next time
-        if ($request->getMethod() == RequestMethods::GET && !$request->isAjax()) {
+        if ($request->getMethod() === RequestMethods::GET && !$request->isAjax()) {
             $request->setPreviousUrl($request->getFullUrl());
         }
 

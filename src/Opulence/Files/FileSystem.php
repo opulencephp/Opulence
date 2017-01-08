@@ -46,10 +46,8 @@ class FileSystem
             return false;
         }
 
-        if (!$this->isDirectory($target)) {
-            if (!$this->makeDirectory($target, 0777, true)) {
-                return false;
-            }
+        if (!$this->isDirectory($target) && !$this->makeDirectory($target, 0777, true)) {
+            return false;
         }
 
         if ($flags === null) {

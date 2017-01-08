@@ -73,7 +73,7 @@ class EntityRegistry implements IEntityRegistry
         $entityState = $this->getEntityState($entity);
         unset($this->aggregateRootChildren[$this->getObjectHashId($entity)]);
 
-        if ($entityState == EntityStates::QUEUED || $entityState == EntityStates::REGISTERED) {
+        if ($entityState === EntityStates::QUEUED || $entityState === EntityStates::REGISTERED) {
             $className = $this->getClassName($entity);
             $objectHashId = $this->getObjectHashId($entity);
             $entityId = $this->idAccessorRegistry->getEntityId($entity);
@@ -96,7 +96,7 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntities() : array
     {
-        if (count($this->entities) == 0) {
+        if (count($this->entities) === 0) {
             return [];
         }
 
@@ -114,7 +114,7 @@ class EntityRegistry implements IEntityRegistry
      */
     public function getEntity(string $className, $id)
     {
-        if (!isset($this->entities[$className]) || !isset($this->entities[$className][$id])) {
+        if (!isset($this->entities[$className][$id])) {
             return null;
         }
 
@@ -151,7 +151,7 @@ class EntityRegistry implements IEntityRegistry
         try {
             $entityId = $this->idAccessorRegistry->getEntityId($entity);
 
-            return $this->getEntityState($entity) == EntityStates::REGISTERED
+            return $this->getEntityState($entity) === EntityStates::REGISTERED
             || isset($this->entities[$this->getClassName($entity)][$entityId]);
         } catch (OrmException $ex) {
             return false;
@@ -187,7 +187,6 @@ class EntityRegistry implements IEntityRegistry
     public function registerEntity(&$entity)
     {
         $className = $this->getClassName($entity);
-        $objectHashId = $this->getObjectHashId($entity);
         $entityId = $this->idAccessorRegistry->getEntityId($entity);
 
         if (!isset($this->entities[$className])) {
@@ -196,12 +195,12 @@ class EntityRegistry implements IEntityRegistry
 
         if (isset($this->entities[$className][$entityId])) {
             // Change the reference of the input entity to the one that's already registered
-            $entity = $this->getEntity($this->getClassName($entity), $entityId);
+            $entity = $this->getEntity($className, $entityId);
         } else {
             // Register this entity
             $this->changeTracker->startTracking($entity);
             $this->entities[$className][$entityId] = $entity;
-            $this->entityStates[$objectHashId] = EntityStates::REGISTERED;
+            $this->entityStates[$this->getObjectHashId($entity)] = EntityStates::REGISTERED;
         }
     }
 

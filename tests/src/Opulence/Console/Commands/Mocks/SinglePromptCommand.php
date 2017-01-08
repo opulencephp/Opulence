@@ -48,7 +48,7 @@ class SinglePromptCommand extends Command
         $question = new Question("What else floats", "Very small rocks");
         $answer = $this->prompt->ask($question, $response);
 
-        if ($answer == "A duck") {
+        if ($answer === "A duck") {
             $response->write("Very good");
         } else {
             $response->write("Wrong");

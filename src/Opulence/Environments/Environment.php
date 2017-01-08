@@ -53,7 +53,7 @@ class Environment
      */
     public static function isRunningInConsole() : bool
     {
-        return php_sapi_name() == "cli";
+        return php_sapi_name() === "cli";
     }
 
     /**

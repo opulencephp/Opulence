@@ -34,7 +34,7 @@ class Lexer implements ILexer
 
             switch ($char) {
                 case "<":
-                    if ($this->lookBehind($text, $charIter) == "\\") {
+                    if ($this->lookBehind($text, $charIter) === "\\") {
                         // This tag was escaped
                         // Don't include the preceding slash
                         $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
@@ -49,7 +49,7 @@ class Lexer implements ILexer
                     } else {
 
                         // Check if this is a closing tag
-                        if ($this->peek($text, $charIter) == "/") {
+                        if ($this->peek($text, $charIter) === "/") {
                             $inCloseTag = true;
                             $inOpenTag = false;
                         } else {
@@ -98,7 +98,7 @@ class Lexer implements ILexer
                 default:
                     if ($inOpenTag || $inCloseTag) {
                         // We're in a tag, so buffer the element name
-                        if ($char != "/") {
+                        if ($char !== "/") {
                             $elementNameBuffer .= $char;
                         }
                     } else {
@@ -153,7 +153,7 @@ class Lexer implements ILexer
      */
     private function lookBehind(string $text, int $currPosition)
     {
-        if (mb_strlen($text) == 0 || $currPosition == 0) {
+        if ($text === "" || $currPosition === 0) {
             return null;
         }
 
@@ -169,7 +169,7 @@ class Lexer implements ILexer
      */
     private function peek(string $text, int $currPosition)
     {
-        if (mb_strlen($text) == 0 || mb_strlen($text) == $currPosition + 1) {
+        if ($text === "" || mb_strlen($text) === $currPosition + 1) {
             return null;
         }
 

@@ -62,7 +62,7 @@ class Validator implements IValidator
         $passes = true;
 
         foreach ($this->rulesByField as $name => $rules) {
-            $value = isset($allValues[$name]) ? $allValues[$name] : null;
+            $value = $allValues[$name] ?? null;
             $fieldPasses = $rules->pass($value, $allValues, $haltFieldValidationOnFailure);
             $passes = $passes && $fieldPasses;
 
