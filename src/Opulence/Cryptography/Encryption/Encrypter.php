@@ -211,8 +211,8 @@ class Encrypter implements IEncrypter
     {
         $pieces = \json_decode(\base64_decode($data), true);
 
-        if ($pieces === false || !isset($pieces["version"]) || !isset($pieces["hmac"]) || !isset($pieces["value"])
-            || !isset($pieces["iv"]) || !isset($pieces["keySalt"]) || !isset($pieces["cipher"])
+        if ($pieces === false ||
+            !isset($pieces["version"], $pieces["hmac"], $pieces["value"], $pieces["iv"], $pieces["keySalt"], $pieces["cipher"])
         ) {
             throw new EncryptionException("Data is not in correct format");
         }

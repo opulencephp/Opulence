@@ -61,7 +61,7 @@ class Prompt
             foreach ($question->getChoices() as $key => $choice) {
                 if (!$choicesAreAssociative) {
                     // Make the choice 1-indexed
-                    $key += 1;
+                    ++$key;
                 }
 
                 $choiceTexts[] = [$key . ")", $choice];
@@ -81,7 +81,7 @@ class Prompt
 
         $answer = trim($answer);
 
-        if (mb_strlen($answer) == 0) {
+        if ($answer === "") {
             $answer = $question->getDefaultAnswer();
         }
 

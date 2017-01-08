@@ -535,12 +535,6 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
         $string1 = str_replace("&quot;", "&#34;", $string1);
         $string2 = str_replace("&quot;", "&#34;", $string2);
 
-        if ($string1 === $string2) {
-            return true;
-        } else {
-            error_log($string1 . "::" . $string2);
-
-            return false;
-        }
+        return $string1 === $string2;
     }
 }

@@ -44,7 +44,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
             throw new LogicException("Field name not set");
         }
 
-        $comparisonValue = isset($allValues[$this->fieldName]) ? $allValues[$this->fieldName] : null;
+        $comparisonValue = $allValues[$this->fieldName] ?? null;
 
         return $value === $comparisonValue;
     }
@@ -54,7 +54,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function setArgs(array $args)
     {
-        if (count($args) != 1 || !is_string($args[0])) {
+        if (count($args) !== 1 || !is_string($args[0])) {
             throw new InvalidArgumentException("Must pass valid field name");
         }
 

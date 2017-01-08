@@ -74,7 +74,7 @@ abstract class Query
     {
         foreach ($placeholderNamesToValues as $placeholderName => $value) {
             if (is_array($value)) {
-                if (count($value) != 2) {
+                if (count($value) !== 2) {
                     throw new InvalidQueryException("Incorrect number of items in value array");
                 }
 
@@ -123,7 +123,7 @@ abstract class Query
     {
         foreach ($placeholderValues as $value) {
             if (is_array($value)) {
-                if (count($value) != 2) {
+                if (count($value) !== 2) {
                     throw new InvalidQueryException("Incorrect number of items in value array");
                 }
 

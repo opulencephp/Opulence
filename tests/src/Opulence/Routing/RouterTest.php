@@ -634,7 +634,7 @@ class RouterTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($compiledRoute, $mockRouter->getMatchedRoute());
         // The mock router does not actually instantiate the input controller
         // Instead, its dispatcher always sets the controller to the same object every time
-        $this->assertInstanceOf("Opulence\\Routing\\Controller", $mockRouter->getMatchedController());
+        $this->assertInstanceOf(Controller::class, $mockRouter->getMatchedController());
     }
 
     /**

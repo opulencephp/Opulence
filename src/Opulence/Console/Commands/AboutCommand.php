@@ -74,7 +74,7 @@ EOF;
      */
     private function getCommandText() : string
     {
-        if (count($this->commandCollection->getAll()) == 0) {
+        if (count($this->commandCollection->getAll()) === 0) {
             return "  <info>No commands</info>";
         }
 

@@ -33,12 +33,7 @@ class Application
     public function __construct(ITaskDispatcher $taskDispatcher, string $version = null)
     {
         $this->taskDispatcher = $taskDispatcher;
-
-        if ($version === null) {
-            $this->version = self::$opulenceVersion;
-        } else {
-            $this->version = $version;
-        }
+        $this->version = $version ?? self::$opulenceVersion;
     }
 
     /**

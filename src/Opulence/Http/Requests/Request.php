@@ -129,12 +129,12 @@ class Request
         array $env = null,
         string $rawBody = null
     ) : Request {
-        $query = isset($query) ? $query : $_GET;
-        $post = isset($post) ? $post : $_POST;
-        $cookies = isset($cookies) ? $cookies : $_COOKIE;
-        $server = isset($server) ? $server : $_SERVER;
-        $files = isset($files) ? $files : $_FILES;
-        $env = isset($env) ? $env : $_ENV;
+        $query = $query ?? $_GET;
+        $post = $post ?? $_POST;
+        $cookies = $cookies ?? $_COOKIE;
+        $server = $server ?? $_SERVER;
+        $files = $files ?? $_FILES;
+        $env = $env ?? $_ENV;
 
         // Handle the a bug that does not set CONTENT_TYPE or CONTENT_LENGTH headers
         if (array_key_exists("HTTP_CONTENT_LENGTH", $server)) {
@@ -190,9 +190,9 @@ class Request
         $post = [];
 
         // Set the content type for unsupported HTTP methods
-        if ($method == RequestMethods::GET) {
+        if ($method === RequestMethods::GET) {
             $query = $parameters;
-        } elseif ($method == RequestMethods::POST) {
+        } elseif ($method === RequestMethods::POST) {
             $post = $parameters;
         } elseif (
             in_array($method, [RequestMethods::PUT, RequestMethods::PATCH, RequestMethods::DELETE]) &&
@@ -222,7 +222,7 @@ class Request
         $server["REQUEST_URI"] .= count($query) > 0 ? "?$queryString" : "";
 
         if (isset($parsedUrl["scheme"])) {
-            if ($parsedUrl["scheme"] == "https") {
+            if ($parsedUrl["scheme"] === "https") {
                 $server["HTTPS"] = "on";
                 $server["SERVER_PORT"] = 443;
             } else {
@@ -339,12 +339,12 @@ class Request
     {
         $isSecure = $this->isSecure();
         $rawProtocol = strtolower($this->server->get("SERVER_PROTOCOL"));
-        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . (($isSecure) ? "s" : "");
+        $parsedProtocol = substr($rawProtocol, 0, strpos($rawProtocol, "/")) . ($isSecure ? "s" : "");
         $port = $this->getPort();
         $host = $this->getHost();
 
         // Prepend a colon if the port is non-standard
-        if (((!$isSecure && $port != "80") || ($isSecure && $port != "443"))) {
+        if ((!$isSecure && $port != "80") || ($isSecure && $port != "443")) {
             $port = ":$port";
         } else {
             $port = "";
@@ -600,7 +600,7 @@ class Request
      */
     public function isAjax() : bool
     {
-        return $this->headers->get("X_REQUESTED_WITH") == "XMLHttpRequest";
+        return $this->headers->get("X_REQUESTED_WITH") === "XMLHttpRequest";
     }
 
     /**
@@ -786,7 +786,7 @@ class Request
                 }
             }
 
-            $this->clientIPAddresses = count($ipAddresses) == 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
+            $this->clientIPAddresses = count($ipAddresses) === 0 ? $fallbackIpAddresses : array_reverse($ipAddresses);
         }
     }
 

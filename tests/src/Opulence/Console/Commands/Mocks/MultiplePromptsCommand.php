@@ -50,13 +50,13 @@ class MultiplePromptsCommand extends Command
         $answer1 = $this->prompt->ask($question1, $response);
         $answer2 = $this->prompt->ask($question2, $response);
 
-        if ($answer1 == "default1") {
+        if ($answer1 === "default1") {
             $response->write("Default1");
         } else {
             $response->write("Custom1");
         }
 
-        if ($answer2 == "default2") {
+        if ($answer2 === "default2") {
             $response->write("Default2");
         } else {
             $response->write("Custom2");

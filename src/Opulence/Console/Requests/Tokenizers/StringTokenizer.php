@@ -52,9 +52,9 @@ class StringTokenizer implements ITokenizer
 
                     break;
                 default:
-                    if ($inDoubleQuotes || $inSingleQuotes || $char != " ") {
+                    if ($inDoubleQuotes || $inSingleQuotes || $char !== " ") {
                         $buffer .= $char;
-                    } elseif ($char == " " && $previousChar != " " && mb_strlen($buffer) > 0) {
+                    } elseif ($char === " " && $previousChar !== " " && mb_strlen($buffer) > 0) {
                         // We've hit a space outside a quoted string, so flush the buffer
                         $tokens[] = $buffer;
                         $buffer = "";

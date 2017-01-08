@@ -168,7 +168,7 @@ class Route
      */
     public function getVarRegex(string $name)
     {
-        return isset($this->varRegexes[$name]) ? $this->varRegexes[$name] : null;
+        return $this->varRegexes[$name] ?? null;
     }
 
     /**

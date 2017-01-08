@@ -45,7 +45,7 @@ class AudienceVerifier implements IVerifier
             return true;
         }
 
-        if (count(array_intersect($audience, $this->audience)) == 0) {
+        if (count(array_intersect($audience, $this->audience)) === 0) {
             $error = JwtErrorTypes::AUDIENCE_INVALID;
 
             return false;

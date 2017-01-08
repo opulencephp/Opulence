@@ -25,7 +25,7 @@ class RandomServerSelectionStrategy implements IServerSelectionStrategy
             $servers = [$servers];
         }
 
-        if (count($servers) == 0) {
+        if (count($servers) === 0) {
             throw new InvalidArgumentException("No servers specified");
         }
 

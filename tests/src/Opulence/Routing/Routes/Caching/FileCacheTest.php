@@ -42,7 +42,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function tearDown()
     {
-        if (file_exists(($this->cachedRouteFilePath))) {
+        if (file_exists($this->cachedRouteFilePath)) {
             @unlink($this->cachedRouteFilePath);
         }
     }

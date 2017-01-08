@@ -74,8 +74,8 @@ class CachedBootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
             ->method("set")
             ->with($this->callback(function (IBootstrapperRegistry $bootstrapperRegistry) use ($lazyBootstrapperBindings
             ) {
-                return $bootstrapperRegistry->getEagerBootstrappers() == [Bootstrapper::class]
-                && $bootstrapperRegistry->getLazyBootstrapperBindings() == $lazyBootstrapperBindings;
+                return $bootstrapperRegistry->getEagerBootstrappers() === [Bootstrapper::class]
+                    && $bootstrapperRegistry->getLazyBootstrapperBindings() === $lazyBootstrapperBindings;
             }));
         $bootstrapperRegistry = $this->factory->createBootstrapperRegistry($bootstrapperClasses);
         $this->assertEquals([Bootstrapper::class], $bootstrapperRegistry->getEagerBootstrappers());

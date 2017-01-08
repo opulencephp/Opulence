@@ -59,10 +59,10 @@ class Statement extends PDOStatement implements IStatement
 
             // If this is an indexed array, we need to offset the parameter name by 1 because it's 1-indexed
             if (!$isAssociativeArray) {
-                $parameterName += 1;
+                ++$parameterName;
             }
 
-            if (count($value) != 2 || !$this->bindValue($parameterName, $value[0], $value[1])) {
+            if (count($value) !== 2 || !$this->bindValue($parameterName, $value[0], $value[1])) {
                 return false;
             }
         }

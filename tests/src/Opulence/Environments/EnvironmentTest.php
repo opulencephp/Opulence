@@ -37,13 +37,7 @@ class EnvironmentTest extends \PHPUnit\Framework\TestCase
      */
     public function testIsRunningInConsole()
     {
-        $isRunningInConsole = Environment::isRunningInConsole();
-
-        if (php_sapi_name() == "cli") {
-            $this->assertTrue($isRunningInConsole);
-        } else {
-            $this->assertFalse($isRunningInConsole);
-        }
+        $this->assertEquals(Environment::isRunningInConsole(), php_sapi_name() === "cli");
     }
 
     /**
