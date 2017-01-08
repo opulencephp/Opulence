@@ -1,3 +1,17 @@
+<h2>v1.0.5 (2017-01-?)</h2>
+
+<h3>Console</h3>
+* Fixed #52 (improperly iterating over string when it contains multibyte chars)
+
+<h3>Framework</h3>
+* Fixed #55 (`Authority` was being instantiated with incorrect parameters)
+
+<h3>IoC</h3>
+* Fixed #54 (no longer assigning resolved parameters to array by reference)
+
+<h3>ORM</h3>
+* Fixed #45 (reuse results of reflection across Id getter and setter)
+
 <h2>v1.0.4 (2017-01-06)</h2>
 
 <h3>General</h3>

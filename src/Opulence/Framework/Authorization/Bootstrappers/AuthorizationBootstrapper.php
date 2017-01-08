@@ -72,11 +72,10 @@ abstract class AuthorizationBootstrapper extends Bootstrapper implements ILazyBo
     protected function getAuthority(IContainer $container) : IAuthority
     {
         $permissionRegistry = $this->getPermissionRegistry($container);
-        $roles = $this->getRoles($container);
         $container->bindInstance(IPermissionRegistry::class, $permissionRegistry);
-        $container->bindInstance(IRoles::class, $roles);
+        $container->bindInstance(IRoles::class, $this->getRoles($container));
 
-        return new Authority(-1, $permissionRegistry, $roles);
+        return new Authority(-1, [], $permissionRegistry);
     }
 
     /**

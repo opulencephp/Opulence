@@ -81,17 +81,18 @@ class IdAccessorRegistry implements IIdAccessorRegistry
     public function registerReflectionIdAccessors($classNames, string $idPropertyName)
     {
         foreach ((array)$classNames as $className) {
-            $getter = function ($entity) use ($className, $idPropertyName) {
+            try {
                 $reflectionClass = new ReflectionClass($className);
                 $property = $reflectionClass->getProperty($idPropertyName);
                 $property->setAccessible(true);
+            } catch (ReflectionException $ex) {
+                throw new OrmException("to_do");
+            }
 
+            $getter = function ($entity) use ($property) {
                 return $property->getValue($entity);
             };
-            $setter = function ($entity, $id) use ($className, $idPropertyName) {
-                $reflectionClass = new ReflectionClass($className);
-                $property = $reflectionClass->getProperty($idPropertyName);
-                $property->setAccessible(true);
+            $setter = function ($entity, $id) use ($property) {
                 $property->setValue($entity, $id);
             };
             $this->registerIdAccessors($className, $getter, $setter);

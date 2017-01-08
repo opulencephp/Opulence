@@ -31,4 +31,12 @@ class ConstructorWithReference
     {
         return $this->foo;
     }
+
+    /**
+     * @param IFoo $foo The object to use
+     */
+    public function setFoo(IFoo &$foo)
+    {
+        $this->foo = $foo;
+    }
 }

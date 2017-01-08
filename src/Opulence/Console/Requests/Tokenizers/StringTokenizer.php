@@ -23,13 +23,14 @@ class StringTokenizer implements ITokenizer
         $input = trim($input);
         $inDoubleQuotes = false;
         $inSingleQuotes = false;
-        $inputLength = mb_strlen($input);
+        $charArray = preg_split('//u', $input, -1, PREG_SPLIT_NO_EMPTY);
+        $inputLength = count($charArray);
         $previousChar = "";
         $buffer = "";
         $tokens = [];
 
         for ($charIter = 0;$charIter < $inputLength;$charIter++) {
-            $char = $input[$charIter];
+            $char = $charArray[$charIter];
 
             switch ($char) {
                 case '"':

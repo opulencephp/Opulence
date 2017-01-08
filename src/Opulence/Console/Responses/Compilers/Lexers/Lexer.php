@@ -25,16 +25,17 @@ class Lexer implements ILexer
         $tokens = [];
         $wordBuffer = "";
         $elementNameBuffer = "";
-        $textLength = mb_strlen($text);
         $inOpenTag = false;
         $inCloseTag = false;
+        $charArray = preg_split('//u', $text, -1, PREG_SPLIT_NO_EMPTY);
+        $textLength = count($charArray);
 
         for ($charIter = 0;$charIter < $textLength;$charIter++) {
-            $char = $text[$charIter];
+            $char = $charArray[$charIter];
 
             switch ($char) {
                 case "<":
-                    if ($this->lookBehind($text, $charIter) == "\\") {
+                    if ($this->lookBehind($charArray, $charIter) == "\\") {
                         // This tag was escaped
                         // Don't include the preceding slash
                         $wordBuffer = mb_substr($wordBuffer, 0, -1) . $char;
@@ -42,14 +43,14 @@ class Lexer implements ILexer
                         throw new RuntimeException(
                             sprintf(
                                 "Invalid tags near \"%s\", character #%d",
-                                $this->getSurroundingText($text, $charIter),
+                                $this->getSurroundingText($charArray, $charIter),
                                 $charIter
                             )
                         );
                     } else {
 
                         // Check if this is a closing tag
-                        if ($this->peek($text, $charIter) == "/") {
+                        if ($this->peek($charArray, $charIter) == "/") {
                             $inCloseTag = true;
                             $inOpenTag = false;
                         } else {
@@ -127,52 +128,52 @@ class Lexer implements ILexer
     /**
      * Gets text around a certain position for use in exceptions
      *
-     * @param string $text The full text
+     * @param array $charArray The char array
      * @param int $position The numerical position to grab text around
      * @return string The surrounding text
      */
-    private function getSurroundingText(string $text, int $position) : string
+    private function getSurroundingText(array $charArray, int $position) : string
     {
-        if (mb_strlen($text) <= 3) {
-            return $text;
+        if (count($charArray) <= 3) {
+            return implode("", $charArray);
         }
 
         if ($position <= 3) {
-            return mb_substr($text, 0, 4);
+            return implode("", array_slice($charArray, 0, 4));
         }
 
-        return mb_substr($text, $position - 3, 4);
+        return implode("", array_slice($charArray, $position - 3, 4));
     }
 
     /**
      * Looks back at the previous character in the string
      *
-     * @param string $text The text to look behind in
+     * @param array $charArray The char array
      * @param int $currPosition The current position
      * @return string|null The previous character if there is one, otherwise null
      */
-    private function lookBehind(string $text, int $currPosition)
+    private function lookBehind(array $charArray, int $currPosition)
     {
-        if (mb_strlen($text) == 0 || $currPosition == 0) {
+        if (count($charArray) == 0 || $currPosition == 0) {
             return null;
         }
 
-        return $text[$currPosition - 1];
+        return $charArray[$currPosition - 1];
     }
 
     /**
      * Peeks at the next character in the string
      *
-     * @param string $text The text to peek
+     * @param array $charArray The char array
      * @param int $currPosition The current position
      * @return string|null The next character if there is one, otherwise null
      */
-    private function peek(string $text, int $currPosition)
+    private function peek(array $charArray, int $currPosition)
     {
-        if (mb_strlen($text) == 0 || mb_strlen($text) == $currPosition + 1) {
+        if (count($charArray) == 0 || count($charArray) == $currPosition + 1) {
             return null;
         }
 
-        return $text[$currPosition + 1];
+        return $charArray[$currPosition + 1];
     }
 }
