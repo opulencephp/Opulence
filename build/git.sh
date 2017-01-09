@@ -1,5 +1,5 @@
 REPOS=(Applications Authentication Authorization Cache Console Cryptography Databases Debug Environments Events Files Framework Http Ioc Memcached Orm Pipelines QueryBuilders Redis Routing Sessions Validation Views)
-SUBTREE_DIR="src/Opulence"
+BRANCHES_TO_SPLIT=(master 1.0)
 
 function checkOutPullRequest()
 {
@@ -38,34 +38,16 @@ function mergePullRequest()
 
 function split()
 {
-    git co master
-    read -p "   Name of subtree (case sensitive): " subtree
-    lowersubtree=$(echo "$subtree" | awk '{print tolower($0)}')
-    remoteurl="https://github.com/opulencephp/$lowersubtree.git"
+    git subsplit init git@github.com:opulencephp/Opulence.git
 
-    # Setup subtree directory
-    mkdir ../$subtree
-    cd ../$subtree
-    git init --bare
+    for repo in ${REPOS[@]}
+    do
+        lowerrepo=$(echo "$repo" | awk '{print tolower($0)}')
+        git subsplit publish src/Opulence/$repo:git@github.com:opulencephp/$lowerrepo.git --heads="${BRANCHES_TO_SPLIT[@]}" --no-tags
+    done
 
-    # Create branch from subtree directory, call it the same thing as the subtree directory
-    cd ../opulence
-    git subtree split --prefix=$SUBTREE_DIR/$subtree -b $subtree
-    git push ../$subtree $subtree:master
-
-    # Push subtree to remote
-    cd ../$subtree
-    git remote add origin $remoteurl
-    git push origin master
-
-    # Remove original code, which will be re-added shortly
-    cd ../opulence
-    git rm -r $SUBTREE_DIR/$subtree
-
-    # Setup subtree in main repo
-    git commit -am "Removed $subtree for subtree split"
-    git remote add $subtree $remoteurl
-    git subtree add --prefix=$SUBTREE_DIR/$subtree $subtree master
+    # Do some cleanup
+    rm -rf .subsplit/
 }
 
 function tag()
@@ -76,32 +58,21 @@ function tag()
 
     git co master
 
-    # Check if we need to commit components
-    for repo in ${REPOS[@]}
-    do
-        if git diff --quiet $repo/master master:$SUBTREE_DIR/$repo; then
-            echo "   No changes in $repo"
-        else
-            echo "   Pushing $repo"
-            git push $repo $(git subtree split --prefix=$SUBTREE_DIR/$repo master):master --force
-        fi
-    done
-
     # Tag Opulence
     git tag -a $tagname -m "$message"
     git push origin $tagname
 
-    # Tag components
+    # Tag the subtrees
+    git subsplit init git@github.com:opulencephp/Opulence.git
+
     for repo in ${REPOS[@]}
     do
-        cd ../$repo
-        echo "   Tagging $repo"
-        git tag -a $tagname -m  "$message"
-        git push origin $tagname
+        lowerrepo=$(echo "$repo" | awk '{print tolower($0)}')
+        git subsplit publish src/Opulence/$repo:git@github.com:opulencephp/$lowerrepo.git --heads="${BRANCHES_TO_SPLIT[@]}" --tags="$tagname"
     done
 
-    // Switch back to home directory
-    cd ../opulence
+    # Do some cleanup
+    rm -rf .subsplit/
 }
 
 while true; do
