@@ -86,7 +86,7 @@ class IdAccessorRegistry implements IIdAccessorRegistry
                 $property = $reflectionClass->getProperty($idPropertyName);
                 $property->setAccessible(true);
             } catch (ReflectionException $ex) {
-                throw new OrmException("to_do");
+                throw new OrmException("Reflection failed for Id accessors in class \"$className\"");
             }
 
             $getter = function ($entity) use ($property) {

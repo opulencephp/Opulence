@@ -38,6 +38,7 @@ interface IIdAccessorRegistry
      *
      * @param string|array $classNames The name or list of names of classes whose Id accessors we're registering
      * @param string $idPropertyName The name of the Id property we're registering
+     * @throws OrmException Thrown if there was an exception performing the reflection
      */
     public function registerReflectionIdAccessors($classNames, string $idPropertyName);
 
