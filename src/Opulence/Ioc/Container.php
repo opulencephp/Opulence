@@ -146,15 +146,18 @@ class Container implements IContainer
 
         switch (get_class($binding)) {
             case InstanceBinding::class:
+                /** @var InstanceBinding $binding */
                 return $binding->getInstance();
             case ClassBinding::class:
+                /** @var ClassBinding $binding */
                 $instance = $this->resolveClass(
                     $binding->getConcreteClass(),
                     $binding->getConstructorPrimitives()
                 );
                 break;
             case FactoryBinding::class:
-                $instance = ($binding->getFactory())();
+                /** @var FactoryBinding $binding */
+                $instance = call_user_func($binding->getFactory());
                 break;
             default:
                 throw new RuntimeException('Invalid binding type "' . get_class($binding) . '"');
