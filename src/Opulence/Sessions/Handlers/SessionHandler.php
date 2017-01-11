@@ -80,12 +80,12 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     protected function prepareForUnserialization(string $data = null) : string
     {
         if ($data === null) {
-            return "";
+            return '';
         }
 
         if ($this->usesEncryption) {
             if ($this->encrypter === null) {
-                throw new LogicException("Encrypter not set on session handler");
+                throw new LogicException('Encrypter not set on session handler');
             }
 
             try {
@@ -109,13 +109,13 @@ abstract class SessionHandler implements IEncryptableSessionHandler, SessionHand
     {
         if ($this->usesEncryption) {
             if ($this->encrypter === null) {
-                throw new LogicException("Encrypter not set in session handler");
+                throw new LogicException('Encrypter not set in session handler');
             }
 
             try {
                 return $this->encrypter->encrypt($data);
             } catch (SessionEncryptionException $ex) {
-                return "";
+                return '';
             }
         } else {
             return $data;

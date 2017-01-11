@@ -23,8 +23,8 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->parsedRoute = new ParsedRoute(new Route("GET", "/", "foo@bar"));
-        $this->compiledRoute = new CompiledRoute($this->parsedRoute, true, ["foo" => "bar"]);
+        $this->parsedRoute = new ParsedRoute(new Route('GET', '/', 'foo@bar'));
+        $this->compiledRoute = new CompiledRoute($this->parsedRoute, true, ['foo' => 'bar']);
     }
 
     /**
@@ -40,20 +40,20 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingCompiledRoute()
     {
-        $route = new Route("GET", "/foo/{bar=baz}", "foo@bar", [
-            "https" => true,
-            "vars" => [
-                "bar" => "\d+"
+        $route = new Route('GET', '/foo/{bar=baz}', 'foo@bar', [
+            'https' => true,
+            'vars' => [
+                'bar' => "\d+"
             ]
         ]);
         $parsedRoute = new ParsedRoute($route);
-        $parsedRoute->setDefaultValue("bar", "baz");
+        $parsedRoute->setDefaultValue('bar', 'baz');
         $parsedRoute->setHostRegex("foo\.bar\.com");
-        $parsedRoute->setPathRegex("baz.*");
+        $parsedRoute->setPathRegex('baz.*');
         $compiledRoute = new CompiledRoute($parsedRoute, true, []);
         $this->assertEquals($parsedRoute->getHostRegex(), $compiledRoute->getHostRegex());
         $this->assertEquals($parsedRoute->getPathRegex(), $compiledRoute->getPathRegex());
-        $this->assertEquals($parsedRoute->getDefaultValue("bar"), $compiledRoute->getDefaultValue("bar"));
+        $this->assertEquals($parsedRoute->getDefaultValue('bar'), $compiledRoute->getDefaultValue('bar'));
     }
 
     /**
@@ -61,7 +61,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingNonExistentPathVariable()
     {
-        $this->assertNull($this->compiledRoute->getPathVar("doesNotExist"));
+        $this->assertNull($this->compiledRoute->getPathVar('doesNotExist'));
     }
 
     /**
@@ -69,7 +69,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingPathVariable()
     {
-        $this->assertEquals("bar", $this->compiledRoute->getPathVar("foo"));
+        $this->assertEquals('bar', $this->compiledRoute->getPathVar('foo'));
     }
 
     /**
@@ -77,7 +77,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingPathVariables()
     {
-        $this->assertEquals(["foo" => "bar"], $this->compiledRoute->getPathVars());
+        $this->assertEquals(['foo' => 'bar'], $this->compiledRoute->getPathVars());
     }
 
     /**
@@ -103,7 +103,7 @@ class CompiledRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingPathVariables()
     {
-        $this->compiledRoute->setPathVars(["dave" => "young"]);
-        $this->assertEquals(["dave" => "young"], $this->compiledRoute->getPathVars());
+        $this->compiledRoute->setPathVars(['dave' => 'young']);
+        $this->assertEquals(['dave' => 'young'], $this->compiledRoute->getPathVars());
     }
 }

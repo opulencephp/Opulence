@@ -17,25 +17,25 @@ class JwtHeader
 {
     /** @var array The list of valid algorithms */
     private static $validAlgorithms = [
-        "none",
-        "HS256",
-        "HS348",
-        "HS512",
-        "RS256",
-        "RS384",
-        "RS512"
+        'none',
+        'HS256',
+        'HS348',
+        'HS512',
+        'RS256',
+        'RS384',
+        'RS512'
     ];
     /** @var array The extra headers */
     private $headers = [
-        "typ" => "JWT",
-        "alg" => "HS256"
+        'typ' => 'JWT',
+        'alg' => 'HS256'
     ];
 
     /**
      * @param string $algorithm The algorithm
      * @param array $headers The headers
      */
-    public function __construct(string $algorithm = "HS256", array $headers = [])
+    public function __construct(string $algorithm = 'HS256', array $headers = [])
     {
         $this->setAlgorithm($algorithm);
 
@@ -53,7 +53,7 @@ class JwtHeader
      */
     private static function base64UrlEncode(string $data) : string
     {
-        return \rtrim(\strtr(\base64_encode($data), "+/", "-_"), "=");
+        return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
 
     /**
@@ -65,7 +65,7 @@ class JwtHeader
     public function add(string $name, $value)
     {
         switch ($name) {
-            case "alg":
+            case 'alg':
                 $this->setAlgorithm($value);
                 break;
             default:
@@ -104,7 +104,7 @@ class JwtHeader
      */
     public function getAlgorithm() : string
     {
-        return $this->headers["alg"];
+        return $this->headers['alg'];
     }
 
     /**
@@ -122,7 +122,7 @@ class JwtHeader
      */
     public function getContentType() : string
     {
-        return $this->headers["cty"];
+        return $this->headers['cty'];
     }
 
     /**
@@ -130,7 +130,7 @@ class JwtHeader
      */
     public function getTokenType() : string
     {
-        return $this->headers["typ"];
+        return $this->headers['typ'];
     }
 
     /**
@@ -143,6 +143,6 @@ class JwtHeader
             throw new InvalidArgumentException("Algorithm \"$algorithm\" is not supported");
         }
 
-        $this->headers["alg"] = $algorithm;
+        $this->headers['alg'] = $algorithm;
     }
 }

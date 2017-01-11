@@ -18,12 +18,12 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingMoreColumns()
     {
-        $query = new InsertQuery("users", ["name" => "dave"]);
-        $query->addColumnValues(["email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
+        $query = new InsertQuery('users', ['name' => 'dave']);
+        $query->addColumnValues(['email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ['dave', \PDO::PARAM_STR],
+            ['foo@bar.com', \PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -32,11 +32,11 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testBasicQuery()
     {
-        $query = new InsertQuery("users", ["name" => "dave", "email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
+        $query = new InsertQuery('users', ['name' => 'dave', 'email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ['dave', \PDO::PARAM_STR],
+            ['foo@bar.com', \PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -45,12 +45,12 @@ class InsertQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEverything()
     {
-        $query = new InsertQuery("users", ["name" => "dave"]);
-        $query->addColumnValues(["email" => "foo@bar.com"]);
-        $this->assertEquals("INSERT INTO users (name, email) VALUES (?, ?)", $query->getSql());
+        $query = new InsertQuery('users', ['name' => 'dave']);
+        $query->addColumnValues(['email' => 'foo@bar.com']);
+        $this->assertEquals('INSERT INTO users (name, email) VALUES (?, ?)', $query->getSql());
         $this->assertEquals([
-            ["dave", \PDO::PARAM_STR],
-            ["foo@bar.com", \PDO::PARAM_STR]
+            ['dave', \PDO::PARAM_STR],
+            ['foo@bar.com', \PDO::PARAM_STR]
         ], $query->getParameters());
     }
 }

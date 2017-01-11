@@ -28,8 +28,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public static function setUpBeforeClass()
     {
-        if (!is_dir(__DIR__ . "/tmp")) {
-            mkdir(__DIR__ . "/tmp");
+        if (!is_dir(__DIR__ . '/tmp')) {
+            mkdir(__DIR__ . '/tmp');
         }
     }
 
@@ -38,13 +38,13 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public static function tearDownAfterClass()
     {
-        $files = glob(__DIR__ . "/tmp/*");
+        $files = glob(__DIR__ . '/tmp/*');
 
         foreach ($files as $file) {
             is_dir($file) ? rmdir($file) : unlink($file);
         }
 
-        rmdir(__DIR__ . "/tmp");
+        rmdir(__DIR__ . '/tmp');
     }
 
     /**
@@ -53,7 +53,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->fileSystem = new FileSystem();
-        $this->cache = new FileCache(__DIR__ . "/tmp", 3600);
+        $this->cache = new FileCache(__DIR__ . '/tmp', 3600);
         $this->view = $this->createMock(IView::class);
     }
 
@@ -62,9 +62,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testCachingWithNonPositiveLifetime()
     {
-        $this->cache = new FileCache(__DIR__ . "/tmp", 0);
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled", true);
+        $this->cache = new FileCache(__DIR__ . '/tmp', 0);
+        $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
+        $this->cache->set($this->view, 'compiled', true);
         $this->assertFalse($this->cache->has($this->view, true));
         $this->assertNull($this->cache->get($this->view, true));
     }
@@ -74,10 +74,10 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingForExistingView()
     {
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled", true);
+        $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
+        $this->cache->set($this->view, 'compiled', true);
         $this->assertTrue($this->cache->has($this->view, true));
-        $this->assertEquals("compiled", $this->cache->get($this->view, true));
+        $this->assertEquals('compiled', $this->cache->get($this->view, true));
     }
 
     /**
@@ -86,15 +86,15 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForExistingViewWithNoVariableMatches()
     {
         $this->view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $this->view->expects($this->at(0))
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar' => 'baz']);
         $this->view->expects($this->at(1))
-            ->method("getVars")
-            ->willReturn(["wrong" => "ahh"]);
-        $this->cache->set($this->view, "compiled", true);
+            ->method('getVars')
+            ->willReturn(['wrong' => 'ahh']);
+        $this->cache->set($this->view, 'compiled', true);
         $this->assertFalse($this->cache->has($this->view, true));
     }
 
@@ -104,15 +104,15 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForExistingViewWithNoVariableMatchesWhenIgnoringViewVariablesValues()
     {
         $this->view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $this->view->expects($this->at(0))
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar' => 'baz']);
         $this->view->expects($this->at(1))
-            ->method("getVars")
-            ->willReturn(["wrong" => "ahh"]);
-        $this->cache->set($this->view, "compiled", false);
+            ->method('getVars')
+            ->willReturn(['wrong' => 'ahh']);
+        $this->cache->set($this->view, 'compiled', false);
         $this->assertTrue($this->cache->has($this->view, false));
     }
 
@@ -122,9 +122,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForExpiredView()
     {
         // The negative expiration is a way of forcing everything to expire right away
-        $cache = new FileCache(__DIR__ . "/tmp", -1);
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $cache->set($this->view, "compiled");
+        $cache = new FileCache(__DIR__ . '/tmp', -1);
+        $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
+        $cache->set($this->view, 'compiled');
         $this->assertFalse($cache->has($this->view, true));
         $this->assertNull($cache->get($this->view, true));
     }
@@ -134,7 +134,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingForNonExistentView()
     {
-        $this->setViewContentsAndVars("this-content-does-not-exist", []);
+        $this->setViewContentsAndVars('this-content-does-not-exist', []);
         $this->assertFalse($this->cache->has($this->view, true));
         $this->assertNull($this->cache->get($this->view, true));
     }
@@ -145,22 +145,22 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testFlushingCache()
     {
         $this->view->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $this->view->expects($this->at(0))
-            ->method("getVars")
-            ->willReturn(["bar1" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar1' => 'baz']);
         $this->view->expects($this->at(1))
-            ->method("getVars")
-            ->willReturn(["bar1" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar1' => 'baz']);
         $this->view->expects($this->at(2))
-            ->method("getVars")
-            ->willReturn(["bar2" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar2' => 'baz']);
         $this->view->expects($this->at(3))
-            ->method("getVars")
-            ->willReturn(["bar2" => "baz"]);
-        $this->cache->set($this->view, "compiled1");
-        $this->cache->set($this->view, "compiled2");
+            ->method('getVars')
+            ->willReturn(['bar2' => 'baz']);
+        $this->cache->set($this->view, 'compiled1');
+        $this->cache->set($this->view, 'compiled2');
         $this->cache->flush();
         $this->assertFalse($this->cache->has($this->view));
         $this->assertFalse($this->cache->has($this->view));
@@ -171,10 +171,10 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testGarbageCollection()
     {
-        $this->fileSystem->write(__DIR__ . "/tmp/foo", "compiled");
-        $this->cache = new FileCache(__DIR__ . "/tmp", -1);
+        $this->fileSystem->write(__DIR__ . '/tmp/foo', 'compiled');
+        $this->cache = new FileCache(__DIR__ . '/tmp', -1);
         $this->cache->gc();
-        $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . "/tmp"));
+        $this->assertEquals([], $this->fileSystem->getFiles(__DIR__ . '/tmp'));
     }
 
     /**
@@ -182,9 +182,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testNotCreatingDirectoryBeforeCaching()
     {
-        $this->cache = new FileCache(__DIR__ . "/verytemporarytmp", 3600);
-        $this->setViewContentsAndVars("foo", ["bar" => "baz"]);
-        $this->cache->set($this->view, "compiled");
+        $this->cache = new FileCache(__DIR__ . '/verytemporarytmp', 3600);
+        $this->setViewContentsAndVars('foo', ['bar' => 'baz']);
+        $this->cache->set($this->view, 'compiled');
         $this->assertTrue($this->cache->has($this->view));
         // Cleanup this cache
         $this->cache->flush();
@@ -196,7 +196,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testSettingPathCheckingForExistingView()
     {
         // I know this is also done in setUp(), but we're specifically testing that it works after setting the path
-        $this->cache->setPath(__DIR__ . "/tmp");
+        $this->cache->setPath(__DIR__ . '/tmp');
         $this->testCheckingForExistingView();
     }
 
@@ -209,10 +209,10 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     private function setViewContentsAndVars($contents, array $vars)
     {
         $this->view->expects($this->any())
-            ->method("getContents")
+            ->method('getContents')
             ->willReturn($contents);
         $this->view->expects($this->any())
-            ->method("getVars")
+            ->method('getVars')
             ->willReturn($vars);
     }
 }

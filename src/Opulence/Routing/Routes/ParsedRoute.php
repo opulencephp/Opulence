@@ -17,7 +17,7 @@ class ParsedRoute extends Route
     /** @var string|null The parsed (regex) host if set, otherwise null */
     protected $hostRegex = null;
     /** @var string The parsed (regex) path */
-    protected $pathRegex = "";
+    protected $pathRegex = '';
     /** @var array The mapping of route-variables to their default values */
     protected $defaultValues = [];
 

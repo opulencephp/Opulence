@@ -25,8 +25,8 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->indexedChoiceQuestion = new MultipleChoice("Dummy question", ["foo", "bar", "baz"]);
-        $this->keyedChoiceQuestion = new MultipleChoice("Dummy question", ["a" => "b", "c" => "d", "e" => "f"]);
+        $this->indexedChoiceQuestion = new MultipleChoice('Dummy question', ['foo', 'bar', 'baz']);
+        $this->keyedChoiceQuestion = new MultipleChoice('Dummy question', ['a' => 'b', 'c' => 'd', 'e' => 'f']);
     }
 
     /**
@@ -53,7 +53,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     public function testEmptyAnswerForAssociativeChoices()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->keyedChoiceQuestion->formatAnswer("");
+        $this->keyedChoiceQuestion->formatAnswer('');
     }
 
     /**
@@ -62,7 +62,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     public function testEmptyAnswerForIndexedChoices()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->indexedChoiceQuestion->formatAnswer("");
+        $this->indexedChoiceQuestion->formatAnswer('');
     }
 
     /**
@@ -81,8 +81,8 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(true);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(true);
-        $this->assertEquals(["foo", "bar"], $this->indexedChoiceQuestion->formatAnswer("1,2"));
-        $this->assertEquals(["d", "f"], $this->keyedChoiceQuestion->formatAnswer("c,e"));
+        $this->assertEquals(['foo', 'bar'], $this->indexedChoiceQuestion->formatAnswer('1,2'));
+        $this->assertEquals(['d', 'f'], $this->keyedChoiceQuestion->formatAnswer('c,e'));
     }
 
     /**
@@ -92,8 +92,8 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(true);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(true);
-        $this->assertEquals(["bar", "baz"], $this->indexedChoiceQuestion->formatAnswer("2, 3"));
-        $this->assertEquals(["b", "f"], $this->keyedChoiceQuestion->formatAnswer("a, e"));
+        $this->assertEquals(['bar', 'baz'], $this->indexedChoiceQuestion->formatAnswer('2, 3'));
+        $this->assertEquals(['b', 'f'], $this->keyedChoiceQuestion->formatAnswer('a, e'));
     }
 
     /**
@@ -101,9 +101,9 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingSingleAnswer()
     {
-        $this->assertEquals("foo", $this->indexedChoiceQuestion->formatAnswer(1));
-        $this->assertEquals("bar", $this->indexedChoiceQuestion->formatAnswer(2));
-        $this->assertEquals("baz", $this->indexedChoiceQuestion->formatAnswer(3));
+        $this->assertEquals('foo', $this->indexedChoiceQuestion->formatAnswer(1));
+        $this->assertEquals('bar', $this->indexedChoiceQuestion->formatAnswer(2));
+        $this->assertEquals('baz', $this->indexedChoiceQuestion->formatAnswer(3));
     }
 
     /**
@@ -111,12 +111,12 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingStringAnswer()
     {
-        $this->assertEquals("foo", $this->indexedChoiceQuestion->formatAnswer("1"));
-        $this->assertEquals("bar", $this->indexedChoiceQuestion->formatAnswer("2"));
-        $this->assertEquals("baz", $this->indexedChoiceQuestion->formatAnswer("3"));
-        $this->assertEquals("b", $this->keyedChoiceQuestion->formatAnswer("a"));
-        $this->assertEquals("d", $this->keyedChoiceQuestion->formatAnswer("c"));
-        $this->assertEquals("f", $this->keyedChoiceQuestion->formatAnswer("e"));
+        $this->assertEquals('foo', $this->indexedChoiceQuestion->formatAnswer('1'));
+        $this->assertEquals('bar', $this->indexedChoiceQuestion->formatAnswer('2'));
+        $this->assertEquals('baz', $this->indexedChoiceQuestion->formatAnswer('3'));
+        $this->assertEquals('b', $this->keyedChoiceQuestion->formatAnswer('a'));
+        $this->assertEquals('d', $this->keyedChoiceQuestion->formatAnswer('c'));
+        $this->assertEquals('f', $this->keyedChoiceQuestion->formatAnswer('e'));
     }
 
     /**
@@ -132,7 +132,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAnswerLineString()
     {
-        $this->indexedChoiceQuestion->setAnswerLineString(" > ");
+        $this->indexedChoiceQuestion->setAnswerLineString(' > ');
     }
 
     /**
@@ -140,8 +140,8 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingChoices()
     {
-        $this->assertEquals(["foo", "bar", "baz"], $this->indexedChoiceQuestion->getChoices());
-        $this->assertEquals(["a" => "b", "c" => "d", "e" => "f"], $this->keyedChoiceQuestion->getChoices());
+        $this->assertEquals(['foo', 'bar', 'baz'], $this->indexedChoiceQuestion->getChoices());
+        $this->assertEquals(['a' => 'b', 'c' => 'd', 'e' => 'f'], $this->keyedChoiceQuestion->getChoices());
     }
 
     /**
@@ -150,7 +150,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     public function testInvalidAnswerForKeyedChoices()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->keyedChoiceQuestion->formatAnswer("p");
+        $this->keyedChoiceQuestion->formatAnswer('p');
     }
 
     /**
@@ -160,7 +160,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->indexedChoiceQuestion->setAllowsMultipleChoices(false);
-        $this->indexedChoiceQuestion->formatAnswer("1,2");
+        $this->indexedChoiceQuestion->formatAnswer('1,2');
     }
 
     /**
@@ -170,7 +170,7 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->keyedChoiceQuestion->setAllowsMultipleChoices(false);
-        $this->keyedChoiceQuestion->formatAnswer("a,c");
+        $this->keyedChoiceQuestion->formatAnswer('a,c');
     }
 
     /**
@@ -205,8 +205,8 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingAnswerLineString()
     {
-        $this->indexedChoiceQuestion->setAnswerLineString("foo");
-        $this->assertEquals("foo", $this->indexedChoiceQuestion->getAnswerLineString());
+        $this->indexedChoiceQuestion->setAnswerLineString('foo');
+        $this->assertEquals('foo', $this->indexedChoiceQuestion->getAnswerLineString());
     }
 
     /**
@@ -215,6 +215,6 @@ class MultipleChoiceTest extends \PHPUnit\Framework\TestCase
     public function testStringAsAnswerToIndexedChoices()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->indexedChoiceQuestion->formatAnswer("foo");
+        $this->indexedChoiceQuestion->formatAnswer('foo');
     }
 }

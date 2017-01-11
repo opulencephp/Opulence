@@ -41,7 +41,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     {
         $this->commandCollection = new CommandCollection(new CommandCompiler());
         $this->commandCollection->add(new HappyHolidayCommand($this->commandCollection));
-        $this->command = new SimpleCommand("foo", "The foo command", "Bob Loblaw's Law Blog no habla Espanol");
+        $this->command = new SimpleCommand('foo', 'The foo command', "Bob Loblaw's Law Blog no habla Espanol");
     }
 
     /**
@@ -50,10 +50,10 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     public function testAddingArgument()
     {
         $this->assertEquals([], $this->command->getArguments());
-        $argument = new Argument("foo", ArgumentTypes::OPTIONAL, "bar", null);
+        $argument = new Argument('foo', ArgumentTypes::OPTIONAL, 'bar', null);
         $returnValue = $this->command->addArgument($argument);
         $this->assertSame($returnValue, $this->command);
-        $this->assertSame($argument, $this->command->getArgument("foo"));
+        $this->assertSame($argument, $this->command->getArgument('foo'));
         $this->assertSame([$argument], $this->command->getArguments());
     }
 
@@ -62,10 +62,10 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingOption()
     {
-        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "bar", null);
+        $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'bar', null);
         $returnValue = $this->command->addOption($option);
         $this->assertSame($returnValue, $this->command);
-        $this->assertSame($option, $this->command->getOption("foo"));
+        $this->assertSame($option, $this->command->getOption('foo'));
     }
 
     /**
@@ -73,13 +73,13 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfArgumentHasValue()
     {
-        $noValueArgument = new Argument("novalue", ArgumentTypes::OPTIONAL, "No value");
-        $hasValueArgument = new Argument("hasvalue", ArgumentTypes::REQUIRED, "Has value");
+        $noValueArgument = new Argument('novalue', ArgumentTypes::OPTIONAL, 'No value');
+        $hasValueArgument = new Argument('hasvalue', ArgumentTypes::REQUIRED, 'Has value');
         $this->command->addArgument($noValueArgument)
             ->addArgument($hasValueArgument)
-            ->setArgumentValue("hasvalue", "foo");
-        $this->assertFalse($this->command->argumentValueIsSet("novalue"));
-        $this->assertTrue($this->command->argumentValueIsSet("hasvalue"));
+            ->setArgumentValue('hasvalue', 'foo');
+        $this->assertFalse($this->command->argumentValueIsSet('novalue'));
+        $this->assertTrue($this->command->argumentValueIsSet('hasvalue'));
     }
 
     /**
@@ -87,10 +87,10 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfSetOptionIsSet()
     {
-        $option = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo command");
+        $option = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo command');
         $this->command->addOption($option);
-        $this->command->setOptionValue("foo", "bar");
-        $this->assertTrue($this->command->optionIsSet("foo"));
+        $this->command->setOptionValue('foo', 'bar');
+        $this->assertTrue($this->command->optionIsSet('foo'));
     }
 
     /**
@@ -98,10 +98,10 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfSetOptionWithoutValueIsSet()
     {
-        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command");
+        $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command');
         $this->command->addOption($option);
-        $this->command->setOptionValue("foo", null);
-        $this->assertTrue($this->command->optionIsSet("foo"));
+        $this->command->setOptionValue('foo', null);
+        $this->assertTrue($this->command->optionIsSet('foo'));
     }
 
     /**
@@ -109,7 +109,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfUnsetOptionIsSet()
     {
-        $this->assertFalse($this->command->optionIsSet("fake"));
+        $this->assertFalse($this->command->optionIsSet('fake'));
     }
 
     /**
@@ -127,7 +127,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDescription()
     {
-        $this->assertEquals("The foo command", $this->command->getDescription());
+        $this->assertEquals('The foo command', $this->command->getDescription());
     }
 
     /**
@@ -143,7 +143,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals("foo", $this->command->getName());
+        $this->assertEquals('foo', $this->command->getName());
     }
 
     /**
@@ -152,7 +152,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     public function testGettingNonExistentArgument()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->command->getArgumentValue("fake");
+        $this->command->getArgumentValue('fake');
     }
 
     /**
@@ -161,7 +161,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     public function testGettingNonExistentArgumentValue()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->command->getArgument("fake");
+        $this->command->getArgument('fake');
     }
 
     /**
@@ -170,7 +170,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     public function testGettingNonExistentOption()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->command->getOption("fake");
+        $this->command->getOption('fake');
     }
 
     /**
@@ -179,7 +179,7 @@ class CommandTest extends \PHPUnit\Framework\TestCase
     public function testGettingValueOfNonExistentOption()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->command->getOptionValue("fake");
+        $this->command->getOptionValue('fake');
     }
 
     /**
@@ -187,9 +187,9 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValueOfOptionWithDefaultValue()
     {
-        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
+        $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
         $this->command->addOption($option);
-        $this->assertNull($this->command->getOptionValue("foo"));
+        $this->assertNull($this->command->getOptionValue('foo'));
     }
 
     /**
@@ -206,8 +206,8 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingArgumentValue()
     {
-        $this->command->setArgumentValue("foo", "bar");
-        $this->assertEquals("bar", $this->command->getArgumentValue("foo"));
+        $this->command->setArgumentValue('foo', 'bar');
+        $this->assertEquals('bar', $this->command->getArgumentValue('foo'));
     }
 
     /**
@@ -215,9 +215,9 @@ class CommandTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingOptionValue()
     {
-        $option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo command", "bar");
+        $option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo command', 'bar');
         $this->command->addOption($option);
-        $this->command->setOptionValue("foo", "bar");
-        $this->assertEquals("bar", $this->command->getOptionValue("foo"));
+        $this->command->setOptionValue('foo', 'bar');
+        $this->assertEquals('bar', $this->command->getOptionValue('foo'));
     }
 }

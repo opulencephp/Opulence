@@ -45,7 +45,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testOpen()
     {
-        $this->assertTrue($this->handler->open("foo", "123"));
+        $this->assertTrue($this->handler->open('foo', '123'));
     }
 
     /**
@@ -53,7 +53,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testReadingNonExistentSession()
     {
-        $this->assertEmpty($this->handler->read("non-existent"));
+        $this->assertEmpty($this->handler->read('non-existent'));
     }
 
     /**
@@ -61,7 +61,7 @@ class ArraySessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testWritingSession()
     {
-        $this->handler->write("foo", "bar");
-        $this->assertEquals("bar", $this->handler->read("foo"));
+        $this->handler->write('foo', 'bar');
+        $this->assertEquals('bar', $this->handler->read('foo'));
     }
 }

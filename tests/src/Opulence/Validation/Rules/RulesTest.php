@@ -50,8 +50,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testAlphaNumericRule()
     {
         $this->assertSame($this->rules, $this->rules->alphaNumeric());
-        $this->assertTrue($this->rules->pass("a1"));
-        $this->assertFalse($this->rules->pass("a 1"));
+        $this->assertTrue($this->rules->pass('a1'));
+        $this->assertFalse($this->rules->pass('a 1'));
     }
 
     /**
@@ -60,8 +60,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testAlphaRule()
     {
         $this->assertSame($this->rules, $this->rules->alpha());
-        $this->assertTrue($this->rules->pass("a"));
-        $this->assertFalse($this->rules->pass("a1"));
+        $this->assertTrue($this->rules->pass('a'));
+        $this->assertFalse($this->rules->pass('a1'));
     }
 
     /**
@@ -81,19 +81,19 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testCallingExtension()
     {
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("hasRule")
-            ->with("foo")
+            ->method('hasRule')
+            ->with('foo')
             ->willReturn(true);
         $rule = $this->createMock(IRule::class);
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("getRule")
+            ->method('getRule')
             ->willReturn($rule);
         $rule->expects($this->once())
-            ->method("passes")
-            ->with("bar")
+            ->method('passes')
+            ->with('bar')
             ->willReturn(true);
         $this->assertSame($this->rules, $this->rules->foo());
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -102,22 +102,22 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testCallingExtensionWithArgs()
     {
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("hasRule")
-            ->with("foo")
+            ->method('hasRule')
+            ->with('foo')
             ->willReturn(true);
         $rule = $this->createMock(IRuleWithArgs::class);
         $rule->expects($this->once())
-            ->method("setArgs")
-            ->with(["baz"]);
+            ->method('setArgs')
+            ->with(['baz']);
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("getRule")
+            ->method('getRule')
             ->willReturn($rule);
         $rule->expects($this->once())
-            ->method("passes")
-            ->with("bar")
+            ->method('passes')
+            ->with('bar')
             ->willReturn(true);
-        $this->assertSame($this->rules, $this->rules->foo("baz"));
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertSame($this->rules, $this->rules->foo('baz'));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -127,10 +127,10 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(BadMethodCallException::class);
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("hasRule")
-            ->with("foo")
+            ->method('hasRule')
+            ->with('foo')
             ->willReturn(false);
-        $this->rules->foo("bar");
+        $this->rules->foo('bar');
     }
 
     /**
@@ -139,18 +139,18 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testCheckingRulesTwiceDoesNotAppendErrors()
     {
         $this->errorTemplateRegistry->expects($this->exactly(2))
-            ->method("getErrorTemplate")
-            ->with("the-field", "email")
-            ->willReturn("");
+            ->method('getErrorTemplate')
+            ->with('the-field', 'email')
+            ->willReturn('');
         $this->errorTemplateCompiler->expects($this->exactly(2))
-            ->method("compile")
-            ->with("the-field", "", [])
-            ->willReturn("The error");
+            ->method('compile')
+            ->with('the-field', '', [])
+            ->willReturn('The error');
         $this->rules->email();
-        $this->rules->pass("foo");
-        $this->assertEquals(["The error"], $this->rules->getErrors("the-field"));
-        $this->rules->pass("foo");
-        $this->assertEquals(["The error"], $this->rules->getErrors("the-field"));
+        $this->rules->pass('foo');
+        $this->assertEquals(['The error'], $this->rules->getErrors('the-field'));
+        $this->rules->pass('foo');
+        $this->assertEquals(['The error'], $this->rules->getErrors('the-field'));
     }
 
     /**
@@ -159,30 +159,30 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testConditionalRulesErrorsAreAdded()
     {
         $this->errorTemplateRegistry->expects($this->at(0))
-            ->method("getErrorTemplate")
-            ->with("the-field", "equals")
-            ->willReturn("equals template");
+            ->method('getErrorTemplate')
+            ->with('the-field', 'equals')
+            ->willReturn('equals template');
         $this->errorTemplateRegistry->expects($this->at(1))
-            ->method("getErrorTemplate")
-            ->with("the-field", "email")
-            ->willReturn("email template");
+            ->method('getErrorTemplate')
+            ->with('the-field', 'email')
+            ->willReturn('email template');
         $this->errorTemplateCompiler->expects($this->at(0))
-            ->method("compile")
-            ->with("the-field", "equals template", [])
-            ->willReturn("equals error");
+            ->method('compile')
+            ->with('the-field', 'equals template', [])
+            ->willReturn('equals error');
         $this->errorTemplateCompiler->expects($this->at(1))
-            ->method("compile")
-            ->with("the-field", "email template", [])
-            ->willReturn("email error");
+            ->method('compile')
+            ->with('the-field', 'email template', [])
+            ->willReturn('email error');
         $this->rules->condition(function () {
             return true;
         });
-        $this->rules->equals("foo");
+        $this->rules->equals('foo');
         $this->rules->email();
-        $this->rules->pass("bar");
+        $this->rules->pass('bar');
         $this->assertEquals(
-            ["equals error", "email error"],
-            $this->rules->getErrors("the-field")
+            ['equals error', 'email error'],
+            $this->rules->getErrors('the-field')
         );
     }
 
@@ -191,8 +191,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testDateRule()
     {
-        $format1 = "Y-m-d";
-        $format2 = "F j";
+        $format1 = 'Y-m-d';
+        $format2 = 'F j';
         $this->assertSame($this->rules, $this->rules->date([$format1, $format2]));
         $this->assertTrue($this->rules->pass((new DateTime)->format($format1)));
         $this->assertTrue($this->rules->pass((new DateTime)->format($format2)));
@@ -204,7 +204,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testEmailRule()
     {
         $this->assertSame($this->rules, $this->rules->email());
-        $this->assertTrue($this->rules->pass("foo@bar.com"));
+        $this->assertTrue($this->rules->pass('foo@bar.com'));
     }
 
     /**
@@ -212,8 +212,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testEqualsFieldRule()
     {
-        $this->assertSame($this->rules, $this->rules->equalsField("bar"));
-        $this->assertTrue($this->rules->pass("baz", ["bar" => "baz"]));
+        $this->assertSame($this->rules, $this->rules->equalsField('bar'));
+        $this->assertTrue($this->rules->pass('baz', ['bar' => 'baz']));
     }
 
     /*
@@ -221,8 +221,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testEqualsRule()
     {
-        $this->assertSame($this->rules, $this->rules->equals("bar"));
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertSame($this->rules, $this->rules->equals('bar'));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -242,10 +242,10 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingErrorsWhenThereAreNone()
     {
-        $this->assertEquals([], $this->rules->getErrors("foo"));
+        $this->assertEquals([], $this->rules->getErrors('foo'));
         $this->rules->email();
-        $this->rules->pass("foo@bar.com");
-        $this->assertEquals([], $this->rules->getErrors("foo"));
+        $this->rules->pass('foo@bar.com');
+        $this->assertEquals([], $this->rules->getErrors('foo'));
     }
 
     /**
@@ -258,30 +258,30 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
         $rule2 = $this->createMock(IRule::class);
         $rule1->expects($this->once())
-            ->method("passes")
+            ->method('passes')
             ->willReturn(true);
         $rule2->expects($this->once())
-            ->method("passes")
+            ->method('passes')
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(0))
-            ->method("hasRule")
-            ->with("foo")
+            ->method('hasRule')
+            ->with('foo')
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(1))
-            ->method("getRule")
-            ->with("foo")
+            ->method('getRule')
+            ->with('foo')
             ->willReturn($rule1);
         $this->ruleExtensionRegistry->expects($this->at(2))
-            ->method("hasRule")
-            ->with("bar")
+            ->method('hasRule')
+            ->with('bar')
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(3))
-            ->method("getRule")
-            ->with("bar")
+            ->method('getRule')
+            ->with('bar')
             ->willReturn($rule2);
         $this->rules->foo();
         $this->rules->bar();
-        $this->assertTrue($this->rules->pass("blah", [], true));
+        $this->assertTrue($this->rules->pass('blah', [], true));
     }
 
     /**
@@ -294,29 +294,29 @@ class RulesTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule2 */
         $rule2 = $this->createMock(IRule::class);
         $rule1->expects($this->once())
-            ->method("passes")
+            ->method('passes')
             ->willReturn(false);
         $rule2->expects($this->never())
-            ->method("passes");
+            ->method('passes');
         $this->ruleExtensionRegistry->expects($this->at(0))
-            ->method("hasRule")
-            ->with("foo")
+            ->method('hasRule')
+            ->with('foo')
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(1))
-            ->method("getRule")
-            ->with("foo")
+            ->method('getRule')
+            ->with('foo')
             ->willReturn($rule1);
         $this->ruleExtensionRegistry->expects($this->at(2))
-            ->method("hasRule")
-            ->with("bar")
+            ->method('hasRule')
+            ->with('bar')
             ->willReturn(true);
         $this->ruleExtensionRegistry->expects($this->at(3))
-            ->method("getRule")
-            ->with("bar")
+            ->method('getRule')
+            ->with('bar')
             ->willReturn($rule2);
         $this->rules->foo();
         $this->rules->bar();
-        $this->assertFalse($this->rules->pass("blah", [], true));
+        $this->assertFalse($this->rules->pass('blah', [], true));
     }
 
     /**
@@ -325,7 +325,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testIPAddressRule()
     {
         $this->assertSame($this->rules, $this->rules->ipAddress());
-        $this->assertTrue($this->rules->pass("127.0.0.1"));
+        $this->assertTrue($this->rules->pass('127.0.0.1'));
     }
 
     /**
@@ -333,8 +333,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testInRule()
     {
-        $this->assertSame($this->rules, $this->rules->in(["foo", "bar"]));
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertSame($this->rules, $this->rules->in(['foo', 'bar']));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -373,12 +373,12 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     {
         $this->rules
             ->email()
-            ->date("Y-m-d");
+            ->date('Y-m-d');
         $this->assertTrue($this->rules->pass(null));
         $this->assertTrue($this->rules->pass([]));
         $countable = $this->createMock(Countable::class);
         $countable->expects($this->exactly(2))
-            ->method("count")
+            ->method('count')
             ->willReturn(0);
         $this->assertTrue($this->rules->pass($countable));
     }
@@ -388,8 +388,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testNotInRule()
     {
-        $this->assertSame($this->rules, $this->rules->notIn(["foo", "bar"]));
-        $this->assertTrue($this->rules->pass("baz"));
+        $this->assertSame($this->rules, $this->rules->notIn(['foo', 'bar']));
+        $this->assertTrue($this->rules->pass('baz'));
     }
 
     /**
@@ -407,7 +407,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testRegexRule()
     {
         $this->assertSame($this->rules, $this->rules->regex("/^[a-z]{3}$/"));
-        $this->assertTrue($this->rules->pass("baz"));
+        $this->assertTrue($this->rules->pass('baz'));
     }
 
     /**
@@ -416,7 +416,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testRequiredRule()
     {
         $this->assertSame($this->rules, $this->rules->required());
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -425,21 +425,21 @@ class RulesTest extends \PHPUnit\Framework\TestCase
     public function testRuleExtensionsInConditionAreRespected()
     {
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("hasRule")
-            ->with("foo")
+            ->method('hasRule')
+            ->with('foo')
             ->willReturn(true);
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->never())
-            ->method("passes");
+            ->method('passes');
         $this->ruleExtensionRegistry->expects($this->once())
-            ->method("getRule")
-            ->with("foo")
+            ->method('getRule')
+            ->with('foo')
             ->willReturn($rule);
         $this->rules->condition(function () {
             return false;
         })
             ->foo();
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -453,8 +453,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
             })
             ->email()
             ->endCondition()
-            ->equals("bar");
-        $this->assertTrue($this->rules->pass("bar"));
+            ->equals('bar');
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -467,7 +467,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
                 return false;
             })
             ->email();
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 
     /**
@@ -479,8 +479,8 @@ class RulesTest extends \PHPUnit\Framework\TestCase
             return true;
         })
             ->email();
-        $this->assertTrue($this->rules->pass("foo@bar.com"));
-        $this->assertFalse($this->rules->pass("bar"));
+        $this->assertTrue($this->rules->pass('foo@bar.com'));
+        $this->assertFalse($this->rules->pass('bar'));
     }
 
     /**
@@ -488,6 +488,6 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testsPassesWithNoRules()
     {
-        $this->assertTrue($this->rules->pass("bar"));
+        $this->assertTrue($this->rules->pass('bar'));
     }
 }

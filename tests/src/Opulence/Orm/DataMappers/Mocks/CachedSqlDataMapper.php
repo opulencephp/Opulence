@@ -46,7 +46,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
      */
     public function getAll() : array
     {
-        return $this->read("getAll");
+        return $this->read('getAll');
     }
 
     /**
@@ -54,7 +54,7 @@ class CachedSqlDataMapper extends BaseCachedSqlDataMapper
      */
     public function getById($id)
     {
-        return $this->read("getById", [$id]);
+        return $this->read('getById', [$id]);
     }
 
     /**

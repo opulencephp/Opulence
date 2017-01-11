@@ -17,7 +17,7 @@ use Opulence\Routing\Routes\RouteCollection;
 interface ICache
 {
     /** The default name of the cached routes file */
-    const DEFAULT_CACHED_ROUTES_FILE_NAME = "cachedRoutes.php";
+    const DEFAULT_CACHED_ROUTES_FILE_NAME = 'cachedRoutes.php';
 
     /**
      * Flushes the cache

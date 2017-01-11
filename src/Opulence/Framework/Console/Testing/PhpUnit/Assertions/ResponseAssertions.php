@@ -118,7 +118,7 @@ class ResponseAssertions extends TestCase
     private function checkResponseIsSet()
     {
         if ($this->response === null) {
-            $this->fail("Must call call() before assertions");
+            $this->fail('Must call call() before assertions');
         }
     }
 
@@ -131,7 +131,7 @@ class ResponseAssertions extends TestCase
     private function getOutput() : string
     {
         if ($this->response === null) {
-            throw new LogicException("Must call call() before assertions");
+            throw new LogicException('Must call call() before assertions');
         }
 
         rewind($this->response->getStream());

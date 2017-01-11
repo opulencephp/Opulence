@@ -12,4 +12,4 @@
 use Opulence\Routing\Router;
 
 /** @var Router $router */
-$router->get("/foo", "bar@baz");
+$router->get('/foo', 'bar@baz');

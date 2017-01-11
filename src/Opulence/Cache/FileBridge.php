@@ -14,14 +14,14 @@ namespace Opulence\Cache;
 class FileBridge implements ICacheBridge
 {
     /** @var string The path to the files */
-    private $path = "";
+    private $path = '';
 
     /**
      * @param string $path The path to the files
      */
     public function __construct(string $path)
     {
-        $this->path = rtrim($path, "/");
+        $this->path = rtrim($path, '/');
 
         if (!file_exists($this->path)) {
             mkdir($this->path, 0777, true);
@@ -34,8 +34,8 @@ class FileBridge implements ICacheBridge
     public function decrement(string $key, int $by = 1) : int
     {
         $parsedData = $this->parseData($key);
-        $incrementedValue = (int)$parsedData["d"] - $by;
-        $this->set($key, $incrementedValue, $parsedData["t"]);
+        $incrementedValue = (int)$parsedData['d'] - $by;
+        $this->set($key, $incrementedValue, $parsedData['t']);
 
         return $incrementedValue;
     }
@@ -65,7 +65,7 @@ class FileBridge implements ICacheBridge
      */
     public function get(string $key)
     {
-        return $this->parseData($key)["d"];
+        return $this->parseData($key)['d'];
     }
 
     /**
@@ -77,7 +77,7 @@ class FileBridge implements ICacheBridge
 
         // We want to return true even if the data is null
         // So, we look at the lifetime property
-        return $parsedData["t"] !== 0;
+        return $parsedData['t'] !== 0;
     }
 
     /**
@@ -86,8 +86,8 @@ class FileBridge implements ICacheBridge
     public function increment(string $key, int $by = 1) : int
     {
         $parsedData = $this->parseData($key);
-        $incrementedValue = (int)$parsedData["d"] + $by;
-        $this->set($key, $incrementedValue, $parsedData["t"]);
+        $incrementedValue = (int)$parsedData['d'] + $by;
+        $this->set($key, $incrementedValue, $parsedData['t']);
 
         return $incrementedValue;
     }
@@ -108,7 +108,7 @@ class FileBridge implements ICacheBridge
      */
     protected function getPath(string $key) : string
     {
-        return $this->path . "/" . md5($key);
+        return $this->path . '/' . md5($key);
     }
 
     /**
@@ -121,15 +121,15 @@ class FileBridge implements ICacheBridge
     {
         if (file_exists($this->getPath($key))) {
             $rawData = json_decode(file_get_contents($this->getPath($key)), true);
-            $parsedData = ["d" => unserialize($rawData["d"]), "t" => $rawData["t"]];
+            $parsedData = ['d' => unserialize($rawData['d']), 't' => $rawData['t']];
         } else {
-            $parsedData = ["d" => null, "t" => 0];
+            $parsedData = ['d' => null, 't' => 0];
         }
 
-        if (time() > $parsedData["t"]) {
+        if (time() > $parsedData['t']) {
             $this->delete($key);
 
-            return ["d" => null, "t" => 0];
+            return ['d' => null, 't' => 0];
         }
 
         return $parsedData;
@@ -145,7 +145,7 @@ class FileBridge implements ICacheBridge
     protected function serialize($data, int $lifetime) : string
     {
         return json_encode(
-            ["d" => serialize($data), "t" => time() + $lifetime]
+            ['d' => serialize($data), 't' => time() + $lifetime]
         );
     }
 
@@ -158,7 +158,7 @@ class FileBridge implements ICacheBridge
     protected function unserialize(string $data)
     {
         $unserializedData = json_decode($data, true);
-        $unserializedData["d"] = unserialize($unserializedData["d"]);
+        $unserializedData['d'] = unserialize($unserializedData['d']);
 
         return $unserializedData;
     }

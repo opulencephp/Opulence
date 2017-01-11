@@ -40,13 +40,13 @@ class BootstrapperRegistryFactoryTest extends \PHPUnit\Framework\TestCase
         $bootstrapperClasses = [Bootstrapper::class, BootstrapperWithEverything::class];
         $bootstrapperObjects = [new Bootstrapper(), new BootstrapperWithEverything()];
         $this->resolver->expects($this->any())
-            ->method("resolveMany")
+            ->method('resolveMany')
             ->with($bootstrapperClasses)
             ->willReturn($bootstrapperObjects);
         $bootstrapperRegistry = $this->factory->createBootstrapperRegistry($bootstrapperClasses);
         $this->assertEquals([Bootstrapper::class], $bootstrapperRegistry->getEagerBootstrappers());
         $this->assertEquals(
-            [LazyFooInterface::class => ["bootstrapper" => BootstrapperWithEverything::class, "target" => null]],
+            [LazyFooInterface::class => ['bootstrapper' => BootstrapperWithEverything::class, 'target' => null]],
             $bootstrapperRegistry->getLazyBootstrapperBindings()
         );
     }

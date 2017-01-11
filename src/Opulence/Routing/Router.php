@@ -338,16 +338,16 @@ class Router
      */
     private function getGroupControllerNamespace() : string
     {
-        $controllerNamespace = "";
+        $controllerNamespace = '';
 
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["controllerNamespace"])) {
+            if (isset($groupOptions['controllerNamespace'])) {
                 // Add trailing slashes if they're not there already
-                if (mb_substr($groupOptions["controllerNamespace"], -1) !== "\\") {
-                    $groupOptions["controllerNamespace"] .= "\\";
+                if (mb_substr($groupOptions['controllerNamespace'], -1) !== "\\") {
+                    $groupOptions['controllerNamespace'] .= "\\";
                 }
 
-                $controllerNamespace .= $groupOptions["controllerNamespace"];
+                $controllerNamespace .= $groupOptions['controllerNamespace'];
             }
         }
 
@@ -361,11 +361,11 @@ class Router
      */
     private function getGroupHost() : string
     {
-        $host = "";
+        $host = '';
 
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["host"])) {
-                $host = $groupOptions["host"] . $host;
+            if (isset($groupOptions['host'])) {
+                $host = $groupOptions['host'] . $host;
             }
         }
 
@@ -382,12 +382,12 @@ class Router
         $middleware = [];
 
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["middleware"])) {
-                if (!is_array($groupOptions["middleware"])) {
-                    $groupOptions["middleware"] = [$groupOptions["middleware"]];
+            if (isset($groupOptions['middleware'])) {
+                if (!is_array($groupOptions['middleware'])) {
+                    $groupOptions['middleware'] = [$groupOptions['middleware']];
                 }
 
-                $middleware = array_merge($middleware, $groupOptions["middleware"]);
+                $middleware = array_merge($middleware, $groupOptions['middleware']);
             }
         }
 
@@ -401,11 +401,11 @@ class Router
      */
     private function getGroupPath() : string
     {
-        $path = "";
+        $path = '';
 
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["path"])) {
-                $path .= $groupOptions["path"];
+            if (isset($groupOptions['path'])) {
+                $path .= $groupOptions['path'];
             }
         }
 
@@ -422,8 +422,8 @@ class Router
         $variableRegexes = [];
 
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["vars"])) {
-                $variableRegexes = array_merge($variableRegexes, $groupOptions["vars"]);
+            if (isset($groupOptions['vars'])) {
+                $variableRegexes = array_merge($variableRegexes, $groupOptions['vars']);
             }
         }
 
@@ -439,7 +439,7 @@ class Router
     private function groupIsSecure() : bool
     {
         foreach ($this->groupOptionsStack as $groupOptions) {
-            if (isset($groupOptions["https"]) && $groupOptions["https"]) {
+            if (isset($groupOptions['https']) && $groupOptions['https']) {
                 return true;
             }
         }

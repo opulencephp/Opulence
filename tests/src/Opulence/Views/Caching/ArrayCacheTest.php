@@ -34,7 +34,7 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testFlushingCacheRemovesViews()
     {
-        $this->cache->set($this->view, "foo");
+        $this->cache->set($this->view, 'foo');
         $this->cache->flush();
         $this->assertNull($this->cache->get($this->view));
         $this->assertFalse($this->cache->has($this->view));
@@ -45,8 +45,8 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingExistingView()
     {
-        $this->cache->set($this->view, "foo");
-        $this->assertEquals("foo", $this->cache->get($this->view));
+        $this->cache->set($this->view, 'foo');
+        $this->assertEquals('foo', $this->cache->get($this->view));
         $this->assertTrue($this->cache->has($this->view));
     }
 
@@ -67,20 +67,20 @@ class ArrayCacheTest extends \PHPUnit\Framework\TestCase
         $view1 = $this->createMock(IView::class);
         $view2 = $this->createMock(IView::class);
         $view1->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $view2->expects($this->any())
-            ->method("getContents")
-            ->willReturn("foo");
+            ->method('getContents')
+            ->willReturn('foo');
         $view1->expects($this->any())
-            ->method("getVars")
-            ->willReturn(["bar" => "baz"]);
+            ->method('getVars')
+            ->willReturn(['bar' => 'baz']);
         $view2->expects($this->any())
-            ->method("getVars")
-            ->willReturn(["bar" => "blah"]);
-        $this->cache->set($view1, "content");
-        $this->assertEquals("content", $this->cache->get($view1));
-        $this->assertEquals("content", $this->cache->get($view2));
+            ->method('getVars')
+            ->willReturn(['bar' => 'blah']);
+        $this->cache->set($view1, 'content');
+        $this->assertEquals('content', $this->cache->get($view1));
+        $this->assertEquals('content', $this->cache->get($view2));
         $this->assertTrue($this->cache->has($view1));
         $this->assertTrue($this->cache->has($view2));
     }

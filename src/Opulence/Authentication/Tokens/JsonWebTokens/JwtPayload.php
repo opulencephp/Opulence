@@ -18,16 +18,16 @@ class JwtPayload
 {
     /** @var array The extra claims */
     private $claims = [
-        "iss" => null,
-        "sub" => null,
-        "aud" => null,
-        "exp" => null,
-        "nbf" => null,
-        "iat" => null,
-        "jti" => null
+        'iss' => null,
+        'sub' => null,
+        'aud' => null,
+        'exp' => null,
+        'nbf' => null,
+        'iat' => null,
+        'jti' => null
     ];
     /** @var string The salt used to make the JTI random */
-    private $jtiSalt = "";
+    private $jtiSalt = '';
 
     public function __construct()
     {
@@ -43,7 +43,7 @@ class JwtPayload
      */
     private static function base64UrlEncode(string $data) : string
     {
-        return \rtrim(\strtr(\base64_encode($data), "+/", "-_"), "=");
+        return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
 
     /**
@@ -54,8 +54,8 @@ class JwtPayload
      */
     public function add(string $name, $value)
     {
-        if (in_array($name, ["exp", "nbf", "iat"]) && is_int($value)) {
-            $value = DateTimeImmutable::createFromFormat("U", $value);
+        if (in_array($name, ['exp', 'nbf', 'iat']) && is_int($value)) {
+            $value = DateTimeImmutable::createFromFormat('U', $value);
         }
 
         $this->claims[$name] = $value;
@@ -96,7 +96,7 @@ class JwtPayload
     public function getAll() : array
     {
         $convertedClaims = [];
-        $timeFields = ["exp", "nbf", "iat"];
+        $timeFields = ['exp', 'nbf', 'iat'];
 
         // Convert date times to timestamps
         foreach ($this->claims as $name => $value) {
@@ -108,8 +108,8 @@ class JwtPayload
             $convertedClaims[$name] = $value;
         }
 
-        if (!isset($this->claims["jti"])) {
-            $convertedClaims["jti"] = $this->getId();
+        if (!isset($this->claims['jti'])) {
+            $convertedClaims['jti'] = $this->getId();
         }
 
         return $convertedClaims;
@@ -120,7 +120,7 @@ class JwtPayload
      */
     public function getAudience()
     {
-        return $this->claims["aud"];
+        return $this->claims['aud'];
     }
 
     /**
@@ -128,8 +128,8 @@ class JwtPayload
      */
     public function getId()
     {
-        if (isset($this->claims["jti"])) {
-            return $this->claims["jti"];
+        if (isset($this->claims['jti'])) {
+            return $this->claims['jti'];
         }
 
         return \md5(\json_encode($this->claims) . $this->jtiSalt);
@@ -140,7 +140,7 @@ class JwtPayload
      */
     public function getIssuedAt()
     {
-        return $this->claims["iat"];
+        return $this->claims['iat'];
     }
 
     /**
@@ -148,7 +148,7 @@ class JwtPayload
      */
     public function getIssuer()
     {
-        return $this->claims["iss"];
+        return $this->claims['iss'];
     }
 
     /**
@@ -156,7 +156,7 @@ class JwtPayload
      */
     public function getSubject()
     {
-        return $this->claims["sub"];
+        return $this->claims['sub'];
     }
 
     /**
@@ -164,7 +164,7 @@ class JwtPayload
      */
     public function getValidFrom()
     {
-        return $this->claims["nbf"];
+        return $this->claims['nbf'];
     }
 
     /**
@@ -172,7 +172,7 @@ class JwtPayload
      */
     public function getValidTo()
     {
-        return $this->claims["exp"];
+        return $this->claims['exp'];
     }
 
     /**
@@ -182,10 +182,10 @@ class JwtPayload
     public function setAudience($audience)
     {
         if (!is_string($audience) && !is_array($audience)) {
-            throw new InvalidArgumentException("Audience must be of type string or array");
+            throw new InvalidArgumentException('Audience must be of type string or array');
         }
 
-        $this->claims["aud"] = $audience;
+        $this->claims['aud'] = $audience;
     }
 
     /**
@@ -193,7 +193,7 @@ class JwtPayload
      */
     public function setId(string $id)
     {
-        $this->claims["jti"] = $id;
+        $this->claims['jti'] = $id;
     }
 
     /**
@@ -201,7 +201,7 @@ class JwtPayload
      */
     public function setIssuedAt(DateTimeImmutable $issuedAt)
     {
-        $this->claims["iat"] = $issuedAt;
+        $this->claims['iat'] = $issuedAt;
     }
 
     /**
@@ -209,7 +209,7 @@ class JwtPayload
      */
     public function setIssuer(string $issuer)
     {
-        $this->claims["iss"] = $issuer;
+        $this->claims['iss'] = $issuer;
     }
 
     /**
@@ -217,7 +217,7 @@ class JwtPayload
      */
     public function setSubject(string $subject)
     {
-        $this->claims["sub"] = $subject;
+        $this->claims['sub'] = $subject;
     }
 
     /**
@@ -225,7 +225,7 @@ class JwtPayload
      */
     public function setValidFrom(DateTimeImmutable $validFrom)
     {
-        $this->claims["nbf"] = $validFrom;
+        $this->claims['nbf'] = $validFrom;
     }
 
     /**
@@ -233,7 +233,7 @@ class JwtPayload
      */
     public function setValidTo(DateTimeImmutable $validTo)
     {
-        $this->claims["exp"] = $validTo;
+        $this->claims['exp'] = $validTo;
     }
 
     /**

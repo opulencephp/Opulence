@@ -33,7 +33,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testDefaultAlgorithmIsSha256()
     {
         $header = new JwtHeader();
-        $this->assertEquals("HS256", $header->getAlgorithm());
+        $this->assertEquals('HS256', $header->getAlgorithm());
     }
 
     /**
@@ -41,7 +41,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAlgorithm()
     {
-        $this->assertEquals("HS512", $this->header->getAlgorithm());
+        $this->assertEquals('HS512', $this->header->getAlgorithm());
     }
 
     /**
@@ -50,12 +50,12 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testGettingAllValues()
     {
         $expected = [
-            "typ" => "JWT",
-            "alg" => "HS512"
+            'typ' => 'JWT',
+            'alg' => 'HS512'
         ];
         $this->assertEquals($expected, $this->header->getAll());
-        $this->header->add("foo", "bar");
-        $expected["foo"] = "bar";
+        $this->header->add('foo', 'bar');
+        $expected['foo'] = 'bar';
         $this->assertEquals($expected, $this->header->getAll());
     }
 
@@ -64,8 +64,8 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingContentType()
     {
-        $this->header->add("cty", "JWT");
-        $this->assertEquals("JWT", $this->header->getContentType());
+        $this->header->add('cty', 'JWT');
+        $this->assertEquals('JWT', $this->header->getContentType());
     }
 
     /**
@@ -74,17 +74,17 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testGettingEncodedString()
     {
         $headers = [
-            "typ" => "JWT",
-            "alg" => "HS512"
+            'typ' => 'JWT',
+            'alg' => 'HS512'
         ];
         $this->assertEquals(
-            rtrim(strtr(base64_encode(json_encode($headers)), "+/", "-_"), "="),
+            rtrim(strtr(base64_encode(json_encode($headers)), '+/', '-_'), '='),
             $this->header->encode()
         );
-        $this->header->add("foo", "bar");
-        $headers["foo"] = "bar";
+        $this->header->add('foo', 'bar');
+        $headers['foo'] = 'bar';
         $this->assertEquals(
-            rtrim(strtr(base64_encode(json_encode($headers)), "+/", "-_"), "="),
+            rtrim(strtr(base64_encode(json_encode($headers)), '+/', '-_'), '='),
             $this->header->encode()
         );
     }
@@ -94,7 +94,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingTokenType()
     {
-        $this->assertEquals("JWT", $this->header->getTokenType());
+        $this->assertEquals('JWT', $this->header->getTokenType());
     }
 
     /**
@@ -102,11 +102,11 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $this->assertNull($this->header->get("foo"));
-        $this->header->add("foo", "bar");
-        $this->assertEquals("bar", $this->header->get("foo"));
-        $this->header->add("foo", "baz");
-        $this->assertEquals("baz", $this->header->get("foo"));
+        $this->assertNull($this->header->get('foo'));
+        $this->header->add('foo', 'bar');
+        $this->assertEquals('bar', $this->header->get('foo'));
+        $this->header->add('foo', 'baz');
+        $this->assertEquals('baz', $this->header->get('foo'));
     }
 
     /**
@@ -115,7 +115,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
     public function testInvalidAlgorithmInConstructorThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        new JwtHeader("foo");
+        new JwtHeader('foo');
     }
 
     /**
@@ -123,7 +123,7 @@ class JwtHeaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingNoneAlgorithm()
     {
-        $this->header->add("alg", "none");
-        $this->assertEquals("none", $this->header->getAlgorithm());
+        $this->header->add('alg', 'none');
+        $this->assertEquals('none', $this->header->getAlgorithm());
     }
 }

@@ -30,19 +30,19 @@ class CommandThatDoesNotCallParentConstructor extends Command
      */
     protected function define()
     {
-        $this->setName("holiday");
-        $this->setDescription("Wishes someone a happy holiday");
+        $this->setName('holiday');
+        $this->setDescription('Wishes someone a happy holiday');
         $this->addArgument(new Argument(
-            "holiday",
+            'holiday',
             ArgumentTypes::REQUIRED,
-            "Holiday to wish someone"
+            'Holiday to wish someone'
         ));
         $this->addOption(new Option(
-            "yell",
-            "y",
+            'yell',
+            'y',
             OptionTypes::OPTIONAL_VALUE,
-            "Whether or not we yell",
-            "yes"
+            'Whether or not we yell',
+            'yes'
         ));
     }
 
@@ -51,10 +51,10 @@ class CommandThatDoesNotCallParentConstructor extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $message = "Happy " . $this->getArgumentValue("holiday");
+        $message = 'Happy ' . $this->getArgumentValue('holiday');
 
-        if ($this->getOptionValue("yell") === "yes") {
-            $message .= "!";
+        if ($this->getOptionValue('yell') === 'yes') {
+            $message .= '!';
         }
 
         $response->write($message);

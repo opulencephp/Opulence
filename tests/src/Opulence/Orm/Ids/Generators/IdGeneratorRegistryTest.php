@@ -31,8 +31,8 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
     {
         /** @var IIdGenerator|\PHPUnit_Framework_MockObject_MockObject $generator */
         $generator = $this->createMock(IIdGenerator::class);
-        $this->registry->registerIdGenerator("foo", $generator);
-        $this->assertSame($generator, $this->registry->getIdGenerator("foo"));
+        $this->registry->registerIdGenerator('foo', $generator);
+        $this->assertSame($generator, $this->registry->getIdGenerator('foo'));
     }
 
     /**
@@ -40,6 +40,6 @@ class IdGeneratorRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testNullReturnedForNonExistentGenerator()
     {
-        $this->assertNull($this->registry->getIdGenerator("foo"));
+        $this->assertNull($this->registry->getIdGenerator('foo'));
     }
 }

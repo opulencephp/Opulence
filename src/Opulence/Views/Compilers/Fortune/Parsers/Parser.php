@@ -136,7 +136,7 @@ class Parser implements IParser
         if (!$ast->getCurrentNode()->isRoot()) {
             throw new RuntimeException(
                 sprintf(
-                    "Expected close delimiter, found %s",
+                    'Expected close delimiter, found %s',
                     $ast->getCurrentNode()->getValue()
                 )
             );
@@ -155,7 +155,7 @@ class Parser implements IParser
     {
         throw new RuntimeException(
             sprintf(
-                "Nesting statements of type %s not allowed near line %d",
+                'Nesting statements of type %s not allowed near line %d',
                 $token->getType(),
                 $token->getLine()
             )
@@ -172,7 +172,7 @@ class Parser implements IParser
     {
         throw new RuntimeException(
             sprintf(
-                "Unopened %s near line %d",
+                'Unopened %s near line %d',
                 $token->getType(),
                 $token->getLine()
             )

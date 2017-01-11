@@ -18,14 +18,14 @@ use Opulence\Sessions\Ids\Generators\IIdGenerator;
 class Session implements ISession
 {
     /** The key for new flash keys */
-    const NEW_FLASH_KEYS_KEY = "__OPULENCE_NEW_FLASH_KEYS";
+    const NEW_FLASH_KEYS_KEY = '__OPULENCE_NEW_FLASH_KEYS';
     /** The key for stale flash keys */
-    const STALE_FLASH_KEYS_KEY = "__OPULENCE_STALE_FLASH_KEYS";
+    const STALE_FLASH_KEYS_KEY = '__OPULENCE_STALE_FLASH_KEYS';
 
     /** @var int|string The session Id */
-    private $id = "";
+    private $id = '';
     /** @var string The session name */
-    private $name = "";
+    private $name = '';
     /** @var IIdGenerator The Id generator to use */
     private $idGenerator = null;
     /** @var array The mapping of variable names to values */
@@ -169,7 +169,7 @@ class Session implements ISession
     public function offsetSet($key, $value)
     {
         if ($key === null) {
-            throw new InvalidArgumentException("Key cannot be empty");
+            throw new InvalidArgumentException('Key cannot be empty');
         }
 
         $this->set($key, $value);

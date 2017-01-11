@@ -32,19 +32,19 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     public function testSettingDataInConstructor()
     {
         $server = new Server(
-            "127.0.0.1",
-            "username",
-            "password",
-            "dbname",
+            '127.0.0.1',
+            'username',
+            'password',
+            'dbname',
             123,
-            "charset"
+            'charset'
         );
-        $this->assertEquals("127.0.0.1", $server->getHost());
-        $this->assertEquals("username", $server->getUsername());
-        $this->assertEquals("password", $server->getPassword());
-        $this->assertEquals("dbname", $server->getDatabaseName());
+        $this->assertEquals('127.0.0.1', $server->getHost());
+        $this->assertEquals('username', $server->getUsername());
+        $this->assertEquals('password', $server->getPassword());
+        $this->assertEquals('dbname', $server->getDatabaseName());
         $this->assertEquals(123, $server->getPort());
-        $this->assertEquals("charset", $server->getCharset());
+        $this->assertEquals('charset', $server->getCharset());
     }
 
     /**
@@ -64,8 +64,8 @@ class ServerTest extends \PHPUnit\Framework\TestCase
     public function testSettingHost()
     {
         $server = new Server();
-        $server->setHost("127.0.0.1");
-        $this->assertEquals("127.0.0.1", $server->getHost());
+        $server->setHost('127.0.0.1');
+        $this->assertEquals('127.0.0.1', $server->getHost());
     }
 
     /**

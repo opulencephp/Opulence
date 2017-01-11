@@ -20,18 +20,18 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEverything()
     {
-        $query = new DeleteQuery("users", "u");
-        $query->where("u.id = :userId")
-            ->andWhere("u.name = :name")
-            ->orWhere("u.id = 10")
-            ->addNamedPlaceholderValues(["userId" => [18175, PDO::PARAM_INT]])
-            ->addNamedPlaceholderValue("name", "dave")
+        $query = new DeleteQuery('users', 'u');
+        $query->where('u.id = :userId')
+            ->andWhere('u.name = :name')
+            ->orWhere('u.id = 10')
+            ->addNamedPlaceholderValues(['userId' => [18175, PDO::PARAM_INT]])
+            ->addNamedPlaceholderValue('name', 'dave')
             ->limit(1);
-        $this->assertEquals("DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1",
+        $this->assertEquals('DELETE FROM users AS u WHERE (u.id = :userId) AND (u.name = :name) OR (u.id = 10) LIMIT 1',
             $query->getSql());
         $this->assertEquals([
-            "userId" => [18175, PDO::PARAM_INT],
-            "name" => ["dave", PDO::PARAM_STR]
+            'userId' => [18175, PDO::PARAM_INT],
+            'name' => ['dave', PDO::PARAM_STR]
         ], $query->getParameters());
     }
 
@@ -40,9 +40,9 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testLimit()
     {
-        $query = new DeleteQuery("users");
+        $query = new DeleteQuery('users');
         $query->limit(1);
-        $this->assertEquals("DELETE FROM users LIMIT 1", $query->getSql());
+        $this->assertEquals('DELETE FROM users LIMIT 1', $query->getSql());
     }
 
     /**
@@ -50,8 +50,8 @@ class DeleteQueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testLimitWithNamedPlaceholder()
     {
-        $query = new DeleteQuery("users");
-        $query->limit(":limit");
-        $this->assertEquals("DELETE FROM users LIMIT :limit", $query->getSql());
+        $query = new DeleteQuery('users');
+        $query->limit(':limit');
+        $this->assertEquals('DELETE FROM users LIMIT :limit', $query->getSql());
     }
 }

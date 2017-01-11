@@ -125,7 +125,7 @@ class Rules
     public function condition($callback) : self
     {
         if ($this->inCondition) {
-            throw new LogicException("Cannot nest rule conditions");
+            throw new LogicException('Cannot nest rule conditions');
         }
 
         // Order is important here
@@ -211,8 +211,8 @@ class Rules
         foreach ($this->errorSlugsAndPlaceholders as $errorData) {
             $compiledErrors[] = $this->errorTemplateCompiler->compile(
                 $field,
-                $this->errorTemplateRegistry->getErrorTemplate($field, $errorData["slug"]),
-                $errorData["placeholders"]
+                $this->errorTemplateRegistry->getErrorTemplate($field, $errorData['slug']),
+                $errorData['placeholders']
             );
         }
 
@@ -328,7 +328,7 @@ class Rules
             if (!$this->isRequired) {
                 if (
                     $value === null ||
-                    (is_string($value) && $value === "") ||
+                    (is_string($value) && $value === '') ||
                     ((is_array($value) || $value instanceof Countable) && count($value) === 0)
                 ) {
                     continue;
@@ -394,8 +394,8 @@ class Rules
 
         foreach ($rules as $singleRule) {
             $this->errorSlugsAndPlaceholders[] = [
-                "slug" => $singleRule->getSlug(),
-                "placeholders" => $singleRule instanceof IRuleWithErrorPlaceholders ? $singleRule->getErrorPlaceholders() : []
+                'slug' => $singleRule->getSlug(),
+                'placeholders' => $singleRule instanceof IRuleWithErrorPlaceholders ? $singleRule->getErrorPlaceholders() : []
             ];
         }
     }

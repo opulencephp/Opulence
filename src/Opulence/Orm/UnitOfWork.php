@@ -72,7 +72,7 @@ class UnitOfWork implements IUnitOfWork
     public function commit()
     {
         if (!$this->connection instanceof IConnection) {
-            throw new OrmException("Connection not set");
+            throw new OrmException('Connection not set');
         }
 
         $this->checkForUpdates();
@@ -87,7 +87,7 @@ class UnitOfWork implements IUnitOfWork
         } catch (Exception $ex) {
             $this->connection->rollBack();
             $this->postRollback();
-            throw new OrmException("Commit failed", 0, $ex);
+            throw new OrmException('Commit failed', 0, $ex);
         }
 
         $this->postCommit();

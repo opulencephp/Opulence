@@ -16,17 +16,17 @@ use Opulence\Http\Headers;
 class ResponseHeaders extends Headers
 {
     /** HTML content type */
-    const CONTENT_TYPE_HTML = "text/html";
+    const CONTENT_TYPE_HTML = 'text/html';
     /** JSON content type */
-    const CONTENT_TYPE_JSON = "application/json";
+    const CONTENT_TYPE_JSON = 'application/json';
     /** Octet stream content type */
-    const CONTENT_TYPE_OCTET_STREAM = "application/octet-stream";
+    const CONTENT_TYPE_OCTET_STREAM = 'application/octet-stream';
     /** PDF content type */
-    const CONTENT_TYPE_PDF = "application/pdf";
+    const CONTENT_TYPE_PDF = 'application/pdf';
     /** Plain text content type */
-    const CONTENT_TYPE_TEXT = "text/plain";
+    const CONTENT_TYPE_TEXT = 'text/plain';
     /** XML content type */
-    const CONTENT_TYPE_XML = "text/xml";
+    const CONTENT_TYPE_XML = 'text/xml';
     /** Continue */
     const HTTP_CONTINUE = 100;
     /** Switching protocol */
@@ -110,46 +110,46 @@ class ResponseHeaders extends Headers
 
     /** @var array Maps HTTP status codes to their default texts */
     public static $statusTexts = [
-        self::HTTP_CONTINUE => "Continue",
-        self::HTTP_SWITCHING_PROTOCOL => "Switching Protocol",
-        self::HTTP_OK => "OK",
-        self::HTTP_CREATED => "Created",
-        self::HTTP_ACCEPTED => "Accepted",
-        self::HTTP_NON_AUTHORITATIVE_INFORMATION => "Non-Authoritative Information",
-        self::HTTP_NO_CONTENT => "No Content",
-        self::HTTP_RESET_CONTENT => "Reset Content",
-        self::HTTP_PARTIAL_CONTENT => "Partial Content",
-        self::HTTP_MULTIPLE_CHOICE => "Multiple Choice",
-        self::HTTP_MOVED_PERMANENTLY => "Moved Permanently",
-        self::HTTP_FOUND => "Found",
-        self::HTTP_SEE_OTHER => "See Other",
-        self::HTTP_NOT_MODIFIED => "Not Modified",
-        self::HTTP_USE_PROXY => "Use Proxy",
-        self::HTTP_TEMPORARY_REDIRECT => "Temporary Redirect",
-        self::HTTP_PERMANENT_REDIRECT => "Permanent Redirect",
-        self::HTTP_BAD_REQUEST => "Bad Request",
-        self::HTTP_UNAUTHORIZED => "Unauthorized",
-        self::HTTP_PAYMENT_REQUIRED => "Payment Required",
-        self::HTTP_FORBIDDEN => "Forbidden",
-        self::HTTP_NOT_FOUND => "Not Found",
-        self::HTTP_METHOD_NOT_ALLOWED => "Method Not Allowed",
-        self::HTTP_NOT_ACCEPTABLE => "Not Acceptable",
-        self::HTTP_PROXY_AUTHENTICATION_REQUIRED => "Proxy Authentication Required",
-        self::HTTP_REQUEST_TIMEOUT => "Request Timeout",
-        self::HTTP_CONFLICT => "Conflict",
-        self::HTTP_GONE => "Gone",
-        self::HTTP_LENGTH_REQUIRED => "Length Required",
-        self::HTTP_PRECONDITION_FAILED => "Precondition Failed",
-        self::HTTP_REQUEST_ENTITY_TOO_LARGE => "Request Entity Too Large",
-        self::HTTP_UNSUPPORTED_MEDIA_TYPE => "Unsupported Media Type",
-        self::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE => "Requested Range Not Satisfiable",
-        self::HTTP_EXPECTATION_FAILED => "Expectation Failed",
-        self::HTTP_INTERNAL_SERVER_ERROR => "Internal Server Error",
-        self::HTTP_NOT_IMPLEMENTED => "Not Implemented",
-        self::HTTP_BAD_GATEWAY => "Bad Gateway",
-        self::HTTP_SERVICE_UNAVAILABLE => "Service Unavailable",
-        self::HTTP_GATEWAY_TIMEOUT => "Gateway Timeout",
-        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => "HTTP Version Not Supported"
+        self::HTTP_CONTINUE => 'Continue',
+        self::HTTP_SWITCHING_PROTOCOL => 'Switching Protocol',
+        self::HTTP_OK => 'OK',
+        self::HTTP_CREATED => 'Created',
+        self::HTTP_ACCEPTED => 'Accepted',
+        self::HTTP_NON_AUTHORITATIVE_INFORMATION => 'Non-Authoritative Information',
+        self::HTTP_NO_CONTENT => 'No Content',
+        self::HTTP_RESET_CONTENT => 'Reset Content',
+        self::HTTP_PARTIAL_CONTENT => 'Partial Content',
+        self::HTTP_MULTIPLE_CHOICE => 'Multiple Choice',
+        self::HTTP_MOVED_PERMANENTLY => 'Moved Permanently',
+        self::HTTP_FOUND => 'Found',
+        self::HTTP_SEE_OTHER => 'See Other',
+        self::HTTP_NOT_MODIFIED => 'Not Modified',
+        self::HTTP_USE_PROXY => 'Use Proxy',
+        self::HTTP_TEMPORARY_REDIRECT => 'Temporary Redirect',
+        self::HTTP_PERMANENT_REDIRECT => 'Permanent Redirect',
+        self::HTTP_BAD_REQUEST => 'Bad Request',
+        self::HTTP_UNAUTHORIZED => 'Unauthorized',
+        self::HTTP_PAYMENT_REQUIRED => 'Payment Required',
+        self::HTTP_FORBIDDEN => 'Forbidden',
+        self::HTTP_NOT_FOUND => 'Not Found',
+        self::HTTP_METHOD_NOT_ALLOWED => 'Method Not Allowed',
+        self::HTTP_NOT_ACCEPTABLE => 'Not Acceptable',
+        self::HTTP_PROXY_AUTHENTICATION_REQUIRED => 'Proxy Authentication Required',
+        self::HTTP_REQUEST_TIMEOUT => 'Request Timeout',
+        self::HTTP_CONFLICT => 'Conflict',
+        self::HTTP_GONE => 'Gone',
+        self::HTTP_LENGTH_REQUIRED => 'Length Required',
+        self::HTTP_PRECONDITION_FAILED => 'Precondition Failed',
+        self::HTTP_REQUEST_ENTITY_TOO_LARGE => 'Request Entity Too Large',
+        self::HTTP_UNSUPPORTED_MEDIA_TYPE => 'Unsupported Media Type',
+        self::HTTP_REQUESTED_RANGE_NOT_SATISFIABLE => 'Requested Range Not Satisfiable',
+        self::HTTP_EXPECTATION_FAILED => 'Expectation Failed',
+        self::HTTP_INTERNAL_SERVER_ERROR => 'Internal Server Error',
+        self::HTTP_NOT_IMPLEMENTED => 'Not Implemented',
+        self::HTTP_BAD_GATEWAY => 'Bad Gateway',
+        self::HTTP_SERVICE_UNAVAILABLE => 'Service Unavailable',
+        self::HTTP_GATEWAY_TIMEOUT => 'Gateway Timeout',
+        self::HTTP_HTTP_VERSION_NOT_SUPPORTED => 'HTTP Version Not Supported'
     ];
     /**
      * @var array The list of cookie names to their properties
@@ -167,13 +167,13 @@ class ResponseHeaders extends Headers
      */
     public function deleteCookie(
         string $name,
-        string $path = "/",
-        string $domain = "",
+        string $path = '/',
+        string $domain = '',
         bool $isSecure = false,
         bool $isHttpOnly = true
     ) {
         // Remove the cookie from the response
-        $this->setCookie(new Cookie($name, "", 0, $path, $domain, $isSecure, $isHttpOnly));
+        $this->setCookie(new Cookie($name, '', 0, $path, $domain, $isSecure, $isHttpOnly));
     }
 
     /**

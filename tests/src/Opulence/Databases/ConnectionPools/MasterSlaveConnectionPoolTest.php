@@ -123,9 +123,9 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
     public function testRemovingSlave()
     {
         $slave1 = $this->createServer();
-        $slave1->setDatabaseName("slave1");
+        $slave1->setDatabaseName('slave1');
         $slave2 = $this->createServer();
-        $slave2->setDatabaseName("slave2");
+        $slave2->setDatabaseName('slave2');
         $connectionPool = new MasterSlaveConnectionPool($this->createDriver(), $this->createServer(),
             [$slave1, $slave2]);
         $connectionPool->removeSlave($slave2);
@@ -140,7 +140,7 @@ class MasterSlaveConnectionPoolTest extends \PHPUnit\Framework\TestCase
         $slave = $this->createServer();
         $strategy = $this->createMock(IServerSelectionStrategy::class);
         $strategy->expects($this->once())
-            ->method("select")
+            ->method('select')
             ->with([$slave])
             ->willReturn($slave);
         $connectionPool = new MasterSlaveConnectionPool(

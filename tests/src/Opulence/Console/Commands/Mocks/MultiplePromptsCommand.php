@@ -36,8 +36,8 @@ class MultiplePromptsCommand extends Command
      */
     protected function define()
     {
-        $this->setName("multipleprompts");
-        $this->setDescription("Asks multiple questions");
+        $this->setName('multipleprompts');
+        $this->setDescription('Asks multiple questions');
     }
 
     /**
@@ -45,21 +45,21 @@ class MultiplePromptsCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $question1 = new Question("Q1", "default1");
-        $question2 = new Question("Q2", "default2");
+        $question1 = new Question('Q1', 'default1');
+        $question2 = new Question('Q2', 'default2');
         $answer1 = $this->prompt->ask($question1, $response);
         $answer2 = $this->prompt->ask($question2, $response);
 
-        if ($answer1 === "default1") {
-            $response->write("Default1");
+        if ($answer1 === 'default1') {
+            $response->write('Default1');
         } else {
-            $response->write("Custom1");
+            $response->write('Custom1');
         }
 
-        if ($answer2 === "default2") {
-            $response->write("Default2");
+        if ($answer2 === 'default2') {
+            $response->write('Default2');
         } else {
-            $response->write("Custom2");
+            $response->write('Custom2');
         }
     }
 }

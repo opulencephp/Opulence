@@ -18,10 +18,10 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingParsedRoute()
     {
-        $route = new Route("GET", "/foo/{bar}", "foo@bar", [
-            "https" => true,
-            "vars" => [
-                "bar" => "\d+"
+        $route = new Route('GET', '/foo/{bar}', 'foo@bar', [
+            'https' => true,
+            'vars' => [
+                'bar' => "\d+"
             ]
         ]);
         $parsedRoute = new ParsedRoute($route);
@@ -35,7 +35,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($route->getMiddleware(), $parsedRoute->getMiddleware());
         $this->assertEquals($route->getRawHost(), $parsedRoute->getRawHost());
         $this->assertEquals($route->getRawPath(), $parsedRoute->getRawPath());
-        $this->assertEquals($route->getVarRegex("bar"), $parsedRoute->getVarRegex("bar"));
+        $this->assertEquals($route->getVarRegex('bar'), $parsedRoute->getVarRegex('bar'));
     }
 
     /**
@@ -43,9 +43,9 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultValueForVariableWithoutDefaultValue()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
+        $route = new Route('get', '/{foo}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
-        $this->assertNull($parsedRoute->getDefaultValue("foo"));
+        $this->assertNull($parsedRoute->getDefaultValue('foo'));
     }
 
     /**
@@ -53,7 +53,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingHostRegexWhenNotSet()
     {
-        $route = new Route("get", "/foo", "foo@bar");
+        $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
         $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
     }
@@ -63,10 +63,10 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingADefaultValue()
     {
-        $route = new Route("get", "/{foo}", "foo@bar");
+        $route = new Route('get', '/{foo}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
-        $parsedRoute->setDefaultValue("foo", 2);
-        $this->assertEquals(2, $parsedRoute->getDefaultValue("foo"));
+        $parsedRoute->setDefaultValue('foo', 2);
+        $this->assertEquals(2, $parsedRoute->getDefaultValue('foo'));
     }
 
     /**
@@ -74,7 +74,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingHostRegex()
     {
-        $route = new Route("get", "/foo", "foo@bar");
+        $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
         $parsedRoute->setHostRegex("#google\.com#");
         $this->assertEquals("#google\.com#", $parsedRoute->getHostRegex());
@@ -85,9 +85,9 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingPathRegex()
     {
-        $route = new Route("get", "/foo/{id}", "foo@bar");
+        $route = new Route('get', '/foo/{id}', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
-        $parsedRoute->setPathRegex("blah");
-        $this->assertEquals("blah", $parsedRoute->getPathRegex());
+        $parsedRoute->setPathRegex('blah');
+        $this->assertEquals('blah', $parsedRoute->getPathRegex());
     }
 }

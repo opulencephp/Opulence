@@ -22,8 +22,8 @@ class MakeEntityCommand extends MakeCommand
     {
         parent::define();
 
-        $this->setName("make:entity")
-            ->setDescription("Creates an entity class");
+        $this->setName('make:entity')
+            ->setDescription('Creates an entity class');
     }
 
     /**
@@ -31,6 +31,6 @@ class MakeEntityCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . "/templates/Entity.template";
+        return __DIR__ . '/templates/Entity.template';
     }
 }

@@ -19,14 +19,14 @@ class MakeDataMapperCommand extends MakeCommand
 {
     /** @var array The list of data mappers that can be made */
     private static $dataMapperTypes = [
-        "Memcached-backed cached SQL data mapper" => "MemcachedCachedSqlDataMapper",
-        "PHPRedis data mapper" => "PhpRedisDataMapper",
-        "Predis data mapper" => "PredisDataMapper",
-        "Redis-backed cached SQL data mapper" => "RedisCachedSqlDataMapper",
-        "SQL data mapper" => "SqlDataMapper"
+        'Memcached-backed cached SQL data mapper' => 'MemcachedCachedSqlDataMapper',
+        'PHPRedis data mapper' => 'PhpRedisDataMapper',
+        'Predis data mapper' => 'PredisDataMapper',
+        'Redis-backed cached SQL data mapper' => 'RedisCachedSqlDataMapper',
+        'SQL data mapper' => 'SqlDataMapper'
     ];
     /** @var string The type of data mapper to generate */
-    private $dataMapperType = "";
+    private $dataMapperType = '';
 
     /**
      * @inheritdoc
@@ -35,8 +35,8 @@ class MakeDataMapperCommand extends MakeCommand
     {
         parent::define();
 
-        $this->setName("make:datamapper")
-            ->setDescription("Creates a data mapper class");
+        $this->setName('make:datamapper')
+            ->setDescription('Creates a data mapper class');
     }
 
     /**
@@ -46,7 +46,7 @@ class MakeDataMapperCommand extends MakeCommand
     {
         $this->dataMapperType = self::$dataMapperTypes[$this->prompt->ask(
             new MultipleChoice(
-                "Which type of data mapper are you making?", array_keys(self::$dataMapperTypes)
+                'Which type of data mapper are you making?', array_keys(self::$dataMapperTypes)
             ), $response)];
 
         return parent::doExecute($response);
@@ -65,6 +65,6 @@ class MakeDataMapperCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . "/templates/" . $this->dataMapperType . ".template";
+        return __DIR__ . '/templates/' . $this->dataMapperType . '.template';
     }
 }

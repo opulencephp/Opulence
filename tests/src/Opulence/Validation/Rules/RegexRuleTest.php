@@ -22,7 +22,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new RegexRule();
-        $this->assertEquals("regex", $rule->getSlug());
+        $this->assertEquals('regex', $rule->getSlug());
     }
 
     /**
@@ -32,7 +32,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new RegexRule();
         $rule->setArgs(["/^[a-z]{3}$/"]);
-        $this->assertTrue($rule->passes("foo"));
+        $this->assertTrue($rule->passes('foo'));
     }
 
     /**
@@ -42,7 +42,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new RegexRule();
         $rule->setArgs(["/^[a-z]{3}$/"]);
-        $this->assertFalse($rule->passes("a"));
+        $this->assertFalse($rule->passes('a'));
     }
 
     /**
@@ -52,7 +52,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $rule = new RegexRule();
-        $rule->passes("foo");
+        $rule->passes('foo');
     }
 
     /**

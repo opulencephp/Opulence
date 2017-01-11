@@ -20,7 +20,7 @@ class Response extends BaseResponse
      */
     public function clear()
     {
-        $this->write(chr(27) . "[2J" . chr(27) . "[;H");
+        $this->write(chr(27) . '[2J' . chr(27) . '[;H');
     }
 
     /**
@@ -28,6 +28,6 @@ class Response extends BaseResponse
      */
     protected function doWrite(string $message, bool $includeNewLine)
     {
-        echo $message . ($includeNewLine ? PHP_EOL : "");
+        echo $message . ($includeNewLine ? PHP_EOL : '');
     }
 }

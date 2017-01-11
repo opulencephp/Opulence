@@ -16,15 +16,15 @@ use DateTime;
 class Cookie
 {
     /** @var string The name of the cookie */
-    private $name = "";
+    private $name = '';
     /** @var mixed The value of the cookie */
-    private $value = "";
+    private $value = '';
     /** @var int The expiration timestamp of the cookie */
     private $expiration = null;
     /** @var string The path the cookie is valid on */
-    private $path = "/";
+    private $path = '/';
     /** @var string The domain the cookie is valid on */
-    private $domain = "";
+    private $domain = '';
     /** @var bool Whether or not this cookie is on HTTPS */
     private $isSecure = false;
     /** @var bool Whether or not this cookie is HTTP only */
@@ -43,8 +43,8 @@ class Cookie
         string $name,
         $value,
         $expiration,
-        string $path = "/",
-        string $domain = "",
+        string $path = '/',
+        string $domain = '',
         bool $isSecure = false,
         bool $isHttpOnly = true
     ) {
@@ -127,7 +127,7 @@ class Cookie
     public function setExpiration($expiration)
     {
         if ($expiration instanceof DateTime) {
-            $expiration = (int)$expiration->format("U");
+            $expiration = (int)$expiration->format('U');
         }
 
         $this->expiration = $expiration;

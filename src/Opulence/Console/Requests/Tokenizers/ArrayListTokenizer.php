@@ -20,21 +20,21 @@ class ArrayListTokenizer implements ITokenizer
      */
     public function tokenize($input) : array
     {
-        if (!isset($input["name"])) {
-            throw new RuntimeException("No command name given");
+        if (!isset($input['name'])) {
+            throw new RuntimeException('No command name given');
         }
 
-        if (!isset($input["arguments"])) {
-            $input["arguments"] = [];
+        if (!isset($input['arguments'])) {
+            $input['arguments'] = [];
         }
 
-        if (!isset($input["options"])) {
-            $input["options"] = [];
+        if (!isset($input['options'])) {
+            $input['options'] = [];
         }
 
-        $tokens = [$input["name"]];
-        $tokens = array_merge($tokens, $input["arguments"]);
-        $tokens = array_merge($tokens, $input["options"]);
+        $tokens = [$input['name']];
+        $tokens = array_merge($tokens, $input['arguments']);
+        $tokens = array_merge($tokens, $input['options']);
 
         return $tokens;
     }

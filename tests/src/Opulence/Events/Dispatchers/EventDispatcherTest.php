@@ -42,15 +42,15 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testDispatchingToMultipleListeners()
     {
         $listeners = [
-            [$this->listener, "doNothing1"],
-            [$this->listener, "doNothing2"]
+            [$this->listener, 'doNothing1'],
+            [$this->listener, 'doNothing2']
         ];
         $this->eventRegistry->expects($this->once())
-            ->method("getListeners")
+            ->method('getListeners')
             ->willReturn($listeners);
-        $this->listener->expects($this->once())->method("doNothing1")->with($this->event, "foo", $this->dispatcher);
-        $this->listener->expects($this->once())->method("doNothing2")->with($this->event, "foo", $this->dispatcher);
-        $this->dispatcher->dispatch("foo", $this->event);
+        $this->listener->expects($this->once())->method('doNothing1')->with($this->event, 'foo', $this->dispatcher);
+        $this->listener->expects($this->once())->method('doNothing2')->with($this->event, 'foo', $this->dispatcher);
+        $this->dispatcher->dispatch('foo', $this->event);
     }
 
     /**
@@ -59,13 +59,13 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testDispatchingToSingleListener()
     {
         $listeners = [
-            [$this->listener, "doNothing1"]
+            [$this->listener, 'doNothing1']
         ];
         $this->eventRegistry->expects($this->once())
-            ->method("getListeners")
+            ->method('getListeners')
             ->willReturn($listeners);
-        $this->listener->expects($this->once())->method("doNothing1")->with($this->event, "foo", $this->dispatcher);
-        $this->dispatcher->dispatch("foo", $this->event);
+        $this->listener->expects($this->once())->method('doNothing1')->with($this->event, 'foo', $this->dispatcher);
+        $this->dispatcher->dispatch('foo', $this->event);
     }
 
     /**
@@ -73,6 +73,6 @@ class EventDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testDispatchingWithNoListeners()
     {
-        $this->dispatcher->dispatch("foo", $this->event);
+        $this->dispatcher->dispatch('foo', $this->event);
     }
 }

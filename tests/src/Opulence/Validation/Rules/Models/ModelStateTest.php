@@ -37,11 +37,11 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $this->validator = $this->createMock(IValidator::class);
         $this->validator->expects($this->any())
-            ->method("field")
+            ->method('field')
             ->willReturn($this->rules);
         $this->validatorFactory = $this->createMock(IValidatorFactory::class);
         $this->validatorFactory->expects($this->any())
-            ->method("createValidator")
+            ->method('createValidator')
             ->willReturn($this->validator);
     }
 
@@ -50,29 +50,29 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
      */
     public function testInvalidModel()
     {
-        $user = new User(1, "Dave", "foo");
+        $user = new User(1, 'Dave', 'foo');
         $this->validator->expects($this->at(0))
-            ->method("field")
-            ->with("id");
+            ->method('field')
+            ->with('id');
         $this->validator->expects($this->at(1))
-            ->method("field")
-            ->with("name");
+            ->method('field')
+            ->with('name');
         $this->validator->expects($this->at(2))
-            ->method("field")
-            ->with("email");
+            ->method('field')
+            ->with('email');
         $this->validator->expects($this->once())
-            ->method("isValid")
+            ->method('isValid')
             ->with([
-                "id" => 1,
-                "name" => "Dave",
-                "email" => "foo"
+                'id' => 1,
+                'name' => 'Dave',
+                'email' => 'foo'
             ])
             ->willReturn(false);
         $errorCollection = $this->getMockBuilder(ErrorCollection::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->validator->expects($this->once())
-            ->method("getErrors")
+            ->method('getErrors')
             ->willReturn($errorCollection);
         $modelState = new UserModelState($user, $this->validatorFactory);
         $this->assertFalse($modelState->isValid());
@@ -84,29 +84,29 @@ class ModelStateTest extends \PHPUnit\Framework\TestCase
      */
     public function testValidModel()
     {
-        $user = new User(1, "Dave", "foo@bar.com");
+        $user = new User(1, 'Dave', 'foo@bar.com');
         $this->validator->expects($this->at(0))
-            ->method("field")
-            ->with("id");
+            ->method('field')
+            ->with('id');
         $this->validator->expects($this->at(1))
-            ->method("field")
-            ->with("name");
+            ->method('field')
+            ->with('name');
         $this->validator->expects($this->at(2))
-            ->method("field")
-            ->with("email");
+            ->method('field')
+            ->with('email');
         $this->validator->expects($this->once())
-            ->method("isValid")
+            ->method('isValid')
             ->with([
-                "id" => 1,
-                "name" => "Dave",
-                "email" => "foo@bar.com"
+                'id' => 1,
+                'name' => 'Dave',
+                'email' => 'foo@bar.com'
             ])
             ->willReturn(true);
         $errorCollection = $this->getMockBuilder(ErrorCollection::class)
             ->disableOriginalConstructor()
             ->getMock();
         $this->validator->expects($this->once())
-            ->method("getErrors")
+            ->method('getErrors')
             ->willReturn($errorCollection);
         $modelState = new UserModelState($user, $this->validatorFactory);
         $this->assertTrue($modelState->isValid());

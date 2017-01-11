@@ -24,7 +24,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getErrorPlaceholders() : array
     {
-        return ["other" => $this->fieldName];
+        return ['other' => $this->fieldName];
     }
 
     /**
@@ -32,7 +32,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
      */
     public function getSlug() : string
     {
-        return "equalsField";
+        return 'equalsField';
     }
 
     /**
@@ -41,7 +41,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->fieldName === null) {
-            throw new LogicException("Field name not set");
+            throw new LogicException('Field name not set');
         }
 
         $comparisonValue = $allValues[$this->fieldName] ?? null;
@@ -55,7 +55,7 @@ class EqualsFieldRule implements IRuleWithArgs, IRuleWithErrorPlaceholders
     public function setArgs(array $args)
     {
         if (count($args) !== 1 || !is_string($args[0])) {
-            throw new InvalidArgumentException("Must pass valid field name");
+            throw new InvalidArgumentException('Must pass valid field name');
         }
 
         $this->fieldName = $args[0];

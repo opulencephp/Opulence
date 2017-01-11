@@ -54,7 +54,7 @@ class Prompt
 
         if ($question instanceof MultipleChoice) {
             /** @var MultipleChoice $question */
-            $response->writeln("");
+            $response->writeln('');
             $choicesAreAssociative = $question->choicesAreAssociative();
             $choiceTexts = [];
 
@@ -64,7 +64,7 @@ class Prompt
                     ++$key;
                 }
 
-                $choiceTexts[] = [$key . ")", $choice];
+                $choiceTexts[] = [$key . ')', $choice];
             }
 
             $response->writeln($this->paddingFormatter->format($choiceTexts, function ($row) {
@@ -76,12 +76,12 @@ class Prompt
         $answer = fgets($this->inputStream, 4096);
 
         if ($answer === false) {
-            throw new RuntimeException("Failed to get answer");
+            throw new RuntimeException('Failed to get answer');
         }
 
         $answer = trim($answer);
 
-        if ($answer === "") {
+        if ($answer === '') {
             $answer = $question->getDefaultAnswer();
         }
 
@@ -97,7 +97,7 @@ class Prompt
     public function setInputStream($inputStream)
     {
         if (!is_resource($inputStream)) {
-            throw new InvalidArgumentException("Input stream must be resource");
+            throw new InvalidArgumentException('Input stream must be resource');
         }
 
         $this->inputStream = $inputStream;

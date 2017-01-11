@@ -24,10 +24,10 @@ class XssFilter implements IFilter
     {
         $filteredInput = $input;
 
-        if (isset($options["forUrl"]) && $options["forUrl"]) {
+        if (isset($options['forUrl']) && $options['forUrl']) {
             // For URLs, "%27" is the correct way to display an apostrophe
             // For HTML, "#39;" (conversion is done in functions below) is the correct way to display an apostrophe
-            $filteredInput = str_replace("'", "%27", $input);
+            $filteredInput = str_replace("'", '%27', $input);
         }
 
         $filteredInput = filter_var($filteredInput, FILTER_SANITIZE_FULL_SPECIAL_CHARS);

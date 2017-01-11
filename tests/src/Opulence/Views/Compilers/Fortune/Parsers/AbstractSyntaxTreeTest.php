@@ -62,7 +62,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
     public function testSettingCurrentNode()
     {
         /** @var Node $currentNode */
-        $currentNode = $this->getMockForAbstractClass(Node::class, ["foo"]);
+        $currentNode = $this->getMockForAbstractClass(Node::class, ['foo']);
         $this->assertSame($currentNode, $this->tree->setCurrentNode($currentNode));
         $this->assertSame($currentNode, $this->tree->getCurrentNode());
     }

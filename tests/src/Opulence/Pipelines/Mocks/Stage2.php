@@ -22,6 +22,6 @@ class Stage2
      */
     public function run($input, callable $next)
     {
-        return $next($input . "2");
+        return $next($input . '2');
     }
 }

@@ -18,13 +18,13 @@ class Compiler implements ICompiler
      */
     public function compile(string $field, string $template, array $args = []) : string
     {
-        $args["field"] = $field;
+        $args['field'] = $field;
         $placeholders = array_map(function ($placeholder) {
             return ":$placeholder";
         }, array_keys($args));
         $compiledTemplate = str_replace($placeholders, array_values($args), $template);
         // Remove leftover placeholders
-        $compiledTemplate = preg_replace("/:[a-zA-Z0-9\-_]+\b/", "", $compiledTemplate);
+        $compiledTemplate = preg_replace("/:[a-zA-Z0-9\-_]+\b/", '', $compiledTemplate);
 
         return trim($compiledTemplate);
     }

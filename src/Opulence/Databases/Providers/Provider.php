@@ -14,15 +14,15 @@ namespace Opulence\Databases\Providers;
 class Provider
 {
     /** @var string The format for date strings */
-    protected $dateFormat = "Y-m-d";
+    protected $dateFormat = 'Y-m-d';
     /** @var string The format for time with time zone strings */
-    protected $timeWithTimeZoneFormat = "H:i:sO";
+    protected $timeWithTimeZoneFormat = 'H:i:sO';
     /** @var string The format for time without time zone strings */
-    protected $timeWithoutTimeZoneFormat = "H:i:s";
+    protected $timeWithoutTimeZoneFormat = 'H:i:s';
     /** @var string The format for timestamps with timezones */
-    protected $timestampWithTimeZoneFormat = "Y-m-d H:i:sO";
+    protected $timestampWithTimeZoneFormat = 'Y-m-d H:i:sO';
     /** @var string The format for timestamps without timezones */
-    protected $timestampWithoutTimeZoneFormat = "Y-m-d H:i:s";
+    protected $timestampWithoutTimeZoneFormat = 'Y-m-d H:i:s';
 
     /**
      * Converts an SQL boolean to a PHP boolean

@@ -28,12 +28,12 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
 
     public function testRegisteringCustomTaskType()
     {
-        $value = "";
-        $this->dispatcher->registerTask("foo", function () use (&$value) {
-            $value = "foo";
+        $value = '';
+        $this->dispatcher->registerTask('foo', function () use (&$value) {
+            $value = 'foo';
         });
-        $this->dispatcher->dispatch("foo");
-        $this->assertEquals("foo", $value);
+        $this->dispatcher->dispatch('foo');
+        $this->assertEquals('foo', $value);
     }
 
     /**
@@ -41,12 +41,12 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPostShutdownTask()
     {
-        $value = "";
+        $value = '';
         $this->dispatcher->registerTask(TaskTypes::POST_SHUTDOWN, function () use (&$value) {
-            $value = "foo";
+            $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::POST_SHUTDOWN);
-        $this->assertEquals("foo", $value);
+        $this->assertEquals('foo', $value);
     }
 
     /**
@@ -54,12 +54,12 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPostStartTask()
     {
-        $value = "";
+        $value = '';
         $this->dispatcher->registerTask(TaskTypes::POST_START, function () use (&$value) {
-            $value = "foo";
+            $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::POST_START);
-        $this->assertEquals("foo", $value);
+        $this->assertEquals('foo', $value);
     }
 
     /**
@@ -67,12 +67,12 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPreShutdownTask()
     {
-        $value = "";
+        $value = '';
         $this->dispatcher->registerTask(TaskTypes::PRE_SHUTDOWN, function () use (&$value) {
-            $value = "foo";
+            $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::PRE_SHUTDOWN);
-        $this->assertEquals("foo", $value);
+        $this->assertEquals('foo', $value);
     }
 
     /**
@@ -80,11 +80,11 @@ class TaskDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPreStartTask()
     {
-        $value = "";
+        $value = '';
         $this->dispatcher->registerTask(TaskTypes::PRE_START, function () use (&$value) {
-            $value = "foo";
+            $value = 'foo';
         });
         $this->dispatcher->dispatch(TaskTypes::PRE_START);
-        $this->assertEquals("foo", $value);
+        $this->assertEquals('foo', $value);
     }
 }

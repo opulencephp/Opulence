@@ -21,7 +21,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder = new QueryBuilder();
         $this->assertInstanceOf(
             DeleteQuery::class,
-            $queryBuilder->delete("tableName", "tableAlias")
+            $queryBuilder->delete('tableName', 'tableAlias')
         );
     }
 
@@ -33,7 +33,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder = new QueryBuilder();
         $this->assertInstanceOf(
             InsertQuery::class,
-            $queryBuilder->insert("tableName", ["columnName" => "columnValue"])
+            $queryBuilder->insert('tableName', ['columnName' => 'columnValue'])
         );
     }
 
@@ -45,7 +45,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder = new QueryBuilder();
         $this->assertInstanceOf(
             SelectQuery::class,
-            $queryBuilder->select("tableName", "tableAlias")
+            $queryBuilder->select('tableName', 'tableAlias')
         );
     }
 
@@ -57,7 +57,7 @@ class QueryBuilderTest extends \PHPUnit\Framework\TestCase
         $queryBuilder = new QueryBuilder();
         $this->assertInstanceOf(
             UpdateQuery::class,
-            $queryBuilder->update("tableName", "tableAlias", ["columnName" => "columnValue"])
+            $queryBuilder->update('tableName', 'tableAlias', ['columnName' => 'columnValue'])
         );
     }
 }

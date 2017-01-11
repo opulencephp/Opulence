@@ -29,7 +29,7 @@ class StreamResponse extends Response
         int $statusCode = ResponseHeaders::HTTP_OK,
         array $headers = []
     ) {
-        parent::__construct("", $statusCode, $headers);
+        parent::__construct('', $statusCode, $headers);
 
         if ($streamCallback !== null) {
             $this->setStreamCallback($streamCallback);
@@ -53,8 +53,8 @@ class StreamResponse extends Response
      */
     public function setContent($content)
     {
-        if ($content !== null && $content !== "") {
-            throw new LogicException("Cannot set content in a stream response");
+        if ($content !== null && $content !== '') {
+            throw new LogicException('Cannot set content in a stream response');
         }
     }
 

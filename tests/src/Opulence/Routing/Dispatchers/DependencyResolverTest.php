@@ -36,10 +36,10 @@ class DependencyResolverTest extends \PHPUnit\Framework\TestCase
     public function testContainerIsUsedToResolveDependencies()
     {
         $this->container->expects($this->once())
-            ->method("resolve")
-            ->with("foo")
+            ->method('resolve')
+            ->with('foo')
             ->willReturn([]);
-        $this->assertEquals([], $this->dependencyResolver->resolve("foo"));
+        $this->assertEquals([], $this->dependencyResolver->resolve('foo'));
     }
 
     /**
@@ -49,9 +49,9 @@ class DependencyResolverTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(DependencyResolutionException::class);
         $this->container->expects($this->once())
-            ->method("resolve")
-            ->with("foo")
-            ->willThrowException(new IocException("blah"));
-        $this->dependencyResolver->resolve("foo");
+            ->method('resolve')
+            ->with('foo')
+            ->willThrowException(new IocException('blah'));
+        $this->dependencyResolver->resolve('foo');
     }
 }

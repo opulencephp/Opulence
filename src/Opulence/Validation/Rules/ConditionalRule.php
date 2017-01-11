@@ -43,7 +43,7 @@ class ConditionalRule extends CallbackRule
      */
     public function getSlug() : string
     {
-        return "conditional";
+        return 'conditional';
     }
 
     /**
@@ -52,7 +52,7 @@ class ConditionalRule extends CallbackRule
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->callback === null) {
-            throw new LogicException("Condition not set");
+            throw new LogicException('Condition not set');
         }
 
         if (!($this->callback)($value, $allValues)) {

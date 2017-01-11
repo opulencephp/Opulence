@@ -33,7 +33,7 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     {
         $tokens = $this->tokenizer->tokenize("foo ' dave ' --last=' young '");
         $this->assertEquals([
-            "foo",
+            'foo',
             "' dave '",
             "--last=' young '"
         ], $tokens);
@@ -46,9 +46,9 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     {
         $tokens = $this->tokenizer->tokenize("foo '\"foo bar\"' --quote '\"Dave is cool\"'");
         $this->assertEquals([
-            "foo",
+            'foo',
             '\'"foo bar"\'',
-            "--quote",
+            '--quote',
             '\'"Dave is cool"\'',
         ], $tokens);
     }
@@ -60,8 +60,8 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     {
         $tokens = $this->tokenizer->tokenize("foo --name 'dave young'");
         $this->assertEquals([
-            "foo",
-            "--name",
+            'foo',
+            '--name',
             "'dave young'"
         ], $tokens);
     }
@@ -73,9 +73,9 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     {
         $tokens = $this->tokenizer->tokenize("foo \"'foo bar'\" --quote \"'Dave is cool'\"");
         $this->assertEquals([
-            "foo",
+            'foo',
             "\"'foo bar'\"",
-            "--quote",
+            '--quote',
             "\"'Dave is cool'\""
         ], $tokens);
     }
@@ -105,10 +105,10 @@ class StringTokenizerTest extends \PHPUnit\Framework\TestCase
     {
         $tokens = $this->tokenizer->tokenize(" foo   bar  --name='dave   young'  -r ");
         $this->assertEquals([
-            "foo",
-            "bar",
+            'foo',
+            'bar',
             "--name='dave   young'",
-            "-r"
+            '-r'
         ], $tokens);
     }
 }

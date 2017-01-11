@@ -21,7 +21,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->credential = new Credential("foo", ["bar" => "baz"]);
+        $this->credential = new Credential('foo', ['bar' => 'baz']);
     }
 
     /**
@@ -29,7 +29,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingType()
     {
-        $this->assertEquals("foo", $this->credential->getType());
+        $this->assertEquals('foo', $this->credential->getType());
     }
 
     /**
@@ -37,7 +37,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $this->assertEquals("baz", $this->credential->getValue("bar"));
+        $this->assertEquals('baz', $this->credential->getValue('bar'));
     }
 
     /**
@@ -45,7 +45,7 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValues()
     {
-        $this->assertEquals(["bar" => "baz"], $this->credential->getValues());
+        $this->assertEquals(['bar' => 'baz'], $this->credential->getValues());
     }
 
     /**
@@ -53,6 +53,6 @@ class CredentialTest extends \PHPUnit\Framework\TestCase
      */
     public function testNullReturnedForNonExistentValues()
     {
-        $this->assertNull($this->credential->getValue("doesNotExist"));
+        $this->assertNull($this->credential->getValue('doesNotExist'));
     }
 }

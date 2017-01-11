@@ -51,7 +51,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     public function shutDownBootstrappers()
     {
         foreach ($this->bootstrapperObjects as $bootstrapper) {
-            $this->container->callMethod($bootstrapper, "shutdown", [], true);
+            $this->container->callMethod($bootstrapper, 'shutdown', [], true);
         }
     }
 
@@ -65,7 +65,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
             $lazyBootstrapperClasses = [];
 
             foreach (array_values($this->bootstrapperRegistry->getLazyBootstrapperBindings()) as $bindingData) {
-                $lazyBootstrapperClasses[] = $bindingData["bootstrapper"];
+                $lazyBootstrapperClasses[] = $bindingData['bootstrapper'];
             }
 
             $lazyBootstrapperClasses = array_unique($lazyBootstrapperClasses);
@@ -94,7 +94,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
         }
 
         foreach ($this->bootstrapperObjects as $bootstrapper) {
-            $this->container->callMethod($bootstrapper, "run", [], true);
+            $this->container->callMethod($bootstrapper, 'run', [], true);
         }
     }
 
@@ -107,8 +107,8 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
     private function dispatchLazily(array $boundClassesToBindingData)
     {
         foreach ($boundClassesToBindingData as $boundClass => $bindingData) {
-            $bootstrapperClass = $bindingData["bootstrapper"];
-            $target = $bindingData["target"];
+            $bootstrapperClass = $bindingData['bootstrapper'];
+            $target = $bindingData['target'];
 
             $factory = function () use ($boundClass, $bootstrapperClass, $target) {
                 // To make sure this factory isn't used anymore to resolve the bound class, unbind it
@@ -129,7 +129,7 @@ class BootstrapperDispatcher implements IBootstrapperDispatcher
 
                 if (!isset($this->runBootstrappers[$bootstrapperClass])) {
                     $bootstrapper->registerBindings($this->container);
-                    $this->container->callMethod($bootstrapper, "run", [], true);
+                    $this->container->callMethod($bootstrapper, 'run', [], true);
                     $this->runBootstrappers[$bootstrapperClass] = true;
                 }
 

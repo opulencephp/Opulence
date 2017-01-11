@@ -24,7 +24,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($rule->passes([]));
         $countable = $this->createMock(Countable::class);
         $countable->expects($this->once())
-            ->method("count")
+            ->method('count')
             ->willReturn(0);
         $this->assertFalse($rule->passes($countable));
     }
@@ -35,7 +35,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new RequiredRule();
-        $this->assertEquals("required", $rule->getSlug());
+        $this->assertEquals('required', $rule->getSlug());
     }
 
     /**
@@ -47,7 +47,7 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($rule->passes(0));
         $this->assertTrue($rule->passes(true));
         $this->assertTrue($rule->passes(false));
-        $this->assertTrue($rule->passes("foo"));
+        $this->assertTrue($rule->passes('foo'));
     }
 
     /**
@@ -57,6 +57,6 @@ class RequiredRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new RequiredRule();
         $this->assertFalse($rule->passes(null));
-        $this->assertFalse($rule->passes(""));
+        $this->assertFalse($rule->passes(''));
     }
 }

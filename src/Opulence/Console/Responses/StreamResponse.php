@@ -27,7 +27,7 @@ class StreamResponse extends Response
     public function __construct($stream, ICompiler $compiler)
     {
         if (!is_resource($stream)) {
-            throw new InvalidArgumentException("The stream must be a resource");
+            throw new InvalidArgumentException('The stream must be a resource');
         }
 
         parent::__construct($compiler);
@@ -56,7 +56,7 @@ class StreamResponse extends Response
      */
     protected function doWrite(string $message, bool $includeNewLine)
     {
-        fwrite($this->stream, $message . ($includeNewLine ? PHP_EOL : ""));
+        fwrite($this->stream, $message . ($includeNewLine ? PHP_EOL : ''));
         fflush($this->stream);
     }
 }

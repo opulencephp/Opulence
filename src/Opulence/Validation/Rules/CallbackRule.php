@@ -24,7 +24,7 @@ class CallbackRule implements IRuleWithArgs
      */
     public function getSlug() : string
     {
-        return "callback";
+        return 'callback';
     }
 
     /**
@@ -33,7 +33,7 @@ class CallbackRule implements IRuleWithArgs
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->callback === null) {
-            throw new LogicException("Callback not set");
+            throw new LogicException('Callback not set');
         }
 
         return ($this->callback)($value, $allValues);
@@ -45,7 +45,7 @@ class CallbackRule implements IRuleWithArgs
     public function setArgs(array $args)
     {
         if (count($args) !== 1 || !is_callable($args[0])) {
-            throw new InvalidArgumentException("Must pass valid callback");
+            throw new InvalidArgumentException('Must pass valid callback');
         }
 
         $this->callback = $args[0];

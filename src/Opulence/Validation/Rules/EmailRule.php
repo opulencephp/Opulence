@@ -18,7 +18,7 @@ class EmailRule implements IRule
      */
     public function getSlug() : string
     {
-        return "email";
+        return 'email';
     }
 
     /**

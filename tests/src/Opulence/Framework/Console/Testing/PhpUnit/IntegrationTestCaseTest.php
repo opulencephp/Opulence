@@ -35,7 +35,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
         $this->testCase = new MockIntegrationTestCase();
         $this->testCase->setUp();
         $prompt = new Prompt(new PaddingFormatter());
-        $this->testCase->getCommandCollection()->add(new SimpleCommand("simple", "Simple command"));
+        $this->testCase->getCommandCollection()->add(new SimpleCommand('simple', 'Simple command'));
         $this->testCase->getCommandCollection()->add(new StyledCommand());
         $this->testCase->getCommandCollection()->add(new HappyHolidayCommand());
         $this->testCase->getCommandCollection()->add(new StatusCodeCommand());
@@ -48,7 +48,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testCallReturnsThis()
     {
-        $this->assertSame($this->testCase, $this->testCase->execute("simple"));
+        $this->assertSame($this->testCase, $this->testCase->execute('simple'));
     }
 
     /**
@@ -56,12 +56,12 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testCallingCommandWithMultiplePrompts()
     {
-        $this->testCase->execute("multipleprompts", [], [], ["foo", "bar"])
+        $this->testCase->execute('multipleprompts', [], [], ['foo', 'bar'])
             ->getResponseAssertions()
-            ->outputEquals("Custom1Custom2");
-        $this->testCase->execute("multipleprompts", [], [], ["default1", "default2"])
+            ->outputEquals('Custom1Custom2');
+        $this->testCase->execute('multipleprompts', [], [], ['default1', 'default2'])
             ->getResponseAssertions()
-            ->outputEquals("Default1Default2");
+            ->outputEquals('Default1Default2');
     }
 
     /**
@@ -69,12 +69,12 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testCallingCommandWithSinglePrompt()
     {
-        $this->testCase->execute("singleprompt", [], [], "A duck")
+        $this->testCase->execute('singleprompt', [], [], 'A duck')
             ->getResponseAssertions()
-            ->outputEquals("Very good");
-        $this->testCase->execute("singleprompt", [], [], "Bread")
+            ->outputEquals('Very good');
+        $this->testCase->execute('singleprompt', [], [], 'Bread')
             ->getResponseAssertions()
-            ->outputEquals("Wrong");
+            ->outputEquals('Wrong');
     }
 
     /**
@@ -83,7 +83,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
     public function testCallingNonExistentCommand()
     {
         // The About command should be run in this case
-        $this->testCase->execute("doesnotexist")
+        $this->testCase->execute('doesnotexist')
             ->getResponseAssertions()
             ->isOK();
     }
@@ -93,7 +93,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testCommandBuilderCreated()
     {
-        $this->assertInstanceOf(CommandBuilder::class, $this->testCase->command("foo"));
+        $this->assertInstanceOf(CommandBuilder::class, $this->testCase->command('foo'));
     }
 
     /**
@@ -109,10 +109,10 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingOutputOfOptionlessCommand()
     {
-        $this->testCase->execute("simple")
+        $this->testCase->execute('simple')
             ->getResponseAssertions()
             ->isOK()
-            ->outputEquals("foo");
+            ->outputEquals('foo');
     }
 
     /**
@@ -120,10 +120,10 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingOutputWithOption()
     {
-        $this->testCase->execute("holiday", ["birthday"], ["--yell"])
+        $this->testCase->execute('holiday', ['birthday'], ['--yell'])
             ->getResponseAssertions()
             ->isOK()
-            ->outputEquals("Happy birthday!");
+            ->outputEquals('Happy birthday!');
     }
 
     /**
@@ -131,7 +131,7 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testResponseAssertionsWork()
     {
-        $this->testCase->execute("simple")
+        $this->testCase->execute('simple')
             ->getResponseAssertions()
             ->isOK();
     }
@@ -141,10 +141,10 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testStylingAndUnstylingResponse()
     {
-        $this->testCase->execute("stylish")
+        $this->testCase->execute('stylish')
             ->getResponseAssertions()
             ->outputEquals("\033[1mI've got style\033[22m");
-        $this->testCase->execute("stylish", [], [], [], false)
+        $this->testCase->execute('stylish', [], [], [], false)
             ->getResponseAssertions()
             ->outputEquals("I've got style");
     }
@@ -154,10 +154,10 @@ class IntegrationTestCaseTest extends \PHPUnit\Framework\TestCase
      */
     public function testThatResponseIsClearedBeforeEachCommand()
     {
-        $this->testCase->execute("stylish", [], [], [], false)
+        $this->testCase->execute('stylish', [], [], [], false)
             ->getResponseAssertions()
             ->outputEquals("I've got style");
-        $this->testCase->execute("stylish", [], [], [], false)
+        $this->testCase->execute('stylish', [], [], [], false)
             ->getResponseAssertions()
             ->outputEquals("I've got style");
     }

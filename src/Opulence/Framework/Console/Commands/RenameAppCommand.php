@@ -44,19 +44,19 @@ class RenameAppCommand extends Command
      */
     protected function define()
     {
-        $this->setName("app:rename")
-            ->setDescription("Renames an Opulence application")
+        $this->setName('app:rename')
+            ->setDescription('Renames an Opulence application')
             ->addArgument(new Argument(
-                "currName",
+                'currName',
                 ArgumentTypes::REQUIRED,
                 "The current application name ('Project' if it hasn't already been changed)"
             ))
             ->addArgument(new Argument(
-                "newName",
+                'newName',
                 ArgumentTypes::REQUIRED,
-                "The new application name"
+                'The new application name'
             ))
-            ->setHelpText("Be sure to use the correct capitalization for your app names.");
+            ->setHelpText('Be sure to use the correct capitalization for your app names.');
     }
 
     /**
@@ -66,18 +66,18 @@ class RenameAppCommand extends Command
     {
         $confirmationQuestion = new Confirmation(
             sprintf(
-                "Are you sure you want to rename %s to %s? [y/n] ",
-                $this->getArgumentValue("currName"),
-                $this->getArgumentValue("newName")
+                'Are you sure you want to rename %s to %s? [y/n] ',
+                $this->getArgumentValue('currName'),
+                $this->getArgumentValue('newName')
             )
         );
         $renameDirectoriesQuestion = new Confirmation(
             sprintf(
-                "Do you want to rename src/%s to src/%s and tests/%s to tests/%s? [y/n] ",
-                $this->getArgumentValue("currName"),
-                $this->getArgumentValue("newName"),
-                $this->getArgumentValue("currName"),
-                $this->getArgumentValue("newName")
+                'Do you want to rename src/%s to src/%s and tests/%s to tests/%s? [y/n] ',
+                $this->getArgumentValue('currName'),
+                $this->getArgumentValue('newName'),
+                $this->getArgumentValue('currName'),
+                $this->getArgumentValue('newName')
             )
         );
 
@@ -87,9 +87,9 @@ class RenameAppCommand extends Command
             $this->updateSrcAndTestDirectories($renameDirectories);
             $this->updateNamespaces();
             $this->updateConfigs();
-            $response->writeln("<success>Updated name successfully</success>");
-            $this->commandCollection->call("composer:dump-autoload", $response);
-            $this->commandCollection->call("framework:flushcache", $response);
+            $response->writeln('<success>Updated name successfully</success>');
+            $this->commandCollection->call('composer:dump-autoload', $response);
+            $this->commandCollection->call('framework:flushcache', $response);
         }
     }
 
@@ -100,20 +100,20 @@ class RenameAppCommand extends Command
      */
     protected function updateComposer(bool $renameDirectories)
     {
-        $rootPath = Config::get("paths", "root");
+        $rootPath = Config::get('paths', 'root');
         $currComposerContents = $this->fileSystem->read("$rootPath/composer.json");
         // Change the PSR-4 namespace
         $updatedComposerContents = str_replace(
-            $this->getArgumentValue("currName") . "\\\\",
-            $this->getArgumentValue("newName") . "\\\\",
+            $this->getArgumentValue('currName') . "\\\\",
+            $this->getArgumentValue('newName') . "\\\\",
             $currComposerContents
         );
 
         if ($renameDirectories) {
             // Change the PSR-4 directory
             $updatedComposerContents = str_replace(
-                "src/" . $this->getArgumentValue("currName"),
-                "src/" . $this->getArgumentValue("newName"),
+                'src/' . $this->getArgumentValue('currName'),
+                'src/' . $this->getArgumentValue('newName'),
                 $updatedComposerContents
             );
         }
@@ -125,13 +125,13 @@ class RenameAppCommand extends Command
      */
     protected function updateConfigs()
     {
-        $configFiles = $this->fileSystem->getFiles(Config::get("paths", "config"), true);
+        $configFiles = $this->fileSystem->getFiles(Config::get('paths', 'config'), true);
 
         foreach ($configFiles as $file) {
             $currentContents = $this->fileSystem->read($file);
             $updatedContents = str_replace(
-                $this->getArgumentValue("currName") . "\\",
-                $this->getArgumentValue("newName") . "\\",
+                $this->getArgumentValue('currName') . "\\",
+                $this->getArgumentValue('newName') . "\\",
                 $currentContents
             );
             $this->fileSystem->write($file, $updatedContents);
@@ -143,7 +143,7 @@ class RenameAppCommand extends Command
      */
     protected function updateNamespaces()
     {
-        $paths = [Config::get("paths", "src"), Config::get("paths", "tests")];
+        $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 
         foreach ($paths as $pathToUpdate) {
             $files = $this->fileSystem->getFiles($pathToUpdate, true);
@@ -153,24 +153,24 @@ class RenameAppCommand extends Command
                 // Change the "namespace" statements
                 $updatedContents = str_replace(
                     [
-                        "namespace {$this->getArgumentValue("currName")};",
-                        "namespace {$this->getArgumentValue("currName")}\\"
+                        "namespace {$this->getArgumentValue('currName')};",
+                        "namespace {$this->getArgumentValue('currName')}\\"
                     ],
                     [
-                        "namespace {$this->getArgumentValue("newName")};",
-                        "namespace {$this->getArgumentValue("newName")}\\"
+                        "namespace {$this->getArgumentValue('newName')};",
+                        "namespace {$this->getArgumentValue('newName')}\\"
                     ],
                     $currContents
                 );
                 // Change the "use" statements
                 $updatedContents = str_replace(
                     [
-                        "use {$this->getArgumentValue("currName")};",
-                        "use {$this->getArgumentValue("currName")}\\"
+                        "use {$this->getArgumentValue('currName')};",
+                        "use {$this->getArgumentValue('currName')}\\"
                     ],
                     [
-                        "use {$this->getArgumentValue("newName")};",
-                        "use {$this->getArgumentValue("newName")}\\"
+                        "use {$this->getArgumentValue('newName')};",
+                        "use {$this->getArgumentValue('newName')}\\"
                     ],
                     $updatedContents
                 );
@@ -186,13 +186,13 @@ class RenameAppCommand extends Command
      */
     protected function updateSrcAndTestDirectories(bool $renameDirectories)
     {
-        $paths = [Config::get("paths", "src"), Config::get("paths", "tests")];
+        $paths = [Config::get('paths', 'src'), Config::get('paths', 'tests')];
 
         foreach ($paths as $pathToUpdate) {
             if ($renameDirectories) {
                 $this->fileSystem->move(
-                    "$pathToUpdate/{$this->getArgumentValue("currName")}",
-                    "$pathToUpdate/{$this->getArgumentValue("newName")}"
+                    "$pathToUpdate/{$this->getArgumentValue('currName')}",
+                    "$pathToUpdate/{$this->getArgumentValue('newName')}"
                 );
             }
 
@@ -202,8 +202,8 @@ class RenameAppCommand extends Command
             foreach ($appFiles as $file) {
                 $currentContents = $this->fileSystem->read($file);
                 $updatedContents = str_replace(
-                    $this->getArgumentValue("currName") . "\\",
-                    $this->getArgumentValue("newName") . "\\",
+                    $this->getArgumentValue('currName') . "\\",
+                    $this->getArgumentValue('newName') . "\\",
                     $currentContents
                 );
                 $this->fileSystem->write($file, $updatedContents);

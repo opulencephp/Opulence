@@ -40,7 +40,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromRedisTimestamp()
     {
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(),
             $this->typeMapper->fromRedisTimestamp($time->getTimestamp())->getTimestamp());
     }
@@ -66,7 +66,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToRedisTimestamp()
     {
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 
@@ -75,7 +75,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToRedisTimestampFromImmutable()
     {
-        $time = new DateTimeImmutable("now");
+        $time = new DateTimeImmutable('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toRedisTimestamp($time));
     }
 
@@ -93,9 +93,9 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testTimezoneSet()
     {
         $currTimezone = date_default_timezone_get();
-        $newTimezone = "Australia/Canberra";
+        $newTimezone = 'Australia/Canberra';
         date_default_timezone_set($newTimezone);
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $redisTime = $this->typeMapper->fromRedisTimestamp($time->getTimestamp());
         $this->assertEquals($newTimezone, $redisTime->getTimezone()->getName());
         // Reset the timezone

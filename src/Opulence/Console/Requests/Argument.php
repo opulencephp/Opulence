@@ -16,11 +16,11 @@ use InvalidArgumentException;
 class Argument
 {
     /** @var string The name of the argument */
-    private $name = "";
+    private $name = '';
     /** @var int The type of argument this is */
     private $type = ArgumentTypes::REQUIRED;
     /** @var string A brief description of the argument */
-    private $description = "";
+    private $description = '';
     /** @var mixed The default value for the argument if it's optional */
     private $defaultValue = null;
 
@@ -34,7 +34,7 @@ class Argument
     public function __construct(string $name, int $type, string $description, $defaultValue = null)
     {
         if (($type & 3) === 3) {
-            throw new InvalidArgumentException("Argument type cannot be both optional and required");
+            throw new InvalidArgumentException('Argument type cannot be both optional and required');
         }
 
         $this->name = $name;

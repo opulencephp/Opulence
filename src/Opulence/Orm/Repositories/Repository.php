@@ -18,7 +18,7 @@ use Opulence\Orm\OrmException;
 class Repository implements IRepository
 {
     /** @var string The name of the class whose objects this repo is getting */
-    protected $className = "";
+    protected $className = '';
     /** @var IDataMapper The data mapper to use in this repo */
     protected $dataMapper = null;
     /** @var IUnitOfWork The unit of work to use in this repo */
@@ -58,7 +58,7 @@ class Repository implements IRepository
      */
     public function getAll() : array
     {
-        return $this->getFromDataMapper("getAll");
+        return $this->getFromDataMapper('getAll');
     }
 
     /**
@@ -72,7 +72,7 @@ class Repository implements IRepository
             return $entity;
         }
 
-        return $this->getFromDataMapper("getById", [$id]);
+        return $this->getFromDataMapper('getById', [$id]);
     }
 
     /**

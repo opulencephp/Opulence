@@ -14,7 +14,7 @@ namespace Opulence\Tests\Ioc\Mocks;
 class ConstructorWithSetters
 {
     /** @var string A primitive */
-    private $primitive = "";
+    private $primitive = '';
     /** @var IFoo An interface dependency */
     private $interface = null;
     /** @var Bar A concrete dependency */

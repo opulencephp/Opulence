@@ -78,7 +78,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
                 $this->cacheDataMapper->delete($entity);
             }
         } catch (Exception $ex) {
-            throw new OrmException("Commit failed", 0, $ex);
+            throw new OrmException('Commit failed', 0, $ex);
         }
 
         // Clear our schedules
@@ -101,7 +101,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      */
     public function getAll() : array
     {
-        return $this->read("getAll");
+        return $this->read('getAll');
     }
 
     /**
@@ -109,7 +109,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      */
     public function getById($id)
     {
-        return $this->read("getById", [$id]);
+        return $this->read('getById', [$id]);
     }
 
     /**
@@ -285,9 +285,9 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
         $cacheEntities = $this->keyEntityArray($unkeyedCacheEntities);
         $sqlEntities = $this->keyEntityArray($this->sqlDataMapper->getAll());
         $unsyncedEntities = [
-            "missing" => [],
-            "differing" => [],
-            "additional" => []
+            'missing' => [],
+            'differing' => [],
+            'additional' => []
         ];
 
         // Compare the entities in the SQL database to those in cache
@@ -297,7 +297,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
                 $cacheEntity = $cacheEntities[$sqlId];
 
                 if ($sqlEntity != $cacheEntity) {
-                    $unsyncedEntities["differing"][] = $sqlEntity;
+                    $unsyncedEntities['differing'][] = $sqlEntity;
 
                     if ($doRefresh) {
                         // Sync the entity in cache with the one in SQL
@@ -307,7 +307,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
                 }
             } else {
                 // The entity was not in cache
-                $unsyncedEntities["missing"][] = $sqlEntity;
+                $unsyncedEntities['missing'][] = $sqlEntity;
 
                 if ($doRefresh) {
                     // Add the entity to cache
@@ -321,7 +321,7 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
 
         foreach ($cacheOnlyIds as $entityId) {
             $cacheEntity = $cacheEntities[$entityId];
-            $unsyncedEntities["additional"][] = $cacheEntity;
+            $unsyncedEntities['additional'][] = $cacheEntity;
 
             if ($doRefresh) {
                 // Remove the entity that only appears in cache

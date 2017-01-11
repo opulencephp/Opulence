@@ -90,9 +90,9 @@ abstract class IntegrationTestCase extends TestCase
         }
 
         // We instantiate the response every time so that it's fresh whenever a new command is called
-        $this->response = new StreamResponse(fopen("php://memory", "w"), $this->responseCompiler);
+        $this->response = new StreamResponse(fopen('php://memory', 'w'), $this->responseCompiler);
         $this->response->setStyled($isStyled);
-        $input = ["name" => $commandName, "arguments" => $arguments, "options" => $options];
+        $input = ['name' => $commandName, 'arguments' => $arguments, 'options' => $options];
         $this->statusCode = $this->kernel->handle($input, $this->response);
         $this->assertResponse->setResponse($this->response, $this->statusCode);
 
@@ -119,7 +119,7 @@ abstract class IntegrationTestCase extends TestCase
 
         // Bind a mock prompt that can output pre-determined answers
         $this->prompt = $this->getMockBuilder(Prompt::class)
-            ->setMethods(["ask"])
+            ->setMethods(['ask'])
             ->setConstructorArgs([new PaddingFormatter()])
             ->getMock();
         $this->container->bindInstance(Prompt::class, $this->prompt);
@@ -145,7 +145,7 @@ abstract class IntegrationTestCase extends TestCase
 
         foreach ($answers as $index => $answer) {
             $this->prompt->expects($this->at($index))
-                ->method("ask")
+                ->method('ask')
                 ->willReturn($answer);
         }
 

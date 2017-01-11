@@ -93,8 +93,8 @@ class ViewFactory implements IViewFactory
             $builders = $this->builders[$name];
         } else {
             $pathInfo = pathinfo($resolvedPath);
-            $filename = $pathInfo["filename"];
-            $basename = $pathInfo["basename"];
+            $filename = $pathInfo['filename'];
+            $basename = $pathInfo['basename'];
 
             /**
              * If there's a builder registered without the extension and it resolves to the correct view file path

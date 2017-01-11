@@ -15,8 +15,8 @@ use Opulence\Databases\Server as BaseServer;
  */
 class Server extends BaseServer
 {
-    protected $host = "1.2.3.4";
-    protected $username = "foo";
-    protected $password = "bar";
-    protected $databaseName = "fakedatabase";
+    protected $host = '1.2.3.4';
+    protected $username = 'foo';
+    protected $password = 'bar';
+    protected $databaseName = 'fakedatabase';
 }

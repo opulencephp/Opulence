@@ -23,13 +23,13 @@ abstract class ConnectionPool
 {
     /** @var array Maps driver names to their fully-qualified class names */
     public static $drivers = [
-        "pdo_mysql" => MySqlDriver::class,
-        "pdo_pgsql" => PostgreSqlDriver::class,
+        'pdo_mysql' => MySqlDriver::class,
+        'pdo_pgsql' => PostgreSqlDriver::class,
     ];
     /** @var array The servers in this pool */
     protected $servers = [
-        "master" => null,
-        "custom" => []
+        'master' => null,
+        'custom' => []
     ];
     /** @var IDriver The driver to use for connections made by this pool */
     protected $driver = null;
@@ -83,7 +83,7 @@ abstract class ConnectionPool
      */
     public function getMaster()
     {
-        return $this->servers["master"]["server"];
+        return $this->servers['master']['server'];
     }
 
     /**
@@ -96,7 +96,7 @@ abstract class ConnectionPool
     public function getReadConnection(Server $preferredServer = null) : IConnection
     {
         if ($preferredServer !== null) {
-            $this->addServer("custom", $preferredServer);
+            $this->addServer('custom', $preferredServer);
             $this->setReadConnection($preferredServer);
         } elseif ($this->readConnection == null) {
             $this->setReadConnection();
@@ -115,7 +115,7 @@ abstract class ConnectionPool
     public function getWriteConnection(Server $preferredServer = null) : IConnection
     {
         if ($preferredServer != null) {
-            $this->addServer("custom", $preferredServer);
+            $this->addServer('custom', $preferredServer);
             $this->setWriteConnection($preferredServer);
         } elseif ($this->writeConnection == null) {
             $this->setWriteConnection();
@@ -129,7 +129,7 @@ abstract class ConnectionPool
      */
     public function setMaster(Server $master)
     {
-        $this->addServer("master", $master);
+        $this->addServer('master', $master);
     }
 
     /**
@@ -157,15 +157,15 @@ abstract class ConnectionPool
     protected function addServer(string $type, Server $server)
     {
         switch ($type) {
-            case "master":
-                $this->servers["master"] = ["server" => $server, "connection" => null];
+            case 'master':
+                $this->servers['master'] = ['server' => $server, 'connection' => null];
 
                 break;
             default:
                 $serverHashId = spl_object_hash($server);
 
                 if (!isset($this->servers[$type][$serverHashId])) {
-                    $this->servers[$type][$serverHashId] = ["server" => $server, "connection" => null];
+                    $this->servers[$type][$serverHashId] = ['server' => $server, 'connection' => null];
                 }
 
                 break;
@@ -194,30 +194,30 @@ abstract class ConnectionPool
     protected function getConnection(string $type, Server $server) : IConnection
     {
         switch ($type) {
-            case "master":
-                if ($this->servers["master"]["server"] == null) {
-                    throw new RuntimeException("No master specified");
+            case 'master':
+                if ($this->servers['master']['server'] == null) {
+                    throw new RuntimeException('No master specified');
                 }
 
-                if ($this->servers["master"]["connection"] == null) {
-                    $this->servers["master"]["connection"] = $this->connectToServer($server);
+                if ($this->servers['master']['connection'] == null) {
+                    $this->servers['master']['connection'] = $this->connectToServer($server);
                 }
 
-                return $this->servers["master"]["connection"];
+                return $this->servers['master']['connection'];
             default:
                 $serverHashId = spl_object_hash($server);
 
                 if (!isset($this->servers[$type][$serverHashId])
-                    || $this->servers[$type][$serverHashId]["server"] == null
+                    || $this->servers[$type][$serverHashId]['server'] == null
                 ) {
                     throw new RuntimeException("Server of type '" . $type . "' not added to connection pool");
                 }
 
-                if ($this->servers[$type][$serverHashId]["connection"] == null) {
-                    $this->servers[$type][$serverHashId]["connection"] = $this->connectToServer($server);
+                if ($this->servers[$type][$serverHashId]['connection'] == null) {
+                    $this->servers[$type][$serverHashId]['connection'] = $this->connectToServer($server);
                 }
 
-                return $this->servers[$type][$serverHashId]["connection"];
+                return $this->servers[$type][$serverHashId]['connection'];
         }
     }
 }

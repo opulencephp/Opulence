@@ -18,16 +18,16 @@ class MemcachedBridge implements ICacheBridge
     /** @var Memcached The Memcached driver */
     protected $memcached = null;
     /** @var string The name of the client to connect to */
-    protected $clientName = "default";
+    protected $clientName = 'default';
     /** @var string The prefix to use on all keys */
-    protected $keyPrefix = "";
+    protected $keyPrefix = '';
 
     /**
      * @param Memcached $memcached The Memcached driver
      * @param string $clientName The name of the client to connect to
      * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(Memcached $memcached, string $clientName = "default", string $keyPrefix = "")
+    public function __construct(Memcached $memcached, string $clientName = 'default', string $keyPrefix = '')
     {
         $this->memcached = $memcached;
         $this->clientName = $clientName;

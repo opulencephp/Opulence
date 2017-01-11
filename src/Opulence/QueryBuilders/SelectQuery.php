@@ -21,7 +21,7 @@ class SelectQuery extends Query
     /** @var array The list of select expressions */
     protected $selectExpressions = [];
     /** @var array The list of join statements */
-    protected $joins = ["inner" => [], "left" => [], "right" => []];
+    protected $joins = ['inner' => [], 'left' => [], 'right' => []];
     /** @var array The list of group by clauses */
     protected $groupByClauses = [];
     /** @var array The list of having conditions */
@@ -90,7 +90,7 @@ class SelectQuery extends Query
     public function andHaving(...$conditions) : self
     {
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
-            $this->havingConditions, "AND", ...$this->createConditionExpressions($conditions)
+            $this->havingConditions, 'AND', ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -118,7 +118,7 @@ class SelectQuery extends Query
      * @param string $tableAlias The alias of the table name
      * @return self For method chaining
      */
-    public function from(string $tableName, string $tableAlias = "") : self
+    public function from(string $tableName, string $tableAlias = '') : self
     {
         $this->setTable($tableName, $tableAlias);
 
@@ -131,33 +131,33 @@ class SelectQuery extends Query
     public function getSql() : string
     {
         // Build the selector
-        $sql = "SELECT " . implode(", ", $this->selectExpressions)
-            . (empty($this->tableName) ? "" : " FROM {$this->tableName}")
-            . (empty($this->tableAlias) ? "" : " AS {$this->tableAlias}");
+        $sql = 'SELECT ' . implode(', ', $this->selectExpressions)
+            . (empty($this->tableName) ? '' : " FROM {$this->tableName}")
+            . (empty($this->tableAlias) ? '' : " AS {$this->tableAlias}");
 
         // Add any joins
         foreach ($this->joins as $type => $joinsByType) {
             foreach ($joinsByType as $join) {
-                $sql .= " " . strtoupper($type) . " JOIN {$join["tableName"]}"
-                    . (empty($join["tableAlias"]) ? "" : " AS {$join["tableAlias"]}") . " ON {$join["condition"]}";
+                $sql .= ' ' . strtoupper($type) . " JOIN {$join['tableName']}"
+                    . (empty($join['tableAlias']) ? '' : " AS {$join['tableAlias']}") . " ON {$join['condition']}";
             }
         }
 
         // Add any conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql("WHERE",
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql('WHERE',
             $this->conditionalQueryBuilder->getWhereConditions());
 
         // Add groupings
         if (count($this->groupByClauses) > 0) {
-            $sql .= " GROUP BY " . implode(", ", $this->groupByClauses);
+            $sql .= ' GROUP BY ' . implode(', ', $this->groupByClauses);
         }
 
         // Add any groupings' conditions
-        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql("HAVING", $this->havingConditions);
+        $sql .= $this->conditionalQueryBuilder->getClauseConditionSql('HAVING', $this->havingConditions);
 
         // Order the query
         if (count($this->orderBy) > 0) {
-            $sql .= " ORDER BY " . implode(", ", $this->orderBy);
+            $sql .= ' ORDER BY ' . implode(', ', $this->orderBy);
         }
 
         // Add a limit
@@ -199,7 +199,7 @@ class SelectQuery extends Query
         // We want to wipe out anything already in the condition list
         $this->havingConditions = [];
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
-            $this->havingConditions, "AND", ...$this->createConditionExpressions($conditions)
+            $this->havingConditions, 'AND', ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -215,7 +215,7 @@ class SelectQuery extends Query
      */
     public function innerJoin(string $tableName, string $tableAlias, string $condition) : self
     {
-        $this->joins["inner"][] = ["tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition];
+        $this->joins['inner'][] = ['tableName' => $tableName, 'tableAlias' => $tableAlias, 'condition' => $condition];
 
         return $this;
     }
@@ -244,7 +244,7 @@ class SelectQuery extends Query
      */
     public function leftJoin(string $tableName, string $tableAlias, string $condition) : self
     {
-        $this->joins["left"][] = ["tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition];
+        $this->joins['left'][] = ['tableName' => $tableName, 'tableAlias' => $tableAlias, 'condition' => $condition];
 
         return $this;
     }
@@ -286,7 +286,7 @@ class SelectQuery extends Query
     public function orHaving(...$conditions) : self
     {
         $this->havingConditions = $this->conditionalQueryBuilder->addConditionToClause(
-            $this->havingConditions, "OR", ...$this->createConditionExpressions($conditions)
+            $this->havingConditions, 'OR', ...$this->createConditionExpressions($conditions)
         );
 
         return $this;
@@ -331,7 +331,7 @@ class SelectQuery extends Query
      */
     public function rightJoin(string $tableName, string $tableAlias, string $condition) : self
     {
-        $this->joins["right"][] = ["tableName" => $tableName, "tableAlias" => $tableAlias, "condition" => $condition];
+        $this->joins['right'][] = ['tableName' => $tableName, 'tableAlias' => $tableAlias, 'condition' => $condition];
 
         return $this;
     }
@@ -369,7 +369,7 @@ class SelectQuery extends Query
             } elseif (is_string($condition)) {
                 $conditionExpressions[] = $condition;
             } else {
-                throw new InvalidArgumentException("Condition must either be string or ICondition object");
+                throw new InvalidArgumentException('Condition must either be string or ICondition object');
             }
         }
 

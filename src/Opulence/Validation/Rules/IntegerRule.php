@@ -18,7 +18,7 @@ class IntegerRule implements IRule
      */
     public function getSlug() : string
     {
-        return "integer";
+        return 'integer';
     }
 
     /**

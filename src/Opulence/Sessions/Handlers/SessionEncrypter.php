@@ -35,7 +35,7 @@ class SessionEncrypter implements ISessionEncrypter
         try {
             return $this->encrypter->decrypt($data);
         } catch (EncryptionException $ex) {
-            throw new SessionEncryptionException("Session decryption failed", 0, $ex);
+            throw new SessionEncryptionException('Session decryption failed', 0, $ex);
         }
     }
 
@@ -47,7 +47,7 @@ class SessionEncrypter implements ISessionEncrypter
         try {
             return $this->encrypter->encrypt($data);
         } catch (EncryptionException $ex) {
-            throw new SessionEncryptionException("Session encryption failed", 0, $ex);
+            throw new SessionEncryptionException('Session encryption failed', 0, $ex);
         }
     }
 }

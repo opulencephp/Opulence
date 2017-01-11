@@ -39,14 +39,14 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForExistingView()
     {
         $this->bridge->expects($this->once())
-            ->method("get")
+            ->method('get')
             ->with($this->getKey($this->view))
-            ->willReturn("compiled");
+            ->willReturn('compiled');
         $this->bridge->expects($this->once())
-            ->method("has")
+            ->method('has')
             ->with($this->getKey($this->view))
             ->willReturn(true);
-        $this->assertEquals("compiled", $this->cache->get($this->view));
+        $this->assertEquals('compiled', $this->cache->get($this->view));
         $this->assertTrue($this->cache->has($this->view));
     }
 
@@ -56,11 +56,11 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForNonExistentView()
     {
         $this->bridge->expects($this->once())
-            ->method("get")
+            ->method('get')
             ->with($this->getKey($this->view))
             ->willReturn(null);
         $this->bridge->expects($this->once())
-            ->method("has")
+            ->method('has')
             ->with($this->getKey($this->view))
             ->willReturn(false);
         $this->assertNull($this->cache->get($this->view));
@@ -73,7 +73,7 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     public function testFlushingCache()
     {
         $this->bridge->expects($this->once())
-            ->method("flush");
+            ->method('flush');
         $this->cache->flush();
     }
 
@@ -83,10 +83,10 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     public function testGettingView()
     {
         $this->bridge->expects($this->once())
-            ->method("get")
+            ->method('get')
             ->with($this->getKey($this->view))
-            ->willReturn("compiled");
-        $this->assertEquals("compiled", $this->cache->get($this->view));
+            ->willReturn('compiled');
+        $this->assertEquals('compiled', $this->cache->get($this->view));
     }
 
     /**
@@ -95,9 +95,9 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     public function testSettingView()
     {
         $this->bridge->expects($this->once())
-            ->method("set")
-            ->with($this->getKey($this->view), "compiled", 3600);
-        $this->cache->set($this->view, "compiled");
+            ->method('set')
+            ->with($this->getKey($this->view), 'compiled', 3600);
+        $this->cache->set($this->view, 'compiled');
     }
 
     /**
@@ -109,8 +109,8 @@ class GenericCacheTest extends \PHPUnit\Framework\TestCase
     private function getKey(IView $view) : string
     {
         return md5(http_build_query([
-            "u" => $view->getContents(),
-            "v" => $view->getVars()
+            'u' => $view->getContents(),
+            'v' => $view->getVars()
         ]));
     }
 }

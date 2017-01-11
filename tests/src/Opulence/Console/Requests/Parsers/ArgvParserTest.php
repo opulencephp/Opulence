@@ -31,7 +31,7 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testBackslashesAreRespected()
     {
-        $request = $this->parser->parse(["apex", "foo", "bar\\baz"]);
+        $request = $this->parser->parse(['apex', 'foo', "bar\\baz"]);
         $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
     }
 
@@ -40,11 +40,11 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testParsingArgumentsAndOptions()
     {
-        $request = $this->parser->parse(["apex", "foo", "bar", "-r", "--name=dave"]);
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["bar"], $request->getArgumentValues());
-        $this->assertNull($request->getOptionValue("r"));
-        $this->assertEquals("dave", $request->getOptionValue("name"));
+        $request = $this->parser->parse(['apex', 'foo', 'bar', '-r', '--name=dave']);
+        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertEquals(['bar'], $request->getArgumentValues());
+        $this->assertNull($request->getOptionValue('r'));
+        $this->assertEquals('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -52,12 +52,12 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testParsingNullString()
     {
-        $_SERVER["argv"] = ["apex", "foo", "bar", "-r", "--name=dave"];
+        $_SERVER['argv'] = ['apex', 'foo', 'bar', '-r', '--name=dave'];
         $request = $this->parser->parse(null);
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["bar"], $request->getArgumentValues());
-        $this->assertNull($request->getOptionValue("r"));
-        $this->assertEquals("dave", $request->getOptionValue("name"));
+        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertEquals(['bar'], $request->getArgumentValues());
+        $this->assertNull($request->getOptionValue('r'));
+        $this->assertEquals('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -65,8 +65,8 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testParsingOptionWithNoValue()
     {
-        $request = $this->parser->parse(["apex", "foo", "--name"]);
-        $this->assertNull($request->getOptionValue("name"));
+        $request = $this->parser->parse(['apex', 'foo', '--name']);
+        $this->assertNull($request->getOptionValue('name'));
     }
 
     /**
@@ -75,6 +75,6 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
     public function testPassingInvalidInputType()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->parser->parse("foo");
+        $this->parser->parse('foo');
     }
 }

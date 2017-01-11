@@ -37,7 +37,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyArrayReturnedWhenNoRolesRegistered()
     {
-        $this->assertNull($this->registry->getRoles("foo"));
+        $this->assertNull($this->registry->getRoles('foo'));
     }
 
     /**
@@ -45,7 +45,7 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testNullReturnedWhenNoCallbackRegistered()
     {
-        $this->assertNull($this->registry->getCallback("foo"));
+        $this->assertNull($this->registry->getCallback('foo'));
     }
 
     /**
@@ -53,8 +53,8 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringArrayOfRoles()
     {
-        $this->registry->registerRoles("foo", ["bar", "baz"]);
-        $this->assertEquals(["bar", "baz"], $this->registry->getRoles("foo"));
+        $this->registry->registerRoles('foo', ['bar', 'baz']);
+        $this->assertEquals(['bar', 'baz'], $this->registry->getRoles('foo'));
     }
 
     /**
@@ -65,8 +65,8 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
         $callback = function () {
             return false;
         };
-        $this->registry->registerCallback("foo", $callback);
-        $this->assertSame($callback, $this->registry->getCallback("foo"));
+        $this->registry->registerCallback('foo', $callback);
+        $this->assertSame($callback, $this->registry->getCallback('foo'));
     }
 
     /**
@@ -86,8 +86,8 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringSingleRole()
     {
-        $this->registry->registerRoles("foo", "bar");
-        $this->assertEquals(["bar"], $this->registry->getRoles("foo"));
+        $this->registry->registerRoles('foo', 'bar');
+        $this->assertEquals(['bar'], $this->registry->getRoles('foo'));
     }
 
     /**
@@ -95,8 +95,8 @@ class PermissionRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRolesNotOverwrittenWhenDoubleRegisteringPermission()
     {
-        $this->registry->registerRoles("foo", "bar");
-        $this->registry->registerRoles("foo", "baz");
-        $this->assertEquals(["bar", "baz"], $this->registry->getRoles("foo"));
+        $this->registry->registerRoles('foo', 'bar');
+        $this->registry->registerRoles('foo', 'baz');
+        $this->assertEquals(['bar', 'baz'], $this->registry->getRoles('foo'));
     }
 }

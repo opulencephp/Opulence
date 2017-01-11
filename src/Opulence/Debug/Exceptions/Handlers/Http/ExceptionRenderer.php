@@ -51,11 +51,11 @@ class ExceptionRenderer implements IExceptionRenderer
             header("HTTP/1.1 $statusCode", true, $statusCode);
 
             switch ($this->getRequestFormat()) {
-                case "json":
-                    $headers["Content-Type"] = "application/json";
+                case 'json':
+                    $headers['Content-Type'] = 'application/json';
                     break;
                 default:
-                    $headers["Content-Type"] = "text/html";
+                    $headers['Content-Type'] = 'text/html';
             }
 
             foreach ($headers as $name => $values) {
@@ -137,10 +137,10 @@ class ExceptionRenderer implements IExceptionRenderer
      */
     protected function getRequestFormat() : string
     {
-        if (isset($_SERVER["CONTENT_TYPE"]) && $_SERVER["CONTENT_TYPE"] === "application/json") {
-            return "json";
+        if (isset($_SERVER['CONTENT_TYPE']) && $_SERVER['CONTENT_TYPE'] === 'application/json') {
+            return 'json';
         } else {
-            return "html";
+            return 'html';
         }
     }
 

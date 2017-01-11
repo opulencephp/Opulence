@@ -22,8 +22,8 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     public function testEqualValuesPass()
     {
         $rule = new DateRule();
-        $format1 = "F j";
-        $format2 = "s:i:H d-m-Y";
+        $format1 = 'F j';
+        $format2 = 's:i:H d-m-Y';
         $rule->setArgs([$format1]);
         $this->assertTrue($rule->passes((new DateTime)->format($format1)));
         $rule->setArgs([[$format1, $format2]]);
@@ -36,7 +36,7 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new DateRule();
-        $this->assertEquals("date", $rule->getSlug());
+        $this->assertEquals('date', $rule->getSlug());
     }
 
     /**
@@ -65,11 +65,11 @@ class DateRuleTest extends \PHPUnit\Framework\TestCase
     public function testUnequalValuesFail()
     {
         $rule = new DateRule();
-        $format1 = "F j";
-        $format2 = "s:i:H d-m-Y";
+        $format1 = 'F j';
+        $format2 = 's:i:H d-m-Y';
         $rule->setArgs([$format1]);
-        $this->assertFalse($rule->passes((new DateTime)->format("His")));
+        $this->assertFalse($rule->passes((new DateTime)->format('His')));
         $rule->setArgs([[$format1, $format2]]);
-        $this->assertFalse($rule->passes((new DateTime)->format("Y")));
+        $this->assertFalse($rule->passes((new DateTime)->format('Y')));
     }
 }

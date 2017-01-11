@@ -22,8 +22,8 @@ class MakeHttpMiddlewareCommand extends MakeCommand
     {
         parent::define();
 
-        $this->setName("make:httpmiddleware")
-            ->setDescription("Creates an HTTP middleware class");
+        $this->setName('make:httpmiddleware')
+            ->setDescription('Creates an HTTP middleware class');
     }
 
     /**
@@ -39,6 +39,6 @@ class MakeHttpMiddlewareCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . "/templates/HttpMiddleware.template";
+        return __DIR__ . '/templates/HttpMiddleware.template';
     }
 }

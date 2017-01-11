@@ -27,13 +27,13 @@ class MiddlewarePipeline implements IMiddlewarePipeline
         try {
             $response = (new Pipeline)
                 ->send($request)
-                ->through($middleware, "handle")
+                ->through($middleware, 'handle')
                 ->then($controller)
                 ->execute();
 
             return $response ?? new Response();
         } catch (PipelineException $ex) {
-            throw new RouteException("Failed to send request through middleware pipeline", 0, $ex);
+            throw new RouteException('Failed to send request through middleware pipeline', 0, $ex);
         }
     }
 }

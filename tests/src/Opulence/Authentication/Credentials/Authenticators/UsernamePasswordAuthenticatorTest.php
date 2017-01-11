@@ -35,7 +35,7 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->userRepository = $this->createMock(IUserRepository::class);
         $this->roleRepository = $this->createMock(IRoleRepository::class);
-        $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository, $this->roleRepository, "pepper");
+        $this->authenticator = new UsernamePasswordAuthenticator($this->userRepository, $this->roleRepository, 'pepper');
         $this->credential = $this->createMock(ICredential::class);
     }
 
@@ -45,33 +45,33 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testCorrectPasswordReturnsTrue()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getRoleNamesForSubject")
-            ->willReturn(["role"]);
+            ->method('getRoleNamesForSubject')
+            ->willReturn(['role']);
         $this->credential->expects($this->at(0))
-            ->method("getValue")
-            ->with("username")
-            ->willReturn("foo");
+            ->method('getValue')
+            ->with('username')
+            ->willReturn('foo');
         $this->credential->expects($this->at(1))
-            ->method("getValue")
-            ->with("password")
-            ->willReturn("password");
+            ->method('getValue')
+            ->with('password')
+            ->willReturn('password');
         $user = $this->createMock(IUser::class);
         $user->expects($this->once())
-            ->method("getHashedPassword")
-            ->willReturn(password_hash("password"."pepper", PASSWORD_BCRYPT));
+            ->method('getHashedPassword')
+            ->willReturn(password_hash('password' . 'pepper', PASSWORD_BCRYPT));
         $user->expects($this->once())
-            ->method("getId")
-            ->willReturn("userId");
+            ->method('getId')
+            ->willReturn('userId');
         $this->userRepository->expects($this->once())
-            ->method("getByUsername")
-            ->with("foo")
+            ->method('getByUsername')
+            ->with('foo')
             ->willReturn($user);
         $subject = null;
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
         /** @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
-        $this->assertEquals("userId", $subject->getPrimaryPrincipal()->getId());
-        $this->assertEquals(["role"], $subject->getPrimaryPrincipal()->getRoles());
+        $this->assertEquals('userId', $subject->getPrimaryPrincipal()->getId());
+        $this->assertEquals(['role'], $subject->getPrimaryPrincipal()->getRoles());
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
 
@@ -81,20 +81,20 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testIncorrectPasswordReturnsFalse()
     {
         $this->credential->expects($this->at(0))
-            ->method("getValue")
-            ->with("username")
-            ->willReturn("foo");
+            ->method('getValue')
+            ->with('username')
+            ->willReturn('foo');
         $this->credential->expects($this->at(1))
-            ->method("getValue")
-            ->with("password")
-            ->willReturn("bar");
+            ->method('getValue')
+            ->with('password')
+            ->willReturn('bar');
         $user = $this->createMock(IUser::class);
         $user->expects($this->once())
-            ->method("getHashedPassword")
-            ->willReturn(password_hash("password", PASSWORD_BCRYPT));
+            ->method('getHashedPassword')
+            ->willReturn(password_hash('password', PASSWORD_BCRYPT));
         $this->userRepository->expects($this->once())
-            ->method("getByUsername")
-            ->with("foo")
+            ->method('getByUsername')
+            ->with('foo')
             ->willReturn($user);
         $subject = null;
         $error = null;
@@ -108,16 +108,16 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testNonExistentUsernameReturnsFalse()
     {
         $this->credential->expects($this->at(0))
-            ->method("getValue")
-            ->with("username")
-            ->willReturn("foo");
+            ->method('getValue')
+            ->with('username')
+            ->willReturn('foo');
         $this->credential->expects($this->at(1))
-            ->method("getValue")
-            ->with("password")
-            ->willReturn("bar");
+            ->method('getValue')
+            ->with('password')
+            ->willReturn('bar');
         $this->userRepository->expects($this->once())
-            ->method("getByUsername")
-            ->with("foo")
+            ->method('getByUsername')
+            ->with('foo')
             ->willReturn(null);
         $subject = null;
         $error = null;
@@ -131,12 +131,12 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testUnsetPasswordCredentialReturnsFalse()
     {
         $this->credential->expects($this->at(0))
-            ->method("getValue")
-            ->with("username")
-            ->willReturn("foo");
+            ->method('getValue')
+            ->with('username')
+            ->willReturn('foo');
         $this->credential->expects($this->at(1))
-            ->method("getValue")
-            ->with("password")
+            ->method('getValue')
+            ->with('password')
             ->willReturn(null);
         $subject = null;
         $error = null;
@@ -150,13 +150,13 @@ class UsernamePasswordAuthenticatorTest extends \PHPUnit\Framework\TestCase
     public function testUnsetUsernameCredentialReturnsFalse()
     {
         $this->credential->expects($this->at(0))
-            ->method("getValue")
-            ->with("username")
+            ->method('getValue')
+            ->with('username')
             ->willReturn(null);
         $this->credential->expects($this->at(1))
-            ->method("getValue")
-            ->with("password")
-            ->willReturn("foo");
+            ->method('getValue')
+            ->with('password')
+            ->willReturn('foo');
         $subject = null;
         $error = null;
         $this->assertFalse($this->authenticator->authenticate($this->credential, $subject, $error));

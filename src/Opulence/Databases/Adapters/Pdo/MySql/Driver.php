@@ -22,15 +22,15 @@ class Driver extends BaseDriver
      */
     protected function getDsn(Server $server, array $options = []) : string
     {
-        $dsn = implode(";", [
-                "mysql:host=" . $server->getHost(),
-                "dbname=" . $server->getDatabaseName(),
-                "port=" . $server->getPort(),
-                "charset=" . $server->getCharset()
-            ]) . ";";
+        $dsn = implode(';', [
+                'mysql:host=' . $server->getHost(),
+                'dbname=' . $server->getDatabaseName(),
+                'port=' . $server->getPort(),
+                'charset=' . $server->getCharset()
+            ]) . ';';
 
-        if (isset($options["unix_socket"])) {
-            $dsn .= "unix_socket=" . $options["unix_socket"] . ";";
+        if (isset($options['unix_socket'])) {
+            $dsn .= 'unix_socket=' . $options['unix_socket'] . ';';
         }
 
         return $dsn;

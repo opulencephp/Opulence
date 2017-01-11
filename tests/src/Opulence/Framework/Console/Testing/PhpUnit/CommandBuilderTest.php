@@ -25,9 +25,9 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     {
         $this->integrationTest = $this->createMock(IntegrationTestCase::class);
         $this->integrationTest->expects($this->any())
-            ->method("execute")
+            ->method('execute')
             ->willReturn($this->integrationTest);
-        $this->commandBuilder = new CommandBuilder($this->integrationTest, "foo");
+        $this->commandBuilder = new CommandBuilder($this->integrationTest, 'foo');
     }
 
     /**
@@ -36,8 +36,8 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingBasicCommand()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", [], [], [], true);
+            ->method('execute')
+            ->with('foo', [], [], [], true);
         $this->assertSame($this->integrationTest, $this->commandBuilder->execute());
     }
 
@@ -47,11 +47,11 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithMultipleArguments()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", ["bar"], [], [], true);
+            ->method('execute')
+            ->with('foo', ['bar'], [], [], true);
         $this->assertSame(
             $this->integrationTest,
-            $this->commandBuilder->withArguments(["bar"])
+            $this->commandBuilder->withArguments(['bar'])
                 ->execute()
         );
     }
@@ -62,11 +62,11 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithMultipleOptions()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", [], ["-y"], [], true);
+            ->method('execute')
+            ->with('foo', [], ['-y'], [], true);
         $this->assertSame(
             $this->integrationTest,
-            $this->commandBuilder->withOptions(["-y"])
+            $this->commandBuilder->withOptions(['-y'])
                 ->execute()
         );
     }
@@ -77,11 +77,11 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithMultiplePromptAnswers()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", [], [], ["bar"], true);
+            ->method('execute')
+            ->with('foo', [], [], ['bar'], true);
         $this->assertSame(
             $this->integrationTest,
-            $this->commandBuilder->withAnswers(["bar"])
+            $this->commandBuilder->withAnswers(['bar'])
                 ->execute()
         );
     }
@@ -92,11 +92,11 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithSingleArgument()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", ["bar"], [], [], true);
+            ->method('execute')
+            ->with('foo', ['bar'], [], [], true);
         $this->assertSame(
             $this->integrationTest,
-            $this->commandBuilder->withArguments("bar")
+            $this->commandBuilder->withArguments('bar')
                 ->execute()
         );
     }
@@ -107,11 +107,11 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithSingleOption()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", [], ["-y"], [], true);
+            ->method('execute')
+            ->with('foo', [], ['-y'], [], true);
         $this->assertSame(
             $this->integrationTest,
-            $this->commandBuilder->withOptions("-y")
+            $this->commandBuilder->withOptions('-y')
                 ->execute()
         );
     }
@@ -122,11 +122,11 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithSinglePromptAnswer()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", [], [], ["bar"], true);
+            ->method('execute')
+            ->with('foo', [], [], ['bar'], true);
         $this->assertSame(
             $this->integrationTest,
-            $this->commandBuilder->withAnswers("bar")
+            $this->commandBuilder->withAnswers('bar')
                 ->execute()
         );
     }
@@ -137,8 +137,8 @@ class CommandBuilderTest extends \PHPUnit\Framework\TestCase
     public function testBuildingCommandWithUnstyledResponse()
     {
         $this->integrationTest->expects($this->once())
-            ->method("execute")
-            ->with("foo", [], [], [], false);
+            ->method('execute')
+            ->with('foo', [], [], [], false);
         $this->assertSame(
             $this->integrationTest,
             $this->commandBuilder->withStyle(false)

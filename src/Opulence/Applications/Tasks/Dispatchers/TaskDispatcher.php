@@ -18,10 +18,10 @@ class TaskDispatcher implements ITaskDispatcher
 {
     /** @var callable[][] The list of task callbacks */
     private $tasks = [
-        "preStart" => [],
-        "postStart" => [],
-        "preShutdown" => [],
-        "postShutdown" => []
+        'preStart' => [],
+        'postStart' => [],
+        'preShutdown' => [],
+        'postShutdown' => []
     ];
 
     /**
@@ -34,7 +34,7 @@ class TaskDispatcher implements ITaskDispatcher
                 $task();
             }
         } catch (Exception $ex) {
-            throw new RuntimeException("Failed to run tasks", 0, $ex);
+            throw new RuntimeException('Failed to run tasks', 0, $ex);
         }
     }
 

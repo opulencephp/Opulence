@@ -40,7 +40,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingFromMemcachedTimestamp()
     {
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(),
             $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp())->getTimestamp());
     }
@@ -66,7 +66,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToMemcachedTimestamp()
     {
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 
@@ -75,7 +75,7 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
      */
     public function testConvertingToMemcachedTimestampFromImmutable()
     {
-        $time = new DateTimeImmutable("now");
+        $time = new DateTimeImmutable('now');
         $this->assertEquals($time->getTimestamp(), $this->typeMapper->toMemcachedTimestamp($time));
     }
 
@@ -93,9 +93,9 @@ class TypeMapperTest extends \PHPUnit\Framework\TestCase
     public function testTimezoneSet()
     {
         $currTimezone = date_default_timezone_get();
-        $newTimezone = "Australia/Canberra";
+        $newTimezone = 'Australia/Canberra';
         date_default_timezone_set($newTimezone);
-        $time = new DateTime("now");
+        $time = new DateTime('now');
         $memcachedTime = $this->typeMapper->fromMemcachedTimestamp($time->getTimestamp());
         $this->assertEquals($newTimezone, $memcachedTime->getTimezone()->getName());
         // Reset the timezone

@@ -36,7 +36,7 @@ class TypeMapper
      */
     public function fromRedisTimestamp($timestamp) : DateTime
     {
-        $date = DateTime::createFromFormat("U", $timestamp);
+        $date = DateTime::createFromFormat('U', $timestamp);
         $date->setTimezone(new DateTimeZone(date_default_timezone_get()));
 
         return $date;

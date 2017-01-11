@@ -38,14 +38,14 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingListeners()
     {
-        $listener1 = [$this->listener, "doNothing1"];
-        $listener2 = [$this->listener, "doNothing2"];
-        $this->eventRegistry->registerListener("foo", $listener1);
-        $this->assertEquals([$listener1], $this->eventRegistry->getListeners("foo"));
-        $this->assertTrue($this->eventRegistry->hasListeners("foo"));
-        $this->eventRegistry->registerListener("foo", $listener2);
-        $this->assertEquals([$listener1, $listener2], $this->eventRegistry->getListeners("foo"));
-        $this->assertTrue($this->eventRegistry->hasListeners("foo"));
+        $listener1 = [$this->listener, 'doNothing1'];
+        $listener2 = [$this->listener, 'doNothing2'];
+        $this->eventRegistry->registerListener('foo', $listener1);
+        $this->assertEquals([$listener1], $this->eventRegistry->getListeners('foo'));
+        $this->assertTrue($this->eventRegistry->hasListeners('foo'));
+        $this->eventRegistry->registerListener('foo', $listener2);
+        $this->assertEquals([$listener1, $listener2], $this->eventRegistry->getListeners('foo'));
+        $this->assertTrue($this->eventRegistry->hasListeners('foo'));
     }
 
     /**
@@ -53,9 +53,9 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfEventHasListeners()
     {
-        $this->assertFalse($this->eventRegistry->hasListeners("foo"));
-        $this->eventRegistry->registerListener("foo", [$this->listener, "doNothing1"]);
-        $this->assertTrue($this->eventRegistry->hasListeners("foo"));
+        $this->assertFalse($this->eventRegistry->hasListeners('foo'));
+        $this->eventRegistry->registerListener('foo', [$this->listener, 'doNothing1']);
+        $this->assertTrue($this->eventRegistry->hasListeners('foo'));
     }
 
     /**
@@ -63,12 +63,12 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingListeners()
     {
-        $this->assertEquals([], $this->eventRegistry->getListeners("foo"));
-        $listener1 = [$this->listener, "doNothing1"];
-        $listener2 = [$this->listener, "doNothing2"];
-        $this->eventRegistry->registerListener("foo", $listener1);
-        $this->eventRegistry->registerListener("foo", $listener2);
-        $this->assertEquals([$listener1, $listener2], $this->eventRegistry->getListeners("foo"));
+        $this->assertEquals([], $this->eventRegistry->getListeners('foo'));
+        $listener1 = [$this->listener, 'doNothing1'];
+        $listener2 = [$this->listener, 'doNothing2'];
+        $this->eventRegistry->registerListener('foo', $listener1);
+        $this->eventRegistry->registerListener('foo', $listener2);
+        $this->assertEquals([$listener1, $listener2], $this->eventRegistry->getListeners('foo'));
     }
 
     /**
@@ -76,10 +76,10 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testListenerCannotBeAddedTwice()
     {
-        $listener = [$this->listener, "doNothing1"];
-        $this->eventRegistry->registerListener("foo", $listener);
-        $this->eventRegistry->registerListener("foo", $listener);
-        $this->assertEquals([$listener], $this->eventRegistry->getListeners("foo"));
+        $listener = [$this->listener, 'doNothing1'];
+        $this->eventRegistry->registerListener('foo', $listener);
+        $this->eventRegistry->registerListener('foo', $listener);
+        $this->assertEquals([$listener], $this->eventRegistry->getListeners('foo'));
     }
 
     /**
@@ -87,15 +87,15 @@ class EventRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRemovingListeners()
     {
-        $listener1 = [$this->listener, "doNothing1"];
-        $listener2 = [$this->listener, "doNothing2"];
-        $this->eventRegistry->registerListener("foo", $listener1);
-        $this->eventRegistry->registerListener("foo", $listener2);
-        $this->eventRegistry->removeListener("foo", $listener2);
-        $this->assertEquals([$listener1], $this->eventRegistry->getListeners("foo"));
-        $this->assertTrue($this->eventRegistry->hasListeners("foo"));
-        $this->eventRegistry->removeListener("foo", $listener1);
-        $this->assertEquals([], $this->eventRegistry->getListeners("foo"));
-        $this->assertFalse($this->eventRegistry->hasListeners("foo"));
+        $listener1 = [$this->listener, 'doNothing1'];
+        $listener2 = [$this->listener, 'doNothing2'];
+        $this->eventRegistry->registerListener('foo', $listener1);
+        $this->eventRegistry->registerListener('foo', $listener2);
+        $this->eventRegistry->removeListener('foo', $listener2);
+        $this->assertEquals([$listener1], $this->eventRegistry->getListeners('foo'));
+        $this->assertTrue($this->eventRegistry->hasListeners('foo'));
+        $this->eventRegistry->removeListener('foo', $listener1);
+        $this->assertEquals([], $this->eventRegistry->getListeners('foo'));
+        $this->assertFalse($this->eventRegistry->hasListeners('foo'));
     }
 }

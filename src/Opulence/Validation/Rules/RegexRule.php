@@ -24,7 +24,7 @@ class RegexRule implements IRuleWithArgs
      */
     public function getSlug() : string
     {
-        return "regex";
+        return 'regex';
     }
 
     /**
@@ -33,7 +33,7 @@ class RegexRule implements IRuleWithArgs
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->regex === null) {
-            throw new LogicException("Regex not set");
+            throw new LogicException('Regex not set');
         }
 
         return preg_match($this->regex, $value) === 1;
@@ -45,7 +45,7 @@ class RegexRule implements IRuleWithArgs
     public function setArgs(array $args)
     {
         if (count($args) !== 1 || !is_string($args[0])) {
-            throw new InvalidArgumentException("Must pass a regex to compare against");
+            throw new InvalidArgumentException('Must pass a regex to compare against');
         }
 
         $this->regex = $args[0];

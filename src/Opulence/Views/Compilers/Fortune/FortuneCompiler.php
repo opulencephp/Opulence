@@ -40,9 +40,9 @@ class FortuneCompiler extends PhpCompiler
         // Set some variables that will be used by the transpiled code
         $view->setContents($this->transpiler->transpile($view));
         $view->setVars([
-            "__opulenceView" => $view,
-            "__opulenceFortuneTranspiler" => $this->transpiler,
-            "__opulenceViewFactory" => $this->viewFactory
+            '__opulenceView' => $view,
+            '__opulenceFortuneTranspiler' => $this->transpiler,
+            '__opulenceViewFactory' => $this->viewFactory
         ]);
 
         return trim(parent::compile($view));

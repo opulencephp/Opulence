@@ -20,6 +20,6 @@ class InvalidController
      */
     public function foo()
     {
-        return "fooWasCalled";
+        return 'fooWasCalled';
     }
 }

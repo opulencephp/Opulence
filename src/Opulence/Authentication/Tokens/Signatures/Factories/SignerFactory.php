@@ -31,14 +31,14 @@ class SignerFactory
     public function createSigner(string $algorithm, $publicKey, $privateKey = null) : ISigner
     {
         if (!is_string($publicKey) && !is_resource($publicKey)) {
-            throw new InvalidArgumentException("Public key must either be a string or a resource");
+            throw new InvalidArgumentException('Public key must either be a string or a resource');
         }
 
         if ($this->algorithmIsSymmetric($algorithm)) {
             return new HmacSigner($algorithm, $publicKey);
         } else {
             if (!is_string($privateKey) && !is_resource($privateKey)) {
-                throw new InvalidArgumentException("Must specify private key for asymmetric algorithms");
+                throw new InvalidArgumentException('Must specify private key for asymmetric algorithms');
             }
 
             return new RsaSsaPkcsSigner($algorithm, $publicKey, $privateKey);

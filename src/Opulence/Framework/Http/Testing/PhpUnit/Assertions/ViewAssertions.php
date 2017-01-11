@@ -32,7 +32,7 @@ class ViewAssertions extends TestCase
         $this->checkControllerSet();
 
         if (!$this->controller instanceof Controller) {
-            throw new LogicException("Controller does not extend " . Controller::class);
+            throw new LogicException('Controller does not extend ' . Controller::class);
         }
 
         $this->assertNotNull($this->controller->getView()->getVar($name));
@@ -61,7 +61,7 @@ class ViewAssertions extends TestCase
         $this->checkControllerSet();
 
         if (!$this->controller instanceof Controller) {
-            throw new LogicException("Controller does not extend " . Controller::class);
+            throw new LogicException('Controller does not extend ' . Controller::class);
         }
 
         $this->assertEquals($expected, $this->controller->getView()->getVar($name));
@@ -76,7 +76,7 @@ class ViewAssertions extends TestCase
     private function checkControllerSet()
     {
         if ($this->controller === null) {
-            $this->fail("Must call route() before assertions");
+            $this->fail('Must call route() before assertions');
         }
     }
 }

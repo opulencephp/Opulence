@@ -17,9 +17,9 @@ use RuntimeException;
 class ViewTest extends \PHPUnit\Framework\TestCase
 {
     /** The path to the test view with default tags */
-    const VIEW_PATH_WITH_DEFAULT_TAGS = "/files/TestWithDefaultTagDelimiters.html";
+    const VIEW_PATH_WITH_DEFAULT_TAGS = '/files/TestWithDefaultTagDelimiters.html';
     /** The path to the test view with PHP code */
-    const VIEW_PATH_WITH_INVALID_PHP_CODE = "/files/TestWithInvalidPhp.html";
+    const VIEW_PATH_WITH_INVALID_PHP_CODE = '/files/TestWithInvalidPhp.html';
 
     /** @var View The view to use in the tests */
     private $view = null;
@@ -43,8 +43,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $directiveDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT);
         $this->assertEquals(View::DEFAULT_OPEN_COMMENT_DELIMITER, $directiveDelimiters[0]);
         $this->assertEquals(View::DEFAULT_CLOSE_COMMENT_DELIMITER, $directiveDelimiters[1]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT));
+        $this->view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ['foo', 'bar']);
+        $this->assertEquals(['foo', 'bar'], $this->view->getDelimiters(View::DELIMITER_TYPE_COMMENT));
     }
 
     /**
@@ -52,7 +52,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDelimitersForTypeThatDoesNotHaveAny()
     {
-        $this->assertEquals([null, null], $this->view->getDelimiters("foo"));
+        $this->assertEquals([null, null], $this->view->getDelimiters('foo'));
     }
 
     /**
@@ -63,8 +63,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $directiveDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_DIRECTIVE);
         $this->assertEquals(View::DEFAULT_OPEN_DIRECTIVE_DELIMITER, $directiveDelimiters[0]);
         $this->assertEquals(View::DEFAULT_CLOSE_DIRECTIVE_DELIMITER, $directiveDelimiters[1]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $this->view->getDelimiters(View::DELIMITER_TYPE_DIRECTIVE));
+        $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ['foo', 'bar']);
+        $this->assertEquals(['foo', 'bar'], $this->view->getDelimiters(View::DELIMITER_TYPE_DIRECTIVE));
     }
 
     /**
@@ -72,7 +72,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingNonExistentVariable()
     {
-        $this->assertNull($this->view->getVar("foo"));
+        $this->assertNull($this->view->getVar('foo'));
     }
 
     /**
@@ -83,10 +83,10 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $sanitizedDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG);
         $this->assertEquals(View::DEFAULT_OPEN_SANITIZED_TAG_DELIMITER, $sanitizedDelimiters[0]);
         $this->assertEquals(View::DEFAULT_CLOSE_SANITIZED_TAG_DELIMITER, $sanitizedDelimiters[1]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["foo", "bar"]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ['foo', 'bar']);
         $sanitizedDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG);
-        $this->assertEquals("foo", $sanitizedDelimiters[0]);
-        $this->assertEquals("bar", $sanitizedDelimiters[1]);
+        $this->assertEquals('foo', $sanitizedDelimiters[0]);
+        $this->assertEquals('bar', $sanitizedDelimiters[1]);
     }
 
     /**
@@ -97,8 +97,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
         $unsanitizedTagDelimiters = $this->view->getDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG);
         $this->assertEquals(View::DEFAULT_OPEN_UNSANITIZED_TAG_DELIMITER, $unsanitizedTagDelimiters[0]);
         $this->assertEquals(View::DEFAULT_CLOSE_UNSANITIZED_TAG_DELIMITER, $unsanitizedTagDelimiters[1]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["foo", "bar"]);
-        $this->assertEquals(["foo", "bar"], $this->view->getDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG));
+        $this->view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ['foo', 'bar']);
+        $this->assertEquals(['foo', 'bar'], $this->view->getDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG));
     }
 
     /**
@@ -106,8 +106,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingVar()
     {
-        $this->view->setVar("foo", "bar");
-        $this->assertEquals("bar", $this->view->getVar("foo"));
+        $this->view->setVar('foo', 'bar');
+        $this->assertEquals('bar', $this->view->getVar('foo'));
     }
 
     /**
@@ -115,8 +115,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingVars()
     {
-        $this->view->setVar("foo", "bar");
-        $this->assertEquals(["foo" => "bar"], $this->view->getVars());
+        $this->view->setVar('foo', 'bar');
+        $this->assertEquals(['foo' => 'bar'], $this->view->getVars());
     }
 
     /**
@@ -124,13 +124,13 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testHasVar()
     {
-        $this->assertFalse($this->view->hasVar("foo"));
+        $this->assertFalse($this->view->hasVar('foo'));
         // Try a null value
-        $this->view->setVar("bar", null);
-        $this->assertTrue($this->view->hasVar("bar"));
+        $this->view->setVar('bar', null);
+        $this->assertTrue($this->view->hasVar('bar'));
         // Try a normal value
-        $this->view->setVar("baz", 123);
-        $this->assertTrue($this->view->hasVar("baz"));
+        $this->view->setVar('baz', 123);
+        $this->assertTrue($this->view->hasVar('baz'));
     }
 
     /**
@@ -146,8 +146,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContents()
     {
-        $this->view->setContents("blah");
-        $this->assertEquals("blah", $this->view->getContents());
+        $this->view->setContents('blah');
+        $this->assertEquals('blah', $this->view->getContents());
     }
 
     /**
@@ -155,8 +155,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingContentsInConstructor()
     {
-        $view = new View("foo", "bar");
-        $this->assertEquals("bar", $view->getContents());
+        $view = new View('foo', 'bar');
+        $this->assertEquals('bar', $view->getContents());
     }
 
     /**
@@ -164,8 +164,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingDelimiters()
     {
-        $this->view->setDelimiters("foo", ["bar", "baz"]);
-        $this->assertEquals(["bar", "baz"], $this->view->getDelimiters("foo"));
+        $this->view->setDelimiters('foo', ['bar', 'baz']);
+        $this->assertEquals(['bar', 'baz'], $this->view->getDelimiters('foo'));
     }
 
     /**
@@ -173,12 +173,12 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingMultipleVariables()
     {
-        $this->view->setVars(["foo" => "bar", "abc" => ["xyz"]]);
+        $this->view->setVars(['foo' => 'bar', 'abc' => ['xyz']]);
         $reflectionObject = new \ReflectionObject($this->view);
-        $property = $reflectionObject->getProperty("vars");
+        $property = $reflectionObject->getProperty('vars');
         $property->setAccessible(true);
         $vars = $property->getValue($this->view);
-        $this->assertEquals(["foo" => "bar", "abc" => ["xyz"]], $vars);
+        $this->assertEquals(['foo' => 'bar', 'abc' => ['xyz']], $vars);
     }
 
     /**
@@ -186,8 +186,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingPathInConstructor()
     {
-        $view = new View("foo");
-        $this->assertEquals("foo", $view->getPath());
+        $view = new View('foo');
+        $this->assertEquals('foo', $view->getPath());
     }
 
     /**
@@ -195,8 +195,8 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingPathInSetter()
     {
-        $this->view->setPath("foo");
-        $this->assertEquals("foo", $this->view->getPath());
+        $this->view->setPath('foo');
+        $this->assertEquals('foo', $this->view->getPath());
     }
 
     /**
@@ -204,12 +204,12 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingSingleVariable()
     {
-        $this->view->setVar("foo", "bar");
+        $this->view->setVar('foo', 'bar');
         $reflectionObject = new \ReflectionObject($this->view);
-        $property = $reflectionObject->getProperty("vars");
+        $property = $reflectionObject->getProperty('vars');
         $property->setAccessible(true);
         $vars = $property->getValue($this->view);
-        $this->assertEquals(["foo" => "bar"], $vars);
+        $this->assertEquals(['foo' => 'bar'], $vars);
     }
 
     /**
@@ -217,7 +217,7 @@ class ViewTest extends \PHPUnit\Framework\TestCase
      */
     public function testThatNothingIsOutputFromInvalidView()
     {
-        $output = "";
+        $output = '';
         $startOBLevel = ob_get_level();
 
         try {

@@ -33,7 +33,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdd()
     {
-        $route = new ParsedRoute(new Route(RequestMethods::GET, "/users", "foo@bar"));
+        $route = new ParsedRoute(new Route(RequestMethods::GET, '/users', 'foo@bar'));
         $this->collection->add($route);
         $this->assertSame([$route], $this->collection->get(RequestMethods::GET));
     }
@@ -43,7 +43,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeepCloning()
     {
-        $route = new ParsedRoute(new Route(RequestMethods::GET, "/users", "foo@bar"));
+        $route = new ParsedRoute(new Route(RequestMethods::GET, '/users', 'foo@bar'));
         $this->collection->add($route);
         $clonedCollection = clone $this->collection;
         $this->assertNotSame($route, $clonedCollection->get(RequestMethods::GET)[0]);
@@ -54,8 +54,8 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGet()
     {
-        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, "/users", "foo@bar"));
-        $postRoute = new ParsedRoute(new Route(RequestMethods::POST, "/users", "foo@bar"));
+        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, '/users', 'foo@bar'));
+        $postRoute = new ParsedRoute(new Route(RequestMethods::POST, '/users', 'foo@bar'));
         $expectedRoutes = [];
 
         foreach (RouteCollection::getMethods() as $method) {
@@ -76,7 +76,7 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingInvalidMethodRoutes()
     {
-        $this->assertEquals([], $this->collection->get("methodThatDoeNotExist"));
+        $this->assertEquals([], $this->collection->get('methodThatDoeNotExist'));
     }
 
     /**
@@ -84,14 +84,14 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingNamedRoute()
     {
-        $path = "/foo";
-        $controller = MockController::class . "@@noParameters";
+        $path = '/foo';
+        $controller = MockController::class . '@@noParameters';
         $options = [
-            "name" => "blah"
+            'name' => 'blah'
         ];
         $expectedRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, $controller, $options));
         $this->collection->add($expectedRoute);
-        $this->assertSame($expectedRoute, $this->collection->getNamedRoute("blah"));
+        $this->assertSame($expectedRoute, $this->collection->getNamedRoute('blah'));
     }
 
     /**
@@ -99,10 +99,10 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingNonExistentNamedRoute()
     {
-        $path = "/foo";
-        $route = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . "@@noParameters"));
+        $path = '/foo';
+        $route = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . '@@noParameters'));
         $this->collection->add($route);
-        $this->assertNull($this->collection->getNamedRoute("blah"));
+        $this->assertNull($this->collection->getNamedRoute('blah'));
     }
 
     /**
@@ -110,8 +110,8 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRoutes()
     {
-        $path = "/foo";
-        $controller = MockController::class . "@@noParameters";
+        $path = '/foo';
+        $controller = MockController::class . '@@noParameters';
         $deleteRoute = new ParsedRoute(new Route(RequestMethods::DELETE, $path, $controller));
         $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, $controller));
         $postRoute = new ParsedRoute(new Route(RequestMethods::POST, $path, $controller));
@@ -149,8 +149,8 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSpecificMethodRoutes()
     {
-        $path = "/foo";
-        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . "@noParameters"));
+        $path = '/foo';
+        $getRoute = new ParsedRoute(new Route(RequestMethods::GET, $path, MockController::class . '@noParameters'));
         $this->collection->add($getRoute);
         $getRoutes = $this->collection->get(RequestMethods::GET);
         $this->assertSame([$getRoute], $getRoutes);
@@ -161,14 +161,14 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testSerializingWorksWithControllerClass()
     {
-        $route = new Route("get", "/", "foo@bar");
+        $route = new Route('get', '/', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
         $this->collection->add($parsedRoute);
         $serializedCollection = serialize($this->collection);
         $unserializedCollection = unserialize($serializedCollection);
         /** @var ParsedRoute $unserializedRoute */
-        $unserializedRoute = $unserializedCollection->get("get")[0];
-        $this->assertEquals("foo@bar", $unserializedRoute->getController());
+        $unserializedRoute = $unserializedCollection->get('get')[0];
+        $this->assertEquals('foo@bar', $unserializedRoute->getController());
     }
 
     /**
@@ -176,16 +176,16 @@ class RouteCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testSerializingWorksWithControllerClosure()
     {
-        $route = new Route("get", "/", function () {
-            return "foo";
-        }, ["name" => "foo"]);
+        $route = new Route('get', '/', function () {
+            return 'foo';
+        }, ['name' => 'foo']);
         $parsedRoute = new ParsedRoute($route);
         $this->collection->add($parsedRoute);
         $serializedCollection = serialize($this->collection);
         $unserializedCollection = unserialize($serializedCollection);
         /** @var ParsedRoute $unserializedRoute */
-        $unserializedRoute = $unserializedCollection->get("get")[0];
+        $unserializedRoute = $unserializedCollection->get('get')[0];
         $this->assertInstanceOf(Closure::class, $unserializedRoute->getController());
-        $this->assertEquals("foo", call_user_func($unserializedRoute->getController()));
+        $this->assertEquals('foo', call_user_func($unserializedRoute->getController()));
     }
 }

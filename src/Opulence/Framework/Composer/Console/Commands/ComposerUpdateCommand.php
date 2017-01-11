@@ -35,8 +35,8 @@ class ComposerUpdateCommand extends Command
      */
     protected function define()
     {
-        $this->setName("composer:update")
-            ->setDescription("Updates any Composer dependencies");
+        $this->setName('composer:update')
+            ->setDescription('Updates any Composer dependencies');
     }
 
     /**
@@ -45,6 +45,6 @@ class ComposerUpdateCommand extends Command
     protected function doExecute(IResponse $response)
     {
         $response->write($this->executable->update());
-        $this->commandCollection->call("composer:dump-autoload", $response);
+        $this->commandCollection->call('composer:dump-autoload', $response);
     }
 }

@@ -29,13 +29,13 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfKeyExists()
     {
-        $this->assertFalse($this->bridge->has("foo"));
+        $this->assertFalse($this->bridge->has('foo'));
         // Try a null value
-        $this->bridge->set("foo", null, 60);
-        $this->assertTrue($this->bridge->has("foo"));
+        $this->bridge->set('foo', null, 60);
+        $this->assertTrue($this->bridge->has('foo'));
         // Try an actual value
-        $this->bridge->set("foo", "bar", 60);
-        $this->assertTrue($this->bridge->has("foo"));
+        $this->bridge->set('foo', 'bar', 60);
+        $this->assertTrue($this->bridge->has('foo'));
     }
 
     /**
@@ -43,11 +43,11 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testDecrementingValues()
     {
-        $this->bridge->set("foo", 11, 60);
+        $this->bridge->set('foo', 11, 60);
         // Test using default value
-        $this->assertEquals(10, $this->bridge->decrement("foo"));
+        $this->assertEquals(10, $this->bridge->decrement('foo'));
         // Test using a custom value
-        $this->assertEquals(5, $this->bridge->decrement("foo", 5));
+        $this->assertEquals(5, $this->bridge->decrement('foo', 5));
     }
 
     /**
@@ -55,9 +55,9 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeletingKey()
     {
-        $this->bridge->set("foo", "bar", 60);
-        $this->bridge->delete("foo");
-        $this->assertFalse($this->bridge->has("foo"));
+        $this->bridge->set('foo', 'bar', 60);
+        $this->bridge->delete('foo');
+        $this->assertFalse($this->bridge->has('foo'));
     }
 
     /**
@@ -65,11 +65,11 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testFlushing()
     {
-        $this->bridge->set("foo", "bar", 60);
-        $this->bridge->set("baz", "blah", 60);
+        $this->bridge->set('foo', 'bar', 60);
+        $this->bridge->set('baz', 'blah', 60);
         $this->bridge->flush();
-        $this->assertFalse($this->bridge->has("foo"));
-        $this->assertFalse($this->bridge->has("baz"));
+        $this->assertFalse($this->bridge->has('foo'));
+        $this->assertFalse($this->bridge->has('baz'));
     }
 
     /**
@@ -77,7 +77,7 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingNonExistentKey()
     {
-        $this->assertNull($this->bridge->get("foo"));
+        $this->assertNull($this->bridge->get('foo'));
     }
 
     /**
@@ -85,8 +85,8 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSetValue()
     {
-        $this->bridge->set("foo", "bar", 60);
-        $this->assertEquals("bar", $this->bridge->get("foo"));
+        $this->bridge->set('foo', 'bar', 60);
+        $this->assertEquals('bar', $this->bridge->get('foo'));
     }
 
     /**
@@ -94,11 +94,11 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testIncrementingValues()
     {
-        $this->bridge->set("foo", 1, 60);
+        $this->bridge->set('foo', 1, 60);
         // Test using default value
-        $this->assertEquals(2, $this->bridge->increment("foo"));
+        $this->assertEquals(2, $this->bridge->increment('foo'));
         // Test using a custom value
-        $this->assertEquals(7, $this->bridge->increment("foo", 5));
+        $this->assertEquals(7, $this->bridge->increment('foo', 5));
     }
 
     /**
@@ -106,9 +106,9 @@ class ArrayBridgeTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingValueWithNegativeLifetime()
     {
-        $this->bridge->set("foo", "bar", 0);
-        $this->assertFalse($this->bridge->has("foo"));
-        $this->bridge->set("foo", "bar", -1);
-        $this->assertFalse($this->bridge->has("foo"));
+        $this->bridge->set('foo', 'bar', 0);
+        $this->assertFalse($this->bridge->has('foo'));
+        $this->bridge->set('foo', 'bar', -1);
+        $this->assertFalse($this->bridge->has('foo'));
     }
 }

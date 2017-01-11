@@ -28,12 +28,12 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     {
         $this->unsignedToken = $this->createMock(IUnsignedToken::class);
         $this->unsignedToken->expects($this->any())
-            ->method("getUnsignedValue")
-            ->willReturn("unsignedValue");
+            ->method('getUnsignedValue')
+            ->willReturn('unsignedValue');
         $this->signedToken = $this->createMock(ISignedToken::class);
         $this->signedToken->expects($this->any())
-            ->method("getUnsignedValue")
-            ->willReturn("unsignedValue");
+            ->method('getUnsignedValue')
+            ->willReturn('unsignedValue');
     }
 
     /**
@@ -41,7 +41,7 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAlgorithm()
     {
-        $signer = new HmacSigner(Algorithms::RSA_SHA512, "public", "private");
+        $signer = new HmacSigner(Algorithms::RSA_SHA512, 'public', 'private');
         $this->assertEquals(Algorithms::RSA_SHA512, $signer->getAlgorithm());
     }
 
@@ -51,15 +51,15 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     public function testSigningWithSymmetricAlgorithms()
     {
         $algorithms = [
-            Algorithms::SHA256 => "sha256",
-            Algorithms::SHA384 => "sha384",
-            Algorithms::SHA512 => "sha512"
+            Algorithms::SHA256 => 'sha256',
+            Algorithms::SHA384 => 'sha384',
+            Algorithms::SHA512 => 'sha512'
         ];
 
         foreach ($algorithms as $jwtAlgorithm => $hashAlgorithm) {
-            $signer = new HmacSigner($jwtAlgorithm, "public");
+            $signer = new HmacSigner($jwtAlgorithm, 'public');
             $this->assertEquals(
-                hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), "public", true),
+                hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), 'public', true),
                 $signer->sign($this->unsignedToken->getUnsignedValue())
             );
         }
@@ -70,8 +70,8 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
      */
     public function testVerifyingEmptySignatureReturnsFalse()
     {
-        $jws = new HmacSigner(Algorithms::SHA256, "public");
-        $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ""));
+        $jws = new HmacSigner(Algorithms::SHA256, 'public');
+        $this->assertFalse($jws->verify($this->signedToken->getUnsignedValue(), ''));
     }
 
     /**
@@ -80,18 +80,18 @@ class HmacSignerTest extends \PHPUnit\Framework\TestCase
     public function testVerifyingSymmetricAlgorithms()
     {
         $algorithms = [
-            Algorithms::SHA256 => "sha256",
-            Algorithms::SHA384 => "sha384",
-            Algorithms::SHA512 => "sha512"
+            Algorithms::SHA256 => 'sha256',
+            Algorithms::SHA384 => 'sha384',
+            Algorithms::SHA512 => 'sha512'
         ];
         $numVerified = 0;
         $numUnverified = 0;
 
         foreach ($algorithms as $jwtAlgorithm => $hashAlgorithm) {
-            $signer = new HmacSigner($jwtAlgorithm, "public");
+            $signer = new HmacSigner($jwtAlgorithm, 'public');
             $signatures = [
-                hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), "public", true),
-                hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), "incorrect", true),
+                hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), 'public', true),
+                hash_hmac($hashAlgorithm, $this->unsignedToken->getUnsignedValue(), 'incorrect', true),
             ];
 
             foreach ($signatures as $signature) {

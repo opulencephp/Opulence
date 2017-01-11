@@ -19,9 +19,9 @@ class AlphaRuleTest extends \PHPUnit\Framework\TestCase
     public function testFailingValue()
     {
         $rule = new AlphaRule();
-        $this->assertFalse($rule->passes(""));
-        $this->assertFalse($rule->passes("1"));
-        $this->assertFalse($rule->passes("a b"));
+        $this->assertFalse($rule->passes(''));
+        $this->assertFalse($rule->passes('1'));
+        $this->assertFalse($rule->passes('a b'));
     }
 
     /**
@@ -30,7 +30,7 @@ class AlphaRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new AlphaRule();
-        $this->assertEquals("alpha", $rule->getSlug());
+        $this->assertEquals('alpha', $rule->getSlug());
     }
 
     /**
@@ -39,7 +39,7 @@ class AlphaRuleTest extends \PHPUnit\Framework\TestCase
     public function testPassingValue()
     {
         $rule = new AlphaRule();
-        $this->assertTrue($rule->passes("a"));
-        $this->assertTrue($rule->passes("abc"));
+        $this->assertTrue($rule->passes('a'));
+        $this->assertTrue($rule->passes('abc'));
     }
 }

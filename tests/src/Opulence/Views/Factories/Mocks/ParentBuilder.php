@@ -21,8 +21,8 @@ class ParentBuilder implements IViewBuilder
      */
     public function build(IView $view) : IView
     {
-        $view->setVar("foo", "blah");
-        $view->setVar("bar", true);
+        $view->setVar('foo', 'blah');
+        $view->setVar('bar', true);
 
         return $view;
     }

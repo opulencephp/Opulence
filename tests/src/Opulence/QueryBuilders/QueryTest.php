@@ -31,9 +31,9 @@ class QueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingNamedPlaceholder()
     {
-        $this->query->addNamedPlaceholderValue("name", "foo");
+        $this->query->addNamedPlaceholderValue('name', 'foo');
         $this->assertEquals([
-            "name" => ["foo", PDO::PARAM_STR]
+            'name' => ['foo', PDO::PARAM_STR]
         ], $this->query->getParameters());
     }
 
@@ -43,8 +43,8 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testAddingNamedPlaceholderAfterAddingUnnamedPlaceholder()
     {
         $this->expectException(InvalidQueryException::class);
-        $this->query->addUnnamedPlaceholderValue("dave")
-            ->addNamedPlaceholderValue("id", 18175);
+        $this->query->addUnnamedPlaceholderValue('dave')
+            ->addNamedPlaceholderValue('id', 18175);
     }
 
     /**
@@ -52,9 +52,9 @@ class QueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingNamedPlaceholderWithDataType()
     {
-        $this->query->addNamedPlaceholderValue("userId", 18175, PDO::PARAM_INT);
+        $this->query->addNamedPlaceholderValue('userId', 18175, PDO::PARAM_INT);
         $this->assertEquals([
-            "userId" => [18175, PDO::PARAM_INT]
+            'userId' => [18175, PDO::PARAM_INT]
         ], $this->query->getParameters());
     }
 
@@ -64,7 +64,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testAddingNamedPlaceholderWithIncorrectArrayValueCount()
     {
         $this->expectException(InvalidQueryException::class);
-        $this->query->addNamedPlaceholderValues(["foo" => ["bar"]]);
+        $this->query->addNamedPlaceholderValues(['foo' => ['bar']]);
     }
 
     /**
@@ -72,9 +72,9 @@ class QueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingUnnamedPlaceholder()
     {
-        $this->query->addUnnamedPlaceholderValue("foo");
+        $this->query->addUnnamedPlaceholderValue('foo');
         $this->assertEquals([
-            ["foo", PDO::PARAM_STR]
+            ['foo', PDO::PARAM_STR]
         ], $this->query->getParameters());
     }
 
@@ -84,8 +84,8 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testAddingUnnamedPlaceholderAfterAddingNamedPlaceholder()
     {
         $this->expectException(InvalidQueryException::class);
-        $this->query->addNamedPlaceholderValue("id", 18175)
-            ->addUnnamedPlaceholderValue("dave");
+        $this->query->addNamedPlaceholderValue('id', 18175)
+            ->addUnnamedPlaceholderValue('dave');
     }
 
     /**
@@ -105,7 +105,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testAddingUnnamedPlaceholderWithIncorrectArrayValueCount()
     {
         $this->expectException(InvalidQueryException::class);
-        $this->query->addUnnamedPlaceholderValues([["bar"]]);
+        $this->query->addUnnamedPlaceholderValues([['bar']]);
     }
 
     /**
@@ -113,9 +113,9 @@ class QueryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRemovingNamedPlaceholder()
     {
-        $key = "foo";
+        $key = 'foo';
         $this->query = $this->getMockForAbstractClass(Query::class);
-        $this->query->addNamedPlaceholderValue($key, "bar");
+        $this->query->addNamedPlaceholderValue($key, 'bar');
         $this->query->removeNamedPlaceHolder($key);
         $this->assertFalse(array_key_exists($key, $this->query->getParameters()));
     }
@@ -126,8 +126,8 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testRemovingNamedPlaceholderWhenUsingUnnamedPlaceholders()
     {
         $this->expectException(InvalidQueryException::class);
-        $this->query->addUnnamedPlaceholderValue("foo");
-        $this->query->removeNamedPlaceHolder("bar");
+        $this->query->addUnnamedPlaceholderValue('foo');
+        $this->query->removeNamedPlaceHolder('bar');
     }
 
     /**
@@ -136,15 +136,15 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testRemovingUnnamedPlaceholder()
     {
         $this->query = $this->getMockForAbstractClass(Query::class);
-        $this->query->addUnnamedPlaceholderValue("foo")
-            ->addUnnamedPlaceholderValue("bar")
-            ->addUnnamedPlaceholderValue("xyz");
+        $this->query->addUnnamedPlaceholderValue('foo')
+            ->addUnnamedPlaceholderValue('bar')
+            ->addUnnamedPlaceholderValue('xyz');
         $this->query->removeUnnamedPlaceHolder(1);
         $parameters = $this->query->getParameters();
         $fooFound = false;
 
         foreach ($parameters as $parameterData) {
-            if ($parameterData[0] === "bar") {
+            if ($parameterData[0] === 'bar') {
                 $fooFound = true;
 
                 break;
@@ -160,7 +160,7 @@ class QueryTest extends \PHPUnit\Framework\TestCase
     public function testRemovingUnnamedPlaceholderWhenUsingNamedPlaceholders()
     {
         $this->expectException(InvalidQueryException::class);
-        $this->query->addNamedPlaceholderValue("foo", "bar");
+        $this->query->addNamedPlaceholderValue('foo', 'bar');
         $this->query->removeUnnamedPlaceHolder(0);
     }
 }

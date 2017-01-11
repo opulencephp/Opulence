@@ -14,13 +14,13 @@ namespace Opulence\Environments;
 class Environment
 {
     /** The production environment */
-    const PRODUCTION = "production";
+    const PRODUCTION = 'production';
     /** The staging environment */
-    const STAGING = "staging";
+    const STAGING = 'staging';
     /** The testing environment */
-    const TESTING = "testing";
+    const TESTING = 'testing';
     /** The development environment */
-    const DEVELOPMENT = "development";
+    const DEVELOPMENT = 'development';
 
     /**
      * Gets the value of an environment variable
@@ -53,7 +53,7 @@ class Environment
      */
     public static function isRunningInConsole() : bool
     {
-        return php_sapi_name() === "cli";
+        return php_sapi_name() === 'cli';
     }
 
     /**

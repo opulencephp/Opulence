@@ -31,7 +31,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testEmptyStringReturnedWhenNoTemplateExists()
     {
-        $this->assertEquals("", $this->registry->getErrorTemplate("foo", "bar"));
+        $this->assertEquals('', $this->registry->getErrorTemplate('foo', 'bar'));
     }
 
     /**
@@ -40,7 +40,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithEmptyKeyInConfig()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->registry->registerErrorTemplatesFromConfig(["" => "template"]);
+        $this->registry->registerErrorTemplatesFromConfig(['' => 'template']);
     }
 
     /**
@@ -49,7 +49,7 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithInvalidFieldTemplateKeyInConfig()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->registry->registerErrorTemplatesFromConfig([" . " => "template"]);
+        $this->registry->registerErrorTemplatesFromConfig([' . ' => 'template']);
     }
 
     /**
@@ -57,9 +57,9 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testFieldTemplateOverridesGlobalTemplate()
     {
-        $this->registry->registerFieldErrorTemplate("field", "foo", "field template");
-        $this->registry->registerGlobalErrorTemplate("foo", "global template");
-        $this->assertEquals("field template", $this->registry->getErrorTemplate("field", "foo"));
+        $this->registry->registerFieldErrorTemplate('field', 'foo', 'field template');
+        $this->registry->registerGlobalErrorTemplate('foo', 'global template');
+        $this->assertEquals('field template', $this->registry->getErrorTemplate('field', 'foo'));
     }
 
     /**
@@ -68,10 +68,10 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     public function testFieldTemplateOverridesGlobalTemplateWhenRegisteringFromConfig()
     {
         $this->registry->registerErrorTemplatesFromConfig([
-            "field.foo" => "field template",
-            "foo" => "global template"
+            'field.foo' => 'field template',
+            'foo' => 'global template'
         ]);
-        $this->assertEquals("field template", $this->registry->getErrorTemplate("field", "foo"));
+        $this->assertEquals('field template', $this->registry->getErrorTemplate('field', 'foo'));
     }
 
     /**
@@ -79,9 +79,9 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testOverwritingGlobalTemplate()
     {
-        $this->registry->registerGlobalErrorTemplate("foo", "template 1");
-        $this->registry->registerGlobalErrorTemplate("foo", "template 2");
-        $this->assertEquals("template 2", $this->registry->getErrorTemplate("field", "foo"));
+        $this->registry->registerGlobalErrorTemplate('foo', 'template 1');
+        $this->registry->registerGlobalErrorTemplate('foo', 'template 2');
+        $this->assertEquals('template 2', $this->registry->getErrorTemplate('field', 'foo'));
     }
 
     /**
@@ -89,8 +89,8 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringFieldTemplate()
     {
-        $this->registry->registerFieldErrorTemplate("field", "foo", "bar baz");
-        $this->assertEquals("bar baz", $this->registry->getErrorTemplate("field", "foo"));
+        $this->registry->registerFieldErrorTemplate('field', 'foo', 'bar baz');
+        $this->assertEquals('bar baz', $this->registry->getErrorTemplate('field', 'foo'));
     }
 
     /**
@@ -99,9 +99,9 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     public function testRegisteringFieldTemplateFromConfig()
     {
         $this->registry->registerErrorTemplatesFromConfig([
-            "field.foo" => "field template"
+            'field.foo' => 'field template'
         ]);
-        $this->assertEquals("field template", $this->registry->getErrorTemplate("field", "foo"));
+        $this->assertEquals('field template', $this->registry->getErrorTemplate('field', 'foo'));
     }
 
     /**
@@ -109,8 +109,8 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringGlobalTemplate()
     {
-        $this->registry->registerGlobalErrorTemplate("foo", "bar baz");
-        $this->assertEquals("bar baz", $this->registry->getErrorTemplate("field", "foo"));
+        $this->registry->registerGlobalErrorTemplate('foo', 'bar baz');
+        $this->assertEquals('bar baz', $this->registry->getErrorTemplate('field', 'foo'));
     }
 
     /**
@@ -119,8 +119,8 @@ class ErrorTemplateRegistryTest extends \PHPUnit\Framework\TestCase
     public function testRegisteringGlobalTemplateFromConfig()
     {
         $this->registry->registerErrorTemplatesFromConfig([
-            "foo" => "global template"
+            'foo' => 'global template'
         ]);
-        $this->assertEquals("global template", $this->registry->getErrorTemplate("field", "foo"));
+        $this->assertEquals('global template', $this->registry->getErrorTemplate('field', 'foo'));
     }
 }

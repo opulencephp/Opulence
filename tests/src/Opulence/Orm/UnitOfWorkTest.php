@@ -58,9 +58,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
-            ->method("getIdGenerator")
+            ->method('getIdGenerator')
             ->with(User::class)
-            ->willReturn(new IntSequenceIdGenerator("foo"));
+            ->willReturn(new IntSequenceIdGenerator('foo'));
         $changeTracker = new ChangeTracker();
         $server = new Server();
         $connection = new Connection($server);
@@ -79,9 +79,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
          * They are also purposely set to 724, 1987, and 345 so that they won't potentially overlap with any default
          * values set to the Ids
          */
-        $this->entity1 = new User(724, "foo");
-        $this->entity2 = new User(1987, "bar");
-        $this->entity3 = new User(345, "baz");
+        $this->entity1 = new User(724, 'foo');
+        $this->entity2 = new User(1987, 'bar');
+        $this->entity3 = new User(345, 'baz');
     }
 
     /**
@@ -92,9 +92,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->entityRegistry->registerEntity($this->entity1);
-        $this->entity1->setUsername("blah");
+        $this->entity1->setUsername('blah');
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method = $reflectionClass->getMethod('checkForUpdates');
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
@@ -109,7 +109,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     {
         $foo = $this->getInsertedEntity();
         $bar = $foo;
-        $bar->setUsername("bar");
+        $bar->setUsername('bar');
         $this->unitOfWork->commit();
         $this->assertEquals($bar, $this->dataMapper->getById($foo->getId()));
     }
@@ -120,7 +120,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     public function testCheckingIfEntityUpdateIsDetectedAfterReturningFromFunction()
     {
         $foo = $this->getInsertedEntity();
-        $foo->setUsername("bar");
+        $foo->setUsername('bar');
         $this->unitOfWork->commit();
         $this->assertEquals($foo, $this->dataMapper->getById($foo->getId()));
     }
@@ -184,7 +184,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
-            ->method("getIdGenerator")
+            ->method('getIdGenerator')
             ->willReturn(null);
 
         $server = new Server();
@@ -196,11 +196,11 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
             new ChangeTracker(),
             $connection
         );
-        $this->entity1 = new User(123, "foo");
+        $this->entity1 = new User(123, 'foo');
         /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
         $this->dataMapper = $this->createMock(IDataMapper::class);
         $this->dataMapper->expects($this->once())
-            ->method("add")
+            ->method('add')
             ->with($this->entity1);
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
@@ -229,7 +229,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
-            ->method("getIdGenerator")
+            ->method('getIdGenerator')
             ->willReturn(null);
 
         $connection = new Connection(new Server());
@@ -243,7 +243,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         );
 
         try {
-            $this->entity1 = new User(123, "foo");
+            $this->entity1 = new User(123, 'foo');
             /** @var IDataMapper|\PHPUnit_Framework_MockObject_MockObject dataMapper */
             $this->dataMapper = $this->createMock(IDataMapper::class);
             $className = $this->entityRegistry->getClassName($this->entity1);
@@ -283,7 +283,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->entityRegistry->registerEntity($this->entity1);
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method = $reflectionClass->getMethod('checkForUpdates');
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
@@ -299,9 +299,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
-            ->method("getIdGenerator")
+            ->method('getIdGenerator')
             ->with(User::class)
-            ->willReturn(new IntSequenceIdGenerator("foo"));
+            ->willReturn(new IntSequenceIdGenerator('foo'));
         $unitOfWork = new MockUnitOfWork(
             $this->entityRegistry,
             new IdAccessorRegistry(),
@@ -334,7 +334,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->registerDataMapper($this->entityRegistry->getClassName($this->entity1), $this->dataMapper);
         $this->unitOfWork->scheduleForDeletion($this->entity1);
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method = $reflectionClass->getMethod('checkForUpdates');
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoDeletion = $this->unitOfWork->getScheduledEntityDeletions();
@@ -356,7 +356,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $this->unitOfWork->scheduleForInsertion($this->entity1);
         $this->assertEquals(EntityStates::QUEUED, $this->entityRegistry->getEntityState($this->entity1));
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method = $reflectionClass->getMethod('checkForUpdates');
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoInsertion = $this->unitOfWork->getScheduledEntityInsertions();
@@ -377,9 +377,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
         $this->unitOfWork->scheduleForUpdate($this->entity1);
-        $this->entity1->setUsername("blah");
+        $this->entity1->setUsername('blah');
         $reflectionClass = new \ReflectionClass($this->unitOfWork);
-        $method = $reflectionClass->getMethod("checkForUpdates");
+        $method = $reflectionClass->getMethod('checkForUpdates');
         $method->setAccessible(true);
         $method->invoke($this->unitOfWork);
         $scheduledFoUpdate = $this->unitOfWork->getScheduledEntityUpdates();
@@ -462,9 +462,9 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
-            ->method("getIdGenerator")
+            ->method('getIdGenerator')
             ->with(User::class)
-            ->willReturn(new IntSequenceIdGenerator("foo"));
+            ->willReturn(new IntSequenceIdGenerator('foo'));
 
         try {
             $server = new Server();
@@ -478,8 +478,8 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
                 $connection
             );
             $this->dataMapper = new SqlDataMapper();
-            $this->entity1 = new User(1, "foo");
-            $this->entity2 = new User(2, "bar");
+            $this->entity1 = new User(1, 'foo');
+            $this->entity2 = new User(2, 'bar');
             $className = $this->entityRegistry->getClassName($this->entity1);
             $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
             $this->unitOfWork->scheduleForInsertion($this->entity1);
@@ -510,7 +510,7 @@ class UnitOfWorkTest extends \PHPUnit\Framework\TestCase
     {
         $className = $this->entityRegistry->getClassName($this->entity1);
         $this->unitOfWork->registerDataMapper($className, $this->dataMapper);
-        $foo = new User(18175, "blah");
+        $foo = new User(18175, 'blah');
         $this->unitOfWork->scheduleForInsertion($foo);
         $this->unitOfWork->commit();
 

@@ -21,7 +21,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingParametersForInConditionWithParameters()
     {
-        $condition = new InCondition("foo", [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
+        $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
         $this->assertEquals(
             [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]],
             $condition->getParameters()
@@ -33,7 +33,7 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingParametersForInConditionWithSubExpression()
     {
-        $condition = new InCondition("foo", "SELECT bar FROM baz");
+        $condition = new InCondition('foo', 'SELECT bar FROM baz');
         $this->assertEquals([], $condition->getParameters());
     }
 
@@ -42,8 +42,8 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSqlForInConditionWithParameters()
     {
-        $condition = new InCondition("foo", [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
-        $this->assertEquals("foo IN (?,?,?)", $condition->getSql());
+        $condition = new InCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
+        $this->assertEquals('foo IN (?,?,?)', $condition->getSql());
     }
 
     /**
@@ -51,8 +51,8 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSqlForInConditionWithSubExpression()
     {
-        $condition = new InCondition("foo", "SELECT bar FROM baz");
-        $this->assertEquals("foo IN (SELECT bar FROM baz)", $condition->getSql());
+        $condition = new InCondition('foo', 'SELECT bar FROM baz');
+        $this->assertEquals('foo IN (SELECT bar FROM baz)', $condition->getSql());
     }
 
     /**
@@ -61,6 +61,6 @@ class InConditionTest extends \PHPUnit\Framework\TestCase
     public function testPassingInvalidArgumentThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        new InCondition("foo", $this);
+        new InCondition('foo', $this);
     }
 }

@@ -90,7 +90,7 @@ class Pipeline implements IPipeline
                     return $stage($input, $stages);
                 } else {
                     if ($this->methodToCall === null) {
-                        throw new PipelineException("Method must not be null");
+                        throw new PipelineException('Method must not be null');
                     }
 
                     if (!method_exists($stage, $this->methodToCall)) {

@@ -27,7 +27,7 @@ class ConditionalQueryBuilder
     public function addConditionToClause(array $clauseConditions, string $operation, string ...$conditions) : array
     {
         foreach ($conditions as $condition) {
-            $clauseConditions[] = ["operation" => $operation, "condition" => $condition];
+            $clauseConditions[] = ['operation' => $operation, 'condition' => $condition];
         }
 
         return $clauseConditions;
@@ -42,7 +42,7 @@ class ConditionalQueryBuilder
     public function andWhere(string ...$condition) : self
     {
         $this->whereConditions = $this->addConditionToClause(
-            $this->whereConditions, "AND", ...$condition);
+            $this->whereConditions, 'AND', ...$condition);
 
         return $this;
     }
@@ -57,16 +57,16 @@ class ConditionalQueryBuilder
     public function getClauseConditionSql(string $conditionType, array $clauseConditions) : string
     {
         if (count($clauseConditions) === 0) {
-            return "";
+            return '';
         }
 
-        $sql = " " . strtoupper($conditionType);
+        $sql = ' ' . strtoupper($conditionType);
         // This will help us keep track of whether or not we've added at least one clause
         $haveAddedAClause = false;
 
         foreach ($clauseConditions as $conditionData) {
-            $sql .= ($haveAddedAClause ? " " . strtoupper($conditionData["operation"]) : "")
-                . " ({$conditionData["condition"]})";
+            $sql .= ($haveAddedAClause ? ' ' . strtoupper($conditionData['operation']) : '')
+                . " ({$conditionData['condition']})";
             $haveAddedAClause = true;
         }
 
@@ -90,7 +90,7 @@ class ConditionalQueryBuilder
     public function orWhere(string ...$condition) : self
     {
         $this->whereConditions = $this->addConditionToClause(
-            $this->whereConditions, "OR", ...$condition);
+            $this->whereConditions, 'OR', ...$condition);
 
         return $this;
     }
@@ -107,7 +107,7 @@ class ConditionalQueryBuilder
         // We want to wipe out anything already in the condition list
         $this->whereConditions = [];
         $this->whereConditions = $this->addConditionToClause(
-            $this->whereConditions, "AND", ...$condition);
+            $this->whereConditions, 'AND', ...$condition);
 
         return $this;
     }

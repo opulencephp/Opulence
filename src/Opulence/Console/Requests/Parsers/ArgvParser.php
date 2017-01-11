@@ -31,11 +31,11 @@ class ArgvParser extends Parser
     public function parse($input) : IRequest
     {
         if ($input === null) {
-            $input = $_SERVER["argv"];
+            $input = $_SERVER['argv'];
         }
 
         if (!is_array($input)) {
-            throw new InvalidArgumentException("ArgvParser parser only accepts arrays as input");
+            throw new InvalidArgumentException('ArgvParser parser only accepts arrays as input');
         }
 
         $tokens = $this->tokenizer->tokenize($input);

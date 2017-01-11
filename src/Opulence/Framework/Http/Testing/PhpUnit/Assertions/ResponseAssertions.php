@@ -200,7 +200,7 @@ class ResponseAssertions extends TestCase
             }
         }
 
-        $this->assertTrue(count($expected) === 0, "Failed asserting JSON contains " . json_encode($expected));
+        $this->assertTrue(count($expected) === 0, 'Failed asserting JSON contains ' . json_encode($expected));
 
         return $this;
     }
@@ -295,7 +295,7 @@ class ResponseAssertions extends TestCase
     private function checkResponseIsSet()
     {
         if ($this->response === null) {
-            $this->fail("Must call route() before assertions");
+            $this->fail('Must call route() before assertions');
         }
     }
 }

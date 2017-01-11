@@ -21,7 +21,7 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->question = new Confirmation("Is Dave cool (yn)");
+        $this->question = new Confirmation('Is Dave cool (yn)');
     }
 
     /**
@@ -29,10 +29,10 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingFalseValues()
     {
-        $this->assertFalse($this->question->formatAnswer("n"));
-        $this->assertFalse($this->question->formatAnswer("N"));
-        $this->assertFalse($this->question->formatAnswer("no"));
-        $this->assertFalse($this->question->formatAnswer("NO"));
+        $this->assertFalse($this->question->formatAnswer('n'));
+        $this->assertFalse($this->question->formatAnswer('N'));
+        $this->assertFalse($this->question->formatAnswer('no'));
+        $this->assertFalse($this->question->formatAnswer('NO'));
     }
 
     /**
@@ -40,9 +40,9 @@ class ConfirmationTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormattingTrueValues()
     {
-        $this->assertTrue($this->question->formatAnswer("y"));
-        $this->assertTrue($this->question->formatAnswer("Y"));
-        $this->assertTrue($this->question->formatAnswer("yes"));
-        $this->assertTrue($this->question->formatAnswer("YES"));
+        $this->assertTrue($this->question->formatAnswer('y'));
+        $this->assertTrue($this->question->formatAnswer('Y'));
+        $this->assertTrue($this->question->formatAnswer('yes'));
+        $this->assertTrue($this->question->formatAnswer('YES'));
     }
 }

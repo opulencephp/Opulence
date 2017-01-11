@@ -27,9 +27,9 @@ abstract class JwtCredentialFactory
     /** @var ISigner The token signer */
     protected $signer = null;
     /** @var string The issuer of the JWT */
-    protected $issuer = "";
+    protected $issuer = '';
     /** @var array|string The issuer of the JWT */
-    protected $audience = "";
+    protected $audience = '';
     /** @var DateInterval The interval from the moment of creation that the JWT is valid from */
     protected $validFromInterval = null;
     /** @var DateInterval The interval from the moment of creation that the JWT is valid to */
@@ -63,7 +63,7 @@ abstract class JwtCredentialFactory
     {
         $jwt = $this->getSignedJwt($subject);
 
-        return new Credential($this->getCredentialType(), ["token" => $jwt->encode()]);
+        return new Credential($this->getCredentialType(), ['token' => $jwt->encode()]);
     }
 
     /**

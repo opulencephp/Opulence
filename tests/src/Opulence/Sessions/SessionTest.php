@@ -23,43 +23,43 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testAgingFlashData()
     {
         $session = new Session();
-        $session->flash("foo", "bar");
+        $session->flash('foo', 'bar');
         $this->assertEquals(
             [
-                "foo" => "bar",
-                $session::NEW_FLASH_KEYS_KEY => ["foo"],
+                'foo' => 'bar',
+                $session::NEW_FLASH_KEYS_KEY => ['foo'],
                 $session::STALE_FLASH_KEYS_KEY => []
             ],
             $session->getAll()
         );
         $session->ageFlashData();
-        $this->assertEquals("bar", $session->get("foo"));
-        $this->assertTrue($session->has("foo"));
+        $this->assertEquals('bar', $session->get('foo'));
+        $this->assertTrue($session->has('foo'));
         $this->assertEquals(
             [
-                "foo" => "bar",
+                'foo' => 'bar',
                 $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ["foo"]
+                $session::STALE_FLASH_KEYS_KEY => ['foo']
             ],
             $session->getAll()
         );
-        $session->flash("baz", "blah");
+        $session->flash('baz', 'blah');
         $session->ageFlashData();
-        $this->assertNull($session->get("foo"));
-        $this->assertFalse($session->has("foo"));
-        $this->assertEquals("blah", $session->get("baz"));
+        $this->assertNull($session->get('foo'));
+        $this->assertFalse($session->has('foo'));
+        $this->assertEquals('blah', $session->get('baz'));
         $this->assertEquals(
             [
-                "baz" => "blah",
+                'baz' => 'blah',
                 $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ["baz"]
+                $session::STALE_FLASH_KEYS_KEY => ['baz']
             ],
             $session->getAll()
         );
-        $this->assertTrue($session->has("baz"));
+        $this->assertTrue($session->has('baz'));
         $session->ageFlashData();
-        $this->assertNull($session->get("baz"));
-        $this->assertFalse($session->has("baz"));
+        $this->assertNull($session->get('baz'));
+        $this->assertFalse($session->has('baz'));
         $this->assertEquals(
             [
                 $session::NEW_FLASH_KEYS_KEY => [],
@@ -75,23 +75,23 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testAgingFlashDataAndWritingToItAgain()
     {
         $session = new Session();
-        $session->flash("foo", "bar");
+        $session->flash('foo', 'bar');
         $session->ageFlashData();
-        $session->flash("foo", "baz");
+        $session->flash('foo', 'baz');
         $session->ageFlashData();
-        $this->assertTrue($session->has("foo"));
-        $this->assertEquals("baz", $session->get("foo"));
+        $this->assertTrue($session->has('foo'));
+        $this->assertEquals('baz', $session->get('foo'));
         $this->assertEquals(
             [
-                "foo" => "baz",
+                'foo' => 'baz',
                 $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ["foo"]
+                $session::STALE_FLASH_KEYS_KEY => ['foo']
             ],
             $session->getAll()
         );
         $session->ageFlashData();
-        $this->assertFalse($session->has("foo"));
-        $this->assertNull($session->get("foo"));
+        $this->assertFalse($session->has('foo'));
+        $this->assertNull($session->get('foo'));
         $this->assertEquals(
             [
                 $session::NEW_FLASH_KEYS_KEY => [],
@@ -107,11 +107,11 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testCheckingIfOffsetExists()
     {
         $session = new Session();
-        $session["foo"] = "bar";
-        $this->assertTrue(isset($session["foo"]));
-        $this->assertTrue($session->has("foo"));
-        $this->assertFalse(isset($session["bar"]));
-        $this->assertFalse($session->has("bar"));
+        $session['foo'] = 'bar';
+        $this->assertTrue(isset($session['foo']));
+        $this->assertTrue($session->has('foo'));
+        $this->assertFalse(isset($session['bar']));
+        $this->assertFalse($session->has('bar'));
     }
 
     /**
@@ -120,9 +120,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testDeletingVariable()
     {
         $session = new Session();
-        $session->set("foo", "bar");
-        $session->delete("foo");
-        $this->assertFalse($session->has("foo"));
+        $session->set('foo', 'bar');
+        $session->delete('foo');
+        $this->assertFalse($session->has('foo'));
         $this->assertEquals([], $session->getAll());
     }
 
@@ -132,13 +132,13 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testFlashingDataAndGettingIt()
     {
         $session = new Session();
-        $session->flash("foo", "bar");
-        $this->assertTrue($session->has("foo"));
-        $this->assertEquals("bar", $session->get("foo"));
+        $session->flash('foo', 'bar');
+        $this->assertTrue($session->has('foo'));
+        $this->assertEquals('bar', $session->get('foo'));
         $this->assertEquals(
             [
-                "foo" => "bar",
-                $session::NEW_FLASH_KEYS_KEY => ["foo"],
+                'foo' => 'bar',
+                $session::NEW_FLASH_KEYS_KEY => ['foo'],
                 $session::STALE_FLASH_KEYS_KEY => []
             ],
             $session->getAll()
@@ -151,9 +151,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testFlushing()
     {
         $session = new Session();
-        $session["foo"] = "bar";
+        $session['foo'] = 'bar';
         $session->flush();
-        $this->assertFalse(isset($session["foo"]));
+        $this->assertFalse(isset($session['foo']));
         $this->assertEquals([], $session->getAll());
     }
 
@@ -163,9 +163,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testGettingAll()
     {
         $session = new Session();
-        $session->set("foo", "bar");
-        $session->set("baz", "blah");
-        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $session->getAll());
+        $session->set('foo', 'bar');
+        $session->set('baz', 'blah');
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $session->getAll());
     }
 
     /**
@@ -175,7 +175,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     {
         $id = str_repeat(1, IIdGenerator::MIN_LENGTH);
         $idGenerator = $this->createMock(IIdGenerator::class);
-        $idGenerator->expects($this->any())->method("idIsValid")->willReturn(true);
+        $idGenerator->expects($this->any())->method('idIsValid')->willReturn(true);
         $session = new Session($id, $idGenerator);
         $this->assertEquals($id, $session->getId());
     }
@@ -186,8 +186,8 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testGettingNonExistentVariable()
     {
         $session = new Session();
-        $this->assertNull($session["non-existent"]);
-        $this->assertNull($session->get("non-existent"));
+        $this->assertNull($session['non-existent']);
+        $this->assertNull($session->get('non-existent'));
     }
 
     /**
@@ -196,7 +196,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testGettingNonExistentVariableWithDefaultValue()
     {
         $session = new Session();
-        $this->assertEquals("bar", $session->get("foo", "bar"));
+        $this->assertEquals('bar', $session->get('foo', 'bar'));
     }
 
     /**
@@ -205,33 +205,33 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testReflashing()
     {
         $session = new Session();
-        $session->flash("foo", "bar");
+        $session->flash('foo', 'bar');
         $session->ageFlashData();
         $session->reflash();
-        $this->assertTrue($session->has("foo"));
-        $this->assertEquals("bar", $session->get("foo"));
+        $this->assertTrue($session->has('foo'));
+        $this->assertEquals('bar', $session->get('foo'));
         $this->assertEquals(
             [
-                "foo" => "bar",
-                $session::NEW_FLASH_KEYS_KEY => ["foo"],
+                'foo' => 'bar',
+                $session::NEW_FLASH_KEYS_KEY => ['foo'],
                 $session::STALE_FLASH_KEYS_KEY => []
             ],
             $session->getAll()
         );
         $session->ageFlashData();
-        $this->assertTrue($session->has("foo"));
-        $this->assertEquals("bar", $session->get("foo"));
+        $this->assertTrue($session->has('foo'));
+        $this->assertEquals('bar', $session->get('foo'));
         $this->assertEquals(
             [
-                "foo" => "bar",
+                'foo' => 'bar',
                 $session::NEW_FLASH_KEYS_KEY => [],
-                $session::STALE_FLASH_KEYS_KEY => ["foo"]
+                $session::STALE_FLASH_KEYS_KEY => ['foo']
             ],
             $session->getAll()
         );
         $session->ageFlashData();
-        $this->assertFalse($session->has("foo"));
-        $this->assertNull($session->get("foo"));
+        $this->assertFalse($session->has('foo'));
+        $this->assertNull($session->get('foo'));
         $this->assertEquals(
             [
                 $session::NEW_FLASH_KEYS_KEY => [],
@@ -248,10 +248,10 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     {
         $generatedId = str_repeat(1, IIdGenerator::MIN_LENGTH);
         $idGenerator = $this->createMock(IIdGenerator::class);
-        $idGenerator->expects($this->at(0))->method("idIsValid")->willReturn(false);
-        $idGenerator->expects($this->at(2))->method("idIsValid")->willReturn(true);
-        $idGenerator->expects($this->at(4))->method("idIsValid")->willReturn(true);
-        $idGenerator->expects($this->any())->method("generate")->willReturn($generatedId);
+        $idGenerator->expects($this->at(0))->method('idIsValid')->willReturn(false);
+        $idGenerator->expects($this->at(2))->method('idIsValid')->willReturn(true);
+        $idGenerator->expects($this->at(4))->method('idIsValid')->willReturn(true);
+        $idGenerator->expects($this->any())->method('generate')->willReturn($generatedId);
         $session = new Session(null, $idGenerator);
         $session->regenerateId();
         $this->assertEquals($generatedId, $session->getId());
@@ -274,8 +274,8 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testSettingAndGettingName()
     {
         $session = new Session();
-        $session->setName("foo");
-        $this->assertEquals("foo", $session->getName());
+        $session->setName('foo');
+        $this->assertEquals('foo', $session->getName());
     }
 
     /**
@@ -285,7 +285,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     {
         $constructorId = str_repeat(1, IIdGenerator::MIN_LENGTH);
         $idGenerator = $this->createMock(IIdGenerator::class);
-        $idGenerator->expects($this->any())->method("idIsValid")->willReturn(true);
+        $idGenerator->expects($this->any())->method('idIsValid')->willReturn(true);
         $session = new Session($constructorId, $idGenerator);
         $setterId = str_repeat(2, IIdGenerator::MIN_LENGTH);
         $session->setId($setterId);
@@ -298,11 +298,11 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testSettingInvalidIdCausesNewIdToBeGenerated()
     {
         $idGenerator = $this->createMock(IIdGenerator::class);
-        $idGenerator->expects($this->at(0))->method("idIsValid")->willReturn(false);
-        $idGenerator->expects($this->at(2))->method("idIsValid")->willReturn(true);
-        $idGenerator->expects($this->at(3))->method("idIsValid")->willReturn(false);
-        $idGenerator->expects($this->at(5))->method("idIsValid")->willReturn(true);
-        $idGenerator->expects($this->any())->method("generate")->willReturn(str_repeat(1, IIdGenerator::MIN_LENGTH));
+        $idGenerator->expects($this->at(0))->method('idIsValid')->willReturn(false);
+        $idGenerator->expects($this->at(2))->method('idIsValid')->willReturn(true);
+        $idGenerator->expects($this->at(3))->method('idIsValid')->willReturn(false);
+        $idGenerator->expects($this->at(5))->method('idIsValid')->willReturn(true);
+        $idGenerator->expects($this->any())->method('generate')->willReturn(str_repeat(1, IIdGenerator::MIN_LENGTH));
         $session = new Session(1, $idGenerator);
         $this->assertNotEquals(1, $session->getId());
         $session->setId(2);
@@ -315,11 +315,11 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testSettingMany()
     {
         $session = new Session();
-        $session->set("foo", "bar");
-        $session->setMany(["baz" => "blah"]);
-        $this->assertEquals(["foo" => "bar", "baz" => "blah"], $session->getAll());
-        $session->setMany(["foo" => "somethingnew"]);
-        $this->assertEquals(["foo" => "somethingnew", "baz" => "blah"], $session->getAll());
+        $session->set('foo', 'bar');
+        $session->setMany(['baz' => 'blah']);
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'blah'], $session->getAll());
+        $session->setMany(['foo' => 'somethingnew']);
+        $this->assertEquals(['foo' => 'somethingnew', 'baz' => 'blah'], $session->getAll());
     }
 
     /**
@@ -329,7 +329,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $session = new Session();
-        $session[] = "foo";
+        $session[] = 'foo';
     }
 
     /**
@@ -338,10 +338,10 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testSettingOffset()
     {
         $session = new Session();
-        $session["foo"] = "bar";
-        $this->assertEquals("bar", $session["foo"]);
-        $this->assertEquals("bar", $session->get("foo"));
-        $this->assertEquals(["foo" => "bar"], $session->getAll());
+        $session['foo'] = 'bar';
+        $this->assertEquals('bar', $session['foo']);
+        $this->assertEquals('bar', $session->get('foo'));
+        $this->assertEquals(['foo' => 'bar'], $session->getAll());
     }
 
     /**
@@ -350,9 +350,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testSettingVariable()
     {
         $session = new Session();
-        $session->set("foo", "bar");
-        $this->assertEquals("bar", $session->get("foo"));
-        $this->assertEquals(["foo" => "bar"], $session->getAll());
+        $session->set('foo', 'bar');
+        $this->assertEquals('bar', $session->get('foo'));
+        $this->assertEquals(['foo' => 'bar'], $session->getAll());
     }
 
     /**
@@ -360,11 +360,11 @@ class SessionTest extends \PHPUnit\Framework\TestCase
      */
     public function testStarting()
     {
-        $variables = ["foo" => "bar", "baz" => "blah"];
+        $variables = ['foo' => 'bar', 'baz' => 'blah'];
         $session = new Session();
         $session->start($variables);
-        $this->assertEquals("bar", $session["foo"]);
-        $this->assertEquals("blah", $session["baz"]);
+        $this->assertEquals('bar', $session['foo']);
+        $this->assertEquals('blah', $session['baz']);
         $this->assertTrue($session->hasStarted());
     }
 
@@ -383,7 +383,7 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testUnsetNameIsEmptyString()
     {
         $session = new Session();
-        $this->assertEquals("", $session->getName());
+        $this->assertEquals('', $session->getName());
     }
 
     /**
@@ -392,9 +392,9 @@ class SessionTest extends \PHPUnit\Framework\TestCase
     public function testUnsettingOffset()
     {
         $session = new Session();
-        $session["foo"] = "bar";
-        unset($session["foo"]);
-        $this->assertNull($session["foo"]);
+        $session['foo'] = 'bar';
+        unset($session['foo']);
+        $this->assertNull($session['foo']);
         $this->assertEquals([], $session->getAll());
     }
 }

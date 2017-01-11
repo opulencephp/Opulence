@@ -14,11 +14,11 @@ namespace Opulence\Applications\Tasks;
 class TaskTypes
 {
     /** Pre-shutdown tasks */
-    const PRE_SHUTDOWN = "preShutdown";
+    const PRE_SHUTDOWN = 'preShutdown';
     /** Pre-start tasks */
-    const PRE_START = "preStart";
+    const PRE_START = 'preStart';
     /** Post-start tasks */
-    const POST_SHUTDOWN = "postShutdown";
+    const POST_SHUTDOWN = 'postShutdown';
     /** Post-shutdown tasks */
-    const POST_START = "postStart";
+    const POST_START = 'postStart';
 }

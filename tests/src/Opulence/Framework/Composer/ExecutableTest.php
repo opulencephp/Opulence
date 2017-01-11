@@ -26,7 +26,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->executableWithoutPHAR = new Executable(__DIR__);
-        $this->executableWithPHAR = new Executable(__DIR__ . "/Mocks");
+        $this->executableWithPHAR = new Executable(__DIR__ . '/Mocks');
     }
 
     /**
@@ -34,7 +34,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testDumpAutoload()
     {
-        $this->assertEquals("composer dump-autoload ", $this->executableWithoutPHAR->dumpAutoload());
+        $this->assertEquals('composer dump-autoload ', $this->executableWithoutPHAR->dumpAutoload());
         $this->assertEquals(
             '"' . PHP_BINARY . '" composer.phar dump-autoload ',
             $this->executableWithPHAR->dumpAutoload()
@@ -46,10 +46,10 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testDumpAutoloadWithOptions()
     {
-        $this->assertEquals("composer dump-autoload -o", $this->executableWithoutPHAR->dumpAutoload("-o"));
+        $this->assertEquals('composer dump-autoload -o', $this->executableWithoutPHAR->dumpAutoload('-o'));
         $this->assertEquals(
             '"' . PHP_BINARY . '" composer.phar dump-autoload -o',
-            $this->executableWithPHAR->dumpAutoload("-o")
+            $this->executableWithPHAR->dumpAutoload('-o')
         );
     }
 
@@ -58,7 +58,7 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpdate()
     {
-        $this->assertEquals("composer update ", $this->executableWithoutPHAR->update());
+        $this->assertEquals('composer update ', $this->executableWithoutPHAR->update());
         $this->assertEquals(
             '"' . PHP_BINARY . '" composer.phar update ',
             $this->executableWithPHAR->update()
@@ -70,10 +70,10 @@ class ExecutableTest extends \PHPUnit\Framework\TestCase
      */
     public function testUpdateWithOptions()
     {
-        $this->assertEquals("composer update --prefer-dist", $this->executableWithoutPHAR->update("--prefer-dist"));
+        $this->assertEquals('composer update --prefer-dist', $this->executableWithoutPHAR->update('--prefer-dist'));
         $this->assertEquals(
             '"' . PHP_BINARY . '" composer.phar update --prefer-dist',
-            $this->executableWithPHAR->update("--prefer-dist")
+            $this->executableWithPHAR->update('--prefer-dist')
         );
     }
 }

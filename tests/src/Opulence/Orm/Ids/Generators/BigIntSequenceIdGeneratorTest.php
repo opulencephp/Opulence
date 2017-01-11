@@ -23,7 +23,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfPostInsert()
     {
-        $generator = new BigIntSequenceIdGenerator("foo");
+        $generator = new BigIntSequenceIdGenerator('foo');
         $this->assertTrue($generator->isPostInsert());
     }
 
@@ -33,7 +33,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenConnectionNotSet()
     {
         $this->expectException(OrmException::class);
-        $idGenerator = new BigIntSequenceIdGenerator("foo");
+        $idGenerator = new BigIntSequenceIdGenerator('foo');
         $idGenerator->generate(new stdClass());
     }
 
@@ -45,9 +45,9 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $server = new Server();
         $connection = new Connection($server);
         $entity = new stdClass();
-        $idGenerator = new BigIntSequenceIdGenerator("foo", $connection);
-        $this->assertSame("1", $idGenerator->generate($entity));
-        $this->assertSame("2", $idGenerator->generate($entity));
+        $idGenerator = new BigIntSequenceIdGenerator('foo', $connection);
+        $this->assertSame('1', $idGenerator->generate($entity));
+        $this->assertSame('2', $idGenerator->generate($entity));
     }
 
     /**
@@ -56,7 +56,7 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingEmptyValue()
     {
-        $generator = new BigIntSequenceIdGenerator("foo");
+        $generator = new BigIntSequenceIdGenerator('foo');
         $this->assertNull($generator->getEmptyValue(new stdClass()));
     }
 
@@ -68,11 +68,11 @@ class BigIntSequenceIdGeneratorTest extends \PHPUnit\Framework\TestCase
         $server = new Server();
         $connection = new Connection($server);
         $entity = new stdClass();
-        $idGenerator = new BigIntSequenceIdGenerator("foo", $connection);
-        $this->assertSame("1", $idGenerator->generate($entity));
-        $this->assertSame("2", $idGenerator->generate($entity));
+        $idGenerator = new BigIntSequenceIdGenerator('foo', $connection);
+        $this->assertSame('1', $idGenerator->generate($entity));
+        $this->assertSame('2', $idGenerator->generate($entity));
         $idGenerator->setConnection(new Connection($server));
-        $this->assertSame("1", $idGenerator->generate($entity));
-        $this->assertSame("2", $idGenerator->generate($entity));
+        $this->assertSame('1', $idGenerator->generate($entity));
+        $this->assertSame('2', $idGenerator->generate($entity));
     }
 }

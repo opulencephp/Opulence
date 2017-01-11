@@ -63,7 +63,7 @@ class TypeMapper
 
         $this->setParameterProvider($provider);
         // The "!" zeroes out the hours, minutes, and seconds
-        $phpDate = DateTime::createFromFormat("!" . $provider->getDateFormat(), $sqlDate);
+        $phpDate = DateTime::createFromFormat('!' . $provider->getDateFormat(), $sqlDate);
 
         if ($phpDate === false) {
             $phpDate = $this->parseUnknownDateTimeFormat($sqlDate);
@@ -293,7 +293,7 @@ class TypeMapper
         try {
             return new DateTime($sqlDateTime);
         } catch (Exception $ex) {
-            throw new InvalidArgumentException("Unable to cast timestamp", 0, $ex);
+            throw new InvalidArgumentException('Unable to cast timestamp', 0, $ex);
         }
     }
 
@@ -308,7 +308,7 @@ class TypeMapper
     {
         if ($provider === null) {
             if ($this->provider === null) {
-                throw new RuntimeException("No provider specified");
+                throw new RuntimeException('No provider specified');
             }
 
             $provider = $this->provider;

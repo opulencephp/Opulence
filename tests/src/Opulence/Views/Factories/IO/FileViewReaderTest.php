@@ -32,7 +32,7 @@ class FileViewReaderTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownForInvalidPath()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->reader->read(__DIR__ . "/fileThatDoesNotExist.html");
+        $this->reader->read(__DIR__ . '/fileThatDoesNotExist.html');
     }
 
     /**
@@ -40,6 +40,6 @@ class FileViewReaderTest extends \PHPUnit\Framework\TestCase
      */
     public function testReadingExistingFile()
     {
-        $this->assertEquals("Foo", $this->reader->read(__DIR__ . "/../../files/Foo.html"));
+        $this->assertEquals('Foo', $this->reader->read(__DIR__ . '/../../files/Foo.html'));
     }
 }

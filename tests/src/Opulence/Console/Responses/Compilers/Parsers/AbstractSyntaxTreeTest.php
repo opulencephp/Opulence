@@ -48,7 +48,7 @@ class AbstractSyntaxTreeTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingCurrentNode()
     {
-        $currentNode = new Node("foo");
+        $currentNode = new Node('foo');
         $this->assertSame($currentNode, $this->tree->setCurrentNode($currentNode));
         $this->assertSame($currentNode, $this->tree->getCurrentNode());
     }

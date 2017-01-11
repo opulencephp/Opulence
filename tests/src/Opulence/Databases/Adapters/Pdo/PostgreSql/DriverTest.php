@@ -22,11 +22,11 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     {
         $server = new Server();
         $driver = new Driver();
-        $sslMode = "fakesslmode";
-        $expectedResult = "pgsql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
-            . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';"
-            . "sslmode=" . $sslMode . ";";
-        $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ["sslmode" => $sslMode]));
+        $sslMode = 'fakesslmode';
+        $expectedResult = 'pgsql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
+            . 'port=' . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';"
+            . 'sslmode=' . $sslMode . ';';
+        $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ['sslmode' => $sslMode]));
     }
 
     /**
@@ -36,8 +36,8 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     {
         $server = new Server();
         $driver = new Driver();
-        $expectedResult = "pgsql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
-            . "port=" . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
+        $expectedResult = 'pgsql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
+            . 'port=' . $server->getPort() . ";options='--client_encoding=" . $server->getCharset() . "';";
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
     }
 
@@ -52,7 +52,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     private function getDSN(Driver $driver, Server $server, array $connectionOptions = [])
     {
         $class = new \ReflectionClass(get_class($driver));
-        $method = $class->getMethod("getDSN");
+        $method = $class->getMethod('getDSN');
         $method->setAccessible(true);
 
         return $method->invokeArgs($driver, [$server, $connectionOptions, $connectionOptions]);

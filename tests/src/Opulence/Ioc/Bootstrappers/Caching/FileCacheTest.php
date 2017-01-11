@@ -24,7 +24,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /** @var BootstrapperRegistry The registry to use in tests */
     private $registry = null;
     /** @var string The path to the cached registry file */
-    private $cachedRegistryFilePath = "";
+    private $cachedRegistryFilePath = '';
 
     /**
      * Gets the bindings to lazy bootstrapper class mappings
@@ -50,8 +50,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
                 }
 
                 $bindingsToLazyBootstrappers[$boundClass] = [
-                    "bootstrapper" => $lazyBootstrapperClass,
-                    "target" => $targetClass
+                    'bootstrapper' => $lazyBootstrapperClass,
+                    'target' => $targetClass
                 ];
             }
         }
@@ -64,7 +64,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->cachedRegistryFilePath = __DIR__ . "/files/cachedRegistry.json";
+        $this->cachedRegistryFilePath = __DIR__ . '/files/cachedRegistry.json';
         $this->cache = new FileCache($this->cachedRegistryFilePath);
         $this->registry = new BootstrapperRegistry();
     }
@@ -84,7 +84,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testFlushing()
     {
-        file_put_contents($this->cachedRegistryFilePath, "foo");
+        file_put_contents($this->cachedRegistryFilePath, 'foo');
         $this->cache->flush();
         $this->assertFalse(file_exists($this->cachedRegistryFilePath));
     }
@@ -97,8 +97,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         // Set the expiration so that it will definitely be more recent than the cached file's last modified time
         $cache = new FileCache($this->cachedRegistryFilePath, time() + 3600);
         $this->writeRegistry([
-            "eager" => [EagerBootstrapper::class],
-            "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+            'eager' => [EagerBootstrapper::class],
+            'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $this->assertNull($cache->get());
         $this->assertFalse(file_exists($this->cachedRegistryFilePath));
@@ -110,8 +110,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function testReadingWhenCachedRegistryExists()
     {
         $this->writeRegistry([
-            "eager" => [EagerBootstrapper::class],
-            "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+            'eager' => [EagerBootstrapper::class],
+            'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
         ]);
         $registry = $this->cache->get();
         $this->assertInstanceOf(BootstrapperRegistry::class, $registry);
@@ -168,8 +168,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache->set($registry);
         $this->assertEquals(
             [
-                "eager" => [EagerBootstrapper::class],
-                "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+                'eager' => [EagerBootstrapper::class],
+                'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
             ],
             $this->readFromCachedRegistryFile()
         );
@@ -186,8 +186,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache->set($registry);
         $this->assertEquals(
             [
-                "eager" => [],
-                "lazy" => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
+                'eager' => [],
+                'lazy' => self::getBindingsToLazyBootstrappers(LazyBootstrapper::class)
             ],
             $this->readFromCachedRegistryFile()
         );
@@ -203,8 +203,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
         $this->cache->set($registry);
         $this->assertEquals(
             [
-                "eager" => [EagerBootstrapper::class],
-                "lazy" => []
+                'eager' => [EagerBootstrapper::class],
+                'lazy' => []
             ],
             $this->readFromCachedRegistryFile()
         );

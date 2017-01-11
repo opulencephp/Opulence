@@ -27,14 +27,14 @@ class UsernamePasswordAuthenticator implements IAuthenticator
     /** @var IRoleRepository The role repository */
     protected $roleRepository = null;
     /** @var string The pepper used for hashing */
-    protected $pepper = "";
+    protected $pepper = '';
 
     /**
      * @param IUserRepository $userRepository The user repository
      * @param IRoleRepository $roleRepository The role repository
      * @param string $pepper The pepper used for hashing
      */
-    public function __construct(IUserRepository $userRepository, IRoleRepository $roleRepository, string $pepper = "")
+    public function __construct(IUserRepository $userRepository, IRoleRepository $roleRepository, string $pepper = '')
     {
         $this->userRepository = $userRepository;
         $this->roleRepository = $roleRepository;
@@ -46,8 +46,8 @@ class UsernamePasswordAuthenticator implements IAuthenticator
      */
     public function authenticate(ICredential $credential, ISubject &$subject = null, string &$error = null) : bool
     {
-        $username = $credential->getValue("username");
-        $password = $credential->getValue("password");
+        $username = $credential->getValue('username');
+        $password = $credential->getValue('password');
 
         if ($username === null || $password === null) {
             $error = AuthenticatorErrorTypes::CREDENTIAL_MISSING;

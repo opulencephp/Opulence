@@ -23,7 +23,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->option = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo option", "bar");
+        $this->option = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo option', 'bar');
     }
 
     /**
@@ -31,7 +31,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIsValueArray()
     {
-        $arrayOption = new Option("foo", "f", OptionTypes::IS_ARRAY, "Foo option");
+        $arrayOption = new Option('foo', 'f', OptionTypes::IS_ARRAY, 'Foo option');
         $this->assertTrue($arrayOption->valueIsArray());
     }
 
@@ -40,8 +40,8 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIsValueOptional()
     {
-        $requiredOption = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
-        $optionalArgument = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo option", "bar");
+        $requiredOption = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo option', 'bar');
+        $optionalArgument = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo option', 'bar');
         $this->assertFalse($requiredOption->valueIsOptional());
         $this->assertTrue($optionalArgument->valueIsOptional());
     }
@@ -51,8 +51,8 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIsValuePermitted()
     {
-        $requiredOption = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
-        $notPermittedOption = new Option("foo", "f", OptionTypes::NO_VALUE, "Foo option", "bar");
+        $requiredOption = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo option', 'bar');
+        $notPermittedOption = new Option('foo', 'f', OptionTypes::NO_VALUE, 'Foo option', 'bar');
         $this->assertTrue($requiredOption->valueIsPermitted());
         $this->assertFalse($notPermittedOption->valueIsPermitted());
     }
@@ -62,8 +62,8 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIsValueRequired()
     {
-        $requiredOption = new Option("foo", "f", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
-        $optionalArgument = new Option("foo", "f", OptionTypes::OPTIONAL_VALUE, "Foo option", "bar");
+        $requiredOption = new Option('foo', 'f', OptionTypes::REQUIRED_VALUE, 'Foo option', 'bar');
+        $optionalArgument = new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE, 'Foo option', 'bar');
         $this->assertTrue($requiredOption->valueIsRequired());
         $this->assertFalse($optionalArgument->valueIsRequired());
     }
@@ -73,7 +73,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDefaultValue()
     {
-        $this->assertEquals("bar", $this->option->getDefaultValue());
+        $this->assertEquals('bar', $this->option->getDefaultValue());
     }
 
     /**
@@ -81,7 +81,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDescription()
     {
-        $this->assertEquals("Foo option", $this->option->getDescription());
+        $this->assertEquals('Foo option', $this->option->getDescription());
     }
 
     /**
@@ -89,7 +89,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingName()
     {
-        $this->assertEquals("foo", $this->option->getName());
+        $this->assertEquals('foo', $this->option->getName());
     }
 
     /**
@@ -97,7 +97,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingShortName()
     {
-        $this->assertEquals("f", $this->option->getShortName());
+        $this->assertEquals('f', $this->option->getShortName());
     }
 
     /**
@@ -106,7 +106,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     public function testNonAlphabeticShortName()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Option("foo", "-", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
+        new Option('foo', '-', OptionTypes::REQUIRED_VALUE, 'Foo option', 'bar');
     }
 
     /**
@@ -115,7 +115,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     public function testSettingTypeToOptionalAndNoValue()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Option("foo", "f", OptionTypes::OPTIONAL_VALUE | OptionTypes::NO_VALUE, "Foo argument");
+        new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE | OptionTypes::NO_VALUE, 'Foo argument');
     }
 
     /**
@@ -124,7 +124,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     public function testSettingTypeToOptionalAndRequired()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Option("foo", "f", OptionTypes::OPTIONAL_VALUE | OptionTypes::REQUIRED_VALUE, "Foo argument");
+        new Option('foo', 'f', OptionTypes::OPTIONAL_VALUE | OptionTypes::REQUIRED_VALUE, 'Foo argument');
     }
 
     /**
@@ -133,7 +133,7 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     public function testSettingTypeToRequiredAndNoValue()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Option("foo", "f", OptionTypes::REQUIRED_VALUE | OptionTypes::NO_VALUE, "Foo argument");
+        new Option('foo', 'f', OptionTypes::REQUIRED_VALUE | OptionTypes::NO_VALUE, 'Foo argument');
     }
 
     /**
@@ -142,6 +142,6 @@ class OptionTest extends \PHPUnit\Framework\TestCase
     public function testTooLongShortName()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Option("foo", "foo", OptionTypes::REQUIRED_VALUE, "Foo option", "bar");
+        new Option('foo', 'foo', OptionTypes::REQUIRED_VALUE, 'Foo option', 'bar');
     }
 }

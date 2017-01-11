@@ -34,8 +34,8 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCacheDeleteIsCalledOnDestroy()
     {
-        $this->bridge->expects($this->once())->method("delete")->with("foo");
-        $this->handler->destroy("foo");
+        $this->bridge->expects($this->once())->method('delete')->with('foo');
+        $this->handler->destroy('foo');
     }
 
     /**
@@ -43,8 +43,8 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCacheGetIsCalledOnRead()
     {
-        $this->bridge->expects($this->once())->method("get")->with("foo")->willReturn("bar");
-        $this->assertEquals("bar", $this->handler->read("foo"));
+        $this->bridge->expects($this->once())->method('get')->with('foo')->willReturn('bar');
+        $this->assertEquals('bar', $this->handler->read('foo'));
     }
 
     /**
@@ -52,8 +52,8 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCacheSetIsCalledOnWrite()
     {
-        $this->bridge->expects($this->once())->method("set")->with("foo", "bar", 123);
-        $this->handler->write("foo", "bar");
+        $this->bridge->expects($this->once())->method('set')->with('foo', 'bar', 123);
+        $this->handler->write('foo', 'bar');
     }
 
     /**
@@ -77,6 +77,6 @@ class CacheSessionHandlerTest extends \PHPUnit\Framework\TestCase
      */
     public function testOpenReturnsTrue()
     {
-        $this->assertTrue($this->handler->open("foo", "bar"));
+        $this->assertTrue($this->handler->open('foo', 'bar'));
     }
 }
