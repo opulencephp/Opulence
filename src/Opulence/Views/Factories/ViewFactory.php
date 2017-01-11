@@ -86,7 +86,7 @@ class ViewFactory implements IViewFactory
      */
     protected function runBuilders(string $name, string $resolvedPath, IView $view) : IView
     {
-        $builders = null;
+        $builders = [];
 
         // If there's a builder registered to the same name as the view
         if (isset($this->builders[$name])) {
@@ -107,10 +107,8 @@ class ViewFactory implements IViewFactory
             }
         }
 
-        if ($builders !== null) {
-            foreach ($builders as $callback) {
-                $view = $callback($view);
-            }
+        foreach ($builders as $callback) {
+            $view = $callback($view);
         }
 
         return $view;

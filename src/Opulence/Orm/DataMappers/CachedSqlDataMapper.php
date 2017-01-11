@@ -223,10 +223,10 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
             if ($addDataToCacheOnMiss) {
                 if (is_array($data)) {
                     foreach ($data as $datum) {
-                        $this->cacheDataMapper->add($datum, ...$setFuncArgs);
+                        $this->cacheDataMapper->add($datum);
                     }
                 } else {
-                    $this->cacheDataMapper->add($data, ...$setFuncArgs);
+                    $this->cacheDataMapper->add($data);
                 }
             }
         }

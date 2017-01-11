@@ -58,7 +58,7 @@ interface ITranspiler
      * Registers a directive transpiler
      *
      * @param string $name The name of the directive whose transpiler we're registering
-     * @param callable $transpiler The transpiler, which accepts an optional expression from the directive
+     * @param callable $transpiler The transpiler, which accepts a noncompulsory expression from the directive
      */
     public function registerDirectiveTranspiler(string $name, callable $transpiler);
 
