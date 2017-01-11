@@ -295,31 +295,34 @@ class Container implements IContainer
      */
     protected function resolveClass(string $class, array $primitives = [])
     {
+        static $reflectionCache;
+
         try {
-            $reflectionClass = new ReflectionClass($class);
+            if (isset($reflectionCache[$class])) {
+                list($constructor, $parameters) = $reflectionCache[$class];
+            } else {
+                $reflectionClass = new ReflectionClass($class);
+                if (!$reflectionClass->isInstantiable()) {
+                    throw new IocException(
+                        sprintf(
+                            "%s is not instantiable%s",
+                            $class,
+                            $this->getCurrentTarget() === null ? "" : " (dependency of {$this->getCurrentTarget()})"
+                        )
+                    );
+                }
 
-            if (!$reflectionClass->isInstantiable()) {
-                throw new IocException(
-                    sprintf(
-                        "%s is not instantiable%s",
-                        $class,
-                        $this->getCurrentTarget() === null ? "" : " (dependency of {$this->getCurrentTarget()})"
-                    )
-                );
+                $constructor = $reflectionClass->getConstructor();
+                $parameters = $constructor !== null ? $constructor->getParameters() : null;
+                $reflectionCache[$class] = [$constructor, $parameters];
             }
-
-            $constructor = $reflectionClass->getConstructor();
 
             if ($constructor === null) {
                 // No constructor, so instantiating is easy
                 return new $class;
             }
 
-            $constructorParameters = $this->resolveParameters(
-                $class,
-                $constructor->getParameters(),
-                $primitives
-            );
+            $constructorParameters = $this->resolveParameters($class, $parameters, $primitives);
 
             return new $class(...$constructorParameters);
         } catch (ReflectionException $ex) {
