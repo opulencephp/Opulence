@@ -157,7 +157,8 @@ class Container implements IContainer
                 break;
             case FactoryBinding::class:
                 /** @var FactoryBinding $binding */
-                $instance = call_user_func($binding->getFactory());
+                $factory = $binding->getFactory();
+                $instance = $factory();
                 break;
             default:
                 throw new RuntimeException('Invalid binding type "' . get_class($binding) . '"');
