@@ -291,7 +291,7 @@ class Container implements IContainer
                         sprintf(
                             "%s is not instantiable%s",
                             $class,
-                            $this->currentTarget === null ? "" : " (dependency of {$this->getCurrentTarget()})"
+                            $this->currentTarget === null ? "" : " (dependency of {$this->currentTarget})"
                         )
                     );
                 }
