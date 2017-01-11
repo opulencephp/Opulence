@@ -8,6 +8,7 @@
  */
 namespace Opulence\Ioc;
 
+use InvalidArgumentException;
 use Opulence\Tests\Ioc\Mocks\Bar;
 use Opulence\Tests\Ioc\Mocks\BaseClass;
 use Opulence\Tests\Ioc\Mocks\Blah;
@@ -24,6 +25,7 @@ use Opulence\Tests\Ioc\Mocks\IFoo;
 use Opulence\Tests\Ioc\Mocks\IPerson;
 use Opulence\Tests\Ioc\Mocks\MagicCallMethod;
 use Opulence\Tests\Ioc\Mocks\StaticSetters;
+use stdClass;
 
 /**
  * Tests the dependency injection container
@@ -551,6 +553,42 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $instance1 = $this->container->resolve($this->baseClass);
         $instance2 = $this->container->resolve($this->baseClass);
         $this->assertNotSame($instance1, $instance2);
+    }
+    
+    /**
+     * Tests that an exception is thrown when binding a factory to an invalid interface type
+     */
+    public function testInvalidArgumentTypeWhenBindingFactoryThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->container->bindFactory(new stdClass(), function () { });
+    }
+    
+    /**
+     * Tests that an exception is thrown when binding an instance to an invalid interface type
+     */
+    public function testInvalidArgumentTypeWhenBindingInstanceThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->container->bindInstance(new stdClass(), new stdClass());
+    }
+    
+    /**
+     * Tests that an exception is thrown when binding a prototype to an invalid interface type
+     */
+    public function testInvalidArgumentTypeWhenBindingPrototypeThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->container->bindPrototype(new stdClass(), Foo::class);
+    }
+    
+    /**
+     * Tests that an exception is thrown when binding a singleton to an invalid interface type
+     */
+    public function testInvalidArgumentTypeWhenBindingSingletonThrowsException()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $this->container->bindSingleton(new stdClass(), Foo::class);
     }
 
     /**

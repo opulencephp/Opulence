@@ -8,6 +8,7 @@
  */
 namespace Opulence\Ioc;
 
+use InvalidArgumentException;
 use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
@@ -40,8 +41,17 @@ class Container implements IContainer
      */
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false)
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->addBinding($interface, new FactoryBinding($factory, $resolveAsSingleton));
+        $binding = new FactoryBinding($factory, $resolveAsSingleton);
+       
+        // We specifically do not cast to an array because of a micro-optimzation
+        if (is_string($interfaces)) {
+            $this->addBinding($interfaces, $binding);
+        } elseif (is_array($interfaces)) {
+            foreach ($interfaces as $interface) {
+                $this->addBinding($interface, $binding);
+            }
+        } else {
+            throw new InvalidArgumentException("Interfaces must be string or array");
         }
     }
 
@@ -50,8 +60,17 @@ class Container implements IContainer
      */
     public function bindInstance($interfaces, $instance)
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->addBinding($interface, new InstanceBinding($instance));
+        $binding = new InstanceBinding($instance);
+       
+        // We specifically do not cast to an array because of a micro-optimzation
+        if (is_string($interfaces)) {
+            $this->addBinding($interfaces, $binding);
+        } elseif (is_array($interfaces)) {
+            foreach ($interfaces as $interface) {
+                $this->addBinding($interface, $binding);
+            }
+        } else {
+            throw new InvalidArgumentException("Interfaces must be string or array");
         }
     }
 
@@ -60,8 +79,15 @@ class Container implements IContainer
      */
     public function bindPrototype($interfaces, string $concreteClass = null, array $primitives = [])
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
+        // We specifically do not cast to an array because of a micro-optimzation
+        if (is_string($interfaces)) {
+            $this->addBinding($interfaces, new ClassBinding($concreteClass ?? $interfaces, $primitives, false));
+        } elseif (is_array($interfaces)) {
+            foreach ($interfaces as $interface) {
+                $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, false));
+            }
+        } else {
+            throw new InvalidArgumentException("Interfaces must be string or array");
         }
     }
 
@@ -70,8 +96,15 @@ class Container implements IContainer
      */
     public function bindSingleton($interfaces, string $concreteClass = null, array $primitives = [])
     {
-        foreach ((array)$interfaces as $interface) {
-            $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
+        // We specifically do not cast to an array because of a micro-optimzation
+        if (is_string($interfaces)) {
+            $this->addBinding($interfaces, new ClassBinding($concreteClass ?? $interfaces, $primitives, true));
+        } elseif (is_array($interfaces)) {
+            foreach ($interfaces as $interface) {
+                $this->addBinding($interface, new ClassBinding($concreteClass ?? $interface, $primitives, true));
+            }
+        } else {
+            throw new InvalidArgumentException("Interfaces must be string or array");
         }
     }
 

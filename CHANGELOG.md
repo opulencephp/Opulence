@@ -8,6 +8,7 @@
 
 <h3>IoC</h3>
 * Fixed #54 (no longer assigning resolved parameters to array by reference)
+* Added micro-optimizations for performance improvements
 
 <h3>ORM</h3>
 * Fixed #45 (reuse results of reflection across Id getter and setter)
