@@ -195,14 +195,12 @@ abstract class CachedSqlDataMapper implements ICachedSqlDataMapper
      * @param string $funcName The name of the method we want to call on our data mappers
      * @param array $getFuncArgs The array of function arguments to pass in to our entity retrieval functions
      * @param bool $addDataToCacheOnMiss True if we want to add the entity from the database to cache in case of a cache miss
-     * @param array $setFuncArgs The array of function arguments to pass into the set functions in the case of a cache miss
      * @return object|array|null The entity(ies) if it was found, otherwise null
      */
     protected function read(
         string $funcName,
         array $getFuncArgs = [],
-        bool $addDataToCacheOnMiss = true,
-        array $setFuncArgs = []
+        bool $addDataToCacheOnMiss = true
     ) {
         // Always attempt to retrieve from cache first
         $data = $this->cacheDataMapper->$funcName(...$getFuncArgs);
