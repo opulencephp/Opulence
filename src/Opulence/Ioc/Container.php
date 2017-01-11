@@ -42,7 +42,7 @@ class Container implements IContainer
     public function bindFactory($interfaces, callable $factory, bool $resolveAsSingleton = false)
     {
         $binding = new FactoryBinding($factory, $resolveAsSingleton);
-       
+
         // We specifically do not cast to an array because of a micro-optimzation
         if (is_string($interfaces)) {
             $this->addBinding($interfaces, $binding);
@@ -61,7 +61,7 @@ class Container implements IContainer
     public function bindInstance($interfaces, $instance)
     {
         $binding = new InstanceBinding($instance);
-       
+
         // We specifically do not cast to an array because of a micro-optimzation
         if (is_string($interfaces)) {
             $this->addBinding($interfaces, $binding);
@@ -170,12 +170,12 @@ class Container implements IContainer
      */
     public function resolve(string $interface)
     {
-        if (!$this->hasBinding($interface)) {
+        $binding = $this->getBinding($interface);
+
+        if ($binding === null) {
             // Try just resolving this directly
             return $this->resolveClass($interface);
         }
-
-        $binding = $this->getBinding($interface);
 
         switch (get_class($binding)) {
             case InstanceBinding::class:
