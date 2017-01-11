@@ -23,6 +23,8 @@ class Container implements IContainer
 {
     /** The value for an empty target */
     private static $emptyTarget = null;
+    /** @var null|string The current target  */
+    protected $currentTarget = null;
     /** @var array The stack of targets */
     protected $targetStack = [];
     /** @var IBinding[][] The list of bindings */
@@ -144,9 +146,13 @@ class Container implements IContainer
      */
     public function for(string $targetClass, callable $callback)
     {
+        $this->currentTarget = $targetClass;
         $this->targetStack[] = $targetClass;
+
         $result = $callback($this);
+
         array_pop($this->targetStack);
+        $this->currentTarget = end($this->targetStack) ?: self::$emptyTarget;
 
         return $result;
     }
@@ -264,7 +270,7 @@ class Container implements IContainer
      */
     protected function getCurrentTarget()
     {
-        return end($this->targetStack) ?: self::$emptyTarget;
+        return $this->currentTarget;
     }
 
     /**
