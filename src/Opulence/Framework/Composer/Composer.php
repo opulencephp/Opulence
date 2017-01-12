@@ -80,7 +80,7 @@ class Composer
      */
     public function getClassPath(string $fullyQualifiedClassName) : string
     {
-        $parts = explode("\\", $fullyQualifiedClassName);
+        $parts = explode('\\', $fullyQualifiedClassName);
         $path = array_slice($parts, 0, -1);
         $path[] = end($parts) . '.php';
         array_unshift($path, $this->psr4RootPath);
@@ -104,7 +104,7 @@ class Composer
             return $className;
         }
 
-        return trim($defaultNamespace, "\\") . "\\" . $className;
+        return trim($defaultNamespace, '\\') . '\\' . $className;
     }
 
     /**
@@ -130,7 +130,7 @@ class Composer
             foreach ((array)$namespacePaths as $namespacePath) {
                 // The namespace path should be a subdirectory of the "src" directory
                 if (mb_strpos(realpath($this->rootPath . '/' . $namespacePath), realpath($this->psr4RootPath)) === 0) {
-                    return rtrim($namespace, "\\");
+                    return rtrim($namespace, '\\');
                 }
             }
         }
@@ -149,6 +149,6 @@ class Composer
             return null;
         }
 
-        return (array)$this->get('autoload.psr-4')[$rootNamespace . "\\"];
+        return (array)$this->get('autoload.psr-4')[$rootNamespace . '\\'];
     }
 }

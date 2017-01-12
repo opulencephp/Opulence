@@ -11,8 +11,8 @@ namespace Opulence\Orm\Ids\Accessors;
 use Opulence\Orm\IEntity;
 use Opulence\Orm\OrmException;
 use Opulence\Tests\Mocks\User;
-use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
 use Opulence\Tests\Orm\Ids\Accessors\Mocks\Bar;
+use Opulence\Tests\Orm\Ids\Accessors\Mocks\Foo;
 
 /**
  * Tests the Id accessor registry

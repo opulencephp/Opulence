@@ -242,7 +242,7 @@ class Connection extends PDO implements IConnection
             parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             parent::setAttribute(
                 PDO::ATTR_STATEMENT_CLASS,
-                [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]
+                [__NAMESPACE__ . '\\' . self::PDO_STATEMENT_CLASS, [$this]]
             );
 
             $this->isConnected = true;

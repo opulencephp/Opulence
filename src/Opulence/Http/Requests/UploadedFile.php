@@ -133,7 +133,7 @@ class UploadedFile extends SplFileInfo
         }
 
         $name = $name ?: $this->getBasename();
-        $targetPath = rtrim($targetDirectory, "\\/") . '/' . $name;
+        $targetPath = rtrim($targetDirectory, '\\/') . '/' . $name;
 
         if (!$this->doMove($this->getPathname(), $targetPath)) {
             throw new UploadException('Could not move the uploaded file');

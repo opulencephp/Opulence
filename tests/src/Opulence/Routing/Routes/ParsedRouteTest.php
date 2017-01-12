@@ -55,7 +55,7 @@ class ParsedRouteTest extends \PHPUnit\Framework\TestCase
     {
         $route = new Route('get', '/foo', 'foo@bar');
         $parsedRoute = new ParsedRoute($route);
-        $this->assertEquals("#^.*$#", $parsedRoute->getHostRegex());
+        $this->assertEquals('#^.*$#', $parsedRoute->getHostRegex());
     }
 
     /**

@@ -26,7 +26,7 @@ class Redis
     {
         if (is_array($clients)) {
             if (!isset($clients['default'])) {
-                throw new InvalidArgumentException("Must specify a \"default\" client");
+                throw new InvalidArgumentException('Must specify a "default" client');
             }
 
             $this->clients = $clients;

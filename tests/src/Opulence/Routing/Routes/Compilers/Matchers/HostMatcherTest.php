@@ -43,7 +43,7 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testMatchWithMatchingRegex()
     {
-        $this->route->expects($this->any())->method('getHostRegex')->willReturn("#^foo$#");
+        $this->route->expects($this->any())->method('getHostRegex')->willReturn('#^foo$#');
         $headers = $this->createMock(Headers::class);
         $headers->expects($this->any())->method('get')->with('HOST')->willReturn('foo');
         $this->request->expects($this->any())->method('getHeaders')->willReturn($headers);
@@ -55,9 +55,9 @@ class HostMatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testNoMatchWithNoMatchingRegex()
     {
-        $this->route->expects($this->any())->method('getHostRegex')->willReturn("#^foo$#");
+        $this->route->expects($this->any())->method('getHostRegex')->willReturn('#^foo$#');
         $headers = $this->createMock(Headers::class);
-        $headers->expects($this->any())->method('get')->with('HOST')->willReturn("#^bar$#");
+        $headers->expects($this->any())->method('get')->with('HOST')->willReturn('#^bar$#');
         $this->request->expects($this->any())->method('getHeaders')->willReturn($headers);
         $this->assertFalse($this->matcher->isMatch($this->route, $this->request));
     }

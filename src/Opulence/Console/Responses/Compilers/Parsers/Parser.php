@@ -43,7 +43,7 @@ class Parser implements IParser
                     if ($ast->getCurrentNode()->getValue() != $token->getValue()) {
                         throw new RuntimeException(
                             sprintf(
-                                "Improperly nested tag \"%s\" near character #%d",
+                                'Improperly nested tag "%s" near character #%d',
                                 $token->getValue(),
                                 $token->getPosition()
                             )
@@ -58,7 +58,7 @@ class Parser implements IParser
                     if (!$ast->getCurrentNode()->isRoot()) {
                         throw new RuntimeException(
                             sprintf(
-                                "Unclosed %s \"%s\"",
+                                'Unclosed %s "%s"',
                                 $ast->getCurrentNode()->isTag() ? 'tag' : 'node',
                                 $ast->getCurrentNode()->getValue()
                             )
@@ -69,7 +69,7 @@ class Parser implements IParser
                 default:
                     throw new RuntimeException(
                         sprintf(
-                            "Unknown token type \"%s\" with value \"%s\" near character #%d",
+                            'Unknown token type "%s" with value "%s" near character #%d',
                             $token->getType(),
                             $token->getValue(),
                             $token->getPosition()

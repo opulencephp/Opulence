@@ -561,7 +561,8 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     public function testInvalidArgumentTypeWhenBindingFactoryThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->container->bindFactory(new stdClass(), function () { });
+        $this->container->bindFactory(new stdClass(), function () {
+        });
     }
 
     /**
