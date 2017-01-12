@@ -29,6 +29,8 @@ class Container implements IContainer
     protected $targetStack = [];
     /** @var IBinding[][] The list of bindings */
     protected $bindings = [];
+    /** @var array */
+    protected $constructorReflectionCache = [];
 
     /**
      * Prepares the container for serialization
@@ -279,11 +281,9 @@ class Container implements IContainer
      */
     protected function resolveClass(string $class, array $primitives = [])
     {
-        static $reflectionCache;
-
         try {
-            if (isset($reflectionCache[$class])) {
-                list($constructor, $parameters) = $reflectionCache[$class];
+            if (isset($this->constructorReflectionCache[$class])) {
+                list($constructor, $parameters) = $this->constructorReflectionCache[$class];
             } else {
                 $reflectionClass = new ReflectionClass($class);
                 if (!$reflectionClass->isInstantiable()) {
@@ -298,7 +298,7 @@ class Container implements IContainer
 
                 $constructor = $reflectionClass->getConstructor();
                 $parameters = $constructor !== null ? $constructor->getParameters() : null;
-                $reflectionCache[$class] = [$constructor, $parameters];
+                $this->constructorReflectionCache[$class] = [$constructor, $parameters];
             }
 
             if ($constructor === null) {
