@@ -98,7 +98,7 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
      */
     private function getContentWithoutHeaders($rawContents)
     {
-        return preg_replace("/header::.*\\$\\$/", '', $rawContents);
+        return preg_replace('/header::.*\$\$/', '', $rawContents);
     }
 
     /**

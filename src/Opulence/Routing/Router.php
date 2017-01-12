@@ -343,8 +343,8 @@ class Router
         foreach ($this->groupOptionsStack as $groupOptions) {
             if (isset($groupOptions['controllerNamespace'])) {
                 // Add trailing slashes if they're not there already
-                if (mb_substr($groupOptions['controllerNamespace'], -1) !== "\\") {
-                    $groupOptions['controllerNamespace'] .= "\\";
+                if (mb_substr($groupOptions['controllerNamespace'], -1) !== '\\') {
+                    $groupOptions['controllerNamespace'] .= '\\';
                 }
 
                 $controllerNamespace .= $groupOptions['controllerNamespace'];

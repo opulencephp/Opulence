@@ -63,7 +63,7 @@ class UrlGenerator
         $route = $this->routeCollection->getNamedRoute($name);
 
         if ($route === null) {
-            return "#^.*$#";
+            return '#^.*$#';
         }
 
         $strippedPathRegex = substr($route->getPathRegex(), 2, -2);

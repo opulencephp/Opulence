@@ -56,7 +56,7 @@ class ParsedRoute extends Route
     public function getHostRegex() : string
     {
         // Default to matching everything if it isn't set
-        return $this->hostRegex === null ? "#^.*$#" : $this->hostRegex;
+        return $this->hostRegex === null ? '#^.*$#' : $this->hostRegex;
     }
 
     /**

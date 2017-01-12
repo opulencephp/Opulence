@@ -13,5 +13,4 @@ namespace Opulence\Tests\Orm\Ids\Accessors\Mocks;
  */
 class Bar extends Foo
 {
-
 }

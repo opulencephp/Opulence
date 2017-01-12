@@ -31,8 +31,8 @@ class StringParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testBackslashesAreRespected()
     {
-        $request = $this->parser->parse("foo bar\\baz");
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $request = $this->parser->parse('foo bar\\baz');
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**

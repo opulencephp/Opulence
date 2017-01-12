@@ -134,7 +134,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(['GET'], '/foo', "Opulence\\Controller\\That\\Does\\Not\\Exist@foo")
+            new Route(['GET'], '/foo', 'Opulence\\Controller\\That\\Does\\Not\\Exist@foo')
         );
         $this->dispatcher->dispatch($route, $this->request);
     }

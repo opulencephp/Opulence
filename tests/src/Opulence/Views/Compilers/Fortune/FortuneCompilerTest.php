@@ -307,7 +307,7 @@ class FortuneCompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingViewWithCustomTags()
     {
         $this->view->setContents('^^"A&W"$$ ++"A&W"-- (* if(true) *)foo(* endif *)');
-        $this->view->setDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG, ['^^', "$$"]);
+        $this->view->setDelimiters(IView::DELIMITER_TYPE_UNSANITIZED_TAG, ['^^', '$$']);
         $this->view->setDelimiters(IView::DELIMITER_TYPE_SANITIZED_TAG, ['++', '--']);
         $this->view->setDelimiters(IView::DELIMITER_TYPE_DIRECTIVE, ['(*', '*)']);
         $this->assertTrue(
