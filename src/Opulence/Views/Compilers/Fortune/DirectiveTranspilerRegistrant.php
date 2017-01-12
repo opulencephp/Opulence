@@ -20,31 +20,31 @@ class DirectiveTranspilerRegistrant
      */
     public function registerDirectiveTranspilers(ITranspiler &$transpiler)
     {
-        $transpiler->registerDirectiveTranspiler("else", function () {
+        $transpiler->registerDirectiveTranspiler('else', function () {
             return '<?php else: ?>';
         });
-        $transpiler->registerDirectiveTranspiler("elseif", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('elseif', function ($expression) {
             return '<?php elseif' . $expression . ': ?>';
         });
-        $transpiler->registerDirectiveTranspiler("forelse", function () {
+        $transpiler->registerDirectiveTranspiler('forelse', function () {
             return '<?php endforeach; if(array_pop($__opulenceForElseEmpty)): ?>';
         });
-        $transpiler->registerDirectiveTranspiler("endforeach", function () {
+        $transpiler->registerDirectiveTranspiler('endforeach', function () {
             return '<?php endforeach; ?>';
         });
-        $transpiler->registerDirectiveTranspiler("endif", function () {
+        $transpiler->registerDirectiveTranspiler('endif', function () {
             return '<?php endif; ?>';
         });
-        $transpiler->registerDirectiveTranspiler("endfor", function () {
+        $transpiler->registerDirectiveTranspiler('endfor', function () {
             return '<?php endfor; ?>';
         });
-        $transpiler->registerDirectiveTranspiler("endpart", function () {
+        $transpiler->registerDirectiveTranspiler('endpart', function () {
             return '<?php $__opulenceFortuneTranspiler->endPart(); ?>';
         });
-        $transpiler->registerDirectiveTranspiler("endwhile", function () {
+        $transpiler->registerDirectiveTranspiler('endwhile', function () {
             return '<?php endwhile; ?>';
         });
-        $transpiler->registerDirectiveTranspiler("extends", function ($expression) use ($transpiler) {
+        $transpiler->registerDirectiveTranspiler('extends', function ($expression) use ($transpiler) {
             // Create the parent
             $code = '$__opulenceViewParent = $__opulenceViewFactory->createView' . $expression . ';';
             $code .= '$__opulenceFortuneTranspiler->addParent($__opulenceViewParent, $__opulenceView);';
@@ -60,15 +60,15 @@ class DirectiveTranspilerRegistrant
             $code = 'echo eval("?>" . array_shift($__opulenceParentContents));';
             $transpiler->append('<?php ' . $code . ' ?>');
 
-            return "";
+            return '';
         });
-        $transpiler->registerDirectiveTranspiler("for", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('for', function ($expression) {
             return '<?php for' . $expression . ': ?>';
         });
-        $transpiler->registerDirectiveTranspiler("foreach", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('foreach', function ($expression) {
             return '<?php foreach' . $expression . ': ?>';
         });
-        $transpiler->registerDirectiveTranspiler("forif", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('forif', function ($expression) {
             $code = '<?php if(!isset($__opulenceForElseEmpty)): $__opulenceForElseEmpty = []; endif;';
             $code .= '$__opulenceForElseEmpty[] = true;';
             $code .= 'foreach' . $expression . ':';
@@ -76,10 +76,10 @@ class DirectiveTranspilerRegistrant
 
             return $code;
         });
-        $transpiler->registerDirectiveTranspiler("if", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('if', function ($expression) {
             return '<?php if' . $expression . ': ?>';
         });
-        $transpiler->registerDirectiveTranspiler("include", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('include', function ($expression) {
             // Check if a list of variables were passed in as a second parameter
             if (
                 preg_match(
@@ -106,19 +106,19 @@ class DirectiveTranspilerRegistrant
 
             return "<?php $code ?>";
         });
-        $transpiler->registerDirectiveTranspiler("parent", function () {
+        $transpiler->registerDirectiveTranspiler('parent', function () {
             // This placeholder will be overwritten later
-            return "__opulenceParentPlaceholder";
+            return '__opulenceParentPlaceholder';
         });
-        $transpiler->registerDirectiveTranspiler("part", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('part', function ($expression) {
             return '<?php $__opulenceFortuneTranspiler->startPart' . $expression . '; ?>';
         });
-        $transpiler->registerDirectiveTranspiler("show", function ($expression) {
-            $expression = empty($expression) ? "()" : $expression;
+        $transpiler->registerDirectiveTranspiler('show', function ($expression) {
+            $expression = empty($expression) ? '()' : $expression;
 
             return '<?php echo $__opulenceFortuneTranspiler->showPart' . $expression . '; ?>';
         });
-        $transpiler->registerDirectiveTranspiler("while", function ($expression) {
+        $transpiler->registerDirectiveTranspiler('while', function ($expression) {
             return '<?php while' . $expression . ': ?>';
         });
     }

@@ -32,9 +32,9 @@ class ParameterizedMiddlewareTest extends \PHPUnit\Framework\TestCase
     public function testWithCreatesMiddlewareParametersCorrectly()
     {
         /** @var MiddlewareParameters $parameters */
-        $parameters = ParameterizedMiddlewareMock::withParameters(["bar" => "baz"]);
+        $parameters = ParameterizedMiddlewareMock::withParameters(['bar' => 'baz']);
         $this->assertInstanceOf(MiddlewareParameters::class, $parameters);
         $this->assertEquals(ParameterizedMiddlewareMock::class, $parameters->getMiddlewareClassName());
-        $this->assertEquals(["bar" => "baz"], $parameters->getParameters());
+        $this->assertEquals(['bar' => 'baz'], $parameters->getParameters());
     }
 }

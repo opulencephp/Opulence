@@ -38,16 +38,16 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     public function testAssertViewHasVariable()
     {
         $this->mockView->expects($this->any())
-            ->method("getVar")
-            ->with("foo")
-            ->willReturn("bar");
+            ->method('getVar')
+            ->with('foo')
+            ->willReturn('bar');
         $controller = $this->createMock(Controller::class);
         $controller->expects($this->exactly(2))
-            ->method("getView")
+            ->method('getView')
             ->willReturn($this->mockView);
         $this->assertions->setController($controller);
-        $this->assertSame($this->assertions, $this->assertions->hasVar("foo"));
-        $this->assertSame($this->assertions, $this->assertions->varEquals("foo", "bar"));
+        $this->assertSame($this->assertions, $this->assertions->hasVar('foo'));
+        $this->assertSame($this->assertions, $this->assertions->varEquals('foo', 'bar'));
     }
 
     /**
@@ -57,7 +57,7 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $this->assertions->setController(new stdClass());
-        $this->assertions->hasVar("foo");
+        $this->assertions->hasVar('foo');
     }
 
     /**
@@ -67,6 +67,6 @@ class ViewAssertionsTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $this->assertions->setController(new stdClass());
-        $this->assertions->varEquals("bar", "foo");
+        $this->assertions->varEquals('bar', 'foo');
     }
 }

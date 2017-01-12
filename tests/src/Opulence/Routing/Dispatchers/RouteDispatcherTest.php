@@ -45,7 +45,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->dependencyResolver = $this->createMock(IDependencyResolver::class);
         $this->dependencyResolver->expects($this->any())
-            ->method("resolve")
+            ->method('resolve')
             ->willReturnCallback(function () {
                 $interface = func_get_arg(0);
 
@@ -82,15 +82,15 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testCallingClosure()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", function () {
-                return new Response("Closure");
+            new Route(['GET'], '/foo', function () {
+                return new Response('Closure');
             })
         );
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
-        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals("Closure", $response->getContent());
+        $this->assertEquals('Closure', $response->getContent());
     }
 
     /**
@@ -99,20 +99,20 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testCallingClosureWithDependencies()
     {
         $this->dependencyResolver->expects($this->once())
-            ->method("resolve")
+            ->method('resolve')
             ->with(Request::class)
             ->willReturn($this->request);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/{primitive}", function (Request $request, $primitive) {
-                return get_class($request) . ":" . $primitive;
+            new Route(['GET'], '/foo/{primitive}', function (Request $request, $primitive) {
+                return get_class($request) . ':' . $primitive;
             })
         );
-        $route->setPathVars(["primitive" => 123]);
+        $route->setPathVars(['primitive' => 123]);
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
-        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals(Request::class . ":123", $response->getContent());
+        $this->assertEquals(Request::class . ':123', $response->getContent());
     }
 
     /**
@@ -122,7 +122,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(HttpException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", MockController::class . "@throwsHttpException")
+            new Route(['GET'], '/foo', MockController::class . '@throwsHttpException')
         );
         $this->dispatcher->dispatch($route, $this->request);
     }
@@ -134,7 +134,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", "Opulence\\Controller\\That\\Does\\Not\\Exist@foo")
+            new Route(['GET'], '/foo', "Opulence\\Controller\\That\\Does\\Not\\Exist@foo")
         );
         $this->dispatcher->dispatch($route, $this->request);
     }
@@ -146,7 +146,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", MockController::class . "@doesNotExist")
+            new Route(['GET'], '/foo', MockController::class . '@doesNotExist')
         );
         $this->dispatcher->dispatch($route, $this->request);
     }
@@ -157,14 +157,14 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testCallingNonOpulenceController()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/123", NonOpulenceController::class . "@index")
+            new Route(['GET'], '/foo/123', NonOpulenceController::class . '@index')
         );
-        $route->setPathVars(["id" => "123"]);
+        $route->setPathVars(['id' => '123']);
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf(NonOpulenceController::class, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals("Id: 123", $response->getContent());
+        $this->assertEquals('Id: 123', $response->getContent());
     }
 
     /**
@@ -174,7 +174,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", MockController::class . "@privateMethod")
+            new Route(['GET'], '/foo', MockController::class . '@privateMethod')
         );
         $this->dispatcher->dispatch($route, $this->request);
     }
@@ -185,9 +185,9 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testCallingProtectedMethod()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", MockController::class . "@protectedMethod")
+            new Route(['GET'], '/foo', MockController::class . '@protectedMethod')
         );
-        $this->assertEquals("protectedMethod", $this->dispatcher->dispatch($route, $this->request)->getContent());
+        $this->assertEquals('protectedMethod', $this->dispatcher->dispatch($route, $this->request)->getContent());
     }
 
     /**
@@ -195,16 +195,16 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testChainingMiddlewareThatDoAndDoNotReturnSomething()
     {
-        $controller = MockController::class . "@noParameters";
+        $controller = MockController::class . '@noParameters';
         $options = [
-            "middleware" => [
+            'middleware' => [
                 ReturnsSomethingMiddleware::class,
                 DoesNotReturnSomethingMiddleware::class
             ]
         ];
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
+        $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
         $this->assertEquals(
-            "noParameters:something",
+            'noParameters:something',
             $this->dispatcher->dispatch($route, $this->request)->getContent()
         );
     }
@@ -215,13 +215,13 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testClosureResponseTextIsWrappedInObject()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", function () {
-                return "Closure";
+            new Route(['GET'], '/foo', function () {
+                return 'Closure';
             })
         );
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals("Closure", $response->getContent());
+        $this->assertEquals('Closure', $response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
@@ -231,11 +231,11 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testInvalidMiddleware()
     {
         $this->expectException(RouteException::class);
-        $controller = MockController::class . "@returnsNothing";
+        $controller = MockController::class . '@returnsNothing';
         $options = [
-            "middleware" => get_class($this)
+            'middleware' => get_class($this)
         ];
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
+        $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
         $this->dispatcher->dispatch($route, $this->request);
     }
 
@@ -244,13 +244,13 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testMiddlewareThatAddsToControllerResponse()
     {
-        $controller = MockController::class . "@noParameters";
+        $controller = MockController::class . '@noParameters';
         $options = [
-            "middleware" => ReturnsSomethingMiddleware::class
+            'middleware' => ReturnsSomethingMiddleware::class
         ];
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
+        $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
         $this->assertEquals(
-            "noParameters:something",
+            'noParameters:something',
             $this->dispatcher->dispatch($route, $this->request)->getContent()
         );
     }
@@ -262,7 +262,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RouteException::class);
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", function ($id) {
+            new Route(['GET'], '/foo', function ($id) {
                 return new Response("Closure: Id: $id");
             })
         );
@@ -275,16 +275,16 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testPassingPathVariableToClosure()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/{id}", function ($id) {
+            new Route(['GET'], '/foo/{id}', function ($id) {
                 return new Response("Closure: Id: $id");
             })
         );
-        $route->setPathVars(["id" => "123"]);
+        $route->setPathVars(['id' => '123']);
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
-        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals("Closure: Id: 123", $response->getContent());
+        $this->assertEquals('Closure: Id: 123', $response->getContent());
     }
 
     /**
@@ -293,10 +293,10 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testTextReturnedByControllerIsWrappedInResponseObject()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo", MockController::class . "@returnsText")
+            new Route(['GET'], '/foo', MockController::class . '@returnsText')
         );
         $response = $this->dispatcher->dispatch($route, $this->request);
-        $this->assertEquals("returnsText", $response->getContent());
+        $this->assertEquals('returnsText', $response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 
@@ -307,7 +307,7 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     {
         $controller = null;
         $expectedControllerClass = MockController::class;
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", "$expectedControllerClass@returnsNothing"));
+        $route = $this->getCompiledRoute(new Route(['GET'], '/foo', "$expectedControllerClass@returnsNothing"));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request, $controller));
         $this->assertInstanceOf($expectedControllerClass, $controller);
     }
@@ -318,15 +318,15 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
     public function testUsingDefaultValueForPathVariableInClosure()
     {
         $route = $this->getCompiledRoute(
-            new Route(["GET"], "/foo/{id}", function ($id = "123") {
+            new Route(['GET'], '/foo/{id}', function ($id = '123') {
                 return new Response("Closure: Id: $id");
             })
         );
         $controller = null;
         $response = $this->dispatcher->dispatch($route, $this->request, $controller);
-        $this->assertInstanceOf("Closure", $controller);
+        $this->assertInstanceOf('Closure', $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals("Closure: Id: 123", $response->getContent());
+        $this->assertEquals('Closure: Id: 123', $response->getContent());
     }
 
     /**
@@ -334,11 +334,11 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testUsingMiddlewareThatDoesNotReturnAnything()
     {
-        $controller = MockController::class . "@returnsNothing";
+        $controller = MockController::class . '@returnsNothing';
         $options = [
-            "middleware" => DoesNotReturnSomethingMiddleware::class
+            'middleware' => DoesNotReturnSomethingMiddleware::class
         ];
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
+        $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
         $this->assertEquals(new Response(), $this->dispatcher->dispatch($route, $this->request));
     }
 
@@ -347,13 +347,13 @@ class RouteDispatcherTest extends \PHPUnit\Framework\TestCase
      */
     public function testUsingParameterizedMiddleware()
     {
-        $controller = MockController::class . "@returnsNothing";
+        $controller = MockController::class . '@returnsNothing';
         $options = [
-            "middleware" => new MiddlewareParameters(ParameterizedMiddleware::class, ["foo" => "bar"])
+            'middleware' => new MiddlewareParameters(ParameterizedMiddleware::class, ['foo' => 'bar'])
         ];
-        $route = $this->getCompiledRoute(new Route(["GET"], "/foo", $controller, $options));
+        $route = $this->getCompiledRoute(new Route(['GET'], '/foo', $controller, $options));
         $response = $this->dispatcher->dispatch($route, $this->request);
-        $this->assertEquals("bar", $response->getHeaders()->get("parameters"));
+        $this->assertEquals('bar', $response->getHeaders()->get('parameters'));
     }
 
     /**

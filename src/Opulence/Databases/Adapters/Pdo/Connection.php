@@ -21,14 +21,14 @@ use PDOException;
 class Connection extends PDO implements IConnection
 {
     /** The name of the PDOStatement class to use */
-    const PDO_STATEMENT_CLASS = "Statement";
+    const PDO_STATEMENT_CLASS = 'Statement';
 
     /** @var Provider The database provider this connection uses */
     private $provider = null;
     /** @var Server The server we're connecting to */
     private $server = null;
     /** @var string The Data Name Source to connect with */
-    private $dsn = "";
+    private $dsn = '';
     /** @var array The list of driver options to use */
     private $driverOptions = [];
     /** @var bool Whether or not we're connected */

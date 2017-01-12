@@ -68,12 +68,12 @@ EOF;
      */
     protected function define()
     {
-        $this->setName("help")
-            ->setDescription("Displays information about a command")
+        $this->setName('help')
+            ->setDescription('Displays information about a command')
             ->addArgument(new Argument(
-                "command",
+                'command',
                 ArgumentTypes::OPTIONAL,
-                "The command to get help with"
+                'The command to get help with'
             ));
     }
 
@@ -85,26 +85,26 @@ EOF;
         if ($this->command === null) {
             $response->writeln("<comment>Pass in the name of the command you'd like help with</comment>");
         } else {
-            $descriptionText = "No description";
-            $helpText = "";
+            $descriptionText = 'No description';
+            $helpText = '';
 
-            if ($this->command->getDescription() !== "") {
+            if ($this->command->getDescription() !== '') {
                 $descriptionText = $this->command->getDescription();
             }
 
-            if ($this->command->getHelpText() !== "") {
-                $helpText = PHP_EOL . "<comment>Help:</comment>" . PHP_EOL . "  " . $this->command->getHelpText();
+            if ($this->command->getHelpText() !== '') {
+                $helpText = PHP_EOL . '<comment>Help:</comment>' . PHP_EOL . '  ' . $this->command->getHelpText();
             }
 
             // Compile the template
             $compiledTemplate = self::$template;
-            $compiledTemplate = str_replace("{{command}}", $this->commandFormatter->format($this->command),
+            $compiledTemplate = str_replace('{{command}}', $this->commandFormatter->format($this->command),
                 $compiledTemplate);
-            $compiledTemplate = str_replace("{{description}}", $descriptionText, $compiledTemplate);
-            $compiledTemplate = str_replace("{{name}}", $this->command->getName(), $compiledTemplate);
-            $compiledTemplate = str_replace("{{arguments}}", $this->getArgumentText(), $compiledTemplate);
-            $compiledTemplate = str_replace("{{options}}", $this->getOptionText(), $compiledTemplate);
-            $compiledTemplate = str_replace("{{helpText}}", $helpText, $compiledTemplate);
+            $compiledTemplate = str_replace('{{description}}', $descriptionText, $compiledTemplate);
+            $compiledTemplate = str_replace('{{name}}', $this->command->getName(), $compiledTemplate);
+            $compiledTemplate = str_replace('{{arguments}}', $this->getArgumentText(), $compiledTemplate);
+            $compiledTemplate = str_replace('{{options}}', $this->getOptionText(), $compiledTemplate);
+            $compiledTemplate = str_replace('{{helpText}}', $helpText, $compiledTemplate);
 
             $response->writeln($compiledTemplate);
         }
@@ -118,7 +118,7 @@ EOF;
     private function getArgumentText() : string
     {
         if (count($this->command->getArguments()) === 0) {
-            return "  No arguments";
+            return '  No arguments';
         }
 
         $argumentTexts = [];
@@ -157,7 +157,7 @@ EOF;
     private function getOptionText() : string
     {
         if (count($this->command->getOptions()) === 0) {
-            return "  No options";
+            return '  No options';
         }
 
         $optionTexts = [];

@@ -462,10 +462,10 @@ class LexerTest extends \PHPUnit\Framework\TestCase
      */
     public function testLexingStatementsWhoseDelimitersAreSubstringsOfOthers()
     {
-        $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ["{{{", "}}}"]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ["{{", "}}"]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ["{{!", "!}}"]);
-        $this->view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ["{{#", "#}}"]);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_DIRECTIVE, ['{{{', '}}}']);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_SANITIZED_TAG, ['{{', '}}']);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_UNSANITIZED_TAG, ['{{!', '!}}']);
+        $this->view->setDelimiters(View::DELIMITER_TYPE_COMMENT, ['{{#', '#}}']);
         $expectedOutput = [
             new Token(TokenTypes::T_DIRECTIVE_OPEN, '{{{', 1),
             new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 1),

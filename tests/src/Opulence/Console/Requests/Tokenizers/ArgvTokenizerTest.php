@@ -38,7 +38,7 @@ class ArgvTokenizerTest extends \PHPUnit\Framework\TestCase
      */
     public function testTokenizingEscapedSingleQuote()
     {
-        $tokens = $this->tokenizer->tokenize(["foo", "Dave\'s"]);
+        $tokens = $this->tokenizer->tokenize(['foo', "Dave\'s"]);
         $this->assertEquals(["Dave's"], $tokens);
     }
 }

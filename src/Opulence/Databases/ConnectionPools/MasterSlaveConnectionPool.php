@@ -20,9 +20,9 @@ class MasterSlaveConnectionPool extends ConnectionPool
 {
     /** @inheritdoc */
     protected $servers = [
-        "master" => null,
-        "slaves" => [],
-        "custom" => []
+        'master' => null,
+        'slaves' => [],
+        'custom' => []
     ];
     /** @var IServerSelectionStrategy The slave selection strategy */
     protected $slaveSelectionStrategy = null;
@@ -43,7 +43,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
         parent::__construct($driver, $master, $driverOptions, $connectionOptions);
 
         foreach ($slaves as $slave) {
-            $this->addServer("slaves", $slave);
+            $this->addServer('slaves', $slave);
         }
 
         if ($slaveSelectionStrategy === null) {
@@ -60,7 +60,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      */
     public function addSlave(Server $slave)
     {
-        $this->addServer("slaves", $slave);
+        $this->addServer('slaves', $slave);
     }
 
     /**
@@ -80,7 +80,7 @@ class MasterSlaveConnectionPool extends ConnectionPool
      */
     public function getSlaves() : array
     {
-        return array_column($this->servers["slaves"], "server");
+        return array_column($this->servers['slaves'], 'server');
     }
 
     /**
@@ -92,8 +92,8 @@ class MasterSlaveConnectionPool extends ConnectionPool
     {
         $slaveHashId = spl_object_hash($slave);
 
-        if (isset($this->servers["slaves"][$slaveHashId])) {
-            unset($this->servers["slaves"][$slaveHashId]);
+        if (isset($this->servers['slaves'][$slaveHashId])) {
+            unset($this->servers['slaves'][$slaveHashId]);
         }
     }
 
@@ -103,12 +103,12 @@ class MasterSlaveConnectionPool extends ConnectionPool
     protected function setReadConnection(Server $preferredServer = null)
     {
         if ($preferredServer !== null) {
-            $this->readConnection = $this->getConnection("custom", $preferredServer);
-        } elseif (count($this->servers["slaves"]) > 0) {
+            $this->readConnection = $this->getConnection('custom', $preferredServer);
+        } elseif (count($this->servers['slaves']) > 0) {
             $selectedSlave = $this->slaveSelectionStrategy->select($this->getSlaves());
-            $this->readConnection = $this->getConnection("slaves", $selectedSlave);
+            $this->readConnection = $this->getConnection('slaves', $selectedSlave);
         } else {
-            $this->readConnection = $this->getConnection("master", $this->getMaster());
+            $this->readConnection = $this->getConnection('master', $this->getMaster());
         }
     }
 
@@ -118,9 +118,9 @@ class MasterSlaveConnectionPool extends ConnectionPool
     protected function setWriteConnection(Server $preferredServer = null)
     {
         if ($preferredServer !== null) {
-            $this->writeConnection = $this->getConnection("custom", $preferredServer);
+            $this->writeConnection = $this->getConnection('custom', $preferredServer);
         } else {
-            $this->writeConnection = $this->getConnection("master", $this->getMaster());
+            $this->writeConnection = $this->getConnection('master', $this->getMaster());
         }
     }
 }

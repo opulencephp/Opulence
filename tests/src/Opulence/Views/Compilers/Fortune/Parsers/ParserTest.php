@@ -43,7 +43,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithInvalidTokenType()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token("foo", "bar", 1)]);
+        $this->parser->parse([new Token('foo', 'bar', 1)]);
     }
 
     /**
@@ -53,12 +53,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RuntimeException::class);
         $tokens = [
-            new Token(TokenTypes::T_COMMENT_OPEN, "{#", 1),
-            new Token(TokenTypes::T_EXPRESSION, "foo", 1),
-            new Token(TokenTypes::T_COMMENT_OPEN, "{#", 1),
-            new Token(TokenTypes::T_EXPRESSION, "bar", 1),
-            new Token(TokenTypes::T_COMMENT_CLOSE, "#}", 1),
-            new Token(TokenTypes::T_COMMENT_CLOSE, "#}", 1)
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1)
         ];
         $this->parser->parse($tokens);
     }
@@ -70,12 +70,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RuntimeException::class);
         $tokens = [
-            new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1),
-            new Token(TokenTypes::T_DIRECTIVE_NAME, "foo", 1),
-            new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1),
-            new Token(TokenTypes::T_DIRECTIVE_NAME, "bar", 1),
-            new Token(TokenTypes::T_DIRECTIVE_CLOSE, "%>", 1),
-            new Token(TokenTypes::T_DIRECTIVE_CLOSE, "%>", 1)
+            new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'foo', 1),
+            new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'bar', 1),
+            new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
+            new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1)
         ];
         $this->parser->parse($tokens);
     }
@@ -87,12 +87,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RuntimeException::class);
         $tokens = [
-            new Token(TokenTypes::T_SANITIZED_TAG_OPEN, "{{", 1),
-            new Token(TokenTypes::T_EXPRESSION, "foo", 1),
-            new Token(TokenTypes::T_SANITIZED_TAG_OPEN, "{{", 1),
-            new Token(TokenTypes::T_EXPRESSION, "bar", 1),
-            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, "}}", 1),
-            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, "}}", 1)
+            new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
+            new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
+            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
+            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1)
         ];
         $this->parser->parse($tokens);
     }
@@ -104,12 +104,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(RuntimeException::class);
         $tokens = [
-            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1),
-            new Token(TokenTypes::T_EXPRESSION, "foo", 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1),
-            new Token(TokenTypes::T_EXPRESSION, "bar", 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, "!}}", 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, "!}}", 1)
+            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'foo', 1),
+            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'bar', 1),
+            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
+            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)
         ];
         $this->parser->parse($tokens);
     }
@@ -120,7 +120,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnclosedComment()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_COMMENT_OPEN, "{#", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1)]);
     }
 
     /**
@@ -129,7 +129,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnclosedDirective()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1)]);
     }
 
     /**
@@ -138,7 +138,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnclosedSanitizedTag()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_SANITIZED_TAG_OPEN, "{{", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1)]);
     }
 
     /**
@@ -147,7 +147,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnclosedUnsanitizedTag()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1)]);
     }
 
     /**
@@ -156,7 +156,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnopenedComment()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_COMMENT_CLOSE, "#}", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1)]);
     }
 
     /**
@@ -165,7 +165,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnopenedDirective()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_DIRECTIVE_CLOSE, "%>", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1)]);
     }
 
     /**
@@ -174,7 +174,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnopenedSanitizedTag()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, "}}", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1)]);
     }
 
     /**
@@ -183,7 +183,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWithUnopenedUnsanitizedTag()
     {
         $this->expectException(RuntimeException::class);
-        $this->parser->parse([new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, "!}}", 1)]);
+        $this->parser->parse([new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1)]);
     }
 
     /**
@@ -197,7 +197,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
         ];
         $commentNode = new CommentNode();
-        $commentNode->addChild(new ExpressionNode("foo"));
+        $commentNode->addChild(new ExpressionNode('foo'));
         $this->ast->getCurrentNode()
             ->addChild($commentNode);
         $this->assertEquals($this->ast, $this->parser->parse($tokens));
@@ -215,7 +215,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
         ];
         $directiveNode = new DirectiveNode();
-        $directiveNode->addChild(new DirectiveNameNode("foo"));
+        $directiveNode->addChild(new DirectiveNameNode('foo'));
         $directiveNode->addChild(new ExpressionNode('("bar")'));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
@@ -233,7 +233,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
         ];
         $directiveNode = new DirectiveNode();
-        $directiveNode->addChild(new DirectiveNameNode("foo"));
+        $directiveNode->addChild(new DirectiveNameNode('foo'));
         $this->ast->getCurrentNode()
             ->addChild($directiveNode);
         $this->assertEquals($this->ast, $this->parser->parse($tokens));
@@ -256,7 +256,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_EXPRESSION, 'foo', 1)
         ];
         $this->ast->getCurrentNode()
-            ->addChild(new ExpressionNode("foo"));
+            ->addChild(new ExpressionNode('foo'));
         $this->assertEquals($this->ast, $this->parser->parse($tokens));
     }
 
@@ -288,7 +288,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
         ];
         $tagNode = new SanitizedTagNode();
-        $tagNode->addChild(new ExpressionNode("foo"));
+        $tagNode->addChild(new ExpressionNode('foo'));
         $this->ast->getCurrentNode()
             ->addChild($tagNode);
         $this->assertEquals($this->ast, $this->parser->parse($tokens));
@@ -300,43 +300,43 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     public function testParsingStatementsSurroundedByExpressions()
     {
         $tokens = [
-            new Token(TokenTypes::T_EXPRESSION, "a", 1),
-            new Token(TokenTypes::T_SANITIZED_TAG_OPEN, "{{", 1),
-            new Token(TokenTypes::T_EXPRESSION, "b", 1),
-            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, "}}", 1),
-            new Token(TokenTypes::T_EXPRESSION, "c", 1),
-            new Token(TokenTypes::T_DIRECTIVE_OPEN, "<%", 1),
-            new Token(TokenTypes::T_DIRECTIVE_NAME, "d", 1),
-            new Token(TokenTypes::T_EXPRESSION, "(e)", 1),
-            new Token(TokenTypes::T_DIRECTIVE_CLOSE, "%>", 1),
-            new Token(TokenTypes::T_EXPRESSION, "f", 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, "{{!", 1),
-            new Token(TokenTypes::T_EXPRESSION, "g", 1),
-            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, "!}}", 1),
-            new Token(TokenTypes::T_EXPRESSION, "h", 1),
-            new Token(TokenTypes::T_COMMENT_OPEN, "{#", 1),
-            new Token(TokenTypes::T_EXPRESSION, "i", 1),
-            new Token(TokenTypes::T_COMMENT_CLOSE, "#}", 1),
-            new Token(TokenTypes::T_EXPRESSION, "j", 1),
+            new Token(TokenTypes::T_EXPRESSION, 'a', 1),
+            new Token(TokenTypes::T_SANITIZED_TAG_OPEN, '{{', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'b', 1),
+            new Token(TokenTypes::T_SANITIZED_TAG_CLOSE, '}}', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'c', 1),
+            new Token(TokenTypes::T_DIRECTIVE_OPEN, '<%', 1),
+            new Token(TokenTypes::T_DIRECTIVE_NAME, 'd', 1),
+            new Token(TokenTypes::T_EXPRESSION, '(e)', 1),
+            new Token(TokenTypes::T_DIRECTIVE_CLOSE, '%>', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'f', 1),
+            new Token(TokenTypes::T_UNSANITIZED_TAG_OPEN, '{{!', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'g', 1),
+            new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'h', 1),
+            new Token(TokenTypes::T_COMMENT_OPEN, '{#', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'i', 1),
+            new Token(TokenTypes::T_COMMENT_CLOSE, '#}', 1),
+            new Token(TokenTypes::T_EXPRESSION, 'j', 1),
         ];
-        $this->ast->getCurrentNode()->addChild(new ExpressionNode("a"));
+        $this->ast->getCurrentNode()->addChild(new ExpressionNode('a'));
         $sanitizedTagNode = new SanitizedTagNode();
-        $sanitizedTagNode->addChild(new ExpressionNode("b"));
+        $sanitizedTagNode->addChild(new ExpressionNode('b'));
         $this->ast->getCurrentNode()->addChild($sanitizedTagNode);
-        $this->ast->getCurrentNode()->addChild(new ExpressionNode("c"));
+        $this->ast->getCurrentNode()->addChild(new ExpressionNode('c'));
         $directiveNode = new DirectiveNode();
-        $directiveNode->addChild(new DirectiveNameNode("d"));
-        $directiveNode->addChild(new ExpressionNode("(e)"));
+        $directiveNode->addChild(new DirectiveNameNode('d'));
+        $directiveNode->addChild(new ExpressionNode('(e)'));
         $this->ast->getCurrentNode()->addChild($directiveNode);
-        $this->ast->getCurrentNode()->addChild(new ExpressionNode("f"));
+        $this->ast->getCurrentNode()->addChild(new ExpressionNode('f'));
         $unsanitizedTagNode = new UnsanitizedTagNode();
-        $unsanitizedTagNode->addChild(new ExpressionNode("g"));
+        $unsanitizedTagNode->addChild(new ExpressionNode('g'));
         $this->ast->getCurrentNode()->addChild($unsanitizedTagNode);
-        $this->ast->getCurrentNode()->addChild(new ExpressionNode("h"));
+        $this->ast->getCurrentNode()->addChild(new ExpressionNode('h'));
         $commentNode = new CommentNode();
-        $commentNode->addChild(new ExpressionNode("i"));
+        $commentNode->addChild(new ExpressionNode('i'));
         $this->ast->getCurrentNode()->addChild($commentNode);
-        $this->ast->getCurrentNode()->addChild(new ExpressionNode("j"));
+        $this->ast->getCurrentNode()->addChild(new ExpressionNode('j'));
         $this->assertEquals($this->ast, $this->parser->parse($tokens));
     }
 
@@ -351,7 +351,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token(TokenTypes::T_UNSANITIZED_TAG_CLOSE, '!}}', 1),
         ];
         $tagNode = new UnsanitizedTagNode();
-        $tagNode->addChild(new ExpressionNode("foo"));
+        $tagNode->addChild(new ExpressionNode('foo'));
         $this->ast->getCurrentNode()
             ->addChild($tagNode);
         $this->assertEquals($this->ast, $this->parser->parse($tokens));

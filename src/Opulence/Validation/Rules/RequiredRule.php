@@ -20,7 +20,7 @@ class RequiredRule implements IRule
      */
     public function getSlug() : string
     {
-        return "required";
+        return 'required';
     }
 
     /**
@@ -32,7 +32,7 @@ class RequiredRule implements IRule
             return false;
         }
 
-        if (is_string($value) && $value === "") {
+        if (is_string($value) && $value === '') {
             return false;
         }
 

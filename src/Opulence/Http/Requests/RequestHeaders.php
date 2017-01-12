@@ -14,13 +14,13 @@ namespace Opulence\Http\Requests;
 class RequestHeaders
 {
     /** The client's host */
-    const CLIENT_HOST = "client-host";
+    const CLIENT_HOST = 'client-host';
     /** The client's IP address */
-    const CLIENT_IP = "client-ip";
+    const CLIENT_IP = 'client-ip';
     /** The client's port */
-    const CLIENT_PORT = "client-port";
+    const CLIENT_PORT = 'client-port';
     /** The client's protocol */
-    const CLIENT_PROTO = "client-proto";
+    const CLIENT_PROTO = 'client-proto';
     /** The forwarded headers */
-    const FORWARDED = "forwarded";
+    const FORWARDED = 'forwarded';
 }

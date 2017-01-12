@@ -34,7 +34,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new MaxRule();
         $rule->setArgs([2]);
-        $this->assertEquals(["max" => 2], $rule->getErrorPlaceholders());
+        $this->assertEquals(['max' => 2], $rule->getErrorPlaceholders());
     }
 
     /**
@@ -43,7 +43,7 @@ class MaxRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new MaxRule();
-        $this->assertEquals("max", $rule->getSlug());
+        $this->assertEquals('max', $rule->getSlug());
     }
 
     /**

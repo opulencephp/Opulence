@@ -29,8 +29,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testAdding()
     {
-        $this->collection->add("foo", "bar");
-        $this->assertEquals("bar", $this->collection->get("foo"));
+        $this->collection->add('foo', 'bar');
+        $this->assertEquals('bar', $this->collection->get('foo'));
     }
 
     /**
@@ -38,8 +38,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingOffsetExists()
     {
-        $this->collection["foo"] = "bar";
-        $this->assertTrue(isset($this->collection["foo"]));
+        $this->collection['foo'] = 'bar';
+        $this->assertTrue(isset($this->collection['foo']));
     }
 
     /**
@@ -47,9 +47,9 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testCount()
     {
-        $this->collection->add("foo", "bar");
+        $this->collection->add('foo', 'bar');
         $this->assertEquals(1, $this->collection->count());
-        $this->collection->add("bar", "foo");
+        $this->collection->add('bar', 'foo');
         $this->assertEquals(2, $this->collection->count());
     }
 
@@ -58,9 +58,9 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testExchangingArray()
     {
-        $this->collection->add("foo", "bar");
-        $this->assertEquals(["foo" => "bar"], $this->collection->exchangeArray(["bar" => "foo"]));
-        $this->assertEquals(["bar" => "foo"], $this->collection->getAll());
+        $this->collection->add('foo', 'bar');
+        $this->assertEquals(['foo' => 'bar'], $this->collection->exchangeArray(['bar' => 'foo']));
+        $this->assertEquals(['bar' => 'foo'], $this->collection->getAll());
     }
 
     /**
@@ -68,8 +68,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetting()
     {
-        $this->collection->add("foo", "bar");
-        $this->assertEquals("bar", $this->collection->get("foo"));
+        $this->collection->add('foo', 'bar');
+        $this->assertEquals('bar', $this->collection->get('foo'));
     }
 
     /**
@@ -77,7 +77,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAbsentVariableWithDefault()
     {
-        $this->assertEquals("blah", $this->collection->get("does not exist", "blah"));
+        $this->assertEquals('blah', $this->collection->get('does not exist', 'blah'));
     }
 
     /**
@@ -85,7 +85,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAbsentVariableWithNoDefault()
     {
-        $this->assertNull($this->collection->get("does not exist"));
+        $this->assertNull($this->collection->get('does not exist'));
     }
 
     /**
@@ -93,11 +93,11 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAll()
     {
-        $this->collection->add("foo", "bar");
-        $this->collection->add("bar", "foo");
+        $this->collection->add('foo', 'bar');
+        $this->collection->add('bar', 'foo');
         $this->assertEquals([
-            "foo" => "bar",
-            "bar" => "foo"
+            'foo' => 'bar',
+            'bar' => 'foo'
         ], $this->collection->getAll());
     }
 
@@ -106,8 +106,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAsArray()
     {
-        $this->collection->add("foo", "bar");
-        $this->assertEquals("bar", $this->collection["foo"]);
+        $this->collection->add('foo', 'bar');
+        $this->assertEquals('bar', $this->collection['foo']);
     }
 
     /**
@@ -115,9 +115,9 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testHas()
     {
-        $this->assertFalse($this->collection->has("foo"));
-        $this->collection->add("foo", "bar");
-        $this->assertTrue($this->collection->has("foo"));
+        $this->assertFalse($this->collection->has('foo'));
+        $this->collection->add('foo', 'bar');
+        $this->assertTrue($this->collection->has('foo'));
     }
 
     /**
@@ -125,7 +125,7 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testPassingParametersInConstructor()
     {
-        $parametersArray = ["foo" => "bar", "bar" => "foo"];
+        $parametersArray = ['foo' => 'bar', 'bar' => 'foo'];
         $parameters = new ErrorCollection($parametersArray);
         $this->assertEquals($parametersArray, $parameters->getAll());
     }
@@ -135,9 +135,9 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testRemove()
     {
-        $this->collection->add("foo", "bar");
-        $this->collection->remove("foo");
-        $this->assertNull($this->collection->get("foo"));
+        $this->collection->add('foo', 'bar');
+        $this->collection->remove('foo');
+        $this->assertNull($this->collection->get('foo'));
     }
 
     /**
@@ -145,8 +145,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetting()
     {
-        $this->collection->set("foo", "bar");
-        $this->assertEquals("bar", $this->collection->get("foo"));
+        $this->collection->set('foo', 'bar');
+        $this->assertEquals('bar', $this->collection->get('foo'));
     }
 
     /**
@@ -154,8 +154,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingItem()
     {
-        $this->collection["foo"] = "bar";
-        $this->assertEquals("bar", $this->collection["foo"]);
+        $this->collection['foo'] = 'bar';
+        $this->assertEquals('bar', $this->collection['foo']);
     }
 
     /**
@@ -163,9 +163,9 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnsetting()
     {
-        $this->collection["foo"] = "bar";
-        unset($this->collection["foo"]);
-        $this->assertNull($this->collection->get("foo"));
+        $this->collection['foo'] = 'bar';
+        unset($this->collection['foo']);
+        $this->assertNull($this->collection->get('foo'));
     }
 
     /**
@@ -173,8 +173,8 @@ class ErrorCollectionTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnsettingItem()
     {
-        $this->collection->add("foo", "bar");
-        unset($this->collection["foo"]);
-        $this->assertEquals(null, $this->collection["foo"]);
+        $this->collection->add('foo', 'bar');
+        unset($this->collection['foo']);
+        $this->assertEquals(null, $this->collection['foo']);
     }
 }

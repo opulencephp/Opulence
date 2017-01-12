@@ -21,11 +21,11 @@ class Files extends Collection
     public function add(string $name, $value)
     {
         $this->values[$name] = new UploadedFile(
-            $value["tmp_name"],
-            $value["name"],
-            $value["size"],
-            $value["type"],
-            $value["error"]
+            $value['tmp_name'],
+            $value['name'],
+            $value['size'],
+            $value['type'],
+            $value['error']
         );
     }
 

@@ -57,9 +57,9 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
          * They are also purposely set to 724, 1987, and 345 so that they won't potentially overlap with any default
          * values set to the Ids
          */
-        $this->entity1 = new User(724, "foo");
-        $this->entity2 = new User(1987, "bar");
-        $this->entity3 = new User(345, "baz");
+        $this->entity1 = new User(724, 'foo');
+        $this->entity2 = new User(1987, 'bar');
+        $this->entity3 = new User(345, 'baz');
         $this->entity1HashId = $this->entityRegistry->getObjectHashId($this->entity1);
         $this->entity2HashId = $this->entityRegistry->getObjectHashId($this->entity2);
         $this->entity3HashId = $this->entityRegistry->getObjectHashId($this->entity3);
@@ -71,7 +71,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     public function testCheckingIfEntityIsRegisteredAfterMakingChangesToIt()
     {
         $this->entityRegistry->registerEntity($this->entity1);
-        $this->entity1->setUsername("blah");
+        $this->entity1->setUsername('blah');
         $this->assertTrue($this->entityRegistry->isRegistered($this->entity1));
     }
 
@@ -82,7 +82,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     {
         $entity = $this->getMockBuilder(User::class)
             ->disableOriginalConstructor()
-            ->setMockClassName("Foo")
+            ->setMockClassName('Foo')
             ->getMock();
         $this->assertFalse($this->entityRegistry->isRegistered($entity));
     }
@@ -107,7 +107,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     public function testClearingAlsoClearsAggregateRootChildFunctions()
     {
         $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity2, function ($root, $child) {
-            throw new RuntimeException("Should not get here");
+            throw new RuntimeException('Should not get here');
         });
         $this->entityRegistry->clear();
         $this->entityRegistry->runAggregateRootCallbacks($this->entity2);
@@ -119,7 +119,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
     public function testDeregesteringAlsoRemovesAggregateRootChildFunction()
     {
         $this->entityRegistry->registerAggregateRootCallback($this->entity1, $this->entity2, function ($root, $child) {
-            throw new RuntimeException("Should not get here");
+            throw new RuntimeException('Should not get here');
         });
         $this->entityRegistry->deregisterEntity($this->entity2);
         $this->entityRegistry->runAggregateRootCallbacks($this->entity2);
@@ -144,7 +144,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(OrmException::class);
         $entity = $this->getMockBuilder(User::class)
             ->disableOriginalConstructor()
-            ->setMockClassName("Foo")
+            ->setMockClassName('Foo')
             ->getMock();
         $this->entityRegistry->setState($entity, EntityStates::REGISTERED);
         $this->entityRegistry->deregisterEntity($entity);
@@ -218,7 +218,7 @@ class EntityRegistryTest extends \PHPUnit\Framework\TestCase
         $this->expectException(OrmException::class);
         $entity = $this->getMockBuilder(User::class)
             ->disableOriginalConstructor()
-            ->setMockClassName("Foo")
+            ->setMockClassName('Foo')
             ->getMock();
         $this->entityRegistry->registerEntity($entity);
     }

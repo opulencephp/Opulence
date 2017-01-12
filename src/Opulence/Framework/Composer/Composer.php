@@ -16,9 +16,9 @@ class Composer
     /** @var array The raw config */
     private $rawConfig = [];
     /** @var string The path to the root of the project */
-    private $rootPath = "";
+    private $rootPath = '';
     /** @var string The path to the PSR-4 source directory */
-    private $psr4RootPath = "";
+    private $psr4RootPath = '';
 
     /**
      * @param array $config The raw config
@@ -58,7 +58,7 @@ class Composer
      */
     public function get(string $property)
     {
-        $properties = explode(".", $property);
+        $properties = explode('.', $property);
         $value = $this->rawConfig;
 
         foreach ($properties as $property) {
@@ -82,7 +82,7 @@ class Composer
     {
         $parts = explode("\\", $fullyQualifiedClassName);
         $path = array_slice($parts, 0, -1);
-        $path[] = end($parts) . ".php";
+        $path[] = end($parts) . '.php';
         array_unshift($path, $this->psr4RootPath);
 
         return implode(DIRECTORY_SEPARATOR, $path);
@@ -122,14 +122,14 @@ class Composer
      */
     public function getRootNamespace()
     {
-        if (($psr4 = $this->get("autoload.psr-4")) === null) {
+        if (($psr4 = $this->get('autoload.psr-4')) === null) {
             return null;
         }
 
         foreach ($psr4 as $namespace => $namespacePaths) {
             foreach ((array)$namespacePaths as $namespacePath) {
                 // The namespace path should be a subdirectory of the "src" directory
-                if (mb_strpos(realpath($this->rootPath . "/" . $namespacePath), realpath($this->psr4RootPath)) === 0) {
+                if (mb_strpos(realpath($this->rootPath . '/' . $namespacePath), realpath($this->psr4RootPath)) === 0) {
                     return rtrim($namespace, "\\");
                 }
             }
@@ -149,6 +149,6 @@ class Composer
             return null;
         }
 
-        return (array)$this->get("autoload.psr-4")[$rootNamespace . "\\"];
+        return (array)$this->get('autoload.psr-4')[$rootNamespace . "\\"];
     }
 }

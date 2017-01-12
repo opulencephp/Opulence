@@ -17,7 +17,7 @@ use Opulence\Ioc\Bootstrappers\IBootstrapperRegistry;
 class FileCache implements ICache
 {
     /** @var string The cache registry file path */
-    private $filePath = "";
+    private $filePath = '';
     /** @var int The expiration time for cached files */
     private $expirationTime = null;
 
@@ -61,17 +61,17 @@ class FileCache implements ICache
         $decodedContents = json_decode($rawContents, true);
         $registry = new BootstrapperRegistry();
 
-        foreach ($decodedContents["eager"] as $eagerBootstrapperClass) {
+        foreach ($decodedContents['eager'] as $eagerBootstrapperClass) {
             $registry->registerEagerBootstrapper($eagerBootstrapperClass);
         }
 
-        foreach ($decodedContents["lazy"] as $boundClass => $bindingData) {
-            if ($bindingData["target"] === null) {
-                $registry->registerLazyBootstrapper([$boundClass], $bindingData["bootstrapper"]);
+        foreach ($decodedContents['lazy'] as $boundClass => $bindingData) {
+            if ($bindingData['target'] === null) {
+                $registry->registerLazyBootstrapper([$boundClass], $bindingData['bootstrapper']);
             } else {
                 $registry->registerLazyBootstrapper(
-                    [[$boundClass => $bindingData["target"]]],
-                    $bindingData["bootstrapper"]
+                    [[$boundClass => $bindingData['target']]],
+                    $bindingData['bootstrapper']
                 );
             }
         }
@@ -85,14 +85,14 @@ class FileCache implements ICache
     public function set(IBootstrapperRegistry $registry)
     {
         $data = [
-            "eager" => $registry->getEagerBootstrappers(),
-            "lazy" => []
+            'eager' => $registry->getEagerBootstrappers(),
+            'lazy' => []
         ];
 
         foreach ($registry->getLazyBootstrapperBindings() as $boundClass => $bindingData) {
-            $data["lazy"][$boundClass] = [
-                "bootstrapper" => $bindingData["bootstrapper"],
-                "target" => $bindingData["target"]
+            $data['lazy'][$boundClass] = [
+                'bootstrapper' => $bindingData['bootstrapper'],
+                'target' => $bindingData['target']
             ];
         }
 

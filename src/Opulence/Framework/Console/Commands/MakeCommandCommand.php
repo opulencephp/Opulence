@@ -20,8 +20,8 @@ class MakeCommandCommand extends MakeCommand
     {
         parent::define();
 
-        $this->setName("make:command")
-            ->setDescription("Creates a command class");
+        $this->setName('make:command')
+            ->setDescription('Creates a command class');
     }
 
     /**
@@ -37,6 +37,6 @@ class MakeCommandCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . "/templates/ConsoleCommand.template";
+        return __DIR__ . '/templates/ConsoleCommand.template';
     }
 }

@@ -19,9 +19,9 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     public function testAddingChild()
     {
         /** @var Node $parent */
-        $parent = $this->getMockForAbstractClass(Node::class, ["foo"]);
+        $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
         /** @var Node $child */
-        $child = $this->getMockForAbstractClass(Node::class, ["bar"]);
+        $child = $this->getMockForAbstractClass(Node::class, ['bar']);
         $this->assertSame($parent, $parent->addChild($child));
         $this->assertEquals([$child], $parent->getChildren());
         $this->assertSame($parent, $child->getParent());
@@ -33,9 +33,9 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     public function testCheckingIfLeaves()
     {
         /** @var Node $parent */
-        $parent = $this->getMockForAbstractClass(Node::class, ["foo"]);
+        $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
         /** @var Node $child */
-        $child = $this->getMockForAbstractClass(Node::class, ["bar"]);
+        $child = $this->getMockForAbstractClass(Node::class, ['bar']);
         $parent->addChild($child);
         $this->assertFalse($parent->isLeaf());
         $this->assertTrue($child->isLeaf());
@@ -47,9 +47,9 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     public function testCheckingIfRoots()
     {
         /** @var Node $parent */
-        $parent = $this->getMockForAbstractClass(Node::class, ["foo"]);
+        $parent = $this->getMockForAbstractClass(Node::class, ['foo']);
         /** @var Node $child */
-        $child = $this->getMockForAbstractClass(Node::class, ["bar"]);
+        $child = $this->getMockForAbstractClass(Node::class, ['bar']);
         $parent->addChild($child);
         $this->assertTrue($parent->isRoot());
         $this->assertFalse($child->isRoot());
@@ -61,7 +61,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
     public function testGettingValue()
     {
         /** @var Node $node */
-        $node = $this->getMockForAbstractClass(Node::class, ["foo"]);
-        $this->assertEquals("foo", $node->getValue());
+        $node = $this->getMockForAbstractClass(Node::class, ['foo']);
+        $this->assertEquals('foo', $node->getValue());
     }
 }

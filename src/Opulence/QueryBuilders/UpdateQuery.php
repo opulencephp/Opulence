@@ -86,16 +86,16 @@ class UpdateQuery extends Query
      */
     public function getSql() : string
     {
-        $sql = "UPDATE " . $this->tableName . (empty($this->tableAlias) ? "" : " AS " . $this->tableAlias) . " SET";
+        $sql = 'UPDATE ' . $this->tableName . (empty($this->tableAlias) ? '' : ' AS ' . $this->tableAlias) . ' SET';
 
         foreach ($this->augmentingQueryBuilder->getColumnNamesToValues() as $columnName => $value) {
-            $sql .= " " . $columnName . " = ?,";
+            $sql .= ' ' . $columnName . ' = ?,';
         }
 
-        $sql = trim($sql, ",");
+        $sql = trim($sql, ',');
         // Add any conditions
         $sql .= $this->conditionalQueryBuilder
-            ->getClauseConditionSql("WHERE", $this->conditionalQueryBuilder->getWhereConditions());
+            ->getClauseConditionSql('WHERE', $this->conditionalQueryBuilder->getWhereConditions());
 
         return $sql;
     }
@@ -148,7 +148,7 @@ class UpdateQuery extends Query
             } elseif (is_string($condition)) {
                 $conditionExpressions[] = $condition;
             } else {
-                throw new InvalidArgumentException("Condition must either be string or ICondition object");
+                throw new InvalidArgumentException('Condition must either be string or ICondition object');
             }
         }
 

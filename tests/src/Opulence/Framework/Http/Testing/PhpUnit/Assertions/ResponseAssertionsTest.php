@@ -36,8 +36,8 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingRedirect()
     {
-        $this->assertions->setResponse(new RedirectResponse("/redirectedPath"));
-        $this->assertSame($this->assertions, $this->assertions->redirectsTo("/redirectedPath"));
+        $this->assertions->setResponse(new RedirectResponse('/redirectedPath'));
+        $this->assertSame($this->assertions, $this->assertions->redirectsTo('/redirectedPath'));
     }
 
     /**
@@ -45,8 +45,8 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseHasContent()
     {
-        $this->assertions->setResponse(new Response("FooBar"));
-        $this->assertSame($this->assertions, $this->assertions->contentEquals("FooBar"));
+        $this->assertions->setResponse(new Response('FooBar'));
+        $this->assertSame($this->assertions, $this->assertions->contentEquals('FooBar'));
     }
 
     /**
@@ -56,11 +56,11 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     {
         $response = new Response();
         $response->getHeaders()->setCookie(
-            new Cookie("foo", "bar", new DateTime("+1 week"))
+            new Cookie('foo', 'bar', new DateTime('+1 week'))
         );
         $this->assertions->setResponse($response);
-        $this->assertSame($this->assertions, $this->assertions->hasCookie("foo"));
-        $this->assertSame($this->assertions, $this->assertions->cookieValueEquals("foo", "bar"));
+        $this->assertSame($this->assertions, $this->assertions->hasCookie('foo'));
+        $this->assertSame($this->assertions, $this->assertions->cookieValueEquals('foo', 'bar'));
     }
 
     /**
@@ -69,10 +69,10 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
     public function testAssertingResponseHasHeader()
     {
         $response = new Response();
-        $response->getHeaders()->set("foo", "bar");
+        $response->getHeaders()->set('foo', 'bar');
         $this->assertions->setResponse($response);
-        $this->assertSame($this->assertions, $this->assertions->hasHeader("foo"));
-        $this->assertSame($this->assertions, $this->assertions->headerEquals("foo", "bar"));
+        $this->assertSame($this->assertions, $this->assertions->hasHeader('foo'));
+        $this->assertSame($this->assertions, $this->assertions->headerEquals('foo', 'bar'));
     }
 
     /**
@@ -80,7 +80,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseHasStatusCode()
     {
-        $response = new Response("", ResponseHeaders::HTTP_BAD_GATEWAY);
+        $response = new Response('', ResponseHeaders::HTTP_BAD_GATEWAY);
         $this->assertions->setResponse($response);
         $this->assertSame(
             $this->assertions,
@@ -93,7 +93,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseIsInternalServerError()
     {
-        $response = new Response("", ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
+        $response = new Response('', ResponseHeaders::HTTP_INTERNAL_SERVER_ERROR);
         $this->assertions->setResponse($response);
         $this->assertSame($this->assertions, $this->assertions->isInternalServerError());
     }
@@ -103,7 +103,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseIsNotFound()
     {
-        $response = new Response("", ResponseHeaders::HTTP_NOT_FOUND);
+        $response = new Response('', ResponseHeaders::HTTP_NOT_FOUND);
         $this->assertions->setResponse($response);
         $this->assertSame($this->assertions, $this->assertions->isNotFound());
     }
@@ -113,7 +113,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseIsOK()
     {
-        $response = new Response("", ResponseHeaders::HTTP_OK);
+        $response = new Response('', ResponseHeaders::HTTP_OK);
         $this->assertions->setResponse($response);
         $this->assertSame($this->assertions, $this->assertions->isOK());
     }
@@ -123,7 +123,7 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseIsUnauthorized()
     {
-        $response = new Response("", ResponseHeaders::HTTP_UNAUTHORIZED);
+        $response = new Response('', ResponseHeaders::HTTP_UNAUTHORIZED);
         $this->assertions->setResponse($response);
         $this->assertSame($this->assertions, $this->assertions->isUnauthorized());
     }
@@ -133,16 +133,16 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseJsonContains()
     {
-        $response = new JsonResponse(["foo" => "bar", "baz" => ["subkey" => "subvalue"]]);
+        $response = new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
         $this->assertions->setResponse($response);
-        $this->assertSame($this->assertions, $this->assertions->jsonContains(["foo" => "bar"]));
+        $this->assertSame($this->assertions, $this->assertions->jsonContains(['foo' => 'bar']));
         $this->assertSame(
             $this->assertions,
-            $this->assertions->jsonContains(["baz" => ["subkey" => "subvalue"]])
+            $this->assertions->jsonContains(['baz' => ['subkey' => 'subvalue']])
         );
         $this->assertSame(
             $this->assertions,
-            $this->assertions->jsonContains(["subkey" => "subvalue"])
+            $this->assertions->jsonContains(['subkey' => 'subvalue'])
         );
     }
 
@@ -151,10 +151,10 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseJsonContainsKey()
     {
-        $response = new JsonResponse(["foo" => "bar", "baz" => ["subkey" => "subvalue"]]);
+        $response = new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
         $this->assertions->setResponse($response);
-        $this->assertSame($this->assertions, $this->assertions->jsonContainsKey("foo"));
-        $this->assertSame($this->assertions, $this->assertions->jsonContainsKey("subkey"));
+        $this->assertSame($this->assertions, $this->assertions->jsonContainsKey('foo'));
+        $this->assertSame($this->assertions, $this->assertions->jsonContainsKey('subkey'));
     }
 
     /**
@@ -162,9 +162,9 @@ class ResponseAssertionsTest extends \PHPUnit\Framework\TestCase
      */
     public function testAssertingResponseJsonEquals()
     {
-        $response = new JsonResponse(["foo" => "bar", "baz" => ["subkey" => "subvalue"]]);
+        $response = new JsonResponse(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]);
         $this->assertions->setResponse($response);
         $this->assertSame($this->assertions,
-            $this->assertions->jsonEquals(["foo" => "bar", "baz" => ["subkey" => "subvalue"]]));
+            $this->assertions->jsonEquals(['foo' => 'bar', 'baz' => ['subkey' => 'subvalue']]));
     }
 }

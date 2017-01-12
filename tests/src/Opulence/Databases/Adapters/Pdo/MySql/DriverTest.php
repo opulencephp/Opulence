@@ -22,11 +22,11 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     {
         $server = new Server();
         $driver = new Driver();
-        $unixSocket = "fakesocket";
-        $expectedResult = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
-            . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";"
-            . "unix_socket=" . $unixSocket . ";";
-        $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ["unix_socket" => $unixSocket]));
+        $unixSocket = 'fakesocket';
+        $expectedResult = 'mysql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
+            . 'port=' . $server->getPort() . ';charset=' . $server->getCharset() . ';'
+            . 'unix_socket=' . $unixSocket . ';';
+        $this->assertEquals($expectedResult, $this->getDSN($driver, $server, ['unix_socket' => $unixSocket]));
     }
 
     /**
@@ -36,8 +36,8 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     {
         $server = new Server();
         $driver = new Driver();
-        $expectedResult = "mysql:host=" . $server->getHost() . ";dbname=" . $server->getDatabaseName() . ";"
-            . "port=" . $server->getPort() . ";charset=" . $server->getCharset() . ";";
+        $expectedResult = 'mysql:host=' . $server->getHost() . ';dbname=' . $server->getDatabaseName() . ';'
+            . 'port=' . $server->getPort() . ';charset=' . $server->getCharset() . ';';
         $this->assertEquals($expectedResult, $this->getDSN($driver, $server));
     }
 
@@ -52,7 +52,7 @@ class DriverTest extends \PHPUnit\Framework\TestCase
     private function getDSN(Driver $driver, Server $server, array $connectionOptions = [])
     {
         $class = new \ReflectionClass(get_class($driver));
-        $method = $class->getMethod("getDSN");
+        $method = $class->getMethod('getDSN');
         $method->setAccessible(true);
 
         return $method->invokeArgs($driver, [$server, $connectionOptions, $connectionOptions]);

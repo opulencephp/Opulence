@@ -21,7 +21,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->principal = new Principal("foo", "bar", ["baz"]);
+        $this->principal = new Principal('foo', 'bar', ['baz']);
     }
 
     /**
@@ -29,8 +29,8 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingRoles()
     {
-        $this->assertTrue($this->principal->hasRole("baz"));
-        $this->assertFalse($this->principal->hasRole("doesNotExist"));
+        $this->assertTrue($this->principal->hasRole('baz'));
+        $this->assertFalse($this->principal->hasRole('doesNotExist'));
     }
 
     /**
@@ -38,7 +38,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingId()
     {
-        $this->assertEquals("bar", $this->principal->getId());
+        $this->assertEquals('bar', $this->principal->getId());
     }
 
     /**
@@ -46,7 +46,7 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingRoles()
     {
-        $this->assertEquals(["baz"], $this->principal->getRoles());
+        $this->assertEquals(['baz'], $this->principal->getRoles());
     }
 
     /**
@@ -54,6 +54,6 @@ class PrincipalTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingType()
     {
-        $this->assertEquals("foo", $this->principal->getType());
+        $this->assertEquals('foo', $this->principal->getType());
     }
 }

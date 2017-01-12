@@ -20,7 +20,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingParametersWithDataType()
     {
-        $condition = new BetweenCondition("foo", 1, 2, PDO::PARAM_INT);
+        $condition = new BetweenCondition('foo', 1, 2, PDO::PARAM_INT);
         $this->assertEquals(
             [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT]],
             $condition->getParameters()
@@ -32,7 +32,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingParametersWithNoDataType()
     {
-        $condition = new BetweenCondition("foo", 1, 2);
+        $condition = new BetweenCondition('foo', 1, 2);
         $this->assertEquals(
             [[1, PDO::PARAM_STR], [2, PDO::PARAM_STR]],
             $condition->getParameters()
@@ -44,7 +44,7 @@ class BetweenConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSql()
     {
-        $condition = new BetweenCondition("foo", 1, 2);
-        $this->assertEquals("foo BETWEEN ? AND ?", $condition->getSql());
+        $condition = new BetweenCondition('foo', 1, 2);
+        $this->assertEquals('foo BETWEEN ? AND ?', $condition->getSql());
     }
 }

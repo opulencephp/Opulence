@@ -21,7 +21,7 @@ class IntSequenceIdGenerator extends SequenceIdGenerator
     public function generate($entity)
     {
         if ($this->connection === null) {
-            throw new OrmException("Connection not set in sequence generator");
+            throw new OrmException('Connection not set in sequence generator');
         }
 
         return (int)$this->connection->lastInsertId($this->sequenceName);

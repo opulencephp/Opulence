@@ -44,13 +44,13 @@ class InsertQuery extends BaseInsertQuery
 
         // Add a potential "UPDATE"
         if (count($this->duplicateKeyUpdateColumnNamesToValues) > 0) {
-            $sql .= " ON DUPLICATE KEY UPDATE";
+            $sql .= ' ON DUPLICATE KEY UPDATE';
 
             foreach ($this->duplicateKeyUpdateColumnNamesToValues as $columnName => $value) {
                 $sql .= " $columnName = ?,";
             }
 
-            $sql = trim($sql, ",");
+            $sql = trim($sql, ',');
         }
 
         return $sql;

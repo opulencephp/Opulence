@@ -16,7 +16,7 @@ use InvalidArgumentException;
 class Request implements IRequest
 {
     /** @var string The name of the command entered */
-    private $commandName = "";
+    private $commandName = '';
     /** @var array The list of argument values */
     private $arguments = [];
     /** @var array The mapping of option names to values */

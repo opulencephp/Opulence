@@ -34,7 +34,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     {
         $rule = new BetweenRule();
         $rule->setArgs([1, 2]);
-        $this->assertEquals(["min" => 1, "max" => 2], $rule->getErrorPlaceholders());
+        $this->assertEquals(['min' => 1, 'max' => 2], $rule->getErrorPlaceholders());
     }
 
     /**
@@ -43,7 +43,7 @@ class BetweenRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new BetweenRule();
-        $this->assertEquals("between", $rule->getSlug());
+        $this->assertEquals('between', $rule->getSlug());
     }
 
     /**

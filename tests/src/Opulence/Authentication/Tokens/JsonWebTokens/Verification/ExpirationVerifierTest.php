@@ -35,7 +35,7 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
             ->getMock();
         $this->jwtPayload = $this->createMock(JwtPayload::class);
         $this->jwt->expects($this->any())
-            ->method("getPayload")
+            ->method('getPayload')
             ->willReturn($this->jwtPayload);
     }
 
@@ -44,9 +44,9 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
      */
     public function testExpiredToken()
     {
-        $date = new DateTimeImmutable("-30 second");
+        $date = new DateTimeImmutable('-30 second');
         $this->jwtPayload->expects($this->once())
-            ->method("getValidTo")
+            ->method('getValidTo')
             ->willReturn($date);
         $this->assertFalse($this->verifier->verify($this->jwt, $error));
         $this->assertEquals(JwtErrorTypes::EXPIRED, $error);
@@ -57,9 +57,9 @@ class ExpirationVerifierTest extends \PHPUnit\Framework\TestCase
      */
     public function testVerifyingValidToken()
     {
-        $date = new DateTimeImmutable("+30 second");
+        $date = new DateTimeImmutable('+30 second');
         $this->jwtPayload->expects($this->once())
-            ->method("getValidTo")
+            ->method('getValidTo')
             ->willReturn($date);
         $this->assertTrue($this->verifier->verify($this->jwt, $error));
         $this->assertNull($error);

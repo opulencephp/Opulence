@@ -23,7 +23,7 @@ class EqualsRule implements IRuleWithArgs
      */
     public function getSlug() : string
     {
-        return "equals";
+        return 'equals';
     }
 
     /**
@@ -40,7 +40,7 @@ class EqualsRule implements IRuleWithArgs
     public function setArgs(array $args)
     {
         if (count($args) !== 1) {
-            throw new InvalidArgumentException("Must pass a value to compare against");
+            throw new InvalidArgumentException('Must pass a value to compare against');
         }
 
         $this->value = $args[0];

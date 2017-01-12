@@ -67,23 +67,23 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     public function testRenderingHttpExceptionWithView()
     {
         $this->setViewComponents();
-        $ex = new HttpException(404, "foo");
+        $ex = new HttpException(404, 'foo');
         $view = $this->createMock(IView::class);
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/html/404")
+            ->method('hasView')
+            ->with('errors/html/404')
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
-            ->method("createView")
-            ->with("errors/html/404")
+            ->method('createView')
+            ->with('errors/html/404')
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
-            ->method("compile")
+            ->method('compile')
             ->with($view)
-            ->willReturn("bar");
+            ->willReturn('bar');
         $this->renderer->render($ex);
         $this->assertInstanceOf(Response::class, $this->renderer->getResponse());
-        $this->assertEquals("bar", $this->renderer->getResponse()->getContent());
+        $this->assertEquals('bar', $this->renderer->getResponse()->getContent());
         $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
     }
 
@@ -92,9 +92,9 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
      */
     public function testRenderingHttpExceptionWithoutSettingViewCompilerAndFactory()
     {
-        $ex = new HttpException(404, "foo");
+        $ex = new HttpException(404, 'foo');
         $this->viewFactory->expects($this->never())
-            ->method("hasView");
+            ->method('hasView');
         $this->renderer->render($ex);
         $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
         $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
@@ -106,10 +106,10 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     public function testRenderingHttpExceptionWithoutViewInDevelopmentEnvironment()
     {
         $this->setViewComponents();
-        $ex = new HttpException(404, "foo");
+        $ex = new HttpException(404, 'foo');
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/html/404")
+            ->method('hasView')
+            ->with('errors/html/404')
             ->willReturn(false);
         $this->renderer->render($ex);
         $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
@@ -123,13 +123,13 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     {
         $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
-        $ex = new HttpException(404, "foo");
+        $ex = new HttpException(404, 'foo');
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/html/404")
+            ->method('hasView')
+            ->with('errors/html/404')
             ->willReturn(false);
         $this->renderer->render($ex);
-        $this->assertEquals("Something went wrong", $this->renderer->getResponse()->getContent());
+        $this->assertEquals('Something went wrong', $this->renderer->getResponse()->getContent());
         $this->assertEquals(404, $this->renderer->getResponse()->getStatusCode());
     }
 
@@ -140,34 +140,34 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     {
         $this->setViewComponents();
         $this->viewCompiler->expects($this->once())
-            ->method("compile")
-            ->willReturn(json_encode(["foo" => "bar"]));
+            ->method('compile')
+            ->willReturn(json_encode(['foo' => 'bar']));
         /** @var Request|\PHPUnit_Framework_MockObject_MockObject $request */
         $request = $this->getMockBuilder(Request::class)
             ->disableOriginalConstructor()
             ->getMock();
         $request->expects($this->exactly(3))
-            ->method("isJson")
+            ->method('isJson')
             ->willReturn(true);
         $this->renderer->setRequest($request);
         $ex = new Exception();
         $view = $this->createMock(IView::class);
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/json/500")
+            ->method('hasView')
+            ->with('errors/json/500')
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
-            ->method("createView")
-            ->with("errors/json/500")
+            ->method('createView')
+            ->with('errors/json/500')
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
-            ->method("compile")
+            ->method('compile')
             ->with($view)
-            ->willReturn("bar");
+            ->willReturn('bar');
         $this->renderer->render($ex);
         $this->assertInstanceOf(JsonResponse::class, $this->renderer->getResponse());
         $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
-        $this->assertEquals(json_encode(["foo" => "bar"]), $this->renderer->getResponse()->getContent());
+        $this->assertEquals(json_encode(['foo' => 'bar']), $this->renderer->getResponse()->getContent());
     }
 
     /**
@@ -176,22 +176,22 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     public function testRenderingNonHttpExceptionWithView()
     {
         $this->setViewComponents();
-        $ex = new Exception("foo");
+        $ex = new Exception('foo');
         $view = $this->createMock(IView::class);
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/html/500")
+            ->method('hasView')
+            ->with('errors/html/500')
             ->willReturn(true);
         $this->viewFactory->expects($this->once())
-            ->method("createView")
-            ->with("errors/html/500")
+            ->method('createView')
+            ->with('errors/html/500')
             ->willReturn($view);
         $this->viewCompiler->expects($this->once())
-            ->method("compile")
+            ->method('compile')
             ->with($view)
-            ->willReturn("bar");
+            ->willReturn('bar');
         $this->renderer->render($ex);
-        $this->assertEquals("bar", $this->renderer->getResponse()->getContent());
+        $this->assertEquals('bar', $this->renderer->getResponse()->getContent());
         $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
     }
 
@@ -201,10 +201,10 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     public function testRenderingNonHttpExceptionWithoutViewInDevelopmentEnvironment()
     {
         $this->setViewComponents();
-        $ex = new Exception("foo");
+        $ex = new Exception('foo');
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/html/500")
+            ->method('hasView')
+            ->with('errors/html/500')
             ->willReturn(false);
         $this->renderer->render($ex);
         $this->assertEquals($ex->getMessage(), $this->renderer->getResponse()->getContent());
@@ -218,13 +218,13 @@ class ExceptionRendererTest extends \PHPUnit\Framework\TestCase
     {
         $this->renderer = new MockRenderer(false);
         $this->setViewComponents();
-        $ex = new Exception("foo");
+        $ex = new Exception('foo');
         $this->viewFactory->expects($this->once())
-            ->method("hasView")
-            ->with("errors/html/500")
+            ->method('hasView')
+            ->with('errors/html/500')
             ->willReturn(false);
         $this->renderer->render($ex);
-        $this->assertEquals("Something went wrong", $this->renderer->getResponse()->getContent());
+        $this->assertEquals('Something went wrong', $this->renderer->getResponse()->getContent());
         $this->assertEquals(500, $this->renderer->getResponse()->getStatusCode());
     }
 

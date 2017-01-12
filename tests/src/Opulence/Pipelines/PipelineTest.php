@@ -34,19 +34,19 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [
             function ($input, $next) {
-                return $next($input . "1");
+                return $next($input . '1');
             },
             function ($input, $next) {
-                return $next($input . "2");
+                return $next($input . '2');
             },
         ];
         $callback = function ($input) {
-            return $input . "3";
+            return $input . '3';
         };
-        $this->pipeline->send("input")
+        $this->pipeline->send('input')
             ->through($stages)
             ->then($callback);
-        $this->assertEquals("input123", $this->pipeline->execute());
+        $this->assertEquals('input123', $this->pipeline->execute());
     }
 
     /**
@@ -54,7 +54,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
      */
     public function testMethodsAreChainable()
     {
-        $this->assertSame($this->pipeline, $this->pipeline->send("foo"));
+        $this->assertSame($this->pipeline, $this->pipeline->send('foo'));
         $this->assertSame($this->pipeline, $this->pipeline->through([]));
         $this->assertSame($this->pipeline, $this->pipeline->then(function () {
         }));
@@ -67,15 +67,15 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [
             function ($input, $next) {
-                return $next($input . "1");
+                return $next($input . '1');
             },
             function ($input, $next) {
-                return $next($input . "2");
+                return $next($input . '2');
             },
         ];
-        $this->pipeline->send("input")
+        $this->pipeline->send('input')
             ->through($stages);
-        $this->assertEquals("input12", $this->pipeline->execute());
+        $this->assertEquals('input12', $this->pipeline->execute());
     }
 
     /**
@@ -84,9 +84,9 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     public function testMultipleObjectStages()
     {
         $stages = [new Stage1(), new Stage2()];
-        $this->pipeline->send("input")
-            ->through($stages, "run");
-        $this->assertEquals("input12", $this->pipeline->execute());
+        $this->pipeline->send('input')
+            ->through($stages, 'run');
+        $this->assertEquals('input12', $this->pipeline->execute());
     }
 
     /**
@@ -96,7 +96,7 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(PipelineException::class);
         $stages = [new Stage1()];
-        $this->pipeline->send("input")
+        $this->pipeline->send('input')
             ->through($stages)
             ->execute();
     }
@@ -108,12 +108,12 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [new Stage1(), new Stage2()];
         $callback = function ($input) {
-            return $input . "3";
+            return $input . '3';
         };
-        $this->pipeline->send("input")
-            ->through($stages, "run")
+        $this->pipeline->send('input')
+            ->through($stages, 'run')
             ->then($callback);
-        $this->assertEquals("input123", $this->pipeline->execute());
+        $this->assertEquals('input123', $this->pipeline->execute());
     }
 
     /**
@@ -123,12 +123,12 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [
             function ($input, $next) {
-                return $next($input . "1");
+                return $next($input . '1');
             }
         ];
-        $this->pipeline->send("input")
+        $this->pipeline->send('input')
             ->through($stages);
-        $this->assertEquals("input1", $this->pipeline->execute());
+        $this->assertEquals('input1', $this->pipeline->execute());
     }
 
     /**
@@ -137,9 +137,9 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     public function testSingleObjectPipe()
     {
         $stages = [new Stage1()];
-        $this->pipeline->send("input")
-            ->through($stages, "run");
-        $this->assertEquals("input1", $this->pipeline->execute());
+        $this->pipeline->send('input')
+            ->through($stages, 'run');
+        $this->assertEquals('input1', $this->pipeline->execute());
     }
 
     /**
@@ -149,15 +149,15 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [
             function ($input, $next) {
-                return $input . "1";
+                return $input . '1';
             },
             function ($input, $next) {
-                return $next($input . "2");
+                return $next($input . '2');
             }
         ];
-        $this->pipeline->send("input")
+        $this->pipeline->send('input')
             ->through($stages);
-        $this->assertEquals("input1", $this->pipeline->execute());
+        $this->assertEquals('input1', $this->pipeline->execute());
     }
 
     /**
@@ -167,19 +167,19 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [
             function ($input, $next) {
-                return $input . "1";
+                return $input . '1';
             },
             function ($input, $next) {
-                return $next($input . "2");
+                return $next($input . '2');
             }
         ];
         $callback = function ($input) {
-            return $input . "3";
+            return $input . '3';
         };
-        $this->pipeline->send("input")
-            ->through($stages, "run")
+        $this->pipeline->send('input')
+            ->through($stages, 'run')
             ->then($callback);
-        $this->assertEquals("input1", $this->pipeline->execute());
+        $this->assertEquals('input1', $this->pipeline->execute());
     }
 
     /**
@@ -189,12 +189,12 @@ class PipelineTest extends \PHPUnit\Framework\TestCase
     {
         $stages = [
             function ($input, $next) {
-                return $next($input . "3");
+                return $next($input . '3');
             },
             new Stage2()
         ];
-        $this->pipeline->send("input")
-            ->through($stages, "run");
-        $this->assertEquals("input32", $this->pipeline->execute());
+        $this->pipeline->send('input')
+            ->through($stages, 'run');
+        $this->assertEquals('input32', $this->pipeline->execute());
     }
 }

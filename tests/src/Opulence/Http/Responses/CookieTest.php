@@ -18,15 +18,15 @@ class CookieTest extends \PHPUnit\Framework\TestCase
     /** @var Cookie The cookie to test */
     private $cookie = null;
     /** @var string The name of the cookie */
-    private $name = "";
+    private $name = '';
     /** @var mixed The value of the cookie */
-    private $value = "";
+    private $value = '';
     /** @var DateTime The expiration of the cookie */
     private $expiration = null;
     /** @var string The path the cookie is valid on */
-    private $path = "/";
+    private $path = '/';
     /** @var string The domain the cookie is valid on */
-    private $domain = "";
+    private $domain = '';
     /** @var bool Whether or not this cookie is on HTTPS */
     private $isSecure = false;
     /** @var bool Whether or not this cookie is HTTP only */
@@ -37,11 +37,11 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->name = "foo";
-        $this->value = "bar";
-        $this->expiration = new DateTime("+1 week");
-        $this->path = "/foo";
-        $this->domain = "foo.com";
+        $this->name = 'foo';
+        $this->value = 'bar';
+        $this->expiration = new DateTime('+1 week');
+        $this->path = '/foo';
+        $this->domain = 'foo.com';
         $this->isSecure = true;
         $this->isHttpOnly = true;
         $this->cookie = new Cookie($this->name, $this->value, $this->expiration, $this->path, $this->domain,
@@ -61,7 +61,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingExpiration()
     {
-        $this->assertEquals($this->expiration->format("U"), $this->cookie->getExpiration());
+        $this->assertEquals($this->expiration->format('U'), $this->cookie->getExpiration());
     }
 
     /**
@@ -119,8 +119,8 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingDomain()
     {
-        $this->cookie->setDomain("blah.com");
-        $this->assertEquals("blah.com", $this->cookie->getDomain());
+        $this->cookie->setDomain('blah.com');
+        $this->assertEquals('blah.com', $this->cookie->getDomain());
     }
 
     /**
@@ -128,9 +128,9 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingExpiration()
     {
-        $expiration = new DateTime("+1 day");
+        $expiration = new DateTime('+1 day');
         $this->cookie->setExpiration($expiration);
-        $this->assertEquals($expiration->format("U"), $this->cookie->getExpiration());
+        $this->assertEquals($expiration->format('U'), $this->cookie->getExpiration());
     }
 
     /**
@@ -156,8 +156,8 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingName()
     {
-        $this->cookie->setName("blah");
-        $this->assertEquals("blah", $this->cookie->getName());
+        $this->cookie->setName('blah');
+        $this->assertEquals('blah', $this->cookie->getName());
     }
 
     /**
@@ -165,8 +165,8 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingPath()
     {
-        $this->cookie->setPath("blah");
-        $this->assertEquals("blah", $this->cookie->getPath());
+        $this->cookie->setPath('blah');
+        $this->assertEquals('blah', $this->cookie->getPath());
     }
 
     /**
@@ -174,7 +174,7 @@ class CookieTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingValue()
     {
-        $this->cookie->setValue("blah");
-        $this->assertEquals("blah", $this->cookie->getValue());
+        $this->cookie->setValue('blah');
+        $this->assertEquals('blah', $this->cookie->getValue());
     }
 }

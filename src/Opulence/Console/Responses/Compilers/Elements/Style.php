@@ -116,7 +116,7 @@ class Style
      */
     public function format(string $text) : string
     {
-        if ($text === "") {
+        if ($text === '') {
             return $text;
         }
 
@@ -145,9 +145,9 @@ class Style
 
         return sprintf(
             "\033[%sm%s\033[%sm",
-            implode(";", $startCodes),
+            implode(';', $startCodes),
             $text,
-            implode(";", $endCodes)
+            implode(';', $endCodes)
         );
     }
 

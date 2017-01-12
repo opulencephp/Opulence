@@ -22,8 +22,8 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testEqualValuesPass()
     {
         $rule = new EqualsFieldRule();
-        $rule->setArgs(["foo"]);
-        $this->assertTrue($rule->passes("bar", ["foo" => "bar"]));
+        $rule->setArgs(['foo']);
+        $this->assertTrue($rule->passes('bar', ['foo' => 'bar']));
     }
 
     /**
@@ -32,8 +32,8 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingErrorPlaceholders()
     {
         $rule = new EqualsFieldRule();
-        $rule->setArgs(["foo"]);
-        $this->assertEquals(["other" => "foo"], $rule->getErrorPlaceholders());
+        $rule->setArgs(['foo']);
+        $this->assertEquals(['other' => 'foo'], $rule->getErrorPlaceholders());
     }
 
     /**
@@ -42,7 +42,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new EqualsFieldRule();
-        $this->assertEquals("equalsField", $rule->getSlug());
+        $this->assertEquals('equalsField', $rule->getSlug());
     }
 
     /**
@@ -52,7 +52,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $rule = new EqualsFieldRule();
-        $rule->passes("foo");
+        $rule->passes('foo');
     }
 
     /**
@@ -61,7 +61,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testNullValuesPass()
     {
         $rule = new EqualsFieldRule();
-        $rule->setArgs(["foo"]);
+        $rule->setArgs(['foo']);
         $this->assertTrue($rule->passes(null));
     }
 
@@ -94,8 +94,8 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testUnequalValuesFail()
     {
         $rule = new EqualsFieldRule();
-        $rule->setArgs(["foo"]);
-        $this->assertFalse($rule->passes("bar", ["foo" => "baz"]));
+        $rule->setArgs(['foo']);
+        $this->assertFalse($rule->passes('bar', ['foo' => 'baz']));
     }
 
     /**
@@ -104,7 +104,7 @@ class EqualsFieldRuleTest extends \PHPUnit\Framework\TestCase
     public function testUnsetNonNullValuesFail()
     {
         $rule = new EqualsFieldRule();
-        $rule->setArgs(["foo"]);
-        $this->assertFalse($rule->passes("bar"));
+        $rule->setArgs(['foo']);
+        $this->assertFalse($rule->passes('bar'));
     }
 }

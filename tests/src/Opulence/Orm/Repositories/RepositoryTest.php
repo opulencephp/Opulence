@@ -56,9 +56,9 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         /** @var IIdGeneratorRegistry|\PHPUnit_Framework_MockObject_MockObject $idGeneratorRegistry */
         $idGeneratorRegistry = $this->createMock(IIdGeneratorRegistry::class);
         $idGeneratorRegistry->expects($this->any())
-            ->method("getIdGenerator")
+            ->method('getIdGenerator')
             ->with(User::class)
-            ->willReturn(new IntSequenceIdGenerator("foo"));
+            ->willReturn(new IntSequenceIdGenerator('foo'));
         $changeTracker = new ChangeTracker();
         $server = new Server();
         $connection = new Connection($server);
@@ -71,8 +71,8 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
             $connection
         );
         $this->dataMapper = new SqlDataMapper();
-        $this->entity1 = new User(1, "foo");
-        $this->entity2 = new User(2, "bar");
+        $this->entity1 = new User(1, 'foo');
+        $this->entity2 = new User(2, 'bar');
         $this->repo = new Repository(get_class($this->entity1), $this->dataMapper, $this->unitOfWork);
     }
 
@@ -147,7 +147,7 @@ class RepositoryTest extends \PHPUnit\Framework\TestCase
         $entityFromGetAll = null;
 
         foreach ($allEntities as $entity) {
-            $entity->setUsername("newUsername");
+            $entity->setUsername('newUsername');
 
             if ($entity->getId() == $entityFromGetById->getId()) {
                 $entityFromGetAll = $entity;

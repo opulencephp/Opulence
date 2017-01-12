@@ -24,13 +24,13 @@ class StatusCodeCommand extends Command
      */
     protected function define()
     {
-        $this->setName("statuscode");
-        $this->setDescription("Returns a status code based on the options");
+        $this->setName('statuscode');
+        $this->setDescription('Returns a status code based on the options');
         $this->addOption(new Option(
-            "code",
-            "c",
+            'code',
+            'c',
             OptionTypes::REQUIRED_VALUE,
-            "The status code to return",
+            'The status code to return',
             StatusCodes::OK
         ));
     }
@@ -40,6 +40,6 @@ class StatusCodeCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        return (int)$this->getOptionValue("code");
+        return (int)$this->getOptionValue('code');
     }
 }

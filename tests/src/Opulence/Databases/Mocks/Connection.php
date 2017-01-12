@@ -55,7 +55,7 @@ class Connection implements IConnection
         $this->inTransaction = false;
 
         if ($this->shouldFailOnPurpose) {
-            throw new Exception("Commit failed");
+            throw new Exception('Commit failed');
         }
     }
 
@@ -118,7 +118,7 @@ class Connection implements IConnection
 
         $this->lastInsertIds[$sequenceName]++;
 
-        return "" . $this->lastInsertIds[$sequenceName];
+        return '' . $this->lastInsertIds[$sequenceName];
     }
 
     /**

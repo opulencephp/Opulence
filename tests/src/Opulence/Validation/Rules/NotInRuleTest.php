@@ -22,7 +22,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new NotInRule();
-        $this->assertEquals("notIn", $rule->getSlug());
+        $this->assertEquals('notIn', $rule->getSlug());
     }
 
     /**
@@ -31,8 +31,8 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     public function testMatchingValuesPass()
     {
         $rule = new NotInRule();
-        $rule->setArgs([["foo", "bar"]]);
-        $this->assertTrue($rule->passes("baz"));
+        $rule->setArgs([['foo', 'bar']]);
+        $this->assertTrue($rule->passes('baz'));
     }
 
     /**
@@ -41,8 +41,8 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     public function testNonMatchingValuesFail()
     {
         $rule = new NotInRule();
-        $rule->setArgs([["foo", "bar"]]);
-        $this->assertFalse($rule->passes("foo"));
+        $rule->setArgs([['foo', 'bar']]);
+        $this->assertFalse($rule->passes('foo'));
     }
 
     /**
@@ -52,7 +52,7 @@ class NotInRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $rule = new NotInRule();
-        $rule->passes("foo");
+        $rule->passes('foo');
     }
 
     /**

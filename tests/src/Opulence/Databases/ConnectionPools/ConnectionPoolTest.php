@@ -22,7 +22,7 @@ class ConnectionPoolTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingDriverNames()
     {
-        $this->assertEquals(["pdo_mysql", "pdo_pgsql"], ConnectionPool::getDriverNames());
+        $this->assertEquals(['pdo_mysql', 'pdo_pgsql'], ConnectionPool::getDriverNames());
     }
 
     /**

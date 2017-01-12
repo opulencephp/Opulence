@@ -16,13 +16,13 @@ use InvalidArgumentException;
 class Option
 {
     /** @var string The name of the option */
-    private $name = "";
+    private $name = '';
     /** @var string|null The short name of the option if it has one, otherwise null */
-    private $shortName = "";
+    private $shortName = '';
     /** @var int The type of option this is */
     private $type = OptionTypes::REQUIRED_VALUE;
     /** @var string A brief description of the option */
-    private $description = "";
+    private $description = '';
     /** @var mixed The default value for the option if it's optional */
     private $defaultValue = null;
 
@@ -37,20 +37,20 @@ class Option
     public function __construct(string $name, $shortName, int $type, string $description, $defaultValue = null)
     {
         if (($type & 3) === 3) {
-            throw new InvalidArgumentException("Option type cannot be both optional and required");
+            throw new InvalidArgumentException('Option type cannot be both optional and required');
         }
 
         if (($type & 5) === 5 || ($type & 6) === 6) {
-            throw new InvalidArgumentException("Option cannot have a value and not have a value");
+            throw new InvalidArgumentException('Option cannot have a value and not have a value');
         }
 
         if ($shortName !== null) {
             if (mb_strlen($shortName) !== 1) {
-                throw new InvalidArgumentException("Short names must be one character in length");
+                throw new InvalidArgumentException('Short names must be one character in length');
             }
 
             if (!ctype_alpha($shortName)) {
-                throw new InvalidArgumentException("Short names must be an alphabet character");
+                throw new InvalidArgumentException('Short names must be an alphabet character');
             }
         }
 

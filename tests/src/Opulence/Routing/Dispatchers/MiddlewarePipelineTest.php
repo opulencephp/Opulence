@@ -54,11 +54,11 @@ class MiddlewarePipelineTest extends \PHPUnit\Framework\TestCase
             new ReturnsSomethingMiddleware()
         ];
         $controller = function () {
-            return new Response("foo");
+            return new Response('foo');
         };
         $response = $this->middlewarePipeline->send(Request::createFromGlobals(), $middleware, $controller);
         $this->assertInstanceOf(Response::class, $response);
-        $this->assertEquals("foo:something:something", $response->getContent());
+        $this->assertEquals('foo:something:something', $response->getContent());
         $this->assertEquals(ResponseHeaders::HTTP_OK, $response->getStatusCode());
     }
 }

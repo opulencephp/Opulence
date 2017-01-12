@@ -36,7 +36,7 @@ class DirectiveTranspilerRegistrantTest extends \PHPUnit\Framework\TestCase
         /** @var ICache|\PHPUnit_Framework_MockObject_MockObject $cache */
         $cache = $this->createMock(ICache::class);
         $cache->expects($this->any())
-            ->method("has")
+            ->method('has')
             ->willReturn(false);
         $this->transpiler = new Transpiler(new Lexer(), new Parser(), $cache, new XssFilter());
     }

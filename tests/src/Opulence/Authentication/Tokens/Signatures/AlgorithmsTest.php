@@ -30,7 +30,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingForUnsupportedAlgorithm()
     {
-        $this->assertFalse(Algorithms::has("foo"));
+        $this->assertFalse(Algorithms::has('foo'));
     }
 
     /**
@@ -52,7 +52,7 @@ class AlgorithmsTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownOnInvalidAlgorithmSymmetryCheck()
     {
         $this->expectException(InvalidArgumentException::class);
-        Algorithms::isSymmetric("foo");
+        Algorithms::isSymmetric('foo');
     }
 
     /**

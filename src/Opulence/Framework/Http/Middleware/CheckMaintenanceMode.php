@@ -25,8 +25,8 @@ class CheckMaintenanceMode implements IMiddleware
      */
     public function handle(Request $request, Closure $next) : Response
     {
-        if (file_exists(Config::get("paths", "tmp.framework.http") . "/down")) {
-            throw new HttpException(503, "Down for scheduled maintenance");
+        if (file_exists(Config::get('paths', 'tmp.framework.http') . '/down')) {
+            throw new HttpException(503, 'Down for scheduled maintenance');
         }
 
         return $next($request);

@@ -20,7 +20,7 @@ class ConsoleResponse extends StreamResponse
      */
     public function __construct(ICompiler $compiler)
     {
-        parent::__construct(fopen("php://stdout", "w"), $compiler);
+        parent::__construct(fopen('php://stdout', 'w'), $compiler);
     }
 
     /**
@@ -28,6 +28,6 @@ class ConsoleResponse extends StreamResponse
      */
     public function clear()
     {
-        $this->write(chr(27) . "[2J" . chr(27) . "[;H");
+        $this->write(chr(27) . '[2J' . chr(27) . '[;H');
     }
 }

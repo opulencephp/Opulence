@@ -20,7 +20,7 @@ class MockCompilerTest extends \PHPUnit\Framework\TestCase
     {
         $compiler = new MockCompiler();
         $compiler->setStyled(true);
-        $this->assertEquals("<foo>bar</foo>", $compiler->compile("<foo>bar</foo>"));
+        $this->assertEquals('<foo>bar</foo>', $compiler->compile('<foo>bar</foo>'));
     }
 
     /**
@@ -30,6 +30,6 @@ class MockCompilerTest extends \PHPUnit\Framework\TestCase
     {
         $compiler = new MockCompiler();
         $compiler->setStyled(false);
-        $this->assertEquals("<foo>bar</foo>", $compiler->compile("<foo>bar</foo>"));
+        $this->assertEquals('<foo>bar</foo>', $compiler->compile('<foo>bar</foo>'));
     }
 }

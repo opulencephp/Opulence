@@ -56,7 +56,7 @@ class HmacSigner implements ISigner
      */
     public function verify(string $data, string $signature) : bool
     {
-        if ($signature === "") {
+        if ($signature === '') {
             return false;
         }
 
@@ -82,11 +82,11 @@ class HmacSigner implements ISigner
     {
         switch ($algorithm) {
             case Algorithms::SHA256:
-                return "sha256";
+                return 'sha256';
             case Algorithms::SHA384:
-                return "sha384";
+                return 'sha384';
             case Algorithms::SHA512:
-                return "sha512";
+                return 'sha512';
             default:
                 throw new InvalidArgumentException("Algorithm \"$algorithm\" is not a hash algorithm");
         }

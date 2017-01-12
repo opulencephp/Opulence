@@ -64,9 +64,9 @@ class CommandCollection
     public function call(string $commandName, IResponse $response, array $arguments = [], array $options = [])
     {
         $request = $this->requestParser->parse([
-            "name" => $commandName,
-            "arguments" => $arguments,
-            "options" => $options
+            'name' => $commandName,
+            'arguments' => $arguments,
+            'options' => $options
         ]);
         $compiledCommand = $this->commandCompiler->compile($this->get($commandName), $request);
 

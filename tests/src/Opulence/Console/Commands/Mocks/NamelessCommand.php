@@ -29,6 +29,6 @@ class NamelessCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $response->write("foo");
+        $response->write('foo');
     }
 }

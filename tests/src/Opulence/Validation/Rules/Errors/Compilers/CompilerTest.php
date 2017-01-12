@@ -30,11 +30,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingTemplateWithArgPlaceholders()
     {
         $this->assertEquals(
-            "foo dave baz young",
+            'foo dave baz young',
             $this->compiler->compile(
-                "foo",
-                "foo :bar baz :blah",
-                ["bar" => "dave", "blah" => "young"]
+                'foo',
+                'foo :bar baz :blah',
+                ['bar' => 'dave', 'blah' => 'young']
             )
         );
     }
@@ -45,11 +45,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingTemplateWithArgPlaceholdersNotInSameOrderAsArgs()
     {
         $this->assertEquals(
-            "foo dave baz young",
+            'foo dave baz young',
             $this->compiler->compile(
-                "foo",
-                "foo :bar baz :blah",
-                ["blah" => "young", "bar" => "dave"]
+                'foo',
+                'foo :bar baz :blah',
+                ['blah' => 'young', 'bar' => 'dave']
             )
         );
     }
@@ -60,11 +60,11 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingTemplateWithFieldAndArgPlaceholders()
     {
         $this->assertEquals(
-            "foo the-field dave baz young",
+            'foo the-field dave baz young',
             $this->compiler->compile(
-                "the-field",
-                "foo :field :bar baz :blah",
-                ["bar" => "dave", "blah" => "young"]
+                'the-field',
+                'foo :field :bar baz :blah',
+                ['bar' => 'dave', 'blah' => 'young']
             )
         );
     }
@@ -75,8 +75,8 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingTemplateWithFieldPlaceholder()
     {
         $this->assertEquals(
-            "foo bar",
-            $this->compiler->compile("foo", ":field bar")
+            'foo bar',
+            $this->compiler->compile('foo', ':field bar')
         );
     }
 
@@ -86,10 +86,10 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingTemplateWithLeftoverPlaceholders()
     {
         $this->assertEquals(
-            "foo dave",
-            $this->compiler->compile("foo",
-                "foo :bar :baz",
-                ["bar" => "dave"]
+            'foo dave',
+            $this->compiler->compile('foo',
+                'foo :bar :baz',
+                ['bar' => 'dave']
             )
         );
     }
@@ -100,8 +100,8 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     public function testCompilingTemplateWithNoPlaceholders()
     {
         $this->assertEquals(
-            "foo bar",
-            $this->compiler->compile("foo", "foo bar")
+            'foo bar',
+            $this->compiler->compile('foo', 'foo bar')
         );
     }
 }

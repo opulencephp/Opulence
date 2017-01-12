@@ -22,8 +22,8 @@ class MakeControllerCommand extends MakeCommand
     {
         parent::define();
 
-        $this->setName("make:controller")
-            ->setDescription("Creates a controller class");
+        $this->setName('make:controller')
+            ->setDescription('Creates a controller class');
     }
 
     /**
@@ -39,6 +39,6 @@ class MakeControllerCommand extends MakeCommand
      */
     protected function getFileTemplatePath() : string
     {
-        return __DIR__ . "/templates/Controller.template";
+        return __DIR__ . '/templates/Controller.template';
     }
 }

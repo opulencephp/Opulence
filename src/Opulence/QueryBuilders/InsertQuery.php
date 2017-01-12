@@ -63,10 +63,10 @@ class InsertQuery extends Query
     public function getSql() : string
     {
         $sql = "INSERT INTO {$this->tableName}"
-            . " (" . implode(", ", array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ") VALUES ("
-            . implode(", ",
-                array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), "?"))
-            . ")";
+            . ' (' . implode(', ', array_keys($this->augmentingQueryBuilder->getColumnNamesToValues())) . ') VALUES ('
+            . implode(', ',
+                array_fill(0, count(array_values($this->augmentingQueryBuilder->getColumnNamesToValues())), '?'))
+            . ')';
 
         return $sql;
     }
@@ -74,7 +74,7 @@ class InsertQuery extends Query
     /**
      * @inheritdoc
      */
-    public function setTable(string $tableName, string $tableAlias = "")
+    public function setTable(string $tableName, string $tableAlias = '')
     {
         parent::setTable($tableName);
     }

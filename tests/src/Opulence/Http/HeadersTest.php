@@ -17,17 +17,17 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
     private $headers = null;
     /** @var array The server array to use */
     private $serverArray = [
-        "NON_HEADER" => "foo",
-        "CONTENT_LENGTH" => 4,
-        "CONTENT_TYPE" => "foo",
-        "HTTP_ACCEPT" => "accept",
-        "HTTP_ACCEPT_CHARSET" => "accept_charset",
-        "HTTP_ACCEPT_ENCODING" => "accept_encoding",
-        "HTTP_ACCEPT_LANGUAGE" => "accept_language",
-        "HTTP_CONNECTION" => "connection",
-        "HTTP_HOST" => "host",
-        "HTTP_REFERER" => "referer",
-        "HTTP_USER_AGENT" => "user_agent"
+        'NON_HEADER' => 'foo',
+        'CONTENT_LENGTH' => 4,
+        'CONTENT_TYPE' => 'foo',
+        'HTTP_ACCEPT' => 'accept',
+        'HTTP_ACCEPT_CHARSET' => 'accept_charset',
+        'HTTP_ACCEPT_ENCODING' => 'accept_encoding',
+        'HTTP_ACCEPT_LANGUAGE' => 'accept_language',
+        'HTTP_CONNECTION' => 'connection',
+        'HTTP_HOST' => 'host',
+        'HTTP_REFERER' => 'referer',
+        'HTTP_USER_AGENT' => 'user_agent'
     ];
 
     /**
@@ -43,9 +43,9 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddedNamesAreNormalized()
     {
-        $this->headers->add("HTTP_FOO", "fooval");
-        $this->assertEquals("fooval", $this->headers->get("foo"));
-        $this->assertTrue($this->headers->has("foo"));
+        $this->headers->add('HTTP_FOO', 'fooval');
+        $this->assertEquals('fooval', $this->headers->get('foo'));
+        $this->assertTrue($this->headers->has('foo'));
     }
 
     /**
@@ -53,8 +53,8 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingStringValue()
     {
-        $this->headers->add("foo", "bar");
-        $this->assertEquals("bar", $this->headers->get("foo"));
+        $this->headers->add('foo', 'bar');
+        $this->assertEquals('bar', $this->headers->get('foo'));
     }
 
     /**
@@ -67,13 +67,13 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
         foreach ($this->serverArray as $key => $value) {
             $key = strtoupper($key);
 
-            if (strpos($key, "HTTP_") === 0) {
+            if (strpos($key, 'HTTP_') === 0) {
                 if (!is_array($value)) {
                     $value = [$value];
                 }
 
                 $headerParameters[$this->normalizeName($key)] = $value;
-            } elseif (strpos($key, "CONTENT_") === 0) {
+            } elseif (strpos($key, 'CONTENT_') === 0) {
                 if (!is_array($value)) {
                     $value = [$value];
                 }
@@ -90,7 +90,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAllValues()
     {
-        $this->assertEquals(["host"], $this->headers->get("HOST", null, false));
+        $this->assertEquals(['host'], $this->headers->get('HOST', null, false));
     }
 
     /**
@@ -98,7 +98,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingAllValuesWhenKeyDoesNotExist()
     {
-        $this->assertEquals("foo", $this->headers->get("THIS_DOES_NOT_EXIST", "foo", false));
+        $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', false));
     }
 
     /**
@@ -106,7 +106,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFirstValue()
     {
-        $this->assertEquals("host", $this->headers->get("HOST", null, true));
+        $this->assertEquals('host', $this->headers->get('HOST', null, true));
     }
 
     /**
@@ -114,7 +114,7 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFirstValueWhenKeyDoesNotExist()
     {
-        $this->assertEquals("foo", $this->headers->get("THIS_DOES_NOT_EXIST", "foo", true));
+        $this->assertEquals('foo', $this->headers->get('THIS_DOES_NOT_EXIST', 'foo', true));
     }
 
     /**
@@ -122,22 +122,22 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testNamesAreCaseInsensitive()
     {
-        $headers = new Headers(["HTTP_FOO" => "fooval", "CONTENT_LENGTH" => "lengthval"]);
-        $headers->add("HTTP_BAZ", "bazval");
-        $headers->add("HTTP_BLAH", "blahval");
-        $this->assertEquals("fooval", $headers->get("foo"));
-        $this->assertEquals("lengthval", $headers->get("content_length"));
-        $this->assertEquals("bazval", $headers->get("http_baz"));
-        $this->assertEquals("blahval", $headers->get("http_blah"));
-        $this->assertTrue($headers->has("foo"));
-        $this->assertTrue($headers->has("content_length"));
-        $this->assertTrue($headers->has("baz"));
-        $this->assertTrue($headers->has("blah"));
+        $headers = new Headers(['HTTP_FOO' => 'fooval', 'CONTENT_LENGTH' => 'lengthval']);
+        $headers->add('HTTP_BAZ', 'bazval');
+        $headers->add('HTTP_BLAH', 'blahval');
+        $this->assertEquals('fooval', $headers->get('foo'));
+        $this->assertEquals('lengthval', $headers->get('content_length'));
+        $this->assertEquals('bazval', $headers->get('http_baz'));
+        $this->assertEquals('blahval', $headers->get('http_blah'));
+        $this->assertTrue($headers->has('foo'));
+        $this->assertTrue($headers->has('content_length'));
+        $this->assertTrue($headers->has('baz'));
+        $this->assertTrue($headers->has('blah'));
 
         // Remove a name
-        $headers->remove("foo");
-        $this->assertNull($headers->get("foo"));
-        $this->assertFalse($headers->has("foo"));
+        $headers->remove('foo');
+        $this->assertNull($headers->get('foo'));
+        $this->assertFalse($headers->has('foo'));
     }
 
     /**
@@ -145,9 +145,9 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetNamesAreNormalized()
     {
-        $this->headers->set("HTTP_FOO", "fooval");
-        $this->assertEquals("fooval", $this->headers->get("foo"));
-        $this->assertTrue($this->headers->has("foo"));
+        $this->headers->set('HTTP_FOO', 'fooval');
+        $this->assertEquals('fooval', $this->headers->get('foo'));
+        $this->assertTrue($this->headers->has('foo'));
     }
 
     /**
@@ -158,9 +158,9 @@ class HeadersTest extends \PHPUnit\Framework\TestCase
      */
     private function normalizeName($name)
     {
-        $name = strtr(strtolower($name), "_", "-");
+        $name = strtr(strtolower($name), '_', '-');
 
-        if (strpos($name, "http-") === 0) {
+        if (strpos($name, 'http-') === 0) {
             $name = substr($name, 5);
         }
 

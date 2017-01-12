@@ -19,17 +19,17 @@ class Route
     /** @var string The HTTP method for this route */
     protected $methods = [];
     /** @var string The raw path passed into the route */
-    protected $rawPath = "";
+    protected $rawPath = '';
     /** @var string The raw host passed into the route */
-    protected $rawHost = "";
+    protected $rawHost = '';
     /** @var string The name of the controller this routes to */
-    protected $controllerName = "";
+    protected $controllerName = '';
     /** @var string The name of the controller method this route calls */
-    protected $controllerMethod = "";
+    protected $controllerMethod = '';
     /** @var string|callable|null The controller/method or closure to be used as a controller */
     protected $controller = null;
     /** @var string The name of this route, if it is a named route */
-    protected $name = "";
+    protected $name = '';
     /** @var bool Whether or not this route only matches HTTPS requests */
     protected $isSecure = false;
     /** @var bool Whether or not this route uses a callable as a controller */
@@ -54,24 +54,24 @@ class Route
 
         $this->setControllerVars($controller);
 
-        if (isset($options["vars"])) {
-            $this->setVarRegexes($options["vars"]);
+        if (isset($options['vars'])) {
+            $this->setVarRegexes($options['vars']);
         }
 
-        if (isset($options["middleware"])) {
-            $this->addMiddleware($options["middleware"]);
+        if (isset($options['middleware'])) {
+            $this->addMiddleware($options['middleware']);
         }
 
-        if (isset($options["host"])) {
-            $this->setRawHost($options["host"]);
+        if (isset($options['host'])) {
+            $this->setRawHost($options['host']);
         }
 
-        if (isset($options["name"])) {
-            $this->setName($options["name"]);
+        if (isset($options['name'])) {
+            $this->setName($options['name']);
         }
 
-        if (isset($options["https"])) {
-            $this->setSecure($options["https"]);
+        if (isset($options['https'])) {
+            $this->setSecure($options['https']);
         }
     }
 
@@ -293,11 +293,11 @@ class Route
             $this->setControllerCallable($controller);
         } else {
             $this->usesCallable = false;
-            $atCharPos = strpos($controller, "@");
+            $atCharPos = strpos($controller, '@');
 
             // Make sure the "@" is somewhere in the middle of the string
             if ($atCharPos === false || $atCharPos === 0 || $atCharPos === mb_strlen($controller) - 1) {
-                throw new InvalidArgumentException("Controller string is not formatted correctly");
+                throw new InvalidArgumentException('Controller string is not formatted correctly');
             }
 
             $this->controllerName = substr($controller, 0, $atCharPos);

@@ -32,8 +32,8 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     public function testBackslashesAreRespected()
     {
         $request = $this->parser->parse([
-            "name" => "foo",
-            "arguments" => ["bar\\baz"]
+            'name' => 'foo',
+            'arguments' => ["bar\\baz"]
         ]);
         $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
     }
@@ -44,13 +44,13 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     public function testNotPassingArguments()
     {
         $request = $this->parser->parse([
-            "name" => "foo",
-            "options" => ["--name=dave", "-r"]
+            'name' => 'foo',
+            'options' => ['--name=dave', '-r']
         ]);
-        $this->assertEquals("foo", $request->getCommandName());
+        $this->assertEquals('foo', $request->getCommandName());
         $this->assertEquals([], $request->getArgumentValues());
-        $this->assertNull($request->getOptionValue("r"));
-        $this->assertEquals("dave", $request->getOptionValue("name"));
+        $this->assertNull($request->getOptionValue('r'));
+        $this->assertEquals('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -59,11 +59,11 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     public function testNotPassingOptions()
     {
         $request = $this->parser->parse([
-            "name" => "foo",
-            "arguments" => ["bar"]
+            'name' => 'foo',
+            'arguments' => ['bar']
         ]);
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["bar"], $request->getArgumentValues());
+        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertEquals(['bar'], $request->getArgumentValues());
         $this->assertEquals([], $request->getOptionValues());
     }
 
@@ -73,14 +73,14 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     public function testParsingArgumentsAndOptions()
     {
         $request = $this->parser->parse([
-            "name" => "foo",
-            "arguments" => ["bar"],
-            "options" => ["--name=dave", "-r"]
+            'name' => 'foo',
+            'arguments' => ['bar'],
+            'options' => ['--name=dave', '-r']
         ]);
-        $this->assertEquals("foo", $request->getCommandName());
-        $this->assertEquals(["bar"], $request->getArgumentValues());
-        $this->assertNull($request->getOptionValue("r"));
-        $this->assertEquals("dave", $request->getOptionValue("name"));
+        $this->assertEquals('foo', $request->getCommandName());
+        $this->assertEquals(['bar'], $request->getArgumentValues());
+        $this->assertNull($request->getOptionValue('r'));
+        $this->assertEquals('dave', $request->getOptionValue('name'));
     }
 
     /**
@@ -89,9 +89,9 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     public function testPassingCommandName()
     {
         $request = $this->parser->parse([
-            "name" => "mycommand"
+            'name' => 'mycommand'
         ]);
-        $this->assertEquals("mycommand", $request->getCommandName());
+        $this->assertEquals('mycommand', $request->getCommandName());
     }
 
     /**
@@ -100,6 +100,6 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     public function testPassingInvalidInputType()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->parser->parse("foo");
+        $this->parser->parse('foo');
     }
 }

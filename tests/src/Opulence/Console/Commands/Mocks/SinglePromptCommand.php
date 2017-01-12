@@ -36,8 +36,8 @@ class SinglePromptCommand extends Command
      */
     protected function define()
     {
-        $this->setName("singleprompt");
-        $this->setDescription("Asks a question");
+        $this->setName('singleprompt');
+        $this->setDescription('Asks a question');
     }
 
     /**
@@ -45,13 +45,13 @@ class SinglePromptCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $question = new Question("What else floats", "Very small rocks");
+        $question = new Question('What else floats', 'Very small rocks');
         $answer = $this->prompt->ask($question, $response);
 
-        if ($answer === "A duck") {
-            $response->write("Very good");
+        if ($answer === 'A duck') {
+            $response->write('Very good');
         } else {
-            $response->write("Wrong");
+            $response->write('Wrong');
         }
     }
 }

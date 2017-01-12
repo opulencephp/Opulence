@@ -14,7 +14,7 @@ namespace Opulence\Http\Responses;
 class RedirectResponse extends Response
 {
     /** @var string The target URL */
-    protected $targetUrl = "";
+    protected $targetUrl = '';
 
     /**
      * @param string $targetUrl The URL to redirect to
@@ -23,7 +23,7 @@ class RedirectResponse extends Response
      */
     public function __construct(string $targetUrl, int $statusCode = ResponseHeaders::HTTP_FOUND, array $headers = [])
     {
-        parent::__construct("", $statusCode, $headers);
+        parent::__construct('', $statusCode, $headers);
 
         $this->setTargetUrl($targetUrl);
     }
@@ -42,6 +42,6 @@ class RedirectResponse extends Response
     public function setTargetUrl(string $targetUrl)
     {
         $this->targetUrl = $targetUrl;
-        $this->headers->set("Location", $this->targetUrl);
+        $this->headers->set('Location', $this->targetUrl);
     }
 }

@@ -57,8 +57,8 @@ class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
         $this->registry->registerLazyBootstrapper($bindings, LazyBootstrapper::class);
         $this->assertEquals(
             [
-                LazyFooInterface::class => ["bootstrapper" => LazyBootstrapper::class, "target" => null],
-                EagerFooInterface::class => ["bootstrapper" => LazyBootstrapper::class, "target" => null]
+                LazyFooInterface::class => ['bootstrapper' => LazyBootstrapper::class, 'target' => null],
+                EagerFooInterface::class => ['bootstrapper' => LazyBootstrapper::class, 'target' => null]
             ],
             $this->registry->getLazyBootstrapperBindings()
         );
@@ -72,7 +72,7 @@ class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
         $this->registry->registerLazyBootstrapper([LazyFooInterface::class], LazyBootstrapper::class);
         $this->assertEquals(
             [
-                LazyFooInterface::class => ["bootstrapper" => LazyBootstrapper::class, "target" => null]
+                LazyFooInterface::class => ['bootstrapper' => LazyBootstrapper::class, 'target' => null]
             ],
             $this->registry->getLazyBootstrapperBindings()
         );
@@ -83,10 +83,10 @@ class BootstrapperRegistryTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringAndGettingLazyBootstrapperWithSingleTargetedBinding()
     {
-        $this->registry->registerLazyBootstrapper([["foo" => "bar"]], "baz");
+        $this->registry->registerLazyBootstrapper([['foo' => 'bar']], 'baz');
         $this->assertEquals(
             [
-                "foo" => ["bootstrapper" => "baz", "target" => "bar"]
+                'foo' => ['bootstrapper' => 'baz', 'target' => 'bar']
             ],
             $this->registry->getLazyBootstrapperBindings()
         );

@@ -68,11 +68,11 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
         }
 
         if (is_string($listenerConfig)) {
-            if (strpos($listenerConfig, "@") === false) {
+            if (strpos($listenerConfig, '@') === false) {
                 throw new InvalidArgumentException("Listener data \"$listenerConfig\" is incorrectly formatted");
             }
 
-            list($listenerClass, $listenerMethod) = explode("@", $listenerConfig);
+            list($listenerClass, $listenerMethod) = explode('@', $listenerConfig);
 
             return function ($event, $eventName, IEventDispatcher $dispatcher) use (
                 $container,

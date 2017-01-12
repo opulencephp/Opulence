@@ -41,21 +41,21 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
         $signer = $this->createMock(ISigner::class);
         $verificationContext = new VerificationContext($signer);
         $this->jwtVerifier = $this->getMockBuilder(JwtVerifier::class)
-            ->setMethods(["verify"])
+            ->setMethods(['verify'])
             ->getMock();
         $this->authenticator = new JwtAuthenticator($this->jwtVerifier, $verificationContext);
         $this->credential = $this->createMock(ICredential::class);
 
         // Set up the signed JWT
-        $signer = new HmacSigner(Algorithms::SHA256, "public");
+        $signer = new HmacSigner(Algorithms::SHA256, 'public');
         $unsignedJwt = new UnsignedJwt(new JwtHeader(Algorithms::SHA256), new JwtPayload());
-        $unsignedJwt->getPayload()->setSubject("Dave");
+        $unsignedJwt->getPayload()->setSubject('Dave');
         $signature = $signer->sign($unsignedJwt->getUnsignedValue());
         $signedJwt = SignedJwt::createFromUnsignedJwt($unsignedJwt, $signature);
         $tokenString = $signedJwt->encode();
         $this->credential->expects($this->any())
-            ->method("getValue")
-            ->with("token")
+            ->method('getValue')
+            ->with('token')
             ->willReturn($tokenString);
     }
 
@@ -67,8 +67,8 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->any())
-            ->method("getValue")
-            ->with("token")
+            ->method('getValue')
+            ->with('token')
             ->willReturn(null);
         $subject = null;
         $error = null;
@@ -83,7 +83,7 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->jwtVerifier
             ->expects($this->any())
-            ->method("verify")
+            ->method('verify')
             ->willReturn(false);
         $subject = null;
         $error = null;
@@ -98,13 +98,13 @@ class JwtAuthenticatorTest extends \PHPUnit\Framework\TestCase
     {
         $this->jwtVerifier
             ->expects($this->any())
-            ->method("verify")
+            ->method('verify')
             ->willReturn(true);
         $subject = null;
         $this->assertTrue($this->authenticator->authenticate($this->credential, $subject));
         /** @var ISubject $subject */
         $this->assertInstanceOf(ISubject::class, $subject);
-        $this->assertEquals("Dave", $subject->getPrimaryPrincipal()->getId());
+        $this->assertEquals('Dave', $subject->getPrimaryPrincipal()->getId());
         $this->assertEquals([$this->credential], $subject->getCredentials());
     }
 }

@@ -35,10 +35,10 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
         $keyLengths = [16, 24, 32];
 
         foreach ($keyLengths as $keyLength) {
-            $key = str_repeat("a", $keyLength);
+            $key = str_repeat('a', $keyLength);
             $keys = $this->keyDeriver->deriveKeysFromKey($key, $salt, $keyLength);
-            $this->assertEquals($keyLength, mb_strlen($keys->getAuthenticationKey(), "8bit"));
-            $this->assertEquals($keyLength, mb_strlen($keys->getEncryptionKey(), "8bit"));
+            $this->assertEquals($keyLength, mb_strlen($keys->getAuthenticationKey(), '8bit'));
+            $this->assertEquals($keyLength, mb_strlen($keys->getEncryptionKey(), '8bit'));
             $this->assertNotEquals($keys->getAuthenticationKey(), mb_strlen($keys->getEncryptionKey()));
         }
     }
@@ -52,9 +52,9 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
         $keyLengths = [16, 24, 32];
 
         foreach ($keyLengths as $keyLength) {
-            $keys = $this->keyDeriver->deriveKeysFromPassword("foo", $salt, $keyLength);
-            $this->assertEquals($keyLength, mb_strlen($keys->getAuthenticationKey(), "8bit"));
-            $this->assertEquals($keyLength, mb_strlen($keys->getEncryptionKey(), "8bit"));
+            $keys = $this->keyDeriver->deriveKeysFromPassword('foo', $salt, $keyLength);
+            $this->assertEquals($keyLength, mb_strlen($keys->getAuthenticationKey(), '8bit'));
+            $this->assertEquals($keyLength, mb_strlen($keys->getEncryptionKey(), '8bit'));
             $this->assertNotEquals($keys->getAuthenticationKey(), mb_strlen($keys->getEncryptionKey()));
         }
     }
@@ -65,6 +65,6 @@ class Pbkdf2KeyDeriverTest extends \PHPUnit\Framework\TestCase
     public function testInvalidSaltLengthThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->keyDeriver->deriveKeysFromPassword("foo", "bar", 512);
+        $this->keyDeriver->deriveKeysFromPassword('foo', 'bar', 512);
     }
 }

@@ -21,8 +21,8 @@ class StyledCommand extends Command
      */
     protected function define()
     {
-        $this->setName("stylish");
-        $this->setDescription("Shows an output with style");
+        $this->setName('stylish');
+        $this->setDescription('Shows an output with style');
     }
 
     /**

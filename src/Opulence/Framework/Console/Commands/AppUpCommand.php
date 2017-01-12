@@ -22,8 +22,8 @@ class AppUpCommand extends Command
      */
     protected function define()
     {
-        $this->setName("app:up")
-            ->setDescription("Takes the application out of maintenance mode");
+        $this->setName('app:up')
+            ->setDescription('Takes the application out of maintenance mode');
     }
 
     /**
@@ -31,7 +31,7 @@ class AppUpCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        @unlink(Config::get("paths", "tmp.framework.http") . "/down");
-        $response->writeln("<success>Application out of maintenance mode</success>");
+        @unlink(Config::get('paths', 'tmp.framework.http') . '/down');
+        $response->writeln('<success>Application out of maintenance mode</success>');
     }
 }

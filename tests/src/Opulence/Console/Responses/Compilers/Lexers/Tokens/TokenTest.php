@@ -21,7 +21,7 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->token = new Token(TokenTypes::T_WORD, "foo", 24);
+        $this->token = new Token(TokenTypes::T_WORD, 'foo', 24);
     }
 
     /**
@@ -45,6 +45,6 @@ class TokenTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $this->assertEquals("foo", $this->token->getValue());
+        $this->assertEquals('foo', $this->token->getValue());
     }
 }

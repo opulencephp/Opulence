@@ -29,10 +29,10 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
         $extraRule = $this->createMock(IRule::class);
         $extraRule->expects($this->once())
-            ->method("passes")
+            ->method('passes')
             ->willReturn(false);
         $rule->addRule($extraRule);
-        $this->assertFalse($rule->passes("foo"));
+        $this->assertFalse($rule->passes('foo'));
     }
 
     /**
@@ -41,7 +41,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new ConditionalRule();
-        $this->assertEquals("conditional", $rule->getSlug());
+        $this->assertEquals('conditional', $rule->getSlug());
     }
 
     /**
@@ -66,7 +66,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $rule = new ConditionalRule();
-        $rule->passes("foo");
+        $rule->passes('foo');
     }
 
     /**
@@ -84,8 +84,8 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         $falseRule = new ConditionalRule();
         $trueRule->setArgs([$trueCallback]);
         $falseRule->setArgs([$falseCallback]);
-        $this->assertTrue($trueRule->passes("foo"));
-        $this->assertTrue($falseRule->passes("foo"));
+        $this->assertTrue($trueRule->passes('foo'));
+        $this->assertTrue($falseRule->passes('foo'));
     }
 
     /**
@@ -105,7 +105,7 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $rule = new ConditionalRule();
-        $rule->setArgs(["foo"]);
+        $rule->setArgs(['foo']);
     }
 
     /**
@@ -121,9 +121,9 @@ class ConditionalRuleTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $extraRule */
         $extraRule = $this->createMock(IRule::class);
         $extraRule->expects($this->any())
-            ->method("passes")
+            ->method('passes')
             ->willReturn(false);
         $rule->addRule($extraRule);
-        $this->assertTrue($rule->passes("foo"));
+        $this->assertTrue($rule->passes('foo'));
     }
 }

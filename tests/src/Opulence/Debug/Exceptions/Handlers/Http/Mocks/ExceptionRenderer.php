@@ -17,7 +17,7 @@ use Opulence\Debug\Exceptions\Handlers\Http\ExceptionRenderer as BaseRenderer;
 class ExceptionRenderer extends BaseRenderer
 {
     /** @var string The request format */
-    private $requestFormat = "html";
+    private $requestFormat = 'html';
 
     /**
      * Sets the request format (useful for testing
@@ -42,7 +42,7 @@ class ExceptionRenderer extends BaseRenderer
      */
     protected function getProductionEnvironmentContent(Exception $ex, int $statusCode) : string
     {
-        return "Something went wrong";
+        return 'Something went wrong';
     }
 
     /**

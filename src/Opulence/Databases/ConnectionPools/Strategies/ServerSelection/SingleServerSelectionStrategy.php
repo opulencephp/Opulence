@@ -26,7 +26,7 @@ class SingleServerSelectionStrategy implements IServerSelectionStrategy
         }
 
         if (count($servers) === 0) {
-            throw new InvalidArgumentException("No servers specified");
+            throw new InvalidArgumentException('No servers specified');
         }
 
         return $servers[0];

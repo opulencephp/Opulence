@@ -30,7 +30,7 @@ class PhpCompiler implements ICompiler
 
         try {
             if (eval('?>' . $view->getContents()) === false) {
-                throw new ViewCompilerException("Invalid PHP in view");
+                throw new ViewCompilerException('Invalid PHP in view');
             }
         } catch (Exception $ex) {
             $this->handleException($ex, $obStartLevel);

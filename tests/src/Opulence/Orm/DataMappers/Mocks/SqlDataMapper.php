@@ -65,7 +65,7 @@ class SqlDataMapper extends BaseSqlDataMapper
     public function getById($id)
     {
         if (!isset($this->entities[$id])) {
-            throw new OrmException("No entity found with Id " . $id);
+            throw new OrmException('No entity found with Id ' . $id);
         }
 
         return clone $this->entities[$id];

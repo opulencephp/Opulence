@@ -160,15 +160,15 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     public function testCallingMethodWithPrimitiveTypes()
     {
         $instance = new ConstructorWithSetters();
-        $this->container->callMethod($instance, "setPrimitive", ["foo"]);
-        $this->assertSame("foo", $instance->getPrimitive());
+        $this->container->callMethod($instance, 'setPrimitive', ['foo']);
+        $this->assertSame('foo', $instance->getPrimitive());
         $result = $this->container->callClosure(
             function ($primitive) {
                 return $primitive;
             },
-            ["foo"]
+            ['foo']
         );
-        $this->assertEquals("foo", $result);
+        $this->assertEquals('foo', $result);
     }
 
     /**
@@ -178,7 +178,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(IocException::class);
         $instance = new ConstructorWithSetters();
-        $this->container->callMethod($instance, "setPrimitive");
+        $this->container->callMethod($instance, 'setPrimitive');
     }
 
     /**
@@ -188,16 +188,16 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     {
         $this->container->bindSingleton($this->fooInterface, $this->concreteFoo);
         $instance = new ConstructorWithSetters();
-        $this->container->callMethod($instance, "setBoth", ["foo"]);
+        $this->container->callMethod($instance, 'setBoth', ['foo']);
         $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
-        $this->assertSame("foo", $instance->getPrimitive());
+        $this->assertSame('foo', $instance->getPrimitive());
         $response = $this->container->callClosure(
             function (IFoo $interface, $primitive) {
-                return get_class($interface) . ":" . $primitive;
+                return get_class($interface) . ':' . $primitive;
             },
-            ["foo"]
+            ['foo']
         );
-        $this->assertEquals($this->concreteFoo . ":foo", $response);
+        $this->assertEquals($this->concreteFoo . ':foo', $response);
     }
 
     /**
@@ -207,7 +207,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     {
         $this->container->bindSingleton($this->fooInterface, $this->concreteFoo);
         $instance = new ConstructorWithSetters();
-        $this->container->callMethod($instance, "setInterface");
+        $this->container->callMethod($instance, 'setInterface');
         $this->assertInstanceOf($this->concreteFoo, $instance->getInterface());
         $response = $this->container->callClosure(
             function (IFoo $interface) {
@@ -224,7 +224,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(IocException::class);
         $instance = new ConstructorWithSetters();
-        $this->container->callMethod($instance, "foobar");
+        $this->container->callMethod($instance, 'foobar');
     }
 
     /**
@@ -233,7 +233,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     public function testCallingNonExistentMethodAndIgnoringThatItIsMissing()
     {
         $instance = new ConstructorWithSetters();
-        $this->assertNull($this->container->callMethod($instance, "foobar", [], true));
+        $this->assertNull($this->container->callMethod($instance, 'foobar', [], true));
     }
 
     /**
@@ -242,7 +242,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     public function testCallingNonExistentMethodOnClassThatHasMagicCallMethod()
     {
         $instance = new MagicCallMethod();
-        $this->assertNull($this->container->callMethod($instance, "foobar", [], true));
+        $this->assertNull($this->container->callMethod($instance, 'foobar', [], true));
     }
 
     /**
@@ -252,7 +252,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     {
         $person = new $this->concretePerson;
         $this->container->bindInstance($this->personInterface, $person);
-        $this->container->callMethod(StaticSetters::class, "setStaticSetterDependency", [$person]);
+        $this->container->callMethod(StaticSetters::class, 'setStaticSetterDependency', [$person]);
         $this->assertSame($person, StaticSetters::$staticDependency);
     }
 
@@ -387,7 +387,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingPrototypeObjectWithConstructorPrimitive()
     {
-        $this->container->bindPrototype($this->constructorWithPrimitives, null, ["foo", "bar"]);
+        $this->container->bindPrototype($this->constructorWithPrimitives, null, ['foo', 'bar']);
         $instance = $this->container->resolve($this->constructorWithPrimitives);
         $this->assertInstanceOf($this->constructorWithPrimitives, $instance);
         $this->assertNotSame($instance,
@@ -408,7 +408,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingPrototypeObjectWithUnsetConstructorPrimitiveWithDefaultValue()
     {
-        $this->container->bindPrototype($this->constructorWithDefaultValuePrimitives, null, ["foo"]);
+        $this->container->bindPrototype($this->constructorWithDefaultValuePrimitives, null, ['foo']);
         $instance = $this->container->resolve($this->constructorWithDefaultValuePrimitives);
         $this->assertInstanceOf($this->constructorWithDefaultValuePrimitives, $instance);
         $this->assertNotSame(
@@ -431,7 +431,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingSingletonInstanceWithConstructorPrimitive()
     {
-        $this->container->bindSingleton($this->constructorWithPrimitives, null, ["foo", "bar"]);
+        $this->container->bindSingleton($this->constructorWithPrimitives, null, ['foo', 'bar']);
         $instance = $this->container->resolve($this->constructorWithPrimitives);
         $this->assertInstanceOf($this->constructorWithPrimitives, $instance);
         $this->assertSame(
@@ -445,7 +445,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingSingletonInstanceWithUnsetConstructorPrimitiveWithDefaultValue()
     {
-        $this->container->bindSingleton($this->constructorWithDefaultValuePrimitives, null, ["foo"]);
+        $this->container->bindSingleton($this->constructorWithDefaultValuePrimitives, null, ['foo']);
         $instance = $this->container->resolve($this->constructorWithDefaultValuePrimitives);
         $this->assertInstanceOf($this->constructorWithDefaultValuePrimitives, $instance);
         $this->assertSame(
@@ -554,7 +554,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $instance2 = $this->container->resolve($this->baseClass);
         $this->assertNotSame($instance1, $instance2);
     }
-    
+
     /**
      * Tests that an exception is thrown when binding a factory to an invalid interface type
      */
@@ -563,7 +563,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->container->bindFactory(new stdClass(), function () { });
     }
-    
+
     /**
      * Tests that an exception is thrown when binding an instance to an invalid interface type
      */
@@ -572,7 +572,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->container->bindInstance(new stdClass(), new stdClass());
     }
-    
+
     /**
      * Tests that an exception is thrown when binding a prototype to an invalid interface type
      */
@@ -581,7 +581,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         $this->expectException(InvalidArgumentException::class);
         $this->container->bindPrototype(new stdClass(), Foo::class);
     }
-    
+
     /**
      * Tests that an exception is thrown when binding a singleton to an invalid interface type
      */
@@ -624,14 +624,14 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testMultipleTargetedBindings()
     {
-        $this->container->for("baz", function (IContainer $container) {
-            $container->bindSingleton(["foo", "bar"], $this->concreteFoo);
+        $this->container->for('baz', function (IContainer $container) {
+            $container->bindSingleton(['foo', 'bar'], $this->concreteFoo);
         });
-        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
-            return $container->hasBinding("foo");
+        $this->assertTrue($this->container->for('baz', function (IContainer $container) {
+            return $container->hasBinding('foo');
         }));
-        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
-            return $container->hasBinding("bar");
+        $this->assertTrue($this->container->for('baz', function (IContainer $container) {
+            return $container->hasBinding('bar');
         }));
     }
 
@@ -640,9 +640,9 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testMultipleUniversalBindings()
     {
-        $this->container->bindSingleton(["foo", "bar"], $this->concreteFoo);
-        $this->assertTrue($this->container->hasBinding("foo"));
-        $this->assertTrue($this->container->hasBinding("bar"));
+        $this->container->bindSingleton(['foo', 'bar'], $this->concreteFoo);
+        $this->assertTrue($this->container->hasBinding('foo'));
+        $this->assertTrue($this->container->hasBinding('bar'));
     }
 
     /**
@@ -686,7 +686,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     public function testResolvingPrototypeNonExistentClass()
     {
         $this->expectException(IocException::class);
-        $this->container->resolve("DoesNotExist");
+        $this->container->resolve('DoesNotExist');
     }
 
     /**
@@ -694,13 +694,13 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testResolvingSingletonForTarget()
     {
-        $this->container->for("foo", function (IContainer $container) {
+        $this->container->for('foo', function (IContainer $container) {
             $container->bindSingleton($this->fooInterface, $this->concreteFoo);
         });
-        $instance1 = $this->container->for("foo", function (IContainer $container) {
+        $instance1 = $this->container->for('foo', function (IContainer $container) {
             return $container->resolve($this->fooInterface);
         });
-        $instance2 = $this->container->for("foo", function (IContainer $container) {
+        $instance2 = $this->container->for('foo', function (IContainer $container) {
             return $container->resolve($this->fooInterface);
         });
         $this->assertInstanceOf($this->concreteFoo, $instance1);
@@ -711,7 +711,7 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
         try {
             $this->container->resolve($this->constructorWithIFoo);
             // The line above should throw an exception, so fail if we've gotten here
-            $this->fail("Targeted singleton accidentally bound universally");
+            $this->fail('Targeted singleton accidentally bound universally');
         } catch (IocException $ex) {
             // Don't do anything
         }
@@ -773,21 +773,21 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testTargetedFactoryBindingsOnlyApplyToNextCall()
     {
-        $this->container->for("foo", function (IContainer $container) {
+        $this->container->for('foo', function (IContainer $container) {
             $container->bindFactory($this->fooInterface, function () {
                 return new $this->concreteFoo();
             });
         });
-        $this->container->for("bar", function (IContainer $container) {
-            $container->bindFactory("doesNotExist", function () {
+        $this->container->for('bar', function (IContainer $container) {
+            $container->bindFactory('doesNotExist', function () {
                 return new $this->concreteFoo();
             });
         });
-        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertFalse($this->container->for('foo', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
-        $this->assertTrue($this->container->for("bar", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertTrue($this->container->for('bar', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
     }
 
@@ -798,17 +798,17 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     {
         $instance1 = new $this->concreteFoo();
         $instance2 = new $this->concreteFoo();
-        $this->container->for("foo", function (IContainer $container) use ($instance1) {
+        $this->container->for('foo', function (IContainer $container) use ($instance1) {
             $container->bindInstance($this->fooInterface, $instance1);
         });
-        $this->container->for("bar", function (IContainer $container) use ($instance2) {
-            $container->bindInstance("doesNotExist", $instance2);
+        $this->container->for('bar', function (IContainer $container) use ($instance2) {
+            $container->bindInstance('doesNotExist', $instance2);
         });
-        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertFalse($this->container->for('foo', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
-        $this->assertTrue($this->container->for("bar", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertTrue($this->container->for('bar', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
     }
 
@@ -817,17 +817,17 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testTargetedPrototypeBindingsOnlyApplyToNextCall()
     {
-        $this->container->for("foo", function (IContainer $container) {
-            $container->bindPrototype($this->fooInterface, "bar");
+        $this->container->for('foo', function (IContainer $container) {
+            $container->bindPrototype($this->fooInterface, 'bar');
         });
-        $this->container->for("baz", function (IContainer $container) {
-            $container->bindPrototype("doesNotExist", "bar");
+        $this->container->for('baz', function (IContainer $container) {
+            $container->bindPrototype('doesNotExist', 'bar');
         });
-        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertFalse($this->container->for('foo', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
-        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertTrue($this->container->for('baz', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
     }
 
@@ -836,17 +836,17 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testTargetedSingletonBindingsOnlyApplyToNextCall()
     {
-        $this->container->for("foo", function (IContainer $container) {
-            $container->bindSingleton($this->fooInterface, "bar");
+        $this->container->for('foo', function (IContainer $container) {
+            $container->bindSingleton($this->fooInterface, 'bar');
         });
-        $this->container->for("baz", function (IContainer $container) {
-            $container->bindSingleton("doesNotExist", "bar");
+        $this->container->for('baz', function (IContainer $container) {
+            $container->bindSingleton('doesNotExist', 'bar');
         });
-        $this->assertFalse($this->container->for("foo", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertFalse($this->container->for('foo', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
-        $this->assertTrue($this->container->for("baz", function (IContainer $container) {
-            return $container->hasBinding("doesNotExist");
+        $this->assertTrue($this->container->for('baz', function (IContainer $container) {
+            return $container->hasBinding('doesNotExist');
         }));
     }
 
@@ -867,11 +867,11 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
      */
     public function testUnbindingMultipleInterfaces()
     {
-        $this->container->bindSingleton("foo", "bar");
-        $this->container->bindSingleton("baz", "blah");
-        $this->container->unbind(["foo", "baz"]);
-        $this->assertFalse($this->container->hasBinding("foo"));
-        $this->assertFalse($this->container->hasBinding("baz"));
+        $this->container->bindSingleton('foo', 'bar');
+        $this->container->bindSingleton('baz', 'blah');
+        $this->container->unbind(['foo', 'baz']);
+        $this->assertFalse($this->container->hasBinding('foo'));
+        $this->assertFalse($this->container->hasBinding('baz'));
     }
 
     /**

@@ -28,8 +28,8 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
         $this->previousException = new Exception();
         $this->exception = new HttpException(
             404,
-            "foo",
-            ["bar" => "baz"],
+            'foo',
+            ['bar' => 'baz'],
             4,
             $this->previousException
         );
@@ -48,7 +48,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingHeaders()
     {
-        $this->assertEquals(["bar" => "baz"], $this->exception->getHeaders());
+        $this->assertEquals(['bar' => 'baz'], $this->exception->getHeaders());
     }
 
     /**
@@ -56,7 +56,7 @@ class HttpExceptionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingMessage()
     {
-        $this->assertEquals("foo", $this->exception->getMessage());
+        $this->assertEquals('foo', $this->exception->getMessage());
     }
 
     /**

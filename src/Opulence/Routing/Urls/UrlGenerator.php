@@ -45,7 +45,7 @@ class UrlGenerator
         $route = $this->routeCollection->getNamedRoute($name);
 
         if ($route === null) {
-            return "";
+            return '';
         }
 
         return $this->generateHost($route, $args) . $this->generatePath($route, $args);
@@ -72,7 +72,7 @@ class UrlGenerator
             return "#^$strippedPathRegex$#";
         }
 
-        $protocolRegex = preg_quote("http" . ($route->isSecure() ? "s" : "") . "://", "#");
+        $protocolRegex = preg_quote('http' . ($route->isSecure() ? 's' : '') . '://', '#');
         $strippedHostRegex = substr($route->getHostRegex(), 2, -2);
 
         return "#^$protocolRegex$strippedHostRegex$strippedPathRegex$#";
@@ -88,12 +88,12 @@ class UrlGenerator
      */
     private function generateHost(ParsedRoute $route, &$values) : string
     {
-        $host = "";
+        $host = '';
 
         if (!empty($route->getRawHost())) {
             $host = $this->generateUrlPart($route->getRawHost(), $route->getHostRegex(), $route->getName(), $values);
             // Prefix the URL with the protocol
-            $host = "http" . ($route->isSecure() ? "s" : "") . "://" . $host;
+            $host = 'http' . ($route->isSecure() ? 's' : '') . '://' . $host;
         }
 
         return $host;
@@ -137,7 +137,7 @@ class UrlGenerator
         }
 
         // Remove any leftover brackets or variables
-        $generatedPart = preg_replace(self::$leftoverBracketsAndVariablesRegex, "", $generatedPart);
+        $generatedPart = preg_replace(self::$leftoverBracketsAndVariablesRegex, '', $generatedPart);
 
         // Make sure what we just generated satisfies the regex
         if (!preg_match($regex, $generatedPart)) {

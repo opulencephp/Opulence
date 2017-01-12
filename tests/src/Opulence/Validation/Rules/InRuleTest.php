@@ -22,7 +22,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new InRule();
-        $this->assertEquals("in", $rule->getSlug());
+        $this->assertEquals('in', $rule->getSlug());
     }
 
     /**
@@ -31,8 +31,8 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     public function testMatchingValuesPass()
     {
         $rule = new InRule();
-        $rule->setArgs([["foo", "bar"]]);
-        $this->assertTrue($rule->passes("foo"));
+        $rule->setArgs([['foo', 'bar']]);
+        $this->assertTrue($rule->passes('foo'));
     }
 
     /**
@@ -41,8 +41,8 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     public function testNonMatchingValuesFail()
     {
         $rule = new InRule();
-        $rule->setArgs([["foo", "bar"]]);
-        $this->assertFalse($rule->passes("baz"));
+        $rule->setArgs([['foo', 'bar']]);
+        $this->assertFalse($rule->passes('baz'));
     }
 
     /**
@@ -52,7 +52,7 @@ class InRuleTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(LogicException::class);
         $rule = new InRule();
-        $rule->passes("foo");
+        $rule->passes('foo');
     }
 
     /**

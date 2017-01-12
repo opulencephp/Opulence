@@ -131,7 +131,7 @@ class Kernel
         try {
             return (new Pipeline)
                 ->send($request)
-                ->through($this->convertMiddlewareToPipelineStages($this->getMiddleware()), "handle")
+                ->through($this->convertMiddlewareToPipelineStages($this->getMiddleware()), 'handle')
                 ->then(function ($request) {
                     return $this->router->route($request);
                 })

@@ -18,7 +18,7 @@ use Opulence\Sessions\ISession;
 class CsrfTokenChecker
 {
     /** The token input name */
-    const TOKEN_INPUT_NAME = "__OPULENCE_CSRF_TOKEN";
+    const TOKEN_INPUT_NAME = '__OPULENCE_CSRF_TOKEN';
 
     /**
      * Checks if the token is valid
@@ -42,12 +42,12 @@ class CsrfTokenChecker
 
         // Try the X-CSRF header
         if ($token === null) {
-            $token = $request->getHeaders()->get("X-CSRF-TOKEN");
+            $token = $request->getHeaders()->get('X-CSRF-TOKEN');
         }
 
         // Try the X-XSRF header
         if ($token === null) {
-            $token = $request->getHeaders()->get("X-XSRF-TOKEN");
+            $token = $request->getHeaders()->get('X-XSRF-TOKEN');
         }
 
         return \hash_equals($session->get(self::TOKEN_INPUT_NAME), $token);

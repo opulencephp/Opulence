@@ -41,10 +41,10 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(InvalidArgumentException::class);
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn(null);
-        $this->roles->assignRoles(1, "foo");
+        $this->roles->assignRoles(1, 'foo');
     }
 
     /**
@@ -53,10 +53,10 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForExistingRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
-            ->willReturn(new Role(1, "foo"));
-        $this->assertTrue($this->roles->roleExists("foo"));
+            ->method('getByName')
+            ->with('foo')
+            ->willReturn(new Role(1, 'foo'));
+        $this->assertTrue($this->roles->roleExists('foo'));
     }
 
     /**
@@ -65,10 +65,10 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testCheckingForNonExistentRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn(null);
-        $this->assertFalse($this->roles->roleExists("foo"));
+        $this->assertFalse($this->roles->roleExists('foo'));
     }
 
     /**
@@ -76,11 +76,11 @@ class RolesTest extends \PHPUnit\Framework\TestCase
      */
     public function testCreatingRoleAddsToRepository()
     {
-        $role = new Role(-1, "foo");
+        $role = new Role(-1, 'foo');
         $this->roleRepository->expects($this->once())
-            ->method("add")
+            ->method('add')
             ->with($role);
-        $this->assertEquals($role, $this->roles->createRole("foo"));
+        $this->assertEquals($role, $this->roles->createRole('foo'));
     }
 
     /**
@@ -88,12 +88,12 @@ class RolesTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeletingExistingRole()
     {
-        $role = new Role(1, "foo");
+        $role = new Role(1, 'foo');
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn($role);
-        $this->roles->deleteRole("foo");
+        $this->roles->deleteRole('foo');
     }
 
     /**
@@ -102,10 +102,10 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testDeletingNonExistentRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn(null);
-        $this->roles->deleteRole("foo");
+        $this->roles->deleteRole('foo');
     }
 
     /**
@@ -114,10 +114,10 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testGettingUserIdsWithNonExistentRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn(null);
-        $this->assertEquals([], $this->roles->getSubjectIdsWithRole("foo"));
+        $this->assertEquals([], $this->roles->getSubjectIdsWithRole('foo'));
     }
 
     /**
@@ -126,18 +126,18 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testGettingUserIdsWithRole()
     {
         $memberships = [
-            new RoleMembership(1, 2, new Role(3, "foo")),
-            new RoleMembership(2, 4, new Role(3, "foo"))
+            new RoleMembership(1, 2, new Role(3, 'foo')),
+            new RoleMembership(2, 4, new Role(3, 'foo'))
         ];
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
-            ->willReturn(new Role(3, "foo"));
+            ->method('getByName')
+            ->with('foo')
+            ->willReturn(new Role(3, 'foo'));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getByRoleId")
+            ->method('getByRoleId')
             ->with(3)
             ->willReturn($memberships);
-        $this->assertEquals([2, 4], $this->roles->getSubjectIdsWithRole("foo"));
+        $this->assertEquals([2, 4], $this->roles->getSubjectIdsWithRole('foo'));
     }
 
     /**
@@ -145,16 +145,16 @@ class RolesTest extends \PHPUnit\Framework\TestCase
      */
     public function testMembershipIsAddedOnAssignment()
     {
-        $role = new Role(3, "foo");
+        $role = new Role(3, 'foo');
         $membership = new RoleMembership(-1, 2, $role);
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn($role);
         $this->roleMembershipRepository->expects($this->once())
-            ->method("add")
+            ->method('add')
             ->with($membership);
-        $this->roles->assignRoles(2, "foo");
+        $this->roles->assignRoles(2, 'foo');
     }
 
     /**
@@ -163,22 +163,22 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testRemovingAllRolesFromUser()
     {
         $memberships = [
-            new RoleMembership(1, 2, new Role(3, "foo")),
-            new RoleMembership(4, 2, new Role(5, "bar")),
-            new RoleMembership(6, 2, new Role(7, "baz"))
+            new RoleMembership(1, 2, new Role(3, 'foo')),
+            new RoleMembership(4, 2, new Role(5, 'bar')),
+            new RoleMembership(6, 2, new Role(7, 'baz'))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
-            ->method("getBySubjectId")
+            ->method('getBySubjectId')
             ->with(2)
             ->willReturn($memberships);
         $this->roleMembershipRepository->expects($this->at(1))
-            ->method("delete")
+            ->method('delete')
             ->with($memberships[0]);
         $this->roleMembershipRepository->expects($this->at(2))
-            ->method("delete")
+            ->method('delete')
             ->with($memberships[1]);
         $this->roleMembershipRepository->expects($this->at(3))
-            ->method("delete")
+            ->method('delete')
             ->with($memberships[2]);
         $this->roles->removeAllRolesFromSubject(2);
     }
@@ -189,21 +189,21 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testRemovingRolesFromUser()
     {
         $memberships = [
-            new RoleMembership(1, 2, new Role(3, "foo")),
-            new RoleMembership(4, 2, new Role(5, "bar")),
-            new RoleMembership(6, 2, new Role(7, "baz"))
+            new RoleMembership(1, 2, new Role(3, 'foo')),
+            new RoleMembership(4, 2, new Role(5, 'bar')),
+            new RoleMembership(6, 2, new Role(7, 'baz'))
         ];
         $this->roleMembershipRepository->expects($this->at(0))
-            ->method("getBySubjectId")
+            ->method('getBySubjectId')
             ->with(2)
             ->willReturn($memberships);
         $this->roleMembershipRepository->expects($this->at(1))
-            ->method("delete")
+            ->method('delete')
             ->with($memberships[0]);
         $this->roleMembershipRepository->expects($this->at(2))
-            ->method("delete")
+            ->method('delete')
             ->with($memberships[1]);
-        $this->roles->removeRolesFromSubject(2, ["foo", "bar"]);
+        $this->roles->removeRolesFromSubject(2, ['foo', 'bar']);
     }
 
     /**
@@ -212,10 +212,10 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testUserDoesNotHaveNonExistentRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
+            ->method('getByName')
+            ->with('foo')
             ->willReturn(null);
-        $this->assertFalse($this->roles->subjectHasRole(2, "foo"));
+        $this->assertFalse($this->roles->subjectHasRole(2, 'foo'));
     }
 
     /**
@@ -224,14 +224,14 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testUserDoesNotHaveRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
-            ->willReturn(new Role(3, "foo"));
+            ->method('getByName')
+            ->with('foo')
+            ->willReturn(new Role(3, 'foo'));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getBySubjectAndRoleId")
+            ->method('getBySubjectAndRoleId')
             ->with(2, 3)
             ->willReturn(null);
-        $this->assertFalse($this->roles->subjectHasRole(2, "foo"));
+        $this->assertFalse($this->roles->subjectHasRole(2, 'foo'));
     }
 
     /**
@@ -240,14 +240,14 @@ class RolesTest extends \PHPUnit\Framework\TestCase
     public function testUserHasRole()
     {
         $this->roleRepository->expects($this->once())
-            ->method("getByName")
-            ->with("foo")
-            ->willReturn(new Role(3, "foo"));
+            ->method('getByName')
+            ->with('foo')
+            ->willReturn(new Role(3, 'foo'));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getBySubjectAndRoleId")
+            ->method('getBySubjectAndRoleId')
             ->with(2, 3)
-            ->willReturn([new RoleMembership(1, 2, new Role(3, "foo"))]);
-        $this->assertTrue($this->roles->subjectHasRole(2, "foo"));
+            ->willReturn([new RoleMembership(1, 2, new Role(3, 'foo'))]);
+        $this->assertTrue($this->roles->subjectHasRole(2, 'foo'));
     }
 
     /**
@@ -255,9 +255,9 @@ class RolesTest extends \PHPUnit\Framework\TestCase
      */
     public function testUserRolesAreReturned()
     {
-        $membership = new RoleMembership(1, 2, new Role(3, "foo"));
+        $membership = new RoleMembership(1, 2, new Role(3, 'foo'));
         $this->roleMembershipRepository->expects($this->once())
-            ->method("getBySubjectId")
+            ->method('getBySubjectId')
             ->with(2)
             ->willReturn([$membership]);
         $this->assertEquals([$membership], $this->roles->getRolesForSubject(2));

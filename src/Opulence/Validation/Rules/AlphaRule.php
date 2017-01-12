@@ -18,7 +18,7 @@ class AlphaRule implements IRule
      */
     public function getSlug() : string
     {
-        return "alpha";
+        return 'alpha';
     }
 
     /**
@@ -26,6 +26,6 @@ class AlphaRule implements IRule
      */
     public function passes($value, array $allValues = []) : bool
     {
-        return ctype_alpha($value) && strpos($value, " ") === false;
+        return ctype_alpha($value) && strpos($value, ' ') === false;
     }
 }

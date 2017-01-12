@@ -38,7 +38,7 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
      */
     public function run()
     {
-        putenv("TEST_ENV_NAME=running");
+        putenv('TEST_ENV_NAME=running');
     }
 
     /**
@@ -46,6 +46,6 @@ class EnvironmentBootstrapper extends BaseBootstrapper implements ILazyBootstrap
      */
     public function shutdown()
     {
-        putenv("TEST_ENV_NAME=shutdown");
+        putenv('TEST_ENV_NAME=shutdown');
     }
 }

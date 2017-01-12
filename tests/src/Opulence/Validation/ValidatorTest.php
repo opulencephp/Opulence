@@ -68,20 +68,20 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     {
         $rules = $this->getRules();
         $rules->expects($this->exactly(2))
-            ->method("pass")
+            ->method('pass')
             ->willReturn(false);
         $rules->expects($this->exactly(2))
-            ->method("getErrors")
-            ->with("foo")
-            ->willReturn(["error 1", "error 2"]);
+            ->method('getErrors')
+            ->with('foo')
+            ->willReturn(['error 1', 'error 2']);
         $this->rulesFactory->expects($this->once())
-            ->method("createRules")
+            ->method('createRules')
             ->willReturn($rules);
-        $this->validator->field("foo");
-        $this->assertFalse($this->validator->isValid(["foo" => "bar"]));
-        $this->assertEquals(["foo" => ["error 1", "error 2"]], $this->validator->getErrors()->getAll());
-        $this->assertFalse($this->validator->isValid(["foo" => "bar"]));
-        $this->assertEquals(["foo" => ["error 1", "error 2"]], $this->validator->getErrors()->getAll());
+        $this->validator->field('foo');
+        $this->assertFalse($this->validator->isValid(['foo' => 'bar']));
+        $this->assertEquals(['foo' => ['error 1', 'error 2']], $this->validator->getErrors()->getAll());
+        $this->assertFalse($this->validator->isValid(['foo' => 'bar']));
+        $this->assertEquals(['foo' => ['error 1', 'error 2']], $this->validator->getErrors()->getAll());
     }
 
     /**
@@ -91,9 +91,9 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     {
         $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())
-            ->method("createRules")
+            ->method('createRules')
             ->willReturn($rules);
-        $this->assertSame($rules, $this->validator->field("foo"));
+        $this->assertSame($rules, $this->validator->field('foo'));
     }
 
     /**
@@ -103,23 +103,23 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     {
         $rules = $this->getRules();
         $rules->expects($this->at(0))
-            ->method("pass")
-            ->with("bar", ["baz" => "blah"])
+            ->method('pass')
+            ->with('bar', ['baz' => 'blah'])
             ->willReturn(true);
         $rules->expects($this->at(1))
-            ->method("pass")
-            ->with("dave", ["is" => "awesome"])
+            ->method('pass')
+            ->with('dave', ['is' => 'awesome'])
             ->willReturn(false);
         $this->rulesFactory->expects($this->exactly(2))
-            ->method("createRules")
+            ->method('createRules')
             ->willReturn($rules);
         $this->assertTrue(
-            $this->validator->field("foo")
-                ->pass("bar", ["baz" => "blah"])
+            $this->validator->field('foo')
+                ->pass('bar', ['baz' => 'blah'])
         );
         $this->assertFalse(
-            $this->validator->field("bar")
-                ->pass("dave", ["is" => "awesome"])
+            $this->validator->field('bar')
+                ->pass('dave', ['is' => 'awesome'])
         );
     }
 
@@ -130,10 +130,10 @@ class ValidatorTest extends \PHPUnit\Framework\TestCase
     {
         $rules = $this->getRules();
         $this->rulesFactory->expects($this->once())
-            ->method("createRules")
+            ->method('createRules')
             ->willReturn($rules);
-        $this->assertSame($rules, $this->validator->field("foo"));
-        $this->assertSame($rules, $this->validator->field("foo"));
+        $this->assertSame($rules, $this->validator->field('foo'));
+        $this->assertSame($rules, $this->validator->field('foo'));
     }
 
     /**

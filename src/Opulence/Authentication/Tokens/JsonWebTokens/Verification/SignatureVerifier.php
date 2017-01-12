@@ -34,7 +34,7 @@ class SignatureVerifier implements IVerifier
     {
         $signature = $jwt->getSignature();
 
-        if ($signature === "") {
+        if ($signature === '') {
             $error = JwtErrorTypes::SIGNATURE_INCORRECT;
 
             return false;

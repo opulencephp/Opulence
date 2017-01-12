@@ -66,8 +66,8 @@ class BootstrapperRegistry implements IBootstrapperRegistry
             }
 
             $this->bindingsToLazyBootstrapperClasses[$boundClass] = [
-                "bootstrapper" => $lazyBootstrapperClass,
-                "target" => $targetClass
+                'bootstrapper' => $lazyBootstrapperClass,
+                'target' => $targetClass
             ];
         }
     }

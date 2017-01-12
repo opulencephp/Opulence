@@ -20,8 +20,8 @@ class NotInConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSqlForNotInConditionWithParameters()
     {
-        $condition = new NotInCondition("foo", [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
-        $this->assertEquals("foo NOT IN (?,?,?)", $condition->getSql());
+        $condition = new NotInCondition('foo', [[1, PDO::PARAM_INT], [2, PDO::PARAM_INT], [3, PDO::PARAM_INT]]);
+        $this->assertEquals('foo NOT IN (?,?,?)', $condition->getSql());
     }
 
     /**
@@ -29,7 +29,7 @@ class NotInConditionTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingSqlForNotInConditionWithSubExpression()
     {
-        $condition = new NotInCondition("foo", "SELECT bar FROM baz");
-        $this->assertEquals("foo NOT IN (SELECT bar FROM baz)", $condition->getSql());
+        $condition = new NotInCondition('foo', 'SELECT bar FROM baz');
+        $this->assertEquals('foo NOT IN (SELECT bar FROM baz)', $condition->getSql());
     }
 }

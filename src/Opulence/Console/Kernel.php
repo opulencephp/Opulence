@@ -39,7 +39,7 @@ class Kernel
     /** @var CommandCollection The list of commands to choose from */
     private $commandCollection = null;
     /** @var string The version number of the application */
-    private $applicationVersion = "Unknown";
+    private $applicationVersion = 'Unknown';
 
     /**
      * @param IParser $requestParser The request parser to use
@@ -51,7 +51,7 @@ class Kernel
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
         CommandCollection &$commandCollection,
-        string $applicationVersion = "Unknown"
+        string $applicationVersion = 'Unknown'
     ) {
         $this->requestParser = $requestParser;
         $this->commandCompiler = $commandCompiler;
@@ -125,18 +125,18 @@ class Kernel
         $helpCommand = new HelpCommand(new CommandFormatter(), new PaddingFormatter());
         $commandName = null;
 
-        if ($request->getCommandName() === "help") {
+        if ($request->getCommandName() === 'help') {
             $compiledHelpCommand = $this->commandCompiler->compile($helpCommand, $request);
 
-            if ($compiledHelpCommand->argumentValueIsSet("command")) {
-                $commandName = $compiledHelpCommand->getArgumentValue("command");
+            if ($compiledHelpCommand->argumentValueIsSet('command')) {
+                $commandName = $compiledHelpCommand->getArgumentValue('command');
             }
         } else {
             $commandName = $request->getCommandName();
         }
 
         // Set the command only if it was passed as an argument to the help command
-        if ($commandName !== null && $commandName !== "") {
+        if ($commandName !== null && $commandName !== '') {
             if (!$this->commandCollection->has($commandName)) {
                 throw new InvalidArgumentException("No command with name \"$commandName\" exists");
             }
@@ -156,7 +156,7 @@ class Kernel
      */
     private function isInvokingHelpCommand(IRequest $request) : bool
     {
-        return $request->getCommandName() === "help" || $request->optionIsSet("h") || $request->optionIsSet("help");
+        return $request->getCommandName() === 'help' || $request->optionIsSet('h') || $request->optionIsSet('help');
     }
 
     /**
@@ -167,6 +167,6 @@ class Kernel
      */
     private function isInvokingVersionCommand(IRequest $request) : bool
     {
-        return $request->optionIsSet("v") || $request->optionIsSet("version");
+        return $request->optionIsSet('v') || $request->optionIsSet('version');
     }
 }

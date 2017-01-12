@@ -21,7 +21,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
      */
     public function setUp()
     {
-        $this->parameters = new MiddlewareParameters("foo", ["bar" => "baz"]);
+        $this->parameters = new MiddlewareParameters('foo', ['bar' => 'baz']);
     }
 
     /**
@@ -29,7 +29,7 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingMiddlewareClassName()
     {
-        $this->assertEquals("foo", $this->parameters->getMiddlewareClassName());
+        $this->assertEquals('foo', $this->parameters->getMiddlewareClassName());
     }
 
     /**
@@ -37,6 +37,6 @@ class MiddlewareParametersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingParameters()
     {
-        $this->assertEquals(["bar" => "baz"], $this->parameters->getParameters());
+        $this->assertEquals(['bar' => 'baz'], $this->parameters->getParameters());
     }
 }

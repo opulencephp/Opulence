@@ -25,7 +25,7 @@ class HeaderSetter implements IMiddleware
     {
         /** @var Response $response */
         $response = $next($request);
-        $response->getHeaders()->add("foo", "bar");
+        $response->getHeaders()->add('foo', 'bar');
 
         return $response;
     }

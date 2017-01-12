@@ -24,7 +24,7 @@ class NotInRule implements IRuleWithArgs
      */
     public function getSlug() : string
     {
-        return "notIn";
+        return 'notIn';
     }
 
     /**
@@ -33,7 +33,7 @@ class NotInRule implements IRuleWithArgs
     public function passes($value, array $allValues = []) : bool
     {
         if ($this->array === null) {
-            throw new LogicException("Array not set");
+            throw new LogicException('Array not set');
         }
 
         return !in_array($value, $this->array);
@@ -45,7 +45,7 @@ class NotInRule implements IRuleWithArgs
     public function setArgs(array $args)
     {
         if (count($args) !== 1 || !is_array($args[0])) {
-            throw new InvalidArgumentException("Must pass a list of values");
+            throw new InvalidArgumentException('Must pass a list of values');
         }
 
         $this->array = $args[0];

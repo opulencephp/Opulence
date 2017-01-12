@@ -21,8 +21,8 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     public function testEqualValuesPass()
     {
         $rule = new EqualsRule();
-        $rule->setArgs(["foo"]);
-        $this->assertTrue($rule->passes("foo"));
+        $rule->setArgs(['foo']);
+        $this->assertTrue($rule->passes('foo'));
     }
 
     /**
@@ -31,7 +31,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     public function testGettingSlug()
     {
         $rule = new EqualsRule();
-        $this->assertEquals("equals", $rule->getSlug());
+        $this->assertEquals('equals', $rule->getSlug());
     }
 
     /**
@@ -50,7 +50,7 @@ class EqualsRuleTest extends \PHPUnit\Framework\TestCase
     public function testUnequalValuesFail()
     {
         $rule = new EqualsRule();
-        $rule->setArgs(["foo"]);
-        $this->assertFalse($rule->passes("bar"));
+        $rule->setArgs(['foo']);
+        $this->assertFalse($rule->passes('bar'));
     }
 }

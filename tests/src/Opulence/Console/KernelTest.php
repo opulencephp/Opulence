@@ -42,7 +42,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         $this->compiler = new CommandCompiler();
         $this->commands = new CommandCollection($this->compiler);
-        $this->commands->add(new SimpleCommand("mockcommand", "Mocks a command"));
+        $this->commands->add(new SimpleCommand('mockcommand', 'Mocks a command'));
         $this->commands->add(new HappyHolidayCommand($this->commands));
         $this->parser = new StringParser(new StringTokenizer());
         $this->response = new Response(new ResponseCompiler(new Lexer(), new Parser()));
@@ -50,7 +50,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
             $this->parser,
             $this->compiler,
             $this->commands,
-            "0.0.0"
+            '0.0.0'
         );
     }
 
@@ -72,25 +72,25 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         // Try with command name
         ob_start();
-        $status = $this->kernel->handle("help holiday", $this->response);
+        $status = $this->kernel->handle('help holiday', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with command name with no argument
         ob_start();
-        $status = $this->kernel->handle("help", $this->response);
+        $status = $this->kernel->handle('help', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with short name
         ob_start();
-        $status = $this->kernel->handle("holiday -h", $this->response);
+        $status = $this->kernel->handle('holiday -h', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with long name
         ob_start();
-        $status = $this->kernel->handle("holiday --help", $this->response);
+        $status = $this->kernel->handle('holiday --help', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }
@@ -101,7 +101,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testHandlingHelpCommandWithNonExistentCommand()
     {
         ob_start();
-        $status = $this->kernel->handle("help fake", $this->response);
+        $status = $this->kernel->handle('help fake', $this->response);
         ob_end_clean();
         $this->assertEquals(StatusCodes::ERROR, $status);
     }
@@ -113,14 +113,14 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         // Test with short option
         ob_start();
-        $status = $this->kernel->handle("holiday birthday -y", $this->response);
-        $this->assertEquals("Happy birthday!", ob_get_clean());
+        $status = $this->kernel->handle('holiday birthday -y', $this->response);
+        $this->assertEquals('Happy birthday!', ob_get_clean());
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Test with long option
         ob_start();
-        $status = $this->kernel->handle("holiday Easter --yell=no", $this->response);
-        $this->assertEquals("Happy Easter", ob_get_clean());
+        $status = $this->kernel->handle('holiday Easter --yell=no', $this->response);
+        $this->assertEquals('Happy Easter', ob_get_clean());
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
@@ -130,7 +130,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testHandlingMissingCommand()
     {
         ob_start();
-        $status = $this->kernel->handle("fake", $this->response);
+        $status = $this->kernel->handle('fake', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }
@@ -141,8 +141,8 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testHandlingSimpleCommand()
     {
         ob_start();
-        $status = $this->kernel->handle("mockcommand", $this->response);
-        $this->assertEquals("foo", ob_get_clean());
+        $status = $this->kernel->handle('mockcommand', $this->response);
+        $this->assertEquals('foo', ob_get_clean());
         $this->assertEquals(StatusCodes::OK, $status);
     }
 
@@ -153,13 +153,13 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         // Try with short name
         ob_start();
-        $status = $this->kernel->handle("-v", $this->response);
+        $status = $this->kernel->handle('-v', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
 
         // Try with long name
         ob_start();
-        $status = $this->kernel->handle("--version", $this->response);
+        $status = $this->kernel->handle('--version', $this->response);
         ob_get_clean();
         $this->assertEquals(StatusCodes::OK, $status);
     }

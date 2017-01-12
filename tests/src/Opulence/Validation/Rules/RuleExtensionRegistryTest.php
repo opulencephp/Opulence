@@ -35,9 +35,9 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
             return true;
         };
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
-        $this->registry->registerRuleExtension($rule, "foo");
-        $this->assertInstanceOf(CallbackRule::class, $this->registry->getRule("foo"));
-        $this->assertTrue($this->registry->getRule("foo")->passes("bar"));
+        $this->registry->registerRuleExtension($rule, 'foo');
+        $this->assertInstanceOf(CallbackRule::class, $this->registry->getRule('foo'));
+        $this->assertTrue($this->registry->getRule('foo')->passes('bar'));
     }
 
     /**
@@ -48,11 +48,11 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
-            ->method("getSlug")
-            ->willReturn("foo");
+            ->method('getSlug')
+            ->willReturn('foo');
         $this->registry->registerRuleExtension($rule);
-        $this->assertTrue($this->registry->hasRule("foo"));
-        $this->assertFalse($this->registry->hasRule("bar"));
+        $this->assertTrue($this->registry->hasRule('foo'));
+        $this->assertFalse($this->registry->hasRule('bar'));
     }
 
     /**
@@ -61,7 +61,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenNoExtensionExists()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->registry->getRule("foo");
+        $this->registry->getRule('foo');
     }
 
     /**
@@ -70,7 +70,7 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenRegisteringAnInvalidRule()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->registry->registerRuleExtension("foo", "bar");
+        $this->registry->registerRuleExtension('foo', 'bar');
     }
 
     /**
@@ -81,10 +81,10 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
-            ->method("getSlug")
-            ->willReturn("foo");
+            ->method('getSlug')
+            ->willReturn('foo');
         $this->registry->registerRuleExtension($rule);
-        $this->assertSame($rule, $this->registry->getRule("foo"));
+        $this->assertSame($rule, $this->registry->getRule('foo'));
     }
 
     /**
@@ -95,9 +95,9 @@ class RuleExtensionRegistryTest extends \PHPUnit\Framework\TestCase
         /** @var IRule|\PHPUnit_Framework_MockObject_MockObject $rule */
         $rule = $this->createMock(IRule::class);
         $rule->expects($this->once())
-            ->method("getSlug")
-            ->willReturn("foo");
-        $this->registry->registerRuleExtension($rule, "bar");
-        $this->assertTrue($this->registry->hasRule("foo"));
+            ->method('getSlug')
+            ->willReturn('foo');
+        $this->registry->registerRuleExtension($rule, 'bar');
+        $this->assertTrue($this->registry->hasRule('foo'));
     }
 }

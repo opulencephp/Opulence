@@ -26,7 +26,7 @@ EOF;
     /** @var PaddingFormatter The space padding formatter to use */
     private $paddingFormatter = null;
     /** @var string The version number of the application */
-    private $applicationVersion = "Unknown";
+    private $applicationVersion = 'Unknown';
 
     /**
      * @param CommandCollection $commands The list of commands
@@ -50,8 +50,8 @@ EOF;
      */
     protected function define()
     {
-        $this->setName("about")
-            ->setDescription("Describes the Apex console application");
+        $this->setName('about')
+            ->setDescription('Describes the Apex console application');
     }
 
     /**
@@ -61,8 +61,8 @@ EOF;
     {
         // Compile the template
         $compiledTemplate = self::$template;
-        $compiledTemplate = str_replace("{{commands}}", $this->getCommandText(), $compiledTemplate);
-        $compiledTemplate = str_replace("{{version}}", $this->applicationVersion, $compiledTemplate);
+        $compiledTemplate = str_replace('{{commands}}', $this->getCommandText(), $compiledTemplate);
+        $compiledTemplate = str_replace('{{version}}', $this->applicationVersion, $compiledTemplate);
 
         $response->writeln($compiledTemplate);
     }
@@ -75,7 +75,7 @@ EOF;
     private function getCommandText() : string
     {
         if (count($this->commandCollection->getAll()) === 0) {
-            return "  <info>No commands</info>";
+            return '  <info>No commands</info>';
         }
 
         /**
@@ -87,8 +87,8 @@ EOF;
          * @return int The result of the comparison
          */
         $sort = function ($a, $b) {
-            if (strpos($a->getName(), ":") === false) {
-                if (strpos($b->getName(), ":") === false) {
+            if (strpos($a->getName(), ':') === false) {
+                if (strpos($b->getName(), ':') === false) {
                     // They're both uncategorized
                     return $a->getName() < $b->getName() ? -1 : 1;
                 } else {
@@ -96,7 +96,7 @@ EOF;
                     return -1;
                 }
             } else {
-                if (strpos($b->getName(), ":") === false) {
+                if (strpos($b->getName(), ':') === false) {
                     // A is categorized
                     return 1;
                 } else {
@@ -113,7 +113,7 @@ EOF;
         $firstCommandNamesToCategories = [];
 
         foreach ($commands as $command) {
-            $commandNameParts = explode(":", $command->getName());
+            $commandNameParts = explode(':', $command->getName());
 
             if (count($commandNameParts) > 1 && !in_array($commandNameParts[0], $firstCommandNamesToCategories)) {
                 $categorizedCommandNames[] = $command->getName();
@@ -129,7 +129,7 @@ EOF;
 
         return $this->paddingFormatter->format($commandTexts,
             function ($row) use ($categorizedCommandNames, $firstCommandNamesToCategories) {
-                $output = "";
+                $output = '';
 
                 // If this is the first command of its category, display the category
                 if (in_array(trim($row[0]),

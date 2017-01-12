@@ -22,7 +22,7 @@ use SessionHandlerInterface;
 abstract class Session implements IMiddleware
 {
     /** The key of the previous URL */
-    const PREVIOUS_URL_KEY = "__opulence_previous_url";
+    const PREVIOUS_URL_KEY = '__opulence_previous_url';
 
     /** @var ISession The session used by the application */
     protected $session = null;

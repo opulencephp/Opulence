@@ -14,13 +14,13 @@ namespace Opulence\Console\Responses\Compilers\Lexers\Tokens;
 class TokenTypes
 {
     /** Defines an unknown token type */
-    const T_UNKNOWN = "T_UNKNOWN";
+    const T_UNKNOWN = 'T_UNKNOWN';
     /** Defines an end of file token type */
-    const T_EOF = "T_EOF";
+    const T_EOF = 'T_EOF';
     /** Defines a word token type */
-    const T_WORD = "T_WORD";
+    const T_WORD = 'T_WORD';
     /** Defines an open tag token type */
-    const T_TAG_OPEN = "T_TAG_OPEN";
+    const T_TAG_OPEN = 'T_TAG_OPEN';
     /** Defines a close tag token type */
-    const T_TAG_CLOSE = "T_TAG_CLOSE";
+    const T_TAG_CLOSE = 'T_TAG_CLOSE';
 }

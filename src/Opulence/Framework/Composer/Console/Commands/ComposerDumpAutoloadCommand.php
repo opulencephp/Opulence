@@ -35,8 +35,8 @@ class ComposerDumpAutoloadCommand extends Command
      */
     protected function define()
     {
-        $this->setName("composer:dump-autoload")
-            ->setDescription("Dumps the Composer autoload");
+        $this->setName('composer:dump-autoload')
+            ->setDescription('Dumps the Composer autoload');
     }
 
     /**
@@ -44,6 +44,6 @@ class ComposerDumpAutoloadCommand extends Command
      */
     protected function doExecute(IResponse $response)
     {
-        $response->write($this->executable->dumpAutoload("-o"));
+        $response->write($this->executable->dumpAutoload('-o'));
     }
 }

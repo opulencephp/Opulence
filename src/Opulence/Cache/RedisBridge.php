@@ -18,16 +18,16 @@ class RedisBridge implements ICacheBridge
     /** @var Redis The Redis driver */
     protected $redis = null;
     /** @var string The name of the client to connect to */
-    protected $clientName = "default";
+    protected $clientName = 'default';
     /** @var string The prefix to use on all keys */
-    protected $keyPrefix = "";
+    protected $keyPrefix = '';
 
     /**
      * @param Redis $redis The Redis driver
      * @param string $clientName The name of the client to connect to
      * @param string $keyPrefix The prefix to use on all keys
      */
-    public function __construct(Redis $redis, string $clientName = "default", string $keyPrefix = "")
+    public function __construct(Redis $redis, string $clientName = 'default', string $keyPrefix = '')
     {
         $this->redis = $redis;
         $this->clientName = $clientName;

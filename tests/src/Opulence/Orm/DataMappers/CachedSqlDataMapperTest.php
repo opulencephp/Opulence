@@ -40,10 +40,10 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
             return $user->getId();
         });
         $this->dataMapper = new CachedSqlDataMapper(null, null, $idAccessorRegistry);
-        $this->entity1 = new User(123, "foo");
-        $this->entity2 = new User(456, "bar");
-        $this->entity3 = new User(789, "baz");
-        $this->entity4 = new User(101, "blah");
+        $this->entity1 = new User(123, 'foo');
+        $this->entity2 = new User(456, 'bar');
+        $this->entity3 = new User(789, 'baz');
+        $this->entity4 = new User(101, 'blah');
     }
 
     /**
@@ -119,16 +119,16 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
         $this->dataMapper->getSqlDataMapper()->add($this->entity3);
         // Add an entity with slightly different data to see if it gets updated with the refresh call
         $differentEntity = clone $this->entity3;
-        $differentEntity->setUsername("differentName");
+        $differentEntity->setUsername('differentName');
         $this->dataMapper->getCacheDataMapper()->add($differentEntity);
         // This entity is ONLY in cache
         $this->dataMapper->getCacheDataMapper()->add($this->entity4);
         // This should synchronize cache and SQL
         $unsyncedEntities = $this->dataMapper->getUnsyncedEntities();
         $this->assertEquals([
-            "missing" => [$this->entity2],
-            "differing" => [$this->entity3],
-            "additional" => [$this->entity4]
+            'missing' => [$this->entity2],
+            'differing' => [$this->entity3],
+            'additional' => [$this->entity4]
         ], $unsyncedEntities);
         // This should be the exact same instance because it was already in sync
         $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
@@ -154,16 +154,16 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
         $this->dataMapper->getSqlDataMapper()->add($this->entity3);
         // Add an entity with slightly different data to see if it gets updated with the refresh call
         $differentEntity = clone $this->entity3;
-        $differentEntity->setUsername("differentName");
+        $differentEntity->setUsername('differentName');
         $this->dataMapper->getCacheDataMapper()->add($differentEntity);
         // This entity is ONLY in cache
         $this->dataMapper->getCacheDataMapper()->add($this->entity4);
         // This should synchronize cache and SQL
         $unsyncedEntities = $this->dataMapper->refreshCache();
         $this->assertEquals([
-            "missing" => [$this->entity2],
-            "differing" => [$this->entity3],
-            "additional" => [$this->entity4]
+            'missing' => [$this->entity2],
+            'differing' => [$this->entity3],
+            'additional' => [$this->entity4]
         ], $unsyncedEntities);
         // This should be the exact same instance because it was already in sync
         $this->assertSame($this->entity1, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));
@@ -206,7 +206,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
     {
         $this->dataMapper->getSqlDataMapper()->add($this->entity1);
         $this->dataMapper->getCacheDataMapper()->add($this->entity1);
-        $this->entity1->setUsername("bar");
+        $this->entity1->setUsername('bar');
         $this->dataMapper->update($this->entity1);
         $this->dataMapper->commit();
         $this->assertEquals($this->entity1, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
@@ -225,7 +225,7 @@ class CachedSqlDataMapperTest extends \PHPUnit\Framework\TestCase
          * referenced by the mock data mappers
          */
         $entityClone = clone $this->entity1;
-        $entityClone->setUsername("bar");
+        $entityClone->setUsername('bar');
         $this->dataMapper->update($entityClone);
         $this->assertEquals($entityClone, $this->dataMapper->getSqlDataMapper()->getById($this->entity1->getId()));
         $this->assertNotEquals($entityClone, $this->dataMapper->getCacheDataMapper()->getById($this->entity1->getId()));

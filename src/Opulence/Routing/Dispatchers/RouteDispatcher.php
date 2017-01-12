@@ -119,8 +119,8 @@ class RouteDispatcher implements IRouteDispatcher
         } catch (Exception $ex) {
             throw new RouteException(
                 sprintf(
-                    "Reflection failed for %s: %s",
-                    $route->usesCallable() ? "closure" : "{$route->getControllerName()}::{$route->getControllerMethod()}",
+                    'Reflection failed for %s: %s',
+                    $route->usesCallable() ? 'closure' : "{$route->getControllerName()}::{$route->getControllerMethod()}",
                     $ex
                 ),
                 0,

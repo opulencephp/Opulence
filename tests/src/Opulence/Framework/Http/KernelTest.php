@@ -52,11 +52,11 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         // Test a single middleware
-        $kernel->addMiddleware("foo");
-        $this->assertEquals(["foo"], $kernel->getMiddleware());
+        $kernel->addMiddleware('foo');
+        $this->assertEquals(['foo'], $kernel->getMiddleware());
         // Test multiple middleware
-        $kernel->addMiddleware(["bar", "baz"]);
-        $this->assertEquals(["foo", "bar", "baz"], $kernel->getMiddleware());
+        $kernel->addMiddleware(['bar', 'baz']);
+        $this->assertEquals(['foo', 'bar', 'baz'], $kernel->getMiddleware());
     }
 
     /**
@@ -65,7 +65,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testDisablingAllMiddleware()
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
-        $kernel->addMiddleware("foo");
+        $kernel->addMiddleware('foo');
         $kernel->disableAllMiddleware();
         $this->assertEquals([], $kernel->getMiddleware());
     }
@@ -76,17 +76,17 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testDisablingCertainMiddleware()
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
-        $parameterizedMiddleware = new MiddlewareParameters("parameterized", []);
+        $parameterizedMiddleware = new MiddlewareParameters('parameterized', []);
         $middlewareObject = new HeaderSetter();
-        $kernel->addMiddleware("foo");
+        $kernel->addMiddleware('foo');
         $kernel->addMiddleware($parameterizedMiddleware);
         $kernel->addMiddleware($middlewareObject);
-        $kernel->onlyDisableMiddleware(["foo"]);
+        $kernel->onlyDisableMiddleware(['foo']);
         $this->assertEquals([$parameterizedMiddleware, $middlewareObject], $kernel->getMiddleware());
-        $kernel->onlyDisableMiddleware(["parameterized"]);
-        $this->assertEquals(["foo", $middlewareObject], $kernel->getMiddleware());
+        $kernel->onlyDisableMiddleware(['parameterized']);
+        $this->assertEquals(['foo', $middlewareObject], $kernel->getMiddleware());
         $kernel->onlyDisableMiddleware([get_class($middlewareObject)]);
-        $this->assertEquals(["foo", $parameterizedMiddleware], $kernel->getMiddleware());
+        $this->assertEquals(['foo', $parameterizedMiddleware], $kernel->getMiddleware());
     }
 
     /**
@@ -95,10 +95,10 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testEnablingCertainMiddleware()
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
-        $kernel->addMiddleware("foo");
-        $kernel->addMiddleware("bar");
-        $kernel->onlyEnableMiddleware(["foo"]);
-        $this->assertEquals(["foo"], $kernel->getMiddleware());
+        $kernel->addMiddleware('foo');
+        $kernel->addMiddleware('bar');
+        $kernel->onlyEnableMiddleware(['foo']);
+        $this->assertEquals(['foo'], $kernel->getMiddleware());
     }
 
     /**
@@ -108,8 +108,8 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
         $this->assertEquals([], $kernel->getMiddleware());
-        $kernel->addMiddleware("foo");
-        $this->assertEquals(["foo"], $kernel->getMiddleware());
+        $kernel->addMiddleware('foo');
+        $this->assertEquals(['foo'], $kernel->getMiddleware());
     }
 
     /**
@@ -144,7 +144,7 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $kernel->addMiddleware(HeaderSetter::class);
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
-        $this->assertEquals("bar", $response->getHeaders()->get("foo"));
+        $this->assertEquals('bar', $response->getHeaders()->get('foo'));
     }
 
     /**
@@ -153,10 +153,10 @@ class KernelTest extends \PHPUnit\Framework\TestCase
     public function testHandlingWithParameterizedMiddleware()
     {
         $kernel = $this->getKernel(RequestMethods::GET, false);
-        $kernel->addMiddleware(ParameterizedMiddleware::withParameters(["foo" => "bar"]));
+        $kernel->addMiddleware(ParameterizedMiddleware::withParameters(['foo' => 'bar']));
         $request = Request::createFromGlobals();
         $response = $kernel->handle($request);
-        $this->assertEquals("middleware", $response->getHeaders()->get("parameterized"));
+        $this->assertEquals('middleware', $response->getHeaders()->get('parameterized'));
     }
 
     /**
@@ -173,21 +173,21 @@ class KernelTest extends \PHPUnit\Framework\TestCase
         $compiledRoute = $this->getMockBuilder(CompiledRoute::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $compiledRoute->expects($this->any())->method("isMatch")->willReturn(true);
-        $compiledRoute->expects($this->any())->method("getControllerName")->willReturn(Controller::class);
-        $compiledRoute->expects($this->any())->method("getControllerMethod")->willReturn("noParameters");
-        $compiledRoute->expects($this->any())->method("getMiddleware")->willReturn([]);
-        $compiledRoute->expects($this->any())->method("getPathVars")->willReturn([]);
+        $compiledRoute->expects($this->any())->method('isMatch')->willReturn(true);
+        $compiledRoute->expects($this->any())->method('getControllerName')->willReturn(Controller::class);
+        $compiledRoute->expects($this->any())->method('getControllerMethod')->willReturn('noParameters');
+        $compiledRoute->expects($this->any())->method('getMiddleware')->willReturn([]);
+        $compiledRoute->expects($this->any())->method('getPathVars')->willReturn([]);
         $parsedRoute = $this->getMockBuilder(ParsedRoute::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $parsedRoute->expects($this->any())->method("getMethods")->willReturn([$method]);
+        $parsedRoute->expects($this->any())->method('getMethods')->willReturn([$method]);
         /** @var IParser|\PHPUnit_Framework_MockObject_MockObject $routeParser */
         $routeParser = $this->createMock(IParser::class);
-        $routeParser->expects($this->any())->method("parse")->willReturn($parsedRoute);
+        $routeParser->expects($this->any())->method('parse')->willReturn($parsedRoute);
         /** @var ICompiler|\PHPUnit_Framework_MockObject_MockObject $routeCompiler */
         $routeCompiler = $this->createMock(ICompiler::class);
-        $routeCompiler->expects($this->any())->method("compile")->willReturn($compiledRoute);
+        $routeCompiler->expects($this->any())->method('compile')->willReturn($compiledRoute);
 
         if ($shouldThrowException) {
             $router = new ExceptionalRouter(
@@ -203,13 +203,13 @@ class KernelTest extends \PHPUnit\Framework\TestCase
             );
         }
 
-        $router->any("/", Controller::class . "@noParameters");
+        $router->any('/', Controller::class . '@noParameters');
         /** @var LoggerInterface|\PHPUnit_Framework_MockObject_MockObject $logger */
         $logger = $this->createMock(LoggerInterface::class);
         /** @var IExceptionRenderer|\PHPUnit_Framework_MockObject_MockObject $exceptionRenderer */
         $exceptionRenderer = $this->createMock(IExceptionRenderer::class);
         $exceptionRenderer->expects($this->any())
-            ->method("getResponse")
+            ->method('getResponse')
             ->willReturn($this->createMock(Response::class));
         $exceptionHandler = new ExceptionHandler($logger, $exceptionRenderer);
 

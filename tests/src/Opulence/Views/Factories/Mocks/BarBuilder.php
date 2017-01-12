@@ -21,7 +21,7 @@ class BarBuilder implements IViewBuilder
      */
     public function build(IView $view) : IView
     {
-        $view->setVar("bar", "baz");
+        $view->setVar('bar', 'baz');
 
         return $view;
     }

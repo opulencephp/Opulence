@@ -21,7 +21,7 @@ class FooBuilder implements IViewBuilder
      */
     public function build(IView $view) : IView
     {
-        $view->setVar("foo", "bar");
+        $view->setVar('foo', 'bar');
 
         return $view;
     }

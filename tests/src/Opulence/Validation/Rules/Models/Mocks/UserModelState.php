@@ -23,9 +23,9 @@ class UserModelState extends ModelState
     protected function getModelProperties($model) : array
     {
         return [
-            "id" => $model->getId(),
-            "email" => $model->getEmail(),
-            "name" => $model->getName()
+            'id' => $model->getId(),
+            'email' => $model->getEmail(),
+            'name' => $model->getName()
         ];
     }
 
@@ -34,11 +34,11 @@ class UserModelState extends ModelState
      */
     protected function registerFields(IValidator $validator)
     {
-        $validator->field("id")
+        $validator->field('id')
             ->integer();
-        $validator->field("name")
+        $validator->field('name')
             ->required();
-        $validator->field("email")
+        $validator->field('email')
             ->email();
     }
 }

@@ -28,17 +28,17 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
         mkdir($tmpDir);
         mkdir($tmpSubDir);
         $files = [
-            "a.php",
-            "b.php",
-            "a.fortune",
-            "b.fortune",
-            "a.fortune.php",
-            "b.fortune.php"
+            'a.php',
+            'b.php',
+            'a.fortune',
+            'b.fortune',
+            'a.fortune.php',
+            'b.fortune.php'
         ];
 
         foreach ($files as $file) {
-            file_put_contents($tmpDir . "/" . $file, $file);
-            file_put_contents($tmpSubDir . "/" . $file, $file);
+            file_put_contents($tmpDir . '/' . $file, $file);
+            file_put_contents($tmpSubDir . '/' . $file, $file);
         }
     }
 
@@ -47,11 +47,11 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public static function tearDownAfterClass()
     {
-        $files = glob(self::getTmpFilePath() . "/*");
+        $files = glob(self::getTmpFilePath() . '/*');
 
         foreach ($files as $file) {
             if (is_dir($file)) {
-                $subDirFiles = glob($file . "/*");
+                $subDirFiles = glob($file . '/*');
 
                 foreach ($subDirFiles as $subDirFile) {
                     unlink($subDirFile);
@@ -73,7 +73,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     private static function getTmpFilePath()
     {
-        return __DIR__ . "/tmp";
+        return __DIR__ . '/tmp';
     }
 
     /**
@@ -83,7 +83,7 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     private static function getTmpFileSubDirPath()
     {
-        return __DIR__ . "/tmp/sub";
+        return __DIR__ . '/tmp/sub';
     }
 
     /**
@@ -99,9 +99,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testAppendedSlashesAreStrippedFromPaths()
     {
-        $this->resolver->registerExtension("php");
-        $this->resolver->registerPath(self::getTmpFilePath() . "/");
-        $this->assertEquals(self::getTmpFilePath() . "/a.php", $this->resolver->resolve("a"));
+        $this->resolver->registerExtension('php');
+        $this->resolver->registerPath(self::getTmpFilePath() . '/');
+        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -110,9 +110,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
     public function testExceptionThrownWhenNoViewFound()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->resolver->registerExtension("php");
+        $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->resolver->resolve("doesNotExist");
+        $this->resolver->resolve('doesNotExist');
     }
 
     /**
@@ -120,9 +120,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testPrependedDotsAreStrippedFromExtensions()
     {
-        $this->resolver->registerExtension(".php");
+        $this->resolver->registerExtension('.php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . "/a.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -130,11 +130,11 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringNonPriorityExtension()
     {
-        $this->resolver->registerExtension("php");
+        $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . "/a.php", $this->resolver->resolve("a"));
-        $this->resolver->registerExtension("fortune");
-        $this->assertEquals(self::getTmpFilePath() . "/a.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->resolver->registerExtension('fortune');
+        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -142,11 +142,11 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringNonPriorityPath()
     {
-        $this->resolver->registerExtension("php");
+        $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFileSubDirPath());
-        $this->assertEquals(self::getTmpFileSubDirPath() . "/a.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFileSubDirPath() . "/a.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -154,11 +154,11 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPriorityExtension()
     {
-        $this->resolver->registerExtension("php", 2);
+        $this->resolver->registerExtension('php', 2);
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . "/a.php", $this->resolver->resolve("a"));
-        $this->resolver->registerExtension("fortune", 1);
-        $this->assertEquals(self::getTmpFilePath() . "/a.fortune", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
+        $this->resolver->registerExtension('fortune', 1);
+        $this->assertEquals(self::getTmpFilePath() . '/a.fortune', $this->resolver->resolve('a'));
     }
 
     /**
@@ -166,11 +166,11 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegisteringPriorityPath()
     {
-        $this->resolver->registerExtension("php");
+        $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFileSubDirPath(), 2);
-        $this->assertEquals(self::getTmpFileSubDirPath() . "/a.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFileSubDirPath() . '/a.php', $this->resolver->resolve('a'));
         $this->resolver->registerPath(self::getTmpFilePath(), 1);
-        $this->assertEquals(self::getTmpFilePath() . "/a.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFilePath() . '/a.php', $this->resolver->resolve('a'));
     }
 
     /**
@@ -178,10 +178,10 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testResolvingNameWithExtension()
     {
-        $this->resolver->registerExtension("php");
-        $this->resolver->registerExtension("fortune");
+        $this->resolver->registerExtension('php');
+        $this->resolver->registerExtension('fortune');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . "/a.fortune", $this->resolver->resolve("a.fortune"));
+        $this->assertEquals(self::getTmpFilePath() . '/a.fortune', $this->resolver->resolve('a.fortune'));
     }
 
     /**
@@ -189,9 +189,9 @@ class FileViewNameResolverTest extends \PHPUnit\Framework\TestCase
      */
     public function testResolvingWithExtensionsThatAreSubstringsOfOthers()
     {
-        $this->resolver->registerExtension("fortune.php");
-        $this->resolver->registerExtension("php");
+        $this->resolver->registerExtension('fortune.php');
+        $this->resolver->registerExtension('php');
         $this->resolver->registerPath(self::getTmpFilePath());
-        $this->assertEquals(self::getTmpFilePath() . "/a.fortune.php", $this->resolver->resolve("a"));
+        $this->assertEquals(self::getTmpFilePath() . '/a.fortune.php', $this->resolver->resolve('a'));
     }
 }

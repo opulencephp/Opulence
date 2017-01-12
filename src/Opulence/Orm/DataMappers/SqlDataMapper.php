@@ -64,7 +64,7 @@ abstract class SqlDataMapper implements IDataMapper
             $statement->execute();
 
             if ($expectSingleResult && $statement->rowCount() != 1) {
-                throw new OrmException("Failed to find entity");
+                throw new OrmException('Failed to find entity');
             }
 
             $entities = [];
@@ -84,7 +84,7 @@ abstract class SqlDataMapper implements IDataMapper
                 return $entities;
             }
         } catch (PDOException $ex) {
-            throw new OrmException("Unable to query entities", 0, $ex);
+            throw new OrmException('Unable to query entities', 0, $ex);
         }
     }
 }

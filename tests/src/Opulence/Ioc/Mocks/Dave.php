@@ -18,6 +18,6 @@ class Dave implements IPerson
      */
     public function getLastName()
     {
-        return "Young";
+        return 'Young';
     }
 }

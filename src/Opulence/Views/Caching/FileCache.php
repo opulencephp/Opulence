@@ -141,7 +141,7 @@ class FileCache implements ICache
      */
     public function setPath(string $path)
     {
-        $this->path = rtrim($path, "/");
+        $this->path = rtrim($path, '/');
 
         // Make sure the path exists
         if (!file_exists($this->path)) {
@@ -198,13 +198,13 @@ class FileCache implements ICache
      */
     private function getViewPath(IView $view, bool $checkVars) : string
     {
-        $data = ["u" => $view->getContents()];
+        $data = ['u' => $view->getContents()];
 
         if ($checkVars) {
-            $data["v"] = $view->getVars();
+            $data['v'] = $view->getVars();
         }
 
-        return $this->path . "/" . md5(http_build_query($data));
+        return $this->path . '/' . md5(http_build_query($data));
     }
 
     /**
@@ -215,8 +215,8 @@ class FileCache implements ICache
      */
     private function isExpired(string $viewPath) : bool
     {
-        $lastModified = DateTime::createFromFormat("U", filemtime($viewPath));
+        $lastModified = DateTime::createFromFormat('U', filemtime($viewPath));
 
-        return $lastModified < new DateTime("-" . $this->lifetime . " seconds");
+        return $lastModified < new DateTime('-' . $this->lifetime . ' seconds');
     }
 }

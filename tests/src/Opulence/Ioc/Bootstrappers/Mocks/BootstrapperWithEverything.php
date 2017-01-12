@@ -30,7 +30,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
      */
     public function registerBindings(IContainer $container)
     {
-        echo "registerBindings";
+        echo 'registerBindings';
         $container->bindSingleton(LazyFooInterface::class, LazyConcreteFoo::class);
     }
 
@@ -39,7 +39,7 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
      */
     public function run()
     {
-        echo "run";
+        echo 'run';
     }
 
     /**
@@ -47,6 +47,6 @@ class BootstrapperWithEverything extends BaseBootstrapper implements ILazyBootst
      */
     public function shutdown()
     {
-        echo "shutdown";
+        echo 'shutdown';
     }
 }

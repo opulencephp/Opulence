@@ -19,20 +19,20 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     public function testAddingFilesCreatesFiles()
     {
         $files = new Files([]);
-        $files->add("foo", [
-            "tmp_name" => "/path/foo.txt",
-            "name" => "foo.txt",
-            "type" => "text/plain",
-            "size" => 100,
-            "error" => UPLOAD_ERR_EXTENSION
+        $files->add('foo', [
+            'tmp_name' => '/path/foo.txt',
+            'name' => 'foo.txt',
+            'type' => 'text/plain',
+            'size' => 100,
+            'error' => UPLOAD_ERR_EXTENSION
         ]);
         /** @var UploadedFile $file */
-        $file = $files->get("foo");
+        $file = $files->get('foo');
         $this->assertInstanceOf(UploadedFile::class, $file);
-        $this->assertEquals("/path", $file->getPath());
-        $this->assertEquals("foo.txt", $file->getTempFilename());
+        $this->assertEquals('/path', $file->getPath());
+        $this->assertEquals('foo.txt', $file->getTempFilename());
         $this->assertEquals(100, $file->getTempSize());
-        $this->assertEquals("text/plain", $file->getTempMimeType());
+        $this->assertEquals('text/plain', $file->getTempMimeType());
         $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
     }
 
@@ -42,21 +42,21 @@ class FilesTest extends \PHPUnit\Framework\TestCase
     public function testPassingFilesThroughConstructorCreatesFiles()
     {
         $files = new Files([
-            "foo" => [
-                "tmp_name" => "/path/foo.txt",
-                "name" => "foo.txt",
-                "type" => "text/plain",
-                "size" => 100,
-                "error" => UPLOAD_ERR_EXTENSION
+            'foo' => [
+                'tmp_name' => '/path/foo.txt',
+                'name' => 'foo.txt',
+                'type' => 'text/plain',
+                'size' => 100,
+                'error' => UPLOAD_ERR_EXTENSION
             ]
         ]);
         /** @var UploadedFile $file */
-        $file = $files->get("foo");
+        $file = $files->get('foo');
         $this->assertInstanceOf(UploadedFile::class, $file);
-        $this->assertEquals("/path", $file->getPath());
-        $this->assertEquals("foo.txt", $file->getTempFilename());
+        $this->assertEquals('/path', $file->getPath());
+        $this->assertEquals('foo.txt', $file->getTempFilename());
         $this->assertEquals(100, $file->getTempSize());
-        $this->assertEquals("text/plain", $file->getTempMimeType());
+        $this->assertEquals('text/plain', $file->getTempMimeType());
         $this->assertEquals(UPLOAD_ERR_EXTENSION, $file->getError());
     }
 }

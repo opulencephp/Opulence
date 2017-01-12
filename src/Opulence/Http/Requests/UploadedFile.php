@@ -17,11 +17,11 @@ use SplFileInfo;
 class UploadedFile extends SplFileInfo
 {
     /** @var string The temporary name of the file */
-    private $tmpFilename = "";
+    private $tmpFilename = '';
     /** @var int The size of the file in bytes */
     private $tmpSize = 0;
     /** @var string The mime type of the file */
-    private $tmpMimeType = "";
+    private $tmpMimeType = '';
     /** @var int The error message, if there was any */
     private $error = UPLOAD_ERR_OK;
 
@@ -36,7 +36,7 @@ class UploadedFile extends SplFileInfo
         string $path,
         string $tmpFilename,
         int $tmpSize,
-        string $tmpMimeType = "",
+        string $tmpMimeType = '',
         int $error = UPLOAD_ERR_OK
     ) {
         parent::__construct($path);
@@ -121,22 +121,22 @@ class UploadedFile extends SplFileInfo
     public function move(string $targetDirectory, string $name = null)
     {
         if ($this->hasErrors()) {
-            throw new UploadException("Cannot move file with errors");
+            throw new UploadException('Cannot move file with errors');
         }
 
         if (!is_dir($targetDirectory)) {
             if (!mkdir($targetDirectory, 0777, true)) {
-                throw new UploadException("Could not create directory " . $targetDirectory);
+                throw new UploadException('Could not create directory ' . $targetDirectory);
             }
         } elseif (!is_writable($targetDirectory)) {
-            throw new UploadException($targetDirectory . " is not writable");
+            throw new UploadException($targetDirectory . ' is not writable');
         }
 
         $name = $name ?: $this->getBasename();
-        $targetPath = rtrim($targetDirectory, "\\/") . "/" . $name;
+        $targetPath = rtrim($targetDirectory, "\\/") . '/' . $name;
 
         if (!$this->doMove($this->getPathname(), $targetPath)) {
-            throw new UploadException("Could not move the uploaded file");
+            throw new UploadException('Could not move the uploaded file');
         }
     }
 

@@ -20,7 +20,7 @@ class User
     /** @var int The Id of a second imaginary aggregate root of this user */
     private $secondAggregateRootId = -1;
     /** @var string The username */
-    private $username = "";
+    private $username = '';
 
     /**
      * @param int $id The user Id

@@ -18,7 +18,7 @@ abstract class SequenceIdGenerator implements IIdGenerator
     /** @var IConnection The connection to use */
     protected $connection = null;
     /** @var string The name of the sequence */
-    protected $sequenceName = "";
+    protected $sequenceName = '';
 
     /**
      * @param string $sequenceName The name of the sequence

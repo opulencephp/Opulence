@@ -38,17 +38,17 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
-            ->method("getType")
-            ->willReturn("foo");
+            ->method('getType')
+            ->willReturn('foo');
         $subject = null;
         $actualAuthenticator = $this->createMock(IAuthenticator::class);
         $actualAuthenticator->expects($this->once())
-            ->method("authenticate")
+            ->method('authenticate')
             ->with($credential, $subject)
             ->willReturn(true);
         $this->authenticatorRegistry->expects($this->once())
-            ->method("getAuthenticators")
-            ->with("foo")
+            ->method('getAuthenticators')
+            ->with('foo')
             ->willReturn([$actualAuthenticator]);
         $this->assertTrue($this->authenticator->authenticate($credential, $subject));
     }
@@ -61,17 +61,17 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
-            ->method("getType")
-            ->willReturn("foo");
+            ->method('getType')
+            ->willReturn('foo');
         $subject = null;
         $actualAuthenticator = $this->createMock(IAuthenticator::class);
         $actualAuthenticator->expects($this->once())
-            ->method("authenticate")
+            ->method('authenticate')
             ->with($credential, $subject)
             ->willReturn(false);
         $this->authenticatorRegistry->expects($this->once())
-            ->method("getAuthenticators")
-            ->with("foo")
+            ->method('getAuthenticators')
+            ->with('foo')
             ->willReturn([$actualAuthenticator]);
         $this->assertFalse($this->authenticator->authenticate($credential, $subject));
     }
@@ -85,12 +85,12 @@ class AuthenticatorTest extends \PHPUnit\Framework\TestCase
         /** @var ICredential|\PHPUnit_Framework_MockObject_MockObject $credential */
         $credential = $this->createMock(ICredential::class);
         $credential->expects($this->once())
-            ->method("getType")
-            ->willReturn("foo");
+            ->method('getType')
+            ->willReturn('foo');
         $subject = null;
         $this->authenticatorRegistry->expects($this->once())
-            ->method("getAuthenticators")
-            ->with("foo")
+            ->method('getAuthenticators')
+            ->with('foo')
             ->willThrowException(new InvalidArgumentException);
         $this->authenticator->authenticate($credential, $subject);
     }

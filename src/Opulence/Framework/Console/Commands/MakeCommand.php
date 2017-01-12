@@ -62,8 +62,8 @@ abstract class MakeCommand extends Command
         $explodedClass = explode("\\", $fullyQualifiedClassName);
         $namespace = implode("\\", array_slice($explodedClass, 0, -1));
         $className = end($explodedClass);
-        $compiledTemplate = str_replace("{{namespace}}", $namespace, $templateContents);
-        $compiledTemplate = str_replace("{{class}}", $className, $compiledTemplate);
+        $compiledTemplate = str_replace('{{namespace}}', $namespace, $templateContents);
+        $compiledTemplate = str_replace('{{class}}', $className, $compiledTemplate);
 
         return $compiledTemplate;
     }
@@ -74,9 +74,9 @@ abstract class MakeCommand extends Command
     protected function define()
     {
         $this->addArgument(new Argument(
-            "class",
+            'class',
             ArgumentTypes::REQUIRED,
-            "The name of the class to create"
+            'The name of the class to create'
         ));
     }
 
@@ -86,13 +86,13 @@ abstract class MakeCommand extends Command
     protected function doExecute(IResponse $response)
     {
         $fullyQualifiedClassName = $this->composer->getFullyQualifiedClassName(
-            $this->getArgumentValue("class"),
+            $this->getArgumentValue('class'),
             $this->getDefaultNamespace($this->composer->getRootNamespace())
         );
         $path = $this->composer->getClassPath($fullyQualifiedClassName);
 
         if ($this->fileSystem->exists($path)) {
-            $response->writeln("<error>File already exists</error>");
+            $response->writeln('<error>File already exists</error>');
 
             return StatusCodes::ERROR;
         }

@@ -16,7 +16,7 @@ class Role
     /** @var int|string The database Id */
     protected $id = -1;
     /** @var string The name of the role */
-    protected $name = "";
+    protected $name = '';
 
     /**
      * @param int|string $id The database Id

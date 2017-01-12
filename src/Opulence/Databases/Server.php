@@ -14,17 +14,17 @@ namespace Opulence\Databases;
 class Server
 {
     /** @var string The host of this server */
-    protected $host = "";
+    protected $host = '';
     /** @var int|null The port this server listens on */
     protected $port;
     /** @var string The username to log in to the server */
-    protected $username = "";
+    protected $username = '';
     /** @var string The password to log in to the server */
-    protected $password = "";
+    protected $password = '';
     /** @var string The name of the database to connect to on the server */
-    protected $databaseName = "";
+    protected $databaseName = '';
     /** @var string The character set used by this server */
-    protected $charset = "utf8";
+    protected $charset = 'utf8';
 
     /**
      * @param string $host The server host

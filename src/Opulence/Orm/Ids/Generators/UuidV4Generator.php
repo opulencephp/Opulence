@@ -30,7 +30,7 @@ class UuidV4Generator implements IIdGenerator
      */
     public function getEmptyValue($entity)
     {
-        return "";
+        return '';
     }
 
     /**

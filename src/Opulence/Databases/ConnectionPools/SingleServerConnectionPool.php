@@ -21,9 +21,9 @@ class SingleServerConnectionPool extends ConnectionPool
     protected function setReadConnection(Server $preferredServer = null)
     {
         if ($preferredServer !== null) {
-            $this->readConnection = $this->getConnection("custom", $preferredServer);
+            $this->readConnection = $this->getConnection('custom', $preferredServer);
         } else {
-            $this->readConnection = $this->getConnection("master", $this->getMaster());
+            $this->readConnection = $this->getConnection('master', $this->getMaster());
         }
     }
 
@@ -33,9 +33,9 @@ class SingleServerConnectionPool extends ConnectionPool
     protected function setWriteConnection(Server $preferredServer = null)
     {
         if ($preferredServer !== null) {
-            $this->writeConnection = $this->getConnection("custom", $preferredServer);
+            $this->writeConnection = $this->getConnection('custom', $preferredServer);
         } else {
-            $this->writeConnection = $this->getConnection("master", $this->getMaster());
+            $this->writeConnection = $this->getConnection('master', $this->getMaster());
         }
     }
 }

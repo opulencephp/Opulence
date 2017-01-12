@@ -31,7 +31,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeletingCookie()
     {
-        $cookie = new Cookie("foo", "bar", new DateTime("+1 week"));
+        $cookie = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $this->headers->setCookie($cookie);
         $this->headers->deleteCookie($cookie->getName(), $cookie->getPath(), $cookie->getDomain());
         $this->assertEmpty($this->headers->getCookies());
@@ -43,16 +43,16 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testDeletingMultipleCookies()
     {
-        $cookie1 = new Cookie("foo", "bar", new DateTime("+1 week"));
-        $cookie2 = new Cookie("bar", "foo", new DateTime("+1 week"));
+        $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
+        $cookie2 = new Cookie('bar', 'foo', new DateTime('+1 week'));
         $this->headers->setCookie($cookie1);
         $this->headers->setCookie($cookie2);
-        $this->headers->deleteCookie("foo");
-        $this->headers->deleteCookie("bar");
+        $this->headers->deleteCookie('foo');
+        $this->headers->deleteCookie('bar');
         $deletedCookies = $this->headers->getCookies(true);
         $this->assertEquals(2, count($deletedCookies));
-        $this->assertEquals("foo", $deletedCookies[0]->getName());
-        $this->assertEquals("bar", $deletedCookies[1]->getName());
+        $this->assertEquals('foo', $deletedCookies[0]->getName());
+        $this->assertEquals('bar', $deletedCookies[1]->getName());
     }
 
     /**
@@ -60,9 +60,9 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingCookies()
     {
-        $cookie1 = new Cookie("foo", "bar", new DateTime("+1 week"));
-        $cookie2 = new Cookie("bar", "foo", new DateTime("+2 weeks"));
-        $cookie3 = new Cookie("baz", "foo", new DateTime("-1 weeks"));
+        $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
+        $cookie2 = new Cookie('bar', 'foo', new DateTime('+2 weeks'));
+        $cookie3 = new Cookie('baz', 'foo', new DateTime('-1 weeks'));
         $this->headers->setCookie($cookie1);
         $this->headers->setCookie($cookie2);
         $this->headers->setCookie($cookie3);
@@ -74,7 +74,7 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingCookie()
     {
-        $cookie = new Cookie("foo", "bar", new DateTime("+1 week"));
+        $cookie = new Cookie('foo', 'bar', new DateTime('+1 week'));
         $this->headers->setCookie($cookie);
         $this->assertEquals([$cookie], $this->headers->getCookies());
     }
@@ -84,8 +84,8 @@ class ResponseHeadersTest extends \PHPUnit\Framework\TestCase
      */
     public function testSettingMultipleCookies()
     {
-        $cookie1 = new Cookie("foo", "bar", new DateTime("+1 week"));
-        $cookie2 = new Cookie("bar", "foo", new DateTime("+1 week"));
+        $cookie1 = new Cookie('foo', 'bar', new DateTime('+1 week'));
+        $cookie2 = new Cookie('bar', 'foo', new DateTime('+1 week'));
         $this->headers->setCookies([$cookie1, $cookie2]);
         $this->assertEquals([$cookie1, $cookie2], $this->headers->getCookies());
     }

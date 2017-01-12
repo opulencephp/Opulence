@@ -22,27 +22,27 @@ class RedisTest extends \PHPUnit\Framework\TestCase
     public function testCommandsGoToDefaultClient()
     {
         $default = $this->getMockBuilder(Client::class)
-            ->setMethods(["get"])
+            ->setMethods(['get'])
             ->disableOriginalConstructor()
             ->getMock();
         $default->expects($this->any())
-            ->method("get")
-            ->with("baz")
-            ->willReturn("foo");
+            ->method('get')
+            ->with('baz')
+            ->willReturn('foo');
         $foo = $this->getMockBuilder(Client::class)
-            ->setMethods(["get"])
+            ->setMethods(['get'])
             ->disableOriginalConstructor()
             ->getMock();
         $foo->expects($this->any())
-            ->method("get")
-            ->willReturn("bar");
+            ->method('get')
+            ->willReturn('bar');
         $redis = new Redis(
             [
-                "default" => $default,
-                "foo" => $foo
+                'default' => $default,
+                'foo' => $foo
             ]
         );
-        $this->assertEquals("foo", $redis->get("baz"));
+        $this->assertEquals('foo', $redis->get('baz'));
     }
 
     /**
@@ -51,7 +51,7 @@ class RedisTest extends \PHPUnit\Framework\TestCase
     public function testNotPassingDefault()
     {
         $this->expectException(InvalidArgumentException::class);
-        new Redis(["foo" => "bar"]);
+        new Redis(['foo' => 'bar']);
     }
 
     /**
@@ -63,13 +63,13 @@ class RedisTest extends \PHPUnit\Framework\TestCase
         $foo = $this->createMock(Client::class);
         $redis = new Redis(
             [
-                "default" => $default,
-                "foo" => $foo
+                'default' => $default,
+                'foo' => $foo
             ]
         );
         $this->assertSame($default, $redis->getClient());
-        $this->assertSame($default, $redis->getClient("default"));
-        $this->assertSame($foo, $redis->getClient("foo"));
+        $this->assertSame($default, $redis->getClient('default'));
+        $this->assertSame($foo, $redis->getClient('foo'));
     }
 
     /**
@@ -80,6 +80,6 @@ class RedisTest extends \PHPUnit\Framework\TestCase
         $default = $this->createMock(Client::class);
         $redis = new Redis($default);
         $this->assertSame($default, $redis->getClient());
-        $this->assertSame($default, $redis->getClient("default"));
+        $this->assertSame($default, $redis->getClient('default'));
     }
 }

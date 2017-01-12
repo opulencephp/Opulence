@@ -18,7 +18,7 @@ class KeyTest extends \PHPUnit\Framework\TestCase
      */
     public function testValidKey()
     {
-        $value = str_repeat("a", 32);
+        $value = str_repeat('a', 32);
         $key = new Key($value);
         $this->assertEquals(SecretTypes::KEY, $key->getType());
         $this->assertEquals($value, $key->getValue());

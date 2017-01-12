@@ -14,9 +14,9 @@ namespace Opulence\Authentication\Credentials;
 class CredentialTypes
 {
     /** A username/password credential */
-    const USERNAME_PASSWORD = "USERNAME_PASSWORD";
+    const USERNAME_PASSWORD = 'USERNAME_PASSWORD';
     /** An JWT access token credential */
-    const JWT_ACCESS_TOKEN = "JWT_ACCESS_TOKEN";
+    const JWT_ACCESS_TOKEN = 'JWT_ACCESS_TOKEN';
     /** An JWT refresh token credential */
-    const JWT_REFRESH_TOKEN = "JWT_REFRESH_TOKEN";
+    const JWT_REFRESH_TOKEN = 'JWT_REFRESH_TOKEN';
 }

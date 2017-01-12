@@ -23,9 +23,9 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     /** @var FileCache The cache to use in tests */
     private $cache = null;
     /** @var string The path to the cache file */
-    private $cachedRouteFilePath = "";
+    private $cachedRouteFilePath = '';
     /** @var string The path to the raw file */
-    private $rawRouteFilePath = "";
+    private $rawRouteFilePath = '';
 
     /**
      * Sets up the tests
@@ -33,8 +33,8 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
     public function setUp()
     {
         $this->cache = new FileCache();
-        $this->cachedRouteFilePath = __DIR__ . "/files/" . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
-        $this->rawRouteFilePath = __DIR__ . "/files/raw.php";
+        $this->cachedRouteFilePath = __DIR__ . '/files/' . FileCache::DEFAULT_CACHED_ROUTES_FILE_NAME;
+        $this->rawRouteFilePath = __DIR__ . '/files/raw.php';
     }
 
     /**
@@ -52,7 +52,7 @@ class FileCacheTest extends \PHPUnit\Framework\TestCase
      */
     public function testFlushing()
     {
-        file_put_contents($this->cachedRouteFilePath, "foo");
+        file_put_contents($this->cachedRouteFilePath, 'foo');
         $this->cache->flush($this->cachedRouteFilePath);
         $this->assertFalse(file_exists($this->cachedRouteFilePath));
     }

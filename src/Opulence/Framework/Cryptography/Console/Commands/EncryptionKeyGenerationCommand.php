@@ -24,13 +24,13 @@ class EncryptionKeyGenerationCommand extends Command
      */
     protected function define()
     {
-        $this->setName("encryption:generatekey")
-            ->setDescription("Creates an encryption key")
+        $this->setName('encryption:generatekey')
+            ->setDescription('Creates an encryption key')
             ->addOption(new Option(
-                "show",
-                "s",
+                'show',
+                's',
                 OptionTypes::NO_VALUE,
-                "Whether to just show the new key or replace it in the environment config"
+                'Whether to just show the new key or replace it in the environment config'
             ));
     }
 
@@ -41,9 +41,9 @@ class EncryptionKeyGenerationCommand extends Command
     {
         // Create a suitably-long key that can be used with sha512
         $key = \bin2hex(\random_bytes(32));
-        $environmentConfigPath = Config::get("paths", "config") . "/environment/.env.app.php";
+        $environmentConfigPath = Config::get('paths', 'config') . '/environment/.env.app.php';
 
-        if (!$this->optionIsSet("show") && file_exists($environmentConfigPath)) {
+        if (!$this->optionIsSet('show') && file_exists($environmentConfigPath)) {
             $contents = file_get_contents($environmentConfigPath);
             $newContents = preg_replace("/\"ENCRYPTION_KEY\",\s*\"[^\"]*\"/U", '"ENCRYPTION_KEY", "' . $key . '"',
                 $contents);

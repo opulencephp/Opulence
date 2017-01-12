@@ -18,22 +18,22 @@ use DateTime;
 class Response
 {
     /** @var mixed The content of the response */
-    protected $content = "";
+    protected $content = '';
     /** @var ResponseHeaders The headers in this response */
     protected $headers = null;
     /** @var int The status code of this response */
     protected $statusCode = ResponseHeaders::HTTP_OK;
     /** @var string The status text of this response */
-    protected $statusText = "OK";
+    protected $statusText = 'OK';
     /** @var string The HTTP version of this response */
-    protected $httpVersion = "1.1";
+    protected $httpVersion = '1.1';
 
     /**
      * @param mixed $content The content of the response
      * @param int $statusCode The HTTP status code
      * @param array $headers The headers to set
      */
-    public function __construct($content = "", int $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
+    public function __construct($content = '', int $statusCode = ResponseHeaders::HTTP_OK, array $headers = [])
     {
         $this->setContent($content);
         $this->headers = new ResponseHeaders($headers);
@@ -111,7 +111,7 @@ class Response
         if (!$this->headersAreSent()) {
             header(
                 sprintf(
-                    "HTTP/%s %s %s",
+                    'HTTP/%s %s %s',
                     $this->httpVersion,
                     $this->statusCode,
                     $this->statusText
@@ -159,7 +159,7 @@ class Response
      */
     public function setExpiration(DateTime $expiration)
     {
-        $this->headers->set("Expires", $expiration->format("r"));
+        $this->headers->set('Expires', $expiration->format('r'));
     }
 
     /**

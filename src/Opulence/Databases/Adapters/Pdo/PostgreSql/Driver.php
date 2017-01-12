@@ -22,15 +22,15 @@ class Driver extends BaseDriver
      */
     protected function getDsn(Server $server, array $options = []) : string
     {
-        $dsn = implode(";", [
-                "pgsql:host=" . $server->getHost(),
-                "dbname=" . $server->getDatabaseName(),
-                "port=" . $server->getPort(),
+        $dsn = implode(';', [
+                'pgsql:host=' . $server->getHost(),
+                'dbname=' . $server->getDatabaseName(),
+                'port=' . $server->getPort(),
                 "options='--client_encoding=" . $server->getCharset() . "'"
-            ]) . ";";
+            ]) . ';';
 
-        if (isset($options["sslmode"])) {
-            $dsn .= "sslmode=" . $options["sslmode"] . ";";
+        if (isset($options['sslmode'])) {
+            $dsn .= 'sslmode=' . $options['sslmode'] . ';';
         }
 
         return $dsn;

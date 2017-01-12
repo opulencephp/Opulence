@@ -20,8 +20,8 @@ class NodeTest extends \PHPUnit\Framework\TestCase
      */
     public function testAddingChild()
     {
-        $parent = new Node("foo");
-        $child = new Node("bar");
+        $parent = new Node('foo');
+        $child = new Node('bar');
         $parent->addChild($child);
         $this->assertEquals([$child], $parent->getChildren());
         $this->assertSame($parent, $child->getParent());
@@ -32,8 +32,8 @@ class NodeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfLeaves()
     {
-        $parent = new Node("foo");
-        $child = new Node("bar");
+        $parent = new Node('foo');
+        $child = new Node('bar');
         $this->assertSame($parent, $parent->addChild($child));
         $this->assertFalse($parent->isLeaf());
         $this->assertTrue($child->isLeaf());
@@ -44,8 +44,8 @@ class NodeTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckingIfRoots()
     {
-        $parent = new Node("foo");
-        $child = new Node("bar");
+        $parent = new Node('foo');
+        $child = new Node('bar');
         $parent->addChild($child);
         $this->assertTrue($parent->isRoot());
         $this->assertFalse($child->isRoot());
@@ -56,7 +56,7 @@ class NodeTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingValue()
     {
-        $node = new Node("foo");
-        $this->assertEquals("foo", $node->getValue());
+        $node = new Node('foo');
+        $this->assertEquals('foo', $node->getValue());
     }
 }

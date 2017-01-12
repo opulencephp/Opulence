@@ -14,7 +14,7 @@ namespace Opulence\Databases\Providers;
 class PostgreSqlProvider extends Provider
 {
     /** @inheritdoc */
-    protected $timestampWithTimeZoneFormat = "Y-m-d H:i:s O";
+    protected $timestampWithTimeZoneFormat = 'Y-m-d H:i:s O';
     /** @var array The list of acceptable "true" values in PostgreSQL */
     private $trueBooleanValues = [
         't',
