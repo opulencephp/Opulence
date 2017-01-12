@@ -195,9 +195,9 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFilesWithGlob()
     {
-        $this->assertTrue(count(array_diff([
+        $this->assertCount(0, array_diff([
                 __DIR__ . '/subdirectory/foo.txt'
-            ], $this->fileSystem->glob(__DIR__ . '/subdirectory/*.txt'))) == 0);
+            ], $this->fileSystem->glob(__DIR__ . '/subdirectory/*.txt')));
     }
 
     /**
@@ -213,11 +213,11 @@ class FileSystemTest extends \PHPUnit\Framework\TestCase
      */
     public function testGettingFilesWithRecursion()
     {
-        $this->assertTrue(count(array_diff([
+        $this->assertCount(0, array_diff([
                 __DIR__ . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'bar.txt',
                 __DIR__ . DIRECTORY_SEPARATOR . 'subdirectory' . DIRECTORY_SEPARATOR . 'foo.txt',
                 __FILE__
-            ], $this->fileSystem->getFiles(__DIR__, true))) == 0);
+            ], $this->fileSystem->getFiles(__DIR__, true)));
     }
 
     /**
