@@ -53,7 +53,7 @@ class Parser implements IParser
      * @return string The regex
      * @throws RouteException Thrown if the route variables are not correctly defined
      */
-    private function convertRawStringToRegex(ParsedRoute &$parsedRoute, string $rawString) : string
+    private function convertRawStringToRegex(ParsedRoute $parsedRoute, string $rawString) : string
     {
         if (empty($rawString)) {
             return '#^.*$#';

@@ -20,7 +20,7 @@ class ViewFunctionRegistrant
      *
      * @param ITranspiler $transpiler The transpiler to register to
      */
-    public function registerViewFunctions(ITranspiler &$transpiler)
+    public function registerViewFunctions(ITranspiler $transpiler)
     {
         // Register the charset function
         $transpiler->registerViewFunction('charset', function ($charset) {

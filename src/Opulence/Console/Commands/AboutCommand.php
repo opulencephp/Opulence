@@ -36,7 +36,7 @@ EOF;
      * @param string $applicationVersion The version number of the application
      */
     public function __construct(
-        CommandCollection &$commands,
+        CommandCollection $commands,
         PaddingFormatter $paddingFormatter,
         string $applicationVersion
     ) {

@@ -28,7 +28,7 @@ class UrlGenerator
     /**
      * @param RouteCollection $routeCollection The list of routes
      */
-    public function __construct(RouteCollection &$routeCollection)
+    public function __construct(RouteCollection $routeCollection)
     {
         $this->routeCollection = $routeCollection;
     }

@@ -20,7 +20,7 @@ class DirectiveTranspilerRegistrant
      *
      * @param ITranspiler $transpiler The transpiler to register to
      */
-    public function registerDirectiveTranspilers(ITranspiler &$transpiler)
+    public function registerDirectiveTranspilers(ITranspiler $transpiler)
     {
         $transpiler->registerDirectiveTranspiler('else', function () {
             return '<?php else: ?>';

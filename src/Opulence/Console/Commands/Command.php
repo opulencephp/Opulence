@@ -219,7 +219,7 @@ abstract class Command implements ICommand
     /**
      * @inheritdoc
      */
-    public function setCommandCollection(CommandCollection &$commandCollection)
+    public function setCommandCollection(CommandCollection $commandCollection)
     {
         $this->commandCollection = $commandCollection;
     }
