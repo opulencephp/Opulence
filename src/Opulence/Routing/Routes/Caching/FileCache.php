@@ -31,7 +31,7 @@ class FileCache implements ICache
     /**
      * @inheritdoc
      */
-    public function get(string $cacheFilePath, Router &$router, string $rawFilePath) : RouteCollection
+    public function get(string $cacheFilePath, Router $router, string $rawFilePath) : RouteCollection
     {
         if (file_exists($cacheFilePath)) {
             return unserialize(base64_decode(file_get_contents($cacheFilePath)));

@@ -52,7 +52,7 @@ class Kernel
     public function __construct(
         IParser $requestParser,
         ICommandCompiler $commandCompiler,
-        CommandCollection &$commandCollection,
+        CommandCollection $commandCollection,
         string $applicationVersion = 'Unknown'
     ) {
         $this->requestParser = $requestParser;

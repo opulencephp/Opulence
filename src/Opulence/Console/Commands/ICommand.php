@@ -147,7 +147,7 @@ interface ICommand
      *
      * @param CommandCollection $commandCollection The list of registered commands
      */
-    public function setCommandCollection(CommandCollection &$commandCollection);
+    public function setCommandCollection(CommandCollection $commandCollection);
 
     /**
      * Sets the value of an option
