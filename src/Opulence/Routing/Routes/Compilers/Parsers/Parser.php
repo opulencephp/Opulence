@@ -54,7 +54,7 @@ class Parser implements IParser
     private function convertRawStringToRegex(ParsedRoute &$parsedRoute, string $rawString) : string
     {
         if (empty($rawString)) {
-            return "#^.*$#";
+            return '#^.*$#';
         }
 
         $this->variableNames = [];
@@ -92,7 +92,7 @@ class Parser implements IParser
             );
         }
 
-        return sprintf("#^%s$#", $regex);
+        return sprintf('#^%s$#', $regex);
     }
 
     /**

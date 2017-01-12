@@ -406,7 +406,7 @@ class RulesTest extends \PHPUnit\Framework\TestCase
      */
     public function testRegexRule()
     {
-        $this->assertSame($this->rules, $this->rules->regex("/^[a-z]{3}$/"));
+        $this->assertSame($this->rules, $this->rules->regex('/^[a-z]{3}$/'));
         $this->assertTrue($this->rules->pass('baz'));
     }
 

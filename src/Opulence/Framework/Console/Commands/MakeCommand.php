@@ -59,8 +59,8 @@ abstract class MakeCommand extends Command
      */
     protected function compile(string $templateContents, string $fullyQualifiedClassName) : string
     {
-        $explodedClass = explode("\\", $fullyQualifiedClassName);
-        $namespace = implode("\\", array_slice($explodedClass, 0, -1));
+        $explodedClass = explode('\\', $fullyQualifiedClassName);
+        $namespace = implode('\\', array_slice($explodedClass, 0, -1));
         $className = end($explodedClass);
         $compiledTemplate = str_replace('{{namespace}}', $namespace, $templateContents);
         $compiledTemplate = str_replace('{{class}}', $className, $compiledTemplate);

@@ -38,7 +38,7 @@ class IdGenerator implements IIdGenerator
     public function idIsValid($id) : bool
     {
         $regex = \sprintf(
-            "/^[a-z0-9]{%d,%d}$/i",
+            '/^[a-z0-9]{%d,%d}$/i',
             self::MIN_LENGTH,
             self::MAX_LENGTH
         );

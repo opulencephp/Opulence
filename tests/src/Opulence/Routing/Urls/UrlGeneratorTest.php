@@ -157,7 +157,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
             $this->generator->createFromName('secureHostNoParameters')
         );
         $this->assertEquals(
-            '#^' . preg_quote('https://foo.example.com/users', '#') . "$#",
+            '#^' . preg_quote('https://foo.example.com/users', '#') . '$#',
             $this->generator->createRegexFromName('secureHostNoParameters')
         );
     }
@@ -168,7 +168,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     public function testGeneratingUrlForNonExistentRoute()
     {
         $this->assertEmpty($this->generator->createFromName('foo'));
-        $this->assertEquals("#^.*$#", $this->generator->createRegexFromName('foo'));
+        $this->assertEquals('#^.*$#', $this->generator->createRegexFromName('foo'));
     }
 
     /**
@@ -193,7 +193,7 @@ class UrlGeneratorTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('/users', $this->generator->createFromName('pathNoParameters'));
         $this->assertEquals('http://example.com/users', $this->generator->createFromName('hostNoParameters'));
-        $this->assertEquals("#^/users$#", $this->generator->createRegexFromName('pathNoParameters'));
+        $this->assertEquals('#^/users$#', $this->generator->createRegexFromName('pathNoParameters'));
         $this->assertEquals("#^http\://example\.com/users$#",
             $this->generator->createRegexFromName('hostNoParameters'));
     }

@@ -31,8 +31,8 @@ class ArgvParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testBackslashesAreRespected()
     {
-        $request = $this->parser->parse(['apex', 'foo', "bar\\baz"]);
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $request = $this->parser->parse(['apex', 'foo', 'bar\\baz']);
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**

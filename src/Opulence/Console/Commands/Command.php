@@ -99,7 +99,7 @@ abstract class Command implements ICommand
     final public function execute(IResponse $response)
     {
         if (!$this->constructorCalled) {
-            throw new RuntimeException("Command class \"" . static::class . "\" does not call parent::__construct()");
+            throw new RuntimeException('Command class "' . static::class . '" does not call parent::__construct()');
         }
 
         return $this->doExecute($response);

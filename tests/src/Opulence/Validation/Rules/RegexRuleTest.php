@@ -31,7 +31,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     public function testMatchingValuesPass()
     {
         $rule = new RegexRule();
-        $rule->setArgs(["/^[a-z]{3}$/"]);
+        $rule->setArgs(['/^[a-z]{3}$/']);
         $this->assertTrue($rule->passes('foo'));
     }
 
@@ -41,7 +41,7 @@ class RegexRuleTest extends \PHPUnit\Framework\TestCase
     public function testNonMatchingValuesFail()
     {
         $rule = new RegexRule();
-        $rule->setArgs(["/^[a-z]{3}$/"]);
+        $rule->setArgs(['/^[a-z]{3}$/']);
         $this->assertFalse($rule->passes('a'));
     }
 

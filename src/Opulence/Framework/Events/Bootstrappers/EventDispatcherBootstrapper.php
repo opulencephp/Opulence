@@ -85,7 +85,7 @@ abstract class EventDispatcherBootstrapper extends Bootstrapper
         }
 
         throw new InvalidArgumentException(
-            "Listener config must be either callable or string formatted like \"className@methodName\""
+            'Listener config must be either callable or string formatted like "className@methodName"'
         );
     }
 }

@@ -57,7 +57,7 @@ class MakeDataMapperCommand extends MakeCommand
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Infrastructure\\Orm";
+        return $rootNamespace . '\\Infrastructure\\Orm';
     }
 
     /**

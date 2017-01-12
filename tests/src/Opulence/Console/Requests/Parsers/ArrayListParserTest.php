@@ -33,9 +33,9 @@ class ArrayListParserTest extends \PHPUnit\Framework\TestCase
     {
         $request = $this->parser->parse([
             'name' => 'foo',
-            'arguments' => ["bar\\baz"]
+            'arguments' => ['bar\\baz']
         ]);
-        $this->assertEquals(["bar\\baz"], $request->getArgumentValues());
+        $this->assertEquals(['bar\\baz'], $request->getArgumentValues());
     }
 
     /**

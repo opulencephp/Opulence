@@ -407,7 +407,7 @@ class Lexer implements ILexer
 
                     // Now that we've matched, we want to reset the loop so that longest delimiters are matched first
                     reset($statementMethods);
-                } elseif ($this->getCurrentChar() === "\\") {
+                } elseif ($this->getCurrentChar() === '\\') {
                     // Now that we know we're on an escape character, spend the resources to check for a match
                     if ($this->matches("\\$statementOpenDelimiter")) {
                         // This is an escaped statement

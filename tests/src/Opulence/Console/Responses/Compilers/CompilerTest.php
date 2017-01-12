@@ -75,7 +75,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = '<bar>';
-        $this->assertEquals($expectedOutput, $this->compiler->compile("\\<bar>"));
+        $this->assertEquals($expectedOutput, $this->compiler->compile('\\<bar>'));
     }
 
     /**
@@ -85,7 +85,7 @@ class CompilerTest extends \PHPUnit\Framework\TestCase
     {
         $this->compiler->registerElement('foo', new Style('green'));
         $expectedOutput = "\033[32m<bar>\033[39m";
-        $this->assertEquals($expectedOutput, $this->compiler->compile("<foo>\\<bar></foo>"));
+        $this->assertEquals($expectedOutput, $this->compiler->compile('<foo>\\<bar></foo>'));
     }
 
     /**

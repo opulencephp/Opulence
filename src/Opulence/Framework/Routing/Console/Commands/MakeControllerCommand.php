@@ -31,7 +31,7 @@ class MakeControllerCommand extends MakeCommand
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Application\\Http\\Controllers";
+        return $rootNamespace . '\\Application\\Http\\Controllers';
     }
 
     /**
