@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Memcached;
 
 use InvalidArgumentException;
@@ -26,7 +28,7 @@ class Memcached
     {
         if (is_array($clients)) {
             if (!isset($clients['default'])) {
-                throw new InvalidArgumentException("Must specify a \"default\" client");
+                throw new InvalidArgumentException('Must specify a "default" client');
             }
 
             $this->clients = $clients;

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Routing\Urls;
 
 use Opulence\Routing\Routes\ParsedRoute;
@@ -63,7 +65,7 @@ class UrlGenerator
         $route = $this->routeCollection->getNamedRoute($name);
 
         if ($route === null) {
-            return "#^.*$#";
+            return '#^.*$#';
         }
 
         $strippedPathRegex = substr($route->getPathRegex(), 2, -2);

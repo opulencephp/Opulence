@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Console\Responses\Formatters;
 
 /**
@@ -50,7 +52,7 @@ class PaddingFormatter
         }
 
         // Trim the excess separator
-        $formattedText = preg_replace('/' . preg_quote($this->eolChar, '/') . "$/", '', $formattedText);
+        $formattedText = preg_replace('/' . preg_quote($this->eolChar, '/') . '$/', '', $formattedText);
 
         return $formattedText;
     }

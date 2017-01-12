@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Ioc;
 
 use InvalidArgumentException;
@@ -561,7 +563,8 @@ class ContainerTest extends \PHPUnit\Framework\TestCase
     public function testInvalidArgumentTypeWhenBindingFactoryThrowsException()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->container->bindFactory(new stdClass(), function () { });
+        $this->container->bindFactory(new stdClass(), function () {
+        });
     }
 
     /**

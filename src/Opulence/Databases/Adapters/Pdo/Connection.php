@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Databases\Adapters\Pdo;
 
 use Opulence\Databases\IConnection;
@@ -242,7 +244,7 @@ class Connection extends PDO implements IConnection
             parent::setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             parent::setAttribute(
                 PDO::ATTR_STATEMENT_CLASS,
-                [__NAMESPACE__ . "\\" . self::PDO_STATEMENT_CLASS, [$this]]
+                [__NAMESPACE__ . '\\' . self::PDO_STATEMENT_CLASS, [$this]]
             );
 
             $this->isConnected = true;

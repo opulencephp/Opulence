@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Console\Commands;
 
 use Opulence\Console\Commands\Command;
@@ -66,19 +68,19 @@ class RenameAppCommand extends Command
     {
         $currName = $this->getArgumentValue('currName');
         $newName = $this->getArgumentValue('newName');
-        
+
         if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $currName) !== 1) {
             $response->writeln("<error>Current name \"$currName\" is not a valid PHP namespace</error>");
-            
+
             return;
         }
-        
+
         if (preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $newName) !== 1) {
             $response->writeln("<error>New name \"$newName\" is not a valid PHP namespace</error>");
-            
+
             return;
         }
-        
+
         $confirmationQuestion = new Confirmation(
             sprintf(
                 'Are you sure you want to rename %s to %s? [y/n] ',
@@ -139,7 +141,7 @@ class RenameAppCommand extends Command
 
     /**
      * Updates any class names that appear in configs
-     * 
+     *
      * @param string $currName The current application name
      * @param string $newName The new application name
      */
@@ -160,7 +162,7 @@ class RenameAppCommand extends Command
 
     /**
      * Updates the namespaces
-     * 
+     *
      * @param string $currName The current application name
      * @param string $newName The new application name
      */

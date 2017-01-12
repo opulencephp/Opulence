@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Http\Requests;
 
 use InvalidArgumentException;
@@ -624,7 +626,7 @@ class Request
     public function isPath(string $path, bool $isRegex = false) : bool
     {
         if ($isRegex) {
-            return preg_match('#^' . $path . "$#", $this->path) === 1;
+            return preg_match('#^' . $path . '$#', $this->path) === 1;
         } else {
             return $this->path == $path;
         }
@@ -658,7 +660,7 @@ class Request
     public function isUrl(string $url, bool $isRegex = false) : bool
     {
         if ($isRegex) {
-            return preg_match('#^' . $url . "$#", $this->getFullUrl()) === 1;
+            return preg_match('#^' . $url . '$#', $this->getFullUrl()) === 1;
         } else {
             return $this->getFullUrl() == $url;
         }

@@ -1,11 +1,13 @@
 <?php
-/**
+
+/*
  * Opulence
  *
  * @link      https://www.opulencephp.com
  * @copyright Copyright (C) 2017 David Young
  * @license   https://github.com/opulencephp/Opulence/blob/master/LICENSE.md
  */
+
 namespace Opulence\Framework\Routing\Console\Commands;
 
 use Opulence\Framework\Console\Commands\MakeCommand;
@@ -31,7 +33,7 @@ class MakeHttpMiddlewareCommand extends MakeCommand
      */
     protected function getDefaultNamespace(string $rootNamespace) : string
     {
-        return $rootNamespace . "\\Application\\Http\\Middleware";
+        return $rootNamespace . '\\Application\\Http\\Middleware';
     }
 
     /**
